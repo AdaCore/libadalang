@@ -571,7 +571,8 @@ A.add_rules(
     ),
 
     aspect_clause=Or(
-        EnumRepClause("for", A.static_name, "use", A.aggregate, cut(), ";"),
+        EnumRepClause("for", A.static_name, "use",
+                      A.regular_aggregate, cut(), ";"),
         RecordRepClause(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, sc()),
@@ -1055,15 +1056,43 @@ A.add_rules(
         Or(A.box_expr, A.expr)
     ),
 
-    aggregate=Or(
+    regular_aggregate=Or(
         NullRecordAggregate("(", Opt(A.expr, "with"),
                             "null", "record", Null(AssocList), ")"),
+        DeltaAggregate(
+            "(", A.expr, "with", "delta", cut(),
+            List(A.aggregate_assoc, sep=",", list_cls=AssocList),
+            ")"
+        ),
+
         Aggregate(
             "(", cut(),
             Opt(A.expr, "with"),
             List(A.aggregate_assoc, sep=",", list_cls=AssocList),
             ")"
         ),
+    ),
+
+    bracket_aggregate=Or(
+        BracketDeltaAggregate(
+            "[", A.expr, "with", "delta", cut(),
+            List(A.aggregate_assoc, sep=",", list_cls=AssocList),
+            "]"
+        ),
+
+
+        BracketAggregate(
+            "[", cut(),
+            Opt(A.expr, "with"),
+            List(A.aggregate_assoc, sep=",", list_cls=AssocList),
+            "]"
+        ),
+
+    ),
+
+    aggregate=Or(
+        A.regular_aggregate,
+        A.bracket_aggregate
     ),
 
     direct_name=Or(A.identifier, A.string_literal, A.char_literal),
@@ -1106,7 +1135,7 @@ A.add_rules(
     # parsers, so that we can use A.subtype_indication | A.name in allocator.
 
     qualified_name=QualExpr(
-        A.qual_name_internal, "'", Or(A.paren_expr, A.aggregate)
+        A.qual_name_internal, "'", Or(A.paren_expr, A.regular_aggregate)
     ),
 
     qual_name_internal=Or(
@@ -1138,7 +1167,7 @@ A.add_rules(
         # Class attribute
         AttributeRef(A.name, "'", A.identifier, Null(A.call_suffix)),
 
-        QualExpr(A.name, "'", Or(A.paren_expr, A.aggregate)),
+        QualExpr(A.name, "'", Or(A.paren_expr, A.regular_aggregate)),
 
         A.direct_name_or_target_name,
     ),
@@ -1149,7 +1178,7 @@ A.add_rules(
     target_name=TargetName("@"),
 
     update_attr_aggregate=Or(
-        A.aggregate,
+        A.regular_aggregate,
         Aggregate("(", cut(), Null(Expr), A.update_attr_content, ")")
     ),
 

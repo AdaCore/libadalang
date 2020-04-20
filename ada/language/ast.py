@@ -7604,6 +7604,24 @@ class ContractCaseAssoc(BaseAssoc):
     assoc_expr = Property(Entity.consequence)
 
 
+class DeclExpr(Expr):
+    """
+    Declare expression (Ada 2020).
+    """
+
+    decls = Field(type=T.BasicDecl.list)
+    expr = Field(type=T.Expr)
+
+    env_spec = EnvSpec(
+        add_env()
+    )
+
+    @langkit_property()
+    def xref_equation():
+        return (env.bind(Entity.children_env, Entity.expr.sub_equation)
+                & Self.type_bind_var(Self.expr.type_var, Self.type_var))
+
+
 class ContractCases(Expr):
     """
     List of associations for the ``Contract_Case`` aspect.

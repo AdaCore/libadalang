@@ -1180,9 +1180,14 @@ A.add_rules(
                A.conditional_expr,
                A.raise_expr,
                A.paren_expr,
+               A.declare_expr,
                A.aggregate),
 
     paren_expr=ParenExpr("(", A.expr, ")"),
+
+    declare_expr=DeclExpr(
+        "declare", List(A.object_decl, empty_valid=True), "begin", A.expr
+    ),
 
     factor=Or(
         UnOp(Op.alt_abs("abs") | Op.alt_not("not"), cut(), A.primary),

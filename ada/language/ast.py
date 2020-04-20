@@ -5712,7 +5712,7 @@ class BasicSubpDecl(BasicDecl):
 
         decl_scope = Var(Entity.declarative_scope)
         parent_decl = Var(decl_scope.as_entity.then(
-            lambda ds: ds.semantic_parent.cast_or_raise(T.BasicDecl)
+            lambda ds: ds.semantic_parent.cast(T.BasicDecl)
         ))
 
         return Cond(

@@ -85,7 +85,7 @@ def print_entry(entry, show_date=False):
         else:
             return 'all'
 
-    print(header(entry['title'], '='))
+    print(header(entry['title'].strip(), '='))
     print(entry['description'])
     print(field('tn', entry['tn']))
     print(field('apis', format_apis(entry.get('apis'))))

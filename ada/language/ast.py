@@ -77,6 +77,7 @@ class Metadata(Struct):
 class CompletionItem(Struct):
     decl = UserField(T.BasicDecl.entity)
     is_dot_call = UserField(T.Bool, default_value=False)
+    is_visible = UserField(T.Bool, default_value=True)
 
 
 @abstract
@@ -241,7 +242,8 @@ class AdaNode(ASTNode):
         return Self.children_env.get(No(Symbol)).map(
             lambda n: CompletionItem.new(
                 decl=n.cast(T.BasicDecl),
-                is_dot_call=n.info.md.dottable_subp
+                is_dot_call=n.info.md.dottable_subp,
+                is_visible=Self.has_with_visibility(n.unit)
             )
         )
 
@@ -11970,7 +11972,8 @@ class DottedName(Name):
             Entity.prefix.designated_env.get(No(Symbol), LK.flat).map(
                 lambda n: CompletionItem.new(
                     decl=n.cast(T.BasicDecl),
-                    is_dot_call=n.info.md.dottable_subp
+                    is_dot_call=n.info.md.dottable_subp,
+                    is_visible=Self.has_with_visibility(n.unit)
                 )
             )
         ))

@@ -1,0 +1,26 @@
+type: new-feature
+title: More frequent precise element type in field docs
+
+description: |
+    Up to now, the documentation for node fields that contain list nodes
+    could already include the list of precise types for list elements. For
+    instance, the documentation of the ``AbortStmt.f_names`` field, which
+    contains "a list of Names" was::
+
+        This field contains a list that itself contains one of the following
+        nodes:
+
+        * Attribute_Ref
+
+        * Call_Expr
+
+        * ...
+
+    While this precise type information is useful, it was not always present.
+    For instance, the ``GenericSubpInstantiation.f_params`` field, which
+    contains ``AssocList`` nodes, i.e. lists of ``BasicAssoc`` nodes, was
+    lacking a documentation that states that these ``AssocList`` nodes actually
+    contain only ``ParamAssoc`` nodes. This oversight is now fixed, so this
+    information is now in all documentations, where useful.
+
+date: 2020-04-22

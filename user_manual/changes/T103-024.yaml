@@ -7,14 +7,15 @@ description: |
     resolving to the declaration of the formal. Take for example:
 
     .. code:: ada
-        generic
-            X : Integer;
-        package Foo_G is
-            type T is range 1 .. X;
-        end Foo_G;
 
-        package Foo_10 is new Foo_G (X => 10);
-        subtype U is Foo_10.T;
+       generic
+           X : Integer;
+       package Foo_G is
+           type T is range 1 .. X;
+       end Foo_G;
+
+       package Foo_10 is new Foo_G (X => 10);
+       subtype U is Foo_10.T;
 
     By calling ``P_Designated_Type_Decl`` on node ``Foo_10.T``, you will reach
     ``type T is range 1 .. X``. Previously, calling ``P_Referenced_Decl`` on

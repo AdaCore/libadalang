@@ -1051,9 +1051,16 @@ A.add_rules(
 
     others_designator=OthersDesignator("others"),
 
-    aggregate_assoc=AggregateAssoc(
-        Opt(A.choice_list, "=>"),
-        Or(A.box_expr, A.expr)
+    aggregate_assoc=Or(
+        IteratedAssoc(
+            "for", cut(),
+            A.for_loop_param_spec, "=>",
+            A.expr | A.discrete_range
+        ),
+        AggregateAssoc(
+            Opt(A.choice_list, "=>"),
+            Or(A.box_expr, A.expr)
+        ),
     ),
 
     regular_aggregate=Or(

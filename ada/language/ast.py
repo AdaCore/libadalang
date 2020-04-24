@@ -9731,6 +9731,67 @@ class AggregateAssoc(BasicAssoc):
         )
 
 
+class IteratedAssoc(BasicAssoc):
+    """
+    Iterated association (Ada 2020).
+    """
+    spec = Field(type=T.ForLoopSpec)
+    r_expr = Field(type=T.Expr)
+
+    expr = Property(Entity.r_expr)
+    names = Property(No(T.AdaNode.array))
+
+    base_aggregate = Property(
+        Entity.parent.parent.cast_or_raise(BaseAggregate)
+    )
+
+    xref_stop_resolution = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        aggregate = Var(Entity.base_aggregate)
+
+        root_agg = Var(aggregate.multidim_root_aggregate)
+
+        # If we're part of a multidim aggregate, then take the root aggregate's
+        # type. Else, this is a regular aggregate. In this case grab the type
+        # in type_val.
+        type_decl = Var(If(
+            Not(root_agg.is_null),
+            root_agg.typ,
+            aggregate.type_val.cast(BaseTypeDecl),
+        ))
+
+        array_type_def = Var(type_decl._.array_def)
+
+        # NOTE: we need to resolve the spec first so that the indexing variable
+        # has a type.
+        spec_success = Var(Entity.spec.resolve_names_internal_with_eq(
+            Self.type_bind_val(Entity.spec.var_decl.id.type_var,
+                               array_type_def.index_type(root_agg.rank))
+        ))
+
+        return If(
+            spec_success,
+            If(
+                # If the array is monodimensional, or we're on the last
+                # dimension of a multidimensional array ..
+                Or(root_agg.is_null,
+                   root_agg.rank == array_type_def.array_ndims - 1),
+
+                # .. Then we want to match the component type
+                Entity.expr.sub_equation
+                & Self.type_bind_val(Entity.expr.type_var,
+                                     array_type_def.comp_type),
+
+                # .. Else we're on an intermediate dimension of a
+                # multidimensional array: do nothing.
+                LogicTrue()
+            ),
+            LogicFalse()
+        )
+
+
 class MultiDimArrayAssoc(AggregateAssoc):
     """
     Association used for multi-dimension array aggregates.
@@ -11453,6 +11514,8 @@ class QuantifiedExpr(Expr):
 
     @langkit_property(return_type=Equation)
     def xref_equation():
+        # NOTE: we need to resolve the spec first so that the indexing variable
+        # has a type.
         spec_success = Var(Entity.loop_spec.resolve_names)
 
         return If(

@@ -9029,7 +9029,7 @@ class DiscreteSubtypeName(Name):
 
 class TargetName(Name):
     """
-    Name for Ada 2020's ``@``.
+    Name for Ada 2020 ``@``.
     """
 
     pass

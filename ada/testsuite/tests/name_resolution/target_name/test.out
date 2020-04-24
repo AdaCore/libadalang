@@ -1,0 +1,23 @@
+Analyzing test_target.adb
+#########################
+
+Resolving xrefs for node <AssignStmt test_target.adb:4:4-4:15>
+**************************************************************
+
+Expr: <Id "A" test_target.adb:4:4-4:5>
+  references: <DefiningName test_target.adb:2:4-2:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <BinOp test_target.adb:4:9-4:14>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <TargetName test_target.adb:4:9-4:10>
+  references: <DefiningName test_target.adb:2:4-2:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test_target.adb:4:11-4:12>
+  references: None
+  type:       None
+Expr: <Int test_target.adb:4:13-4:14>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+
+
+Done.

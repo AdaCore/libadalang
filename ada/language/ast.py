@@ -9032,7 +9032,28 @@ class TargetName(Name):
     Name for Ada 2020 ``@``.
     """
 
-    pass
+    r_ref_var = UserField(LogicVar, public=False)
+    ref_var = Property(Self.r_ref_var)
+
+    assign_statement = Property(
+        Self.parents.find(lambda p: p.is_a(T.AssignStmt))
+        .cast_or_raise(T.AssignStmt),
+        ignore_warn_on_node=True
+    )
+
+    relative_name = Property(
+        Self.assign_statement.dest.as_entity.relative_name
+    )
+
+    @langkit_property()
+    def xref_equation():
+        return And(
+            Self.type_bind_var(
+                Self.type_var, Self.assign_statement.dest.type_var
+            ),
+
+            Bind(Self.ref_var, Self.assign_statement.dest.ref_var)
+        )
 
 
 class CallExpr(Name):

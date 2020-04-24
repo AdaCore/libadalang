@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [test_brack_aggr.adb]
+with_default_project: False

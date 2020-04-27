@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix ``is_static_decl`` for array types
+description: |
+    Previously, calling ``is_static_decl`` on the declaration of an array
+    type would always yield ``False``. This now returns True when all
+    array indices are static.
+date: 2020-04-27

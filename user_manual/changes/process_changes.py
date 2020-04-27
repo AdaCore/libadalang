@@ -12,9 +12,14 @@ from glob import glob
 import os
 import os.path as P
 import sys
+import tempfile
+import webbrowser
 import yaml
 
+
+from docutils.core import publish_string
 from funcy import memoize
+import jsonschema
 
 
 def print_err(*args, **kwargs):
@@ -33,28 +38,26 @@ def json_schema():
     return yaml.safe_load(schema)
 
 
-# TODO: This is a workaround the fact that jsonschema is not available in
-# production. Pending resolution of S905-005.
-try:
-    import jsonschema as J
+def validate_entry(tn, entry, no_schema=False):
+    """
+    Validate a yaml change entry.
+    """
+    try:
+        jsonschema.validate(entry, json_schema())
+    except jsonschema.ValidationError as e:
+        print_err('Error when validating entry for {}'.format(tn))
+        print_err(e)
+        # We exit on validation errors because all the rest of the code might
+        # fail.
+        sys.exit(1)
 
-    def validate_entry(tn, entry, no_schema=False):
-        """
-        Validate a yaml change entry.
-        """
-        try:
-            J.validate(entry, json_schema())
-        except J.ValidationError as e:
-            print_err('Error when validating entry for {}'.format(tn))
-            print_err(e)
-            sys.exit(1)
-
-except ImportError:
-    print_err('WARNING: jsonschema is not available. Entries will not be'
-              ' validated!')
-
-    def validate_entry(tn, entry, no_schema=False):
-        pass
+    if len(entry['title'].replace("``", "")) > 52:
+        st = entry.get('short_title')
+        if not st or len(st) > 52:
+            print_err(
+                '{}: ERROR: stripped title is more than 52 chars long, and no'
+                ' short_title key (or too long)'.format(entry['tn'])
+            )
 
 
 def header(title, header_char):
@@ -64,7 +67,7 @@ def header(title, header_char):
     return '{}\n{}\n'.format(title, header_char * len(title))
 
 
-def print_entry(entry, show_date=False):
+def entry2rst(entry, show_date=False):
     """
     Print one entry as RST.
 
@@ -85,16 +88,19 @@ def print_entry(entry, show_date=False):
         else:
             return 'all'
 
-    print(header(entry['title'].strip(), '='))
-    print(entry['description'])
-    print(field('tn', entry['tn']))
-    print(field('apis', format_apis(entry.get('apis'))))
+    out = []
+    out.append(header(entry['title'].strip(), '='))
+    out.append(entry['description'])
+    out.append(field('tn', entry['tn']))
+    out.append(field('apis', format_apis(entry.get('apis'))))
     if show_date:
-        print(field('date', entry['date']))
-    print()
+        out.append(field('date', entry['date']))
+    out.append('')
+
+    return "\n".join(out)
 
 
-def all_entries():
+def get_entries(*args):
     """
     Iterator on all change entries. Each entry is a dict loaded from yaml
     containing the expected entry fields.
@@ -102,10 +108,19 @@ def all_entries():
     This iterator will validate entries, e.g. make sure that the entries
     conform to the entry schema.
 
+    :param [str] *args: List of entry file names. If empty, return all the
+        entries.
     :rtype: generator[dict]
     """
 
-    entries_names = [f for f in glob('*.yaml') if f != 'entry_schema.yaml']
+    if args:
+        for a in args:
+            if not a.endswith(".yaml") or not P.isfile(a):
+                print("ERROR: not an entry file: {}".format(a))
+        entries_names = args
+    else:
+        entries_names = [f for f in glob('*.yaml') if f != 'entry_schema.yaml']
+
     for fname in entries_names:
         tn = fname.split('.')[0]
         with open(fname) as f:
@@ -127,21 +142,46 @@ def rst(entries, args):
     Print RST for all entries, structured by change type, with headers for each
     change type.
     """
-    for change_type in types_to_header.keys():
-        header_chunk = types_to_header[change_type]
+    buffr = []
 
-        filtered_entries = sorted(
-            (e for e in entries if e['type'] == change_type),
-            key=lambda e: e['date'], reverse=True
-        )
+    for entry in entries:
+        entry['rst'] = entry2rst(entry, args.show_date)
 
-        if filtered_entries == []:
-            continue
+    if not args.quiet:
+        for change_type in types_to_header.keys():
+            header_chunk = types_to_header[change_type]
 
-        print(header('Libadalang API {}'.format(header_chunk), '#'))
+            filtered_entries = sorted(
+                (e for e in entries if e['type'] == change_type),
+                key=lambda e: e['date'], reverse=True
+            )
 
-        for entry in filtered_entries:
-            print_entry(entry, args.show_date)
+            if filtered_entries == []:
+                continue
+
+            buffr.append(
+                header('Libadalang API {}'.format(header_chunk), '#')
+            )
+
+            for entry in filtered_entries:
+                buffr.append(entry['rst'])
+
+    result = '\n'.join(buffr)
+
+    # We always generate the html, even if we don't need a preview, so that
+    # we check that the rst is correctly formatted.
+    html = publish_string(result, writer_name='html')
+
+    print(result)
+    print(html)
+
+    if args.preview:
+        fd, path = tempfile.mkstemp(suffix='.html')
+
+        with os.fdopen(fd, 'w') as f:
+            f.write(html)
+
+        webbrowser.open(path)
 
 
 def raw(entries, args):
@@ -154,28 +194,12 @@ def raw(entries, args):
         pp.pprint(entry)
 
 
-def validate(entries, args):
-    """
-    Validate all yaml entries.
-    """
-    def strip_title(title):
-        return title.replace('``', '')
-
-    # jsonschema validation happens as part of the iterator
-    for entry in entries:
-        if len(strip_title(entry['title'])) > 52:
-            assert entry.get('short_title'), (
-                'Entry {}: stripped title is more than 52 chars long, and no'
-                ' short_title key'.format(entry['tn'])
-            )
-
-
 if __name__ == '__main__':
     os.chdir(P.dirname(P.abspath(__file__)))
     parser = A.ArgumentParser(description=__doc__)
 
     parser.add_argument(
-        "--filter", help="Python expression to filter the entries. "
+        "-F", "--filter", help="Python expression to filter the entries. "
         "`e` designates the entry"
     )
 
@@ -194,24 +218,33 @@ if __name__ == '__main__':
                                               args.filter),
                     globs
                 )
-                entries = [e for e in all_entries()
+                entries = [e for e in get_entries(*args.files)
                            if filter_fn(e, *[e.get(f, None)
                                              for f in direct_fields])]
             else:
-                entries = [e for e in all_entries()]
+                entries = [e for e in get_entries(*args.files)]
             func(entries, args)
 
         subp = subparsers.add_parser(
             name or func.__name__.replace("_", "-"), help=func.__doc__
         )
         subp.set_defaults(func=wrapper)
+        subp.add_argument(
+            'files', help='Entry files to process. All if not passed',
+            type=str, nargs='*', metavar='F'
+        )
+
         return subp
 
     rst_cmd = create_command(rst)
     rst_cmd.add_argument('--show-date', action='store_true')
+    rst_cmd.add_argument(
+        '--quiet', action='store_true',
+        help="Generate and check the RST, but don't output it"
+    )
+    rst_cmd.add_argument('--preview', action='store_true')
 
     create_command(raw)
-    create_command(validate)
 
     args = parser.parse_args()
     args.func(args)

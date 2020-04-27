@@ -30,9 +30,6 @@ gprbuild -p -Pbuild/lib/gnat/libadalang.gpr \
 # Restrict parallelism to avoid OOM issues
 ada/manage.py build -j12
 
-# Validate changes entries
-python user_manual/changes/process_changes.py validate
-
 # The testsuite heavily relies on shared libraries, which we don't support on
 # macOS, so do not run the testsuite on this platform.
 if [ "$TRAVIS_OS_NAME" != osx ]

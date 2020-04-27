@@ -26,6 +26,7 @@ with Ada.Containers.Synchronized_Queue_Interfaces;
 with Ada.Containers.Unbounded_Synchronized_Queues;
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
+with System.Multiprocessors;
 
 with GNAT.Traceback.Symbolic;
 
@@ -547,9 +548,18 @@ package body Libadalang.Helpers is
 
          --  Initialize contexts
 
-         Job_Contexts := new App_Job_Context_Array'
-           (1 .. Job_ID (Args.Jobs.Get) =>
-            (App_Ctx => App_Ctx'Unchecked_Access, others => <>));
+         declare
+            Job_Count : constant Positive :=
+              (if Args.Jobs.Get = 0
+               then Positive (System.Multiprocessors.Number_Of_CPUs)
+               else Args.Jobs.Get);
+            --  Create the number of jobs requested by the --jobs/-j argument.
+            --  If 0, create one job per CPU.
+         begin
+            Job_Contexts := new App_Job_Context_Array'
+              (1 .. Job_ID (Job_Count) =>
+               (App_Ctx => App_Ctx'Unchecked_Access, others => <>));
+         end;
          for JID in Job_Contexts.all'Range loop
             Job_Contexts (JID) :=
               (ID              => JID,

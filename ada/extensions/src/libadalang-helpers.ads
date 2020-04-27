@@ -245,7 +245,8 @@ package Libadalang.Helpers is
            (Parser, "-j", "--jobs",
             Arg_Type    => Natural,
             Default_Val => 1,
-            Help        => "Number of parallel jobs to use",
+            Help        => "Number of parallel jobs to use. If zero, use"
+                           & " maximal parallelism: create one job per CPU.",
             Enabled     => Enable_Parallelism);
 
          package No_Traceback is new Parse_Flag

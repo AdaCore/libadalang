@@ -4970,6 +4970,11 @@ class ArrayIndices(AdaNode):
     def index_type(dim=Int):
         pass
 
+    is_static = AbstractProperty(
+        type=Bool, dynamic_vars=[default_imprecise_fallback()],
+        doc="""Return True iff all index types are static."""
+    )
+
 
 class UnconstrainedArrayIndices(ArrayIndices):
     """
@@ -4991,6 +4996,10 @@ class UnconstrainedArrayIndices(ArrayIndices):
         return Entity.types.logic_all(
             lambda typ: typ.subtype_indication.sub_equation
         )
+
+    is_static = Property(Entity.types.all(
+        lambda t: t.subtype_indication.is_static_subtype
+    ))
 
 
 class ConstrainedArrayIndices(ArrayIndices):
@@ -5031,6 +5040,14 @@ class ConstrainedArrayIndices(ArrayIndices):
             lambda _: No(T.BaseTypeDecl.entity)
         )
 
+    is_static = Property(Entity.list.all(
+        lambda t: t.match(
+            lambda st=T.SubtypeIndication: st.is_static_subtype,
+            lambda e=T.BinOp: e.left.is_static_expr & e.right.is_static_expr,
+            lambda _: False
+        )
+    ))
+
 
 class ComponentDef(AdaNode):
     """
@@ -5069,6 +5086,8 @@ class ArrayTypeDef(TypeDef):
             Entity.indices.sub_equation,
             Entity.component_type.sub_equation
         )
+
+    is_static = Property(Entity.indices.is_static)
 
     xref_entry_point = Property(True)
 

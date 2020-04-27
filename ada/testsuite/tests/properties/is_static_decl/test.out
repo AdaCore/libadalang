@@ -1,5 +1,9 @@
 == test.adb ==
 <TypeDecl ["T"] test.adb:2:4-2:29> is a static decl
 <TypeDecl ["NT"] test.adb:3:4-3:34> is a static decl
+<TypeDecl ["Arr"] test.adb:4:4-4:43> is a static decl
+<TypeDecl ["Arr_2"] test.adb:5:4-5:54> is a static decl
+<TypeDecl ["Arr_3"] test.adb:6:4-6:59> is a static decl
+<TypeDecl ["Arr_4"] test.adb:9:4-9:60> is not a static decl
 
 Done

@@ -10295,7 +10295,7 @@ class DefiningName(Name):
         Helper for navigation proxies. Will return the defining name matching
         Self on the given BasicDecl.
         """
-        return bd.defining_names.find(
+        return bd._.defining_names.find(
             lambda di: Entity.name.name_is(di.name_symbol)
         )
 

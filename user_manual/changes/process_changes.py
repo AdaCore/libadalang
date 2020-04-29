@@ -139,48 +139,45 @@ types_to_header = OrderedDict((
 
 def rst(entries, args):
     """
-    Print RST for all entries, structured by change type, with headers for each
-    change type.
+    Print reST for all entries, structured by change type, with headers for
+    each change type.
     """
     buffr = []
 
-    for entry in entries:
-        entry['rst'] = entry2rst(entry, args.show_date)
+    # Generate one big reST document to hold all entries, ordered by change
+    # type.
+    for change_type in types_to_header.keys():
+        # Collect all entries for this change type, more recent first
+        filtered_entries = sorted(
+            (e for e in entries if e['type'] == change_type),
+            key=lambda e: e['date'], reverse=True
+        )
 
-    if not args.quiet:
-        for change_type in types_to_header.keys():
-            header_chunk = types_to_header[change_type]
+        # No need to emit a section for this change type if it has no entry
+        if filtered_entries == []:
+            continue
 
-            filtered_entries = sorted(
-                (e for e in entries if e['type'] == change_type),
-                key=lambda e: e['date'], reverse=True
-            )
-
-            if filtered_entries == []:
-                continue
-
-            buffr.append(
-                header('Libadalang API {}'.format(header_chunk), '#')
-            )
-
-            for entry in filtered_entries:
-                buffr.append(entry['rst'])
+        header_chunk = types_to_header[change_type]
+        buffr.append(
+            header('Libadalang API {}'.format(header_chunk), '#')
+        )
+        for entry in filtered_entries:
+            buffr.append(entry2rst(entry, args.show_date))
 
     result = '\n'.join(buffr)
 
-    # We always generate the html, even if we don't need a preview, so that
-    # we check that the rst is correctly formatted.
+    # We always generate the HTML, even if we don't need a preview, so that we
+    # check that the reST is correctly formatted.
     html = publish_string(result, writer_name='html')
+    if not args.quiet:
+        print(result)
 
-    print(result)
-    print(html)
-
+    # If preview is requested, also write the result to a file and open a
+    # browser to view it.
     if args.preview:
         fd, path = tempfile.mkstemp(suffix='.html')
-
         with os.fdopen(fd, 'w') as f:
             f.write(html)
-
         webbrowser.open(path)
 
 

@@ -117,7 +117,7 @@ main(void)
     }
     if (entities->n == 0)
       printf("  <nothing>\n");
-    ada_ada_node_array_dec_ref(&entities);
+    ada_ada_node_array_dec_ref(entities);
 
     ada_context_decref(ctx);
     ada_dec_ref_unit_provider(ufp);

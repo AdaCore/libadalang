@@ -8,9 +8,11 @@ from __future__ import absolute_import, division, print_function
 
 import argparse as A
 from collections import OrderedDict
+import datetime
 from glob import glob
 import os
 import os.path as P
+import pprint
 import sys
 import tempfile
 import webbrowser
@@ -69,7 +71,7 @@ def header(title, header_char):
 
 def entry2rst(entry, show_date=False):
     """
-    Print one entry as RST.
+    Print one entry as reST.
 
     :param bool show_date: Whether to show the date.
     """
@@ -144,7 +146,7 @@ def rst(entries, args):
     """
     buffr = []
 
-    # Generate one big reST document to hold all entries, ordered by change
+    # Generate one big reST document to hold all entries, grouped by change
     # type.
     for change_type in types_to_header.keys():
         # Collect all entries for this change type, more recent first
@@ -185,7 +187,6 @@ def raw(entries, args):
     """
     Print all entries raw.
     """
-    import pprint
     pp = pprint.PrettyPrinter(indent=4)
     for entry in entries:
         pp.pprint(entry)
@@ -205,7 +206,6 @@ if __name__ == '__main__':
     def create_command(func, name=None):
         def wrapper(args):
             if args.filter:
-                import datetime
                 globs = {'Date': datetime.date}
                 direct_fields = [
                     'title', 'apis', 'description', 'tn', 'type', 'date'

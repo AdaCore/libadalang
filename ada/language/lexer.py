@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 from langkit.lexer import (
     Alt, Case, Lexer, LexerToken, Literal, NoCaseLit, Pattern, TokenFamily,
     WithSymbol, WithText, WithTrivia

@@ -2,8 +2,6 @@
 Test that AdaNode.lookup works properly.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 
 

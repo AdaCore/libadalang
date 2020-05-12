@@ -2,8 +2,6 @@
 Test that the p_semantic_parent property works as one would expect.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 
 

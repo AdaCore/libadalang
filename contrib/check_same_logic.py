@@ -5,8 +5,6 @@ This script will detect syntactically identical expressions which are chained
 together in a chain of logical operators in the input Ada sources.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import argparse
 import libadalang as lal
 

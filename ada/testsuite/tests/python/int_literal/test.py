@@ -4,8 +4,6 @@ literals. Also exercize several erroneous cases that are still accepted by
 Libadalang's lexer.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 
 

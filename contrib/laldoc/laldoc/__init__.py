@@ -2,8 +2,6 @@
 
 # TODO: include generic formals in the generated documentation
 
-from __future__ import absolute_import, division, print_function
-
 from collections import defaultdict
 
 from docutils import nodes
@@ -62,7 +60,7 @@ class AutoPackage(Directive):
 
     annotations = {
         'no-document': bool,
-        'belongs-to': unicode,
+        'belongs-to': str,
         'document-value': bool,
     }
 
@@ -80,7 +78,7 @@ class AutoPackage(Directive):
 
         if atype is bool:
             return {'True': True, 'False': False}[value]
-        elif atype is unicode:
+        elif atype is str:
             return value
         else:
             assert False
@@ -90,7 +88,7 @@ class AutoPackage(Directive):
 
     @memoize
     def get_documentation(self, decl):
-        # type: (lal.BasicDecl) -> Tuple[List[str], Dict[unicode, unicode]]
+        # type: (lal.BasicDecl) -> Tuple[List[str], Dict[str, str]]
         """
         Return the documentation for given basic declaration.
 

@@ -1,8 +1,6 @@
 """
 Test that dsl_unparse does not crash on libadalang.
 """
-from __future__ import absolute_import, division, print_function
-
 import os
 import subprocess
 import sys

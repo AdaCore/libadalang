@@ -13,8 +13,6 @@ This is a toy/prototype indenter for Libadalang. Its purposes are:
    get an indenter for free.
 """
 
-from __future__ import absolute_import, division, print_function
-
 from collections import defaultdict
 import libadalang as lal
 import logging

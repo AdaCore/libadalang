@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 
 
@@ -18,7 +16,7 @@ def test(label, buffer, pred=None):
 
     print(label)
     print('=' * len(label))
-    print()
+    print('')
 
     u = ctx.get_from_buffer('test.adb', buffer)
     if pred:
@@ -28,11 +26,11 @@ def test(label, buffer, pred=None):
 
     try:
         doc = decl.p_doc
-        print('Doc:', lal._py2to3.text_repr(doc))
-        print()
+        print('Doc: {}'.format(lal._py2to3.text_repr(doc)))
+        print('')
     except lal.PropertyError as exc:
-        print('Exception:', *exc.args)
-        print()
+        print('Exception: {}'.format(' '.join(str(a) for a in exc.args)))
+        print('')
         return
 
     annotations = decl.p_doc_annotations
@@ -40,7 +38,7 @@ def test(label, buffer, pred=None):
         print('Annotations:')
         for a in annotations:
             print('  * {} = {}'.format(a.key, a.value))
-        print()
+        print('')
 
 
 test('Test that there is no crash when doc is missing', b"""

@@ -1,6 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
-
 libadalang_docs = {
     'libadalang.project_scenario_variable': """
         Couple name/value to define a scenario variable for a project.

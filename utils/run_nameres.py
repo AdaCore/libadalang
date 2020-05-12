@@ -5,8 +5,6 @@ Utility script to run name resolution on a bunch of Ada files, and help analyze
 the results.
 """
 
-from __future__ import print_function, absolute_import, division
-
 import argparse
 from collections import defaultdict
 import cPickle
@@ -247,7 +245,7 @@ class FileResult(object):
             print("Resolution crashed.")
             print("Command line: {}".format(" ".join(args)))
             return []
-        except Exception, e:
+        except Exception as e:
             print("Exception : {}".format(e))
             return []
         finally:
@@ -306,7 +304,10 @@ class Results(object):
         for failure in self.failures:
             for exc in failure.exceptions:
                 exceptions[exc.exception].add(failure.file_name)
-        return sorted(exceptions.items(), key=lambda (k, v): len(v))
+        def key(key_value):
+            k, _ = key_value
+            return len(k)
+        return sorted(exceptions.items(), key=key)
 
     def get_failure(self, filename):
         return [f for f in self.failures if f.file_name == filename][0]
@@ -337,12 +338,13 @@ def main(dirs, pattern, j, chunk_size, automated,
 
     project = os.path.abspath(project)
 
-    raw_results = pmap(
-        lambda (dir, f): FileResult.nameres_files(
+    def transform(dir_f):
+        dir, f = dir_f
+        return FileResult.nameres_files(
             dir, f, project=project, extra_args=extra_args
-        ),
-        files, nb_threads=j
-    )
+        )
+
+    raw_results = pmap(transform, files, nb_threads=j)
 
     total_nb_files = sum(len(fs[1]) for fs in files)
 

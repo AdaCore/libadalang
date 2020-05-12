@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import sys
 
 from utils import in_contrib
@@ -7,6 +5,8 @@ from utils import in_contrib
 
 sys.path.append(in_contrib())
 import check_same_test
+
+
 check_same_test.main(check_same_test.parser.parse_args(
     ['foo.adb',
      'gnatdoc-frontend-comment_parser.adb',

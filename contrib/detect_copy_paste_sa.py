@@ -8,8 +8,6 @@ It starts by turning the text of the Ada sources into a string of hashes,
 roughly one per logical line of code.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import argparse
 import datetime
 import os

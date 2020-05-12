@@ -1,6 +1,5 @@
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
+
 
 ctx = lal.AnalysisContext(with_trivia=True)
 unit = ctx.get_from_file('lal-highlighters.adb')

@@ -1,12 +1,9 @@
 #! /usr/bin/env python
 """
 This script is a helper to add a test for symbol resolution. It takes as
-parameters a list of Ada files that constitutes the test, with the first file
 being the entry point for name resolution. It will run the name resolution
 driver on the files and create a test from it.
 """
-
-from __future__ import absolute_import, division, print_function
 
 import argparse
 from os import path
@@ -55,7 +52,7 @@ with open("test.out", "w") as test_out:
         )
         print("Name res succeeded, result:\n\n{}".format(output))
         test_out.write(output)
-    except subprocess.CalledProcessError, e:
+    except subprocess.CalledProcessError as e:
         print("Error calling name res: {}".format(e.output))
 
 with open(path.join("test.yaml"), 'w') as f:

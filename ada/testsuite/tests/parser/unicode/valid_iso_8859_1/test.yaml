@@ -1,3 +1,4 @@
 driver: parser
 action: pretty-print-file
 charset: iso-8859-1
+encoding: binary

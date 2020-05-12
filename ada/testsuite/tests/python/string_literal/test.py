@@ -3,8 +3,6 @@ Test that StringLiteral.p_denoted_value properly decodes all valid Ada string
 literals.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 from libadalang import _py2to3
 

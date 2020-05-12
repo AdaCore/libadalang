@@ -1,5 +1,4 @@
 driver: python
 input_sources: []
-expect_failure:
-    - {if: [python3],
-       then: 'Pending fixes from SC11-035'}
+control:
+    - [XFAIL, "python == 3", "Pending fixes from SC11-035"]

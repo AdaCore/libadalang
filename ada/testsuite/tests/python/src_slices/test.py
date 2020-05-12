@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 from libadalang import _py2to3
 

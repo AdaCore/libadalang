@@ -13,8 +13,6 @@ and the subprogram do not match, such as::
 If passed the --fix flag, it will fix the boxes in the same pass.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import argparse
 import libadalang as lal
 

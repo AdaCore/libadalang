@@ -8,12 +8,8 @@ Usage::
 Run the Libadalang testsuite.
 """
 
-from __future__ import absolute_import, division, print_function
-
-import os
-
-from testsuite_support import Testsuite
+from testsuite_support import LALTestsuite
 
 
 if __name__ == '__main__':
-    Testsuite(os.path.dirname(__file__)).testsuite_main()
+    LALTestsuite().testsuite_main()

@@ -2,5 +2,5 @@ driver: ada-api
 main: main.adb
 input_sources: [test.adb]
 argv: [-Pp.gpr, --target=nosuchtarget-elf, test.adb]
-expect_failure:
-    - {if: [valgrind], then: 'Pending resolution of T121-028'}
+control:
+    - [XFAIL, "valgrind", "Pending resolution of T121-028"]

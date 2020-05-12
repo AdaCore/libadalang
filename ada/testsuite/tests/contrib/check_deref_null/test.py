@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import sys
 
 from utils import in_contrib
@@ -7,6 +5,8 @@ from utils import in_contrib
 
 sys.path.append(in_contrib())
 import check_deref_null
+
+
 check_deref_null.main(check_deref_null.parser.parse_args(
     ['commands-custom.adb',
      'debugger-base_gdb-gdb_cli.adb',

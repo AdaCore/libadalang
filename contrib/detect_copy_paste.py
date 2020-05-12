@@ -23,8 +23,6 @@ The implementation of Ukkonnen's algorithm is adapted from the C code at
 <http://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/>.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import argparse
 import itertools
 import libadalang as lal

@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import libadalang
 
 
@@ -11,7 +9,7 @@ assert root.kind_name == 'CompilationUnit'
 
 try:
     tmp = root[3]
-except IndexError as exc:
+except IndexError:
     pass
 else:
     assert False, (
@@ -19,7 +17,7 @@ else:
 
 try:
     tmp = root[-10]
-except IndexError as exc:
+except IndexError:
     pass
 else:
     assert False, (

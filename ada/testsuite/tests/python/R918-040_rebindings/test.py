@@ -3,8 +3,6 @@ Test that env shedding works correctly when resolving from the body of a
 generic instantiation.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 
 

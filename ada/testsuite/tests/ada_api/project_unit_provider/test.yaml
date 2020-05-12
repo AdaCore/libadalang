@@ -5,5 +5,5 @@ input_sources: [
     src1/p1.ada_specification,
     src2/p2.ada_specification
 ]
-expect_failure:
-    - {if: [valgrind], then: 'Pending resolution of S912-003'}
+control:
+    - [XFAIL, "valgrind", "Pending resolution of S912-003"]

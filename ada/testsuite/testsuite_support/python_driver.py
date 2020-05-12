@@ -1,44 +1,31 @@
-from __future__ import absolute_import, division, print_function
-
 import os
 import os.path
 import sys
 
-from testsuite_support.base_driver import BaseDriver, catch_test_errors
+from e3.testsuite.driver.classic import TestSkip
+
+from testsuite_support.base_driver import BaseDriver
 
 
 class PythonDriver(BaseDriver):
 
-    #
-    # Driver entry point
-    #
-
     py_file = 'test.py'
 
-    @catch_test_errors
-    def tear_up(self):
-        super(PythonDriver, self).tear_up()
+    def run(self):
+        runner = PythonRunner(self)
 
-        self.runner = PythonRunner(self)
-
-        if not self.runner.is_python_api_available:
-            self.result.set_status(
-                'DEAD',
-                'Cannot test the Python API without shared libraries'
-            )
+        if not runner.is_python_api_available:
+            raise TestSkip('Cannot test the Python API without shared'
+                           ' libraries')
         if self.disable_python:
-            self.result.set_status('DEAD', 'Python API testing disabled')
+            raise TestSkip('Python API testing disabled')
 
-        self.input_sources = self.test_env.get('input_sources', [])
+        input_sources = self.test_env.get('input_sources', [])
 
         self.check_file(self.py_file)
-        self.check_file_list('"input_sources"', self.input_sources)
+        self.check_file_list('"input_sources"', input_sources)
 
-        self.runner.setup_environment()
-
-    @catch_test_errors
-    def run(self):
-        self.runner.run(self.py_file, self.input_sources)
+        runner.run(self.py_file, input_sources)
 
 
 class PythonRunner(object):
@@ -70,30 +57,29 @@ class PythonRunner(object):
         return ('{}{}{}'.format(new_paths, os.path.pathsep, old_path)
                 if old_path else new_paths)
 
-    def setup_environment(self):
-        """
-        Make the common Python modules available from the testcase script.
-        """
-        os.environ['PYTHONPATH'] = self.add_paths(
-            os.environ.get('PYTHONPATH'),
-            self.support_dir,
-            self.internal_support_dir)
-        os.environ['LIBADALANG_ROOTDIR'] = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            '..', '..', '..'
-        )
-        os.environ['LIBADALANG_DISABLE_SHARED'] = str(
-            int(self.driver.disable_shared)
-        )
+        return env
 
     def run(self, py_file, py_args):
         """
         Run the given Python scripts with given arguments.
-
-        Make sure you called the "setup_environment" method once first.
         """
-        return self.driver.run_and_check([self.interpreter, py_file] + py_args,
-                                         for_debug=True)
+        return self.driver.run_and_check(
+            [self.interpreter, py_file] + py_args,
+            env={
+                'PYTHONPATH': self.add_paths(
+                    os.environ.get('PYTHONPATH'),
+                    self.support_dir,
+                    self.internal_support_dir
+                ),
+                'LIBADALANG_ROOTDIR': os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)),
+                    '..', '..', '..'
+                ),
+                'LIBADALANG_DISABLE_SHARED': str(
+                    int(self.driver.disable_shared)
+                )
+            }
+        )
 
     @property
     def interpreter(self):

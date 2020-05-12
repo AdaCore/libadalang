@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import os
 import os.path
 import pipes
@@ -51,7 +49,8 @@ def run_nameres(args):
     """
     argv = ['nameres'] + args
     p = subprocess.Popen(argv, stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT)
+                         stderr=subprocess.STDOUT,
+                         encoding='ascii')
     stdout, _ = p.communicate()
 
     if p.returncode:

@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import libadalang
 from libadalang import _py2to3
 
@@ -40,7 +38,9 @@ for args in [
          project=u'no_such_project', scenario_vars=vars),
     dict(project_file=u'p.gpr', project=u'q', scenario_vars=vars),
 ]:
-    print('Trying to build with', unirepr(args, native_dict_keys=True))
+    print('Trying to build with {}'.format(
+        unirepr(args, native_dict_keys=True)
+    ))
     try:
         libadalang.UnitProvider.for_project(**args)
     except (TypeError, libadalang.InvalidProjectError) as exc:

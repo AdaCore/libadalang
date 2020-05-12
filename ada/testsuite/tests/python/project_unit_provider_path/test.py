@@ -3,8 +3,6 @@ Test that libadalang.UnitProvider.for_project can resolve the designated
 project from its path.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import libadalang
 
 

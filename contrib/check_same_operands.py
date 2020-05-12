@@ -5,8 +5,6 @@ This script will detect comparison and arithmetic operations that have operands
 which are syntactically identical in the input Ada sources.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import argparse
 
 import libadalang as lal

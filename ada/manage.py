@@ -1,7 +1,5 @@
 #! /usr/bin/env python
 
-from __future__ import absolute_import, division, print_function
-
 import os.path
 import subprocess
 import sys
@@ -38,16 +36,6 @@ class Manage(ManageScript):
 
         self.test_parser = test_parser = self.subparsers.add_parser(
             'test', help=self.do_test.__doc__
-        )
-        test_parser.add_argument(
-            '--with-gnatpython', '-g', action='store_true',
-            dest='with_gnatpython', default=False,
-            help='Try to use GNATpython in the testsuite'
-        )
-        test_parser.add_argument(
-            '--without-gnatpython', '-G', action='store_false',
-            dest='with_gnatpython',
-            help='Do not use GNATpython in the testsuite'
         )
         test_parser.add_argument(
             '--disable-ocaml', action='store_true',
@@ -181,14 +169,10 @@ class Manage(ManageScript):
         # Make builds available from testcases
         env = self.derived_env(args.build_mode)
 
-        if not args.with_gnatpython:
-            env[b'WITHOUT_GNATPYTHON'] = b'1'
-
         argv = [
             'python',
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
-            '--enable-color', '--show-error-output',
-            '--build-mode={}'.format(args.build_mode),
+            '-Edtmp', '--build-mode={}'.format(args.build_mode),
 
             # Arguments to pass to GNATcoverage, just in case coverage is
             # requested.

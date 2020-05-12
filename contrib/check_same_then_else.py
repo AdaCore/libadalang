@@ -13,8 +13,6 @@ Hence no message is issued in the following cases:
   part.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import argparse
 import libadalang as lal
 

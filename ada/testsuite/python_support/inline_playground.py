@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import absolute_import, division, print_function
-
 import os
 import sys
 
@@ -70,7 +68,9 @@ class InlinePlayground(lal.App):
                         {'lal': lal, 'node': current_node}
                     )
                 except lal.PropertyError as pe:
-                    print('Exception:', *pe.args)
+                    print('Exception: {}'.format(
+                        ' '.join(str(a) for a in pe.args)
+                    ))
                 else:
 
                     # Hide discrepancies between Python2 and Python3
@@ -78,9 +78,9 @@ class InlinePlayground(lal.App):
                                   if isinstance(value, _py2to3.text_type) else
                                   repr(value))
                     print('Result: {}'.format(col(value_repr, YELLOW)))
-                print()
+                print('')
 
-        print()
+        print('')
 
 if __name__ == '__main__':
     InlinePlayground.run()

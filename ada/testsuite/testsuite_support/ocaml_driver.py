@@ -1,7 +1,7 @@
-from __future__ import absolute_import, division, print_function
+from e3.fs import sync_tree
+from e3.testsuite.driver.classic import TestSkip
 
-from testsuite_support.base_driver import (BaseDriver, catch_test_errors,
-                                           fileutils)
+from testsuite_support.base_driver import BaseDriver
 
 
 class OCamlDriver(BaseDriver):
@@ -14,14 +14,10 @@ class OCamlDriver(BaseDriver):
     Name of the main module for the program to build and run.
     """
 
-    @catch_test_errors
-    def tear_up(self):
-        super(OCamlDriver, self).tear_up()
-
-        bindings_dir = self.global_env['ocaml_bindings']
+    def run(self):
+        bindings_dir = self.env.ocaml_bindings
         if not bindings_dir:
-            self.result.set_status('DEAD', 'Test requires OCaml')
-            return
+            raise TestSkip('Test requires OCaml')
 
         # Copy sources for the test program and setup a Dune project for it
         with open(self.working_dir('dune'), 'w') as f:
@@ -36,13 +32,9 @@ class OCamlDriver(BaseDriver):
 
         # Copy the OCaml bindings: for now, we consider it's the job of the
         # testcase to build it.
-        fileutils.sync_tree(bindings_dir, self.working_dir('bindings'))
+        sync_tree(bindings_dir, self.working_dir('bindings'))
 
-    @catch_test_errors
-    def run(self):
-        return self.run_and_check([
-            'dune', 'exec',
-            '--display', 'quiet',
-            '--root', '.',
-            './{}.exe'.format(self.main_module)
-        ])
+        self.run_and_check(['dune', 'exec',
+                            '--display', 'quiet',
+                            '--root', '.',
+                            './{}.exe'.format(self.main_module)])

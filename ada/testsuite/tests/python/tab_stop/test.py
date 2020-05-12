@@ -3,8 +3,6 @@ Test that one can customize the tab stop to use when lexing. Also make sure
 this parameter is properly sanitized.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import libadalang as lal
 
 

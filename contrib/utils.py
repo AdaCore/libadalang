@@ -2,8 +2,6 @@
 Grab bag of python utils/examples of use of the LAL python API.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import libadalang as lal
 
 

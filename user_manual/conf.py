@@ -368,7 +368,7 @@ def setup(app):
     ])
 
     with open(P.join(P.dirname(P.abspath(__file__)), 'api_changes.rst'),
-              'w') as f:
+              'wb') as f:
         f.write(rst_content)
 
 

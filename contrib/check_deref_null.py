@@ -6,8 +6,6 @@ dominated by a dereference of the same variable, without intervening assignment
 to the variable.
 """
 
-from __future__ import (absolute_import, division, print_function)
-
 import argparse
 import libadalang as lal
 

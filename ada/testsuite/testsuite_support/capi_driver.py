@@ -1,22 +1,17 @@
-from __future__ import absolute_import, division, print_function
-
 import os.path
 
-from testsuite_support.base_driver import (BaseDriver, SetupError,
-                                           catch_test_errors)
+from e3.testsuite.driver.classic import TestAbortWithError
+
+from testsuite_support.base_driver import BaseDriver
 
 
 class CAPIDriver(BaseDriver):
-
-    #
-    # Driver entry poins
-    #
 
     @staticmethod
     def locate_in_path(path_list, filename):
         """Look for `filename` under the directories in `path_list`.
 
-        Retrun the absolute path name of such a file if it is found, None
+        Return the absolute path name of such a file if it is found, None
         otherwise. `path_list` must be a string in the same format as the
         *PATH environment variables.
         """
@@ -25,16 +20,17 @@ class CAPIDriver(BaseDriver):
             if os.path.isfile(filepath):
                 return filepath
 
-    @catch_test_errors
-    def tear_up(self):
-        super(CAPIDriver, self).tear_up()
-
+    def run(self):
         if 'compile_units' not in self.test_env:
-            raise SetupError('Missing "compile_units" key in test.yaml')
+            raise TestAbortWithError(
+                'Missing "compile_units" key in test.yaml'
+            )
         compile_units = self.test_env['compile_units']
 
         if 'input_sources' not in self.test_env:
-            raise SetupError('Missing "input_sources" key in test.yaml')
+            raise TestAbortWithError(
+                'Missing "input_sources" key in test.yaml'
+            )
         input_sources = self.test_env['input_sources']
 
         self.check_file_list('"compile_units"', compile_units,
@@ -75,19 +71,13 @@ class CAPIDriver(BaseDriver):
                        exec_name=self.test_program,
                        support_include_dir=self.support_include_dir))
 
-    @catch_test_errors
-    def run(self):
         # Build the test program and then run it. Whether we use static or
         # shared libraries, make it explicit: some dependencies (such as
         # GNATcoll) use shared ones by default while others such as gnat_util
         # use static ones.
         argv = ['gprbuild', '-Pp'] + self.gpr_scenario_vars
         self.run_and_check(argv, append_output=False)
-        self.run_and_check([self.test_program], for_debug=True, memcheck=True)
-
-    #
-    # Helpers
-    #
+        self.run_and_check([self.test_program], memcheck=True)
 
     @property
     def test_program(self):

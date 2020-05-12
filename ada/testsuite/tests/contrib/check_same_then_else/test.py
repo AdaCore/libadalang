@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import sys
 
 from utils import in_contrib
@@ -7,6 +5,8 @@ from utils import in_contrib
 
 sys.path.append(in_contrib())
 import check_same_then_else
+
+
 check_same_then_else.main(check_same_then_else.parser.parse_args(
     ['backend-be_corba_ada-common.adb',
      'backend-be_corba_ada-helpers_internals.adb',

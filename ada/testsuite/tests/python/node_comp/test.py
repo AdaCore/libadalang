@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import sys
 
 import libadalang as lal
@@ -18,14 +16,14 @@ n = d2.f_default_expr
 
 node_dict = dict((node, repr(node)) for node in (d1, d2, n))
 
-print('d1:', d1)
-print('d2:', d2)
+print('d1: {}'.format(d1))
+print('d2: {}'.format(d2))
 if not d2.p_resolve_names:
     print('Resolution failed')
     sys.exit(1)
 
 resolved = n.p_referenced_decl()
-print('resolved:', resolved)
+print('resolved: {}'.format(resolved))
 
 if d1 != d1:
     print('Self comparison failed')
@@ -37,6 +35,6 @@ if d1 != new_d1:
 if d1 == resolved:
     print('Entity info ignored for comparison')
 
-print('Dict lookup:', node_dict[new_d1])
+print('Dict lookup: {}'.format(node_dict[new_d1]))
 
 print('Done.')

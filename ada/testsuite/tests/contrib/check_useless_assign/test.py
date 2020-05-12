@@ -1,5 +1,3 @@
-from __future__ import absolute_import, division, print_function
-
 import sys
 
 from utils import in_contrib
@@ -7,6 +5,8 @@ from utils import in_contrib
 
 sys.path.append(in_contrib())
 import check_useless_assign
+
+
 check_useless_assign.main(check_useless_assign.parser.parse_args(
     ['ada_semantic_tree.adb',
      'backend-be_corba_ada-aligned.adb',

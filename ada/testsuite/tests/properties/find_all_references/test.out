@@ -1,6 +1,9 @@
 Analyzing a.ads
 ###############
 
+Analyzing a-child.adb
+#####################
+
 Analyzing a.adb
 ###############
 
@@ -27,6 +30,7 @@ Analyzing pragmas.ads
 
 References to A (a.ads, 1:9-1:10)
    A (a.ads, 19:5-19:6)
+   A.Child (a-child.adb, 1:11-1:18)
    package body A is (a.adb, 1:1-14:7)
    A (a.adb, 14:5-14:6)
    with A; (b.ads, 1:1-1:8)
@@ -46,6 +50,7 @@ References to "+" (a.ads, 13:13-13:16)
    "+" (a.adb, 13:8-13:11)
    return +B.Make_Rec_1 (2); (c.adb, 6:7-6:32)
 References to X (a.ads, 17:4-17:5)
+   Y : Integer := X; (a-child.adb, 2:4-2:21)
    Y : Integer := X; (a.adb, 3:7-3:24)
 References to Y (a.adb, 3:7-3:8)
    return Y; (a.adb, 6:7-6:16)

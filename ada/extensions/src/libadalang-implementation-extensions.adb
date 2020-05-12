@@ -220,40 +220,10 @@ package body Libadalang.Implementation.Extensions is
       ------------------------
 
       function Does_Import_Target (From : Internal_Unit) return Boolean is
-         function Handle_Unit_Name
-           (Symbols : Env_Hooks.Symbol_Type_Array) return Boolean;
-         --  Fetches the unit associated to the given name and returns whether
-           --  this unit IS the target unit. If Transitive is True, recursively
-           --  look if the target is one of the units imported by the given
-           --  unit.
-
-         ----------------------
-         -- Handle_Unit_Name --
-         ----------------------
-
-         function Handle_Unit_Name
-           (Symbols : Env_Hooks.Symbol_Type_Array) return Boolean
-         is
-            Unit : Internal_Unit := Env_Hooks.Fetch_Unit
-              (Node.Unit.Context, Symbols, Node.Unit,
-               Unit_Specification, True, False);
-         begin
-            if Unit.AST_Root = null then
-               --  The unit specification does not exist and the with clause
-               --  actually imports the body.
-               Unit := Env_Hooks.Fetch_Unit
-                 (Node.Unit.Context, Symbols, Node.Unit, Unit_Body, True,
-                  False);
-            end if;
-            return (Unit = Target
-                    or else (Transitive and then Does_Import_Target (Unit)));
-         end Handle_Unit_Name;
-
          Root_Node   : constant Bare_Ada_Node := Root (From);
          Units       : constant CU_Array :=
             All_Compilation_Units_From (Root_Node);
 
-         Prelude     : Bare_Ada_Node;
          From_Cursor : constant Analysis_Unit_Maps.Cursor :=
             Units_Import_Target.Find (From);
       begin
@@ -270,62 +240,28 @@ package body Libadalang.Implementation.Extensions is
 
          Units_Import_Target.Insert (From, False);
 
-         for Unit of Units loop
-
-            --  Add all explicit references by processing "with" clauses
-
-            Prelude := Unit.Compilation_Unit_F_Prelude;
-            for I in 1 .. Children_Count (Prelude) loop
-               if Child (Prelude, I).Kind = Ada_With_Clause then
-                  declare
-                     Imported_Packages : constant Bare_Ada_Node :=
-                        Child (Prelude, I).With_Clause_F_Packages;
-                  begin
-                     for J in 1 .. Children_Count (Imported_Packages) loop
-                        declare
-                           Pkg : constant Bare_Name :=
-                              Child (Imported_Packages, J);
-                           Symbols : constant Env_Hooks.Symbol_Type_Array :=
-                              Env_Hooks.Name_To_Symbols (Pkg);
-                        begin
-                           if Handle_Unit_Name (Symbols) then
-                              Units_Import_Target.Replace (From, True);
-                              return True;
-                           end if;
-                        end;
-                     end loop;
-                  end;
-               end if;
-            end loop;
-
-            --  Add all implicit references:
-            --
-            --  * If this unit is a body, there is an implicit reference to its
-            --    specification.
-            --
-            --  * If this unit is a specification and a child unit, there is an
-            --    implicit reference to its direct parent.
-
+         for Comp_Unit of Units loop
             declare
-               Unit_Name : Symbol_Type_Array_Access :=
-                  Compilation_Unit_P_Syntactic_Fully_Qualified_Name (Unit);
-
-               Parent_Symbols : constant Internal_Symbol_Type_Array :=
-                 (if Compilation_Unit_P_Unit_Kind (Unit) = Unit_Body
-                  then Unit_Name.Items
-                  else Unit_Name.Items
-                    (Unit_Name.Items'First .. Unit_Name.Items'Last - 1));
+               Units_Array : Internal_Entity_Compilation_Unit_Array_Access :=
+                  Compilation_Unit_P_Imported_Units (Comp_Unit);
             begin
-               if Parent_Symbols'Length > 0 then
-                  if Handle_Unit_Name
-                    (Env_Hooks.Symbol_Type_Array (Parent_Symbols))
-                  then
-                     Dec_Ref (Unit_Name);
-                     Units_Import_Target.Replace (From, True);
-                     return True;
+               for Imported_Unit of Units_Array.Items loop
+                  if Imported_Unit.Node /= null then
+                     declare
+                        Unit : constant Internal_Unit :=
+                           Imported_Unit.Node.Unit;
+                     begin
+                        if Unit = Target or else
+                             (Transitive and then Does_Import_Target (Unit))
+                        then
+                           Units_Import_Target.Replace (From, True);
+                           Dec_Ref (Units_Array);
+                           return True;
+                        end if;
+                     end;
                   end if;
-               end if;
-               Dec_Ref (Unit_Name);
+               end loop;
+               Dec_Ref (Units_Array);
             end;
          end loop;
 

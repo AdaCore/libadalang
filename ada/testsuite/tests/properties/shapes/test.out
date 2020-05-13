@@ -1,26 +1,86 @@
 Shapes for <RecordDef test.adb:2:56-22:14>:
-[A, B, X, Y_1, Z_1, ]
-[A, B, X, Y_1, ]
-[A, B, X, Y_2, Z_2, ]
-[A, B, X, Y_2, ]
-[A, B, X, ]
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => 2 .. 8, ]
+  Components: [A, B, X, Y_1, Z_1, ]
+}
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => others, ]
+  Components: [A, B, X, Y_1, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => 2 .. 8, ]
+  Components: [A, B, X, Y_2, Z_2, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => others, ]
+  Components: [A, B, X, Y_2, ]
+}
+Shape {
+  Discriminant Values: [A => others, ]
+  Components: [A, B, X, ]
+}
 
 Shapes for <RecordDef test.adb:24:25-26:14>:
-[A, B, X, Y_1, Z_1, V, ]
-[A, B, X, Y_1, V, ]
-[A, B, X, Y_2, Z_2, V, ]
-[A, B, X, Y_2, V, ]
-[A, B, X, V, ]
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => 2 .. 8, ]
+  Components: [A, B, X, Y_1, Z_1, V, ]
+}
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => others, ]
+  Components: [A, B, X, Y_1, V, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => 2 .. 8, ]
+  Components: [A, B, X, Y_2, Z_2, V, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => others, ]
+  Components: [A, B, X, Y_2, V, ]
+}
+Shape {
+  Discriminant Values: [A => others, ]
+  Components: [A, B, X, V, ]
+}
 
 Shapes for <RecordDef test.adb:28:59-36:14>:
-[A, B, X, Y_1, Z_1, W, M, ]
-[A, B, X, Y_1, Z_1, W, ]
-[A, B, X, Y_1, W, M, ]
-[A, B, X, Y_1, W, ]
-[A, B, X, Y_2, Z_2, W, M, ]
-[A, B, X, Y_2, Z_2, W, ]
-[A, B, X, Y_2, W, M, ]
-[A, B, X, Y_2, W, ]
-[A, B, X, W, M, ]
-[A, B, X, W, ]
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => 2 .. 8, A => 1 .. 10, ]
+  Components: [A, B, X, Y_1, Z_1, W, M, ]
+}
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => 2 .. 8, A => others, ]
+  Components: [A, B, X, Y_1, Z_1, W, ]
+}
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => others, A => 1 .. 10, ]
+  Components: [A, B, X, Y_1, W, M, ]
+}
+Shape {
+  Discriminant Values: [A => 1 .. 10, B => others, A => others, ]
+  Components: [A, B, X, Y_1, W, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => 2 .. 8, A => 1 .. 10, ]
+  Components: [A, B, X, Y_2, Z_2, W, M, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => 2 .. 8, A => others, ]
+  Components: [A, B, X, Y_2, Z_2, W, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => others, A => 1 .. 10, ]
+  Components: [A, B, X, Y_2, W, M, ]
+}
+Shape {
+  Discriminant Values: [A => 11 .. 20, B => others, A => others, ]
+  Components: [A, B, X, Y_2, W, ]
+}
+Shape {
+  Discriminant Values: [A => others, A => 1 .. 10, ]
+  Components: [A, B, X, W, M, ]
+}
+Shape {
+  Discriminant Values: [A => others, A => others, ]
+  Components: [A, B, X, W, ]
+}
 

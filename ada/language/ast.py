@@ -3030,12 +3030,21 @@ class ComponentDecl(BaseFormalParamDecl):
     xref_entry_point = Property(True)
 
 
+class DiscriminantValues(Struct):
+    """
+    Represent a set of values (as a list of choices) on a discriminant.
+    """
+    discriminant = UserField(type=T.Identifier.entity)
+    values = UserField(type=T.AlternativesList.entity)
+
+
 class Shape(Struct):
     """
     Represent one of the shapes that a variant record can have, as a list of
     the available components.
     """
     components = UserField(type=T.BaseFormalParamDecl.entity.array)
+    discriminants_values = UserField(type=T.DiscriminantValues.array)
 
 
 class ComponentList(BaseFormalParamHolder):
@@ -3125,11 +3134,18 @@ class ComponentList(BaseFormalParamHolder):
             lambda vpart: vpart.variant.mapcat(
                 lambda v: v.components.shapes.map(
                     lambda s: Shape.new(
-                        components=self_comps.concat(s.components)
+                        components=self_comps.concat(s.components),
+                        discriminants_values=T.DiscriminantValues.new(
+                            discriminant=vpart.discr_name,
+                            values=v.choices
+                        ).singleton.concat(s.discriminants_values)
                     )
                 )
             ),
-            default_val=Shape.new(components=self_comps).singleton
+            default_val=Shape.new(
+                components=self_comps,
+                discriminants_values=No(T.DiscriminantValues.array)
+            ).singleton
         )
 
 
@@ -3211,6 +3227,10 @@ class BaseRecordDef(AdaNode):
                     lambda own_shape: Shape.new(
                         components=parent_shape.components.concat(
                             own_shape.components
+                        ),
+                        discriminants_values=
+                        parent_shape.discriminants_values.concat(
+                            own_shape.discriminants_values
                         )
                     )
                 )
@@ -3222,7 +3242,10 @@ class BaseRecordDef(AdaNode):
         return If(
             include_discriminants,
             all_shapes.map(
-                lambda s: Shape.new(components=discrs.concat(s.components)),
+                lambda s: Shape.new(
+                    components=discrs.concat(s.components),
+                    discriminants_values=s.discriminants_values
+                ),
             ),
             all_shapes
         )

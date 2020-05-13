@@ -23,12 +23,27 @@ begin
             declare
                Comps : constant Base_Formal_Param_Decl_Array :=
                   Components (Shape);
+               Discrs : constant Discriminant_Values_Array :=
+                  Discriminants_Values (Shape);
             begin
+               Put_Line ("Shape {");
+               Put ("  Discriminant Values: ");
+               Put ("[");
+               for D of Discrs loop
+                  Put (Image (Text (Discriminant (D))));
+                  Put (" => ");
+                  Put (Image (Text (Values (D))));
+                  Put (", ");
+               end loop;
+               Put_Line ("]");
+
+               Put ("  Components: ");
                Put ("[");
                for C of Comps loop
                   Put (Image (Text (C.P_Defining_Name)) & ", ");
                end loop;
                Put_Line ("]");
+               Put_Line ("}");
             end;
          end loop;
          Put_Line ("");

@@ -1,0 +1,13 @@
+Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Foo"] test.adb:10:4-10:31>
+Result: 'Child_Pkg.My_Int'
+
+Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Foo"] test.adb:18:4-18:38>
+Result: 'Pkg.My_String'
+
+Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Bar"] test.adb:21:4-21:34>
+Result: 'Pkg.My_String'
+
+Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Baz"] test.adb:24:4-24:45>
+Result: 'My_Other_String'
+
+

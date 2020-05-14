@@ -9,18 +9,35 @@ def token_match(self, other):
 
 
 @property
-def full_name(n):
+def doc_name(n):
     """
-    Return a nicely pretty printed name for any expr that is only formed of
-    DottedName and Identifier instances.
-    """
-    if isinstance(n, DottedName):
-        return "{}.{}".format(n.f_prefix.full_name, n.f_suffix.full_name)
-    elif isinstance(n, BaseId):
-        return n.text
-    else:
-        raise Exception("Wrong type for name: {}".format(type(n)))
+    Format this name to be a readable qualified name for the entity designated
+    by it. Meant to be used in documentation context.
 
+    If the entity is local, it will return the relative name. If it is
+    non-local, return the shortest qualified name not taking use clauses into
+    account.
+
+    .. NOTE:: This is a python specific method, because for the moment this is
+        not conveniently implementable directly as a libadalang property.
+    """
+    if n.p_is_defining and not n.is_a(DefiningName):
+        n = n.p_enclosing_defining_name
+
+    ref_decl = n.p_basic_decl if n.p_is_defining else n.p_referenced_decl()
+    ref_decl_fqn = ref_decl.p_fully_qualified_name
+
+    enclosing_package = next((p for p in n.parents if p.is_a(BasePackageDecl)), None)
+
+    if enclosing_package is None or enclosing_package == ref_decl:
+        return ref_decl_fqn
+
+    enclosing_decl_fqn = enclosing_package.p_fully_qualified_name
+
+    if ref_decl_fqn.lower().startswith(enclosing_decl_fqn.lower()):
+        return ref_decl_fqn[len(enclosing_decl_fqn):].strip(".")
+    else:
+        return ref_decl_fqn
 
 Token.match = token_match
-Name.full_name = full_name
+Name.doc_name = doc_name

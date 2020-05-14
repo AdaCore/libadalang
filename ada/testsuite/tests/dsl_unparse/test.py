@@ -12,7 +12,7 @@ unparse_dest = os.path.abspath('lal.lkt')
 unparse_script = 'to:{},lexer,grammar,nodes'.format(unparse_dest)
 
 status = subprocess.call(
-    [sys.executable, os.path.join('ada', 'manage.py'), '-v=none',
+    [sys.executable, os.path.join('ada', 'manage.py'), '-v=none', '-E',
      'generate', '-P', '--unparse-script', unparse_script],
     cwd=os.environ['LIBADALANG_ROOTDIR']
 )

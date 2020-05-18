@@ -3159,97 +3159,6 @@ class BaseRecordDef(AdaNode):
     # TODO: Kludge, to remove when Q619-018 is implemented
     comps = Property(Entity.components)
 
-    @langkit_property(return_type=Shape.array, public=True)
-    def shapes(include_discriminants=(Bool, True)):
-        """
-        Return all the possible shapes that a value of this record type can
-        take. For example, consider the following record definition:
-
-        .. code::
-
-            type R (A : Integer; B : Integer) is record
-                X : Integer;
-                case A is
-                    when 1 .. 10 =>
-                        Y_1 : Integer;
-                        case B is
-                            when 1 .. 10 =>
-                                Z_1 : Integer;
-                            when others => null;
-                        end case;
-                    when 11 .. 20 =>
-                        Y_2 : Integer;
-                        case B is
-                            when 1 .. 10 =>
-                                Z_2 : Integer;
-                            when others => null;
-                        end case;
-                    when others => null;
-                end case;
-            end record;
-
-        For this instance, this property will return the following results:
-
-        .. code::
-
-            [
-                [X, Y_1, Z_1],
-                [X, Y_1],
-                [X, Y_2, Z_2],
-                [X, Y_2],
-                [X]
-            ]
-
-        .. ATTENTION::
-            This property is inaccurate when called on a record extension which
-            defines components under a certain condition C, and this same
-            condition is used to define some components in the parent record:
-            in that case, any feasible shape will in practice contain either
-            both the components defined under condition C in the child record
-            and the parent record, or none of them.
-
-            However, due to the simplified algorithm we use here to compute the
-            feasible shapes, we will also return shapes that include the
-            components of the child record but not the parent record, and
-            conversely.
-        """
-        comps = Var(Entity.components)
-
-        parent_record = origin.bind(
-            Self,
-            comps.type_def.cast(T.DerivedTypeDef)._.base_type.record_def
-        )
-
-        own_shapes = Var(comps.shapes)
-        all_shapes = Var(parent_record.then(
-            lambda pr: pr.shapes(include_discriminants=False).mapcat(
-                lambda parent_shape: own_shapes.map(
-                    lambda own_shape: Shape.new(
-                        components=parent_shape.components.concat(
-                            own_shape.components
-                        ),
-                        discriminants_values=
-                        parent_shape.discriminants_values.concat(
-                            own_shape.discriminants_values
-                        )
-                    )
-                )
-            ),
-            default_val=own_shapes
-        ))
-
-        discrs = Var(comps.type_decl.discriminants_list)
-        return If(
-            include_discriminants,
-            all_shapes.map(
-                lambda s: Shape.new(
-                    components=discrs.concat(s.components),
-                    discriminants_values=s.discriminants_values
-                ),
-            ),
-            all_shapes
-        )
-
 
 class RecordDef(BaseRecordDef):
     """
@@ -4262,6 +4171,97 @@ class BaseTypeDecl(BasicDecl):
         lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
         lambda _: Entity.next_part.cast(T.BasicDecl.entity)
     ))
+
+    @langkit_property(return_type=Shape.array, dynamic_vars=[default_origin()],
+                      public=True)
+    def shapes(include_discriminants=(Bool, True)):
+        """
+        Must be called on a record (sub-)type declaration. Return all the
+        possible shapes that a value of this record type can take. For example,
+        consider the following record definition:
+
+        .. code::
+
+            type R (A : Integer; B : Integer) is record
+                X : Integer;
+                case A is
+                    when 1 .. 10 =>
+                        Y_1 : Integer;
+                        case B is
+                            when 1 .. 10 =>
+                                Z_1 : Integer;
+                            when others => null;
+                        end case;
+                    when 11 .. 20 =>
+                        Y_2 : Integer;
+                        case B is
+                            when 1 .. 10 =>
+                                Z_2 : Integer;
+                            when others => null;
+                        end case;
+                    when others => null;
+                end case;
+            end record;
+
+        For this instance, this property will return the following results:
+
+        .. code::
+
+            [
+                [X, Y_1, Z_1],
+                [X, Y_1],
+                [X, Y_2, Z_2],
+                [X, Y_2],
+                [X]
+            ]
+
+        .. ATTENTION::
+            This property is inaccurate when called on a record extension which
+            defines components under a certain condition C, and this same
+            condition is used to define some components in the parent record:
+            in that case, any feasible shape will in practice contain either
+            both the components defined under condition C in the child record
+            and the parent record, or none of them.
+
+            However, due to the simplified algorithm we use here to compute the
+            feasible shapes, we will also return shapes that include the
+            components of the child record but not the parent record, and
+            conversely.
+        """
+        rdef = Var(Entity.record_def)
+        comps = Var(rdef.components)
+
+        parent_record = Var(comps.type_def.cast(T.DerivedTypeDef)._.base_type)
+
+        own_shapes = Var(comps.shapes)
+        all_shapes = Var(parent_record.then(
+            lambda pr: pr.shapes(include_discriminants=False).mapcat(
+                lambda parent_shape: own_shapes.map(
+                    lambda own_shape: Shape.new(
+                        components=parent_shape.components.concat(
+                            own_shape.components
+                        ),
+                        discriminants_values=parent_shape.discriminants_values
+                        .concat(
+                            own_shape.discriminants_values
+                        )
+                    )
+                )
+            ),
+            default_val=own_shapes
+        ))
+
+        discrs = Var(comps.type_decl.discriminants_list)
+        return If(
+            include_discriminants,
+            all_shapes.map(
+                lambda s: Shape.new(
+                    components=discrs.concat(s.components),
+                    discriminants_values=s.discriminants_values
+                ),
+            ),
+            all_shapes
+        )
 
 
 @synthetic

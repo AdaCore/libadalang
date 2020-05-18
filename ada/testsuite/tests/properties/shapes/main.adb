@@ -10,43 +10,51 @@ procedure Main is
    Ctx       : constant Analysis_Context := Create_Context;
    U         : constant Analysis_Unit := Ctx.Get_From_File ("test.adb");
    Rec_Iter  : Traverse_Iterator'Class := Find
-     (U.Root, Kind_Is (Ada_Record_Def));
+     (U.Root, Kind_In
+       (Ada_Discrete_Base_Subtype_Decl,
+        Ada_Synth_Anonymous_Type_Decl));
 
-   Rec_Def   : Ada_Node;
+   Type_Decl : Ada_Node;
 begin
-   while Rec_Iter.Next (Rec_Def) loop
-      declare
-         Shapes : constant Shape_Array := Rec_Def.As_Record_Def.P_Shapes;
+   while Rec_Iter.Next (Type_Decl) loop
       begin
-         Put_Line ("Shapes for " & Short_Image (Rec_Def) & ":");
-         for Shape of Shapes loop
-            declare
-               Comps : constant Base_Formal_Param_Decl_Array :=
-                  Components (Shape);
-               Discrs : constant Discriminant_Values_Array :=
-                  Discriminants_Values (Shape);
-            begin
-               Put_Line ("Shape {");
-               Put ("  Discriminant Values: ");
-               Put ("[");
-               for D of Discrs loop
-                  Put (Image (Text (Discriminant (D))));
-                  Put (" => ");
-                  Put (Image (Text (Values (D))));
-                  Put (", ");
-               end loop;
-               Put_Line ("]");
+         Put_Line ("Shapes for " & Short_Image (Type_Decl) & ":");
+         declare
+            Shapes : constant Shape_Array :=
+               Type_Decl.As_Base_Type_Decl.P_Shapes;
+         begin
+            for Shape of Shapes loop
+               declare
+                  Comps  : constant Base_Formal_Param_Decl_Array :=
+                     Components (Shape);
+                  Discrs : constant Discriminant_Values_Array :=
+                     Discriminants_Values (Shape);
+               begin
+                  Put_Line ("Shape {");
+                  Put ("  Discriminant Values: ");
+                  Put ("[");
+                  for D of Discrs loop
+                     Put (Image (Text (Discriminant (D))));
+                     Put (" => ");
+                     Put (Image (Text (Values (D))));
+                     Put (", ");
+                  end loop;
+                  Put_Line ("]");
 
-               Put ("  Components: ");
-               Put ("[");
-               for C of Comps loop
-                  Put (Image (Text (C.P_Defining_Name)) & ", ");
-               end loop;
-               Put_Line ("]");
-               Put_Line ("}");
-            end;
-         end loop;
+                  Put ("  Components: ");
+                  Put ("[");
+                  for C of Comps loop
+                     Put (Image (Text (C.P_Defining_Name)) & ", ");
+                  end loop;
+                  Put_Line ("]");
+                  Put_Line ("}");
+               end;
+            end loop;
+         end;
          Put_Line ("");
+      exception
+         when Property_Error =>
+            Put_Line ("PROPERTY_ERROR");
       end;
    end loop;
 end Main;

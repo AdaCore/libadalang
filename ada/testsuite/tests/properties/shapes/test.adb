@@ -39,6 +39,10 @@ procedure Test is
    --  is the same as the condition for Z_1 to exist, returned shapes should
    --  either include both or none of them. However, our approximation here
    --  will also include cases where M appears but not Z_1 and conversely.
+
+   subtype SS is R;
+
+   type No_Shapes is new Integer;
 begin
    null;
 end Test;

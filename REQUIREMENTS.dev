@@ -1,14 +1,11 @@
-Mako==1.0.1
-PyYAML==3.11
-Sphinx==1.3.1
-coverage==3.7.1
-e3-core==21.0.0
-enum==0.4.6
-enum34==1.1.2
-psutil==3.4.2
-sphinx-rtd-theme==0.1.9
-funcy==1.7.1
+autopep8==1.5.2
+coverage==5.1
+docutils==0.16
+-e git+https://github.com/AdaCore/e3-core.git#egg=e3-core
+-e git+https://github.com/AdaCore/e3-testsuite.git#egg=e3-testsuite
 -e git+https://github.com/AdaCore/langkit.git#egg=langkit
-docutils==0.12
-autopep8==1.2.4
-yapf==0.16.0
+funcy==1.14
+Mako==1.1.2
+psutil==5.7.0
+sphinx-rtd-theme==0.4.3
+yapf==0.30.0

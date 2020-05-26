@@ -4229,11 +4229,16 @@ class BaseTypeDecl(BasicDecl):
         rdef = Var(Entity.record_def)
         comps = Var(rdef.components)
 
-        parent_record = Var(comps.type_def.cast(T.DerivedTypeDef)._.base_type)
+        parent_type = Var(comps.type_def.cast(T.DerivedTypeDef)._.base_type)
+
+        parent_record = Var(parent_type._.record_def)
 
         own_shapes = Var(comps.shapes)
+
+        # include parent shapes only if view on base type is indeed a record
+        # (i.e. parent_record is not null).
         all_shapes = Var(parent_record.then(
-            lambda pr: pr.shapes(include_discriminants=False).mapcat(
+            lambda _: parent_type.shapes(include_discriminants=False).mapcat(
                 lambda parent_shape: own_shapes.map(
                     lambda own_shape: Shape.new(
                         components=parent_shape.components.concat(

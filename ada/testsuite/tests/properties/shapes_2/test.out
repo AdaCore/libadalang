@@ -1,0 +1,4 @@
+Eval 'node.p_expression_type.p_shapes()' on node <Aggregate test.adb:22:25-24:1>
+Result: [<Shape components=[<DiscriminantSpec ["Disc"] test.adb:3:22-3:36>, <ComponentDecl ["D"] test.adb:19:7-19:19>] discriminants_values=[]>]
+
+

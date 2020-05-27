@@ -1,5 +1,5 @@
 install:
- - set PATH=C:\Python27-x64;%PATH%
+ - set PATH=C:\Python37-x64;%PATH%
  - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%\langkit
  - choco install gnat-gpl
  - echo C:/Projects /Projects ntfs auto 1 1 >> c:\msys64\etc\fstab

@@ -80,10 +80,18 @@ class LALTestsuite(Testsuite):
         super().set_up()
         opts = self.env.options
 
+        try:
+            import pygments
+        except ImportError:
+            has_pygments = False
+        else:
+            has_pygments = True
+
         # Compute a common evaluation environment for expression test execution
         # control.
         self.env.control_condition_env = {
             'os': self.env.build.os.name,
+            'has_pygments': has_pygments,
             'python': 3 if 'python3' in opts.with_python else 2,
             'valgrind': opts.valgrind,
         }

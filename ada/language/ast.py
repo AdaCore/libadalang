@@ -4152,7 +4152,12 @@ class BaseTypeDecl(BasicDecl):
     )
 
     discriminants_list = AbstractProperty(
-        type=BaseFormalParamDecl.entity.array
+        type=BaseFormalParamDecl.entity.array,
+        doc="""
+        Return the list of all discriminants of this type. If this type has no
+        discriminant or only unknown discriminants, an empty list is returned.
+        """,
+        public=True
     )
 
     root_type = Property(

@@ -2,7 +2,7 @@ import os.path
 
 from e3.testsuite.driver.classic import TestAbortWithError
 
-from testsuite_support.base_driver import BaseDriver
+from drivers.base_driver import BaseDriver
 
 
 class CAPIDriver(BaseDriver):
@@ -91,4 +91,4 @@ class CAPIDriver(BaseDriver):
 
         These header files are used to share common code among C testcases.
         """
-        return os.path.join(self.testsuite_dir, 'c_support')
+        return os.path.join(self.env.root_dir, 'c_support')

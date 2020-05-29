@@ -1,7 +1,7 @@
 from e3.fs import sync_tree
 from e3.testsuite.driver.classic import TestSkip
 
-from testsuite_support.base_driver import BaseDriver
+from drivers.base_driver import BaseDriver
 
 
 class OCamlDriver(BaseDriver):

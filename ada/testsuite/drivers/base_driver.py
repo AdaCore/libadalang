@@ -7,7 +7,7 @@ from e3.testsuite.driver.classic import (TestAbortWithError,
                                          TestAbortWithFailure, TestSkip)
 from e3.testsuite.driver.diff import DiffTestDriver
 
-from testsuite_support.valgrind import Valgrind
+from drivers.valgrind import Valgrind
 
 
 class BaseDriver(DiffTestDriver):
@@ -35,7 +35,7 @@ class BaseDriver(DiffTestDriver):
             if valgrind_supp:
                 valgrind_supp = self.test_dir(valgrind_supp)
 
-            self.valgrind = Valgrind(self.testsuite_dir, self.working_dir(),
+            self.valgrind = Valgrind(self.env.root_dir, self.working_dir(),
                                      valgrind_supp)
         else:
             self.valgrind = None
@@ -53,15 +53,6 @@ class BaseDriver(DiffTestDriver):
         self.use_testsuite_python = bool(
             self.test_env.get('use_testsuite_python', False)
         )
-
-    # Convenience path builders
-
-    @property
-    def testsuite_dir(self):
-        """Return the absolute path to the testsuite root directory."""
-        result = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                              '..')
-        return os.path.abspath(result)
 
     @property
     def disable_shared(self):

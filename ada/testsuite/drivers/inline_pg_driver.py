@@ -2,8 +2,8 @@ import os
 
 from e3.testsuite.driver.classic import TestAbortWithError
 
-from testsuite_support.base_driver import BaseDriver
-from testsuite_support.python_driver import PythonRunner
+from drivers.base_driver import BaseDriver
+from drivers.python_driver import PythonRunner
 
 
 class InlinePlaygroundDriver(BaseDriver):

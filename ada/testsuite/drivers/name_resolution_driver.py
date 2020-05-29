@@ -1,6 +1,6 @@
 from e3.testsuite.driver.classic import TestAbortWithError
 
-from testsuite_support.base_driver import BaseDriver
+from drivers.base_driver import BaseDriver
 
 
 class NameResolutionDriver(BaseDriver):

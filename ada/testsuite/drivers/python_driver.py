@@ -4,7 +4,7 @@ import sys
 
 from e3.testsuite.driver.classic import TestSkip
 
-from testsuite_support.base_driver import BaseDriver
+from drivers.base_driver import BaseDriver
 
 
 class PythonDriver(BaseDriver):
@@ -57,8 +57,6 @@ class PythonRunner(object):
         return ('{}{}{}'.format(new_paths, os.path.pathsep, old_path)
                 if old_path else new_paths)
 
-        return env
-
     def run(self, py_file, py_args):
         """
         Run the given Python scripts with given arguments.
@@ -95,7 +93,7 @@ class PythonRunner(object):
         """
         Return the absolute path to the directory for support Python modules.
         """
-        return os.path.join(self.driver.testsuite_dir, 'python_support')
+        return os.path.join(self.driver.env.root_dir, 'python_support')
 
     @property
     def internal_support_dir(self):
@@ -103,5 +101,5 @@ class PythonRunner(object):
         Return the absolute path to the directory for support Python modules
         for the internal testsuite.
         """
-        return os.path.join(self.driver.testsuite_dir, 'tests', 'internal',
+        return os.path.join(self.driver.env.root_dir, 'tests', 'internal',
                             'python_support')

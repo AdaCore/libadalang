@@ -216,7 +216,7 @@ class BaseDriver(DiffTestDriver):
 
     def compute_valgrind_failures(self):
         if self.valgrind_errors:
-            self.result.out += (
+            self.result.log += (
                 'Valgrind reported the following errors:\n{}'.format(
                     self.valgrind.format_report(self.valgrind_errors)
                 )

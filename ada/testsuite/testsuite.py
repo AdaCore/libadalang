@@ -37,6 +37,10 @@ class LALTestsuite(Testsuite):
         'inline-playground': inline_pg_driver.InlinePlaygroundDriver
     }
 
+    # Even though we test Libadalang only in native configurations, this allows
+    # us to know whether we are testing for a 32 or 64bit platform.
+    enable_cross_support = True
+
     def add_options(self, parser):
         parser.add_argument(
             '--valgrind', action='store_true',

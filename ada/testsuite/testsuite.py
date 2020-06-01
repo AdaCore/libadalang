@@ -11,8 +11,9 @@ Run the Libadalang testsuite.
 import glob
 import os
 import shutil
+import subprocess
 
-from e3.testsuite import Testsuite
+from e3.testsuite import Testsuite, logger
 
 from langkit.coverage import GNATcov
 
@@ -102,12 +103,22 @@ class LALTestsuite(Testsuite):
             del pygments
             has_pygments = True
 
+        try:
+            python_version = int(subprocess.check_output([
+                opts.with_python,
+                '-cimport sys; print(sys.version_info.major)'
+            ]))
+        except Exception as exc:
+            logger.error('Python version auto-detection failed: {}'
+                         .format(exc))
+            raise
+
         # Compute a common evaluation environment for expression test execution
         # control.
         self.env.control_condition_env = {
             'os': self.env.build.os.name,
             'has_pygments': has_pygments,
-            'python': 3 if 'python3' in opts.with_python else 2,
+            'python': python_version,
             'valgrind': opts.valgrind,
         }
 

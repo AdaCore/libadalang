@@ -9,3 +9,5 @@ Mako==1.1.2
 psutil==5.7.0
 sphinx-rtd-theme==0.4.3
 yapf==0.30.0
+pycodestyle
+jsonschema

@@ -18,8 +18,10 @@ def doc_name(n):
     non-local, return the shortest qualified name not taking use clauses into
     account.
 
-    .. NOTE:: This is a python specific method, because for the moment this is
-        not conveniently implementable directly as a libadalang property.
+    .. WARNING:: This is an EXPERIMENTAL feature. This is a python specific
+        method, because for the moment this is not conveniently implementable
+        directly as a libadalang property.  Consider it an experimental API
+        endpoint, and use it at your own risk.
     """
     if n.p_is_defining and not n.is_a(DefiningName):
         n = n.p_enclosing_defining_name

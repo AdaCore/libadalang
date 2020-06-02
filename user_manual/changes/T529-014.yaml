@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix type conversion of explicit dereference
+description: |
+    This fixes a bug in libadalang's name resolution mechanism, where we would
+    not check in certain cases that a type was indeed dereferencable before
+    assigning it to the prefix of an explicit dereference.
+date: 2020-06-03

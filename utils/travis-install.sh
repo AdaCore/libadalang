@@ -63,7 +63,7 @@ if ! [ -d langkit ]; then
 fi
 (
     cd langkit
-    python2 ../utils/travis-langkit-branch.py
+    python3 ../utils/travis-langkit-branch.py
 )
 
 # Install requirements

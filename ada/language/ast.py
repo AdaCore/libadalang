@@ -6694,7 +6694,7 @@ class GenericInstantiation(BasicDecl):
     )
 
     is_any_formal = Property(
-        Entity.generic_inst_params._.at(0)._.expr._.is_a(T.BoxExpr)
+        Entity.generic_inst_params.at(0)._.expr.is_a(T.BoxExpr)
     )
 
     nonbound_generic_decl = Property(
@@ -7443,7 +7443,7 @@ class Expr(AdaNode):
                 ar.prefix.referenced_decl._.is_array
                 & ar.attribute.name_symbol.any_of(
                     'First', 'Last', 'Length', 'Range'
-                ) & ar.args_list._.at(0).expr.is_static_expr
+                ) & ar.args_list.at(0).expr.is_static_expr
             ),
             lambda ce=CallExpr:
             ce.name.name_designated_type._.is_static_decl
@@ -9412,7 +9412,7 @@ class CallExpr(Name):
             Not(atd._.indices.is_null), Entity.suffix.match(
                 lambda _=T.AssocList: Or(
                     # Either an array slice through subtype indication
-                    Entity.params._.at(0)._.expr.cast(Name).then(
+                    Entity.params.at(0)._.expr.cast(Name).then(
                         lambda name: If(
                             name.name_designated_type.is_null,
                             LogicFalse(),
@@ -11148,7 +11148,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         If self meets the criteria for being a subprogram callable via the dot
         notation, return the type of dottable elements.
         """
-        return Entity.params._.at(0)._.type_expr._.element_type
+        return Entity.params.at(0)._.type_expr._.element_type
 
     @langkit_property(return_type=BaseTypeDecl.entity)
     def candidate_type_for_primitive(typ=T.TypeExpr.entity):
@@ -12976,7 +12976,9 @@ class RequeueStmt(SimpleStmt):
                 lambda fam_type=e.cast(EntryDecl)._.spec.family_type
                 .cast(SubtypeIndication)._.designated_type,
 
-                first_param=ce._.params._.at(0)._.expr:
+                # TODO: waiting for a fix to T603-061, we put `as_array` here
+                # because _.at(0) does not unparse in a way that LKT can parse.
+                first_param=ce._.params.as_array.at(0)._.expr:
 
                 Bind(name.ref_var, e) & first_param.then(
                     lambda p: p.sub_equation & fam_type.then(

@@ -2,6 +2,7 @@
 Test that dsl_unparse does not crash on libadalang.
 """
 import os
+from os import path as P
 import subprocess
 import sys
 
@@ -9,7 +10,7 @@ import sys
 unparse_dest = os.path.abspath('lal.lkt')
 unparse_script = 'to:{},lexer,grammar,nodes'.format(unparse_dest)
 
-status = subprocess.call(
+subprocess.check_call(
     [sys.executable, os.path.join('ada', 'manage.py'),
      '-v=none', '-E',
 
@@ -23,16 +24,22 @@ status = subprocess.call(
      'generate', '-P', '--unparse-script', unparse_script],
     cwd=os.environ['LIBADALANG_ROOTDIR']
 )
-if status == 0:
-    try:
-        with open(unparse_dest, 'r') as lkt_file:
-            next(lkt_file)
-        print("Successfully unparsed libadalang.")
-    except IOError:
-        print("{} not found, unparsing libadalang failed.".format(
-            unparse_dest
-        ))
-    except StopIteration:
-        print("{} is empty, unparsing libadalang failed.".format(
-            unparse_dest
-        ))
+
+try:
+    with open(unparse_dest, 'r') as lkt_file:
+        next(lkt_file)
+    print("Successfully unparsed libadalang.")
+except IOError:
+    print("{} not found, unparsing libadalang failed.".format(
+        unparse_dest
+    ))
+except StopIteration:
+    print("{} is empty, unparsing libadalang failed.".format(
+        unparse_dest
+    ))
+
+subprocess.check_call(
+    [P.join(os.environ['LIBADALANG_ROOTDIR'],
+            'langkit', 'contrib', 'lkt', 'build', 'bin', 'parse'),
+     '-s', '-f', unparse_dest]
+)

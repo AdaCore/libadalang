@@ -34,14 +34,12 @@ ada/manage.py build -j12
 # macOS, so do not run the testsuite on this platform.
 if [ "$TRAVIS_OS_NAME" != osx ]
 then
-    # Finally, run the testsuite
+    # Finally, run the testsuite.  Exit with an error if there is a test
+    # failure/error.
     #
-    # TODO: adjust the Travis CI setup to provide a viable OCaml environment and
-    # enable the corresponding testcases.
-    ada/manage.py test --disable-ocaml -- -j16 | tee TESTSUITE_OUT
-
-    # Exit with an error if there is a FAIL or ERROR line in TESTSUITE_OUT
-    ! grep "^INFO \+\(FAIL\|ERROR\) " TESTSUITE_OUT > /dev/null
+    # TODO: adjust the Travis CI setup to provide a viable OCaml environment
+    # and enable the corresponding testcases.
+    ada/manage.py test --disable-ocaml -- -j16 --failure-exit-code=1
 fi
 
 # Install result and pack an archive

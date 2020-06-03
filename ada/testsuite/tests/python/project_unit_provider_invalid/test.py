@@ -8,6 +8,7 @@ def pflush(message):
     sys.stdout.write(message + '\n')
     sys.stdout.flush()
 
+
 # Make several invalid attempts at loading projects
 for label, project_file, kwargs in [
     ('invalid project', 'invalid.gpr', {}),

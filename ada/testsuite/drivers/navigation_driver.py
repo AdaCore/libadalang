@@ -9,7 +9,9 @@ class NavigationDriver(BaseDriver):
         try:
             input_sources = self.test_env['input_sources']
         except KeyError:
-            raise TestAbortWithError('Missing "input_sources" key in test.yaml')
+            raise TestAbortWithError(
+                'Missing "input_sources" key in test.yaml'
+            )
         if not isinstance(input_sources, list) or not all(
             isinstance(k, str) for k in input_sources
         ):

@@ -483,5 +483,6 @@ def main():
             print('error: %s does not exist' % path)
     do_files(file_list, args)
 
+
 if __name__ == '__main__':
     main()

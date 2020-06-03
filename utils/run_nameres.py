@@ -301,12 +301,15 @@ class Results(object):
     @memoized_property
     def exceptions_to_files(self):
         exceptions = defaultdict(set)
+
         for failure in self.failures:
             for exc in failure.exceptions:
                 exceptions[exc.exception].add(failure.file_name)
+
         def key(key_value):
             k, _ = key_value
             return len(k)
+
         return sorted(exceptions.items(), key=key)
 
     def get_failure(self, filename):

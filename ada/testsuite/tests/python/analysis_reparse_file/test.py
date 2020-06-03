@@ -20,6 +20,7 @@ def write_source(buffer):
     with open('foo.adb', 'wb') as f:
         f.write(buffer)
 
+
 ctx = libadalang.AnalysisContext('iso-8859-1')
 
 

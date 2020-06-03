@@ -15,7 +15,9 @@ class InlinePlaygroundDriver(BaseDriver):
         charset = self.test_env.get('charset', None)
         project_file = self.test_env.get('project_file', None)
         if 'input_sources' not in self.test_env:
-            raise TestAbortWithError('Missing "input_sources" key in test.yaml')
+            raise TestAbortWithError(
+                'Missing "input_sources" key in test.yaml'
+            )
         input_sources = self.test_env['input_sources']
 
         args = list(input_sources)

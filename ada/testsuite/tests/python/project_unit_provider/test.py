@@ -63,6 +63,6 @@ for src_dir in ('src1', 'src2'):
     subtype_ind = unit.root.find(libadalang.SubtypeIndication)
     print('{} resolves to:'.format(subtype_ind))
     for entity in subtype_ind.f_name.p_matching_nodes:
-        print ('  {}'.format(entity))
+        print('  {}'.format(entity))
 
 print('Done.')

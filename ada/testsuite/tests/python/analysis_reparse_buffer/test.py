@@ -20,6 +20,7 @@ def check(unit):
         unit.root.f_prelude[0].f_has_limited
     ))
 
+
 ctx = libadalang.AnalysisContext('iso-8859-1')
 
 # Make sure the first parsing (with the "limited" keyword) works properly and

@@ -30,7 +30,7 @@ class FieldIndentRules(object):
         self.constant_increment = constant_increment
 
     def __repr__(self):
-        return "<FieldIndentRules {} {}>".format(
+        return "<FieldIndentRules {}>".format(
             self.constant_increment
         )
 
@@ -69,6 +69,7 @@ def field_rules(**kwargs):
 #########################################
 # Libadalang specific indentation rules #
 #########################################
+
 
 block_rule = field_rules(constant_increment=3)
 paren_rule = IndentRules(on_token_start="(", on_token_end=")")

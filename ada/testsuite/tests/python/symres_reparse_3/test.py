@@ -5,6 +5,7 @@ def read_file(name):
     with open(name, 'rb') as f:
         return f.read()
 
+
 ctx = lal.AnalysisContext()
 pkg_ads = ctx.get_from_file("pkg.ads")
 pkg_adb = ctx.get_from_file("pkg.adb")

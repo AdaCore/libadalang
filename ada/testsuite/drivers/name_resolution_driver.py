@@ -7,7 +7,9 @@ class NameResolutionDriver(BaseDriver):
 
     def run(self):
         if 'input_sources' not in self.test_env:
-            raise TestAbortWithError('Missing "input_sources" key in test.yaml')
+            raise TestAbortWithError(
+                'Missing "input_sources" key in test.yaml'
+            )
         input_sources = self.test_env['input_sources']
 
         charset = self.test_env.get('charset', None)

@@ -82,5 +82,6 @@ class InlinePlayground(lal.App):
 
         print('')
 
+
 if __name__ == '__main__':
     InlinePlayground.run()

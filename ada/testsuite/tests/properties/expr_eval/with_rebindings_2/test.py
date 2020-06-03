@@ -12,8 +12,8 @@ R_ref = (R_Arr_decl.f_type_def.f_subtype_indication
 R_decl = R_ref.p_referenced_decl()
 R_range = R_decl.p_discrete_range
 
-print ("In instantiation {}:".format(R_Arr_decl.p_generic_instantiations[0]))
-print ("  R_Arr's index range is {} .. {}".format(
+print("In instantiation {}:".format(R_Arr_decl.p_generic_instantiations[0]))
+print("  R_Arr's index range is {} .. {}".format(
     R_range.low_bound.p_eval_as_int,
     R_range.high_bound.p_eval_as_int
 ))

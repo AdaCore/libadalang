@@ -28,7 +28,7 @@ set -e
 export ADALIB_DIR=$HOME/adalib
 export TOOLS_DIR=$HOME/build_tools
 export INSTALL_DIR=$HOME/install
-export LIBRARY_PATH=/usr/local/lib
+export LIBRARY_PATH=$HOME/libadalang/lib
 
 # This script defers the real work to scripts that are used for travis
 # automated builds. You can see and customize those if you need.

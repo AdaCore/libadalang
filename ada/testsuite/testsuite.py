@@ -85,6 +85,11 @@ class LALTestsuite(Testsuite):
             '--gnatcov-instr-dir',
             help='Directory that contains instrumentation data files.'
         )
+        parser.add_argument(
+            '--for-travis-ci', action='store_true',
+            help='Consider that we are in the Travis CI setup. Some tests may'
+                 ' run only in this configuration'
+        )
 
         # Convenience options for developpers
         parser.add_argument(
@@ -117,6 +122,7 @@ class LALTestsuite(Testsuite):
         # Compute a common evaluation environment for expression test execution
         # control.
         self.env.control_condition_env = {
+            'for_travis_ci': opts.for_travis_ci,
             'os': self.env.build.os.name,
             'has_pygments': has_pygments,
             'python': python_version,

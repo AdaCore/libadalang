@@ -166,11 +166,8 @@ class Manage(ManageScript):
         """
         self.set_context(args)
 
-        # Make builds available from testcases
-        env = self.derived_env(args.build_mode)
-
         argv = [
-            'python',
+            sys.executable,
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
             '-Edtmp', '--build-mode={}'.format(args.build_mode),
 
@@ -188,10 +185,7 @@ class Manage(ManageScript):
         argv.extend(getattr(args, 'testsuite-args'))
 
         try:
-            self.check_call(args, 'Testsuite', argv, env=env)
-        except subprocess.CalledProcessError as exc:
-            print('Testsuite failed: {}'.format(exc), file=sys.stderr)
-            sys.exit(1)
+            return self.check_call(args, 'Testsuite', argv)
         except KeyboardInterrupt:
             # At this point, the testsuite already made it explicit we stopped
             # after a keyboard interrupt, so we just have to exit.

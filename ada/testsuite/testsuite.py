@@ -12,6 +12,7 @@ import glob
 import os
 import shutil
 import subprocess
+import sys
 
 from e3.testsuite import Testsuite, logger
 
@@ -159,4 +160,4 @@ class LALTestsuite(Testsuite):
 
 
 if __name__ == '__main__':
-    LALTestsuite().testsuite_main()
+    sys.exit(LALTestsuite().testsuite_main())

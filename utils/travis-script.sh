@@ -39,7 +39,8 @@ then
     #
     # TODO: adjust the Travis CI setup to provide a viable OCaml environment
     # and enable the corresponding testcases.
-    ada/manage.py test --disable-ocaml -- -j16 --failure-exit-code=1
+    ada/manage.py test --disable-ocaml -- -j16 --failure-exit-code=1 \
+        --for-travis-ci
 fi
 
 # Install result and pack an archive

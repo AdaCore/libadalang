@@ -111,5 +111,5 @@ gcc -v
 # Make sure libpythonlang is installed for platforms that will
 # run the testsuite, as its a test dependency.
 if [ "$TRAVIS_OS_NAME" != osx ]; then
-    langkit/scripts/manage.sh make
+    langkit/manage.py make
 fi

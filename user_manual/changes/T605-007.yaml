@@ -1,0 +1,9 @@
+type: bugfix
+title: Bug in the resolution of if-expressions
+description: |
+    This fixes name resolution of if-expressions, in particular when the
+    branches have different but compatible types. For example, type-checking
+    would previously fail in some situations where the ``then`` branch has
+    type ``T'Class`` and the else branch has type ``U'Class`` where ``U``
+    derives from ``T``.
+date: 2020-06-12

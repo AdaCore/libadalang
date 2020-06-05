@@ -10061,9 +10061,15 @@ class IfExpr(Expr):
 
                 # If there is an else, then construct sub equation
                 Entity.else_expr.sub_equation
-                # And bind the then expr's and the else expr's types
-                & Self.type_bind_var(Self.then_expr.type_var,
-                                     Self.else_expr.type_var),
+
+                # Propagate the type of the then branch to the else branch, or
+                # inversely (whichever ends up having the base-most type).
+                & Or(
+                    Bind(Self.then_expr.type_var, Self.else_expr.type_var,
+                         eq_prop=BaseTypeDecl.matching_formal_prim_type),
+                    Bind(Self.else_expr.type_var, Self.then_expr.type_var,
+                         eq_prop=BaseTypeDecl.matching_formal_prim_type)
+                ),
 
                 # If no else, then the then_expression has type bool
                 Self.bool_bind(Self.then_expr.type_var)
@@ -10075,10 +10081,15 @@ class IfExpr(Expr):
                 # The condition is boolean
                 & Self.bool_bind(elsif.cond_expr.type_var)
 
-                # The elsif branch then expr has the same type as Self's
-                # then_expr.
-                & Self.type_bind_var(Self.then_expr.type_var,
-                                     elsif.then_expr.type_var)
+                # Propagate the type of the then branch to each elsif branch,
+                # or inversely (whichever ends up having the base-most type).
+                & Or(
+                    Bind(Self.then_expr.type_var, elsif.then_expr.type_var,
+                         eq_prop=BaseTypeDecl.matching_formal_prim_type),
+                    Bind(elsif.then_expr.type_var, Self.then_expr.type_var,
+                         eq_prop=BaseTypeDecl.matching_formal_prim_type)
+                )
+
             )) & Self.bool_bind(Self.cond_expr.type_var)
             & Self.type_bind_var(Self.then_expr.type_var, Self.type_var)
         )

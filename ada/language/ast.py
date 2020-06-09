@@ -11756,8 +11756,8 @@ class AttributeRef(Name):
             rel_name == 'Pos', Entity.pos_equation,
             rel_name == 'Val', Entity.val_equation,
 
-            rel_name.any_of('Max_Size_In_Storage_Elements',
-                            'Object_Size', 'Value_Size', 'Aft'),
+            rel_name.any_of('Max_Size_In_Storage_Elements', 'Aft',
+                            'Object_Size', 'Value_Size', 'Storage_Size'),
             Entity.subtype_attr_equation,
 
             rel_name.any_of('Access',

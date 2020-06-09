@@ -3,6 +3,8 @@ procedure Main is
       X : Integer;
    end record;
 
+   type R_Access is access all R;
+
    X : R;
    I : Integer;
 begin
@@ -22,5 +24,8 @@ begin
    pragma Test_Statement;
 
    I := R'VADS_Size;
+   pragma Test_Statement;
+
+   I := R_Access'Storage_Size;
    pragma Test_Statement;
 end Main;

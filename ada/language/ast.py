@@ -12178,7 +12178,7 @@ class AttributeRef(Name):
             Not(typ.is_null),
 
             # Prefix is a type
-            Bind(Self.prefix.ref_var, typ) & Cond(
+            Entity.prefix.xref_no_overloading & Cond(
                 typ.is_array & is_length,
                 Self.universal_int_bind(Self.type_var),
 

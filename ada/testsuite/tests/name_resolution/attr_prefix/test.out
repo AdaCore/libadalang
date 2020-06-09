@@ -1,0 +1,33 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:6:4-6:25>
+*************************************************************
+
+Expr: <DottedName test.adb:6:8-6:11>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <Id "P" test.adb:6:8-6:9>
+  references: <DefiningName test.adb:2:12-2:13>
+  type:       None
+Expr: <Id "T" test.adb:6:10-6:11>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <AttributeRef test.adb:6:15-6:24>
+  references: None
+  type:       <TypeDecl ["T"] test.adb:3:7-3:29>
+Expr: <DottedName test.adb:6:15-6:18>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <Id "P" test.adb:6:15-6:16>
+  references: <DefiningName test.adb:2:12-2:13>
+  type:       None
+Expr: <Id "T" test.adb:6:17-6:18>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <Id "First" test.adb:6:19-6:24>
+  references: None
+  type:       None
+
+
+Done.

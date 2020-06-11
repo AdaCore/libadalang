@@ -12133,17 +12133,20 @@ class AttributeRef(Name):
                         Self.prefix.ref_var),
 
             Entity.prefix.xref_equation
-            & If(
-                Entity.attribute.name_is('Unrestricted_Access'),
-                Bind(Self.prefix.type_var,
-                     Self.type_var,
-                     conv_prop=BaseTypeDecl.anonymous_access_type_or_null,
-                     eq_prop=BaseTypeDecl.matching_prefix_type),
-
+            & Or(
+                # In some cases, the expected type (Self.type_var) is known,
+                # so we use to infer the prefix's type.
                 Bind(Self.type_var,
                      Self.prefix.type_var,
                      conv_prop=BaseTypeDecl.accessed_type,
                      eq_prop=BaseTypeDecl.matching_formal_type_inverted),
+
+                # In other cases, the type of the prefix is known, so we use
+                # it to infer the type of whole attribute ref.
+                Bind(Self.prefix.type_var,
+                     Self.type_var,
+                     conv_prop=BaseTypeDecl.anonymous_access_type_or_null,
+                     eq_prop=BaseTypeDecl.matching_prefix_type),
             )
         )
 

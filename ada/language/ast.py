@@ -2365,7 +2365,15 @@ class Body(BasicDecl):
         Return the previous part for this body. Might be a declaration or a
         body stub.
         """
-        return env.bind(Self.node_env, Entity.unbound_previous_part)
+        # Use self.as_bare_entity and not Entity as a prefix for the following
+        # call to unbound_previous_part. The reasoning is that the previous
+        # part of a given Body is a static concept that does not depend on a
+        # particular context, and thus should not be impacted by an entity's
+        # metadata. In particular, this addresses T610-028.
+        return env.bind(
+            Self.node_env,
+            Self.as_bare_entity.unbound_previous_part.node.as_entity
+        )
 
     @langkit_property(public=True)
     def decl_part():

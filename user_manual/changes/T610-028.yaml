@@ -1,0 +1,9 @@
+type: bugfix
+title: Inconsistent results of navigation properties
+description: |
+    This fixes a bug where navigation properties such as ``P_Previous_Part``,
+    ``P_Canonical_Part`` and so on could yield different results across
+    calls on a same ``Body`` node retrieved in different ways. This should not
+    happen because the previous part of a node is predetermined and must not
+    depend on the path taken to reach said node.
+date: 2020-06-15

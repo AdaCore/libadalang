@@ -1,0 +1,6 @@
+type: bugfix
+title: Name resolution bug with custom string literals
+description: |
+    String literals for custom string types were inaccurately typed and could
+    make name resolution involving such literals imprecise as well.
+date: 2020-06-15

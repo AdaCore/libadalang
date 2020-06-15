@@ -1,0 +1,18 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:10:4-10:20>
+*******************************************************
+
+Expr: <CallExpr test.adb:10:4-10:19>
+  references: <DefiningName test.adb:7:14-7:18>
+  type:       None
+Expr: <Id "Proc" test.adb:10:4-10:8>
+  references: <DefiningName test.adb:7:14-7:18>
+  type:       None
+Expr: <Str ""STRING"" test.adb:10:10-10:18>
+  references: None
+  type:       <TypeDecl ["Str"] test.adb:4:4-4:38>
+
+
+Done.

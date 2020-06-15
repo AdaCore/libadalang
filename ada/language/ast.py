@@ -3679,7 +3679,8 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(dynamic_vars=[origin])
     def is_str_type_or_null():
         return Self.is_null | (
-            Entity.is_array & Entity.comp_type._.is_char_type
+            # A string type must be a one dimensional array of characters
+            (Entity.array_ndims == 1) & Entity.comp_type._.is_char_type
         )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)

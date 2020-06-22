@@ -1,0 +1,8 @@
+type: bugfix
+title: "``Libadalang.Analysis.*_Text`` raise a ``Constraint_Error``"
+description: |
+    When called on null nodes, ``Libadalang.Analysis.Text`` and
+    ``Libadalang.Analysis.Debug_Text`` raise a ``Constraint_Error`` exception.
+    These functions now raise ``Property_Error`` exception instead, clearly
+    showing that calling them on null nodes is not valid.
+date: 2020-06-22

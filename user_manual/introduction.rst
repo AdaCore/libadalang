@@ -13,6 +13,7 @@ Libadalang provides mainly the following services to users:
   incorrect.
 
 * Semantic queries on top of the syntactic tree, such as, but not limited to:
+
   * Resolution of references (what a reference corresponds to)
   * Resolution of types (what is the type of an expression)
   * General cross references queries (find all references to this entity)

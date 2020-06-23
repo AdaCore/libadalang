@@ -135,12 +135,9 @@ EOF
    environment variables.  Assuming you are using a Bourne-compatible
    shell, the following commands enable you to do this:
 
-      PATH=$prefix/bin:\$PATH
       GPR_PROJECT_PATH=$prefix/share/gpr:\$GPR_PROJECT_PATH
-      LIBRARY_PATH=$prefix/lib:\$LIBRARY_PATH
       LD_LIBRARY_PATH=$prefix/lib:\$LD_LIBRARY_PATH
-      C_INCLUDE_PATH=$prefix/lib:\$C_INCLUDE_PATH
-      export PATH GPR_PROJECT_PATH LIBRARY_PATH LD_LIBRARY_PATH C_INCLUDE_PATH
+      export GPR_PROJECT_PATH LD_LIBRARY_PATH
 
    Thank you for installing $long_qualifier!
 

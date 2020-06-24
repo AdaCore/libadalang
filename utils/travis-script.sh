@@ -15,6 +15,12 @@ gprbuild -v
 # Log which Langkit commit is used
 (cd langkit && git log HEAD^..HEAD | cat)
 
+# Uninstalled previously installed libraries, so that "gprinstall" does not
+# complain later on when we try to install the libraries we just installed.
+gprinstall --uninstall --prefix "$ADALIB_DIR" -Pmains || true
+gprinstall --uninstall --prefix "$ADALIB_DIR" -Plibadalang || true
+gprinstall --uninstall --prefix "$ADALIB_DIR" -Plangkit_support || true
+
 # Make sure libpythonlang is available for proper DSL unparsing
 eval `langkit/manage.py setenv`
 

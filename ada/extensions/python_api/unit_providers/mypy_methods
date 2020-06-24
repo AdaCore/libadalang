@@ -1,0 +1,14 @@
+## vim: filetype=makopython
+
+    @classmethod
+    def for_project(cls,
+                    project_file: AnyStr,
+                    project: Opt[AnyStr] = None,
+                    scenario_vars: Opt[Dict[str, str]] = None,
+                    target: Opt[AnyStr] = None,
+                    runtime: Opt[AnyStr] = None) -> UnitProvider: ...
+
+    @classmethod
+    def auto(cls,
+             input_files: Iterator[AnyStr],
+             charset: Opt[AnyStr] = None) -> UnitProvider: ...

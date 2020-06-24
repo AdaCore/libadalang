@@ -1,0 +1,75 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["Z"] test.adb:9:4-9:45>
+*************************************************************
+
+Expr: <AttributeRef test.adb:9:8-9:17>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <DottedName test.adb:9:8-9:11>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <Id "P" test.adb:9:8-9:9>
+  references: <DefiningName test.adb:2:12-2:13>
+  type:       None
+Expr: <Id "T" test.adb:9:10-9:11>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <Id "Class" test.adb:9:12-9:17>
+  references: None
+  type:       None
+Expr: <ParenExpr test.adb:9:21-9:44>
+  type:       <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <IfExpr test.adb:9:22-9:43>
+  type:       <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <Id "True" test.adb:9:25-9:29>
+  references: <DefiningName __standard:3:27-3:31>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.adb:9:35-9:36>
+  references: <DefiningName test.adb:7:4-7:5>
+  type:       <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <Id "Y" test.adb:9:42-9:43>
+  references: <DefiningName test.adb:8:4-8:5>
+  type:       <ClasswideTypeDecl ["U"] test.adb:4:7-4:40>
+
+Resolving xrefs for node <ObjectDecl ["W"] test.adb:12:4-12:63>
+***************************************************************
+
+Expr: <AttributeRef test.adb:12:8-12:17>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <DottedName test.adb:12:8-12:11>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <Id "P" test.adb:12:8-12:9>
+  references: <DefiningName test.adb:2:12-2:13>
+  type:       None
+Expr: <Id "T" test.adb:12:10-12:11>
+  references: <DefiningName test.adb:3:12-3:13>
+  type:       None
+Expr: <Id "Class" test.adb:12:12-12:17>
+  references: None
+  type:       None
+Expr: <ParenExpr test.adb:12:21-12:62>
+  type:       <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <IfExpr test.adb:12:22-12:61>
+  type:       <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <Id "True" test.adb:12:25-12:29>
+  references: <DefiningName __standard:3:27-3:31>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.adb:12:35-12:36>
+  references: <DefiningName test.adb:7:4-7:5>
+  type:       <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <Id "True" test.adb:12:43-12:47>
+  references: <DefiningName __standard:3:27-3:31>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Y" test.adb:12:53-12:54>
+  references: <DefiningName test.adb:8:4-8:5>
+  type:       <ClasswideTypeDecl ["U"] test.adb:4:7-4:40>
+Expr: <Id "Y" test.adb:12:60-12:61>
+  references: <DefiningName test.adb:8:4-8:5>
+  type:       <ClasswideTypeDecl ["U"] test.adb:4:7-4:40>
+
+
+Done.

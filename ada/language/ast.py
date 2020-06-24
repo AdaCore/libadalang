@@ -10056,18 +10056,26 @@ class IfExpr(Expr):
             Entity.cond_expr.sub_equation
             & Entity.then_expr.sub_equation
 
+            # Type of all branches is the expected type of the if-expr
+            & Bind(Self.type_var, Self.then_expr.type_var,
+                   eq_prop=BaseTypeDecl.matching_formal_type_inverted)
+
             & If(
                 Not(Self.else_expr.is_null),
 
                 # If there is an else, then construct sub equation
                 Entity.else_expr.sub_equation
-                # And bind the then expr's and the else expr's types
-                & Self.type_bind_var(Self.then_expr.type_var,
-                                     Self.else_expr.type_var),
+
+                # Type of all branches is the expected type of the if-expr
+                & Bind(Self.type_var, Self.else_expr.type_var,
+                       eq_prop=BaseTypeDecl.matching_formal_type_inverted),
 
                 # If no else, then the then_expression has type bool
                 Self.bool_bind(Self.then_expr.type_var)
-            ) & Entity.alternatives.logic_all(lambda elsif: (
+            )
+
+            & Entity.alternatives.logic_all(lambda elsif: (
+
                 # Build the sub equations for cond and then exprs
                 elsif.cond_expr.sub_equation
                 & elsif.then_expr.sub_equation
@@ -10075,12 +10083,10 @@ class IfExpr(Expr):
                 # The condition is boolean
                 & Self.bool_bind(elsif.cond_expr.type_var)
 
-                # The elsif branch then expr has the same type as Self's
-                # then_expr.
-                & Self.type_bind_var(Self.then_expr.type_var,
-                                     elsif.then_expr.type_var)
+                # Type of all branches is the expected type of the if-expr
+                & Bind(Self.type_var, elsif.then_expr.type_var,
+                       eq_prop=BaseTypeDecl.matching_formal_type_inverted)
             )) & Self.bool_bind(Self.cond_expr.type_var)
-            & Self.type_bind_var(Self.then_expr.type_var, Self.type_var)
         )
 
 

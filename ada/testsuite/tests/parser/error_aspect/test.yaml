@@ -1,0 +1,3 @@
+driver: parser
+rule: object_decl
+test-unparsing: false

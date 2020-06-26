@@ -529,7 +529,7 @@ A.add_rules(
     aspect_assoc=AspectAssoc(A.name,
                              Opt("=>", Or(A.expr, A.contract_cases_expr))),
 
-    aspect_spec=Opt(AspectSpec("with", List(A.aspect_assoc, sep=","))),
+    aspect_spec=Opt(AspectSpec("with", cut(), List(A.aspect_assoc, sep=","))),
 
     single_task_decl=SingleTaskDecl(
         "task", cut(),
@@ -690,7 +690,7 @@ A.add_rules(
     ),
 
     pragma=Pragma(
-        "pragma", A.identifier,
+        "pragma", cut(), A.identifier,
         Opt("(",
             List(Or(A.pragma_argument, A.contract_case_assoc), sep=","),
             ")"),

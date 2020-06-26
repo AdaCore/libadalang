@@ -1,0 +1,29 @@
+input:1:13: Cannot parse <aspect_spec>
+input:2:1: Expected '@', got Termination
+input:1:1: Cannot parse <sub_object_decl>
+input:2:1: Expected ';', got Termination
+ObjectDecl[1:1-2:1] <<INCOMPLETE>>
+|ids:
+|  DefiningNameList[1:1-1:2]
+|  |  DefiningName[1:1-1:2]
+|  |  |name:
+|  |  |  Id[1:1-1:2]: A
+|has_aliased:
+|  AliasedAbsent[1:4-1:4]
+|has_constant:
+|  ConstantAbsent[1:4-1:4]
+|mode:
+|  ModeDefault[1:4-1:4]
+|type_expr:
+|  SubtypeIndication[1:5-1:12]
+|  |has_not_null:
+|  |  NotNullAbsent[1:4-1:4]
+|  |name:
+|  |  Id[1:5-1:12]: Integer
+|  |constraint: <null>
+|default_expr: <null>
+|renaming_clause: <null>
+|aspects:
+|  AspectSpec[1:13-2:1] <<INCOMPLETE>>
+|  |aspect_assocs:
+|  |  AspectAssocList[1:17-1:17]: <empty list>

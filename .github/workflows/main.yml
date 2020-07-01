@@ -12,6 +12,8 @@ jobs:
       fail-fast: false
       matrix: # Build debug and production 
         debug: ['', 'debug']      # '' if production, 'debug' for debug
+    env:
+        BINTRAY_API_KEY_DEFINED: ${{!!secrets.BINTRAY_API_KEY}}
     steps:
       - name: Get libadalang
         uses: actions/checkout@v2
@@ -87,7 +89,11 @@ jobs:
           ada/manage.py --library-types relocatable install --build-mode ${BUILD:-prod} $prefix
           tar czf libadalang-`basename $GITHUB_REF`-osx${DEBUG:+-dbg}.tar.gz -C $prefix .
 
+      # Try to upload the install tree to Bintray, but only if we have the
+      # corresponding secret, i.e. if we are running on the upstream
+      # repository.
       - name: Upload tar-ball to Bintray
+        if: ${{env.BINTRAY_API_KEY_DEFINED == 'true'}}
         uses: reznikmm/upload-bintray-action@v1
         with:
           username: reznikmm

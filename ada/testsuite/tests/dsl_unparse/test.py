@@ -38,6 +38,7 @@ except StopIteration:
         unparse_dest
     ))
 
+sys.stdout.flush()
 subprocess.check_call(
     [P.join(os.environ['LIBADALANG_ROOTDIR'],
             'langkit', 'contrib', 'lkt', 'build', 'bin', 'parse'),

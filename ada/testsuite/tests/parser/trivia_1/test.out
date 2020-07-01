@@ -1,8 +1,11 @@
 -- foo
 \x0a
 CompilationUnit
+|  AdaNodeList
 |  LibraryItem
+|  |  PrivateAbsent
 |  |  SubpBody
+|  |  |  OverridingUnspecified
 |  |  |  SubpSpec
 |  |  |  |  SubpKindProcedure
 |  |  |  |   
@@ -20,7 +23,11 @@ CompilationUnit
 |  |  |  |  |  |  \x0a     
 |  |  |  |  |  |  -- Hinhin
 |  |  |  |  |  |  \x0a     
+|  |  |  |  |  |  AliasedAbsent
+|  |  |  |  |  |  ConstantAbsent
+|  |  |  |  |  |  ModeDefault
 |  |  |  |  |  |  SubtypeIndication
+|  |  |  |  |  |  |  NotNullAbsent
 |  |  |  |  |  |  |  Id
 |  |  |  \x0a
 |  |  |  \x0a   
@@ -35,10 +42,15 @@ CompilationUnit
 |  |  |  |  |  -- Hoho
 |  |  |  |  |  \x0a   
 |  |  |  |  |  NullStmt
+|  |  |  |  AdaNodeList
 |  |  |  \x0a
 |  |  |   
 |  |  |  EndName
 |  |  |  |  Id
+|  \x0a
+|  -- foo
+|  \x0a
+|  PragmaNodeList
 \x0a
 -- foo
 \x0a

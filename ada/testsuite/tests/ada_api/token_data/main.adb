@@ -20,7 +20,7 @@ begin
    begin
       Put_Line ("Token data for the ""foo"" identifier:");
       Put_Line ("Kind: " & Token_Kind_Name (Kind (Tok_Data)));
-      Put_Line ("Text: " & Debug_Text (Tok));
+      Put_Line ("Text: " & Image (Text (Tok)));
       Put_Line ("Sloc range: " & Image (Sloc_Range (Tok_Data)));
    end;
 

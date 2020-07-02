@@ -24,7 +24,7 @@ main(void)
         error("Could not create the analysis unit from foo.adb");
 
     ada_unit_root(unit, &root);
-    dump_short_image(&root, 0);
+    dump_image(&root, 0);
 
     ada_context_decref(ctx);
     puts("Done");

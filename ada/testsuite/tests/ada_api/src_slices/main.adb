@@ -37,7 +37,7 @@ begin
 
       procedure Proc (N : Ada_Node) is
       begin
-         Put_Line ("  * " & N.Short_Image);
+         Put_Line ("  * " & N.Image);
          Put_Line ("    " & N.Debug_Text);
          New_Line;
       end Proc;

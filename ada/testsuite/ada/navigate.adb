@@ -47,9 +47,6 @@ procedure Navigate is
          Convert     => String_To_Kinds);
    end Args;
 
-   function Short_Image (Node : LAL.Ada_Node'Class) return String
-   is (Langkit_Support.Text.Image (Node.Short_Text_Image));
-
    function To_Lower (S : String) return String
       renames Ada.Characters.Handling.To_Lower;
 
@@ -175,7 +172,7 @@ procedure Navigate is
             At_Least_Once := At_Least_Once or else Processed_Something;
          exception
             when LALCO.Property_Error =>
-               Put_Line ("Error when processing " & Short_Image (Node));
+               Put_Line ("Error when processing " & Node.Image);
                At_Least_Once := True;
          end;
       end loop;
@@ -195,12 +192,10 @@ procedure Navigate is
      (Part_Name : String; Orig, Dest : LAL.Ada_Node'Class) is
    begin
       if Dest.Is_Null then
-         Put_Line
-           (Short_Image (Orig) & " has no " & To_Lower (Part_Name));
+         Put_Line (Orig.Image & " has no " & To_Lower (Part_Name));
       else
          Put_Line
-           (Part_Name & " of " & Short_Image (Orig) & " is "
-            & Short_Image (Dest)
+           (Part_Name & " of " & Orig.Image & " is " & Dest.Image
             & " [" & Basename (Dest.Unit.Get_Filename) & "]");
       end if;
    end Print_Navigation;

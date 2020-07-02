@@ -566,7 +566,7 @@ procedure GNAT_Compare is
       end case;
 
       if Show_Nodes and then not LAL_Node.Is_Null then
-         Put (' ' & LAL_Node.Short_Image);
+         Put (' ' & LAL_Node.Image);
       end if;
       New_Line;
    end Report;

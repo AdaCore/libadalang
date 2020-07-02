@@ -90,7 +90,7 @@ procedure Main is
                        & 'E' & Exponent_Sign & Exponent);
             end;
          when Enum_Lit =>
-            return "Enum_Lit " & X.Enum_Result.Short_Image;
+            return "Enum_Lit " & X.Enum_Result.Image;
       end case;
    end Eval_Result_To_String;
 
@@ -149,7 +149,7 @@ begin
                 else Expr_Eval (Default_Expr));
          begin
             Put_Line
-               ("Expr " & Short_Image (E) & " evaluated to "
+               ("Expr " & E.Image & " evaluated to "
                 & Eval_Result_To_String (Res));
             if Res.Kind in Int | Enum_Lit then
                Put_Line ("   Int value is " & As_Int (Res).Image);

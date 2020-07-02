@@ -21,7 +21,7 @@ let () =
     SubtypeIndication.f_name subtype_indication |> Expr.p_matching_nodes
   in
   let pp_node fmt node =
-    Format.pp_print_string fmt (AdaNode.short_image node)
+    Format.pp_print_string fmt (AdaNode.image node)
   in
   Format.printf "@[<v>For @[<v 2>%a resolves to:@ %a@]@ @]" pp_node
     subtype_indication

@@ -31,15 +31,15 @@ procedure Main is
    N        : constant Expr := D2.F_Default_Expr;
    Resolved : Object_Decl;
 begin
-   Put_Line ("D1: " & D1.Short_Image);
-   Put_Line ("D2: " & D2.Short_Image);
+   Put_Line ("D1: " & D1.Image);
+   Put_Line ("D2: " & D2.Image);
 
    if not D2.P_Resolve_Names then
       raise Program_Error with "Resolution failed";
    end if;
 
    Resolved := N.As_Name.P_Referenced_Decl.As_Object_Decl;
-   Put_Line ("Resolved: " & Resolved.Short_Image);
+   Put_Line ("Resolved: " & Resolved.Image);
 
    if D1.As_Ada_Node /= D1 then
       raise Program_Error with "Tag makes comparison fail";

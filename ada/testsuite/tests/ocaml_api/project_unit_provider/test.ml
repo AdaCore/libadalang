@@ -52,7 +52,7 @@ let test_src src_dir =
     SubtypeIndication.f_name subtype_indication |> Expr.p_matching_nodes
   in
   let pp_node fmt node =
-    Format.pp_print_string fmt (AdaNode.short_image node)
+    Format.pp_print_string fmt (AdaNode.image node)
   in
   Format.printf "@[<v>For SRC_DIR=%s@ @[<v 2>%a resolves to:@ %a@]@ @]" src_dir
     pp_node subtype_indication

@@ -13,5 +13,5 @@ procedure Test is
    F : Float;
 begin
    F := EF."**"(e, 122.4);
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 end Test;

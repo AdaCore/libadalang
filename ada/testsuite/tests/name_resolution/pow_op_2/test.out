@@ -5,26 +5,26 @@ Resolving xrefs for node <AssignStmt test.adb:15:4-15:27>
 *********************************************************
 
 Expr: <Id "F" test.adb:15:4-15:5>
-  references: <DefiningName test.adb:13:4-13:5>
-  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+  references: test.f
+  type:       standard.float
 Expr: <CallExpr test.adb:15:9-15:26>
-  references: <DefiningName test.adb:6:16-6:20>
-  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+  references: test.ef."**" (standard.float, standard.float) return standard.float
+  type:       standard.float
 Expr: <DottedName test.adb:15:9-15:16>
-  references: <DefiningName test.adb:6:16-6:20>
-  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+  references: test.ef."**" (standard.float, standard.float) return standard.float
+  type:       standard.float
 Expr: <Id "EF" test.adb:15:9-15:11>
-  references: <DefiningName test.adb:5:12-5:14>
+  references: test.ef
   type:       None
 Expr: <Str ""**"" test.adb:15:12-15:16>
-  references: <DefiningName test.adb:6:16-6:20>
-  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+  references: test.ef."**" (standard.float, standard.float) return standard.float
+  type:       standard.float
 Expr: <Id "e" test.adb:15:17-15:18>
-  references: <DefiningName a-numeri.ads:29:4-29:5>
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  references: ada.numerics.e
+  type:       standard.universal_real_type_
 Expr: <Real test.adb:15:20-15:25>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       standard.universal_real_type_
 
 
 Done.

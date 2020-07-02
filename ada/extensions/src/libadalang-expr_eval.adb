@@ -434,7 +434,7 @@ package body Libadalang.Expr_Eval is
          when Ada_Real_Literal =>
             return (Real,
                     E.P_Universal_Real_Type.As_Base_Type_Decl,
-                    Long_Float'Value (E.Debug_Text));
+                    Long_Float'Value (Image (E.Text)));
 
          when Ada_Membership_Expr =>
             declare
@@ -729,7 +729,7 @@ package body Libadalang.Expr_Eval is
                   end;
                else
                   raise Property_Error
-                    with "Unhandled attribute ref: " & Attr.Debug_Text;
+                    with "Unhandled attribute ref: " & Image (Attr.Text);
                end if;
             end;
          when Ada_Paren_Expr =>
@@ -750,7 +750,7 @@ package body Libadalang.Expr_Eval is
                   or else S.Children_Count /= 1
                then
                   raise Property_Error
-                    with "Unhandled call expr: " & E.Debug_Text;
+                    with "Unhandled call expr: " & Image (E.Text);
                end if;
 
                Arg := S.Child (1).As_Param_Assoc.F_R_Expr;
@@ -805,7 +805,7 @@ package body Libadalang.Expr_Eval is
 
                else
                   raise Property_Error
-                    with "Unhandled type conversion: " & E.Debug_Text;
+                    with "Unhandled type conversion: " & Image (E.Text);
                end if;
             end;
 

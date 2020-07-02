@@ -805,7 +805,7 @@ procedure Nameres is
                for E of Entities loop
                   Put ("    " & (if Config.Display_Images
                                  then E.Image
-                                 else E.Debug_Text));
+                                 else Image (E.Text)));
                   if Config.Display_Slocs then
                      Put_Line (" at " & Image (Start_Sloc (E.Sloc_Range)));
                   else
@@ -1183,7 +1183,7 @@ procedure Nameres is
 
       begin
          for DN of Target.P_Defining_Names loop
-            Put_Line (What & DN.Debug_Text & " " & Locator (DN));
+            Put_Line (What & Image (DN.Text) & " " & Locator (DN));
             case Kind is
             when Any =>
                for R of DN.P_Find_All_References (Units, Imprecise_Fallback)

@@ -17,7 +17,7 @@ begin
    New_Line;
 
    Put_Line ("Whole source buffer for test.adb:");
-   Put_Line (Debug_Text (First_Token (Unit), Last_Token (Unit)));
+   Put_Line (Image (Text (First_Token (Unit), Last_Token (Unit))));
    New_Line;
 
    declare
@@ -38,7 +38,7 @@ begin
       procedure Proc (N : Ada_Node) is
       begin
          Put_Line ("  * " & N.Image);
-         Put_Line ("    " & N.Debug_Text);
+         Put_Line ("    " & Image (N.Text));
          New_Line;
       end Proc;
 
@@ -53,7 +53,7 @@ begin
      ("Trying to get a source slice for two nodes in different units...");
    begin
       Put_Line
-        ("  -> " & Debug_Text (First_Token (Unit), Last_Token (Unit2)));
+        ("  -> " & Image (Text (First_Token (Unit), Last_Token (Unit2))));
       Put_Line ("... got no error: unacceptable!");
    exception
       when Constraint_Error =>

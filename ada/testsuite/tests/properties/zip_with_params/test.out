@@ -5,27 +5,28 @@ Binds for <AssocList test.adb:19:13-19:42> : ['Y: True', 'Z: False', 'X: 3']
 Binds for <AssocList test.adb:20:13-20:38> : ['X: 42', 'Y: True', 'Z: False']
 Binds for <AssocList test.adb:21:13-21:28> : ['X: 42', 'Y: True', 'Z: False']
 Binds for <AssocList test.adb:25:20-25:45> : ['X: 42', 'Z: True', 'Y: False']
+Binds for <AssocList test.adb:29:17-29:23> : ['X: 2']
 False
-Binds for <AssocList test.adb:28:24-28:25> : []
-Binds for <AssocList test.adb:46:22-47:53> : ['K: Bin_Op', "Left: new Expr_Type'(K => Lit, Val => 12)", "Right: new Expr_Type'(Lit, 12)"]
-Binds for <AssocList test.adb:46:45-46:64> : ['K: Lit', 'Val: 12']
-Binds for <AssocList test.adb:47:45-47:52> : ['K: Lit', 'Val: 12']
-Binds for <AssocList test.adb:49:24-49:46> : ['K: Bin_Op', 'Left: null', 'Right: null']
-Binds for <AssocList test.adb:50:24-51:46> : ['K: Bin_Op', "Left: new Expr_Type'(K => Lit, others => 3)", 'Right: null']
-Binds for <AssocList test.adb:50:47-50:68> : ['K: Lit', 'Val: 3']
+Binds for <AssocList test.adb:34:24-34:25> : []
+Binds for <AssocList test.adb:52:22-53:53> : ['K: Bin_Op', "Left: new Expr_Type'(K => Lit, Val => 12)", "Right: new Expr_Type'(Lit, 12)"]
+Binds for <AssocList test.adb:52:45-52:64> : ['K: Lit', 'Val: 12']
+Binds for <AssocList test.adb:53:45-53:52> : ['K: Lit', 'Val: 12']
+Binds for <AssocList test.adb:55:24-55:46> : ['K: Bin_Op', 'Left: null', 'Right: null']
+Binds for <AssocList test.adb:56:24-57:46> : ['K: Bin_Op', "Left: new Expr_Type'(K => Lit, others => 3)", 'Right: null']
+Binds for <AssocList test.adb:56:47-56:68> : ['K: Lit', 'Val: 3']
 True
-Binds for <AssocList test.adb:56:9-56:38> : ['Y: True', 'Z: False', 'X: 3']
+Binds for <AssocList test.adb:62:9-62:38> : ['Y: True', 'Z: False', 'X: 3']
 True
-Binds for <AssocList test.adb:57:9-57:34> : ['X: 42', 'Y: True', 'Z: False']
+Binds for <AssocList test.adb:63:9-63:34> : ['X: 42', 'Y: True', 'Z: False']
 True
-Binds for <AssocList test.adb:58:9-58:24> : ['X: 42', 'Y: True', 'Z: False']
+Binds for <AssocList test.adb:64:9-64:24> : ['X: 42', 'Y: True', 'Z: False']
 False
-Binds for <AssocList test.adb:59:9-59:10> : []
+Binds for <AssocList test.adb:65:9-65:10> : []
 True
-Binds for <AssocList test.adb:59:13-59:29> : ['F: 42', 'E: 28']
+Binds for <AssocList test.adb:65:13-65:29> : ['F: 42', 'E: 28']
 False
-Binds for <AssocList test.adb:60:9-60:10> : []
+Binds for <AssocList test.adb:66:9-66:10> : []
 True
-Binds for <AssocList test.adb:60:17-60:21> : ['E: 1', 'F: 2']
+Binds for <AssocList test.adb:66:17-66:21> : ['E: 1', 'F: 2']
 
 Done

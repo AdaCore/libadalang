@@ -24,6 +24,12 @@ procedure Main is
 
    X_4 : R_Access (42, Z => True, Y => False);
 
+   type R_Inc (X : Integer);
+
+   X_5 : R_Inc (X => 2);
+
+   type R_Inc (X : Integer) is null record;
+
    A : Array_Type;
    Tmp : Integer := A (2);
 

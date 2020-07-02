@@ -9913,7 +9913,7 @@ class AssocList(BasicAssoc.list):
             ._.formal_part.abstract_formal_params,
 
             lambda c=T.DiscriminantConstraint:
-            c.subtype.cast(T.TypeDecl)._.discriminants_list,
+            c.subtype._.discriminants_list,
 
             lambda a=T.BaseAggregate: origin.bind(Self, env.bind(
                 Self.node_env,

@@ -1,0 +1,13 @@
+type: new-feature
+apis: ["ada"]
+title: New Origin_Filename and Origin_Charset functions
+
+description: |
+    The ``Libadalang.Common`` packages defines two new primitives for
+    ``Token_Reference``. The ``Origin_Filename`` function returns the name of
+    the file from which the token was extracted, or an empty string if it comes
+    from a memory buffer. The ``Origin_Charset`` function returns the name of
+    the encoding used to decode the source buffer from which the token was
+    extracted, or an empty string if the source buffer was already decoded.
+
+date: 2020-07-02

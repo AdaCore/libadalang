@@ -115,11 +115,18 @@ Building the documentation
 Libadalang itself is required to build this Sphinx documentation: this allows
 to automatically generate the Ada API reference from the corresponding Ada
 source code (conversely for Python). As a consequence, you need either to have
-Libadalang installed or to update your environment without installing it: see
-the corresponding section above.
+Libadalang installed (and in particular its Python bindings) or to update your
+environment without installing it: see the corresponding section above.
 
-Building this documentation as a set of static HTML pages is as easy as
-running the following command from the ``user_manual`` directory:
+In addition, you need to install the ``laldoc`` Python project, which contains
+documentation extraction helpers:
+
+.. code-block:: sh
+
+   pip install contrib/laldoc
+
+From there, building this documentation as a set of static HTML pages is as
+easy as running the following command from the ``user_manual`` directory:
 
 .. code-block:: sh
 

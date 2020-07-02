@@ -15,7 +15,7 @@ procedure Main is
    BO_Array : constant Ada_Node_Array := Find (CU, Find_Binops'Access).Consume;
    BO       : constant Bin_Op := BO_Array (1).As_Bin_Op;
 begin
-   Put_Line ("Tokens for node " & BO.Short_Image & ":");
+   Put_Line ("Tokens for node " & BO.Image & ":");
    for Tok of BO.Token_Range loop
       Put_Line (Image (Tok));
    end loop;

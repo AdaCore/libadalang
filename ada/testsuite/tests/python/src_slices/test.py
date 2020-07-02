@@ -26,7 +26,7 @@ print('')
 
 print('Source excerpts for all Basic_Decl in test.adb:')
 for n in unit.root.findall(lal.BasicDecl):
-    print('  * {}'.format(n.short_image))
+    print('  * {}'.format(n))
     print('    {}'.format(_py2to3.text_repr(n.text)))
     print('')
 

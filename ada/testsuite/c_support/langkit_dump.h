@@ -69,7 +69,7 @@ dump(ada_base_entity *node, int level)
 }
 
 static void
-dump_short_image(ada_base_entity *node, int level)
+dump_image(ada_base_entity *node, int level)
 {
     ada_text img;
     unsigned i, count;
@@ -80,7 +80,7 @@ dump_short_image(ada_base_entity *node, int level)
         return;
     }
 
-    ada_node_short_image(node, &img);
+    ada_node_image(node, &img);
     print_indent(level);
     fprint_text(stdout, img, false);
     printf("\n");
@@ -93,7 +93,7 @@ dump_short_image(ada_base_entity *node, int level)
 
         if (ada_node_child(node, i, &child) == 0)
             error("Error while getting a child");
-        dump_short_image(&child, level + 1);
+        dump_image(&child, level + 1);
     }
 }
 

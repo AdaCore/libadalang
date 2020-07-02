@@ -48,8 +48,8 @@ procedure Nameres is
       Display_Slocs : Boolean := False;
       --  Whether to display slocs for resolved names
 
-      Display_Short_Images : Boolean := False;
-      --  Whether to display short images for resolved names
+      Display_Images : Boolean := False;
+      --  Whether to display images for resolved names
    end record;
 
    type Reference_Kind is (Any, Subp_Call, Subp_Overriding, Type_Derivation);
@@ -779,8 +779,8 @@ procedure Nameres is
             begin
                if P.Config_Name = "Display_Slocs" then
                   Config.Display_Slocs := Decode_Boolean_Literal (Value);
-               elsif P.Config_Name = "Display_Short_Images" then
-                  Config.Display_Short_Images :=
+               elsif P.Config_Name = "Display_Images" then
+                  Config.Display_Images :=
                      Decode_Boolean_Literal (Value);
                else
                   raise Program_Error with
@@ -803,8 +803,8 @@ procedure Nameres is
                Put_Line (Text (P.Test_Expr) & " resolves to:");
                Sort (Entities);
                for E of Entities loop
-                  Put ("    " & (if Config.Display_Short_Images
-                                 then E.Short_Image
+                  Put ("    " & (if Config.Display_Images
+                                 then E.Image
                                  else E.Debug_Text));
                   if Config.Display_Slocs then
                      Put_Line (" at " & Image (Start_Sloc (E.Sloc_Range)));
@@ -889,7 +889,7 @@ procedure Nameres is
                and then (Kind (N) not in Ada_Name
                          or else not N.As_Name.P_Is_Defining)
             then
-               Put_Line ("Expr: " & N.Short_Image);
+               Put_Line ("Expr: " & N.Image);
                if Kind (N) in Ada_Name
                   and then
                     (not Args.Disable_Operator_Resolution.Get
@@ -947,7 +947,7 @@ procedure Nameres is
                   begin
                      if Arg.Is_Null then
                         raise Program_Error
-                          with "Invalid arg for " & N.Short_Image;
+                          with "Invalid arg for " & N.Image;
                      end if;
                      Put_Line ("XFAIL: " & Image (Arg.P_Denoted_Value, False));
                      Put_Line ("");
@@ -975,7 +975,7 @@ procedure Nameres is
             Obj.Set_Field ("sloc", Image (Node.Sloc_Range));
          end if;
          if Verbose then
-            Put_Title ('*', "Resolving xrefs for node " & Node.Short_Image);
+            Put_Title ('*', "Resolving xrefs for node " & Node.Image);
          end if;
          if Langkit_Support.Adalog.Debug.Debug then
             Assign_Names_To_Logic_Vars (Node);
@@ -994,7 +994,7 @@ procedure Nameres is
                Obj.Set_Field ("success", True);
             end if;
          else
-            Put_Line ("Resolution failed for node " & Node.Short_Image);
+            Put_Line ("Resolution failed for node " & Node.Image);
             if XFAIL then
                Increment (Job_Data.Stats.Nb_Xfails);
             else
@@ -1017,8 +1017,7 @@ procedure Nameres is
       exception
          when E : others =>
             Put_Line
-              ("Resolution failed with exception for node "
-               & Node.Short_Image);
+              ("Resolution failed with exception for node " & Node.Image);
             Dump_Exception (E, Obj);
 
             if XFAIL then

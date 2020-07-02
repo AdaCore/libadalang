@@ -867,7 +867,7 @@ package body Libadalang.Expr_Eval is
         & (case Self.Kind is
            when Int => Self.Int_Result.Image,
            when Real => Self.Real_Result'Image,
-           when Enum_Lit => Self.Enum_Result.Short_Image) & ">";
+           when Enum_Lit => Self.Enum_Result.Image) & ">";
    end Image;
 
 end Libadalang.Expr_Eval;

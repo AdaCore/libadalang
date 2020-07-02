@@ -52,7 +52,7 @@ begin
             .As_Object_Decl.F_Renaming_Clause.F_Renamed_Object;
          Decl : constant Basic_Decl := Ref.P_Referenced_Decl;
       begin
-         Put_Line (Ref.Short_Image & " resolves to " & Decl.Short_Image);
+         Put_Line (Ref.Image & " resolves to " & Decl.Image);
       end;
    end;
 

@@ -14,7 +14,7 @@ package body App is
       begin
          case Node.Kind is
          when Ada_Goto_Stmt =>
-            Put_Line ("Found goto stmt: " & Node.Short_Image);
+            Put_Line ("Found goto stmt: " & Node.Image);
             return Over;
          when others =>
             return Into;

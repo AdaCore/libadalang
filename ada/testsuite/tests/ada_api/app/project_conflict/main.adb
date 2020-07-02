@@ -20,7 +20,7 @@ procedure Main is
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit) is
       pragma Unreferenced (Context);
    begin
-      Put_Line (Unit.Root.Short_Image);
+      Put_Line (Unit.Root.Image);
    end Process_Unit;
 
 begin

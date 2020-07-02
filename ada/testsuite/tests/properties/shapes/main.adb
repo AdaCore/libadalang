@@ -18,7 +18,7 @@ procedure Main is
 begin
    while Rec_Iter.Next (Type_Decl) loop
       begin
-         Put_Line ("Shapes for " & Short_Image (Type_Decl) & ":");
+         Put_Line ("Shapes for " & Type_Decl.Image & ":");
          declare
             Shapes : constant Shape_Array :=
                Type_Decl.As_Base_Type_Decl.P_Shapes;

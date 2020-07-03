@@ -1,0 +1,6 @@
+type: bugfix
+title: Name resolution of ``use at`` clauses
+description: |
+    Implement name resolution of address clauses (``for .. use at ..``),
+    which were previously not resolved at all.
+date: 2020-07-03

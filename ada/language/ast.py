@@ -11845,8 +11845,14 @@ class AttributeRef(Name):
 
             rel_name == 'Type_Class', Entity.type_class_equation,
 
-            rel_name == 'Callable',
+            # Task attributes (RM 9.9)
+            rel_name.any_of('Callable', 'Terminated'),
             Entity.prefix.sub_equation & Self.bool_bind(Self.type_var),
+
+            # Entry attribute (RM 9.9)
+            rel_name == 'Count',
+            Entity.prefix.xref_no_overloading
+            & Self.universal_int_bind(Self.type_var),
 
             rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation'),
             Entity.float_funcs_equation,

@@ -1,0 +1,6 @@
+type: new-feature
+title: Name resolution for task and entry attributes
+description: |
+    This adds name resolution support for entry attribute ``'Count`` and task
+    attributes ``'Terminated``.
+date: 2020-07-03

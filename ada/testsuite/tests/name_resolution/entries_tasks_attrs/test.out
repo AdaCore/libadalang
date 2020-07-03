@@ -1,0 +1,62 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:10:7-10:21>
+*******************************************************
+
+Expr: <CallExpr test.adb:10:7-10:20>
+  references: <DefiningName test.adb:2:14-2:17>
+  type:       None
+Expr: <Id "Foo" test.adb:10:7-10:10>
+  references: <DefiningName test.adb:2:14-2:17>
+  type:       None
+Expr: <AttributeRef test.adb:10:12-10:19>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <Id "E" test.adb:10:12-10:13>
+  references: <DefiningName test.adb:5:13-5:14>
+  type:       None
+Expr: <Id "Count" test.adb:10:14-10:19>
+  references: None
+  type:       None
+
+Resolving xrefs for node <CallStmt test.adb:16:4-16:24>
+*******************************************************
+
+Expr: <CallExpr test.adb:16:4-16:23>
+  references: <DefiningName test.adb:3:14-3:17>
+  type:       None
+Expr: <Id "Foo" test.adb:16:4-16:7>
+  references: <DefiningName test.adb:3:14-3:17>
+  type:       None
+Expr: <AttributeRef test.adb:16:9-16:22>
+  references: None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Inst" test.adb:16:9-16:13>
+  references: <DefiningName test.adb:14:4-14:8>
+  type:       <TaskTypeDecl ["T"] test.adb:4:4-6:10>
+Expr: <Id "Callable" test.adb:16:14-16:22>
+  references: None
+  type:       None
+
+Resolving xrefs for node <CallStmt test.adb:18:4-18:26>
+*******************************************************
+
+Expr: <CallExpr test.adb:18:4-18:25>
+  references: <DefiningName test.adb:3:14-3:17>
+  type:       None
+Expr: <Id "Foo" test.adb:18:4-18:7>
+  references: <DefiningName test.adb:3:14-3:17>
+  type:       None
+Expr: <AttributeRef test.adb:18:9-18:24>
+  references: None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Inst" test.adb:18:9-18:13>
+  references: <DefiningName test.adb:14:4-14:8>
+  type:       <TaskTypeDecl ["T"] test.adb:4:4-6:10>
+Expr: <Id "Terminated" test.adb:18:14-18:24>
+  references: None
+  type:       None
+
+
+Done.

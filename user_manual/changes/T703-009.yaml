@@ -1,0 +1,7 @@
+type: bugfix
+title: Do not consider ``Subp'Address`` a call
+description: |
+    Previously, the mentionned pattern would be resolved as a call to
+    ``Subp``, meaning that ``P_Is_Call`` would return ``True`` when invoked
+    on ``Subp``.
+date: 2020-07-03

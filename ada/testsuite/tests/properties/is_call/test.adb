@@ -60,6 +60,7 @@ procedure Test is
    Arr_1 : Access_Array_1;
    Arr_2 : Access_Array_2;
    Arr_3 : Access_Array_3;
+   Addr : System.Address;
 begin
    R := Foo (3);
    Foo_Proc;
@@ -102,4 +103,6 @@ begin
 
    R := Pkg_I.Foo (42);
    R := Foo_I (42);
+
+   Addr := Bar'Address;
 end Test;

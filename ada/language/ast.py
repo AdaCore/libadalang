@@ -7071,6 +7071,9 @@ class GenericRenamingDecl(BasicDecl):
     Resolve the GenericDecl this renaming decl is pointing at
     """)
 
+    xref_entry_point = Property(True)
+    xref_equation = Property(Entity.renaming_name.xref_no_overloading)
+
 
 class GenericPackageRenamingDecl(GenericRenamingDecl):
     """

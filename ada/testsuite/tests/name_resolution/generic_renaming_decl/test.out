@@ -1,0 +1,19 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericSubpRenamingDecl ["G2"] test.adb:6:4-6:36>
+***************************************************************************
+
+Expr: <Id "G1" test.adb:6:33-6:35>
+  references: <DefiningName test.adb:4:14-4:16>
+  type:       None
+
+Resolving xrefs for node <GenericPackageRenamingDecl ["P2"] test.adb:15:4-15:34>
+********************************************************************************
+
+Expr: <Id "P1" test.adb:15:31-15:33>
+  references: <DefiningName test.adb:12:12-12:14>
+  type:       None
+
+
+Done.

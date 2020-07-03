@@ -6283,6 +6283,10 @@ class AtClause(AspectClause):
     name = Field(type=T.BaseId)
     expr = Field(type=T.Expr)
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.name.sub_equation & Entity.expr.sub_equation
+
 
 class SingleTaskDecl(BasicDecl):
     """

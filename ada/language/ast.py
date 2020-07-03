@@ -6183,7 +6183,6 @@ class AspectClause(AdaNode):
     Base class for aspect clauses.
     """
     xref_entry_point = Property(True)
-    xref_equation = Property(LogicTrue())
 
 
 class EnumRepClause(AspectClause):
@@ -6205,8 +6204,6 @@ class AttributeDefClause(AspectClause):
     """
     attribute_expr = Field(type=T.Name)
     expr = Field(type=T.Expr)
-
-    xref_entry_point = Property(True)
 
     @langkit_property()
     def xref_equation():

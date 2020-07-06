@@ -13646,6 +13646,12 @@ class EntryBody(Body):
 
     env_spec = EnvSpec(add_env())
 
+    xref_entry_point = Property(True)
+
+    @langkit_property(return_type=T.Equation)
+    def xref_equation():
+        return Entity.barrier.sub_equation
+
 
 class EntryIndexSpec(BasicDecl):
     """

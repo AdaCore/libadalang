@@ -1,0 +1,7 @@
+type: bugfix
+title: Implement name resolution for entry barriers
+description: |
+    Previously, entry barriers were not resolved at all, meaning any xref
+    or navigation inside the expression of the barrier would fail. It is now
+    working as expected.
+date: 2020-07-06

@@ -61,6 +61,16 @@ Expr: <Id "Protected_Buffer" testpro.adb:10:10-10:26>
   references: <DefiningName testpro.adb:4:21-4:37>
   type:       None
 
+Resolving xrefs for node <EntryBody ["Insert"] testpro.adb:13:9-18:20>
+**********************************************************************
+
+Expr: <Id "Empty" testpro.adb:14:17-14:22>
+  references: <DefiningName testpro.adb:9:9-9:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <EndName testpro.adb:18:13-18:19>
+  references: <DefiningName testpro.adb:5:15-5:21>
+  type:       None
+
 Resolving xrefs for node <ParamSpec ["An_Item"] testpro.adb:13:23-13:41>
 ************************************************************************
 
@@ -96,6 +106,21 @@ Expr: <EndName testpro.adb:18:13-18:19>
   type:       None
 Expr: <Id "Insert" testpro.adb:18:13-18:19>
   references: <DefiningName testpro.adb:5:15-5:21>
+  type:       None
+
+Resolving xrefs for node <EntryBody ["Remove"] testpro.adb:19:9-24:20>
+**********************************************************************
+
+Expr: <UnOp testpro.adb:20:17-20:26>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <OpNot "not" testpro.adb:20:17-20:20>
+  references: None
+  type:       None
+Expr: <Id "Empty" testpro.adb:20:21-20:26>
+  references: <DefiningName testpro.adb:9:9-9:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <EndName testpro.adb:24:13-24:19>
+  references: <DefiningName testpro.adb:6:15-6:21>
   type:       None
 
 Resolving xrefs for node <ParamSpec ["An_Item"] testpro.adb:19:23-19:41>

@@ -1,0 +1,7 @@
+type: bugfix
+title: Name resolution on ``separate (X)`` clause
+description: |
+    Previously, libadalang would crash when calling ``P_Referenced_Decl`` on
+    ``X`` of a ``separate (X) ...`` clause. It will now correctly return the
+    entity in which the subunit is rooted.
+date: 2020-07-06

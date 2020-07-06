@@ -13663,6 +13663,9 @@ class Subunit(AdaNode):
             Self.name.as_symbol_array, UnitBody, True
         ).as_bare_entity
 
+    xref_entry_point = Property(True)
+    xref_equation = Property(Bind(Self.name.ref_var, Entity.body_root))
+
 
 class ProtectedBodyStub(BodyStub):
     """

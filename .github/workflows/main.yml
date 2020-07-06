@@ -44,10 +44,10 @@ jobs:
         uses: ada-actions/toolchain@b55aaa7
         with:
           distrib: community
-      - name: Setup Python 3.7
+      - name: Setup Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: '3.7'
+          python-version: '3.8'
       - name: Build Libadalang and its dependencies
         run: |
           set -x -e

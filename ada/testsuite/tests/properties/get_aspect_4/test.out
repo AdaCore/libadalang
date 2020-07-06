@@ -1,0 +1,4 @@
+Eval 'node.p_get_aspect("unchecked_union")' on node <TypeDecl ["R"] test.adb:2:4-4:15>
+Result: <Aspect exists=True node=<PragmaNode test.adb:6:4-6:31> value=None>
+
+

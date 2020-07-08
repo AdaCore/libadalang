@@ -107,9 +107,12 @@ class AdaNode(ASTNode):
         """
         return String("")
 
-    in_prepost = Property(Not(Self.parents.find(
+    in_contract = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
-            lambda a: a.id.as_bare_entity.name_symbol.any_of('Pre', 'Post')
+            lambda a: a.id.as_bare_entity.name_symbol.any_of(
+                'Pre', 'Post', 'Type_Invariant',
+                'Predicate', 'Static_Predicate', 'Dynamic_Predicate'
+            )
         )
     ).is_null))
 
@@ -1137,7 +1140,7 @@ class AdaNode(ASTNode):
         Return a null node iff we are in the definition of an aspect clause
         where sequential lookup needs to be deactivated. Return Self otherwise.
         """
-        return If(Self.in_prepost, No(T.AdaNode), Self)
+        return If(Self.in_contract, No(T.AdaNode), Self)
 
     @langkit_property()
     def env_hook():
@@ -10465,7 +10468,7 @@ class BaseId(SingleTokNode):
         return Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
-            from_node=If(Self.in_prepost, No(T.AdaNode), Self)
+            from_node=If(Self.in_contract, No(T.AdaNode), Self)
         ).cast(T.BasicDecl).then(
             lambda bd: If(
                 bd._.is_package, Entity.pkg_env(bd), bd.defining_env
@@ -10485,7 +10488,7 @@ class BaseId(SingleTokNode):
         env_el = Var(Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
-            from_node=If(Self.in_prepost, No(T.AdaNode), Self),
+            from_node=If(Self.in_contract, No(T.AdaNode), Self),
         )).cast(T.BasicDecl)
 
         return If(
@@ -10696,7 +10699,7 @@ class BaseId(SingleTokNode):
             # If we are in an aspect, then lookup is not sequential.
             # TODO: The fact that this is here is ugly, and also the logic is
             # probably wrong.
-            from_node=If(Self.in_prepost, No(T.AdaNode), Self)
+            from_node=If(Self.in_contract, No(T.AdaNode), Self)
         ))
 
         # TODO: there is a big smell here: We're doing the filtering for parent

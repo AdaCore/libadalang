@@ -1,0 +1,8 @@
+type: bugfix
+title: Fix name resolution in type contracts
+description: |
+    Previously, name resolution could fail in type contracts (inside
+    aspect associations such as ``Type_Invariant``, ``Predicate``, etc.) when
+    references were made to entities defined after the entity on which the
+    contract applies. This now behaves as expected.
+date: 2020-07-08

@@ -1,0 +1,28 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AspectAssoc test.adb:3:12-3:27>
+*********************************************************
+
+Expr: <Id "Convention" test.adb:3:12-3:22>
+  references: None
+  type:       None
+Expr: <Id "C" test.adb:3:26-3:27>
+  references: None
+  type:       None
+
+Resolving xrefs for node <PragmaNode test.adb:6:4-6:29>
+*******************************************************
+
+Expr: <Id "Convention" test.adb:6:11-6:21>
+  references: None
+  type:       None
+Expr: <Id "C" test.adb:6:23-6:24>
+  references: None
+  type:       None
+Expr: <Id "T" test.adb:6:26-6:27>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       None
+
+
+Done.

@@ -6081,8 +6081,7 @@ class Pragma(AdaNode):
             # resolution for them (for example, other compilers implementation
             # defined pragmas).
             Entity.id.name_symbol.any_of(
-                'Style_Checks', 'Warnings', 'Import_Function',
-                'Import_Procedure'
+                'Style_Checks', 'Import_Function', 'Import_Procedure'
             ),
             LogicTrue(),
 

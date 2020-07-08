@@ -6381,6 +6381,11 @@ class AspectAssoc(AdaNode):
             # entry.
             Entity.id.name_is('Global'), Entity.expr.sub_equation,
 
+            # Do not resolve anything inside those aspect, as identifiers act
+            # as reserved words. For example, we do not want to resolve `C`
+            # in `Convention => C` to the first visible entity named C.
+            Entity.id.name_is('Convention'), LogicTrue(),
+
             # Default resolution: For the moment we didn't encode specific
             # resolution rules for every aspect, so by default at least try to
             # name resolve the expression.

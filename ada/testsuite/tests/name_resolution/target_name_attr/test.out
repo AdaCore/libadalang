@@ -1,22 +1,22 @@
 Analyzing test_target_name.adb
 ##############################
 
-Resolving xrefs for node <CallStmt test_target_name.adb:5:4-5:36>
+Resolving xrefs for node <CallStmt test_target_name.adb:4:4-4:41>
 *****************************************************************
 
-Expr: <CallExpr test_target_name.adb:5:4-5:35>
-  references: <DefiningName a-textio.ads:508:14-508:22>
+Expr: <CallExpr test_target_name.adb:4:4-4:40>
+  references: <DefiningName test_target_name.adb:2:14-2:27>
   type:       None
-Expr: <Id "Put_Line" test_target_name.adb:5:4-5:12>
-  references: <DefiningName a-textio.ads:508:14-508:22>
+Expr: <Id "Ignore_String" test_target_name.adb:4:4-4:17>
+  references: <DefiningName test_target_name.adb:2:14-2:27>
   type:       None
-Expr: <AttributeRef test_target_name.adb:5:14-5:34>
+Expr: <AttributeRef test_target_name.adb:4:19-4:39>
   references: None
   type:       <TypeDecl ["String"] __standard:104:3-104:57>
-Expr: <Id "Standard" test_target_name.adb:5:14-5:22>
+Expr: <Id "Standard" test_target_name.adb:4:19-4:27>
   references: None
   type:       None
-Expr: <Id "Target_Name" test_target_name.adb:5:23-5:34>
+Expr: <Id "Target_Name" test_target_name.adb:4:28-4:39>
   references: None
   type:       None
 

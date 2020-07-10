@@ -10,7 +10,7 @@ procedure Delay_Until is
 begin
    loop
       delay until Poll_Time;
-      pragma Test_Statement;
+      pragma Test_Statement_UID;
       Poll_Time := Poll_Time + Period;
    end loop;
 end Delay_Until;

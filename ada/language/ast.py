@@ -8915,9 +8915,7 @@ class Name(Expr):
 
             # Handle out/inout param case
             lambda p=T.ParamAssoc: p.get_params.any(
-                lambda m: m.basic_decl.cast(T.ParamSpec)._.mode.is_a(
-                    Mode.alt_out, Mode.alt_in_out
-                )
+                lambda m: m.basic_decl.cast(T.ParamSpec)._.mode._.is_writable
             ),
 
             # handle 'Access case

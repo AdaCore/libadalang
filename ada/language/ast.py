@@ -8898,6 +8898,7 @@ class Name(Expr):
           1. `X := 2;`
           2. `X (2) := 2;`
           3. `P(F => X)` where F is declared `out` or `in out`.
+          6. `X.P` where the formal for X is declared `out` or `in out`.
           4. `X'Access`.
           5. `X.C := 2`, `R.X := 2`
 
@@ -8915,10 +8916,24 @@ class Name(Expr):
                 c.name == Entity,  # Self is the name of component access
                 c.is_write_reference
             ),
+
             # Handle assignment to component case::
             #    X.C := 2
             #    R.X := 2
-            lambda d=T.DottedName: d.is_write_reference,
+            #
+            # As well as calls using the dot notation with out/inout operand.
+            lambda d=T.DottedName: Or(
+                # Component writes
+                d.is_write_reference,
+
+                # Dot calls with "out" first parameter
+                (d.prefix == Entity) & d.suffix.called_subp_spec.then(
+                    lambda spec:
+                    spec.info.md.dottable_subp
+                    & spec.abstract_formal_params.at(0)
+                    .cast(T.ParamSpec)._.mode._.is_writable
+                )
+            ),
 
             # Handle out/inout param case
             lambda p=T.ParamAssoc: p.get_params.any(

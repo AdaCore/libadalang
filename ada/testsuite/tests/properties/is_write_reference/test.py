@@ -16,6 +16,7 @@ for filename in sys.argv[1:]:
                 "a write reference." if ref.ref.p_is_write_reference()
                 else "not a write reference."
             ))
+        print('')
 
     print('')
 

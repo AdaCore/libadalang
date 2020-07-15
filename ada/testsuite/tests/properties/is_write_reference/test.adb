@@ -10,11 +10,20 @@ procedure Main is
       null;
    end Foo;
 
+   package Pkg is
+      type T is tagged record
+         Bar : access procedure (X : in out Integer);
+      end record;
+
+      procedure Foo (X : in out T) is null;
+   end Pkg;
+
    X : Arr;
    Y : aliased Integer := 2;
    Z : access Integer := Y'Access;
    V : Rec;
    W : Rec_Arr;
+   R : Pkg.T;
 begin
    X := (others => Y);
    X (1) := Y;
@@ -23,4 +32,7 @@ begin
    V.A := X;
    W (2).A (2) := W (1).A (1);
    Foo (W (Y).A, W (Y).A);
+   R.Foo;
+   R.Bar (Y);
+   Pkg.Foo (R);
 end Main;

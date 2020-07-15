@@ -10452,7 +10452,11 @@ class BaseId(SingleTokNode):
 
     @langkit_property(memoized=True)
     def scope():
-        elt = Var(env.get_first(Self, categories=noprims))
+        elt = Var(env.get_first(
+            Self,
+            lookup=If(Self.is_prefix, LK.recursive, LK.flat),
+            categories=noprims
+        ))
         ret = Var(If(
             Not(elt.is_null) & elt.node.is_a(
                 T.BasicDecl

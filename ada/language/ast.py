@@ -3854,7 +3854,7 @@ class BaseTypeDecl(BasicDecl):
         other_can = Var(other_type.canonical_type)
         return Or(
             entity_can == other_can,
-            And(Not(Entity.classwide_type.is_null),
+            And(Not(entity_can.classwide_type.is_null),
                 entity_can.classwide_type == other_can.classwide_type),
             Entity.base_types.any(lambda bt: bt._.is_derived_type(other_type))
         )

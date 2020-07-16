@@ -1,0 +1,9 @@
+type: bugfix
+title: Nameres call to incomplete types' primitives
+description: |
+    Name resolution could crash when trying to resolve a call to a primitive
+    of a type when a primitive of the same name but defined on a different
+    incomplete type is visible. In that case, the first visible primitive
+    would always be chosen, which is erroneous if a call to the second one
+    was intended.
+date: 2020-07-16

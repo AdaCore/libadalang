@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CaseStmt test.adb:29:4-32:13>
+*******************************************************
+
+Expr: <CallExpr test.adb:29:9-29:16>
+  references: <DefiningName test.adb:15:16-15:19>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Foo" test.adb:29:9-29:12>
+  references: <DefiningName test.adb:15:16-15:19>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "X" test.adb:29:14-29:15>
+  references: <DefiningName test.adb:27:4-27:5>
+  type:       <TypeDecl ["U_CW"] test.adb:13:7-13:39>
+Expr: <Int test.adb:30:12-30:13>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

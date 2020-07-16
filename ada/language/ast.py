@@ -2410,7 +2410,7 @@ class Body(BasicDecl):
             Entity.unbound_previous_part.then(lambda d: d.node.children_env)
         )
 
-    @langkit_property(public=True, return_type=T.BasicDecl.entity)
+    @langkit_property(public=True, return_type=T.BasicDecl.entity, memoized=True)
     def previous_part():
         """
         Return the previous part for this body. Might be a declaration or a

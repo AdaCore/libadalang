@@ -1,2 +1,2 @@
 driver: name-resolution
-input_sources: [streamable_types.ads]
+input_sources: [streamable_types.ads, streamable_types.adb]

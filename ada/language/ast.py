@@ -11988,6 +11988,22 @@ class AttributeRef(Name):
                 Self.type_bind_val(obj_arg.type_var, typ)
                 & obj_arg.sub_equation
             )
+
+            # In case the attribute has been overridden manually by the user
+            # using an AttributeDefClause, bind the ref_var of the attribute
+            # to the subprogram used by resolving the expression in the clause.
+            & imprecise_fallback.bind(
+                False,
+                typ.get_representation_clause(
+                    Entity.attribute.name_symbol
+                ).then(
+                    lambda x: Bind(
+                        Entity.attribute.ref_var,
+                        x.expr.cast_or_raise(T.Name).referenced_decl
+                    ),
+                    default_val=LogicTrue()
+                )
+            )
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

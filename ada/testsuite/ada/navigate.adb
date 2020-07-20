@@ -144,7 +144,6 @@ procedure Navigate is
                   end case;
 
                when LALCO.Ada_Base_Package_Decl =>
-
                   Print_Navigation
                     ("Body", Node,
                      Node.As_Base_Package_Decl.P_Body_Part);
@@ -156,9 +155,9 @@ procedure Navigate is
 
                --  Subprograms
 
-               when LALCO.Ada_Basic_Subp_Decl =>
+               when LALCO.Ada_Classic_Subp_Decl =>
                   Print_Navigation
-                    ("Body", Node, Node.As_Basic_Subp_Decl.P_Body_Part);
+                    ("Body", Node, Node.As_Classic_Subp_Decl.P_Body_Part);
 
                when LALCO.Ada_Generic_Subp_Decl =>
                   Print_Navigation

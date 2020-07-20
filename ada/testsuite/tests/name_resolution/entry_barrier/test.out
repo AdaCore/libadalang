@@ -16,7 +16,7 @@ Expr: <Int test.adb:9:24-9:26>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
 Expr: <EndName test.adb:12:11-12:12>
-  references: <DefiningName test.adb:3:13-3:14>
+  references: <DefiningName test.adb:9:13-9:14>
   type:       None
 
 

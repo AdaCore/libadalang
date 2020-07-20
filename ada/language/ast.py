@@ -11185,7 +11185,8 @@ class Identifier(BaseId):
             # Those attributes return functions but were never implemented. We
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
-            'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation'
+            'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
+            'Remainder', 'Adjacent'
         )
     )
 
@@ -12159,7 +12160,8 @@ class AttributeRef(Name):
             Entity.prefix.xref_no_overloading
             & Self.universal_int_bind(Self.type_var),
 
-            rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation'),
+            rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation',
+                            'Copy_Sign', 'Remainder', 'Adjacent'),
             Entity.float_funcs_equation,
 
             PropertyError(Equation, "Unhandled attribute")
@@ -12168,18 +12170,19 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def float_funcs_equation():
         """
-        Equation for float function attributes with profile (T) -> T with T
+        Equation for float function attributes with profile (T*) -> T with T
         being any float type.
         """
         typ = Var(Entity.prefix.name_designated_type)
 
-        arg = Var(Entity.args_list.at(0).expr)
-
         return (
             Entity.prefix.sub_equation
-            & arg.sub_equation
-            & Self.type_bind_val(arg.type_var, typ)
             & Self.type_bind_val(Self.type_var, typ)
+            & Entity.args_list.logic_all(
+                lambda arg:
+                arg.expr.sub_equation
+                & Self.type_bind_val(arg.expr.type_var, typ)
+            )
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

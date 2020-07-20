@@ -10,6 +10,15 @@ procedure Test_Float_Attrs is
 
    D : Float := Float'Truncation (C + 0.120834);
    pragma Test_Statement;
+
+   E : Float := Float'Copy_Sign (C, D);
+   pragma Test_Statement;
+
+   F : Float := Float'Remainder (D, E);
+   pragma Test_Statement;
+
+   G : Float := Float'Adjacent (E, F);
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

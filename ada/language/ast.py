@@ -1874,6 +1874,7 @@ class BasicDecl(AdaNode):
     def formal_param_holder_or_null():
         return Entity.match(
             lambda t=T.TypeDecl: t.discriminants,
+            lambda e=T.EntryBody: e.params,
             lambda _: Entity.subp_spec_or_null(True)
         )
 
@@ -2310,6 +2311,25 @@ class Body(BasicDecl):
         ).cast_or_raise(T.BasicDecl.entity)
 
     @langkit_property(dynamic_vars=[env])
+    def entry_previous_part():
+        """
+        Return the EntryDecl corresponding to this node.
+        """
+        spec = Var(Entity.cast_or_raise(EntryBody).params)
+        return env.get(Entity.name_symbol).find(
+            lambda sp: And(
+                Not(sp.is_null),
+                Not(sp.node == Self),
+                sp.match(
+                    lambda entry_decl=T.EntryDecl:
+                    entry_decl.spec.match_formal_params(spec),
+
+                    lambda _: False
+                )
+            )
+        ).cast_or_raise(T.EntryDecl.entity)
+
+    @langkit_property(dynamic_vars=[env])
     def package_previous_part():
         """
         Return the BasePackageDecl corresponding to this node.
@@ -2358,13 +2378,13 @@ class Body(BasicDecl):
         pp = Var(Entity.match(
             lambda _=T.BaseSubpBody: Entity.subp_previous_part,
             lambda _=T.SubpBodyStub: Entity.subp_previous_part,
+            lambda _=T.EntryBody: Entity.entry_previous_part,
             lambda _=T.PackageBody: Entity.package_previous_part,
             lambda _=T.PackageBodyStub: Entity.package_previous_part,
             lambda _=T.ProtectedBody: Entity.protected_previous_part,
             lambda _=T.ProtectedBodyStub: Entity.protected_previous_part,
             lambda _=T.TaskBody: Entity.task_previous_part,
-            lambda _=T.TaskBodyStub: Entity.task_previous_part,
-            lambda _: No(T.BasicDecl.entity),
+            lambda _=T.TaskBodyStub: Entity.task_previous_part
         ))
 
         # HACK: All previous_part implems except the one for subprograms skip
@@ -2755,6 +2775,17 @@ class BaseFormalParamHolder(AdaNode):
                 & self_types.at(i)._.matching_type(other_types.at(i))
             ))
         )
+
+    @langkit_property(return_type=Bool)
+    def match_other(other=T.BaseFormalParamHolder.entity,
+                    match_names=(Bool, True)):
+        """
+        Base method of any BaseFormalParamHolder that checks whether the
+        other given BaseFormalParamHolder matches. In practice, this will call
+        match_formal_params, except for BaseSubpSpecs for which it will call
+        match_signature.
+        """
+        return Entity.match_formal_params(other, match_names)
 
 
 @abstract
@@ -5901,9 +5932,10 @@ class BasicSubpDecl(BasicDecl):
                 lambda ent:
                 # Discard the rebindings of Entity before trying to match
                 # against the tentative body, as those do not carry that info.
-                ent.node.as_bare_entity.cast(T.Body)._.subp_spec_or_null
-                .match_signature(Entity.subp_decl_spec.node.as_bare_entity,
-                                 True)
+                ent.node.as_bare_entity.cast(T.Body)
+                ._.formal_param_holder_or_null.match_other(
+                    Entity.subp_decl_spec.node.as_bare_entity, True
+                )
             )  # If found, reuse the rebindings of the decl on the body
             .cast(T.Body).node.as_entity
         )
@@ -5975,13 +6007,6 @@ class BasicSubpDecl(BasicDecl):
         doc='Return the specification for this subprogram'
     )
 
-    @langkit_property(public=True)
-    def body_part():
-        """
-        Return the BaseSubpBody corresponding to this node.
-        """
-        return Entity.body_part_for_decl.cast(BaseSubpBody)
-
     env_spec = EnvSpec(
         # Call the env hook to parse eventual parent unit
         do(Self.env_hook),
@@ -6052,6 +6077,13 @@ class ClassicSubpDecl(BasicSubpDecl):
     subp_spec = Field(type=T.SubpSpec)
 
     subp_decl_spec = Property(Entity.subp_spec)
+
+    @langkit_property(public=True, return_type=T.BaseSubpBody.entity)
+    def body_part():
+        """
+        Return the BaseSubpBody corresponding to this node.
+        """
+        return Entity.body_part_for_decl.cast_or_raise(BaseSubpBody)
 
 
 class SubpDecl(ClassicSubpDecl):
@@ -11334,6 +11366,13 @@ class BaseSubpSpec(BaseFormalParamHolder):
             ent.match_formal_params(other, match_name),
         )
 
+    @langkit_property(return_type=Bool)
+    def match_other(other=T.BaseFormalParamHolder.entity,
+                    match_names=(Bool, True)):
+        return Entity.match_signature(
+            other.cast_or_raise(BaseSubpSpec), match_names
+        )
+
     @langkit_property(return_type=LexicalEnv,
                       dynamic_vars=[origin])
     def defining_env():
@@ -11574,6 +11613,13 @@ class EntryDecl(BasicSubpDecl):
     subp_decl_spec = Property(Entity.spec)
 
     defining_names = Property(Entity.spec.name.as_entity.singleton)
+
+    @langkit_property(public=True, return_type=T.EntryBody.entity)
+    def body_part():
+        """
+        Return the entry body associated to this entry declaration.
+        """
+        return Entity.body_part_for_decl.cast_or_raise(EntryBody)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
@@ -13878,7 +13924,20 @@ class EntryBody(Body):
 
     defining_names = Property(Entity.entry_name.singleton)
 
-    env_spec = EnvSpec(add_env())
+    env_spec = EnvSpec(
+        do(Self.env_hook),
+
+        set_initial_env(
+            env.bind(Self.default_initial_env, Entity.body_scope(False)),
+        ),
+
+        # Add the body to its own parent env
+        add_to_env(
+            new_env_assoc(Entity.name_symbol, Self).singleton,
+        ),
+
+        add_env(),
+    )
 
     xref_entry_point = Property(True)
 

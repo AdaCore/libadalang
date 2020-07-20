@@ -12101,6 +12101,9 @@ class AttributeRef(Name):
             rel_name == 'Wide_Wide_Value',
             Entity.value_equation(Self.std_entity('Wide_Wide_String')),
 
+            rel_name == 'Invalid_Value',
+            Entity.invalid_value_equation,
+
             rel_name == 'Identity', Entity.identity_equation,
             rel_name == 'Address', Entity.address_equation,
 
@@ -12458,6 +12461,14 @@ class AttributeRef(Name):
             & Self.type_bind_val(Self.type_var, typ)
             & Self.universal_int_bind(expr.type_var)
             & expr.sub_equation
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def invalid_value_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+        return And(
+            Bind(Self.prefix.ref_var, typ),
+            Self.type_bind_val(Self.type_var, typ)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

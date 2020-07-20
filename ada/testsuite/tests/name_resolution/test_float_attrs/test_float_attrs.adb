@@ -19,6 +19,9 @@ procedure Test_Float_Attrs is
 
    G : Float := Float'Adjacent (E, F);
    pragma Test_Statement;
+
+   H : Float := Float'Invalid_Value;
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

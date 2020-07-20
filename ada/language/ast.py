@@ -690,7 +690,16 @@ class AdaNode(ASTNode):
                 # the top level item.
                 Self.top_level_decl(Self.unit).children_env
             )
-            .env_node._.has_with_visibility(refd_unit)
+            .env_node._.has_with_visibility(refd_unit),
+
+            # because of the GNAT kludge around the child packages of
+            # Ada.Text_IO, always consider those to be visible. Otherwise it
+            # will break any access to P.Integer_IO & co. for any package P
+            # that is a renaming of Ada.Text_IO. Indeed, since Integer_IO & co.
+            # must behave as nested packages even though they are implemented
+            # as child packages, we must consider them visible as soon as P
+            # is visible.
+            refd_unit.root.cast(CompilationUnit)._.is_text_io_child,
         )
 
     @langkit_property(return_type=Bool)
@@ -6708,8 +6717,9 @@ class GenericInstantiation(BasicDecl):
 
     nonbound_generic_decl = Property(
         Self.as_bare_entity.generic_entity_name
-        .all_env_elements(seq=True, seq_from=Self).at(0)
-        ._.match(
+        .all_env_elements(seq=True, seq_from=Self).find(
+            lambda e: Self.has_visibility(e)
+        )._.match(
             lambda b=Body: b.decl_part,
             lambda rd=T.GenericRenamingDecl: rd.resolve,
             lambda d=BasicDecl: d,
@@ -12602,6 +12612,19 @@ class CompilationUnit(AdaNode):
         Whether this compilation unit is preelaborable or not.
         """
         return Entity.is_preelaborable_impl(from_body=False)
+
+    @langkit_property(return_type=Bool)
+    def is_text_io_child():
+        """
+        Returns whether this compilation unit defines a child package of
+        Ada.Text_IO.
+        """
+        name_parts = Var(Self.syntactic_fully_qualified_name)
+        return And(
+            name_parts.length == 3,
+            name_parts.at(0) == "ada",
+            name_parts.at(1) == "text_io"
+        )
 
     env_spec = EnvSpec(
         set_initial_env(Let(

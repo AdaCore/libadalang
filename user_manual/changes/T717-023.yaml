@@ -1,0 +1,8 @@
+type: bugfix
+title: Nameres crash on instantiations of Modular_IO
+description: |
+    Previously, name resolution would crash when trying to resolve names in
+    a package instantiation whose designated generic package was Modular_IO
+    from Ada.Text_IO. This was because the special handling of child units
+    of Ada.Text_IO was missing a case for the Modular_IO package.
+date: 2020-07-21

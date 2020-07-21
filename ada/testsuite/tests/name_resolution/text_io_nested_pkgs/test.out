@@ -1,0 +1,27 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["MIO"] test.adb:5:4-5:50>
+********************************************************************************
+
+Expr: <DottedName test.adb:5:23-5:45>
+  references: ada.text_io.modular_io
+  type:       None
+Expr: <DottedName test.adb:5:23-5:34>
+  references: ada.text_io
+  type:       None
+Expr: <Id "Ada" test.adb:5:23-5:26>
+  references: ada
+  type:       None
+Expr: <Id "Text_IO" test.adb:5:27-5:34>
+  references: ada.text_io
+  type:       None
+Expr: <Id "Modular_IO" test.adb:5:35-5:45>
+  references: ada.text_io.modular_io
+  type:       None
+Expr: <Id "U" test.adb:5:47-5:48>
+  references: test.u
+  type:       None
+
+
+Done.

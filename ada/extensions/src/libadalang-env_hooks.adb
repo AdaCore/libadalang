@@ -30,6 +30,7 @@ package body Libadalang.Env_Hooks is
 
    Text_IO        : constant Text_Type := "ada.text_io";
    Integer_IO     : aliased constant Text_Type := "integer_io";
+   Modular_IO     : aliased constant Text_Type := "modular_io";
    Float_IO       : aliased constant Text_Type := "float_io";
    Fixed_IO       : aliased constant Text_Type := "fixed_io";
    Decimal_IO     : aliased constant Text_Type := "decimal_io";
@@ -37,8 +38,8 @@ package body Libadalang.Env_Hooks is
 
    Text_IO_Subpackages :
      constant array (Positive range <>) of access constant Text_Type
-       := (Integer_IO'Access, Float_IO'Access, Fixed_IO'Access,
-           Decimal_IO'Access, Enumeration_IO'Access);
+       := (Integer_IO'Access, Modular_IO'Access, Float_IO'Access,
+           Fixed_IO'Access, Decimal_IO'Access, Enumeration_IO'Access);
 
    --  The content of the following string literal has been generated running
    --  GNAT with flag -gnatS, and then post-processed by hand.

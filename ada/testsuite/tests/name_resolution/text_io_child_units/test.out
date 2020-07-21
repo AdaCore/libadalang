@@ -96,5 +96,24 @@ Expr: <Id "Integer_IO" foo.adb:10:18-10:28>
   references: ada.text_io.integer_io
   type:       None
 
+Resolving xrefs for node <WithClause foo.adb:12:1-12:29>
+********************************************************
+
+Expr: <DottedName foo.adb:12:6-12:28>
+  references: ada.text_io.modular_io
+  type:       None
+Expr: <DottedName foo.adb:12:6-12:17>
+  references: ada.text_io
+  type:       None
+Expr: <Id "Ada" foo.adb:12:6-12:9>
+  references: ada
+  type:       None
+Expr: <Id "Text_IO" foo.adb:12:10-12:17>
+  references: ada.text_io
+  type:       None
+Expr: <Id "Modular_IO" foo.adb:12:18-12:28>
+  references: ada.text_io.modular_io
+  type:       None
+
 
 Done.

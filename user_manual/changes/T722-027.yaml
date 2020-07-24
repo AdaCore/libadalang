@@ -1,0 +1,7 @@
+type: new-feature
+title: Implement name resolution for Test_Case aspect
+description: |
+    Names and types inside a Test_Case aspect, in particular in the right-hand
+    side of the ``Requires`` and ``Ensures`` associations are now resolved as
+    expected.
+date: 2020-07-24

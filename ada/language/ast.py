@@ -111,7 +111,8 @@ class AdaNode(ASTNode):
         lambda p: p.cast(T.AspectAssoc).then(
             lambda a: a.id.as_bare_entity.name_symbol.any_of(
                 'Pre', 'Post', 'Type_Invariant',
-                'Predicate', 'Static_Predicate', 'Dynamic_Predicate'
+                'Predicate', 'Static_Predicate', 'Dynamic_Predicate',
+                'Test_Case'
             )
         )
     ).is_null))
@@ -7971,7 +7972,8 @@ class BaseAggregate(Expr):
         # aggregate, by accepting only type that can be represented by an
         # aggregate (e.g. records and arrays).
         type_constraint = Var(If(
-            Self.in_aspect('Global') | Self.in_aspect('Depends'),
+            Self.in_aspect('Global') | Self.in_aspect('Depends')
+            | Self.in_aspect('Test_Case'),
             LogicTrue(),
             origin.bind(Self.origin_node,
                         Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var))
@@ -9676,6 +9678,8 @@ class AggregateAssoc(BasicAssoc):
 
             agg.in_aspect('Depends'), Entity.depends_assoc_equation,
 
+            agg.in_aspect('Test_Case'), Entity.test_case_assoc_equation,
+
             agg.parent.is_a(AspectClause, AspectAssoc, PragmaArgumentAssoc),
             LogicTrue(),
 
@@ -9813,6 +9817,22 @@ class AggregateAssoc(BasicAssoc):
             Entity.names.at(0).as_entity.then(
                 lambda n: n.sub_equation, default_val=LogicTrue()
             )
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def test_case_assoc_equation():
+        """
+        Equation for the case where this is an aggregate assoc for a Test_Case
+        aspect.
+        """
+        return If(
+            # Only resolve the right-hand side of `Requires` and `Ensures`,
+            # the other associations (Name and Mode) need not be resolved.
+            Entity.names.at(0).cast(BaseId).name_symbol.any_of(
+                'Requires', 'Ensures'
+            ),
+            Entity.expr.sub_equation,
+            LogicTrue()
         )
 
 

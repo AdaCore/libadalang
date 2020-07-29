@@ -1,0 +1,7 @@
+Eval 'node.p_private_part_decl' on node <ObjectDecl ["X"] test.ads:2:4-2:25>
+Result: <ObjectDecl ["X"] test.ads:6:4-6:30>
+
+Eval 'node.p_public_part_decl' on node <ObjectDecl ["X"] test.ads:6:4-6:30>
+Result: <ObjectDecl ["X"] test.ads:2:4-2:25>
+
+

@@ -1,0 +1,10 @@
+type: new-feature
+title: Add ``p_private_part_decl`` property
+description: |
+    The current ``p_public_part_decl`` property allows one to retrieve the
+    public declaration of a given constant object declaration from its
+    private view. However, there was no equivalent property for the other
+    way around. This adds the ``p_private_part_decl`` property, which can
+    be called on the public declaration of a constant object in order to
+    retrieve its completion in the private part.
+date: 2020-07-29

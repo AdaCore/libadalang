@@ -6538,11 +6538,25 @@ class ObjectDecl(BasicDecl):
         If this object decl is the constant completion of an object decl in the
         public part, return the object decl from the public part.
         """
-
         return If(
             Entity.is_in_private_part & Self.has_constant.as_bool,
             Self.declarative_scope.parent
             .cast(T.BasePackageDecl).public_part.children_env
+            .get_first(Self.name_symbol, LK.flat, categories=noprims)
+            .cast(T.BasicDecl),
+            No(T.BasicDecl.entity)
+        )
+
+    @langkit_property(public=True)
+    def private_part_decl():
+        """
+        If this object decl is the incomplete declaration of a constant in a
+        public part, return its completion in the private part.
+        """
+        return If(
+            Entity.is_in_public_part & Self.has_constant.as_bool,
+            Self.declarative_scope.parent
+            .cast(T.BasePackageDecl).private_part.children_env
             .get_first(Self.name_symbol, LK.flat, categories=noprims)
             .cast(T.BasicDecl),
             No(T.BasicDecl.entity)

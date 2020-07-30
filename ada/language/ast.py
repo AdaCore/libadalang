@@ -13344,30 +13344,14 @@ class CaseStmt(CompositeStmt):
 
     @langkit_property()
     def xref_equation():
-        ignore(Var(Entity.expr.resolve_names_internal_with_eq(
+        return Entity.expr.sub_equation & (
             # First make sure null is not a possible value for the type of
             # the expression so as to avoid a null check in subsequent
             # predicates.
             Predicate(AdaNode.is_not_null, Self.expr.type_var)
             # Then make sure it is a discrete type
             & Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
-        )))
-
-        return Entity.alternatives.logic_all(lambda alt: (
-            alt.choices.logic_all(lambda c: c.match(
-                # Expression case
-                lambda e=T.Expr:
-                Self.type_bind_val(e.type_var, Self.expr.type_val)
-                & e.sub_equation,
-
-                # SubtypeIndication case (``when Color range Red .. Blue``)
-                lambda t=T.SubtypeIndication: t.xref_equation,
-
-                lambda _=T.OthersDesignator: LogicTrue(),
-
-                lambda _: PropertyError(T.Equation, "Should not happen")
-            ))
-        ))
+        )
 
 
 class CaseStmtAlternative(AdaNode):
@@ -13377,6 +13361,29 @@ class CaseStmtAlternative(AdaNode):
 
     choices = Field(type=T.AlternativesList)
     stmts = Field(type=T.StmtList)
+
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        case_stmt = Var(Entity.parent.parent.cast_or_raise(CaseStmt))
+
+        # Trigger name resolution on the case statement
+        selected_type = Var(case_stmt.expr.expression_type)
+
+        return Entity.choices.logic_all(lambda c: c.match(
+            # Expression case
+            lambda e=T.Expr:
+            Self.type_bind_val(e.type_var, selected_type)
+            & e.sub_equation,
+
+            # SubtypeIndication case (``when Color range Red .. Blue``)
+            lambda t=T.SubtypeIndication: t.xref_equation,
+
+            lambda _=T.OthersDesignator: LogicTrue(),
+
+            lambda _: PropertyError(T.Equation, "Should not happen")
+        ))
 
 
 class EntryCompletionFormalParams(BaseFormalParamHolder):

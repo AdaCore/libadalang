@@ -1,26 +1,42 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <CaseStmt test.adb:6:4-11:13>
+Resolving xrefs for node <CaseStmt test.adb:7:7-12:16>
 ******************************************************
 
-Expr: <Id "X" test.adb:6:9-6:10>
+Expr: <Id "X" test.adb:7:12-7:13>
   references: <DefiningName test.adb:4:4-4:5>
   type:       <TypeDecl ["T"] test.adb:2:4-2:24>
-Expr: <Id "T" test.adb:7:12-7:13>
+
+Resolving xrefs for node <CaseStmtAlternative test.adb:8:10-9:18>
+*****************************************************************
+
+Expr: <Id "T" test.adb:8:15-8:16>
   references: <DefiningName test.adb:2:9-2:10>
   type:       None
-Expr: <BinOp test.adb:7:20-7:26>
+Expr: <BinOp test.adb:8:23-8:29>
   type:       <TypeDecl ["T"] test.adb:2:4-2:24>
-Expr: <Id "A" test.adb:7:20-7:21>
+Expr: <Id "A" test.adb:8:23-8:24>
   references: <DefiningName test.adb:2:15-2:16>
   type:       <TypeDecl ["T"] test.adb:2:4-2:24>
-Expr: <OpDoubleDot ".." test.adb:7:22-7:24>
+Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
   references: None
   type:       None
-Expr: <Id "B" test.adb:7:25-7:26>
+Expr: <Id "B" test.adb:8:28-8:29>
   references: <DefiningName test.adb:2:18-2:19>
   type:       <TypeDecl ["T"] test.adb:2:4-2:24>
+
+Resolving xrefs for node <NullStmt test.adb:9:13-9:18>
+******************************************************
+
+
+Resolving xrefs for node <CaseStmtAlternative test.adb:10:10-11:18>
+*******************************************************************
+
+
+Resolving xrefs for node <NullStmt test.adb:11:13-11:18>
+********************************************************
+
 
 
 Done.

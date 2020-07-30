@@ -3,11 +3,13 @@ procedure Repro is
       type T is new Integer;
    end Pouet;
 begin
-   case Pouet.T (12) is
-      when 12 => null;
-      when others => null;
-   end case;
-   pragma Test_Statement;
+   begin
+      case Pouet.T (12) is
+         when 12 => null;
+         when others => null;
+      end case;
+   end;
+   pragma Test_Block;
 
    declare
       use Pouet;
@@ -16,6 +18,6 @@ begin
          when 12 => null;
          when others => null;
       end case;
-      pragma Test_Statement;
    end;
+   pragma Test_Block;
 end Repro;

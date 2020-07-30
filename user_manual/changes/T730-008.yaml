@@ -1,0 +1,6 @@
+type: new-feature
+title: Add ``p_declarative_region`` property
+description: |
+    This property can be used to retrieve the first declarative region of the
+    given BasicDecl node, when it exists.
+date: 2020-07-30

@@ -1378,7 +1378,7 @@ class BasicDecl(AdaNode):
         lambda _: No(T.PrivatePart.entity),
     ))
 
-    @langkit_property(return_type=T.DeclarativePart.entity)
+    @langkit_property(return_type=T.DeclarativePart.entity, public=True)
     def declarative_region():
         """
         Return the (first) declarative region of this BasicDecl, if applicable.

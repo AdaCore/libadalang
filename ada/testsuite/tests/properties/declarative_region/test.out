@@ -1,0 +1,16 @@
+Eval 'node.p_declarative_region' on node <SubpBody ["P.Foo"] p-foo.adb:1:1-4:11>
+Result: <DeclarativePart p-foo.adb:1:19-2:1>
+
+
+Eval 'node.p_declarative_region' on node <SubpDecl ["P.Foo"] p-foo.ads:1:1-1:17>
+Result: None
+
+
+Eval 'node.p_declarative_region' on node <PackageBody ["P"] p.adb:1:1-3:7>
+Result: <DeclarativePart p.adb:1:18-3:1>
+
+
+Eval 'node.p_declarative_region' on node <PackageDecl ["P"] p.ads:1:1-5:7>
+Result: <PublicPart p.ads:1:13-3:1>
+
+

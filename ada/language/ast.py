@@ -13161,10 +13161,6 @@ class IfStmt(CompositeStmt):
         return (
             Entity.cond_expr.sub_equation
             & Self.bool_bind(Self.cond_expr.type_var)
-            & Entity.alternatives.logic_all(
-                lambda elsif: elsif.cond_expr.sub_equation
-                & Self.bool_bind(elsif.cond_expr.type_var)
-            )
         )
 
 
@@ -13175,6 +13171,15 @@ class ElsifStmtPart(AdaNode):
 
     cond_expr = Field(type=T.Expr)
     stmts = Field(type=T.StmtList)
+
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return (
+            Entity.cond_expr.sub_equation
+            & Self.bool_bind(Self.cond_expr.type_var)
+        )
 
 
 class LabelDecl(BasicDecl):

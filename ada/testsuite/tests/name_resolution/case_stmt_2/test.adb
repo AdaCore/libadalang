@@ -3,11 +3,13 @@ procedure Test is
 
    X : T;
 begin
-   case X is
-      when T range A .. B =>
-         null;
-      when others =>
-         null;
-   end case;
-   pragma Test_Statement;
+   begin
+      case X is
+         when T range A .. B =>
+            null;
+         when others =>
+            null;
+      end case;
+   end;
+   pragma Test_Block;
 end Test;

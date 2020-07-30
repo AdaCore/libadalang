@@ -26,9 +26,11 @@ procedure Test is
 
    X : Q.U_CW;
 begin
-   case Foo (X) is
-      when 1 => null;
-      when others => null;
-   end case;
-   pragma Test_Statement;
+   begin
+      case Foo (X) is
+         when 1 => null;
+         when others => null;
+      end case;
+   end;
+   pragma Test_Block;
 end Test;

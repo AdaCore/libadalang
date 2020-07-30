@@ -1,0 +1,9 @@
+type: bugfix
+title: Handle library-level ``use all type`` clauses
+description: |
+    Previously, such clauses appearing at the library-level of a unit would
+    be totally ignored, which could cause name resolution failures on nodes
+    using this construct to gain visibility on a type's operations,
+    including the case where the clause is used to make direct references
+    to the literals of an enum type. This is now fixed.
+date: 2020-07-30

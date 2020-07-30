@@ -755,6 +755,24 @@ class AdaNode(ASTNode):
             )
         )
 
+    @langkit_property()
+    def top_level_use_type_clauses():
+        """
+        If Self is a library item or a subunit, return a flat list of all names
+        for top-level UseTypeClause nodes. See UseTypeClause.env_spec
+        for more details.
+        """
+        return (
+            Self.parent.parent.cast_or_raise(T.CompilationUnit)
+            .prelude
+            .filter(lambda p: p.is_a(UseTypeClause))
+            .mapcat(
+                lambda p: p.cast_or_raise(UseTypeClause).types.map(
+                    lambda n: n.cast(AdaNode)
+                )
+            )
+        )
+
     @langkit_property(return_type=T.Name.array)
     def top_level_with_package_clauses():
         """
@@ -5986,6 +6004,11 @@ class BasicSubpDecl(BasicDecl):
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         handle_children(),
 
@@ -6648,6 +6671,11 @@ class PackageDecl(BasePackageDecl):
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
             Self.cast(T.AdaNode)._.singleton,
             through=T.AdaNode.nested_generic_formal_part,
             cond=Self.should_ref_generic_formals,
@@ -6844,6 +6872,11 @@ class GenericSubpInstantiation(GenericInstantiation):
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         handle_children(),
         add_to_env(
@@ -6965,6 +6998,11 @@ class GenericPackageInstantiation(GenericInstantiation):
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         handle_children(),
         add_to_env(
@@ -7055,6 +7093,11 @@ class PackageRenamingDecl(BasicDecl):
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
             Self.cast(T.AdaNode)._.singleton,
             through=T.AdaNode.nested_generic_formal_part,
             cond=Self.should_ref_generic_formals,
@@ -7119,6 +7162,11 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
             Self.cast(T.AdaNode)._.singleton,
             through=T.AdaNode.nested_generic_formal_part,
             cond=Self.should_ref_generic_formals,
@@ -7150,6 +7198,11 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
@@ -7334,6 +7387,11 @@ class GenericSubpDecl(GenericDecl):
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         )
     )
 
@@ -7371,6 +7429,11 @@ class GenericPackageDecl(GenericDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
@@ -12712,6 +12775,11 @@ class BaseSubpBody(Body):
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
 
         # If Self, which is assumed to be a SubpBody, is a library-level
         # subprogram, it must "inherit" the use clauses of its declaration, if
@@ -13507,6 +13575,11 @@ class PackageBody(Body):
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
             Self.cast(T.AdaNode)._.singleton,
             through=T.AdaNode.nested_generic_formal_part,
             cond=Self.should_ref_generic_formals,
@@ -13606,6 +13679,11 @@ class TaskBody(Body):
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
             Self.cast(T.AdaNode)._.singleton,
             through=T.AdaNode.nested_generic_formal_part,
             cond=Self.should_ref_generic_formals,
@@ -13658,6 +13736,11 @@ class ProtectedBody(Body):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(

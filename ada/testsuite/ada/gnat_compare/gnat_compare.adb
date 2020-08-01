@@ -523,7 +523,7 @@ procedure GNAT_Compare is
       --  unprocessed xrefs from GNAT, report them as missing from LAL.
 
       while Cursor <= Xrefs.Last_Index loop
-         Report (Files, Xrefs (Cursor), (others => <>), Missing, No_Ada_Node);
+         Report (Files, Xrefs (Cursor), No_Xref, Missing, No_Ada_Node);
          Cursor := Cursor + 1;
       end loop;
    end Compare_Xrefs;

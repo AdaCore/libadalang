@@ -54,6 +54,9 @@ package Xrefs is
       --  during name resolution.
    end record;
 
+   No_Xref : constant Xref_Type :=
+               (No_Source_Location, 1, No_Source_Location, 1, False);
+
    package Xref_Vectors is new Ada.Containers.Vectors (Positive, Xref_Type);
 
    type Unit_Xrefs_Type is record

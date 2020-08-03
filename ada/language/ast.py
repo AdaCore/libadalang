@@ -7519,6 +7519,23 @@ class Expr(AdaNode):
         """
     )
 
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
+    def is_dynamically_tagged():
+        """
+        Returns whether this expression is dynamically tagged (See RM 3.9.2).
+        """
+        return origin.bind(Self.origin_node, Or(
+            Entity.expression_type.is_classwide,
+            Entity.expression_type.accessed_type._.is_classwide,
+            Entity.cast(Name).then(lambda n: And(
+                n.is_dispatching_call,
+                n.called_subp_spec.cast(T.BaseSubpSpec).then(
+                    lambda spec:
+                    spec.get_primitive_subp_first_type == spec.return_type
+                )
+            ))
+        ))
+
     @langkit_property(public=True, return_type=Bool,
                       dynamic_vars=[default_imprecise_fallback()])
     def is_static_expr():
@@ -9111,10 +9128,13 @@ class Name(Expr):
                 # that the expected type can indeed designate a type of
                 # which the called subprogram is a primitive, and that
                 # the corresponding expression is its classwide type.
-                lambda s=decl.canonical_part.subp_spec_or_null: candidates.any(
+                lambda subp_spec=decl.canonical_part.subp_spec_or_null:
+                candidates.any(
                     lambda c: And(
-                        Not(s.candidate_type_for_primitive(c.expected_type)
+                        Not(subp_spec
+                            .candidate_type_for_primitive(c.expected_type)
                             .is_null),
+
                         # No need to check that the type of the expression
                         # is exactly the classwide type of the expected
                         # type, but simply that it is classwide.
@@ -9122,12 +9142,7 @@ class Name(Expr):
                         # access of the tagged type, which means we should also
                         # accept the argument if it's type is an access on a
                         # classwide type.
-                        c.expr.expression_type.then(
-                            lambda t: origin.bind(Self.origin_node, Or(
-                                t.is_classwide,
-                                t.accessed_type._.is_classwide
-                            ))
-                        )
+                        c.expr.is_dynamically_tagged
                     )
                 )
             )

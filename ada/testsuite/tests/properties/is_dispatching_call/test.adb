@@ -75,4 +75,22 @@ begin
    -- is not dynamically tagged.
    A.Dyn_Tag.Foo_1;
 
+   --  Should be dispatching
+   T'(X.Dyn_Tag).Foo_1;
+
+   --  Should be dispatching
+   T'(if False then X.Dyn_Tag else X.Dyn_Tag).Foo_1;
+
+   --  Should be not dispatching because not all dependent expressions are
+   --  dispatching.
+   T'(if False then X.Dyn_Tag else A.Dyn_Tag).Foo_1;
+
+   --  Should be dispatching (across the qual expr, paren expr, declare
+   --  expr, and case expr).
+   T'((declare
+         A : Boolean;
+       begin (case True is
+              when True => X.Dyn_Tag,
+              when others => Y.Dyn_Tag))).Foo_1;
+
 end Main;

@@ -11,6 +11,8 @@ procedure Main is
       function Bar_2 (Self : T; X : Integer) return Integer is (2);
 
       function Foo_Bar return T is (null record);
+
+      overriding function Dyn_Tag (Self : T) return T is (null record);
    end PT;
 
    package PU is
@@ -24,6 +26,8 @@ procedure Main is
       overriding function Bar_2 (Self : U; X : Integer) return Integer is (22);
 
       overriding function Foo_Bar return U is (null record);
+
+      overriding function Dyn_Tag (Self : U) return U is (null record);
    end PU;
 
    use PT;
@@ -60,4 +64,15 @@ begin
    Foo_3 (Z);
    Y.Foo_3;
    Z.Foo_3;
+
+   --  Test dispatching on dynamically tagged non classwide expressions
+
+   -- Should be dispatching, X.Dyn_Tag is dispatching, and the result is
+   -- dynamically tagged.
+   X.Dyn_Tag.Foo_1;
+
+   -- Should *not* be dispatching, A.Dyn_Tag is not dispatching, and the result
+   -- is not dynamically tagged.
+   A.Dyn_Tag.Foo_1;
+
 end Main;

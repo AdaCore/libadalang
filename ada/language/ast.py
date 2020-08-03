@@ -10194,15 +10194,37 @@ class OthersDesignator(AdaNode):
     xref_equation = Property(LogicTrue())
 
 
-class IfExpr(Expr):
+@abstract
+class CondExpr(Expr):
     """
-    ``if`` expression.
+    Base class for a conditional expressions (RM 4.5.7).
+    """
+
+    @langkit_property(public=True,
+                      return_type=T.Expr.entity.array,
+                      kind=AbstractKind.abstract)
+    def dependent_exprs():
+        """
+        Return the dependent expressions for this conditional expression.
+        """
+        pass
+
+
+class IfExpr(CondExpr):
+    """
+    ``if`` expression (RM 4.5.7).
     """
 
     cond_expr = Field(type=T.Expr)
     then_expr = Field(type=T.Expr)
     alternatives = Field(type=T.ElsifExprPart.list)
     else_expr = Field(type=T.Expr)
+
+    @langkit_property()
+    def dependent_exprs():
+        return Entity.then_expr.singleton.concat(
+            Entity.alternatives.map(lambda a: a.then_expr)
+        ).concat(Entity.else_expr.singleton)
 
     @langkit_property()
     def xref_equation():
@@ -10247,12 +10269,16 @@ class ElsifExprPart(AdaNode):
     then_expr = Field(type=T.Expr)
 
 
-class CaseExpr(Expr):
+class CaseExpr(CondExpr):
     """
-    ``case`` expression.
+    ``case`` expression (RM 4.5.7).
     """
     expr = Field(type=T.Expr)
     cases = Field(type=T.CaseExprAlternative.list)
+
+    @langkit_property()
+    def dependent_exprs():
+        return Entity.cases.map(lambda c: c.expr)
 
     @langkit_property()
     def xref_equation():

@@ -5,6 +5,10 @@ Analyzing references of Foo_1 (<DefiningName test.adb:6:17-6:22>)
   Reference <RefResult ref=<Id "Foo_1" test.adb:59:6-59:11> kind=precise> is not a dispatching call.
   Reference <RefResult ref=<Id "Foo_1" test.adb:72:14-72:19> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_1" test.adb:76:14-76:19> kind=precise> is not a dispatching call.
+  Reference <RefResult ref=<Id "Foo_1" test.adb:79:18-79:23> kind=precise> is a dispatching call.
+  Reference <RefResult ref=<Id "Foo_1" test.adb:82:47-82:52> kind=precise> is a dispatching call.
+  Reference <RefResult ref=<Id "Foo_1" test.adb:86:47-86:52> kind=precise> is not a dispatching call.
+  Reference <RefResult ref=<Id "Foo_1" test.adb:94:43-94:48> kind=precise> is a dispatching call.
 Analyzing references of Foo_2 (<DefiningName test.adb:7:17-7:22>)
   Reference <RefResult ref=<Id "Foo_2" test.adb:44:4-44:9> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_2" test.adb:54:4-54:9> kind=precise> is not a dispatching call.
@@ -29,5 +33,12 @@ Analyzing references of Foo_Bar (<DefiningName test.adb:13:16-13:23>)
 Analyzing references of Dyn_Tag (<DefiningName test.adb:15:27-15:34>)
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:72:6-72:13> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:76:6-76:13> kind=precise> is not a dispatching call.
+  Reference <RefResult ref=<Id "Dyn_Tag" test.adb:79:9-79:16> kind=precise> is a dispatching call.
+  Reference <RefResult ref=<Id "Dyn_Tag" test.adb:82:23-82:30> kind=precise> is a dispatching call.
+  Reference <RefResult ref=<Id "Dyn_Tag" test.adb:82:38-82:45> kind=precise> is a dispatching call.
+  Reference <RefResult ref=<Id "Dyn_Tag" test.adb:86:23-86:30> kind=precise> is a dispatching call.
+  Reference <RefResult ref=<Id "Dyn_Tag" test.adb:86:38-86:45> kind=precise> is not a dispatching call.
+  Reference <RefResult ref=<Id "Dyn_Tag" test.adb:93:30-93:37> kind=precise> is a dispatching call.
+  Reference <RefResult ref=<Id "Dyn_Tag" test.adb:94:32-94:39> kind=precise> is a dispatching call.
 
 Done

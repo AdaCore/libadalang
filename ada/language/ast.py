@@ -7519,21 +7519,46 @@ class Expr(AdaNode):
         """
     )
 
-    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()],
+                      return_type=T.Bool)
     def is_dynamically_tagged():
         """
         Returns whether this expression is dynamically tagged (See RM 3.9.2).
         """
+        # See ARM 3.9.2 for the rules
         return origin.bind(Self.origin_node, Or(
             Entity.expression_type.is_classwide,
             Entity.expression_type.accessed_type._.is_classwide,
-            Entity.cast(Name).then(lambda n: And(
-                n.is_dispatching_call,
-                n.called_subp_spec.cast(T.BaseSubpSpec).then(
-                    lambda spec:
-                    spec.get_primitive_subp_first_type == spec.return_type
-                )
-            ))
+
+            Entity.match(
+                lambda qual_expr=QualExpr:
+                qual_expr.suffix.is_dynamically_tagged,
+
+                # If expr is a dispatching call with a controlling result, then
+                # it's dynamically tagged.
+                lambda n=Name: And(
+                    n.is_dispatching_call,
+                    n.called_subp_spec.cast(T.BaseSubpSpec).then(
+                        lambda spec:
+                        # Controlling result: the controlling parameter and
+                        # result have the same type.
+                        spec.get_primitive_subp_first_type == spec.return_type
+                    )
+                ),
+
+                lambda cond_expr=CondExpr: cond_expr.dependent_exprs.all(
+                    lambda e: e.is_dynamically_tagged
+                ),
+
+                lambda decl_expr=DeclExpr:
+                decl_expr.expr.is_dynamically_tagged,
+
+                lambda paren_expr=ParenExpr:
+                paren_expr.expr.is_dynamically_tagged,
+
+                lambda _: False
+            )
+
         ))
 
     @langkit_property(public=True, return_type=Bool,

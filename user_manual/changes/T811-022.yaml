@@ -1,0 +1,7 @@
+type: bugfix
+title: Interface primitive visibility and use clause
+description: |
+    This fixes a bug where obtaining visibility through a ``use`` clause
+    of a primitive for a type T inherited from an interface I would
+    not work.
+date: 2020-08-11

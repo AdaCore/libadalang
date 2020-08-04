@@ -4,8 +4,6 @@
 This script is an entry point to process change files for Libadalang.
 """
 
-from __future__ import absolute_import, division, print_function
-
 import argparse as A
 from collections import OrderedDict
 import datetime
@@ -164,14 +162,18 @@ def rst(entries, args):
             header('Libadalang API {}'.format(header_chunk), '#')
         )
         for entry in filtered_entries:
-            buffr.append(entry2rst(entry, args.show_date))
+            entry_rst = entry2rst(entry, args.show_date)
+            # Call for diagnostics
+            publish_string(entry_rst, writer_name='html',
+                           source_path=entry['tn'] + '.yaml')
+            buffr.append(entry_rst)
 
     result = '\n'.join(buffr)
 
     # We always generate the HTML, even if we don't need a preview, so that we
     # check that the reST is correctly formatted.
-    html = publish_string(result, writer_name='html')
     if not args.quiet:
+        html = publish_string(result, writer_name='html')
         print(result)
 
     # If preview is requested, also write the result to a file and open a

@@ -1,0 +1,2 @@
+driver: python
+input_sources: [pkg.ads, pkg-child.ads, pkg-child-grand_child.ads]

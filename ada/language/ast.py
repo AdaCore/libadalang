@@ -8408,12 +8408,19 @@ class Name(Expr):
         """
         Return True if this name is part of a defining name.
         """
-        return Not(Or(
-            Entity.enclosing_defining_name.is_null,
-            Self.parent.cast(T.DottedName).then(
-                lambda dn: dn.suffix != Self
-            )
-        ))
+        return Or(
+            # Obvious case
+            Self.is_a(T.DefiningName),
+
+            # The whole Identifier/DottedName contained in the defining name
+            # is always considered defining.
+            Self.parent.is_a(T.DefiningName),
+
+            # And in case of a dotted name, the suffix of the outermost dotted
+            # name is also considered defining.
+            Self.parent.parent.is_a(T.DefiningName)
+            & (Self.parent.cast(T.DottedName)._.suffix == Self)
+        )
 
     parent_scope = AbstractProperty(
         type=LexicalEnv, runtime_check=True,

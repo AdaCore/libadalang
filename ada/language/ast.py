@@ -4572,7 +4572,7 @@ class TypeDecl(BaseTypeDecl):
             through=T.TypeDecl.parent_primitives_env,
             kind=RefKind.transitive,
             dest_env=Self.node_env,
-            cond=Self.type_def.is_a(T.DerivedTypeDef),
+            cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             category="inherited_primitives"
         ),
     )
@@ -4665,11 +4665,10 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def parent_primitives_env():
-        return Self.type_def.match(
-            lambda _=T.DerivedTypeDef:
+        return If(
+            Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             Entity.compute_primitives_env(include_self=False),
-
-            lambda _: Self.empty_env
+            Self.empty_env
         )
 
     @langkit_property()

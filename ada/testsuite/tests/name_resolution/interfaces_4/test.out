@@ -1,0 +1,18 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ReturnStmt test.adb:18:7-18:27>
+*********************************************************
+
+Expr: <CallExpr test.adb:18:14-18:26>
+  references: <DefiningName test.adb:5:16-5:24>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "Get_Name" test.adb:18:14-18:22>
+  references: <DefiningName test.adb:5:16-5:24>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "X" test.adb:18:24-18:25>
+  references: <DefiningName test.adb:16:18-16:19>
+  type:       <ClasswideTypeDecl ["Has_Foo"] test.adb:11:7-11:51>
+
+
+Done.

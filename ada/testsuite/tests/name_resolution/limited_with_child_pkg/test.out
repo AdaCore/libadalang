@@ -13,6 +13,9 @@ Expr: <DottedName p-a-b.ads:1:9-1:12>
 Expr: <Id "P" p-a-b.ads:1:9-1:10>
   references: <DefiningName p.ads:1:9-1:10>
   type:       None
+Expr: <Id "A" p-a-b.ads:1:11-1:12>
+  references: <DefiningName p-a.ads:3:9-3:12>
+  type:       None
 
 Resolving xrefs for node <SubpSpec p-a-b.ads:2:4-2:38>
 ******************************************************

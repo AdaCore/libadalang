@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix ``P_Is_Defining`` on dotted defining names
+description: |
+    Previously, ``P_Is_Defining`` would always return True for the suffix
+    of any dotted name appearing inside a defining name. For example, for
+    the declaration of an unit ``A.B.C``, ``P_Is_Defining`` would incorrectly
+    return True on ``B``. Now, only the outermost dotted name and its suffix
+    will be considered defining (here, ``A.B.C`` and ``C``).
+date: 2020-08-04

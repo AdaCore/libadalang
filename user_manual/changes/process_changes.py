@@ -4,6 +4,8 @@
 This script is an entry point to process change files for Libadalang.
 """
 
+from __future__ import absolute_import, division, print_function
+
 import argparse as A
 from collections import OrderedDict
 import datetime

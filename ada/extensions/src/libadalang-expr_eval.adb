@@ -24,8 +24,6 @@
 with Ada.Exceptions;
 with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 
-with Langkit_Support.Text; use Langkit_Support.Text;
-
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
 with Libadalang.Sources;  use Libadalang.Sources;
@@ -436,6 +434,11 @@ package body Libadalang.Expr_Eval is
                     E.P_Universal_Real_Type.As_Base_Type_Decl,
                     Long_Float'Value (Image (E.Text)));
 
+         when Ada_String_Literal =>
+            return (String_Lit,
+                    E.P_Expression_Type,
+                    +E.As_String_Literal.P_Denoted_Value);
+
          when Ada_Membership_Expr =>
             declare
                MB        : constant LAL.Membership_Expr :=
@@ -548,6 +551,18 @@ package body Libadalang.Expr_Eval is
 
                      return Create_Bool_Result (Result, BO.As_Ada_Node);
                   end;
+
+               when String_Lit =>
+                  --  Handle concatenation on string
+                  case Op.Kind is
+                  when Ada_Op_Concat =>
+                     return (String_Lit,
+                             E.P_Expression_Type,
+                             L.String_Result & R.String_Result);
+                  when others =>
+                     raise Property_Error with
+                        "Wrong operator for string: " & Op.Kind'Image;
+                  end case;
                end case;
             end;
 
@@ -575,6 +590,10 @@ package body Libadalang.Expr_Eval is
                   --  or reals.
                   raise Property_Error with
                      "Unary operator invalid on enumerations";
+
+               when String_Lit =>
+                  raise Property_Error with
+                     "Unary operator invalid on strings";
 
                when Int =>
                   declare
@@ -766,6 +785,8 @@ package body Libadalang.Expr_Eval is
                         Result := Arg_Val.Real_Result;
                      when Enum_Lit =>
                         raise Property_Error with "Invalid enum argument";
+                     when String_Lit =>
+                        raise Property_Error with "Invalid string argument";
                      end case;
                      return Create_Real_Result (Designated_Type, Result);
                   end;
@@ -782,6 +803,8 @@ package body Libadalang.Expr_Eval is
                         Result.Set (GNATCOLL.GMP.Long (Arg_Val.Real_Result));
                      when Enum_Lit =>
                         raise Property_Error with "Invalid enum argument";
+                     when String_Lit =>
+                        raise Property_Error with "Invalid string argument";
                      end case;
                      return Create_Int_Result (Designated_Type, Result);
                   end;
@@ -800,6 +823,8 @@ package body Libadalang.Expr_Eval is
                         --  with its new type.
                         return Create_Enum_Result
                            (Designated_Type, Arg_Val.Enum_Result);
+                     when String_Lit =>
+                        raise Property_Error with "Invalid string argument";
                      end case;
                   end;
 
@@ -832,6 +857,8 @@ package body Libadalang.Expr_Eval is
                begin
                   Result.Set (GNATCOLL.GMP.Long (Pos));
                end;
+            when String_Lit =>
+               raise Property_Error;
          end case;
       end return;
    end As_Int;
@@ -856,6 +883,24 @@ package body Libadalang.Expr_Eval is
       end case;
    end As_Bool;
 
+   ---------------
+   -- As_String --
+   ---------------
+
+   function As_String (Self : Eval_Result) return Unbounded_Text_Type is
+   begin
+      case Self.Kind is
+         when Int =>
+            raise Property_Error;
+         when Real =>
+            raise Property_Error;
+         when Enum_Lit =>
+            raise Property_Error;
+         when String_Lit =>
+            return Self.String_Result;
+      end case;
+   end As_String;
+
    -----------
    -- Image --
    -----------
@@ -867,7 +912,9 @@ package body Libadalang.Expr_Eval is
         & (case Self.Kind is
            when Int => Self.Int_Result.Image,
            when Real => Self.Real_Result'Image,
-           when Enum_Lit => Self.Enum_Result.Image) & ">";
+           when Enum_Lit => Self.Enum_Result.Image,
+           when String_Lit => Encode (To_Text (Self.String_Result), "UTF-8"))
+        & ">";
    end Image;
 
 end Libadalang.Expr_Eval;

@@ -1,6 +1,8 @@
 with Ada.Exceptions; use Ada.Exceptions;
 with Ada.Text_IO;    use Ada.Text_IO;
 
+with Langkit_Support.Text; use Langkit_Support.Text;
+
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.Common;    use Libadalang.Common;
 with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;
@@ -91,6 +93,9 @@ procedure Main is
             end;
          when Enum_Lit =>
             return "Enum_Lit " & X.Enum_Result.Image;
+         when String_Lit =>
+            return ("String_Lit " & """"
+                    & Encode (To_Text (X.String_Result), "UTF-8") & """");
       end case;
    end Eval_Result_To_String;
 

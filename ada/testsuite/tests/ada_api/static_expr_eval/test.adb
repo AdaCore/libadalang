@@ -124,4 +124,14 @@ begin
    begin
       null;
    end;
+
+   --  String expressions
+   declare
+      Test_1 : String := "Hello World!";
+      Test_2 : constant String := "Hello";
+      Test_3 : constant String := "World!";
+      Test_4 : String := Test_2 & " " & Test_3;
+   begin
+      null;
+   end;
 end Test;

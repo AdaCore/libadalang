@@ -7696,6 +7696,46 @@ class Expr(AdaNode):
         """
         pass
 
+    @langkit_property(return_type=T.String, public=True)
+    def eval_as_string():
+        """
+        Statically evaluates self, and returns the value of the evaluation as
+        a string.
+
+        .. note::
+            In order for a call to this not to raise, the expression needs to
+            be a static expression, as specified in the ARM section 4.9. You
+            can verify whether an expression is static with the
+            ``is_static_expr`` property.
+
+        .. ATTENTION::
+            This is an experimental feature, so even if it is exposed to allow
+            experiments, it is totally unsupported and the API and behavior are
+            very likely to change in the future.
+        """
+        return Entity.eval_as_string_in_env(No(Substitution.array))
+
+    @langkit_property(external=True, uses_entity_info=True, uses_envs=False,
+                      return_type=T.String, public=True)
+    def eval_as_string_in_env(env=T.Substitution.array):
+        """
+        Statically evaluates self, and returns the value of the evaluation as
+        a string. The given environment is used to substitute references
+        to declarations by actual values.
+
+        .. note::
+            In order for a call to this not to raise, the expression needs to
+            be a static expression, as specified in the ARM section 4.9. You
+            can verify whether an expression is static with the
+            ``is_static_expr`` property.
+
+        .. ATTENTION::
+            This is an experimental feature, so even if it is exposed to allow
+            experiments, it is totally unsupported and the API and behavior are
+            very likely to change in the future.
+        """
+        pass
+
     @langkit_property(return_type=DiscreteRange)
     def discrete_range():
         """

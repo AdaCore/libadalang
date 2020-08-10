@@ -1,0 +1,13 @@
+Eval 'node.f_default_expr.p_eval_as_string' on node <ObjectDecl ["S1"] valid.ads:3:4-3:43>
+Result: 'Hello World!'
+
+Eval 'node.f_default_expr.p_eval_as_string' on node <ObjectDecl ["S2"] valid.ads:6:4-6:36>
+Result: 'Hello'
+
+Eval 'node.f_default_expr.p_eval_as_string' on node <ObjectDecl ["S3"] valid.ads:9:4-9:37>
+Result: 'World!'
+
+Eval 'node.f_default_expr.p_eval_as_string' on node <ObjectDecl ["S4"] valid.ads:12:4-12:42>
+Result: 'Hello World!'
+
+

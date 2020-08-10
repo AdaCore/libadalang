@@ -88,6 +88,11 @@ package Libadalang.Implementation.Extensions is
       Env    : Internal_Substitution_Array_Access;
       E_Info : Internal_Entity_Info) return Big_Integer_Type;
 
+   function Expr_P_Eval_As_String_In_Env
+     (Node   : Bare_Expr;
+      Env    : Internal_Substitution_Array_Access;
+      E_Info : Internal_Entity_Info) return Character_Type_Array_Access;
+
    ---------------------------
    -- Generic_Instantiation --
    ---------------------------

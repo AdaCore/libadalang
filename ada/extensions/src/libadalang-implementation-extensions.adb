@@ -444,19 +444,24 @@ package body Libadalang.Implementation.Extensions is
       return Node.Compilation_Unit_No_Env;
    end Compilation_Unit_P_Get_Empty_Env;
 
-   -------------------------------
-   -- Expr_P_Eval_As_Int_In_Env --
-   -------------------------------
+   ----------------------
+   -- Expr_Eval_In_Env --
+   ----------------------
 
-   function Expr_P_Eval_As_Int_In_Env
+   package Eval renames Libadalang.Expr_Eval;
+
+   function Expr_Eval_In_Env
      (Node   : Bare_Expr;
       Env    : Internal_Substitution_Array_Access;
-      E_Info : Internal_Entity_Info) return Big_Integer_Type
+      E_Info : Internal_Entity_Info) return Eval.Eval_Result;
+
+   function Expr_Eval_In_Env
+     (Node   : Bare_Expr;
+      Env    : Internal_Substitution_Array_Access;
+      E_Info : Internal_Entity_Info) return Eval.Eval_Result
    is
       N : constant Expr := Public_Converters.Wrap_Node (Node, E_Info).As_Expr;
       E : Substitution_Array (Env.Items'First .. Env.Items'Last);
-
-      package Eval renames Libadalang.Expr_Eval;
    begin
       for I in Env.Items'Range loop
          declare
@@ -470,8 +475,36 @@ package body Libadalang.Implementation.Extensions is
                To_Value  => Bare_Subst.To_Value.Value);
          end;
       end loop;
-      return Create_Big_Integer (Eval.As_Int (Eval.Expr_Eval_In_Env (N, E)));
+      return Eval.Expr_Eval_In_Env (N, E);
+   end Expr_Eval_In_Env;
+
+   -------------------------------
+   -- Expr_P_Eval_As_Int_In_Env --
+   -------------------------------
+
+   function Expr_P_Eval_As_Int_In_Env
+     (Node   : Bare_Expr;
+      Env    : Internal_Substitution_Array_Access;
+      E_Info : Internal_Entity_Info) return Big_Integer_Type
+   is
+   begin
+      return Create_Big_Integer
+         (Eval.As_Int (Expr_Eval_In_Env (Node, Env, E_Info)));
    end Expr_P_Eval_As_Int_In_Env;
+
+   ----------------------------------
+   -- Expr_P_Eval_As_String_In_Env --
+   ----------------------------------
+
+   function Expr_P_Eval_As_String_In_Env
+     (Node   : Bare_Expr;
+      Env    : Internal_Substitution_Array_Access;
+      E_Info : Internal_Entity_Info) return Character_Type_Array_Access
+   is
+   begin
+      return Create_Character_Type_Array
+         (Eval.As_String (Expr_Eval_In_Env (Node, Env, E_Info)));
+   end Expr_P_Eval_As_String_In_Env;
 
    -----------------------------------------------
    -- Generic_Instantiation_P_Instantiation_Env --

@@ -150,4 +150,12 @@ Expr <ObjectDecl ["Test_3"] test.adb:122:7-122:39> evaluated to Enum_Lit <EnumLi
 Expr <ObjectDecl ["Test_4"] test.adb:123:7-123:38> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
    Int value is 0
 
+Expr <ObjectDecl ["Test_1"] test.adb:130:7-130:41> evaluated to String_Lit "Hello World!"
+
+Expr <ObjectDecl ["Test_2"] test.adb:131:7-131:43> evaluated to String_Lit "Hello"
+
+Expr <ObjectDecl ["Test_3"] test.adb:132:7-132:44> evaluated to String_Lit "World!"
+
+Expr <ObjectDecl ["Test_4"] test.adb:133:7-133:48> evaluated to String_Lit "Hello World!"
+
 Done.

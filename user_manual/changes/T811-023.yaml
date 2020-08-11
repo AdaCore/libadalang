@@ -1,0 +1,7 @@
+type: bugfix
+title: Name resolution for float attributes
+description: |
+    This change adds name resolution support for new floating-point
+    attributes, such as ``Copy_Sign``, ``Remainder`` and ``Adjacent``.
+    It also adds support for the GNAT-specific ``Invalid_Value`` attribute.
+date: 2020-08-11

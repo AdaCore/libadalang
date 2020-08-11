@@ -94,8 +94,9 @@ jobs:
       # repository.
       - name: Upload tar-ball to Bintray
         if: ${{env.BINTRAY_API_KEY_DEFINED == 'true'}}
-        uses: reznikmm/upload-bintray-action@v1
+        uses: reznikmm/upload-bintray-action@v2
         with:
+          subject: reznikmm
           username: reznikmm
           repository: libadalang
           package: libadalang

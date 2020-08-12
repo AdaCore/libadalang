@@ -74,6 +74,25 @@ Once you built Libadalang, you can install the library in any place you want:
 
    $ python ada/manage.py --library-types=static,static-pic,relocatable install $INSTALL_DIR
 
+Then, depending on your operating system and your system configuration, you may
+need to update environment variables so that programs can load dynamic
+libraries:
+
+.. code-block:: sh
+
+   # On most Unix systems:
+   export LD_LIBRARY_PATH=$INSTALL_DIR/lib:$LD_LIBRARY_PATH
+
+   # On Windows, either:
+   export PATH=$INSTALL_DIR/bin:$PATH
+   # ... or:
+   set PATH "$INSTALL_DIR\bin;$PATH"
+
+In addition, if GPRbuild is not installed in $INSTALL_DIR, you need to add
+``$INSTALL_DIR/share/gpr`` to the ``GPR_PROJECT_PATH`` environment variable in
+order for GPRbuild to locate the installed project files, such as
+``libadalang.gpr``.
+
 
 Using Libadalang without installing it
 --------------------------------------

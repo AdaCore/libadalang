@@ -4,9 +4,7 @@ Python API Tutorial
 Now that you are familiar with Libadalang's :ref:`core-concepts`, let's
 actually do some practice with the Python API.
 
-.. note:: For the moment, only Python 2.7 is supported. We plan to add support
-    for Python 3 in the near future - see
-    https://github.com/AdaCore/libadalang/issues/325 for status.
+.. note:: Libadalang's Python API supports Python 2.7+ and Python 3.7+.
 
 Preliminary setup
 =================

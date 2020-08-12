@@ -10,6 +10,7 @@ with Ada.Unchecked_Deallocation;
 with GNAT.Traceback.Symbolic;
 
 with GNATCOLL.JSON;
+with GNATCOLL.Memory;
 with GNATCOLL.Opt_Parse;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
@@ -79,7 +80,10 @@ procedure Nameres is
    procedure Free is new Ada.Unchecked_Deallocation
      (Job_Data_Array, Job_Data_Array_Access);
 
-   Job_Data : Job_Data_Array_Access;
+   Job_Data   : Job_Data_Array_Access;
+
+   Time_Start : Time;
+   --  Time at which the app starts, when Args.Time is set
 
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Job_Setup (Context : App_Job_Context);
@@ -151,10 +155,16 @@ procedure Nameres is
 
       package Time is new Parse_Flag
         (App.Args.Parser,
-         Long => "--time",
+         Long  => "--time",
          Short => "-T",
-         Help => "Show the time it took to nameres each file. "
-                 & "Implies --quiet so that you only have timing info");
+         Help  => "Show the time it took to nameres each file. "
+                  & "Implies --quiet so that you only have timing info");
+
+      package Memory is new Parse_Flag
+        (App.Args.Parser,
+         Long  => "--memory",
+         Short => "-M",
+         Help  => "Show the global memory footprint on exit");
 
       package Timeout is new Parse_Option
         (App.Args.Parser, "-t", "--timeout",
@@ -644,6 +654,10 @@ procedure Nameres is
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array) is
       pragma Unreferenced (Context);
    begin
+      if Args.Memory.Get then
+         GNATCOLL.Memory.Configure (Activate_Monitor => True);
+      end if;
+
       if Args.No_Lookup_Cache.Get then
          Disable_Lookup_Cache (True);
       end if;
@@ -652,6 +666,10 @@ procedure Nameres is
          Set_Debug_State (Trace);
       elsif Args.Debug.Get then
          Set_Debug_State (Step);
+      end if;
+
+      if Args.Time.Get then
+         Time_Start := Clock;
       end if;
 
       Job_Data := new Job_Data_Array'(Jobs'Range => (others => <>));
@@ -1263,9 +1281,21 @@ procedure Nameres is
    is
       pragma Unreferenced (Context);
 
-      Stats : Stats_Record;
-      Total : Natural;
+      Stats     : Stats_Record;
+      Total     : Natural;
+      Time_Stop : Time;
+      Watermark : GNATCOLL.Memory.Watermark_Info;
    begin
+      --  Measure time and memory before post-processing
+
+      if Args.Time.Get then
+         Time_Stop := Clock;
+      end if;
+
+      if Args.Memory.Get then
+         Watermark := GNATCOLL.Memory.Get_Allocations;
+      end if;
+
       --  Aggregate statistics from all jobs
 
       Stats := Job_Data (Jobs'First).Stats;
@@ -1299,9 +1329,27 @@ procedure Nameres is
          end;
       end if;
 
+      Put_Line ("Done.");
+
+      if Args.Memory.Get then
+         Ada.Text_IO.Put_Line
+           ("Memory allocation at end (MB):"
+            & Integer'Image (Integer (Watermark.Current) / 1024 / 1024));
+      end if;
+
       Free (Job_Data);
 
-      Put_Line ("Done.");
+      if Args.Time.Get then
+         Ada.Text_IO.Put_Line
+           ("Total time elapsed:" & Duration'Image (Time_Stop - Time_Start));
+
+         --  If the user has requested --time and --memory, warn that this
+         --  skews time measurements.
+         if Args.Memory.Get then
+            Ada.Text_IO.Put_Line
+              ("WARNING: measuring memory impacts time performance!");
+         end if;
+      end if;
    end App_Post_Process;
 
 begin

@@ -23,6 +23,11 @@ project Nameres is
    end Builder;
 
    package Compiler is
+      --  Nameres is using GNATCOLL.Memory to track memory usage:
+      --  -gnatg is needed to compile it. Other options are useful for
+      --  performance.
+      for Switches ("s-memory.adb") use ("-g", "-O2", "-gnatpg");
+
       case Build_Mode is
          when "dev" =>
             for Default_Switches ("Ada") use ("-g", "-O0", "-gnata");

@@ -18,7 +18,6 @@ file with the following content:
    import libadalang as lal
    context = lal.AnalysisContext()
 
-
 This very simple program will allow us to make sure the Python environment is
 properly setup to use Libadalang. Running the above file should yield no error
 and no result.

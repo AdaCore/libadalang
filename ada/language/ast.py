@@ -1321,7 +1321,7 @@ class BasicDecl(AdaNode):
         return Entity.match(
             lambda btd=T.BaseTypeDecl:
             btd.previous_part(True).cast(T.BasicDecl),
-            lambda bd=T.Body: bd.previous_part,
+            lambda bd=T.Body: bd.previous_part_internal,
             lambda _: No(T.BasicDecl.entity)
         )
 
@@ -2410,12 +2410,15 @@ class Body(BasicDecl):
             Entity.unbound_previous_part.then(lambda d: d.node.children_env)
         )
 
-    @langkit_property(public=True, return_type=T.BasicDecl.entity,
-                      memoized=True)
-    def previous_part():
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def previous_part_internal():
         """
         Return the previous part for this body. Might be a declaration or a
         body stub.
+
+        .. note::
+            This internal property was introduced by T812-020 in order to break
+            an infinite recursion.
         """
         # Use self.as_bare_entity and not Entity as a prefix for the following
         # call to unbound_previous_part. The reasoning is that the previous
@@ -2427,17 +2430,28 @@ class Body(BasicDecl):
             Self.as_bare_entity.unbound_previous_part.node.as_entity
         )
 
+    @langkit_property(public=True, return_type=T.BasicDecl.entity,
+                      memoized=True)
+    def previous_part():
+        """
+        Return the previous part for this body. Might be a declaration or a
+        body stub.
+        """
+        return Entity.previous_part_internal
+
     @langkit_property(public=True)
     def decl_part():
         """
         Return the decl corresponding to this node if applicable.
         """
-        return Entity.previous_part.then(lambda prev_part: prev_part.match(
-            # Stubs have one more previous part. Go back one more level to get
-            # the decl.
-            lambda stub=T.BodyStub: stub.previous_part,
-            lambda other: other
-        ))
+        return Entity.previous_part_internal.then(
+            lambda prev_part: prev_part.match(
+                # Stubs have one more previous part. Go back one more level
+                # to get the decl.
+                lambda stub=T.BodyStub: stub.previous_part_internal,
+                lambda other: other
+            )
+        )
 
     @langkit_property()
     def is_subunit():

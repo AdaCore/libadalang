@@ -125,7 +125,7 @@ specifically the nodes whose kind is ``Ada_Object_Decl``.
 
 Another useful thing to do with nodes is to relate them to the original source
 code. The first obvious way to do this is to get the source code excerpts that
-were parsed to create them: the ``Libadalang.Analysis.Debug_Text`` node
+were parsed to create them: the ``Libadalang.Analysis.Text`` node
 primitive does this. Another way is to get the source location corresponding to
 the first/last tokens that belong to this node: the
 ``Libadalang.Analysis.Sloc_Range`` node primitive will do this, returning a
@@ -135,12 +135,15 @@ expected start/end line/column numbers.
 .. code-block:: ada
 
    with Langkit_Support.Slocs;
+   with Langkit_Support.Text;
+
    package Slocs renames Langkit_Support.Slocs;
+   package Text renames Langkit_Support.Text;
 
    Put_Line
      ("Line"
       & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
-      & ": " & Node.Debug_Text);
+      & ": " & Text.Image (Node.Text));
 
 .. _ada example program:
 
@@ -155,6 +158,7 @@ the following program:
    with Ada.Command_Line;
    with Ada.Text_IO; use Ada.Text_IO;
    with Langkit_Support.Slocs;
+   with Langkit_Support.Text;
    with Libadalang.Analysis;
    with Libadalang.Common;
 
@@ -162,6 +166,7 @@ the following program:
       package LAL renames Libadalang.Analysis;
       package LALCO renames Libadalang.Common;
       package Slocs renames Langkit_Support.Slocs;
+      package Text renames Langkit_Support.Text;
 
       function Process_Node (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status;
       --  If Node is an object declaration, print its text. Always continue the
@@ -179,7 +184,7 @@ the following program:
             Put_Line
               ("Line"
                & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
-               & ": " & Node.Debug_Text);
+               & ": " & Text.Image (Node.Text));
          end if;
          return LALCO.Into;
       end Process_Node;
@@ -345,12 +350,12 @@ entity representing the type of the object declaration.
          Put_Line
            ("Line"
             & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
-            & ": " & Node.Debug_Text);
+            & ": " & Text.Image (Node.Text));
          declare
             Type_Decl : constant LAL.Base_Type_Decl :=
                Node.As_Object_Decl.F_Type_Expr.P_Designated_Type_Decl;
          begin
-            Put_Line ("   type is: " & Type_Decl.Debug_Text);
+            Put_Line ("   type is: " & Text.Image (Type_Decl.Text));
          end;
       end if;
       return LALCO.Into;

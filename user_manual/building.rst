@@ -50,7 +50,7 @@ directory. In order to build this source code into a shared library, run:
 
 .. code-block:: sh
 
-    $ python ada/manage.py build
+    $ python ada/manage.py --library-types=static,static-pic,relocatable build
 
 Assuming you satisfied all the above dependencies, both commands should
 successfuly run to completion.
@@ -59,7 +59,7 @@ While developing Libadalang you might be happy to use the following command:
 
 .. code-block:: sh
 
-   $ python ada/manage.py make
+   $ python ada/manage.py --library-types=static,static-pic,relocatable make
 
 It will wrap the two previous commands in one, generating the code and building
 it in one step.
@@ -72,7 +72,7 @@ Once you built Libadalang, you can install the library in any place you want:
 
 .. code-block:: sh
 
-   $ python ada/manage.py install $INSTALL_DIR
+   $ python ada/manage.py --library-types=static,static-pic,relocatable install $INSTALL_DIR
 
 
 Using Libadalang without installing it
@@ -89,24 +89,6 @@ Bourne-compatible shell, run:
 
 After this, you can both build programs that depend on Libadalang using
 GPRbuild and run Python interpreter to import the ``libadalang`` module.
-
-
-Static libraries
-----------------
-
-By default, the ``ada/manage.py`` script only deals with shared libraries. This
-is the most sensible default as using Libadalang's Python bindings requires
-shared libraries. In order to also build static ones, just insert the
-``--enable-static`` argument to all commands. For instance:
-
-.. code-block:: sh
-
-   $  python ada/manage.py --enable-static generate
-   $  python ada/manage.py --enable-static build
-   $  python ada/manage.py --enable-static install $INSTALL_DIR
-
-The above will generate, build and then install both the shared libraries and
-the static ones.
 
 
 Building the documentation

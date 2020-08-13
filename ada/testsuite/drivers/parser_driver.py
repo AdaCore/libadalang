@@ -63,7 +63,7 @@ class ParserDriver(BaseDriver):
         self.check_file(input_file)
 
         # Build the command line for the "parse" process we are going to run
-        base_argv = ['parse']
+        base_argv = ['lal_parse']
         misc_argv = []
 
         file_args = ['-f', input_file]

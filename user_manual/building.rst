@@ -16,12 +16,13 @@ following steps:
   `gnatcoll-bindings <https://github.com/AdaCore/gnatcoll-bindings>`_. Just
   make sure you checkout the ``gpl-20**`` branch corresponding to your GNAT
   Community release.
-* Install every Python dependency. We recommend creating a virtualenv and
-  installing them inside of it, this way:
+* Install every Python dependency. We recommend creating a [virtual
+  environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+  and installing them inside of it, this way:
 
   .. code-block:: sh
 
-     $ virtualenv env
+     $ python -mvenv env
      $ source env/bin/activate
      $ pip install -r REQUIREMENTS.dev
 

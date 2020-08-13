@@ -13328,7 +13328,7 @@ class RequeueStmt(SimpleStmt):
                 # because _.at(0) does not unparse in a way that LKT can parse.
                 first_param=ce._.params.as_array.at(0)._.expr:
 
-                Bind(name.ref_var, e) & first_param.then(
+                first_param.then(
                     lambda p: p.sub_equation & fam_type.then(
                         lambda eft: Self.type_bind_val(p.type_var, eft),
                         LogicTrue()

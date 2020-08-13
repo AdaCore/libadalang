@@ -19,6 +19,11 @@ procedure ProducerConsumer_Test is
    end Producer_Consumer;
 
    protected body Producer_Consumer is
+      entry Wait_For_Get(Value_Get : out Natural) when Data_Available is
+      begin
+         Value_Get := The_Data;
+         Data_Available := False;
+      end Wait_For_Get;
 
       entry Get_Data (Value_Get : out Natural) when true is
       begin
@@ -30,12 +35,6 @@ procedure ProducerConsumer_Test is
             pragma Test_Statement;
          end if;
       end Get_Data;
-
-      entry Wait_For_Get(Value_Get : out Natural) when Data_Available is
-      begin
-         Value_Get := The_Data;
-         Data_Available := False;
-      end Wait_For_Get;
 
       procedure Put_Data(Value_Put : in Natural) is
       begin

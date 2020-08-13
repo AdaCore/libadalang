@@ -180,25 +180,17 @@ For instance, consider the following aggregate project:
    --  "agg.gpr"
 
    aggregate project Agg is
-      for Project_Files use ("arch32/arch.gpr", "arch64/arch.gpr");
+      for Project_Files use ("main32.gpr", "main64.gpr");
    end Agg;
 
-The two following projects (two alternative implementations of the same
-package):
+
+The following sources (two alternative implementations of the same package):
 
 .. code-block:: ada
-
-   --  "arch32/arch.gpr"
-   project Arch is
-   end Arch;
 
    --  "arch32/arch.ads"
    package Arch is
       type Target_Address is mod 2 ** 32;
-   end Arch;
-
-   --  "arch64/arch.gpr"
-   project Arch is
    end Arch;
 
    --  "arch64/arch.ads"
@@ -206,15 +198,23 @@ package):
       type Target_Address is mod 2 ** 64;
    end Arch;
 
-And finally the following project:
+And finally the following alternative main projects:
 
 .. code-block:: ada
 
-   --  "main.gpr"
-   with "arch";
-   project Main is
+   --  "main32.gpr"
+   project Main32 is
+      for Source_Dirs use (".", "arch32");
       for Main use ("main.adb");
-   end Main;
+      for Object_Dir use "obj/main32";
+   end Main32;
+
+   --  "main64.gpr"
+   project Main64 is
+      for Source_Dirs use (".", "arch64");
+      for Main use ("main.adb");
+      for Object_Dir use "obj/main64";
+   end Main64;
 
    --  "main.adb"
    with Ada.Text_IO, Arch;
@@ -224,24 +224,34 @@ And finally the following project:
         ("Arch.Target_Address'Size =" & Arch.Target_Address'Size'Image);
    end;
 
+Building the aggregate project with ``gprbuild -Pagg -p -j8 -q`` yields two
+alternative ``main`` executables:
+
+.. code-block:: sh
+
+   $ obj/main32/main
+   Arch.Target_Address'Size = 32
+   $ obj/main64/main
+   Arch.Target_Address'Size = 64
+
 Just like the output of the "main" program depends on which ``Arch`` package is
 used, the result of the "get to the definition" query on
 ``Arch.Target_Address`` above depends on it.
 
-Because of this, Libadalang's project provider has restrictions on the
-aggregate projects passed to it:
+Because of this, Libadalang's project provider has multiple ways to work, each
+one coming with its own restrictions on the aggregate projects passed to it:
 
-1. Either the given aggregate project must contain at most one source file per
-   unit name/kind. It is not the case in the example above, because there are
-   two files (``arch32/arch.ads`` and ``arch64/arch.ads``) associated to the
-   spec of the ``Arch`` unit.
+1. When only passed an aggregate project, that project must contain at most one
+   source file per unit name/kind. It is not the case in the example above,
+   because there are two files (``arch32/arch.ads`` and ``arch64/arch.ads``)
+   associated to the spec of the ``Arch`` unit.
 
-2. Either the aggregate project must come with a reference to a specific
-   project file in the whole project tree. The unit provider will consider only
-   the source files that this project file and all its dependencies contain.
-   In the example above, this means that one could give the ``agg.gpr`` project
-   file plus a reference to the ``arch32/arch.gpr`` project: Libadalang would
-   then only analyze the ``arch32/arch.ads`` source file.
+2. When passed an aggregate project plus a reference to a specific project file
+   in the whole project tree, the unit provider will consider only the source
+   files that this project file and all its dependencies own contain.  In the
+   example above, this means that one could give the ``agg.gpr`` project file
+   plus a reference to the ``main32.gpr`` project: Libadalang would then
+   only analyze the ``arch32/arch.ads`` source file.
 
 3. Libadalang can also create several project providers, each one having a
    restricted view on the sub-project it has access to, so that only one source

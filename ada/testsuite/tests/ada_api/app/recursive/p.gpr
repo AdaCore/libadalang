@@ -1,0 +1,5 @@
+with "sub/q";
+
+project p is
+   for Source_Files use ();
+end p;

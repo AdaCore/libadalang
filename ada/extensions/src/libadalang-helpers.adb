@@ -113,9 +113,13 @@ package body Libadalang.Helpers is
       --  Abort_App.
 
       procedure List_Sources_From_Project
-        (Project : Project_Tree'Class; Files : out String_Vectors.Vector);
+        (Project             : Project_Tree'Class;
+         Include_Subprojects : Boolean;
+         Files               : out String_Vectors.Vector);
       --  Append the list of all source files in Project's root project to
-      --  Files.
+      --  Files. If Include_Subprojects is True, include all source files
+      --  in the imported projects, excluding those that are externally
+      --  built.
 
       function Files_From_Args
         (Files : out String_Vectors.Vector) return Boolean;
@@ -263,13 +267,18 @@ package body Libadalang.Helpers is
       -------------------------------
 
       procedure List_Sources_From_Project
-        (Project : Project_Tree'Class; Files : out String_Vectors.Vector)
+        (Project             : Project_Tree'Class;
+         Include_Subprojects : Boolean;
+         Files               : out String_Vectors.Vector)
       is
          --  Get a sorted list of source files in Project's root project.
          --  Sorting gets the output deterministic and thus helps
          --  reproducibility.
 
-         List : File_Array_Access := Project.Root_Project.Source_Files;
+         List : File_Array_Access :=
+                  Project.Root_Project.Source_Files
+                    (Recursive                => Include_Subprojects,
+                     Include_Externally_Built => False);
       begin
          Sort (List.all);
 
@@ -478,7 +487,10 @@ package body Libadalang.Helpers is
                Env           => Env);
             UFP := Project_To_Provider (Project);
             if not Files_From_Args (Files) then
-               List_Sources_From_Project (Project.all, Files);
+               List_Sources_From_Project
+                 (Project.all,
+                  Args.Process_Full_Project_Tree.Get,
+                  Files);
             end if;
 
             --  Fill in the provider

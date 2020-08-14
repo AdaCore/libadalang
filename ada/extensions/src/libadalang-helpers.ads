@@ -205,6 +205,11 @@ package Libadalang.Helpers is
             Default_Val => Null_Unbounded_String,
             Help        => "Project file to use");
 
+         package Process_Full_Project_Tree is new Parse_Flag
+           (Parser, "-U", "--recursive",
+            Help => "Process all units in the project tree, " &
+              "excluding externally built projects");
+
          package Scenario_Vars is new Parse_Option_List
            (Parser, Short => "-X", Long => "--scenario-variable",
             Arg_Type      => Unbounded_String,

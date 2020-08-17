@@ -12096,9 +12096,6 @@ class AttributeRef(Name):
             rel_name == 'Identity', Entity.identity_equation,
             rel_name == 'Address', Entity.address_equation,
 
-            rel_name.any_of('Maximum_Alignment', 'Word_Size'),
-            Entity.standard_attr_equation,
-
             rel_name.any_of('Small', 'Large', 'Epsilon', 'Model_Epsilon',
                             'Safe_Large', 'Safe_Small'),
             Entity.universal_real_equation,
@@ -12130,9 +12127,11 @@ class AttributeRef(Name):
             rel_name.any_of('Width', 'Component_Size', 'Position',
                             'Mantissa', 'Model_Mantissa', 'Machine_Mantissa',
                             'Fore', 'Aft', 'Digits', 'Modulus',
-                            'Address_Size', 'System_Allocator_Alignment',
+                            'Word_Size', 'Max_Integer_Size', 'Address_Size',
+                            'Maximum_Alignment', 'System_Allocator_Alignment',
                             'Finalization_Size', 'Descriptor_Size',
-                            'Alignment', 'First_Bit', 'Last_Bit'),
+                            'Alignment', 'First_Bit', 'Last_Bit',
+                            'Default_Bit_Order'),
             Entity.prefix.sub_equation
             & Self.universal_int_bind(Self.type_var),
 
@@ -12339,14 +12338,6 @@ class AttributeRef(Name):
         return (
             Self.universal_real_bind(Self.type_var)
             & Entity.prefix.sub_equation
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def standard_attr_equation():
-        return (
-            # TODO: run the equation of the prefix (std package), does not
-            # work for the moment because the architecture is wrong.
-            Self.universal_int_bind(Self.type_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

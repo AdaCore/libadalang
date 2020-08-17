@@ -28,6 +28,10 @@ begin
       M  : constant Natural := Inst'Finalization_Size;
       N  : constant Natural := R'Descriptor_Size;
       O  : constant Natural := Inst'Alignment;
+      P  : constant Natural := Standard'Word_Size;
+      Q  : constant Natural := Standard'Max_Integer_Size;
+      R  : constant Natural := Standard'Maximum_Alignment;
+      S  : constant Natural := Standard'Default_Bit_Order;
    begin
       null;
    end;

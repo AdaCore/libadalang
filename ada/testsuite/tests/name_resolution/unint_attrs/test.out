@@ -291,7 +291,71 @@ Expr: <Id "Alignment" test_unint_attrs.adb:30:37-30:46>
   references: None
   type:       None
 
-Resolving xrefs for node <NullStmt test_unint_attrs.adb:32:7-32:12>
+Resolving xrefs for node <ObjectDecl ["P"] test_unint_attrs.adb:31:7-31:51>
+***************************************************************************
+
+Expr: <Id "Natural" test_unint_attrs.adb:31:21-31:28>
+  references: <DefiningName __standard:5:11-5:18>
+  type:       None
+Expr: <AttributeRef test_unint_attrs.adb:31:32-31:50>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <Id "Standard" test_unint_attrs.adb:31:32-31:40>
+  references: <DefiningName __standard:1:9-1:17>
+  type:       None
+Expr: <Id "Word_Size" test_unint_attrs.adb:31:41-31:50>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["Q"] test_unint_attrs.adb:32:7-32:58>
+***************************************************************************
+
+Expr: <Id "Natural" test_unint_attrs.adb:32:21-32:28>
+  references: <DefiningName __standard:5:11-5:18>
+  type:       None
+Expr: <AttributeRef test_unint_attrs.adb:32:32-32:57>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <Id "Standard" test_unint_attrs.adb:32:32-32:40>
+  references: <DefiningName __standard:1:9-1:17>
+  type:       None
+Expr: <Id "Max_Integer_Size" test_unint_attrs.adb:32:41-32:57>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["R"] test_unint_attrs.adb:33:7-33:59>
+***************************************************************************
+
+Expr: <Id "Natural" test_unint_attrs.adb:33:21-33:28>
+  references: <DefiningName __standard:5:11-5:18>
+  type:       None
+Expr: <AttributeRef test_unint_attrs.adb:33:32-33:58>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <Id "Standard" test_unint_attrs.adb:33:32-33:40>
+  references: <DefiningName __standard:1:9-1:17>
+  type:       None
+Expr: <Id "Maximum_Alignment" test_unint_attrs.adb:33:41-33:58>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["S"] test_unint_attrs.adb:34:7-34:59>
+***************************************************************************
+
+Expr: <Id "Natural" test_unint_attrs.adb:34:21-34:28>
+  references: <DefiningName __standard:5:11-5:18>
+  type:       None
+Expr: <AttributeRef test_unint_attrs.adb:34:32-34:58>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <Id "Standard" test_unint_attrs.adb:34:32-34:40>
+  references: <DefiningName __standard:1:9-1:17>
+  type:       None
+Expr: <Id "Default_Bit_Order" test_unint_attrs.adb:34:41-34:58>
+  references: None
+  type:       None
+
+Resolving xrefs for node <NullStmt test_unint_attrs.adb:36:7-36:12>
 *******************************************************************
 
 

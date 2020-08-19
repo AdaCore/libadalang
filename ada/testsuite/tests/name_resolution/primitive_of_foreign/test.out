@@ -1,0 +1,18 @@
+Analyzing pkg.adb
+#################
+
+Resolving xrefs for node <CallStmt pkg.adb:13:7-13:14>
+******************************************************
+
+Expr: <DottedName pkg.adb:13:7-13:13>
+  references: <DefiningName pkg.adb:3:14-3:18>
+  type:       None
+Expr: <Id "V" pkg.adb:13:7-13:8>
+  references: <DefiningName pkg.adb:11:7-11:8>
+  type:       <TypeDecl ["T"] pkg.ads:2:4-2:33>
+Expr: <Id "Prim" pkg.adb:13:9-13:13>
+  references: <DefiningName pkg.adb:3:14-3:18>
+  type:       None
+
+
+Done.

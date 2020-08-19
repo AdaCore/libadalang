@@ -6026,7 +6026,8 @@ class BasicSubpDecl(BasicDecl):
         do(Self.env_hook),
 
         set_initial_env(
-            env.bind(Self.default_initial_env, Entity.decl_scope)
+            env.bind(Self.default_initial_env, Entity.decl_scope),
+            unsound=True,
         ),
 
         add_to_env_kv(
@@ -6034,7 +6035,8 @@ class BasicSubpDecl(BasicDecl):
             dest_env=env.bind(
                 Self.default_initial_env,
                 Self.as_bare_entity.subp_decl_spec.name.parent_scope
-            )
+            ),
+            unsound=True,
         ),
         add_env(),
         do(Self.populate_dependent_units),
@@ -6063,6 +6065,7 @@ class BasicSubpDecl(BasicDecl):
                     metadata=T.Metadata.new(dottable_subp=True)
                 )
             ),
+            unsound=True,
         ),
 
         # Adding subp to the primitives env if the subp is a primitive
@@ -6718,11 +6721,12 @@ class PackageDecl(BasePackageDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
-                                 Self.initial_env(Entity.decl_scope))),
+                                 Self.initial_env(Entity.decl_scope)),
+                        unsound=True),
         add_to_env(Self.env_assoc(
             Entity.name_symbol,
             env.bind(Self.parent.node_env, Entity.decl_scope(False))
-        )),
+        ), unsound=True),
         add_env(),
         do(Self.populate_dependent_units),
         reference(
@@ -6922,7 +6926,8 @@ class GenericSubpInstantiation(GenericInstantiation):
             env.bind(Self.default_initial_env, Let(
                 lambda scope=Self.as_bare_entity.defining_name.parent_scope:
                 If(scope == EmptyEnv, env, scope)
-            ))
+            )),
+            unsound=True
         ),
 
         add_env(),
@@ -6955,7 +6960,8 @@ class GenericSubpInstantiation(GenericInstantiation):
         add_to_env_kv(
             Entity.name_symbol, Self,
             resolver=T.GenericSubpInstantiation.designated_subp,
-            dest_env=Self.node_env
+            dest_env=Self.node_env,
+            unsound=True,
         ),
     )
 
@@ -7048,7 +7054,7 @@ class GenericPackageInstantiation(GenericInstantiation):
             If(Self.is_formal,
                Self.default_initial_env,
                Entity.decl_scope(False))
-        )),
+        ), unsound=True),
 
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(),
@@ -7143,7 +7149,8 @@ class PackageRenamingDecl(BasicDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
-                                 Self.initial_env(Entity.name.parent_scope))),
+                                 Self.initial_env(Entity.name.parent_scope)),
+                        unsound=True),
         add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
         add_env(),
         do(Self.populate_dependent_units),
@@ -7212,7 +7219,8 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
-                                 Self.initial_env(Self.name.parent_scope))),
+                                 Self.initial_env(Self.name.parent_scope)),
+                        unsound=True),
         add_to_env(new_env_assoc(key=Entity.name_symbol, val=Self)),
         add_env(),
         do(Self.populate_dependent_units),
@@ -7431,7 +7439,8 @@ class GenericSubpDecl(GenericDecl):
         do(Self.env_hook),
 
         set_initial_env(
-            env.bind(Self.default_initial_env, Entity.decl_scope)
+            env.bind(Self.default_initial_env, Entity.decl_scope),
+            unsound=True,
         ),
 
         add_to_env_kv(
@@ -7439,7 +7448,8 @@ class GenericSubpDecl(GenericDecl):
             dest_env=env.bind(
                 Self.default_initial_env,
                 Self.as_bare_entity.defining_name.parent_scope
-            )
+            ),
+            unsound=True,
         ),
         add_env(),
         do(Self.populate_dependent_units),
@@ -7479,11 +7489,12 @@ class GenericPackageDecl(GenericDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
-                                 Self.initial_env(Entity.decl_scope))),
+                                 Self.initial_env(Entity.decl_scope)),
+                        unsound=True),
         add_to_env(Self.env_assoc(
             Entity.name_symbol,
             env.bind(Self.parent.node_env, Entity.decl_scope(False))
-        )),
+        ), unsound=True),
         add_env(),
         do(Self.populate_dependent_units),
         reference(
@@ -12908,7 +12919,7 @@ class CompilationUnit(AdaNode):
 
                 Self.std_env
             )
-        ))
+        ), unsound=True)
     )
 
 
@@ -12955,6 +12966,7 @@ class BaseSubpBody(Body):
                 # visibility on the private part of our parent package, if any.
                 follow_private=Self.is_compilation_unit_root
             )),
+            unsound=True,
         ),
 
         # Add the body to its own parent env, if it's not the body of a stub
@@ -12967,6 +12979,7 @@ class BaseSubpBody(Body):
                 dest_env=env.bind(Self.default_initial_env,
                                   Entity.body_scope(False))
             ).singleton),
+            unsound=True,
         ),
 
         add_env(transitive_parent=True),
@@ -13013,6 +13026,7 @@ class BaseSubpBody(Body):
                     metadata=T.Metadata.new(dottable_subp=True)
                 )
             ),
+            unsound=True,
         ),
 
         # Adding subp to the primitives env if the subp is a primitive
@@ -13758,7 +13772,7 @@ class PackageBody(Body):
         set_initial_env(env.bind(
             Self.default_initial_env,
             Self.initial_env(Entity.body_scope(follow_private=True))
-        )),
+        ), unsound=True),
 
         add_to_env(Self.env_assoc(
             '__nextpart',
@@ -13773,7 +13787,7 @@ class PackageBody(Body):
                     Entity.body_scope(follow_private=False, force_decl=True)
                 )
             )
-        )),
+        ), unsound=True),
 
         # We make a transitive parent link only when the package is a library
         # level package.
@@ -13872,7 +13886,8 @@ class TaskBody(Body):
     env_spec = EnvSpec(
         do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
-                                 Self.initial_env(Entity.body_scope(True)))),
+                                 Self.initial_env(Entity.body_scope(True))),
+                        unsound=True),
         add_to_env(Self.env_assoc(
             '__nextpart',
             env.bind(
@@ -13883,7 +13898,7 @@ class TaskBody(Body):
                    Entity.body_scope(False, True)
                    ._or(Entity.body_scope(False, False)))
             ),
-        )),
+        ), unsound=True),
         add_env(),
         do(Self.populate_dependent_units),
         reference(
@@ -13943,7 +13958,7 @@ class ProtectedBody(Body):
                    Entity.body_scope(False, True)
                    ._or(Entity.body_scope(False, False)))
             )
-        )),
+        ), unsound=True),
         add_env(),
         do(Self.populate_dependent_units),
         reference(
@@ -14089,7 +14104,8 @@ class ProtectedBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env),
+        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env,
+                      unsound=True),
         add_env(),
     )
 
@@ -14126,7 +14142,8 @@ class PackageBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env),
+        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env,
+                      unsound=True),
         add_env(),
     )
 
@@ -14142,7 +14159,8 @@ class TaskBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env),
+        add_to_env_kv('__nextpart', Self, dest_env=Entity.stub_decl_env,
+                      unsound=True),
         add_env(),
     )
 

@@ -4020,8 +4020,8 @@ class BaseTypeDecl(BasicDecl):
         is the type you'll get if you call a value whose type is `Self`.  So it
         can either be:
 
-            1. The component type for an array.
-            2. The return type for an access to function.
+        1. The component type for an array.
+        2. The return type for an access to function.
         """
         return Entity.then(
             lambda e: Let(
@@ -4972,10 +4972,11 @@ class AnonymousTypeDecl(TypeDecl):
     def access_def_matches(other=BaseTypeDecl.entity, for_assignment=Bool):
         """
         Returns whether:
-          1. Self and other are both access types.
-          2. Their access def matches structurally. If for_assignment is True,
-             matching_assign_type is used instead of matching_type to compare
-             the two access defs.
+
+        1. Self and other are both access types.
+        2. Their access def matches structurally. If for_assignment is True,
+           matching_assign_type is used instead of matching_type to compare
+           the two access defs.
         """
 
         # If the anonymous type is an access type definition, then verify if
@@ -9359,14 +9360,14 @@ class Name(Expr):
         """
         Whether this name is a write reference.
 
-        For example, `X` is a write reference in the following cases::
+        For example, `X` is a write reference in the following cases:
 
-          1. `X := 2;`
-          2. `X (2) := 2;`
-          3. `P(F => X)` where F is declared `out` or `in out`.
-          6. `X.P` where the formal for X is declared `out` or `in out`.
-          4. `X'Access`.
-          5. `X.C := 2`, `R.X := 2`
+        1. `X := 2;`
+        2. `X (2) := 2;`
+        3. `P(F => X)` where F is declared `out` or `in out`.
+        4. `X'Access`.
+        5. `X.C := 2`, `R.X := 2`
+        6. `X.P` where the formal for X is declared `out` or `in out`.
 
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "write reference".
@@ -9468,8 +9469,9 @@ class Name(Expr):
     def is_dispatching_call():
         """
         Returns True if this Name corresponds to a dispatching call, including:
-         - calls done through subprogram access types.
-         - calls to dispatching subprograms, in the object-oriented sense.
+
+        - Calls done through subprogram access types.
+        - Calls to dispatching subprograms, in the object-oriented sense.
 
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "dispatching call".

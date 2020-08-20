@@ -15,36 +15,36 @@ libadalang_docs = {
         one will yield an error (see below).
 
         % if lang == 'python':
-            If provided, ``Scenario_Vars`` must be a dict with key strings and
-            key values to describe the set of scenario variables for this
-            project.
+        If provided, ``Scenario_Vars`` must be a dict with key strings and
+        key values to describe the set of scenario variables for this
+        project.
 
-            In order to load the given project with non-default target and
-            runtimes, pass these as strings to the ``target`` and ``runtime``
-            arguments.
+        In order to load the given project with non-default target and
+        runtimes, pass these as strings to the ``target`` and ``runtime``
+        arguments.
 
         % else:
-            If not ``${null}``, ``Scenario_Vars`` must point to an array of
-            ``${capi.get_name('project_scenario_variable')}`` couples to
-            provide scenario variables for this project. The last element of
-            this array must end with a ``{ ${null}, ${null} }`` couple.
+        If not ``${null}``, ``Scenario_Vars`` must point to an array of
+        ``${capi.get_name('project_scenario_variable')}`` couples to
+        provide scenario variables for this project. The last element of
+        this array must end with a ``{ ${null}, ${null} }`` couple.
 
-            If not ``${null}``, ``target`` and ``runtime`` must point to valid
-            NULL-terminated strings.
+        If not ``${null}``, ``target`` and ``runtime`` must point to valid
+        NULL-terminated strings.
         % endif
 
         % if lang == 'c':
-            When done with it, the result must be free'd with
-            ``${capi.get_name('destroy_unit_provider')}``.
+        When done with it, the result must be free'd with
+        ``${capi.get_name('destroy_unit_provider')}``.
         % endif
 
         If the requested project is invalid (error while opening the file,
         error while analysing its syntax, ...), or if it is an unsupported
         aggregate project,
         % if lang == 'python':
-            this raises an ``InvalidProjectError`` exception.
+        this raises an ``InvalidProjectError`` exception.
         % else:
-            this returns ``${null}``.
+        this returns ``${null}``.
         % endif
     """,
     'libadalang.invalid_project_error': """
@@ -64,15 +64,16 @@ libadalang_docs = {
         the default charset (ISO-8859-1) is used.
 
         % if lang == 'c':
-            `input_files` must point to a ``NULL``-terminated array of
-            filenames.  Once this function returns, this array and the strings
-            it contains can be deallocated.
+        `input_files` must point to a ``NULL``-terminated array of
+        filenames.  Once this function returns, this array and the strings
+        it contains can be deallocated.
 
-            When done with it, the result must be free'd with
-            ``${capi.get_name('destroy_unit_provider')}``.
+        When done with it, the result must be free'd with
+        ``${capi.get_name('destroy_unit_provider')}``.
         % endif
 
-        .. todo:: Find a way to report discarded source files/compilation
-           units.
+        .. admonition:: todo
+
+            Find a way to report discarded source files/compilation units.
     """,
 }

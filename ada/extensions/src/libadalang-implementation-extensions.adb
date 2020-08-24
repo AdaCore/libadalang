@@ -27,6 +27,7 @@ with Ada.Strings.Wide_Wide_Unbounded;
 
 with GNATCOLL.GMP.Integers;
 
+with Langkit_Support.Bump_Ptr;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
@@ -40,6 +41,8 @@ with Libadalang.Unit_Files;
 --  Extension to store the code for external properties
 
 package body Libadalang.Implementation.Extensions is
+
+   procedure Alloc_Logic_Vars (Node : Bare_Expr) with Inline;
 
    -------------------------
    -- Ada_Node_P_Get_Unit --
@@ -579,5 +582,76 @@ package body Libadalang.Implementation.Extensions is
       end if;
       return Node.Type_Decl_Prims_Env;
    end Type_Decl_P_Primitives;
+
+   package Alloc_Logic_Var_Array is new
+     Langkit_Support.Bump_Ptr.Array_Alloc
+       (Element_T  => Logic_Var_Record,
+        Index_Type => Positive);
+
+   procedure Alloc_Logic_Vars (Node : Bare_Expr) is
+   begin
+      if Node.Expr_Logic_Vars = System.Null_Address then
+         declare
+            LV_Number : constant Positive :=
+              (case Node.Kind is
+                  when Ada_Single_Tok_Node => 3,
+                  when others              => 1);
+
+            Arr : constant Alloc_Logic_Var_Array.Element_Array_Access
+              := Alloc_Logic_Var_Array.Alloc
+                (Node.Unit.AST_Mem_Pool, LV_Number);
+         begin
+            for I in 1 .. LV_Number loop
+               Arr (I) := Null_Var_Record;
+            end loop;
+
+            Node.Expr_Logic_Vars := Arr.all'Address;
+         end;
+      end if;
+   end Alloc_Logic_Vars;
+
+   -------------------------------
+   -- Single_Tok_Node_P_Ref_Var --
+   -------------------------------
+
+   function Single_Tok_Node_P_Ref_Var
+     (Node : Bare_Single_Tok_Node) return Logic_Var
+   is
+   begin
+      Alloc_Logic_Vars (Node);
+
+      return Logic_Var'
+        (Alloc_Logic_Var_Array.To_Pointer
+           (Node.Expr_Logic_Vars) (2)'Unrestricted_Access);
+   end Single_Tok_Node_P_Ref_Var;
+
+   -------------------------------------
+   -- Single_Tok_Node_P_Subp_Spec_Var --
+   -------------------------------------
+
+   function Single_Tok_Node_P_Subp_Spec_Var
+     (Node : Bare_Single_Tok_Node) return Logic_Var
+   is
+   begin
+      Alloc_Logic_Vars (Node);
+
+      return Logic_Var'
+        (Alloc_Logic_Var_Array.To_Pointer
+           (Node.Expr_Logic_Vars) (3)'Unrestricted_Access);
+   end Single_Tok_Node_P_Subp_Spec_Var;
+
+   ---------------------
+   -- Expr_P_Type_Var --
+   ---------------------
+
+   function Expr_P_Type_Var (Node : Bare_Expr) return Logic_Var
+   is
+   begin
+      Alloc_Logic_Vars (Node);
+
+      return Logic_Var'
+        (Alloc_Logic_Var_Array.To_Pointer
+           (Node.Expr_Logic_Vars) (1)'Unrestricted_Access);
+   end Expr_P_Type_Var;
 
 end Libadalang.Implementation.Extensions;

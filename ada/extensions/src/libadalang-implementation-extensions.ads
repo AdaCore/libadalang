@@ -129,4 +129,20 @@ package Libadalang.Implementation.Extensions is
 
    function Type_Decl_P_Primitives (Node : Bare_Type_Decl) return Lexical_Env;
 
+   ----------
+   -- Expr --
+   ----------
+
+   function Expr_P_Type_Var (Node : Bare_Expr) return Logic_Var;
+
+   ---------------------
+   -- Single_Tok_Node --
+   ---------------------
+
+   function Single_Tok_Node_P_Ref_Var
+     (Node : Bare_Single_Tok_Node) return Logic_Var;
+
+   function Single_Tok_Node_P_Subp_Spec_Var
+     (Node : Bare_Single_Tok_Node) return Logic_Var;
+
 end Libadalang.Implementation.Extensions;

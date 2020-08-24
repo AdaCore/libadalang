@@ -7600,7 +7600,13 @@ class Expr(AdaNode):
     Base class for expressions.
     """
 
-    type_var = UserField(LogicVar, public=False)
+    logic_vars = UserField(type=T.Address, public=False)
+
+    @langkit_property(return_type=LogicVar, external=True,
+                      uses_entity_info=False, uses_envs=False)
+    def type_var():
+        pass
+
     type_val = Property(Self.type_var.get_value)
 
     expression_type = Property(
@@ -10497,17 +10503,16 @@ class SingleTokNode(Name):
 
     relative_name = Property(Entity)
 
-    r_ref_var = UserField(LogicVar, public=False)
-    """
-    This field is the logic variable for this node. It is not used directly,
-    instead being retrieved via the ref_var property.
-    """
+    @langkit_property(return_type=LogicVar, external=True,
+                      uses_entity_info=False, uses_envs=False)
+    def subp_spec_var():
+        pass
 
-    ref_var = Property(Self.r_ref_var)
+    @langkit_property(return_type=LogicVar, external=True,
+                      uses_entity_info=False, uses_envs=False)
+    def ref_var():
+        pass
 
-    r_called_spec = UserField(LogicVar, public=False)
-
-    subp_spec_var = Property(Self.r_called_spec)
     defines_subp_spec_var = Property(True)
 
     sym = Property(

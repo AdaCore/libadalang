@@ -8622,7 +8622,11 @@ class Name(Expr):
 
     @langkit_property(public=True)
     def first_corresponding_decl():
-        return Entity.all_env_elements().at(0).cast(T.BasicDecl)
+        return If(
+            Self.parent.is_a(DottedName) & Self.is_suffix,
+            Entity.parent.cast(DottedName).first_corresponding_decl,
+            Entity.all_env_elements().at(0).cast(T.BasicDecl)
+        )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def bottom_up_name_equation():

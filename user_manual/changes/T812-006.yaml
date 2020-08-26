@@ -1,0 +1,8 @@
+type: bugfix
+title: Imprecise fallback on suffix of dotted names
+description: |
+    Until now, the imprecise fallback of nameres queries such as
+    ``p_referenced_decl`` would never behave correctly when called on the
+    suffix of dotted names (e.g. ``Subprogram`` in ``Pkg.Subprogram``).
+    The fallback should now provide better results.
+date: 2020-08-26

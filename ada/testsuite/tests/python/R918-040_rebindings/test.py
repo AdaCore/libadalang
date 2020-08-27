@@ -8,7 +8,7 @@ import libadalang as lal
 
 def type_from_subp_body(call):
     return (
-        call.p_referenced_decl().p_body_part.f_subp_spec
+        call.p_referenced_decl().p_body_part().f_subp_spec
         .f_subp_returns.p_designated_type_decl.entity_repr
     )
 

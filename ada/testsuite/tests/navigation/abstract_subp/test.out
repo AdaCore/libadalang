@@ -1,4 +1,4 @@
-Eval 'node.p_defining_name.p_next_part' on node <AbstractSubpDecl ["Foo"] test.adb:5:7-5:44>
+Eval 'node.p_defining_name.p_next_part()' on node <AbstractSubpDecl ["Foo"] test.adb:5:7-5:44>
 Result: None
 
 

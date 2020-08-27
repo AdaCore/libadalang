@@ -4,7 +4,7 @@ package body P is
 
    package Nested is
       procedure Boo;
-      --% $node.p_next_part_for_decl
+      --% $node.p_next_part_for_decl()
    end Nested;
 
    package body Nested is separate;

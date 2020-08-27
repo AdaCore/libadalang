@@ -7,4 +7,4 @@ unit = ctx.get_from_file("imp.ads")
 assert not unit.diagnostics
 
 ittd = unit.root.find(lal.IncompleteTypeDecl)
-print(ittd.p_next_part_for_decl)
+print(ittd.p_next_part_for_decl())

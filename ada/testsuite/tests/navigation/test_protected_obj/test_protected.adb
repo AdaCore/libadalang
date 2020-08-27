@@ -2,11 +2,11 @@ procedure Test_Protected is
    package A is
       protected B is
          procedure I;
-         --% $node.p_next_part_for_decl
+         --% $node.p_next_part_for_decl()
       private
          C, D : Integer;
       end B;
-      --% $node.p_next_part_for_decl
+      --% $node.p_next_part_for_decl()
    end A;
 
    package body A is

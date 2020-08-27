@@ -1,27 +1,27 @@
-Eval 'node.p_decl_part' on node <SubpBody ["Foo"] multi_units.adb:2:4-5:12>
+Eval 'node.p_decl_part()' on node <SubpBody ["Foo"] multi_units.adb:2:4-5:12>
 Result: <SubpDecl ["Foo"] pkg1.ads:2:4-2:18>
 
-Eval 'node.p_decl_part' on node <PackageBody ["Pkg1"] multi_units.adb:1:1-7:10>
+Eval 'node.p_decl_part()' on node <PackageBody ["Pkg1"] multi_units.adb:1:1-7:10>
 Result: <PackageDecl ["Pkg1"] pkg1.ads:1:1-4:10>
 
-Eval 'node.p_canonical_part' on node <TypeDecl ["T"] multi_units.adb:11:4-11:26>
+Eval 'node.p_canonical_part()' on node <TypeDecl ["T"] multi_units.adb:11:4-11:26>
 Result: <TypeDecl ["T"] pkg2.ads:5:4-5:22>
 
-Eval 'node.p_decl_part' on node <SubpBody ["Foo"] multi_units.adb:14:4-17:12>
+Eval 'node.p_decl_part()' on node <SubpBody ["Foo"] multi_units.adb:14:4-17:12>
 Result: <SubpDecl ["Foo"] pkg2.ads:2:4-2:18>
 
-Eval 'node.p_decl_part' on node <PackageBody ["Pkg2"] multi_units.adb:10:1-19:10>
+Eval 'node.p_decl_part()' on node <PackageBody ["Pkg2"] multi_units.adb:10:1-19:10>
 Result: <PackageDecl ["Pkg2"] pkg2.ads:1:1-11:10>
 
 
 Eval 'node.p_body_part' on node <SubpDecl ["Foo"] pkg1.ads:2:4-2:18>
-Result: <SubpBody ["Foo"] multi_units.adb:2:4-5:12>
+Result: <bound method ClassicSubpDecl.p_body_part of <SubpDecl ["Foo"] pkg1.ads:2:4-2:18>>
 
 Eval 'node.p_body_part' on node <PackageDecl ["Pkg1"] pkg1.ads:1:1-4:10>
 Result: <PackageBody ["Pkg1"] multi_units.adb:1:1-7:10>
 
 
-Eval 'node.p_body_part' on node <SubpDecl ["Foo"] pkg2.ads:2:4-2:18>
+Eval 'node.p_body_part()' on node <SubpDecl ["Foo"] pkg2.ads:2:4-2:18>
 Result: <SubpBody ["Foo"] multi_units.adb:14:4-17:12>
 
 Eval 'node.p_full_view' on node <TypeDecl ["T"] pkg2.ads:5:4-5:22>

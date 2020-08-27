@@ -1,0 +1,52 @@
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["P"] invalid-sep_subp.adb:8:7-8:31>
+Exception: invalid body stub
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["P"] invalid-sep_subp.adb:13:7-13:31>
+Exception: invalid body stub
+
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Proc"] invalid.adb:3:7-3:34>
+Exception: invalid body stub
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Sep_Subp"] invalid.adb:7:4-7:35>
+Result: ['invalid', 'sep_subp']
+
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Proc"] invalid.ads:2:4-2:31>
+Exception: invalid body stub
+
+
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Proc_5"] pkg-nested_1.adb:3:4-3:33>
+Result: ['pkg', 'nested_1', 'proc_5']
+
+
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Proc_4"] pkg-p_body_1.adb:3:4-3:33>
+Result: ['pkg', 'p_body_1', 'proc_4']
+
+
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Proc_2"] pkg-proc_1.adb:3:4-3:33>
+Result: ['pkg', 'proc_1', 'proc_2']
+
+
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Proc_3"] pkg-task_1.adb:3:4-3:33>
+Result: ['pkg', 'task_1', 'proc_3']
+
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <SubpBodyStub ["Proc_1"] pkg.adb:2:4-2:33>
+Result: ['pkg', 'proc_1']
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <TaskBodyStub ["Task_1"] pkg.adb:8:4-8:33>
+Result: ['pkg', 'task_1']
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <ProtectedBodyStub ["P_Body_1"] pkg.adb:14:4-14:40>
+Result: ['pkg', 'p_body_1']
+
+Eval 'node.p_syntactic_fully_qualified_name' on node <PackageBodyStub ["Nested_1"] pkg.adb:17:4-17:38>
+Result: ['pkg', 'nested_1']
+
+
+

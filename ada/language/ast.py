@@ -2539,6 +2539,43 @@ class BodyStub(Body):
             Entity.fully_qualified_name_array, UnitBody, True
         ).as_entity
 
+    @langkit_property(public=True)
+    def syntactic_fully_qualified_name():
+        """
+        Return the syntactic fully qualified name to refer to this body.
+
+        Note that this can raise a Property_Error when the stub is in an
+        illegal place (too nested, in a declare block, etc.).
+        """
+        # Compute the "relative" name of the body for this stub
+        rel_name = Var(Self.as_bare_entity.defining_name.as_symbol_array)
+
+        # Fetch the compilation unit in which this stub is rooted.
+        #
+        # Body stubs can appear only in the top-level declarative part of a
+        # library-level body or of a subunit. This means that:
+        #
+        # * ``Self.parent`` must be an ``AdaNode.list``,
+        # * ``Self.parent.parent`` must be a ``DeclarativePart``,
+        # * ``Self.parent.parent.parent`` must be a library item or subunit
+        #   ``Body``.
+        top_body = Var(Self.parent.parent.parent.match(
+            lambda b=T.SubpBody: b,
+            lambda b=T.ProtectedBody: b,
+            lambda b=T.PackageBody: b,
+            lambda b=T.TaskBody: b,
+            lambda _: PropertyError(T.Body, "invalid body stub"),
+        ))
+        cu = Var(If(
+            top_body.parent.is_a(T.LibraryItem)
+            | top_body.parent.is_a(T.Subunit),
+
+            top_body.parent.parent.cast(T.CompilationUnit),
+            PropertyError(T.CompilationUnit, "invalid body stub"),
+        ))
+
+        return cu.syntactic_fully_qualified_name.concat(rel_name)
+
 
 @abstract
 class BaseFormalParamDecl(BasicDecl):

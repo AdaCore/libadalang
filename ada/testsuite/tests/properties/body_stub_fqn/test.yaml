@@ -1,0 +1,16 @@
+driver: inline-playground
+input_sources: [
+   invalid.adb,
+   invalid.ads,
+   invalid-sep_subp.adb,
+   pkg.adb,
+   pkg.ads,
+   pkg-nested_1.adb,
+   pkg-nested_1-proc_5.adb,
+   pkg-p_body_1.adb,
+   pkg-p_body_1-proc_4.adb,
+   pkg-proc_1.adb,
+   pkg-proc_1-proc_2.adb,
+   pkg-task_1.adb,
+   pkg-task_1-proc_3.adb
+]

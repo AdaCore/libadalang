@@ -9,7 +9,7 @@ for filename in sys.argv[1:]:
     assert not u.diagnostics
 
     for n in u.root.findall(lal.BasicDecl):
-        print('{} canonical part -> {}'.format(n, n.p_canonical_part))
+        print('{} canonical part -> {}'.format(n, n.p_canonical_part()))
 
     print('')
 

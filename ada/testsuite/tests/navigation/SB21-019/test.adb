@@ -5,7 +5,7 @@ procedure Main is
    begin
       null;
    end F;
-   --% $node.p_canonical_part
+   --% $node.p_canonical_part()
 
    procedure G (X : access function (Y : Integer) return Integer);
 
@@ -13,7 +13,7 @@ procedure Main is
    begin
       null;
    end G;
-   --% $node.p_canonical_part
+   --% $node.p_canonical_part()
 begin
    null;
 end Main;

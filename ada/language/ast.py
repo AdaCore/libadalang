@@ -794,7 +794,8 @@ class AdaNode(ASTNode):
         return Let(lambda subpb=Self.cast(T.BaseSubpBody): If(
             subpb.parent.is_a(T.LibraryItem),
 
-            subpb.as_bare_entity.decl_part.then(
+            imprecise_fallback.bind(False, subpb.as_bare_entity.decl_part)
+            .then(
                 lambda subp_decl: subp_decl.top_level_use_package_clauses.map(
                     lambda use_name:
                     origin.bind(use_name.origin_node, env.bind(
@@ -824,26 +825,29 @@ class AdaNode(ASTNode):
         lexical environment lookup on a child unit. As it does itself a lot of
         lookups, memoizing it is very important.
         """
-        gen_decl = Var(Self.as_bare_entity.match(
-            lambda pkg_body=T.PackageBody:
-                pkg_body.decl_part.then(
-                    lambda d: d.node.parent.cast(T.GenericPackageDecl)
-                ),
-            lambda bod=T.BaseSubpBody:
-                # We're only searching for generics. We look at index 1 and
-                # 2, because if self is a subunit, the first entity we find
-                # will be the separate declaration. NOTE: We don't use
-                # decl_part/previous_part on purpose: They can cause env
-                # lookups, hence doing an infinite recursion.
-                bod.children_env.env_parent.get(
-                    bod.name_symbol, categories=noprims
-                ).then(
-                    lambda results:
-                    results.at(1).node.cast(T.GenericSubpDecl)._or(
-                        results.at(2).node.cast(T.GenericSubpDecl)
-                    )
-                ).cast(T.AdaNode),
-            lambda _: No(T.AdaNode)
+        gen_decl = Var(imprecise_fallback.bind(
+            False,
+            Self.as_bare_entity.match(
+                lambda pkg_body=T.PackageBody:
+                    pkg_body.decl_part.then(
+                        lambda d: d.node.parent.cast(T.GenericPackageDecl)
+                    ),
+                lambda bod=T.BaseSubpBody:
+                    # We're only searching for generics. We look at index 1 and
+                    # 2, because if self is a subunit, the first entity we find
+                    # will be the separate declaration. NOTE: We don't use
+                    # decl_part/previous_part on purpose: They can cause env
+                    # lookups, hence doing an infinite recursion.
+                    bod.children_env.env_parent.get(
+                        bod.name_symbol, categories=noprims
+                    ).then(
+                        lambda results:
+                        results.at(1).node.cast(T.GenericSubpDecl)._or(
+                            results.at(2).node.cast(T.GenericSubpDecl)
+                        )
+                    ).cast(T.AdaNode),
+                lambda _: No(T.AdaNode)
+            )
         ))
 
         return gen_decl.then(
@@ -1308,7 +1312,7 @@ class BasicDecl(AdaNode):
         """
         pass
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def previous_part_for_decl():
         """
         Return the previous part for this decl, if applicable.
@@ -1325,7 +1329,8 @@ class BasicDecl(AdaNode):
             lambda _: No(T.BasicDecl.entity)
         )
 
-    @langkit_property(public=True, return_type=T.BasicDecl.entity)
+    @langkit_property(public=True, return_type=T.BasicDecl.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def canonical_part():
         """
         Return the canonical part for this decl. In the case of decls composed
@@ -1977,7 +1982,7 @@ class BasicDecl(AdaNode):
 
     name_symbol = Property(Self.as_bare_entity.relative_name.symbol)
 
-    @langkit_property()
+    @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def basic_decl_next_part_for_decl():
         """
         Implementation of next_part_for_decl for basic decls, that can be
@@ -2000,7 +2005,7 @@ class BasicDecl(AdaNode):
             categories=noprims
         ).cast(T.BasicDecl)
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def next_part_for_decl():
         """
         Return the next part of this declaration, if applicable.
@@ -2012,7 +2017,7 @@ class BasicDecl(AdaNode):
         """
         return Entity.basic_decl_next_part_for_decl
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def body_part_for_decl():
         """
         Return the body corresponding to this declaration, if applicable.
@@ -2265,7 +2270,7 @@ class Body(BasicDecl):
             Entity.body_scope(True, True)
         )
 
-    @langkit_property()
+    @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def subp_previous_part():
         """
         Return the decl corresponding to this body. Specialized implementation
@@ -2276,7 +2281,10 @@ class Body(BasicDecl):
             Self.std_env,
             Entity.children_env.env_parent
         ))
-        return env.get(Entity.name_symbol).find(
+
+        elements = Var(env.get(Entity.name_symbol))
+
+        precise = Var(elements.find(
             lambda sp: And(
                 Not(sp.is_null),
                 Not(sp.node == Self),
@@ -2308,7 +2316,19 @@ class Body(BasicDecl):
                     lambda _: False
                 )
             )
-        ).cast_or_raise(T.BasicDecl.entity)
+        ).cast_or_raise(T.BasicDecl.entity))
+
+        return If(
+            precise.is_null & imprecise_fallback,
+            elements.find(
+                lambda sp: And(
+                    Not(sp.is_null),
+                    Not(sp.node == Self),
+                    sp.is_a(BasicSubpDecl, SubpBodyStub)
+                )
+            ).cast_or_raise(T.BasicDecl.entity),
+            precise
+        )
 
     @langkit_property(dynamic_vars=[env])
     def entry_previous_part():
@@ -2369,7 +2389,8 @@ class Body(BasicDecl):
             lambda _: No(T.BasicDecl.entity)
         )
 
-    @langkit_property(return_type=T.BasicDecl.entity, dynamic_vars=[env])
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[env, default_imprecise_fallback()])
     def unbound_previous_part():
         """
         Return the previous part for this body. Might be a declaration or a
@@ -2407,10 +2428,16 @@ class Body(BasicDecl):
     def stub_decl_env():
         return env.bind(
             Entity.default_initial_env,
-            Entity.unbound_previous_part.then(lambda d: d.node.children_env)
+            imprecise_fallback.bind(
+                False,
+                Entity.unbound_previous_part.then(
+                    lambda d: d.node.children_env
+                )
+            )
         )
 
-    @langkit_property(return_type=T.BasicDecl.entity)
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def previous_part_internal():
         """
         Return the previous part for this body. Might be a declaration or a
@@ -2431,6 +2458,7 @@ class Body(BasicDecl):
         )
 
     @langkit_property(public=True, return_type=T.BasicDecl.entity,
+                      dynamic_vars=[default_imprecise_fallback()],
                       memoized=True)
     def previous_part():
         """
@@ -2439,7 +2467,7 @@ class Body(BasicDecl):
         """
         return Entity.previous_part_internal
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def decl_part():
         """
         Return the decl corresponding to this node if applicable.
@@ -2610,7 +2638,8 @@ class BaseFormalParamDecl(BasicDecl):
             .find(lambda sf: sf.name.name_is(p.name_symbol)).name
         ))
 
-    @langkit_property(return_type=T.DefiningName.entity)
+    @langkit_property(return_type=T.DefiningName.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def decl_param(param=T.DefiningName.entity):
         """
         If self is a ParamSpec of a subprogram body, go fetch the equivalent
@@ -4136,13 +4165,15 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[(origin, No(T.AdaNode))], public=True)
+                      dynamic_vars=[default_origin()], public=True)
     def canonical_type():
         """
         Return the canonical type declaration for this type declaration. For
         subtypes, it will return the base type declaration.
         """
-        return Entity.canonical_part.cast(T.BaseTypeDecl)
+        return imprecise_fallback.bind(
+            False, Entity.canonical_part.cast(T.BaseTypeDecl)
+        )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[(origin, No(T.AdaNode))])
@@ -5976,20 +6007,29 @@ class BasicSubpDecl(BasicDecl):
         """
     )
 
-    @langkit_property()
+    @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def get_body_in_env(env=T.LexicalEnv):
-        return (
-            env.get(Entity.name_symbol, LK.flat, categories=noprims).find(
-                lambda ent:
-                # Discard the rebindings of Entity before trying to match
-                # against the tentative body, as those do not carry that info.
-                ent.node.as_bare_entity.cast(T.Body)
-                ._.formal_param_holder_or_null.match_other(
-                    Entity.subp_decl_spec.node.as_bare_entity, True
-                )
-            )  # If found, reuse the rebindings of the decl on the body
-            .cast(T.Body).node.as_entity
+        elements = Var(
+            env.get(Entity.name_symbol, LK.flat, categories=noprims)
         )
+        precise = Var(elements.find(
+            lambda ent:
+            # Discard the rebindings of Entity before trying to match
+            # against the tentative body, as those do not carry that info.
+            ent.node.as_bare_entity.cast(T.Body)
+            ._.formal_param_holder_or_null.match_other(
+                Entity.subp_decl_spec.node.as_bare_entity, True
+            )
+        ).cast(T.Body))
+
+        result = Var(If(
+            precise.is_null & imprecise_fallback,
+            elements.find(lambda e: e.is_a(T.Body)).cast(T.Body),
+            precise
+        ))
+
+        # If found, reuse the rebindings of the decl on the body
+        return result.node.as_entity
 
     @langkit_property(return_type=T.BasicDecl.entity)
     def next_part_for_decl():
@@ -6132,7 +6172,8 @@ class ClassicSubpDecl(BasicSubpDecl):
 
     subp_decl_spec = Property(Entity.subp_spec)
 
-    @langkit_property(public=True, return_type=T.BaseSubpBody.entity)
+    @langkit_property(public=True, return_type=T.BaseSubpBody.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def body_part():
         """
         Return the BaseSubpBody corresponding to this node.
@@ -6746,7 +6787,9 @@ class BasePackageDecl(BasicDecl):
         """
         Return the PackageBody corresponding to this node.
         """
-        return Entity.body_part_for_decl.cast(T.PackageBody)
+        return imprecise_fallback.bind(
+            False, Entity.body_part_for_decl.cast(T.PackageBody)
+        )
 
     declarative_region = Property(Entity.public_part)
 
@@ -6849,7 +6892,7 @@ class GenericInstantiation(BasicDecl):
         .all_env_elements(seq=True, seq_from=Self).find(
             lambda e: Self.has_visibility(e)
         )._.match(
-            lambda b=Body: b.decl_part,
+            lambda b=Body: imprecise_fallback.bind(False, b.decl_part),
             lambda rd=T.GenericRenamingDecl: rd.resolve,
             lambda d=BasicDecl: d,
             lambda _: No(T.GenericDecl.entity)
@@ -7464,7 +7507,7 @@ class GenericSubpDecl(GenericDecl):
     defining_names = Property(
         Entity.subp_decl.subp_spec.name.as_entity.singleton)
 
-    @langkit_property(public=True)
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def body_part():
         """
         Return the BaseSubpBody corresponding to this node.
@@ -10705,19 +10748,22 @@ class DefiningName(Name):
     next_part = Property(
         Entity.find_matching_name(Entity.basic_decl.next_part_for_decl),
         public=True,
-        doc="Like ``BasicDecl.next_part_for_decl`` on a defining name"
+        doc="Like ``BasicDecl.next_part_for_decl`` on a defining name",
+        dynamic_vars=[default_imprecise_fallback()]
     )
 
     previous_part = Property(
         Entity.find_matching_name(Entity.basic_decl.previous_part_for_decl),
         public=True,
-        doc="Like ``BasicDecl.previous_part_for_decl`` on a defining name"
+        doc="Like ``BasicDecl.previous_part_for_decl`` on a defining name",
+        dynamic_vars=[default_imprecise_fallback()]
     )
 
     canonical_part = Property(
         Entity.find_matching_name(Entity.basic_decl.canonical_part),
         public=True,
-        doc="Like ``BasicDecl.canonical_part`` on a defining name"
+        doc="Like ``BasicDecl.canonical_part`` on a defining name",
+        dynamic_vars=[default_imprecise_fallback()]
     )
 
     @langkit_property()
@@ -11582,7 +11628,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
             lambda t: t.full_view.is_tagged_type
         ))
 
-    @langkit_property(return_type=T.BaseSubpSpec.entity)
+    @langkit_property(return_type=T.BaseSubpSpec.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def decl_spec():
         """
         If this subp spec is that of the body of an entity, this property
@@ -11595,21 +11642,24 @@ class BaseSubpSpec(BaseFormalParamHolder):
             default_val=Entity
         )
 
-    @langkit_property(return_type=BaseTypeDecl.entity.array, public=True)
+    @langkit_property(return_type=BaseTypeDecl.entity.array, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def primitive_subp_types():
         """
         Return the types of which this subprogram is a primitive of.
         """
         return Entity.decl_spec.get_primitive_subp_types
 
-    @langkit_property(return_type=BaseTypeDecl.entity, public=True)
+    @langkit_property(return_type=BaseTypeDecl.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def primitive_subp_first_type():
         """
         Return the first type of which this subprogram is a primitive of.
         """
         return Entity.decl_spec.get_primitive_subp_first_type
 
-    @langkit_property(return_type=BaseTypeDecl.entity, public=True)
+    @langkit_property(return_type=BaseTypeDecl.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def primitive_subp_tagged_type():
         """
         If this subprogram is a primitive for a tagged type, then return this
@@ -11728,7 +11778,8 @@ class EntryDecl(BasicSubpDecl):
 
     defining_names = Property(Entity.spec.name.as_entity.singleton)
 
-    @langkit_property(public=True, return_type=T.EntryBody.entity)
+    @langkit_property(public=True, return_type=T.EntryBody.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def body_part():
         """
         Return the entry body associated to this entry declaration.
@@ -12854,7 +12905,8 @@ class CompilationUnit(AdaNode):
             lambda _: No(T.BasicDecl),
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
     def is_preelaborable_impl(from_body=T.Bool):
         """
         Implementation helper for ``is_preelaborable``.
@@ -12913,7 +12965,8 @@ class CompilationUnit(AdaNode):
             lambda _: False
         )
 
-    @langkit_property(return_type=Bool, public=True)
+    @langkit_property(return_type=Bool, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
     def is_preelaborable():
         """
         Whether this compilation unit is preelaborable or not.
@@ -13896,7 +13949,9 @@ class PackageBody(Body):
         Return the environments for the use clauses of the package decl of this
         body. Used because they need to be explicitly referenced.
         """
-        pd = Var(Entity.decl_part.cast_or_raise(T.BasePackageDecl))
+        pd = Var(imprecise_fallback.bind(
+            False, Entity.decl_part.cast_or_raise(T.BasePackageDecl)
+        ))
 
         return Array([pd.public_part.use_clauses_envs,
                       pd.private_part._.use_clauses_envs]).env_group()
@@ -13965,11 +14020,11 @@ class TaskBody(Body):
 
     @langkit_property()
     def task_type():
-        return Entity.decl_part.match(
+        return imprecise_fallback.bind(False, Entity.decl_part.match(
             lambda t=T.TaskTypeDecl: t,
             lambda t=T.SingleTaskDecl: t.task_type,
             lambda _: PropertyError(T.TaskTypeDecl.entity, "Should not happen")
-        )
+        ))
 
 
 class ProtectedBody(Body):

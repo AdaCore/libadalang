@@ -1,5 +1,4 @@
 type: new-feature
-apis: ["ada"]
 title: New abstract class ``CondExpr``
 
 description: |

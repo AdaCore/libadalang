@@ -1,6 +1,6 @@
 First and last tokens for test.adb:
   * <Token Whitespace ' ' at 1:1-1:2>
-  * <Token Termination at 8:1-8:1>
+  * <Token Termination at 8:1-7:11>
 
 Whole source buffer for test.adb:
 ' procedure Test (A : Foo; B : Bar) is\n    C : Integer;\n begin\n    for El : Foo_Elem of A loop\n       B.RealBar (El);\n    end loop;\n end Test;\n'

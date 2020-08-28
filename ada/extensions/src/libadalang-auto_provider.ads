@@ -28,6 +28,8 @@
 --  It is useful in order to easily run Libadalang on a complex project that
 --  does not have its own GPR project file.
 
+with Langkit_Support.Symbols;
+
 private with Ada.Containers.Hashed_Maps;
 
 with GNAT.Regpat;
@@ -105,7 +107,7 @@ package Libadalang.Auto_Provider is
 
 private
 
-   use Libadalang.Common.Symbols;
+   use Langkit_Support.Symbols;
 
    use GNATCOLL.VFS;
 

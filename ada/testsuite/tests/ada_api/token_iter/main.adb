@@ -3,9 +3,11 @@ with Ada.Text_IO;           use Ada.Text_IO;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
+with Langkit_Support.Token_Data_Handlers;
+use Langkit_Support.Token_Data_Handlers;
+
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
-use Libadalang.Common.Token_Data_Handlers;
 
 procedure Main is
 

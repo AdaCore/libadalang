@@ -1,3 +1,5 @@
+with Langkit_Support.Token_Data_Handlers;
+
 with Libadalang.Analysis;
 with Libadalang.Common;
 
@@ -5,7 +7,7 @@ package Highlighter is
 
    package LAL renames Libadalang.Analysis;
    package LALCO renames Libadalang.Common;
-   subtype Token_Index is Libadalang.Common.Token_Data_Handlers.Token_Index;
+   subtype Token_Index is Langkit_Support.Token_Data_Handlers.Token_Index;
 
    type Highlight_Type is
      (Text,

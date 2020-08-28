@@ -24,6 +24,8 @@
 --  Extension to the generated Iterators API for Libadalang-specific entry
 --  points.
 
+with Langkit_Support.Symbols; use Langkit_Support.Symbols;
+
 package Libadalang.Iterators.Extensions is
 
    function Decl_Defines (Name : Text_Type) return Ada_Node_Predicate;
@@ -42,7 +44,7 @@ private
       Name : Text_Type (1 .. Size);
 
       Context : Analysis_Context;
-      Symbol  : Libadalang.Common.Symbols.Symbol_Type;
+      Symbol  : Symbol_Type;
       --  Cached symbol converted from Name
    end record;
 

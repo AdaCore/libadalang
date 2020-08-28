@@ -21,8 +21,9 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with Langkit_Support.Symbols;   use Langkit_Support.Symbols;
+
 with Libadalang.Common;         use Libadalang.Common;
-use Libadalang.Common.Symbols;
 with Libadalang.Implementation; use Libadalang.Implementation;
 
 private package Libadalang.Env_Hooks is

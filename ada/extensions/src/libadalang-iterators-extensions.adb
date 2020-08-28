@@ -21,7 +21,6 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-private with Libadalang.Common;
 with Libadalang.Implementation;    use Libadalang.Implementation;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 
@@ -49,7 +48,7 @@ package body Libadalang.Iterators.Extensions is
    overriding function Evaluate
      (P : in out Decl_Defines_Predicate; N : Ada_Node) return Boolean
    is
-      use type Libadalang.Common.Symbols.Symbol_Type;
+      use type Langkit_Support.Symbols.Symbol_Type;
 
       function Check_Base_Id (Id : Base_Id) return Boolean
       is (Single_Tok_Node_P_Sym (Unwrap_Node (Id)) = P.Symbol);

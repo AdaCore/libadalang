@@ -9,14 +9,15 @@ function Is_Keyword
    Index   : Token_Or_Trivia_Index;
    Version : Language_Version) return Boolean
 is
-   use Libadalang.Common.Symbols;
-   use Libadalang.Common.Token_Data_Handlers;
+   use Libadalang.Common.Precomputed_Symbols;
+   use Langkit_Support.Symbols;
+   use Langkit_Support.Token_Data_Handlers;
 
    Kind       : constant Token_Kind := To_Token_Kind (Data (Index, TDH).Kind);
    Sym        : Symbol_Type;
 
    function "+" (S : Precomputed_Symbol_Index) return Symbol_Type is
-     (Precomputed_Symbol (TDH.Symbols, S));
+     (Precomputed_Symbol (Precomputed_Symbol_Table (TDH.Symbols), S));
 begin
    --  Exit early on trivia tokens
    if Index.Trivia /= No_Token_Index then

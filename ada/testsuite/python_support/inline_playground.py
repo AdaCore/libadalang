@@ -74,10 +74,17 @@ class InlinePlayground(lal.App):
                 else:
 
                     # Hide discrepancies between Python2 and Python3
-                    value_repr = (_py2to3.text_repr(value)
-                                  if isinstance(value, _py2to3.text_type) else
-                                  repr(value))
-                    print('Result: {}'.format(col(value_repr, YELLOW)))
+                    def canon_repr(value):
+                        if isinstance(value, _py2to3.text_type):
+                            return _py2to3.text_repr(value)
+                        elif isinstance(value, list):
+                            return '[{}]'.format(', '.join(
+                                canon_repr(v) for v in value
+                            ))
+                        else:
+                            return repr(value)
+
+                    print('Result: {}'.format(col(canon_repr(value), YELLOW)))
                 print('')
 
         print('')

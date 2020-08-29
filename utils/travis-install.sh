@@ -11,6 +11,11 @@ if ! [ -d $TOOLS_DIR ]; then
 fi
 if [ -f $INSTALL_DIR/bin/*gcc-8.3.1 ]; then
     rm -rf $INSTALL_DIR # Delete GNAT Community 2019
+elif [ -x $INSTALL_DIR/bin/gcc ]; then
+    if $INSTALL_DIR/bin/gcc -v 2>&1 | grep -q 202004 ; then
+        echo Delete obsolete GNAT Community 2020
+        rm -rf $INSTALL_DIR
+    fi
 fi
 if ! [ -d $INSTALL_DIR ]; then
     mkdir -p $INSTALL_DIR
@@ -24,11 +29,11 @@ else
 fi
 if ! [ -f $INSTALL_DIR/bin/gcc ]; then
     if [ $TRAVIS_OS_NAME = linux ]; then
-        GNAT_INSTALLER=$TOOLS_DIR/gnat-2020-20200429-x86_64-linux-bin
-        GNAT_INSTALLER_URL="https://community.download.adacore.com/v1/4d99b7b2f212c8efdab2ba8ede474bb9fa15888d?filename=gnat-2020-20200429-x86_64-linux-bin"
+        GNAT_INSTALLER=$TOOLS_DIR/gnat-2020-20200818-x86_64-linux-bin
+        GNAT_INSTALLER_URL="https://community.download.adacore.com/v1/a639696a9fd3bdf0be21376cc2dc3129323cbe42?filename=gnat-2020-20200818-x86_64-linux-bin"
     else
-        GNAT_INSTALLER=$TOOLS_DIR/gnat-2020-20200429-x86_64-darwin-bin.dmg
-        GNAT_INSTALLER_URL="https://community.download.adacore.com/v1/4470dd195aec672d7c2f2a2bac3dcf6e59bbb26c?filename=gnat-2020-20200429-x86_64-darwin-bin.dmg"
+        GNAT_INSTALLER=$TOOLS_DIR/gnat-2020-20200818-x86_64-darwin-bin.dmg
+        GNAT_INSTALLER_URL="https://community.download.adacore.com/v1/aefa0616b9476874823a7974d3dd969ac13dfe3a?filename=gnat-2020-20200818-x86_64-darwin-bin.dmg"
     fi
 
     wget -O $GNAT_INSTALLER $GNAT_INSTALLER_URL

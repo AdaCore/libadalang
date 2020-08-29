@@ -40,10 +40,15 @@ jobs:
           fetch-depth: 0  # all branches
       - name: Try to checkout langkit's branch
         run: (cd langkit; git checkout ${{ github.ref }} || true)
+      - uses: actions/cache@v2
+        with:
+          path: ./cached_gnat
+          key: ${{ runner.os }}-gnat-ce-2020
       - name: Get GNAT Community 2020 toolchain
-        uses: ada-actions/toolchain@b55aaa7
+        uses: ada-actions/toolchain@3f69585
         with:
           distrib: community
+          install_dir: ./cached_gnat
       - name: Setup Python 3.8
         uses: actions/setup-python@v2
         with:

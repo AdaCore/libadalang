@@ -121,6 +121,13 @@ package body Libadalang.Helpers is
       --  in the imported projects, excluding those that are externally
       --  built.
 
+      procedure List_Predefined_Sources
+        (Project : Project_Tree'Class;
+         Env     : Project_Environment_Access;
+         Files   : in out String_Vectors.Vector);
+      --  Append to Files the list of predefined sources (typically,
+      --  runtime files).
+
       function Files_From_Args
         (Files : out String_Vectors.Vector) return Boolean;
       --  If source files are passed on the command line, append them to Files
@@ -295,6 +302,33 @@ package body Libadalang.Helpers is
          end loop;
          Unchecked_Free (List);
       end List_Sources_From_Project;
+
+      -----------------------------
+      -- List_Predefined_Sources --
+      -----------------------------
+
+      procedure List_Predefined_Sources
+        (Project : Project_Tree'Class;
+         Env     : Project_Environment_Access;
+         Files   : in out String_Vectors.Vector)
+      is
+         List : File_Array := Predefined_Source_Files (Env);
+      begin
+         --  Sort for determinism
+         Sort (List);
+
+         for F of List loop
+            declare
+               FI        : constant File_Info := Project.Info (F);
+               Full_Name : Filesystem_String renames F.Full_Name.all;
+               Name      : constant String := +Full_Name;
+            begin
+               if FI.Language = "ada" then
+                  Files.Append (+Name);
+               end if;
+            end;
+         end loop;
+      end List_Predefined_Sources;
 
       ---------------------
       -- Files_From_Args --
@@ -486,11 +520,16 @@ package body Libadalang.Helpers is
                Project       => Project,
                Env           => Env);
             UFP := Project_To_Provider (Project);
+
             if not Files_From_Args (Files) then
                List_Sources_From_Project
                  (Project.all,
                   Args.Process_Full_Project_Tree.Get,
                   Files);
+            end if;
+
+            if Args.Process_Runtime.Get then
+               List_Predefined_Sources (Project.all, Env, Files);
             end if;
 
             --  Fill in the provider

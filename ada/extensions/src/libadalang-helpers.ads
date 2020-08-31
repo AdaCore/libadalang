@@ -210,6 +210,11 @@ package Libadalang.Helpers is
             Help => "Process all units in the project tree, " &
               "excluding externally built projects");
 
+         package Process_Runtime is new Parse_Flag
+           (Parser, Long => "--process-runtime",
+            Help         => "Process the runtime files, and any other"
+              & " predefined sources");
+
          package Scenario_Vars is new Parse_Option_List
            (Parser, Short => "-X", Long => "--scenario-variable",
             Arg_Type      => Unbounded_String,
@@ -234,8 +239,8 @@ package Libadalang.Helpers is
             Arg_Type      => Unbounded_String,
             Default_Val   => Null_Unbounded_String,
             Help          => "Name of the configuration project file. If"
-                             & " passed, thid file must exist and neither"
-                             & " --target, nor --RTS must be passed.");
+                             & " passed, this file must exist and neither"
+                             & " --target nor --RTS must be passed.");
 
          package Auto_Dirs is new Parse_Option_List
            (Parser, "-A", "--auto-dir",

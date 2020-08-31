@@ -27,9 +27,6 @@ with Put_Title;
 
 procedure Nameres is
 
-   package String_Vectors is new Ada.Containers.Vectors
-     (Positive, Unbounded_String);
-
    package J renames GNATCOLL.JSON;
 
    type Stats_Record is record

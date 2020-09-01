@@ -1,0 +1,8 @@
+type: new-feature
+title: Resolve references to implicitly derived ``/=``
+description: |
+    Until now, references of ``/=`` to the subprogram implicitly derived from
+    a user defined ``=`` operator would never be resolved, as such subprograms
+    do not exist in the sources. From now on, those will resolve to the user
+    defined ``=`` operator.
+date: 2020-09-01

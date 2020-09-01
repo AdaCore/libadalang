@@ -8012,7 +8012,7 @@ class BinOp(Expr):
 
         # When the operator is "/=" and there are no explicit overload, we
         # might refer to the implicit declaration of the "/=" operator that
-        # comes with any overload of "=".
+        # comes with any overload of "=" that returns a Boolean.
         refers_to_synthetic_neq = Var(And(
             subps.length == 0,
             Self.op.subprogram_symbol == '"/="'
@@ -8051,12 +8051,10 @@ class BinOp(Expr):
             & Self.type_bind_val(Self.type_var,
                                  subp.subp_spec_or_null.return_type)
 
-            # The operator references the subprogram, except when it refers
-            # to the implicitly generated '/='.
-            & Bind(
-                Self.op.ref_var,
-                If(refers_to_synthetic_neq, No(BasicDecl.entity), subp)
-            )
+            # The operator references the subprogram. We decide to make the
+            # implicitly generated '/=' refer to the '=' subprogram, if it
+            # exists.
+            & Bind(Self.op.ref_var, subp)
         )) | Self.no_overload_equation)
 
     @langkit_property(dynamic_vars=[origin])
@@ -10595,6 +10593,31 @@ class DefiningName(Name):
             )
         )
 
+    @langkit_property(return_type=Bool, memoized=True)
+    def is_derivable_equal():
+        """
+        Return whether this is a name that defines an "=" operator which
+        implicitly declares an "/=" operator giving the complementary result,
+        which is True iff this "=" declaration returns a Boolean (RM 6.6-6/3).
+        """
+        return And(
+            Self.name_is('"="'),
+            Entity.basic_decl.subp_spec_or_null.then(
+                lambda s: s.returns._.designated_type_decl == Entity.bool_type
+            )
+        )
+
+    @langkit_property(return_type=Bool, memoized=True)
+    def is_potential_reference(symbol=T.Symbol):
+        """
+        Return whether the given symbol could be a reference to this defining
+        name.
+        """
+        return Or(
+            Self.name_is(symbol),
+            Entity.is_derivable_equal & (symbol == '"/="')
+        )
+
     @langkit_property(return_type=RefResultKind,
                       dynamic_vars=[default_imprecise_fallback()])
     def is_referenced_by(id=T.BaseId.entity):
@@ -10610,7 +10633,7 @@ class DefiningName(Name):
         call.
         """
         return If(
-            Self.name_is(id.name_symbol),
+            Entity.is_potential_reference(id.name_symbol),
 
             If(id.is_defining,
                RefdDef.new(def_name=id.enclosing_defining_name,

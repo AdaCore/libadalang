@@ -1,19 +1,19 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <IfStmt test.adb:10:4-12:11>
+Resolving xrefs for node <IfStmt test.adb:12:4-14:11>
 *****************************************************
 
-Expr: <RelationOp test.adb:10:7-10:13>
+Expr: <RelationOp test.adb:12:7-12:13>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <Id "A" test.adb:10:7-10:8>
-  references: <DefiningName test.adb:8:4-8:5>
+Expr: <Id "A" test.adb:12:7-12:8>
+  references: <DefiningName test.adb:10:4-10:5>
   type:       <TypeDecl ["T"] test.adb:3:7-3:29>
-Expr: <OpNeq "/=" test.adb:10:9-10:11>
-  references: None
+Expr: <OpNeq "/=" test.adb:12:9-12:11>
+  references: <DefiningName test.adb:5:16-5:19>
   type:       None
-Expr: <Id "B" test.adb:10:12-10:13>
-  references: <DefiningName test.adb:8:7-8:8>
+Expr: <Id "B" test.adb:12:12-12:13>
+  references: <DefiningName test.adb:10:7-10:8>
   type:       <TypeDecl ["T"] test.adb:3:7-3:29>
 
 

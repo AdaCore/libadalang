@@ -28,7 +28,10 @@ package body Libadalang.Env_Hooks is
 
    use Support.Text;
 
-   Text_IO        : constant Text_Type := "ada.text_io";
+   Text_IO           : constant Text_Type := "ada.text_io";
+   Wide_Text_IO      : constant Text_Type := "ada.wide_text_io";
+   Wide_Wide_Text_IO : constant Text_Type := "ada.wide_wide_text_io";
+
    Integer_IO     : aliased constant Text_Type := "integer_io";
    Modular_IO     : aliased constant Text_Type := "modular_io";
    Float_IO       : aliased constant Text_Type := "float_io";
@@ -275,7 +278,11 @@ package body Libadalang.Env_Hooks is
       --  Here, try to import these child unit as soon as someone WITHes
       --  Ada.Text_IO.
 
-      if Kind = Unit_Specification and then Unit_Name = Text_IO then
+      if Kind = Unit_Specification and then
+        (Unit_Name = Text_IO or else
+         Unit_Name = Wide_Text_IO or else
+         Unit_Name = Wide_Wide_Text_IO)
+      then
          for SP of Text_IO_Subpackages loop
             declare
                SP_Symbol : constant Symbol_Type :=

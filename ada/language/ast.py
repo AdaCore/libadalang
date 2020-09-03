@@ -12930,7 +12930,9 @@ class CompilationUnit(AdaNode):
         return And(
             name_parts.length == 3,
             name_parts.at(0) == "ada",
-            name_parts.at(1) == "text_io"
+            name_parts.at(1).any_of(
+                "text_io", "wide_text_io", "wide_wide_text_io"
+            )
         )
 
     env_spec = EnvSpec(

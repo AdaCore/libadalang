@@ -3716,6 +3716,15 @@ class BaseTypeDecl(BasicDecl):
         """
         return Not(Entity.is_null) & Not(Entity.is_universal_type)
 
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def is_access_type_predicate():
+        """
+        Predicate to use by logic equation. Return True iff this is an access
+        type, but checks first that this type is not null, in which case it
+        returns False.
+        """
+        return Entity._.is_access_type
+
     @langkit_property(dynamic_vars=[origin], return_type=Int)
     def array_ndims():
         return Literal(0)
@@ -11387,7 +11396,7 @@ class NullLiteral(SingleTokNode):
 
     @langkit_property()
     def xref_equation():
-        return Predicate(BaseTypeDecl.is_access_type, Self.type_var)
+        return Predicate(BaseTypeDecl.is_access_type_predicate, Self.type_var)
 
 
 class SingleFormal(Struct):

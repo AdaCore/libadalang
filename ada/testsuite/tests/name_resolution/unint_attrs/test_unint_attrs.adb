@@ -9,6 +9,8 @@ procedure Test_Unint_Attrs is
    type Volt is delta 0.125 range 0.0 .. 255.0;
 
    type M is mod 2 ** 16;
+
+   type E_Type is (E_X, E_Y, E_Z);
 begin
    declare
       A  : constant Natural := Float'Machine_Mantissa;
@@ -32,6 +34,7 @@ begin
       Q  : constant Natural := Standard'Max_Integer_Size;
       R  : constant Natural := Standard'Maximum_Alignment;
       S  : constant Natural := Standard'Default_Bit_Order;
+      T  : constant Natural := E_X'Enum_Rep;
    begin
       null;
    end;

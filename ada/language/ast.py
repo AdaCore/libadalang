@@ -12281,7 +12281,7 @@ class AttributeRef(Name):
                             'Maximum_Alignment', 'System_Allocator_Alignment',
                             'Finalization_Size', 'Descriptor_Size',
                             'Alignment', 'First_Bit', 'Last_Bit',
-                            'Default_Bit_Order'),
+                            'Default_Bit_Order', 'Enum_Rep'),
             Entity.prefix.sub_equation
             & Self.universal_int_bind(Self.type_var),
 

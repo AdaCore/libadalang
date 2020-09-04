@@ -1,0 +1,26 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <IfStmt test.adb:18:4-20:11>
+*****************************************************
+
+Expr: <RelationOp test.adb:18:7-18:20>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.adb:18:7-18:12>
+  references: <DefiningName test.adb:6:10-6:13>
+  type:       <TypeDecl ["Integer_Access"] test.adb:2:4-2:46>
+Expr: <Id "X" test.adb:18:7-18:8>
+  references: <DefiningName test.adb:16:4-16:5>
+  type:       <TypeDecl ["T"] test.adb:5:7-7:18>
+Expr: <Id "Foo" test.adb:18:9-18:12>
+  references: <DefiningName test.adb:6:10-6:13>
+  type:       <TypeDecl ["Integer_Access"] test.adb:2:4-2:46>
+Expr: <OpNeq "/=" test.adb:18:13-18:15>
+  references: None
+  type:       None
+Expr: <Null test.adb:18:16-18:20>
+  references: None
+  type:       <TypeDecl ["Integer_Access"] test.adb:2:4-2:46>
+
+
+Done.

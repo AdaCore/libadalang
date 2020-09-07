@@ -11392,7 +11392,12 @@ class EnumLiteralDecl(BasicSubpDecl):
             Self.name_symbol, Self,
             dest_env=Entity.enum_type.primitives,
             metadata=T.Metadata.new(primitive=Entity.enum_type.node)
-        )
+        ),
+
+        # We add an env here so that parent_basic_decl/semantic_parent on the
+        # enum subp spec work correctly and returns the EnumLiteralDecl rt. the
+        # type decl.
+        add_env()
     )
 
 

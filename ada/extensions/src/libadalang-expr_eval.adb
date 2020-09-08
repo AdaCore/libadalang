@@ -37,8 +37,8 @@ package body Libadalang.Expr_Eval is
 
    function Create_Enum_Result
      (Expr_Type : LAL.Base_Type_Decl;
-      Value     : LAL.Enum_Literal_Decl) return Eval_Result
-   is ((Kind => Enum_Lit, Expr_Type => Expr_Type, Enum_Result => Value));
+      Value     : LAL.Enum_Literal_Decl) return Eval_Result;
+   --  Helper to create Eval_Result values to wrap enumeration literals
 
    function Create_Int_Result
      (Expr_Type  : LAL.Base_Type_Decl;
@@ -50,8 +50,7 @@ package body Libadalang.Expr_Eval is
 
    function Create_Real_Result
      (Expr_Type  : LAL.Base_Type_Decl;
-      Value      : Long_Float) return Eval_Result
-   is ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
+      Value      : Long_Float) return Eval_Result;
    --  Helper to create Eval_Result values to wrap real numbers
 
    function Create_Bool_Result
@@ -81,6 +80,19 @@ package body Libadalang.Expr_Eval is
    --  Return ``Self`` as a Boolean, if it is indeed of type
    --  ``Standard.Boolean``.
 
+   ------------------------
+   -- Create_Enum_Result --
+   ------------------------
+
+   function Create_Enum_Result
+     (Expr_Type : LAL.Base_Type_Decl;
+      Value     : LAL.Enum_Literal_Decl) return Eval_Result is
+   begin
+      return ((Kind        => Enum_Lit,
+               Expr_Type   => Expr_Type,
+               Enum_Result => Value));
+   end Create_Enum_Result;
+
    -----------------------
    -- Create_Int_Result --
    -----------------------
@@ -103,6 +115,17 @@ package body Libadalang.Expr_Eval is
       return Create_Int_Result
          (Expr_Type, GNATCOLL.GMP.Integers.Make (Integer'Image (Value)));
    end Create_Int_Result;
+
+   ------------------------
+   -- Create_Real_Result --
+   ------------------------
+
+   function Create_Real_Result
+     (Expr_Type  : LAL.Base_Type_Decl;
+      Value      : Long_Float) return Eval_Result is
+   begin
+      return ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
+   end Create_Real_Result;
 
    ------------------------------
    -- Create_Result_From_Subst --

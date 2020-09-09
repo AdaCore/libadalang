@@ -1,0 +1,4 @@
+relative_name = None
+relative name text = ''
+relative_name = <Id "B" test.adb:6:9-6:10>
+relative name text = 'b'

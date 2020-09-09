@@ -1,0 +1,35 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <RaiseStmt test.adb:7:4-7:41>
+******************************************************
+
+Expr: <Id "Failure" test.adb:7:10-7:17>
+  references: <DefiningName test.adb:5:4-5:11>
+  type:       None
+Expr: <BinOp test.adb:7:23-7:40>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <CallExpr test.adb:7:23-7:30>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "Get" test.adb:7:23-7:26>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Int test.adb:7:28-7:29>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <OpConcat "&" test.adb:7:31-7:32>
+  references: None
+  type:       None
+Expr: <CallExpr test.adb:7:33-7:40>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "Get" test.adb:7:33-7:36>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Int test.adb:7:38-7:39>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+
+
+Done.

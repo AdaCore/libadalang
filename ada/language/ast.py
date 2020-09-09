@@ -13458,7 +13458,9 @@ class RaiseStmt(SimpleStmt):
             ),
             Entity.error_message.then(
                 lambda er: And(
-                    Predicate(BaseTypeDecl.is_str_type_or_null, er.type_var),
+                    # The expected type of that error message is always String,
+                    # according to RM 11.3 - 3.1/2.
+                    Self.type_bind_val(er.type_var, Self.std_entity('String')),
                     er.sub_equation
                 ),
                 default_val=LogicTrue()

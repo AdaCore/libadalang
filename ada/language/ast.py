@@ -12087,7 +12087,10 @@ class QualExpr(Name):
             Entity.xref_equation,
             Self.parent_name(root).as_entity.then(
                 lambda pn:
-                pn.parent_name_equation(Entity.name_designated_type, root),
+                pn.parent_name_equation(
+                    Entity.prefix.designated_type_impl,
+                    root
+                ),
                 default_val=LogicTrue()
             )
         )
@@ -12116,6 +12119,10 @@ class QualExpr(Name):
     @langkit_property()
     def designated_env():
         return Entity.designated_type.defining_env
+
+    @langkit_property()
+    def env_elements_impl():
+        return Entity.prefix.env_elements_impl
 
 
 class AttributeRef(Name):

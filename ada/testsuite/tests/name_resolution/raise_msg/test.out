@@ -31,5 +31,42 @@ Expr: <Int test.adb:7:38-7:39>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
 
+Resolving xrefs for node <ObjectDecl ["Dummy"] test.adb:11:7-11:65>
+*******************************************************************
+
+Expr: <Id "Integer" test.adb:11:15-11:22>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <ParenExpr test.adb:11:26-11:64>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <RaiseExpr test.adb:11:27-11:63>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Failure" test.adb:11:33-11:40>
+  references: <DefiningName test.adb:5:4-5:11>
+  type:       None
+Expr: <BinOp test.adb:11:46-11:63>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <CallExpr test.adb:11:46-11:53>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "Get" test.adb:11:46-11:49>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Int test.adb:11:51-11:52>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+Expr: <OpConcat "&" test.adb:11:54-11:55>
+  references: None
+  type:       None
+Expr: <CallExpr test.adb:11:56-11:63>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "Get" test.adb:11:56-11:59>
+  references: <DefiningName test.adb:2:13-2:16>
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Int test.adb:11:61-11:62>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+
 
 Done.

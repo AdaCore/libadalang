@@ -1,0 +1,35 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:18:4-18:28>
+*********************************************************
+
+Expr: <Id "X" test.adb:18:4-18:5>
+  references: <DefiningName test.adb:16:4-16:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName test.adb:18:9-18:27>
+  references: <DefiningName test.adb:3:7-3:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CallExpr test.adb:18:9-18:25>
+  references: <DefiningName test.adb:11:9-11:17>
+  type:       <TypeDecl ["Rec"] test.adb:2:4-4:15>
+Expr: <QualExpr test.adb:18:9-18:21>
+  references: <DefiningName test.adb:11:9-11:17>
+  type:       <TypeDecl ["Rec_Func"] test.adb:11:4-11:62>
+Expr: <Id "Rec_Func" test.adb:18:9-18:17>
+  references: <DefiningName test.adb:11:9-11:17>
+  type:       <TypeDecl ["Rec_Func"] test.adb:11:4-11:62>
+Expr: <ParenExpr test.adb:18:18-18:21>
+  type:       <TypeDecl ["Rec_Func"] test.adb:11:4-11:62>
+Expr: <Id "F" test.adb:18:19-18:20>
+  references: <DefiningName test.adb:13:4-13:5>
+  type:       <TypeDecl ["Rec_Func"] test.adb:11:4-11:62>
+Expr: <Int test.adb:18:23-18:24>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "X" test.adb:18:26-18:27>
+  references: <DefiningName test.adb:3:7-3:8>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

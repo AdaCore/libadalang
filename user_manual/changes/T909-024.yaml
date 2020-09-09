@@ -1,0 +1,7 @@
+type: bugfix
+title: Bug with qualified expr used as prefix of call
+description: |
+    Until now, Libadalang would fail to nameres an expression containing a
+    qualified expression being the prefix of a call. This is now correctly
+    handled.
+date: 2020-09-09

@@ -12731,7 +12731,18 @@ class RaiseExpr(Expr):
 
     @langkit_property()
     def xref_equation():
-        return Entity.exception_name.sub_equation
+        return And(
+            Entity.exception_name.sub_equation,
+            Entity.error_message.then(
+                lambda er: And(
+                    # The expected type of that error message is always String,
+                    # according to RM 11.3 - 3.1/2.
+                    Self.type_bind_val(er.type_var, Self.std_entity('String')),
+                    er.sub_equation
+                ),
+                default_val=LogicTrue()
+            )
+        )
 
 
 class DottedName(Name):

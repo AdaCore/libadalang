@@ -6,4 +6,11 @@ procedure Test is
 begin
    raise Failure with Get (2) & Get (3);
    pragma Test_Statement;
+
+   declare
+      Dummy : Integer := (raise Failure with Get (2) & Get (3));
+      pragma Test_Statement;
+   begin
+      null;
+   end;
 end Test;

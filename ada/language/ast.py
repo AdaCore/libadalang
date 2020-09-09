@@ -1968,14 +1968,14 @@ class BasicDecl(AdaNode):
         return LogicTrue()
 
     relative_name = Property(
-        Entity.defining_name.relative_name, public=True, doc="""
+        Entity.defining_name._.relative_name, public=True, doc="""
         Return the relative name for Self. If Self's defining name is
         ``A.B.C``, return C as a node.
         """
     )
 
     relative_name_text = Property(
-        Entity.relative_name.symbol, doc="""
+        Entity.relative_name._.symbol, doc="""
         Return the relative name for Self, as text.
         """, public=True
     )

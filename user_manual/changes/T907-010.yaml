@@ -1,0 +1,7 @@
+type: bugfix
+title: Make relative_name work on decls with no name
+description: |
+    Some declarations (like exception handlers that don't declare an object)
+    have no defining name. Make sure the ``relative_name`` property works
+    correctly on those.
+date: 2020-04-02

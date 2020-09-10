@@ -664,7 +664,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                      start_line(codes[n.suffixIndex].node),
                      start_line(
                          codes[n.suffixIndex + curHeight - 1].node))
-                    for i, n in curNode.children.iteritems()]
+                    for i, n in sorted(curNode.children.items())]
 
             # Sort the list to report the message on the first occurrence
             locs.sort()

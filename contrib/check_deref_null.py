@@ -131,7 +131,7 @@ def explore(f, subp):
         # Remove those variables which have been redefined in the branch, which
         # we detect by checking whether they are still in the objects
         # dereferenced for the branch or not.
-        for k in derefs.keys():
+        for k in list(derefs.keys()):
             if k not in branch_derefs:
                 del derefs[k]
 

@@ -261,7 +261,7 @@ def explore(f, locvars, locsubprograms, subp):
             # consider that a read of X.Y after and before successive
             # assignments to X.Y.Z is enough to validate them.
             if not isinstance(obj.parent, lal.DottedName):
-                for path in assigns.keys():
+                for path in list(assigns.keys()):
                     if path.startswith(obj.text):
                         del assigns[path]
 
@@ -323,7 +323,7 @@ def explore(f, locvars, locsubprograms, subp):
         # Remove those variables which have been read in the branch, which
         # we detect by checking whether they are still in the objects known to
         # be assigned for the branch or not.
-        for k in update_assigns.keys():
+        for k in list(update_assigns.keys()):
             if k not in branch_assigns:
                 del update_assigns[k]
 
@@ -492,7 +492,7 @@ def do_file(f):
         # Filter out variables whose name indicates they are not used, or an
         # indicator of success of a command with side-effect, which may not
         # always be used.
-        for name in locvars.keys():
+        for name in list(locvars.keys()):
             if is_ignored_name(name):
                 del locvars[name]
         # Collect local subprograms which may update the value of local

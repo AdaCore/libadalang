@@ -1,4 +1,2 @@
 driver: python
 input_sources: []
-control:
-    - [XFAIL, "python == 3", "Pending fixes from SC11-035"]

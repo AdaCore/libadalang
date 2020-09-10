@@ -1,0 +1,4 @@
+driver: python
+input_sources: []
+control:
+    - [SKIP, "python == 2", "Python 2 is not supported"]

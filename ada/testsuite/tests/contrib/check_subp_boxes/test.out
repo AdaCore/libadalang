@@ -1,0 +1,34 @@
+Checking test.adb
+test.adb:5:14: error: No box for subprogram `Foo`
+4 |    procedure Foo is
+  |              ^^^   
+
+test.adb:12:13: error: Malformed box for subprogram `Foo`
+11 |    ---------
+   |             
+
+package body Test is
+
+   --  Test 1: no box
+
+   ---------
+   -- Foo --
+   ---------
+
+   procedure Foo is
+   begin
+      null;
+   end Foo;
+
+   --  Test 2: wrong box
+
+   ---------
+   -- Foo --
+   ---------
+
+   procedure Foo is
+   begin
+      null;
+   end Foo;
+end Test;
+

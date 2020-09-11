@@ -8223,7 +8223,7 @@ class BinOp(Expr):
         return (
             Entity.left.sub_equation
             & Entity.right.sub_equation
-        ) & (refined_subps.logic_any(lambda subp: Let(
+        ) & (Self.no_overload_equation | refined_subps.logic_any(lambda subp: Let(
             lambda
             ps=subp.subp_spec_or_null.unpacked_formal_params,
             prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
@@ -8248,7 +8248,7 @@ class BinOp(Expr):
             # implicitly generated '/=' refer to the '=' subprogram, if it
             # exists.
             & Bind(Self.op.ref_var, subp)
-        )) | Self.no_overload_equation)
+        )))
 
     @langkit_property(dynamic_vars=[origin])
     def no_overload_equation():

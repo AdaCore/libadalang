@@ -14,8 +14,8 @@ Eval 'node.p_decl_part()' on node <PackageBody ["Pkg2"] multi_units.adb:10:1-19:
 Result: <PackageDecl ["Pkg2"] pkg2.ads:1:1-11:10>
 
 
-Eval 'node.p_body_part' on node <SubpDecl ["Foo"] pkg1.ads:2:4-2:18>
-Result: <bound method ClassicSubpDecl.p_body_part of <SubpDecl ["Foo"] pkg1.ads:2:4-2:18>>
+Eval 'node.p_body_part()' on node <SubpDecl ["Foo"] pkg1.ads:2:4-2:18>
+Result: <SubpBody ["Foo"] multi_units.adb:2:4-5:12>
 
 Eval 'node.p_body_part' on node <PackageDecl ["Pkg1"] pkg1.ads:1:1-4:10>
 Result: <PackageBody ["Pkg1"] multi_units.adb:1:1-7:10>

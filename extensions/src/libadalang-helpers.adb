@@ -133,7 +133,8 @@ package body Libadalang.Helpers is
             --  former includes tracebacks and the latter includes line
             --  numbers in Libadalang: both are bad for testcase output
             --  consistency.
-            Put_Line ("> " & Ada.Exceptions.Exception_Name (E));
+            Put_Line ("> " & Ada.Exceptions.Exception_Name (E)
+                      & ": " & Ada.Exceptions.Exception_Message (E));
             New_Line;
 
          elsif Args.Sym_Traceback.Get then

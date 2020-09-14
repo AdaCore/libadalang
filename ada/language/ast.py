@@ -2276,11 +2276,7 @@ class Body(BasicDecl):
         Return the decl corresponding to this body. Specialized implementation
         for subprogram bodies.
         """
-        env = Var(If(
-            Self.is_compilation_unit_root & Not(Self.is_subunit),
-            Self.std_env,
-            Entity.children_env.env_parent
-        ))
+        env = Var(Entity.children_env.env_parent)
 
         elements = Var(env.get(Entity.name_symbol))
 
@@ -9093,6 +9089,13 @@ class Name(Expr):
             lambda sl=StringLiteral:
                 n.cast(StringLiteral).then(
                     lambda other_sl: sl.sym.equals(other_sl.sym)
+                ),
+            lambda dn=DottedName:
+                n.cast(DottedName).then(
+                    lambda sn: And(
+                        sn.prefix.matches(dn.prefix),
+                        sn.suffix.matches(dn.suffix)
+                    )
                 ),
             lambda di=DefiningName: n.matches(di.name),
             lambda _: False

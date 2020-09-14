@@ -1,0 +1,6 @@
+Eval 'node.p_previous_part()' on node <SubpBody ["Pkg.Foo"] pkg-foo.adb:1:1-4:13>
+Result: <SubpDecl ["Pkg.Foo"] pkg-foo.ads:1:1-1:19>
+
+
+
+

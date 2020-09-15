@@ -1,4 +1,13 @@
-relative_name = None
-relative name text = ''
-relative_name = <Id "B" test.adb:6:9-6:10>
-relative name text = 'b'
+Eval 'node.p_relative_name' on node <ExceptionHandler ["None"] test.adb:5:4-8:12>
+Result: None
+
+Eval 'node.p_relative_name_text' on node <ExceptionHandler ["None"] test.adb:5:4-8:12>
+Result: ''
+
+Eval 'node.p_relative_name' on node <ExceptionHandler ["B"] test.adb:10:4-13:12>
+Result: <Id "B" test.adb:10:9-10:10>
+
+Eval 'node.p_relative_name_text' on node <ExceptionHandler ["B"] test.adb:10:4-13:12>
+Result: 'b'
+
+

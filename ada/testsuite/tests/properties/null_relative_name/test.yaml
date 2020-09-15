@@ -1,2 +1,2 @@
-driver: python
+driver: inline-playground
 input_sources: [test.adb]

@@ -37,8 +37,9 @@ def check_unsync_box(subp_body):
     """
 
     def prev(tok):
-        while (tok := tok.previous) is not None and tok.kind == 'Whitespace':
-            continue
+        tok = tok.previous
+        while tok is not None and tok.kind == 'Whitespace':
+            tok = tok.previous
         return tok
 
     ss = subp_body.f_subp_spec

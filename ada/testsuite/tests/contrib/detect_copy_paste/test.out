@@ -1,18 +1,18 @@
 gprbuild-post_compile.adb:1503:1: copy-paste of 24 lines detected with code from line 2236 to line 2259
 gprbuild-post_compile.adb:2338:1: copy-paste of 32 lines detected with code from line 2460 to line 2492
-gprbuild-post_compile.adb:1231:1: copy-paste of 52 lines detected with code from line 1298 to line 1348
 gprbuild-post_compile.adb:1285:1: copy-paste of 37 lines detected with code from line 1351 to line 1388
 gprlib-build_shared_lib.adb:168:1: copy-paste of 32 lines detected with code from line 1739 to line 1768 in file gprlib.adb
-gpr_build_util.adb:362:1: copy-paste of 53 lines detected with code from line 655 to line 707 in file gprbuild-post_compile.adb
-gpr_build_util.adb:422:1: copy-paste of 24 lines detected with code from line 719 to line 742 in file gprbuild-post_compile.adb
 gprbuild-main.adb:632:1: copy-paste of 23 lines detected with code from line 1541 to line 1563
 gpr_util.adb:1490:1: copy-paste of 28 lines detected with code from line 1532 to line 1559 in file gprbuild-compile.adb
+gprbuild-post_compile.adb:1231:1: copy-paste of 52 lines detected with code from line 1298 to line 1348
 gpr_util.adb:2005:1: copy-paste of 100 lines detected with code from line 2294 to line 2391
-gpr_build_util.adb:2121:1: copy-paste of 47 lines detected with code from line 812 to line 858 in file gprbuild-post_compile.adb
+gpr_build_util.adb:422:1: copy-paste of 24 lines detected with code from line 719 to line 742 in file gprbuild-post_compile.adb
 gpr_util.adb:1855:1: copy-paste of 32 lines detected with code from line 2442 to line 2473
 gpr_util.adb:1866:1: copy-paste of 38 lines detected with code from line 2199 to line 2236
-gpr_util.adb:1912:1: copy-paste of 30 lines detected with code from line 2249 to line 2278
+gpr_build_util.adb:2121:1: copy-paste of 47 lines detected with code from line 812 to line 858 in file gprbuild-post_compile.adb
 gpr_util.adb:2270:1: copy-paste of 64 lines detected with code from line 2482 to line 2545
-gprbind.adb:811:1: copy-paste of 65 lines detected with code from line 1402 to line 1471 in file gprlib.adb
+gpr_util.adb:1912:1: copy-paste of 30 lines detected with code from line 2249 to line 2278
+gpr_build_util.adb:362:1: copy-paste of 53 lines detected with code from line 655 to line 707 in file gprbuild-post_compile.adb
 gprbuild-link.adb:1692:1: copy-paste of 73 lines detected with code from line 2300 to line 2372
+gprbind.adb:811:1: copy-paste of 65 lines detected with code from line 1402 to line 1471 in file gprlib.adb
 gprname.adb:474:1: copy-paste of 80 lines detected with code from line 563 to line 642

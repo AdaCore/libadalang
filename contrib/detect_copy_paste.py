@@ -345,12 +345,17 @@ class IntPtr(object):
 
 
 class Node(object):
+
+    serial_generator = itertools.count(0)
+
     def __init__(self, root, start, end):
         """
         :type start: int
         :type end: IntPtr
         :rtype: Node
         """
+        self.serial = next(self.serial_generator)
+
         self.children = {}
 
         # For root node, suffixLink will be set to NULL.  For internal nodes,
@@ -375,6 +380,9 @@ class Node(object):
         # For leaf nodes, it stores the index of suffix for the path from root
         # to leaf.
         self.suffixIndex = -1
+
+    def __lt__(self, other):
+        return self.serial < other.serial
 
 
 def find_copy_pastes(codes, num_hash_limit, num_line_limit):
@@ -576,12 +584,11 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
             pass
 
         leaf = True
-        for i in n.children.keys():
+        for child in sorted(n.children.values()):
             # Current node is not a leaf as it has outgoing
             # edges from it.
             leaf = False
-            setSuffixIndexByDFS(n.children[i], labelHeight +
-                                edgeLength(n.children[i]))
+            setSuffixIndexByDFS(child, labelHeight + edgeLength(child))
 
         if leaf:
             n.suffixIndex = Glob.size - labelHeight
@@ -619,18 +626,17 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
 
             # Only consider node if no two suffixes have longer versions when
             # considering the previous hash.
-            previous = [text[curNode.children[i].suffixIndex - 1]
-                        if curNode.children[i].suffixIndex != 0
+            previous = [text[child.suffixIndex - 1]
+                        if child.suffixIndex != 0
                         else 0
-                        for i in curNode.children.keys()]
+                        for child in sorted(curNode.children.values())]
             if len(previous) != len(set(previous)):
                 ignore = True
 
             if ignore:
-                for i in curNode.children.keys():
+                for child in sorted(curNode.children.values()):
                     getLongestRepeatedSubstring(
-                        curNode.children[i],
-                        curHeight + edgeLength(curNode.children[i]))
+                        child, curHeight + edgeLength(child))
                 return
 
         # Ignore leaf nodes
@@ -664,7 +670,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                      start_line(codes[n.suffixIndex].node),
                      start_line(
                          codes[n.suffixIndex + curHeight - 1].node))
-                    for i, n in sorted(curNode.children.items())]
+                    for i, n in curNode.children.items()]
 
             # Sort the list to report the message on the first occurrence
             locs.sort()

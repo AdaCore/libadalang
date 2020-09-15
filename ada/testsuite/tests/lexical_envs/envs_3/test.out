@@ -199,10 +199,10 @@ CompilationUnitList[1:1-17:11]
 |  |  PragmaNodeList[17:11-17:11]: <empty list>
 
 ==== Dumping lexical environments ====
-$root = LexEnv(Primary, Parent=null):
+$root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] __standard:1:1-121:14>]
 
-@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-121:14>):
+@1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-121:14>):
     'a': [<EnumLiteralDecl ["'A'"] __standard:20:22-20:25>, <EnumLiteralDecl ["'A'"] __standard:21:27-21:30>, <EnumLiteralDecl ["'A'"] __standard:22:32-22:35>]
     a: [<PackageDecl ["A"] input:10:1-11:7>]
     ascii: [<PackageDecl ["ASCII"] __standard:23:3-103:13>]
@@ -235,21 +235,21 @@ $root = LexEnv(Primary, Parent=null):
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] __standard:22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] __standard:108:3-109:44>]
 
-@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-2:9>):
+@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-2:9>):
     bar: [<PackageDecl ["Foo.Bar"] input:4:1-5:13>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<PackageDecl ["Foo.Bar"] input:4:1-5:13>):
+@3 = LexEnv(Static_Primary, Parent=@2, Node=<PackageDecl ["Foo.Bar"] input:4:1-5:13>):
     baz: [<PackageDecl ["Foo.Bar.Baz"] input:7:1-8:17>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<PackageDecl ["Foo.Bar.Baz"] input:7:1-8:17>):
+@4 = LexEnv(Static_Primary, Parent=@3, Node=<PackageDecl ["Foo.Bar.Baz"] input:7:1-8:17>):
     <empty>
 
-@5 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["A"] input:10:1-11:7>):
+@5 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["A"] input:10:1-11:7>):
     b: [<PackageDecl ["A.B"] input:13:1-14:9>]
 
-@6 = LexEnv(Primary, Parent=@5, Node=<PackageDecl ["A.B"] input:13:1-14:9>):
+@6 = LexEnv(Static_Primary, Parent=@5, Node=<PackageDecl ["A.B"] input:13:1-14:9>):
     c: [<PackageDecl ["A.B.C"] input:16:1-17:11>]
 
-@7 = LexEnv(Primary, Parent=@6, Node=<PackageDecl ["A.B.C"] input:16:1-17:11>):
+@7 = LexEnv(Static_Primary, Parent=@6, Node=<PackageDecl ["A.B.C"] input:16:1-17:11>):
     <empty>
 

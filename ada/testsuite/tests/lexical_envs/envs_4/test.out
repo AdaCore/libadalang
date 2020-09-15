@@ -39,7 +39,7 @@ CompilationUnit[1:1-3:13]
 |  PragmaNodeList[3:13-3:13]: <empty list>
 
 ==== Dumping lexical environments ====
-@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-121:14>):
+@1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-121:14>):
     'a': [<EnumLiteralDecl ["'A'"] __standard:20:22-20:25>, <EnumLiteralDecl ["'A'"] __standard:21:27-21:30>, <EnumLiteralDecl ["'A'"] __standard:22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] __standard:23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] __standard:3:3-3:33>]
@@ -71,16 +71,16 @@ CompilationUnit[1:1-3:13]
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] __standard:22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] __standard:108:3-109:44>]
 
-$root = LexEnv(Primary, Parent=null):
+$root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] __standard:1:1-121:14>]
 
-@3 = LexEnv(Primary, Parent=@2, Node=<GenericPackageDecl ["Foo.Bar"] foo-bar.ads:1:1-3:13>):
+@3 = LexEnv(Static_Primary, Parent=@2, Node=<GenericPackageDecl ["Foo.Bar"] foo-bar.ads:1:1-3:13>):
     <empty>
 
-@2 = LexEnv(Primary, Parent=@1, Node=<PackageDecl ["Foo"] foo.ads:1:1-2:9>):
+@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] foo.ads:1:1-2:9>):
     bar: [<GenericPackageDecl ["Foo.Bar"] foo-bar.ads:1:1-3:13>]
 
-@1 = LexEnv(Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-121:14>):
+@1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-121:14>):
     'a': [<EnumLiteralDecl ["'A'"] __standard:20:22-20:25>, <EnumLiteralDecl ["'A'"] __standard:21:27-21:30>, <EnumLiteralDecl ["'A'"] __standard:22:32-22:35>]
     ascii: [<PackageDecl ["ASCII"] __standard:23:3-103:13>]
     boolean: [<TypeDecl ["Boolean"] __standard:3:3-3:33>]
@@ -112,9 +112,9 @@ $root = LexEnv(Primary, Parent=null):
     wide_wide_character: [<TypeDecl ["Wide_Wide_Character"] __standard:22:3-22:37>]
     wide_wide_string: [<TypeDecl ["Wide_Wide_String"] __standard:108:3-109:44>]
 
-$root = LexEnv(Primary, Parent=null):
+$root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] __standard:1:1-121:14>]
 
-@4 = LexEnv(Primary, Parent=@3, Node=<GenericPackageInternal ["Foo.Bar"] foo-bar.ads:2:1-3:13>):
+@4 = LexEnv(Static_Primary, Parent=@3, Node=<GenericPackageInternal ["Foo.Bar"] foo-bar.ads:2:1-3:13>):
     <empty>
 

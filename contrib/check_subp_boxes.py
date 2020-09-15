@@ -13,7 +13,6 @@ and the subprogram do not match, such as::
 If passed the --fix flag, it will fix the boxes in the same pass.
 """
 
-import argparse
 from os import path as P
 
 import libadalang as lal
@@ -80,7 +79,8 @@ class CheckSubpBoxes(lal.App):
         super(CheckSubpBoxes, self).add_arguments()
 
     def process_unit(self, unit):
-        print(f"Checking {P.basename(unit.filename)}")
+        base_filename = P.basename(unit.filename)
+        print(f"Checking {base_filename}")
 
         content_changed = False
         # Get the file's content, for error reporting and for fixing
@@ -89,7 +89,7 @@ class CheckSubpBoxes(lal.App):
 
         # Parse, and report errors on fail
         if unit.root is None:
-            print(f'Could not parse {f}:')
+            print(f'Could not parse {base_filename}:')
             for diag in unit.diagnostics:
                 print_error(
                     diag.message,

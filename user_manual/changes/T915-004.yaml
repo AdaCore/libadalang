@@ -1,0 +1,8 @@
+type: bugfix
+title: Fix name resolution of ``Mod`` attribute
+description: |
+    Until now, the ``Mod`` attribute would take an incorrect code path during
+    name resolution, which could make some expressions involving it fail to
+    resolve. In particular in expressions where the mod attribute is used as
+    one of the operand of an arithmetic operation.
+date: 2020-09-16

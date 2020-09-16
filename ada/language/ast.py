@@ -11320,7 +11320,7 @@ class Identifier(BaseId):
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
             'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
-            'Remainder', 'Adjacent'
+            'Remainder', 'Adjacent', 'Mod'
         )
     )
 
@@ -12317,6 +12317,9 @@ class AttributeRef(Name):
                             'Copy_Sign', 'Remainder', 'Adjacent'),
             Entity.float_funcs_equation,
 
+            rel_name == 'Mod',
+            Entity.mod_equation,
+
             PropertyError(Equation, "Unhandled attribute")
         )
 
@@ -12335,6 +12338,21 @@ class AttributeRef(Name):
                 lambda arg:
                 arg.expr.sub_equation
                 & Self.type_bind_val(arg.expr.type_var, typ)
+            )
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def mod_equation():
+        """
+        Return the nameres equation for the Mod attribute (T'Mod (X) where
+        T is a mod type and X an integer value).
+        """
+        typ = Var(Entity.prefix.name_designated_type)
+        return And(
+            Entity.prefix.sub_equation,
+            Self.type_bind_val(Self.type_var, typ),
+            Entity.args_list.logic_all(
+                lambda arg: arg.expr.sub_equation
             )
         )
 

@@ -12159,14 +12159,6 @@ class AttributeRef(Name):
                 e.cast_or_raise(T.BasicDecl).trigger_access_entity(True)
             ),
 
-            # TODO: This is a hack, because the result of 'Old and 'Loop_Entry
-            # don't really refer to the decl of the left side of the attr. This
-            # works around a bug in CallExpr's equation, where you can only
-            # index something that has a corresponding decl in the toplevel
-            # call expr.
-            Self.attribute.sym.any_of('Old', 'Loop_Entry'),
-            Entity.prefix.env_elements_impl,
-
             No(T.AdaNode.entity.array),
         )
 

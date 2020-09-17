@@ -9651,25 +9651,16 @@ class CallExpr(Name):
                 default_val=LogicTrue()
             ),
 
-            # Attribute ref case where the prefix denotes a type.
-            # TODO: This is an enormous hack, and a completely wrong
-            # implementation of attribute ref resolution. This was introduced
-            # with SA31-013 to mimic the old behavior. This should be
-            # completely rewritten together with the refactoring to handle
-            # function attributes correctly.
-            Entity.name.cast(AttributeRef).then(
-                lambda ar: Not(ar.prefix.name_designated_type.is_null)
-            ),
-            Entity.type_conv_xref_equation
-            & Entity.parent_name(root).as_entity.then(
-                lambda pn:
-                pn.parent_name_equation(
-                    Entity.name.cast(AttributeRef).prefix.name_designated_type,
-                    root
+            # Attribute ref case: we can always resolve the AttributeRef first
+            # without ambiguity. This allows us to use its type in order to
+            # solve the rest of the expression.
+            Entity.name.is_a(AttributeRef),
+            Entity.name.resolve_names_internal.then(
+                lambda _: Entity.parent_name_equation(
+                    Entity.name.type_val.cast(BaseTypeDecl), root
                 ),
-                default_val=LogicTrue()
+                default_val=LogicFalse()
             ),
-
 
             And(
                 Entity.params.logic_all(lambda pa: pa.expr.sub_equation),

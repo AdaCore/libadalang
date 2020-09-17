@@ -11,6 +11,9 @@ procedure Test is
 
    Wide_Image : Wide_String := Float'Wide_Image (2.0);
    pragma Test_Statement;
+
+   With_Subscript : String := Float'Image (2.0) (1 .. 2);
+   pragma Test_Statement;
 begin
    null;
 end Test;

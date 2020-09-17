@@ -79,5 +79,38 @@ Expr: <Real test.adb:12:50-12:53>
   references: None
   type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
 
+Resolving xrefs for node <ObjectDecl ["With_Subscript"] test.adb:15:4-15:58>
+****************************************************************************
+
+Expr: <Id "String" test.adb:15:21-15:27>
+  references: <DefiningName __standard:104:8-104:14>
+  type:       None
+Expr: <CallExpr test.adb:15:31-15:57>
+  references: None
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <AttributeRef test.adb:15:31-15:48>
+  references: None
+  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+Expr: <Id "Float" test.adb:15:31-15:36>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       None
+Expr: <Id "Image" test.adb:15:37-15:42>
+  references: None
+  type:       None
+Expr: <Real test.adb:15:44-15:47>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+Expr: <BinOp test.adb:15:50-15:56>
+  type:       <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int test.adb:15:50-15:51>
+  references: None
+  type:       <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." test.adb:15:52-15:54>
+  references: None
+  type:       None
+Expr: <Int test.adb:15:55-15:56>
+  references: None
+  type:       <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
 
 Done.

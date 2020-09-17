@@ -10,10 +10,10 @@ Expr: <Id "Loop_Invariant" increment_array.adb:6:17-6:31>
 Expr: <RelationOp increment_array.adb:6:33-6:55>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr increment_array.adb:6:33-6:50>
-  references: <DefiningName increment_array.adb:3:24-3:25>
+  references: None
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <AttributeRef increment_array.adb:6:33-6:45>
-  references: <DefiningName increment_array.adb:3:24-3:25>
+  references: None
   type:       <TypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
 Expr: <Id "X" increment_array.adb:6:33-6:34>
   references: <DefiningName increment_array.adb:3:24-3:25>

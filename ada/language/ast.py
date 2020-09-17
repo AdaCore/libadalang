@@ -11315,6 +11315,7 @@ class Identifier(BaseId):
             'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min',
             'Max', 'Value', 'Pos', 'Val', 'Enum_Val', 'First', 'Last', 'Range',
             'Length', 'Image', 'Wide_Image', 'Wide_Wide_Image',
+            'Asm_Input', 'Asm_Output',
 
             # Those attributes return functions but were never implemented. We
             # still parse them in the old "wrong" fashion, in order not to
@@ -12320,6 +12321,9 @@ class AttributeRef(Name):
             rel_name == 'Mod',
             Entity.mod_equation,
 
+            rel_name.any_of('Asm_Input', 'Asm_Output'),
+            Entity.inline_asm_equation,
+
             PropertyError(Equation, "Unhandled attribute")
         )
 
@@ -12734,6 +12738,44 @@ class AttributeRef(Name):
         return (
             Bind(Self.prefix.ref_var, Entity.prefix.name_designated_type) &
             Self.universal_int_bind(Self.type_var)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def inline_asm_equation():
+        """
+        Return the xref equation for the 'Asm_Input' and 'Asm_Output'
+        attributes.
+        """
+        return_type_name = Var(If(
+            Self.attribute.name_is('Asm_Input'),
+            'Asm_Input_Operand',
+            'Asm_Output_Operand'
+        ))
+
+        # The return type must be `Asm_Input_Operand` for the `Asm_Input`
+        # attribute, and `Asm_Output_Operand` for the `Asm_Output` attribute.
+        return_type = Var(
+            Entity
+            .get_unit_root_decl(['System', 'Machine_Code'], UnitSpecification)
+            ._.children_env.get_first(return_type_name, lookup=LK.flat)
+            .cast(T.BaseTypeDecl)
+        )
+
+        return And(
+            Entity.prefix.xref_no_overloading,
+            Self.type_bind_val(Self.type_var, return_type),
+
+            # The first argument is a string
+            Self.type_bind_val(
+                Entity.args_list.at(0).expr.type_var,
+                Self.std_entity('String')
+            ),
+
+            # The second argument is of the type designated by the prefix
+            Self.type_bind_val(
+                Entity.args_list.at(1).expr.type_var,
+                Entity.prefix.name_designated_type
+            )
         )
 
 

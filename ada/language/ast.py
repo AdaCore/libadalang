@@ -11313,8 +11313,8 @@ class Identifier(BaseId):
             # Attributes that return functions and are - wrongly - handled (see
             # S910-057 for more details).
             'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min',
-            'Max', 'Image', 'Value', 'Pos', 'Val', 'Enum_Val',
-            'First', 'Last', 'Range', 'Length',
+            'Max', 'Value', 'Pos', 'Val', 'Enum_Val', 'First', 'Last', 'Range',
+            'Length', 'Image', 'Wide_Image', 'Wide_Wide_Image',
 
             # Those attributes return functions but were never implemented. We
             # still parse them in the old "wrong" fashion, in order not to

@@ -8,6 +8,9 @@ procedure Test is
 
    On_Qualified_Expr : String := Float'(2.0)'Image;
    pragma Test_Statement;
+
+   Wide_Image : Wide_String := Float'Wide_Image (2.0);
+   pragma Test_Statement;
 begin
    null;
 end Test;

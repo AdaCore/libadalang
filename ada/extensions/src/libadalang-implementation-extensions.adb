@@ -440,9 +440,8 @@ package body Libadalang.Implementation.Extensions is
      (Node : Bare_Compilation_Unit) return Lexical_Env is
    begin
       if Node.Compilation_Unit_No_Env = Empty_Env then
-         Node.Compilation_Unit_No_Env := AST_Envs.Create_Lexical_Env
-           (No_Env_Getter, Node, Owner => Node.Unit);
-         Register_Destroyable (Node.Unit, Node.Compilation_Unit_No_Env.Env);
+         Node.Compilation_Unit_No_Env :=
+            Create_Static_Lexical_Env (No_Env_Getter, Node);
       end if;
       return Node.Compilation_Unit_No_Env;
    end Compilation_Unit_P_Get_Empty_Env;
@@ -517,10 +516,8 @@ package body Libadalang.Implementation.Extensions is
      (Node : Bare_Generic_Instantiation) return Lexical_Env is
    begin
       if Node.Generic_Instantiation_Inst_Env = Empty_Env then
-         Node.Generic_Instantiation_Inst_Env := AST_Envs.Create_Lexical_Env
-           (No_Env_Getter, Node, Owner => Node.Unit);
-         Register_Destroyable
-           (Node.Unit, Node.Generic_Instantiation_Inst_Env.Env);
+         Node.Generic_Instantiation_Inst_Env := Create_Static_Lexical_Env
+           (No_Env_Getter, Node);
       end if;
       return Node.Generic_Instantiation_Inst_Env;
    end Generic_Instantiation_P_Instantiation_Env;
@@ -576,9 +573,8 @@ package body Libadalang.Implementation.Extensions is
    is
    begin
       if Node.Type_Decl_Prims_Env = Empty_Env then
-         Node.Type_Decl_Prims_Env := AST_Envs.Create_Lexical_Env
-           (No_Env_Getter, Node, Owner => Node.Unit);
-         Register_Destroyable (Node.Unit, Node.Type_Decl_Prims_Env.Env);
+         Node.Type_Decl_Prims_Env := Create_Static_Lexical_Env
+           (No_Env_Getter, Node);
       end if;
       return Node.Type_Decl_Prims_Env;
    end Type_Decl_P_Primitives;

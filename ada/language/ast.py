@@ -11313,8 +11313,8 @@ class Identifier(BaseId):
             # Attributes that return functions and are - wrongly - handled (see
             # S910-057 for more details).
             'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min',
-            'Max', 'Image', 'Value', 'Pos', 'Val', 'First', 'Last', 'Range',
-            'Length',
+            'Max', 'Image', 'Value', 'Pos', 'Val', 'Enum_Val',
+            'First', 'Last', 'Range', 'Length',
 
             # Those attributes return functions but were never implemented. We
             # still parse them in the old "wrong" fashion, in order not to
@@ -12224,7 +12224,7 @@ class AttributeRef(Name):
 
             rel_name.any_of('Size', 'VADS_Size'), Entity.size_equation,
             rel_name == 'Pos', Entity.pos_equation,
-            rel_name == 'Val', Entity.val_equation,
+            rel_name.any_of('Val', 'Enum_Val'), Entity.val_equation,
 
             rel_name.any_of('Max_Size_In_Storage_Elements', 'Aft',
                             'Object_Size', 'Value_Size', 'Storage_Size'),

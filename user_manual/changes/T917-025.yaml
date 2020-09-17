@@ -1,0 +1,6 @@
+type: new-feature
+title: Handle ``Asm_Input/Asm_Output`` attributes
+description: |
+    This adds name resolution support for those two attributes, so that
+    they should now resolve to the correct expected types.
+date: 2020-09-17

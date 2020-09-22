@@ -3586,6 +3586,14 @@ class BaseTypeDecl(BasicDecl):
     def is_array_or_rec():
         return Entity.is_array | Entity.is_record_type
 
+    @langkit_property(public=True, return_type=Bool)
+    def is_inherited_primitive(p=T.BasicDecl.entity):
+        """
+        Assuming that P is a primitive of Self, return whether the given
+        primitive P is inherited from one of Self's parents.
+        """
+        return Entity.node != p.info.md.primitive
+
     @langkit_property(return_type=T.RecordRepClause.entity, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
     def get_record_representation_clause():

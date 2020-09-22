@@ -1,0 +1,8 @@
+== test.adb ==
+For <TypeDecl ["Parent"] test.adb:3:7-3:41>, <SubpDecl ["Get1"] test.adb:5:7-5:49> is not inherited
+For <TypeDecl ["Parent"] test.adb:3:7-3:41>, <SubpDecl ["Get2"] test.adb:6:7-6:49> is not inherited
+For <TypeDecl ["Child"] test.adb:16:7-16:52>, <SubpDecl ["Get1"] test.adb:5:7-5:49> is inherited
+For <TypeDecl ["Child"] test.adb:16:7-16:52>, <SubpDecl ["Get2"] test.adb:6:7-6:49> is inherited
+For <TypeDecl ["Child"] test.adb:16:7-16:52>, <SubpDecl ["Get1"] test.adb:18:7-18:59> is not inherited
+
+Done

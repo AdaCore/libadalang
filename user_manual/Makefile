@@ -6,6 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
+LAL_BUILD_DIR = ../build
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
@@ -47,10 +48,25 @@ help:
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 
 clean:
+	rm -rf generated/*
 	rm -rf $(BUILDDIR)/*
 
+newhtml:
+	python -m laldoc.generate_rst -P $(LAL_BUILD_DIR)/lib/gnat/libadalang.gpr \
+		$(LAL_BUILD_DIR)/include/libadalang/libadalang-common.ads \
+		$(LAL_BUILD_DIR)/include/libadalang/libadalang-analysis.ads \
+		../ada/extensions/src/libadalang-helpers.ads \
+		$(LAL_BUILD_DIR)/include/libadalang/libadalang-lexer.ads \
+		$(LAL_BUILD_DIR)/include/libadalang/libadalang-iterators.ads \
+		$(LAL_BUILD_DIR)/include/libadalang/libadalang-introspection.ads \
+		-O generated
+
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -t new_laldoc $(BUILDDIR)/html
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -t legacy_laldoc $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 

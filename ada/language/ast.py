@@ -1872,6 +1872,8 @@ class BasicDecl(AdaNode):
             lambda subp=SubpBodyStub:   subp.subp_spec,
             lambda gsp=GenericSubpDecl:
             If(follow_generic, gsp.subp_decl.subp_spec, No(SubpSpec.entity)),
+            lambda gsi=GenericSubpInstantiation:
+            gsi.designated_generic_decl.subp_spec_or_null(True),
             lambda _:                   No(SubpSpec.entity),
         )
 

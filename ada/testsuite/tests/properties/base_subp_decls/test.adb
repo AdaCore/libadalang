@@ -44,6 +44,16 @@ procedure Test is
 
       overriding procedure Foo (X : D) is null;
    end Derived_4;
+
+   package T925_013_Base is
+      type T is tagged null record;
+      function Foo (X : T) return T'Class is (X);
+   end T925_013_Base;
+
+   package T925_013_Derived is
+      type U is new T925_013_Base.T with null record;
+      overriding function Foo (X : U) return T925_013_Base.T'Class is (X);
+   end T925_013_Derived;
 begin
    null;
 end Test;

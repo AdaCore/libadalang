@@ -1,0 +1,9 @@
+type: bugfix
+title: CW types and ``P_Base_Subp_Declarations``
+description: |
+    The ``P_Base_Subp_Declarations`` property could return incorrect results
+    when called on a subprogram which signature involved the classwide type
+    of the tagged type of which the subprogram is a primitive. In such cases,
+    ``P_Base_Subp_Declarations`` would always return the singleton list only
+    containing the subprogram on which the property was called.
+date: 2020-09-28

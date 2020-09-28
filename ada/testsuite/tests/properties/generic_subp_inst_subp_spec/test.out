@@ -1,0 +1,7 @@
+Eval 'node[0].p_referenced_decl().p_subp_spec_or_null()' on node <CallStmt test.adb:9:7-9:22>
+Result: <SubpSpec test.adb:4:4-4:23>
+
+Eval 'node[0].p_is_dispatching_call()' on node <CallStmt test.adb:9:7-9:22>
+Result: False
+
+

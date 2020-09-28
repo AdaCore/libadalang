@@ -2802,6 +2802,7 @@ class BaseFormalParamHolder(AdaNode):
         # Compute the canonical types and discard the metadata fields for a
         # more robust comparison.
         canon_prim_type = Var(prim_type._.canonical_type._.without_md)
+
         canon_typ = Var(typ.then(lambda t: t.canonical_type.without_md))
 
         return Cond(
@@ -4107,9 +4108,12 @@ class BaseTypeDecl(BasicDecl):
             actual_type.accessed_type.then(
                 lambda actual_access:
                 formal_type.accessed_type.then(
-                    lambda formal_access:
-                    And(formal_access.is_classwide | accept_derived,
-                        actual_access.is_derived_type(formal_access))
+                    lambda formal_access: Or(
+                        And(formal_access.is_classwide | accept_derived,
+                            actual_access.is_derived_type(formal_access)),
+                        And(actual_access.is_classwide,
+                            actual_access.is_derived_type(formal_access))
+                    )
                 )
             ),
 
@@ -4481,7 +4485,12 @@ class ClasswideTypeDecl(BaseTypeDecl):
             lambda pp: pp.classwide_type
         )
 
-    canonical_type = Property(Entity.typedecl.canonical_type)
+    canonical_type = Property(Entity.typedecl.canonical_type.then(
+        # The canonical type should be classwide whenever it makes sense (e.g.
+        # if the canonical type is a tagged record type.) Otherwise return
+        # a non-classwide type.
+        lambda t: t.classwide_type._or(t),
+    ))
 
 
 class TypeDecl(BaseTypeDecl):
@@ -4880,10 +4889,24 @@ class AnonymousTypeDecl(TypeDecl):
             lambda ad:
             ad.accessed_type.then(
                 lambda ast: other.accessed_type.then(
-                    lambda oat: If(
-                        for_assignment,
-                        oat.matching_assign_type(ast),
-                        oat.matching_type(ast)
+                    lambda oat: Let(
+                        lambda
+                        # Forget the classwide view: GNAT always allows
+                        # comparison/assignment between access-to-T and
+                        # access-to-T'Class.
+                        exp=ast.cast(ClasswideTypeDecl)._.typedecl._or(ast),
+                        act=oat.cast(ClasswideTypeDecl)._.typedecl._or(oat):
+
+                        If(
+                            for_assignment,
+
+                            # Pass the possibly-classwide view of the expected
+                            # type here, because matching_assign_type will
+                            # handle this case specifically.
+                            act.matching_assign_type(ast),
+
+                            act.matching_type(exp)
+                        ),
                     )
                 )
             )
@@ -6967,8 +6990,8 @@ class GenericInstantiation(BasicDecl):
 
                     lambda obj_decl=T.ObjectDecl:
                     pm.actual.assoc.expr.sub_equation
-                    & Self.type_bind_val(pm.actual.assoc.expr.type_var,
-                                         obj_decl.expr_type),
+                    & Bind(pm.actual.assoc.expr.type_var, obj_decl.expr_type,
+                           eq_prop=BaseTypeDecl.matching_assign_type),
 
                     lambda _: LogicTrue(),
                 ) & pm.actual.name.then(

@@ -46,4 +46,12 @@
   Base declarations: [<NullSubpDecl ["Foo"] test.adb:23:7-23:48>, <NullSubpDecl ["Foo"] test.adb:13:7-13:48>, <NullSubpDecl ["Foo"] test.adb:5:7-5:37>, <NullSubpDecl ["Foo"] test.adb:39:7-39:48>, <AbstractSubpDecl ["Foo"] test.adb:32:7-32:41>, <AbstractSubpDecl ["Foo"] test.adb:33:7-33:41>, <NullSubpDecl ["Foo"] test.adb:45:7-45:48>]
   Root declarations: [<NullSubpDecl ["Foo"] test.adb:5:7-5:37>, <AbstractSubpDecl ["Foo"] test.adb:32:7-32:41>, <AbstractSubpDecl ["Foo"] test.adb:33:7-33:41>]
 
+<ExprFunction ["Foo"] test.adb:50:7-50:50>:
+  Base declarations: [<ExprFunction ["Foo"] test.adb:50:7-50:50>]
+  Root declarations: [<ExprFunction ["Foo"] test.adb:50:7-50:50>]
+
+<ExprFunction ["Foo"] test.adb:55:7-55:75>:
+  Base declarations: [<ExprFunction ["Foo"] test.adb:50:7-50:50>, <ExprFunction ["Foo"] test.adb:55:7-55:75>]
+  Root declarations: [<ExprFunction ["Foo"] test.adb:50:7-50:50>]
+
 Done

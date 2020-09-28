@@ -2804,7 +2804,22 @@ class BaseFormalParamHolder(AdaNode):
         # Compute the canonical types and discard the metadata fields for a
         # more robust comparison.
         canon_prim_type = Var(prim_type._.canonical_type._.without_md)
-        canon_typ = Var(typ.then(lambda t: t.canonical_type.without_md))
+
+        canon_typ = Var(Cond(
+            typ.is_null,
+            No(BaseTypeDecl.entity),
+
+            # Don't call canonical_type on classwide types, as it returns a
+            # non-classwide type for them, which could make the comparison
+            # below incorrectly succeed.
+            # TODO: Fixing canonical_type directly would probably be better,
+            # unfortunately doing so introduces a cascade of regressions that
+            # are not trivial to fix.
+            typ.is_classwide,
+            typ.without_md,
+
+            typ.canonical_type.without_md
+        ))
 
         return Cond(
             canon_prim_type == canon_typ,

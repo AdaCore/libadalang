@@ -54,6 +54,14 @@ procedure Test is
       type U is new T925_013_Base.T with null record;
       overriding function Foo (X : U) return T925_013_Base.T'Class is (X);
    end T925_013_Derived;
+
+   package T925_015 is
+      type T is tagged null record;
+
+      function Foo (X : T) return T;
+   private
+      function Foo (X : T) return T is (X);
+   end T925_015;
 begin
    null;
 end Test;

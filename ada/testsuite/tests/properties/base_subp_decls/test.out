@@ -54,4 +54,12 @@
   Base declarations: [<ExprFunction ["Foo"] test.adb:50:7-50:50>, <ExprFunction ["Foo"] test.adb:55:7-55:75>]
   Root declarations: [<ExprFunction ["Foo"] test.adb:50:7-50:50>]
 
+<SubpDecl ["Foo"] test.adb:61:7-61:37>:
+  Base declarations: [<SubpDecl ["Foo"] test.adb:61:7-61:37>]
+  Root declarations: [<SubpDecl ["Foo"] test.adb:61:7-61:37>]
+
+<ExprFunction ["Foo"] test.adb:63:7-63:44>:
+  Base declarations: [<SubpDecl ["Foo"] test.adb:61:7-61:37>]
+  Root declarations: [<SubpDecl ["Foo"] test.adb:61:7-61:37>]
+
 Done

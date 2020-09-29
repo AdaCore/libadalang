@@ -1657,7 +1657,7 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True,
-                      public=True)
+                      public=True, dynamic_vars=[default_imprecise_fallback()])
     def base_subp_declarations():
         """
         If Self declares a primitive subprogram of some tagged type T, return
@@ -1669,7 +1669,7 @@ class BasicDecl(AdaNode):
                 lambda spec: spec.get_primitive_subp_tagged_type.then(
                     lambda t:
                     t.primitives_env.get(Entity.name_symbol).filtermap(
-                        lambda bd: bd.cast(BasicDecl),
+                        lambda bd: bd.cast(BasicDecl).canonical_part,
                         lambda bd: bd.cast(BasicDecl)._.subp_spec_or_null.then(
                             lambda s:
                             # Since `s` is retrieved from `t`'s primitives env,
@@ -1683,10 +1683,11 @@ class BasicDecl(AdaNode):
                     )
                 )
             )
-        )
+        ).unique
 
     @langkit_property(return_type=T.BasicDecl.entity.array, public=True,
-                      dynamic_vars=[default_origin()])
+                      dynamic_vars=[default_origin(),
+                                    default_imprecise_fallback()])
     def root_subp_declarations():
         """
         If Self declares a primitive subprogram of some tagged type T, return
@@ -1710,7 +1711,7 @@ class BasicDecl(AdaNode):
         # Compute the set of all such types for which an override is declared
         base_types = Var(base_decls.map(
             lambda d: d.info.md.primitive.cast(BaseTypeDecl).as_bare_entity
-        ))
+        ).unique)
 
         # Among this set of type, find the one which is not derived from any
         # of the other, i.e. the base-most type on which the original

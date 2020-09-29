@@ -12,7 +12,7 @@ procs = u.root.findall(
 for proc in procs:
     print("{}:".format(proc))
     print("  Base declarations: {}".format(
-        proc.p_base_subp_declarations
+        proc.p_base_subp_declarations()
     ))
     print("  Root declarations: {}".format(
         proc.p_root_subp_declarations()

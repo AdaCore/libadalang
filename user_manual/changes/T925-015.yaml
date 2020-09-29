@@ -1,0 +1,10 @@
+type: bugfix
+title: Fix output of ``P_Base/Root_Subp_Declarations``
+description: |
+    Until now, those properties could return several subprogram declarations
+    denoting the same entity (for example its specification and its body),
+    and sometimes even twice the *same* subprogram specification or body.
+    This change homogenizes the output of those property to prevent
+    duplicate entries. As such, the canonical part of each subprogram
+    is returned, after having removed duplicates.
+date: 2020-09-29

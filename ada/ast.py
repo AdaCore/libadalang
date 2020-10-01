@@ -8948,11 +8948,10 @@ class Name(Expr):
         """
         return If(
             Self.defines_subp_spec_var,
-            Let(
-                lambda _=Entity.resolve_names_from_closest_entry_point:
-                Self.subp_spec_var.get_value
-                .cast_or_raise(BaseFormalParamHolder)
-            ),
+            Self.logic_val(
+                from_node=Entity,
+                lvar=Self.subp_spec_var
+            ).value.cast(BaseFormalParamHolder),
             No(BaseFormalParamHolder.entity)
         )
 

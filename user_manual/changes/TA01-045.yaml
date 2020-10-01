@@ -1,0 +1,7 @@
+type: new-feature
+title: Resolve object formals of generic subprograms
+description: |
+    This change brings navigation support for generic formal objects of generic
+    subprograms, whereas they were previously only supported on generic
+    packages.
+date: 2020-10-01

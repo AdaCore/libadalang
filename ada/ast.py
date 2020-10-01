@@ -7125,11 +7125,17 @@ class GenericSubpInstantiation(GenericInstantiation):
                 Self.default_initial_env,
                 Self.nonbound_generic_decl._.formal_part.match_param_list(
                     Entity.params, False
-                ).map(lambda pm: new_env_assoc(
-                    key=pm.formal.name.name_symbol,
-                    val=pm.actual.assoc.expr.node,
-                    dest_env=Self.instantiation_env
-                ))
+                ).map(
+                   lambda i, pm: new_env_assoc(
+                       key=pm.formal.name.name_symbol,
+                       val=If(
+                           pm.formal.spec.is_a(T.GenericFormalObjDecl),
+                           Entity.actual_expr_decls.at(i),
+                           pm.actual.assoc.expr.node
+                       ),
+                       dest_env=Self.instantiation_env
+                   )
+                )
             ),
             resolver=AdaNode.resolve_generic_actual,
         ),

@@ -284,6 +284,9 @@ package body Libadalang.Expr_Eval is
                     & "a default expression nor a renaming clause.";
                end if;
 
+            when Ada_Anonymous_Expr_Decl =>
+               return Expr_Eval (D.As_Anonymous_Expr_Decl.F_Expr);
+
             when others =>
                raise Property_Error
                  with "Cannot eval decl " & D.Kind'Image;

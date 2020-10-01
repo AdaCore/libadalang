@@ -2,16 +2,10 @@ import libadalang as lal
 
 
 def format_object_decl(decl):
-    if decl.f_renaming_clause is None:
-        return "<AnonymousObjectDecl {} = {}>".format(
-            decl.f_type_expr.text,
-            decl.f_default_expr.text
-        )
-    else:
-        return "<AnonymousObjectDecl {} renames {}>".format(
-            decl.f_type_expr.text,
-            decl.f_renaming_clause.f_renamed_object.text
-        )
+    return "<AnonymousExprDecl {} = {}>".format(
+        decl.p_type_expression.text,
+        decl.f_expr.text
+    )
 
 
 ctx = lal.AnalysisContext()

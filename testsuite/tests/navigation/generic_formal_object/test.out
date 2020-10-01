@@ -1,9 +1,9 @@
 In instantiation of <GenericPackageInstantiation ["P_1"] test.adb:19:4-19:48>:
-  - X.p_referenced_decl() => <AnonymousObjectDecl Integer renames Var>
-  - Y.p_referenced_decl() => <AnonymousObjectDecl Integer = Value>
+  - X.p_referenced_decl() => <AnonymousExprDecl Integer = Var>
+  - Y.p_referenced_decl() => <AnonymousExprDecl Integer = Value>
 
 In instantiation of <GenericPackageInstantiation ["P_2"] test.adb:20:4-20:45>:
-  - X.p_referenced_decl() => <AnonymousObjectDecl Integer renames Var>
-  - Y.p_referenced_decl() => <AnonymousObjectDecl Integer = 13>
+  - X.p_referenced_decl() => <AnonymousExprDecl Integer = Var>
+  - Y.p_referenced_decl() => <AnonymousExprDecl Integer = 13>
 
 Done

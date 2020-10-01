@@ -12,7 +12,7 @@ from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
     Or, Property, PropertyError, RefCategories, Self, String, Try, Var, ignore,
-    langkit_property, new_env_assoc
+    langkit_property, lazy_field, new_env_assoc
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -724,7 +724,7 @@ class AdaNode(ASTNode):
         Helper property to resolve the actuals of generic instantiations.
         """
         return Entity.match(
-            lambda aod=T.AnonymousObjectDecl.entity: aod,
+            lambda aod=T.AnonymousExprDecl.entity: aod,
 
             # TODO: depending on the formal that matches this actual, this name
             # can be both an object or a type. For now, we assume it's a type
@@ -6732,14 +6732,49 @@ class ObjectDecl(BasicDecl):
 
 
 @synthetic
-class AnonymousObjectDecl(ObjectDecl):
+class AnonymousExprDecl(BasicDecl):
     """
+    Represents a anonymous declaration that holds an expression.
+
+    This is used to store the results of queries such as ``referenced_decl``
+    called on references to object formals from inside a instantiated generic
+    in order to return the relevant actual.
+
+    Indeed, ``referenced_decl`` must return a ``BasicDecl``, but actuals of
+    generic instantiations are ``Expr``s. This wrapper node is therefore a
+    way to both satisfy the ``BasicDecl`` inteface, and provide to the user
+    the expression of the actual through the ``expr`` field.
     """
+    expr = Field(
+        type=T.Expr,
+        doc="Return the expression wrapped by this declaration."
+    )
+
+    aspects = NullField()
     defining_names = Property(No(T.DefiningName.entity.array))
+    defining_env = Property(Entity.type_expression.defining_env)
+
+    @langkit_property(return_type=T.TypeExpr.entity, memoized=True)
+    def type_expression_internal():
+        """
+        Internal memoized property that actually retrieves the type expression.
+        This is done in a memoized property because it involves non-trivial
+        computation.
+        """
+        assoc = Var(Entity.expr.parent.cast(BasicAssoc))
+        formal = Var(imprecise_fallback.bind(
+            False,
+            assoc.get_params.at(0).basic_decl
+        ))
+        return formal.type_expression
+
+    @langkit_property()
+    def type_expression():
+        return Entity.type_expression_internal
 
     @langkit_property(public=True, return_type=Bool)
     def is_static_decl():
-        return Entity.default_expr.is_static_expr
+        return Entity.expr.is_static_expr
 
 
 class ExtendedReturnStmtObjectDecl(ObjectDecl):
@@ -6949,6 +6984,18 @@ class GenericInstantiation(BasicDecl):
         generic unit in GNAT.
         """
     )
+
+    @lazy_field(return_type=T.AnonymousExprDecl.array,
+                ignore_warn_on_node=True)
+    def actual_expr_decls():
+        return Self.match(
+            lambda subp=T.GenericSubpInstantiation: subp.params,
+            lambda pkg=T.GenericPackageInstantiation: pkg.params
+        ).map(
+            lambda assoc: AnonymousExprDecl.new(
+                expr=assoc.as_bare_entity.expr.node
+            )
+        )
 
     xref_entry_point = Property(True)
 
@@ -7208,15 +7255,11 @@ class GenericPackageInstantiation(GenericInstantiation):
                    Self.nonbound_generic_decl._.formal_part.match_param_list(
                        Entity.params, False
                    ).map(
-                       lambda pm: new_env_assoc(
+                       lambda i, pm: new_env_assoc(
                            key=pm.formal.name.name_symbol,
                            val=If(
                                pm.formal.spec.is_a(T.GenericFormalObjDecl),
-                               pm.actual.assoc.expr.create_object_decl_wrapper(
-                                   type_expr=pm.formal.spec.type_expression,
-                                   as_renaming=pm.formal.spec
-                                   .cast(GenericFormalObjDecl).mode.is_writable
-                               ),
+                               Entity.actual_expr_decls.at(i),
                                pm.actual.assoc.expr.node
                            ),
                            dest_env=Self.instantiation_env
@@ -7496,7 +7539,7 @@ class GenericFormalObjDecl(GenericFormal):
     """
     Formal declaration for an object.
     """
-    mode = Property(Entity.decl.cast_or_raise(ObjectDecl).mode)
+    pass
 
 
 class GenericFormalTypeDecl(GenericFormal):
@@ -7974,36 +8017,6 @@ class Expr(AdaNode):
                  eq_prop=BaseTypeDecl.matching_formal_prim_type),
             Bind(Entity.type_var, formal_type,
                  eq_prop=BaseTypeDecl.matching_formal_type)
-        )
-
-    @langkit_property(return_type=T.AnonymousObjectDecl, memoized=True,
-                      ignore_warn_on_node=True)
-    def create_object_decl_wrapper(type_expr=T.TypeExpr.entity,
-                                   as_renaming=T.Bool):
-        """
-        Create an anonymous object decl in which Self appears either as the
-        default expression (when ``as_renaming`` is False), or as the renamed
-        object (when ``as_renaming`` is True).
-        """
-        renaming_clause = Var(If(
-            as_renaming,
-            SyntheticRenamingClause.new(
-                renamed_object=Self.cast_or_raise(Name)
-            ),
-            No(T.RenamingClause)
-        ))
-
-        default_expr = Var(If(as_renaming, No(T.Expr), Self))
-
-        return T.AnonymousObjectDecl.new(
-            ids=No(T.DefiningName.list),
-            has_aliased=No(T.Aliased),
-            has_constant=No(T.Constant),
-            mode=No(T.Mode),
-            renaming_clause=renaming_clause,
-            aspects=No(T.AspectSpec),
-            default_expr=default_expr,
-            type_expr=type_expr.node,
         )
 
 

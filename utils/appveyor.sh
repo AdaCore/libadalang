@@ -29,13 +29,14 @@ function do_install()
     fi
     (
         cd langkit
-        TRAVIS_PULL_REQUEST_SLUG=$APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME
-        TRAVIS_PULL_REQUEST_BRANCH=$APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH
-        TRAVIS_REPO_SLUG=$APPVEYOR_REPO_NAME
-        TRAVIS_BRANCH=$APPVEYOR_REPO_BRANCH
-        export TRAVIS_PULL_REQUEST_SLUG TRAVIS_PULL_REQUEST_BRANCH \
-            TRAVIS_REPO_SLUG TRAVIS_BRANCH
-        python $APPVEYOR_BUILD_FOLDER\\utils\\travis-langkit-branch.py
+        python $APPVEYOR_BUILD_FOLDER\\utils\\gh-langkit-branch.py \
+            $APPVEYOR_REPO_NAME \
+            $APPVEYOR_REPO_BRANCH \
+            $APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME \
+            $APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH \
+
+
+
     )
 
     # Install libiconv and gmp

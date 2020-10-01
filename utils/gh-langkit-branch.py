@@ -1,23 +1,34 @@
 #! /usr/bin/env python3
 
-import os
+"""
+This tool is meant for CIs (GitHub Actions, AppVeyor, ...) to checkout the
+proper langkit branch.
+"""
+
+import argparse
 import subprocess
 
 
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('target_repo')
+parser.add_argument('target_ref', default='', nargs='?')
+parser.add_argument('pr_repo', default='/', nargs='?')
+parser.add_argument('pr_ref', default='', nargs='?')
+
+args = parser.parse_args()
+
+pr_author = args.pr_repo.split('/')[0]
+
 # Slug for the pull request to test (for instance:
 # some-contributor/libadalang), or an empty string if we test a push build.
-pull_request_slug = os.environ.get('TRAVIS_PULL_REQUEST_SLUG')
-
-# Name of the branch that contains the commits to test, or an empty string if
-# we test a push build.
-pull_request_branch = os.environ.get('TRAVIS_PULL_REQUEST_BRANCH')
+pull_request_slug = (
+    "{}/libadalang".format(pr_author) if pr_author else ""
+)
 
 # Slug for the repository currently being built and the branch name
-repo_slug = os.environ.get('TRAVIS_REPO_SLUG')
-repo_branch = os.environ.get('TRAVIS_BRANCH')
+repo_branch = args.target_ref.split('/')[-1] if args.target_ref else ''
 
-print("REPO SLUG: ", repo_slug)
-
+print("REPO SLUG: ", args.target_repo)
 
 # Queue of couples (slug, branch) for the Langkit branches to test. The last
 # one is tested first.
@@ -26,9 +37,9 @@ trials = [('AdaCore/langkit', 'master')]
 # Determine the Libadalang repository/branch that we are testing
 if pull_request_slug:
     slug = pull_request_slug
-    branch = pull_request_branch
+    branch = args.pr_ref
 else:
-    slug = repo_slug
+    slug = args.target_repo
     branch = repo_branch
 
 # Then, assuming there is a "langkit" repository that is a sibling of the

@@ -1,0 +1,9 @@
+In instantiation of <GenericSubpInstantiation ["P_1"] test.adb:15:4-15:52>:
+  - X.p_eval_as_int() => <AnonymousExprDecl Integer = Var>
+  - Y.p_eval_as_int() => <AnonymousExprDecl Integer = Value>
+
+In instantiation of <GenericSubpInstantiation ["P_2"] test.adb:16:4-16:49>:
+  - X.p_eval_as_int() => <AnonymousExprDecl Integer = Var>
+  - Y.p_eval_as_int() => <AnonymousExprDecl Integer = 13>
+
+Done

@@ -1,0 +1,111 @@
+on:
+  push:
+    branches:
+      - master
+      - stable
+name: OSX Build
+jobs:
+  build:
+    runs-on: macos-latest
+    name: Build and deploy
+    strategy:
+      fail-fast: false
+      matrix: # Build debug and production 
+        debug: ['', 'debug']      # '' if production, 'debug' for debug
+    env:
+        BINTRAY_API_KEY_DEFINED: ${{!!secrets.BINTRAY_API_KEY}}
+    steps:
+      - name: Get libadalang
+        uses: actions/checkout@v2
+      - name: Get gprbuild for libgpr
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gprbuild
+          path: gprbuild
+      - name: Get gnatcoll core
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gnatcoll-core
+          path: gnatcoll-core
+      - name: Get gnatcoll iconv/gmp
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gnatcoll-bindings
+          path: gnatcoll-bindings
+      - name: Get langkit
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/langkit
+          path: langkit
+          fetch-depth: 0  # all branches
+      - name: Try to checkout langkit's branch
+        run: (cd langkit; git checkout ${{ github.ref }} || true)
+      - uses: actions/cache@v2
+        with:
+          path: ./cached_gnat
+          key: ${{ runner.os }}-gnat-ce-2020
+      - name: Get GNAT Community 2020 toolchain
+        uses: ada-actions/toolchain@3f69585
+        with:
+          distrib: community
+          install_dir: ./cached_gnat
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Build Libadalang and its dependencies
+        run: |
+          set -x -e
+          export PROCESSORS=0
+          export prefix=/tmp/ADALIB_DIR
+          export GPR_PROJECT_PATH=$prefix/share/gpr
+          DEBUG=${{ matrix.debug }}  # Value is '' or 'debug'
+          pip install -r langkit/REQUIREMENTS.dev
+          pip install jsonschema
+          python langkit/setup.py install
+          make -C gprbuild prefix=$prefix BUILD=${DEBUG:-production} GPRBUILD_OPTIONS="-cargs:C -Dst_mtim=st_mtimespec -gargs" libgpr.build.{shared,static} libgpr.install.{shared,static}
+          BUILD=`echo $DEBUG| tr [a-z] [A-Z]`  # Convert to uppercase
+          make -C gnatcoll-core prefix=$prefix BUILD=${BUILD:-PROD} LIBRARY_TYPES="relocatable static" build install
+          python gnatcoll-bindings/iconv/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=relocatable,static
+          python gnatcoll-bindings/iconv/setup.py install
+          export CPATH=/usr/local/include
+          export LIBRARY_PATH=/usr/local/lib
+          export DYLD_LIBRARY_PATH=/usr/local/lib
+          python gnatcoll-bindings/gmp/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=relocatable,static
+          python gnatcoll-bindings/gmp/setup.py install
+          eval `langkit/scripts/manage.sh setenv`
+          BUILD=${DEBUG:+dev}  # Convert debug to dev
+          # Build libadalang static library
+          ada/manage.py generate -P
+          ada/manage.py --library-types static build --build-mode ${BUILD:-prod}
+          ada/manage.py --library-types static install --build-mode ${BUILD:-prod} $prefix
+          gprinstall --uninstall --prefix=$prefix mains.gpr
+          tar czf libadalang-`basename $GITHUB_REF`-osx${DEBUG:+-dbg}-static.tar.gz -C $prefix .
+          # Build libadalang relocatable library
+          gprinstall --uninstall --prefix=$prefix libadalang.gpr
+          gprinstall --uninstall --prefix=$prefix langkit_support.gpr
+          rm -rf build
+          # The gprbuild losts -lgmp on MacOS X, provide it in .cgpr file:
+          gprconfig --batch -o /tmp/file.cgpr --config=c --config=ada
+          sed -i -e '/for Shared_Library_Minimum_Switches use/s/$/ ("-lgmp") \&/' /tmp/file.cgpr
+          cat /tmp/file.cgpr
+          ada/manage.py generate -P
+          ada/manage.py --library-types relocatable build --build-mode ${BUILD:-prod} --gargs=--config=/tmp/file.cgpr
+          ada/manage.py --library-types relocatable install --build-mode ${BUILD:-prod} $prefix
+          tar czf libadalang-`basename $GITHUB_REF`-osx${DEBUG:+-dbg}.tar.gz -C $prefix .
+
+      # Try to upload the install tree to Bintray, but only if we have the
+      # corresponding secret, i.e. if we are running on the upstream
+      # repository.
+      - name: Upload tar-ball to Bintray
+        if: ${{env.BINTRAY_API_KEY_DEFINED == 'true'}}
+        uses: reznikmm/upload-bintray-action@v2
+        with:
+          subject: reznikmm
+          username: reznikmm
+          repository: libadalang
+          package: libadalang
+          version: 0.1-git
+          sourcePath: '*.tar.gz'
+          override: 1
+          apiKey: ${{secrets.BINTRAY_API_KEY}}

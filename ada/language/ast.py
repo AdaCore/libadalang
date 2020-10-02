@@ -6952,7 +6952,17 @@ class GenericInstantiation(BasicDecl):
                         & Predicate(BasicDecl.subp_decl_match_signature,
                                     actual_name.ref_var,
                                     subp_decl.cast(T.BasicDecl)),
-                        LogicTrue()
+                        If(
+                            # This is a reference to a builtin operator, which
+                            # has no source correspondence. Resolve the rest of
+                            # the name anyway.
+                            actual_name.relative_name.is_operator_name,
+                            actual_name.base_name.then(
+                                lambda e: e.xref_no_overloading,
+                                default_val=LogicTrue()
+                            ),
+                            LogicTrue()
+                        )
                     ),
 
                     lambda obj_decl=T.ObjectDecl:

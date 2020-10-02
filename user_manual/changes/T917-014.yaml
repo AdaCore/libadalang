@@ -1,0 +1,7 @@
+type: bugfix
+title: Fully resolve operator actuals of generic formals
+description: |
+    Until now, a fully qualified reference to an operator used as an actual
+    for a generic formal would not be resolved, meaning navigation would
+    fail on the prefix of the qualified name. This change addresses this.
+date: 2020-10-02

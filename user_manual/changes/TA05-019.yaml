@@ -1,0 +1,10 @@
+type: bugfix
+title: Fix precedence of fields over subprograms
+description: |
+    In the scenario of a tagged record type having a field ``Foo`` as well as
+    a method ``Foo`` with a profile such that ``X.Foo`` could be seen as
+    ambiguous, Ada resolves the ambiguity by always choosing the field access.
+    This was not implemented by Libadalang, meaning it could in such cases
+    resolve to the subprogram instead of the field. This change implements the
+    correct behavior.
+date: 2020-10-20

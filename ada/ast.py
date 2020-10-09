@@ -10,9 +10,9 @@ from langkit.envs import (
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
-    Bind, Cond, DynamicVariable, EmptyEnv, Entity, If, Let, Literal, No, Not,
-    Or, Property, PropertyError, RefCategories, Self, String, Try, Var, ignore,
-    langkit_property, lazy_field, new_env_assoc
+    Bind, Cond, DynamicLexicalEnv, DynamicVariable, EmptyEnv, Entity, If, Let,
+    Literal, No, Not, Or, Property, PropertyError, RefCategories, Self, String,
+    Try, Var, ignore, langkit_property, lazy_field, new_env_assoc
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -3030,7 +3030,11 @@ class TypeDef(AdaNode):
             # previous type declaration, so we need to include the defining
             # env of its previous part as well.
             Self.is_a(T.RecordTypeDef, T.PrivateTypeDef),
-            Array([Entity.children_env, Entity.previous_part_env]).env_group(),
+            Array([
+                Entity.children_env,
+                Entity.dottable_subps_env,
+                Entity.previous_part_env
+            ]).env_group(),
 
             # Same for "derived" and "interface" type definitions, but we also
             # need to include the defining environments of their base types.
@@ -3038,7 +3042,11 @@ class TypeDef(AdaNode):
             # Make sure to put own defining env before base types' defining
             # envs in the result, so that most-overriden subprograms will be
             # considered first during name resolution.
-            Array([Entity.children_env, Entity.previous_part_env]).concat(
+            Array([
+                Entity.children_env,
+                Entity.dottable_subps_env,
+                Entity.previous_part_env
+            ]).concat(
                 Entity.base_types.map(lambda bt: bt._.defining_env)
             ).env_group(),
 
@@ -3063,6 +3071,18 @@ class TypeDef(AdaNode):
 
     previous_part_env = Property(
         Entity.previous_part._.defining_env,
+        dynamic_vars=[origin]
+    )
+
+    dottable_subps_env = Property(
+        # Return the environment containing all subprograms that can be called
+        # with the dot-notation on values of the type which this is defined.
+        # It is important to rebind the env with our current rebindings,
+        # so that subsequent calls to env.get on this env return those
+        # subprograms with the adequate rebindings.
+        Entity.containing_type.dottable_subps_env.rebind_env(
+            Entity.info.rebindings
+        ),
         dynamic_vars=[origin]
     )
 
@@ -4468,6 +4488,60 @@ class BaseTypeDecl(BasicDecl):
             all_shapes
         )
 
+    @lazy_field(return_type=T.LexicalEnv)
+    def dottable_subps_env():
+        """
+        The environment that contains all subprograms that can be called with
+        the dot-notation on values of this type.
+        """
+        return DynamicLexicalEnv(
+            resolver=BaseTypeDecl.dottable_subps,
+            transitive_parent=False
+        )
+
+    @langkit_property(return_type=T.inner_env_assoc.array, memoized=True)
+    def dottable_subps():
+        """
+        Return the list of all subprograms that can be called with the dot-
+        notation on values of this type. We look for them in the public part,
+        private part and body part of the package this type is declared in.
+        """
+        scope = Var(Entity.declarative_scope)
+        pkg = Var(
+            scope._.parent.cast(PackageBody).then(
+                lambda body: imprecise_fallback.bind(
+                    False,
+                    body.as_entity.previous_part
+                ).cast(BasePackageDecl),
+                default_val=scope._.parent.cast(BasePackageDecl).as_entity
+            )
+        )
+        return If(
+            pkg.is_null,
+            No(T.inner_env_assoc.array),
+
+            Array([
+                pkg.public_part.cast(DeclarativePart),
+                pkg.private_part.cast(DeclarativePart),
+                pkg.body_part._.decls
+            ]).mapcat(
+                lambda dp: dp._.decls.as_array
+            ).filtermap(
+                lambda decl: Let(
+                    lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
+                        key=bd.defining_name.name_symbol,
+                        val=bd.node,
+                        metadata=T.Metadata.new(dottable_subp=True)
+                    )
+                ),
+
+                lambda decl:
+                decl.cast(BasicDecl)
+                ._.subp_spec_or_null
+                ._.dottable_subp_of.contains(Entity)
+            )
+        )
+
 
 @synthetic
 class ClasswideTypeDecl(BaseTypeDecl):
@@ -4664,7 +4738,7 @@ class TypeDecl(BaseTypeDecl):
 
         # Evaluating in type env, because the defining environment of a type
         # is always its own.
-        self_env = Entity.type_def.defining_env
+        self_env = Var(Entity.type_def.defining_env)
 
         return Cond(
             Not(imp_deref.is_null),
@@ -6203,21 +6277,6 @@ class BasicSubpDecl(BasicDecl):
         ),
 
         handle_children(),
-
-        # Adding subp to the type's environment if the type is tagged and self
-        # is a primitive of it.
-        add_to_env(
-            Self.as_bare_entity.subp_decl_spec.dottable_subp_of.map(
-                lambda t: new_env_assoc(
-                    key=Entity.name_symbol, val=Self,
-                    dest_env=t.children_env,
-                    # We pass custom metadata, marking the entity as a dottable
-                    # subprogram.
-                    metadata=T.Metadata.new(dottable_subp=True)
-                )
-            ),
-            unsound=True,
-        ),
 
         # Adding subp to the primitives env if the subp is a primitive
         add_to_env(
@@ -11784,46 +11843,18 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Returns whether the subprogram containing this spec is a subprogram
         callable via the dot notation.
         """
-        bd = Var(Entity.parent.cast_or_raise(BasicDecl))
-
         return origin.bind(Entity.name.origin_node, If(
             Entity.nb_max_params > 0,
-            Entity.potential_dottable_type.then(lambda t: If(
-                # Dot notation only works on tagged types, needs to be declared
-                # in the same scope as the type.
+            Entity.potential_dottable_type.then(lambda t: Cond(
+                t.is_a(ClasswideTypeDecl),
+                t.cast(ClasswideTypeDecl).typedecl.singleton,
 
                 # NOTE: We are not actually implementing the correct Ada
                 # semantics here, because you can call primitives via the dot
                 # notation on private types with a tagged completion.
                 # However, since private types don't have components, this
                 # should not ever be a problem with legal Ada.
-                Not(t.is_a(BaseSubtypeDecl))
-                & t.full_view.is_tagged_type
-                & bd.declarative_scope.then(lambda ds: Or(
-                    # If the subprogram is defined in the same declarative
-                    # scope as t, then it is a dottable subprogram of t.
-                    ds == t.declarative_scope,
-
-                    # But in Ada it is also possible to declare a dottable subp
-                    # of a type t in a different declarative scope than where
-                    # t is defined: for example, in the body the package in
-                    # which it is declared, or in its private part. The next
-                    # piece of code handles that by comparing the declarative
-                    # scope of t with the public/private part of the package
-                    # in which the subprogram is declared.
-                    ds.as_entity.parent.cast(T.PackageBody).then(
-                        lambda pbody: env.bind(
-                            pbody.default_initial_env,
-                            pbody.package_previous_part
-                            .cast(T.BasePackageDecl).node
-                        )
-                    )._or(ds.parent.cast(T.BasePackageDecl)).then(
-                        lambda pdecl: t.declarative_scope.any_of(
-                            pdecl.private_part, pdecl.public_part
-                        )
-                    )
-                )),
-
+                t.full_view.is_tagged_type,
                 t.singleton,
 
                 No(T.BaseTypeDecl.entity.array)
@@ -13298,21 +13329,6 @@ class BaseSubpBody(Body):
 
         handle_children(),
 
-        # Adding subp to the type's environment if the type is tagged and self
-        # is a primitive of it.
-        add_to_env(
-            Self.as_bare_entity.subp_spec.dottable_subp_of.map(
-                lambda t: new_env_assoc(
-                    key=Entity.name_symbol, val=Self,
-                    dest_env=t.children_env,
-                    # We pass custom metadata, marking the entity as a dottable
-                    # subprogram.
-                    metadata=T.Metadata.new(dottable_subp=True)
-                )
-            ),
-            unsound=True,
-        ),
-
         # Adding subp to the primitives env if the subp is a primitive
         add_to_env(
             Self.as_bare_entity.subp_spec.get_primitive_subp_types.filtermap(
@@ -14533,7 +14549,10 @@ class IncompleteTypeDecl(BaseTypeDecl):
         add_env()
     )
 
-    defining_env = Property(Self.children_env, type=LexicalEnv)
+    defining_env = Property(
+        Array([Self.children_env, Self.dottable_subps_env]).env_group(),
+        type=LexicalEnv
+    )
 
     discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 

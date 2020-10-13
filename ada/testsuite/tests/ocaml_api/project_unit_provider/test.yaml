@@ -1,1 +1,4 @@
 driver: ocaml
+control:
+    - [XFAIL, "True",
+       "May trigger stack overflow, not a problem if Infer build succeeds"]

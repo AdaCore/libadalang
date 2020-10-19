@@ -1,6 +1,7 @@
 title: Libadalang entry
 description: A change entry for Libadalang
 type: object
+original_tn: string
 
 properties:
     type:
@@ -41,6 +42,10 @@ properties:
             YYYY-MM-DD format.
 
         format: date
+
+    original_tn:
+        description: |
+            The original ticket number if this entry has been moved.
 
 required:
     - type

@@ -1,0 +1,22 @@
+--- mains.gpr.old
++++ mains.gpr
+@@ -1,4 +1,3 @@
+-
+ with "langkit_support";
+ with "libadalang";
+ 
+@@ -9,12 +8,10 @@
+ 
+    for Languages use ("Ada");
+ 
+-   
+    for Source_Dirs use (
+-      ".", "../../lal-21.0.0/ada/testsuite/ada", "../../lal-21.0.0/ada/testsuite/ada/gnat_compare"
++      "src-mains"
+    );
+-   for Exec_Dir use "../bin";
+-   for Object_Dir use "../obj/mains";
++   for Object_Dir use "obj-mains";
+ 
+    for Main use (
+       "gnat_compare.adb", "nameres.adb", "navigate.adb", "parse.adb"

@@ -1,0 +1,24 @@
+--- libadalang.gpr.old
++++ libadalang.gpr
+@@ -25,10 +25,7 @@ library project Libadalang is
+       Enable_Warnings : Boolean :=
+         external ("LIBADALANG_WARNINGS", "false");
+ 
+-   Primary_Source_Dirs :=
+-     ("/tmp/libadalang-21.0.0/include/libadalang", "/tmp/lal-21.0.0/ada/extensions/src");
+-
+-      for Source_Dirs use Primary_Source_Dirs;
++      for Source_Dirs use ("src");
+ 
+    for Languages use 
+    ("Ada", "C")
+@@ -41,8 +38,8 @@ library project Libadalang is
+ ;
+ 
+    for Library_Dir use
+-      "../libadalang/" & Library_Kind_Param & "/" & Build_Mode;
+-   for Object_Dir use "../../obj/libadalang/" & Build_Mode;
++      "lib/" & Build_Mode;
++   for Object_Dir use "obj/" & Build_Mode;
+ 
+    Target := Libadalang'Target;

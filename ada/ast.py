@@ -417,7 +417,7 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.BasicDecl, uses_entity_info=False,
                       ignore_warn_on_node=True)
     def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind,
-                           load_if_needed=(Bool, False)):
+                           load_if_needed=(Bool, True)):
         """
         If the corresponding analysis unit is loaded, return the root decl
         node for the given analysis unit ``kind`` and correpsonding to the
@@ -2589,7 +2589,7 @@ class BodyStub(Body):
     @langkit_property(public=True)
     def next_part_for_decl():
         return Self.get_unit_root_decl(
-            Entity.fully_qualified_name_array, UnitBody, True
+            Entity.fully_qualified_name_array, UnitBody
         ).as_entity
 
     @langkit_property(public=True)
@@ -12603,8 +12603,7 @@ class AttributeRef(Name):
     def address_equation():
         address_type = Var(
             Entity
-            .get_unit_root_decl(['System'], UnitSpecification,
-                                load_if_needed=True)
+            .get_unit_root_decl(['System'], UnitSpecification)
             ._.children_env.get_first('Address', lookup=LK.flat)
             .cast(T.BaseTypeDecl)
         )
@@ -14435,7 +14434,7 @@ class Subunit(AdaNode):
         Return the body in which this subunit is rooted.
         """
         return Self.get_unit_root_decl(
-            Self.name.as_symbol_array, UnitBody, True
+            Self.name.as_symbol_array, UnitBody
         ).as_bare_entity
 
     xref_entry_point = Property(True)

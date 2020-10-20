@@ -1,0 +1,59 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <IfStmt test.adb:19:4-21:11>
+*****************************************************
+
+Expr: <RelationOp test.adb:19:7-19:30>
+  type:       standard.boolean
+Expr: <AttributeRef test.adb:19:7-19:17>
+  references: None
+  type:       ada.task_identification.task_id
+Expr: <Id "T" test.adb:19:7-19:8>
+  references: test.t.t
+  type:       test.t.t
+Expr: <Id "Identity" test.adb:19:9-19:17>
+  references: None
+  type:       None
+Expr: <OpEq "=" test.adb:19:18-19:19>
+  references: ada.task_identification."=" (ada.task_identification.task_id, ada.task_identification.task_id) return standard.boolean
+  type:       None
+Expr: <AttributeRef test.adb:19:20-19:30>
+  references: None
+  type:       ada.task_identification.task_id
+Expr: <Id "X" test.adb:19:20-19:21>
+  references: test.x
+  type:       test.tt
+Expr: <Id "Identity" test.adb:19:22-19:30>
+  references: None
+  type:       None
+
+Resolving xrefs for node <IfStmt test.adb:24:4-26:11>
+*****************************************************
+
+Expr: <RelationOp test.adb:24:7-24:60>
+  type:       standard.boolean
+Expr: <AttributeRef test.adb:24:7-24:32>
+  references: None
+  type:       ada.exceptions.exception_id
+Expr: <Id "Constraint_Error" test.adb:24:7-24:23>
+  references: standard.constraint_error
+  type:       None
+Expr: <Id "Identity" test.adb:24:24-24:32>
+  references: None
+  type:       None
+Expr: <OpEq "=" test.adb:24:33-24:34>
+  references: None
+  type:       None
+Expr: <AttributeRef test.adb:24:35-24:60>
+  references: None
+  type:       ada.exceptions.exception_id
+Expr: <Id "Constraint_Error" test.adb:24:35-24:51>
+  references: standard.constraint_error
+  type:       None
+Expr: <Id "Identity" test.adb:24:52-24:60>
+  references: None
+  type:       None
+
+
+Done.

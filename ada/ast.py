@@ -12004,13 +12004,21 @@ class ForLoopSpec(LoopSpec):
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
 
-    @langkit_property(memoized=True, call_memoizable=True)
+    @langkit_property(memoized=True, call_memoizable=True,
+                      dynamic_vars=[env, origin])
     def iter_type():
-        p = Var(Entity.iter_expr.resolve_names)
-        typ = Var(If(p,
-                     Entity.iter_expr.cast_or_raise(T.Expr)
-                     .type_var.get_value.cast(T.BaseTypeDecl),
-                     No(BaseTypeDecl.entity)))
+        type_var = Var(Entity.iter_expr.cast_or_raise(T.Expr).type_var)
+
+        p = Var(Entity.iter_expr.resolve_names_internal_with_eq(
+            # Avoid resolving to a procedure
+            Predicate(AdaNode.is_not_null, type_var)
+        ))
+
+        typ = Var(If(
+            p,
+            type_var.get_value.cast(T.BaseTypeDecl),
+            No(BaseTypeDecl.entity)
+        ))
 
         return origin.bind(Self.origin_node, If(
             typ.is_implicit_deref,

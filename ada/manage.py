@@ -155,6 +155,37 @@ class Manage(ManageScript):
         super(Manage, self).do_generate(args)
     do_generate.__doc__ = ManageScript.do_generate.__doc__
 
+    def do_install(self, args):
+        from e3.fs import sync_tree
+
+        super(Manage, self).do_install(args)
+
+        # Prepare an "examples" directory
+        examples_dir = self.dirs.install_dir(
+            "share", "examples", self.lib_name.lower(),
+        )
+        if not os.path.isdir(examples_dir):
+            os.makedirs(examples_dir)
+
+        # Install several items from "contrib" to this directory
+        for item in [
+            "check_deref_null.py",
+            "check_same_logic.py",
+            "check_same_operands.py",
+            "check_same_test.py",
+            "check_same_then_else.py",
+            "check_subp_boxes.py",
+            "check_test_not_null.py",
+            "check_useless_assign.py",
+            "detect_copy_paste_sa.py",
+            "highlight",
+        ]:
+            item_from = self.dirs.lang_source_dir("..", "contrib", item)
+            item_to = os.path.join(examples_dir, item)
+            sync_tree(item_from, item_to, delete=False)
+
+    do_install.__doc__ = ManageScript.do_generate.__doc__
+
     def do_test(self, args):
         """
         Run the testsuite.

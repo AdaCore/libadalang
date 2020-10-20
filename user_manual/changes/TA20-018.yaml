@@ -1,0 +1,7 @@
+type: bugfix
+title: Nameres bug of ``Identity`` attribute on tasks
+description: |
+    The ``Identity`` attribute applied to a task (single task decl or object
+    decl of a task type) should type to ``Ada.Task_Identification.Task_Id``,
+    which this change implements.
+date: 2020-10-20

@@ -1796,8 +1796,11 @@ class BasicDecl(AdaNode):
     def identity_type():
         return Entity.match(
             lambda _=T.ExceptionDecl: Self.exc_id_type,
-            lambda _=T.TaskTypeDecl: Self.task_id_type,
-            lambda _=T.TaskBody: Self.task_id_type,
+            lambda _=T.SingleTaskDecl: Self.task_id_type,
+
+            # An object decl on which you can call 'Identity implies that its
+            # type is a task type.
+            lambda _=T.ObjectDecl: Self.task_id_type,
             lambda _: No(T.BaseTypeDecl.entity)
         )
 

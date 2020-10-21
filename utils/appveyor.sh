@@ -75,7 +75,7 @@ function do_build()
     export PYTHONPATH=$APPVEYOR_BUILD_FOLDER\\langkit
 
     # Generate Libadalang
-    python ada/manage.py generate
+    python ./manage.py generate
 
     # Build the generated lexer alone first, as it takes a huge amount of
     # memory. Only then build the rest in parallel.
@@ -84,10 +84,10 @@ function do_build()
         -p -c -u libadalang-lexer_state_machine.adb
 
     # Restrict parallelism to avoid OOM issues
-    python ada/manage.py build -j12
+    python ./manage.py build -j12
 
     # Install Libadalang so we can create a binary distribution
-    python ada/manage.py install "$ADALIB_DIR"
+    python ./manage.py install "$ADALIB_DIR"
     cd "$ADALIB_DIR"
     7z a $BUILD_FOLDER/libadalang-${APPVEYOR_REPO_BRANCH}-windows.zip .
 }

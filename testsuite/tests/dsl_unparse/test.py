@@ -11,7 +11,8 @@ unparse_dest = os.path.abspath('lal.lkt')
 unparse_script = 'to:{},lexer,grammar,nodes'.format(unparse_dest)
 
 subprocess.check_call(
-    [sys.executable, os.path.join('ada', 'manage.py'),
+    [sys.executable,
+     os.path.join(os.environ['LIBADALANG_ROOTDIR'], 'manage.py'),
      '-v=none', '-E',
 
      # The call to "generate" will generate not only the concrete DSL, but also
@@ -22,7 +23,6 @@ subprocess.check_call(
      '--build-dir', os.path.abspath('build'),
 
      'generate', '-P', '--unparse-script', unparse_script],
-    cwd=os.environ['LIBADALANG_ROOTDIR']
 )
 
 try:

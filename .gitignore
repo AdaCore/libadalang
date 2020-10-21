@@ -20,7 +20,6 @@ langkit.prof
 README.html
 core.*
 valgrind.out
-utils/obj-*
 
 # GNAT/GPS/GDB junk
 auto.cgpr
@@ -34,12 +33,10 @@ gnatinspect.db-*
 # IDEA junk
 .idea
 
-# Ignore langkit repo
-langkit
+# Ignore Langkit repository
+/langkit
 
 # Also ignore a couple of symbolic links and custom conf files
-extsrc
-lg
 lk
 lkadalog
 lkgdb
@@ -50,10 +47,7 @@ lktp
 .build_mode
 
 # Internal testsuite
-ada/testsuite/tests/internal
-
-# External sources for the testsuite
-ada/testsuite/ext_src
+/testsuite/tests/internal
 
 # Custom grab bag dir
 /misc

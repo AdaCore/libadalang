@@ -1,7 +1,7 @@
 # pyflakes off
 
-from language.ast import *
-from language.lexer import ada_lexer as L
+from ada.ast import *
+from ada.lexer import ada_lexer as L
 
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.

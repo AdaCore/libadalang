@@ -5,14 +5,14 @@ import subprocess
 import sys
 
 
-# Set the environment
-from env import setenv
+# For developer convenience, add the "langkit" directory next to this script to
+# the Python path so that.
+sys.path.append(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), 'langkit')
+)
 
 
-setenv()
-
-
-import copyright
+import ada.copyright
 
 from langkit.diagnostics import check_source_language
 from langkit.libmanage import ManageScript
@@ -86,9 +86,9 @@ class Manage(ManageScript):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
         from langkit.compile_context import ADA_BODY, CompileCtx, LibraryEntity
-        from language.lexer import ada_lexer
-        from language.grammar import ada_grammar
-        from language.documentation import libadalang_docs
+        from ada.lexer import ada_lexer
+        from ada.grammar import ada_grammar
+        from ada.documentation import libadalang_docs
 
         ctx = CompileCtx(
             lang_name='Ada',
@@ -120,9 +120,9 @@ class Manage(ManageScript):
         # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
         ctx.add_with_clause('Analysis', ADA_BODY, 'Libadalang.Lexer')
 
-        ctx.post_process_ada = copyright.format_ada
-        ctx.post_process_cpp = copyright.format_c
-        ctx.post_process_python = copyright.format_python
+        ctx.post_process_ada = ada.copyright.format_ada
+        ctx.post_process_cpp = ada.copyright.format_c
+        ctx.post_process_python = ada.copyright.format_python
 
         return ctx
 

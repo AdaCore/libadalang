@@ -81,9 +81,9 @@ jobs:
 
           BUILD=${DEBUG:+dev}  # Convert debug to dev
           # Build libadalang static library
-          ada/manage.py generate
-          ada/manage.py --library-types static build --build-mode ${BUILD:-prod}
-          ada/manage.py --library-types static install --build-mode ${BUILD:-prod} $prefix
+          ./manage.py generate
+          ./manage.py --library-types static build --build-mode ${BUILD:-prod}
+          ./manage.py --library-types static install --build-mode ${BUILD:-prod} $prefix
           gprinstall --uninstall --prefix=$prefix mains.gpr
           tar czf libadalang-`basename $GITHUB_REF`-osx${DEBUG:+-dbg}-static.tar.gz -C $prefix .
           # Build libadalang relocatable library
@@ -93,9 +93,9 @@ jobs:
           gprconfig --batch -o /tmp/file.cgpr --config=c --config=ada
           sed -i -e '/for Shared_Library_Minimum_Switches use/s/$/ ("-lgmp") \&/' /tmp/file.cgpr
           cat /tmp/file.cgpr
-          ada/manage.py generate
-          ada/manage.py --library-types relocatable build --build-mode ${BUILD:-prod} --gargs=--config=/tmp/file.cgpr
-          ada/manage.py --library-types relocatable install --build-mode ${BUILD:-prod} $prefix
+          ./manage.py generate
+          ./manage.py --library-types relocatable build --build-mode ${BUILD:-prod} --gargs=--config=/tmp/file.cgpr
+          ./manage.py --library-types relocatable install --build-mode ${BUILD:-prod} $prefix
           tar czf libadalang-`basename $GITHUB_REF`-osx${DEBUG:+-dbg}.tar.gz -C $prefix .
 
       # Try to upload the install tree to Bintray, but only if we have the

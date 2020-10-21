@@ -9,14 +9,13 @@ def in_test(*args):
     return join('testsuite', 'tests', *args)
 
 
-ADA_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = join(ADA_DIR, '..')
+python_support_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = join(python_support_dir, '..', '..')
 
-DIRS = ['ada', 'contrib', 'utils']
-EXCLUDES = ['tmp', 'doc',
+dirs = ['ada', 'contrib', 'utils']
+excludes = ['tmp', 'doc',
             join('contrib', 'highlight', 'obj'),
             join('contrib', 'AdaEurope2018', 'obj'),
-            join('testsuite', 'ext_src'),
             in_test('contrib'),
             in_test('internal'),
             in_test('ada_api', 'static_expr_eval', 'test.adb'),
@@ -25,13 +24,13 @@ EXCLUDES = ['tmp', 'doc',
             in_test('name_resolution', 'symbol_canon'),
             in_test('regressions')]
 
-sys.path.append(join(ROOT_DIR, 'langkit'))
+sys.path.append(join(root_dir, 'langkit'))
 
 import langkit.stylechecks
 
 
 def main():
-    langkit.stylechecks.main(ROOT_DIR, sys.argv[1:], DIRS, EXCLUDES)
+    langkit.stylechecks.main(root_dir, sys.argv[1:], dirs, excludes)
 
 
 if __name__ == '__main__':

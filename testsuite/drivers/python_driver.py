@@ -71,7 +71,7 @@ class PythonRunner(object):
                 ),
                 'LIBADALANG_ROOTDIR': os.path.join(
                     os.path.dirname(os.path.abspath(__file__)),
-                    '..', '..', '..'
+                    '..', '..',
                 ),
                 'LIBADALANG_DISABLE_SHARED': str(
                     int(self.driver.disable_shared)

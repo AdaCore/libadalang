@@ -82,15 +82,6 @@ class Manage(ManageScript):
         self.add_generate_args(perf_test_parser)
         self.add_build_args(perf_test_parser)
 
-        ############
-        # Make doc #
-        ############
-
-        self.make_doc_parser = make_doc_parser = self.subparsers.add_parser(
-            'make-doc', help=self.make_doc.__doc__
-        )
-        make_doc_parser.set_defaults(func=self.make_doc)
-
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
@@ -180,7 +171,7 @@ class Manage(ManageScript):
             "detect_copy_paste_sa.py",
             "highlight",
         ]:
-            item_from = self.dirs.lang_source_dir("..", "contrib", item)
+            item_from = self.dirs.lang_source_dir("contrib", item)
             item_to = os.path.join(examples_dir, item)
             sync_tree(item_from, item_to, delete=False)
 
@@ -254,20 +245,6 @@ class Manage(ManageScript):
                 if ext in ('.ads', '.adb'):
                     ada_files.add(os.path.join(root, filename))
         return ada_files
-
-    def make_doc(self, args):
-        """
-        Make the documentation for both langkit and libadalang.
-        """
-        subprocess.check_call([
-            "python", self.dirs.lang_source_dir("doc", "generate_changelog.py")
-        ])
-        subprocess.check_call(
-            ["make", "html"], cwd=self.dirs.lang_source_dir("doc")
-        )
-        subprocess.check_call(
-            ["make", "html"], cwd=self.dirs.langkit_source_dir("..", "doc")
-        )
 
     def do_perf_test(self, args):
         """

@@ -22,6 +22,12 @@ procedure Test_Float_Attrs is
 
    H : Float := Float'Invalid_Value;
    pragma Test_Statement;
+
+   I : Float := Float'Model_Small;
+   pragma Test_Statement;
+
+   J : Float := Float'Model_Epsilon;
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

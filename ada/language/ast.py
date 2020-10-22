@@ -12265,8 +12265,9 @@ class AttributeRef(Name):
             rel_name == 'Identity', Entity.identity_equation,
             rel_name == 'Address', Entity.address_equation,
 
-            rel_name.any_of('Small', 'Large', 'Epsilon', 'Model_Epsilon',
-                            'Safe_Large', 'Safe_Small'),
+            rel_name.any_of('Small', 'Model_Small', 'Safe_Small',
+                            'Epsilon', 'Model_Epsilon',
+                            'Large', 'Safe_Large'),
             Entity.universal_real_equation,
 
             rel_name == 'Img',

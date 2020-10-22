@@ -12291,7 +12291,8 @@ class AttributeRef(Name):
 
             rel_name.any_of('Small', 'Model_Small', 'Safe_Small',
                             'Epsilon', 'Model_Epsilon',
-                            'Large', 'Safe_Large'),
+                            'Large', 'Safe_Large',
+                            'Delta'),
             Entity.universal_real_equation,
 
             rel_name == 'Img',

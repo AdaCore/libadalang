@@ -12317,10 +12317,16 @@ class AttributeRef(Name):
             rel_name.any_of('Callable', 'Terminated'),
             Entity.prefix.sub_equation & Self.bool_bind(Self.type_var),
 
-            # Entry attribute (RM 9.9)
+            # Entry attributes (RM 9.9)
             rel_name == 'Count',
             Entity.prefix.xref_no_overloading
             & Self.universal_int_bind(Self.type_var),
+
+            rel_name == 'Caller',
+            Entity.prefix.xref_no_overloading
+            & Bind(Self.type_var, Self.task_id_type),
+
+            # Floating point attributes
 
             rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation',
                             'Copy_Sign', 'Remainder', 'Adjacent'),

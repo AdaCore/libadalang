@@ -1,60 +1,88 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <CallStmt test.adb:10:7-10:21>
+Resolving xrefs for node <CallStmt test.adb:12:7-12:21>
 *******************************************************
 
-Expr: <CallExpr test.adb:10:7-10:20>
-  references: <DefiningName test.adb:2:14-2:17>
+Expr: <CallExpr test.adb:12:7-12:20>
+  references: <DefiningName test.adb:4:14-4:17>
   type:       None
-Expr: <Id "Foo" test.adb:10:7-10:10>
-  references: <DefiningName test.adb:2:14-2:17>
+Expr: <Id "Foo" test.adb:12:7-12:10>
+  references: <DefiningName test.adb:4:14-4:17>
   type:       None
-Expr: <AttributeRef test.adb:10:12-10:19>
+Expr: <AttributeRef test.adb:12:12-12:19>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
-Expr: <Id "E" test.adb:10:12-10:13>
-  references: <DefiningName test.adb:5:13-5:14>
+Expr: <Id "E" test.adb:12:12-12:13>
+  references: <DefiningName test.adb:7:13-7:14>
   type:       None
-Expr: <Id "Count" test.adb:10:14-10:19>
+Expr: <Id "Count" test.adb:12:14-12:19>
   references: None
   type:       None
 
-Resolving xrefs for node <CallStmt test.adb:16:4-16:24>
+Resolving xrefs for node <ObjectDecl ["I"] test.adb:17:13-18:25>
+****************************************************************
+
+Expr: <DottedName test.adb:17:17-17:48>
+  references: <DefiningName a-taside.ads:53:9-53:16>
+  type:       None
+Expr: <DottedName test.adb:17:17-17:40>
+  references: <DefiningName a-taside.ads:45:9-45:32>
+  type:       None
+Expr: <Id "Ada" test.adb:17:17-17:20>
+  references: <DefiningName ada.ads:16:9-16:12>
+  type:       None
+Expr: <Id "Task_Identification" test.adb:17:21-17:40>
+  references: <DefiningName a-taside.ads:45:9-45:32>
+  type:       None
+Expr: <Id "Task_Id" test.adb:17:41-17:48>
+  references: <DefiningName a-taside.ads:53:9-53:16>
+  type:       None
+Expr: <AttributeRef test.adb:18:16-18:24>
+  references: None
+  type:       <TypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
+Expr: <Id "E" test.adb:18:16-18:17>
+  references: <DefiningName test.adb:7:13-7:14>
+  type:       None
+Expr: <Id "Caller" test.adb:18:18-18:24>
+  references: None
+  type:       None
+
+Resolving xrefs for node <CallStmt test.adb:28:4-28:24>
 *******************************************************
 
-Expr: <CallExpr test.adb:16:4-16:23>
-  references: <DefiningName test.adb:3:14-3:17>
+Expr: <CallExpr test.adb:28:4-28:23>
+  references: <DefiningName test.adb:5:14-5:17>
   type:       None
-Expr: <Id "Foo" test.adb:16:4-16:7>
-  references: <DefiningName test.adb:3:14-3:17>
+Expr: <Id "Foo" test.adb:28:4-28:7>
+  references: <DefiningName test.adb:5:14-5:17>
   type:       None
-Expr: <AttributeRef test.adb:16:9-16:22>
+Expr: <AttributeRef test.adb:28:9-28:22>
   references: None
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <Id "Inst" test.adb:16:9-16:13>
-  references: <DefiningName test.adb:14:4-14:8>
-  type:       <TaskTypeDecl ["T"] test.adb:4:4-6:10>
-Expr: <Id "Callable" test.adb:16:14-16:22>
+Expr: <Id "Inst" test.adb:28:9-28:13>
+  references: <DefiningName test.adb:26:4-26:8>
+  type:       <TaskTypeDecl ["T"] test.adb:6:4-8:10>
+Expr: <Id "Callable" test.adb:28:14-28:22>
   references: None
   type:       None
 
-Resolving xrefs for node <CallStmt test.adb:18:4-18:26>
+Resolving xrefs for node <CallStmt test.adb:30:4-30:26>
 *******************************************************
 
-Expr: <CallExpr test.adb:18:4-18:25>
-  references: <DefiningName test.adb:3:14-3:17>
+Expr: <CallExpr test.adb:30:4-30:25>
+  references: <DefiningName test.adb:5:14-5:17>
   type:       None
-Expr: <Id "Foo" test.adb:18:4-18:7>
-  references: <DefiningName test.adb:3:14-3:17>
+Expr: <Id "Foo" test.adb:30:4-30:7>
+  references: <DefiningName test.adb:5:14-5:17>
   type:       None
-Expr: <AttributeRef test.adb:18:9-18:24>
+Expr: <AttributeRef test.adb:30:9-30:24>
   references: None
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <Id "Inst" test.adb:18:9-18:13>
-  references: <DefiningName test.adb:14:4-14:8>
-  type:       <TaskTypeDecl ["T"] test.adb:4:4-6:10>
-Expr: <Id "Terminated" test.adb:18:14-18:24>
+Expr: <Id "Inst" test.adb:30:9-30:13>
+  references: <DefiningName test.adb:26:4-26:8>
+  type:       <TaskTypeDecl ["T"] test.adb:6:4-8:10>
+Expr: <Id "Terminated" test.adb:30:14-30:24>
   references: None
   type:       None
 

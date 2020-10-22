@@ -1,0 +1,18 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <NumberDecl ["A"] test.adb:4:4-4:28>
+*************************************************************
+
+Expr: <AttributeRef test.adb:4:20-4:27>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+Expr: <Id "T" test.adb:4:20-4:21>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:42>
+Expr: <Id "Delta" test.adb:4:22-4:27>
+  references: None
+  type:       None
+
+
+Done.

@@ -175,5 +175,37 @@ Expr: <Id "Invalid_Value" test_float_attrs.adb:23:23-23:36>
   references: None
   type:       None
 
+Resolving xrefs for node <ObjectDecl ["I"] test_float_attrs.adb:26:4-26:35>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:26:8-26:13>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:26:17-26:34>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+Expr: <Id "Float" test_float_attrs.adb:26:17-26:22>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Model_Small" test_float_attrs.adb:26:23-26:34>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["J"] test_float_attrs.adb:29:4-29:37>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:29:8-29:13>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:29:17-29:36>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+Expr: <Id "Float" test_float_attrs.adb:29:17-29:22>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Model_Epsilon" test_float_attrs.adb:29:23-29:36>
+  references: None
+  type:       None
+
 
 Done.

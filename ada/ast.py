@@ -5589,6 +5589,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     is_char_type = Property(Entity.from_type.is_char_type)
     is_tagged_type = Property(Entity.from_type.is_tagged_type)
     base_type = Property(Entity.from_type.base_type)
+    base_types = Property(Entity.from_type.base_types)
     array_def = Property(Entity.from_type.array_def)
     is_classwide = Property(Entity.from_type_bound.is_classwide)
     discriminants_list = Property(Entity.from_type_bound.discriminants_list)

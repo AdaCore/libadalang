@@ -1,0 +1,5 @@
+== test.adb ==
+<SubtypeDecl ["D"] test.adb:6:4-6:19>:
+  base types: [<TypeDecl ["A"] test.adb:2:4-2:24>, <TypeDecl ["B"] test.adb:3:4-3:24>]
+
+Done

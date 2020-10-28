@@ -30,7 +30,6 @@ with System.Multiprocessors;
 
 with GNAT.Traceback.Symbolic;
 
-with GNATCOLL.Projects;  use GNATCOLL.Projects;
 with GNATCOLL.VFS;       use GNATCOLL.VFS;
 
 with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
@@ -99,28 +98,6 @@ package body Libadalang.Helpers is
          Abort_Signaled_State : Boolean := False;
       end Abortion;
 
-      procedure Load_Project
-        (Project_File             : String;
-         Scenario_Vars            : Args.Scenario_Vars.Result_Array;
-         Target, RTS, Config_File : String;
-         Project                  : out Project_Tree_Access;
-         Env                      : out Project_Environment_Access);
-      --  Load Project_File using the given scenario variables
-
-      function Project_To_Provider
-        (Project : Project_Tree_Access) return Unit_Provider_Reference;
-      --  Try to create a unit provider out of Project. If not possible, call
-      --  Abort_App.
-
-      procedure List_Sources_From_Project
-        (Project             : Project_Tree'Class;
-         Include_Subprojects : Boolean;
-         Files               : out String_Vectors.Vector);
-      --  Append the list of all source files in Project's root project to
-      --  Files. If Include_Subprojects is True, include all source files
-      --  in the imported projects, excluding those that are externally
-      --  built.
-
       procedure List_Predefined_Sources
         (Project : Project_Tree'Class;
          Env     : Project_Environment_Access;
@@ -168,140 +145,6 @@ package body Libadalang.Helpers is
             New_Line;
          end if;
       end Dump_Exception;
-
-      ------------------
-      -- Load_Project --
-      ------------------
-
-      procedure Load_Project
-        (Project_File             : String;
-         Scenario_Vars            : Args.Scenario_Vars.Result_Array;
-         Target, RTS, Config_File : String;
-         Project                  : out Project_Tree_Access;
-         Env                      : out Project_Environment_Access)
-      is
-         procedure Cleanup;
-         --  Cleanup helpers for error handling
-
-         -------------
-         -- Cleanup --
-         -------------
-
-         procedure Cleanup is
-         begin
-            Free (Project);
-            Free (Env);
-         end Cleanup;
-      begin
-         Trace.Trace ("Loading project " & Project_File);
-         Project := new Project_Tree;
-         Initialize (Env);
-
-         --  Set scenario variables
-         for Assoc of Scenario_Vars loop
-            declare
-               A        : constant String := +Assoc;
-               Eq_Index : Natural := A'First;
-            begin
-               while Eq_Index <= A'Last
-                 and then A (Eq_Index) /= '=' loop
-                  Eq_Index := Eq_Index + 1;
-               end loop;
-               if Eq_Index not in A'Range then
-                  Cleanup;
-                  Abort_App ("Invalid scenario variable: -X" & A);
-               end if;
-               Change_Environment
-                 (Env.all,
-                  A (A'First .. Eq_Index - 1),
-                  A (Eq_Index + 1 .. A'Last));
-            end;
-         end loop;
-
-         --  Set the target/runtime or use the config file
-         if Config_File = "" then
-            Env.Set_Target_And_Runtime (Target, RTS);
-         elsif Target /= "" or else RTS /= "" then
-            Cleanup;
-            Abort_App ("--config not allowed if --target or --RTS are passed");
-         else
-            Env.Set_Config_File (Create (+Config_File));
-         end if;
-
-         --  Load the project tree, and beware of loading errors. Wrap
-         --  the project in a unit provider.
-         begin
-            Project.Load
-              (Root_Project_Path => Create (+Project_File),
-               Env               => Env,
-               Errors            => Print_Error'Access);
-         exception
-            when Invalid_Project =>
-               Trace.Trace ("Loading failed");
-               Cleanup;
-               Abort_App;
-         end;
-         Trace.Trace ("Loading succeeded");
-      end Load_Project;
-
-      -------------------------
-      -- Project_To_Provider --
-      -------------------------
-
-      function Project_To_Provider
-        (Project : Project_Tree_Access) return Unit_Provider_Reference
-      is
-         Partition : Provider_And_Projects_Array_Access :=
-            Create_Project_Unit_Providers (Project);
-      begin
-         --  Reject partitions with multiple parts: we cannot analyze it with
-         --  only one provider.
-
-         if Partition.all'Length /= 1 then
-            Free (Partition);
-            Abort_App ("This aggregate project contains conflicting sources");
-         end if;
-
-         return Result : constant Unit_Provider_Reference :=
-            Partition.all (Partition'First).Provider
-         do
-            Free (Partition);
-         end return;
-      end Project_To_Provider;
-
-      -------------------------------
-      -- List_Sources_From_Project --
-      -------------------------------
-
-      procedure List_Sources_From_Project
-        (Project             : Project_Tree'Class;
-         Include_Subprojects : Boolean;
-         Files               : out String_Vectors.Vector)
-      is
-         --  Get a sorted list of source files in Project's root project.
-         --  Sorting gets the output deterministic and thus helps
-         --  reproducibility.
-
-         List : File_Array_Access :=
-                  Project.Root_Project.Source_Files
-                    (Recursive                => Include_Subprojects,
-                     Include_Externally_Built => False);
-      begin
-         Sort (List.all);
-
-         for F of List.all loop
-            declare
-               FI        : constant File_Info := Project.Info (F);
-               Full_Name : Filesystem_String renames F.Full_Name.all;
-               Name      : constant String := +Full_Name;
-            begin
-               if FI.Language = "ada" then
-                  Files.Append (+Name);
-               end if;
-            end;
-         end loop;
-         Unchecked_Free (List);
-      end List_Sources_From_Project;
 
       -----------------------------
       -- List_Predefined_Sources --
@@ -449,7 +292,7 @@ package body Libadalang.Helpers is
                   Trace.Increase_Indent (Job_Name & ": Processing " & (+F));
                   declare
                      Unit : constant Analysis_Unit :=
-                        Job_Ctx.Analysis_Ctx.Get_From_File (+F);
+                       Job_Ctx.Analysis_Ctx.Get_From_File (+F);
                   begin
                      Process_Unit (Job_Ctx, Unit);
                      Job_Ctx.Units_Processed.Append (Unit);
@@ -513,7 +356,8 @@ package body Libadalang.Helpers is
             --  process.
             Load_Project
               (Project_File  => +Args.Project_File.Get,
-               Scenario_Vars => Args.Scenario_Vars.Get,
+               Scenario_Vars =>
+                 Unbounded_String_Array (Args.Scenario_Vars.Get),
                Target        => +Args.Target.Get,
                RTS           => +Args.RTS.Get,
                Config_File   => +Args.Config_File.Get,
@@ -668,5 +512,140 @@ package body Libadalang.Helpers is
             Ada.Command_Line.Set_Exit_Status (Ada.Command_Line.Failure);
       end Run;
    end App;
+
+   ------------------
+   -- Load_Project --
+   ------------------
+
+   procedure Load_Project
+     (Project_File             : String;
+      Scenario_Vars            : Unbounded_String_Array := Empty_Array;
+      Target, RTS, Config_File : String := "";
+      Project                  : out Project_Tree_Access;
+      Env                      : out Project_Environment_Access)
+   is
+      procedure Cleanup;
+      --  Cleanup helpers for error handling
+
+      -------------
+      -- Cleanup --
+      -------------
+
+      procedure Cleanup is
+      begin
+         Free (Project);
+         Free (Env);
+      end Cleanup;
+   begin
+      Libadalang.Project_Provider.Trace.Trace
+        ("Loading project " & Project_File);
+      Project := new Project_Tree;
+      Initialize (Env);
+
+      --  Set scenario variables
+      for Assoc of Scenario_Vars loop
+         declare
+            A        : constant String := +Assoc;
+            Eq_Index : Natural := A'First;
+         begin
+            while Eq_Index <= A'Last
+              and then A (Eq_Index) /= '=' loop
+               Eq_Index := Eq_Index + 1;
+            end loop;
+            if Eq_Index not in A'Range then
+               Cleanup;
+               Abort_App ("Invalid scenario variable: -X" & A);
+            end if;
+            Change_Environment
+              (Env.all,
+               A (A'First .. Eq_Index - 1),
+               A (Eq_Index + 1 .. A'Last));
+         end;
+      end loop;
+
+      --  Set the target/runtime or use the config file
+      if Config_File = "" then
+         Env.Set_Target_And_Runtime (Target, RTS);
+      elsif Target /= "" or else RTS /= "" then
+         Cleanup;
+         Abort_App ("--config not allowed if --target or --RTS are passed");
+      else
+         Env.Set_Config_File (Create (+Config_File));
+      end if;
+
+      --  Load the project tree, and beware of loading errors. Wrap
+      --  the project in a unit provider.
+      begin
+         Project.Load
+           (Root_Project_Path => Create (+Project_File),
+            Env               => Env,
+            Errors            => Print_Error'Access);
+      exception
+         when Invalid_Project =>
+            Libadalang.Project_Provider.Trace.Trace ("Loading failed");
+            Cleanup;
+            Abort_App;
+      end;
+      Libadalang.Project_Provider.Trace.Trace ("Loading succeeded");
+   end Load_Project;
+
+   -------------------------------
+   -- List_Sources_From_Project --
+   -------------------------------
+
+   procedure List_Sources_From_Project
+     (Project             : Project_Tree'Class;
+      Include_Subprojects : Boolean;
+      Files               : out String_Vectors.Vector)
+   is
+      --  Get a sorted list of source files in Project's root project.
+      --  Sorting gets the output deterministic and thus helps
+      --  reproducibility.
+
+      List : File_Array_Access :=
+        Project.Root_Project.Source_Files
+          (Recursive                => Include_Subprojects,
+           Include_Externally_Built => False);
+   begin
+      Sort (List.all);
+
+      for F of List.all loop
+         declare
+            FI        : constant File_Info := Project.Info (F);
+            Full_Name : Filesystem_String renames F.Full_Name.all;
+            Name      : constant String := +Full_Name;
+         begin
+            if FI.Language = "ada" then
+               Files.Append (+Name);
+            end if;
+         end;
+      end loop;
+      Unchecked_Free (List);
+   end List_Sources_From_Project;
+
+   -------------------------
+   -- Project_To_Provider --
+   -------------------------
+
+   function Project_To_Provider
+     (Project : Project_Tree_Access) return Unit_Provider_Reference
+   is
+      Partition : Provider_And_Projects_Array_Access :=
+        Create_Project_Unit_Providers (Project);
+   begin
+      --  Reject partitions with multiple parts: we cannot analyze it with
+      --  only one provider.
+
+      if Partition.all'Length /= 1 then
+         Free (Partition);
+         Abort_App ("This aggregate project contains conflicting sources");
+      end if;
+
+      return Result : constant Unit_Provider_Reference :=
+        Partition.all (Partition'First).Provider
+      do
+         Free (Partition);
+      end return;
+   end Project_To_Provider;
 
 end Libadalang.Helpers;

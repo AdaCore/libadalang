@@ -1,0 +1,10 @@
+type: new-feature
+title: Add project file helpers to Libadalang.Helpers
+
+description: |
+    Add ``Helpers.Load_Project`, ``Helpers.Project_To_Provider``,
+    ``Helpers.List_Sources_From_Project``, subprograms to help handling project
+    files in Libadalang applications when needed outside of the context of a
+    command line application based upon ``Libadalang.Helpers.App``.
+
+date: 2020-11-03

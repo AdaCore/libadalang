@@ -26,8 +26,9 @@ with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNATCOLL.Opt_Parse;
-with GNATCOLL.Projects;
-with GNATCOLL.Traces; use GNATCOLL.Traces;
+with GNATCOLL.Projects;  use GNATCOLL.Projects;
+with GNATCOLL.Traces;    use GNATCOLL.Traces;
+with GNATCOLL.Utils;     use GNATCOLL.Utils;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 
@@ -40,6 +41,40 @@ package Libadalang.Helpers is
      (Positive, Analysis_Unit);
    package String_Vectors is new Ada.Containers.Vectors
      (Positive, Unbounded_String);
+
+   procedure Load_Project
+     (Project_File             : String;
+      Scenario_Vars            : Unbounded_String_Array := Empty_Array;
+      Target, RTS, Config_File : String := "";
+      Project                  : out Project_Tree_Access;
+      Env                      : out Project_Environment_Access);
+   --  Load ``Project_File`` using scenario variables given in
+   --  ``Scenario_Vars``, and given ``Target``, ``RTS` and ``Config_File``.
+   --  Populate ``Project`` and ``Env`` accordingly.
+   --
+   --  ``Scenario_Vars`` should be an array of strings of the format
+   --  ``<Var>=<Val>``. If the format is incorrect, ``Abort_App`` will be
+   --  called.
+   --
+   --  If ``Config_File`` is not empty, then ``Target`` and ``RTS`` should be
+   --  empty.
+   --
+   --  See ``GNATCOLL.Projects.Set_Target_And_Runtime`` as well as
+   --  ``GNATCOLL.Projects.Set_Config_File`` for more details about the use of
+   --  ``Target``, ``RTS`` and ``Config_File``.
+
+   procedure List_Sources_From_Project
+     (Project             : Project_Tree'Class;
+      Include_Subprojects : Boolean;
+      Files               : out String_Vectors.Vector);
+   --  Append the list of all source files in ``Project``'s root project to
+   --  ``Files``. If ``Include_Subprojects`` is True, include all source files
+   --  in the imported projects, excluding those that are externally built.
+
+   function Project_To_Provider
+     (Project : Project_Tree_Access) return Unit_Provider_Reference;
+   --  Try to create a unit provider out of ``Project``. If not possible, call
+   --  ``Abort_App``.
 
    procedure Abort_App (Message : String := "") with No_Return;
    --  If provided, print Message to the standard error output and abort the

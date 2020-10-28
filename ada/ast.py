@@ -3555,7 +3555,7 @@ class BaseTypeDecl(BasicDecl):
         return ``Self``.
         """
         return Entity.match(
-            lambda st=T.BaseSubtypeDecl: st.from_type.base_subtype,
+            lambda st=T.BaseSubtypeDecl: st.get_type.base_subtype,
             lambda _: Entity
         )
 
@@ -3855,7 +3855,7 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
-        from_type = Var(Entity.cast(T.BaseSubtypeDecl)._.from_type)
+        from_type = Var(Entity.cast(T.BaseSubtypeDecl)._.get_type)
         base_type = Var(Entity.base_type)
 
         return satisfies_own_predicate & Cond(
@@ -4081,7 +4081,7 @@ class BaseTypeDecl(BasicDecl):
         """
         return Entity.full_view._.match(
             lambda td=TypeDecl: td.type_def.is_a(InterfaceTypeDef),
-            lambda sb=SubtypeDecl: sb.from_type.is_interface_type,
+            lambda sb=SubtypeDecl: sb.get_type.is_interface_type,
             lambda _: False
         )
 
@@ -4356,7 +4356,7 @@ class BaseTypeDecl(BasicDecl):
             ),
             lambda st=T.SubtypeDecl:
             Not(st.subtype.constraint.is_null)
-            | st.from_type.is_definite_subtype,
+            | st.get_type.is_definite_subtype,
             lambda _=T.ClasswideTypeDecl: False,
             lambda ttd=T.TaskTypeDecl: ttd.discriminants.is_null,
             lambda ptd=T.ProtectedTypeDecl: ptd.discriminants.is_null,
@@ -4826,7 +4826,7 @@ class TypeDecl(BaseTypeDecl):
         return origin.bind(Self, Entity.base_types.mapcat(lambda t: t.match(
             lambda td=T.TypeDecl: td,
             lambda std=T.SubtypeDecl: origin.bind(
-                std.node.origin_node, std.from_type.cast(T.TypeDecl)
+                std.node.origin_node, std.get_type.cast(T.TypeDecl)
             ),
             lambda _: No(T.TypeDecl.entity),
         ).then(lambda bt: bt.own_primitives_envs.concat(bt.primitives_envs))
@@ -5562,42 +5562,47 @@ class BaseSubtypeDecl(BaseTypeDecl):
         # take an origin. But ultimately, for semantic correctness, it will be
         # necessary to remove this, and migrate every property using it to
         # having a dynamic origin parameter.
-        return origin.bind(Self.origin_node, Entity.from_type)
+        return origin.bind(Self.origin_node, Entity.get_type)
 
     @langkit_property(kind=AbstractKind.abstract,
-                      return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
-    def from_type():
+                      return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[default_origin()],
+                      public=True)
+    def get_type():
+        """
+        Get the type for this subtype.
+        """
         pass
 
     primitives_env = Property(Entity.from_type_bound.primitives_env)
 
-    array_ndims = Property(Entity.from_type.array_ndims)
-    defining_env = Property(Entity.from_type.defining_env)
+    array_ndims = Property(Entity.get_type.array_ndims)
+    defining_env = Property(Entity.get_type.defining_env)
 
-    canonical_type = Property(Entity.from_type.canonical_type)
-    record_def = Property(Entity.from_type.record_def)
-    accessed_type = Property(Entity.from_type.accessed_type)
-    is_int_type = Property(Entity.from_type.is_int_type)
-    is_discrete_type = Property(Entity.from_type.is_discrete_type)
+    canonical_type = Property(Entity.get_type.canonical_type)
+    record_def = Property(Entity.get_type.record_def)
+    accessed_type = Property(Entity.get_type.accessed_type)
+    is_int_type = Property(Entity.get_type.is_int_type)
+    is_discrete_type = Property(Entity.get_type.is_discrete_type)
 
-    is_real_type = Property(Entity.from_type.is_real_type)
-    is_float_type = Property(Entity.from_type.is_float_type)
-    is_fixed_point = Property(Entity.from_type.is_fixed_point)
-    is_enum_type = Property(Entity.from_type.is_enum_type)
-    is_access_type = Property(Entity.from_type.is_access_type)
-    access_def = Property(Entity.from_type.access_def)
-    is_char_type = Property(Entity.from_type.is_char_type)
-    is_tagged_type = Property(Entity.from_type.is_tagged_type)
-    base_type = Property(Entity.from_type.base_type)
-    base_types = Property(Entity.from_type.base_types)
-    array_def = Property(Entity.from_type.array_def)
+    is_real_type = Property(Entity.get_type.is_real_type)
+    is_float_type = Property(Entity.get_type.is_float_type)
+    is_fixed_point = Property(Entity.get_type.is_fixed_point)
+    is_enum_type = Property(Entity.get_type.is_enum_type)
+    is_access_type = Property(Entity.get_type.is_access_type)
+    access_def = Property(Entity.get_type.access_def)
+    is_char_type = Property(Entity.get_type.is_char_type)
+    is_tagged_type = Property(Entity.get_type.is_tagged_type)
+    base_type = Property(Entity.get_type.base_type)
+    base_types = Property(Entity.get_type.base_types)
+    array_def = Property(Entity.get_type.array_def)
     is_classwide = Property(Entity.from_type_bound.is_classwide)
     discriminants_list = Property(Entity.from_type_bound.discriminants_list)
-    is_iterable_type = Property(Entity.from_type.is_iterable_type)
-    iterable_comp_type = Property(Entity.from_type.iterable_comp_type)
-    is_record_type = Property(Entity.from_type.is_record_type)
+    is_iterable_type = Property(Entity.get_type.is_iterable_type)
+    iterable_comp_type = Property(Entity.get_type.iterable_comp_type)
+    is_record_type = Property(Entity.get_type.is_record_type)
     is_private = Property(Entity.from_type_bound.is_private)
-    root_type = Property(Entity.from_type.root_type)
+    root_type = Property(Entity.get_type.root_type)
 
 
 class SubtypeDecl(BaseSubtypeDecl):
@@ -5608,9 +5613,9 @@ class SubtypeDecl(BaseSubtypeDecl):
     aspects = Field(type=T.AspectSpec)
 
     @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
-    def from_type():
+    def get_type():
         return Entity.subtype.designated_type.match(
-            lambda st=T.SubtypeDecl: st.from_type,
+            lambda st=T.SubtypeDecl: st.get_type,
             lambda t: t
         )
 
@@ -5638,7 +5643,7 @@ class DiscreteBaseSubtypeDecl(BaseSubtypeDecl):
         True  # TODO: If base subtype is from a formal type, then False
     )
 
-    from_type = Property(
+    get_type = Property(
         Self.parent.cast_or_raise(T.BaseTypeDecl).as_entity
     )
 

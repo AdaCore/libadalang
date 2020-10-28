@@ -1,0 +1,7 @@
+type: new-feature
+title: Add a ``SubtypeDecl.get_type`` property
+
+description: |
+    This new property returns the type of a given subtype decl.
+
+date: 2020-11-03

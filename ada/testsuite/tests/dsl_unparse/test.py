@@ -41,6 +41,6 @@ except StopIteration:
 sys.stdout.flush()
 subprocess.check_call(
     [P.join(os.environ['LIBADALANG_ROOTDIR'],
-            'langkit', 'contrib', 'lkt', 'build', 'bin', 'lkt_parse'),
+            'langkit', 'contrib', 'lkt', 'build', 'obj-mains', 'lkt_parse'),
      '-s', '-f', unparse_dest]
 )

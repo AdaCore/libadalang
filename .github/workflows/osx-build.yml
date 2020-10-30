@@ -62,7 +62,8 @@ jobs:
           DEBUG=${{ matrix.debug }}  # Value is '' or 'debug'
           pip install -r langkit/REQUIREMENTS.dev
           pip install jsonschema
-          python langkit/setup.py install
+          pip install langkit/
+
           make -C gprbuild prefix=$prefix BUILD=${DEBUG:-production} GPRBUILD_OPTIONS="-cargs:C -Dst_mtim=st_mtimespec -gargs" libgpr.build.{shared,static} libgpr.install.{shared,static}
           BUILD=`echo $DEBUG| tr [a-z] [A-Z]`  # Convert to uppercase
           make -C gnatcoll-core prefix=$prefix BUILD=${BUILD:-PROD} LIBRARY_TYPES="relocatable static" build install
@@ -73,23 +74,26 @@ jobs:
           export DYLD_LIBRARY_PATH=/usr/local/lib
           python gnatcoll-bindings/gmp/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=relocatable,static
           python gnatcoll-bindings/gmp/setup.py install
-          eval `langkit/scripts/manage.sh setenv`
+
+          eval `langkit/manage.py setenv`
+          langkit/manage.py build-langkit-support --library-types static,relocatable
+          langkit/manage.py install-langkit-support $prefix --library-types static,relocatable
+
           BUILD=${DEBUG:+dev}  # Convert debug to dev
           # Build libadalang static library
-          ada/manage.py generate -P
+          ada/manage.py generate
           ada/manage.py --library-types static build --build-mode ${BUILD:-prod}
           ada/manage.py --library-types static install --build-mode ${BUILD:-prod} $prefix
           gprinstall --uninstall --prefix=$prefix mains.gpr
           tar czf libadalang-`basename $GITHUB_REF`-osx${DEBUG:+-dbg}-static.tar.gz -C $prefix .
           # Build libadalang relocatable library
           gprinstall --uninstall --prefix=$prefix libadalang.gpr
-          gprinstall --uninstall --prefix=$prefix langkit_support.gpr
           rm -rf build
           # The gprbuild losts -lgmp on MacOS X, provide it in .cgpr file:
           gprconfig --batch -o /tmp/file.cgpr --config=c --config=ada
           sed -i -e '/for Shared_Library_Minimum_Switches use/s/$/ ("-lgmp") \&/' /tmp/file.cgpr
           cat /tmp/file.cgpr
-          ada/manage.py generate -P
+          ada/manage.py generate
           ada/manage.py --library-types relocatable build --build-mode ${BUILD:-prod} --gargs=--config=/tmp/file.cgpr
           ada/manage.py --library-types relocatable install --build-mode ${BUILD:-prod} $prefix
           tar czf libadalang-`basename $GITHUB_REF`-osx${DEBUG:+-dbg}.tar.gz -C $prefix .

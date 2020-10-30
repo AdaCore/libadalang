@@ -6,9 +6,8 @@ set -x
 
 export BUILD_FOLDER=/Projects/$APPVEYOR_PROJECT_NAME
 export ADALIB_DIR=$BUILD_FOLDER/adalib
-export PATH=/c/Python38-x64:$ADALIB_DIR/bin:\
-$BUILD_FOLDER/build/lib/libadalang.relocatable:\
-$BUILD_FOLDER/build/lib/langkit_support.relocatable:\
+export PATH=/c/Python38-x64:\
+$ADALIB_DIR/bin:\
 /c/GNAT/bin:\
 /mingw64/bin:\
 $PATH
@@ -62,8 +61,12 @@ function do_install()
       python gnatcoll-bindings/$component/setup.py install
     done
 
-    # Finally install all Python dependencies for Langkit
+    # Install all Python dependencies for Langkit
     python -m pip install -r langkit/REQUIREMENTS.dev
+
+    # Build and install Langkit_Support
+    langkit/manage.py build-langkit-support
+    langkit/manage.py install-langkit-support "$ADALIB_DIR"
 }
 
 function do_build()
@@ -71,26 +74,17 @@ function do_build()
     cd $BUILD_FOLDER
     export PYTHONPATH=$APPVEYOR_BUILD_FOLDER\\langkit
 
-    # Generate Libadalang. Avoid pretty-printing: gnatpp for GNAT CE 2018 is
-    # known not to work on Libadalang and pretty-printing is useless to check
-    # pull requests anyway.
-    python ada/manage.py -vdebug generate -P
+    # Generate Libadalang
+    python ada/manage.py generate
 
     # Build the generated lexer alone first, as it takes a huge amount of
     # memory. Only then build the rest in parallel.
-    gprbuild -Pbuild/lib/gnat/libadalang.gpr \
-        -XBUILD_MODE=dev -XLIBRARY_TYPE=relocatable \
-        -XXMLADA_BUILD=relocatable -XLIBADALANG_WARNINGS=true \
+    gprbuild -Pbuild/libadalang.gpr \
+        -XBUILD_MODE=dev -XLIBRARY_TYPE=relocatable -XLIBADALANG_WARNINGS=true \
         -p -c -u libadalang-lexer_state_machine.adb
 
     # Restrict parallelism to avoid OOM issues
     python ada/manage.py build -j12
-
-    # TODO: on Windows, it's better to use GNATpython in order to run the
-    # testsuite, as only GNATpython handled properly Windows-style line
-    # terminators.
-    #
-    # python ada/manage.py test
 
     # Install Libadalang so we can create a binary distribution
     python ada/manage.py install "$ADALIB_DIR"

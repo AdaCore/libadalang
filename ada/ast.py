@@ -9419,7 +9419,9 @@ class Name(Expr):
                 # that the expected type can indeed designate a type of
                 # which the called subprogram is a primitive, and that
                 # the corresponding expression is its classwide type.
-                lambda subp_spec=decl.canonical_part.subp_spec_or_null:
+                lambda subp_spec=decl.canonical_part.subp_spec_or_null(
+                    follow_generic=True
+                ):
                 candidates.any(
                     lambda c: And(
                         Not(subp_spec

@@ -74,6 +74,14 @@ jobs:
         with:
           distrib: community
           install_dir: ./cached_gnat
+      - name: Clean up GNAT
+        # TODO: For unknown reasons, even with all caches disabled, there are
+        # sometimes spurious installs of dependencies (gnatcoll-iconv, -gmp and
+        # langkit_support) in cached_gnat's install. Try to uninstall them to
+        # workaround this issue. We need to uninstall gpr and gnatcoll anyway,
+        # as we want their latest versions.
+        run: |
+            sh langkit/.github/helpers/clean_up_gnat.sh
 
       - name: Cache build artifacts
         uses: actions/cache@v2

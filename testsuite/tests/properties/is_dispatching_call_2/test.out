@@ -1,4 +1,7 @@
-Eval 'node.f_call.p_is_dispatching_call()' on node <CallStmt test.adb:8:7-8:15>
+Eval 'node.f_call.p_is_dispatching_call()' on node <CallStmt test.adb:10:7-10:15>
+Result: False
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Str"] test.adb:16:4-16:55>
 Result: False
 
 

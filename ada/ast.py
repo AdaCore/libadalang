@@ -11657,7 +11657,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
         If the given type expression designates a type of which Self is a
         primitive, return that designated type. Otherwise return null.
         """
-        bd = Var(Entity.parent.cast_or_raise(BasicDecl))
+        decl_scope = Var(Entity.declarative_scope)
+
         tpe = Var(origin.bind(Self.origin_node, typ.match(
             lambda at=T.AnonymousType: at.element_type.then(
                 # TODO: remove this check once S918-021 is done, since it will
@@ -11678,8 +11679,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 # declared in the same declarative scope as Self, or in the
                 # private part of the package in which Self is defined.
                 tpe._.declarative_scope.then(lambda ds: ds.any_of(
-                    bd.declarative_scope,
-                    bd.declarative_scope._.parent.cast(BasePackageDecl)
+                    decl_scope,
+                    decl_scope._.parent.cast(BasePackageDecl)
                     ._.public_part
                 ))
             ),

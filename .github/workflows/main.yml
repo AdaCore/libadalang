@@ -111,13 +111,15 @@ jobs:
                 -j0 --prefix=$PREFIX --library-types=relocatable
             python gnatcoll-bindings/gmp/setup.py install
 
-      - name: Build lkt_parse
+      - name: Build Langkit
         run: |
-            langkit/manage.py make
+            langkit/manage.py build-langkit-support
+            langkit/manage.py install-langkit-support $PREFIX
+            langkit/manage.py make --no-langkit-support
 
       - name: Build libadalang
         run: |
-            langkit/utils/gh_wrap_errors.py ada/manage.py -Dgnu-full make -P
+            langkit/utils/gh_wrap_errors.py ada/manage.py -Dgnu-full make
 
       - name: Install & package libadalang
         run: |
@@ -168,12 +170,6 @@ jobs:
           path: langkit
           fetch-depth: 0  # all branches
 
-      - name: Install python dependencies
-        run: |
-            pip install -r langkit/REQUIREMENTS.dev
-            pip install jsonschema
-            python langkit/setup.py install
-
       - name: Checkout langkit branch
         run: |
             (
@@ -183,6 +179,12 @@ jobs:
                     ${{ github.event.pull_request.head.user.login }} \
                     ${{ github.event.pull_request.head.ref }}
             )
+
+      - name: Install python dependencies
+        run: |
+            pip install -r langkit/REQUIREMENTS.dev
+            pip install jsonschema
+            pip install langkit/
 
       - name: Run libadalang stylechecks
         run: |

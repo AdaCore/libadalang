@@ -6923,13 +6923,6 @@ class PackageDecl(BasePackageDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.cast(T.AdaNode)._.singleton,
-            through=T.AdaNode.nested_generic_formal_part,
-            cond=Self.should_ref_generic_formals,
-            kind=RefKind.prioritary,
-            shed_corresponding_rebindings=True,
         )
     )
 
@@ -7372,14 +7365,7 @@ class PackageRenamingDecl(BasicDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.cast(T.AdaNode)._.singleton,
-            through=T.AdaNode.nested_generic_formal_part,
-            cond=Self.should_ref_generic_formals,
-            kind=RefKind.prioritary,
-            shed_corresponding_rebindings=True,
-        ),
+        )
     )
 
     defining_names = Property(Entity.name.singleton)
@@ -7442,14 +7428,7 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.cast(T.AdaNode)._.singleton,
-            through=T.AdaNode.nested_generic_formal_part,
-            cond=Self.should_ref_generic_formals,
-            kind=RefKind.prioritary,
-            shed_corresponding_rebindings=True,
-        ),
+        )
     )
 
 
@@ -7481,13 +7460,6 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.cast(T.AdaNode)._.singleton,
-            through=T.AdaNode.nested_generic_formal_part,
-            cond=Self.should_ref_generic_formals,
-            kind=RefKind.prioritary,
-            shed_corresponding_rebindings=True,
         )
     )
 
@@ -7726,13 +7698,6 @@ class GenericPackageDecl(GenericDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.cast(T.AdaNode)._.singleton,
-            through=T.AdaNode.nested_generic_formal_part,
-            cond=Self.should_ref_generic_formals,
-            kind=RefKind.prioritary,
-            shed_corresponding_rebindings=True,
         )
     )
 

@@ -811,6 +811,21 @@ class AdaNode(ASTNode):
         ))
 
     @langkit_property()
+    def use_clauses_in_generic_formal_part():
+        """
+        Assuming Self is a generic entity's body that is nested (not a library
+        item), return the grouped lexical environment containing all the
+        environments that are referred by use clauses inside formal part of
+        its generic declaration. Return an empty environment if this is not
+        the body of a generic decl.
+        """
+        gen_decl = Var(Self.as_bare_entity.cast(Body)._.safe_generic_decl_part)
+        return gen_decl.then(
+            lambda gd: gd.formal_part.use_clauses_envs,
+            default_val=Self.empty_env
+        )
+
+    @langkit_property()
     def nested_generic_formal_part():
         """
         Assuming Self is a generic entity's body that is nested (not a library
@@ -825,33 +840,10 @@ class AdaNode(ASTNode):
         lexical environment lookup on a child unit. As it does itself a lot of
         lookups, memoizing it is very important.
         """
-        gen_decl = Var(imprecise_fallback.bind(
-            False,
-            Self.as_bare_entity.match(
-                lambda pkg_body=T.PackageBody:
-                    pkg_body.decl_part.then(
-                        lambda d: d.node.parent.cast(T.GenericPackageDecl)
-                    ),
-                lambda bod=T.BaseSubpBody:
-                    # We're only searching for generics. We look at index 1 and
-                    # 2, because if self is a subunit, the first entity we find
-                    # will be the separate declaration. NOTE: We don't use
-                    # decl_part/previous_part on purpose: They can cause env
-                    # lookups, hence doing an infinite recursion.
-                    bod.children_env.env_parent.get(
-                        bod.name_symbol, categories=noprims
-                    ).then(
-                        lambda results:
-                        results.at(1).node.cast(T.GenericSubpDecl)._or(
-                            results.at(2).node.cast(T.GenericSubpDecl)
-                        )
-                    ).cast(T.AdaNode),
-                lambda _: No(T.AdaNode)
-            )
-        ))
-
+        gen_decl = Var(Self.as_bare_entity.cast(Body)._.safe_generic_decl_part)
         return gen_decl.then(
-            lambda gd: gd.children_env, default_val=Self.empty_env
+            lambda gd: gd.node.children_env,
+            default_val=Self.empty_env
         )
 
     @langkit_property()
@@ -2477,6 +2469,37 @@ class Body(BasicDecl):
                 # to get the decl.
                 lambda stub=T.BodyStub: stub.previous_part_internal,
                 lambda other: other
+            )
+        )
+
+    @langkit_property(return_type=T.GenericDecl.entity)
+    def safe_generic_decl_part():
+        """
+        Return the generic declaration corresponding to this body, if relevant.
+        This property is designed to be usable from within env specs.
+        """
+        return imprecise_fallback.bind(
+            False,
+            Entity.match(
+                lambda pkg_body=T.PackageBody:
+                    pkg_body.decl_part.then(
+                        lambda d: d.parent.cast(T.GenericPackageDecl)
+                    ),
+                lambda bod=T.BaseSubpBody:
+                    # We're only searching for generics. We look at index 1 and
+                    # 2, because if self is a subunit, the first entity we find
+                    # will be the separate declaration. NOTE: We don't use
+                    # decl_part/previous_part on purpose: They can cause env
+                    # lookups, hence doing an infinite recursion.
+                    bod.children_env.env_parent.get(
+                        bod.name_symbol, categories=noprims
+                    ).then(
+                        lambda results:
+                        results.at(1).cast(T.GenericSubpDecl)._or(
+                            results.at(2).cast(T.GenericSubpDecl)
+                        )
+                    ),
+                lambda _: No(T.GenericDecl.entity)
             )
         )
 
@@ -5707,6 +5730,18 @@ class UseClause(AdaNode):
     """
     xref_entry_point = Property(True)
 
+    @langkit_property(return_type=T.LexicalEnv)
+    def used_envs():
+        """
+        Return the environment grouping all environments that are referred
+        to by this use clause.
+        """
+        return Entity.match(
+            lambda upc=T.UsePackageClause: upc.designated_envs.env_group(),
+            lambda utc=T.UseTypeClause:
+            utc.types.map(lambda n: n.name_designated_type_env).env_group()
+        )
+
 
 class UsePackageClause(UseClause):
     """
@@ -6808,11 +6843,7 @@ class DeclarativePart(AdaNode):
         part.
         """
         return Entity.decls.children.filtermap(
-            lambda u: u.cast(T.UseClause).match(
-                lambda upc=T.UsePackageClause: upc.designated_envs.env_group(),
-                lambda utc=T.UseTypeClause:
-                utc.types.map(lambda n: n.name_designated_type_env).env_group()
-            ),
+            lambda u: u.cast(T.UseClause).used_envs,
             lambda c: c.is_a(T.UseClause)
         ).env_group()
 
@@ -7524,6 +7555,17 @@ class GenericFormalPart(BaseFormalParamHolder):
     decls = Field(type=T.AdaNode.list)
 
     abstract_formal_params = Property(Entity.decls.keep(BaseFormalParamDecl))
+
+    @langkit_property(return_type=T.LexicalEnv)
+    def use_clauses_envs():
+        """
+        Returns the envs for all the use clauses declared in this generic
+        formal part.
+        """
+        return Entity.decls.filtermap(
+            lambda u: u.cast(T.UseClause).used_envs,
+            lambda c: c.is_a(T.UseClause)
+        ).env_group()
 
 
 @abstract
@@ -13275,6 +13317,15 @@ class BaseSubpBody(Body):
             shed_corresponding_rebindings=True,
         ),
 
+        # We must also "inherit" the use clauses from the generic formal part
+        # of this body's generic declaration, if relevant.
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.use_clauses_in_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.normal
+        ),
+
         handle_children(),
 
         # Adding subp to the type's environment if the type is tagged and self
@@ -14079,6 +14130,15 @@ class PackageBody(Body):
             shed_corresponding_rebindings=True,
         ),
 
+        # We must also "inherit" the use clauses from the generic formal part
+        # of this body's generic declaration, if relevant.
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.use_clauses_in_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.normal
+        ),
+
         # Separate packages and nested packages basically need to be treated
         # the same way: we cannot use a transitive ref because of hiding
         # issues, so we'll do a prioritary ref, that groups together the
@@ -14166,18 +14226,23 @@ class TaskBody(Body):
                    ._or(Entity.body_scope(False, False)))
             ),
         ), unsound=True),
+
         add_env(),
+
         do(Self.populate_dependent_units),
+
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+
         reference(
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
+
         reference(
             Self.cast(T.AdaNode)._.singleton,
             through=T.AdaNode.nested_generic_formal_part,
@@ -14185,6 +14250,16 @@ class TaskBody(Body):
             kind=RefKind.prioritary,
             shed_corresponding_rebindings=True,
         ),
+
+        # We must also "inherit" the use clauses from the generic formal part
+        # of this body's generic declaration, if relevant.
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.use_clauses_in_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.normal
+        ),
+
         reference(Self.cast(AdaNode).singleton,
                   T.TaskBody.task_type_decl_scope,
                   kind=RefKind.prioritary),
@@ -14245,6 +14320,16 @@ class ProtectedBody(Body):
             kind=RefKind.prioritary,
             shed_corresponding_rebindings=True,
         ),
+
+        # We must also "inherit" the use clauses from the generic formal part
+        # of this body's generic declaration, if relevant.
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.use_clauses_in_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.normal
+        ),
+
         reference(Self.cast(AdaNode).singleton,
                   through=T.Body.body_decl_scope,
                   kind=RefKind.transitive),

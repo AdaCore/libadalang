@@ -208,13 +208,42 @@ Expr: <Id "Y" test.ads:16:49-16:50>
   references: <DefiningName test.ads:10:33-10:34>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
-Resolving xrefs for node <EndName test.ads:17:5-17:9>
+Resolving xrefs for node <SubpSpec test.ads:18:4-18:43>
+*******************************************************
+
+Expr: <Id "String" test.ads:18:37-18:43>
+  references: <DefiningName __standard:104:8-104:14>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["X"] test.ads:18:18-18:28>
+***************************************************************
+
+Expr: <Id "String" test.ads:18:22-18:28>
+  references: <DefiningName __standard:104:8-104:14>
+  type:       None
+
+Resolving xrefs for node <AspectAssoc test.ads:19:7-19:40>
+**********************************************************
+
+Expr: <Id "Test_Case" test.ads:19:7-19:16>
+  references: None
+  type:       None
+Expr: <Aggregate test.ads:19:20-19:40>
+  type:       None
+Expr: <Str ""Example"" test.ads:19:21-19:30>
+  references: None
+  type:       None
+Expr: <Id "Nominal" test.ads:19:32-19:39>
+  references: None
+  type:       None
+
+Resolving xrefs for node <EndName test.ads:20:5-20:9>
 *****************************************************
 
-Expr: <EndName test.ads:17:5-17:9>
+Expr: <EndName test.ads:20:5-20:9>
   references: <DefiningName test.ads:1:9-1:13>
   type:       None
-Expr: <Id "Test" test.ads:17:5-17:9>
+Expr: <Id "Test" test.ads:20:5-20:9>
   references: <DefiningName test.ads:1:9-1:13>
   type:       None
 

@@ -10212,8 +10212,10 @@ class AggregateAssoc(BasicAssoc):
         return If(
             # Only resolve the right-hand side of `Requires` and `Ensures`,
             # the other associations (Name and Mode) need not be resolved.
-            Entity.names.at(0).cast(BaseId).name_symbol.any_of(
-                'Requires', 'Ensures'
+            Entity.names.at(0).cast(BaseId).then(
+                lambda name: name.name_symbol.any_of(
+                    'Requires', 'Ensures'
+                )
             ),
             Entity.expr.sub_equation,
             LogicTrue()

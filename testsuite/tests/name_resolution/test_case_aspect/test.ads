@@ -14,5 +14,8 @@ package Test is
                    Ensures  => X.F (30)'Old = X.F (20)
                                and then Test.Pack.G_count'Old > 0
                                and then Y'Old > Y);
+
+   function Pr2 (X : String) return String with
+      Test_Case => ("Example", Nominal);
 end Test;
 pragma Test_Block;

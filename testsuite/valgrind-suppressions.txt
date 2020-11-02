@@ -1,14 +1,23 @@
 # In the GNAT runtime, the secondary stack management system allocates chunks
 # with maximum alignment. As a result, code handles pointers inside the blocks
 # allocated by malloc, so we have these "possible leaks". These are really
-# false-positive leaks.
+# false-positive leaks. Account for two possible symbol names (depending on the
+# version of GNAT used to build Libadalang).
 {
-   ada_secondary_stack_allocation
+   ada_secondary_stack_allocation:1
    Memcheck:Leak
    match-leak-kinds: possible
    fun:malloc
    fun:__gnat_malloc
    fun:system__secondary_stack__ss_allocate
+}
+{
+   ada_secondary_stack_allocation:2
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   fun:__gnat_malloc
+   fun:system__secondary_stack__allocate_dynamic
 }
 
 # GCC's 4.9 RTL expander for 64-bit platfroms does not handle passing small

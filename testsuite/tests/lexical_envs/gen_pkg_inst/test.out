@@ -139,7 +139,6 @@ $root = LexEnv(Static_Primary, Parent=null):
     d_inst: [<GenericPackageInstantiation ["D_Inst"] test.adb:7:4-7:38>]
 
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<GenericPackageDecl ["D"] test.adb:2:4-5:10>):
-  Referenced: <GenericPackageDecl ["D"] test.adb:2:4-5:10>: LexEnv(Static_Primary, Node=<CompilationUnit test.adb:1:1-10:10>)
     t: [<ObjectDecl ["T"] test.adb:3:7-3:19>]
 
 @4 = LexEnv(Static_Primary, Parent=@3, Node=<GenericPackageInternal ["D"] test.adb:4:4-5:10>):

@@ -13,16 +13,15 @@ unparse_script = 'to:{},lexer,grammar,nodes'.format(unparse_dest)
 subprocess.check_call(
     [sys.executable,
      os.path.join(os.environ['LIBADALANG_ROOTDIR'], 'manage.py'),
-     '-v=none', '-E',
+     'generate',
+     '-v=none', '-E', '--unparse-script', unparse_script,
 
      # The call to "generate" will generate not only the concrete DSL, but also
      # the Ada sources. Target a build directory that is local to this
      # testcase's working directory to avoid messing with the sources of the
      # library we are currently testing, as this could trigger parallel
      # compilations of Libadalang, leading to obscure failures.
-     '--build-dir', os.path.abspath('build'),
-
-     'generate', '-P', '--unparse-script', unparse_script],
+     '--build-dir', os.path.abspath('build')]
 )
 
 try:

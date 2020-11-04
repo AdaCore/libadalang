@@ -27,60 +27,54 @@ class Manage(ManageScript):
     PERF_PARSE_AND_TRAVERSE = 'parse-and-traverse'
     PERF_CHOICES = (PERF_PARSE, PERF_PARSE_AND_TRAVERSE)
 
-    def __init__(self):
-        super(Manage, self).__init__()
-
+    def add_extra_subcommands(self) -> None:
         ########
         # Test #
         ########
 
-        self.test_parser = test_parser = self.subparsers.add_parser(
-            'test', help=self.do_test.__doc__
+        self.test_parser = self.add_subcommand(
+            self.do_test, accept_unknown_args=True
         )
-        test_parser.add_argument(
+        self.test_parser.add_argument(
             '--disable-ocaml', action='store_true',
             help='Disable tests involving the OCaml API'
         )
-        test_parser.add_argument(
+        self.test_parser.add_argument(
             'testsuite-args', nargs='*',
             help='Arguments to pass to testsuite.py.'
         )
-        test_parser.set_defaults(func=self.do_test)
-        self.add_build_mode_arg(test_parser)
+        self.add_build_mode_arg(self.test_parser)
 
         #############
         # Perf Test #
         #############
 
-        self.perf_test_parser = perf_test_parser = self.subparsers.add_parser(
-            'perf-test', help=self.do_perf_test.__doc__
-        )
-        perf_test_parser.add_argument(
+        self.perf_test_parser = self.add_subcommand(self.do_perf_test)
+        self.perf_test_parser.add_argument(
             '--work-dir', default='performance_testsuite',
             help='Directory into which the performance testsuite will be'
                  ' executed'
         )
-        perf_test_parser.add_argument(
+        self.perf_test_parser.add_argument(
             '--nb-runs', type=int, default=4,
             help='Number of runs (default: 4)'
         )
-        perf_test_parser.add_argument(
+        self.perf_test_parser.add_argument(
             '--no-recompile', action='store_true',
             help='Do not recompile the library before running the perf'
                  ' testsuite'
         )
-        perf_test_parser.add_argument(
+        self.perf_test_parser.add_argument(
             '--scenario', '-s',
             choices=self.PERF_CHOICES, default=self.PERF_PARSE,
             help='Profiling scenario to use. Basically: "what to measure?".'
         )
-        perf_test_parser.add_argument(
+        self.perf_test_parser.add_argument(
             '--with-trivia', action='store_true',
             help='Include trivia in parsing'
         )
-        perf_test_parser.set_defaults(func=self.do_perf_test)
-        self.add_generate_args(perf_test_parser)
-        self.add_build_args(perf_test_parser)
+        self.add_generate_args(self.perf_test_parser)
+        self.add_build_args(self.perf_test_parser)
 
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
@@ -177,7 +171,7 @@ class Manage(ManageScript):
 
     do_install.__doc__ = ManageScript.do_generate.__doc__
 
-    def do_test(self, args):
+    def do_test(self, args, unknown_args):
         """
         Run the testsuite.
 
@@ -204,6 +198,7 @@ class Manage(ManageScript):
             argv.append(os.path.join('build', 'ocaml'))
         if not args.library_types.relocatable:
             argv.append('--disable-shared')
+        argv.extend(unknown_args)
         argv.extend(getattr(args, 'testsuite-args'))
 
         try:

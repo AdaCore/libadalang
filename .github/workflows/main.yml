@@ -119,7 +119,7 @@ jobs:
 
       - name: Build libadalang
         run: |
-            langkit/utils/gh_wrap_errors.py ./manage.py -Dgnu-full make
+            langkit/utils/gh_wrap_errors.py ./manage.py make -Dgnu-full
 
       - name: Install & package libadalang
         run: |
@@ -145,7 +145,7 @@ jobs:
       - name: Test libadalang
         run: |
             eval `langkit/manage.py setenv`
-            ./manage.py test --disable-ocaml -- -j8 --failure-exit-code=1 --for-travis-ci
+            ./manage.py test --disable-ocaml --failure-exit-code=1 --for-travis-ci
 
   stylechecks:
     runs-on: ubuntu-latest

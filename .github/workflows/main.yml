@@ -31,12 +31,6 @@ jobs:
           path: langkit
           fetch-depth: 0  # all branches
 
-      - name: Install python dependencies
-        run: |
-            pip install -r langkit/REQUIREMENTS.dev
-            pip install jsonschema
-            pip install ./langkit
-
       - name: Checkout langkit branch
         run: |
             (
@@ -46,6 +40,12 @@ jobs:
                     ${{ github.event.pull_request.head.user.login }} \
                     ${{ github.event.pull_request.head.ref }}
             )
+
+      - name: Install python dependencies
+        run: |
+            pip install -r langkit/REQUIREMENTS.dev
+            pip install jsonschema
+            pip install ./langkit
 
       - name: Get gprbuild for libgpr
         uses: actions/checkout@v2

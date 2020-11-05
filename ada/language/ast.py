@@ -11335,7 +11335,7 @@ class Identifier(BaseId):
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
             'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
-            'Remainder', 'Adjacent', 'Mod'
+            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding'
         )
     )
 
@@ -12322,7 +12322,8 @@ class AttributeRef(Name):
             & Self.universal_int_bind(Self.type_var),
 
             rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation',
-                            'Copy_Sign', 'Remainder', 'Adjacent'),
+                            'Copy_Sign', 'Remainder', 'Adjacent',
+                            'Machine_Rounding'),
             Entity.float_funcs_equation,
 
             rel_name == 'Mod',

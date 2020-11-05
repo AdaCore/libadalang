@@ -207,5 +207,24 @@ Expr: <Id "Model_Epsilon" test_float_attrs.adb:29:23-29:36>
   references: None
   type:       None
 
+Resolving xrefs for node <ObjectDecl ["K"] test_float_attrs.adb:32:4-32:44>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:32:8-32:13>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:32:17-32:43>
+  references: None
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Float" test_float_attrs.adb:32:17-32:22>
+  references: <DefiningName __standard:13:8-13:13>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+Expr: <Id "Machine_Rounding" test_float_attrs.adb:32:23-32:39>
+  references: None
+  type:       None
+Expr: <Id "A" test_float_attrs.adb:32:41-32:42>
+  references: <DefiningName test_float_attrs.adb:2:4-2:5>
+  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+
 
 Done.

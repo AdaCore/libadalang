@@ -28,6 +28,9 @@ procedure Test_Float_Attrs is
 
    J : Float := Float'Model_Epsilon;
    pragma Test_Statement;
+
+   K : Float := Float'Machine_Rounding (A);
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

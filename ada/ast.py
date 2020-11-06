@@ -11449,9 +11449,11 @@ class Identifier(BaseId):
         Self.symbol.any_of(
             # Attributes that return functions and are - wrongly - handled (see
             # S910-057 for more details).
-            'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min',
-            'Max', 'Value', 'Pos', 'Val', 'Enum_Val', 'First', 'Last', 'Range',
-            'Length', 'Image', 'Wide_Image', 'Wide_Wide_Image',
+            'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min', 'Max',
+            'Value', 'Wide_Value', 'Wide_Wide_Value',
+            'Pos', 'Val', 'Enum_Val',
+            'First', 'Last', 'Range', 'Length',
+            'Image', 'Wide_Image', 'Wide_Wide_Image',
             'Asm_Input', 'Asm_Output',
 
             # Those attributes return functions but were never implemented. We

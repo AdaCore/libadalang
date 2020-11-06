@@ -1,0 +1,7 @@
+type: bugfix
+title: Crash with ``'Wide[_Wide]_Value`` attributes
+description: |
+    This change addresses a crash that would systematically occur when trying
+    to resolve expressions containing the ``'Wide_Value'`` or
+    ``'Wide_Wide_Value`` attributes.
+date: 2020-11-06

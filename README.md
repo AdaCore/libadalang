@@ -31,7 +31,7 @@ High level architecture
 Libadalang is a library that can be used from Ada (2012) and Python 2, amongst
 other languages (we also have a C API, and an experimental OCaml API). Most of
 its code is Ada code, generated from the language specification that you can
-find in [ada/language](ada/language).
+find in [ada](ada).
 
 *WARNING*: You will *not* find the generated code in the repository. You have
 to generate it yourself. We're thinking about some plans to auto-generate the
@@ -73,11 +73,9 @@ Quick guide to use Libadalang
 
 In order to use Libadalang, one has first to generate its code and to build it.
 You can read and run manually the steps in the [User
-Manual](user_manual/building.rst), or you can use [our
-script](install-lal-and-deps.sh) to semi-automate this (please read and update
-this script to adapt it to your setup before running it). After this, you can
-either use Libadalang in Ada with the `libadalang.gpr` project file, or in
-Python just import the `libadalang` module.
+Manual](user_manual/building.rst). After this, you can either use Libadalang in
+Ada with the `libadalang.gpr` project file, or in Python just import the
+`libadalang` module.
 
 Testing
 -------
@@ -91,16 +89,16 @@ run:
 If you want to learn more about this test driver's options (for instance to run
 tests under Valgrind), add a `-h` flag.
 
-Because adding `build/bin` to the `PATH` is not very convenient,
-`ada/manage.py` provides a shortcut to run the testsuite:
+Because adding `build/bin` to the `PATH` is not very convenient, `manage.py`
+provides a shortcut to run the testsuite:
 
-    $ python ada/manage.py test
+    $ python manage.py test
 
 It runs the testsuite with the `--enable-color` option. It is also possible to
 pass other arguments to `testsuite.py`. For instance, if you want to run under
 a debugger only the `factor_0` test case, execute:
 
-    $ python ada/manage.py test -- -g ada/testsuite/tests/parser/factor_0
+    $ python manage.py test -- -g testsuite/tests/parser/factor_0
 
 Documentation
 -------------

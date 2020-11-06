@@ -7,17 +7,19 @@ Setup
 To generate and build the library itself, you'll need to go through the
 following steps:
 
+* Make sure you have a working Python3 installation (version 3.7 or newer).
+
 * Install the GNAT tools and compiler. You can find Community Editions on
   `AdaCore's website <https://www.adacore.com/download>`_.
+
 * Build and install the GNATcoll library (core, plus Iconv and GMP bindings).
   You can find its source release on `AdaCore's website
   <https://www.adacore.com/download>`_ or directly on GitHub's repositories for
   `gnatcoll-core <https://github.com/AdaCore/gnatcoll-core>`_ and
-  `gnatcoll-bindings <https://github.com/AdaCore/gnatcoll-bindings>`_. Just
-  make sure you checkout the ``gpl-20**`` branch corresponding to your GNAT
-  Community release.
-* Install every Python dependency. We recommend creating a [virtual
-  environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+  `gnatcoll-bindings <https://github.com/AdaCore/gnatcoll-bindings>`_.
+
+* Install every Python dependency. We recommend creating a `virtual environment
+  <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
   and installing them inside of it, this way:
 
   .. code-block:: sh
@@ -25,6 +27,22 @@ following steps:
      $ python -mvenv env
      $ source env/bin/activate
      $ pip install -r REQUIREMENTS.dev
+
+* Install Langkit, build and install ``Langkit_Support``. Get Langkit's sources
+  on `GitHub <https://github.com/AdaCore/langkit>`_ and then run, from the
+  checkout root directory:
+
+  .. code-block:: sh
+
+     # Install the Langkit python package
+     $ pip install .
+
+     # Build the "langkit_support.gpr" project
+     $ python manage.py build-langkit-support
+
+     # Install it. Replace $PREFIX below with the directory where you want to
+     # install the langkit_support.gpr project.
+     $ python manage.py install-langkit-support $PREFIX
 
 To develop comfortably:
 
@@ -44,14 +62,14 @@ run:
 
 .. code-block:: sh
 
-   $ python ada/manage.py generate
+   $ python manage.py generate
 
 This generates Ada, C and Python source code for Libadalang in the ``build``
 directory. In order to build this source code into a shared library, run:
 
 .. code-block:: sh
 
-    $ python ada/manage.py --library-types=static,static-pic,relocatable build
+    $ python manage.py build --library-types=static,static-pic,relocatable
 
 Assuming you satisfied all the above dependencies, both commands should
 successfuly run to completion.
@@ -60,10 +78,13 @@ While developing Libadalang you might be happy to use the following command:
 
 .. code-block:: sh
 
-   $ python ada/manage.py --library-types=static,static-pic,relocatable make
+   $ python manage.py make --library-types=static,static-pic,relocatable
 
 It will wrap the two previous commands in one, generating the code and building
 it in one step.
+
+If you are interested in shared (``relocatable``) libraries only, you can omit
+the ``--library-types`` argument.
 
 
 Install
@@ -73,7 +94,7 @@ Once you built Libadalang, you can install the library in any place you want:
 
 .. code-block:: sh
 
-   $ python ada/manage.py --library-types=static,static-pic,relocatable install $INSTALL_DIR
+   $ python manage.py install $INSTALL_DIR --library-types=static,static-pic,relocatable
 
 Then, depending on your operating system and your system configuration, you may
 need to update environment variables so that programs can load dynamic
@@ -89,7 +110,7 @@ libraries:
    # ... or:
    set PATH "$INSTALL_DIR\bin;$PATH"
 
-In addition, if GPRbuild is not installed in $INSTALL_DIR, you need to add
+In addition, if GPRbuild is not installed in ``$INSTALL_DIR``, you need to add
 ``$INSTALL_DIR/share/gpr`` to the ``GPR_PROJECT_PATH`` environment variable in
 order for GPRbuild to locate the installed project files, such as
 ``libadalang.gpr``.
@@ -105,7 +126,7 @@ Bourne-compatible shell, run:
 
 .. code-block:: sh
 
-   $ eval `python ada/manage.py setenv`
+   $ eval `python manage.py setenv`
 
 After this, you can both build programs that depend on Libadalang using
 GPRbuild and run Python interpreter to import the ``libadalang`` module.
@@ -125,7 +146,7 @@ documentation extraction helpers:
 
 .. code-block:: sh
 
-   pip install contrib/laldoc
+   $ pip install contrib/laldoc
 
 From there, building this documentation as a set of static HTML pages is as
 easy as running the following command from the ``user_manual`` directory:

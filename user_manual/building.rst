@@ -38,11 +38,11 @@ following steps:
      $ pip install .
 
      # Build the "langkit_support.gpr" project
-     $ python manage.py build-langkit-support
+     $ python manage.py build-langkit-support --library-types=static,static-pic,relocatable
 
      # Install it. Replace $PREFIX below with the directory where you want to
      # install the langkit_support.gpr project.
-     $ python manage.py install-langkit-support $PREFIX
+     $ python manage.py install-langkit-support --library-types=static,static-pic,relocatable $PREFIX
 
 To develop comfortably:
 

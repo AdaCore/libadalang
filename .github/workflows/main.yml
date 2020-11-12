@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Linux build & test
     env:
+      BINTRAY_API_KEY_DEFINED: ${{!!secrets.BINTRAY_API_KEY}}
       PROCESSORS: 0
       PREFIX: "/tmp/ADALIB_DIR"
       GPR_PROJECT_PATH: /tmp/ADALIB_DIR/share/gpr
@@ -130,7 +131,7 @@ jobs:
       # corresponding secret, i.e. if we are running on the upstream
       # repository.
       - name: Upload tar-ball to Bintray
-        if: ${{env.BINTRAY_API_KEY_DEFINED == 'true'}}
+        if: ${{github.event_name == 'push' && env.BINTRAY_API_KEY_DEFINED == 'true'}}
         uses: reznikmm/upload-bintray-action@v2
         with:
           subject: reznikmm

@@ -7878,6 +7878,88 @@ class Expr(AdaNode):
 
         ))
 
+    @langkit_property(return_type=T.ExpectedTypeForExpr.array,
+                      dynamic_vars=[default_imprecise_fallback()],
+                      kind=AbstractKind.abstract_runtime_check)
+    def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):
+        """
+        Assuming Self is a call to a subprogram, return an array of pairs
+        (expected_type, expression) for each expression in the call that could
+        be used for performing a dynamic dispatch for this call.
+
+        .. note:: Implementations should not check that the call is done in the
+           RHS of an assign statement in order to take into account return type
+           dispatching, as this logic does not depend on the node kind and
+           is therefore factorized in ``is_dispatching_call_impl``.
+        """
+        pass
+
+    @langkit_property(return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def is_dispatching_call_impl(decl=T.BasicDecl.entity):
+        """
+        Common logic for the implementation of is_dispatching_call on the
+        various node types. ``decl`` should be the declaration of the
+        subprogram being called.
+        """
+        spec = Var(
+            decl.canonical_part.subp_spec_or_null(follow_generic=True)
+        )
+
+        # Retrieve the candidate expressions on which the tag check could
+        # be made, together with the expected type for them.
+        candidate_actuals = Var(Entity.potential_actuals_for_dispatch(spec))
+
+        # Handle the case where the dispatch is done on the tag of the
+        # LHS expr of an assign statement. In that case, its expected type
+        # is the return type of the called subprogram.
+        candidate_ret = Var(
+            spec.returns.then(lambda rt: Entity.parent.cast(T.AssignStmt).then(
+                lambda a: ExpectedTypeForExpr.new(
+                    expected_type=rt,
+                    expr=a.dest
+                ).singleton
+            ))
+        )
+
+        candidates = Var(candidate_actuals.concat(candidate_ret))
+
+        return candidates.any(
+            lambda c: And(
+                Not(spec
+                    .candidate_type_for_primitive(c.expected_type)
+                    .is_null),
+
+                # No need to check that the type of the expression
+                # is exactly the classwide type of the expected
+                # type, but simply that it is classwide.
+                # Also note that the primitive can be on a an anonymous
+                # access of the tagged type, which means we should also
+                # accept the argument if it's type is an access on a
+                # classwide type.
+                c.expr.is_dynamically_tagged
+            )
+        )
+
+    @langkit_property(public=True, return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def is_dispatching_call():
+        """
+        Returns True if this Name corresponds to a dispatching call, including:
+
+        - Calls done through subprogram access types.
+        - Calls to dispatching subprograms, in the object-oriented sense.
+
+        .. note:: This is an experimental feature. There might be some
+            discrepancy with the GNAT concept of "dispatching call".
+
+        .. note:: This should only be called on a Name and UnOp or a BinOp.
+        """
+        return PropertyError(
+            T.Bool,
+            "Invalid node type: expected Name, UnOp or BinOp"
+        )
+
     @langkit_property(public=True, return_type=Bool,
                       dynamic_vars=[default_imprecise_fallback()])
     def is_static_expr():
@@ -8187,6 +8269,19 @@ class UnOp(Expr):
             )) | Self.type_bind_var(Self.type_var, Self.expr.type_var)
         )
 
+    @langkit_property()
+    def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):
+        return ExpectedTypeForExpr.new(
+            expected_type=spec.params.at(0).type_expression,
+            expr=Entity.expr
+        ).singleton
+
+    @langkit_property()
+    def is_dispatching_call():
+        return Entity.op.referenced_decl.then(
+            lambda decl: Entity.is_dispatching_call_impl(decl)
+        )
+
 
 class BinOp(Expr):
     """
@@ -8357,6 +8452,26 @@ class BinOp(Expr):
                        eq_prop=BaseTypeDecl.matching_type,
                        conv_prop=BaseTypeDecl.base_subtype_or_null),
             )
+        )
+
+    @langkit_property()
+    def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):
+        params = Var(Self.unpack_formals(spec.abstract_formal_params))
+        return Array([
+            ExpectedTypeForExpr.new(
+                expected_type=params.at(0).spec.type_expression,
+                expr=Entity.left
+            ),
+            ExpectedTypeForExpr.new(
+                expected_type=params.at(1).spec.type_expression,
+                expr=Entity.right
+            )
+        ])
+
+    @langkit_property()
+    def is_dispatching_call():
+        return Entity.op.referenced_decl.then(
+            lambda decl: Entity.is_dispatching_call_impl(decl)
         )
 
 
@@ -9419,28 +9534,13 @@ class Name(Expr):
             lambda _: False
         )
 
-    @langkit_property(return_type=ExpectedTypeForExpr.array,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def potential_actuals_for_dispatch():
+    @langkit_property()
+    def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):
         """
-        Assuming Self is a call to a subprogram, return an array of pairs
-        (expected_type, expression) for each expression in and around the call
-        that could be used for performing a dynamic dispatch for this call.
+        Implementation for calls done via a CallExpr, a DottedName
+        or an Identifier. The result includes the prefix of the call in case
+        the dot-notation is used.
         """
-        spec = Var(Entity.referenced_decl.subp_spec_or_null)
-
-        # Handle the case where the dispatch is done on the tag of the
-        # LHS expr of an assign statement. In that case, its expected type
-        # is the return type of the called subprogram.
-        ret = Var(
-            spec.returns.then(lambda rt: Entity.parent.cast(T.AssignStmt).then(
-                lambda a: ExpectedTypeForExpr.new(
-                    expected_type=rt,
-                    expr=a.dest
-                ).singleton
-            ))
-        )
-
         # Handle calls done using the dot notation. Retrieve the prefix and
         # match it with the type of the first parameter of the called
         # subprogram.
@@ -9468,55 +9568,16 @@ class Name(Expr):
             )
         )
 
-        return ret.concat(prefix).concat(args)
+        return prefix.concat(args)
 
-    @langkit_property(public=True, return_type=T.Bool,
-                      dynamic_vars=[default_imprecise_fallback()])
+    @langkit_property()
     def is_dispatching_call():
-        """
-        Returns True if this Name corresponds to a dispatching call, including:
-
-        - Calls done through subprogram access types.
-        - Calls to dispatching subprograms, in the object-oriented sense.
-
-        .. note:: This is an experimental feature. There might be some
-            discrepancy with the GNAT concept of "dispatching call".
-        """
-        return Or(Entity.is_access_call, Entity.is_direct_call & Let(
-            lambda
-            decl=Entity.referenced_decl,
-
-            # Retrieve the candidate expressions on which the tag check could
-            # be made, together with the expected type for them.
-            candidates=Entity.parent_callexpr.cast(T.Name.entity)
-            ._or(Entity).then(lambda e: e.potential_actuals_for_dispatch):
-
-            Let(
-                # For all candidate pair (expected_type, expression), check
-                # that the expected type can indeed designate a type of
-                # which the called subprogram is a primitive, and that
-                # the corresponding expression is its classwide type.
-                lambda subp_spec=decl.canonical_part.subp_spec_or_null(
-                    follow_generic=True
-                ):
-                candidates.any(
-                    lambda c: And(
-                        Not(subp_spec
-                            .candidate_type_for_primitive(c.expected_type)
-                            .is_null),
-
-                        # No need to check that the type of the expression
-                        # is exactly the classwide type of the expected
-                        # type, but simply that it is classwide.
-                        # Also note that the primitive can be on a an anonymous
-                        # access of the tagged type, which means we should also
-                        # accept the argument if it's type is an access on a
-                        # classwide type.
-                        c.expr.is_dynamically_tagged
-                    )
-                )
-            )
-        ))
+        return Or(
+            Entity.is_access_call,
+            Entity.is_direct_call
+            & Entity.parent_callexpr.cast(T.Name.entity)
+            ._or(Entity).is_dispatching_call_impl(Entity.referenced_decl)
+        )
 
     @langkit_property(public=True, return_type=T.Bool,
                       dynamic_vars=[default_imprecise_fallback()])

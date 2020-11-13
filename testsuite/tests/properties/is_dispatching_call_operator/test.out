@@ -1,0 +1,25 @@
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Un_Op_Dispatching"] test.adb:22:4-22:47>
+Result: True
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Un_Op_Not_Dispatching"] test.adb:25:4-25:51>
+Result: False
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Un_Op_Dispatching_2"] test.adb:28:4-28:40>
+Result: True
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Un_Op_Not_Dispatching_2"] test.adb:31:4-31:44>
+Result: False
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Bin_Op_Dispatching"] test.adb:34:4-34:51>
+Result: True
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Bin_Op_Not_Dispatching"] test.adb:37:4-37:55>
+Result: False
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Bin_Op_Dispatching_2"] test.adb:40:4-40:44>
+Result: True
+
+Eval 'node.f_default_expr.p_is_dispatching_call()' on node <ObjectDecl ["Bin_Op_Not_Dispatching_2"] test.adb:43:4-43:48>
+Result: False
+
+

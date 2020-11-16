@@ -11801,7 +11801,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         decl_scope = Var(Entity.declarative_scope)
 
-        tpe = Var(origin.bind(Self.origin_node, typ.match(
+        canon_tpe = Var(origin.bind(Self.origin_node, typ.match(
             lambda at=T.AnonymousType: at.element_type.then(
                 # TODO: remove this check once S918-021 is done, since it will
                 # be checked below in any case.
@@ -11811,6 +11811,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
             ),
             lambda other: other.designated_type._.canonical_type
         )))
+
+        tpe = Var(canon_tpe.cast(IncompleteTypeDecl).then(
+            lambda i: i.next_part,
+            default_val=canon_tpe
+        ))
 
         return If(
             And(

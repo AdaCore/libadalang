@@ -62,6 +62,20 @@ procedure Test is
    private
       function Foo (X : T) return T is (X);
    end T925_015;
+
+   package TB14_004 is
+      type T is tagged null record;
+
+      procedure Foo (X : T) is null;
+   private
+      type U;
+   end TB14_004;
+
+   package body TB14_004 is
+      type U is new T with null record;
+
+      overriding procedure Foo (X : U) is null;
+   end TB14_004;
 begin
    null;
 end Test;

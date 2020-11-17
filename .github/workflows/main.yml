@@ -71,7 +71,7 @@ jobs:
           path: ./cached_gnat
           key: ${{ runner.os }}-gnat-ce-2020
       - name: Get GNAT Community 2020 toolchain
-        uses: ada-actions/toolchain@3f69585
+        uses: ada-actions/toolchain@52618bd
         with:
           distrib: community
           install_dir: ./cached_gnat

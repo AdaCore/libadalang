@@ -7572,6 +7572,48 @@ class FormalSubpDecl(ClassicSubpDecl):
         ), default_val=LogicTrue())
     )
 
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def designated_subprogram_from(inst=T.GenericInstantiation.entity):
+        """
+        Return the subprogram that is implicitly referenced by the (eventual)
+        BoxExpr of this formal subprogram declaration, as seen from the given
+        generic instantiation.
+        """
+        subps = Var(Self.env_get(
+            env=inst.node_env,
+            symbol=Entity.defining_name.name_symbol,
+            from_node=inst.node
+        ))
+
+        actual_spec = Var(SubpSpec.entity.new(
+            node=Self.subp_spec,
+            info=T.entity_info.new(
+                md=Entity.info.md,
+                rebindings=Entity.info.rebindings
+                # Append the given generic instantiation
+                .append_rebinding(
+                    Self.parent.node_env, inst.instantiation_env
+                ),
+                from_rebound=Entity.info.from_rebound
+            )
+        ))
+
+        found = Var(subps.find(
+            lambda subp: subp.cast(BasicDecl).subp_spec_or_null.then(
+                lambda spec: actual_spec.match_signature(
+                    other=spec,
+
+                    # Names must already match due to the env_get call
+                    match_name=False
+                )
+            )
+        ).cast(BasicDecl))
+
+        return found.cast(GenericSubpInternal).then(
+            lambda g: g.get_instantiation,
+            default_val=found
+        )
+
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):
     """
@@ -7664,6 +7706,24 @@ class GenericSubpInternal(BasicSubpDecl):
 
     subp_decl_spec = Property(Entity.subp_spec)
     env_spec = EnvSpec(add_env())
+
+    @langkit_property(return_type=T.GenericSubpInstantiation.entity)
+    def get_instantiation():
+        """
+        Return the generic subprogram instantiation node from which this
+        GenericSubpInternal node is derived.
+        """
+        inst_node = Var(Entity.info.rebindings.new_env.env_node)
+        return T.GenericSubpInstantiation.entity.new(
+            node=inst_node.cast_or_raise(T.GenericSubpInstantiation),
+            info=T.entity_info.new(
+                # Since we return the instantiation itself, remove
+                # it from its rebindings.
+                rebindings=Entity.info.rebindings.get_parent,
+                from_rebound=Entity.info.from_rebound,
+                md=T.Metadata.new()
+            )
+        )
 
 
 @abstract
@@ -9240,17 +9300,7 @@ class Name(Expr):
                 lambda real_decl=res.decl._.match(
                     # If the logic variable is bound to a GenericSubpInternal,
                     # retrieve the instantiation leading to it instead.
-                    lambda g=T.GenericSubpInternal: T.BasicDecl.entity.new(
-                        node=g.info.rebindings.new_env.env_node
-                        .cast_or_raise(T.GenericInstantiation),
-                        info=T.entity_info.new(
-                            # Since we return the instantiation itself, remove
-                            # it from its rebindings.
-                            rebindings=res.decl.info.rebindings.get_parent,
-                            from_rebound=res.decl.info.from_rebound,
-                            md=T.Metadata.new()
-                        )
-                    ),
+                    lambda g=T.GenericSubpInternal: g.get_instantiation,
                     lambda _: res.decl
                 ): RefdDecl.new(decl=real_decl, kind=res.kind)
             ))
@@ -10500,27 +10550,63 @@ class AssocList(BasicAssoc.list):
             )
         )
 
-        return params.then(
+        explicit_matches = Var(params.then(
             lambda _: Self.match_formals(params, Entity, is_dottable_subp).map(
                 lambda m: ParamActual.new(
                     param=m.formal.name,
                     actual=m.actual.assoc.expr
                 ),
-            ).then(lambda matches: matches.concat(
-                # If there is an 'others' designator, find all unmatched
-                # formals and for each of them append a mapping from that param
-                # to the expression of the 'others' assoc.
-                others_assoc.then(
-                    lambda oa: Self.unpack_formals(params).filtermap(
-                        lambda p: ParamActual.new(
-                            param=p.name,
-                            actual=oa.expr
-                        ),
-                        lambda p: Not(matches.any(lambda m: m.param == p.name))
-                    )
-                )
             ))
         )
+
+        default_subp_matches = Var(params.then(lambda _: params.filtermap(
+            # Append implicit actuals of formal subprograms that have a
+            # default value (box expression of explicit reference).
+            lambda p: Let(
+                lambda
+                decl=p.cast(GenericFormalSubpDecl),
+                subp=p.cast(GenericFormalSubpDecl).decl.cast(FormalSubpDecl):
+
+                ParamActual.new(
+                    param=decl.defining_name,
+                    actual=If(
+                        subp.default_expr.is_a(Name),
+                        subp.default_expr,
+                        subp.designated_subprogram_from(
+                            inst=Entity.parent.cast(GenericInstantiation)
+                        )._.defining_name
+                    )
+                )
+            ),
+            lambda p: p.cast(GenericFormalSubpDecl).then(
+                lambda fd: fd.decl.cast(FormalSubpDecl).then(
+                    lambda subp: And(
+                        # Generate a new match for formal subprogram which
+                        # have a default value.
+                        subp.default_expr.is_a(BoxExpr, Name),
+
+                        # unless they have already have an explicit match
+                        Not(explicit_matches.any(
+                            lambda m: m.param == subp.defining_name
+                        ))
+                    )
+                )
+            )
+        )))
+
+        given_matches = Var(explicit_matches.concat(default_subp_matches))
+
+        others_matches = Var(others_assoc.then(
+            lambda oa: Self.unpack_formals(params).filtermap(
+                lambda p: ParamActual.new(
+                    param=p.name,
+                    actual=oa.expr
+                ),
+                lambda p: Not(given_matches.any(lambda m: m.param == p.name))
+            )
+        ))
+
+        return given_matches.concat(others_matches)
 
 
 class DeclList(AdaNode.list):

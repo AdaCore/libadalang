@@ -10925,10 +10925,15 @@ class DefiningName(Name):
 
     @langkit_property(public=True, return_type=T.RefResult.array,
                       dynamic_vars=[default_imprecise_fallback()])
-    def find_all_references(units=AnalysisUnit.array):
+    def find_all_references(units=AnalysisUnit.array,
+                            follow_renamings=(Bool, False)):
         """
         Searches all references to this defining name in the given list of
         units.
+
+        If ``follow_renamings`` is True, also this also includes references
+        that ultimately refer to this defining name, by unwinding renaming
+        clauses.
         """
         dn = Var(Entity.canonical_part)
 
@@ -10949,9 +10954,41 @@ class DefiningName(Name):
             lambda base: base.filter_is_imported_by(units, True)
         ).unique)
 
-        return origin.bind(Self, all_units.mapcat(lambda u: u.root.then(
+        refs = Var(origin.bind(Self, all_units.mapcat(lambda u: u.root.then(
             lambda r: dn.find_refs(r.as_bare_entity)
-        )))
+        ))))
+
+        return If(
+            follow_renamings,
+            refs.concat(
+                refs.filter(
+                    # Get the all renaming clauses *for which the renamed
+                    # entity is self* (it is possible to find a reference
+                    # inside a renaming clause but that this clause does not
+                    # rename self, such as `X` in  `... renames X.Y`, in which
+                    # case we don't want to recursively find its references!).
+                    lambda f: f.ref.parents.find(
+                        lambda p: p.is_a(RenamingClause)
+                    ).cast(RenamingClause).then(
+                        lambda r:
+                        r.renamed_object.referenced_defining_name == Entity
+                    )
+                ).mapcat(
+                    # Since a renaming clause is always part of a BasicDecl,
+                    # retrieve the BasicDecl from the renaming clauses and
+                    # recursively find all references on those.
+                    lambda f: f.ref.parents.find(
+                        lambda p: p.is_a(RenamingClause)
+                    ).parent.cast_or_raise(BasicDecl).then(
+                        lambda bd: bd.defining_name.find_all_references(
+                            units=units,
+                            follow_renamings=True
+                        )
+                    )
+                )
+            ),
+            refs
+        )
 
     @langkit_property()
     def find_matching_name(bd=BasicDecl.entity):
@@ -10965,7 +11002,8 @@ class DefiningName(Name):
 
     @langkit_property(public=True, return_type=T.RefResult.array,
                       dynamic_vars=[default_imprecise_fallback()])
-    def find_all_calls(units=AnalysisUnit.array):
+    def find_all_calls(units=AnalysisUnit.array,
+                       follow_renamings=(Bool, False)):
         """
         Return the list of all possible calls to the subprogram which Self is
         the defining name of.
@@ -10976,7 +11014,7 @@ class DefiningName(Name):
 
         .. note:: This does not yet support calls done inside generics.
         """
-        return Entity.find_all_references(units).filter(
+        return Entity.find_all_references(units, follow_renamings).filter(
             lambda r: r.ref.is_direct_call
         )
 

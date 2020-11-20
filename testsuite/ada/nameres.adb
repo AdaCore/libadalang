@@ -60,6 +60,7 @@ procedure Nameres is
       Target             : Basic_Decl;
       Imprecise_Fallback : Boolean;
       Show_Slocs         : Boolean;
+      Follow_Renamings   : Boolean;
       From_Pragma        : Pragma_Node;
    end record;
 
@@ -282,6 +283,7 @@ procedure Nameres is
             Refs_Target             : Basic_Decl;
             Refs_Imprecise_Fallback : Boolean;
             Refs_Show_Slocs         : Boolean;
+            Refs_Follow_Renamings   : Boolean;
       end case;
    end record;
 
@@ -505,6 +507,7 @@ procedure Nameres is
             Imprecise_Fallback : Boolean renames
                Result.Refs_Imprecise_Fallback;
             Show_Slocs         : Boolean renames Result.Refs_Show_Slocs;
+            Follow_Renamings   : Boolean renames Result.Refs_Follow_Renamings;
          begin
             Imprecise_Fallback := False;
             Show_Slocs := True;
@@ -621,6 +624,9 @@ procedure Nameres is
                           (A.F_Expr.Text);
                      elsif Name = "Show_Slocs" then
                         Show_Slocs := Decode_Boolean_Literal
+                          (A.F_Expr.Text);
+                     elsif Name = "Follow_Renamings" then
+                        Follow_Renamings := Decode_Boolean_Literal
                           (A.F_Expr.Text);
                      else
                         return Error ("Unknown argument: " & Image (Name));
@@ -850,6 +856,7 @@ procedure Nameres is
                 P.Refs_Target,
                 P.Refs_Imprecise_Fallback,
                 P.Refs_Show_Slocs,
+                P.Refs_Follow_Renamings,
                 Node.As_Pragma_Node));
          end case;
       end Process_Pragma;
@@ -1120,7 +1127,8 @@ procedure Nameres is
         (Target             : Basic_Decl;
          Kind               : Reference_Kind;
          Imprecise_Fallback : Boolean;
-         Show_Slocs         : Boolean);
+         Show_Slocs         : Boolean;
+         Follow_Renamings   : Boolean);
       --  Call the find-all-reference property corresponding to Kind on Target
 
       ------------------
@@ -1131,7 +1139,8 @@ procedure Nameres is
         (Target             : Basic_Decl;
          Kind               : Reference_Kind;
          Imprecise_Fallback : Boolean;
-         Show_Slocs         : Boolean)
+         Show_Slocs         : Boolean;
+         Follow_Renamings   : Boolean)
       is
          Empty : Boolean := True;
          What  : constant String :=
@@ -1201,13 +1210,15 @@ procedure Nameres is
             Put_Line (What & Image (DN.Text) & " " & Locator (DN));
             case Kind is
             when Any =>
-               for R of DN.P_Find_All_References (Units, Imprecise_Fallback)
+               for R of DN.P_Find_All_References
+                 (Units, Follow_Renamings, Imprecise_Fallback)
                loop
                   Print_Ref (Ref (R));
                end loop;
 
             when Subp_Call =>
-               for R of DN.P_Find_All_Calls (Units, Imprecise_Fallback)
+               for R of DN.P_Find_All_Calls
+                 (Units, Follow_Renamings, Imprecise_Fallback)
                loop
                   Print_Ref (Ref (R));
                end loop;
@@ -1221,7 +1232,8 @@ procedure Nameres is
 
             when Type_Derivation =>
                for R of DN.P_Semantic_Parent.As_Type_Decl
-                        .P_Find_All_Derived_Types (Units, Imprecise_Fallback)
+                        .P_Find_All_Derived_Types
+                          (Units, Imprecise_Fallback)
                loop
                   Print_Ref (R);
                end loop;
@@ -1257,14 +1269,22 @@ procedure Nameres is
                   T := Target.As_Basic_Decl;
                   if Is_Refs_Target (T, R.Kind) then
                      Process_Refs
-                       (T, R.Kind, R.Imprecise_Fallback, R.Show_Slocs);
+                       (T,
+                        R.Kind,
+                        R.Imprecise_Fallback,
+                        R.Show_Slocs,
+                        R.Follow_Renamings);
                   end if;
                end loop;
             end;
 
          else
             Process_Refs
-              (R.Target, R.Kind, R.Imprecise_Fallback, R.Show_Slocs);
+              (R.Target,
+               R.Kind,
+               R.Imprecise_Fallback,
+               R.Show_Slocs,
+               R.Follow_Renamings);
          end if;
       end loop;
    end Job_Post_Process;

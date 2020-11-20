@@ -1,0 +1,9 @@
+type: new-feature
+title: Handle renaming clauses in ``Find_All_*`` queries
+description: |
+    This change adds an optional ``Through_Renamings`` parameter to
+    ``Find_All_References`` and ``Find_All_Calls`` properties, which when set
+    to True will make sure the results of those queries includes references
+    or calls made to entities that rename the original entity (with renaming
+    chains of arbitrary length).
+date: 2020-11-20

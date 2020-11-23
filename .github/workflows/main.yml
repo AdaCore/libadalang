@@ -159,7 +159,7 @@ jobs:
           echo "::set-output name=url::$url"
           echo $url
         env:
-            response:  ${{ steps.get_latest_release.outputs.data }}
+            response:  ${{ steps.get_release.outputs.data }}
 
       - name: Upload Release Asset
         id: upload-release-asset

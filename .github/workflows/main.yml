@@ -147,7 +147,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_release
         with:
-            route: GET /repos/:repository/releases/tags/latest
+            route: GET /repos/:repository/releases/latest
             repository: ${{ github.repository }}
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -157,6 +157,7 @@ jobs:
         run: |
           url=$(echo "$response" | jq -r '.upload_url')
           echo "::set-output name=url::$url"
+          echo $url
         env:
             response:  ${{ steps.get_latest_release.outputs.data }}
 

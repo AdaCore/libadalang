@@ -3,6 +3,7 @@ on:
     branches:
       - master
       - stable
+      - latest-release
   pull_request:
     branches:
       - master

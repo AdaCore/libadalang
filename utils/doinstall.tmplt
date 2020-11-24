@@ -1,7 +1,7 @@
 #! /bin/sh
 #
 # Libadalang binary distribution installation script
-# Copyright (c) 2018, AdaCore
+# Copyright (c) 2018-2020, AdaCore
 #
 
 ####################
@@ -156,6 +156,22 @@ check_env
 # This avoids some problems when cd prints the new directory when CDPATH
 # is defined
 unset CDPATH
+
+if [ $# -eq 1 ]; then
+    if [ "$1" = "--help" ]; then
+        cat <<EOF
+Usage: $0 [install-dir]
+
+When no argument is specified, run the Libadalang installer interactively.
+Otherwise, install in batch mode under the "install-dir" prefix.
+EOF
+    else
+        echo "Installing Libadalang under $1"
+        prefix="$1"
+        standard_installation
+    fi
+    exit 0
+fi
 
 clear
 cat << EOF

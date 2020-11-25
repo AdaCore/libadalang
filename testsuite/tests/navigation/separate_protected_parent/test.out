@@ -1,0 +1,4 @@
+Eval 'node.p_parent_basic_decl' on node <ProtectedBody ["T"] pkg-t.adb:2:1-7:7>
+Result: <PackageBody ["Pkg"] pkg.adb:1:1-3:9>
+
+

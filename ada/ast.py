@@ -14363,7 +14363,8 @@ class ProtectedBody(Body):
     env_spec = EnvSpec(
         do(Self.env_hook),
         set_initial_env(env.bind(Self.default_initial_env,
-                                 Self.initial_env(Entity.body_scope(True)))),
+                                 Self.initial_env(Entity.body_scope(True))),
+                        unsound=True),
         add_to_env(Self.env_assoc(
             '__nextpart',
             env.bind(

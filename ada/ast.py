@@ -2175,6 +2175,32 @@ class BasicDecl(AdaNode):
             )
         ))
 
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def wrap_public_reference():
+        """
+        Return a public-friendly view of this entity. For now this only needs
+        to handle the case where Self is a ``GenericSubpInternal``, in which
+        case we prefer to return its parent ``GenericSubpInstantiation`` node.
+
+        .. attention:: Properties typically use ``wrap_public_reference`` to
+            sanitize their return value for users. Sometimes however, those
+            properties end up being used by internal properties for practical
+            reasons, meaning those properties will work on biased values,
+            which could become problematic. Moreover, as of yet this property
+            only exists to handle the ``GenericSubpInternal`` case, which could
+            actually be addressed cleanly in at least two different ways:
+              - By adding interfaces to langkit, so that a
+                ``GenericSubpInstantiation`` could be both a
+                ``GenericInstantiation`` and a ``BasicSubpDecl``.
+              - By also working with ``GenericSubpInstantiation`` nodes
+                internally. This mostly means getting rid of
+                ``GenericSubpInternal`` nodes in the envs.
+        """
+        return Entity.cast(GenericSubpInternal).then(
+            lambda g: g.get_instantiation,
+            default_val=Entity
+        )
+
 
 class ErrorDecl(BasicDecl):
     """
@@ -7623,10 +7649,7 @@ class FormalSubpDecl(ClassicSubpDecl):
             )
         ).cast(BasicDecl))
 
-        return found.cast(GenericSubpInternal).then(
-            lambda g: g.get_instantiation,
-            default_val=found
-        )
+        return found.wrap_public_reference
 
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):
@@ -9310,13 +9333,9 @@ class Name(Expr):
                     kind=RefResultKind.Precise
                 )
 
-            ).then(lambda res: Let(
-                lambda real_decl=res.decl._.match(
-                    # If the logic variable is bound to a GenericSubpInternal,
-                    # retrieve the instantiation leading to it instead.
-                    lambda g=T.GenericSubpInternal: g.get_instantiation,
-                    lambda _: res.decl
-                ): RefdDecl.new(decl=real_decl, kind=res.kind)
+            ).then(lambda res: RefdDecl.new(
+                decl=res.decl._.wrap_public_reference,
+                kind=res.kind
             ))
         )
 

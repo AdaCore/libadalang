@@ -7575,9 +7575,9 @@ class FormalSubpDecl(ClassicSubpDecl):
     @langkit_property(return_type=T.BasicDecl.entity)
     def designated_subprogram_from(inst=T.GenericInstantiation.entity):
         """
-        Return the subprogram that is implicitly referenced by the (eventual)
-        BoxExpr of this formal subprogram declaration, as seen from the given
-        generic instantiation.
+        Return the first visible subprogram that can match this formal subp in
+        the context of an instantiation. This is used to find the matching
+        subprogram in an instantiation for a formal subp with a box expr.
         """
         subps = Var(Self.env_get(
             env=inst.node_env,
@@ -7585,7 +7585,20 @@ class FormalSubpDecl(ClassicSubpDecl):
             from_node=inst.node
         ))
 
+        # Create a subp spec for the formal subprogram in the context of the
+        # instantiation, e.g. for the function ``Foo`` in ``G_Inst`` in the
+        # following code::
+        #
+        #    generic
+        #       type T is private;
+        #       function Foo (Self: T) return T;
+        #    package G is ...
+        #
+        #    package G_Inst is new G (Integer);
+        #
+        # return ``function Foo (Self : Integer) return Integer``.
         actual_spec = Var(SubpSpec.entity.new(
+
             node=Self.subp_spec,
             info=T.entity_info.new(
                 md=Entity.info.md,
@@ -7598,6 +7611,7 @@ class FormalSubpDecl(ClassicSubpDecl):
             )
         ))
 
+        # Search for the first subprogram that matches the instantiated profile
         found = Var(subps.find(
             lambda subp: subp.cast(BasicDecl).subp_spec_or_null.then(
                 lambda spec: actual_spec.match_signature(

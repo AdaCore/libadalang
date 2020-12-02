@@ -146,7 +146,7 @@ jobs:
       - name: Test libadalang
         run: |
             eval `langkit/manage.py setenv`
-            ./manage.py test --disable-ocaml --failure-exit-code=1 --for-travis-ci
+            ./manage.py test --disable-ocaml --failure-exit-code=1
 
   stylechecks:
     runs-on: ubuntu-latest

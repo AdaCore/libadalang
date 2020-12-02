@@ -3,4 +3,5 @@ input_sources: []
 control:
     # The new laldoc relies on non-standard Python packages, guaranteed to be
     # available only in CIs.
-    - [SKIP, "not for_travis_ci", "non-standard Python packages required"]
+    - [SKIP, "restricted_env",
+       "non-standard Python packages required (sphinx, funcy, ...)"]

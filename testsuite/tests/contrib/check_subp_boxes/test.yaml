@@ -2,5 +2,4 @@ driver: python
 input_sources: []
 control:
     - [SKIP, "python == 2", "Python 2 is not supported"]
-    - [SKIP, "not for_travis_ci",
-       "Both LAL and Langkit install required, only on Travis CI"]
+    - [SKIP, "restricted_env", "Both LAL and Langkit install required"]

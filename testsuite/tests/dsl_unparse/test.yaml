@@ -2,4 +2,5 @@ driver: python
 use_testsuite_python: true
 timeout: 600
 control:
-- [SKIP, "not for_travis_ci", "Travis specific test"]
+- [SKIP, "restricted_env",
+   "Assumes \"langkit\" checked out and built in the Libadalang repository"]

@@ -202,7 +202,7 @@ class Manage(ManageScript):
         argv.extend(getattr(args, 'testsuite-args'))
 
         try:
-            return self.check_call(args, 'Testsuite', argv)
+            return self.check_call('Testsuite', argv)
         except KeyboardInterrupt:
             # At this point, the testsuite already made it explicit we stopped
             # after a keyboard interrupt, so we just have to exit.

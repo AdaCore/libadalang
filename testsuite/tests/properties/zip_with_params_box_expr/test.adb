@@ -49,6 +49,16 @@ procedure Test is
       procedure My_Foo is new Pkg_Foo.Foo (F => G);
       --% node.f_params.p_zip_with_params()
    end Expicit;
+
+   package Builtin_Operators is
+      generic
+         with function "+" (L, R : Integer) return Integer is <>;
+      package Foo is
+      end Foo;
+
+      package My_Foo is new Foo;
+      --% node.f_params.p_zip_with_params()
+   end Builtin_Operators;
 begin
    null;
 end Test;

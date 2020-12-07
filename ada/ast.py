@@ -7649,7 +7649,9 @@ class FormalSubpDecl(ClassicSubpDecl):
             )
         ).cast(BasicDecl))
 
-        return found.wrap_public_reference
+        # ``found`` can be null, for example when it is supposed to designate
+        # a builtin operator.
+        return found._.wrap_public_reference
 
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):

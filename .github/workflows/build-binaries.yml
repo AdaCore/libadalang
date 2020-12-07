@@ -1,0 +1,84 @@
+on:
+  push:
+    branches:
+      - master
+      - stable
+name: Build binaries
+jobs:
+  build:
+    name: Build and deploy
+    strategy:
+      fail-fast: false
+      matrix: # Build debug and production
+        debug: ['', 'debug']      # '' if production, 'debug' for debug
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - run: git config --global core.autocrlf input
+        shell: bash
+      - name: Install iconv and gmp (Windows only)
+        if: ${{ runner.os == 'Windows' }}
+        uses: msys2/setup-msys2@v2
+        with:
+          path-type: inherit
+          update: true
+          install: >-
+            mingw64/mingw-w64-x86_64-libiconv
+            mingw64/mingw-w64-x86_64-gmp
+      - name: Get libadalang
+        uses: actions/checkout@v2
+      - name: Get gprbuild for libgpr
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gprbuild
+          path: gprbuild
+      - name: Get gnatcoll core
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gnatcoll-core
+          path: gnatcoll-core
+      - name: Get gnatcoll iconv/gmp
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gnatcoll-bindings
+          path: gnatcoll-bindings
+      - name: Get langkit
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/langkit
+          path: langkit
+          fetch-depth: 0  # all branches
+      - name: Try to checkout langkit's branch
+        shell: bash
+        run: (cd langkit; git checkout ${{ github.ref }} || true)
+      - uses: actions/cache@v2
+        with:
+          path: ./cached_gnat
+          key: ${{ runner.os }}-gnat-ce-2020
+      - name: Get GNAT Community 2020 toolchain
+        uses: ada-actions/toolchain@ce2020
+        with:
+          distrib: community
+          install_dir: ./cached_gnat
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Build Libadalang and its dependencies (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        shell: msys2 {0}
+        run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
+      - name: Build Libadalang and its dependencies (non-Windows)
+        if: ${{ runner.os != 'Windows' }}
+        run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
+      - name: Upload tar-ball to Bintray
+        uses: reznikmm/upload-bintray-action@v3
+        with:
+          subject: reznikmm
+          username: reznikmm
+          repository: libadalang
+          package: libadalang
+          version: 0.1-git
+          sourcePath: '*.tar.gz'
+          override: 1
+          apiKey: ${{secrets.BINTRAY_API_KEY}}

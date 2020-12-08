@@ -510,6 +510,7 @@ procedure Nameres is
             Follow_Renamings   : Boolean renames Result.Refs_Follow_Renamings;
          begin
             Imprecise_Fallback := False;
+            Follow_Renamings := False;
             Show_Slocs := True;
 
             for A of Args loop

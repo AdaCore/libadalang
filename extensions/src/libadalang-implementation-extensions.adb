@@ -584,6 +584,10 @@ package body Libadalang.Implementation.Extensions is
        (Element_T  => Logic_Var_Record,
         Index_Type => Positive);
 
+   ----------------------
+   -- Alloc_Logic_Vars --
+   ----------------------
+
    procedure Alloc_Logic_Vars (Node : Bare_Expr) is
    begin
       if Node.Expr_Logic_Vars = System.Null_Address then
@@ -649,5 +653,46 @@ package body Libadalang.Implementation.Extensions is
         (Alloc_Logic_Var_Array.To_Pointer
            (Node.Expr_Logic_Vars) (1)'Unrestricted_Access);
    end Expr_P_Type_Var;
+
+   ----------------------------------
+   -- Ada_Node_P_Resolve_Own_Names --
+   ----------------------------------
+
+   function Ada_Node_P_Resolve_Own_Names
+     (Node     : Bare_Ada_Node;
+      Env      : Lexical_Env;
+      Origin   : Bare_Ada_Node;
+      E_Info   : Internal_Entity_Info := No_Entity_Info) return Boolean
+   is
+      R : Relation;
+      C : constant Nameres_Maps.Cursor :=
+        Node.Unit.Nodes_Nameres.Find (Node);
+
+      use Nameres_Maps;
+   begin
+
+      --  There was already resolution for this node, and it's the same
+      --  rebindings, and the cache key is still fresh: just return
+      --  existing result.
+
+      if Nameres_Maps.Has_Element (C)
+        and then Element (C).Cache_Version >= Node.Unit.Context.Cache_Version
+        and then Nameres_Maps.Element (C).Rebindings = E_Info.Rebindings
+      then
+         return Nameres_Maps.Element (C).Return_Value;
+      end if;
+
+      R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
+
+      --  There was no resolution, or if there was it was for different
+      --  rebindings. In that case, solve and include the result in the
+      --  mmz map.
+      return Res : constant Boolean := Solve_Wrapper (R,  Node) do
+         Node.Unit.Nodes_Nameres.Include
+           (Node,
+            (Node.Unit.Context.Cache_Version, E_Info.Rebindings, Res));
+      end return;
+
+   end Ada_Node_P_Resolve_Own_Names;
 
 end Libadalang.Implementation.Extensions;

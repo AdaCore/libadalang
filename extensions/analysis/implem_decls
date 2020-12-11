@@ -1,0 +1,12 @@
+type Resolution_Val is record
+    Cache_Version : Natural;
+    Rebindings    : Env_Rebindings;
+    Return_Value  : Boolean;
+end record;
+
+package Nameres_Maps is new Ada.Containers.Hashed_Maps
+  (Key_Type        => Bare_Ada_Node,
+   Element_Type    => Resolution_Val,
+   Hash            => Hash,
+   Equivalent_Keys => "=",
+   "="             => "=");

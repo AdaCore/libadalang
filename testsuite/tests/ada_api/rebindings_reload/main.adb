@@ -4,7 +4,6 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
 with Langkit_Support.Diagnostics;
-with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.Common;    use Libadalang.Common;
@@ -43,17 +42,18 @@ procedure Main is
         (Foo.Root, Kind_Is (Ada_Call_Expr)).As_Call_Expr;
    begin
       Put_Line ("== " & Title & " ==");
-      if not Call.P_Resolve_Names then
-         Put_Line ("Name resolution failed");
-         New_Line;
-         return;
-      end if;
 
       declare
-         Ref : constant Basic_Decl := Call.P_Referenced_Decl;
+         Ref : constant Refd_Decl := Call.P_Failsafe_Referenced_Decl;
       begin
-         Put_Line (Call.Image);
-         Put_Line ("  resolves to: " & Ref.Image);
+         if Kind (Ref) = Error then
+            Put_Line ("Name resolution failed");
+            New_Line;
+            return;
+         else
+            Put_Line (Call.Image);
+            Put_Line ("  resolves to: " & Decl (Ref).Image);
+         end if;
       end;
 
       New_Line;

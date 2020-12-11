@@ -438,7 +438,10 @@ class AdaNode(ASTNode):
         pass
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=Equation, dynamic_vars=[env, origin])
+                      return_type=Equation, dynamic_vars=[env, origin],
+                      # xref_equation is only called from the external property
+                      # resolve_own_names, so we need to ignore the warning.
+                      warn_on_unused=False)
     def xref_equation():
         """
         This is the base property for constructing equations that, when solved,
@@ -466,14 +469,15 @@ class AdaNode(ASTNode):
                   Entity.stop_resolution_equation,
                   Entity.xref_equation)
 
-    @langkit_property(return_type=Bool, memoized=True, call_memoizable=True,
-                      dynamic_vars=[env, origin])
+    @langkit_property(return_type=Bool, external=True, call_memoizable=True,
+                      dynamic_vars=[env, origin], uses_entity_info=True,
+                      uses_envs=True)
     def resolve_own_names():
         """
         Internal helper for resolve_names. Resolve names for this node up to
         xref_entry_point and xref_stop_resolution boundaries.
         """
-        return Entity.xref_equation.solve
+        pass
 
     @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
     def resolve_children_names():

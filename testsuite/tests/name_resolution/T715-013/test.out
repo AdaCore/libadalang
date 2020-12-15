@@ -12,7 +12,7 @@ Expr: <Id "Foo" test.adb:30:12-30:15>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.adb:30:17-30:18>
   references: <DefiningName test.adb:27:4-27:5>
-  type:       <TypeDecl ["U_CW"] test.adb:13:7-13:39>
+  type:       <AnonymousTypeDecl ["None"] test.adb:27:8-27:16>
 
 Resolving xrefs for node <CaseStmtAlternative test.adb:31:10-31:25>
 *******************************************************************

@@ -6,10 +6,10 @@ procedure Test is
    end P;
 
    package Q is
-      type T is new P.T with null record;
+      type U is new P.T with null record;
    end Q;
 
-   Obj : aliased Q.T;
+   Obj : aliased Q.U;
 begin
    Q.Proc (Obj'Access);
    pragma Test_Statement;

@@ -2942,7 +2942,7 @@ class BaseFormalParamHolder(AdaNode):
         Returns the type of each parameter of Self.
         """
         return Entity.unpacked_formal_params.map(
-            lambda fp: Entity.real_type(fp.spec.formal_type)
+            lambda fp: Entity.real_designated_type(fp.spec.type_expression)
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
@@ -2967,20 +2967,13 @@ class BaseFormalParamHolder(AdaNode):
         canon_typ = Var(typ.then(lambda t: t.canonical_type.without_md))
 
         return Cond(
-            canon_prim_type == canon_typ,
+            canon_prim_type.node == canon_typ.node,
 
-            If(
-                Entity.info.md.primitive_real_type.is_null,
-
-                Entity.entity_no_md(
-                    typ.node,
-                    Entity.info.rebindings,
-                    Entity.info.from_rebound
-                ).cast(BaseTypeDecl),
-
-                Entity.info.md.primitive_real_type
-                .cast(T.PrimTypeAccessor).get_prim_type,
-            ),
+            Entity.entity_no_md(
+                Entity.info.md.primitive_real_type._or(typ.node),
+                Entity.info.rebindings,
+                Entity.info.from_rebound
+            ).cast(BaseTypeDecl),
 
             # Handle the case where the primitive is defined on an anonymous
             # access type, by returning an anonymous access type over the
@@ -2991,6 +2984,96 @@ class BaseFormalParamHolder(AdaNode):
             Entity.real_type(typ.accessed_type).anonymous_access_type,
 
             typ
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[origin])
+    def real_designated_type(typ=T.TypeExpr.entity):
+        """
+        Given a type expression that is part of this subprogram specification
+        (for example, appearing in a parameter specification), return the real
+        type it designates, taking into account the fact that Self might be
+        the specification of an inherited subprogram. Overall, we can
+        distinguish the following cases:
+          - Self is a primitive subprogram inherited from a base type and
+            ``typ`` designates that base type, in which case we should return
+            the inheriting type.
+          - Self is a primitive subprogram inherited from a base type but
+            ``typ`` does not designate that base type, in which case we must
+            compute the actual designated type by taking into account the
+            rebindings associated with the base type. This is done by
+            traversing the inheritance hierarchy starting from the inheriting
+            type up to the inherited type and extracting the rebindings that we
+            got along the way.
+          - Self is not an inherited primitive subprogram, in which case we
+            simply return the designated type using the normal path.
+
+        The first two points are illustrated with the following example.
+
+        .. code::
+
+            generic
+               type G is private;
+            package Pkg is
+               type T is null record;
+
+               function Foo (Self : T) return G;      --  A
+            end Pkg;
+
+            package My_Pkg is new Pkg (Integer);      --  B
+
+            type My_T is new My_Pkg.T;
+
+            X : My_T    := (null record);
+            Y : Integer := Foo (X);                    -- C
+
+        Resolving the reference to `Foo` at line C gets us the function
+        declaration at line A with the appropriate metadata indicating it is
+        a primitive subprogram of T inherited by My_T.
+
+        Calling this property on the ``T`` node from the ``Self : T`` parameter
+        specification is an instance of the first case. We should obviously
+        return ``My_T`` in that case.
+
+        Calling it on ``G`` from the return type specification is an instance
+        of the second case. We traverse up the inheritance hierarchy starting
+        from ``My_T`` and get to ``T [B]``, where [B] indicates the rebindings
+        corresponding to the instantiation at line B. We can now use those
+        rebindings to compute the actual designated type (the type designated
+        by ``G [B]``) which correctly yields ``Integer``.
+
+        This property is used during the construction of xref equations for
+        call expressions in order to match the right parameter and return
+        types.
+        """
+        base_rebindings = Var(
+            Entity.info.md.primitive_real_type.cast(BaseTypeDecl)
+            .as_bare_entity._.find_base_type_rebindings(
+                Entity.info.md.primitive.cast(BaseTypeDecl)
+            )
+        )
+
+        return typ.designated_type.then(
+            lambda t: Let(
+                lambda rt=Entity.real_type(t):
+                If(
+                    t == rt,
+                    If(
+                        Entity.info.md.primitive_real_type.is_null,
+                        t,
+                        TypeExpr.entity.new(
+                            node=typ.node,
+                            info=T.entity_info.new(
+                                md=typ.info.md,
+                                rebindings=typ.info.rebindings
+                                .concat_rebindings(base_rebindings),
+                                from_rebound=typ.info.from_rebound
+                            )
+                        ).designated_type
+                    ),
+                    rt
+                )
+            )
         )
 
     @langkit_property(return_type=Bool)
@@ -4686,6 +4769,33 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
+    @langkit_property(return_type=T.EnvRebindings, memoized=True,
+                      dynamic_vars=[origin])
+    def find_base_type_rebindings(target=T.BaseTypeDecl):
+        """
+        Given Self & a target type node, browse the inheritance hierarchy of
+        Self until the target is found, and return its associated rebindings.
+        For example, consider the following snippet.
+
+        .. code::
+
+            package My_Vectors is new Ada.Containers.Vectors (...);
+
+            type My_Vector is new My_Vectors.Vector;
+
+        Calling this property on ``My_Vector`` with the target type
+        ``Ada.Containers.Vectors.Vector`` will return the rebindings
+        corresponding to the instantiation in the first line of the snippet
+        (package My_Vectors).
+        """
+        return If(
+            Self == target,
+            Entity.info.rebindings,
+            Entity.base_type.then(
+                lambda bt: bt.find_base_type_rebindings(target)
+            )
+        )
+
 
 @synthetic
 class ClasswideTypeDecl(BaseTypeDecl):
@@ -4983,32 +5093,36 @@ class TypeDecl(BaseTypeDecl):
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 
     @langkit_property(return_type=LexicalEnv)
-    def own_primitives_env():
+    def own_primitives_env(with_rebindings=T.EnvRebindings):
         """
-        Return the environment containing the primitives for Self.
+        Return the environment containing the primitives for Self, rebound
+        using the given rebindings.
         """
-        own_rebindings = Var(Entity.info.rebindings)
-        return Entity.direct_primitives_env.rebind_env(own_rebindings)
+        return Entity.direct_primitives_env.rebind_env(with_rebindings)
 
     @langkit_property(return_type=LexicalEnv.array)
-    def own_primitives_envs():
+    def own_primitives_envs(with_rebindings=T.EnvRebindings):
         """
         Return the environments containing the primitives for Self and its
-        previous parts, if there are some.
+        previous parts, if there are some. All returned environments are
+        rebound using the given rebindings.
         """
         # If self has a previous part, it might have primitives too
         return Entity.previous_part(False).cast(T.TypeDecl).then(
             lambda pp: Array([
-                Entity.own_primitives_env, pp.own_primitives_env
+                Entity.own_primitives_env(with_rebindings),
+                pp.own_primitives_env(with_rebindings)
             ]),
-            default_val=Entity.own_primitives_env.singleton
+            default_val=Entity.own_primitives_env(with_rebindings).singleton
         )
 
     @langkit_property(return_type=LexicalEnv.array)
-    def primitives_envs(include_self=(Bool, False)):
+    def primitives_envs(with_rebindings=T.EnvRebindings,
+                        include_self=(Bool, False)):
         """
         Return the environments containing the primitives for Self and all its
-        base types.
+        base types. All returned environments are rebound using the given
+        rebindings.
         """
         # TODO: Not clear if the below origin.bind is correct, investigate
         # later.
@@ -5018,20 +5132,15 @@ class TypeDecl(BaseTypeDecl):
                 std.node.origin_node, std.get_type.cast(T.TypeDecl)
             ),
             lambda _: No(T.TypeDecl.entity),
-        ).then(lambda bt: bt.own_primitives_envs.concat(bt.primitives_envs))
+        ).then(
+            lambda bt:
+            bt.own_primitives_envs(with_rebindings)
+            .concat(bt.primitives_envs(with_rebindings)))
         ).concat(
-            If(include_self, Entity.own_primitives_envs, No(LexicalEnv.array))
+            If(include_self,
+               Entity.own_primitives_envs(with_rebindings),
+               No(LexicalEnv.array))
         ))
-
-    @langkit_property(memoized=True, return_type=T.PrimTypeAccessor,
-                      ignore_warn_on_node=True)
-    def primitive_type_accessor():
-        """
-        Return a synthetic node that wraps around this type as an entity. This
-        works around the fact that we cannot store an entity in the entity
-        info, allowing us to access the full primitive_real_type.
-        """
-        return T.PrimTypeAccessor.new(prim_type=Entity)
 
     @langkit_property(memoized=True)
     def compute_primitives_env(include_self=(Bool, True)):
@@ -5039,10 +5148,11 @@ class TypeDecl(BaseTypeDecl):
         Return a environment containing all primitives accessible to Self,
         with the adjusted `primitive_real_type` metadata field.
         """
-        return Entity.primitives_envs(include_self=include_self).env_group(
-            with_md=T.Metadata.new(
-                primitive_real_type=Entity.primitive_type_accessor
-            )
+        return Entity.primitives_envs(
+            with_rebindings=Entity.info.rebindings,
+            include_self=include_self
+        ).env_group(
+            with_md=T.Metadata.new(primitive_real_type=Self)
         )
 
     @langkit_property()
@@ -5140,16 +5250,6 @@ class TypeDecl(BaseTypeDecl):
                 )
             )
         )
-
-
-@synthetic
-class PrimTypeAccessor(AdaNode):
-    """
-    Synthetic node wrapping around a primitive type entity. Used in metadata.
-    """
-    prim_type = UserField(T.BaseTypeDecl.entity, public=False)
-
-    get_prim_type = Property(Self.prim_type)
 
 
 class AnonymousTypeDecl(TypeDecl):
@@ -8549,7 +8649,10 @@ class UnOp(Expr):
                 # The subprogram's first argument must match Self's left
                 # operand.
                 Entity.expr.call_argument_equation(
-                    ps.at(0).spec.formal_type, prim_type
+                    subp.subp_spec_or_null.real_designated_type(
+                        ps.at(0).spec.type_expression
+                    ),
+                    prim_type
                 )
 
                 # The subprogram's return type is the type of Self
@@ -8612,19 +8715,19 @@ class BinOp(Expr):
             & Entity.right.sub_equation
         ) & (refined_subps.logic_any(lambda subp: Let(
             lambda
-            ps=subp.subp_spec_or_null.unpacked_formal_params,
+            ps=subp.subp_spec_or_null.param_types,
             prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
 
             # The subprogram's first argument must match Self's left
             # operand.
             Entity.left.call_argument_equation(
-                ps.at(0).spec.formal_type, prim_type
+                ps.at(0), prim_type
             )
 
             # The subprogram's second argument must match Self's right
             # operand.
             & Entity.right.call_argument_equation(
-                ps.at(1).spec.formal_type, prim_type
+                ps.at(1), prim_type
             )
 
             # The subprogram's return type is the type of Self
@@ -10347,7 +10450,9 @@ class CallExpr(Name):
                 lambda pm: If(
                     pm.has_matched,
                     pm.actual.assoc.expr.call_argument_equation(
-                        pm.formal.spec.type_expression.designated_type,
+                        subp_spec.real_designated_type(
+                            pm.formal.spec.type_expression
+                        ),
                         prim_type
                     ) & If(
                         # Bind actuals designators to parameters if there
@@ -12185,7 +12290,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Helper for BasicDecl.defining_env.
         """
         return If(Entity.returns.is_null,
-                  EmptyEnv, Entity.returns.defining_env)
+                  EmptyEnv, Entity.return_type.defining_env)
 
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin])
     def potential_dottable_type():
@@ -12390,8 +12495,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Returns the return type of Self, if applicable (e.g. if Self is a
         subprogram). Else, returns null.
         """
-        return Entity.returns._.designated_type.then(
-            lambda t: Entity.real_type(t)
+        return Entity.returns.then(
+            lambda rt: Entity.real_designated_type(rt)
         )
 
     xref_entry_point = Property(True)

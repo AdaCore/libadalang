@@ -18,10 +18,10 @@ Expr: <Id "Proc" test.adb:14:6-14:10>
   type:       None
 Expr: <AttributeRef test.adb:14:12-14:22>
   references: None
-  type:       <AnonymousTypeDecl ["None"] test.adb:5:27-5:35>
+  type:       <SynthAnonymousTypeDecl ["U"] test.adb:9:7-9:42>
 Expr: <Id "Obj" test.adb:14:12-14:15>
   references: <DefiningName test.adb:12:4-12:7>
-  type:       <TypeDecl ["T"] test.adb:9:7-9:42>
+  type:       <TypeDecl ["U"] test.adb:9:7-9:42>
 Expr: <Id "Access" test.adb:14:16-14:22>
   references: None
   type:       None

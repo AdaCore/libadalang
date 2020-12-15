@@ -16,7 +16,7 @@ Expr: <OpAnd "and" b-c.adb:4:22-4:25>
   references: <DefiningName b.ads:5:13-5:18>
   type:       None
 Expr: <Aggregate b-c.adb:4:26-4:32>
-  type:       <TypeDecl ["Typ"] b.ads:9:4-9:42>
+  type:       <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
 Expr: <Int b-c.adb:4:27-4:28>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

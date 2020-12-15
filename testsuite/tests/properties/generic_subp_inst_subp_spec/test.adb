@@ -7,7 +7,7 @@ procedure T925_008 is
       procedure G_Instance is new G(TP => Integer);
    begin
       G_Instance(42);
-      --% $node[0].p_referenced_decl().p_subp_spec_or_null()
+      --% $node[0].p_referenced_decl().p_subp_spec_or_null(follow_generic=True)
       --% $node[0].p_is_dispatching_call()
       --  ^
       --  is_dispatching_call uses subp_spec_or_null.

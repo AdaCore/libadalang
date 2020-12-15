@@ -3084,6 +3084,21 @@ class BaseFormalParamHolder(AdaNode):
             )
         )
 
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def call_argument_equation(param=T.BaseFormalParamDecl.entity,
+                               arg=T.Expr.entity):
+        """
+        Generate the equation that binds the type_var of this expression
+        given its corresponding parameter in the context of a subprogram call.
+        This takes into account the fact that the called subprogram might
+        be an inherited primitive.
+        """
+        return Bind(
+            arg.type_var,
+            Entity.real_designated_type(param.type_expression),
+            eq_prop=BaseTypeDecl.matching_formal_type
+        )
+
     @langkit_property(return_type=Bool)
     def match_formal_params(other=T.BaseFormalParamHolder.entity,
                             match_names=(Bool, True)):
@@ -8564,26 +8579,6 @@ class Expr(AdaNode):
         """
         return env.bind(Self.node_env, Entity.env_elements)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def call_argument_equation(formal_type=T.BaseTypeDecl.entity,
-                               call_is_primitive_of=T.BaseTypeDecl):
-        """
-        Generate the equation that binds the type_var of this expression
-        given its expected type in the context of a subprogram call. Handles
-        the case where that call is a primitive of the given
-        call_is_primitive_of type.
-        """
-        return If(formal_type.accessed_type._or(formal_type).then(
-            lambda at: at._.canonical_type.node.as_bare_entity.matching_type(
-                call_is_primitive_of.as_bare_entity
-            )),
-            Bind(Entity.type_var, formal_type,
-                 eq_prop=BaseTypeDecl.matching_formal_prim_type),
-            Bind(Entity.type_var, formal_type,
-                 eq_prop=BaseTypeDecl.matching_formal_type)
-        )
-
-
 class ContractCaseAssoc(BaseAssoc):
     """
     Single association for the ``Contract_Case`` aspect.
@@ -8650,17 +8645,13 @@ class UnOp(Expr):
             Entity.op.subprograms.filter(
                 lambda s: s.subp_spec_or_null.nb_max_params == 1
             ).logic_any(lambda subp: Let(
-                lambda
-                ps=subp.subp_spec_or_null.unpacked_formal_params,
-                prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
+                lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
 
                 # The subprogram's first argument must match Self's left
                 # operand.
-                Entity.expr.call_argument_equation(
-                    subp.subp_spec_or_null.real_designated_type(
-                        ps.at(0).spec.type_expression
-                    ),
-                    prim_type
+                subp.subp_spec_or_null.call_argument_equation(
+                    ps.at(0).spec,
+                    Entity.expr
                 )
 
                 # The subprogram's return type is the type of Self
@@ -8722,20 +8713,18 @@ class BinOp(Expr):
             Entity.left.sub_equation
             & Entity.right.sub_equation
         ) & (refined_subps.logic_any(lambda subp: Let(
-            lambda
-            ps=subp.subp_spec_or_null.param_types,
-            prim_type=subp.info.md.primitive.cast(T.BaseTypeDecl):
+            lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
             # operand.
-            Entity.left.call_argument_equation(
-                ps.at(0), prim_type
+            subp.subp_spec_or_null.call_argument_equation(
+                ps.at(0).spec, Entity.left
             )
 
             # The subprogram's second argument must match Self's right
             # operand.
-            & Entity.right.call_argument_equation(
-                ps.at(1), prim_type
+            & subp.subp_spec_or_null.call_argument_equation(
+                ps.at(1).spec, Entity.right
             )
 
             # The subprogram's return type is the type of Self
@@ -10206,8 +10195,7 @@ class CallExpr(Name):
                 And(
                     Entity.subprogram_equation(
                         s.subp_spec_or_null,
-                        s.info.md.dottable_subp,
-                        s.info.md.primitive
+                        s.info.md.dottable_subp
                     ),
                     Entity.parent_name(root).as_entity.then(
                         lambda pn:
@@ -10220,8 +10208,7 @@ class CallExpr(Name):
             And(
                 Entity.subprogram_equation(
                     s.subp_spec_or_null,
-                    s.info.md.dottable_subp,
-                    s.info.md.primitive
+                    s.info.md.dottable_subp
                 ),
                 Entity.parent_name(root).as_entity.then(
                     lambda pn:
@@ -10357,7 +10344,7 @@ class CallExpr(Name):
             typ.access_def.is_a(AccessToSubpDef),
             typ.access_def.cast(AccessToSubpDef).then(
                 lambda asd:
-                Entity.subprogram_equation(asd.subp_spec, False, No(AdaNode))
+                Entity.subprogram_equation(asd.subp_spec, False)
                 & Entity.params.logic_all(
                     lambda pa: pa.expr.sub_equation
                 ),
@@ -10434,11 +10421,7 @@ class CallExpr(Name):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,
-                            dottable_subp=Bool,
-                            primitive=AdaNode):
-
-        prim_type = Var(primitive.cast_or_raise(T.BaseTypeDecl))
-
+                            dottable_subp=Bool):
         return subp_spec.then(
             lambda subp_spec:
             # The type of the expression is the expr_type of the
@@ -10457,11 +10440,9 @@ class CallExpr(Name):
             ).logic_all(
                 lambda pm: If(
                     pm.has_matched,
-                    pm.actual.assoc.expr.call_argument_equation(
-                        subp_spec.real_designated_type(
-                            pm.formal.spec.type_expression
-                        ),
-                        prim_type
+                    subp_spec.call_argument_equation(
+                        pm.formal.spec,
+                        pm.actual.assoc.expr
                     ) & If(
                         # Bind actuals designators to parameters if there
                         # are designators.

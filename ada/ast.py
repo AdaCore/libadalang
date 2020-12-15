@@ -2981,7 +2981,15 @@ class BaseFormalParamHolder(AdaNode):
             typ.cast(AnonymousTypeDecl).then(
                 lambda td: Not(td.type_def.is_a(AccessToSubpDef))
             ),
-            Entity.real_type(typ.accessed_type).anonymous_access_type,
+            typ.accessed_type.then(
+                lambda at: Entity.real_type(at).then(
+                    lambda rat: If(
+                        at == rat,
+                        typ,
+                        rat.anonymous_access_type
+                    )
+                )
+            ),
 
             typ
         )

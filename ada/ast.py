@@ -4812,10 +4812,58 @@ class TypeDecl(BaseTypeDecl):
             No(T.BaseFormalParamDecl.entity.array)
         ))
 
-    @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
-                      return_type=LexicalEnv)
-    def primitives():
-        pass
+    @lazy_field(return_type=LexicalEnv)
+    def direct_primitives_env():
+        """
+        The environment that contains all subprograms that are direct
+        primitives of this type, that is, primitives that are not inherited.
+        """
+        return DynamicLexicalEnv(
+            assocs_getter=TypeDecl.direct_primitive_subps,
+            transitive_parent=False
+        )
+
+    @langkit_property(return_type=T.inner_env_assoc.array, memoized=True,
+                      memoize_in_populate=True)
+    def direct_primitive_subps():
+        """
+        Return the list of all subprograms that are direct primitives of this
+        type. We look for them in the public part and private part of the
+        package this type is declared in.
+        """
+        scope = Var(Entity.declarative_scope)
+        pkg_decls = Var(scope._.parent.as_entity._.match(
+            lambda pkg_decl=BasePackageDecl:
+            pkg_decl.public_part.decls.as_array.concat(
+                pkg_decl.private_part._.decls.as_array
+            ),
+            lambda pkg_body=PackageBody: pkg_body.decls.decls.as_array,
+            lambda _: No(AdaNode.entity.array)
+        ))
+        enum_lits = Var(Entity.type_def.cast(EnumTypeDef).then(
+            lambda etf: etf.enum_literals.map(
+                lambda lit: T.inner_env_assoc.new(
+                    key=lit.defining_name.name_symbol,
+                    val=lit.node,
+                    metadata=T.Metadata.new(primitive=Self)
+                )
+            )
+        ))
+        prim_subps = Var(pkg_decls.filtermap(
+            lambda decl: Let(
+                lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
+                    key=bd.defining_name.name_symbol,
+                    val=bd.node,
+                    metadata=T.Metadata.new(primitive=Self)
+                )
+            ),
+
+            lambda decl:
+            decl.cast(BasicDecl)
+                ._.subp_spec_or_null
+                ._.get_primitive_subp_types.contains(Entity)
+        ))
+        return enum_lits.concat(prim_subps)
 
     array_ndims = Property(Entity.type_def.array_ndims)
 
@@ -4908,7 +4956,7 @@ class TypeDecl(BaseTypeDecl):
             dest_env=Self.node_env,
             cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             category="inherited_primitives"
-        ),
+        )
     )
 
     record_def = Property(
@@ -4940,7 +4988,7 @@ class TypeDecl(BaseTypeDecl):
         Return the environment containing the primitives for Self.
         """
         own_rebindings = Var(Entity.info.rebindings)
-        return Entity.primitives.rebind_env(own_rebindings)
+        return Entity.direct_primitives_env.rebind_env(own_rebindings)
 
     @langkit_property(return_type=LexicalEnv.array)
     def own_primitives_envs():
@@ -6454,21 +6502,6 @@ class BasicSubpDecl(BasicDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-
-        handle_children(),
-
-        # Adding subp to the primitives env if the subp is a primitive
-        add_to_env(
-            Self.as_bare_entity.subp_decl_spec.get_primitive_subp_types
-            .filtermap(
-                lambda t: new_env_assoc(
-                    key=Entity.name_symbol, val=Self,
-                    dest_env=t.cast_or_raise(T.TypeDecl).primitives,
-                    metadata=T.Metadata.new(primitive=t.node)
-                ),
-                lambda t: t.is_a(T.TypeDecl)
-            )
         )
     )
 
@@ -11964,12 +11997,6 @@ class EnumLiteralDecl(BasicSubpDecl):
         add_to_env_kv(Self.name_symbol, Self,
                       dest_env=Entity.enum_type.node_env),
 
-        add_to_env_kv(
-            Self.name_symbol, Self,
-            dest_env=Entity.enum_type.primitives,
-            metadata=T.Metadata.new(primitive=Entity.enum_type.node)
-        ),
-
         # We add an env here so that parent_basic_decl/semantic_parent on the
         # enum subp spec work correctly and returns the EnumLiteralDecl rt. the
         # type decl.
@@ -13854,20 +13881,6 @@ class BaseSubpBody(Body):
             through=T.AdaNode.use_clauses_in_generic_formal_part,
             cond=Self.should_ref_generic_formals,
             kind=RefKind.normal
-        ),
-
-        handle_children(),
-
-        # Adding subp to the primitives env if the subp is a primitive
-        add_to_env(
-            Self.as_bare_entity.subp_spec.get_primitive_subp_types.filtermap(
-                lambda t: new_env_assoc(
-                    key=Entity.name_symbol, val=Self,
-                    dest_env=t.cast_or_raise(T.TypeDecl).primitives,
-                    metadata=T.Metadata.new(primitive=t.node)
-                ),
-                lambda t: t.is_a(T.TypeDecl)
-            )
         )
     )
 

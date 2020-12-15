@@ -3,7 +3,7 @@ procedure Test is
       type T;
       type T_CW is access all T'Class;
 
-      function Foo (X : access T) return Boolean is (1);
+      function Foo (X : access T) return Boolean is (True);
 
       type T is tagged null record;
    end P;
@@ -24,7 +24,7 @@ procedure Test is
 
    use R;
 
-   X : Q.U_CW;
+   X : access U;
 begin
    begin
       case Foo (X) is

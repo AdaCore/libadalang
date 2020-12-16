@@ -565,20 +565,6 @@ package body Libadalang.Implementation.Extensions is
         (Sources.Decode_String_Literal (N_Text));
    end String_Literal_P_Denoted_Value;
 
-   ----------------------------
-   -- Type_Decl_P_Primitives --
-   ----------------------------
-
-   function Type_Decl_P_Primitives (Node : Bare_Type_Decl) return Lexical_Env
-   is
-   begin
-      if Node.Type_Decl_Prims_Env = Empty_Env then
-         Node.Type_Decl_Prims_Env := Create_Static_Lexical_Env
-           (No_Env_Getter, Node);
-      end if;
-      return Node.Type_Decl_Prims_Env;
-   end Type_Decl_P_Primitives;
-
    package Alloc_Logic_Var_Array is new
      Langkit_Support.Bump_Ptr.Array_Alloc
        (Element_T  => Logic_Var_Record,

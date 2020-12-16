@@ -129,12 +129,6 @@ package Libadalang.Implementation.Extensions is
    function String_Literal_P_Denoted_Value
      (Node : Bare_String_Literal) return Character_Type_Array_Access;
 
-   ---------------
-   -- Type_Decl --
-   ---------------
-
-   function Type_Decl_P_Primitives (Node : Bare_Type_Decl) return Lexical_Env;
-
    ----------
    -- Expr --
    ----------

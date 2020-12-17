@@ -99,6 +99,15 @@ CompilationUnit[1:1-10:10]
 |  PragmaNodeList[10:10-10:10]: <empty list>
 
 ==== Dumping lexical environments ====
+$root = LexEnv(Static_Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] __standard:1:1-123:14>]
+
+@2 = LexEnv(Static_Primary, Parent=@1, Node=<SubpBody ["Test"] test.adb:1:1-10:10>):
+  Referenced: <SubpBody ["Test"] test.adb:1:1-10:10>: LexEnv(Static_Primary, Node=<CompilationUnit test.adb:1:1-10:10>)
+  Referenced: <SubpBody ["Test"] test.adb:1:1-10:10>: LexEnv(Static_Primary, Node=<CompilationUnit test.adb:1:1-10:10>)
+    d: [<GenericPackageDecl ["D"] test.adb:2:4-5:10>]
+    d_inst: [<GenericPackageInstantiation ["D_Inst"] test.adb:7:4-7:38>]
+
 @1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-123:14>):
     'a': [<EnumLiteralDecl ["'A'"] __standard:21:22-21:25>, <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>, <EnumLiteralDecl ["'A'"] __standard:23:32-23:35>]
     ascii: [<PackageDecl ["ASCII"] __standard:24:3-104:13>]
@@ -135,10 +144,6 @@ CompilationUnit[1:1-10:10]
 
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] __standard:1:1-123:14>]
-
-@2 = LexEnv(Static_Primary, Parent=@1, Node=<SubpBody ["Test"] test.adb:1:1-10:10>):
-    d: [<GenericPackageDecl ["D"] test.adb:2:4-5:10>]
-    d_inst: [<GenericPackageInstantiation ["D_Inst"] test.adb:7:4-7:38>]
 
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<GenericPackageDecl ["D"] test.adb:2:4-5:10>):
     t: [<ObjectDecl ["T"] test.adb:3:7-3:19>]

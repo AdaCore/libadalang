@@ -7366,10 +7366,37 @@ class GenericInstantiation(BasicDecl):
 
     inst_env = UserField(type=T.LexicalEnv, public=False)
 
-    @langkit_property(external=True, uses_entity_info=False, uses_envs=True,
-                      return_type=LexicalEnv)
+    @lazy_field(return_type=LexicalEnv)
     def instantiation_env():
-        pass
+        return DynamicLexicalEnv(
+            assocs_getter=GenericInstantiation.instantiation_bindings,
+            transitive_parent=False,
+            assoc_resolver=AdaNode.resolve_generic_actual
+        )
+
+    @langkit_property(return_type=T.inner_env_assoc.array, memoized=True,
+                      memoize_in_populate=True)
+    def instantiation_bindings():
+        return If(
+            Entity.is_any_formal,
+            No(T.inner_env_assoc.array),
+            env.bind(
+                Self.default_initial_env,
+                Self.nonbound_generic_decl._.formal_part.match_param_list(
+                    Entity.generic_inst_params, False
+                ).map(
+                   lambda i, pm: T.inner_env_assoc.new(
+                       key=pm.formal.name.name_symbol,
+                       val=If(
+                           pm.formal.spec.is_a(T.GenericFormalObjDecl),
+                           Entity.actual_expr_decls.at(i),
+                           pm.actual.assoc.expr.node
+                       ),
+                       metadata=T.Metadata.new()
+                   )
+                )
+            )
+        )
 
     generic_entity_name = AbstractProperty(
         type=T.Name.entity, doc="""
@@ -7547,25 +7574,6 @@ class GenericSubpInstantiation(GenericInstantiation):
         ),
 
         handle_children(),
-        add_to_env(
-            env.bind(
-                Self.default_initial_env,
-                Self.nonbound_generic_decl._.formal_part.match_param_list(
-                    Entity.params, False
-                ).map(
-                   lambda i, pm: new_env_assoc(
-                       key=pm.formal.name.name_symbol,
-                       val=If(
-                           pm.formal.spec.is_a(T.GenericFormalObjDecl),
-                           Entity.actual_expr_decls.at(i),
-                           pm.actual.assoc.expr.node
-                       ),
-                       dest_env=Self.instantiation_env
-                   )
-                )
-            ),
-            resolver=AdaNode.resolve_generic_actual,
-        ),
         add_to_env_kv(
             Entity.name_symbol, Self,
             resolver=T.GenericSubpInstantiation.designated_subp,
@@ -7677,29 +7685,6 @@ class GenericPackageInstantiation(GenericInstantiation):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-
-        handle_children(),
-        add_to_env(
-            env.bind(
-                Self.default_initial_env,
-                If(Entity.is_any_formal,
-                   No(T.env_assoc.array),
-                   Self.nonbound_generic_decl._.formal_part.match_param_list(
-                       Entity.params, False
-                   ).map(
-                       lambda i, pm: new_env_assoc(
-                           key=pm.formal.name.name_symbol,
-                           val=If(
-                               pm.formal.spec.is_a(T.GenericFormalObjDecl),
-                               Entity.actual_expr_decls.at(i),
-                               pm.actual.assoc.expr.node
-                           ),
-                           dest_env=Self.instantiation_env
-                       )
-                   ))
-            ),
-            resolver=AdaNode.resolve_generic_actual,
         )
     )
 

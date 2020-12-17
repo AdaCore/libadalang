@@ -183,6 +183,13 @@ CompilationUnit[1:1-11:9]
 |  PragmaNodeList[11:9-11:9]: <empty list>
 
 ==== Dumping lexical environments ====
+$root = LexEnv(Static_Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] __standard:1:1-123:14>]
+
+@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-11:9>):
+    r1_type: [<TypeDecl ["R1_Type"] input:2:4-5:15>]
+    r2_type: [<TypeDecl ["R2_Type"] input:7:4-10:15>]
+
 @1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-123:14>):
     'a': [<EnumLiteralDecl ["'A'"] __standard:21:22-21:25>, <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>, <EnumLiteralDecl ["'A'"] __standard:23:32-23:35>]
     ascii: [<PackageDecl ["ASCII"] __standard:24:3-104:13>]
@@ -219,10 +226,6 @@ CompilationUnit[1:1-11:9]
 
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] __standard:1:1-123:14>]
-
-@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-11:9>):
-    r1_type: [<TypeDecl ["R1_Type"] input:2:4-5:15>]
-    r2_type: [<TypeDecl ["R2_Type"] input:7:4-10:15>]
 
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<TypeDecl ["R1_Type"] input:2:4-5:15>):
     a: [<ComponentDecl ["A", "B"] input:3:7-3:22>]

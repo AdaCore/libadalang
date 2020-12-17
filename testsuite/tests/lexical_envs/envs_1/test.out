@@ -49,6 +49,12 @@ CompilationUnit[1:1-3:9]
 |  PragmaNodeList[3:9-3:9]: <empty list>
 
 ==== Dumping lexical environments ====
+$root = LexEnv(Static_Primary, Parent=null):
+    standard: [<PackageDecl ["Standard"] __standard:1:1-123:14>]
+
+@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-3:9>):
+    lol: [<SubtypeDecl ["Lol"] input:2:4-2:41>]
+
 @1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-123:14>):
     'a': [<EnumLiteralDecl ["'A'"] __standard:21:22-21:25>, <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>, <EnumLiteralDecl ["'A'"] __standard:23:32-23:35>]
     ascii: [<PackageDecl ["ASCII"] __standard:24:3-104:13>]
@@ -85,7 +91,4 @@ CompilationUnit[1:1-3:9]
 
 $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] __standard:1:1-123:14>]
-
-@2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-3:9>):
-    lol: [<SubtypeDecl ["Lol"] input:2:4-2:41>]
 

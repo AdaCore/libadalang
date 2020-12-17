@@ -4524,7 +4524,7 @@ class BaseTypeDecl(BasicDecl):
         the dot-notation on values of this type.
         """
         return DynamicLexicalEnv(
-            resolver=BaseTypeDecl.dottable_subps,
+            assocs_getter=BaseTypeDecl.dottable_subps,
             transitive_parent=False
         )
 

@@ -1655,10 +1655,26 @@ class BasicDecl(AdaNode):
         If Self declares a primitive subprogram of some tagged type T, return
         the set of all subprogram declarations that it overrides (including
         itself).
+
+        NOTE: for the moment this only works for tagged types. Remains to be
+        seen if we need to extend it.
         """
         return Entity.is_subprogram.then(
             lambda _: Entity.subp_spec_or_null.then(
-                lambda spec: spec.get_primitive_subp_tagged_type.then(
+                lambda spec:
+
+                # We don't want the canonicalized primitive type, but the most
+                # visible: the most visible might be a private type that has a
+                # more specific derivation than the canonical (public) type:
+                #
+                # type A is tagged private;
+                # type B is new A with private;
+                # type P is new A with private;
+                # private
+                # type P is new B with record ...
+
+                spec.get_primitive_subp_tagged_type(canonicalize=False)
+                .then(
                     lambda t:
                     t.primitives_env.get(Entity.name_symbol).filtermap(
                         lambda bd: bd.cast(BasicDecl).canonical_part,
@@ -11951,51 +11967,66 @@ class BaseSubpSpec(BaseFormalParamHolder):
         return Entity.params.at(0)._.type_expr._.element_type
 
     @langkit_property(return_type=BaseTypeDecl.entity)
-    def candidate_type_for_primitive(typ=T.TypeExpr.entity):
+    def candidate_type_for_primitive(
+        type_expr=T.TypeExpr.entity, canonicalize=(T.Bool, True)
+    ):
         """
         If the given type expression designates a type of which Self is a
         primitive, return that designated type. Otherwise return null.
+
+        If ``canonicalize`` is true, then the returned type will be
+        canonicalized first. Else, the most complete part of the type will be
+        returned.
         """
         decl_scope = Var(Entity.declarative_scope)
 
-        canon_tpe = Var(origin.bind(Self.origin_node, typ.match(
+        typ = Var(origin.bind(Self.origin_node, type_expr.match(
             lambda at=T.AnonymousType: at.element_type.then(
                 # TODO: remove this check once S918-021 is done, since it will
                 # be checked below in any case.
                 lambda et: Not(et.is_classwide).then(
-                    lambda _: et.canonical_type
+                    lambda _: et
                 )
             ),
-            lambda other: other.designated_type._.canonical_type
+            lambda other: other.designated_type
         )))
 
-        tpe = Var(canon_tpe.cast(IncompleteTypeDecl).then(
+        # Canonicalize if requested
+        canon_type = Var(If(
+            canonicalize,
+            origin.bind(Self.origin_node, typ._.canonical_type),
+            typ
+        ))
+
+        final_type = Var(canon_type.cast(IncompleteTypeDecl).then(
             lambda i: i.next_part,
-            default_val=canon_tpe
+            default_val=canon_type
         ))
 
         return If(
             And(
                 # A subprogram may not be a primitive of a classwide type
-                Not(tpe._.is_classwide),
+                Not(final_type._.is_classwide),
 
                 # A subprogram may not be a primitive of a type which is not
                 # declared in the same declarative scope as Self, or in the
                 # private part of the package in which Self is defined.
-                tpe._.declarative_scope.then(lambda ds: ds.any_of(
+                final_type._.declarative_scope.then(lambda ds: ds.any_of(
                     decl_scope,
                     decl_scope._.parent.cast(BasePackageDecl)
                     ._.public_part
                 ))
             ),
-            tpe,
+            final_type,
             No(BaseTypeDecl.entity)
         )
 
     @langkit_property(return_type=BaseTypeDecl.entity.array)
-    def get_primitive_subp_types():
+    def get_primitive_subp_types(canonicalize=(T.Bool, True)):
         """
-        Return the types of which this subprogram is a primitive of.
+        Return the types of which this subprogram is a primitive of. If
+        ``canonicalize`` is true, then the returned types will be
+        canonicalized.
         """
 
         # TODO: This might be improved by checking for spelling before looking
@@ -12007,7 +12038,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ))
 
         return types.map(
-            lambda t: Entity.candidate_type_for_primitive(t)
+            lambda t: Entity.candidate_type_for_primitive(
+                t, canonicalize=canonicalize
+            )
         ).filter(
             lambda t: Not(t.is_null)
         ).map(
@@ -12025,14 +12058,17 @@ class BaseSubpSpec(BaseFormalParamHolder):
         return Entity.get_primitive_subp_types.then(lambda p: p.at(0))
 
     @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
-    def get_primitive_subp_tagged_type():
+    def get_primitive_subp_tagged_type(canonicalize=(T.Bool, True)):
         """
         If this subprogram is a primitive for a tagged type, then return this
-        type.
+        type. If ``canonicalize`` is true, then the returned types will be
+        canonicalized.
         """
-        return origin.bind(Self, Entity.get_primitive_subp_types.find(
-            lambda t: t.full_view.is_tagged_type
-        ))
+        return origin.bind(
+            Self, Entity.get_primitive_subp_types(canonicalize).find(
+                lambda t: t.full_view.is_tagged_type
+            )
+        )
 
     @langkit_property(return_type=T.BaseSubpSpec.entity,
                       dynamic_vars=[default_imprecise_fallback()])

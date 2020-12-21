@@ -70,4 +70,12 @@
   Base declarations: [<NullSubpDecl ["Foo"] test.adb:69:7-69:37>, <NullSubpDecl ["Foo"] test.adb:77:7-77:48>]
   Root declarations: [<NullSubpDecl ["Foo"] test.adb:69:7-69:37>]
 
+<AbstractSubpDecl ["Foo"] test.adb:89:7-89:43>:
+  Base declarations: [<AbstractSubpDecl ["Foo"] test.adb:89:7-89:43>]
+  Root declarations: [<AbstractSubpDecl ["Foo"] test.adb:89:7-89:43>]
+
+<SubpDecl ["Foo"] test.adb:98:7-99:31>:
+  Base declarations: [<AbstractSubpDecl ["Foo"] test.adb:89:7-89:43>, <SubpDecl ["Foo"] test.adb:98:7-99:31>]
+  Root declarations: [<AbstractSubpDecl ["Foo"] test.adb:89:7-89:43>, <SubpDecl ["Foo"] test.adb:98:7-99:31>]
+
 Done

@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix: # Build debug and production
         debug: ['', 'debug']      # '' if production, 'debug' for debug
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-10.15, ubuntu-16.04, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - run: git config --global core.autocrlf input
@@ -72,13 +72,13 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
       - name: Upload tar-ball to Bintray
-        uses: reznikmm/upload-bintray-action@v3
+        uses: reznikmm/upload-bintray-action@v4
         with:
           subject: reznikmm
           username: reznikmm
           repository: libadalang
           package: libadalang
-          version: 0.1-git
+          version: 0.2-git
           sourcePath: '*.tar.gz'
           override: 1
           apiKey: ${{secrets.BINTRAY_API_KEY}}

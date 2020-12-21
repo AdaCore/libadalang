@@ -76,6 +76,29 @@ procedure Test is
 
       overriding procedure Foo (X : U) is null;
    end TB14_004;
+
+
+   package TC17_033 is
+
+      type A is abstract tagged
+         null record;
+
+      type B is abstract new A with
+         null record;
+
+      procedure Foo (Arg : B) is abstract;
+
+      type C is new A with private;
+
+   private
+
+      type C is new B with
+         null record;
+
+      overriding
+      procedure Foo (Arg : C);
+
+   end TC17_033;
 begin
    null;
 end Test;

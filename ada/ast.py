@@ -12085,8 +12085,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
         returns the subp spec of the declaration of that entity. It returns
         itself otherwise.
         """
-        bd = Var(Entity.name.as_entity.basic_decl)
-        return bd.canonical_part.then(
+        # The ``name`` field can be null, for example if this subp spec is part
+        # of an access-to-subprogram type declaration.
+        bd = Var(Entity.name.as_entity._.basic_decl)
+        return bd._.canonical_part.then(
             lambda dp: dp.subp_spec_or_null,
             default_val=Entity
         )

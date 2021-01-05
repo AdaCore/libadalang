@@ -1,7 +1,10 @@
 Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <NullSubpDecl ["Bar"] foo.adb:2:4-2:37>
 Result: <TypeDecl ["T"] foo.ads:8:4-8:33>
 
-Eval 'node.f_type_def.f_subp_spec.p_primitive_subp_tagged_type()' on node <TypeDecl ["Test_Access"] foo.adb:5:4-5:52>
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <NullSubpDecl ["Dummy"] foo.adb:5:4-5:39>
+Result: None
+
+Eval 'node.f_type_def.f_subp_spec.p_primitive_subp_tagged_type()' on node <TypeDecl ["Test_Access"] foo.adb:8:4-8:52>
 Result: None
 
 
@@ -14,7 +17,10 @@ Result: <TypeDecl ["T"] foo.ads:8:4-8:33>
 Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Foo"] foo.ads:13:7-13:32>
 Result: None
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Baz"] foo.ads:17:4-17:29>
+Eval 'node.f_subp_decl.f_subp_spec.p_primitive_subp_tagged_type()' on node <GenericSubpDecl ["Dummy"] foo.ads:17:4-19:31>
+Result: None
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Baz"] foo.ads:23:4-23:29>
 Result: <TypeDecl ["T"] foo.ads:8:4-8:33>
 
 

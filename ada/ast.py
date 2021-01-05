@@ -12074,19 +12074,37 @@ class BaseSubpSpec(BaseFormalParamHolder):
 
     @langkit_property(return_type=T.BaseSubpSpec.entity,
                       dynamic_vars=[default_imprecise_fallback()])
-    def decl_spec():
+    def decl_spec(follow_generic=Bool):
         """
         If this subp spec is that of the body of an entity, this property
         returns the subp spec of the declaration of that entity. It returns
         itself otherwise.
+
+        If ``follow_generic`` is set to False, we explicitly return null if
+        this spec is part of a generic subprogram declaration. See
+        ``primitive_decl_spec``.
         """
         # The ``name`` field can be null, for example if this subp spec is part
         # of an access-to-subprogram type declaration.
         bd = Var(Entity.name.as_entity._.basic_decl)
         return bd._.canonical_part.then(
-            lambda dp: dp.subp_spec_or_null,
+            lambda dp: If(
+                Not(follow_generic) & dp.is_a(GenericSubpInternal),
+                No(BaseSubpSpec.entity),
+                dp.subp_spec_or_null(follow_generic=follow_generic)
+            ),
             default_val=Entity
         )
+
+    @langkit_property(return_type=T.BaseSubpSpec.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def primitive_decl_spec():
+        """
+        Return the subp spec of the declaration of this potential primitive.
+        Since a generic subprogram cannot be a primitive, we explicitly
+        set ``follow_generic`` to False to filter out those early.
+        """
+        return Entity.decl_spec(follow_generic=False)
 
     @langkit_property(return_type=BaseTypeDecl.entity.array, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -12094,7 +12112,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         Return the types of which this subprogram is a primitive of.
         """
-        return Entity.decl_spec.get_primitive_subp_types
+        return Entity.primitive_decl_spec._.get_primitive_subp_types
 
     @langkit_property(return_type=BaseTypeDecl.entity, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -12102,7 +12120,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         Return the first type of which this subprogram is a primitive of.
         """
-        return Entity.decl_spec.get_primitive_subp_first_type
+        return Entity.primitive_decl_spec._.get_primitive_subp_first_type
 
     @langkit_property(return_type=BaseTypeDecl.entity, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -12111,7 +12129,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         If this subprogram is a primitive for a tagged type, then return this
         type.
         """
-        return Entity.decl_spec.get_primitive_subp_tagged_type
+        return Entity.primitive_decl_spec._.get_primitive_subp_tagged_type
 
     @langkit_property(return_type=BaseTypeDecl.entity.array)
     def dottable_subp_of():

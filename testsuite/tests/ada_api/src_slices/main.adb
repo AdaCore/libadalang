@@ -56,8 +56,8 @@ begin
         ("  -> " & Image (Text (First_Token (Unit), Last_Token (Unit2))));
       Put_Line ("... got no error: unacceptable!");
    exception
-      when Constraint_Error =>
-         Put_Line ("... got the expected Constraint_Error!");
+      when Precondition_Failure =>
+         Put_Line ("... got the expected Precondition_Failure!");
    end;
    New_Line;
 

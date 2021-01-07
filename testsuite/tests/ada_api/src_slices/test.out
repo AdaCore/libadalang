@@ -27,6 +27,6 @@ Source excerpts for all Basic_Decl in test.adb:
     El : Foo_Elem
 
 Trying to get a source slice for two nodes in different units...
-... got the expected Constraint_Error!
+... got the expected Precondition_Failure!
 
 Done.

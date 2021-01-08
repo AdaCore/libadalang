@@ -853,12 +853,12 @@ procedure Nameres is
 
          when Pragma_Find_All_References =>
             Job_Data.Refs_Requests.Append
-              ((P.Refs_Kind,
-                P.Refs_Target,
-                P.Refs_Imprecise_Fallback,
-                P.Refs_Show_Slocs,
-                P.Refs_Follow_Renamings,
-                Node.As_Pragma_Node));
+              (Refs_Request'(P.Refs_Kind,
+                             P.Refs_Target,
+                             P.Refs_Imprecise_Fallback,
+                             P.Refs_Show_Slocs,
+                             P.Refs_Follow_Renamings,
+                             Node.As_Pragma_Node));
          end case;
       end Process_Pragma;
 

@@ -216,11 +216,12 @@ package body Xrefs is
 
          if Current_Xrefs /= null and then Type_Char not in 'e' | 't' then
             Current_Xrefs.Xrefs.Append
-              ((Ref_Sloc => (Line_Number (Line), Column_Number (Column)),
-                Ref_File => Ref_File,
-                Entity_Sloc => Entity_Sloc,
-                Entity_File => Entity_File,
-                Error => False));
+              (Xref_Type'(Ref_Sloc => (Line_Number (Line),
+                                       Column_Number (Column)),
+                          Ref_File => Ref_File,
+                          Entity_Sloc => Entity_Sloc,
+                          Entity_File => Entity_File,
+                          Error => False));
          end if;
       end Process_Xref;
 

@@ -19,7 +19,7 @@ package body String_Utils is
       for I in S'Range loop
          if Char_In_Set (S (I), Separators) then
             if First > 0 then
-               Result.Append ((First, I - 1));
+               Result.Append (Slice'(First, I - 1));
                First := 0;
             end if;
          elsif First = 0 then
@@ -27,7 +27,7 @@ package body String_Utils is
          end if;
       end loop;
       if First > 0 then
-         Result.Append ((First, S'Last));
+         Result.Append (Slice'(First, S'Last));
       end if;
 
       declare

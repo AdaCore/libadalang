@@ -2226,6 +2226,7 @@ class ErrorDecl(BasicDecl):
     """
     Placeholder node for syntax errors in lists of declarations.
     """
+    error_node = True
     aspects = NullField()
     defining_names = Property(No(T.DefiningName.entity.array))
 
@@ -13763,8 +13764,7 @@ class ErrorStmt(Stmt):
     """
     Placeholder node for syntax errors in lists of statements.
     """
-
-    pass
+    error_node = True
 
 
 @abstract

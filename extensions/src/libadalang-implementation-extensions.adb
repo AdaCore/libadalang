@@ -659,18 +659,16 @@ package body Libadalang.Implementation.Extensions is
    ----------------------------------
 
    function Ada_Node_P_Resolve_Own_Names
-     (Node     : Bare_Ada_Node;
-      Env      : Lexical_Env;
-      Origin   : Bare_Ada_Node;
-      E_Info   : Internal_Entity_Info := No_Entity_Info) return Boolean
+     (Node   : Bare_Ada_Node;
+      Env    : Lexical_Env;
+      Origin : Bare_Ada_Node;
+      E_Info : Internal_Entity_Info := No_Entity_Info) return Boolean
    is
-      R : Relation;
-      C : constant Nameres_Maps.Cursor :=
-        Node.Unit.Nodes_Nameres.Find (Node);
-
       use Nameres_Maps;
-   begin
 
+      R : Relation;
+      C : constant Cursor := Node.Unit.Nodes_Nameres.Find (Node);
+   begin
       --  There was already resolution for this node, and it's the same
       --  rebindings, and the cache key is still fresh: just return
       --  existing result.
@@ -692,7 +690,6 @@ package body Libadalang.Implementation.Extensions is
            (Node,
             (Node.Unit.Context.Cache_Version, E_Info.Rebindings, Res));
       end return;
-
    end Ada_Node_P_Resolve_Own_Names;
 
 end Libadalang.Implementation.Extensions;

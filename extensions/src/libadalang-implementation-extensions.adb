@@ -686,10 +686,16 @@ package body Libadalang.Implementation.Extensions is
       --  rebindings. In that case, solve and include the result in the
       --  mmz map.
       return Res : constant Boolean := Solve_Wrapper (R,  Node) do
+         Dec_Ref (R);
          Node.Unit.Nodes_Nameres.Include
            (Node,
             (Node.Unit.Context.Cache_Version, E_Info.Rebindings, Res));
       end return;
+
+   exception
+      when Property_Error =>
+         Dec_Ref (R);
+         raise;
    end Ada_Node_P_Resolve_Own_Names;
 
 end Libadalang.Implementation.Extensions;

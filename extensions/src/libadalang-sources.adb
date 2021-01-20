@@ -21,9 +21,9 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Wide_Wide_Characters.Handling;
-
 with Interfaces; use Interfaces;
+
+with Langkit_Support.Errors; use Langkit_Support.Errors;
 
 package body Libadalang.Sources is
 
@@ -131,29 +131,9 @@ package body Libadalang.Sources is
             end if;
          end;
 
-         --  Now, perform case folding. Optimization: don't do costly wide wide
-         --  To_Lower for ASCII: this is the most common case by far and we can
-         --  handle it very quickly here with several range checks.
+         --  Now, perform case folding
 
-         declare
-            subtype WWC is Wide_Wide_Character;
-
-            First_ASCII : constant WWC :=
-               WWC'Val (Character'Pos (ASCII.NUL));
-            Last_ASCII  : constant WWC :=
-               WWC'Val (Character'Pos (ASCII.DEL));
-            subtype WWC_ASCII is WWC range First_ASCII .. Last_ASCII;
-
-            C : WWC renames Result (Result_Last);
-         begin
-            if C in 'A' .. 'Z' then
-               C := WWC'Val (WWC'Pos (C) - WWC'Pos ('A') + WWC'Pos ('a'));
-            elsif C in WWC_ASCII'Range then
-               null;
-            else
-               C := Ada.Wide_Wide_Characters.Handling.To_Lower (C);
-            end if;
-         end;
+         Result (Result_Last) := To_Lower (Result (Result_Last));
 
          I := I + 1;
       end loop;
@@ -172,8 +152,7 @@ package body Libadalang.Sources is
          or else Text (Text'First) /= '''
          or else Text (Text'Last) /= '''
       then
-         raise Libadalang.Common.Property_Error
-            with "Invalid character literal";
+         raise Property_Error with "Invalid character literal";
       end if;
 
       return Text (Text'First + 1);
@@ -197,8 +176,7 @@ package body Libadalang.Sources is
 
       procedure Error is
       begin
-         raise Libadalang.Common.Property_Error
-            with "Invalid string literal";
+         raise Property_Error with "Invalid string literal";
       end Error;
 
       ---------
@@ -357,9 +335,8 @@ package body Libadalang.Sources is
 
    function Parse_Numeric_Literal
      (Text : Text_Type) return Parsed_Numeric_Literal;
-   --  Parse Text as an Ada numeric literal. Raise a
-   --  Libadalang.Common.Property_Error if it is invalid. Otherwise, return
-   --  information about it.
+   --  Parse Text as an Ada numeric literal. Raise a Property_Error if it is
+   --  invalid. Otherwise, return information about it.
 
    function Strip_Underscores (Text : Text_Type) return String;
    --  Turn Text, a wide wide string that contains only base-16 digits and
@@ -420,7 +397,7 @@ package body Libadalang.Sources is
 
    procedure Error is
    begin
-      raise Libadalang.Common.Property_Error with "invalid numeric literal";
+      raise Property_Error with "invalid numeric literal";
    end Error;
 
    ---------------------------

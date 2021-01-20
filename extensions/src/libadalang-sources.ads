@@ -23,7 +23,7 @@
 
 with GNATCOLL.GMP.Integers;
 
-with Libadalang.Common; use Libadalang.Common;
+with Langkit_Support.Symbols; use Langkit_Support.Symbols;
 
 --  General helpers to deal with sources text decoding
 

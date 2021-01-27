@@ -236,7 +236,7 @@ class AdaNode(ASTNode):
             )
         )
 
-    @langkit_property(public=True, return_type=T.CompletionItem.array)
+    @langkit_property(public=True, return_type=T.CompletionItem.iterator)
     def complete():
         """
         Return possible completions at this point in the file.
@@ -247,7 +247,7 @@ class AdaNode(ASTNode):
                 is_dot_call=n.info.md.dottable_subp,
                 is_visible=Self.has_with_visibility(n.unit)
             )
-        )
+        ).to_iterator
 
     @langkit_property(public=True, return_type=T.Symbol.array)
     def valid_keywords():
@@ -13228,7 +13228,7 @@ class DottedName(Name):
     subp_spec_var = Property(Self.suffix.subp_spec_var)
     defines_subp_spec_var = Property(True)
 
-    @langkit_property(return_type=T.CompletionItem.array)
+    @langkit_property(return_type=T.CompletionItem.iterator)
     def complete():
         return origin.bind(Self.origin_node, env.bind(
             Self.node_env,
@@ -13238,7 +13238,7 @@ class DottedName(Name):
                     is_dot_call=n.info.md.dottable_subp,
                     is_visible=Self.has_with_visibility(n.unit)
                 )
-            )
+            ).to_iterator
         ))
 
     @langkit_property()

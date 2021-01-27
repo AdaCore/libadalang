@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+import argparse
 import os.path
 import subprocess
 import sys
@@ -26,6 +27,18 @@ class Manage(ManageScript):
     PERF_PARSE = 'parse'
     PERF_PARSE_AND_TRAVERSE = 'parse-and-traverse'
     PERF_CHOICES = (PERF_PARSE, PERF_PARSE_AND_TRAVERSE)
+
+    @staticmethod
+    def add_generate_args(subparser: argparse.ArgumentParser) -> None:
+        ManageScript.add_generate_args(subparser)
+        subparser.add_argument(
+            "--version", default="undefined",
+            help="Version number for the generated library",
+        )
+        subparser.add_argument(
+            "--build-date", default="undefined",
+            help="Build date number for the generated library",
+        )
 
     def add_extra_subcommands(self) -> None:
         ########
@@ -97,6 +110,8 @@ class Manage(ManageScript):
             symbol_canonicalizer=LibraryEntity('Libadalang.Sources',
                                                'Canonicalize'),
             documentations=libadalang_docs,
+            version=getattr(args, "version", "undefined"),
+            build_date=getattr(args, "build_date", "undefined"),
         )
 
         # Internals need to access environment hooks and the symbolizer

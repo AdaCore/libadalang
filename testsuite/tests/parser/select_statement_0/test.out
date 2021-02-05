@@ -1,63 +1,63 @@
 SelectStmt[1:1-1:126]
-|guards:
+|f_guards:
 |  SelectWhenPartList[1:8-1:114]
 |  |  SelectWhenPart[1:8-1:59]
-|  |  |cond_expr:
+|  |  |f_cond_expr:
 |  |  |  UnOp[1:13-1:21]
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpNot[1:13-1:16]
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Id[1:17-1:21]: BUSY
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  StmtList[1:25-1:59]
 |  |  |  |  AcceptStmtWithStmts[1:25-1:59]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:32-1:37]: SEIZE
-|  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |params:
+|  |  |  |  |f_entry_index_expr: <null>
+|  |  |  |  |f_params:
 |  |  |  |  |  EntryCompletionFormalParams[1:37-1:37]
-|  |  |  |  |  |params: <null>
-|  |  |  |  |stmts:
+|  |  |  |  |  |f_params: <null>
+|  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:40-1:55]
-|  |  |  |  |  |stmts:
+|  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  StmtList[1:41-1:54]
 |  |  |  |  |  |  |  AssignStmt[1:41-1:54]
-|  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  Id[1:41-1:45]: BUSY
-|  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  Id[1:49-1:53]: TRUE
-|  |  |  |  |  |exceptions:
+|  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  AdaNodeList[1:53-1:53]: <empty list>
-|  |  |  |  |end_name: <null>
+|  |  |  |  |f_end_name: <null>
 |  |  SelectWhenPart[1:63-1:100]
-|  |  |cond_expr: <null>
-|  |  |stmts:
+|  |  |f_cond_expr: <null>
+|  |  |f_stmts:
 |  |  |  StmtList[1:63-1:100]
 |  |  |  |  AcceptStmtWithStmts[1:63-1:100]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:70-1:77]: RELEASE
-|  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |params:
+|  |  |  |  |f_entry_index_expr: <null>
+|  |  |  |  |f_params:
 |  |  |  |  |  EntryCompletionFormalParams[1:77-1:77]
-|  |  |  |  |  |params: <null>
-|  |  |  |  |stmts:
+|  |  |  |  |  |f_params: <null>
+|  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:80-1:96]
-|  |  |  |  |  |stmts:
+|  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  StmtList[1:81-1:95]
 |  |  |  |  |  |  |  AssignStmt[1:81-1:95]
-|  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  Id[1:81-1:85]: BUSY
-|  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  Id[1:89-1:94]: FALSE
-|  |  |  |  |  |exceptions:
+|  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  AdaNodeList[1:94-1:94]: <empty list>
-|  |  |  |  |end_name: <null>
+|  |  |  |  |f_end_name: <null>
 |  |  SelectWhenPart[1:104-1:114]
-|  |  |cond_expr: <null>
-|  |  |stmts:
+|  |  |f_cond_expr: <null>
+|  |  |f_stmts:
 |  |  |  StmtList[1:104-1:114]
 |  |  |  |  TerminateAlternative[1:104-1:114]
-|else_stmts:
+|f_else_stmts:
 |  StmtList[1:113-1:113]: <empty list>
-|abort_stmts:
+|f_abort_stmts:
 |  StmtList[1:113-1:113]: <empty list>

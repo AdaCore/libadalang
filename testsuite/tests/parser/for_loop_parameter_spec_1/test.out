@@ -1,20 +1,20 @@
 ForLoopSpec[1:1-1:19]
-|var_decl:
+|f_var_decl:
 |  ForLoopVarDecl[1:1-1:12]
-|  |id:
+|  |f_id:
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
-|  |id_type:
+|  |f_id_type:
 |  |  SubtypeIndication[1:5-1:12]
-|  |  |has_not_null:
+|  |  |f_has_not_null:
 |  |  |  NotNullAbsent[1:4-1:4]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:5-1:12]: Integer
-|  |  |constraint: <null>
-|loop_type:
+|  |  |f_constraint: <null>
+|f_loop_type:
 |  IterTypeOf[1:13-1:15]
-|has_reverse:
+|f_has_reverse:
 |  ReverseAbsent[1:15-1:15]
-|iter_expr:
+|f_iter_expr:
 |  Id[1:16-1:19]: Foo

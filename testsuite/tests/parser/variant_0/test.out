@@ -1,31 +1,31 @@
 Variant[1:1-1:29]
-|choices:
+|f_choices:
 |  AlternativesList[1:6-1:13]
 |  |  Int[1:6-1:8]: 12
 |  |  Int[1:11-1:13]: 15
-|components:
+|f_components:
 |  ComponentList[1:17-1:29]
-|  |components:
+|  |f_components:
 |  |  AdaNodeList[1:17-1:29]
 |  |  |  ComponentDecl[1:17-1:29]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:17-1:18]
 |  |  |  |  |  DefiningName[1:17-1:18]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:17-1:18]: C
-|  |  |  |component_def:
+|  |  |  |f_component_def:
 |  |  |  |  ComponentDef[1:21-1:28]
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:20-1:20]
-|  |  |  |  |has_constant:
+|  |  |  |  |f_has_constant:
 |  |  |  |  |  ConstantAbsent[1:20-1:20]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:21-1:28]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:20-1:20]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:21-1:28]: Integer
-|  |  |  |  |  |constraint: <null>
-|  |  |  |default_expr: <null>
-|  |  |  |aspects: <null>
-|  |variant_part: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |f_default_expr: <null>
+|  |  |  |f_aspects: <null>
+|  |f_variant_part: <null>

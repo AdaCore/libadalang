@@ -1,26 +1,26 @@
 IfExpr[1:1-1:45]
-|cond_expr:
+|f_cond_expr:
 |  RelationOp[1:4-1:9]
-|  |left:
+|  |f_left:
 |  |  Id[1:4-1:5]: A
-|  |op:
+|  |f_op:
 |  |  OpEq[1:6-1:7]
-|  |right:
+|  |f_right:
 |  |  Id[1:8-1:9]: B
-|then_expr:
+|f_then_expr:
 |  Int[1:15-1:17]: 12
-|alternatives:
+|f_alternatives:
 |  ElsifExprPartList[1:18-1:37]
 |  |  ElsifExprPart[1:18-1:37]
-|  |  |cond_expr:
+|  |  |f_cond_expr:
 |  |  |  RelationOp[1:24-1:29]
-|  |  |  |left:
+|  |  |  |f_left:
 |  |  |  |  Id[1:24-1:25]: A
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpEq[1:26-1:27]
-|  |  |  |right:
+|  |  |  |f_right:
 |  |  |  |  Id[1:28-1:29]: C
-|  |  |then_expr:
+|  |  |f_then_expr:
 |  |  |  Int[1:35-1:37]: 14
-|else_expr:
+|f_else_expr:
 |  Int[1:43-1:45]: 15

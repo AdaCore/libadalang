@@ -1,9 +1,9 @@
 SubpSpec[1:1-1:12]
-|subp_kind:
+|f_subp_kind:
 |  SubpKindProcedure[1:1-1:10]
-|subp_name:
+|f_subp_name:
 |  DefiningName[1:11-1:12]
-|  |name:
+|  |f_name:
 |  |  Id[1:11-1:12]: I
-|subp_params: <null>
-|subp_returns: <null>
+|f_subp_params: <null>
+|f_subp_returns: <null>

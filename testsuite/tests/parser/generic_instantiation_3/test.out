@@ -1,20 +1,20 @@
 GenericPackageInstantiation[1:1-1:43]
-|name:
+|f_name:
 |  DefiningName[1:9-1:10]
-|  |name:
+|  |f_name:
 |  |  Id[1:9-1:10]: P
-|generic_pkg_name:
+|f_generic_pkg_name:
 |  Id[1:18-1:19]: Q
-|params:
+|f_params:
 |  AssocList[1:21-1:41]
 |  |  ParamAssoc[1:21-1:27]
-|  |  |designator:
+|  |  |f_designator:
 |  |  |  Id[1:21-1:22]: A
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  Id[1:26-1:27]: B
 |  |  ParamAssoc[1:29-1:41]
-|  |  |designator:
+|  |  |f_designator:
 |  |  |  OthersDesignator[1:29-1:35]
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  BoxExpr[1:39-1:41]
-|aspects: <null>
+|f_aspects: <null>

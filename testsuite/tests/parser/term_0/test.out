@@ -1,13 +1,13 @@
 BinOp[1:1-1:14]
-|left:
+|f_left:
 |  Int[1:1-1:3]: 12
-|op:
+|f_op:
 |  OpMult[1:4-1:5]
-|right:
+|f_right:
 |  BinOp[1:6-1:14]
-|  |left:
+|  |f_left:
 |  |  Int[1:6-1:8]: 12
-|  |op:
+|  |f_op:
 |  |  OpPow[1:9-1:11]
-|  |right:
+|  |f_right:
 |  |  Int[1:12-1:14]: 12

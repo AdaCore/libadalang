@@ -1,287 +1,287 @@
 CompilationUnit[1:1-17:10]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:18]
 |  |  WithClause[1:1-1:18]
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:6-1:17]
 |  |  |  |  DottedName[1:6-1:17]
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[1:6-1:9]: Ada
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id[1:10-1:17]: Text_IO
-|body:
+|f_body:
 |  LibraryItem[3:1-17:10]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:18-1:18]
-|  |item:
+|  |f_item:
 |  |  SubpBody[3:1-17:10]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:18-1:18]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[3:1-3:47]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[3:11-3:22]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[3:11-3:22]: Hello_World
-|  |  |  |subp_params:
+|  |  |  |f_subp_params:
 |  |  |  |  Params[3:23-3:47]
-|  |  |  |  |params:
+|  |  |  |  |f_params:
 |  |  |  |  |  ParamSpecList[3:24-3:46]
 |  |  |  |  |  |  ParamSpec[3:24-3:46]
-|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  DefiningNameList[3:24-3:31]
 |  |  |  |  |  |  |  |  DefiningName[3:24-3:31]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[3:24-3:31]: Console
-|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[3:33-3:33]
-|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  ModeDefault[3:33-3:33]
-|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[3:34-3:46]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[3:33-3:33]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[3:34-3:46]: Console_Type
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default_expr: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[3:50-14:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[5:4-12:13]
 |  |  |  |  |  SubpBody[5:4-12:13]
-|  |  |  |  |  |overriding:
+|  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  OverridingUnspecified[3:50-3:50]
-|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  SubpSpec[5:4-5:46]
-|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[5:4-5:12]
-|  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  DefiningName[5:13-5:17]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[5:13-5:17]: Fact
-|  |  |  |  |  |  |subp_params:
+|  |  |  |  |  |  |f_subp_params:
 |  |  |  |  |  |  |  Params[5:18-5:31]
-|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
 |  |  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
-|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  DefiningNameList[5:19-5:20]
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
-|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[5:22-5:22]
-|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  ModeDefault[5:22-5:22]
-|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
-|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:22-5:22]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]: Integer
-|  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |subp_returns:
+|  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[5:39-5:46]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[5:38-5:38]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[5:39-5:46]: Integer
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |f_decls:
 |  |  |  |  |  |  DeclarativePart[5:49-6:4]
-|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  AdaNodeList[5:49-5:49]: <empty list>
-|  |  |  |  |  |stmts:
+|  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  HandledStmts[6:9-12:4]
-|  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  StmtList[7:7-11:14]
 |  |  |  |  |  |  |  |  IfStmt[7:7-11:14]
-|  |  |  |  |  |  |  |  |cond_expr:
+|  |  |  |  |  |  |  |  |f_cond_expr:
 |  |  |  |  |  |  |  |  |  RelationOp[7:10-7:16]
-|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  Id[7:10-7:11]: N
-|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  OpLte[7:12-7:14]
-|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  Int[7:15-7:16]: 1
-|  |  |  |  |  |  |  |  |then_stmts:
+|  |  |  |  |  |  |  |  |f_then_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[8:10-8:19]
 |  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:19]
-|  |  |  |  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |  |  |  |f_return_expr:
 |  |  |  |  |  |  |  |  |  |  |  Int[8:17-8:18]: 1
-|  |  |  |  |  |  |  |  |alternatives:
+|  |  |  |  |  |  |  |  |f_alternatives:
 |  |  |  |  |  |  |  |  |  ElsifStmtPartList[8:19-8:19]: <empty list>
-|  |  |  |  |  |  |  |  |else_stmts:
+|  |  |  |  |  |  |  |  |f_else_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[10:10-10:34]
 |  |  |  |  |  |  |  |  |  |  ReturnStmt[10:10-10:34]
-|  |  |  |  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |  |  |  |f_return_expr:
 |  |  |  |  |  |  |  |  |  |  |  BinOp[10:17-10:33]
-|  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[10:17-10:18]: N
-|  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  OpMult[10:19-10:20]
-|  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[10:21-10:33]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[10:21-10:25]: Fact
-|  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[10:27-10:32]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[10:27-10:32]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[10:27-10:28]: N
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus[10:29-10:30]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]: 1
-|  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
-|  |  |  |  |  |end_name:
+|  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  EndName[12:8-12:12]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[12:8-12:12]: Fact
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[14:6-17:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[15:4-16:68]
 |  |  |  |  |  CallStmt[15:4-15:43]
-|  |  |  |  |  |call:
+|  |  |  |  |  |f_call:
 |  |  |  |  |  |  CallExpr[15:4-15:42]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  DottedName[15:4-15:24]
-|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  DottedName[15:4-15:15]
-|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  Id[15:4-15:7]: Ada
-|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  Id[15:8-15:15]: Text_IO
-|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  Id[15:16-15:24]: Put_Line
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  AssocList[15:26-15:41]
 |  |  |  |  |  |  |  |  ParamAssoc[15:26-15:41]
-|  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  Str[15:26-15:41]: "Hello, world!"
 |  |  |  |  |  CallStmt[16:4-16:68]
-|  |  |  |  |  |call:
+|  |  |  |  |  |f_call:
 |  |  |  |  |  |  CallExpr[16:4-16:67]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  DottedName[16:4-16:24]
-|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  DottedName[16:4-16:15]
-|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  Id[16:4-16:7]: Ada
-|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  Id[16:8-16:15]: Text_IO
-|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  Id[16:16-16:24]: Put_Line
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  AssocList[16:26-16:66]
 |  |  |  |  |  |  |  |  ParamAssoc[16:26-16:66]
-|  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  BinOp[16:26-16:66]
-|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  Str[16:26-16:39]: "Fact (6) = "
-|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  OpConcat[16:40-16:41]
-|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  AttributeRef[16:42-16:66]
-|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  Id[16:42-16:49]: Integer
-|  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  Id[16:50-16:55]: Image
-|  |  |  |  |  |  |  |  |  |  |args:
+|  |  |  |  |  |  |  |  |  |  |f_args:
 |  |  |  |  |  |  |  |  |  |  |  AssocList[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:57-16:65]
-|  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[16:57-16:65]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:57-16:61]: Fact
-|  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:63-16:64]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]: 6
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[17:5-17:9]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[17:5-17:9]: Fact
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[17:10-17:10]: <empty list>
 
 Lookup 1:1:
 WithClause[1:1-1:18]
-|has_limited:
+|f_has_limited:
 |  LimitedAbsent[1:1-1:1]
-|has_private:
+|f_has_private:
 |  PrivateAbsent[1:1-1:1]
-|packages:
+|f_packages:
 |  NameList[1:6-1:17]
 |  |  DottedName[1:6-1:17]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:6-1:9]: Ada
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:10-1:17]: Text_IO
 
 Lookup 1:2:
 WithClause[1:1-1:18]
-|has_limited:
+|f_has_limited:
 |  LimitedAbsent[1:1-1:1]
-|has_private:
+|f_has_private:
 |  PrivateAbsent[1:1-1:1]
-|packages:
+|f_packages:
 |  NameList[1:6-1:17]
 |  |  DottedName[1:6-1:17]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:6-1:9]: Ada
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:10-1:17]: Text_IO
 
 Lookup 1:4:
 WithClause[1:1-1:18]
-|has_limited:
+|f_has_limited:
 |  LimitedAbsent[1:1-1:1]
-|has_private:
+|f_has_private:
 |  PrivateAbsent[1:1-1:1]
-|packages:
+|f_packages:
 |  NameList[1:6-1:17]
 |  |  DottedName[1:6-1:17]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:6-1:9]: Ada
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:10-1:17]: Text_IO
 
 Lookup 1:5:
 WithClause[1:1-1:18]
-|has_limited:
+|f_has_limited:
 |  LimitedAbsent[1:1-1:1]
-|has_private:
+|f_has_private:
 |  PrivateAbsent[1:1-1:1]
-|packages:
+|f_packages:
 |  NameList[1:6-1:17]
 |  |  DottedName[1:6-1:17]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:6-1:9]: Ada
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:10-1:17]: Text_IO
 
 Lookup 1:6:
@@ -292,9 +292,9 @@ Id[1:6-1:9]: Ada
 
 Lookup 1:9:
 DottedName[1:6-1:17]
-|prefix:
+|f_prefix:
 |  Id[1:6-1:9]: Ada
-|suffix:
+|f_suffix:
 |  Id[1:10-1:17]: Text_IO
 
 Lookup 1:10:
@@ -305,371 +305,371 @@ Id[1:10-1:17]: Text_IO
 
 Lookup 1:17:
 WithClause[1:1-1:18]
-|has_limited:
+|f_has_limited:
 |  LimitedAbsent[1:1-1:1]
-|has_private:
+|f_has_private:
 |  PrivateAbsent[1:1-1:1]
-|packages:
+|f_packages:
 |  NameList[1:6-1:17]
 |  |  DottedName[1:6-1:17]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:6-1:9]: Ada
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:10-1:17]: Text_IO
 
 Lookup 2:1:
 CompilationUnit[1:1-17:10]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:18]
 |  |  WithClause[1:1-1:18]
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:6-1:17]
 |  |  |  |  DottedName[1:6-1:17]
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[1:6-1:9]: Ada
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id[1:10-1:17]: Text_IO
-|body:
+|f_body:
 |  LibraryItem[3:1-17:10]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:18-1:18]
-|  |item:
+|  |f_item:
 |  |  SubpBody[3:1-17:10]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:18-1:18]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[3:1-3:47]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[3:11-3:22]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[3:11-3:22]: Hello_World
-|  |  |  |subp_params:
+|  |  |  |f_subp_params:
 |  |  |  |  Params[3:23-3:47]
-|  |  |  |  |params:
+|  |  |  |  |f_params:
 |  |  |  |  |  ParamSpecList[3:24-3:46]
 |  |  |  |  |  |  ParamSpec[3:24-3:46]
-|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  DefiningNameList[3:24-3:31]
 |  |  |  |  |  |  |  |  DefiningName[3:24-3:31]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[3:24-3:31]: Console
-|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[3:33-3:33]
-|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  ModeDefault[3:33-3:33]
-|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[3:34-3:46]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[3:33-3:33]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[3:34-3:46]: Console_Type
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default_expr: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[3:50-14:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[5:4-12:13]
 |  |  |  |  |  SubpBody[5:4-12:13]
-|  |  |  |  |  |overriding:
+|  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  OverridingUnspecified[3:50-3:50]
-|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  SubpSpec[5:4-5:46]
-|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[5:4-5:12]
-|  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  DefiningName[5:13-5:17]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[5:13-5:17]: Fact
-|  |  |  |  |  |  |subp_params:
+|  |  |  |  |  |  |f_subp_params:
 |  |  |  |  |  |  |  Params[5:18-5:31]
-|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  ParamSpecList[5:19-5:30]
 |  |  |  |  |  |  |  |  |  ParamSpec[5:19-5:30]
-|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  DefiningNameList[5:19-5:20]
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[5:19-5:20]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
-|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[5:22-5:22]
-|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  ModeDefault[5:22-5:22]
-|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
-|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[5:22-5:22]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[5:23-5:30]: Integer
-|  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |subp_returns:
+|  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[5:39-5:46]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[5:38-5:38]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[5:39-5:46]: Integer
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |f_decls:
 |  |  |  |  |  |  DeclarativePart[5:49-6:4]
-|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  AdaNodeList[5:49-5:49]: <empty list>
-|  |  |  |  |  |stmts:
+|  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  HandledStmts[6:9-12:4]
-|  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  StmtList[7:7-11:14]
 |  |  |  |  |  |  |  |  IfStmt[7:7-11:14]
-|  |  |  |  |  |  |  |  |cond_expr:
+|  |  |  |  |  |  |  |  |f_cond_expr:
 |  |  |  |  |  |  |  |  |  RelationOp[7:10-7:16]
-|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  Id[7:10-7:11]: N
-|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  OpLte[7:12-7:14]
-|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  Int[7:15-7:16]: 1
-|  |  |  |  |  |  |  |  |then_stmts:
+|  |  |  |  |  |  |  |  |f_then_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[8:10-8:19]
 |  |  |  |  |  |  |  |  |  |  ReturnStmt[8:10-8:19]
-|  |  |  |  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |  |  |  |f_return_expr:
 |  |  |  |  |  |  |  |  |  |  |  Int[8:17-8:18]: 1
-|  |  |  |  |  |  |  |  |alternatives:
+|  |  |  |  |  |  |  |  |f_alternatives:
 |  |  |  |  |  |  |  |  |  ElsifStmtPartList[8:19-8:19]: <empty list>
-|  |  |  |  |  |  |  |  |else_stmts:
+|  |  |  |  |  |  |  |  |f_else_stmts:
 |  |  |  |  |  |  |  |  |  StmtList[10:10-10:34]
 |  |  |  |  |  |  |  |  |  |  ReturnStmt[10:10-10:34]
-|  |  |  |  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |  |  |  |f_return_expr:
 |  |  |  |  |  |  |  |  |  |  |  BinOp[10:17-10:33]
-|  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[10:17-10:18]: N
-|  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  OpMult[10:19-10:20]
-|  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[10:21-10:33]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[10:21-10:25]: Fact
-|  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[10:27-10:32]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[10:27-10:32]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[10:27-10:28]: N
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus[10:29-10:30]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]: 1
-|  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
-|  |  |  |  |  |end_name:
+|  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  EndName[12:8-12:12]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[12:8-12:12]: Fact
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[14:6-17:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[15:4-16:68]
 |  |  |  |  |  CallStmt[15:4-15:43]
-|  |  |  |  |  |call:
+|  |  |  |  |  |f_call:
 |  |  |  |  |  |  CallExpr[15:4-15:42]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  DottedName[15:4-15:24]
-|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  DottedName[15:4-15:15]
-|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  Id[15:4-15:7]: Ada
-|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  Id[15:8-15:15]: Text_IO
-|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  Id[15:16-15:24]: Put_Line
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  AssocList[15:26-15:41]
 |  |  |  |  |  |  |  |  ParamAssoc[15:26-15:41]
-|  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  Str[15:26-15:41]: "Hello, world!"
 |  |  |  |  |  CallStmt[16:4-16:68]
-|  |  |  |  |  |call:
+|  |  |  |  |  |f_call:
 |  |  |  |  |  |  CallExpr[16:4-16:67]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  DottedName[16:4-16:24]
-|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  DottedName[16:4-16:15]
-|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  Id[16:4-16:7]: Ada
-|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  Id[16:8-16:15]: Text_IO
-|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  Id[16:16-16:24]: Put_Line
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  AssocList[16:26-16:66]
 |  |  |  |  |  |  |  |  ParamAssoc[16:26-16:66]
-|  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  BinOp[16:26-16:66]
-|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  Str[16:26-16:39]: "Fact (6) = "
-|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  OpConcat[16:40-16:41]
-|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  AttributeRef[16:42-16:66]
-|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  Id[16:42-16:49]: Integer
-|  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  Id[16:50-16:55]: Image
-|  |  |  |  |  |  |  |  |  |  |args:
+|  |  |  |  |  |  |  |  |  |  |f_args:
 |  |  |  |  |  |  |  |  |  |  |  AssocList[16:57-16:65]
 |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:57-16:65]
-|  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[16:57-16:65]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:57-16:61]: Fact
-|  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[16:63-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:63-16:64]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:63-16:64]: 6
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[16:67-16:67]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[17:5-17:9]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[17:5-17:9]: Fact
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[17:10-17:10]: <empty list>
 
 Lookup 4:1:
 DeclarativePart[3:50-14:1]
-|decls:
+|f_decls:
 |  AdaNodeList[5:4-12:13]
 |  |  SubpBody[5:4-12:13]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[3:50-3:50]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[5:4-5:46]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindFunction[5:4-5:12]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[5:13-5:17]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[5:13-5:17]: Fact
-|  |  |  |subp_params:
+|  |  |  |f_subp_params:
 |  |  |  |  Params[5:18-5:31]
-|  |  |  |  |params:
+|  |  |  |  |f_params:
 |  |  |  |  |  ParamSpecList[5:19-5:30]
 |  |  |  |  |  |  ParamSpec[5:19-5:30]
-|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  DefiningNameList[5:19-5:20]
 |  |  |  |  |  |  |  |  DefiningName[5:19-5:20]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[5:19-5:20]: N
-|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[5:22-5:22]
-|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  ModeDefault[5:22-5:22]
-|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[5:23-5:30]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[5:22-5:22]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[5:23-5:30]: Integer
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default_expr: <null>
-|  |  |  |subp_returns:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |f_subp_returns:
 |  |  |  |  SubtypeIndication[5:39-5:46]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[5:38-5:38]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[5:39-5:46]: Integer
-|  |  |  |  |constraint: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |  |f_constraint: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[5:49-6:4]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[5:49-5:49]: <empty list>
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[6:9-12:4]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[7:7-11:14]
 |  |  |  |  |  IfStmt[7:7-11:14]
-|  |  |  |  |  |cond_expr:
+|  |  |  |  |  |f_cond_expr:
 |  |  |  |  |  |  RelationOp[7:10-7:16]
-|  |  |  |  |  |  |left:
+|  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  Id[7:10-7:11]: N
-|  |  |  |  |  |  |op:
+|  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  OpLte[7:12-7:14]
-|  |  |  |  |  |  |right:
+|  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  Int[7:15-7:16]: 1
-|  |  |  |  |  |then_stmts:
+|  |  |  |  |  |f_then_stmts:
 |  |  |  |  |  |  StmtList[8:10-8:19]
 |  |  |  |  |  |  |  ReturnStmt[8:10-8:19]
-|  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |f_return_expr:
 |  |  |  |  |  |  |  |  Int[8:17-8:18]: 1
-|  |  |  |  |  |alternatives:
+|  |  |  |  |  |f_alternatives:
 |  |  |  |  |  |  ElsifStmtPartList[8:19-8:19]: <empty list>
-|  |  |  |  |  |else_stmts:
+|  |  |  |  |  |f_else_stmts:
 |  |  |  |  |  |  StmtList[10:10-10:34]
 |  |  |  |  |  |  |  ReturnStmt[10:10-10:34]
-|  |  |  |  |  |  |  |return_expr:
+|  |  |  |  |  |  |  |f_return_expr:
 |  |  |  |  |  |  |  |  BinOp[10:17-10:33]
-|  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  Id[10:17-10:18]: N
-|  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  OpMult[10:19-10:20]
-|  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  CallExpr[10:21-10:33]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[10:21-10:25]: Fact
-|  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  AssocList[10:27-10:32]
 |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[10:27-10:32]
-|  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  BinOp[10:27-10:32]
-|  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[10:27-10:28]: N
-|  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus[10:29-10:30]
-|  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int[10:31-10:32]: 1
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[11:13-11:13]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[12:8-12:12]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[12:8-12:12]: Fact
 
 Lookup 10:10:
 ReturnStmt[10:10-10:34]
-|return_expr:
+|f_return_expr:
 |  BinOp[10:17-10:33]
-|  |left:
+|  |f_left:
 |  |  Id[10:17-10:18]: N
-|  |op:
+|  |f_op:
 |  |  OpMult[10:19-10:20]
-|  |right:
+|  |f_right:
 |  |  CallExpr[10:21-10:33]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[10:21-10:25]: Fact
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  AssocList[10:27-10:32]
 |  |  |  |  ParamAssoc[10:27-10:32]
-|  |  |  |  |designator: <null>
-|  |  |  |  |r_expr:
+|  |  |  |  |f_designator: <null>
+|  |  |  |  |f_r_expr:
 |  |  |  |  |  BinOp[10:27-10:32]
-|  |  |  |  |  |left:
+|  |  |  |  |  |f_left:
 |  |  |  |  |  |  Id[10:27-10:28]: N
-|  |  |  |  |  |op:
+|  |  |  |  |  |f_op:
 |  |  |  |  |  |  OpMinus[10:29-10:30]
-|  |  |  |  |  |right:
+|  |  |  |  |  |f_right:
 |  |  |  |  |  |  Int[10:31-10:32]: 1

@@ -1,15 +1,15 @@
 DecimalFixedPointDef[1:1-1:54]
-|delta:
+|f_delta:
 |  Id[1:7-1:18]: Delta_Value
-|digits:
+|f_digits:
 |  Id[1:26-1:36]: Num_Digits
-|range:
+|f_range:
 |  RangeSpec[1:37-1:54]
-|  |range:
+|  |f_range:
 |  |  BinOp[1:43-1:54]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Id[1:43-1:46]: Low
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpDoubleDot[1:47-1:49]
-|  |  |right:
+|  |  |f_right:
 |  |  |  Id[1:50-1:54]: High

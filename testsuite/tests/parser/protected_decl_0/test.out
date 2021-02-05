@@ -1,85 +1,85 @@
 SingleProtectedDecl[1:1-1:122]
-|name:
+|f_name:
 |  DefiningName[1:11-1:27]
-|  |name:
+|  |f_name:
 |  |  Id[1:11-1:27]: Protected_Buffer
-|aspects: <null>
-|interfaces:
+|f_aspects: <null>
+|f_interfaces:
 |  ParentList[1:27-1:27]: <empty list>
-|definition:
+|f_definition:
 |  ProtectedDef[1:31-1:121]
-|  |public_part:
+|  |f_public_part:
 |  |  PublicPart[1:30-1:101]
-|  |  |decls:
+|  |  |f_decls:
 |  |  |  DeclList[1:31-1:100]
 |  |  |  |  EntryDecl[1:31-1:65]
-|  |  |  |  |overriding:
+|  |  |  |  |f_overriding:
 |  |  |  |  |  OverridingUnspecified[1:30-1:30]
-|  |  |  |  |spec:
+|  |  |  |  |f_spec:
 |  |  |  |  |  EntrySpec[1:31-1:64]
-|  |  |  |  |  |entry_name:
+|  |  |  |  |  |f_entry_name:
 |  |  |  |  |  |  DefiningName[1:37-1:43]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:37-1:43]: Insert
-|  |  |  |  |  |family_type: <null>
-|  |  |  |  |  |entry_params:
+|  |  |  |  |  |f_family_type: <null>
+|  |  |  |  |  |f_entry_params:
 |  |  |  |  |  |  Params[1:44-1:64]
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  ParamSpecList[1:45-1:63]
 |  |  |  |  |  |  |  |  ParamSpec[1:45-1:63]
-|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  DefiningNameList[1:45-1:52]
 |  |  |  |  |  |  |  |  |  |  DefiningName[1:45-1:52]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:45-1:52]: An_Item
-|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:54-1:54]
-|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  ModeIn[1:55-1:57]
-|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:59-1:63]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:57-1:57]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:59-1:63]: Item
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  EntryDecl[1:66-1:100]
-|  |  |  |  |overriding:
+|  |  |  |  |f_overriding:
 |  |  |  |  |  OverridingUnspecified[1:65-1:65]
-|  |  |  |  |spec:
+|  |  |  |  |f_spec:
 |  |  |  |  |  EntrySpec[1:66-1:99]
-|  |  |  |  |  |entry_name:
+|  |  |  |  |  |f_entry_name:
 |  |  |  |  |  |  DefiningName[1:72-1:78]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:72-1:78]: Remove
-|  |  |  |  |  |family_type: <null>
-|  |  |  |  |  |entry_params:
+|  |  |  |  |  |f_family_type: <null>
+|  |  |  |  |  |f_entry_params:
 |  |  |  |  |  |  Params[1:79-1:99]
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  ParamSpecList[1:80-1:98]
 |  |  |  |  |  |  |  |  ParamSpec[1:80-1:98]
-|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  DefiningNameList[1:80-1:87]
 |  |  |  |  |  |  |  |  |  |  DefiningName[1:80-1:87]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:80-1:87]: An_Item
-|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:89-1:89]
-|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  ModeOut[1:90-1:93]
-|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:94-1:98]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:93-1:93]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:94-1:98]: Item
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |aspects: <null>
-|  |private_part: <null>
-|  |end_name:
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
+|  |f_private_part: <null>
+|  |f_end_name:
 |  |  EndName[1:105-1:121]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:105-1:121]: Protected_Buffer

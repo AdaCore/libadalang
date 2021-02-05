@@ -1,17 +1,17 @@
 Aggregate[1:1-1:24]
-|ancestor_expr:
+|f_ancestor_expr:
 |  Id[1:2-1:3]: A
-|assocs:
+|f_assocs:
 |  AssocList[1:9-1:23]
 |  |  AggregateAssoc[1:9-1:15]
-|  |  |designators:
+|  |  |f_designators:
 |  |  |  AlternativesList[1:9-1:10]
 |  |  |  |  Id[1:9-1:10]: B
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  Id[1:14-1:15]: C
 |  |  AggregateAssoc[1:17-1:23]
-|  |  |designators:
+|  |  |f_designators:
 |  |  |  AlternativesList[1:17-1:18]
 |  |  |  |  Id[1:17-1:18]: D
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  Id[1:22-1:23]: E

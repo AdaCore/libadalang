@@ -1,8 +1,8 @@
 IncompleteTaggedTypeDecl[1:1-1:27]
-|name:
+|f_name:
 |  DefiningName[1:6-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:7]: A
-|discriminants: <null>
-|has_abstract:
+|f_discriminants: <null>
+|f_has_abstract:
 |  AbstractPresent[1:11-1:19]

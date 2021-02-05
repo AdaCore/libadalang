@@ -1,23 +1,23 @@
 SubtypeDecl[1:1-1:26]
-|name:
+|f_name:
 |  DefiningName[1:9-1:10]
-|  |name:
+|  |f_name:
 |  |  Id[1:9-1:10]: A
-|subtype:
+|f_subtype:
 |  SubtypeIndication[1:14-1:25]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullAbsent[1:13-1:13]
-|  |name:
+|  |f_name:
 |  |  Id[1:14-1:15]: B
-|  |constraint:
+|  |f_constraint:
 |  |  IndexConstraint[1:16-1:25]
-|  |  |constraints:
+|  |  |f_constraints:
 |  |  |  ConstraintList[1:17-1:24]
 |  |  |  |  BinOp[1:17-1:24]
-|  |  |  |  |left:
+|  |  |  |  |f_left:
 |  |  |  |  |  Int[1:17-1:18]: 1
-|  |  |  |  |op:
+|  |  |  |  |f_op:
 |  |  |  |  |  OpDoubleDot[1:19-1:21]
-|  |  |  |  |right:
+|  |  |  |  |f_right:
 |  |  |  |  |  Int[1:22-1:24]: 12
-|aspects: <null>
+|f_aspects: <null>

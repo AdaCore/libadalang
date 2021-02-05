@@ -1,82 +1,82 @@
 SubpSpec[1:1-1:69]
-|subp_kind:
+|f_subp_kind:
 |  SubpKindProcedure[1:1-1:10]
-|subp_name:
+|f_subp_name:
 |  DefiningName[1:11-1:12]
-|  |name:
+|  |f_name:
 |  |  Id[1:11-1:12]: I
-|subp_params:
+|f_subp_params:
 |  Params[1:13-1:69]
-|  |params:
+|  |f_params:
 |  |  ParamSpecList[1:14-1:68]
 |  |  |  ParamSpec[1:14-1:55]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:14-1:15]
 |  |  |  |  |  DefiningName[1:14-1:15]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:14-1:15]: A
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[1:17-1:17]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeInOut[1:18-1:24]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  AnonymousType[1:25-1:55]
-|  |  |  |  |type_decl:
+|  |  |  |  |f_type_decl:
 |  |  |  |  |  AnonymousTypeDecl[1:25-1:55]
-|  |  |  |  |  |name: <null>
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
+|  |  |  |  |  |f_name: <null>
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  AccessToSubpDef[1:25-1:55]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:24-1:24]
-|  |  |  |  |  |  |has_protected:
+|  |  |  |  |  |  |f_has_protected:
 |  |  |  |  |  |  |  ProtectedAbsent[1:31-1:31]
-|  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  |  SubpSpec[1:32-1:55]
-|  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  |  SubpKindProcedure[1:32-1:41]
-|  |  |  |  |  |  |  |subp_name: <null>
-|  |  |  |  |  |  |  |subp_params:
+|  |  |  |  |  |  |  |f_subp_name: <null>
+|  |  |  |  |  |  |  |f_subp_params:
 |  |  |  |  |  |  |  |  Params[1:42-1:55]
-|  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  ParamSpecList[1:43-1:54]
 |  |  |  |  |  |  |  |  |  |  ParamSpec[1:43-1:54]
-|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[1:43-1:44]
 |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[1:43-1:44]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[1:43-1:44]: A
-|  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[1:46-1:46]
-|  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  |  ModeDefault[1:46-1:46]
-|  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[1:47-1:54]
-|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:46-1:46]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]: Integer
-|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |f_subp_returns: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |f_default_expr: <null>
 |  |  |  ParamSpec[1:57-1:68]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:57-1:58]
 |  |  |  |  |  DefiningName[1:57-1:58]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:57-1:58]: B
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[1:60-1:60]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeDefault[1:60-1:60]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  SubtypeIndication[1:61-1:68]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[1:60-1:60]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:61-1:68]: Integer
-|  |  |  |  |constraint: <null>
-|  |  |  |default_expr: <null>
-|subp_returns: <null>
+|  |  |  |  |f_constraint: <null>
+|  |  |  |f_default_expr: <null>
+|f_subp_returns: <null>

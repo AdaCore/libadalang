@@ -1,294 +1,294 @@
 CompilationUnit[1:1-22:9]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-22:9]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  PackageDecl[1:1-22:9]
-|  |  |package_name:
+|  |  |f_package_name:
 |  |  |  DefiningName[1:9-1:12]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:9-1:12]: Sat
-|  |  |aspects:
+|  |  |f_aspects:
 |  |  |  AspectSpec[2:3-2:18]
-|  |  |  |aspect_assocs:
+|  |  |  |f_aspect_assocs:
 |  |  |  |  AspectAssocList[2:8-2:18]
 |  |  |  |  |  AspectAssoc[2:8-2:18]
-|  |  |  |  |  |id:
+|  |  |  |  |  |f_id:
 |  |  |  |  |  |  Id[2:8-2:18]: SPARK_Mode
-|  |  |  |  |  |expr: <null>
-|  |  |public_part:
+|  |  |  |  |  |f_expr: <null>
+|  |  |f_public_part:
 |  |  |  PublicPart[3:3-22:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[12:4-20:66]
 |  |  |  |  |  SubtypeDecl[12:4-12:48]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[12:12-12:18]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[12:12-12:18]: My_Int
-|  |  |  |  |  |subtype:
+|  |  |  |  |  |f_subtype:
 |  |  |  |  |  |  SubtypeIndication[12:22-12:47]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[12:21-12:21]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[12:22-12:29]: Integer
-|  |  |  |  |  |  |constraint:
+|  |  |  |  |  |  |f_constraint:
 |  |  |  |  |  |  |  RangeConstraint[12:30-12:47]
-|  |  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  |f_range:
 |  |  |  |  |  |  |  |  RangeSpec[12:30-12:47]
-|  |  |  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  |  |f_range:
 |  |  |  |  |  |  |  |  |  BinOp[12:36-12:47]
-|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  Int[12:36-12:37]: 0
-|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  OpDoubleDot[12:38-12:40]
-|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  Int[12:41-12:47]: 10_000
-|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  SubpDecl[14:4-16:89]
-|  |  |  |  |  |overriding:
+|  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  OverridingUnspecified[12:48-12:48]
-|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  SubpSpec[14:4-14:46]
-|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[14:4-14:12]
-|  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  DefiningName[14:13-14:16]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[14:13-14:16]: Add
-|  |  |  |  |  |  |subp_params:
+|  |  |  |  |  |  |f_subp_params:
 |  |  |  |  |  |  |  Params[14:17-14:32]
-|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  ParamSpecList[14:18-14:31]
 |  |  |  |  |  |  |  |  |  ParamSpec[14:18-14:31]
-|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  DefiningNameList[14:18-14:22]
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[14:18-14:19]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[14:18-14:19]: X
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[14:21-14:22]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[14:21-14:22]: Y
-|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[14:24-14:24]
-|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  ModeDefault[14:24-14:24]
-|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[14:25-14:31]
-|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[14:24-14:24]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[14:25-14:31]: My_Int
-|  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |subp_returns:
+|  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[14:40-14:46]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[14:39-14:39]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[14:40-14:46]: My_Int
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects:
 |  |  |  |  |  |  AspectSpec[14:47-16:88]
-|  |  |  |  |  |  |aspect_assocs:
+|  |  |  |  |  |  |f_aspect_assocs:
 |  |  |  |  |  |  |  AspectAssocList[15:7-16:88]
 |  |  |  |  |  |  |  |  AspectAssoc[15:7-16:88]
-|  |  |  |  |  |  |  |  |id:
+|  |  |  |  |  |  |  |  |f_id:
 |  |  |  |  |  |  |  |  |  Id[15:7-15:21]: Contract_Cases
-|  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  Aggregate[16:9-16:88]
-|  |  |  |  |  |  |  |  |  |ancestor_expr: <null>
-|  |  |  |  |  |  |  |  |  |assocs:
+|  |  |  |  |  |  |  |  |  |f_ancestor_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_assocs:
 |  |  |  |  |  |  |  |  |  |  AssocList[16:10-16:87]
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[16:10-16:47]
-|  |  |  |  |  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[16:10-16:24]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[16:10-16:24]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[16:10-16:15]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:10-16:11]: X
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpPlus[16:12-16:13]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:14-16:15]: Y
-|  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpLt[16:16-16:17]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:18-16:24]: 10_000
-|  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[16:29-16:47]
-|  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[16:29-16:39]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:29-16:32]: Add
-|  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:33-16:39]: Result
-|  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_args: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  OpEq[16:40-16:41]
-|  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[16:42-16:47]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:42-16:43]: X
-|  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpPlus[16:44-16:45]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:46-16:47]: Y
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[16:49-16:87]
-|  |  |  |  |  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[16:49-16:64]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[16:49-16:64]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[16:49-16:54]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:49-16:50]: X
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpPlus[16:51-16:52]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:53-16:54]: Y
-|  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpGte[16:55-16:57]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:58-16:64]: 10_000
-|  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[16:68-16:87]
-|  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[16:68-16:78]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:68-16:71]: Add
-|  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:72-16:78]: Result
-|  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_args: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  OpEq[16:79-16:80]
-|  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int[16:81-16:87]: 10_000
 |  |  |  |  |  SubpDecl[18:4-20:66]
-|  |  |  |  |  |overriding:
+|  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  OverridingUnspecified[16:89-16:89]
-|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  SubpSpec[18:4-18:47]
-|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[18:4-18:12]
-|  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  DefiningName[18:13-18:17]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[18:13-18:17]: Mult
-|  |  |  |  |  |  |subp_params:
+|  |  |  |  |  |  |f_subp_params:
 |  |  |  |  |  |  |  Params[18:18-18:33]
-|  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  ParamSpecList[18:19-18:32]
 |  |  |  |  |  |  |  |  |  ParamSpec[18:19-18:32]
-|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  DefiningNameList[18:19-18:23]
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[18:19-18:20]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[18:19-18:20]: X
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[18:22-18:23]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[18:22-18:23]: Y
-|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[18:25-18:25]
-|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  ModeDefault[18:25-18:25]
-|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[18:26-18:32]
-|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[18:25-18:25]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[18:26-18:32]: My_Int
-|  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |subp_returns:
+|  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[18:41-18:47]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[18:40-18:40]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[18:41-18:47]: My_Int
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects:
 |  |  |  |  |  |  AspectSpec[18:48-20:65]
-|  |  |  |  |  |  |aspect_assocs:
+|  |  |  |  |  |  |f_aspect_assocs:
 |  |  |  |  |  |  |  AspectAssocList[19:6-20:65]
 |  |  |  |  |  |  |  |  AspectAssoc[19:6-20:65]
-|  |  |  |  |  |  |  |  |id:
+|  |  |  |  |  |  |  |  |f_id:
 |  |  |  |  |  |  |  |  |  Id[19:6-19:20]: Contract_Cases
-|  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  Aggregate[19:24-20:65]
-|  |  |  |  |  |  |  |  |  |ancestor_expr: <null>
-|  |  |  |  |  |  |  |  |  |assocs:
+|  |  |  |  |  |  |  |  |  |f_ancestor_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_assocs:
 |  |  |  |  |  |  |  |  |  |  AssocList[19:25-20:64]
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[19:25-19:63]
-|  |  |  |  |  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[19:25-19:39]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[19:25-19:39]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[19:25-19:30]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:25-19:26]: X
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpMult[19:27-19:28]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:29-19:30]: Y
-|  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpLt[19:31-19:32]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[19:33-19:39]: 10_000
-|  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[19:44-19:63]
-|  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[19:44-19:55]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:44-19:48]: Mult
-|  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:49-19:55]: Result
-|  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_args: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  OpEq[19:56-19:57]
-|  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[19:58-19:63]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:58-19:59]: X
-|  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpMult[19:60-19:61]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[19:62-19:63]: Y
 |  |  |  |  |  |  |  |  |  |  |  AggregateAssoc[20:25-20:64]
-|  |  |  |  |  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  |  |  |  |  AlternativesList[20:25-20:40]
 |  |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[20:25-20:40]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[20:25-20:30]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[20:25-20:26]: X
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpMult[20:27-20:28]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[20:29-20:30]: Y
-|  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpGte[20:31-20:33]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[20:34-20:40]: 10_000
-|  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  RelationOp[20:44-20:64]
-|  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[20:44-20:55]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[20:44-20:48]: Mult
-|  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[20:49-20:55]: Result
-|  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_args: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  OpEq[20:56-20:57]
-|  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int[20:58-20:64]: 10_000
-|  |  |private_part: <null>
-|  |  |end_name:
+|  |  |f_private_part: <null>
+|  |  |f_end_name:
 |  |  |  EndName[22:5-22:8]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[22:5-22:8]: Sat
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[22:9-22:9]: <empty list>

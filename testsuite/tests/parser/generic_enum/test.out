@@ -1,259 +1,259 @@
 CompilationUnit[1:1-24:10]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:35]
 |  |  WithClause[1:1-1:18]
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:6-1:17]
 |  |  |  |  DottedName[1:6-1:17]
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[1:6-1:9]: Ada
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id[1:10-1:17]: Text_IO
 |  |  UsePackageClause[1:19-1:35]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:23-1:34]
 |  |  |  |  DottedName[1:23-1:34]
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[1:23-1:26]: Ada
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id[1:27-1:34]: Text_IO
-|body:
+|f_body:
 |  LibraryItem[3:1-24:10]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:35-1:35]
-|  |item:
+|  |f_item:
 |  |  SubpBody[3:1-24:10]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:35-1:35]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[3:1-3:15]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[3:11-3:15]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[3:11-3:15]: What
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[3:18-22:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[4:4-20:26]
 |  |  |  |  |  TypeDecl[4:4-4:29]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[4:9-4:13]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[4:9-4:13]: Enum
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  EnumTypeDef[4:17-4:28]
-|  |  |  |  |  |  |enum_literals:
+|  |  |  |  |  |  |f_enum_literals:
 |  |  |  |  |  |  |  EnumLiteralDeclList[4:18-4:27]
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:18-4:19]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  DefiningName[4:18-4:19]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[4:18-4:19]: A
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:21-4:24]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  DefiningName[4:21-4:24]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Chr[4:21-4:24]: 'B'
 |  |  |  |  |  |  |  |  EnumLiteralDecl[4:26-4:27]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  DefiningName[4:26-4:27]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[4:26-4:27]: C
-|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  GenericPackageDecl[5:4-10:10]
-|  |  |  |  |  |formal_part:
+|  |  |  |  |  |f_formal_part:
 |  |  |  |  |  |  GenericFormalPart[5:4-7:42]
-|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  AdaNodeList[6:7-7:42]
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[6:7-6:40]
-|  |  |  |  |  |  |  |  |decl:
+|  |  |  |  |  |  |  |  |f_decl:
 |  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[6:7-6:40]
-|  |  |  |  |  |  |  |  |  |overriding:
+|  |  |  |  |  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[6:11-6:11]
-|  |  |  |  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  |  |  |  |  SubpSpec[6:12-6:34]
-|  |  |  |  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindFunction[6:12-6:20]
-|  |  |  |  |  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[6:21-6:22]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[6:21-6:22]: J
-|  |  |  |  |  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |  |  |  |  |subp_returns:
+|  |  |  |  |  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
-|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[6:29-6:29]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[6:30-6:34]: Enum
-|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |f_default_expr:
 |  |  |  |  |  |  |  |  |  |  Id[6:38-6:39]: A
-|  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[7:7-7:42]
-|  |  |  |  |  |  |  |  |decl:
+|  |  |  |  |  |  |  |  |f_decl:
 |  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[7:7-7:42]
-|  |  |  |  |  |  |  |  |  |overriding:
+|  |  |  |  |  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[7:11-7:11]
-|  |  |  |  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  |  |  |  |  SubpSpec[7:12-7:34]
-|  |  |  |  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindFunction[7:12-7:20]
-|  |  |  |  |  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[7:21-7:22]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[7:21-7:22]: I
-|  |  |  |  |  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |  |  |  |  |subp_returns:
+|  |  |  |  |  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[7:30-7:34]
-|  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:29-7:29]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[7:30-7:34]: ENum
-|  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |f_default_expr:
 |  |  |  |  |  |  |  |  |  |  Chr[7:38-7:41]: 'B'
-|  |  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |package_decl:
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |f_package_decl:
 |  |  |  |  |  |  GenericPackageInternal[8:4-10:10]
-|  |  |  |  |  |  |package_name:
+|  |  |  |  |  |  |f_package_name:
 |  |  |  |  |  |  |  DefiningName[8:12-8:13]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[8:12-8:13]: P
-|  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |public_part:
+|  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |f_public_part:
 |  |  |  |  |  |  |  PublicPart[8:16-10:4]
-|  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  |  AdaNodeList[9:7-9:21]
 |  |  |  |  |  |  |  |  |  SubpDecl[9:7-9:21]
-|  |  |  |  |  |  |  |  |  |overriding:
+|  |  |  |  |  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[8:16-8:16]
-|  |  |  |  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  |  |  |  |  SubpSpec[9:7-9:20]
-|  |  |  |  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  |  |  |  |  SubpKindProcedure[9:7-9:16]
-|  |  |  |  |  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[9:17-9:20]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[9:17-9:20]: Foo
-|  |  |  |  |  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |private_part: <null>
-|  |  |  |  |  |  |end_name:
+|  |  |  |  |  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |  |  |  |  |f_subp_returns: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |f_private_part: <null>
+|  |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  |  EndName[10:8-10:9]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[10:8-10:9]: P
 |  |  |  |  |  PackageBody[12:4-18:10]
-|  |  |  |  |  |package_name:
+|  |  |  |  |  |f_package_name:
 |  |  |  |  |  |  DefiningName[12:17-12:18]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[12:17-12:18]: P
-|  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |decls:
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |f_decls:
 |  |  |  |  |  |  DeclarativePart[12:21-18:4]
-|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  AdaNodeList[13:7-17:15]
 |  |  |  |  |  |  |  |  SubpBody[13:7-17:15]
-|  |  |  |  |  |  |  |  |overriding:
+|  |  |  |  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  |  |  |  OverridingUnspecified[12:21-12:21]
-|  |  |  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  |  |  |  SubpSpec[13:7-13:20]
-|  |  |  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  |  |  |  SubpKindProcedure[13:7-13:16]
-|  |  |  |  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  |  |  |  DefiningName[13:17-13:20]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[13:17-13:20]: Foo
-|  |  |  |  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |  |  |  |f_subp_returns: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  |  |  DeclarativePart[13:23-14:7]
-|  |  |  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[13:23-13:23]: <empty list>
-|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  HandledStmts[14:12-17:7]
-|  |  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  StmtList[15:10-16:27]
 |  |  |  |  |  |  |  |  |  |  |  CallStmt[15:10-15:27]
-|  |  |  |  |  |  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  |  |  |  |  |f_call:
 |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[15:10-15:26]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:10-15:18]: Put_Line
-|  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[15:20-15:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[15:20-15:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[15:20-15:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:20-15:21]: J
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[15:22-15:25]: Img
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_args: <null>
 |  |  |  |  |  |  |  |  |  |  |  CallStmt[16:10-16:27]
-|  |  |  |  |  |  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  |  |  |  |  |f_call:
 |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[16:10-16:26]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:10-16:18]: Put_Line
-|  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[16:20-16:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[16:20-16:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AttributeRef[16:20-16:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:20-16:21]: I
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |attribute:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[16:22-16:25]: Img
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |args: <null>
-|  |  |  |  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_args: <null>
+|  |  |  |  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[16:26-16:26]: <empty list>
-|  |  |  |  |  |  |  |  |end_name:
+|  |  |  |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  |  |  |  EndName[17:11-17:14]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[17:11-17:14]: Foo
-|  |  |  |  |  |stmts: <null>
-|  |  |  |  |  |end_name:
+|  |  |  |  |  |f_stmts: <null>
+|  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  EndName[18:8-18:9]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[18:8-18:9]: P
 |  |  |  |  |  GenericPackageInstantiation[20:4-20:26]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[20:12-20:16]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[20:12-20:16]: Inst
-|  |  |  |  |  |generic_pkg_name:
+|  |  |  |  |  |f_generic_pkg_name:
 |  |  |  |  |  |  Id[20:24-20:25]: P
-|  |  |  |  |  |params:
+|  |  |  |  |  |f_params:
 |  |  |  |  |  |  AssocList[20:23-20:23]: <empty list>
-|  |  |  |  |  |aspects: <null>
-|  |  |stmts:
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_stmts:
 |  |  |  HandledStmts[22:6-24:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[23:4-23:13]
 |  |  |  |  |  CallStmt[23:4-23:13]
-|  |  |  |  |  |call:
+|  |  |  |  |  |f_call:
 |  |  |  |  |  |  DottedName[23:4-23:12]
-|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  Id[23:4-23:8]: Inst
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  Id[23:9-23:12]: Foo
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[23:12-23:12]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[24:5-24:9]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[24:5-24:9]: What
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[24:10-24:10]: <empty list>

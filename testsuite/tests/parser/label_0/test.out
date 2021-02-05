@@ -1,7 +1,7 @@
 Label[1:1-1:12]
-|decl:
+|f_decl:
 |  LabelDecl[1:5-1:10]
-|  |name:
+|  |f_name:
 |  |  DefiningName[1:5-1:10]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:5-1:10]: pouet

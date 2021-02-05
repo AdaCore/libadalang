@@ -1,70 +1,70 @@
 CompilationUnit[1:1-7:12]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-7:12]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:1-7:12]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:1-1:17]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:11-1:17]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:11-1:17]: Testcs
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:20-2:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[1:20-1:20]: <empty list>
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[2:6-7:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[3:4-6:13]
 |  |  |  |  |  CaseStmt[3:4-6:13]
-|  |  |  |  |  |expr:
+|  |  |  |  |  |f_expr:
 |  |  |  |  |  |  Id[3:9-3:13]: Mode
-|  |  |  |  |  |alternatives:
+|  |  |  |  |  |f_alternatives:
 |  |  |  |  |  |  CaseStmtAlternativeList[4:7-5:23]
 |  |  |  |  |  |  |  CaseStmtAlternative[4:7-5:23]
-|  |  |  |  |  |  |  |choices:
+|  |  |  |  |  |  |  |f_choices:
 |  |  |  |  |  |  |  |  AlternativesList[4:12-4:49]
 |  |  |  |  |  |  |  |  |  BinOp[4:12-4:49]
-|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  DottedName[4:12-4:28]
-|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  Id[4:12-4:16]: TSSL
-|  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  Id[4:17-4:28]: CRYPTO_LOCK
-|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  OpOr[4:29-4:31]
-|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  DottedName[4:32-4:49]
-|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  Id[4:32-4:36]: TSSL
-|  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  Id[4:37-4:49]: CRYPTO_WRITE
-|  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  StmtList[5:10-5:23]
 |  |  |  |  |  |  |  |  |  CallStmt[5:10-5:23]
-|  |  |  |  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  |  |  |f_call:
 |  |  |  |  |  |  |  |  |  |  DottedName[5:10-5:22]
-|  |  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  |  Id[5:10-5:16]: Locker
-|  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  Id[5:17-5:22]: Write
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[6:12-6:12]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[7:5-7:11]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[7:5-7:11]: Testcs
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[7:12-7:12]: <empty list>

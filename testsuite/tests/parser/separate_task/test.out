@@ -1,45 +1,45 @@
 CompilationUnit[1:1-6:7]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-6:7]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  PackageBody[1:1-6:7]
-|  |  |package_name:
+|  |  |f_package_name:
 |  |  |  DefiningName[1:14-1:15]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:14-1:15]: S
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:18-4:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-3:32]
 |  |  |  |  |  TaskTypeDecl[2:4-2:20]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[2:14-2:19]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[2:14-2:19]: share
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |definition: <null>
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |f_definition: <null>
 |  |  |  |  |  TaskBodyStub[3:4-3:32]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[3:14-3:19]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[3:14-3:19]: share
-|  |  |  |  |  |aspects: <null>
-|  |  |stmts:
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_stmts:
 |  |  |  HandledStmts[4:6-6:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[5:4-5:9]
 |  |  |  |  |  NullStmt[5:4-5:9]
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[6:5-6:6]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[6:5-6:6]: S
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[6:7-6:7]: <empty list>

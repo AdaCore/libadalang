@@ -1,8 +1,8 @@
 LoopStmt[1:1-1:22]
-|spec: <null>
-|stmts:
+|f_spec: <null>
+|f_stmts:
 |  StmtList[1:6-1:12]
 |  |  CallStmt[1:6-1:12]
-|  |  |call:
+|  |  |f_call:
 |  |  |  Id[1:6-1:11]: World
-|end_name: <null>
+|f_end_name: <null>

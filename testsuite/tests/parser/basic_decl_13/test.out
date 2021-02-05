@@ -1,31 +1,31 @@
 ObjectDecl[1:1-1:95]
-|ids:
+|f_ids:
 |  DefiningNameList[1:1-1:15]
 |  |  DefiningName[1:1-1:15]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:15]: Columns_Config
-|has_aliased:
+|f_has_aliased:
 |  AliasedAbsent[1:17-1:17]
-|has_constant:
+|f_has_constant:
 |  ConstantAbsent[1:17-1:17]
-|mode:
+|f_mode:
 |  ModeDefault[1:17-1:17]
-|type_expr:
+|f_type_expr:
 |  SubtypeIndication[1:18-1:48]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullAbsent[1:17-1:17]
-|  |name:
+|  |f_name:
 |  |  Id[1:18-1:48]: Line_Info_Display_Array_Access
-|  |constraint: <null>
-|default_expr: <null>
-|renaming_clause:
+|  |f_constraint: <null>
+|f_default_expr: <null>
+|f_renaming_clause:
 |  RenamingClause[1:49-1:94]
-|  |renamed_object:
+|  |f_renamed_object:
 |  |  ExplicitDeref[1:57-1:94]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  DottedName[1:57-1:90]
-|  |  |  |prefix:
+|  |  |  |f_prefix:
 |  |  |  |  Id[1:57-1:63]: Buffer
-|  |  |  |suffix:
+|  |  |  |f_suffix:
 |  |  |  |  Id[1:64-1:90]: Editable_Line_Info_Columns
-|aspects: <null>
+|f_aspects: <null>

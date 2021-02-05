@@ -1,29 +1,29 @@
 SubpSpec[1:1-1:37]
-|subp_kind:
+|f_subp_kind:
 |  SubpKindFunction[1:1-1:9]
-|subp_name:
+|f_subp_name:
 |  DefiningName[1:10-1:11]
-|  |name:
+|  |f_name:
 |  |  Id[1:10-1:11]: A
-|subp_params: <null>
-|subp_returns:
+|f_subp_params: <null>
+|f_subp_returns:
 |  SubtypeIndication[1:19-1:37]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullAbsent[1:18-1:18]
-|  |name:
+|  |f_name:
 |  |  DottedName[1:19-1:26]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:19-1:22]: Pkg
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:23-1:26]: Arr
-|  |constraint:
+|  |f_constraint:
 |  |  IndexConstraint[1:27-1:37]
-|  |  |constraints:
+|  |  |f_constraints:
 |  |  |  ConstraintList[1:28-1:36]
 |  |  |  |  BinOp[1:28-1:36]
-|  |  |  |  |left:
+|  |  |  |  |f_left:
 |  |  |  |  |  Int[1:28-1:30]: 12
-|  |  |  |  |op:
+|  |  |  |  |f_op:
 |  |  |  |  |  OpDoubleDot[1:31-1:33]
-|  |  |  |  |right:
+|  |  |  |  |f_right:
 |  |  |  |  |  Int[1:34-1:36]: 18

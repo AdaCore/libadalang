@@ -1,15 +1,15 @@
 WhileLoopStmt[1:1-1:34]
-|spec:
+|f_spec:
 |  WhileLoopSpec[1:1-1:13]
-|  |expr:
+|  |f_expr:
 |  |  RelationOp[1:7-1:13]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Id[1:7-1:8]: A
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpGt[1:9-1:10]
-|  |  |right:
+|  |  |f_right:
 |  |  |  Int[1:11-1:13]: 12
-|stmts:
+|f_stmts:
 |  StmtList[1:19-1:24]
 |  |  NullStmt[1:19-1:24]
-|end_name: <null>
+|f_end_name: <null>

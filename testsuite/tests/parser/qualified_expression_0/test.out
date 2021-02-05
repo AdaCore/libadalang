@@ -1,7 +1,7 @@
 QualExpr[1:1-1:13]
-|prefix:
+|f_prefix:
 |  Id[1:1-1:8]: Integer
-|suffix:
+|f_suffix:
 |  ParenExpr[1:9-1:13]
-|  |expr:
+|  |f_expr:
 |  |  Int[1:10-1:12]: 12

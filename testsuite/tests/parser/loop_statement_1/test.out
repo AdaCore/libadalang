@@ -1,36 +1,36 @@
 ForLoopStmt[1:1-1:52]
-|spec:
+|f_spec:
 |  ForLoopSpec[1:5-1:31]
-|  |var_decl:
+|  |f_var_decl:
 |  |  ForLoopVarDecl[1:5-1:6]
-|  |  |id:
+|  |  |f_id:
 |  |  |  DefiningName[1:5-1:6]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:5-1:6]: A
-|  |  |id_type: <null>
-|  |loop_type:
+|  |  |f_id_type: <null>
+|  |f_loop_type:
 |  |  IterTypeIn[1:7-1:9]
-|  |has_reverse:
+|  |f_has_reverse:
 |  |  ReverseAbsent[1:9-1:9]
-|  |iter_expr:
+|  |f_iter_expr:
 |  |  DiscreteSubtypeIndication[1:10-1:31]
-|  |  |has_not_null:
+|  |  |f_has_not_null:
 |  |  |  NotNullAbsent[1:9-1:9]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:10-1:17]: Integer
-|  |  |constraint:
+|  |  |f_constraint:
 |  |  |  RangeConstraint[1:18-1:31]
-|  |  |  |range:
+|  |  |  |f_range:
 |  |  |  |  RangeSpec[1:18-1:31]
-|  |  |  |  |range:
+|  |  |  |  |f_range:
 |  |  |  |  |  BinOp[1:24-1:31]
-|  |  |  |  |  |left:
+|  |  |  |  |  |f_left:
 |  |  |  |  |  |  Int[1:24-1:25]: 1
-|  |  |  |  |  |op:
+|  |  |  |  |  |f_op:
 |  |  |  |  |  |  OpDoubleDot[1:26-1:28]
-|  |  |  |  |  |right:
+|  |  |  |  |  |f_right:
 |  |  |  |  |  |  Int[1:29-1:31]: 16
-|stmts:
+|f_stmts:
 |  StmtList[1:37-1:42]
 |  |  NullStmt[1:37-1:42]
-|end_name: <null>
+|f_end_name: <null>

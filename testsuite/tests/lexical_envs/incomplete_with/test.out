@@ -2,54 +2,54 @@ input:1:6: Cannot parse <static_name>
 input:2:1: Expected Char, got 'procedure'
 input:2:1: Missing ';'
 CompilationUnit[1:1-5:10]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-2:1] <<INCOMPLETE>>
 |  |  WithClause[1:1-2:1] <<INCOMPLETE>>
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:6-2:1] <<INCOMPLETE>>
 |  |  |  |  DottedName[1:6-2:1] <<INCOMPLETE>>
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[1:6-1:9]: Ada
-|  |  |  |  |suffix: <null>
-|body:
+|  |  |  |  |f_suffix: <null>
+|f_body:
 |  LibraryItem[2:1-5:10]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:10-1:10]
-|  |item:
+|  |f_item:
 |  |  SubpBody[2:1-5:10]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:10-1:10]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[2:1-2:15]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[2:1-2:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[2:11-2:15]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[2:11-2:15]: Main
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[2:18-3:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:18-2:18]: <empty list>
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[3:6-5:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[4:1-4:6]
 |  |  |  |  |  NullStmt[4:1-4:6]
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[4:5-4:5]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[5:5-5:9]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[5:5-5:9]: Main
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[5:10-5:10]: <empty list>
 
 ==== Dumping lexical environments ====

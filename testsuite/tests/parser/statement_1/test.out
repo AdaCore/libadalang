@@ -1,23 +1,23 @@
 NamedStmt[1:1-1:37]
-|decl:
+|f_decl:
 |  NamedStmtDecl[1:1-1:2]
-|  |name:
+|  |f_name:
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
-|stmt:
+|f_stmt:
 |  WhileLoopStmt[1:4-1:37]
-|  |spec:
+|  |f_spec:
 |  |  WhileLoopSpec[1:4-1:16]
-|  |  |expr:
+|  |  |f_expr:
 |  |  |  RelationOp[1:10-1:16]
-|  |  |  |left:
+|  |  |  |f_left:
 |  |  |  |  Id[1:10-1:11]: A
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpGt[1:12-1:13]
-|  |  |  |right:
+|  |  |  |f_right:
 |  |  |  |  Int[1:14-1:16]: 12
-|  |stmts:
+|  |f_stmts:
 |  |  StmtList[1:22-1:27]
 |  |  |  NullStmt[1:22-1:27]
-|  |end_name: <null>
+|  |f_end_name: <null>

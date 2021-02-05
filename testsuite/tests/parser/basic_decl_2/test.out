@@ -1,36 +1,36 @@
 ObjectDecl[1:1-1:30]
-|ids:
+|f_ids:
 |  DefiningNameList[1:1-1:5]
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
 |  |  DefiningName[1:4-1:5]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:4-1:5]: B
-|has_aliased:
+|f_has_aliased:
 |  AliasedAbsent[1:7-1:7]
-|has_constant:
+|f_has_constant:
 |  ConstantAbsent[1:7-1:7]
-|mode:
+|f_mode:
 |  ModeDefault[1:7-1:7]
-|type_expr:
+|f_type_expr:
 |  SubtypeIndication[1:8-1:15]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullAbsent[1:7-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:8-1:15]: Integer
-|  |constraint: <null>
-|default_expr: <null>
-|renaming_clause:
+|  |f_constraint: <null>
+|f_default_expr: <null>
+|f_renaming_clause:
 |  RenamingClause[1:16-1:29]
-|  |renamed_object:
+|  |f_renamed_object:
 |  |  DottedName[1:24-1:29]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  DottedName[1:24-1:27]
-|  |  |  |prefix:
+|  |  |  |f_prefix:
 |  |  |  |  Id[1:24-1:25]: C
-|  |  |  |suffix:
+|  |  |  |f_suffix:
 |  |  |  |  Id[1:26-1:27]: D
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:28-1:29]: E
-|aspects: <null>
+|f_aspects: <null>

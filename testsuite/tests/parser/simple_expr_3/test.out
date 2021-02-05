@@ -1,17 +1,17 @@
 UnOp[1:2-1:16]
-|op:
+|f_op:
 |  OpMinus[1:2-1:3]
-|expr:
+|f_expr:
 |  BinOp[1:3-1:16]
-|  |left:
+|  |f_left:
 |  |  BinOp[1:3-1:10]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Int[1:3-1:5]: 12
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpPow[1:6-1:8]
-|  |  |right:
+|  |  |f_right:
 |  |  |  Int[1:9-1:10]: 4
-|  |op:
+|  |f_op:
 |  |  OpMod[1:11-1:14]
-|  |right:
+|  |f_right:
 |  |  Int[1:15-1:16]: 2

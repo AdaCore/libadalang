@@ -1,55 +1,55 @@
 CompilationUnit[1:1-6:10]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-6:10]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:1-6:10]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:1-1:15]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:11-1:15]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:11-1:15]: Main
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:18-4:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-3:15]
 |  |  |  |  |  IncompleteTypeDecl[2:4-2:11]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[2:9-2:10]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[2:9-2:10]: A
-|  |  |  |  |  |discriminants: <null>
+|  |  |  |  |  |f_discriminants: <null>
 |  |  |  |  |  SingleTaskDecl[3:4-3:15]
-|  |  |  |  |  |task_type:
+|  |  |  |  |  |f_task_type:
 |  |  |  |  |  |  SingleTaskTypeDecl[3:9-3:14]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  DefiningName[3:9-3:14]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[3:9-3:14]: Pouet
-|  |  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |definition: <null>
-|  |  |stmts:
+|  |  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |f_definition: <null>
+|  |  |f_stmts:
 |  |  |  HandledStmts[4:6-6:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[5:4-5:9]
 |  |  |  |  |  NullStmt[5:4-5:9]
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[5:8-5:8]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[6:5-6:9]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[6:5-6:9]: Main
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[6:10-6:10]: <empty list>

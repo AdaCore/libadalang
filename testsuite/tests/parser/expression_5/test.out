@@ -1,44 +1,44 @@
 BinOp[1:1-1:53]
-|left:
+|f_left:
 |  Int[1:1-1:3]: 12
-|op:
+|f_op:
 |  OpPlus[1:4-1:5]
-|right:
+|f_right:
 |  ParenExpr[1:6-1:53]
-|  |expr:
+|  |f_expr:
 |  |  IfExpr[1:7-1:52]
-|  |  |cond_expr:
+|  |  |f_cond_expr:
 |  |  |  ParenExpr[1:10-1:36]
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  QuantifiedExpr[1:11-1:35]
-|  |  |  |  |quantifier:
+|  |  |  |  |f_quantifier:
 |  |  |  |  |  QuantifierAll[1:15-1:18]
-|  |  |  |  |loop_spec:
+|  |  |  |  |f_loop_spec:
 |  |  |  |  |  ForLoopSpec[1:19-1:25]
-|  |  |  |  |  |var_decl:
+|  |  |  |  |  |f_var_decl:
 |  |  |  |  |  |  ForLoopVarDecl[1:19-1:20]
-|  |  |  |  |  |  |id:
+|  |  |  |  |  |  |f_id:
 |  |  |  |  |  |  |  DefiningName[1:19-1:20]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:19-1:20]: A
-|  |  |  |  |  |  |id_type: <null>
-|  |  |  |  |  |loop_type:
+|  |  |  |  |  |  |f_id_type: <null>
+|  |  |  |  |  |f_loop_type:
 |  |  |  |  |  |  IterTypeIn[1:21-1:23]
-|  |  |  |  |  |has_reverse:
+|  |  |  |  |  |f_has_reverse:
 |  |  |  |  |  |  ReverseAbsent[1:23-1:23]
-|  |  |  |  |  |iter_expr:
+|  |  |  |  |  |f_iter_expr:
 |  |  |  |  |  |  Id[1:24-1:25]: B
-|  |  |  |  |expr:
+|  |  |  |  |f_expr:
 |  |  |  |  |  RelationOp[1:29-1:35]
-|  |  |  |  |  |left:
+|  |  |  |  |  |f_left:
 |  |  |  |  |  |  Id[1:29-1:30]: A
-|  |  |  |  |  |op:
+|  |  |  |  |  |f_op:
 |  |  |  |  |  |  OpEq[1:31-1:32]
-|  |  |  |  |  |right:
+|  |  |  |  |  |f_right:
 |  |  |  |  |  |  Int[1:33-1:35]: 12
-|  |  |then_expr:
+|  |  |f_then_expr:
 |  |  |  Int[1:42-1:44]: 15
-|  |  |alternatives:
+|  |  |f_alternatives:
 |  |  |  ElsifExprPartList[1:44-1:44]: <empty list>
-|  |  |else_expr:
+|  |  |f_else_expr:
 |  |  |  Int[1:50-1:52]: 16

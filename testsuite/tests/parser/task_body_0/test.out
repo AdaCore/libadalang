@@ -1,351 +1,351 @@
 TaskBody[1:1-24:29]
-|name:
+|f_name:
 |  DefiningName[1:11-1:34]
-|  |name:
+|  |f_name:
 |  |  Id[1:11-1:34]: Cyclic_Buffer_Task_Type
-|aspects: <null>
-|decls:
+|f_aspects: <null>
+|f_decls:
 |  DeclarativePart[1:37-7:1]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[2:4-6:35]
 |  |  |  NumberDecl[2:4-2:29]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[2:4-2:10]
 |  |  |  |  |  DefiningName[2:4-2:10]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[2:4-2:10]: Q_Size
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Int[2:25-2:28]: 100
 |  |  |  SubtypeDecl[3:4-3:50]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  DefiningName[3:12-3:19]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[3:12-3:19]: Q_Range
-|  |  |  |subtype:
+|  |  |  |f_subtype:
 |  |  |  |  SubtypeIndication[3:23-3:49]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[3:22-3:22]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[3:23-3:31]: Positive
-|  |  |  |  |constraint:
+|  |  |  |  |f_constraint:
 |  |  |  |  |  RangeConstraint[3:32-3:49]
-|  |  |  |  |  |range:
+|  |  |  |  |  |f_range:
 |  |  |  |  |  |  RangeSpec[3:32-3:49]
-|  |  |  |  |  |  |range:
+|  |  |  |  |  |  |f_range:
 |  |  |  |  |  |  |  BinOp[3:38-3:49]
-|  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  Int[3:38-3:39]: 1
-|  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  OpDoubleDot[3:40-3:42]
-|  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  Id[3:43-3:49]: Q_Size
-|  |  |  |aspects: <null>
+|  |  |  |f_aspects: <null>
 |  |  |  ObjectDecl[4:4-4:44]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[4:4-4:10]
 |  |  |  |  |  DefiningName[4:4-4:10]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[4:4-4:10]: Length
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[4:12-4:12]
-|  |  |  |has_constant:
+|  |  |  |f_has_constant:
 |  |  |  |  ConstantAbsent[4:12-4:12]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeDefault[4:12-4:12]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  SubtypeIndication[4:13-4:38]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[4:12-4:12]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[4:13-4:20]: Natural
-|  |  |  |  |constraint:
+|  |  |  |  |f_constraint:
 |  |  |  |  |  RangeConstraint[4:21-4:38]
-|  |  |  |  |  |range:
+|  |  |  |  |  |f_range:
 |  |  |  |  |  |  RangeSpec[4:21-4:38]
-|  |  |  |  |  |  |range:
+|  |  |  |  |  |  |f_range:
 |  |  |  |  |  |  |  BinOp[4:27-4:38]
-|  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  Int[4:27-4:28]: 0
-|  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  OpDoubleDot[4:29-4:31]
-|  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  Id[4:32-4:38]: Q_Size
-|  |  |  |default_expr:
+|  |  |  |f_default_expr:
 |  |  |  |  Int[4:42-4:43]: 0
-|  |  |  |renaming_clause: <null>
-|  |  |  |aspects: <null>
+|  |  |  |f_renaming_clause: <null>
+|  |  |  |f_aspects: <null>
 |  |  |  ObjectDecl[5:4-5:30]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[5:4-5:14]
 |  |  |  |  |  DefiningName[5:4-5:8]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[5:4-5:8]: Head
 |  |  |  |  |  DefiningName[5:10-5:14]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[5:10-5:14]: Tail
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[5:16-5:16]
-|  |  |  |has_constant:
+|  |  |  |f_has_constant:
 |  |  |  |  ConstantAbsent[5:16-5:16]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeDefault[5:16-5:16]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  SubtypeIndication[5:17-5:24]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[5:16-5:16]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[5:17-5:24]: Q_Range
-|  |  |  |  |constraint: <null>
-|  |  |  |default_expr:
+|  |  |  |  |f_constraint: <null>
+|  |  |  |f_default_expr:
 |  |  |  |  Int[5:28-5:29]: 1
-|  |  |  |renaming_clause: <null>
-|  |  |  |aspects: <null>
+|  |  |  |f_renaming_clause: <null>
+|  |  |  |f_aspects: <null>
 |  |  |  ObjectDecl[6:4-6:35]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[6:4-6:8]
 |  |  |  |  |  DefiningName[6:4-6:8]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[6:4-6:8]: Data
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[6:10-6:10]
-|  |  |  |has_constant:
+|  |  |  |f_has_constant:
 |  |  |  |  ConstantAbsent[6:10-6:10]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeDefault[6:10-6:10]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  AnonymousType[6:11-6:34]
-|  |  |  |  |type_decl:
+|  |  |  |  |f_type_decl:
 |  |  |  |  |  AnonymousTypeDecl[6:11-6:34]
-|  |  |  |  |  |name: <null>
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
+|  |  |  |  |  |f_name: <null>
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  ArrayTypeDef[6:11-6:34]
-|  |  |  |  |  |  |indices:
+|  |  |  |  |  |  |f_indices:
 |  |  |  |  |  |  |  ConstrainedArrayIndices[6:18-6:25]
-|  |  |  |  |  |  |  |list:
+|  |  |  |  |  |  |  |f_list:
 |  |  |  |  |  |  |  |  ConstraintList[6:18-6:25]
 |  |  |  |  |  |  |  |  |  SubtypeIndication[6:18-6:25]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[6:18-6:18]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[6:18-6:25]: Q_Range
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |component_type:
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_component_type:
 |  |  |  |  |  |  |  ComponentDef[6:30-6:34]
-|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[6:29-6:29]
-|  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  |  ConstantAbsent[6:29-6:29]
-|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[6:30-6:34]
-|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[6:29-6:29]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[6:30-6:34]: Item
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |default_expr: <null>
-|  |  |  |renaming_clause: <null>
-|  |  |  |aspects: <null>
-|stmts:
+|  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |f_default_expr: <null>
+|  |  |  |f_renaming_clause: <null>
+|  |  |  |f_aspects: <null>
+|f_stmts:
 |  HandledStmts[7:6-24:1]
-|  |stmts:
+|  |f_stmts:
 |  |  StmtList[8:4-23:13]
 |  |  |  LoopStmt[8:4-23:13]
-|  |  |  |spec: <null>
-|  |  |  |stmts:
+|  |  |  |f_spec: <null>
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[9:7-22:18]
 |  |  |  |  |  SelectStmt[9:7-22:18]
-|  |  |  |  |  |guards:
+|  |  |  |  |  |f_guards:
 |  |  |  |  |  |  SelectWhenPartList[10:10-21:34]
 |  |  |  |  |  |  |  SelectWhenPart[10:10-15:34]
-|  |  |  |  |  |  |  |cond_expr:
+|  |  |  |  |  |  |  |f_cond_expr:
 |  |  |  |  |  |  |  |  RelationOp[10:15-10:30]
-|  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  Id[10:15-10:21]: Length
-|  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  OpLt[10:22-10:23]
-|  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  Id[10:24-10:30]: Q_Size
-|  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  StmtList[11:13-15:34]
 |  |  |  |  |  |  |  |  |  AcceptStmtWithStmts[11:13-13:24]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[11:20-11:26]: Insert
-|  |  |  |  |  |  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |f_entry_index_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  EntryCompletionFormalParams[11:27-11:47]
-|  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  |  Params[11:27-11:47]
-|  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[11:28-11:46]
 |  |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[11:28-11:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[11:28-11:35]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[11:28-11:35]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:28-11:35]: An_Item
-|  |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[11:37-11:37]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ModeIn[11:38-11:40]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[11:42-11:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[11:40-11:40]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:42-11:46]: Item
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[11:50-13:13]
-|  |  |  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  |  StmtList[12:16-12:38]
 |  |  |  |  |  |  |  |  |  |  |  |  AssignStmt[12:16-12:38]
-|  |  |  |  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[12:16-12:26]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[12:16-12:20]: Data
-|  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[12:21-12:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[12:21-12:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[12:21-12:25]: Tail
-|  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[12:30-12:37]: An_Item
-|  |  |  |  |  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[12:37-12:37]: <empty list>
-|  |  |  |  |  |  |  |  |  |end_name:
+|  |  |  |  |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  |  |  |  |  EndName[13:17-13:23]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[13:17-13:23]: Insert
 |  |  |  |  |  |  |  |  |  AssignStmt[14:13-14:41]
-|  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  |  |  Id[14:13-14:17]: Tail
-|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  |  BinOp[14:21-14:40]
-|  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  BinOp[14:21-14:36]
-|  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[14:21-14:25]: Tail
-|  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  OpMod[14:26-14:29]
-|  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[14:30-14:36]: Q_Size
-|  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  OpPlus[14:37-14:38]
-|  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  Int[14:39-14:40]: 1
 |  |  |  |  |  |  |  |  |  AssignStmt[15:13-15:34]
-|  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  |  |  Id[15:13-15:19]: Length
-|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  |  BinOp[15:23-15:33]
-|  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  Id[15:23-15:29]: Length
-|  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  OpPlus[15:30-15:31]
-|  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  Int[15:32-15:33]: 1
 |  |  |  |  |  |  |  SelectWhenPart[16:13-21:34]
-|  |  |  |  |  |  |  |cond_expr:
+|  |  |  |  |  |  |  |f_cond_expr:
 |  |  |  |  |  |  |  |  RelationOp[16:18-16:28]
-|  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  Id[16:18-16:24]: Length
-|  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  OpGt[16:25-16:26]
-|  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  Int[16:27-16:28]: 0
-|  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  StmtList[17:13-21:34]
 |  |  |  |  |  |  |  |  |  AcceptStmtWithStmts[17:13-19:24]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[17:20-17:26]: Remove
-|  |  |  |  |  |  |  |  |  |entry_index_expr: <null>
-|  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |f_entry_index_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  EntryCompletionFormalParams[17:27-17:47]
-|  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  |  Params[17:27-17:47]
-|  |  |  |  |  |  |  |  |  |  |  |params:
+|  |  |  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  |  |  ParamSpecList[17:28-17:46]
 |  |  |  |  |  |  |  |  |  |  |  |  |  ParamSpec[17:28-17:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[17:28-17:35]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[17:28-17:35]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:28-17:35]: An_Item
-|  |  |  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[17:37-17:37]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ModeOut[17:38-17:41]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[17:42-17:46]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[17:41-17:41]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:42-17:46]: Item
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[17:50-19:13]
-|  |  |  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  |  StmtList[18:16-18:38]
 |  |  |  |  |  |  |  |  |  |  |  |  AssignStmt[18:16-18:38]
-|  |  |  |  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[18:16-18:23]: An_Item
-|  |  |  |  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  CallExpr[18:27-18:37]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[18:27-18:31]: Data
-|  |  |  |  |  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[18:32-18:36]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ParamAssoc[18:32-18:36]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[18:32-18:36]: Head
-|  |  |  |  |  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  |  |  |  |  AdaNodeList[18:37-18:37]: <empty list>
-|  |  |  |  |  |  |  |  |  |end_name:
+|  |  |  |  |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  |  |  |  |  EndName[19:17-19:23]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[19:17-19:23]: Remove
 |  |  |  |  |  |  |  |  |  AssignStmt[20:13-20:41]
-|  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  |  |  Id[20:13-20:17]: Head
-|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  |  BinOp[20:21-20:40]
-|  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  BinOp[20:21-20:36]
-|  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[20:21-20:25]: Head
-|  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  OpMod[20:26-20:29]
-|  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[20:30-20:36]: Q_Size
-|  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  OpPlus[20:37-20:38]
-|  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  Int[20:39-20:40]: 1
 |  |  |  |  |  |  |  |  |  AssignStmt[21:13-21:34]
-|  |  |  |  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  |  |  |  Id[21:13-21:19]: Length
-|  |  |  |  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  |  |  BinOp[21:23-21:33]
-|  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  Id[21:23-21:29]: Length
-|  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  OpMinus[21:30-21:31]
-|  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  Int[21:32-21:33]: 1
-|  |  |  |  |  |else_stmts:
+|  |  |  |  |  |f_else_stmts:
 |  |  |  |  |  |  StmtList[21:33-21:33]: <empty list>
-|  |  |  |  |  |abort_stmts:
+|  |  |  |  |  |f_abort_stmts:
 |  |  |  |  |  |  StmtList[21:33-21:33]: <empty list>
-|  |  |  |end_name: <null>
-|  |exceptions:
+|  |  |  |f_end_name: <null>
+|  |f_exceptions:
 |  |  AdaNodeList[23:12-23:12]: <empty list>
-|end_name:
+|f_end_name:
 |  EndName[24:5-24:28]
-|  |name:
+|  |f_name:
 |  |  Id[24:5-24:28]: Cyclic_Buffer_Task_Type

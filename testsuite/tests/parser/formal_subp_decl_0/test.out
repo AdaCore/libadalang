@@ -1,46 +1,46 @@
 AbstractFormalSubpDecl[1:1-1:71]
-|overriding:
+|f_overriding:
 |  OverridingUnspecified[1:5-1:5]
-|subp_spec:
+|f_subp_spec:
 |  SubpSpec[1:6-1:55]
-|  |subp_kind:
+|  |f_subp_kind:
 |  |  SubpKindFunction[1:6-1:14]
-|  |subp_name:
+|  |f_subp_name:
 |  |  DefiningName[1:15-1:20]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:15-1:20]: Pouet
-|  |subp_params:
+|  |f_subp_params:
 |  |  Params[1:21-1:38]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:22-1:37]
 |  |  |  |  ParamSpec[1:22-1:37]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:22-1:26]
 |  |  |  |  |  |  DefiningName[1:22-1:23]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:22-1:23]: X
 |  |  |  |  |  |  DefiningName[1:25-1:26]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:25-1:26]: Y
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:27-1:27]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:27-1:27]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:28-1:37]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:27-1:27]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:28-1:37]: Element_T
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|  |subp_returns:
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|  |f_subp_returns:
 |  |  SubtypeIndication[1:46-1:55]
-|  |  |has_not_null:
+|  |  |f_has_not_null:
 |  |  |  NotNullAbsent[1:45-1:45]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:46-1:55]: Element_T
-|  |  |constraint: <null>
-|default_expr:
+|  |  |f_constraint: <null>
+|f_default_expr:
 |  BoxExpr[1:68-1:70]
-|aspects: <null>
+|f_aspects: <null>

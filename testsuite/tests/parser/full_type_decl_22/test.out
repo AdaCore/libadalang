@@ -1,22 +1,22 @@
 TypeDecl[1:1-1:31]
-|name:
+|f_name:
 |  DefiningName[1:6-1:9]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:9]: Ref
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  TypeAccessDef[1:13-1:30]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullPresent[1:13-1:21]
-|  |has_all:
+|  |f_has_all:
 |  |  AllAbsent[1:28-1:28]
-|  |has_constant:
+|  |f_has_constant:
 |  |  ConstantAbsent[1:28-1:28]
-|  |subtype_indication:
+|  |f_subtype_indication:
 |  |  SubtypeIndication[1:29-1:30]
-|  |  |has_not_null:
+|  |  |f_has_not_null:
 |  |  |  NotNullAbsent[1:28-1:28]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:29-1:30]: A
-|  |  |constraint: <null>
-|aspects: <null>
+|  |  |f_constraint: <null>
+|f_aspects: <null>

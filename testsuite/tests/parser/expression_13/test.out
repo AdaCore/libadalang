@@ -1,17 +1,17 @@
 AttributeRef[1:1-1:18]
-|prefix:
+|f_prefix:
 |  QualExpr[1:1-1:10]
-|  |prefix:
+|  |f_prefix:
 |  |  AttributeRef[1:1-1:4]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:1-1:2]: A
-|  |  |attribute:
+|  |  |f_attribute:
 |  |  |  Id[1:3-1:4]: C
-|  |  |args: <null>
-|  |suffix:
+|  |  |f_args: <null>
+|  |f_suffix:
 |  |  ParenExpr[1:5-1:10]
-|  |  |expr:
+|  |  |f_expr:
 |  |  |  Chr[1:6-1:9]: 'D'
-|attribute:
+|f_attribute:
 |  Id[1:11-1:18]: Pointer
-|args: <null>
+|f_args: <null>

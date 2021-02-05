@@ -1,6 +1,6 @@
 PragmaNodeList[1:1-1:16]
 |  PragmaNode[1:1-1:16]
-|  |id:
+|  |f_id:
 |  |  Id[1:8-1:15]: No_Body
-|  |args:
+|  |f_args:
 |  |  BaseAssocList[1:7-1:7]: <empty list>

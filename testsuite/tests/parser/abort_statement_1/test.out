@@ -1,12 +1,12 @@
 AbortStmt[1:1-1:20]
-|names:
+|f_names:
 |  NameList[1:7-1:19]
 |  |  CallExpr[1:7-1:19]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:7-1:15]: TT_Array
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  AssocList[1:17-1:18]
 |  |  |  |  ParamAssoc[1:17-1:18]
-|  |  |  |  |designator: <null>
-|  |  |  |  |r_expr:
+|  |  |  |  |f_designator: <null>
+|  |  |  |  |f_r_expr:
 |  |  |  |  |  Int[1:17-1:18]: 2

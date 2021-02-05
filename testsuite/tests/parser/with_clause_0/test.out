@@ -1,12 +1,12 @@
 WithClause[1:1-1:18]
-|has_limited:
+|f_has_limited:
 |  LimitedAbsent[1:1-1:1]
-|has_private:
+|f_has_private:
 |  PrivateAbsent[1:1-1:1]
-|packages:
+|f_packages:
 |  NameList[1:6-1:17]
 |  |  DottedName[1:6-1:17]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:6-1:9]: Ada
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:10-1:17]: Text_IO

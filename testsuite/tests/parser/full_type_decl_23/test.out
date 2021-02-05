@@ -1,12 +1,12 @@
 TypeDecl[1:1-1:21]
-|name:
+|f_name:
 |  DefiningName[1:6-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:7]: A
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  InterfaceTypeDef[1:11-1:20]
-|  |interface_kind: <null>
-|  |interfaces:
+|  |f_interface_kind: <null>
+|  |f_interfaces:
 |  |  ParentList[1:10-1:10]: <empty list>
-|aspects: <null>
+|f_aspects: <null>

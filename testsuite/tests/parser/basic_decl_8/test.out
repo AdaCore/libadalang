@@ -1,12 +1,12 @@
 TypeDecl[1:1-1:20]
-|name:
+|f_name:
 |  DefiningName[1:6-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:7]: T
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  OrdinaryFixedPointDef[1:11-1:19]
-|  |delta:
+|  |f_delta:
 |  |  BoxExpr[1:17-1:19]
-|  |range: <null>
-|aspects: <null>
+|  |f_range: <null>
+|f_aspects: <null>

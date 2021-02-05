@@ -1,185 +1,185 @@
 CompilationUnit[1:1-11:9]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-11:9]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  PackageDecl[1:1-11:9]
-|  |  |package_name:
+|  |  |f_package_name:
 |  |  |  DefiningName[1:9-1:12]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:9-1:12]: Foo
-|  |  |aspects: <null>
-|  |  |public_part:
+|  |  |f_aspects: <null>
+|  |  |f_public_part:
 |  |  |  PublicPart[1:15-11:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-10:15]
 |  |  |  |  |  TypeDecl[2:4-5:15]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[2:9-2:16]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[2:9-2:16]: R1_Type
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  RecordTypeDef[2:20-5:14]
-|  |  |  |  |  |  |has_abstract:
+|  |  |  |  |  |  |f_has_abstract:
 |  |  |  |  |  |  |  AbstractAbsent[2:19-2:19]
-|  |  |  |  |  |  |has_tagged:
+|  |  |  |  |  |  |f_has_tagged:
 |  |  |  |  |  |  |  TaggedAbsent[2:19-2:19]
-|  |  |  |  |  |  |has_limited:
+|  |  |  |  |  |  |f_has_limited:
 |  |  |  |  |  |  |  LimitedAbsent[2:19-2:19]
-|  |  |  |  |  |  |record_def:
+|  |  |  |  |  |  |f_record_def:
 |  |  |  |  |  |  |  RecordDef[2:20-5:14]
-|  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |f_components:
 |  |  |  |  |  |  |  |  ComponentList[3:7-4:22]
-|  |  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |  |f_components:
 |  |  |  |  |  |  |  |  |  AdaNodeList[3:7-4:22]
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[3:7-3:22]
-|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[3:7-3:11]
 |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[3:7-3:8]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]: A
 |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[3:10-3:11]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[3:10-3:11]: B
-|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |f_component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[3:14-3:21]
-|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:13-3:13]
-|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:13-3:13]
-|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:14-3:21]
-|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:13-3:13]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[3:14-3:21]: Integer
-|  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[4:7-4:22]
-|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[4:7-4:8]
 |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[4:7-4:8]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[4:7-4:8]: C
-|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |f_component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[4:14-4:21]
-|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[4:13-4:13]
-|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[4:13-4:13]
-|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[4:14-4:21]
-|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[4:13-4:13]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[4:14-4:21]: Natural
-|  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |  |  |variant_part: <null>
-|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |  |  |f_variant_part: <null>
+|  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  TypeDecl[7:4-10:15]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[7:9-7:16]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[7:9-7:16]: R2_Type
-|  |  |  |  |  |discriminants:
+|  |  |  |  |  |f_discriminants:
 |  |  |  |  |  |  KnownDiscriminantPart[7:17-7:30]
-|  |  |  |  |  |  |discr_specs:
+|  |  |  |  |  |  |f_discr_specs:
 |  |  |  |  |  |  |  DiscriminantSpecList[7:18-7:29]
 |  |  |  |  |  |  |  |  DiscriminantSpec[7:18-7:29]
-|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  DefiningNameList[7:18-7:19]
 |  |  |  |  |  |  |  |  |  |  DefiningName[7:18-7:19]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[7:18-7:19]: N
-|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[7:22-7:29]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[7:21-7:21]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[7:22-7:29]: Natural
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |type_def:
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  RecordTypeDef[7:34-10:14]
-|  |  |  |  |  |  |has_abstract:
+|  |  |  |  |  |  |f_has_abstract:
 |  |  |  |  |  |  |  AbstractAbsent[7:33-7:33]
-|  |  |  |  |  |  |has_tagged:
+|  |  |  |  |  |  |f_has_tagged:
 |  |  |  |  |  |  |  TaggedAbsent[7:33-7:33]
-|  |  |  |  |  |  |has_limited:
+|  |  |  |  |  |  |f_has_limited:
 |  |  |  |  |  |  |  LimitedAbsent[7:33-7:33]
-|  |  |  |  |  |  |record_def:
+|  |  |  |  |  |  |f_record_def:
 |  |  |  |  |  |  |  RecordDef[7:34-10:14]
-|  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |f_components:
 |  |  |  |  |  |  |  |  ComponentList[8:7-9:27]
-|  |  |  |  |  |  |  |  |components:
+|  |  |  |  |  |  |  |  |f_components:
 |  |  |  |  |  |  |  |  |  AdaNodeList[8:7-9:27]
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[8:7-8:19]
-|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[8:7-8:8]
 |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[8:7-8:8]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[8:7-8:8]: I
-|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |f_component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[8:11-8:18]
-|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[8:10-8:10]
-|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[8:10-8:10]
-|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[8:11-8:18]
-|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[8:10-8:10]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[8:11-8:18]: Integer
-|  |  |  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  |  |  ComponentDecl[9:7-9:27]
-|  |  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  |  DefiningNameList[9:7-9:8]
 |  |  |  |  |  |  |  |  |  |  |  |  DefiningName[9:7-9:8]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:7-9:8]: S
-|  |  |  |  |  |  |  |  |  |  |component_def:
+|  |  |  |  |  |  |  |  |  |  |f_component_def:
 |  |  |  |  |  |  |  |  |  |  |  ComponentDef[9:11-9:26]
-|  |  |  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  |  |  AliasedAbsent[9:10-9:10]
-|  |  |  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  |  |  |  |  |  ConstantAbsent[9:10-9:10]
-|  |  |  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  SubtypeIndication[9:11-9:26]
-|  |  |  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[9:10-9:10]
-|  |  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:11-9:17]: String
-|  |  |  |  |  |  |  |  |  |  |  |  |constraint:
+|  |  |  |  |  |  |  |  |  |  |  |  |f_constraint:
 |  |  |  |  |  |  |  |  |  |  |  |  |  IndexConstraint[9:18-9:26]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |constraints:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraints:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  ConstraintList[9:19-9:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[9:19-9:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[9:19-9:20]: 1
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpDoubleDot[9:21-9:23]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:24-9:25]: N
-|  |  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |  |  |variant_part: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |private_part: <null>
-|  |  |end_name:
+|  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |  |  |f_variant_part: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_private_part: <null>
+|  |  |f_end_name:
 |  |  |  EndName[11:5-11:8]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[11:5-11:8]: Foo
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[11:9-11:9]: <empty list>
 
 ==== Dumping lexical environments ====

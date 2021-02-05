@@ -1,12 +1,12 @@
 PackageDecl[1:1-2:5]
-|package_name:
+|f_package_name:
 |  DefiningName[1:9-1:10]
-|  |name:
+|  |f_name:
 |  |  Id[1:9-1:10]: A
-|aspects: <null>
-|public_part:
+|f_aspects: <null>
+|f_public_part:
 |  PublicPart[1:13-2:1]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[1:13-1:13]: <empty list>
-|private_part: <null>
-|end_name: <null>
+|f_private_part: <null>
+|f_end_name: <null>

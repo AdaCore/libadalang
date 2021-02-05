@@ -1,14 +1,14 @@
 UseTypeClause[1:1-1:36]
-|has_all:
+|f_has_all:
 |  AllPresent[1:5-1:8]
-|types:
+|f_types:
 |  NameList[1:14-1:35]
 |  |  DottedName[1:14-1:35]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  DottedName[1:14-1:28]
-|  |  |  |prefix:
+|  |  |  |f_prefix:
 |  |  |  |  Id[1:14-1:17]: Ada
-|  |  |  |suffix:
+|  |  |  |f_suffix:
 |  |  |  |  Id[1:18-1:28]: Containers
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:29-1:35]: Vector

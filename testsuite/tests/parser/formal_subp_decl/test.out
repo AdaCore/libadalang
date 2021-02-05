@@ -1,15 +1,15 @@
 AbstractFormalSubpDecl[1:1-1:30]
-|overriding:
+|f_overriding:
 |  OverridingUnspecified[1:5-1:5]
-|subp_spec:
+|f_subp_spec:
 |  SubpSpec[1:6-1:17]
-|  |subp_kind:
+|  |f_subp_kind:
 |  |  SubpKindProcedure[1:6-1:15]
-|  |subp_name:
+|  |f_subp_name:
 |  |  DefiningName[1:16-1:17]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:16-1:17]: P
-|  |subp_params: <null>
-|  |subp_returns: <null>
-|default_expr: <null>
-|aspects: <null>
+|  |f_subp_params: <null>
+|  |f_subp_returns: <null>
+|f_default_expr: <null>
+|f_aspects: <null>

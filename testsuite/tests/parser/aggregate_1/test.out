@@ -1,28 +1,28 @@
 Aggregate[1:1-1:42]
-|ancestor_expr: <null>
-|assocs:
+|f_ancestor_expr: <null>
+|f_assocs:
 |  AssocList[1:2-1:41]
 |  |  AggregateAssoc[1:2-1:9]
-|  |  |designators:
+|  |  |f_designators:
 |  |  |  AlternativesList[1:2-1:3]
 |  |  |  |  Id[1:2-1:3]: A
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  Int[1:7-1:9]: 12
 |  |  AggregateAssoc[1:11-1:18]
-|  |  |designators:
+|  |  |f_designators:
 |  |  |  AlternativesList[1:11-1:12]
 |  |  |  |  Id[1:11-1:12]: B
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  Int[1:16-1:18]: 15
 |  |  AggregateAssoc[1:20-1:27]
-|  |  |designators:
+|  |  |f_designators:
 |  |  |  AlternativesList[1:20-1:21]
 |  |  |  |  Id[1:20-1:21]: C
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  Int[1:25-1:27]: 89
 |  |  AggregateAssoc[1:29-1:41]
-|  |  |designators:
+|  |  |f_designators:
 |  |  |  AlternativesList[1:29-1:35]
 |  |  |  |  OthersDesignator[1:29-1:35]
-|  |  |r_expr:
+|  |  |f_r_expr:
 |  |  |  BoxExpr[1:39-1:41]

@@ -1,35 +1,35 @@
 GenericPackageDecl[1:1-1:43]
-|formal_part:
+|f_formal_part:
 |  GenericFormalPart[1:1-1:8]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[1:8-1:8]: <empty list>
-|package_decl:
+|f_package_decl:
 |  GenericPackageInternal[1:9-1:43]
-|  |package_name:
+|  |f_package_name:
 |  |  DefiningName[1:17-1:18]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:17-1:18]: A
-|  |aspects: <null>
-|  |public_part:
+|  |f_aspects: <null>
+|  |f_public_part:
 |  |  PublicPart[1:21-1:37]
-|  |  |decls:
+|  |  |f_decls:
 |  |  |  AdaNodeList[1:22-1:36]
 |  |  |  |  SubpDecl[1:22-1:36]
-|  |  |  |  |overriding:
+|  |  |  |  |f_overriding:
 |  |  |  |  |  OverridingUnspecified[1:21-1:21]
-|  |  |  |  |subp_spec:
+|  |  |  |  |f_subp_spec:
 |  |  |  |  |  SubpSpec[1:22-1:35]
-|  |  |  |  |  |subp_kind:
+|  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  SubpKindProcedure[1:22-1:31]
-|  |  |  |  |  |subp_name:
+|  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  DefiningName[1:32-1:35]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:32-1:35]: Set
-|  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |aspects: <null>
-|  |private_part: <null>
-|  |end_name:
+|  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |f_subp_returns: <null>
+|  |  |  |  |f_aspects: <null>
+|  |f_private_part: <null>
+|  |f_end_name:
 |  |  EndName[1:41-1:42]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:41-1:42]: A

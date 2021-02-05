@@ -1,28 +1,28 @@
 NamedStmt[1:1-1:35]
-|decl:
+|f_decl:
 |  NamedStmtDecl[1:1-1:2]
-|  |name:
+|  |f_name:
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
-|stmt:
+|f_stmt:
 |  ForLoopStmt[1:4-1:35]
-|  |spec:
+|  |f_spec:
 |  |  ForLoopSpec[1:8-1:14]
-|  |  |var_decl:
+|  |  |f_var_decl:
 |  |  |  ForLoopVarDecl[1:8-1:9]
-|  |  |  |id:
+|  |  |  |f_id:
 |  |  |  |  DefiningName[1:8-1:9]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:8-1:9]: A
-|  |  |  |id_type: <null>
-|  |  |loop_type:
+|  |  |  |f_id_type: <null>
+|  |  |f_loop_type:
 |  |  |  IterTypeIn[1:10-1:12]
-|  |  |has_reverse:
+|  |  |f_has_reverse:
 |  |  |  ReverseAbsent[1:12-1:12]
-|  |  |iter_expr:
+|  |  |f_iter_expr:
 |  |  |  Id[1:13-1:14]: B
-|  |stmts:
+|  |f_stmts:
 |  |  StmtList[1:20-1:25]
 |  |  |  NullStmt[1:20-1:25]
-|  |end_name: <null>
+|  |f_end_name: <null>

@@ -1,55 +1,55 @@
 CompilationUnit[1:1-4:14]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-4:14]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  PackageDecl[1:1-4:14]
-|  |  |package_name:
+|  |  |f_package_name:
 |  |  |  DefiningName[1:9-1:17]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:9-1:17]: Enum_Rep
-|  |  |aspects: <null>
-|  |  |public_part:
+|  |  |f_aspects: <null>
+|  |  |f_public_part:
 |  |  |  PublicPart[1:20-4:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-3:28]
 |  |  |  |  |  TypeDecl[2:4-2:23]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[2:9-2:13]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[2:9-2:13]: Enum
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  EnumTypeDef[2:17-2:22]
-|  |  |  |  |  |  |enum_literals:
+|  |  |  |  |  |  |f_enum_literals:
 |  |  |  |  |  |  |  EnumLiteralDeclList[2:18-2:21]
 |  |  |  |  |  |  |  |  EnumLiteralDecl[2:18-2:21]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  DefiningName[2:18-2:21]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[2:18-2:21]: Red
-|  |  |  |  |  |aspects: <null>
+|  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  EnumRepClause[3:4-3:28]
-|  |  |  |  |  |type_name:
+|  |  |  |  |  |f_type_name:
 |  |  |  |  |  |  Id[3:8-3:12]: Enum
-|  |  |  |  |  |aggregate:
+|  |  |  |  |  |f_aggregate:
 |  |  |  |  |  |  Aggregate[3:17-3:27]
-|  |  |  |  |  |  |ancestor_expr: <null>
-|  |  |  |  |  |  |assocs:
+|  |  |  |  |  |  |f_ancestor_expr: <null>
+|  |  |  |  |  |  |f_assocs:
 |  |  |  |  |  |  |  AssocList[3:18-3:26]
 |  |  |  |  |  |  |  |  AggregateAssoc[3:18-3:26]
-|  |  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  |  AlternativesList[3:18-3:21]
 |  |  |  |  |  |  |  |  |  |  Id[3:18-3:21]: Red
-|  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  Int[3:25-3:26]: 1
-|  |  |private_part: <null>
-|  |  |end_name:
+|  |  |f_private_part: <null>
+|  |  |f_end_name:
 |  |  |  EndName[4:5-4:13]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[4:5-4:13]: Enum_Rep
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[4:14-4:14]: <empty list>

@@ -1,11 +1,11 @@
 ExitStmt[1:1-1:26]
-|loop_name:
+|f_loop_name:
 |  Id[1:6-1:13]: My_Loop
-|cond_expr:
+|f_cond_expr:
 |  RelationOp[1:19-1:25]
-|  |left:
+|  |f_left:
 |  |  Id[1:19-1:20]: A
-|  |op:
+|  |f_op:
 |  |  OpLt[1:21-1:22]
-|  |right:
+|  |f_right:
 |  |  Int[1:23-1:25]: 12

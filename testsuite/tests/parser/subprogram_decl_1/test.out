@@ -1,69 +1,69 @@
 ExprFunction[1:1-1:76]
-|overriding:
+|f_overriding:
 |  OverridingOverriding[1:1-1:11]
-|subp_spec:
+|f_subp_spec:
 |  SubpSpec[1:12-1:64]
-|  |subp_kind:
+|  |f_subp_kind:
 |  |  SubpKindFunction[1:12-1:20]
-|  |subp_name:
+|  |f_subp_name:
 |  |  DefiningName[1:21-1:22]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:21-1:22]: A
-|  |subp_params:
+|  |f_subp_params:
 |  |  Params[1:23-1:49]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:24-1:48]
 |  |  |  |  ParamSpec[1:24-1:35]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:24-1:25]
 |  |  |  |  |  |  DefiningName[1:24-1:25]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:24-1:25]: B
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:27-1:27]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:27-1:27]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:28-1:35]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:27-1:27]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:28-1:35]: Integer
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
 |  |  |  |  ParamSpec[1:37-1:48]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:37-1:38]
 |  |  |  |  |  |  DefiningName[1:37-1:38]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:37-1:38]: C
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:40-1:40]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:40-1:40]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:41-1:48]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:40-1:40]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:41-1:48]: Integer
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|  |subp_returns:
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|  |f_subp_returns:
 |  |  SubtypeIndication[1:57-1:64]
-|  |  |has_not_null:
+|  |  |f_has_not_null:
 |  |  |  NotNullAbsent[1:56-1:56]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:57-1:64]: Integer
-|  |  |constraint: <null>
-|expr:
+|  |  |f_constraint: <null>
+|f_expr:
 |  ParenExpr[1:68-1:75]
-|  |expr:
+|  |f_expr:
 |  |  BinOp[1:69-1:74]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Id[1:69-1:70]: B
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpDiv[1:71-1:72]
-|  |  |right:
+|  |  |f_right:
 |  |  |  Id[1:73-1:74]: C
-|aspects: <null>
+|f_aspects: <null>

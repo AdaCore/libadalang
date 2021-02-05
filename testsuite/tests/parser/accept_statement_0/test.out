@@ -1,43 +1,43 @@
 AcceptStmtWithStmts[1:1-1:68]
-|name:
+|f_name:
 |  Id[1:8-1:14]: Insert
-|entry_index_expr: <null>
-|params:
+|f_entry_index_expr: <null>
+|f_params:
 |  EntryCompletionFormalParams[1:15-1:35]
-|  |params:
+|  |f_params:
 |  |  Params[1:15-1:35]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:16-1:34]
 |  |  |  |  ParamSpec[1:16-1:34]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:16-1:23]
 |  |  |  |  |  |  DefiningName[1:16-1:23]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:16-1:23]: An_Item
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:25-1:25]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeIn[1:26-1:28]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:30-1:34]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:28-1:28]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:30-1:34]: Item
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|stmts:
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|f_stmts:
 |  HandledStmts[1:38-1:57]
-|  |stmts:
+|  |f_stmts:
 |  |  StmtList[1:39-1:56]
 |  |  |  AssignStmt[1:39-1:56]
-|  |  |  |dest:
+|  |  |  |f_dest:
 |  |  |  |  Id[1:39-1:44]: Datum
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Id[1:48-1:55]: An_Item
-|  |exceptions:
+|  |f_exceptions:
 |  |  AdaNodeList[1:55-1:55]: <empty list>
-|end_name:
+|f_end_name:
 |  EndName[1:61-1:67]
-|  |name:
+|  |f_name:
 |  |  Id[1:61-1:67]: Insert

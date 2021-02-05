@@ -1,75 +1,75 @@
 SubpSpec[1:1-1:65]
-|subp_kind:
+|f_subp_kind:
 |  SubpKindFunction[1:1-1:9]
-|subp_name:
+|f_subp_name:
 |  DefiningName[1:10-1:11]
-|  |name:
+|  |f_name:
 |  |  Id[1:10-1:11]: A
-|subp_params:
+|f_subp_params:
 |  Params[1:12-1:50]
-|  |params:
+|  |f_params:
 |  |  ParamSpecList[1:13-1:49]
 |  |  |  ParamSpec[1:13-1:29]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:13-1:20]
 |  |  |  |  |  DefiningName[1:13-1:14]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:13-1:14]: B
 |  |  |  |  |  DefiningName[1:16-1:17]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:16-1:17]: C
 |  |  |  |  |  DefiningName[1:19-1:20]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:19-1:20]: D
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[1:22-1:22]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeDefault[1:22-1:22]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  SubtypeIndication[1:23-1:29]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[1:22-1:22]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:23-1:29]: String
-|  |  |  |  |constraint: <null>
-|  |  |  |default_expr: <null>
+|  |  |  |  |f_constraint: <null>
+|  |  |  |f_default_expr: <null>
 |  |  |  ParamSpec[1:31-1:49]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:31-1:32]
 |  |  |  |  |  DefiningName[1:31-1:32]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:31-1:32]: E
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[1:34-1:34]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeDefault[1:34-1:34]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  AnonymousType[1:35-1:49]
-|  |  |  |  |type_decl:
+|  |  |  |  |f_type_decl:
 |  |  |  |  |  AnonymousTypeDecl[1:35-1:49]
-|  |  |  |  |  |name: <null>
-|  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |type_def:
+|  |  |  |  |  |f_name: <null>
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  TypeAccessDef[1:35-1:49]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:34-1:34]
-|  |  |  |  |  |  |has_all:
+|  |  |  |  |  |  |f_has_all:
 |  |  |  |  |  |  |  AllAbsent[1:41-1:41]
-|  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  ConstantAbsent[1:41-1:41]
-|  |  |  |  |  |  |subtype_indication:
+|  |  |  |  |  |  |f_subtype_indication:
 |  |  |  |  |  |  |  SubtypeIndication[1:42-1:49]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:41-1:41]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:42-1:49]: Integer
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |default_expr: <null>
-|subp_returns:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |f_default_expr: <null>
+|f_subp_returns:
 |  SubtypeIndication[1:58-1:65]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullAbsent[1:57-1:57]
-|  |name:
+|  |f_name:
 |  |  Id[1:58-1:65]: Integer
-|  |constraint: <null>
+|  |f_constraint: <null>

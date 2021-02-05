@@ -1,101 +1,101 @@
 CompilationUnit[1:1-10:10]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-10:10]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:1-10:10]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:1-1:15]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:11-1:15]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:11-1:15]: Test
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:18-8:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-7:38]
 |  |  |  |  |  GenericPackageDecl[2:4-5:10]
-|  |  |  |  |  |formal_part:
+|  |  |  |  |  |f_formal_part:
 |  |  |  |  |  |  GenericFormalPart[2:4-3:19]
-|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  AdaNodeList[3:7-3:19]
 |  |  |  |  |  |  |  |  GenericFormalObjDecl[3:7-3:19]
-|  |  |  |  |  |  |  |  |decl:
+|  |  |  |  |  |  |  |  |f_decl:
 |  |  |  |  |  |  |  |  |  ObjectDecl[3:7-3:19]
-|  |  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  |  DefiningNameList[3:7-3:8]
 |  |  |  |  |  |  |  |  |  |  |  DefiningName[3:7-3:8]
-|  |  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  Id[3:7-3:8]: T
-|  |  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  |  AliasedAbsent[3:10-3:10]
-|  |  |  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  |  |  |  ConstantAbsent[3:10-3:10]
-|  |  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  |  ModeDefault[3:10-3:10]
-|  |  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  |  SubtypeIndication[3:11-3:18]
-|  |  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  |  NotNullAbsent[3:10-3:10]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[3:11-3:18]: Integer
-|  |  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |  |  |  |  |renaming_clause: <null>
-|  |  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |package_decl:
+|  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_renaming_clause: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |f_package_decl:
 |  |  |  |  |  |  GenericPackageInternal[4:4-5:10]
-|  |  |  |  |  |  |package_name:
+|  |  |  |  |  |  |f_package_name:
 |  |  |  |  |  |  |  DefiningName[4:12-4:13]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[4:12-4:13]: D
-|  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |public_part:
+|  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |f_public_part:
 |  |  |  |  |  |  |  PublicPart[4:16-5:4]
-|  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  |  AdaNodeList[4:16-4:16]: <empty list>
-|  |  |  |  |  |  |private_part: <null>
-|  |  |  |  |  |  |end_name:
+|  |  |  |  |  |  |f_private_part: <null>
+|  |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  |  EndName[5:8-5:9]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[5:8-5:9]: D
 |  |  |  |  |  GenericPackageInstantiation[7:4-7:38]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[7:12-7:18]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[7:12-7:18]: D_Inst
-|  |  |  |  |  |generic_pkg_name:
+|  |  |  |  |  |f_generic_pkg_name:
 |  |  |  |  |  |  Id[7:26-7:27]: D
-|  |  |  |  |  |params:
+|  |  |  |  |  |f_params:
 |  |  |  |  |  |  AssocList[7:29-7:36]
 |  |  |  |  |  |  |  ParamAssoc[7:29-7:36]
-|  |  |  |  |  |  |  |designator:
+|  |  |  |  |  |  |  |f_designator:
 |  |  |  |  |  |  |  |  Id[7:29-7:30]: T
-|  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  Int[7:34-7:36]: 12
-|  |  |  |  |  |aspects: <null>
-|  |  |stmts:
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_stmts:
 |  |  |  HandledStmts[8:6-10:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[9:4-9:9]
 |  |  |  |  |  NullStmt[9:4-9:9]
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[9:8-9:8]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[10:5-10:9]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[10:5-10:9]: Test
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[10:10-10:10]: <empty list>
 
 ==== Dumping lexical environments ====

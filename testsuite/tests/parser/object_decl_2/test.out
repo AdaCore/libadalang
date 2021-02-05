@@ -1,48 +1,48 @@
 ObjectDecl[1:1-1:51]
-|ids:
+|f_ids:
 |  DefiningNameList[1:1-1:4]
 |  |  DefiningName[1:1-1:4]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:4]: Arr
-|has_aliased:
+|f_has_aliased:
 |  AliasedPresent[1:7-1:14]
-|has_constant:
+|f_has_constant:
 |  ConstantPresent[1:15-1:23]
-|mode:
+|f_mode:
 |  ModeDefault[1:23-1:23]
-|type_expr:
+|f_type_expr:
 |  AnonymousType[1:24-1:50]
-|  |type_decl:
+|  |f_type_decl:
 |  |  AnonymousTypeDecl[1:24-1:50]
-|  |  |name: <null>
-|  |  |discriminants: <null>
-|  |  |type_def:
+|  |  |f_name: <null>
+|  |  |f_discriminants: <null>
+|  |  |f_type_def:
 |  |  |  ArrayTypeDef[1:24-1:50]
-|  |  |  |indices:
+|  |  |  |f_indices:
 |  |  |  |  ConstrainedArrayIndices[1:31-1:38]
-|  |  |  |  |list:
+|  |  |  |  |f_list:
 |  |  |  |  |  ConstraintList[1:31-1:38]
 |  |  |  |  |  |  BinOp[1:31-1:38]
-|  |  |  |  |  |  |left:
+|  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  Int[1:31-1:32]: 1
-|  |  |  |  |  |  |op:
+|  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  OpDoubleDot[1:33-1:35]
-|  |  |  |  |  |  |right:
+|  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  Int[1:36-1:38]: 12
-|  |  |  |component_type:
+|  |  |  |f_component_type:
 |  |  |  |  ComponentDef[1:43-1:50]
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:42-1:42]
-|  |  |  |  |has_constant:
+|  |  |  |  |f_has_constant:
 |  |  |  |  |  ConstantAbsent[1:42-1:42]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:43-1:50]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:42-1:42]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:43-1:50]: Integer
-|  |  |  |  |  |constraint: <null>
-|  |  |aspects: <null>
-|default_expr: <null>
-|renaming_clause: <null>
-|aspects: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |f_aspects: <null>
+|f_default_expr: <null>
+|f_renaming_clause: <null>
+|f_aspects: <null>

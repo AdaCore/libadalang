@@ -1,14 +1,14 @@
 GenericPackageInstantiation[1:1-1:25]
-|name:
+|f_name:
 |  DefiningName[1:9-1:10]
-|  |name:
+|  |f_name:
 |  |  Id[1:9-1:10]: P
-|generic_pkg_name:
+|f_generic_pkg_name:
 |  Id[1:18-1:19]: Q
-|params:
+|f_params:
 |  AssocList[1:21-1:23]
 |  |  ParamAssoc[1:21-1:23]
-|  |  |designator: <null>
-|  |  |r_expr:
+|  |  |f_designator: <null>
+|  |  |f_r_expr:
 |  |  |  BoxExpr[1:21-1:23]
-|aspects: <null>
+|f_aspects: <null>

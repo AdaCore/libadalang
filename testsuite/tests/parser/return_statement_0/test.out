@@ -1,21 +1,21 @@
 ReturnStmt[1:1-1:27]
-|return_expr:
+|f_return_expr:
 |  CallExpr[1:8-1:26]
-|  |name:
+|  |f_name:
 |  |  Id[1:8-1:11]: Lol
-|  |suffix:
+|  |f_suffix:
 |  |  AssocList[1:13-1:25]
 |  |  |  ParamAssoc[1:13-1:16]
-|  |  |  |designator: <null>
-|  |  |  |r_expr:
+|  |  |  |f_designator: <null>
+|  |  |  |f_r_expr:
 |  |  |  |  Id[1:13-1:16]: Wat
 |  |  |  ParamAssoc[1:18-1:25]
-|  |  |  |designator: <null>
-|  |  |  |r_expr:
+|  |  |  |f_designator: <null>
+|  |  |  |f_r_expr:
 |  |  |  |  BinOp[1:18-1:25]
-|  |  |  |  |left:
+|  |  |  |  |f_left:
 |  |  |  |  |  Int[1:18-1:20]: 12
-|  |  |  |  |op:
+|  |  |  |  |f_op:
 |  |  |  |  |  OpPlus[1:21-1:22]
-|  |  |  |  |right:
+|  |  |  |  |f_right:
 |  |  |  |  |  Int[1:23-1:25]: 15

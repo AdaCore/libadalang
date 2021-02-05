@@ -1,19 +1,19 @@
 AcceptStmtWithStmts[1:1-1:35]
-|name:
+|f_name:
 |  Id[1:8-1:13]: SEIZE
-|entry_index_expr: <null>
-|params:
+|f_entry_index_expr: <null>
+|f_params:
 |  EntryCompletionFormalParams[1:13-1:13]
-|  |params: <null>
-|stmts:
+|  |f_params: <null>
+|f_stmts:
 |  HandledStmts[1:16-1:31]
-|  |stmts:
+|  |f_stmts:
 |  |  StmtList[1:17-1:30]
 |  |  |  AssignStmt[1:17-1:30]
-|  |  |  |dest:
+|  |  |  |f_dest:
 |  |  |  |  Id[1:17-1:21]: BUSY
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Id[1:25-1:29]: TRUE
-|  |exceptions:
+|  |f_exceptions:
 |  |  AdaNodeList[1:29-1:29]: <empty list>
-|end_name: <null>
+|f_end_name: <null>

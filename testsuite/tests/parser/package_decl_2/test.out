@@ -1,70 +1,70 @@
 PackageDecl[1:1-1:106]
-|package_name:
+|f_package_name:
 |  DefiningName[1:9-1:22]
-|  |name:
+|  |f_name:
 |  |  Id[1:9-1:22]: Generic_Stack
-|aspects: <null>
-|public_part:
+|f_aspects: <null>
+|f_public_part:
 |  PublicPart[1:25-1:88]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[1:26-1:87]
 |  |  |  SubpDecl[1:26-1:56]
-|  |  |  |overriding:
+|  |  |  |f_overriding:
 |  |  |  |  OverridingUnspecified[1:25-1:25]
-|  |  |  |subp_spec:
+|  |  |  |f_subp_spec:
 |  |  |  |  SubpSpec[1:26-1:55]
-|  |  |  |  |subp_kind:
+|  |  |  |  |f_subp_kind:
 |  |  |  |  |  SubpKindProcedure[1:26-1:35]
-|  |  |  |  |subp_name:
+|  |  |  |  |f_subp_name:
 |  |  |  |  |  DefiningName[1:36-1:40]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:36-1:40]: Push
-|  |  |  |  |subp_params:
+|  |  |  |  |f_subp_params:
 |  |  |  |  |  Params[1:41-1:55]
-|  |  |  |  |  |params:
+|  |  |  |  |  |f_params:
 |  |  |  |  |  |  ParamSpecList[1:42-1:54]
 |  |  |  |  |  |  |  ParamSpec[1:42-1:54]
-|  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  DefiningNameList[1:42-1:43]
 |  |  |  |  |  |  |  |  |  DefiningName[1:42-1:43]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:42-1:43]: E
-|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:44-1:44]
-|  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  ModeDefault[1:44-1:44]
-|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:45-1:54]
-|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[1:44-1:44]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:45-1:54]: Element_T
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |subp_returns: <null>
-|  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_subp_returns: <null>
+|  |  |  |f_aspects: <null>
 |  |  |  SubpDecl[1:57-1:87]
-|  |  |  |overriding:
+|  |  |  |f_overriding:
 |  |  |  |  OverridingUnspecified[1:56-1:56]
-|  |  |  |subp_spec:
+|  |  |  |f_subp_spec:
 |  |  |  |  SubpSpec[1:57-1:86]
-|  |  |  |  |subp_kind:
+|  |  |  |  |f_subp_kind:
 |  |  |  |  |  SubpKindFunction[1:57-1:65]
-|  |  |  |  |subp_name:
+|  |  |  |  |f_subp_name:
 |  |  |  |  |  DefiningName[1:66-1:69]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:66-1:69]: Pop
-|  |  |  |  |subp_params: <null>
-|  |  |  |  |subp_returns:
+|  |  |  |  |f_subp_params: <null>
+|  |  |  |  |f_subp_returns:
 |  |  |  |  |  SubtypeIndication[1:77-1:86]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:76-1:76]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:77-1:86]: Element_T
-|  |  |  |  |  |constraint: <null>
-|  |  |  |aspects: <null>
-|private_part: <null>
-|end_name:
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |f_aspects: <null>
+|f_private_part: <null>
+|f_end_name:
 |  EndName[1:92-1:105]
-|  |name:
+|  |f_name:
 |  |  Id[1:92-1:105]: Generic_Stack

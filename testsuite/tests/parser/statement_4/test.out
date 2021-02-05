@@ -1,46 +1,46 @@
 DeclBlock[1:1-1:47]
-|decls:
+|f_decls:
 |  DeclarativePart[1:8-1:28]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[1:9-1:27]
 |  |  |  ObjectDecl[1:9-1:27]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:9-1:10]
 |  |  |  |  |  DefiningName[1:9-1:10]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:9-1:10]: A
-|  |  |  |has_aliased:
+|  |  |  |f_has_aliased:
 |  |  |  |  AliasedAbsent[1:12-1:12]
-|  |  |  |has_constant:
+|  |  |  |f_has_constant:
 |  |  |  |  ConstantAbsent[1:12-1:12]
-|  |  |  |mode:
+|  |  |  |f_mode:
 |  |  |  |  ModeDefault[1:12-1:12]
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  SubtypeIndication[1:13-1:20]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[1:12-1:12]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:13-1:20]: Integer
-|  |  |  |  |constraint: <null>
-|  |  |  |default_expr:
+|  |  |  |  |f_constraint: <null>
+|  |  |  |f_default_expr:
 |  |  |  |  Int[1:24-1:26]: 12
-|  |  |  |renaming_clause: <null>
-|  |  |  |aspects: <null>
-|stmts:
+|  |  |  |f_renaming_clause: <null>
+|  |  |  |f_aspects: <null>
+|f_stmts:
 |  HandledStmts[1:33-1:43]
-|  |stmts:
+|  |f_stmts:
 |  |  StmtList[1:34-1:42]
 |  |  |  CallStmt[1:34-1:42]
-|  |  |  |call:
+|  |  |  |f_call:
 |  |  |  |  CallExpr[1:34-1:41]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:34-1:37]: Foo
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  AssocList[1:39-1:40]
 |  |  |  |  |  |  ParamAssoc[1:39-1:40]
-|  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  Id[1:39-1:40]: A
-|  |exceptions:
+|  |f_exceptions:
 |  |  AdaNodeList[1:41-1:41]: <empty list>
-|end_name: <null>
+|f_end_name: <null>

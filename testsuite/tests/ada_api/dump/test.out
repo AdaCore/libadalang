@@ -1,118 +1,118 @@
 CompilationUnit[1:2-5:11]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:2-1:2]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:2-5:11]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:2-1:2]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:2-5:11]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:2-1:2]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:2-1:35]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:2-1:11]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:12-1:16]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:12-1:16]: Test
-|  |  |  |subp_params:
+|  |  |  |f_subp_params:
 |  |  |  |  Params[1:17-1:35]
-|  |  |  |  |params:
+|  |  |  |  |f_params:
 |  |  |  |  |  ParamSpecList[1:18-1:34]
 |  |  |  |  |  |  ParamSpec[1:18-1:25]
-|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  DefiningNameList[1:18-1:19]
 |  |  |  |  |  |  |  |  DefiningName[1:18-1:19]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:18-1:19]: A
-|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:21-1:21]
-|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  ModeDefault[1:21-1:21]
-|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:22-1:25]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:21-1:21]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:22-1:25]: Foo
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default_expr: <null>
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  ParamSpec[1:27-1:34]
-|  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  DefiningNameList[1:27-1:28]
 |  |  |  |  |  |  |  |  DefiningName[1:27-1:28]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:27-1:28]: B
-|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:30-1:30]
-|  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  ModeDefault[1:30-1:30]
-|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:31-1:34]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:30-1:30]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:31-1:34]: Bar
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |default_expr: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:38-1:39]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[1:38-1:38]: <empty list>
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[1:44-5:2]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[2:6-4:15]
 |  |  |  |  |  ForLoopStmt[2:6-4:15]
-|  |  |  |  |  |spec:
+|  |  |  |  |  |f_spec:
 |  |  |  |  |  |  ForLoopSpec[2:10-2:28]
-|  |  |  |  |  |  |var_decl:
+|  |  |  |  |  |  |f_var_decl:
 |  |  |  |  |  |  |  ForLoopVarDecl[2:10-2:23]
-|  |  |  |  |  |  |  |id:
+|  |  |  |  |  |  |  |f_id:
 |  |  |  |  |  |  |  |  DefiningName[2:10-2:12]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[2:10-2:12]: El
-|  |  |  |  |  |  |  |id_type:
+|  |  |  |  |  |  |  |f_id_type:
 |  |  |  |  |  |  |  |  SubtypeIndication[2:15-2:23]
-|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[2:14-2:14]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[2:15-2:23]: Foo_Elem
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |loop_type:
+|  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_loop_type:
 |  |  |  |  |  |  |  IterTypeOf[2:24-2:26]
-|  |  |  |  |  |  |has_reverse:
+|  |  |  |  |  |  |f_has_reverse:
 |  |  |  |  |  |  |  ReverseAbsent[2:26-2:26]
-|  |  |  |  |  |  |iter_expr:
+|  |  |  |  |  |  |f_iter_expr:
 |  |  |  |  |  |  |  Id[2:27-2:28]: A
-|  |  |  |  |  |stmts:
+|  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  StmtList[3:9-3:24]
 |  |  |  |  |  |  |  CallStmt[3:9-3:24]
-|  |  |  |  |  |  |  |call:
+|  |  |  |  |  |  |  |f_call:
 |  |  |  |  |  |  |  |  CallExpr[3:9-3:23]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  DottedName[3:9-3:18]
-|  |  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  |  Id[3:9-3:10]: B
-|  |  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  |  Id[3:11-3:18]: RealBar
-|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  AssocList[3:20-3:22]
 |  |  |  |  |  |  |  |  |  |  ParamAssoc[3:20-3:22]
-|  |  |  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  |  |  Id[3:20-3:22]: El
-|  |  |  |  |  |end_name: <null>
-|  |  |  |exceptions:
+|  |  |  |  |  |f_end_name: <null>
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[4:14-4:14]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[5:6-5:10]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[5:6-5:10]: Test
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[5:11-5:11]: <empty list>
 Done.

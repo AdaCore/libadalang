@@ -5,79 +5,79 @@ input:5:1: Expected 'begin', got Termination
 input:1:1: Cannot parse <subp_body>
 input:5:1: Expected 'begin', got Termination
 CompilationUnit[1:1-5:1] <<INCOMPLETE>>
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-5:1] <<INCOMPLETE>>
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:1-5:1] <<INCOMPLETE>>
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:1-1:25]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:11-1:25]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:11-1:25]: Test_Incorrect
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:28-5:1] <<INCOMPLETE>>
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-5:1] <<INCOMPLETE>>
 |  |  |  |  |  SubpBody[2:4-5:1] <<INCOMPLETE>>
-|  |  |  |  |  |overriding:
+|  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  OverridingUnspecified[1:28-1:28]
-|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  SubpSpec[2:4-2:17]
-|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  SubpKindProcedure[2:4-2:13]
-|  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  DefiningName[2:14-2:17]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[2:14-2:17]: Foo
-|  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |decls:
+|  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |f_subp_returns: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |f_decls:
 |  |  |  |  |  |  DeclarativePart[2:20-5:1] <<INCOMPLETE>>
-|  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  AdaNodeList[3:7-5:1] <<INCOMPLETE>>
 |  |  |  |  |  |  |  |  SubpBody[3:7-5:1] <<INCOMPLETE>>
-|  |  |  |  |  |  |  |  |overriding:
+|  |  |  |  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  |  |  |  OverridingUnspecified[2:20-2:20]
-|  |  |  |  |  |  |  |  |subp_spec:
+|  |  |  |  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  |  |  |  SubpSpec[3:7-3:20]
-|  |  |  |  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  |  |  |  SubpKindProcedure[3:7-3:16]
-|  |  |  |  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  |  |  |  DefiningName[3:17-3:20]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[3:17-3:20]: Bar
-|  |  |  |  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |  |  |  |subp_returns: <null>
-|  |  |  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |  |  |  |f_subp_returns: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  |  |  DeclarativePart[3:23-4:7]
-|  |  |  |  |  |  |  |  |  |decls:
+|  |  |  |  |  |  |  |  |  |f_decls:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[3:23-3:23]: <empty list>
-|  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  HandledStmts[4:12-5:1]
-|  |  |  |  |  |  |  |  |  |stmts:
+|  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  StmtList[4:12-4:12]: <empty list>
-|  |  |  |  |  |  |  |  |  |exceptions:
+|  |  |  |  |  |  |  |  |  |f_exceptions:
 |  |  |  |  |  |  |  |  |  |  AdaNodeList[3:23-3:23]: <empty list>
-|  |  |  |  |  |  |  |  |end_name: <null>
-|  |  |  |  |  |stmts: <null>
-|  |  |  |  |  |end_name: <null>
-|  |  |stmts: <null>
-|  |  |end_name: <null>
-|pragmas:
+|  |  |  |  |  |  |  |  |f_end_name: <null>
+|  |  |  |  |  |f_stmts: <null>
+|  |  |  |  |  |f_end_name: <null>
+|  |  |f_stmts: <null>
+|  |  |f_end_name: <null>
+|f_pragmas:
 |  PragmaNodeList[4:12-4:12]: <empty list>
 
 ==== Checking tree consistency ====

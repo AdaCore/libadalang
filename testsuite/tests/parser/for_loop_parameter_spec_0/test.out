@@ -1,25 +1,25 @@
 ForLoopSpec[1:1-1:21]
-|var_decl:
+|f_var_decl:
 |  ForLoopVarDecl[1:1-1:2]
-|  |id:
+|  |f_id:
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
-|  |id_type: <null>
-|loop_type:
+|  |f_id_type: <null>
+|f_loop_type:
 |  IterTypeIn[1:3-1:5]
-|has_reverse:
+|f_has_reverse:
 |  ReverseAbsent[1:5-1:5]
-|iter_expr:
+|f_iter_expr:
 |  BinOp[1:6-1:21]
-|  |left:
+|  |f_left:
 |  |  AttributeRef[1:6-1:13]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:6-1:7]: B
-|  |  |attribute:
+|  |  |f_attribute:
 |  |  |  Id[1:8-1:13]: First
-|  |  |args: <null>
-|  |op:
+|  |  |f_args: <null>
+|  |f_op:
 |  |  OpDoubleDot[1:14-1:16]
-|  |right:
+|  |f_right:
 |  |  Id[1:17-1:21]: Last

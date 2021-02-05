@@ -1,79 +1,79 @@
 input:4:4: invalid brackets encoding
 CompilationUnit[1:1-7:9]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-7:9]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:1-7:9]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:1-1:14]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:11-1:14]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:11-1:14]: Foo
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:17-5:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-4:56]
 |  |  |  |  |  NumberDecl[2:4-2:32]
-|  |  |  |  |  |ids:
+|  |  |  |  |  |f_ids:
 |  |  |  |  |  |  DefiningNameList[2:4-2:12]
 |  |  |  |  |  |  |  DefiningName[2:4-2:12]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[2:4-2:12]: ["03C0"]
-|  |  |  |  |  |expr:
+|  |  |  |  |  |f_expr:
 |  |  |  |  |  |  Real[2:27-2:31]: 3.14
 |  |  |  |  |  NumberDecl[3:4-3:40]
-|  |  |  |  |  |ids:
+|  |  |  |  |  |f_ids:
 |  |  |  |  |  |  DefiningNameList[3:4-3:20]
 |  |  |  |  |  |  |  DefiningName[3:4-3:20]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[3:4-3:20]: This_Is_["03C0"]
-|  |  |  |  |  |expr:
+|  |  |  |  |  |f_expr:
 |  |  |  |  |  |  Real[3:35-3:39]: 3.14
 |  |  |  |  |  ObjectDecl[4:4-4:56]
-|  |  |  |  |  |ids:
+|  |  |  |  |  |f_ids:
 |  |  |  |  |  |  DefiningNameList[4:4-4:21]
 |  |  |  |  |  |  |  DefiningName[4:4-4:21]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[4:4-4:21]: ["800003C0"]_Name
-|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  AliasedAbsent[4:23-4:23]
-|  |  |  |  |  |has_constant:
+|  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  ConstantPresent[4:24-4:32]
-|  |  |  |  |  |mode:
+|  |  |  |  |  |f_mode:
 |  |  |  |  |  |  ModeDefault[4:32-4:32]
-|  |  |  |  |  |type_expr:
+|  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  SubtypeIndication[4:33-4:39]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[4:32-4:32]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[4:33-4:39]: String
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |default_expr:
+|  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_expr:
 |  |  |  |  |  |  Str[4:43-4:55]: "["0003C0"]"
-|  |  |  |  |  |renaming_clause: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |stmts:
+|  |  |  |  |  |f_renaming_clause: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_stmts:
 |  |  |  HandledStmts[5:6-7:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[6:4-6:9]
 |  |  |  |  |  NullStmt[6:4-6:9]
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[6:8-6:8]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[7:5-7:8]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[7:5-7:8]: Foo
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[7:9-7:9]: <empty list>

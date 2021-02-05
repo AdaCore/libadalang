@@ -1,5 +1,5 @@
 RequeueStmt[1:1-1:24]
-|call_name:
+|f_call_name:
 |  Id[1:9-1:12]: Lol
-|has_abort:
+|f_has_abort:
 |  AbortPresent[1:13-1:23]

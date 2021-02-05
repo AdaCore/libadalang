@@ -1,9 +1,9 @@
 AssignStmt[1:1-1:47]
-|dest:
+|f_dest:
 |  Id[1:1-1:2]: A
-|expr:
+|f_expr:
 |  RaiseExpr[1:6-1:46]
-|  |exception_name:
+|  |f_exception_name:
 |  |  Id[1:12-1:31]: NotImplementedError
-|  |error_message:
+|  |f_error_message:
 |  |  Str[1:37-1:46]: "too bad"

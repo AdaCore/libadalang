@@ -1,22 +1,22 @@
 TypeDecl[1:1-1:23]
-|name:
+|f_name:
 |  DefiningName[1:6-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:7]: A
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  RecordTypeDef[1:11-1:22]
-|  |has_abstract:
+|  |f_has_abstract:
 |  |  AbstractAbsent[1:10-1:10]
-|  |has_tagged:
+|  |f_has_tagged:
 |  |  TaggedAbsent[1:10-1:10]
-|  |has_limited:
+|  |f_has_limited:
 |  |  LimitedAbsent[1:10-1:10]
-|  |record_def:
+|  |f_record_def:
 |  |  NullRecordDef[1:11-1:22]
-|  |  |components:
+|  |  |f_components:
 |  |  |  ComponentList[1:22-1:22]
-|  |  |  |components:
+|  |  |  |f_components:
 |  |  |  |  AdaNodeList[1:22-1:22]: <empty list>
-|  |  |  |variant_part: <null>
-|aspects: <null>
+|  |  |  |f_variant_part: <null>
+|f_aspects: <null>

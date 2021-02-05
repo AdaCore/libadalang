@@ -1,49 +1,49 @@
 ObjectDecl[1:1-1:7]
-|ids:
+|f_ids:
 |  DefiningNameList[1:1-1:2]
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
-|has_aliased:
+|f_has_aliased:
 |  AliasedAbsent[1:4-1:4]
-|has_constant:
+|f_has_constant:
 |  ConstantAbsent[1:4-1:4]
-|mode:
+|f_mode:
 |  ModeDefault[1:4-1:4]
-|type_expr:
+|f_type_expr:
 |  SubtypeIndication[1:5-1:6]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullAbsent[1:4-1:4]
-|  |name:
+|  |f_name:
 |  |  Id[1:5-1:6]: B
-|  |constraint: <null>
-|default_expr: <null>
-|renaming_clause: <null>
-|aspects: <null>
+|  |f_constraint: <null>
+|f_default_expr: <null>
+|f_renaming_clause: <null>
+|f_aspects: <null>
 
 Lookup 1:4:
 ObjectDecl[1:1-1:7]
-|ids:
+|f_ids:
 |  DefiningNameList[1:1-1:2]
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
-|has_aliased:
+|f_has_aliased:
 |  AliasedAbsent[1:4-1:4]
-|has_constant:
+|f_has_constant:
 |  ConstantAbsent[1:4-1:4]
-|mode:
+|f_mode:
 |  ModeDefault[1:4-1:4]
-|type_expr:
+|f_type_expr:
 |  SubtypeIndication[1:5-1:6]
-|  |has_not_null:
+|  |f_has_not_null:
 |  |  NotNullAbsent[1:4-1:4]
-|  |name:
+|  |f_name:
 |  |  Id[1:5-1:6]: B
-|  |constraint: <null>
-|default_expr: <null>
-|renaming_clause: <null>
-|aspects: <null>
+|  |f_constraint: <null>
+|f_default_expr: <null>
+|f_renaming_clause: <null>
+|f_aspects: <null>
 
 Lookup 1:5:
 Id[1:5-1:6]: B

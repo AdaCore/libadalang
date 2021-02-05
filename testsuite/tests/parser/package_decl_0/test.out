@@ -1,23 +1,23 @@
 PackageDecl[1:1-1:40]
-|package_name:
+|f_package_name:
 |  DefiningName[1:9-1:10]
-|  |name:
+|  |f_name:
 |  |  Id[1:9-1:10]: A
-|aspects: <null>
-|public_part:
+|f_aspects: <null>
+|f_public_part:
 |  PublicPart[1:13-1:34]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[1:14-1:33]
 |  |  |  NumberDecl[1:14-1:33]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:14-1:15]
 |  |  |  |  |  DefiningName[1:14-1:15]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:14-1:15]: B
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Int[1:30-1:32]: 12
-|private_part: <null>
-|end_name:
+|f_private_part: <null>
+|f_end_name:
 |  EndName[1:38-1:39]
-|  |name:
+|  |f_name:
 |  |  Id[1:38-1:39]: A

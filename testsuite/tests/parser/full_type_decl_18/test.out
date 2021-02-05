@@ -1,33 +1,33 @@
 TypeDecl[1:1-1:41]
-|name:
+|f_name:
 |  DefiningName[1:6-1:9]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:9]: Arr
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  ArrayTypeDef[1:13-1:40]
-|  |indices:
+|  |f_indices:
 |  |  ConstrainedArrayIndices[1:20-1:28]
-|  |  |list:
+|  |  |f_list:
 |  |  |  ConstraintList[1:20-1:28]
 |  |  |  |  BinOp[1:20-1:28]
-|  |  |  |  |left:
+|  |  |  |  |f_left:
 |  |  |  |  |  Int[1:20-1:22]: 12
-|  |  |  |  |op:
+|  |  |  |  |f_op:
 |  |  |  |  |  OpDoubleDot[1:23-1:25]
-|  |  |  |  |right:
+|  |  |  |  |f_right:
 |  |  |  |  |  Int[1:26-1:28]: 15
-|  |component_type:
+|  |f_component_type:
 |  |  ComponentDef[1:33-1:40]
-|  |  |has_aliased:
+|  |  |f_has_aliased:
 |  |  |  AliasedAbsent[1:32-1:32]
-|  |  |has_constant:
+|  |  |f_has_constant:
 |  |  |  ConstantAbsent[1:32-1:32]
-|  |  |type_expr:
+|  |  |f_type_expr:
 |  |  |  SubtypeIndication[1:33-1:40]
-|  |  |  |has_not_null:
+|  |  |  |f_has_not_null:
 |  |  |  |  NotNullAbsent[1:32-1:32]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:33-1:40]: Integer
-|  |  |  |constraint: <null>
-|aspects: <null>
+|  |  |  |f_constraint: <null>
+|f_aspects: <null>

@@ -1,8 +1,8 @@
 GenericPackageRenamingDecl[1:1-1:29]
-|name:
+|f_name:
 |  DefiningName[1:17-1:18]
-|  |name:
+|  |f_name:
 |  |  Id[1:17-1:18]: A
-|renames:
+|f_renames:
 |  Id[1:27-1:28]: B
-|aspects: <null>
+|f_aspects: <null>

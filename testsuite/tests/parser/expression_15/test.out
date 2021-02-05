@@ -1,33 +1,33 @@
 BinOp[1:1-1:41]
-|left:
+|f_left:
 |  MembershipExpr[1:1-1:19]
-|  |expr:
+|  |f_expr:
 |  |  Id[1:1-1:4]: SUN
-|  |op:
+|  |f_op:
 |  |  OpIn[1:5-1:7]
-|  |membership_exprs:
+|  |f_membership_exprs:
 |  |  ExprAlternativesList[1:9-1:19]
 |  |  |  BinOp[1:9-1:19]
-|  |  |  |left:
+|  |  |  |f_left:
 |  |  |  |  Id[1:9-1:12]: SAT
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpDoubleDot[1:13-1:15]
-|  |  |  |right:
+|  |  |  |f_right:
 |  |  |  |  Id[1:16-1:19]: SUN
-|op:
+|f_op:
 |  OpOr[1:20-1:22]
-|right:
+|f_right:
 |  MembershipExpr[1:23-1:41]
-|  |expr:
+|  |f_expr:
 |  |  Id[1:23-1:26]: SAT
-|  |op:
+|  |f_op:
 |  |  OpIn[1:27-1:29]
-|  |membership_exprs:
+|  |f_membership_exprs:
 |  |  ExprAlternativesList[1:31-1:41]
 |  |  |  BinOp[1:31-1:41]
-|  |  |  |left:
+|  |  |  |f_left:
 |  |  |  |  Id[1:31-1:34]: FRI
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpDoubleDot[1:35-1:37]
-|  |  |  |right:
+|  |  |  |f_right:
 |  |  |  |  Id[1:38-1:41]: WED

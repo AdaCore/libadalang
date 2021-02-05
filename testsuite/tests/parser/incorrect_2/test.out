@@ -5,67 +5,67 @@ input:2:5: Skipped token Test_Incorrect
 input:2:19: Skipped token ;
 CompilationUnitList[1:1-2:20]
 |  CompilationUnit[1:1-2:1] <<INCOMPLETE>>
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[1:1-1:1]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[1:1-2:1] <<INCOMPLETE>>
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |item:
+|  |  |f_item:
 |  |  |  SubpBody[1:1-2:1] <<INCOMPLETE>>
-|  |  |  |overriding:
+|  |  |  |f_overriding:
 |  |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |  |subp_spec:
+|  |  |  |f_subp_spec:
 |  |  |  |  SubpSpec[1:1-1:25]
-|  |  |  |  |subp_kind:
+|  |  |  |  |f_subp_kind:
 |  |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |  |subp_name:
+|  |  |  |  |f_subp_name:
 |  |  |  |  |  DefiningName[1:11-1:25]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:11-1:25]: Test_Incorrect
-|  |  |  |  |subp_params: <null>
-|  |  |  |  |subp_returns: <null>
-|  |  |  |aspects: <null>
-|  |  |  |decls:
+|  |  |  |  |f_subp_params: <null>
+|  |  |  |  |f_subp_returns: <null>
+|  |  |  |f_aspects: <null>
+|  |  |  |f_decls:
 |  |  |  |  DeclarativePart[1:28-2:1]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[1:28-1:28]: <empty list>
-|  |  |  |stmts: <null>
-|  |  |  |end_name: <null>
-|  |pragmas:
+|  |  |  |f_stmts: <null>
+|  |  |  |f_end_name: <null>
+|  |f_pragmas:
 |  |  PragmaNodeList[1:28-1:28]: <empty list>
 |  CompilationUnit[2:1-2:4]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[1:28-1:28]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[2:1-2:4]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:28-1:28]
-|  |  |item:
+|  |  |f_item:
 |  |  |  ErrorDecl[2:1-2:4]
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[2:4-2:4]: <empty list>
 |  CompilationUnit[2:5-2:19]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[2:4-2:4]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[2:5-2:19]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[2:4-2:4]
-|  |  |item:
+|  |  |f_item:
 |  |  |  ErrorDecl[2:5-2:19]
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[2:19-2:19]: <empty list>
 |  CompilationUnit[2:19-2:20]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[2:19-2:19]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[2:19-2:20]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[2:19-2:19]
-|  |  |item:
+|  |  |f_item:
 |  |  |  ErrorDecl[2:19-2:20]
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[2:20-2:20]: <empty list>
 
 ==== Checking tree consistency ====

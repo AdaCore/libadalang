@@ -1,35 +1,35 @@
 TypeDecl[1:1-1:50]
-|name:
+|f_name:
 |  DefiningName[1:6-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:7]: A
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  OrdinaryFixedPointDef[1:11-1:49]
-|  |delta:
+|  |f_delta:
 |  |  BinOp[1:17-1:30]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Int[1:17-1:18]: 1
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpDiv[1:19-1:20]
-|  |  |right:
+|  |  |f_right:
 |  |  |  ParenExpr[1:21-1:30]
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  BinOp[1:22-1:29]
-|  |  |  |  |left:
+|  |  |  |  |f_left:
 |  |  |  |  |  Int[1:22-1:24]: 60
-|  |  |  |  |op:
+|  |  |  |  |f_op:
 |  |  |  |  |  OpMult[1:25-1:26]
-|  |  |  |  |right:
+|  |  |  |  |f_right:
 |  |  |  |  |  Int[1:27-1:29]: 60
-|  |range:
+|  |f_range:
 |  |  RangeSpec[1:31-1:49]
-|  |  |range:
+|  |  |f_range:
 |  |  |  BinOp[1:37-1:49]
-|  |  |  |left:
+|  |  |  |f_left:
 |  |  |  |  Real[1:37-1:40]: 0.0
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpDoubleDot[1:41-1:43]
-|  |  |  |right:
+|  |  |  |f_right:
 |  |  |  |  Real[1:44-1:49]: 360.0
-|aspects: <null>
+|f_aspects: <null>

@@ -1,39 +1,39 @@
 UpdateAttributeRef[1:1-1:35]
-|prefix:
+|f_prefix:
 |  AttributeRef[1:1-1:6]
-|  |prefix:
+|  |f_prefix:
 |  |  Id[1:1-1:2]: A
-|  |attribute:
+|  |f_attribute:
 |  |  Id[1:3-1:6]: Old
-|  |args: <null>
-|attribute:
+|  |f_args: <null>
+|f_attribute:
 |  Id[1:7-1:13]: Update
-|args:
+|f_args:
 |  Aggregate[1:13-1:35]
-|  |ancestor_expr: <null>
-|  |assocs:
+|  |f_ancestor_expr: <null>
+|  |f_assocs:
 |  |  AssocList[1:14-1:34]
 |  |  |  AggregateAssoc[1:14-1:34]
-|  |  |  |designators:
+|  |  |  |f_designators:
 |  |  |  |  AlternativesList[1:14-1:23]
 |  |  |  |  |  Aggregate[1:14-1:23]
-|  |  |  |  |  |ancestor_expr: <null>
-|  |  |  |  |  |assocs:
+|  |  |  |  |  |f_ancestor_expr: <null>
+|  |  |  |  |  |f_assocs:
 |  |  |  |  |  |  AssocList[1:15-1:22]
 |  |  |  |  |  |  |  AggregateAssoc[1:15-1:16]
-|  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  AlternativesList[1:14-1:14]: <empty list>
-|  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  Id[1:15-1:16]: I
 |  |  |  |  |  |  |  AggregateAssoc[1:18-1:19]
-|  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  AlternativesList[1:16-1:16]: <empty list>
-|  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  Id[1:18-1:19]: I
 |  |  |  |  |  |  |  AggregateAssoc[1:21-1:22]
-|  |  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  |  AlternativesList[1:19-1:19]: <empty list>
-|  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  Id[1:21-1:22]: I
-|  |  |  |r_expr:
+|  |  |  |f_r_expr:
 |  |  |  |  Id[1:27-1:34]: New_Val

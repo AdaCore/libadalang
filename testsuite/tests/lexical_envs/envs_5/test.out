@@ -1,48 +1,48 @@
 CompilationUnit[1:1-3:9]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-3:9]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:1-3:9]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:1-1:14]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:11-1:14]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[1:11-1:14]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  Id[1:11-1:12]: A
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[1:13-1:14]: B
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:17-2:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[1:17-1:17]: <empty list>
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[2:6-3:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[2:6-2:6]: <empty list>
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[1:17-1:17]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[3:5-3:8]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  DottedName[3:5-3:8]
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[3:5-3:6]: A
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id[3:7-3:8]: B
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[3:9-3:9]: <empty list>
 
 ==== Dumping lexical environments ====

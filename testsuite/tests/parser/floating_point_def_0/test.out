@@ -1,13 +1,13 @@
 FloatingPointDef[1:1-1:30]
-|num_digits:
+|f_num_digits:
 |  Id[1:8-1:12]: Digs
-|range:
+|f_range:
 |  RangeSpec[1:13-1:30]
-|  |range:
+|  |f_range:
 |  |  BinOp[1:19-1:30]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Id[1:19-1:22]: Low
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpDoubleDot[1:23-1:25]
-|  |  |right:
+|  |  |f_right:
 |  |  |  Id[1:26-1:30]: High

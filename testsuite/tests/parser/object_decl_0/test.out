@@ -1,41 +1,41 @@
 ObjectDecl[1:1-1:49]
-|ids:
+|f_ids:
 |  DefiningNameList[1:1-1:5]
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
 |  |  DefiningName[1:4-1:5]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:4-1:5]: B
-|has_aliased:
+|f_has_aliased:
 |  AliasedAbsent[1:7-1:7]
-|has_constant:
+|f_has_constant:
 |  ConstantAbsent[1:7-1:7]
-|mode:
+|f_mode:
 |  ModeDefault[1:7-1:7]
-|type_expr:
+|f_type_expr:
 |  AnonymousType[1:8-1:40]
-|  |type_decl:
+|  |f_type_decl:
 |  |  AnonymousTypeDecl[1:8-1:40]
-|  |  |name: <null>
-|  |  |discriminants: <null>
-|  |  |type_def:
+|  |  |f_name: <null>
+|  |  |f_discriminants: <null>
+|  |  |f_type_def:
 |  |  |  TypeAccessDef[1:8-1:40]
-|  |  |  |has_not_null:
+|  |  |  |f_has_not_null:
 |  |  |  |  NotNullPresent[1:8-1:16]
-|  |  |  |has_all:
+|  |  |  |f_has_all:
 |  |  |  |  AllAbsent[1:23-1:23]
-|  |  |  |has_constant:
+|  |  |  |f_has_constant:
 |  |  |  |  ConstantPresent[1:24-1:32]
-|  |  |  |subtype_indication:
+|  |  |  |f_subtype_indication:
 |  |  |  |  SubtypeIndication[1:33-1:40]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[1:32-1:32]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:33-1:40]: Integer
-|  |  |  |  |constraint: <null>
-|  |  |aspects: <null>
-|default_expr:
+|  |  |  |  |f_constraint: <null>
+|  |  |f_aspects: <null>
+|f_default_expr:
 |  Null[1:44-1:48]: null
-|renaming_clause: <null>
-|aspects: <null>
+|f_renaming_clause: <null>
+|f_aspects: <null>

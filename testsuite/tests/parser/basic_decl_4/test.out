@@ -1,78 +1,78 @@
 SubpRenamingDecl[1:1-1:65]
-|overriding:
+|f_overriding:
 |  OverridingUnspecified[1:1-1:1]
-|subp_spec:
+|f_subp_spec:
 |  SubpSpec[1:1-1:54]
-|  |subp_kind:
+|  |f_subp_kind:
 |  |  SubpKindProcedure[1:1-1:10]
-|  |subp_name:
+|  |f_subp_name:
 |  |  DefiningName[1:11-1:12]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:11-1:12]: A
-|  |subp_params:
+|  |f_subp_params:
 |  |  Params[1:13-1:54]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:14-1:53]
 |  |  |  |  ParamSpec[1:14-1:25]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:14-1:15]
 |  |  |  |  |  |  DefiningName[1:14-1:15]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:14-1:15]: B
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:17-1:17]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:17-1:17]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:18-1:25]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:17-1:17]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:18-1:25]: Integer
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
 |  |  |  |  ParamSpec[1:27-1:53]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:27-1:34]
 |  |  |  |  |  |  DefiningName[1:27-1:28]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:27-1:28]: C
 |  |  |  |  |  |  DefiningName[1:30-1:31]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:30-1:31]: D
 |  |  |  |  |  |  DefiningName[1:33-1:34]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:33-1:34]: E
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:36-1:36]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:36-1:36]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  AnonymousType[1:37-1:53]
-|  |  |  |  |  |type_decl:
+|  |  |  |  |  |f_type_decl:
 |  |  |  |  |  |  AnonymousTypeDecl[1:37-1:53]
-|  |  |  |  |  |  |name: <null>
-|  |  |  |  |  |  |discriminants: <null>
-|  |  |  |  |  |  |type_def:
+|  |  |  |  |  |  |f_name: <null>
+|  |  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  |  TypeAccessDef[1:37-1:53]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:36-1:36]
-|  |  |  |  |  |  |  |has_all:
+|  |  |  |  |  |  |  |f_has_all:
 |  |  |  |  |  |  |  |  AllPresent[1:44-1:47]
-|  |  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  |  ConstantAbsent[1:47-1:47]
-|  |  |  |  |  |  |  |subtype_indication:
+|  |  |  |  |  |  |  |f_subtype_indication:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:48-1:53]
-|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[1:47-1:47]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:48-1:53]: Pouet
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |aspects: <null>
-|  |  |  |  |default_expr: <null>
-|  |subp_returns: <null>
-|renames:
+|  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |f_default_expr: <null>
+|  |f_subp_returns: <null>
+|f_renames:
 |  RenamingClause[1:55-1:64]
-|  |renamed_object:
+|  |f_renamed_object:
 |  |  Id[1:63-1:64]: B
-|aspects: <null>
+|f_aspects: <null>

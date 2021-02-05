@@ -1,132 +1,132 @@
 ProtectedTypeDecl[1:1-1:186]
-|name:
+|f_name:
 |  DefiningName[1:16-1:37]
-|  |name:
+|  |f_name:
 |  |  Id[1:16-1:37]: Protected_Buffer_Type
-|discriminants: <null>
-|aspects: <null>
-|interfaces:
+|f_discriminants: <null>
+|f_aspects: <null>
+|f_interfaces:
 |  ParentList[1:37-1:37]: <empty list>
-|definition:
+|f_definition:
 |  ProtectedDef[1:41-1:185]
-|  |public_part:
+|  |f_public_part:
 |  |  PublicPart[1:40-1:111]
-|  |  |decls:
+|  |  |f_decls:
 |  |  |  DeclList[1:41-1:110]
 |  |  |  |  EntryDecl[1:41-1:75]
-|  |  |  |  |overriding:
+|  |  |  |  |f_overriding:
 |  |  |  |  |  OverridingUnspecified[1:40-1:40]
-|  |  |  |  |spec:
+|  |  |  |  |f_spec:
 |  |  |  |  |  EntrySpec[1:41-1:74]
-|  |  |  |  |  |entry_name:
+|  |  |  |  |  |f_entry_name:
 |  |  |  |  |  |  DefiningName[1:47-1:53]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:47-1:53]: Insert
-|  |  |  |  |  |family_type: <null>
-|  |  |  |  |  |entry_params:
+|  |  |  |  |  |f_family_type: <null>
+|  |  |  |  |  |f_entry_params:
 |  |  |  |  |  |  Params[1:54-1:74]
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  ParamSpecList[1:55-1:73]
 |  |  |  |  |  |  |  |  ParamSpec[1:55-1:73]
-|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  DefiningNameList[1:55-1:62]
 |  |  |  |  |  |  |  |  |  |  DefiningName[1:55-1:62]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:55-1:62]: An_Item
-|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:64-1:64]
-|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  ModeIn[1:65-1:67]
-|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:67-1:67]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:69-1:73]: Item
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  EntryDecl[1:76-1:110]
-|  |  |  |  |overriding:
+|  |  |  |  |f_overriding:
 |  |  |  |  |  OverridingUnspecified[1:75-1:75]
-|  |  |  |  |spec:
+|  |  |  |  |f_spec:
 |  |  |  |  |  EntrySpec[1:76-1:109]
-|  |  |  |  |  |entry_name:
+|  |  |  |  |  |f_entry_name:
 |  |  |  |  |  |  DefiningName[1:82-1:88]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:82-1:88]: Remove
-|  |  |  |  |  |family_type: <null>
-|  |  |  |  |  |entry_params:
+|  |  |  |  |  |f_family_type: <null>
+|  |  |  |  |  |f_entry_params:
 |  |  |  |  |  |  Params[1:89-1:109]
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  ParamSpecList[1:90-1:108]
 |  |  |  |  |  |  |  |  ParamSpec[1:90-1:108]
-|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  DefiningNameList[1:90-1:97]
 |  |  |  |  |  |  |  |  |  |  DefiningName[1:90-1:97]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:90-1:97]: An_Item
-|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:99-1:99]
-|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  ModeOut[1:100-1:103]
-|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:104-1:108]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:103-1:103]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:104-1:108]: Item
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |aspects: <null>
-|  |private_part:
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
+|  |f_private_part:
 |  |  PrivatePart[1:118-1:160]
-|  |  |decls:
+|  |  |f_decls:
 |  |  |  DeclList[1:119-1:159]
 |  |  |  |  ComponentDecl[1:119-1:133]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:119-1:125]
 |  |  |  |  |  |  DefiningName[1:119-1:125]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:119-1:125]: Buffer
-|  |  |  |  |component_def:
+|  |  |  |  |f_component_def:
 |  |  |  |  |  ComponentDef[1:128-1:132]
-|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  AliasedAbsent[1:127-1:127]
-|  |  |  |  |  |has_constant:
+|  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  ConstantAbsent[1:127-1:127]
-|  |  |  |  |  |type_expr:
+|  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  SubtypeIndication[1:128-1:132]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:127-1:127]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:128-1:132]: Item
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  ComponentDecl[1:134-1:159]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:134-1:139]
 |  |  |  |  |  |  DefiningName[1:134-1:139]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:134-1:139]: Empty
-|  |  |  |  |component_def:
+|  |  |  |  |f_component_def:
 |  |  |  |  |  ComponentDef[1:143-1:150]
-|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  AliasedAbsent[1:142-1:142]
-|  |  |  |  |  |has_constant:
+|  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  ConstantAbsent[1:142-1:142]
-|  |  |  |  |  |type_expr:
+|  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  SubtypeIndication[1:143-1:150]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:142-1:142]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:143-1:150]: Boolean
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr:
+|  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr:
 |  |  |  |  |  Id[1:154-1:158]: True
-|  |  |  |  |aspects: <null>
-|  |end_name:
+|  |  |  |  |f_aspects: <null>
+|  |f_end_name:
 |  |  EndName[1:164-1:185]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:164-1:185]: Protected_Buffer_Type

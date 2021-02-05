@@ -1,98 +1,98 @@
 TaskTypeDecl[1:1-1:145]
-|name:
+|f_name:
 |  DefiningName[1:11-1:27]
-|  |name:
+|  |f_name:
 |  |  Id[1:11-1:27]: Buffer_Pool_Task
-|discriminants: <null>
-|aspects: <null>
-|definition:
+|f_discriminants: <null>
+|f_aspects: <null>
+|f_definition:
 |  TaskDef[1:28-1:144]
-|  |interfaces:
+|  |f_interfaces:
 |  |  ParentList[1:27-1:27]: <empty list>
-|  |public_part:
+|  |f_public_part:
 |  |  PublicPart[1:30-1:124]
-|  |  |decls:
+|  |  |f_decls:
 |  |  |  DeclList[1:31-1:123]
 |  |  |  |  EntryDecl[1:31-1:76]
-|  |  |  |  |overriding:
+|  |  |  |  |f_overriding:
 |  |  |  |  |  OverridingUnspecified[1:30-1:30]
-|  |  |  |  |spec:
+|  |  |  |  |f_spec:
 |  |  |  |  |  EntrySpec[1:31-1:75]
-|  |  |  |  |  |entry_name:
+|  |  |  |  |  |f_entry_name:
 |  |  |  |  |  |  DefiningName[1:37-1:43]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:37-1:43]: Insert
-|  |  |  |  |  |family_type:
+|  |  |  |  |  |f_family_type:
 |  |  |  |  |  |  SubtypeIndication[1:45-1:54]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:45-1:45]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:45-1:54]: Buffer_Id
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |entry_params:
+|  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_entry_params:
 |  |  |  |  |  |  Params[1:56-1:75]
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  ParamSpecList[1:57-1:74]
 |  |  |  |  |  |  |  |  ParamSpec[1:57-1:74]
-|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  DefiningNameList[1:57-1:64]
 |  |  |  |  |  |  |  |  |  |  DefiningName[1:57-1:64]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:57-1:64]: An_Item
-|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:66-1:66]
-|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  ModeIn[1:67-1:69]
-|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:70-1:74]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:69-1:69]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:70-1:74]: Item
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |aspects: <null>
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  EntryDecl[1:77-1:123]
-|  |  |  |  |overriding:
+|  |  |  |  |f_overriding:
 |  |  |  |  |  OverridingUnspecified[1:76-1:76]
-|  |  |  |  |spec:
+|  |  |  |  |f_spec:
 |  |  |  |  |  EntrySpec[1:77-1:122]
-|  |  |  |  |  |entry_name:
+|  |  |  |  |  |f_entry_name:
 |  |  |  |  |  |  DefiningName[1:83-1:89]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:83-1:89]: Remove
-|  |  |  |  |  |family_type:
+|  |  |  |  |  |f_family_type:
 |  |  |  |  |  |  SubtypeIndication[1:91-1:100]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[1:91-1:91]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:91-1:100]: Buffer_Id
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |entry_params:
+|  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_entry_params:
 |  |  |  |  |  |  Params[1:102-1:122]
-|  |  |  |  |  |  |params:
+|  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  ParamSpecList[1:103-1:121]
 |  |  |  |  |  |  |  |  ParamSpec[1:103-1:121]
-|  |  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  |  DefiningNameList[1:103-1:110]
 |  |  |  |  |  |  |  |  |  |  DefiningName[1:103-1:110]
-|  |  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  Id[1:103-1:110]: An_Item
-|  |  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  |  AliasedAbsent[1:112-1:112]
-|  |  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  |  ModeOut[1:113-1:116]
-|  |  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  |  SubtypeIndication[1:117-1:121]
-|  |  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  |  NotNullAbsent[1:116-1:116]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:117-1:121]: Item
-|  |  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |  |aspects: <null>
-|  |private_part: <null>
-|  |end_name:
+|  |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
+|  |f_private_part: <null>
+|  |f_end_name:
 |  |  EndName[1:128-1:144]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:128-1:144]: Buffer_Pool_Task

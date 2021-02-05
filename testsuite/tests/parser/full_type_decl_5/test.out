@@ -1,23 +1,23 @@
 TypeDecl[1:1-1:69]
-|name:
+|f_name:
 |  DefiningName[1:6-1:11]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:11]: Pouet
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  DecimalFixedPointDef[1:15-1:68]
-|  |delta:
+|  |f_delta:
 |  |  Id[1:21-1:32]: Delta_Value
-|  |digits:
+|  |f_digits:
 |  |  Id[1:40-1:50]: Num_Digits
-|  |range:
+|  |f_range:
 |  |  RangeSpec[1:51-1:68]
-|  |  |range:
+|  |  |f_range:
 |  |  |  BinOp[1:57-1:68]
-|  |  |  |left:
+|  |  |  |f_left:
 |  |  |  |  Id[1:57-1:60]: Low
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpDoubleDot[1:61-1:63]
-|  |  |  |right:
+|  |  |  |f_right:
 |  |  |  |  Id[1:64-1:68]: High
-|aspects: <null>
+|f_aspects: <null>

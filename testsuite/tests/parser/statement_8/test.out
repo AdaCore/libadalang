@@ -1,24 +1,24 @@
 CallStmt[1:1-1:31]
-|call:
+|f_call:
 |  CallExpr[1:1-1:30]
-|  |name:
+|  |f_name:
 |  |  Id[1:1-1:9]: Set_Text
-|  |suffix:
+|  |f_suffix:
 |  |  AssocList[1:11-1:29]
 |  |  |  ParamAssoc[1:11-1:17]
-|  |  |  |designator: <null>
-|  |  |  |r_expr:
+|  |  |  |f_designator: <null>
+|  |  |  |f_r_expr:
 |  |  |  |  Id[1:11-1:17]: Layout
 |  |  |  ParamAssoc[1:19-1:29]
-|  |  |  |designator: <null>
-|  |  |  |r_expr:
+|  |  |  |f_designator: <null>
+|  |  |  |f_r_expr:
 |  |  |  |  Aggregate[1:19-1:29]
-|  |  |  |  |ancestor_expr: <null>
-|  |  |  |  |assocs:
+|  |  |  |  |f_ancestor_expr: <null>
+|  |  |  |  |f_assocs:
 |  |  |  |  |  AssocList[1:20-1:28]
 |  |  |  |  |  |  AggregateAssoc[1:20-1:28]
-|  |  |  |  |  |  |designators:
+|  |  |  |  |  |  |f_designators:
 |  |  |  |  |  |  |  AlternativesList[1:20-1:21]
 |  |  |  |  |  |  |  |  Int[1:20-1:21]: 1
-|  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  Chr[1:25-1:28]: '0'

@@ -1,40 +1,40 @@
 EntryDecl[1:1-1:37]
-|overriding:
+|f_overriding:
 |  OverridingUnspecified[1:1-1:1]
-|spec:
+|f_spec:
 |  EntrySpec[1:1-1:36]
-|  |entry_name:
+|  |f_entry_name:
 |  |  DefiningName[1:7-1:8]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:7-1:8]: E
-|  |family_type:
+|  |f_family_type:
 |  |  BinOp[1:10-1:14]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Int[1:10-1:11]: 1
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpDoubleDot[1:11-1:13]
-|  |  |right:
+|  |  |f_right:
 |  |  |  Int[1:13-1:14]: 3
-|  |entry_params:
+|  |f_entry_params:
 |  |  Params[1:16-1:36]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:17-1:35]
 |  |  |  |  ParamSpec[1:17-1:35]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:17-1:18]
 |  |  |  |  |  |  DefiningName[1:17-1:18]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:17-1:18]: B
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:20-1:20]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeInOut[1:21-1:27]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:28-1:35]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:27-1:27]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:28-1:35]: BOOLEAN
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|aspects: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|f_aspects: <null>

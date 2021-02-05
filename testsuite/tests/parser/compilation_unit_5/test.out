@@ -1,72 +1,72 @@
 CompilationUnit[1:1-5:11]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-5:11]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  SubpBody[1:1-5:11]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:1-1:1]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[1:1-1:16]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[1:1-1:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[1:11-1:16]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:11-1:16]: Pouet
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[1:19-3:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-2:22]
 |  |  |  |  |  ObjectDecl[2:4-2:22]
-|  |  |  |  |  |ids:
+|  |  |  |  |  |f_ids:
 |  |  |  |  |  |  DefiningNameList[2:4-2:5]
 |  |  |  |  |  |  |  DefiningName[2:4-2:5]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[2:4-2:5]: A
-|  |  |  |  |  |has_aliased:
+|  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  AliasedAbsent[2:7-2:7]
-|  |  |  |  |  |has_constant:
+|  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  ConstantAbsent[2:7-2:7]
-|  |  |  |  |  |mode:
+|  |  |  |  |  |f_mode:
 |  |  |  |  |  |  ModeDefault[2:7-2:7]
-|  |  |  |  |  |type_expr:
+|  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  SubtypeIndication[2:8-2:15]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[2:7-2:7]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[2:8-2:15]: Integer
-|  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |default_expr:
+|  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_expr:
 |  |  |  |  |  |  Int[2:19-2:21]: 12
-|  |  |  |  |  |renaming_clause: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |stmts:
+|  |  |  |  |  |f_renaming_clause: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_stmts:
 |  |  |  HandledStmts[3:6-5:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[4:4-4:15]
 |  |  |  |  |  AssignStmt[4:4-4:15]
-|  |  |  |  |  |dest:
+|  |  |  |  |  |f_dest:
 |  |  |  |  |  |  Id[4:4-4:5]: A
-|  |  |  |  |  |expr:
+|  |  |  |  |  |f_expr:
 |  |  |  |  |  |  BinOp[4:9-4:14]
-|  |  |  |  |  |  |left:
+|  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  TargetName[4:9-4:10]
-|  |  |  |  |  |  |op:
+|  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  OpPlus[4:11-4:12]
-|  |  |  |  |  |  |right:
+|  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  Id[4:13-4:14]: A
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[4:14-4:14]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[5:5-5:10]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[5:5-5:10]: Pouet
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[5:11-5:11]: <empty list>

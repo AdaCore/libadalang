@@ -1,26 +1,26 @@
 GenericPackageInstantiation[1:1-1:70]
-|name:
+|f_name:
 |  DefiningName[1:9-1:20]
-|  |name:
+|  |f_name:
 |  |  Id[1:9-1:20]: Int_Vectors
-|generic_pkg_name:
+|f_generic_pkg_name:
 |  DottedName[1:28-1:50]
-|  |prefix:
+|  |f_prefix:
 |  |  DottedName[1:28-1:42]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:28-1:31]: Ada
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:32-1:42]: Containers
-|  |suffix:
+|  |f_suffix:
 |  |  Id[1:43-1:50]: Vectors
-|params:
+|f_params:
 |  AssocList[1:52-1:68]
 |  |  ParamAssoc[1:52-1:59]
-|  |  |designator: <null>
-|  |  |r_expr:
+|  |  |f_designator: <null>
+|  |  |f_r_expr:
 |  |  |  Id[1:52-1:59]: Natural
 |  |  ParamAssoc[1:61-1:68]
-|  |  |designator: <null>
-|  |  |r_expr:
+|  |  |f_designator: <null>
+|  |  |f_r_expr:
 |  |  |  Id[1:61-1:68]: Integer
-|aspects: <null>
+|f_aspects: <null>

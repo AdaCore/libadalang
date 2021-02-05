@@ -1,35 +1,35 @@
 AbstractSubpDecl[1:1-1:50]
-|overriding:
+|f_overriding:
 |  OverridingOverriding[1:1-1:11]
-|subp_spec:
+|f_subp_spec:
 |  SubpSpec[1:12-1:37]
-|  |subp_kind:
+|  |f_subp_kind:
 |  |  SubpKindProcedure[1:12-1:21]
-|  |subp_name:
+|  |f_subp_name:
 |  |  DefiningName[1:22-1:23]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:22-1:23]: A
-|  |subp_params:
+|  |f_subp_params:
 |  |  Params[1:24-1:37]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:25-1:36]
 |  |  |  |  ParamSpec[1:25-1:36]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:25-1:26]
 |  |  |  |  |  |  DefiningName[1:25-1:26]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:25-1:26]: B
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:28-1:28]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:28-1:28]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:29-1:36]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:28-1:28]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:29-1:36]: Integer
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|  |subp_returns: <null>
-|aspects: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|  |f_subp_returns: <null>
+|f_aspects: <null>

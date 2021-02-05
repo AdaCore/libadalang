@@ -1,18 +1,18 @@
 GenericSubpRenamingDecl[1:1-1:46]
-|kind:
+|f_kind:
 |  SubpKindFunction[1:9-1:17]
-|name:
+|f_name:
 |  DefiningName[1:18-1:19]
-|  |name:
+|  |f_name:
 |  |  Id[1:18-1:19]: A
-|renames:
+|f_renames:
 |  Id[1:28-1:29]: B
-|aspects:
+|f_aspects:
 |  AspectSpec[1:30-1:45]
-|  |aspect_assocs:
+|  |f_aspect_assocs:
 |  |  AspectAssocList[1:35-1:45]
 |  |  |  AspectAssoc[1:35-1:45]
-|  |  |  |id:
+|  |  |  |f_id:
 |  |  |  |  Id[1:35-1:38]: Foo
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Id[1:42-1:45]: Bar

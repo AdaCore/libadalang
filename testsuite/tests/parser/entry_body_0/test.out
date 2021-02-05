@@ -1,56 +1,56 @@
 EntryBody[1:1-1:101]
-|entry_name:
+|f_entry_name:
 |  DefiningName[1:7-1:13]
-|  |name:
+|  |f_name:
 |  |  Id[1:7-1:13]: insert
-|index_spec: <null>
-|params:
+|f_index_spec: <null>
+|f_params:
 |  EntryCompletionFormalParams[1:14-1:34]
-|  |params:
+|  |f_params:
 |  |  Params[1:14-1:34]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:15-1:33]
 |  |  |  |  ParamSpec[1:15-1:33]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:15-1:22]
 |  |  |  |  |  |  DefiningName[1:15-1:22]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:15-1:22]: an_item
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:24-1:24]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeIn[1:25-1:27]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:29-1:33]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:27-1:27]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:29-1:33]: item
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|barrier:
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|f_barrier:
 |  Id[1:40-1:45]: empty
-|decls:
+|f_decls:
 |  DeclarativePart[1:48-1:49]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[1:48-1:48]: <empty list>
-|stmts:
+|f_stmts:
 |  HandledStmts[1:54-1:90]
-|  |stmts:
+|  |f_stmts:
 |  |  StmtList[1:55-1:89]
 |  |  |  AssignStmt[1:55-1:73]
-|  |  |  |dest:
+|  |  |  |f_dest:
 |  |  |  |  Id[1:55-1:61]: buffer
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Id[1:65-1:72]: an_item
 |  |  |  AssignStmt[1:74-1:89]
-|  |  |  |dest:
+|  |  |  |f_dest:
 |  |  |  |  Id[1:74-1:79]: empty
-|  |  |  |expr:
+|  |  |  |f_expr:
 |  |  |  |  Id[1:83-1:88]: false
-|  |exceptions:
+|  |f_exceptions:
 |  |  AdaNodeList[1:88-1:88]: <empty list>
-|end_name:
+|f_end_name:
 |  EndName[1:94-1:100]
-|  |name:
+|  |f_name:
 |  |  Id[1:94-1:100]: insert

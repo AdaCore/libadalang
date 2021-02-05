@@ -1,26 +1,26 @@
 TypeDecl[1:1-1:27]
-|name:
+|f_name:
 |  DefiningName[1:6-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:7]: A
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  EnumTypeDef[1:11-1:26]
-|  |enum_literals:
+|  |f_enum_literals:
 |  |  EnumLiteralDeclList[1:12-1:25]
 |  |  |  EnumLiteralDecl[1:12-1:15]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  DefiningName[1:12-1:15]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Chr[1:12-1:15]: 'B'
 |  |  |  EnumLiteralDecl[1:17-1:20]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  DefiningName[1:17-1:20]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Chr[1:17-1:20]: 'C'
 |  |  |  EnumLiteralDecl[1:22-1:25]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  DefiningName[1:22-1:25]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Chr[1:22-1:25]: 'D'
-|aspects: <null>
+|f_aspects: <null>

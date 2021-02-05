@@ -1,24 +1,24 @@
 LoopStmt[1:1-1:31]
-|spec: <null>
-|stmts:
+|f_spec: <null>
+|f_stmts:
 |  StmtList[1:6-1:21]
 |  |  CallStmt[1:6-1:21]
-|  |  |call:
+|  |  |f_call:
 |  |  |  CallExpr[1:6-1:20]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:6-1:11]: World
-|  |  |  |suffix:
+|  |  |  |f_suffix:
 |  |  |  |  AssocList[1:12-1:19]
 |  |  |  |  |  ParamAssoc[1:12-1:13]
-|  |  |  |  |  |designator: <null>
-|  |  |  |  |  |r_expr:
+|  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  Id[1:12-1:13]: A
 |  |  |  |  |  ParamAssoc[1:15-1:16]
-|  |  |  |  |  |designator: <null>
-|  |  |  |  |  |r_expr:
+|  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  Id[1:15-1:16]: B
 |  |  |  |  |  ParamAssoc[1:18-1:19]
-|  |  |  |  |  |designator: <null>
-|  |  |  |  |  |r_expr:
+|  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  Id[1:18-1:19]: C
-|end_name: <null>
+|f_end_name: <null>

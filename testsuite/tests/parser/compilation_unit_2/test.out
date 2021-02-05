@@ -1,24 +1,24 @@
 CompilationUnit[1:1-1:24]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-1:24]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  GenericPackageInstantiation[1:1-1:24]
-|  |  |name:
+|  |  |f_name:
 |  |  |  DefiningName[1:9-1:10]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:9-1:10]: A
-|  |  |generic_pkg_name:
+|  |  |f_generic_pkg_name:
 |  |  |  Id[1:18-1:19]: B
-|  |  |params:
+|  |  |f_params:
 |  |  |  AssocList[1:21-1:22]
 |  |  |  |  ParamAssoc[1:21-1:22]
-|  |  |  |  |designator: <null>
-|  |  |  |  |r_expr:
+|  |  |  |  |f_designator: <null>
+|  |  |  |  |f_r_expr:
 |  |  |  |  |  Id[1:21-1:22]: C
-|  |  |aspects: <null>
-|pragmas:
+|  |  |f_aspects: <null>
+|f_pragmas:
 |  PragmaNodeList[1:24-1:24]: <empty list>

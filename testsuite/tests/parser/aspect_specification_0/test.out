@@ -1,19 +1,19 @@
 AspectSpec[1:1-1:25]
-|aspect_assocs:
+|f_aspect_assocs:
 |  AspectAssocList[1:6-1:25]
 |  |  AspectAssoc[1:6-1:25]
-|  |  |id:
+|  |  |f_id:
 |  |  |  AttributeRef[1:6-1:15]
-|  |  |  |prefix:
+|  |  |  |f_prefix:
 |  |  |  |  Id[1:6-1:9]: Pre
-|  |  |  |attribute:
+|  |  |  |f_attribute:
 |  |  |  |  Id[1:10-1:15]: Class
-|  |  |  |args: <null>
-|  |  |expr:
+|  |  |  |f_args: <null>
+|  |  |f_expr:
 |  |  |  RelationOp[1:19-1:25]
-|  |  |  |left:
+|  |  |  |f_left:
 |  |  |  |  Id[1:19-1:20]: A
-|  |  |  |op:
+|  |  |  |f_op:
 |  |  |  |  OpLt[1:21-1:22]
-|  |  |  |right:
+|  |  |  |f_right:
 |  |  |  |  Int[1:23-1:25]: 12

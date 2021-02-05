@@ -1,40 +1,40 @@
 CompilationUnit[1:1-1:44]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:20]
 |  |  WithClause[1:1-1:10]
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:6-1:9]
 |  |  |  |  Id[1:6-1:9]: Foo
 |  |  WithClause[1:11-1:20]
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent[1:10-1:10]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:10-1:10]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:16-1:19]
 |  |  |  |  Id[1:16-1:19]: Bar
-|body:
+|f_body:
 |  LibraryItem[1:21-1:44]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:20-1:20]
-|  |item:
+|  |f_item:
 |  |  GenericPackageInstantiation[1:21-1:44]
-|  |  |name:
+|  |  |f_name:
 |  |  |  DefiningName[1:29-1:30]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:29-1:30]: A
-|  |  |generic_pkg_name:
+|  |  |f_generic_pkg_name:
 |  |  |  Id[1:38-1:39]: B
-|  |  |params:
+|  |  |f_params:
 |  |  |  AssocList[1:41-1:42]
 |  |  |  |  ParamAssoc[1:41-1:42]
-|  |  |  |  |designator: <null>
-|  |  |  |  |r_expr:
+|  |  |  |  |f_designator: <null>
+|  |  |  |  |f_r_expr:
 |  |  |  |  |  Id[1:41-1:42]: C
-|  |  |aspects: <null>
-|pragmas:
+|  |  |f_aspects: <null>
+|f_pragmas:
 |  PragmaNodeList[1:44-1:44]: <empty list>

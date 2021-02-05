@@ -1,6 +1,6 @@
 DecimalFixedPointDef[1:1-1:29]
-|delta:
+|f_delta:
 |  Id[1:7-1:11]: Delt
-|digits:
+|f_digits:
 |  Id[1:19-1:29]: Num_Digits
-|range: <null>
+|f_range: <null>

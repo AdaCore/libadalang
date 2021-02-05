@@ -1,11 +1,11 @@
 TypeDecl[1:1-1:18]
-|name:
+|f_name:
 |  DefiningName[1:6-1:7]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:7]: A
-|discriminants: <null>
-|type_def:
+|f_discriminants: <null>
+|f_type_def:
 |  ModIntTypeDef[1:11-1:17]
-|  |expr:
+|  |f_expr:
 |  |  Int[1:15-1:17]: 12
-|aspects: <null>
+|f_aspects: <null>

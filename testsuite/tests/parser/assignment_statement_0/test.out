@@ -1,13 +1,13 @@
 AssignStmt[1:1-1:13]
-|dest:
+|f_dest:
 |  DottedName[1:1-1:6]
-|  |prefix:
+|  |f_prefix:
 |  |  DottedName[1:1-1:4]
-|  |  |prefix:
+|  |  |f_prefix:
 |  |  |  Id[1:1-1:2]: A
-|  |  |suffix:
+|  |  |f_suffix:
 |  |  |  Id[1:3-1:4]: B
-|  |suffix:
+|  |f_suffix:
 |  |  Id[1:5-1:6]: C
-|expr:
+|f_expr:
 |  Int[1:10-1:12]: 12

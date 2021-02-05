@@ -1,201 +1,201 @@
 CompilationUnitList[1:1-17:11]
 |  CompilationUnit[1:1-2:9]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[1:1-1:1]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[1:1-2:9]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |item:
+|  |  |f_item:
 |  |  |  PackageDecl[1:1-2:9]
-|  |  |  |package_name:
+|  |  |  |f_package_name:
 |  |  |  |  DefiningName[1:9-1:12]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:9-1:12]: Foo
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
+|  |  |  |f_aspects: <null>
+|  |  |  |f_public_part:
 |  |  |  |  PublicPart[1:15-2:1]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[1:15-1:15]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_name:
+|  |  |  |f_private_part: <null>
+|  |  |  |f_end_name:
 |  |  |  |  EndName[2:5-2:8]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[2:5-2:8]: Foo
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[2:9-2:9]: <empty list>
 |  CompilationUnit[4:1-5:13]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[2:9-2:9]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[4:1-5:13]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[2:9-2:9]
-|  |  |item:
+|  |  |f_item:
 |  |  |  PackageDecl[4:1-5:13]
-|  |  |  |package_name:
+|  |  |  |f_package_name:
 |  |  |  |  DefiningName[4:9-4:16]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[4:9-4:16]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  Id[4:9-4:12]: Foo
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[4:13-4:16]: Bar
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
+|  |  |  |f_aspects: <null>
+|  |  |  |f_public_part:
 |  |  |  |  PublicPart[4:19-5:1]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[4:19-4:19]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_name:
+|  |  |  |f_private_part: <null>
+|  |  |  |f_end_name:
 |  |  |  |  EndName[5:5-5:12]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[5:5-5:12]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  Id[5:5-5:8]: Foo
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[5:9-5:12]: Bar
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[5:13-5:13]: <empty list>
 |  CompilationUnit[7:1-8:17]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[5:13-5:13]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[7:1-8:17]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[5:13-5:13]
-|  |  |item:
+|  |  |f_item:
 |  |  |  PackageDecl[7:1-8:17]
-|  |  |  |package_name:
+|  |  |  |f_package_name:
 |  |  |  |  DefiningName[7:9-7:20]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[7:9-7:20]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  DottedName[7:9-7:16]
-|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  Id[7:9-7:12]: Foo
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  Id[7:13-7:16]: Bar
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[7:17-7:20]: Baz
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
+|  |  |  |f_aspects: <null>
+|  |  |  |f_public_part:
 |  |  |  |  PublicPart[7:23-8:1]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[7:23-7:23]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_name:
+|  |  |  |f_private_part: <null>
+|  |  |  |f_end_name:
 |  |  |  |  EndName[8:5-8:16]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[8:5-8:16]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  DottedName[8:5-8:12]
-|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  Id[8:5-8:8]: Foo
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  Id[8:9-8:12]: Bar
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[8:13-8:16]: Baz
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[8:17-8:17]: <empty list>
 |  CompilationUnit[10:1-11:7]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[8:17-8:17]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[10:1-11:7]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[8:17-8:17]
-|  |  |item:
+|  |  |f_item:
 |  |  |  PackageDecl[10:1-11:7]
-|  |  |  |package_name:
+|  |  |  |f_package_name:
 |  |  |  |  DefiningName[10:9-10:10]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[10:9-10:10]: A
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
+|  |  |  |f_aspects: <null>
+|  |  |  |f_public_part:
 |  |  |  |  PublicPart[10:13-11:1]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[10:13-10:13]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_name:
+|  |  |  |f_private_part: <null>
+|  |  |  |f_end_name:
 |  |  |  |  EndName[11:5-11:6]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[11:5-11:6]: A
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[11:7-11:7]: <empty list>
 |  CompilationUnit[13:1-14:9]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[11:7-11:7]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[13:1-14:9]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[11:7-11:7]
-|  |  |item:
+|  |  |f_item:
 |  |  |  PackageDecl[13:1-14:9]
-|  |  |  |package_name:
+|  |  |  |f_package_name:
 |  |  |  |  DefiningName[13:9-13:12]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[13:9-13:12]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  Id[13:9-13:10]: A
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[13:11-13:12]: B
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
+|  |  |  |f_aspects: <null>
+|  |  |  |f_public_part:
 |  |  |  |  PublicPart[13:15-14:1]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[13:15-13:15]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_name:
+|  |  |  |f_private_part: <null>
+|  |  |  |f_end_name:
 |  |  |  |  EndName[14:5-14:8]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[14:5-14:8]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  Id[14:5-14:6]: A
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[14:7-14:8]: B
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[14:9-14:9]: <empty list>
 |  CompilationUnit[16:1-17:11]
-|  |prelude:
+|  |f_prelude:
 |  |  AdaNodeList[14:9-14:9]: <empty list>
-|  |body:
+|  |f_body:
 |  |  LibraryItem[16:1-17:11]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[14:9-14:9]
-|  |  |item:
+|  |  |f_item:
 |  |  |  PackageDecl[16:1-17:11]
-|  |  |  |package_name:
+|  |  |  |f_package_name:
 |  |  |  |  DefiningName[16:9-16:14]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[16:9-16:14]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  DottedName[16:9-16:12]
-|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  Id[16:9-16:10]: A
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  Id[16:11-16:12]: B
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[16:13-16:14]: C
-|  |  |  |aspects: <null>
-|  |  |  |public_part:
+|  |  |  |f_aspects: <null>
+|  |  |  |f_public_part:
 |  |  |  |  PublicPart[16:17-17:1]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[16:17-16:17]: <empty list>
-|  |  |  |private_part: <null>
-|  |  |  |end_name:
+|  |  |  |f_private_part: <null>
+|  |  |  |f_end_name:
 |  |  |  |  EndName[17:5-17:10]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  DottedName[17:5-17:10]
-|  |  |  |  |  |prefix:
+|  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  DottedName[17:5-17:8]
-|  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  Id[17:5-17:6]: A
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  Id[17:7-17:8]: B
-|  |  |  |  |  |suffix:
+|  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  Id[17:9-17:10]: C
-|  |pragmas:
+|  |f_pragmas:
 |  |  PragmaNodeList[17:11-17:11]: <empty list>
 
 ==== Dumping lexical environments ====

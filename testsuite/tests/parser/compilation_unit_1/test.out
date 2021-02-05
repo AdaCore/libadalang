@@ -1,45 +1,45 @@
 CompilationUnit[1:1-1:55]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-1:55]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivatePresent[1:1-1:8]
-|  |item:
+|  |f_item:
 |  |  PackageDecl[1:9-1:55]
-|  |  |package_name:
+|  |  |f_package_name:
 |  |  |  DefiningName[1:17-1:18]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:17-1:18]: A
-|  |  |aspects: <null>
-|  |  |public_part:
+|  |  |f_aspects: <null>
+|  |  |f_public_part:
 |  |  |  PublicPart[1:21-1:49]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[1:22-1:48]
 |  |  |  |  |  SubpDecl[1:22-1:48]
-|  |  |  |  |  |overriding:
+|  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  OverridingUnspecified[1:21-1:21]
-|  |  |  |  |  |subp_spec:
+|  |  |  |  |  |f_subp_spec:
 |  |  |  |  |  |  SubpSpec[1:22-1:47]
-|  |  |  |  |  |  |subp_kind:
+|  |  |  |  |  |  |f_subp_kind:
 |  |  |  |  |  |  |  SubpKindFunction[1:22-1:30]
-|  |  |  |  |  |  |subp_name:
+|  |  |  |  |  |  |f_subp_name:
 |  |  |  |  |  |  |  DefiningName[1:31-1:32]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:31-1:32]: B
-|  |  |  |  |  |  |subp_params: <null>
-|  |  |  |  |  |  |subp_returns:
+|  |  |  |  |  |  |f_subp_params: <null>
+|  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[1:40-1:47]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:39-1:39]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:40-1:47]: Boolean
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |private_part: <null>
-|  |  |end_name:
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_private_part: <null>
+|  |  |f_end_name:
 |  |  |  EndName[1:53-1:54]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:53-1:54]: A
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[1:55-1:55]: <empty list>

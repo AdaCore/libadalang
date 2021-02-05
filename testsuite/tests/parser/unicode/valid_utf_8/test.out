@@ -1,69 +1,69 @@
 CompilationUnit[1:1-6:10]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:35]
 |  |  WithClause[1:1-1:18]
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent[1:1-1:1]
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent[1:1-1:1]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:6-1:17]
 |  |  |  |  DottedName[1:6-1:17]
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[1:6-1:9]: Ada
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id[1:10-1:17]: Text_IO
 |  |  UsePackageClause[1:19-1:35]
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList[1:23-1:34]
 |  |  |  |  DottedName[1:23-1:34]
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id[1:23-1:26]: Ada
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id[1:27-1:34]: Text_IO
-|body:
+|f_body:
 |  LibraryItem[3:1-6:10]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:35-1:35]
-|  |item:
+|  |f_item:
 |  |  SubpBody[3:1-6:10]
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified[1:35-1:35]
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec[3:1-3:15]
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure[3:1-3:10]
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName[3:11-3:15]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[3:11-3:15]: Test
-|  |  |  |subp_params: <null>
-|  |  |  |subp_returns: <null>
-|  |  |aspects: <null>
-|  |  |decls:
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns: <null>
+|  |  |f_aspects: <null>
+|  |  |f_decls:
 |  |  |  DeclarativePart[3:18-4:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[3:18-3:18]: <empty list>
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts[4:6-6:1]
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList[5:4-5:30]
 |  |  |  |  |  CallStmt[5:4-5:30]
-|  |  |  |  |  |call:
+|  |  |  |  |  |f_call:
 |  |  |  |  |  |  CallExpr[5:4-5:29]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[5:4-5:12]: Put_Line
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  AssocList[5:14-5:28]
 |  |  |  |  |  |  |  |  ParamAssoc[5:14-5:28]
-|  |  |  |  |  |  |  |  |designator: <null>
-|  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |f_designator: <null>
+|  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  Str[5:14-5:28]: "H\xe9llo w\xf6rld!"
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList[5:29-5:29]: <empty list>
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName[6:5-6:9]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[6:5-6:9]: Test
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[6:10-6:10]: <empty list>

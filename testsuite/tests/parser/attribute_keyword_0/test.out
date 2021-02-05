@@ -1,6 +1,6 @@
 AttributeRef[1:1-1:18]
-|prefix:
+|f_prefix:
 |  Id[1:1-1:11]: identifier
-|attribute:
+|f_attribute:
 |  Id[1:12-1:18]: access
-|args: <null>
+|f_args: <null>

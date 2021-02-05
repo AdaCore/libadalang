@@ -1,14 +1,14 @@
 NumberDecl[1:1-1:27]
-|ids:
+|f_ids:
 |  DefiningNameList[1:1-1:8]
 |  |  DefiningName[1:1-1:2]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:1-1:2]: A
 |  |  DefiningName[1:4-1:5]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:4-1:5]: B
 |  |  DefiningName[1:7-1:8]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:7-1:8]: C
-|expr:
+|f_expr:
 |  Int[1:23-1:26]: 122

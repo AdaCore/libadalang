@@ -1,63 +1,63 @@
 TypeDecl[1:1-1:65]
-|name:
+|f_name:
 |  DefiningName[1:6-1:9]
-|  |name:
+|  |f_name:
 |  |  Id[1:6-1:9]: Rec
-|discriminants:
+|f_discriminants:
 |  KnownDiscriminantPart[1:10-1:27]
-|  |discr_specs:
+|  |f_discr_specs:
 |  |  DiscriminantSpecList[1:11-1:26]
 |  |  |  DiscriminantSpec[1:11-1:26]
-|  |  |  |ids:
+|  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:11-1:16]
 |  |  |  |  |  DefiningName[1:11-1:16]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:11-1:16]: Discr
-|  |  |  |type_expr:
+|  |  |  |f_type_expr:
 |  |  |  |  SubtypeIndication[1:19-1:26]
-|  |  |  |  |has_not_null:
+|  |  |  |  |f_has_not_null:
 |  |  |  |  |  NotNullAbsent[1:18-1:18]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:19-1:26]: Integer
-|  |  |  |  |constraint: <null>
-|  |  |  |default_expr: <null>
-|type_def:
+|  |  |  |  |f_constraint: <null>
+|  |  |  |f_default_expr: <null>
+|f_type_def:
 |  RecordTypeDef[1:31-1:64]
-|  |has_abstract:
+|  |f_has_abstract:
 |  |  AbstractAbsent[1:30-1:30]
-|  |has_tagged:
+|  |f_has_tagged:
 |  |  TaggedAbsent[1:30-1:30]
-|  |has_limited:
+|  |f_has_limited:
 |  |  LimitedAbsent[1:30-1:30]
-|  |record_def:
+|  |f_record_def:
 |  |  RecordDef[1:31-1:64]
-|  |  |components:
+|  |  |f_components:
 |  |  |  ComponentList[1:38-1:53]
-|  |  |  |components:
+|  |  |  |f_components:
 |  |  |  |  AdaNodeList[1:38-1:53]
 |  |  |  |  |  ComponentDecl[1:38-1:53]
-|  |  |  |  |  |ids:
+|  |  |  |  |  |f_ids:
 |  |  |  |  |  |  DefiningNameList[1:38-1:42]
 |  |  |  |  |  |  |  DefiningName[1:38-1:39]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:38-1:39]: A
 |  |  |  |  |  |  |  DefiningName[1:41-1:42]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:41-1:42]: B
-|  |  |  |  |  |component_def:
+|  |  |  |  |  |f_component_def:
 |  |  |  |  |  |  ComponentDef[1:45-1:52]
-|  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  AliasedAbsent[1:44-1:44]
-|  |  |  |  |  |  |has_constant:
+|  |  |  |  |  |  |f_has_constant:
 |  |  |  |  |  |  |  ConstantAbsent[1:44-1:44]
-|  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  SubtypeIndication[1:45-1:52]
-|  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  NotNullAbsent[1:44-1:44]
-|  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:45-1:52]: Integer
-|  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |default_expr: <null>
-|  |  |  |  |  |aspects: <null>
-|  |  |  |variant_part: <null>
-|aspects: <null>
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |f_variant_part: <null>
+|f_aspects: <null>

@@ -1,51 +1,51 @@
 CompilationUnit[1:1-3:9]
-|prelude:
+|f_prelude:
 |  AdaNodeList[1:1-1:1]: <empty list>
-|body:
+|f_body:
 |  LibraryItem[1:1-3:9]
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent[1:1-1:1]
-|  |item:
+|  |f_item:
 |  |  PackageDecl[1:1-3:9]
-|  |  |package_name:
+|  |  |f_package_name:
 |  |  |  DefiningName[1:9-1:12]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[1:9-1:12]: Foo
-|  |  |aspects: <null>
-|  |  |public_part:
+|  |  |f_aspects: <null>
+|  |  |f_public_part:
 |  |  |  PublicPart[1:15-3:1]
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-2:41]
 |  |  |  |  |  SubtypeDecl[2:4-2:41]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[2:12-2:15]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[2:12-2:15]: Lol
-|  |  |  |  |  |subtype:
+|  |  |  |  |  |f_subtype:
 |  |  |  |  |  |  SubtypeIndication[2:19-2:40]
-|  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  NotNullAbsent[2:18-2:18]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[2:19-2:26]: Integer
-|  |  |  |  |  |  |constraint:
+|  |  |  |  |  |  |f_constraint:
 |  |  |  |  |  |  |  RangeConstraint[2:27-2:40]
-|  |  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  |f_range:
 |  |  |  |  |  |  |  |  RangeSpec[2:27-2:40]
-|  |  |  |  |  |  |  |  |range:
+|  |  |  |  |  |  |  |  |f_range:
 |  |  |  |  |  |  |  |  |  BinOp[2:33-2:40]
-|  |  |  |  |  |  |  |  |  |left:
+|  |  |  |  |  |  |  |  |  |f_left:
 |  |  |  |  |  |  |  |  |  |  Int[2:33-2:34]: 0
-|  |  |  |  |  |  |  |  |  |op:
+|  |  |  |  |  |  |  |  |  |f_op:
 |  |  |  |  |  |  |  |  |  |  OpDoubleDot[2:35-2:37]
-|  |  |  |  |  |  |  |  |  |right:
+|  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  Int[2:38-2:40]: 10
-|  |  |  |  |  |aspects: <null>
-|  |  |private_part: <null>
-|  |  |end_name:
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_private_part: <null>
+|  |  |f_end_name:
 |  |  |  EndName[3:5-3:8]
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id[3:5-3:8]: Foo
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList[3:9-3:9]: <empty list>
 
 ==== Dumping lexical environments ====

@@ -1,130 +1,130 @@
 ProtectedBody[1:1-1:272]
-|name:
+|f_name:
 |  DefiningName[1:16-1:37]
-|  |name:
+|  |f_name:
 |  |  Id[1:16-1:37]: protected_buffer_type
-|aspects: <null>
-|decls:
+|f_aspects: <null>
+|f_decls:
 |  DeclarativePart[1:40-1:246]
-|  |decls:
+|  |f_decls:
 |  |  AdaNodeList[1:41-1:245]
 |  |  |  EntryBody[1:41-1:141]
-|  |  |  |entry_name:
+|  |  |  |f_entry_name:
 |  |  |  |  DefiningName[1:47-1:53]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:47-1:53]: insert
-|  |  |  |index_spec: <null>
-|  |  |  |params:
+|  |  |  |f_index_spec: <null>
+|  |  |  |f_params:
 |  |  |  |  EntryCompletionFormalParams[1:54-1:74]
-|  |  |  |  |params:
+|  |  |  |  |f_params:
 |  |  |  |  |  Params[1:54-1:74]
-|  |  |  |  |  |params:
+|  |  |  |  |  |f_params:
 |  |  |  |  |  |  ParamSpecList[1:55-1:73]
 |  |  |  |  |  |  |  ParamSpec[1:55-1:73]
-|  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  DefiningNameList[1:55-1:62]
 |  |  |  |  |  |  |  |  |  DefiningName[1:55-1:62]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:55-1:62]: an_item
-|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:64-1:64]
-|  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  ModeIn[1:65-1:67]
-|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:69-1:73]
-|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[1:67-1:67]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:69-1:73]: item
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |barrier:
+|  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |f_barrier:
 |  |  |  |  Id[1:80-1:85]: empty
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  DeclarativePart[1:88-1:89]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[1:88-1:88]: <empty list>
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  HandledStmts[1:94-1:130]
-|  |  |  |  |stmts:
+|  |  |  |  |f_stmts:
 |  |  |  |  |  StmtList[1:95-1:129]
 |  |  |  |  |  |  AssignStmt[1:95-1:113]
-|  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  Id[1:95-1:101]: buffer
-|  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  Id[1:105-1:112]: an_item
 |  |  |  |  |  |  AssignStmt[1:114-1:129]
-|  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  Id[1:114-1:119]: empty
-|  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  Id[1:123-1:128]: false
-|  |  |  |  |exceptions:
+|  |  |  |  |f_exceptions:
 |  |  |  |  |  AdaNodeList[1:128-1:128]: <empty list>
-|  |  |  |end_name:
+|  |  |  |f_end_name:
 |  |  |  |  EndName[1:134-1:140]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:134-1:140]: insert
 |  |  |  EntryBody[1:142-1:245]
-|  |  |  |entry_name:
+|  |  |  |f_entry_name:
 |  |  |  |  DefiningName[1:148-1:154]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:148-1:154]: remove
-|  |  |  |index_spec: <null>
-|  |  |  |params:
+|  |  |  |f_index_spec: <null>
+|  |  |  |f_params:
 |  |  |  |  EntryCompletionFormalParams[1:155-1:175]
-|  |  |  |  |params:
+|  |  |  |  |f_params:
 |  |  |  |  |  Params[1:155-1:175]
-|  |  |  |  |  |params:
+|  |  |  |  |  |f_params:
 |  |  |  |  |  |  ParamSpecList[1:156-1:174]
 |  |  |  |  |  |  |  ParamSpec[1:156-1:174]
-|  |  |  |  |  |  |  |ids:
+|  |  |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  |  |  DefiningNameList[1:156-1:163]
 |  |  |  |  |  |  |  |  |  DefiningName[1:156-1:163]
-|  |  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[1:156-1:163]: an_item
-|  |  |  |  |  |  |  |has_aliased:
+|  |  |  |  |  |  |  |f_has_aliased:
 |  |  |  |  |  |  |  |  AliasedAbsent[1:165-1:165]
-|  |  |  |  |  |  |  |mode:
+|  |  |  |  |  |  |  |f_mode:
 |  |  |  |  |  |  |  |  ModeOut[1:166-1:169]
-|  |  |  |  |  |  |  |type_expr:
+|  |  |  |  |  |  |  |f_type_expr:
 |  |  |  |  |  |  |  |  SubtypeIndication[1:170-1:174]
-|  |  |  |  |  |  |  |  |has_not_null:
+|  |  |  |  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  |  |  |  NotNullAbsent[1:169-1:169]
-|  |  |  |  |  |  |  |  |name:
+|  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:170-1:174]: item
-|  |  |  |  |  |  |  |  |constraint: <null>
-|  |  |  |  |  |  |  |default_expr: <null>
-|  |  |  |barrier:
+|  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |f_barrier:
 |  |  |  |  UnOp[1:181-1:190]
-|  |  |  |  |op:
+|  |  |  |  |f_op:
 |  |  |  |  |  OpNot[1:181-1:184]
-|  |  |  |  |expr:
+|  |  |  |  |f_expr:
 |  |  |  |  |  Id[1:185-1:190]: empty
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  DeclarativePart[1:193-1:194]
-|  |  |  |  |decls:
+|  |  |  |  |f_decls:
 |  |  |  |  |  AdaNodeList[1:193-1:193]: <empty list>
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  HandledStmts[1:199-1:234]
-|  |  |  |  |stmts:
+|  |  |  |  |f_stmts:
 |  |  |  |  |  StmtList[1:200-1:233]
 |  |  |  |  |  |  AssignStmt[1:200-1:218]
-|  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  Id[1:200-1:207]: an_item
-|  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  Id[1:211-1:217]: buffer
 |  |  |  |  |  |  AssignStmt[1:219-1:233]
-|  |  |  |  |  |  |dest:
+|  |  |  |  |  |  |f_dest:
 |  |  |  |  |  |  |  Id[1:219-1:224]: empty
-|  |  |  |  |  |  |expr:
+|  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  Id[1:228-1:232]: true
-|  |  |  |  |exceptions:
+|  |  |  |  |f_exceptions:
 |  |  |  |  |  AdaNodeList[1:232-1:232]: <empty list>
-|  |  |  |end_name:
+|  |  |  |f_end_name:
 |  |  |  |  EndName[1:238-1:244]
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id[1:238-1:244]: remove
-|end_name:
+|f_end_name:
 |  EndName[1:250-1:271]
-|  |name:
+|  |f_name:
 |  |  Id[1:250-1:271]: protected_buffer_type

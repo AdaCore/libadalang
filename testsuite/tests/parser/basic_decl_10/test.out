@@ -1,53 +1,53 @@
 SubpDecl[1:1-1:55]
-|overriding:
+|f_overriding:
 |  OverridingNotOverriding[1:1-1:15]
-|subp_spec:
+|f_subp_spec:
 |  SubpSpec[1:16-1:54]
-|  |subp_kind:
+|  |f_subp_kind:
 |  |  SubpKindProcedure[1:16-1:25]
-|  |subp_name:
+|  |f_subp_name:
 |  |  DefiningName[1:26-1:27]
-|  |  |name:
+|  |  |f_name:
 |  |  |  Id[1:26-1:27]: A
-|  |subp_params:
+|  |f_subp_params:
 |  |  Params[1:28-1:54]
-|  |  |params:
+|  |  |f_params:
 |  |  |  ParamSpecList[1:29-1:53]
 |  |  |  |  ParamSpec[1:29-1:40]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:29-1:30]
 |  |  |  |  |  |  DefiningName[1:29-1:30]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:29-1:30]: B
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:32-1:32]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:32-1:32]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:33-1:40]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:32-1:32]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:33-1:40]: Integer
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
 |  |  |  |  ParamSpec[1:42-1:53]
-|  |  |  |  |ids:
+|  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:42-1:43]
 |  |  |  |  |  |  DefiningName[1:42-1:43]
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  Id[1:42-1:43]: C
-|  |  |  |  |has_aliased:
+|  |  |  |  |f_has_aliased:
 |  |  |  |  |  AliasedAbsent[1:45-1:45]
-|  |  |  |  |mode:
+|  |  |  |  |f_mode:
 |  |  |  |  |  ModeDefault[1:45-1:45]
-|  |  |  |  |type_expr:
+|  |  |  |  |f_type_expr:
 |  |  |  |  |  SubtypeIndication[1:46-1:53]
-|  |  |  |  |  |has_not_null:
+|  |  |  |  |  |f_has_not_null:
 |  |  |  |  |  |  NotNullAbsent[1:45-1:45]
-|  |  |  |  |  |name:
+|  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:46-1:53]: Natural
-|  |  |  |  |  |constraint: <null>
-|  |  |  |  |default_expr: <null>
-|  |subp_returns: <null>
-|aspects: <null>
+|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_default_expr: <null>
+|  |f_subp_returns: <null>
+|f_aspects: <null>

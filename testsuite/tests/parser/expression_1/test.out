@@ -1,7 +1,7 @@
 RelationOp[1:1-1:8]
-|left:
+|f_left:
 |  Int[1:1-1:3]: 12
-|op:
+|f_op:
 |  OpGte[1:4-1:6]
-|right:
+|f_right:
 |  Int[1:7-1:8]: 5

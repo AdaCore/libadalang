@@ -1,13 +1,13 @@
 OrdinaryFixedPointDef[1:1-1:29]
-|delta:
+|f_delta:
 |  Id[1:7-1:11]: Delt
-|range:
+|f_range:
 |  RangeSpec[1:12-1:29]
-|  |range:
+|  |f_range:
 |  |  BinOp[1:18-1:29]
-|  |  |left:
+|  |  |f_left:
 |  |  |  Id[1:18-1:21]: Low
-|  |  |op:
+|  |  |f_op:
 |  |  |  OpDoubleDot[1:22-1:24]
-|  |  |right:
+|  |  |f_right:
 |  |  |  Id[1:25-1:29]: High

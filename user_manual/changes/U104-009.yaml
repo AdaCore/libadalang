@@ -1,0 +1,10 @@
+type: bugfix
+title: Fix ``P_Base_Subp_Declarations`` on incomplete types
+description: |
+    This change fixes the behavior of the ``P_Base_Subp_Declarations``
+    property when called on a primitive subprogram of an incomplete type
+    which full view is a tagged type with a possible base type. Before this
+    patch, it was not possible to find base declarations of such subprograms
+    because Libadalang would always work from the view of the subprogram, thus
+    missing information about the base type. This change fixes that issue.
+date: 2020-02-09

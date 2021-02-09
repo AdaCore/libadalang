@@ -1680,7 +1680,8 @@ class BasicDecl(AdaNode):
                 spec.get_primitive_subp_tagged_type(canonicalize=False)
                 .then(
                     lambda t:
-                    t.primitives_env.get(Entity.name_symbol).filtermap(
+                    t.full_view.primitives_env
+                    .get(Entity.name_symbol).filtermap(
                         lambda bd: bd.cast(BasicDecl).canonical_part,
                         lambda bd: bd.cast(BasicDecl)._.subp_spec_or_null.then(
                             lambda s:

@@ -12,8 +12,11 @@ export GPR_PROJECT_PATH=$prefix/share/gpr
 export CPATH=/usr/local/include:/mingw64/include
 export LIBRARY_PATH=/usr/local/lib:/mingw64/lib
 export DYLD_LIBRARY_PATH=/usr/local/lib
-#LIBRARY_TYPES="relocatable,static"
-LIBRARY_TYPES="static"
+if [ $RUNNER_OS = Linux ]; then
+   LIBRARY_TYPES="relocatable,static"
+else
+   LIBRARY_TYPES="static"
+fi
 pip install -r langkit/REQUIREMENTS.dev
 pip install jsonschema
 pip install langkit/
@@ -44,14 +47,8 @@ tar czf libadalang-$RUNNER_OS-`basename $GITHUB_REF`${DEBUG:+-dbg}-static.tar.gz
 if [ "$LIBRARY_TYPES" != static ]; then
   gprinstall --uninstall --prefix=$prefix libadalang.gpr
   rm -rf build
-  # The gprbuild losts -lgmp on MacOS X, provide it in .cgpr file:
-  gprconfig --batch -o /tmp/file.cgpr --config=c --config=ada
-  if [ $RUNNER_OS = macOS ]; then
-    sed -i -e '/for Shared_Library_Minimum_Switches use/s/use/use ("-lgmp") \&/' /tmp/file.cgpr
-    cat /tmp/file.cgpr
-  fi
   ./manage.py generate
-  ./manage.py build --library-types=relocatable --build-mode ${BUILD:-prod} --gargs=--config=/tmp/file.cgpr
+  ./manage.py build --library-types=relocatable --build-mode ${BUILD:-prod}
   ./manage.py install --library-types=relocatable --build-mode ${BUILD:-prod} $prefix
   tar czf libadalang-$RUNNER_OS-`basename $GITHUB_REF`${DEBUG:+-dbg}.tar.gz -C $prefix .
 fi

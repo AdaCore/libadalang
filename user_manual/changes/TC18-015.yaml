@@ -1,0 +1,16 @@
+type: bugfix
+title: Invalid xref for overloaded enclosing subprogram
+description: |
+    This change fixes a bug in the following code pattern:
+
+    .. code:: ada
+
+        procedure Foo is null;
+        procedure Foo (X : Integer) is
+        begin
+            Foo;  -- this used to resolve to the enclosing subprogram
+        end Foo;
+
+    The call to ``Foo`` now correctly resolve to the first subprogram
+    declaration.
+date: 2020-02-10

@@ -11507,6 +11507,7 @@ class BaseId(SingleTokNode):
         # expressions in the baseid env_elements. We should solve that.
 
         pc = Var(Entity.parent_callexpr)
+        is_prefix = Var(Self.parent.is_a(DottedName) & Self.is_prefix)
 
         return origin.bind(Self.origin_node, Cond(
             pc.is_null,
@@ -11521,7 +11522,11 @@ class BaseId(SingleTokNode):
                 # a parameterless subprogram.
                 Or(
                     e.cast_or_raise(BasicDecl).can_be_paramless,
-                    e.cast(T.BaseSubpBody)._.in_scope
+
+                    # This name can refer to the enclosing subprogram to
+                    # create a qualified name to a local variable. This is only
+                    # possible if this name is the prefix of a dotted name.
+                    is_prefix & e.cast(T.BaseSubpBody)._.in_scope
                 )
             )),
 

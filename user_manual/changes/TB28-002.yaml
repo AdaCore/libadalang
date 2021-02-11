@@ -1,0 +1,7 @@
+type: new-feature
+title: Resolve task types' parent interfaces names
+description: |
+    Previously, interface names appearing in the parent list of a task type
+    would not be resovled at all, which means cross references where not
+    available on those names. This change fixes that.
+date: 2020-02-11

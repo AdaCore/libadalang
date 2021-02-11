@@ -5705,6 +5705,10 @@ class TaskDef(AdaNode):
     private_part = Field(type=T.PrivatePart)
     end_name = Field(type=T.EndName)
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
+
 
 class ProtectedDef(AdaNode):
     """
@@ -5732,6 +5736,12 @@ class TaskTypeDecl(BaseTypeDecl):
     defining_env = Property(Entity.children_env)
 
     discriminants_list = Property(Entity.discriminants.abstract_formal_params)
+
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return Entity.definition.xref_equation
 
 
 class SingleTaskTypeDecl(TaskTypeDecl):

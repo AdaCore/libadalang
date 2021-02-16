@@ -13205,7 +13205,17 @@ class UpdateAttributeRef(AttributeRef):
     """
     Reference to the ``Update`` attribute.
     """
-    pass
+    @langkit_property()
+    def xref_equation():
+        # Assign the type of the inner aggregate (Self's ``args`` field) to
+        # the type of the updated value. This allows the aggregate associations
+        # inside of it to be resolved independently.
+        # (see AggregateAssoc.xref_equation).
+        ignore(Var(Entity.prefix.resolve_names_internal))
+        return Self.type_bind_val(
+            Entity.args.cast_or_raise(Aggregate).type_var,
+            Entity.prefix.type_val.cast(BaseTypeDecl)
+        )
 
 
 class RaiseExpr(Expr):

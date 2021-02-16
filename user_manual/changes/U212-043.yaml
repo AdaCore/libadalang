@@ -1,0 +1,7 @@
+type: new-feature
+title: Name resolution for the ``Update`` attribute
+description: |
+    This change adds name resolution support for the ``Update`` attribute,
+    which was previously completely ignored. This means that associations
+    in the aggregate argument are now fully resolved.
+date: 2021-02-16

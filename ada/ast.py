@@ -3342,16 +3342,23 @@ class ComponentList(BaseFormalParamHolder):
             Entity.variant_part._.get_components(discriminants)
         ))
 
-        # Append parent's components.
-        # TODO: The parent could have a variant part too, using the explicit
-        # discriminants mappings. We need to handle that too.
+        # Append parent's components: the parent could have a variant part too,
+        # which discriminants can be constrained by the subtype indication from
+        # our DerivedTypeDef. The code below retrieves the relevant components
+        # from the parent record taking that into account.
         ret = Var(If(
             recurse,
             Entity.parent_component_list.then(
                 lambda pcl: pcl.abstract_formal_params_impl(
-                    No(T.ParamMatch.array), False
-                )
-                .concat(self_comps),
+                    pcl.match_formals(
+                        pcl.type_decl.discriminants_list,
+                        Entity.type_def.cast(DerivedTypeDef)
+                        .subtype_indication.constraint
+                        .cast(DiscriminantConstraint)._.constraints,
+                        is_dottable_subp=False
+                    ),
+                    include_discriminants=False
+                ).concat(self_comps),
                 default_val=self_comps
             ),
             self_comps

@@ -1,0 +1,23 @@
+type: bugfix
+title: Derived type with discriminant constraints
+description: |
+    This changes fixes a name resolution failure that would occur on aggregate
+    of a derived type constraining the discriminants of its parent type, as in
+    the following example:
+
+    .. code:: ada
+
+        type T (X : Boolean) is record
+            case X is
+                when True =>
+                    F : Integer;
+                when others =>
+                    null;
+            end case;
+        end record;
+        type U is new T (True);
+
+        V : U := (X => True, F => 42);  -- Libadalang would crash here
+
+    Libadalang now correctly handles such patterns.
+date: 2020-02-17

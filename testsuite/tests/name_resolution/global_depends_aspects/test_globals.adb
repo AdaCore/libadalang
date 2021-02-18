@@ -44,6 +44,13 @@ procedure Test_Globals is
       Y := X;
    end With_Params;
 
+   procedure With_Null (X : Integer)
+      with Depends => (null => X);
+   pragma Test_Block;
+
+
+   procedure With_Null (X : Integer) is null;
+
 begin
    A := 12;
    B := 15;

@@ -10444,8 +10444,10 @@ class AggregateAssoc(BasicAssoc):
             # Here, we go fetch the first element of the list of names. Since
             # we parse this as an aggregate, the list is elements separated by
             # pipes (alternatives_list), which will ever only have one element
-            # in this case.
-            Entity.names.at(0).as_entity.then(
+            # in this case. We make sure to only resolve Identifiers, because
+            # the ``null`` literal is also possible here and we don't want
+            # to resolve it.
+            Entity.names.at(0).cast(Identifier).as_entity.then(
                 lambda n: n.sub_equation, default_val=LogicTrue()
             )
         )

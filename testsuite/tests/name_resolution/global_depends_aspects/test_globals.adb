@@ -35,6 +35,15 @@ procedure Test_Globals is
       null;
    end Whatever;
 
+   procedure With_Params (X : Integer; Y : out Integer)
+      with Depends => (Y => X);
+   pragma Test_Block;
+
+   procedure With_Params (X : Integer; Y : out Integer) is
+   begin
+      Y := X;
+   end With_Params;
+
 begin
    A := 12;
    B := 15;

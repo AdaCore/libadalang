@@ -112,7 +112,8 @@ class AdaNode(ASTNode):
             lambda a: a.id.as_bare_entity.name_symbol.any_of(
                 'Pre', 'Post', 'Type_Invariant',
                 'Predicate', 'Static_Predicate', 'Dynamic_Predicate',
-                'Test_Case'
+                'Test_Case', 'Global', 'Refined_Global',
+                'Depends', 'Refined_Depends'
             )
         )
     ).is_null))

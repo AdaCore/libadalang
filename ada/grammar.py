@@ -526,8 +526,30 @@ A.add_rules(
         "(", List(A.contract_case_assoc, sep=","), ")"
     ),
 
-    aspect_assoc=AspectAssoc(A.name,
-                             Opt("=>", Or(A.expr, A.contract_cases_expr))),
+    abstract_state_decl=Or(
+        AbstractStateDecl(A.defining_name, A.aspect_spec),
+        ParenAbstractStateDecl("(", A.abstract_state_decl, ")")
+    ),
+
+    multi_abstract_state_decl=Or(
+        A.abstract_state_decl,
+        MultiAbstractStateDecl(
+            "(",
+            List(
+                A.abstract_state_decl,
+                sep=",",
+                list_cls=AbstractStateDeclList),
+            ")"
+        )
+    ),
+
+    aspect_assoc=Or(
+        AspectAssoc(
+            Identifier(L.Identifier(match_text="Abstract_State")),
+            Opt("=>", AbstractStateDeclExpr(A.multi_abstract_state_decl))
+        ),
+        AspectAssoc(A.name, Opt("=>", Or(A.expr, A.contract_cases_expr)))
+    ),
 
     aspect_spec=Opt(AspectSpec("with", cut(), List(A.aspect_assoc, sep=","))),
 

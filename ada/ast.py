@@ -14935,3 +14935,66 @@ class UnconstrainedArrayIndex(AdaNode):
     @langkit_property(dynamic_vars=[origin])
     def designated_type():
         return Entity.subtype_indication.designated_type
+
+
+class AbstractStateDecl(BasicDecl):
+    """
+    Contained (directly or indirectly) in an AbstractStateDeclExpr, and is used
+    to represent the BasicDecl associated with the abstract state introduced by
+    the Abstract_State aspect. This node is necessary because all of our name
+    resolution routines expect BasicDecls as environments' values.
+
+    The only purpose of this node is to populate the env with the abstract
+    state declared through this node, so it can be referred in SPARK aspects
+    such as Global, Depends, Refined_State, etc.
+    """
+    name = Field(type=T.DefiningName)
+
+    aspects = Field(type=T.AspectSpec)
+
+    defining_names = Property(Entity.name.singleton)
+    type_expression = Property(No(T.TypeExpr.entity))
+
+    env_spec = EnvSpec(
+        add_to_env_kv(Self.name.name_symbol, Self)
+    )
+
+
+class ParenAbstractStateDecl(AdaNode):
+    """
+    Holds an AbstractStateDecl between parentheses. Needed to support the
+    syntax:
+
+    .. code:: ada
+
+        package Pkg
+            with Abstract_State => (A, (B with Some_Aspect))
+    """
+    decl = Field(type=AdaNode)
+
+
+class AbstractStateDeclList(AdaNode.list):
+    """
+    List of AbstractStateDecls.
+    """
+    pass
+
+
+class MultiAbstractStateDecl(AdaNode):
+    """
+    Node that holds several AbstractStateDecl nodes, which is necessary when
+    the Abstract_State aspect is associated with an aggregate in order to
+    declare a list of abstract states.
+    """
+    decls = Field(type=AbstractStateDeclList)
+
+
+class AbstractStateDeclExpr(Expr):
+    """
+    Directly corresponds to the right-hand side of the Abstract_State aspect.
+    Only exists because the RHS of an AspectAssoc must be an expression: the
+    actual logic is in AbstractStateDecl.
+    """
+    state_decl = Field(type=AdaNode)
+
+    xref_equation = Property(LogicTrue())

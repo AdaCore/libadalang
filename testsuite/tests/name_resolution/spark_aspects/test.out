@@ -201,20 +201,56 @@ Expr: <Id "Integer" state_xrefs.adb:7:53-7:60>
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:8:11-8:61>
 ****************************************************************
 
-Resolution failed with exception for node <AspectAssoc state_xrefs.adb:8:11-8:61>
-> raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : invalid equation for logic resolution
-Call stack traceback locations:
-0x7fbbd5123503 0x7fbbd4f28a25 0x7fbbd51c4569 0x7fbbd51c614e 0x7fbbd4da724d 0x48ddfd 0x48c4d1 0x7fbbd5680a3b 0x48c7ea 0x48bfb7 0x7fbbd5680a3b 0x48a746 0x4896c0 0x47b446 0x7fbbd17e9358 0x7fbbd1155607 0x7fbbd0e5e291 0xfffffffffffffffe
-
+Expr: <Id "Refined_Global" state_xrefs.adb:8:11-8:25>
+  references: None
+  type:       None
+Expr: <Aggregate state_xrefs.adb:8:31-8:61>
+  type:       None
+Expr: <Id "In_Out" state_xrefs.adb:8:32-8:38>
+  references: None
+  type:       None
+Expr: <Aggregate state_xrefs.adb:8:52-8:60>
+  type:       None
+Expr: <Id "C1" state_xrefs.adb:8:53-8:55>
+  references: <DefiningName state_xrefs.adb:4:4-4:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C2" state_xrefs.adb:8:57-8:59>
+  references: <DefiningName state_xrefs.adb:5:4-5:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:9:11-10:56>
 *****************************************************************
 
-Resolution failed with exception for node <AspectAssoc state_xrefs.adb:9:11-10:56>
-> raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : invalid equation for logic resolution
-Call stack traceback locations:
-0x7fbbd5123503 0x7fbbd4f28a25 0x7fbbd51c4569 0x7fbbd51c614e 0x7fbbd4da724d 0x48ddfd 0x48c4d1 0x7fbbd5680a3b 0x48c7ea 0x48bfb7 0x7fbbd5680a3b 0x48a746 0x4896c0 0x47b446 0x7fbbd17e9358 0x7fbbd1155607 0x7fbbd0e5e291 0xfffffffffffffffe
-
+Expr: <Id "Refined_Depends" state_xrefs.adb:9:11-9:26>
+  references: None
+  type:       None
+Expr: <Aggregate state_xrefs.adb:9:30-10:56>
+  type:       None
+Expr: <Aggregate state_xrefs.adb:9:31-9:48>
+  type:       None
+Expr: <Id "Param_2" state_xrefs.adb:9:32-9:39>
+  references: <DefiningName state_xrefs.adb:7:39-7:46>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C1" state_xrefs.adb:9:41-9:43>
+  references: <DefiningName state_xrefs.adb:4:4-4:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C2" state_xrefs.adb:9:45-9:47>
+  references: <DefiningName state_xrefs.adb:5:4-5:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Aggregate state_xrefs.adb:9:52-9:65>
+  type:       None
+Expr: <Id "Param_1" state_xrefs.adb:9:53-9:60>
+  references: <DefiningName state_xrefs.adb:7:20-7:27>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C2" state_xrefs.adb:9:62-9:64>
+  references: <DefiningName state_xrefs.adb:5:4-5:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Null state_xrefs.adb:10:32-10:36>
+  references: None
+  type:       None
+Expr: <Id "C1" state_xrefs.adb:10:53-10:55>
+  references: <DefiningName state_xrefs.adb:4:4-4:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <NullStmt state_xrefs.adb:11:13-11:18>
 ***************************************************************

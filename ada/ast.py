@@ -6730,7 +6730,8 @@ class AspectAssoc(AdaNode):
 
             # Global aspect. Depends is always an aggregate, so doesn't need an
             # entry.
-            Entity.id.name_is('Global'), Entity.expr.sub_equation,
+            Entity.id.name_is('Global') | Entity.id.name_is('Refined_Global'),
+            Entity.expr.sub_equation,
 
             # Do not resolve anything inside those aspect, as identifiers act
             # as reserved words. For example, we do not want to resolve `C`
@@ -8365,7 +8366,7 @@ class UnOp(Expr):
     @langkit_property()
     def xref_equation():
         return Entity.expr.sub_equation & If(
-            Self.in_aspect('Depends'),
+            Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends'),
             Entity.expr.sub_equation,
 
             Entity.op.subprograms.filter(
@@ -8662,7 +8663,8 @@ class BaseAggregate(Expr):
         # aggregate, by accepting only type that can be represented by an
         # aggregate (e.g. records and arrays).
         type_constraint = Var(If(
-            Self.in_aspect('Global') | Self.in_aspect('Depends')
+            Self.in_aspect('Global') | Self.in_aspect('Refined_Global')
+            | Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends')
             | Self.in_aspect('Test_Case') | Self.in_aspect('Refined_State'),
             LogicTrue(),
             origin.bind(Self.origin_node,
@@ -10305,7 +10307,11 @@ class AggregateAssoc(BasicAssoc):
         atd = Var(td._.array_def)
 
         return Cond(
-            agg.in_aspect('Global'), Entity.globals_assoc_equation,
+            agg.in_aspect('Global') | agg.in_aspect('Refined_Global'),
+            Entity.globals_assoc_equation,
+
+            agg.in_aspect('Depends') | agg.in_aspect('Refined_Depends'),
+            Entity.depends_assoc_equation,
 
             agg.in_aspect('Depends'), Entity.depends_assoc_equation,
 

@@ -134,11 +134,31 @@ Analyzing state_xrefs.adb
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:2:8-2:73>
 ***************************************************************
 
-Resolution failed with exception for node <AspectAssoc state_xrefs.adb:2:8-2:73>
-> raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : invalid equation for logic resolution
-Call stack traceback locations:
-0x7ff48dcda461 0x7ff48dadf983 0x7ff48dd7b0a1 0x7ff48dd7cc86 0x7ff48d95e1bd 0x48ddfd 0x48c4d1 0x7ff48e235ff3 0x48c7ea 0x48bfb7 0x7ff48e235ff3 0x48a746 0x4896c0 0x47b446 0x7ff48a3a0358 0x7ff489d0c607 0x7ff489a15291 0xfffffffffffffffe
-
+Expr: <Id "Refined_State" state_xrefs.adb:2:8-2:21>
+  references: None
+  type:       None
+Expr: <Aggregate state_xrefs.adb:2:25-2:73>
+  type:       None
+Expr: <Id "State" state_xrefs.adb:2:26-2:31>
+  references: <DefiningName state_xrefs.ads:2:26-2:31>
+  type:       None
+Expr: <Aggregate state_xrefs.adb:2:35-2:72>
+  type:       None
+Expr: <Id "C1" state_xrefs.adb:2:36-2:38>
+  references: <DefiningName state_xrefs.adb:4:4-4:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C2" state_xrefs.adb:2:40-2:42>
+  references: <DefiningName state_xrefs.adb:5:4-5:6>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName state_xrefs.adb:2:44-2:71>
+  references: <DefiningName state_xrefs.ads:11:30-11:42>
+  type:       None
+Expr: <Id "Nested_Private" state_xrefs.adb:2:44-2:58>
+  references: <DefiningName state_xrefs.ads:10:12-10:26>
+  type:       None
+Expr: <Id "Nested_State" state_xrefs.adb:2:59-2:71>
+  references: <DefiningName state_xrefs.ads:11:30-11:42>
+  type:       None
 
 Resolving xrefs for node <ObjectDecl ["C1"] state_xrefs.adb:4:4-4:22>
 *********************************************************************
@@ -184,7 +204,7 @@ Resolving xrefs for node <AspectAssoc state_xrefs.adb:8:11-8:61>
 Resolution failed with exception for node <AspectAssoc state_xrefs.adb:8:11-8:61>
 > raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : invalid equation for logic resolution
 Call stack traceback locations:
-0x7ff48dcda461 0x7ff48dadf983 0x7ff48dd7b0a1 0x7ff48dd7cc86 0x7ff48d95e1bd 0x48ddfd 0x48c4d1 0x7ff48e235ff3 0x48c7ea 0x48bfb7 0x7ff48e235ff3 0x48a746 0x4896c0 0x47b446 0x7ff48a3a0358 0x7ff489d0c607 0x7ff489a15291 0xfffffffffffffffe
+0x7fbbd5123503 0x7fbbd4f28a25 0x7fbbd51c4569 0x7fbbd51c614e 0x7fbbd4da724d 0x48ddfd 0x48c4d1 0x7fbbd5680a3b 0x48c7ea 0x48bfb7 0x7fbbd5680a3b 0x48a746 0x4896c0 0x47b446 0x7fbbd17e9358 0x7fbbd1155607 0x7fbbd0e5e291 0xfffffffffffffffe
 
 
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:9:11-10:56>
@@ -193,7 +213,7 @@ Resolving xrefs for node <AspectAssoc state_xrefs.adb:9:11-10:56>
 Resolution failed with exception for node <AspectAssoc state_xrefs.adb:9:11-10:56>
 > raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : invalid equation for logic resolution
 Call stack traceback locations:
-0x7ff48dcda461 0x7ff48dadf983 0x7ff48dd7b0a1 0x7ff48dd7cc86 0x7ff48d95e1bd 0x48ddfd 0x48c4d1 0x7ff48e235ff3 0x48c7ea 0x48bfb7 0x7ff48e235ff3 0x48a746 0x4896c0 0x47b446 0x7ff48a3a0358 0x7ff489d0c607 0x7ff489a15291 0xfffffffffffffffe
+0x7fbbd5123503 0x7fbbd4f28a25 0x7fbbd51c4569 0x7fbbd51c614e 0x7fbbd4da724d 0x48ddfd 0x48c4d1 0x7fbbd5680a3b 0x48c7ea 0x48bfb7 0x7fbbd5680a3b 0x48a746 0x4896c0 0x47b446 0x7fbbd17e9358 0x7fbbd1155607 0x7fbbd0e5e291 0xfffffffffffffffe
 
 
 Resolving xrefs for node <NullStmt state_xrefs.adb:11:13-11:18>
@@ -213,11 +233,17 @@ Expr: <Id "Proc" state_xrefs.adb:11:23-11:27>
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:14:11-14:48>
 ******************************************************************
 
-Resolution failed with exception for node <AspectAssoc state_xrefs.adb:14:11-14:48>
-> raised LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR : invalid equation for logic resolution
-Call stack traceback locations:
-0x7ff48dcda461 0x7ff48dadf983 0x7ff48dd7b0a1 0x7ff48dd7cc86 0x7ff48d95e1bd 0x48ddfd 0x48c4d1 0x7ff48e235ff3 0x48c7ea 0x48bfb7 0x7ff48e235ff3 0x48a746 0x4896c0 0x47b446 0x7ff48a3a0358 0x7ff489d0c607 0x7ff489a15291 0xfffffffffffffffe
-
+Expr: <Id "Refined_State" state_xrefs.adb:14:11-14:24>
+  references: None
+  type:       None
+Expr: <Aggregate state_xrefs.adb:14:28-14:48>
+  type:       None
+Expr: <Id "Nested_State" state_xrefs.adb:14:29-14:41>
+  references: <DefiningName state_xrefs.ads:11:30-11:42>
+  type:       None
+Expr: <Id "C3" state_xrefs.adb:14:45-14:47>
+  references: <DefiningName state_xrefs.adb:16:7-16:9>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ObjectDecl ["C3"] state_xrefs.adb:16:7-16:25>
 ***********************************************************************

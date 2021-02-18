@@ -113,7 +113,7 @@ class AdaNode(ASTNode):
                 'Pre', 'Post', 'Type_Invariant',
                 'Predicate', 'Static_Predicate', 'Dynamic_Predicate',
                 'Test_Case', 'Global', 'Refined_Global',
-                'Depends', 'Refined_Depends'
+                'Depends', 'Refined_Depends', 'Refined_State'
             )
         )
     ).is_null))
@@ -8681,7 +8681,7 @@ class BaseAggregate(Expr):
         # aggregate (e.g. records and arrays).
         type_constraint = Var(If(
             Self.in_aspect('Global') | Self.in_aspect('Depends')
-            | Self.in_aspect('Test_Case'),
+            | Self.in_aspect('Test_Case') | Self.in_aspect('Refined_State'),
             LogicTrue(),
             origin.bind(Self.origin_node,
                         Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var))
@@ -10327,7 +10327,11 @@ class AggregateAssoc(BasicAssoc):
 
             agg.in_aspect('Depends'), Entity.depends_assoc_equation,
 
-            agg.in_aspect('Test_Case'), Entity.test_case_assoc_equation,
+            agg.in_aspect('Test_Case'),
+            Entity.test_case_assoc_equation,
+
+            agg.in_aspect('Refined_State'),
+            Entity.refined_state_assoc_equation,
 
             agg.parent.is_a(AspectClause, AspectAssoc, PragmaArgumentAssoc),
             LogicTrue(),
@@ -10486,6 +10490,21 @@ class AggregateAssoc(BasicAssoc):
             ),
             Entity.expr.sub_equation,
             LogicTrue()
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def refined_state_assoc_equation():
+        """
+        Equation for the case where this is an aggregate assoc inside an
+        Refined_State aspect. Simply resolve all names present in it, as they
+        must all refer to existing declarations.
+        """
+        return And(
+            Entity.designators.logic_all(lambda d: d.sub_equation),
+            Entity.expr.cast(Name).then(
+                lambda n: n.sub_equation,
+                default_val=LogicTrue()
+            )
         )
 
 

@@ -8498,18 +8498,25 @@ class BinOp(Expr):
             & Self.type_bind_var(Self.left.type_var, Self.type_var),
 
             lambda _=Op.alt_concat: Or(
-                Self.type_bind_var(Self.type_var, Self.left.type_var)
+                Predicate(BaseTypeDecl.is_array_def_with_deref,
+                          Self.left.type_var)
+                & Self.type_bind_var(Self.type_var, Self.left.type_var)
                 & Self.type_bind_var(Self.type_var, Self.right.type_var),
 
-                Self.type_bind_var(Self.type_var, Self.left.type_var)
+                Predicate(BaseTypeDecl.is_array_def_with_deref,
+                          Self.left.type_var)
+                & Self.type_bind_var(Self.type_var, Self.left.type_var)
                 & Self.comp_bind(Self.left.type_var, Self.right.type_var),
 
-                Self.type_bind_var(Self.type_var, Self.right.type_var)
+                Predicate(BaseTypeDecl.is_array_def_with_deref,
+                          Self.right.type_var)
+                & Self.type_bind_var(Self.type_var, Self.right.type_var)
                 & Self.comp_bind(Self.right.type_var, Self.left.type_var),
 
                 Self.type_bind_var(Self.right.type_var, Self.left.type_var)
                 & Self.comp_bind(Self.type_var, Self.right.type_var)
-
+                & Predicate(BaseTypeDecl.is_array_def_with_deref,
+                            Self.type_var)
             ),
 
             # We treat .. differently from other binary operators, because in

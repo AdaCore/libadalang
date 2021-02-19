@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix name resolution of builtin concat operator
+description: |
+    Previously, Libadalang would generate too weak constraints when resolving
+    the concatenation operator, which in turn could make its LHS and RHS
+    refer to erroneous entities. This change fixes that.
+date: 2020-02-19

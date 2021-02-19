@@ -57,13 +57,21 @@
 
   let create_auto_provider =
     foreign ~from:c_lib "${capi.get_name("create_auto_provider")}"
-      (ptr string @-> string @-> raisable c_type)
+      (ptr (ptr char) @-> string @-> raisable c_type)
 
   let auto input_files =
-    (* Make a carray from the list input_files with one additional null element
-     * that marks its end. *)
-    let array = CArray.make string (List.length input_files + 1) in
-    List.iteri (fun i x -> CArray.set array i x) input_files ;
+    (* Convert the names of the input files into pointers to C strings. We used
+       to use the high-level type [Ctypes.string] type, but this was causing
+       memory corruption problems. We switched to [ptr char] instead. *)
+    let cstrings =
+      List.map (fun f -> CArray.(start (of_string f))) input_files
+    in
+    (* Add a null pointer at the end. This is part of the LAL calling
+       convention. *)
+    let null_ptr = from_voidp char Ctypes.null in
+    let cstrings_null = List.rev_append cstrings [null_ptr] in
+    (* Create an array with all these pointers *)
+    let array = CArray.of_list (ptr char) cstrings_null in
     let ptr = CArray.start array in
     let result = create_auto_provider ptr "" in
     wrap result

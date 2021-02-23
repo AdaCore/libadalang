@@ -11702,7 +11702,9 @@ class Op(BaseId):
 
     @langkit_property(return_type=T.BasicDecl.entity.array)
     def subprograms_for_symbol(sym=T.Symbol, from_node=T.AdaNode.entity):
-        return from_node.node_env.get(sym).filtermap(
+        return Self.env_get(
+            from_node.node_env, sym, from_node=from_node.node
+        ).filtermap(
             lambda e: e.cast_or_raise(T.BasicDecl),
             lambda e: e.cast_or_raise(T.BasicDecl).is_subprogram
         )

@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix visibility issue for binary operators
+description: |
+    This change fixes a bug where an operator could previously be considered
+    by libadalang as referring to a declaration appearing after the usage of
+    the operator, which is not legal.
+date: 2020-02-23

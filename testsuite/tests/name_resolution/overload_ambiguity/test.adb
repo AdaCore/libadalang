@@ -5,6 +5,11 @@ procedure Test is
    begin
       New_Line;
       pragma Test_Statement;
+
+      if Test.New_Line.B then
+         null;
+      end if;
+      pragma Test_Statement;
    end New_Line;
 begin
    null;

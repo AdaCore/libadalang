@@ -11507,7 +11507,7 @@ class BaseId(SingleTokNode):
         # expressions in the baseid env_elements. We should solve that.
 
         pc = Var(Entity.parent_callexpr)
-        is_prefix = Var(Self.parent.is_a(DottedName) & Self.is_prefix)
+        is_prefix = Var(Not(Self.is_suffix))
 
         return origin.bind(Self.origin_node, Cond(
             pc.is_null,

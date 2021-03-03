@@ -5750,7 +5750,10 @@ class TaskTypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def xref_equation():
-        return Entity.definition.xref_equation
+        return Entity.definition.then(
+            lambda d: d.xref_equation,
+            default_val=LogicTrue()
+        )
 
 
 class SingleTaskTypeDecl(TaskTypeDecl):

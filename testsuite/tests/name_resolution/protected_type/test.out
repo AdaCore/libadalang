@@ -12,6 +12,13 @@ Expr: <Id "Integer" testpro.adb:2:21-2:28>
   references: <DefiningName __standard:4:8-4:15>
   type:       None
 
+Resolving xrefs for node <ProtectedTypeDecl ["Protected_Buffer"] testpro.adb:4:6-10:27>
+***************************************************************************************
+
+Expr: <EndName testpro.adb:10:10-10:26>
+  references: <DefiningName testpro.adb:4:21-4:37>
+  type:       None
+
 Resolving xrefs for node <EntrySpec testpro.adb:5:9-5:42>
 *********************************************************
 

@@ -5793,6 +5793,12 @@ class ProtectedTypeDecl(BaseTypeDecl):
 
     next_part_for_decl = Property(Entity.basic_decl_next_part_for_decl)
 
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
+
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
         add_env()
@@ -6699,6 +6705,12 @@ class SingleProtectedDecl(BasicDecl):
     defining_names = Property(Entity.name.singleton)
 
     defining_env = Property(Entity.children_env)
+
+    xref_entry_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        return Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),

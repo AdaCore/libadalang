@@ -11753,19 +11753,28 @@ class BaseId(SingleTokNode):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def base_id_xref_equation():
         env_els = Var(Entity.env_elements)
+        is_prefix = Var(Not(Self.is_suffix))
 
-        return (
-            Self.ref_var.domain(env_els)
+        return env_els.logic_any(
+            lambda e:
+            Bind(Self.ref_var, e)
             & Bind(Self.ref_var, Self.type_var, BasicDecl.expr_type,
                    eq_prop=BaseTypeDecl.matching_type)
+            & If(
+                # If this BaseId refers to an enclosing subprogram and is
+                # the prefix of a dotted name, then it is not a call.
+                is_prefix & e.cast(T.BaseSubpBody)._.in_scope,
 
-            # If this BaseId represents a call, the called subprogram will be
-            # held in Self.ref_var, in which case subp_spec_or_null will
-            # return the specification of the called subprogram. If ref_var
-            # does not contain a subprogram, this BaseId cannot be a call,
-            # and subp_spec_or_null would indeed return null in this case.
-            & Bind(Self.ref_var, Self.subp_spec_var,
-                   conv_prop=BasicDecl.subp_spec_or_null)
+                LogicTrue(),
+
+                # If this BaseId represents a call, the called subprogram will
+                # be held in Self.ref_var, in which case subp_spec_or_null will
+                # return the specification of the called subprogram. If ref_var
+                # does not contain a subprogram, this BaseId cannot be a call,
+                # and subp_spec_or_null would indeed return null in this case.
+                Bind(Self.ref_var, Self.subp_spec_var,
+                     conv_prop=BasicDecl.subp_spec_or_null)
+            )
         )
 
 

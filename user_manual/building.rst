@@ -1,6 +1,11 @@
 Building Libadalang
 ###################
 
+First, note that if you have access to a pre-built Libadalang package, which
+generally come with GNAT Pro and GNAT Community, then you do not need to go
+through the following steps: just follow the instructions in the ``README``
+file that comes with this pre-built package.
+
 Setup
 -----
 
@@ -29,8 +34,10 @@ following steps:
      $ pip install -r REQUIREMENTS.dev
 
 * Install Langkit, build and install ``Langkit_Support``. Get Langkit's sources
-  on `GitHub <https://github.com/AdaCore/langkit>`_ and then run, from the
-  checkout root directory:
+  on `GitHub <https://github.com/AdaCore/langkit>`_, making sure you use the
+  same branch in both repositories. For instance, if you use Libadalang's
+  ``master`` branch, you should use Langkit's ``master`` branch as well. Then,
+  from the checkout root directory, run:
 
   .. code-block:: sh
 

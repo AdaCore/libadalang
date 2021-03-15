@@ -6007,6 +6007,21 @@ class UsePackageClause(UseClause):
         cond=Not(Self.parent.parent.is_a(T.CompilationUnit))
     ))
 
+    @langkit_property(return_type=LexicalEnv)
+    def designated_env(index=T.Int):
+        """
+        Return the lexical env designated by the index'th package name in this
+        use clause.
+        """
+        pkg = Var(Self.packages.at(index))
+        return env.bind(
+            Entity.node_env,
+            origin.bind(
+                pkg.origin_node,
+                pkg.as_bare_entity.designated_env
+            )
+        )
+
     @langkit_property(return_type=LexicalEnv.array)
     def designated_envs():
         """
@@ -6016,10 +6031,7 @@ class UsePackageClause(UseClause):
         lot during lexical environment lookups.
         """
         return Self.packages.map(
-            lambda n:
-            env.bind(Self.node_env,
-                     origin.bind(n.origin_node,
-                                 n.as_bare_entity.designated_env))
+            lambda i, _: Entity.designated_env(i)
         )
 
     xref_equation = Property(
@@ -9611,8 +9623,8 @@ class Name(Expr):
         UsePackageClause's package name list, return the memoized designated
         environment for it.
         """
-        return (Self.parent.parent.cast_or_raise(T.UsePackageClause)
-                .designated_envs.at(Self.child_index))
+        return (Entity.parent.parent.cast_or_raise(T.UsePackageClause)
+                .designated_env(Self.child_index))
 
     relative_name = AbstractProperty(
         type=T.SingleTokNode.entity, runtime_check=True, public=True,

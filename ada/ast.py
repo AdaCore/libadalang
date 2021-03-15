@@ -25,6 +25,7 @@ UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
 noprims = RefCategories(inherited_primitives=False, default=True)
+norefs = RefCategories(default=False)
 
 
 class FindAllMode(Enum):
@@ -125,6 +126,10 @@ class AdaNode(ASTNode):
         lambda p: p.cast(T.AspectAssoc).then(
             lambda a: Self.is_contract_aspect(a.id.as_bare_entity.name_symbol)
         )
+    ).is_null))
+
+    in_use_package_clause = Property(Not(Self.parents.find(
+        lambda p: p.is_a(T.UsePackageClause)
     ).is_null))
 
     @langkit_property()
@@ -6004,7 +6009,8 @@ class UsePackageClause(UseClause):
         # scope here, as they apply to the library item's environment,
         # which is not processed at this point yet. See CompilationUnit's
         # ref_env_nodes.
-        cond=Not(Self.parent.parent.is_a(T.CompilationUnit))
+        cond=Not(Self.parent.parent.is_a(T.CompilationUnit)),
+        category="local_use"
     ))
 
     @langkit_property(return_type=LexicalEnv)
@@ -11107,7 +11113,8 @@ class SingleTokNode(Name):
     @langkit_property()
     def env_get_first_visible(lex_env=LexicalEnv,
                               lookup_type=LK,
-                              from_node=T.AdaNode):
+                              from_node=T.AdaNode,
+                              categories=T.RefCategories):
         """
         Like env.get_first, but returning the first visible element in the Ada
         sense.
@@ -11117,7 +11124,7 @@ class SingleTokNode(Name):
             Self.symbol,
             lookup=lookup_type,
             from_node=from_node,
-            categories=noprims
+            categories=categories
         ).find(lambda el: Self.has_visibility(el))
 
 
@@ -11448,7 +11455,8 @@ class BaseId(SingleTokNode):
         return Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
-            from_node=Self.origin_node
+            from_node=Self.origin_node,
+            categories=If(Self.in_use_package_clause, norefs, noprims)
         ).cast(T.BasicDecl).then(
             lambda bd: If(
                 bd._.is_package, Entity.pkg_env(bd), bd.defining_env
@@ -11469,6 +11477,7 @@ class BaseId(SingleTokNode):
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=Self.origin_node,
+            categories=If(Self.in_use_package_clause, norefs, noprims)
         )).cast(T.BasicDecl)
 
         return If(
@@ -11601,6 +11610,7 @@ class BaseId(SingleTokNode):
             env,
             from_node=Self,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
+            categories=If(Self.in_use_package_clause, norefs, noprims)
         ).then(
             lambda env_el: Self.designated_type_impl_get_real_type(env_el)
         ))
@@ -11610,6 +11620,7 @@ class BaseId(SingleTokNode):
             env,
             from_node=origin,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
+            categories=If(Self.in_use_package_clause, norefs, noprims)
         ).then(
             lambda env_el: Self.designated_type_impl_get_real_type(env_el)
         ))

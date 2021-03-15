@@ -1,0 +1,7 @@
+type: bugfix
+title: Use clause applied to a generic formal package
+description: |
+    This change fixes a bug in Libadalang where use package clauses would not
+    be handled correctly when the designated packages were generic formal
+    packages.
+date: 2020-03-15

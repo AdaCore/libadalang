@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["Y"] test.adb:9:4-9:25>
+*************************************************************
+
+Expr: <Id "Integer" test.adb:9:8-9:15>
+  references: standard.integer
+  type:       None
+Expr: <CallExpr test.adb:9:19-9:24>
+  references: test.x
+  type:       test.int_vectors.constant_reference_type
+Expr: <Id "X" test.adb:9:19-9:20>
+  references: test.x
+  type:       test.int_vector
+Expr: <Int test.adb:9:22-9:23>
+  references: None
+  type:       standard.universal_int_type_
+
+
+Done.

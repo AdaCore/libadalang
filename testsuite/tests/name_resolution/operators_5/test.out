@@ -15,7 +15,7 @@ Expr: <BinOp testop.adb:5:11-5:16>
   type:       <TypeDecl ["T"] testop.adb:2:5-2:25>
 Expr: <Int testop.adb:5:11-5:12>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpMult "*" testop.adb:5:13-5:14>
   references: None
   type:       None
@@ -27,7 +27,7 @@ Expr: <OpMinus "-" testop.adb:5:18-5:19>
   type:       None
 Expr: <Int testop.adb:5:20-5:21>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

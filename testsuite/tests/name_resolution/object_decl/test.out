@@ -9,7 +9,7 @@ Expr: <Id "Int" test_object_decl.adb:6:11-6:14>
   type:       None
 Expr: <Int test_object_decl.adb:6:18-6:21>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <NullStmt test_object_decl.adb:8:7-8:12>
 *****************************************************************

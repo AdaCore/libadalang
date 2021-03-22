@@ -168,6 +168,7 @@ package body Libadalang.Env_Hooks is
      "          +((2 ** 63 - 1) * 0.000000001);" & ASCII.LF &
      "  for Duration'Small use 0.000000001;" & ASCII.LF &
      "  Constraint_Error : exception;" & ASCII.LF &
+     "  Numeric_Error    : exception;" & ASCII.LF &
      "  Program_Error    : exception;" & ASCII.LF &
      "  Storage_Error    : exception;" & ASCII.LF &
      "  Tasking_Error    : exception;" & ASCII.LF &

@@ -29,13 +29,13 @@ Expr: <BinOp testfirst.adb:3:32-3:44>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testfirst.adb:3:32-3:33>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." testfirst.adb:3:34-3:36>
   references: None
   type:       None
 Expr: <Int testfirst.adb:3:37-3:44>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ObjectDecl ["C"] testfirst.adb:5:4-5:12>
 ******************************************************************
@@ -54,19 +54,19 @@ Expr: <Aggregate testfirst.adb:6:15-6:30>
   type:       <TypeDecl ["A"] testfirst.adb:2:4-2:50>
 Expr: <Int testfirst.adb:6:16-6:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int testfirst.adb:6:19-6:20>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int testfirst.adb:6:22-6:23>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int testfirst.adb:6:25-6:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int testfirst.adb:6:28-6:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ObjectDecl ["Idx"] testfirst.adb:7:4-7:18>
 ********************************************************************
@@ -86,16 +86,16 @@ Expr: <Id "A" testfirst.adb:10:15-10:16>
   references: <DefiningName testfirst.adb:2:9-2:10>
   type:       None
 Expr: <BinOp testfirst.adb:10:18-10:25>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int testfirst.adb:10:18-10:19>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." testfirst.adb:10:20-10:22>
   references: None
   type:       None
 Expr: <Int testfirst.adb:10:23-10:25>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ExprFunction ["Foo"] testfirst.adb:13:4-13:46>
 ************************************************************************
@@ -116,10 +116,10 @@ Resolving xrefs for node <ExprFunction ["Foo"] testfirst.adb:14:4-14:40>
 ************************************************************************
 
 Expr: <ParenExpr testfirst.adb:14:35-14:39>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int testfirst.adb:14:36-14:38>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <SubpSpec testfirst.adb:14:4-14:31>
 ************************************************************
@@ -202,7 +202,7 @@ Expr: <Id "First" testfirst.adb:20:9-20:14>
   type:       None
 Expr: <Int testfirst.adb:20:19-20:20>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <EndName testfirst.adb:21:5-21:14>
 ***********************************************************

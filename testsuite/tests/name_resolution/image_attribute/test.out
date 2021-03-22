@@ -18,7 +18,7 @@ Expr: <Id "Image" test.adb:2:30-2:35>
   type:       None
 Expr: <Real test.adb:2:37-2:40>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 
 Resolving xrefs for node <ObjectDecl ["On_Expr"] test.adb:6:4-6:39>
 *******************************************************************
@@ -52,10 +52,10 @@ Expr: <Id "Float" test.adb:9:34-9:39>
   references: <DefiningName __standard:13:8-13:13>
   type:       <TypeDecl ["Float"] __standard:13:3-14:51>
 Expr: <ParenExpr test.adb:9:40-9:45>
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 Expr: <Real test.adb:9:41-9:44>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 Expr: <Id "Image" test.adb:9:46-9:51>
   references: None
   type:       None
@@ -77,7 +77,7 @@ Expr: <Id "Wide_Image" test.adb:12:38-12:48>
   type:       None
 Expr: <Real test.adb:12:50-12:53>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 
 Resolving xrefs for node <ObjectDecl ["With_Subscript"] test.adb:15:4-15:58>
 ****************************************************************************
@@ -99,7 +99,7 @@ Expr: <Id "Image" test.adb:15:37-15:42>
   type:       None
 Expr: <Real test.adb:15:44-15:47>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 Expr: <BinOp test.adb:15:50-15:56>
   type:       <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <Int test.adb:15:50-15:51>

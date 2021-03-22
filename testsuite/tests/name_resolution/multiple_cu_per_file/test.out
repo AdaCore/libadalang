@@ -21,7 +21,7 @@ Expr: <Id "Fact" foo.adb:5:34-5:38>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int foo.adb:5:40-5:41>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ObjectDecl ["I2"] foo.adb:8:4-8:41>
 *************************************************************
@@ -43,7 +43,7 @@ Expr: <Id "Id" foo.adb:8:34-8:36>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int foo.adb:8:38-8:39>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Analyzing specs.ada
@@ -91,7 +91,7 @@ Expr: <OpMinus "-" bodies.ada:9:38-9:39>
   type:       None
 Expr: <Int bodies.ada:9:40-9:41>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

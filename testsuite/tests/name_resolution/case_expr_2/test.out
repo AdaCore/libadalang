@@ -8,9 +8,9 @@ Expr: <Id "Y" test.adb:7:4-7:5>
   references: <DefiningName test.adb:5:4-5:5>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <ParenExpr test.adb:7:9-9:27>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <CaseExpr test.adb:7:10-9:26>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "X" test.adb:7:15-7:16>
   references: <DefiningName test.adb:4:4-4:5>
   type:       <TypeDecl ["T"] test.adb:2:4-2:24>
@@ -32,12 +32,12 @@ Expr: <Id "B" test.adb:8:28-8:29>
   type:       <TypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <Int test.adb:8:33-8:34>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <CaseExprAlternative test.adb:9:10-9:26>
   type:       None
 Expr: <Int test.adb:9:25-9:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

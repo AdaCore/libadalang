@@ -11,7 +11,7 @@ Expr: <BinOp test_binop_res.adb:10:16-10:22>
   type:       <TypeDecl ["A"] test_binop_res.adb:5:7-5:31>
 Expr: <Int test_binop_res.adb:10:16-10:18>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpMult "*" test_binop_res.adb:10:19-10:20>
   references: None
   type:       None

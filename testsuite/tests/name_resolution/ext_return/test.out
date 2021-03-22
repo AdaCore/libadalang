@@ -9,7 +9,7 @@ Expr: <Id "A" testextreturn.adb:5:10-5:11>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testextreturn.adb:5:15-5:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ExtendedReturnStmt testextreturn.adb:4:7-7:18>
 ************************************************************************

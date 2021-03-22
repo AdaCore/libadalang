@@ -1,0 +1,34 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpSpec test.adb:1:1-1:15>
+*****************************************************
+
+
+Resolving xrefs for node <NullStmt test.adb:3:4-3:9>
+****************************************************
+
+
+Resolving xrefs for node <ExceptionHandler ["None"] test.adb:5:4-6:12>
+**********************************************************************
+
+Expr: <Id "Numeric_Error" test.adb:5:9-5:22>
+  references: <DefiningName __standard:116:3-116:16>
+  type:       None
+
+Resolving xrefs for node <NullStmt test.adb:6:7-6:12>
+*****************************************************
+
+
+Resolving xrefs for node <EndName test.adb:7:5-7:9>
+***************************************************
+
+Expr: <EndName test.adb:7:5-7:9>
+  references: <DefiningName test.adb:1:11-1:15>
+  type:       None
+Expr: <Id "Test" test.adb:7:5-7:9>
+  references: <DefiningName test.adb:1:11-1:15>
+  type:       None
+
+
+Done.

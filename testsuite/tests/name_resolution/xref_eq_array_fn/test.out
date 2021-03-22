@@ -15,7 +15,7 @@ Expr: <Id "F" test_array_fn.adb:8:9-8:10>
   type:       <TypeDecl ["T"] test_array_fn.adb:3:4-3:55>
 Expr: <Int test_array_fn.adb:8:12-8:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

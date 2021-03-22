@@ -34,18 +34,18 @@ Expr: <Id "A" test.adb:8:7-8:8>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:8:12-8:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <BinOp test.adb:8:20-8:27>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int test.adb:8:20-8:21>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." test.adb:8:22-8:24>
   references: None
   type:       None
 Expr: <Int test.adb:8:25-8:27>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ComponentClause test.adb:9:7-9:29>
 ************************************************************
@@ -55,18 +55,18 @@ Expr: <Id "B" test.adb:9:7-9:8>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.adb:9:12-9:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <BinOp test.adb:9:20-9:28>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int test.adb:9:20-9:22>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." test.adb:9:23-9:25>
   references: None
   type:       None
 Expr: <Int test.adb:9:26-9:28>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <EndName test.adb:11:5-11:9>
 *****************************************************

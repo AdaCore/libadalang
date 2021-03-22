@@ -16,7 +16,7 @@ Expr: <Aggregate test_array_indices.adb:6:27-6:41>
   type:       None
 Expr: <Int test_array_indices.adb:6:38-6:40>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Aggregate test_array_indices.adb:7:27-7:53>
   type:       None
 Expr: <Id "Dark" test_array_indices.adb:7:28-7:32>
@@ -24,10 +24,10 @@ Expr: <Id "Dark" test_array_indices.adb:7:28-7:32>
   type:       <TypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
 Expr: <Int test_array_indices.adb:7:36-7:38>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int test_array_indices.adb:7:50-7:52>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

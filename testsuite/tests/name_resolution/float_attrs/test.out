@@ -18,7 +18,7 @@ Expr: <Id "Floor" test_float_attrs.adb:2:23-2:28>
   type:       None
 Expr: <Real test_float_attrs.adb:2:30-2:34>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 
 Resolving xrefs for node <ObjectDecl ["B"] test_float_attrs.adb:5:4-5:36>
 *************************************************************************
@@ -64,7 +64,7 @@ Expr: <OpPlus "+" test_float_attrs.adb:8:34-8:35>
   type:       None
 Expr: <Real test_float_attrs.adb:8:36-8:40>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 
 Resolving xrefs for node <ObjectDecl ["D"] test_float_attrs.adb:11:4-11:49>
 ***************************************************************************
@@ -91,7 +91,7 @@ Expr: <OpPlus "+" test_float_attrs.adb:11:37-11:38>
   type:       None
 Expr: <Real test_float_attrs.adb:11:39-11:47>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 
 Resolving xrefs for node <ObjectDecl ["E"] test_float_attrs.adb:14:4-14:40>
 ***************************************************************************
@@ -183,7 +183,7 @@ Expr: <Id "Float" test_float_attrs.adb:26:8-26:13>
   type:       None
 Expr: <AttributeRef test_float_attrs.adb:26:17-26:34>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 Expr: <Id "Float" test_float_attrs.adb:26:17-26:22>
   references: <DefiningName __standard:13:8-13:13>
   type:       <TypeDecl ["Float"] __standard:13:3-14:51>
@@ -199,7 +199,7 @@ Expr: <Id "Float" test_float_attrs.adb:29:8-29:13>
   type:       None
 Expr: <AttributeRef test_float_attrs.adb:29:17-29:36>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:120:3-120:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
 Expr: <Id "Float" test_float_attrs.adb:29:17-29:22>
   references: <DefiningName __standard:13:8-13:13>
   type:       <TypeDecl ["Float"] __standard:13:3-14:51>

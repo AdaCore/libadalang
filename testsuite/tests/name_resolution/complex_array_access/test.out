@@ -33,7 +33,7 @@ Expr: <Id "Sub_Index_T" test.adb:12:12-12:23>
   type:       <SubtypeDecl ["Sub_Index_T"] test.adb:3:4-3:48>
 Expr: <Int test.adb:12:26-12:27>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <BinOp test.adb:12:30-12:36>
   type:       <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:30-12:31>
@@ -47,7 +47,7 @@ Expr: <Int test.adb:12:35-12:36>
   type:       <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:39-12:40>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Sub_Index_T" test.adb:12:43-12:54>
   references: <DefiningName test.adb:3:12-3:23>
   type:       None
@@ -55,16 +55,16 @@ Expr: <BinOp test.adb:12:61-12:67>
   type:       <SubtypeDecl ["Sub_Index_T"] test.adb:3:4-3:48>
 Expr: <Int test.adb:12:61-12:62>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." test.adb:12:63-12:65>
   references: None
   type:       None
 Expr: <Int test.adb:12:66-12:67>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int test.adb:12:70-12:71>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

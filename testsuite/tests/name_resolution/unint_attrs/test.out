@@ -9,7 +9,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:16:21-16:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:16:32-16:54>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Float" test_unint_attrs.adb:16:32-16:37>
   references: <DefiningName __standard:13:8-13:13>
   type:       <TypeDecl ["Float"] __standard:13:3-14:51>
@@ -25,7 +25,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:17:21-17:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:17:32-17:46>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Float" test_unint_attrs.adb:17:32-17:37>
   references: <DefiningName __standard:13:8-13:13>
   type:       <TypeDecl ["Float"] __standard:13:3-14:51>
@@ -41,7 +41,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:18:21-18:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:18:32-18:52>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Float" test_unint_attrs.adb:18:32-18:37>
   references: <DefiningName __standard:13:8-13:13>
   type:       <TypeDecl ["Float"] __standard:13:3-14:51>
@@ -57,7 +57,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:19:21-19:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:19:32-19:47>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <DottedName test_unint_attrs.adb:19:32-19:38>
   references: <DefiningName test_unint_attrs.adb:3:13-3:14>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -79,7 +79,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:20:21-20:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:20:32-20:48>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <DottedName test_unint_attrs.adb:20:32-20:38>
   references: <DefiningName test_unint_attrs.adb:3:13-3:14>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -101,7 +101,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:21:21-21:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:21:32-21:47>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <DottedName test_unint_attrs.adb:21:32-21:38>
   references: <DefiningName test_unint_attrs.adb:3:13-3:14>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -123,7 +123,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:22:21-22:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:22:32-22:50>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Arr" test_unint_attrs.adb:22:32-22:35>
   references: <DefiningName test_unint_attrs.adb:7:9-7:12>
   type:       <TypeDecl ["Arr"] test_unint_attrs.adb:7:4-7:54>
@@ -139,7 +139,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:23:21-23:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:23:32-23:45>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Integer" test_unint_attrs.adb:23:32-23:39>
   references: <DefiningName __standard:4:8-4:15>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -155,7 +155,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:24:21-24:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:24:32-24:44>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Float" test_unint_attrs.adb:24:32-24:37>
   references: <DefiningName __standard:13:8-13:13>
   type:       <TypeDecl ["Float"] __standard:13:3-14:51>
@@ -171,7 +171,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:25:21-25:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:25:32-25:40>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Volt" test_unint_attrs.adb:25:32-25:36>
   references: <DefiningName test_unint_attrs.adb:9:9-9:13>
   type:       None
@@ -187,7 +187,7 @@ Expr: <Id "Integer" test_unint_attrs.adb:26:21-26:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:26:32-26:41>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Volt" test_unint_attrs.adb:26:32-26:36>
   references: <DefiningName test_unint_attrs.adb:9:9-9:13>
   type:       <TypeDecl ["Volt"] test_unint_attrs.adb:9:4-9:48>
@@ -203,7 +203,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:27:21-27:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:27:32-27:41>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "M" test_unint_attrs.adb:27:32-27:33>
   references: <DefiningName test_unint_attrs.adb:11:9-11:10>
   type:       <TypeDecl ["M"] test_unint_attrs.adb:11:4-11:26>
@@ -219,7 +219,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:28:21-28:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:28:32-28:53>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Standard" test_unint_attrs.adb:28:32-28:40>
   references: <DefiningName __standard:1:9-1:17>
   type:       None
@@ -235,7 +235,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:29:21-29:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:29:32-29:67>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Standard" test_unint_attrs.adb:29:32-29:40>
   references: <DefiningName __standard:1:9-1:17>
   type:       None
@@ -251,7 +251,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:30:21-30:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:30:32-30:54>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Inst" test_unint_attrs.adb:30:32-30:36>
   references: <DefiningName test_unint_attrs.adb:5:4-5:8>
   type:       <TypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
@@ -267,7 +267,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:31:21-31:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:31:32-31:49>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "R" test_unint_attrs.adb:31:32-31:33>
   references: <DefiningName test_unint_attrs.adb:2:9-2:10>
   type:       <TypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
@@ -283,7 +283,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:32:21-32:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:32:32-32:46>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Inst" test_unint_attrs.adb:32:32-32:36>
   references: <DefiningName test_unint_attrs.adb:5:4-5:8>
   type:       <TypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
@@ -299,7 +299,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:33:21-33:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:33:32-33:50>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Standard" test_unint_attrs.adb:33:32-33:40>
   references: <DefiningName __standard:1:9-1:17>
   type:       None
@@ -315,7 +315,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:34:21-34:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:34:32-34:57>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Standard" test_unint_attrs.adb:34:32-34:40>
   references: <DefiningName __standard:1:9-1:17>
   type:       None
@@ -331,7 +331,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:35:21-35:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:35:32-35:58>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Standard" test_unint_attrs.adb:35:32-35:40>
   references: <DefiningName __standard:1:9-1:17>
   type:       None
@@ -347,7 +347,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:36:21-36:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:36:32-36:58>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Standard" test_unint_attrs.adb:36:32-36:40>
   references: <DefiningName __standard:1:9-1:17>
   type:       None
@@ -363,7 +363,7 @@ Expr: <Id "Natural" test_unint_attrs.adb:37:21-37:28>
   type:       None
 Expr: <AttributeRef test_unint_attrs.adb:37:32-37:44>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "E_X" test_unint_attrs.adb:37:32-37:35>
   references: <DefiningName test_unint_attrs.adb:13:20-13:23>
   type:       <TypeDecl ["E_Type"] test_unint_attrs.adb:13:4-13:35>

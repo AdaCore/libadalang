@@ -9,7 +9,7 @@ Expr: <Id "Integer" selectwhen.adb:10:24-10:31>
   type:       None
 Expr: <Int selectwhen.adb:10:35-10:38>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 ****************************************************************************
@@ -21,7 +21,7 @@ Expr: <BinOp selectwhen.adb:11:40-11:51>
   type:       <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <Int selectwhen.adb:11:40-11:41>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." selectwhen.adb:11:42-11:44>
   references: None
   type:       None
@@ -39,7 +39,7 @@ Expr: <BinOp selectwhen.adb:12:29-12:40>
   type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Int selectwhen.adb:12:29-12:30>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." selectwhen.adb:12:31-12:33>
   references: None
   type:       None
@@ -48,7 +48,7 @@ Expr: <Id "Q_Size" selectwhen.adb:12:34-12:40>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int selectwhen.adb:12:44-12:45>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ObjectDecl ["Head", "Tail"] selectwhen.adb:13:6-13:32>
 ********************************************************************************
@@ -58,7 +58,7 @@ Expr: <Id "Q_Range" selectwhen.adb:13:19-13:26>
   type:       None
 Expr: <Int selectwhen.adb:13:30-13:31>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ObjectDecl ["Data"] selectwhen.adb:14:6-14:37>
 ************************************************************************
@@ -102,7 +102,7 @@ Expr: <OpGt ">" selectwhen.adb:25:24-25:25>
   type:       None
 Expr: <Int selectwhen.adb:25:26-25:27>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:19:15-21:26>
 *************************************************************************
@@ -171,7 +171,7 @@ Expr: <OpPlus "+" selectwhen.adb:22:39-22:40>
   type:       None
 Expr: <Int selectwhen.adb:22:41-22:42>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <AssignStmt selectwhen.adb:23:15-23:36>
 ****************************************************************
@@ -189,7 +189,7 @@ Expr: <OpPlus "+" selectwhen.adb:23:32-23:33>
   type:       None
 Expr: <Int selectwhen.adb:23:34-23:35>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:26:15-28:26>
 *************************************************************************
@@ -258,7 +258,7 @@ Expr: <OpPlus "+" selectwhen.adb:29:39-29:40>
   type:       None
 Expr: <Int selectwhen.adb:29:41-29:42>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <AssignStmt selectwhen.adb:30:15-30:36>
 ****************************************************************
@@ -276,7 +276,7 @@ Expr: <OpMinus "-" selectwhen.adb:30:32-30:33>
   type:       None
 Expr: <Int selectwhen.adb:30:34-30:35>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <EndName selectwhen.adb:33:7-33:30>
 ************************************************************

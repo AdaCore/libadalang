@@ -17,7 +17,7 @@ Expr: <Id "J" test-foo.adb:5:7-5:8>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test-foo.adb:5:12-5:14>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <EndName test-foo.adb:6:8-6:11>
 ********************************************************

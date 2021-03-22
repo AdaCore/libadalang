@@ -15,7 +15,7 @@ Expr: <Id "Inst" testindexing.adb:27:19-27:23>
   type:       <TypeDecl ["T"] testindexing.adb:3:7-4:42>
 Expr: <Int testindexing.adb:27:25-27:27>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <AssignStmt testindexing.adb:30:4-30:19>
 *****************************************************************
@@ -28,7 +28,7 @@ Expr: <Id "Inst" testindexing.adb:30:4-30:8>
   type:       <TypeDecl ["T"] testindexing.adb:3:7-4:42>
 Expr: <Int testindexing.adb:30:10-30:12>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "A" testindexing.adb:30:17-30:18>
   references: <DefiningName testindexing.adb:27:4-27:5>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>

@@ -18,7 +18,7 @@ Expr: <Id "Print_Int" main.adb:8:10-8:19>
   type:       None
 Expr: <Int main.adb:8:21-8:23>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

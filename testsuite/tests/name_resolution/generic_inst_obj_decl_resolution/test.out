@@ -17,13 +17,13 @@ Expr: <Aggregate test2.adb:10:19-10:41>
   type:       <| TypeDecl ["Arr"] test2.adb:5:7-5:46 [test2.adb:8:4] |>
 Expr: <Int test2.adb:10:20-10:21>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int test2.adb:10:25-10:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int test2.adb:10:38-10:40>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 
 Done.

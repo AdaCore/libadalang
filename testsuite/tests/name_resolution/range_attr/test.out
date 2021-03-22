@@ -41,13 +41,13 @@ Expr: <BinOp testrange.adb:5:38-5:45>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testrange.adb:5:38-5:39>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." testrange.adb:5:40-5:42>
   references: None
   type:       None
 Expr: <Int testrange.adb:5:43-5:45>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Float" testrange.adb:5:50-5:55>
   references: <DefiningName __standard:13:8-13:13>
   type:       None
@@ -66,13 +66,13 @@ Expr: <BinOp testrange.adb:8:21-8:28>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testrange.adb:8:21-8:22>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." testrange.adb:8:23-8:25>
   references: None
   type:       None
 Expr: <Int testrange.adb:8:26-8:28>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "Boolean" testrange.adb:8:30-8:37>
   references: <DefiningName __standard:3:8-3:15>
   type:       None
@@ -85,14 +85,14 @@ Resolving xrefs for node <NumberDecl ["One"] testrange.adb:10:4-10:24>
 
 Expr: <Int testrange.adb:10:22-10:23>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <NumberDecl ["Two"] testrange.adb:11:4-11:24>
 **********************************************************************
 
 Expr: <Int testrange.adb:11:22-11:23>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ObjectDecl ["Arr"] testrange.adb:13:4-13:15>
 **********************************************************************
@@ -258,7 +258,7 @@ Resolving xrefs for node <ParamAssoc testrange.adb:30:28-30:31>
 
 Expr: <Id "One" testrange.adb:30:28-30:31>
   references: <DefiningName testrange.adb:10:4-10:7>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <CallStmt testrange.adb:31:7-31:31>
 ************************************************************
@@ -304,7 +304,7 @@ Resolving xrefs for node <ParamAssoc testrange.adb:34:28-34:31>
 
 Expr: <Id "Two" testrange.adb:34:28-34:31>
   references: <DefiningName testrange.adb:11:4-11:7>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <CallStmt testrange.adb:35:7-35:28>
 ************************************************************
@@ -323,7 +323,7 @@ Expr: <Id "Arr_Arr" testrange.adb:35:12-35:19>
   type:       <TypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
 Expr: <Int testrange.adb:35:21-35:22>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Id "J" testrange.adb:35:24-35:25>
   references: <DefiningName testrange.adb:34:8-34:9>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>

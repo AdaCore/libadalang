@@ -35,16 +35,16 @@ Expr: <Id "A" test_range.adb:7:11-7:12>
 Expr: <Aggregate test_range.adb:7:16-7:48>
   type:       <TypeDecl ["A"] test_range.adb:5:4-5:66>
 Expr: <BinOp test_range.adb:7:17-7:24>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Int test_range.adb:7:17-7:18>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <OpDoubleDot ".." test_range.adb:7:19-7:21>
   references: None
   type:       None
 Expr: <Int test_range.adb:7:22-7:24>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 Expr: <Aggregate test_range.adb:7:28-7:47>
   type:       None
 Expr: <BinOp test_range.adb:7:29-7:40>
@@ -60,7 +60,7 @@ Expr: <Id "Blue" test_range.adb:7:36-7:40>
   type:       <TypeDecl ["Color"] test_range.adb:3:4-3:37>
 Expr: <Int test_range.adb:7:44-7:46>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ObjectDecl ["S"] test_range.adb:9:4-9:16>
 *******************************************************************
@@ -91,7 +91,7 @@ Resolving xrefs for node <ParamAssoc test_range.adb:11:25-11:26>
 
 Expr: <Int test_range.adb:11:25-11:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <ForLoopStmt test_range.adb:12:7-14:16>
 ****************************************************************
@@ -115,7 +115,7 @@ Resolving xrefs for node <ParamAssoc test_range.adb:12:28-12:29>
 
 Expr: <Int test_range.adb:12:28-12:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:119:3-119:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
 
 Resolving xrefs for node <AssignStmt test_range.adb:13:10-13:27>
 ****************************************************************

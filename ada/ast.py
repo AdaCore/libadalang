@@ -2098,7 +2098,7 @@ class BasicDecl(AdaNode):
 
             Entity.parent_basic_decl
             ._.fully_qualified_name_impl.then(lambda fqn: If(
-                Self.is_a(T.GenericPackageInternal),
+                Self.is_a(T.GenericPackageInternal, T.GenericSubpInternal),
                 fqn,
                 fqn.concat(Entity.defining_name._.as_single_tok_node_array)
             ))

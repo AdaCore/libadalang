@@ -1,0 +1,8 @@
+type: bugfix
+title: Subtypes with inherited user-defined indexing
+description: |
+    This change fixes a bug in Libadalang's name resolution mechanism where
+    user-defined indexing on a type would not be propagated to its subtypes,
+    which in turn would make name resolution fail on expressions involving
+    indexing of an instance of such a subtype.
+date: 2021-03-22

@@ -5661,6 +5661,16 @@ class BaseSubtypeDecl(BaseTypeDecl):
     is_private = Property(Entity.from_type_bound.is_private)
     root_type = Property(Entity.get_type.root_type)
 
+    has_ud_indexing = Property(
+        Entity.from_type_bound.has_ud_indexing
+    )
+    constant_indexing_fns = Property(
+        Entity.from_type_bound.constant_indexing_fns
+    )
+    variable_indexing_fns = Property(
+        Entity.from_type_bound.variable_indexing_fns
+    )
+
 
 class SubtypeDecl(BaseSubtypeDecl):
     """

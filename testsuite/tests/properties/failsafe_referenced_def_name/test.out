@@ -13,4 +13,7 @@ Result: <RefdDef def_name=None kind=noref>
 Eval 'node.p_failsafe_referenced_def_name()' on node <Id "F" test.adb:21:7-21:8>
 Result: <RefdDef def_name=None kind=error>
 
+Eval 'node.p_failsafe_referenced_def_name()' on node <Id "Size" test.adb:25:8-25:12>
+Result: <RefdDef def_name=None kind=noref>
+
 

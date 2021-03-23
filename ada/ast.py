@@ -9392,7 +9392,13 @@ class Name(Expr):
             ).then(lambda res: RefdDecl.new(
                 decl=res.decl._.wrap_public_reference,
                 kind=res.kind
-            ))
+            ).then(lambda res: If(
+                # Never return a null node with a Precise result: this
+                # indicates that it should be a NoRef (e.g. builtin operator).
+                res.decl.is_null & (res.kind == RefResultKind.Precise),
+                No(RefdDecl),
+                res
+            )))
         )
 
     designated_type_impl = Property(

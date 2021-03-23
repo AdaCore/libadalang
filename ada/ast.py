@@ -9378,12 +9378,17 @@ class Name(Expr):
                 )),
 
                 # No fallback path
-                RefdDecl.new(
-                    decl=Self.logic_val(Entity, Self.ref_var)
-                    .value.cast_or_raise(T.BasicDecl.entity),
-                    kind=RefResultKind.Precise
-                )
-
+                Let(lambda v=Self.logic_val(Entity, Self.ref_var): If(
+                    v.success,
+                    RefdDecl.new(
+                        decl=v.value.cast_or_raise(T.BasicDecl.entity),
+                        kind=RefResultKind.Precise
+                    ),
+                    RefdDecl.new(
+                        decl=No(BasicDecl.entity),
+                        kind=RefResultKind.Error
+                    )
+                ))
             ).then(lambda res: RefdDecl.new(
                 decl=res.decl._.wrap_public_reference,
                 kind=res.kind

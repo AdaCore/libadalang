@@ -10,4 +10,7 @@ Result: <RefdDef def_name=None kind=error>
 Eval 'node.p_defining_name.p_failsafe_referenced_def_name()' on node <ObjectDecl ["D"] test.adb:17:4-17:16>
 Result: <RefdDef def_name=None kind=noref>
 
+Eval 'node.p_failsafe_referenced_def_name()' on node <Id "F" test.adb:21:7-21:8>
+Result: <RefdDef def_name=None kind=error>
+
 

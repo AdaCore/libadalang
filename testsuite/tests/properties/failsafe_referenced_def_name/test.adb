@@ -16,6 +16,10 @@ procedure Test is
 
    D : Integer;
    --% node.p_defining_name.p_failsafe_referenced_def_name()
+
+   E : Integer :=
+      F  --% node.p_failsafe_referenced_def_name()
+      ;
 begin
    null;
 end Test;

@@ -1,0 +1,18 @@
+type: api-change
+title: Consolidate meaning of RefResultKind values
+description: |
+    Until now, the meaning of the different RefResultKind values that could
+    be returned by e.g a ``P_Failsafe_Referenced_Decl`` query was a bit
+    chaotic. For example, ``Precise`` could be returned together with a null
+    node as value. ``Error`` would be sometimes returned for queries made on
+    names that were not referenced instead of ``NoRef``. This change sanitizes
+    the output so that:
+
+    - ``NoRef`` is always returned for queries made on names that are not
+      references (e.g. defining names, attribute names) or references to
+      entities that have no declaration (e.g. built-in operators)
+    - ``Error`` is reserved to cases where Libadalang fails to resolve the
+      name, either because of an internal problem or because of invalid
+      input.
+    - ``Precise`` is never returned with a null value.
+date: 2021-03-23

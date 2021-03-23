@@ -13,6 +13,9 @@ procedure Test is
    C : Integer :=
      Barz --% $node.p_failsafe_referenced_def_name(True)
        (12);
+
+   D : Integer;
+   --% node.p_defining_name.p_failsafe_referenced_def_name()
 begin
    null;
 end Test;

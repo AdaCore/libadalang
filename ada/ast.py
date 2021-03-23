@@ -9347,13 +9347,10 @@ class Name(Expr):
         already resolved. INTERNAL USE ONLY.
         """
         return If(
-            # First, error out on people trying to call that on a defining
-            # name. TODO: why not return self's decl?
+            # First, check whether the name is defining, in which case it
+            # cannot be a reference.
             Entity.is_defining,
-            PropertyError(
-                RefdDecl,
-                "Cannot call referenced_decl on a defining name"
-            ),
+            No(RefdDecl),
 
             If(
                 imprecise_fallback,

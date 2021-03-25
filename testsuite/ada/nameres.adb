@@ -1,6 +1,7 @@
 with Ada.Calendar;                    use Ada.Calendar;
 with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Vectors;
+with Ada.Environment_Variables;
 with Ada.Exceptions;
 with Ada.Strings.Unbounded;           use Ada.Strings.Unbounded;
 with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
@@ -15,6 +16,7 @@ with GNATCOLL.Opt_Parse;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
+with Langkit_Support.Lexical_Envs;
 with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
 with Langkit_Support.Text;           use Langkit_Support.Text;
 
@@ -170,9 +172,12 @@ procedure Nameres is
          Natural,
          Default_Val => Langkit_Support.Adalog.Default_Timeout_Ticks_Number);
 
-      package No_Lookup_Cache is new Parse_Flag
+      package Lookup_Cache_Mode is new Parse_Enum_Option
         (App.Args.Parser,
-         Long => "--no-lookup-cache", Help => "Deactivate lookup cache");
+         Long        => "--lookup-cache-mode",
+         Arg_Type    => Langkit_Support.Lexical_Envs.Lookup_Cache_Kind,
+         Default_Val => Langkit_Support.Lexical_Envs.Full,
+         Help        => "Set the lookup cache mode (ADVANCED)");
 
       package Trace is new Parse_Flag
         (App.Args.Parser, "-T", "--trace",
@@ -182,6 +187,16 @@ procedure Nameres is
         (App.Args.Parser, "-D", "--debug",
          Help => "Debug logic equation solving");
    end Args;
+
+   package Env renames Ada.Environment_Variables;
+
+   function Lookup_Cache_Mode
+     return Langkit_Support.Lexical_Envs.Lookup_Cache_Kind
+   is
+     (if Env.Exists ("LAL_NAMERES_LOOKUP_CACHE_MODE")
+      then Langkit_Support.Lexical_Envs.Lookup_Cache_Kind'Value
+        (Env.Value ("LAL_NAMERES_LOOKUP_CACHE_MODE"))
+      else Args.Lookup_Cache_Mode.Get);
 
    function Quiet return Boolean is
       (Args.Quiet.Get or else Args.JSON.Get or else Args.Time.Get);
@@ -663,9 +678,7 @@ procedure Nameres is
          GNATCOLL.Memory.Configure (Activate_Monitor => True);
       end if;
 
-      if Args.No_Lookup_Cache.Get then
-         Disable_Lookup_Cache (True);
-      end if;
+      Set_Lookup_Cache_Mode (Lookup_Cache_Mode);
 
       if Args.Trace.Get then
          Set_Debug_State (Trace);

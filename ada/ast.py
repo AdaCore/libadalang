@@ -6493,7 +6493,8 @@ class Pragma(AdaNode):
             Entity.args.at(1).assoc_expr.cast_or_raise(T.Name),
             Entity.id.name_symbol.any_of(
                 'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline',
-                'Volatile', 'Unchecked_Union'
+                'Volatile', 'Unchecked_Union', 'Atomic', 'Atomic_Components',
+                'No_Return',
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.BaseId),
 

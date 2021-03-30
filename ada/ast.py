@@ -6542,17 +6542,19 @@ class Pragma(AdaNode):
         #     procedure Foo;
         #     procedure Foo (A : Integer);
         #     pragma Inline (Foo);
-        return Entity.associated_entity_name.then(lambda name: Let(
-            lambda p=Entity.associated_decls_helper._or(top_level_decl): If(
-                Not(p.equals(No(T.BasicDecl.entity.array))),
-                p,
-                enclosing_program_unit.then(lambda epu: If(
-                    epu.defining_name.name_matches(name),
-                    epu.singleton,
-                    No(BasicDecl.entity.array)
-                ), default_val=top_level_decl)
-            )
-        ),
+        return Entity.associated_entity_name.then(
+            lambda name: Let(
+                lambda p=Entity.associated_decls_helper._or(top_level_decl):
+                If(
+                    Not(p.equals(No(T.BasicDecl.entity.array))),
+                    p,
+                    enclosing_program_unit.then(lambda epu: If(
+                        epu.defining_name.name_matches(name),
+                        epu.singleton,
+                        No(BasicDecl.entity.array)
+                    ), default_val=top_level_decl)
+                )
+            ),
             # If no name, then program unit pragma necessarily
             default_val=enclosing_program_unit.singleton
         )

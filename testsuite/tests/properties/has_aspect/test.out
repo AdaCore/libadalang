@@ -22,4 +22,13 @@ Result: True
 Eval 'node.p_has_aspect('small')' on node <TypeDecl ["Angle"] test.adb:34:4-34:51>
 Result: True
 
+Eval 'node.p_has_aspect("pre")' on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+Result: True
+
+Eval 'node.p_has_aspect("pre'class")' on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+Result: True
+
+Eval 'node.p_has_aspect("invariant")' on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+Result: True
+
 

@@ -34,6 +34,15 @@ procedure Test is
    type Angle is delta Pi/2.0**31 range -Pi .. Pi;
    --% $node.p_has_aspect('small')
    for Angle'Small use 0.001;
+
+   function Foo (X : Integer) return Boolean is (True);
+   function Bar (X : Integer) return Integer is (42)
+      with Pre => Foo (X),
+           Pre'Class => Foo (X),
+           Invariant => Foo (X);
+   --% node.p_has_aspect("pre")
+   --% node.p_has_aspect("pre'class")
+   --% node.p_has_aspect("invariant")
 begin
    null;
 end Test;

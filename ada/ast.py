@@ -1491,6 +1491,23 @@ class BasicDecl(AdaNode):
             No(T.Pragma.list.entity)
         )
 
+    @langkit_property(return_type=Aspect,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_aspect_impl(name=Symbol):
+        """
+        Return the aspect with the name ``name`` associated to this specific
+        entity part.
+        """
+        return Entity.get_pragma(name).then(
+            lambda p: Aspect.new(
+                exists=True, node=p, value=p.args._.at(1)._.assoc_expr
+            )
+        )._or(Entity.get_aspect_assoc(name).then(
+            lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)
+        ))._or(Entity.get_representation_clause(name).then(
+            lambda rc: Aspect.new(exists=True, node=rc, value=rc.expr)
+        ))
+
     @langkit_property(return_type=Aspect, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
     def get_aspect(name=Symbol):
@@ -1502,17 +1519,21 @@ class BasicDecl(AdaNode):
 
         This will return the syntactic node corresponding to attribute
         directly.
+
+        Note: for some aspects (e.g. Inline), Libadalang will check if they are
+        defined on any part of the entity.
         """
-        return (
-            Entity.get_pragma(name).then(
-                lambda p: Aspect.new(
-                    exists=True, node=p, value=p.args._.at(1)._.assoc_expr
-                )
-            )._or(Entity.get_aspect_assoc(name).then(
-                lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)
-            ))._or(Entity.get_representation_clause(name).then(
-                lambda rc: Aspect.new(exists=True, node=rc, value=rc.expr)
-            ))
+        parts_to_check = Var(If(
+            # For now, only 'Inline' is known to work on all parts. The list
+            # will grow as we discover more of these.
+            name.any_of('Inline'),
+            Entity.all_parts,
+            Entity.singleton
+        ))
+        return parts_to_check.map(
+            lambda p: p.get_aspect_impl(name)
+        ).find(
+            lambda a: a.exists
         )
 
     @langkit_property(return_type=Bool, public=True,

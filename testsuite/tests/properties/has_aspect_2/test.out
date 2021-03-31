@@ -1,0 +1,13 @@
+Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet0"] test.adb:5:4-5:29>
+Result: False
+
+Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet1"] test.adb:8:4-9:19>
+Result: True
+
+Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet2"] test.adb:15:4-15:29>
+Result: True
+
+Eval 'node.p_has_aspect('inline')' on node <SubpDecl ["Pouet3"] test.adb:19:7-19:24>
+Result: True
+
+

@@ -1346,6 +1346,47 @@ class BasicDecl(AdaNode):
             lambda pp: pp.canonical_part, default_val=Entity
         )
 
+    @langkit_property(return_type=T.BasicDecl.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def all_previous_parts():
+        """
+        Return all previous parts of this entity, where the first part
+        is at the beginning of the array.
+        """
+        return Entity.previous_part_for_decl.then(
+            lambda pp: If(
+                Entity == pp,
+                No(BasicDecl.entity.array),
+                pp.all_previous_parts.concat(pp.singleton)
+            )
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def all_next_parts():
+        """
+        Return all next parts of this entity, where the last part is at the
+        end of the array.
+        """
+        return Entity.next_part_for_decl.then(
+            lambda np: If(
+                Entity == np,
+                No(BasicDecl.entity.array),
+                np.singleton.concat(np.all_next_parts)
+            )
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity.array, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def all_parts():
+        """
+        Return all parts that define this entity, sorted from first part to
+        last part.
+        """
+        prevs = Var(Entity.all_previous_parts)
+        nexts = Var(Entity.all_next_parts)
+        return prevs.concat(Entity.singleton).concat(nexts)
+
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def is_static_decl():
         """
@@ -2035,7 +2076,8 @@ class BasicDecl(AdaNode):
             Entity.children_env
         ).get_first(
             If(Self.is_a(BasicSubpDecl), Self.name_symbol, '__nextpart'),
-            lookup=LK.flat,
+            # Use minimal so it doesn't fetch the symbol from a parent env
+            lookup=LK.minimal,
             categories=noprims
         ).cast(T.BasicDecl)
 

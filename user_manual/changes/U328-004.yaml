@@ -1,0 +1,8 @@
+type: bugfix
+title: Fix P_Has_Aspect property for Pre/Post aspects
+description: |
+    This change fixes a bug where evaluating this property on a subprogram
+    with a precondition or a postcondition using ``Pre`` or ``Post`` as
+    argument would crash due to Libadalang trying to evaluate the
+    expression in the contract.
+date: 2021-03-31

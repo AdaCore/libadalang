@@ -107,14 +107,23 @@ class AdaNode(ASTNode):
         """
         return String("")
 
+    @langkit_property(return_type=Bool)
+    def is_contract_aspect(name=Symbol):
+        return name.any_of(
+            "Pre", "Pre'Class", "Post", "Post'Class", "Refined_Post",
+            "Invariant", "Invariant'Class",
+            "Type_Invariant", "Type_Invariant'Class",
+            "Predicate", "Static_Predicate", "Dynamic_Predicate",
+            "Default_Initial_Condition",
+            "Contract_Cases", "Test_Case",
+            "Global", "Refined_Global", "Refined_State",
+            "Depends", "Refined_Depends",
+            "Predicate_Failure"
+        )
+
     in_contract = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
-            lambda a: a.id.as_bare_entity.name_symbol.any_of(
-                'Pre', 'Post', 'Type_Invariant',
-                'Predicate', 'Static_Predicate', 'Dynamic_Predicate',
-                'Test_Case', 'Global', 'Refined_Global',
-                'Depends', 'Refined_Depends', 'Refined_State'
-            )
+            lambda a: Self.is_contract_aspect(a.id.as_bare_entity.name_symbol)
         )
     ).is_null))
 
@@ -1476,8 +1485,13 @@ class BasicDecl(AdaNode):
         """
         a = Var(Entity.get_aspect(name))
 
-        return And(
-            a.exists,
+        return a.exists & If(
+            Self.is_contract_aspect(name),
+
+            # We don't want to evaluate the predicate condition to determine
+            # if its present.
+            True,
+
             a.value.then(lambda val: Or(
                 # Only check the value of the expression if it is determined to
                 # be of a boolean type, so we don't erroneously try to cast a

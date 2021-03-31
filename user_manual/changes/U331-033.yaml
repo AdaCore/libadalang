@@ -1,0 +1,7 @@
+type: new-feature
+title: Introduce ``P_All_Parts`` property
+description: |
+    This property will return all parts of the given entity. For example,
+    when called on a subprogram, it will return its spec, body stub and body,
+    as long as any of these is defined.
+date: 2021-03-31

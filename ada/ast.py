@@ -11435,7 +11435,7 @@ class BaseId(SingleTokNode):
         return Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
-            from_node=If(Self.in_contract, No(T.AdaNode), Self)
+            from_node=Self.origin_node
         ).cast(T.BasicDecl).then(
             lambda bd: If(
                 bd._.is_package, Entity.pkg_env(bd), bd.defining_env
@@ -11455,7 +11455,7 @@ class BaseId(SingleTokNode):
         env_el = Var(Self.env_get_first_visible(
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
-            from_node=If(Self.in_contract, No(T.AdaNode), Self),
+            from_node=Self.origin_node,
         )).cast(T.BasicDecl)
 
         return If(
@@ -11663,10 +11663,8 @@ class BaseId(SingleTokNode):
             env,
             Self.symbol,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
-            # If we are in an aspect, then lookup is not sequential.
-            # TODO: The fact that this is here is ugly, and also the logic is
-            # probably wrong.
-            from_node=If(Self.in_contract, No(T.AdaNode), Self)
+            # If we are in an aspect, then lookup is not sequential
+            from_node=Self.origin_node
         ))
 
         # TODO: there is a big smell here: We're doing the filtering for parent

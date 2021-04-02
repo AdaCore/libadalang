@@ -2,3 +2,14 @@
 
 for Switches ("libadalang-unit_files.adb") use
    Common_Ada_Cargs & Manual_Ada_Cargs & ("-O1");
+
+--  Code for properties are just too big, which leads GCC to print:
+--
+--  libadalang-implementation.adb:[...] note: variable tracking size limit
+--     exceeded with '-fvar-tracking-assignments', retrying without
+--
+--  Disabling var-tracking from the start saves compilation time (2min50 down
+--  to 2min30 on a standard development machine).
+
+for Switches ("libadalang-implementation.adb") use
+   Common_Ada_Cargs & Generated_Ada_Cargs & ("-fno-var-tracking-assignments");

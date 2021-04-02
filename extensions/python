@@ -29,7 +29,10 @@ def doc_name(n):
     ref_decl = n.p_basic_decl if n.p_is_defining else n.p_referenced_decl()
     ref_decl_fqn = ref_decl.p_fully_qualified_name
 
-    enclosing_package = next((p for p in n.parents if p.is_a(BasePackageDecl)), None)
+    enclosing_package = next(
+        (p for p in n.parents() if p.is_a(BasePackageDecl)),
+        None
+    )
 
     if enclosing_package is None or enclosing_package == ref_decl:
         return ref_decl_fqn

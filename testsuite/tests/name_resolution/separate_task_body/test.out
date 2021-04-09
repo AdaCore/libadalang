@@ -12,7 +12,7 @@ Expr: <Id "Ignore_String" t-tsk.adb:5:7-5:20>
   type:       None
 Expr: <AttributeRef t-tsk.adb:5:22-5:29>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "A" t-tsk.adb:5:22-5:23>
   references: <DefiningName t.adb:2:4-2:5>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>

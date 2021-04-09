@@ -11,13 +11,13 @@ Expr: <BinOp testloop.adb:5:26-5:33>
   type:       <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
 Expr: <Int testloop.adb:5:26-5:27>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <OpDoubleDot ".." testloop.adb:5:28-5:30>
   references: None
   type:       None
 Expr: <Int testloop.adb:5:31-5:33>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <AssignStmt testloop.adb:6:7-6:14>
 ***********************************************************

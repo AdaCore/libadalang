@@ -17,7 +17,7 @@ Expr: <OpPlus "+" test_target.adb:4:11-4:12>
   type:       None
 Expr: <Int test_target.adb:4:13-4:14>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 
 Done.

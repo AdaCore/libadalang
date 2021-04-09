@@ -1,0 +1,8 @@
+type: bugfix
+title: Add ``Long_Long_Long_Integer`` to standard unit
+description: |
+    This change adds the ``Long_Long_Long_Integer`` declaration to
+    Libadalang's standard unit, so that it is available during name
+    resolution. This fixes name resolution failures in the GNAT runtime
+    library.
+date: 2021-04-09

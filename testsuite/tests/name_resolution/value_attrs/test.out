@@ -18,7 +18,7 @@ Expr: <Id "Value" test.adb:2:27-2:32>
   type:       None
 Expr: <Str ""123"" test.adb:2:34-2:39>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <ObjectDecl ["B"] test.adb:5:4-5:46>
 *************************************************************
@@ -37,7 +37,7 @@ Expr: <Id "Wide_Value" test.adb:5:27-5:37>
   type:       None
 Expr: <Str ""123"" test.adb:5:39-5:44>
   references: None
-  type:       <TypeDecl ["Wide_String"] __standard:106:3-107:39>
+  type:       <TypeDecl ["Wide_String"] __standard:107:3-108:39>
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:8:4-8:51>
 *************************************************************
@@ -56,7 +56,7 @@ Expr: <Id "Wide_Wide_Value" test.adb:8:27-8:42>
   type:       None
 Expr: <Str ""123"" test.adb:8:44-8:49>
   references: None
-  type:       <TypeDecl ["Wide_Wide_String"] __standard:108:3-109:44>
+  type:       <TypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
 
 
 Done.

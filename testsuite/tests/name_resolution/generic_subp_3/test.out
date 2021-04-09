@@ -18,7 +18,7 @@ Expr: <Id "Foo" test.adb:26:12-26:15>
   type:       None
 Expr: <Int test.adb:26:17-26:19>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 
 Done.

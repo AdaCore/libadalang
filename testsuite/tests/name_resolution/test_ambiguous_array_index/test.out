@@ -15,10 +15,10 @@ Expr: <Id "Arr" testar.adb:12:22-12:25>
   type:       <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
 Expr: <Int testar.adb:12:27-12:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Int testar.adb:12:31-12:33>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 
 Done.

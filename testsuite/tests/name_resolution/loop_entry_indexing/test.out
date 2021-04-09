@@ -23,13 +23,13 @@ Expr: <Id "Loop_Entry" increment_array.adb:6:35-6:45>
   type:       None
 Expr: <Int increment_array.adb:6:47-6:49>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <OpEq "=" increment_array.adb:6:51-6:52>
   references: None
   type:       None
 Expr: <Int increment_array.adb:6:53-6:55>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 
 Done.

@@ -15,7 +15,7 @@ Expr: <Id "D" test_accesses_tagged.adb:22:6-22:7>
   type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
 Expr: <Int test_accesses_tagged.adb:22:11-22:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:25:4-25:14>
 *************************************************************************
@@ -31,7 +31,7 @@ Expr: <Id "B" test_accesses_tagged.adb:25:6-25:7>
   type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
 Expr: <Int test_accesses_tagged.adb:25:11-25:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:28:4-28:18>
 *************************************************************************
@@ -50,7 +50,7 @@ Expr: <Id "D" test_accesses_tagged.adb:28:10-28:11>
   type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
 Expr: <Int test_accesses_tagged.adb:28:15-28:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:31:4-31:18>
 *************************************************************************
@@ -69,7 +69,7 @@ Expr: <Id "B" test_accesses_tagged.adb:31:10-31:11>
   type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
 Expr: <Int test_accesses_tagged.adb:31:15-31:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:34:4-34:14>
 *************************************************************************
@@ -85,7 +85,7 @@ Expr: <Id "D" test_accesses_tagged.adb:34:6-34:7>
   type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
 Expr: <Int test_accesses_tagged.adb:34:11-34:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:37:4-37:14>
 *************************************************************************
@@ -101,7 +101,7 @@ Expr: <Id "B" test_accesses_tagged.adb:37:6-37:7>
   type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
 Expr: <Int test_accesses_tagged.adb:37:11-37:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 
 Done.

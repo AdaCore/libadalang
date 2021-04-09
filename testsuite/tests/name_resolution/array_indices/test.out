@@ -36,10 +36,10 @@ Expr: <Id "Yellow" test_array_indices.adb:5:17-5:23>
   type:       <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
 Expr: <Int test_array_indices.adb:5:27-5:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Int test_array_indices.adb:5:41-5:43>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <NullStmt test_array_indices.adb:7:4-7:9>
 ******************************************************************

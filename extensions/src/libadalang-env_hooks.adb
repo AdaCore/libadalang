@@ -54,13 +54,15 @@ package body Libadalang.Env_Hooks is
      "  type Integer is range -(2 ** 31) .. +(2 ** 31 - 1);" & ASCII.LF &
      "  subtype Natural  is Integer range 0 .. +(2 ** 31 - 1);" & ASCII.LF &
      "  subtype Positive is Integer range 1 .. +(2 ** 31 - 1);" & ASCII.LF &
-     "  type Short_Short_Integer is range -(2 ** 7) .. +(2 ** 7 - 1);"
+     "  type Short_Short_Integer    is range -(2 ** 7) .. +(2 ** 7 - 1);"
      & ASCII.LF &
-     "  type Short_Integer       is range -(2 ** 15) .. +(2 ** 15 - 1);"
+     "  type Short_Integer          is range -(2 ** 15) .. +(2 ** 15 - 1);"
      & ASCII.LF &
-     "  type Long_Integer        is range -(2 ** 31) .. +(2 ** 31 - 1);"
+     "  type Long_Integer           is range -(2 ** 31) .. +(2 ** 31 - 1);"
      & ASCII.LF &
-     "  type Long_Long_Integer   is range -(2 ** 63) .. +(2 ** 63 - 1);"
+     "  type Long_Long_Integer      is range -(2 ** 63) .. +(2 ** 63 - 1);"
+     & ASCII.LF &
+     "  type Long_Long_Long_Integer is range -(2 ** 127) .. +(2 ** 127 - 1);"
      & ASCII.LF &
      "  type Short_Float     is digits 6" & ASCII.LF &
      "    range -16#0.FFFF_FF#E+32 .. 16#0.FFFF_FF#E+32;" & ASCII.LF &

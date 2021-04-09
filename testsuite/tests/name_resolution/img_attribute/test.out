@@ -5,11 +5,11 @@ Resolving xrefs for node <ObjectDecl ["S"] foo.adb:4:4-4:33>
 ************************************************************
 
 Expr: <Id "String" foo.adb:4:17-4:23>
-  references: <DefiningName __standard:104:8-104:14>
+  references: <DefiningName __standard:105:8-105:14>
   type:       None
 Expr: <AttributeRef foo.adb:4:27-4:32>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "I" foo.adb:4:27-4:28>
   references: <DefiningName foo.adb:2:4-2:5>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>

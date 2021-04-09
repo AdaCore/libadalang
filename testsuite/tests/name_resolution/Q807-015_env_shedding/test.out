@@ -21,7 +21,7 @@ Expr: <Id "Count" main.adb:6:26-6:31>
   type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Int main.adb:6:35-6:36>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 
 Done.

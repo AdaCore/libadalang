@@ -105,7 +105,7 @@ Expr: <Id "Integer" state_xrefs.ads:13:13-13:20>
   type:       None
 Expr: <Int state_xrefs.ads:13:24-13:28>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <EndName state_xrefs.ads:14:8-14:22>
 *************************************************************
@@ -168,7 +168,7 @@ Expr: <Id "Integer" state_xrefs.adb:4:9-4:16>
   type:       None
 Expr: <Int state_xrefs.adb:4:20-4:21>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <ObjectDecl ["C2"] state_xrefs.adb:5:4-5:22>
 *********************************************************************
@@ -178,7 +178,7 @@ Expr: <Id "Integer" state_xrefs.adb:5:9-5:16>
   type:       None
 Expr: <Int state_xrefs.adb:5:20-5:21>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <SubpSpec state_xrefs.adb:7:4-7:61>
 ************************************************************
@@ -289,7 +289,7 @@ Expr: <Id "Integer" state_xrefs.adb:16:12-16:19>
   type:       None
 Expr: <Int state_xrefs.adb:16:23-16:24>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <EndName state_xrefs.adb:17:8-17:22>
 *************************************************************

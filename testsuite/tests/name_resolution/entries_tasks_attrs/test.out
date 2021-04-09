@@ -12,7 +12,7 @@ Expr: <Id "Foo" test.adb:12:7-12:10>
   type:       None
 Expr: <AttributeRef test.adb:12:12-12:19>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Id "E" test.adb:12:12-12:13>
   references: <DefiningName test.adb:7:13-7:14>
   type:       None

@@ -31,7 +31,7 @@ Expr: <Id "A" entryfam.adb:23:6-23:7>
   type:       None
 Expr: <Int entryfam.adb:23:9-23:10>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Int entryfam.adb:23:13-23:14>
   references: None
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>

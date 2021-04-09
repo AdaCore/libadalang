@@ -9,10 +9,10 @@ Resolving xrefs for node <ExprFunction ["Foo"] test.adb:2:4-2:42>
 *****************************************************************
 
 Expr: <ParenExpr test.adb:2:35-2:41>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Int test.adb:2:36-2:40>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <SubpSpec test.adb:2:4-2:31>
 *****************************************************
@@ -25,16 +25,16 @@ Resolving xrefs for node <ExprFunction ["Foo"] test.adb:3:4-3:44>
 *****************************************************************
 
 Expr: <ParenExpr test.adb:3:33-3:43>
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
 Expr: <Real test.adb:3:34-3:42>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:121:3-121:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
 
 Resolving xrefs for node <SubpSpec test.adb:3:4-3:29>
 *****************************************************
 
 Expr: <Id "Float" test.adb:3:24-3:29>
-  references: <DefiningName __standard:13:8-13:13>
+  references: <DefiningName __standard:14:8-14:13>
   type:       None
 
 Resolving xrefs for node <TypeDecl ["A"] test.adb:4:4-4:42>
@@ -45,10 +45,10 @@ Resolving xrefs for node <ArrayTypeDef test.adb:4:14-4:41>
 **********************************************************
 
 Expr: <BinOp test.adb:4:21-4:29>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Int test.adb:4:21-4:22>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <OpDoubleDot ".." test.adb:4:23-4:25>
   references: None
   type:       None

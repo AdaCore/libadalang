@@ -12,7 +12,7 @@ Expr: <Id "Ignore_String" test_target_name.adb:4:4-4:17>
   type:       None
 Expr: <AttributeRef test_target_name.adb:4:19-4:39>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Standard" test_target_name.adb:4:19-4:27>
   references: None
   type:       None

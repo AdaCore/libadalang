@@ -55,7 +55,7 @@ Expr: <Id "Append" testvec.adb:10:6-10:12>
   type:       None
 Expr: <Int testvec.adb:10:14-10:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <CallStmt testvec.adb:11:4-11:18>
 **********************************************************
@@ -74,7 +74,7 @@ Expr: <Id "Append" testvec.adb:11:6-11:12>
   type:       None
 Expr: <Int testvec.adb:11:14-11:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <CallStmt testvec.adb:12:4-12:18>
 **********************************************************
@@ -93,7 +93,7 @@ Expr: <Id "Append" testvec.adb:12:6-12:12>
   type:       None
 Expr: <Int testvec.adb:12:14-12:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <CallStmt testvec.adb:13:4-13:18>
 **********************************************************
@@ -112,7 +112,7 @@ Expr: <Id "Append" testvec.adb:13:6-13:12>
   type:       None
 Expr: <Int testvec.adb:13:14-13:16>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 Resolving xrefs for node <ForLoopStmt testvec.adb:15:4-17:13>
 *************************************************************

@@ -14,13 +14,13 @@ Expr: <Id "A" rd.adb:14:18-14:19>
   type:       <TypeDecl ["N"] rd.adb:8:4-8:24>
 Expr: <Real rd.adb:14:21-14:25>
   references: None
-  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Real rd.adb:14:27-14:31>
   references: None
-  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Real rd.adb:14:33-14:37>
   references: None
-  type:       <TypeDecl ["Float"] __standard:13:3-14:51>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Int rd.adb:14:39-14:41>
   references: None
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>

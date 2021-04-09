@@ -35,7 +35,7 @@ Resolving xrefs for node <ParamSpec ["Name"] tests1.adb:6:47-6:60>
 ******************************************************************
 
 Expr: <Id "String" tests1.adb:6:54-6:60>
-  references: <DefiningName __standard:104:8-104:14>
+  references: <DefiningName __standard:105:8-105:14>
   type:       None
 
 Resolving xrefs for node <ExprFunction ["Is_Open"] tests1.adb:8:4-8:66>
@@ -76,7 +76,7 @@ Resolving xrefs for node <ParamSpec ["Line"] tests1.adb:10:42-10:55>
 ********************************************************************
 
 Expr: <Id "String" tests1.adb:10:49-10:55>
-  references: <DefiningName __standard:104:8-104:14>
+  references: <DefiningName __standard:105:8-105:14>
   type:       None
 
 Resolving xrefs for node <SubpSpec tests1.adb:12:4-12:38>
@@ -139,7 +139,7 @@ Expr: <Id "x" tests1.adb:21:16-21:17>
   type:       <TypeDecl ["File_Type_Access"] tests1.adb:14:4-14:50>
 Expr: <Str ""lalala"" tests1.adb:21:23-21:31>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <EndName tests1.adb:22:8-22:12>
 ********************************************************
@@ -199,7 +199,7 @@ Expr: <Id "Out_File" tests1.adb:30:14-30:22>
   type:       <TypeDecl ["File_Kind"] tests1.adb:3:4-3:55>
 Expr: <Str ""test.txt"" tests1.adb:30:24-30:34>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <AssignStmt tests1.adb:32:4-32:18>
 ***********************************************************
@@ -257,7 +257,7 @@ Expr: <Id "f" tests1.adb:35:16-35:17>
   type:       <TypeDecl ["File_Type"] tests1.adb:2:4-2:34>
 Expr: <Str ""hello world"" tests1.adb:35:19-35:32>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <CallStmt tests1.adb:36:7-36:16>
 *********************************************************

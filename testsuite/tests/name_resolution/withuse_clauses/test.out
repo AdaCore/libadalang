@@ -26,7 +26,7 @@ Expr: <Id "Put_Line" testwu.adb:9:4-9:12>
   type:       None
 Expr: <Str ""LOL"" testwu.adb:9:14-9:19>
   references: None
-  type:       <TypeDecl ["String"] __standard:104:3-104:57>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 
 
 Done.

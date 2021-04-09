@@ -76,7 +76,7 @@ Expr: <Id "C" test_requeue.adb:51:36-51:37>
   type:       None
 Expr: <Int test_requeue.adb:51:39-51:40>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:120:3-120:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
 
 Done.

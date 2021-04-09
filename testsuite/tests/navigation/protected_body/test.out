@@ -1,0 +1,5 @@
+Eval 'node.p_decl_part()' on node <ProtectedBody ["P"] prot.adb:2:4-13:10>
+Result: <SingleProtectedDecl ["P"] prot.ads:4:4-9:10>
+
+
+

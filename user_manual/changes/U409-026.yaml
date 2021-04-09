@@ -1,0 +1,6 @@
+type: bugfix
+title: Fix navigation of protected bodies
+description: |
+    This change fixes a bug where calling ``P_Decl_Part`` on a protected body
+    which corresponding declaration was a SingleProtectedDecl would fail.
+date: 2021-04-09

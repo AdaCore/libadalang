@@ -2505,7 +2505,8 @@ class Body(BasicDecl):
         Return the ProtectedDecl corresponding to this node.
         """
         return Entity.defining_name.env_elements.at(0)._.match(
-            lambda prot_decl=T.ProtectedTypeDecl: prot_decl,
+            lambda prot_type=T.ProtectedTypeDecl: prot_type,
+            lambda prot_decl=T.SingleProtectedDecl: prot_decl,
             lambda _: No(T.BasicDecl.entity)
         )
 

@@ -77,6 +77,19 @@ jobs:
       - name: Build Libadalang and its dependencies (non-Windows)
         if: ${{ runner.os != 'Windows' }}
         run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
+      - name: Keep artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ runner.os }}-${{ matrix.debug }}
+          path: '*.tar.gz'
+      - name: AWS S3 upload
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.GHA_CACHE_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.GHA_CACHE_SECRET}}
+          AWS_DEFAULT_REGION: eu-west-1
+        run: |
+            aws s3 cp . s3://adacore-gha-tray-eu-west-1/libadalang/ --recursive --exclude "*" --include "*.tar.gz" --sse=AES256
+            aws s3 ls s3://adacore-gha-tray-eu-west-1/libadalang/
       - name: Upload tar-ball to Bintray
         uses: reznikmm/upload-bintray-action@v4
         with:

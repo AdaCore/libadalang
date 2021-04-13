@@ -9,7 +9,10 @@ for Switches ("libadalang-unit_files.adb") use
 --     exceeded with '-fvar-tracking-assignments', retrying without
 --
 --  Disabling var-tracking from the start saves compilation time (2min50 down
---  to 2min30 on a standard development machine).
+--  to 2min30 on a standard development machine). Likewise for
+--  libadalang-introspection_implementation.adb.
 
 for Switches ("libadalang-implementation.adb") use
+   Common_Ada_Cargs & Generated_Ada_Cargs & ("-fno-var-tracking-assignments");
+for Switches ("libadalang-introspection_implementation.adb") use
    Common_Ada_Cargs & Generated_Ada_Cargs & ("-fno-var-tracking-assignments");

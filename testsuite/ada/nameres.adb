@@ -167,7 +167,8 @@ procedure Nameres is
       package Timeout is new Parse_Option
         (App.Args.Parser, "-t", "--timeout",
          "Timeout equation solving after N steps",
-         Natural, Default_Val => 100_000);
+         Natural,
+         Default_Val => Langkit_Support.Adalog.Default_Timeout_Ticks_Number);
 
       package No_Lookup_Cache is new Parse_Flag
         (App.Args.Parser,

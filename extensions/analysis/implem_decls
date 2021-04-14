@@ -2,6 +2,7 @@ type Resolution_Val is record
     Cache_Version : Natural;
     Rebindings    : Env_Rebindings;
     Return_Value  : Boolean;
+    Raised_Exc    : Boolean;
 end record;
 
 package Nameres_Maps is new Ada.Containers.Hashed_Maps

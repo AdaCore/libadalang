@@ -677,7 +677,15 @@ package body Libadalang.Implementation.Extensions is
         and then Element (C).Cache_Version >= Node.Unit.Context.Cache_Version
         and then Nameres_Maps.Element (C).Rebindings = E_Info.Rebindings
       then
-         return Nameres_Maps.Element (C).Return_Value;
+         declare
+            Res_Val : constant Resolution_Val := Nameres_Maps.Element (C);
+         begin
+            if Res_Val.Raised_Exc then
+               raise Property_Error with "Memoized Error";
+            end if;
+
+            return Nameres_Maps.Element (C).Return_Value;
+         end;
       end if;
 
       R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
@@ -689,12 +697,18 @@ package body Libadalang.Implementation.Extensions is
          Dec_Ref (R);
          Node.Unit.Nodes_Nameres.Include
            (Node,
-            (Node.Unit.Context.Cache_Version, E_Info.Rebindings, Res));
+            (Node.Unit.Context.Cache_Version, E_Info.Rebindings, Res, False));
       end return;
 
    exception
       when Property_Error =>
          Dec_Ref (R);
+         --  Memoize the exception result, to be able to re-raise a
+         --  property_error if this is called again with the same params.
+         Node.Unit.Nodes_Nameres.Include
+           (Node,
+            (Node.Unit.Context.Cache_Version,
+             E_Info.Rebindings, False, Raised_Exc => True));
          raise;
    end Ada_Node_P_Resolve_Own_Names;
 

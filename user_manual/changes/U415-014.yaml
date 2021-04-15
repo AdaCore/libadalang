@@ -1,0 +1,9 @@
+type: bugfix
+title: Make ``Next_Sibling`` and ``Previous_Sibling`` work on root nodes
+short_title: Next_Sibling and Previous_Sibling on root nodes
+description: |
+    The ``Next_Sibling`` and ``Previous_Sibling`` properties used to raise a
+    ``Property_Error`` exception when called on root nodes. They now just
+    return a null node, and their documentation has been updated to make this
+    explicit.
+date: 2021-04-15

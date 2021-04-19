@@ -27,6 +27,7 @@ with Ada.Strings.Wide_Wide_Unbounded;
 
 with GNATCOLL.GMP.Integers;
 
+with Langkit_Support.Adalog.Debug;
 with Langkit_Support.Bump_Ptr;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
@@ -606,9 +607,18 @@ package body Libadalang.Implementation.Extensions is
    begin
       Alloc_Logic_Vars (Node);
 
-      return Logic_Var'
+      return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (2)'Unrestricted_Access);
+           (Node.Expr_Logic_Vars) (2)'Unrestricted_Access)
+      do
+         if Langkit_Support.Adalog.Debug.Debug
+            and then Ret.Dbg_Name = null
+         then
+            Ret.Dbg_Name := new String'
+              (Image (Short_Text_Image (Node)) & "." & "P_Ref_Var");
+         end if;
+      end return;
+
    end Single_Tok_Node_P_Ref_Var;
 
    -------------------------------------
@@ -621,9 +631,17 @@ package body Libadalang.Implementation.Extensions is
    begin
       Alloc_Logic_Vars (Node);
 
-      return Logic_Var'
+      return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (3)'Unrestricted_Access);
+           (Node.Expr_Logic_Vars) (3)'Unrestricted_Access)
+      do
+         if Langkit_Support.Adalog.Debug.Debug
+            and then Ret.Dbg_Name = null
+         then
+            Ret.Dbg_Name := new String'
+              (Image (Short_Text_Image (Node)) & "." & "P_Subp_Spec_Var");
+         end if;
+      end return;
    end Single_Tok_Node_P_Subp_Spec_Var;
 
    ---------------------
@@ -635,9 +653,17 @@ package body Libadalang.Implementation.Extensions is
    begin
       Alloc_Logic_Vars (Node);
 
-      return Logic_Var'
+      return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (1)'Unrestricted_Access);
+           (Node.Expr_Logic_Vars) (1)'Unrestricted_Access)
+      do
+         if Langkit_Support.Adalog.Debug.Debug
+            and then Ret.Dbg_Name = null
+         then
+            Ret.Dbg_Name := new String'
+              (Image (Short_Text_Image (Node)) & "." & "P_Type_Var");
+         end if;
+      end return;
    end Expr_P_Type_Var;
 
    ----------------------------------

@@ -5196,16 +5196,15 @@ class TypeDecl(BaseTypeDecl):
             transitive_parent=False
         )
 
-    @langkit_property(return_type=T.inner_env_assoc.array, memoized=True,
-                      memoize_in_populate=True)
+    @lazy_field(return_type=T.inner_env_assoc.array)
     def direct_primitive_subps():
         """
         Return the list of all subprograms that are direct primitives of this
         type. We look for them in the public part and private part of the
         package this type is declared in.
         """
-        scope = Var(Entity.declarative_scope)
-        pkg_decls = Var(scope._.parent.as_entity._.match(
+        scope = Var(Self.declarative_scope)
+        pkg_decls = Var(scope._.parent.as_bare_entity._.match(
             lambda pkg_decl=BasePackageDecl:
             pkg_decl.public_part.decls.as_array.concat(
                 pkg_decl.private_part._.decls.as_array
@@ -5214,18 +5213,18 @@ class TypeDecl(BaseTypeDecl):
             lambda _: If(
                 # For a derived type, overriding primitives can be declared in
                 # scope even if it is not a package scope.
-                Entity.type_def.is_a(DerivedTypeDef),
-                Entity.parent.parent.parent.cast(DeclarativePart).then(
-                    lambda dp: dp.decls.as_array
+                Self.type_def.is_a(DerivedTypeDef),
+                Self.parent.parent.parent.cast(DeclarativePart).then(
+                    lambda dp: dp.as_bare_entity.decls.as_array
                 ),
                 No(AdaNode.entity.array)
             )
         ))
-        enum_lits = Var(Entity.type_def.cast(EnumTypeDef).then(
+        enum_lits = Var(Self.type_def.cast(EnumTypeDef).then(
             lambda etf: etf.enum_literals.map(
                 lambda lit: T.inner_env_assoc.new(
-                    key=lit.defining_name.name_symbol,
-                    val=lit.node,
+                    key=lit.name.name_symbol,
+                    val=lit,
                     metadata=T.Metadata.new(primitive=Self)
                 )
             )
@@ -5242,7 +5241,7 @@ class TypeDecl(BaseTypeDecl):
             lambda decl:
             decl.cast(BasicDecl)
                 ._.subp_spec_or_null
-                ._.get_primitive_subp_types.contains(Entity)
+                ._.get_primitive_subp_types.contains(Self.as_bare_entity)
         ))
         return enum_lits.concat(prim_subps)
 
@@ -12823,8 +12822,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
             No(BaseTypeDecl.entity)
         )
 
-    @langkit_property(return_type=BaseTypeDecl.entity.array,
-                      memoized=True)
+    @langkit_property(return_type=BaseTypeDecl.entity.array, memoized=True,
+                      memoize_in_populate=True)
     def get_primitive_subp_types(canonicalize=(T.Bool, True)):
         """
         Return the types of which this subprogram is a primitive of. If

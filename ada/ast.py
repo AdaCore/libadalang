@@ -8601,6 +8601,23 @@ class GenericSubpInternal(BasicSubpDecl):
 
     env_spec = EnvSpec(add_env(names=Self.env_names))
 
+    @langkit_property(return_type=T.EnvRebindings)
+    def remove_rebindings(base=T.EnvRebindings, suffix=T.EnvRebindings):
+        """
+        If the rebindings in ``base`` end with ``suffix``, ``base`` is
+        returned without it. Otherwise ``base`` is returned as-is.
+        """
+        return Cond(
+            base.is_null | suffix.is_null,
+            base,
+
+            And(base.old_env == suffix.old_env,
+                base.new_env == suffix.new_env),
+            Self.remove_rebindings(base.get_parent, suffix.get_parent),
+
+            base
+        )
+
     @langkit_property(return_type=T.GenericSubpInstantiation.entity)
     def get_instantiation():
         """
@@ -8611,16 +8628,21 @@ class GenericSubpInternal(BasicSubpDecl):
             instantiation, but has been fetched through the formal generic
             subprogram, this will return None.
         """
-
         return Entity.info.rebindings.then(
             lambda rebindings: Let(
-                lambda inst_node=rebindings.new_env.env_node:
+                lambda inst_node=rebindings.new_env.env_node
+                .cast_or_raise(GenericSubpInstantiation):
+
                 T.GenericSubpInstantiation.entity.new(
-                    node=inst_node.cast_or_raise(T.GenericSubpInstantiation),
+                    node=inst_node,
                     info=T.entity_info.new(
                         # Since we return the instantiation itself, remove
                         # it from its rebindings.
-                        rebindings=Entity.info.rebindings.get_parent,
+                        rebindings=Self.remove_rebindings(
+                            Entity.info.rebindings,
+                            inst_node.as_bare_entity.designated_subp
+                            .info.rebindings
+                        ),
                         from_rebound=Entity.info.from_rebound,
                         md=T.Metadata.new()
                     )

@@ -60,6 +60,13 @@ To develop comfortably:
 * If you want to check memory issues, the testsuite has an option to track them
   using `Valgrind <http://valgrind.org/>`_.
 
+Regarding the version of these dependencies: Libadalang's development branch
+(``master`` branch on the Git repository) is built and tested using the
+development version of Langkit, of GNATcoll, and of GNATcoll's own
+dependencies, and their release cycles are synchronized. This means that in
+order to build Libdalang's branch ``X``, you need to install Langkit using the
+branch of the same name, and likewise for GNATcoll and its dependencies.
+
 
 Building the library
 --------------------

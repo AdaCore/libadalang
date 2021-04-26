@@ -10,4 +10,10 @@ Result: True
 Eval 'node.p_has_aspect('inline')' on node <SubpDecl ["Pouet3"] test.adb:19:7-19:24>
 Result: True
 
+Eval 'node.p_has_aspect('inline')' on node <GenericSubpDecl ["Pouet3"] test.adb:29:4-30:33>
+Result: True
+
+Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet3"] test.adb:33:4-33:29>
+Result: True
+
 

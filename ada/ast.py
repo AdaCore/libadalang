@@ -11882,7 +11882,8 @@ class Identifier(BaseId):
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
             'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
-            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding'
+            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding', 'Exponent',
+            'Machine_Radix'
         )
     )
 
@@ -12906,6 +12907,9 @@ class AttributeRef(Name):
                             'Machine_Rounding'),
             Entity.float_funcs_equation,
 
+            rel_name.any_of('Exponent', 'Machine_Radix'),
+            Entity.universal_int_equation,
+
             rel_name == 'Mod',
             Entity.mod_equation,
 
@@ -13111,6 +13115,20 @@ class AttributeRef(Name):
         return (
             Self.universal_real_bind(Self.type_var)
             & Entity.prefix.sub_equation
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def universal_int_equation():
+        typ = Var(Entity.prefix.name_designated_type)
+
+        return (
+            Entity.prefix.sub_equation
+            & Self.universal_int_bind(Self.type_var)
+            & Entity.args_list.logic_all(
+                lambda arg:
+                arg.expr.sub_equation
+                & Self.type_bind_val(arg.expr.type_var, typ)
+            )
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

@@ -1,0 +1,6 @@
+type: bugfix
+title: Add support for ``'Machine_Radix`` & ``'Exponent``
+description: |
+    This change adds name resolution support for the ``Machine_Radix`` and
+    ``Exponent`` attributes.
+date: 2021-04-26

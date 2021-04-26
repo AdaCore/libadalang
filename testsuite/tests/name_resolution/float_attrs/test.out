@@ -226,5 +226,43 @@ Expr: <Id "A" test_float_attrs.adb:32:41-32:42>
   references: <DefiningName test_float_attrs.adb:2:4-2:5>
   type:       <TypeDecl ["Float"] __standard:14:3-15:51>
 
+Resolving xrefs for node <ObjectDecl ["L"] test_float_attrs.adb:35:4-35:38>
+***************************************************************************
+
+Expr: <Id "Integer" test_float_attrs.adb:35:8-35:15>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:35:19-35:37>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Float" test_float_attrs.adb:35:19-35:24>
+  references: <DefiningName __standard:14:8-14:13>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Exponent" test_float_attrs.adb:35:25-35:33>
+  references: None
+  type:       None
+Expr: <Id "A" test_float_attrs.adb:35:35-35:36>
+  references: <DefiningName test_float_attrs.adb:2:4-2:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+
+Resolving xrefs for node <ObjectDecl ["M"] test_float_attrs.adb:38:4-38:43>
+***************************************************************************
+
+Expr: <Id "Integer" test_float_attrs.adb:38:8-38:15>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:38:19-38:42>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Float" test_float_attrs.adb:38:19-38:24>
+  references: <DefiningName __standard:14:8-14:13>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Machine_Radix" test_float_attrs.adb:38:25-38:38>
+  references: None
+  type:       None
+Expr: <Id "A" test_float_attrs.adb:38:40-38:41>
+  references: <DefiningName test_float_attrs.adb:2:4-2:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+
 
 Done.

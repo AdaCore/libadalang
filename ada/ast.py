@@ -7487,6 +7487,14 @@ class ObjectDecl(BasicDecl):
             No(T.BasicDecl.entity)
         )
 
+    @langkit_property()
+    def next_part_for_decl():
+        return Entity.private_part_decl
+
+    @langkit_property()
+    def previous_part_for_decl():
+        return Entity.public_part_decl
+
     xref_entry_point = Property(True)
 
 

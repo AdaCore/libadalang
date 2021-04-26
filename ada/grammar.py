@@ -1003,7 +1003,7 @@ A.add_rules(
     goto_stmt=GotoStmt("goto", cut(), A.static_name, sc()),
 
     exit_stmt=ExitStmt(
-        "exit", cut(), Opt(A.identifier), Opt("when", A.expr), sc()
+        "exit", cut(), Opt(A.static_name), Opt("when", A.expr), sc()
     ),
 
     return_stmt=ReturnStmt("return", Opt(A.expr), sc()),

@@ -31,6 +31,12 @@ procedure Test_Float_Attrs is
 
    K : Float := Float'Machine_Rounding (A);
    pragma Test_Statement;
+
+   L : Integer := Float'Exponent (A);
+   pragma Test_Statement;
+
+   M : Integer := Float'Machine_Radix (A);
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

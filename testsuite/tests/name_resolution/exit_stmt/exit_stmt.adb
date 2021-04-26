@@ -13,4 +13,10 @@ begin
       exit when Bar;
       pragma Test_Statement;
    end loop;
+
+   pragma Section ("Exit with fully qualified name");
+   L : Loop
+      exit Exit_Stmt.L;
+      pragma Test_Statement;
+   end loop L;
 end Exit_Stmt;

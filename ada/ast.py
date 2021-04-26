@@ -14058,7 +14058,7 @@ class ExitStmt(SimpleStmt):
     ``exit`` statement.
     """
 
-    loop_name = Field(type=T.Identifier)
+    loop_name = Field(type=T.Name)
     cond_expr = Field(type=T.Expr)
 
     @langkit_property()

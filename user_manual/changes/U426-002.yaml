@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix nameres of CallExprs to predefined operators
+description: |
+    This change fixes a bug where resolving a call to a predefined
+    operator made with call expression (as in ``"and" (A, B)``) would not
+    fail.
+date: 2021-04-26

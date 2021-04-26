@@ -1,0 +1,8 @@
+type: new-feature
+title: Navigation on constant object declarations
+description: |
+    This change implements the ``previous_part_for_decl`` and
+    ``next_part_for_decl`` properties on constant object declarations when
+    the object is first declared without its value in the public part of a
+    package and then completed with its value in the private part.
+date: 2021-04-26

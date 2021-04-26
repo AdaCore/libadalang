@@ -1984,6 +1984,11 @@ class BasicDecl(AdaNode):
         """
         Return True if self is a subprogram node in the general sense (which
         is, an entity that can be called). This includes separates and entries.
+
+        .. attention: This is a purely syntactic query and will return True for
+            everything that is a syntactic entity that can be called like a
+            subprogram in some contexts, even generic formal subprograms for
+            example.
         """
         return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl)
 

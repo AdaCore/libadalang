@@ -10140,7 +10140,7 @@ class CallExpr(Name):
             lambda params: Let(
                 lambda base_name_eq=Entity.name.base_name.then(
                     lambda n: n.sub_equation,
-                    default_val=LogicFalse()
+                    default_val=LogicTrue()
                 ): Cond(
                     (params.length == 2)
                     & rel_name.any_of('"="',  '"="', '"/="', '"<"', '"<="',

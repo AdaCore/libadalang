@@ -7922,6 +7922,12 @@ class GenericDecl(BasicDecl):
 
     annotations = Annotations(rebindable=True)
 
+    @langkit_property()
+    def get_aspect_assoc(name=Symbol):
+        # The aspect is actually on the Generic*Internal node, so forward
+        # the call to it.
+        return Entity.decl.get_aspect_assoc(name)
+
 
 class GenericSubpDecl(GenericDecl):
     """

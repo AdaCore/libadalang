@@ -188,7 +188,7 @@ class AdaNode(ASTNode):
         """
         Static method. Return the array of symbols joined by separator ``sep``.
         """
-        return Entity.string_join(syms.map(lambda s: s.image), sep)
+        return Self.string_join(syms.map(lambda s: s.image), sep)
 
     @langkit_property(return_type=T.CompilationUnit,
                       ignore_warn_on_node=True)
@@ -9855,6 +9855,9 @@ class Name(Expr):
     def as_single_tok_node_array():
         """
         Return the array of SingleTokNode nodes that compose this name.
+
+        Only simple name kinds are allowed: Identifer, DottedName and
+        DefiningName. Any other kind will trigger a PropertyError.
         """
         return Self.match(
             lambda dname=T.DefiningName: dname.name.as_single_tok_node_array,
@@ -9873,8 +9876,21 @@ class Name(Expr):
 
         For instance, a node with name ``A.B.C`` is turned into
         ``['A', 'B', 'C']``.
+
+        Only simple name kinds are allowed: Identifer, DottedName and
+        DefiningName. Any other kind will trigger a PropertyError.
         """
         return Self.as_single_tok_node_array.map(lambda t: t.symbol)
+
+    @langkit_property(public=True, return_type=Symbol)
+    def canonical_text():
+        """
+        Return a canonicalized version of this name's text.
+
+        Only simple name kinds are allowed: Identifer, DottedName and
+        DefiningName. Any other kind will trigger a PropertyError.
+        """
+        return Self.sym_join(Self.as_symbol_array, String(".")).to_symbol
 
 
 class DiscreteSubtypeName(Name):
@@ -11096,11 +11112,8 @@ class SingleTokNode(Name):
         """
     )
 
-    @langkit_property(public=True)
+    @langkit_property()
     def canonical_text():
-        """
-        Return a canonicalized version of this node's text.
-        """
         return Self.sym
 
     @langkit_property()

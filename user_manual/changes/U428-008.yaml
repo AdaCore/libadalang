@@ -1,0 +1,7 @@
+type: new-feature
+title: Generalize ``p_canonical_text`` to ``Name`` nodes
+description: |
+    So far, ``p_canonical_text`` was only available on names made of a single
+    token (e.g. ``Identifier``). This change generalizes the implementation to
+    work on simple names (``Identifier``, ``DottedName`` and ``DefiningName``).
+date: 2021-04-29

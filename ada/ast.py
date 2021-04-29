@@ -10778,11 +10778,11 @@ class AssocList(BasicAssoc.list):
             lambda _: No(T.BaseFormalParamDecl.entity.array)
         ))
 
-        others_assoc = Entity.find(
+        others_assoc = Var(Entity.find(
             lambda assoc: assoc.names.any(
                 lambda n: n.is_a(OthersDesignator)
             )
-        )
+        ))
 
         explicit_matches = Var(params.then(
             lambda _: Self.match_formals(params, Entity, is_dottable_subp).map(

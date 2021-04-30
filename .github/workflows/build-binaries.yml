@@ -90,14 +90,3 @@ jobs:
         run: |
             aws s3 cp . s3://adacore-gha-tray-eu-west-1/libadalang/ --recursive --exclude "*" --include "*.tar.gz" --sse=AES256
             aws s3 ls s3://adacore-gha-tray-eu-west-1/libadalang/
-      - name: Upload tar-ball to Bintray
-        uses: reznikmm/upload-bintray-action@v4
-        with:
-          subject: reznikmm
-          username: reznikmm
-          repository: libadalang
-          package: libadalang
-          version: 0.2-git
-          sourcePath: '*.tar.gz'
-          override: 1
-          apiKey: ${{secrets.BINTRAY_API_KEY}}

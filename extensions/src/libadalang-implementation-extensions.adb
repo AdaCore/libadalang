@@ -70,11 +70,11 @@ package body Libadalang.Implementation.Extensions is
      (Node : Bare_Ada_Node) return Internal_Unit is
    begin
       return Get_From_File
-        (Context  => Node.Unit.Context,
-         Filename => "__standard",
-         Charset  => "",
-         Reparse  => False,
-         Rule     => Default_Grammar_Rule);
+        (Context     => Node.Unit.Context,
+         Filename    => "__standard",
+         Charset     => "",
+         Reparse     => False,
+         Rule        => Default_Grammar_Rule);
    end Ada_Node_P_Standard_Unit;
 
    --------------------------------------

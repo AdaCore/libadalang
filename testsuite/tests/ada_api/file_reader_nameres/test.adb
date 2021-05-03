@@ -1,0 +1,1 @@
+--  main.adb is not supposed to read this

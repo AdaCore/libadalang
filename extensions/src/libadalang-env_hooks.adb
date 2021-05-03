@@ -21,6 +21,8 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 
@@ -331,9 +333,18 @@ package body Libadalang.Env_Hooks is
    --------------------
 
    procedure Fetch_Standard (Context : Internal_Context) is
-      Std : constant Analysis_Unit :=
-        Get_From_Buffer (Wrap_Context (Context), "__standard",
-                         "ascii", Std_Content);
+      Std : constant Internal_Unit := Get_Unit
+        (Context     => Context,
+         Filename    => "__standard",
+         Charset     => "ascii",
+         Reparse     => True,
+         Input       => (Kind        => Bytes_Buffer,
+                         Charset     => To_Unbounded_String ("ascii"),
+                         Read_BOM    => False,
+                         Bytes       => Std_Content'Address,
+                         Bytes_Count => Std_Content'Length),
+         Rule        => Default_Grammar_Rule,
+         Is_Internal => True);
    begin
       Populate_Lexical_Env (Std);
    end Fetch_Standard;

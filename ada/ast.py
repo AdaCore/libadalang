@@ -9081,6 +9081,7 @@ class UnOp(Expr):
 
                 # The operator references the subprogram
                 & Bind(Self.op.ref_var, subp)
+                & Bind(Self.op.subp_spec_var, subp.subp_spec_or_null)
             )) | Self.type_bind_var(Self.type_var, Self.expr.type_var)
         )
 
@@ -9156,6 +9157,7 @@ class BinOp(Expr):
             # implicitly generated '/=' refer to the '=' subprogram, if it
             # exists.
             & Bind(Self.op.ref_var, subp)
+            & Bind(Self.op.subp_spec_var, subp.subp_spec_or_null)
         )) | Self.no_overload_equation)
 
     @langkit_property(dynamic_vars=[origin])

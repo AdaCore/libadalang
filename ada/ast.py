@@ -5470,7 +5470,8 @@ class TypeDecl(BaseTypeDecl):
     def constant_indexing_fns():
         return (
             Entity.get_aspect_spec_expr('Constant_Indexing')
-            ._.cast_or_raise(T.Name).all_env_elements(seq=False).filtermap(
+            ._.cast_or_raise(T.Name).all_env_elements_internal(seq=False)
+            .filtermap(
                 lambda e: e.cast(T.BasicDecl),
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
@@ -5489,8 +5490,8 @@ class TypeDecl(BaseTypeDecl):
         return origin.bind(
             Self.origin_node,
             Entity.get_aspect_spec_expr('Variable_Indexing').then(
-                lambda a: a.cast_or_raise(T.Name).all_env_elements(seq=False)
-                .filtermap(
+                lambda a: a.cast_or_raise(T.Name)
+                .all_env_elements_internal(seq=False).filtermap(
                     lambda e: e.cast(T.BasicDecl),
                     lambda env_el:
                     env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
@@ -7302,7 +7303,8 @@ class AspectAssoc(AdaNode):
             & Entity.id.name_symbol.any_of('Model_Of'),
             Bind(
                 Self.expr.cast_or_raise(T.Name).ref_var,
-                Entity.expr.cast_or_raise(T.Name).all_env_elements.find(
+                Entity.expr.cast_or_raise(T.Name).all_env_elements_internal
+                .find(
                     lambda e:
                     e.is_a(T.BasicSubpDecl)
                     & e.cast(T.BasicSubpDecl).subp_decl_spec
@@ -7764,7 +7766,8 @@ class GenericInstantiation(BasicDecl):
 
     nonbound_generic_decl = Property(
         Self.as_bare_entity.generic_entity_name
-        .all_env_elements(seq=True, seq_from=Self, categories=noprims).find(
+        .all_env_elements_internal(seq=True, seq_from=Self, categories=noprims)
+        .find(
             lambda e: Self.has_visibility(e)
         )._.match(
             lambda b=Body: imprecise_fallback.bind(False, b.decl_part),
@@ -9700,14 +9703,15 @@ class Name(Expr):
     ):
         pass
 
-    @langkit_property(public=False)
-    def all_env_elements(
+    @langkit_property(return_type=AdaNode.entity.array)
+    def all_env_elements_internal(
             seq=(Bool, True),
             seq_from=(AdaNode, No(T.AdaNode)),
             categories=(T.RefCategories, RefCategories(default=True))
     ):
         """
-        Return all elements in self's scope that are lexically named like Self.
+        Internal property like all_env_elements, but accepting an additional
+        ``categories`` parameter for internal uses.
         """
         return origin.bind(
             Self.origin_node,
@@ -9722,11 +9726,21 @@ class Name(Expr):
         )
 
     @langkit_property(public=True)
+    def all_env_elements(
+            seq=(Bool, True),
+            seq_from=(AdaNode, No(T.AdaNode))
+    ):
+        """
+        Return all elements in self's scope that are lexically named like Self.
+        """
+        return Entity.all_env_elements_internal(seq, seq_from)
+
+    @langkit_property(public=True)
     def first_corresponding_decl():
         return If(
             Self.parent.is_a(DottedName) & Self.is_suffix,
             Entity.parent.cast(DottedName).first_corresponding_decl,
-            Entity.all_env_elements().at(0).cast(T.BasicDecl)
+            Entity.all_env_elements_internal.at(0).cast(T.BasicDecl)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -14666,7 +14680,7 @@ class RequeueStmt(SimpleStmt):
         name = Var(ce.then(lambda ce: ce.name,
                            default_val=Entity.call_name))
 
-        entries = Var(name.all_env_elements.filter(
+        entries = Var(name.all_env_elements_internal.filter(
             # RM 9.5.4: the name shall resolve to denote a procedure or entry,
             # where either:
             lambda n: n.cast(EntryDecl).then(lambda e: Or(

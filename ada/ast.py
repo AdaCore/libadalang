@@ -24,6 +24,7 @@ imprecise_fallback = DynamicVariable('imprecise_fallback', Bool)
 UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
+all_categories = RefCategories(default=True)
 noprims = RefCategories(inherited_primitives=False, default=True)
 
 
@@ -1209,7 +1210,7 @@ class AdaNode(ASTNode):
         symbol=T.Symbol,
         lookup=(T.LookupKind, LK.recursive),
         from_node=(T.AdaNode, No(T.AdaNode)),
-        categories=(T.RefCategories, RefCategories(default=True))
+        categories=(T.RefCategories, all_categories)
     ):
         """
         Wrapper for ``env.get``. Refine ``from_node`` so that it starts from
@@ -1225,7 +1226,7 @@ class AdaNode(ASTNode):
         symbol=T.Symbol,
         lookup=(T.LookupKind, LK.recursive),
         from_node=(T.AdaNode, No(T.AdaNode)),
-        categories=(T.RefCategories, RefCategories(default=True))
+        categories=(T.RefCategories, all_categories)
     ):
         """
         Wrapper for ``env.get_first``. Refine ``from_node`` so that it starts
@@ -9699,7 +9700,7 @@ class Name(Expr):
     def all_env_els_impl(
             seq=(Bool, True),
             seq_from=(AdaNode, No(T.AdaNode)),
-            categories=(T.RefCategories, RefCategories(default=True))
+            categories=(T.RefCategories, all_categories)
     ):
         pass
 
@@ -9707,7 +9708,7 @@ class Name(Expr):
     def all_env_elements_internal(
             seq=(Bool, True),
             seq_from=(AdaNode, No(T.AdaNode)),
-            categories=(T.RefCategories, RefCategories(default=True))
+            categories=(T.RefCategories, all_categories)
     ):
         """
         Internal property like all_env_elements, but accepting an additional
@@ -9858,6 +9859,22 @@ class Name(Expr):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def subtype_indication_equation():
         return Entity.xref_no_overloading
+
+    @langkit_property(return_type=Bool)
+    def can_designate_primitive():
+        """
+        Return True if this name can refer to a primitive subprogram.
+        This is used in env lookups to avoid visiting referenced primitive envs
+        when it is not relevant.
+
+        .. note:: This is not an optimisation, it actually prevents potential
+            infinite recursions during lookups.
+        """
+        return Self.parent.match(
+            lambda n=Name: n.can_designate_primitive,
+            lambda r=RenamingClause: Not(r.parent.is_a(PackageRenamingDecl)),
+            lambda _: True
+        )
 
     @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
     def parent_name(stop_at=T.Name):
@@ -11674,7 +11691,7 @@ class DefiningName(Name):
     def all_env_els_impl(
             seq=(Bool, True),
             seq_from=(AdaNode, No(T.AdaNode)),
-            categories=(T.RefCategories, RefCategories(default=True))
+            categories=(T.RefCategories, all_categories)
     ):
         return Entity.name.all_env_els_impl(seq, seq_from, categories)
 
@@ -12199,7 +12216,7 @@ class BaseId(SingleTokNode):
     def all_env_els_impl(
             seq=(Bool, True),
             seq_from=(AdaNode, No(T.AdaNode)),
-            categories=(T.RefCategories, RefCategories(default=True))
+            categories=(T.RefCategories, all_categories)
     ):
         return Self.env_get(
             env,
@@ -12221,7 +12238,12 @@ class BaseId(SingleTokNode):
             Self.symbol,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
             # If we are in an aspect, then lookup is not sequential
-            from_node=Self.origin_node
+            from_node=Self.origin_node,
+            categories=If(
+                Self.can_designate_primitive,
+                all_categories,
+                noprims
+            )
         ))
 
         # TODO: there is a big smell here: We're doing the filtering for parent
@@ -14016,7 +14038,7 @@ class DottedName(Name):
     def all_env_els_impl(
             seq=(Bool, True),
             seq_from=(AdaNode, No(T.AdaNode)),
-            categories=(T.RefCategories, RefCategories(default=True))
+            categories=(T.RefCategories, all_categories)
     ):
         pfx_env = Var(Entity.prefix.designated_env)
         return env.bind(

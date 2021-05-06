@@ -138,9 +138,14 @@ contain the ``Ada`` package specification and the ``Ada.Text_IO`` one.
 
 Depending on projects, knowing which source file to use in order to find a
 compilation unit can be arbitrarily complex. This is why Libadalang comes with
-the concept of unit provider: given a unit name (``Ada.Strings.Unbounded``) and
-a unit kind (specification/body), a unit provider must either return a source
-file to read, or raise an error if the unit name is not valid.
+the concept of *unit provider*: given a unit name (``Ada.Strings.Unbounded``)
+and a unit kind (specification/body), a unit provider must either return a
+source file to read, or raise an error if the unit name is not valid.
+
+Note that since Ada is a case-insensitive language, unit names ``Foo.Bar`` and
+``foo.BAR`` are equivalent. Package specifications, subprogram declarations and
+their generic counterparts are considered as specification units while package
+and subprogram bodies and subunits ("separates") are processed as body units.
 
 The analysis context constructor takes an unit provider: name resolution will
 use this provider whenever it needs to resolve a unit reference to a source

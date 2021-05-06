@@ -6800,7 +6800,7 @@ class BasicSubpDecl(BasicDecl):
         default_next_part = Var(Entity.basic_decl_next_part_for_decl)
 
         return Cond(
-            # If __nextpart is registered, in the decl's env, simply return
+            # If __nextpart is registered in the decl's env, simply return
             # that.
             Not(default_next_part.is_null),
             default_next_part,
@@ -14323,6 +14323,23 @@ class BaseSubpBody(Body):
             Self.body_initial_env_name
         )
 
+    @langkit_property(return_type=T.Symbol)
+    def previous_part_env_name():
+        """
+        Return the name of the lexical env of the previous part of this
+        subprogram body. Due to overloading, do not return anything in case
+        we are not a library item or subunit.
+        """
+        return Cond(
+            Self.is_subunit,
+            Self.top_level_env_name.concat(String("__stub")).to_symbol,
+
+            Self.is_library_item,
+            Self.top_level_env_name.to_symbol,
+
+            No(T.Symbol)
+        )
+
     env_spec = EnvSpec(
         do(Self.env_hook),
 
@@ -14338,20 +14355,28 @@ class BaseSubpBody(Body):
             fallback_env=Self.children_env
         ),
 
+        add_env(transitive_parent=True),
+
         add_to_env_by_name(
             key='__nextpart',
             val=Self,
             name=Self.previous_part_env_name,
-            fallback_env=env.bind(
-                Self.default_initial_env,
-                Self.initial_env(
-                    Entity.body_scope(follow_private=False,
-                                      force_decl=True)
+            fallback_env=If(
+                # Due to overloading, it's not possible to find the previous
+                # part of a non-library item subprogram at this stage if it
+                # has a top level env name (e.g. a subprogram declared in a
+                # package), since its body could be defined in another unit.
+                Self.has_top_level_env_name,
+                No(LexicalEnv),
+                env.bind(
+                    Self.default_initial_env,
+                    Self.initial_env(
+                        Entity.body_scope(follow_private=False,
+                                          force_decl=True)
+                    )
                 )
             )
         ),
-
-        add_env(transitive_parent=True),
 
         do(Self.populate_dependent_units),
 

@@ -126,6 +126,7 @@ $root = LexEnv(Static_Primary, Parent=null):
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<SubpBody ["Bar"] input:2:4-9:12>):
   Referenced: <SubpBody ["Bar"] input:2:4-9:12>: LexEnv(Static_Primary, Node=<CompilationUnit input:1:1-10:9>)
   Referenced: <SubpBody ["Bar"] input:2:4-9:12>: LexEnv(Static_Primary, Node=<CompilationUnit input:1:1-10:9>)
+    __nextpart: [<SubpBody ["Bar"] input:2:4-9:12>]
     i: [<ParamSpec ["I", "J"] input:2:19-2:33>]
     j: [<ParamSpec ["I", "J"] input:2:19-2:33>]
 

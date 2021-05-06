@@ -49,7 +49,7 @@ $root = LexEnv(Static_Primary, Parent=null):
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P1"] pkg.ads:2:4-2:25>):
   Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
   Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
-    <empty>
+    __nextpart: [<NullSubpDecl ["P1"] pkg.ads:2:4-2:25>]
 
 ## Child ##
 $root = LexEnv(Static_Primary, Parent=null):
@@ -102,7 +102,7 @@ $root = LexEnv(Static_Primary, Parent=null):
 @4 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>):
   Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
   Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
-    <empty>
+    __nextpart: [<NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>]
 
 =====================
 == Reloading Child ==
@@ -155,7 +155,7 @@ $root = LexEnv(Static_Primary, Parent=null):
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P1"] pkg.ads:2:4-2:25>):
   Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
   Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
-    <empty>
+    __nextpart: [<NullSubpDecl ["P1"] pkg.ads:2:4-2:25>]
 
 ## Child ##
 $root = LexEnv(Static_Primary, Parent=null):
@@ -208,6 +208,6 @@ $root = LexEnv(Static_Primary, Parent=null):
 @4 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>):
   Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
   Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
-    <empty>
+    __nextpart: [<NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>]
 
 Done.

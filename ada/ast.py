@@ -7000,7 +7000,7 @@ class Pragma(AdaNode):
             Entity.id.name_symbol.any_of(
                 'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline',
                 'Volatile', 'Unchecked_Union', 'Atomic', 'Atomic_Components',
-                'No_Return',
+                'No_Return', "Interrupt_Handler", "Attach_Handler"
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.BaseId),
 

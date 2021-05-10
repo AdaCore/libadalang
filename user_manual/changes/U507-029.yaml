@@ -1,0 +1,6 @@
+type: new-feature
+title: Add ``p_get_uninstantiated_node`` property
+description: |
+    This new property allows one to navigate from a node coming from an
+    instantiated generic declaration back to its non-instantiated counterpart.
+date: 2021-05-10

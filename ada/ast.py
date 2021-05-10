@@ -246,6 +246,15 @@ class AdaNode(ASTNode):
             )
         )
 
+    @langkit_property(return_type=T.AdaNode.entity, public=True)
+    def get_uninstantiated_node():
+        """
+        Assuming this node comes from an instantiated generic declaration,
+        return its non-instantiated counterpart lying in the generic
+        declaration.
+        """
+        return Self.as_bare_entity
+
     @langkit_property(public=True, return_type=T.CompletionItem.iterator)
     def complete():
         """

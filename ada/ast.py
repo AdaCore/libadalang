@@ -5205,7 +5205,15 @@ class TypeDecl(BaseTypeDecl):
                 pkg_decl.private_part._.decls.as_array
             ),
             lambda pkg_body=PackageBody: pkg_body.decls.decls.as_array,
-            lambda _: No(AdaNode.entity.array)
+            lambda _: If(
+                # For a derived type, overriding primitives can be declared in
+                # scope even if it is not a package scope.
+                Entity.type_def.is_a(DerivedTypeDef),
+                Entity.parent.parent.parent.cast(DeclarativePart).then(
+                    lambda dp: dp.decls.as_array
+                ),
+                No(AdaNode.entity.array)
+            )
         ))
         enum_lits = Var(Entity.type_def.cast(EnumTypeDef).then(
             lambda etf: etf.enum_literals.map(
@@ -12743,7 +12751,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         canonicalized first. Else, the most complete part of the type will be
         returned.
         """
-        decl_scope = Var(Entity.declarative_scope)
+        decl_scope = Var(Self.parent.parent.parent.cast(DeclarativePart))
 
         typ = Var(origin.bind(Self.origin_node, type_expr.match(
             lambda at=T.AnonymousType: at.element_type.then(
@@ -12768,18 +12776,41 @@ class BaseSubpSpec(BaseFormalParamHolder):
             default_val=canon_type
         ))
 
+        type_scope = Var(final_type.then(
+            lambda typ: typ.node.parent.parent.cast(DeclarativePart)
+        ))
+
         return If(
             And(
+                Or(
+                    # In case of a derived type, a subprogram defined in the
+                    # same scope may be a primitive even in a non-package scope
+                    # if that subprogram overrides a previous primitive.
+                    # Therefore the correct behavior here would be to compute
+                    # the primitives of `final_type` and check if one of its
+                    # primitives matches the signature of this subprogram.
+                    # Since this is particularly heavy for feature that is
+                    # rarely used, we decide to employ the same approximation
+                    # as GNAT: Consider this subprogram a primitive.
+                    final_type.cast(TypeDecl)._.type_def.is_a(DerivedTypeDef),
+
+                    # For all other cases, both the subprogram and the type
+                    # must be in a package declaration.
+                    And(
+                        type_scope._.parent.is_a(BasePackageDecl),
+                        decl_scope._.parent.is_a(BasePackageDecl)
+                    )
+                ),
+
                 # A subprogram may not be a primitive of a classwide type
                 Not(final_type._.is_classwide),
 
                 # A subprogram may not be a primitive of a type which is not
                 # declared in the same declarative scope as Self, or in the
                 # private part of the package in which Self is defined.
-                final_type._.declarative_scope.then(lambda ds: ds.any_of(
+                type_scope.then(lambda ds: ds.any_of(
                     decl_scope,
-                    decl_scope._.parent.cast(BasePackageDecl)
-                    ._.public_part
+                    decl_scope._.parent.cast(BasePackageDecl)._.public_part
                 ))
             ),
             final_type,

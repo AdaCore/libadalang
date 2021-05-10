@@ -328,6 +328,10 @@ class AdaNode(ASTNode):
         """
         Return the semantic parent for this node, if applicable, null
         otherwise.
+
+        .. note:: A node lying outside of a library item's declaration or
+            subunit's body does not have a parent environment, meaning that
+            this property will return null.
         """
         return Entity.semantic_parent_helper(Entity.node_env)
 

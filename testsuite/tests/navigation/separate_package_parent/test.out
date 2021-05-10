@@ -1,0 +1,4 @@
+Eval 'node.p_parent_basic_decl' on node <PackageBody ["Inner"] pkg-inner.adb:2:1-7:7>
+Result: <PackageBodyStub ["Inner"] pkg.adb:2:4-2:35>
+
+

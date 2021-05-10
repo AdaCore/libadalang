@@ -1,0 +1,7 @@
+type: bugfix
+title: Resolve ``Interrupt_Handler`` & ``Attach_Handler``
+description: |
+    This change adds support for the ``Interrupt_Handler`` and
+    ``Attach_Handler`` pragmas, meaning that the ``P_Has_Aspect`` property
+    and related functions will now work when invoked with those aspect names.
+date: 2021-05-10

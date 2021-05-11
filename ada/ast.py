@@ -344,6 +344,12 @@ class AdaNode(ASTNode):
         .. note:: If the parent BasicDecl of the given node is a generic
             declaration, this call will return the instantiation from which
             the node was retrieved instead, if any.
+
+        .. note:: When called on a subunit's body, this property will return
+            the its corresponding body stub.
+
+        .. note:: When called on a node lying outside of a library item's
+            declaration or subunit's body this property will return null.
         """
         return Entity.semantic_parent.then(
             lambda sp: If(

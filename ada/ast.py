@@ -8742,20 +8742,29 @@ class Expr(AdaNode):
 
         candidates = Var(candidate_actuals.concat(candidate_ret))
 
-        return candidates.any(
-            lambda c: And(
-                Not(spec
-                    .candidate_type_for_primitive(c.expected_type)
-                    .is_null),
+        return Or(
+            # A call to an abstract subprogram is necessarily dispatching
+            decl.is_a(AbstractSubpDecl, AbstractFormalSubpDecl),
 
-                # No need to check that the type of the expression
-                # is exactly the classwide type of the expected
-                # type, but simply that it is classwide.
-                # Also note that the primitive can be on a an anonymous
-                # access of the tagged type, which means we should also
-                # accept the argument if it's type is an access on a
-                # classwide type.
-                c.expr.is_dynamically_tagged
+            # Otherwise check that there is a pair (``formal``, ``actual``)
+            # where ``formal`` is a controlling formal parameter of the
+            # primitive subprogram ``decl``, and ``actual`` is a dynamically
+            # tagged expression used for this parameter.
+            candidates.any(
+                lambda c: And(
+                    Not(spec
+                        .candidate_type_for_primitive(c.expected_type)
+                        .is_null),
+
+                    # No need to check that the type of the expression
+                    # is exactly the classwide type of the expected
+                    # type, but simply that it is classwide.
+                    # Also note that the primitive can be on a an anonymous
+                    # access of the tagged type, which means we should also
+                    # accept the argument if it's type is an access on a
+                    # classwide type.
+                    c.expr.is_dynamically_tagged
+                )
             )
         )
 

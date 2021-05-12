@@ -1,0 +1,4 @@
+Eval 'node.f_call.p_is_dispatching_call()' on node <CallStmt test.adb:20:7-20:15>
+Result: False
+
+

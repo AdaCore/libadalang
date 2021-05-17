@@ -1,0 +1,11 @@
+Eval 'node.p_get_pragma("Inline")' on node <NullSubpDecl ["Foo"] pkg.adb:2:4-2:40>
+Result: <PragmaNode pkg.adb:5:4-5:24>
+
+Eval 'node.p_associated_decls' on node <PragmaNode pkg.adb:5:4-5:24>
+Result: [<NullSubpDecl ["Foo"] pkg.adb:2:4-2:40>]
+
+
+Eval 'node.p_get_pragma("Inline")' on node <SubpDecl ["Foo"] pkg.ads:2:4-2:18>
+Result: None
+
+

@@ -7044,9 +7044,11 @@ class Pragma(AdaNode):
                     name.name_symbol, lookup=LK.flat, categories=noprims
                 )
             )
-            # Only get entities that are after self in the source
-            .filtermap(lambda ent: ent.cast(T.BasicDecl),
-                       lambda ent: ent.node < Self)
+            # Only get entities that are after self in the *same* source
+            .filtermap(
+                lambda ent: ent.cast(T.BasicDecl),
+                lambda ent: And(ent.unit == Self.unit, ent.node < Self)
+            )
         )
 
     @langkit_property(public=True)

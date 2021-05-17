@@ -1,0 +1,7 @@
+type: bugfix
+title: Crash with ``Range_Length`` attribute
+description: |
+    This change fixes a bug where the use the ``Range_Length`` attribute would
+    cause Libadalang's name resolution mechanism to crash when trying to
+    process an expression involving it.
+date: 2021-05-17

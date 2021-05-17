@@ -371,7 +371,23 @@ Expr: <Id "Enum_Rep" test_unint_attrs.adb:37:36-37:44>
   references: None
   type:       None
 
-Resolving xrefs for node <NullStmt test_unint_attrs.adb:39:7-39:12>
+Resolving xrefs for node <ObjectDecl ["U"] test_unint_attrs.adb:38:7-38:54>
+***************************************************************************
+
+Expr: <Id "Natural" test_unint_attrs.adb:38:21-38:28>
+  references: <DefiningName __standard:5:11-5:18>
+  type:       None
+Expr: <AttributeRef test_unint_attrs.adb:38:32-38:53>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Positive" test_unint_attrs.adb:38:32-38:40>
+  references: <DefiningName __standard:6:11-6:19>
+  type:       <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "Range_Length" test_unint_attrs.adb:38:41-38:53>
+  references: None
+  type:       None
+
+Resolving xrefs for node <NullStmt test_unint_attrs.adb:40:7-40:12>
 *******************************************************************
 
 

@@ -35,6 +35,7 @@ begin
       R  : constant Natural := Standard'Maximum_Alignment;
       S  : constant Natural := Standard'Default_Bit_Order;
       T  : constant Natural := E_X'Enum_Rep;
+      U  : constant Natural := Positive'Range_Length;
    begin
       null;
    end;

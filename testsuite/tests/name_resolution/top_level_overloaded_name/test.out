@@ -1,0 +1,12 @@
+Analyzing pkg-foo.adb
+#####################
+
+Resolving xrefs for node <ObjectDecl ["X"] pkg-foo.adb:2:4-2:16>
+****************************************************************
+
+Expr: <Id "Integer" pkg-foo.adb:2:8-2:15>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+
+Done.

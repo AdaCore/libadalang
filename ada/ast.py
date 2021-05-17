@@ -948,9 +948,15 @@ class AdaNode(ASTNode):
         If Self is a library-level SubpBody, fetch the environments USE'd in
         its declaration.
         """
-        body = Var(Self.cast_or_raise(BaseSubpBody).as_bare_entity)
-        decl = Var(imprecise_fallback.bind(True, body.decl_part))
-        return decl._.top_level_use_clauses.map(
+        fqn = Var(
+            Self.enclosing_compilation_unit.syntactic_fully_qualified_name
+        )
+        spec = Var(Self.designated_compilation_unit(
+            name=fqn,
+            kind=UnitSpecification,
+            not_found_is_error=False
+        ))
+        return spec._.decl._.top_level_use_clauses.map(
             lambda clause: clause.as_bare_entity.used_envs
         ).env_group()
 

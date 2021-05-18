@@ -13332,8 +13332,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             No(BaseTypeDecl.entity)
         )
 
-    @langkit_property(return_type=BaseTypeDecl.entity.array, memoized=True,
-                      memoize_in_populate=True)
+    @langkit_property(return_type=BaseTypeDecl.entity.array, memoized=True)
     def get_primitive_subp_types(canonicalize=(T.Bool, True)):
         """
         Return the types of which this subprogram is a primitive of. If

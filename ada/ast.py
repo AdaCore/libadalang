@@ -7334,16 +7334,12 @@ class Pragma(AdaNode):
     @langkit_property(return_type=T.Symbol)
     def initial_env_name():
         """
-        The initial env for a pragma clause. Top level pragmas appearing
-        before a compilation unit's declaration should use the that
-        declaration's env as initial env so that references to it are correctly
-        resolved.
+        Return the initial env name for a pragma clause. We use the
+        Standard package for top level use clauses.
         """
-        p = Var(Self.parent)
-        gp = Var(Self.parent.parent)
         return If(
-            p.is_a(CompilationUnit) | gp.is_a(CompilationUnit),
-            Self.enclosing_compilation_unit.decl.top_level_env_name.to_symbol,
+            Self.parent.parent.is_a(CompilationUnit),
+            'Standard',
             No(T.Symbol)
         )
 

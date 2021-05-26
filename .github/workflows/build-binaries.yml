@@ -60,8 +60,15 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ./cached_gnat
-          key: ${{ runner.os }}-gnat-ce-2020
+          key: ${{ runner.os }}-gnat-ce-2021
+      - name: Get GNAT Community 2021 toolchain
+        if: ${{ runner.os != 'macOS' }}
+        uses: ada-actions/toolchain@ce2021
+        with:
+          distrib: community
+          install_dir: ./cached_gnat
       - name: Get GNAT Community 2020 toolchain
+        if: ${{ runner.os == 'macOS' }}
         uses: ada-actions/toolchain@ce2020
         with:
           distrib: community
@@ -83,6 +90,7 @@ jobs:
           name: ${{ runner.os }}-${{ matrix.debug }}
           path: '*.tar.gz'
       - name: AWS S3 upload
+        if: ${{ github.repository == 'AdaCore/libadalang' }}
         env:
           AWS_ACCESS_KEY_ID: ${{secrets.GHA_CACHE_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.GHA_CACHE_SECRET}}

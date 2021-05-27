@@ -1405,6 +1405,7 @@ class BasicDecl(AdaNode):
                       T.GenericPackageDecl, T.GenericPackageInstantiation,
                       T.GenericSubpInstantiation, T.GenericSubpDecl,
                       T.SubpBody),
+
             Self.as_bare_entity.defining_name.name.cast(T.DottedName).then(
                 lambda dn:
                 Self.get_unit(dn.prefix.as_symbol_array,
@@ -1413,6 +1414,24 @@ class BasicDecl(AdaNode):
                               not_found_is_error=Not(Self.is_a(T.SubpBody)))
                 .then(lambda _: False)
             ),
+            False
+        )
+
+    @langkit_property()
+    def populate_body_unit():
+        """
+        For library-level subprogram declarations, we always want to populate
+        the unit containing the body, so that the lexical envs always contain
+        the spec and the body, no matter which was initially requested.
+        """
+        return If(
+            Self.is_library_item,
+            Self.get_unit(
+                Self.as_bare_entity.defining_name.name.as_symbol_array,
+                UnitBody,
+                load_if_needed=True,
+                not_found_is_error=False
+            ).then(lambda _: False),
             False
         )
 
@@ -7170,7 +7189,11 @@ class BasicSubpDecl(BasicDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        )
+        ),
+
+        handle_children(),
+
+        do(Self.populate_body_unit)
     )
 
 
@@ -8863,7 +8886,11 @@ class GenericSubpDecl(GenericDecl):
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        )
+        ),
+
+        handle_children(),
+
+        do(Self.populate_body_unit)
     )
 
     decl = Property(Entity.subp_decl)

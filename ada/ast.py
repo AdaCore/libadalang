@@ -9286,6 +9286,41 @@ class BinOp(Expr):
                 & Bind(Self.right.type_var, Self.type_var,
                        eq_prop=BaseTypeDecl.matching_type,
                        conv_prop=BaseTypeDecl.base_subtype_or_null),
+
+                # We might be handling a Fixed-point - Standard.Integer
+                # binary multiplication or division operation as described
+                # in RM 4.5.5 (14)
+                # NOTE: in the equations below, we don't check that we are
+                # actually dealing with fixed point types, for two reasons:
+                #  - It is not necessary: if the above paths didn't succeed
+                #    but the code is valid it must necessarily be the case.
+                #    The downside is that for invalid code we might resolve the
+                #    expression successfully but assign non-sensical types.
+                #  - The typing for this operation can flow in both bottom-up
+                #    or top-down fashion, and the current solver seems to have
+                #    some trouble handling the predicates that must be used on
+                #    both Self.type_var and Self.OPERAND.type_var, and thus
+                #    raises "Invalid Equation" in some cases.
+                #    TODO: try again with the new solver.
+                If(
+                    Self.op.is_a(Op.alt_mult, Op.alt_div),
+                    Or(
+                        # if RHS has type Integer: bind the type of the LHS
+                        # and of Self to match the operations's profile.
+                        Bind(Self.right.type_var, Self.int_type,
+                             eq_prop=BaseTypeDecl.matching_type,
+                             conv_prop=BaseTypeDecl.base_subtype_or_null)
+                        & Bind(Self.left.type_var, Self.type_var),
+
+                        # if LHS has type Integer: bind the type of the RHS
+                        # and of Self to match the operations's profile.
+                        Bind(Self.left.type_var, Self.int_type,
+                             eq_prop=BaseTypeDecl.matching_type,
+                             conv_prop=BaseTypeDecl.base_subtype_or_null)
+                        & Bind(Self.right.type_var, Self.type_var),
+                    ),
+                    LogicFalse()
+                )
             )
         )
 

@@ -4271,6 +4271,8 @@ class BaseTypeDecl(BasicDecl):
         No(T.ClasswideTypeDecl.entity)
     )))
 
+    scalar_base_type = Property(Self.scalar_base_subtype_node.as_entity)
+
     @langkit_property(return_type=Bool)
     def is_universal_type():
         """
@@ -10296,10 +10298,17 @@ class Name(Expr):
             # attribute.
             lambda ar=T.AttributeRef:
             ar.prefix.xref_no_overloading(sequential, all_els)
-            & If(ar.attribute.sym == 'Class',
-                 Bind(ar.prefix.ref_var, ar.ref_var,
-                      conv_prop=BaseTypeDecl.classwide_type),
-                 LogicTrue()),
+            & Cond(
+                ar.attribute.sym == 'Class',
+                Bind(ar.prefix.ref_var, ar.ref_var,
+                     conv_prop=BaseTypeDecl.classwide_type),
+
+                ar.attribute.sym == 'Base',
+                Bind(ar.prefix.ref_var, ar.ref_var,
+                     conv_prop=BaseTypeDecl.scalar_base_type),
+
+                LogicTrue()
+            ),
 
             lambda _: LogicFalse()
         )

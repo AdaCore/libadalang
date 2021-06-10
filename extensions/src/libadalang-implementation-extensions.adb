@@ -614,8 +614,8 @@ package body Libadalang.Implementation.Extensions is
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
          then
-            Ret.Dbg_Name := new String'
-              (Image (Short_Text_Image (Node)) & "." & "P_Ref_Var");
+            Ret.Dbg_Name := New_Unit_String
+              (Node.Unit, Image (Short_Text_Image (Node)) & "." & "P_Ref_Var");
          end if;
       end return;
 
@@ -638,8 +638,9 @@ package body Libadalang.Implementation.Extensions is
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
          then
-            Ret.Dbg_Name := new String'
-              (Image (Short_Text_Image (Node)) & "." & "P_Subp_Spec_Var");
+            Ret.Dbg_Name := New_Unit_String
+              (Node.Unit,
+               Image (Short_Text_Image (Node)) & "." & "P_Subp_Spec_Var");
          end if;
       end return;
    end Single_Tok_Node_P_Subp_Spec_Var;
@@ -660,8 +661,9 @@ package body Libadalang.Implementation.Extensions is
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
          then
-            Ret.Dbg_Name := new String'
-              (Image (Short_Text_Image (Node)) & "." & "P_Type_Var");
+            Ret.Dbg_Name := New_Unit_String
+              (Node.Unit,
+               Image (Short_Text_Image (Node)) & "." & "P_Type_Var");
          end if;
       end return;
    end Expr_P_Type_Var;

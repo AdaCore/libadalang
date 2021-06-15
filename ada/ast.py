@@ -15599,12 +15599,12 @@ class EntryBody(Body):
     entry_name = Field(type=T.DefiningName)
     index_spec = Field(type=T.EntryIndexSpec)
     params = Field(type=T.EntryCompletionFormalParams)
+    aspects = Field(type=T.AspectSpec)
     barrier = Field(type=T.Expr)
 
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.EndName)
-    aspects = NullField()
 
     defining_names = Property(Entity.entry_name.singleton)
 

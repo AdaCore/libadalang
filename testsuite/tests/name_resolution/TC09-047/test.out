@@ -1,0 +1,11 @@
+==First traversing==
+Found type: <TypeDecl ["Counted_Type"] gen.ads:5:4-7:15>
+      root: <TypeDecl ["Base_Type"] gen.ads:2:4-2:37>
+Found type: <TypeDecl ["Whatever"] inst.ads:7:4-7:64>
+      root: <TypeDecl ["Root"] root_pack.ads:2:4-2:36>
+
+==Second Traversing==
+Found type: <TypeDecl ["Counted_Type"] gen.ads:5:4-7:15>
+      root: <TypeDecl ["Base_Type"] gen.ads:2:4-2:37>
+Found type: <TypeDecl ["Whatever"] inst.ads:7:4-7:64>
+      root: <TypeDecl ["Root"] root_pack.ads:2:4-2:36>

@@ -1,0 +1,8 @@
+type: bugfix
+title: Wrong memoization of generic instantiation
+description: |
+  Due to the way memoization of name resolution results works (on a per-node
+  basis, not on a per-entity basis), results would be cached once for any
+  generic entity, hence causing wrong results when multiple instantiations were
+  involved.
+date: 2021-01-15

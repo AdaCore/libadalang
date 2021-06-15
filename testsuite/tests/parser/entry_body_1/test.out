@@ -1,4 +1,4 @@
-EntryBody[1:1-1:101]
+EntryBody[1:1-1:113]
 |f_entry_name:
 |  DefiningName[1:7-1:13]
 |  |f_name:
@@ -28,30 +28,37 @@ EntryBody[1:1-1:101]
 |  |  |  |  |  |  Id[1:29-1:33]: item
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
-|f_aspects: <null>
+|f_aspects:
+|  AspectSpec[1:35-1:46]
+|  |f_aspect_assocs:
+|  |  AspectAssocList[1:40-1:46]
+|  |  |  AspectAssoc[1:40-1:46]
+|  |  |  |f_id:
+|  |  |  |  Id[1:40-1:46]: Inline
+|  |  |  |f_expr: <null>
 |f_barrier:
-|  Id[1:40-1:45]: empty
+|  Id[1:52-1:57]: empty
 |f_decls:
-|  DeclarativePart[1:48-1:49]
+|  DeclarativePart[1:60-1:61]
 |  |f_decls:
-|  |  AdaNodeList[1:48-1:48]: <empty list>
+|  |  AdaNodeList[1:60-1:60]: <empty list>
 |f_stmts:
-|  HandledStmts[1:54-1:90]
+|  HandledStmts[1:66-1:102]
 |  |f_stmts:
-|  |  StmtList[1:55-1:89]
-|  |  |  AssignStmt[1:55-1:73]
+|  |  StmtList[1:67-1:101]
+|  |  |  AssignStmt[1:67-1:85]
 |  |  |  |f_dest:
-|  |  |  |  Id[1:55-1:61]: buffer
+|  |  |  |  Id[1:67-1:73]: buffer
 |  |  |  |f_expr:
-|  |  |  |  Id[1:65-1:72]: an_item
-|  |  |  AssignStmt[1:74-1:89]
+|  |  |  |  Id[1:77-1:84]: an_item
+|  |  |  AssignStmt[1:86-1:101]
 |  |  |  |f_dest:
-|  |  |  |  Id[1:74-1:79]: empty
+|  |  |  |  Id[1:86-1:91]: empty
 |  |  |  |f_expr:
-|  |  |  |  Id[1:83-1:88]: false
+|  |  |  |  Id[1:95-1:100]: false
 |  |f_exceptions:
-|  |  AdaNodeList[1:88-1:88]: <empty list>
+|  |  AdaNodeList[1:100-1:100]: <empty list>
 |f_end_name:
-|  EndName[1:94-1:100]
+|  EndName[1:106-1:112]
 |  |f_name:
-|  |  Id[1:94-1:100]: insert
+|  |  Id[1:106-1:112]: insert

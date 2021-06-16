@@ -1,0 +1,6 @@
+type: bugfix
+title: Fix resolution of generic subprogram actuals
+description: |
+    This change fixes a bug where resolving a generic subprogram reference
+    when inside a generic context could trigger a ``Property_Error``.
+date: 2021-06-16

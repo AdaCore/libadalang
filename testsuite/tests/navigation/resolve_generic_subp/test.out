@@ -1,0 +1,5 @@
+In call My_Pkg.Bar;
+In call Internal_Pkg.Bar
+In call Foo (12)
+The actual for generic subprogram Foo resolves to:
+<NullSubpDecl ["Act"] test.adb:14:4-14:40>

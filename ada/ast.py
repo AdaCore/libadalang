@@ -781,7 +781,7 @@ class AdaNode(ASTNode):
             # but we should handle objects too.
             lambda n=T.Name.entity: n.name_designated_type.cast(T.entity)._or(
                 # If we don't find a type, find something else
-                env.bind(n.children_env, n.env_elements.at(0))
+                n.all_env_elements.at(0)
             ),
 
             lambda _: No(T.entity),

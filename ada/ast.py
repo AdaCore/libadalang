@@ -4540,6 +4540,9 @@ class BaseTypeDecl(BasicDecl):
         """
         Return the index type for dimension ``dim`` for this type, if
         applicable.
+
+        .. WARNING:: ``dim`` is 0-based, so the first ``index_type`` is at
+            index 0.
         """
         return Entity.array_def_with_deref.then(lambda ad: ad.index_type(dim))
 

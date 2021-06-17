@@ -502,7 +502,8 @@ package body Libadalang.Project_Provider is
          begin
             if PAPs.all'Length > 1 then
                Free (PAPs);
-               raise Prj.Invalid_Project with "inconsistent units found";
+               raise Unsupported_View_Error with
+                  "inconsistent units found";
             end if;
 
             --  We only have one provider. Grant ownership to Result if
@@ -539,8 +540,8 @@ package body Libadalang.Project_Provider is
       end loop;
 
       if Actual_Project.Is_Aggregate_Project then
-         raise Prj.Invalid_Project with
-            "aggregate project has too many sub-projects";
+         raise Unsupported_View_Error with
+            "selected project is aggregate and has more than one sub-project";
       end if;
 
       declare

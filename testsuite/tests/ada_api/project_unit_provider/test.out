@@ -1,8 +1,8 @@
 Loading unsupported_aggr.gpr...
-   Invalid_Project exception: inconsistent units found
+   Unsupported_View_Error exception: inconsistent units found
 Loading unsupported_aggr.gpr...
    Targetting subproject unsupported_aggr
-   Invalid_Project exception: aggregate project has too many sub-projects
+   Unsupported_View_Error exception: selected project is aggregate and has more than one sub-project
 Loading unsupported_aggr.gpr...
    Targetting subproject p
    Success

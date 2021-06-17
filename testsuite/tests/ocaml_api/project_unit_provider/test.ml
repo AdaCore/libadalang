@@ -1,5 +1,11 @@
 open Libadalang
 
+let format_exc_message msg =
+  (* For exceptions with no explicit message (e.g. Invalid_Project exceptions
+   * from gnatcoll-projects.adb), hide the line number, which is out of our
+   * control. *)
+  Str.replace_first (Str.regexp "\\([a-z_-]+\\.adb\\):[0-9]+") "\\1:XXX" msg
+
 let () =
   let load_project
         ?(project = "")
@@ -14,8 +20,10 @@ let () =
                   ~target:target
                   ~runtime:runtime
                   project_file : UnitProvider.t)
-    with InvalidProjectError s ->
-      Format.printf "@[<v>got InvalidProjectError %s@ @ @]" s
+    (* These exceptions come from GNATCOLL and contain no message but a
+     *  reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
+    with InvalidProject s ->
+      Format.printf "@[<v>got InvalidProject %s@ @ @]" (format_exc_message s)
   in
   (* Try to load a project file that is not valid *)
   load_project "invalid.gpr" ;

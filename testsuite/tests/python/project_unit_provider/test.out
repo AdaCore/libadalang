@@ -9,9 +9,9 @@ Trying to build with {project_file: b'p.gpr', scenario_vars: {b'bar': 1}}
 Trying to build with {project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
    ... success!
 Trying to build with {project: b'no_such_project', project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
-   ... got a InvalidProjectError exception: Cannot open project p.gpr
+   ... got a InvalidProject exception: no such project: no_such_project
 Trying to build with {project: 'no_such_project', project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
-   ... got a InvalidProjectError exception: Cannot open project p.gpr
+   ... got a InvalidProject exception: no such project: no_such_project
 Trying to build with {project: 'q', project_file: 'p.gpr', scenario_vars: {b'SRC_DIR': b'src1'}}
    ... success!
 For SRC_DIR=src1:

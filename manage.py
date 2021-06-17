@@ -16,6 +16,7 @@ import ada.copyright
 
 from langkit.diagnostics import check_source_language
 from langkit.libmanage import ManageScript
+import langkit.names as names
 from langkit.utils import Colors, printcol
 
 
@@ -117,6 +118,18 @@ class Manage(ManageScript):
         ctx.post_process_ada = ada.copyright.format_ada
         ctx.post_process_cpp = ada.copyright.format_c
         ctx.post_process_python = ada.copyright.format_python
+
+        # Register our custom exception types
+        ctx.register_exception_type(
+            package=[names.Name("GNATCOLL"), names.Name("Projects")],
+            name=names.Name("Invalid_Project"),
+            doc_section="libadalang.project_provider",
+        )
+        ctx.register_exception_type(
+            package=[names.Name("Libadalang"), names.Name("Project_Provider")],
+            name=names.Name("Unsupported_View_Error"),
+            doc_section="libadalang.project_provider",
+        )
 
         return ctx
 

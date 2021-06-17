@@ -1,9 +1,9 @@
 invalid.gpr:1:27: ":=" expected
-got InvalidProjectError Cannot open or interpret project invalid.gpr
+got InvalidProject gnatcoll-projects.adb:XXX
 
-got InvalidProjectError Cannot open or interpret project does_not_exist.gpr
+got InvalidProject gnatcoll-projects.adb:XXX
 
-got InvalidProjectError Cannot open or interpret project p.gpr
+got InvalidProject no such project: does_not_exist
 
 For SRC_DIR=src1
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:

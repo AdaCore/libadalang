@@ -1,3 +1,4 @@
+import re
 import sys
 
 import libadalang
@@ -7,6 +8,13 @@ from libadalang import _py2to3
 def pflush(message):
     sys.stdout.write(message + '\n')
     sys.stdout.flush()
+
+
+def format_exc(exc):
+    # For exceptions with no explicit message (e.g. Invalid_Project exceptions
+    # from gnatcoll-projects.adb), hide the line number, which is out of our
+    # control.
+    return re.sub(r"([a-z_-]+\.adb):\d+", "\\1:XXX", str(exc))
 
 
 # Make several invalid attempts at loading projects
@@ -23,8 +31,8 @@ for label, project_file, kwargs in [
     pflush('Trying to load {}:'.format(label))
     try:
         ufp = libadalang.UnitProvider.for_project(project_file, **kwargs)
-    except libadalang.InvalidProjectError as exc:
-        pflush('   ... got an exception: {}'.format(exc))
+    except libadalang.InvalidProject as exc:
+        pflush('   ... got an exception: ' + format_exc(exc))
     else:
         pflush('   ... got no exception')
 

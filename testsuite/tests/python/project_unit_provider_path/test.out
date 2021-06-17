@@ -1,7 +1,7 @@
 Load without project scope
-   exception InvalidProjectError: Cannot open project agg.gpr
+   exception UnsupportedViewError: inconsistent units found
 Load with ambiguous scope
-   exception InvalidProjectError: Cannot open project agg.gpr
+   exception InvalidProject: no such project: arch
 Load with a project scope
    success
 Done.

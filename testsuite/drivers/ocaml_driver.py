@@ -25,7 +25,7 @@ class OCamlDriver(BaseDriver):
                 (executable
                   (name {})
                   (flags (-w -9))
-                  (libraries libadalang))
+                  (libraries str libadalang))
             """.format(self.main_module))
         with open(self.working_dir('dune-project'), 'w') as f:
             f.write('(lang dune 1.6)')

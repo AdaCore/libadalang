@@ -63,6 +63,9 @@ procedure Main is
       when Exc : Invalid_Project =>
          Put_Line ("   Invalid_Project exception: "
                    & Ada.Exceptions.Exception_Message (Exc));
+      when Exc : Unsupported_View_Error =>
+         Put_Line ("   Unsupported_View_Error exception: "
+                   & Ada.Exceptions.Exception_Message (Exc));
    end Try_Loading_Project;
 
 begin

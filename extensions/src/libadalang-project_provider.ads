@@ -66,6 +66,9 @@ package Libadalang.Project_Provider is
    --  The project pointed to by ``Tree`` must outlive the returned unit file
    --  providers, and it is up to callers to deallocate ``Tree`` itself.
 
+   Unsupported_View_Error : exception;
+   --  See the ``Create_Project_Unit_Provider`` function
+
    function Create_Project_Unit_Provider
      (Tree             : Prj.Project_Tree_Access;
       Project          : Prj.Project_Type := Prj.No_Project;
@@ -74,16 +77,17 @@ package Libadalang.Project_Provider is
       return LAL.Unit_Provider_Reference;
    --  Likewise, but create only one unit provider.
    --
-   --  If a non-null Project is given, use it to provide units. Raise an
-   --  Invalid_Project exception if an aggregate projects that aggregates more
-   --  than one project is in its closure.
+   --  If a non-null ``Project`` is given, use it to provide units. Raise an
+   --  ``Unsupported_View_Error`` exception if that project aggregates more
+   --  than one project in its closure.
    --
-   --  If Project is not provided, run Create_Project_Unit_Providers: if it
-   --  returns only one provider, return it, otherwise raise an error.
+   --  If Project is not provided, run ``Create_Project_Unit_Providers``: if it
+   --  returns only one provider, return it, otherwise raise an
+   --  ``Unsupported_View_Error`` exception.
    --
    --  If ``Is_Project_Owner`` is true, the result owns ``Tree``, thus the
    --  caller must not deallocate it itself.  Otherwise, the project pointed to
-   --  by Project must outlive the returned unit file provider.
+   --  by ``Project`` must outlive the returned unit file provider.
 
    function Convert
      (Kind : Analysis_Unit_Kind) return GNATCOLL.Projects.Unit_Parts

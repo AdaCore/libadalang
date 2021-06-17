@@ -42,12 +42,8 @@
         c_value = _create_project_unit_provider(
             project_file, project, scn_vars_array, target, runtime
         )
-        if c_value:
-            return cls(c_value)
-        else:
-            raise InvalidProjectError(
-                'Cannot open project {}'.format(project_file_text)
-            )
+        assert c_value
+        return cls(c_value)
 
     @classmethod
     def auto(cls, input_files, charset=None):

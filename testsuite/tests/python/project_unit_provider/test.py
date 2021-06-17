@@ -43,7 +43,9 @@ for args in [
     ))
     try:
         libadalang.UnitProvider.for_project(**args)
-    except (TypeError, libadalang.InvalidProjectError) as exc:
+    except (
+        TypeError, libadalang.InvalidProject, libadalang.UnsupportedViewError
+    ) as exc:
         print('   ... got a {} exception: {}'.format(type(exc).__name__, exc))
     else:
         print('   ... success!')

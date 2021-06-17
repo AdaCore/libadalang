@@ -50,10 +50,7 @@
                  c_scenario_vars
                  target runtime
     in
-    if is_null result then
-      raise (InvalidProjectError ("Cannot open or interpret project " ^ project_file))
-    else
-      wrap result
+    wrap result
 
   let create_auto_provider =
     foreign ~from:c_lib "${capi.get_name("create_auto_provider")}"

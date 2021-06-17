@@ -1,5 +1,0 @@
-## vim: filetype=makopython
-
-class InvalidProjectError(Exception):
-    ${py_doc('libadalang.invalid_project_error', 4)}
-    pass

@@ -1,5 +1,5 @@
 Loading ap1.gpr...
-   ... got a InvalidProjectError exception: Cannot open project ap1.gpr
+   ... got a UnsupportedViewError exception: inconsistent units found
 Loading ap2.gpr...
    ... success!
 <DottedName p2.ads:4:24-4:28> resolves to <ObjectDecl ["I"] p1.ads:2:4-2:16>

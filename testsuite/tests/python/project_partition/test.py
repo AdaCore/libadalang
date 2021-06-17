@@ -5,7 +5,7 @@ for project in ('ap1.gpr', 'ap2.gpr'):
     print('Loading {}...'.format(project))
     try:
         up = lal.UnitProvider.for_project(project)
-    except lal.InvalidProjectError as exc:
+    except Exception as exc:
         print('   ... got a {} exception: {}'.format(type(exc).__name__, exc))
         continue
     else:

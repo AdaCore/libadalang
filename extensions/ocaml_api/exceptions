@@ -1,2 +1,0 @@
-${ocaml_doc('libadalang.invalid_project_error', 0)}
-exception InvalidProjectError of string

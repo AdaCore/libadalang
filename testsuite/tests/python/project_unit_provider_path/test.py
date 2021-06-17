@@ -9,7 +9,7 @@ import libadalang
 def try_load(*args, **kwargs):
     try:
         libadalang.UnitProvider.for_project(*args, **kwargs)
-    except libadalang.InvalidProjectError as exc:
+    except Exception as exc:
         print('   exception {}: {}'.format(type(exc).__name__, exc))
     else:
         print('   success')

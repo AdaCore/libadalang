@@ -48,8 +48,9 @@ package body Libadalang.Implementation.C.Extensions is
       Target, Runtime : chars_ptr;
       Tree            : out Project_Tree_Access;
       Env             : out Project_Environment_Access);
-   --  Helper to load a project file from C arguments. In case of failure,
-   --  set Tree and Env to null and just return (no exception propagated).
+   --  Helper to load a project file from C arguments. May propagate a
+   --  GNATCOLL.Projects.Invalid_Project exception if the project cannot be
+   --  loaded.
 
    -------------------------
    -- Scenario_Vars_Count --
@@ -121,6 +122,7 @@ package body Libadalang.Implementation.C.Extensions is
          when Invalid_Project =>
             Free (Tree);
             Free (Env);
+            raise;
       end;
    end Load_Project;
 
@@ -133,8 +135,8 @@ package body Libadalang.Implementation.C.Extensions is
       Scenario_Vars         : System.Address;
       Target, Runtime       : chars_ptr) return ada_unit_provider
    is
-      P : constant String :=
-        (if Project = Null_Ptr then "" else Value (Project));
+      Null_Result : constant ada_unit_provider :=
+        ada_unit_provider (System.Null_Address);
 
       --  The following locals contain dynamically allocated resources. If
       --  project loading is successful, the result will own them, but in case
@@ -144,46 +146,57 @@ package body Libadalang.Implementation.C.Extensions is
       Env  : Project_Environment_Access;
       Prj  : Project_Type := No_Project;
 
-      function Error return ada_unit_provider;
-      --  Helper for error handling: free allocated resources and return null
+      procedure Free;
+      --  Helper for error handling: free allocated resources
 
-      -----------
-      -- Error --
-      -----------
+      ----------
+      -- Free --
+      ----------
 
-      function Error return ada_unit_provider is
+      procedure Free is
       begin
          Free (Env);
          Free (Tree);
-         return ada_unit_provider (System.Null_Address);
-      end Error;
+      end Free;
 
    begin
+      Clear_Last_Exception;
+
       Load_Project (Project_File, Scenario_Vars, Target, Runtime, Tree, Env);
-      if Env = null then
-         return ada_unit_provider (System.Null_Address);
-      end if;
 
-      if P /= "" then
-         --  A specific project was requested: try to build one unit provider
-         --  just for it. Lookup the project by name, and then if not found, by
-         --  path.
-         Prj := Tree.Project_From_Name (P);
-         if Prj = No_Project then
-            Prj := Tree.Project_From_Path (Create (+P));
-         end if;
-         if Prj = No_Project then
-            return Error;
-         end if;
-      end if;
-
+      declare
+         P : constant String :=
+           (if Project = Null_Ptr then "" else Value (Project));
       begin
-         return To_C_Provider
-           (Create_Project_Unit_Provider (Tree, Prj, Env, True));
-      exception
-         when Invalid_Project =>
-            return Error;
+         if P /= "" then
+            --  A specific project was requested: try to build one unit
+            --  provider just for it. Lookup the project by name, and then if
+            --  not found, by path.
+            Prj := Tree.Project_From_Name (P);
+            if Prj = No_Project then
+               Prj := Tree.Project_From_Path (Create (+P));
+            end if;
+            if Prj = No_Project then
+               Free;
+               raise GNATCOLL.Projects.Invalid_Project
+                  with "no such project: " & P;
+            end if;
+         end if;
       end;
+
+      return To_C_Provider
+        (Create_Project_Unit_Provider (Tree, Prj, Env, True));
+
+   exception
+      when Exc : GNATCOLL.Projects.Invalid_Project =>
+         Free;
+         Set_Last_Exception (Exc);
+         return Null_Result;
+
+      when Exc : Unsupported_View_Error =>
+         Free;
+         Set_Last_Exception (Exc);
+         return Null_Result;
    end ada_create_project_unit_provider;
 
    ------------------------------

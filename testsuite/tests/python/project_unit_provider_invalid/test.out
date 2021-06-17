@@ -1,8 +1,8 @@
 Trying to load invalid project:
 invalid.gpr:1:01: ":=" expected
-   ... got an exception: Cannot open project invalid.gpr
+   ... got an exception: gnatcoll-projects.adb:XXX
 Trying to load not existing:
-   ... got an exception: Cannot open project does_not_exist.gpr
+   ... got an exception: gnatcoll-projects.adb:XXX
 Trying to load project with unknown target:
    ... got no exception
 Trying to get unit: '\xe9'

@@ -47,8 +47,12 @@ libadalang_docs = {
         this returns ``${null}``.
         % endif
     """,
-    'libadalang.invalid_project_error': """
+    'libadalang.project_provider.invalid_project': """
         Raised when an error occurs while loading a project file.
+    """,
+    'libadalang.project_provider.unsupported_view_error': """
+        Raised when creating a project unit provider for an unsupported project
+        view (for instance, a view with conflicting aggregated projects).
     """,
     'libadalang.create_auto_provider': """
         Return a unit provider that knows which compilation units are to be

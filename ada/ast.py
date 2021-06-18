@@ -15689,6 +15689,17 @@ class Subunit(AdaNode):
     name = Field(type=T.Name)
     body = Field(type=T.Body)
 
+    @langkit_property(return_type=T.CompilationUnit.entity)
+    def root_unit():
+        """
+        Return the compilation unit in which this subunit is rooted.
+        """
+        return Self.designated_compilation_unit(
+            Self.name.as_symbol_array,
+            UnitBody,
+            load_if_needed=True
+        ).as_bare_entity
+
     @langkit_property()
     def env_hook_subunit():
         """
@@ -15696,18 +15707,15 @@ class Subunit(AdaNode):
         """
         # Subunit handling is very simple: we just want to fetch the containing
         # unit.
-        return Self.get_unit(Self.name.as_symbol_array,
-                             UnitBody,
-                             load_if_needed=True).then(lambda _: False)
+        ignore(Var(Self.root_unit))
+        return False
 
     @langkit_property(public=True)
     def body_root():
         """
         Return the body in which this subunit is rooted.
         """
-        return Self.get_unit_root_decl(
-            Self.name.as_symbol_array, UnitBody
-        ).as_bare_entity
+        return Self.root_unit.decl.as_bare_entity
 
     xref_entry_point = Property(True)
     xref_equation = Property(Bind(Self.name.ref_var, Entity.body_root))

@@ -14460,6 +14460,70 @@ class CompilationUnit(AdaNode):
         """
         return Entity.is_preelaborable_impl(from_body=False)
 
+    @langkit_property(return_type=Symbol.array)
+    def self_restrictions():
+        """
+        Return the list of restrictions pragmas that appear in the prelude of
+        this particular unit. We only check the prelude as it's the only place
+        they are allowed to appear in.
+        """
+        return Self.as_bare_entity.prelude.filtermap(
+            lambda n:
+            n.cast(Pragma).args.at(0)._.assoc_expr.cast(BaseId).name_symbol,
+
+            lambda n: n.cast(Pragma).then(
+                lambda p: p.id.name_symbol == "Restrictions"
+            )
+        )
+
+    @langkit_property(return_type=T.CompilationUnit.entity)
+    def other_part():
+        """
+        If this compilation unit is of kind UnitSpecification, return its
+        corresponding body unit, and conversely.
+        """
+        other_kind = Var(If(
+            Self.unit_kind == UnitSpecification,
+            UnitBody,
+            UnitSpecification
+        ))
+        return Self.designated_compilation_unit(
+            Self.syntactic_fully_qualified_name,
+            kind=other_kind
+        )._.as_bare_entity
+
+    @langkit_property(return_type=Bool, public=True)
+    def has_restriction(name=Symbol):
+        """
+        Whether this compilation unit is affected by the restriction with the
+        given name.
+
+        .. WARNING::
+            This property only supports the ``No_Elaboration_Code`` restriction
+            for now.
+        """
+        return Cond(
+            name == "No_Elaboration_Code",
+
+            Self.body.match(
+                # For library items, restriction No_Elaboration_Code can appear
+                # in the body or in the spec.
+                lambda _=LibraryItem:
+                Self.self_restrictions.contains(name)
+                | Self.other_part._.self_restrictions.contains(name),
+
+                # For subunits, restriction must appear in the root unit, so
+                # we only check that.
+                lambda su=Subunit: su.root_unit._.has_restriction(name),
+
+                lambda _: PropertyError(
+                    Bool, 'Unexpected CompilationUnit.f_body attribute'
+                )
+            ),
+
+            PropertyError(Bool, "Unsupported restriction")
+        )
+
     @langkit_property(return_type=Bool)
     def is_text_io_child():
         """

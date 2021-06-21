@@ -208,7 +208,7 @@ class Manage(ManageScript):
         ]
         if not args.disable_ocaml:
             argv.append('--with-ocaml-bindings')
-            argv.append(os.path.join('build', 'ocaml'))
+            argv.append(os.path.join(args.build_dir, 'ocaml'))
         if not args.library_types.relocatable:
             argv.append('--disable-shared')
         argv.extend(unknown_args)

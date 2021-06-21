@@ -1,5 +1,5 @@
 type Resolution_Val is record
-    Cache_Version : Natural;
+    Cache_Version : Version_Number;
     Rebindings    : Env_Rebindings;
     Return_Value  : Boolean;
     Raised_Exc    : Boolean;

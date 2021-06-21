@@ -6469,6 +6469,10 @@ class UsePackageClause(UseClause):
             Self.initial_env_name,
             Self.default_initial_env
         ),
+
+        # Run PLE on the children (i.e. the names of USE'd packages) so that we
+        # can run name resolution on them in the call to reference() below.
+        handle_children(),
         reference(
             Self.packages.map(lambda n: n.cast(AdaNode)),
             T.Name.use_package_name_designated_env,
@@ -6508,6 +6512,10 @@ class UseTypeClause(UseClause):
             Self.initial_env_name,
             Self.default_initial_env
         ),
+
+        # Run PLE on the children (i.e. the names of USE'd packages) so that we
+        # can run name resolution on them in the call to reference() below.
+        handle_children(),
         reference(
             Self.types.map(lambda n: n.cast(AdaNode)),
             T.Name.name_designated_type_env,

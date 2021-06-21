@@ -1,0 +1,8 @@
+type: bugfix
+title: Fix exponential complexity with failed resolution of ``use`` clauses
+short_title: Exponential time for failed nameres of USE clauses
+description: |
+    This change fixes the bug that made Libadalang take an exponential amount
+    of time to resolve the names in ``use`` clauses when source files are
+    missing to provide declarations for the corresponding entities.
+date: 2021-06-21

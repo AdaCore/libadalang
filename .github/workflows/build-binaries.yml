@@ -38,6 +38,12 @@ jobs:
         with:
           repository: AdaCore/gprbuild
           path: gprbuild
+          fetch-depth: 0  # To be able do `git revert`
+      - name: Revert a libgpr patch (MacOS X only)
+        # The latest libgpr doesn't support GNAT CE 2020, but on MacOS X we
+        # don't have GNAT CE 2021. Let's revert this commit for now.
+        if: ${{ runner.os == 'macOS' }}
+        run: git -C gprbuild revert --no-edit 3341766255bf5ab90fe05a8e162894b7830adca6
       - name: Get gnatcoll core
         uses: actions/checkout@v2
         with:

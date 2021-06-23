@@ -14,5 +14,43 @@ Expr: <Id "Delta" test.adb:4:22-4:27>
   references: None
   type:       None
 
+Resolving xrefs for node <ObjectDecl ["B"] test.adb:7:4-7:40>
+*************************************************************
+
+Expr: <Id "T" test.adb:7:17-7:18>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       None
+Expr: <AttributeRef test.adb:7:22-7:39>
+  references: None
+  type:       <TypeDecl ["T"] test.adb:2:4-2:42>
+Expr: <Id "T" test.adb:7:22-7:23>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:42>
+Expr: <Id "Fixed_Value" test.adb:7:24-7:35>
+  references: None
+  type:       None
+Expr: <Int test.adb:7:37-7:38>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+
+Resolving xrefs for node <ObjectDecl ["C"] test.adb:10:4-10:54>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:10:17-10:24>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <AttributeRef test.adb:10:28-10:53>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Integer" test.adb:10:28-10:35>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Integer_Value" test.adb:10:36-10:49>
+  references: None
+  type:       None
+Expr: <Id "B" test.adb:10:51-10:52>
+  references: <DefiningName test.adb:7:4-7:5>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:42>
+
 
 Done.

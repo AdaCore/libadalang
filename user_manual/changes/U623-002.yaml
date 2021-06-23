@@ -1,0 +1,7 @@
+type: new-feature
+title: Support for ``Fixed_Value`` & ``Integer_Value``
+description: |
+    This change adds name resolution support for two the GNAT-specific
+    ``Fixed_Value`` and ``Integer_Value`` attributes. Statements containing
+    occurrences of those attributes should now resolve correctly.
+date: 2021-06-23

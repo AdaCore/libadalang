@@ -12573,6 +12573,7 @@ class Identifier(BaseId):
             # S910-057 for more details).
             'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min', 'Max',
             'Value', 'Wide_Value', 'Wide_Wide_Value',
+            'Fixed_Value', 'Integer_Value',
             'Pos', 'Val', 'Enum_Val',
             'First', 'Last', 'Range', 'Length',
             'Image', 'Wide_Image', 'Wide_Wide_Image',
@@ -13551,6 +13552,12 @@ class AttributeRef(Name):
             rel_name == 'Wide_Wide_Value',
             Entity.value_equation(Self.std_entity('Wide_Wide_String')),
 
+            rel_name == 'Fixed_Value',
+            Entity.fixed_value_equation(Self.universal_int_type),
+
+            rel_name == 'Integer_Value',
+            Entity.fixed_value_equation(Self.universal_real_type),
+
             rel_name == 'Invalid_Value',
             Entity.invalid_value_equation,
 
@@ -13893,6 +13900,26 @@ class AttributeRef(Name):
 
             # Type of self is designated type
             & Self.type_bind_val(Self.type_var, typ)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def fixed_value_equation(universal_type=T.AdaNode.entity):
+        """
+        Return the xref equation for the ``Fixed_Value`` and ``Integer_Value``
+        attributes, depending on whether ``universal_int`` or
+        ``universal_real`` is passed.
+        """
+        typ = Var(Entity.prefix.name_designated_type)
+        return And(
+            Entity.prefix.sub_equation,
+            Self.type_bind_val(Self.type_var, typ),
+            Entity.args_list.at(0).expr.then(
+                lambda e: And(
+                    e.sub_equation,
+                    Self.type_bind_val(e.type_var, universal_type)
+                ),
+                default_val=LogicFalse()
+            )
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

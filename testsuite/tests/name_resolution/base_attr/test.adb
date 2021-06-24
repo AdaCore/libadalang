@@ -4,6 +4,9 @@ procedure Test is
    Y : T'Base := 3;
    X : T'Base := T'Base (12) + 1;
    pragma Test_Statement;
+
+   Z : Integer := T'Base'Alignment;
+   pragma Test_Statement;
 begin
    null;
 end Test;

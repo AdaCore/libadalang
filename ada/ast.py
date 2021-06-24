@@ -13578,7 +13578,8 @@ class AttributeRef(Name):
             rel_name.any_of('Old', 'Loop_Entry'),
             Entity.bind_to_prefix_eq,
 
-            rel_name == 'Class',  Entity.prefix.sub_equation,
+            rel_name.any_of('Class', 'Base'),
+            Entity.prefix.sub_equation,
 
             rel_name == 'Valid',
             Entity.prefix.sub_equation

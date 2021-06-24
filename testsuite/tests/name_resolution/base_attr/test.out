@@ -37,5 +37,27 @@ Expr: <Int test.adb:5:32-5:33>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
+Resolving xrefs for node <ObjectDecl ["Z"] test.adb:8:4-8:36>
+*************************************************************
+
+Expr: <Id "Integer" test.adb:8:8-8:15>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <AttributeRef test.adb:8:19-8:35>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <AttributeRef test.adb:8:19-8:25>
+  references: None
+  type:       None
+Expr: <Id "T" test.adb:8:19-8:20>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       <TypeDecl ["T"] test.adb:2:4-2:40>
+Expr: <Id "Base" test.adb:8:21-8:25>
+  references: None
+  type:       None
+Expr: <Id "Alignment" test.adb:8:26-8:35>
+  references: None
+  type:       None
+
 
 Done.

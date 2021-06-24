@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix support of ``'Base`` attribute
+description: |
+    This patch fixes a bug where using the ``'Base`` attribute as the prefix
+    of another attribute (as in ``Float'Base'Write (...)`` would trigger a
+    name resolution failure.
+date: 2021-06-24

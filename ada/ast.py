@@ -28,11 +28,6 @@ all_categories = RefCategories(default=True)
 noprims = RefCategories(inherited_primitives=False, default=True)
 
 
-class FindAllMode(Enum):
-    References = EnumValue()
-    DerivedTypes = EnumValue()
-
-
 def default_origin():
     """
     Helper to return an origin dynamic param spec wich defaults to

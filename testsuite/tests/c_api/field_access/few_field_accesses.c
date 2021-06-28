@@ -23,7 +23,7 @@ main(void)
     ada_base_entity overriding;
     ada_token tok;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, 1, 8);
+    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
     if (ctx == NULL)
         error("Could not create the analysis context");
 

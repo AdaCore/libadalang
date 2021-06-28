@@ -27,7 +27,7 @@ main(void)
     ada_analysis_unit unit;
     ada_token tok, prev_tok;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, 1, 8);
+    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
     if (ctx == NULL)
         handle_exception("Could not create the analysis context");
 

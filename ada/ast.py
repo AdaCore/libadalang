@@ -8160,24 +8160,50 @@ class GenericPackageInstantiation(GenericInstantiation):
         visibility on the formals.
         """
         dp = Var(Entity.designated_package)
-        return Array([
-            If(
-                Self.is_formal | inst_from_formal,
-                Array([dp.children_env, dp.parent.children_env]).env_group(),
-                dp.children_env
-            ),
-            # The environment of the instantiation needs to be available,
-            # because library unit generic package instantiations can be
-            # nested, and so need to be available, such as in::
+        return If(
+            # In some specific scenarios on valid Ada code, dp can be null
+            # here (see U630-018). For example, consider the following snippet.
             #
-            #     --  a.ads
-            #     package A is new Gen_A;
+            # .. code::
+            #   use U; -- U contains the declaration of G
+            #   package A is new G;
+            #   use A;
             #
-            #     --  a-b.ads
-            #     package A.B is new A.Gen_B;
-            #
-            Entity.children_env
-        ]).env_group()
+            # Now consider an env lookup attempting to traverse the "use U"
+            # clause. When calling the use clause's resolver, we lookup "U" and
+            # we end up traversing "use A" (this is the critical part: although
+            # the use clause is located after, we still traverse it in order
+            # to cache further lookups to "U", no matter their origin). When
+            # resolving "use A", we need to lookup G. However, since U is
+            # already being visited, our lexical env mechanism preventing
+            # infinite recursion returns an empty vector, which in turn makes
+            # ``Entity.designated_package`` be null here.
+            # Fortunately, returning EmptyEnv in this case is fine, because
+            # there would be no way for U to be found through A anyways.
+            dp.is_null,
+            EmptyEnv,
+            Array([
+                If(
+                    Self.is_formal | inst_from_formal,
+                    Array([
+                        dp.children_env,
+                        dp.parent.children_env
+                    ]).env_group(),
+                    dp.children_env
+                ),
+                # The environment of the instantiation needs to be available,
+                # because library unit generic package instantiations can be
+                # nested, and so need to be available, such as in::
+                #
+                #     --  a.ads
+                #     package A is new Gen_A;
+                #
+                #     --  a-b.ads
+                #     package A.B is new A.Gen_B;
+                #
+                Entity.children_env
+            ]).env_group()
+        )
 
     @langkit_property(return_type=LexicalEnv)
     def defining_env():

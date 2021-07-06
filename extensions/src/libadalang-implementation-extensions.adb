@@ -50,17 +50,22 @@ package body Libadalang.Implementation.Extensions is
    -------------------------
 
    function Ada_Node_P_Get_Unit
-     (Node           : Bare_Ada_Node;
-      Name           : Symbol_Type_Array_Access;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit is
+     (Node               : Bare_Ada_Node;
+      Name               : Symbol_Type_Array_Access;
+      Kind               : Analysis_Unit_Kind;
+      Load_If_Needed     : Boolean;
+      Not_Found_Is_Error : Boolean;
+      Process_Parents    : Boolean := True) return Internal_Unit
+   is
    begin
       return Env_Hooks.Fetch_Unit
         (Node.Unit.Context,
          Env_Hooks.Symbol_Type_Array (Name.Items),
          Node.Unit,
          Kind,
-         Load_If_Needed);
+         Load_If_Needed,
+         Not_Found_Is_Error => Not_Found_Is_Error,
+         Process_Parents    => Process_Parents);
    end Ada_Node_P_Get_Unit;
 
    ------------------------------
@@ -536,22 +541,6 @@ package body Libadalang.Implementation.Extensions is
       Sources.Decode_Integer_Literal (N_Text, Number);
       return Create_Big_Integer (Number);
    end Int_Literal_P_Denoted_Value;
-
-   -------------------------------------
-   -- Name_P_Internal_Referenced_Unit --
-   -------------------------------------
-
-   function Name_P_Internal_Referenced_Unit
-     (Node           : Bare_Name;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit is
-   begin
-      return Env_Hooks.Fetch_Unit
-        (Node.Unit.Context, Node, Kind, Load_If_Needed);
-   exception
-      when Property_Error =>
-         return No_Analysis_Unit;
-   end Name_P_Internal_Referenced_Unit;
 
    ------------------------------------
    -- String_Literal_P_Denoted_Value --

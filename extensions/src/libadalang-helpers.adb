@@ -24,16 +24,20 @@
 with Ada.Command_Line;
 with Ada.Containers.Synchronized_Queue_Interfaces;
 with Ada.Containers.Unbounded_Synchronized_Queues;
+with Ada.Directories;
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 with System.Multiprocessors;
 
+with GNAT.OS_Lib;
 with GNAT.Traceback.Symbolic;
 
 with GNATCOLL.VFS;       use GNATCOLL.VFS;
 
 with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
+
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 package body Libadalang.Helpers is
 
@@ -209,6 +213,9 @@ package body Libadalang.Helpers is
          UFP : Unit_Provider_Reference;
          --  When project file handling is enabled, corresponding unit provider
 
+         EH : Event_Handler_Reference;
+         --  Event handler for command line app.
+
          type App_Job_Context_Array_Access is access App_Job_Context_Array;
          procedure Free is new Ada.Unchecked_Deallocation
            (App_Job_Context_Array, App_Job_Context_Array_Access);
@@ -231,6 +238,7 @@ package body Libadalang.Helpers is
          procedure Finalize is
          begin
             UFP := No_Unit_Provider_Reference;
+            EH := No_Event_Handler_Ref;
             if Project /= null then
                Project.Unload;
                Free (Project);
@@ -248,7 +256,7 @@ package body Libadalang.Helpers is
             F   : Unbounded_String;
             JID : Job_ID;
          begin
-            --  Wait for the signal to start jobs
+            --  Wait for the event to start jobs
 
             accept Start (ID : Job_ID) do
                JID := ID;
@@ -345,6 +353,10 @@ package body Libadalang.Helpers is
          if not Args.Parser.Parse then
             return;
          end if;
+
+         --  Use the default command line event handler for the event handler.
+         --  Forward the value of th Exit_On_Missing_File cmd line option.
+         EH := Command_Line_Event_Handler (Args.Exit_On_Missing_File.Get);
 
          Trace.Increase_Indent ("Setting up the unit provider");
          if Length (Args.Project_File.Get) > 0 then
@@ -461,7 +473,8 @@ package body Libadalang.Helpers is
                App_Ctx         => App_Ctx'Unchecked_Access,
                Analysis_Ctx    => Create_Context
                                     (Charset       => +Args.Charset.Get,
-                                     Unit_Provider => UFP),
+                                     Unit_Provider => UFP,
+                                     Event_Handler => EH),
                Units_Processed => <>,
                Aborted         => False);
          end loop;
@@ -647,5 +660,80 @@ package body Libadalang.Helpers is
          Free (Partition);
       end return;
    end Project_To_Provider;
+
+   package Cmd_Line_Event_Handler is
+      type Cmd_Line_Event_Handler_Type
+      is new Event_Handler_Interface with record
+         Exit_On_Missing_File : Boolean;
+      end record;
+
+      procedure Unit_Requested_Callback
+        (Self               : Cmd_Line_Event_Handler_Type;
+         Context            : Analysis_Context'Class;
+         Name               : Text_Type;
+         From               : Analysis_Unit'Class;
+         Found              : Boolean;
+         Is_Not_Found_Error : Boolean);
+
+      procedure Unit_Parsed_Callback
+        (Self     : Cmd_Line_Event_Handler_Type;
+         Context  : Analysis_Context'Class;
+         Unit     : Analysis_Unit'Class;
+         Reparsed : Boolean);
+
+      procedure Release (Self : in out Cmd_Line_Event_Handler_Type);
+   end Cmd_Line_Event_Handler;
+
+   package body Cmd_Line_Event_Handler is
+      procedure Unit_Requested_Callback
+        (Self               : Cmd_Line_Event_Handler_Type;
+         Context            : Analysis_Context'Class;
+         Name               : Text_Type;
+         From               : Analysis_Unit'Class;
+         Found              : Boolean;
+         Is_Not_Found_Error : Boolean) is
+      begin
+         if not Found and Is_Not_Found_Error then
+            Put_Line
+              ((if Self.Exit_On_Missing_File then "ERROR: " else "WARNING: ")
+               & "File "
+               & Ada.Directories.Simple_Name (Image (Name))
+               & " not found");
+
+            if Self.Exit_On_Missing_File then
+               GNAT.OS_Lib.OS_Exit (1);
+            end if;
+         end if;
+      end Unit_Requested_Callback;
+
+      procedure Unit_Parsed_Callback
+        (Self     : Cmd_Line_Event_Handler_Type;
+         Context  : Analysis_Context'Class;
+         Unit     : Analysis_Unit'Class;
+         Reparsed : Boolean) is
+      begin
+         null;
+      end Unit_Parsed_Callback;
+
+      procedure Release (Self : in out Cmd_Line_Event_Handler_Type) is
+      begin
+         null;
+      end Release;
+   end Cmd_Line_Event_Handler;
+
+   --------------------------------
+   -- Command_Line_Event_Handler --
+   --------------------------------
+
+   function Command_Line_Event_Handler
+     (Exit_On_Missing_File : Boolean) return Event_Handler_Reference
+   is
+      Ret : Event_Handler_Reference;
+   begin
+      Ret.Set
+        (Cmd_Line_Event_Handler.Cmd_Line_Event_Handler_Type'
+          (Exit_On_Missing_File => Exit_On_Missing_File));
+      return Ret;
+   end Command_Line_Event_Handler;
 
 end Libadalang.Helpers;

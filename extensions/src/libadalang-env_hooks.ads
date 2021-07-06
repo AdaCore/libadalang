@@ -53,7 +53,9 @@ private package Libadalang.Env_Hooks is
       From_Unit          : Internal_Unit;
       Kind               : Analysis_Unit_Kind;
       Load_If_Needed     : Boolean;
-      Do_Prepare_Nameres : Boolean := True) return Internal_Unit;
+      Do_Prepare_Nameres : Boolean := True;
+      Not_Found_Is_Error : Boolean := False;
+      Process_Parents    : Boolean := True) return Internal_Unit;
    --  Fetch the unit for the file that (Name, Kind) designate. If
    --  Do_Prepare_Nameres is set, populate its lexical environment and
    --  reference the result from Name's unit.

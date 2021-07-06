@@ -1,0 +1,5 @@
+Analyzing test.adb
+##################
+
+WARNING: File non_existing_unit.ads not found
+Done.

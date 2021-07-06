@@ -1,8 +1,8 @@
 Analyzing syntax_error.adb
 ##########################
 
-syntax_error.adb:1:13: Skipped token dummyyy
-syntax_error.adb:1:20: Skipped token ;
+syntax_error.adb:1:11: Skipped token dummyyy
+syntax_error.adb:1:18: Skipped token ;
 Analyzing empty.adb
 ###################
 

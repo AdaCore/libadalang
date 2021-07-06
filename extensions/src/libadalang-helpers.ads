@@ -76,6 +76,18 @@ package Libadalang.Helpers is
    --  Try to create a unit provider out of ``Project``. If not possible, call
    --  ``Abort_App``.
 
+   function Command_Line_Event_Handler
+     (Exit_On_Missing_File : Boolean) return Event_Handler_Reference;
+   --  Create an event handler with default callbacks for command line
+   --  applications.
+   --
+   --  When a dependency is not found, a warning or error will be emitted on
+   --  the standard error stream.
+   --
+   --  ``Exit_On_Missing_File`` will determine the behavior when
+   --  encountering a missing dependency. If ``False``, a warning will be shown
+   --  but resolution will continue. If ``True``, application will exit.
+
    procedure Abort_App (Message : String := "") with No_Return;
    --  If provided, print Message to the standard error output and abort the
    --  current App. This will set the process exit status to Failure (see
@@ -301,6 +313,13 @@ package Libadalang.Helpers is
          package Sym_Traceback is new Parse_Flag
            (Parser, Long => "--symbolic-traceback",
             Help         => "Show symbolic tracebacks for exceptions");
+
+         package Exit_On_Missing_File is new Parse_Flag
+           (Parser,
+            Short => "-E", Long => "--exit-on-missing-file",
+            Help  => "Behavior when encountering missing files. By default,"
+            & " continue despite missing dependencies. If passed, exit on"
+            & " first missing file.");
 
          package Files is new Parse_Positional_Arg_List
            (Parser,

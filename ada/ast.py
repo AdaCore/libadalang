@@ -109,6 +109,54 @@ class AdaNode(ASTNode):
         public=True
     )
 
+    @langkit_property(ignore_warn_on_node=True)
+    def withed_unit_helper(unit_name=T.Name):
+        """
+        Static method helper. Fetch the unit designated by unit_name. Return
+        the compilation unit node.
+
+        This is designed in a way that will emit a
+        ``unit_requested(not_found_is_error=true, ...)`` callback when not
+        finding the unit is supposed to be an error within Ada semantics.
+        """
+        unit_name_array = Var(unit_name.as_symbol_array)
+        spec = Var(Self.designated_compilation_unit(
+            unit_name_array,
+            kind=UnitSpecification,
+            not_found_is_error=False
+        ))
+
+        body = Var(If(
+            spec.is_null,
+            Self.designated_compilation_unit(
+                unit_name_array,
+                kind=UnitBody,
+                not_found_is_error=False
+            ),
+
+            No(T.CompilationUnit)
+        ))
+
+        ignore(Var(Cond(
+            body._.decl.is_a(T.PackageBody) & spec.is_null,
+
+            Self.designated_compilation_unit(
+                unit_name_array, kind=UnitSpecification,
+                not_found_is_error=True
+            ),
+
+            spec.is_null & body.is_null,
+
+            Self.designated_compilation_unit(
+                unit_name_array, kind=UnitSpecification,
+                not_found_is_error=True
+            ),
+
+            No(T.CompilationUnit)
+        )))
+
+        return spec._or(body)
+
     @langkit_property(return_type=T.String)
     def custom_id_text():
         """
@@ -419,24 +467,38 @@ class AdaNode(ASTNode):
         )
     )
     def get_unit(name=Symbol.array, kind=AnalysisUnitKind,
-                 load_if_needed=Bool):
+                 load_if_needed=Bool, not_found_is_error=Bool,
+                 process_parents=(Bool, True)):
         """
         Return the analysis unit for the given ``kind`` corresponding to this
         Name. Return null if ``load_if_needed`` is false and the unit is not
         loaded yet.
+
+        For nested library units, this will trigger the processing of parent
+        library units, so for example, if you `get_unit('A.B.C')`, this will
+        load units `A.B.C`, `A.B` and `A`, except if `process_parents` is
+        False.
+
+        ``not_found_is_error`` will condition the parameter of the same name in
+        the ``Unit_Requested`` callback. The client of ``get_unit`` is supposed
+        to pass ``True`` if the unit not being found is an error in the Ada
+        sense.
         """
         pass
 
     @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
     def designated_compilation_unit(name=T.Symbol.array,
                                     kind=AnalysisUnitKind,
-                                    load_if_needed=(Bool, True)):
+                                    load_if_needed=(Bool, True),
+                                    not_found_is_error=(Bool, True),
+                                    process_parents=(Bool, True)):
         """
         Fetch the compilation unit designated by the given name defined in an
         analysis unit of the given kind.
         """
         designated_analysis_unit = Var(
-            Self.get_unit(name, kind, load_if_needed)
+            Self.get_unit(name, kind, load_if_needed,
+                          not_found_is_error, process_parents)
         )
 
         return designated_analysis_unit.root._.match(
@@ -457,13 +519,17 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.BasicDecl, uses_entity_info=False,
                       ignore_warn_on_node=True)
     def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind,
-                           load_if_needed=(Bool, True)):
+                           load_if_needed=(Bool, True),
+                           not_found_is_error=(Bool, True),
+                           process_parents=(Bool, True)):
         """
         If the corresponding analysis unit is loaded, return the root decl
         node for the given analysis unit ``kind`` and correpsonding to the
         name ``name``. If it's not loaded, return none.
         """
-        cu = Var(Self.designated_compilation_unit(name, kind, load_if_needed))
+        cu = Var(Self.designated_compilation_unit(
+            name, kind, load_if_needed, not_found_is_error, process_parents
+        ))
         return cu._.decl
 
     @langkit_property(public=True, return_type=AnalysisUnit.array,
@@ -1309,7 +1375,9 @@ class BasicDecl(AdaNode):
                 lambda dn:
                 Self.get_unit(dn.prefix.as_symbol_array,
                               UnitSpecification,
-                              load_if_needed=True).then(lambda _: False)
+                              load_if_needed=True,
+                              not_found_is_error=Not(Self.is_a(T.SubpBody)))
+                .then(lambda _: False)
             ),
             False
         )
@@ -1915,13 +1983,9 @@ class BasicDecl(AdaNode):
             Self.is_compilation_unit_root,
             Self.top_level_with_package_clauses.map(
                 lambda package_name:
-                # First fetch the spec
-                package_name.referenced_unit(UnitSpecification)
-                # If no spec exists, maybe it is a library level subprogram
-                # with just a body, so fetch the body.
-                .root._or(package_name.referenced_unit(UnitBody).root)
+                Self.withed_unit_helper(package_name)
             ),
-            No(AdaNode.array)
+            No(CompilationUnit.array)
         )
 
     @langkit_property(return_type=Bool)
@@ -2362,7 +2426,12 @@ class BasicDecl(AdaNode):
             Self.enclosing_compilation_unit.decl.match(
                 lambda _=Body: No(AnalysisUnit),
                 lambda b=BasicDecl:
-                b.as_bare_entity._.defining_name._.referenced_unit(UnitBody)
+                b.as_bare_entity._.defining_name._.referenced_unit(
+                    UnitBody,
+                    not_found_is_error=Not(b.is_a(
+                        T.BasePackageDecl, T.GenericPackageDecl
+                    ))
+                )
             )
         ))
 
@@ -2382,7 +2451,7 @@ class BasicDecl(AdaNode):
             Probably, we want to rename the specific versions, and have the
             root property be named next_part. (TODO R925-008)
         """
-        return Entity.basic_decl_next_part_for_decl
+        return Entity.basic_decl_next_part_for_decl()
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def body_part_for_decl():
@@ -2394,10 +2463,12 @@ class BasicDecl(AdaNode):
             Probably, we want to rename the specific versions, and have the
             root property be named body_part. (TODO R925-008)
         """
-        return Entity.next_part_for_decl.then(lambda np: np.match(
-            lambda stub=BodyStub: stub.next_part_for_decl,
-            lambda other: other
-        )).cast(T.Body)
+        return Entity.next_part_for_decl().then(
+            lambda np: np.match(
+                lambda stub=BodyStub: stub.next_part_for_decl(),
+                lambda other: other
+            )
+        ).cast(T.Body)
 
     @langkit_property(return_type=T.SingleTokNode.array)
     def fully_qualified_name_impl():
@@ -2576,7 +2647,8 @@ class Body(BasicDecl):
                 lambda _=Self.get_unit(
                     Self.as_bare_entity.defining_name.as_symbol_array,
                     UnitSpecification,
-                    load_if_needed=True
+                    load_if_needed=True,
+                    not_found_is_error=Not(Self.is_a(T.SubpBody))
                 ):
 
                 # A library level subprogram body does not have to have a spec.
@@ -2975,7 +3047,10 @@ class BodyStub(Body):
     @langkit_property(public=True)
     def next_part_for_decl():
         return Self.get_unit_root_decl(
-            Entity.fully_qualified_name_array, UnitBody
+            Entity.fully_qualified_name_array,
+            UnitBody,
+            process_parents=False
+
         ).as_entity
 
     @langkit_property(public=True)
@@ -4903,10 +4978,12 @@ class BaseTypeDecl(BasicDecl):
         public=True,
     )
 
-    next_part_for_decl = Property(Entity.match(
-        lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
-        lambda _: Entity.next_part.cast(T.BasicDecl.entity)
-    ))
+    @langkit_property()
+    def next_part_for_decl():
+        return Entity.match(
+            lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
+            lambda _: Entity.next_part.cast(T.BasicDecl.entity)
+        )
 
     @langkit_property(return_type=Shape.array, dynamic_vars=[default_origin()],
                       public=True)
@@ -6333,7 +6410,9 @@ class ProtectedTypeDecl(BaseTypeDecl):
 
     defining_env = Property(Entity.children_env)
 
-    next_part_for_decl = Property(Entity.basic_decl_next_part_for_decl)
+    @langkit_property()
+    def next_part_for_decl():
+        return Entity.basic_decl_next_part_for_decl
 
     xref_entry_point = Property(True)
 
@@ -7696,7 +7775,9 @@ class BasePackageDecl(BasicDecl):
         Return the PackageBody corresponding to this node.
         """
         return imprecise_fallback.bind(
-            False, Entity.body_part_for_decl.cast(T.PackageBody)
+            False,
+            Entity.body_part_for_decl()
+            .cast(T.PackageBody)
         )
 
     declarative_region = Property(Entity.public_part)
@@ -8605,7 +8686,10 @@ class GenericSubpDecl(GenericDecl):
 
     # Overriding properties forwarding to internal subp decl
     is_imported = Property(Entity.subp_decl.is_imported)
-    next_part_for_decl = Property(Entity.subp_decl.next_part_for_decl)
+
+    @langkit_property()
+    def next_part_for_decl():
+        return Entity.subp_decl.next_part_for_decl
 
 
 class GenericPackageInternal(BasePackageDecl):
@@ -10247,32 +10331,16 @@ class Name(Expr):
     def name_designated_type_env():
         return Entity.name_designated_type._.primitives_env
 
-    @langkit_property(
-        return_type=AnalysisUnit, external=True, uses_entity_info=False,
-        uses_envs=False,
-        # TODO (S917-027): re-enable this protection or remove it once we
-        # moved forward on memoization soundness issues in Langkit.
-        call_non_memoizable_because=(
-            None and
-            'Getting an analysis unit cannot appear in a memoized context'
-        )
-    )
-    def internal_referenced_unit(kind=AnalysisUnitKind,
-                                 load_if_needed=Bool):
-        """
-        Return the analysis unit for the given ``kind`` corresponding to this
-        Name. Return null if this is an illegal unit name. If
-        ``load_if_needed`` is false and the target analysis unit is not loaded
-        yet, don't load it and return a null unit.
-        """
-        pass
-
     @langkit_property()
-    def referenced_unit(kind=AnalysisUnitKind):
+    def referenced_unit(kind=AnalysisUnitKind,
+                        not_found_is_error=(Bool, True)):
         """
-        Shortcut for: `.internal_referenced_unit(kind, True)`.
+        Return the compilation unit referenced by this name and for the given
+        unit kind, if there is one.
         """
-        return Self.internal_referenced_unit(kind, True)
+        return Self.get_unit(
+            Self.as_symbol_array, kind, True, not_found_is_error
+        )
 
     @langkit_property(return_type=Bool)
     def matches(n=T.Name):
@@ -14355,13 +14423,7 @@ class CompilationUnit(AdaNode):
             # Try to fetch the compilation unit in a spec file first. If this
             # fails, the "with" must designate a body without spec (e.g. a
             # library-level procedure).
-            lambda p: Self.designated_compilation_unit(
-                p.as_symbol_array,
-                kind=UnitSpecification
-            )._or(Self.designated_compilation_unit(
-                p.as_symbol_array,
-                kind=UnitBody
-            )).as_bare_entity
+            lambda p: Self.withed_unit_helper(p).as_bare_entity
         )
 
     @langkit_property(return_type=T.CompilationUnit.entity.array,
@@ -15799,7 +15861,8 @@ class Subunit(AdaNode):
         return Self.designated_compilation_unit(
             Self.name.as_symbol_array,
             UnitBody,
-            load_if_needed=True
+            load_if_needed=True,
+            not_found_is_error=True
         ).as_bare_entity
 
     @langkit_property()

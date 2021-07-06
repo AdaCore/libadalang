@@ -238,7 +238,9 @@ package body Libadalang.Env_Hooks is
       From_Unit          : Internal_Unit;
       Kind               : Analysis_Unit_Kind;
       Load_If_Needed     : Boolean;
-      Do_Prepare_Nameres : Boolean := True) return Internal_Unit
+      Do_Prepare_Nameres : Boolean := True;
+      Not_Found_Is_Error : Boolean := False;
+      Process_Parents    : Boolean := True) return Internal_Unit
    is
       procedure Prepare_Nameres (Unit : Internal_Unit);
       --  Prepare semantic analysis and reference Unit from the current unit
@@ -312,10 +314,30 @@ package body Libadalang.Env_Hooks is
               (if I = Name'Last then Kind else Unit_Specification);
             --  When looking for unit A.B, A is a specification even if we mean
             --  to fetch B's body.
+
+            Is_Not_Found_Error : constant Boolean :=
+              (if I = Name'Last then Not_Found_Is_Error else True);
          begin
-            --  TODO??? Find a proper way to handle file not found, parsing
-            --  error, etc.
+
+            if not Process_Parents and I /= Name'Last then
+               exit;
+            end if;
+
+            --  TODO??? We now handle file not found via
+            --  Unit_Requested_Callback, but we don't really handle parsing
+            --  errors directly. Do we need to do something more ? Or can we
+            --  consider that anything can be done in the callback anyway?
+
             Unit := UFP.Get_Unit (Ctx, To_String (Current_Name), I_Kind);
+
+            if Unit.Context.Event_Handler /= null then
+               Unit.Context.Event_Handler.Unit_Requested_Callback
+                 (Ctx,
+                  To_Text (Get_Filename (Unit)),
+                  From_Unit,
+                  Unit.AST_Root /= null,
+                  Is_Not_Found_Error);
+            end if;
 
             Prepare_Nameres (Unit);
 

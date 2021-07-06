@@ -1,4 +1,4 @@
-with Dummy; dummyyy;
+with Ada; dummyyy;
 with Pkg;
 
 procedure Syntax_Error is

@@ -30,10 +30,12 @@ package Libadalang.Implementation.Extensions is
    --------------
 
    function Ada_Node_P_Get_Unit
-     (Node           : Bare_Ada_Node;
-      Name           : Symbol_Type_Array_Access;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit;
+     (Node               : Bare_Ada_Node;
+      Name               : Symbol_Type_Array_Access;
+      Kind               : Analysis_Unit_Kind;
+      Load_If_Needed     : Boolean;
+      Not_Found_Is_Error : Boolean;
+      Process_Parents    : Boolean := True) return Internal_Unit;
 
    function Ada_Node_P_Standard_Unit
      (Node : Bare_Ada_Node) return Internal_Unit;
@@ -112,15 +114,6 @@ package Libadalang.Implementation.Extensions is
 
    function Int_Literal_P_Denoted_Value
      (Node : Bare_Int_Literal) return Big_Integer_Type;
-
-   ----------
-   -- Name --
-   ----------
-
-   function Name_P_Internal_Referenced_Unit
-     (Node           : Bare_Name;
-      Kind           : Analysis_Unit_Kind;
-      Load_If_Needed : Boolean) return Internal_Unit;
 
    --------------------
    -- String_Literal --

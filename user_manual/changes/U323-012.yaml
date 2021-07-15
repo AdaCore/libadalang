@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix subprogram navigation in presence of use clauses
+description: |
+    This change fixes a bug where a use clause could impact the navigation
+    (in particular, when finding the previous part) of a subprogram when the
+    used package would contain a matching subprogram declaration, as that
+    declaration could be returned when there is really no previous part.
+date: 2021-07-19
+

@@ -1,0 +1,10 @@
+
+
+Eval 'node.p_previous_part()' on node <SubpBody ["B"] proc.adb:4:4-7:10>
+Result: None
+
+
+Eval 'node.p_canonical_part()' on node <SubpBody [""+""] test.adb:9:6-12:14>
+Result: <SubpBody [""+""] test.adb:9:6-12:14>
+
+

@@ -2672,7 +2672,7 @@ class Body(BasicDecl):
         """
         env = Var(Entity.children_env.env_parent)
 
-        elements = Var(env.get(Entity.name_symbol, categories=noprims))
+        elements = Var(env.get(Entity.name_symbol, categories=no_use_clauses))
 
         precise = Var(elements.find(
             lambda sp: And(

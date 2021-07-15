@@ -1,0 +1,9 @@
+
+Eval 'node.p_previous_part()' on node <TypeDecl ["T"] test-pkg.ads:5:4-5:47>
+Result: None
+
+Eval 'node.p_base_type()' on node <TypeDecl ["T"] test-pkg.ads:5:4-5:47>
+Result: <TypeDecl ["T"] test-impl.ads:2:4-2:38>
+
+
+

@@ -19,6 +19,9 @@ procedure Test is
 
    type TT is new T and I with null record;
    --% node.p_is_interface_type()
+
+   subtype JC is JJ'Class;
+   --% node.p_is_interface_type()
 begin
    null;
 end Test;

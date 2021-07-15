@@ -1,0 +1,7 @@
+type: new-feature
+title: Implement ``is_interface_type`` on classwide types
+description: |
+    Previously, ``is_interface_type`` would always return false when called
+    on classwide type decls. It now forwards the query to the underlying type
+    in order to be more user-friendly.
+date: 2021-07-19

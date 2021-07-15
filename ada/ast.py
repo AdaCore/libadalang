@@ -5101,6 +5101,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
     def get_aspect_assoc(name=Symbol):
         return Entity.typedecl.get_aspect_assoc(name)
 
+    is_interface_type = Property(Entity.typedecl.is_interface_type)
+
     discriminants_list = Property(Entity.typedecl.discriminants_list)
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,

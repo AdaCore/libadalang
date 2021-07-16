@@ -1,0 +1,6 @@
+type: bugfix
+title: Fix type resolution for array range constraints
+description: |
+    This change fixes a bug where index bounds inside array range constraints
+    could be resolved inaccurately when containing operands of universal types.
+date: 2021-07-19

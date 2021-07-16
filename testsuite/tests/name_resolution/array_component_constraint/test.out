@@ -50,7 +50,7 @@ Expr: <Id "Ints" pack.ads:7:16-7:20>
   references: <DefiningName pack.ads:4:9-4:13>
   type:       None
 Expr: <BinOp pack.ads:7:22-7:35>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Int pack.ads:7:22-7:23>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

@@ -5737,8 +5737,6 @@ class IndexConstraint(Constraint):
         typ = Var(Entity.subtype)
         return Entity.constraints.logic_all(
             lambda i, c:
-            c.xref_equation
-
             # If the index constraint is an expression (which means it is
             # either a BinOp (first .. last) or an AttributeRef (X'Range)),
             # we assign to the type of that expression the type of the index
@@ -5750,10 +5748,17 @@ class IndexConstraint(Constraint):
             # the type of ``'A' .. 'B'`` to ``My_Character`` as we now do,
             # the type will be propagated to both 'A' and 'B' and therefore
             # they will get the correct types.
-            & c.cast(T.Expr).then(
+
+            # Note that it's currently necessary to first assign the expected
+            # type to the range before recursively constructing its xref
+            # equations, as we have cases (e.g. BinOp) where resolution takes
+            # different paths depending on its operands' types (e.g. whether
+            # it's a universal type or not).
+            # todo: rework this once expected types are available (T218-019).
+            c.cast(T.Expr).then(
                 lambda e: Self.type_bind_val(e.type_var, typ.index_type(i)),
                 default_val=LogicTrue()
-            )
+            ) & c.xref_equation
         )
 
 

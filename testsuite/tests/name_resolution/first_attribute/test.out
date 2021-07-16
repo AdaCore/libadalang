@@ -86,7 +86,7 @@ Expr: <Id "A" testfirst.adb:10:15-10:16>
   references: <DefiningName testfirst.adb:2:9-2:10>
   type:       None
 Expr: <BinOp testfirst.adb:10:18-10:25>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testfirst.adb:10:18-10:19>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

@@ -16,7 +16,7 @@ Result: True
 Eval 'node.p_is_interface_type()' on node <TypeDecl ["T"] test.adb:17:4-17:33>
 Result: False
 
-Eval 'node.p_is_interface_type()' on node <TypeDecl ["TT"] test.adb:20:4-20:27>
+Eval 'node.p_is_interface_type()' on node <TypeDecl ["TT"] test.adb:20:4-20:44>
 Result: False
 
 

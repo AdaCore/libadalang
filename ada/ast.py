@@ -25,7 +25,7 @@ UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
 all_categories = RefCategories(default=True)
-noprims = RefCategories(inherited_primitives=False, default=True)
+no_prims = RefCategories(inherited_primitives=False, default=True)
 
 no_use_clauses = RefCategories(
     use_pkg_clause=False, inherited_primitives=False, default=True
@@ -673,7 +673,7 @@ class AdaNode(ASTNode):
     )
 
     std_entity_implem = Property(
-        lambda sym=Symbol: Self.std_env.get_first(sym, categories=noprims),
+        lambda sym=Symbol: Self.std_env.get_first(sym, categories=no_prims),
         memoized=True
     )
 
@@ -2369,7 +2369,7 @@ class BasicDecl(AdaNode):
         return Entity.children_env.get_first(
             '__nextpart',
             lookup=LK.minimal,
-            categories=noprims
+            categories=no_prims
         ).cast(T.BasicDecl)
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
@@ -2593,9 +2593,10 @@ class Body(BasicDecl):
     def subunit_decl_env():
         return env.bind(
             Self.default_initial_env,
-            Entity.body_scope(True).get(Entity.name_symbol, categories=noprims)
-            .at(0)
-            .match(
+            Entity.body_scope(True).get(
+                Entity.name_symbol,
+                categories=no_prims
+            ).at(0).match(
                 lambda gpd=T.GenericPackageDecl:
                 # For generic package decls, we regroup the formal part & the
                 # package decl itself, since the reference will be
@@ -2605,7 +2606,7 @@ class Body(BasicDecl):
                 lambda pd=T.BasicDecl: pd.children_env,
                 lambda _: PropertyError(LexicalEnv),
             ).then(lambda public_part: public_part.get(
-                '__privatepart', LK.flat, categories=noprims
+                '__privatepart', LK.flat, categories=no_prims
             ).at(0).then(
                 # If there is a private part, group it with the rest
                 lambda pp: Array([pp.children_env, public_part]).env_group(),
@@ -2726,7 +2727,7 @@ class Body(BasicDecl):
         Return the EntryDecl corresponding to this node.
         """
         spec = Var(Entity.cast_or_raise(EntryBody).params)
-        return env.get(Entity.name_symbol, categories=noprims).find(
+        return env.get(Entity.name_symbol, categories=no_prims).find(
             lambda sp: And(
                 Not(sp.is_null),
                 Not(sp.node == Self),
@@ -2878,7 +2879,7 @@ class Body(BasicDecl):
                     # decl_part/previous_part on purpose: They can cause env
                     # lookups, hence doing an infinite recursion.
                     bod.children_env.env_parent.get(
-                        bod.name_symbol, categories=noprims
+                        bod.name_symbol, categories=no_prims
                     ).then(
                         lambda results:
                         results.at(1).cast(T.GenericSubpDecl)._or(
@@ -2956,7 +2957,7 @@ class Body(BasicDecl):
                 )
             ),
             public_scope.get(
-                '__privatepart', lookup=LK.flat, categories=noprims
+                '__privatepart', lookup=LK.flat, categories=no_prims
             ).at(0).then(
                 lambda pp: pp.children_env, default_val=public_scope
             ),
@@ -5292,7 +5293,7 @@ class TypeDecl(BaseTypeDecl):
             # Here, we need to call defining_env on TypeDef, in order to not
             # recurse for ever (accessed_type is called by defining_env).
             Entity.type_def.defining_env.get_first(
-                imp_deref.cast(T.Name).name_symbol, categories=noprims
+                imp_deref.cast(T.Name).name_symbol, categories=no_prims
             )
 
             # We cast to BaseFormalParamDecl. Following Ada's legality rule,
@@ -6839,7 +6840,7 @@ class BasicSubpDecl(BasicDecl):
     @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def get_body_in_env(env=T.LexicalEnv):
         elements = Var(
-            env.get(Entity.name_symbol, LK.flat, categories=noprims)
+            env.get(Entity.name_symbol, LK.flat, categories=no_prims)
         )
         precise = Var(elements.find(
             lambda ent:
@@ -7085,7 +7086,7 @@ class Pragma(AdaNode):
             lambda name: Entity.declarative_scope.then(
                 # Get entities in it
                 lambda decl_scope: decl_scope.as_entity.children_env.get(
-                    name.name_symbol, lookup=LK.flat, categories=noprims
+                    name.name_symbol, lookup=LK.flat, categories=no_prims
                 )
             )
             # Only get entities that are after self in the *same* source
@@ -7522,7 +7523,7 @@ class ObjectDecl(BasicDecl):
             Entity.is_in_private_part & Self.has_constant.as_bool,
             Self.declarative_scope.parent
             .cast(T.BasePackageDecl).public_part.children_env
-            .get_first(Self.name_symbol, LK.flat, categories=noprims)
+            .get_first(Self.name_symbol, LK.flat, categories=no_prims)
             .cast(T.BasicDecl),
             No(T.BasicDecl.entity)
         )
@@ -7537,7 +7538,7 @@ class ObjectDecl(BasicDecl):
             Entity.is_in_public_part & Self.has_constant.as_bool,
             Self.declarative_scope.parent
             .cast(T.BasePackageDecl).private_part.children_env
-            .get_first(Self.name_symbol, LK.flat, categories=noprims)
+            .get_first(Self.name_symbol, LK.flat, categories=no_prims)
             .cast(T.BasicDecl),
             No(T.BasicDecl.entity)
         )
@@ -7848,8 +7849,9 @@ class GenericInstantiation(BasicDecl):
 
     nonbound_generic_decl = Property(
         Self.as_bare_entity.generic_entity_name
-        .all_env_elements_internal(seq=True, seq_from=Self, categories=noprims)
-        .find(
+        .all_env_elements_internal(
+            seq=True, seq_from=Self, categories=no_prims
+        ).find(
             lambda e: Self.has_visibility(e)
         )._.match(
             lambda b=Body: imprecise_fallback.bind(False, b.decl_part),
@@ -10373,7 +10375,7 @@ class Name(Expr):
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
                         lookup=If(Self.is_prefix, LK.recursive, LK.flat),
-                        categories=noprims,
+                        categories=no_prims,
                     ),
                 )
             ),
@@ -11825,7 +11827,7 @@ class SingleTokNode(Name):
             Self.symbol,
             lookup=lookup_type,
             from_node=from_node,
-            categories=noprims
+            categories=no_prims
         ).find(lambda el: Self.has_visibility(el))
 
 
@@ -12137,7 +12139,7 @@ class BaseId(SingleTokNode):
         elt = Var(env.get_first(
             Self,
             lookup=If(Self.is_prefix, LK.recursive, LK.flat),
-            categories=noprims
+            categories=no_prims
         ))
         ret = Var(If(
             Not(elt.is_null) & elt.node.is_a(
@@ -12240,13 +12242,13 @@ class BaseId(SingleTokNode):
         # If the basic_decl is a package decl with a private part, we get it.
         # Else we keep the defining env.
         private_part_env = Var(
-            env.get('__privatepart', LK.flat, categories=noprims).at(0).then(
+            env.get('__privatepart', LK.flat, categories=no_prims).at(0).then(
                 lambda pp: pp.children_env, default_val=env
             )
         )
 
         package_body_env = Var(
-            private_part_env.get('__nextpart', LK.flat, categories=noprims)
+            private_part_env.get('__nextpart', LK.flat, categories=no_prims)
             .at(0).then(
                 lambda pb: If(
                     # If the package is implemented as a separate, we need to
@@ -12254,7 +12256,7 @@ class BaseId(SingleTokNode):
                     pb.is_a(PackageBodyStub),
 
                     pb.children_env
-                    .get('__nextpart', LK.flat, categories=noprims)
+                    .get('__nextpart', LK.flat, categories=no_prims)
                     .at(0).then(lambda pb: pb.children_env),
 
                     pb.children_env
@@ -12346,7 +12348,7 @@ class BaseId(SingleTokNode):
         # so look for every entity named like the type, to see if any is a
         # completer view of the type.
         completer_view = Var(origin.then(lambda o: Self.env_get(
-            o.children_env, Self.symbol, from_node=origin, categories=noprims
+            o.children_env, Self.symbol, from_node=origin, categories=no_prims
         )).filtermap(
             lambda n: n.cast(BaseTypeDecl),
             lambda n:
@@ -12396,7 +12398,7 @@ class BaseId(SingleTokNode):
             categories=If(
                 Self.can_designate_primitive,
                 all_categories,
-                noprims
+                no_prims
             )
         ))
 

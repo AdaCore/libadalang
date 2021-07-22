@@ -52,13 +52,13 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 newhtml:
-	python -m laldoc.generate_rst -P $(LAL_BUILD_DIR)/lib/gnat/libadalang.gpr \
-		$(LAL_BUILD_DIR)/include/libadalang/libadalang-common.ads \
-		$(LAL_BUILD_DIR)/include/libadalang/libadalang-analysis.ads \
-		../ada/extensions/src/libadalang-helpers.ads \
-		$(LAL_BUILD_DIR)/include/libadalang/libadalang-lexer.ads \
-		$(LAL_BUILD_DIR)/include/libadalang/libadalang-iterators.ads \
-		$(LAL_BUILD_DIR)/include/libadalang/libadalang-introspection.ads \
+	python -m laldoc.generate_rst -P $(LAL_BUILD_DIR)/libadalang.gpr \
+		$(LAL_BUILD_DIR)/src/libadalang-common.ads \
+		$(LAL_BUILD_DIR)/src/libadalang-analysis.ads \
+		../extensions/src/libadalang-helpers.ads \
+		$(LAL_BUILD_DIR)/src/libadalang-lexer.ads \
+		$(LAL_BUILD_DIR)/src/libadalang-iterators.ads \
+		$(LAL_BUILD_DIR)/src/libadalang-introspection.ads \
 		-O generated
 
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -t new_laldoc $(BUILDDIR)/html

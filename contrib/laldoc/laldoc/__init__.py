@@ -7,10 +7,17 @@ from collections import defaultdict
 from docutils import nodes
 from docutils.parsers.rst import Directive
 from docutils.statemachine import ViewList
-from funcy import memoize
 import libadalang as lal
 from sphinx import addnodes as N
 from sphinx.util.nodes import nested_parse_with_titles
+import sys
+
+
+PY3 = sys.version_info[0] == 3
+if PY3:
+    from functools import lru_cache as memoize
+else:
+    from funcy import memoize
 
 
 try:

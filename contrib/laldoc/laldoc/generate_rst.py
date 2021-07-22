@@ -26,12 +26,17 @@ from contextlib import contextmanager
 import os
 from os import path as P
 import re
+import sys
 from typing import Dict, List, Optional as Opt, Set, Tuple, Union
 
-from funcy import memoize
 import libadalang as lal
 
-from langkit.utils import Colors, printcol
+
+PY3 = sys.version_info[0] == 3
+if PY3:
+    from functools import lru_cache as memoize
+else:
+    from funcy import memoize
 
 
 UNDERLINES = ["-", "^", "\""]
@@ -221,9 +226,7 @@ class GenerateDoc(lal.App):
 
             self.lines = []
         except AssertionError:
-            printcol(
-                f"WARNING: Non handled top level decl: {decl}", Colors.RED
-            )
+            print(f"WARNING: Non handled top level decl: {decl}")
             return
 
     def handle_package(
@@ -523,7 +526,7 @@ class GenerateDoc(lal.App):
             self.handle_entity(decl.f_decl)
             return
         else:
-            printcol(f"WARNING: Non handled entity: {decl}", Colors.RED)
+            print(f"WARNING: Non handled entity: {decl}")
 
         with self.indent():
             self.add_lines([''] + doc + [''])

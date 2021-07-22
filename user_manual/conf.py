@@ -34,7 +34,7 @@ extensions = [
     'sphinx.ext.viewcode',
 ]
 
-if os.environ.get('USE_NEW_LALDOC'):
+if tags.has('new_laldoc'):
     extensions.append('sphinxcontrib.adadomain')
 
 # Add any paths that contain templates here, relative to this directory.
@@ -359,7 +359,7 @@ def setup(app):
         print('ERROR: could not import Libadalang')
         raise
 
-    if not os.environ.get('USE_NEW_LALDOC'):
+    if tags.has('legacy_laldoc'):
         import laldoc
         app.add_directive('ada_auto_package', laldoc.AutoPackage)
 

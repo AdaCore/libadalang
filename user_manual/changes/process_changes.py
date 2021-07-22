@@ -20,8 +20,14 @@ import yaml
 
 
 from docutils.core import publish_string
-from funcy import memoize
 import jsonschema
+
+import sys
+PY3 = sys.version_info[0] == 3
+if PY3:
+    from functools import lru_cache as memoize
+else:
+    from funcy import memoize
 
 
 def print_err(*args, **kwargs):

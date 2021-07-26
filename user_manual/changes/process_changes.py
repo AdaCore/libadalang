@@ -20,9 +20,7 @@ import yaml
 
 
 from docutils.core import publish_string
-import jsonschema
 
-import sys
 PY3 = sys.version_info[0] == 3
 if PY3:
     from functools import lru_cache as memoize
@@ -46,26 +44,33 @@ def json_schema():
     return yaml.safe_load(schema)
 
 
-def validate_entry(tn, entry, no_schema=False):
-    """
-    Validate a yaml change entry.
-    """
-    try:
-        jsonschema.validate(entry, json_schema())
-    except jsonschema.ValidationError as e:
-        print_err('Error when validating entry for {}'.format(tn))
-        print_err(e)
-        # We exit on validation errors because all the rest of the code might
-        # fail.
-        sys.exit(1)
+try:
+    import jsonschema
 
-    if len(entry['title'].replace("``", "")) > 52:
-        st = entry.get('short_title')
-        if not st or len(st) > 52:
-            print_err(
-                '{}: ERROR: stripped title is more than 52 chars long, and no'
-                ' short_title key (or too long)'.format(entry['tn'])
-            )
+    def validate_entry(tn, entry, no_schema=False):
+        """
+        Validate a yaml change entry.
+        """
+        try:
+            jsonschema.validate(entry, json_schema())
+        except jsonschema.ValidationError as e:
+            print_err('Error when validating entry for {}'.format(tn))
+            print_err(e)
+            # We exit on validation errors because all the rest of the code
+            # might fail.
+            sys.exit(1)
+
+        if len(entry['title'].replace("``", "")) > 52:
+            st = entry.get('short_title')
+            if not st or len(st) > 52:
+                print_err(
+                    '{}: ERROR: stripped title is more than 52 chars long, and'
+                    ' no short_title key (or too long)'.format(entry['tn'])
+                )
+
+except ImportError:
+    def validate_entry(tn, entry, no_schema=False):
+        pass
 
 
 def header(title, header_char):

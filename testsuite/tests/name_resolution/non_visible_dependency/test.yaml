@@ -1,0 +1,11 @@
+# Test that name resolution behaves as expected in the case of a non visible
+# dependency in a library level subprogram body.
+#
+# This test was added because of a bug in the unit_requested callback mechanism
+# (a warning would be emitted when LAL was looking for a non visible dependency
+# through the spec of a library level subprogram body), but is generally useful
+# to exert the code path where we look for withed units through the spec of a
+# library level subprogram body.
+
+driver: name-resolution
+input_sources: [foo.ads, test.adb]

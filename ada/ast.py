@@ -811,7 +811,9 @@ class AdaNode(ASTNode):
             ).as_bare_entity.cast(BaseSubpBody).then(
                 lambda b: If(
                     b.is_library_item,
-                    b.defining_name.referenced_unit(UnitSpecification).then(
+                    b.defining_name.referenced_unit(
+                        UnitSpecification, not_found_is_error=False
+                    ).then(
                         lambda u: u.root._.has_with_visibility(refd_unit)
                     ),
                     False

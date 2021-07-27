@@ -1,0 +1,13 @@
+Analyzing foo.ads
+#################
+
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:3:4-3:12>
+*****************************************************
+
+Resolution failed for node <CallStmt test.adb:3:4-3:12>
+
+
+Done.

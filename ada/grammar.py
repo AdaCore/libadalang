@@ -546,7 +546,8 @@ A.add_rules(
     aspect_assoc=Or(
         AspectAssoc(
             Identifier(L.Identifier(match_text="Abstract_State")),
-            Opt("=>", AbstractStateDeclExpr(A.multi_abstract_state_decl))
+            Opt("=>", Or(A.null_literal,
+                         AbstractStateDeclExpr(A.multi_abstract_state_decl)))
         ),
         AspectAssoc(A.name, Opt("=>", Or(A.expr, A.contract_cases_expr)))
     ),

@@ -34,6 +34,7 @@ AbstractFormalSubpDecl[1:1-1:71]
 |  |  |  |  |  |  Id[1:28-1:37]: Element_T
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |f_subp_returns:
 |  |  SubtypeIndication[1:46-1:55]
 |  |  |f_has_not_null:

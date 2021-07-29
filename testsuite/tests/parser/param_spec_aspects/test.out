@@ -1,0 +1,27 @@
+ParamSpec[1:1-1:36]
+|f_ids:
+|  DefiningNameList[1:1-1:2]
+|  |  DefiningName[1:1-1:2]
+|  |  |f_name:
+|  |  |  Id[1:1-1:2]: A
+|f_has_aliased:
+|  AliasedAbsent[1:4-1:4]
+|f_mode:
+|  ModeDefault[1:4-1:4]
+|f_type_expr:
+|  SubtypeIndication[1:5-1:12]
+|  |f_has_not_null:
+|  |  NotNullAbsent[1:4-1:4]
+|  |f_name:
+|  |  Id[1:5-1:12]: Integer
+|  |f_constraint: <null>
+|f_default_expr:
+|  Int[1:16-1:18]: 12
+|f_aspects:
+|  AspectSpec[1:19-1:36]
+|  |f_aspect_assocs:
+|  |  AspectAssocList[1:24-1:36]
+|  |  |  AspectAssoc[1:24-1:36]
+|  |  |  |f_id:
+|  |  |  |  Id[1:24-1:36]: Unreferenced
+|  |  |  |f_expr: <null>

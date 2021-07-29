@@ -88,6 +88,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  |  |  |  |  Id[5:24-5:33]: Element_T
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |f_subp_returns: <null>
 |  |  |  |  |f_aspects: <null>
 |  |  |  |  SubpDecl[6:5-6:35]

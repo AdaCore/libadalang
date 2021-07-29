@@ -31,6 +31,7 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  |  Id[1:33-1:40]: Integer
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  ParamSpec[1:42-1:53]
 |  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:42-1:43]
@@ -49,5 +50,6 @@ SubpDecl[1:1-1:55]
 |  |  |  |  |  |  Id[1:46-1:53]: Natural
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |f_subp_returns: <null>
 |f_aspects: <null>

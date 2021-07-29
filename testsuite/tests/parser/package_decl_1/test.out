@@ -44,6 +44,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |  |  Id[1:34-1:41]: Integer
 |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_subp_returns: <null>
 |  |  |  |f_aspects: <null>
 |  |  |  NumberDecl[1:44-1:63]

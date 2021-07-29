@@ -33,6 +33,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  Id[1:23-1:29]: String
 |  |  |  |  |f_constraint: <null>
 |  |  |  |f_default_expr: <null>
+|  |  |  |f_aspects: <null>
 |  |  |  ParamSpec[1:31-1:49]
 |  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:31-1:32]
@@ -66,6 +67,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_default_expr: <null>
+|  |  |  |f_aspects: <null>
 |f_subp_returns:
 |  SubtypeIndication[1:58-1:65]
 |  |f_has_not_null:

@@ -6854,7 +6854,7 @@ class ParamSpec(BaseFormalParamDecl):
     mode = Field(type=Mode)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
-    aspects = NullField()
+    aspects = Field(type=T.AspectSpec)
 
     is_mandatory = Property(Self.default_expr.is_null)
     defining_names = Property(Self.ids.map(lambda id: id.as_entity))

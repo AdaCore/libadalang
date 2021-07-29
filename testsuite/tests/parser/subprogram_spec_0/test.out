@@ -27,6 +27,7 @@ SubpSpec[1:1-1:39]
 |  |  |  |  |  Id[1:17-1:23]: String
 |  |  |  |  |f_constraint: <null>
 |  |  |  |f_default_expr: <null>
+|  |  |  |f_aspects: <null>
 |f_subp_returns:
 |  SubtypeIndication[1:32-1:39]
 |  |f_has_not_null:

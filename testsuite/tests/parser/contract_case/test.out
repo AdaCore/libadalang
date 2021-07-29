@@ -83,6 +83,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  Id[14:25-14:31]: My_Int
 |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[14:40-14:46]
 |  |  |  |  |  |  |  |f_has_not_null:
@@ -202,6 +203,7 @@ CompilationUnit[1:1-22:9]
 |  |  |  |  |  |  |  |  |  |  |  Id[18:26-18:32]: My_Int
 |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |f_subp_returns:
 |  |  |  |  |  |  |  SubtypeIndication[18:41-18:47]
 |  |  |  |  |  |  |  |f_has_not_null:

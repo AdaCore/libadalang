@@ -1,0 +1,1 @@
+A : Integer := 12 with Unreferenced

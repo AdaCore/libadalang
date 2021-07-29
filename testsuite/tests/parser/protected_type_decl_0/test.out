@@ -45,6 +45,7 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  |  |  |  |  |  Id[1:69-1:73]: Item
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_aspects: <null>
 |  |  |  |  EntryDecl[1:76-1:110]
 |  |  |  |  |f_overriding:
@@ -78,6 +79,7 @@ ProtectedTypeDecl[1:1-1:186]
 |  |  |  |  |  |  |  |  |  |  Id[1:104-1:108]: Item
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_aspects: <null>
 |  |f_private_part:
 |  |  PrivatePart[1:118-1:160]

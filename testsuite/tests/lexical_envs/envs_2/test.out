@@ -52,6 +52,7 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |  |  Id[2:26-2:33]: Integer
 |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |f_subp_returns: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |f_decls:

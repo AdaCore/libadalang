@@ -44,6 +44,7 @@ SingleProtectedDecl[1:1-1:122]
 |  |  |  |  |  |  |  |  |  |  Id[1:59-1:63]: Item
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_aspects: <null>
 |  |  |  |  EntryDecl[1:66-1:100]
 |  |  |  |  |f_overriding:
@@ -77,6 +78,7 @@ SingleProtectedDecl[1:1-1:122]
 |  |  |  |  |  |  |  |  |  |  Id[1:94-1:98]: Item
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_aspects: <null>
 |  |f_private_part: <null>
 |  |f_end_name:

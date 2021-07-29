@@ -51,6 +51,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  ParamSpec[1:71-1:96]
 |  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:71-1:76]
@@ -69,6 +70,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  Id[1:80-1:96]: Buffer_Line_Type
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  ParamSpec[1:98-1:123]
 |  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:98-1:104]
@@ -87,5 +89,6 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  Id[1:107-1:123]: Buffer_Line_Type
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |f_subp_returns: <null>
 |f_aspects: <null>

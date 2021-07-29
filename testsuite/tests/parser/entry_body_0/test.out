@@ -28,6 +28,7 @@ EntryBody[1:1-1:101]
 |  |  |  |  |  |  Id[1:29-1:33]: item
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |f_aspects: <null>
 |f_barrier:
 |  Id[1:40-1:45]: empty

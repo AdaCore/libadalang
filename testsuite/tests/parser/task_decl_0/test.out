@@ -53,6 +53,7 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  |  |  Id[1:65-1:69]: Item
 |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  EntryDecl[1:72-1:118]
 |  |  |  |  |  |f_overriding:
@@ -92,6 +93,7 @@ SingleTaskDecl[1:1-1:140]
 |  |  |  |  |  |  |  |  |  |  |  Id[1:112-1:116]: Item
 |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |f_private_part: <null>
 |  |  |f_end_name:

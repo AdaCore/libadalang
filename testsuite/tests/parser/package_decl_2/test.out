@@ -41,6 +41,7 @@ PackageDecl[1:1-1:106]
 |  |  |  |  |  |  |  |  |  Id[1:45-1:54]: Element_T
 |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_subp_returns: <null>
 |  |  |  |f_aspects: <null>
 |  |  |  SubpDecl[1:57-1:87]

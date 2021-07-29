@@ -31,6 +31,7 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  Id[1:18-1:25]: Integer
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |  |  |  ParamSpec[1:27-1:53]
 |  |  |  |  |f_ids:
 |  |  |  |  |  DefiningNameList[1:27-1:34]
@@ -70,6 +71,7 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |f_subp_returns: <null>
 |f_renames:
 |  RenamingClause[1:55-1:64]

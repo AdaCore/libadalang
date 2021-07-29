@@ -31,5 +31,6 @@ AbstractSubpDecl[1:1-1:50]
 |  |  |  |  |  |  Id[1:29-1:36]: Integer
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |  |f_subp_returns: <null>
 |f_aspects: <null>

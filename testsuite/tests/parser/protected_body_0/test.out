@@ -38,6 +38,7 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  |  |  Id[1:69-1:73]: item
 |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_aspects: <null>
 |  |  |  |f_barrier:
 |  |  |  |  Id[1:80-1:85]: empty
@@ -95,6 +96,7 @@ ProtectedBody[1:1-1:272]
 |  |  |  |  |  |  |  |  |  Id[1:170-1:174]: item
 |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_aspects: <null>
 |  |  |  |f_barrier:
 |  |  |  |  UnOp[1:181-1:190]

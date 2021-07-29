@@ -197,6 +197,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[11:42-11:46]: Item
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[11:50-13:13]
 |  |  |  |  |  |  |  |  |  |  |f_stmts:
@@ -287,6 +288,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[17:42-17:46]: Item
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[17:50-19:13]
 |  |  |  |  |  |  |  |  |  |  |f_stmts:

@@ -33,6 +33,7 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |  |  Id[1:37-1:41]: Item
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:45-1:64]
 |  |  |  |  |  |f_stmts:
@@ -80,6 +81,7 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |  |  Id[1:106-1:110]: Item
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:114-1:133]
 |  |  |  |  |  |f_stmts:

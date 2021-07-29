@@ -613,6 +613,7 @@ A.add_rules(
         Opt(A.mode),
         A.type_expr,
         Opt(":=", A.expr),
+        A.aspect_spec,
     ),
 
     param_specs=Params("(", cut(), List(A.param_spec, sep=";"), ")"),

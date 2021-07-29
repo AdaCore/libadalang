@@ -58,9 +58,11 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  |  |  Id[1:47-1:54]: Integer
 |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |f_subp_returns: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_default_expr: <null>
+|  |  |  |f_aspects: <null>
 |  |  |  ParamSpec[1:57-1:68]
 |  |  |  |f_ids:
 |  |  |  |  DefiningNameList[1:57-1:58]
@@ -79,4 +81,5 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  Id[1:61-1:68]: Integer
 |  |  |  |  |f_constraint: <null>
 |  |  |  |f_default_expr: <null>
+|  |  |  |f_aspects: <null>
 |f_subp_returns: <null>

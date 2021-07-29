@@ -36,4 +36,5 @@ EntryDecl[1:1-1:46]
 |  |  |  |  |  |  Id[1:40-1:44]: Item
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |f_aspects: <null>
 |f_aspects: <null>

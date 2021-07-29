@@ -55,5 +55,6 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  |  |  Id[1:66-1:75]: Element_T
 |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |f_aspects: <null>
 |  |  |f_subp_returns: <null>
 |  |f_aspects: <null>

@@ -14,6 +14,15 @@ DIRECTORY_MISSING_RE = re.compile(
 )
 
 
+# Arguments to pass to GPR tools in order to process project files involving
+# libadalang.gpr/langkit_support.gpr.
+LIBRARY_KIND = 'static' if LAL_DISABLE_SHARED else 'relocatable'
+GPR_ARGS = [
+    '-XLIBRARY_TYPE={}'.format(LIBRARY_KIND),
+    '-XXMLADA_BUILD={}'.format(LIBRARY_KIND),
+]
+
+
 def in_contrib(*args):
     """
     Return a path under the "contrib" subdir in the top of the repository.
@@ -28,13 +37,9 @@ def gprbuild(project_file):
     This passes all the command-line arguments that are required to build a
     project that depends on Libadalang.
     """
-    argv = ['gprbuild', '-P', project_file, '-q', '-p']
-    library_kind = 'static' if LAL_DISABLE_SHARED else 'relocatable'
-    argv.extend([
-        '-XLIBRARY_TYPE={}'.format(library_kind),
-        '-XXMLADA_BUILD={}'.format(library_kind),
-    ])
-    subprocess.check_call(argv)
+    subprocess.check_call(
+        ['gprbuild', '-P', project_file, '-q', '-p'] + GPR_ARGS
+    )
 
 
 def run_nameres(args):

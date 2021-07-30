@@ -12033,8 +12033,11 @@ class DefiningName(Name):
     def find_all_references(units=AnalysisUnit.array,
                             follow_renamings=(Bool, False)):
         """
-        Searches all references to this defining name in the given list of
-        units.
+        Searches all references to this defining name in units.
+
+        Note that this implementation might search the units where the entity
+        has been defined, regardless of whether the passed set of units
+        contains them or not.
 
         If ``follow_renamings`` is True, also this also includes references
         that ultimately refer to this defining name, by unwinding renaming
@@ -12055,12 +12058,46 @@ class DefiningName(Name):
             dn.basic_decl.root_subp_declarations._or(dn.basic_decl.singleton)
         ))
 
+        # Determine if the entity is local. For the moment we only look at
+        # whether the entity is defined in a body. We might be able to do
+        # something for private entities as well, but it's much harder, and
+        # might not be as useful anyway.
+        is_local = Var(
+            dn.unit.root.cast(T.CompilationUnit).then(
+                lambda cu: And(
+                    cu.unit_kind == UnitBody,
+                    Not(cu.decl.as_bare_entity.defining_name
+                        == dn.node.as_bare_entity),
+                ),
+                default_val=False
+            )
+        )
+
         all_units = Var(bases.mapcat(
             lambda base: base.filter_is_imported_by(units, True)
         ).unique)
 
-        refs = Var(origin.bind(Self, all_units.mapcat(lambda u: u.root.then(
-            lambda r: dn.find_refs(r.as_bare_entity)
+        # Set of all roots to look into. Here, we try to optimize the set of
+        # roots we look into, with the following heuristics:
+        all_roots = Var(Cond(
+            # If the entity we're looking for is a parameter specification,
+            # then only look in the spec & the body of the subprogram.
+            dn.basic_decl.is_a(T.ParamSpec),
+            [dn.basic_decl.semantic_parent,
+             dn.next_part.basic_decl.semantic_parent],
+
+            # If we determined that the entity we're looking for is body local,
+            # then we ignore the set of units passed by the user, and only look
+            # for the entity in its own unit.
+            is_local,
+            [dn.basic_decl.parent.parents.find(lambda p: p.is_a(T.Body))],
+
+            # Else, look at all units
+            all_units.map(lambda u: u.root.as_bare_entity)
+        ))
+
+        refs = Var(origin.bind(Self, all_roots.mapcat(lambda root: root.then(
+            lambda root: dn.find_refs(root)
         ))))
 
         return If(

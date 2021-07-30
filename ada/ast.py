@@ -19,6 +19,8 @@ from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
 env = DynamicVariable('env', LexicalEnv)
 origin = DynamicVariable('origin', T.AdaNode)
+no_visibility = DynamicVariable('no_visibility', T.Bool)
+
 imprecise_fallback = DynamicVariable('imprecise_fallback', Bool)
 
 UnitSpecification = AnalysisUnitKind.unit_specification
@@ -49,6 +51,14 @@ def default_origin():
     No(AdaNode).
     """
     return (origin, No(T.AdaNode))
+
+
+def default_no_visibility():
+    """
+    Helper to return a no_visibility dynamic param spec which defaults to
+    False.
+    """
+    return (no_visibility, False)
 
 
 def default_imprecise_fallback():
@@ -9192,28 +9202,34 @@ class Expr(AdaNode):
             lambda _: No(DiscreteRange)
         )
 
-    @langkit_property(return_type=LexicalEnv, dynamic_vars=[env, origin])
+    @langkit_property(return_type=LexicalEnv,
+                      dynamic_vars=[env, origin, default_no_visibility()])
     def designated_env_no_overloading():
         """
         Returns the lexical environment designated by this name, assuming
         that this name cannot be overloaded.
+
+        If ``no_visibility``, discard visibility checks.
         """
         return Entity.designated_env
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=LexicalEnv, dynamic_vars=[env, origin])
+                      return_type=LexicalEnv,
+                      dynamic_vars=[env, origin, default_no_visibility()])
     def designated_env():
         """
         Returns the lexical environment designated by this name.
 
         If this name involves overloading, this will return a combination of
         the various candidate lexical environments.
+
+        If ``no_visibility``, discard visibility checks.
         """
         pass
 
     env_elements = Property(
         Entity.env_elements_impl.filter(lambda e: Self.has_visibility(e)),
-        dynamic_vars=[env]
+        dynamic_vars=[env, default_no_visibility()]
     )
 
     @langkit_property(return_type=AdaNode.entity.array,
@@ -11968,13 +11984,15 @@ class SingleTokNode(Name):
     def canonical_text():
         return Self.sym
 
-    @langkit_property()
+    @langkit_property(dynamic_vars=[default_no_visibility()])
     def env_get_first_visible(lex_env=LexicalEnv,
                               lookup_type=LK,
                               from_node=T.AdaNode):
         """
         Like env.get_first, but returning the first visible element in the Ada
         sense.
+
+        If ``no_visibility``, discard visibility checks.
         """
         return Self.env_get(
             lex_env,
@@ -11982,7 +12000,9 @@ class SingleTokNode(Name):
             lookup=lookup_type,
             from_node=from_node,
             categories=no_prims
-        ).find(lambda el: Self.has_visibility(el))
+            # If no_visibility, then don't check visibility, (so return the
+            # first).
+        ).find(lambda el: no_visibility | Self.has_visibility(el))
 
 
 class DefiningName(Name):
@@ -12323,7 +12343,7 @@ class BaseId(SingleTokNode):
             )
         )
 
-    @langkit_property(dynamic_vars=[env, origin])
+    @langkit_property()
     def designated_env():
         """
         Decoupled implementation for designated_env, specifically used by
@@ -14377,26 +14397,33 @@ class DottedName(Name):
     def complete():
         return origin.bind(Self.origin_node, env.bind(
             Self.node_env,
-            Entity.prefix.designated_env.get(No(Symbol), LK.flat).filtermap(
-                lambda n: CompletionItem.new(
-                    decl=n.cast(T.BasicDecl),
-                    is_dot_call=n.info.md.dottable_subp,
+            # In completion we always want to return everything, and flag
+            # invisible things as invisible, so we set the "no_visibility" flag
+            # to True.
+            no_visibility.bind(
+                True,
+                Entity.prefix.designated_env.get(No(Symbol), LK.flat)
+                .filtermap(
+                    lambda n: CompletionItem.new(
+                        decl=n.cast(T.BasicDecl),
+                        is_dot_call=n.info.md.dottable_subp,
 
-                    is_visible=Or(
-                        # Dottable subprograms are always visible
-                        n.info.md.dottable_subp,
+                        is_visible=Or(
+                            # Dottable subprograms are always visible
+                            n.info.md.dottable_subp,
 
-                        # Else check visibility on the unit containing n
-                        Self.has_with_visibility(n.unit),
-                    )
-                ),
+                            # Else check visibility on the unit containing n
+                            Self.has_with_visibility(n.unit),
+                        )
+                    ),
 
-                # Filter elements that are coming from a body that is not
-                # visible. This can happen with dottable subprograms defined in
-                # bodies.
-                lambda n: Or(n.owning_unit_kind == UnitSpecification,
-                             Self.has_visibility(n))
-            ).to_iterator
+                    # Filter elements that are coming from a body that is not
+                    # visible. This can happen with dottable subprograms
+                    # defined in bodies.
+                    lambda n: Or(n.owning_unit_kind == UnitSpecification,
+                                 Self.has_visibility(n))
+                ).to_iterator
+            )
         ))
 
     @langkit_property()

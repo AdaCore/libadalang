@@ -1,0 +1,7 @@
+type: api-change
+title: |
+    ``DefiningName.find_refs`` origin param is now optional
+description: |
+    In the original API, this parameter was mandatory, which was a mistake
+    because it's only useful in edge cases and internal use.
+date: 2021-07-30

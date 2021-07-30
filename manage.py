@@ -118,6 +118,7 @@ class Manage(ManageScript):
         ctx.post_process_ada = ada.copyright.format_ada
         ctx.post_process_cpp = ada.copyright.format_c
         ctx.post_process_python = ada.copyright.format_python
+        ctx.post_process_ocaml = ada.copyright.format_ocaml
 
         # Register our custom exception types
         ctx.register_exception_type(

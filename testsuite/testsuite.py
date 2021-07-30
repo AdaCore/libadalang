@@ -133,6 +133,8 @@ class LALTestsuite(Testsuite):
         ocaml_bindings = opts.with_ocaml_bindings
         self.env.ocaml_bindings = (os.path.abspath(ocaml_bindings)
                                    if ocaml_bindings else None)
+        if self.env.ocaml_bindings:
+            os.environ["LAL_OCAML_BINDINGS"] = self.env.ocaml_bindings
 
         # Ensure the testsuite starts with an empty directory to store
         # source trace files.

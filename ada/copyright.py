@@ -73,17 +73,25 @@ def format_python(source):
     return shebang + concat(format_start('#'), rest)
 
 
-def format_c(source):
+def format_tags(source, opening, closing):
     result = []
     for i, line in enumerate(header):
-        head = '   '
-        tail = '   '
+        head = " " * len(opening)
+        tail = " " * len(closing)
         if i == 0:
-            head = '/* '
+            head = opening
         elif i == len(header) - 1:
-            tail = ' */'
+            tail = closing
         result.append((head + line + tail).rstrip())
     return concat(result, source)
+
+
+def format_ocaml(source):
+    return format_tags(source, "(* ", " *)")
+
+
+def format_c(source):
+    return format_tags(source, "/* ", " */")
 
 
 def run(argv):

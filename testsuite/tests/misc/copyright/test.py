@@ -1,5 +1,6 @@
 """Check that all generated sources have the copyright notice."""
 
+import os
 import subprocess
 
 import libadalang
@@ -16,15 +17,19 @@ def check_file(filename):
             print("Copyright notice not found in {}".format(filename))
 
 
-# Check copyright notices in Ada source files
+print("Checking Ada source files")
 for filename in subprocess.check_output(
     ["gprls", "-Plibadalang", "-s"] + GPR_ARGS
 ).decode("utf-8").splitlines():
     check_file(filename)
 
-
-# Check copyright notice in the Python binding
+print("Checking Python bindings")
 check_file(libadalang.__file__)
 
+print("Checking OCaml bindings (if present)")
+ocaml_bindings = os.environ.get("LAL_OCAML_BINDINGS")
+if ocaml_bindings:
+    for filename in ("libadalang.ml", "libadalang.mli"):
+        check_file(os.path.join(ocaml_bindings, filename))
 
 print("Done.")

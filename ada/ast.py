@@ -11938,7 +11938,8 @@ class DefiningName(Name):
     )
 
     @langkit_property(public=True, return_type=T.RefResult.array,
-                      dynamic_vars=[origin, default_imprecise_fallback()])
+                      dynamic_vars=[default_origin(),
+                                    default_imprecise_fallback()])
     def find_refs(root=T.AdaNode.entity):
         """
         Find all references to this defining name in the given ``root`` and its

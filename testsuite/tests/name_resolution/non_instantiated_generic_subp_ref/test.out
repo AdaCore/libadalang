@@ -1,0 +1,95 @@
+Analyzing base_types.ads
+########################
+
+Resolving xrefs for node <SubpSpec base_types.ads:4:4-4:55>
+***********************************************************
+
+Expr: <Id "integer" base_types.ads:4:48-4:55>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["Index"] base_types.ads:4:24-4:39>
+***********************************************************************
+
+Expr: <Id "integer" base_types.ads:4:32-4:39>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <AspectAssoc base_types.ads:5:7-7:46>
+**************************************************************
+
+Expr: <Id "Post" base_types.ads:5:7-5:11>
+  references: None
+  type:       None
+Expr: <ParenExpr base_types.ads:6:7-7:46>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <IfExpr base_types.ads:6:8-7:45>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp base_types.ads:6:11-6:32>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Index" base_types.ads:6:11-6:16>
+  references: <DefiningName base_types.ads:4:24-4:29>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpGt ">" base_types.ads:6:17-6:18>
+  references: None
+  type:       None
+Expr: <AttributeRef base_types.ads:6:19-6:32>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "integer" base_types.ads:6:19-6:26>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <Id "First" base_types.ads:6:27-6:32>
+  references: None
+  type:       None
+Expr: <RelationOp base_types.ads:6:38-6:66>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef base_types.ads:6:38-6:54>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Safe_Pred" base_types.ads:6:38-6:47>
+  references: <DefiningName base_types.ads:4:13-4:22>
+  type:       None
+Expr: <Id "Result" base_types.ads:6:48-6:54>
+  references: None
+  type:       None
+Expr: <OpEq "=" base_types.ads:6:55-6:56>
+  references: None
+  type:       None
+Expr: <BinOp base_types.ads:6:57-6:66>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Index" base_types.ads:6:57-6:62>
+  references: <DefiningName base_types.ads:4:24-4:29>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpMinus "-" base_types.ads:6:63-6:64>
+  references: None
+  type:       None
+Expr: <Int base_types.ads:6:65-6:66>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <RelationOp base_types.ads:7:13-7:45>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef base_types.ads:7:13-7:29>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Safe_Pred" base_types.ads:7:13-7:22>
+  references: <DefiningName base_types.ads:4:13-4:22>
+  type:       None
+Expr: <Id "Result" base_types.ads:7:23-7:29>
+  references: None
+  type:       None
+Expr: <OpEq "=" base_types.ads:7:30-7:31>
+  references: None
+  type:       None
+Expr: <AttributeRef base_types.ads:7:32-7:45>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "integer" base_types.ads:7:32-7:39>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <Id "First" base_types.ads:7:40-7:45>
+  references: None
+  type:       None
+
+
+Done.

@@ -2605,7 +2605,7 @@ class BasicDecl(AdaNode):
                 ``GenericSubpInternal`` nodes in the envs.
         """
         return Entity.cast(GenericSubpInternal).then(
-            lambda g: g.get_instantiation,
+            lambda g: g.get_instantiation._or(g),
             default_val=Entity
         )
 
@@ -8606,16 +8606,25 @@ class GenericSubpInternal(BasicSubpDecl):
         """
         Return the generic subprogram instantiation node from which this
         GenericSubpInternal node is derived.
+
+        .. ATTENTION:: If this GenericSubpInternal is not part of an
+            instantiation, but has been fetched through the formal generic
+            subprogram, this will return None.
         """
-        inst_node = Var(Entity.info.rebindings.new_env.env_node)
-        return T.GenericSubpInstantiation.entity.new(
-            node=inst_node.cast_or_raise(T.GenericSubpInstantiation),
-            info=T.entity_info.new(
-                # Since we return the instantiation itself, remove
-                # it from its rebindings.
-                rebindings=Entity.info.rebindings.get_parent,
-                from_rebound=Entity.info.from_rebound,
-                md=T.Metadata.new()
+
+        return Entity.info.rebindings.then(
+            lambda rebindings: Let(
+                lambda inst_node=rebindings.new_env.env_node:
+                T.GenericSubpInstantiation.entity.new(
+                    node=inst_node.cast_or_raise(T.GenericSubpInstantiation),
+                    info=T.entity_info.new(
+                        # Since we return the instantiation itself, remove
+                        # it from its rebindings.
+                        rebindings=Entity.info.rebindings.get_parent,
+                        from_rebound=Entity.info.from_rebound,
+                        md=T.Metadata.new()
+                    )
+                )
             )
         )
 

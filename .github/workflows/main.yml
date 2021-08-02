@@ -130,6 +130,20 @@ jobs:
             eval `langkit/manage.py setenv`
             ./manage.py test --disable-ocaml --failure-exit-code=1
 
+      # Check build of libadalang-tools
+
+      - name: Get libadalang-tools
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/libadalang-tools
+          path: libadalang-tools
+
+      - name: Check build of libadalang-tools
+        run: |
+            eval `langkit/manage.py setenv`
+            cd libadalang-tools
+            make all LIBRARY_TYPE=relocatable
+
   stylechecks:
     runs-on: ubuntu-latest
     name: Stylechecks

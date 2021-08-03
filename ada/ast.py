@@ -8969,7 +8969,9 @@ class Expr(AdaNode):
                 ar.prefix.referenced_decl._.is_array
                 & ar.attribute.name_symbol.any_of(
                     'First', 'Last', 'Length', 'Range'
-                ) & ar.args_list.at(0).expr.is_static_expr
+                ) & ar.args_list.then(
+                    lambda args: args.at(0).expr.is_static_expr
+                )
             ),
             lambda ce=CallExpr:
             ce.name.name_designated_type._.is_static_decl

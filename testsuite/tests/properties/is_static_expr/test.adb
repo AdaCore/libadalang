@@ -9,6 +9,10 @@ procedure Test_It (Param : Integer) is
    Test_4 : constant Integer := Param;
 
    Test_5 : constant Boolean := not C;
+
+   D : constant String := "hello";
+
+   Test_6 : constant Boolean := D'Length > 0;
 begin
    null;
 end Test_It;

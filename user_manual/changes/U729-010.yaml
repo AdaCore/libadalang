@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix ``is_static_expr`` on array attributes
+description: |
+    This change fixes a bug where calling ``is_static_expr`` on an expression
+    involving an AttributeRef without arguments on an array (e.g.
+    ``Str'Length``) would cause a crash.
+date: 2021-08-03

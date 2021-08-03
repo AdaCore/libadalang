@@ -24,7 +24,10 @@ for filename in subprocess.check_output(
     check_file(filename)
 
 print("Checking Python bindings")
-check_file(libadalang.__file__)
+lal_py_src = libadalang.__file__
+if lal_py_src.endswith(".pyc"):
+    lal_py_src = lal_py_src[:-1]
+check_file(lal_py_src)
 
 print("Checking OCaml bindings (if present)")
 ocaml_bindings = os.environ.get("LAL_OCAML_BINDINGS")

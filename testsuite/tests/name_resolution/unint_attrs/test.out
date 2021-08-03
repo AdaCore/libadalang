@@ -387,7 +387,23 @@ Expr: <Id "Range_Length" test_unint_attrs.adb:38:41-38:53>
   references: None
   type:       None
 
-Resolving xrefs for node <NullStmt test_unint_attrs.adb:40:7-40:12>
+Resolving xrefs for node <ObjectDecl ["V"] test_unint_attrs.adb:39:7-39:54>
+***************************************************************************
+
+Expr: <Id "Natural" test_unint_attrs.adb:39:21-39:28>
+  references: <DefiningName __standard:5:11-5:18>
+  type:       None
+Expr: <AttributeRef test_unint_attrs.adb:39:32-39:53>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Standard" test_unint_attrs.adb:39:32-39:40>
+  references: <DefiningName __standard:1:9-1:17>
+  type:       None
+Expr: <Id "Storage_Unit" test_unint_attrs.adb:39:41-39:53>
+  references: None
+  type:       None
+
+Resolving xrefs for node <NullStmt test_unint_attrs.adb:41:7-41:12>
 *******************************************************************
 
 

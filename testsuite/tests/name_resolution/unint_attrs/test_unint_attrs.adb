@@ -36,6 +36,7 @@ begin
       S  : constant Natural := Standard'Default_Bit_Order;
       T  : constant Natural := E_X'Enum_Rep;
       U  : constant Natural := Positive'Range_Length;
+      V  : constant Natural := Standard'Storage_Unit;
    begin
       null;
    end;

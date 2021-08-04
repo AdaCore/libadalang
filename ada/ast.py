@@ -110,6 +110,13 @@ class AdaNode(ASTNode):
     )
 
     @langkit_property(ignore_warn_on_node=True)
+    def owning_unit_kind():
+        """
+        Return the kind of the compilation unit owning this node.
+        """
+        return Self.unit.root.cast_or_raise(T.CompilationUnit).unit_kind
+
+    @langkit_property(ignore_warn_on_node=True)
     def withed_unit_helper(unit_name=T.Name):
         """
         Static method helper. Fetch the unit designated by unit_name. Return
@@ -14301,12 +14308,18 @@ class DottedName(Name):
     def complete():
         return origin.bind(Self.origin_node, env.bind(
             Self.node_env,
-            Entity.prefix.designated_env.get(No(Symbol), LK.flat).map(
+            Entity.prefix.designated_env.get(No(Symbol), LK.flat).filtermap(
                 lambda n: CompletionItem.new(
                     decl=n.cast(T.BasicDecl),
                     is_dot_call=n.info.md.dottable_subp,
                     is_visible=Self.has_with_visibility(n.unit)
-                )
+                ),
+
+                # Filter elements that are coming from a body that is not
+                # visible. This can happen with dottable subprograms defined in
+                # bodies.
+                lambda n: Or(n.owning_unit_kind == UnitSpecification,
+                             Self.has_visibility(n))
             ).to_iterator
         ))
 

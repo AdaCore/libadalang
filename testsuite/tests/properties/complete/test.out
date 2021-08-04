@@ -1,10 +1,17 @@
-Eval 'list(node.f_call.p_complete)' on node <CallStmt testcomp.adb:5:4-7:4>
-Result: [<CompletionItem decl=<PackageDecl ["Pkg_1.Child"] pkg_1-child.ads:3:1-5:17> is_dot_call=False is_visible=True>, <CompletionItem decl=<PackageDecl ["Pkg_1.Child2"] pkg_1-child2.ads:1:1-3:18> is_dot_call=False is_visible=False>]
+Eval 'list(node.p_complete)' on node <DottedName test_pkg-foo.adb:8:7-10:10>
+Result: [<CompletionItem decl=<SubpDecl ["My_Method"] test_pkg.ads:4:4-4:49> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpDecl ["My_Body_Method"] test_pkg.adb:6:4-6:54> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpBody ["My_Method"] test_pkg.adb:8:4-11:18> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpBody ["My_Body_Method"] test_pkg.adb:13:4-18:23> is_dot_call=True is_visible=True>]
+
 
 Eval 'list(node.f_call.p_complete)' on node <CallStmt testcomp.adb:7:4-9:4>
+Result: [<CompletionItem decl=<PackageDecl ["Pkg_1.Child"] pkg_1-child.ads:3:1-5:17> is_dot_call=False is_visible=True>, <CompletionItem decl=<PackageDecl ["Pkg_1.Child2"] pkg_1-child2.ads:1:1-3:18> is_dot_call=False is_visible=False>]
+
+Eval 'list(node.f_call.p_complete)' on node <CallStmt testcomp.adb:9:4-11:4>
 Result: [<CompletionItem decl=<ObjectDecl ["C", "D"] pkg_1-child.ads:4:4-4:19> is_dot_call=False is_visible=True>, <CompletionItem decl=<ObjectDecl ["C", "D"] pkg_1-child.ads:4:4-4:19> is_dot_call=False is_visible=True>]
 
-Eval 'list(node.f_call.p_complete)' on node <CallStmt testcomp.adb:9:4-15:1>
+Eval 'list(node.f_call.p_complete)' on node <CallStmt testcomp.adb:11:4-20:4>
 Result: []
+
+Eval 'list(node.f_call.p_complete)' on node <CallStmt testcomp.adb:20:4-22:1>
+Result: [<CompletionItem decl=<SubpDecl ["My_Method"] test_pkg.ads:4:4-4:49> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpDecl ["My_Body_Method"] test_pkg.adb:6:4-6:54> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpBody ["My_Method"] test_pkg.adb:8:4-11:18> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpBody ["My_Body_Method"] test_pkg.adb:13:4-18:23> is_dot_call=True is_visible=True>]
 
 

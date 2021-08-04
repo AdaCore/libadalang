@@ -16,7 +16,8 @@ begin
    --       via a dynamic var.
 
 
-   --  Check that we don't see methods leaking from Test_Pkg's body
+   --  Check that we don't see methods leaking from Test_Pkg's body. Also check
+   --  that no methods are marked as not visible.
    Inst.;
    --% list(node.f_call.p_complete)
 end Testcomp;

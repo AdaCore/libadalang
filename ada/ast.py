@@ -14312,7 +14312,14 @@ class DottedName(Name):
                 lambda n: CompletionItem.new(
                     decl=n.cast(T.BasicDecl),
                     is_dot_call=n.info.md.dottable_subp,
-                    is_visible=Self.has_with_visibility(n.unit)
+
+                    is_visible=Or(
+                        # Dottable subprograms are always visible
+                        n.info.md.dottable_subp,
+
+                        # Else check visibility on the unit containing n
+                        Self.has_with_visibility(n.unit),
+                    )
                 ),
 
                 # Filter elements that are coming from a body that is not

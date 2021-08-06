@@ -1844,6 +1844,12 @@ class BasicDecl(AdaNode):
             lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)
         ))._or(Entity.get_representation_clause(name).then(
             lambda rc: Aspect.new(exists=True, node=rc, value=rc.expr)
+        ))._or(If(
+            name == 'Address',
+            Entity.get_at_clause.then(
+                lambda atc: Aspect.new(exists=True, node=atc, value=atc.expr)
+            ),
+            No(Aspect)
         ))
 
     @langkit_property(return_type=Aspect, public=True,
@@ -1972,6 +1978,18 @@ class BasicDecl(AdaNode):
                 )
             )
         ).cast(T.AttributeDefClause.entity)
+
+    @langkit_property(return_type=T.AtClause.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_at_clause():
+        """
+        Return the at clause associated to this declaration.
+        """
+        return Entity.declarative_scope._.decls.as_entity.find(
+            lambda d: d.cast(AtClause).then(
+                lambda p: p.name.referenced_decl == Entity
+            )
+        ).cast(AtClause.entity)
 
     @langkit_property(public=True)
     def is_compilation_unit_root():

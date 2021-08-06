@@ -160,16 +160,20 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:11-9:17]: String
 |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint:
-|  |  |  |  |  |  |  |  |  |  |  |  |  IndexConstraint[9:18-9:26]
+|  |  |  |  |  |  |  |  |  |  |  |  |  CompositeConstraint[9:18-9:26]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraints:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  ConstraintList[9:19-9:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[9:19-9:25]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[9:19-9:20]: 1
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpDoubleDot[9:21-9:23]
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:24-9:25]: N
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[9:19-9:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  CompositeConstraintAssoc[9:19-9:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_ids:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DiscriminantChoiceList[9:17-9:17]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint_expr:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[9:19-9:25]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int[9:19-9:20]: 1
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_op:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  OpDoubleDot[9:21-9:23]
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_right:
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Id[9:24-9:25]: N
 |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  |f_variant_part: <null>

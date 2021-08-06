@@ -194,18 +194,24 @@ A.add_rules(
         WithPrivate("with", "private")
     ),
 
-    discriminant_assoc=DiscriminantAssoc(
+    # This rule combines, for practicality, alternatives possible only for
+    # index constraints, with alternatives possible only for discriminant
+    # constraints. As a results, it allows parsing stuff like `A => 1 .. 2`
+    # which is not a valid constraint.
+    composite_constraint_assoc=CompositeConstraintAssoc(
+
+        # Only valid for discriminant constraints
         Opt(List(A.identifier, sep="|",
                  list_cls=DiscriminantChoiceList), "=>"),
-        A.expr
+
+        # Only valid for index constraints
+        A.discrete_range | A.discrete_subtype_indication
+        | A.expr
     ),
 
-    discriminant_constraint=DiscriminantConstraint(
-        "(", List(A.discriminant_assoc, sep=",", list_cls=AssocList), ")"
-    ),
-
-    index_constraint=IndexConstraint(
-        "(", A.constraint_list, ")"
+    composite_constraint=CompositeConstraint(
+        "(", List(A.composite_constraint_assoc,
+                  sep=",", list_cls=AssocList), ")"
     ),
 
     digits_constraint=DigitsConstraint(
@@ -222,8 +228,7 @@ A.add_rules(
 
     constraint=Or(A.digits_constraint, A.delta_constraint,
                   A.range_constraint,
-                  A.discriminant_constraint,
-                  A.index_constraint),
+                  A.composite_constraint),
 
     discriminant_spec=DiscriminantSpec(
         List(A.defining_id, sep=","), ":", A.type_expr,

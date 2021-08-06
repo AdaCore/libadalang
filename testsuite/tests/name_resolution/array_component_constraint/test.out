@@ -57,12 +57,12 @@ Expr: <Id "Ints" pack.ads:7:16-7:20>
   type:          None
   expected type: None
 Expr: <BinOp pack.ads:7:22-7:35>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Int pack.ads:7:22-7:23>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <OpDoubleDot ".." pack.ads:7:24-7:26>
   references:    None
   type:          None
@@ -70,7 +70,7 @@ Expr: <OpDoubleDot ".." pack.ads:7:24-7:26>
 Expr: <Id "Max_Size" pack.ads:7:27-7:35>
   references:    <DefiningName pack.ads:5:23-5:31>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 Resolving xrefs for node <TypeDecl ["Ints_Doubled"] pack.ads:10:4-10:60>
 ************************************************************************

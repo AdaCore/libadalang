@@ -17,13 +17,17 @@ SubpSpec[1:1-1:37]
 |  |  |f_suffix:
 |  |  |  Id[1:23-1:26]: Arr
 |  |f_constraint:
-|  |  IndexConstraint[1:27-1:37]
+|  |  CompositeConstraint[1:27-1:37]
 |  |  |f_constraints:
-|  |  |  ConstraintList[1:28-1:36]
-|  |  |  |  BinOp[1:28-1:36]
-|  |  |  |  |f_left:
-|  |  |  |  |  Int[1:28-1:30]: 12
-|  |  |  |  |f_op:
-|  |  |  |  |  OpDoubleDot[1:31-1:33]
-|  |  |  |  |f_right:
-|  |  |  |  |  Int[1:34-1:36]: 18
+|  |  |  AssocList[1:28-1:36]
+|  |  |  |  CompositeConstraintAssoc[1:28-1:36]
+|  |  |  |  |f_ids:
+|  |  |  |  |  DiscriminantChoiceList[1:26-1:26]: <empty list>
+|  |  |  |  |f_constraint_expr:
+|  |  |  |  |  BinOp[1:28-1:36]
+|  |  |  |  |  |f_left:
+|  |  |  |  |  |  Int[1:28-1:30]: 12
+|  |  |  |  |  |f_op:
+|  |  |  |  |  |  OpDoubleDot[1:31-1:33]
+|  |  |  |  |  |f_right:
+|  |  |  |  |  |  Int[1:34-1:36]: 18

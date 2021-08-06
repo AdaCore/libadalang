@@ -10,14 +10,18 @@ SubtypeDecl[1:1-1:26]
 |  |f_name:
 |  |  Id[1:14-1:15]: B
 |  |f_constraint:
-|  |  IndexConstraint[1:16-1:25]
+|  |  CompositeConstraint[1:16-1:25]
 |  |  |f_constraints:
-|  |  |  ConstraintList[1:17-1:24]
-|  |  |  |  BinOp[1:17-1:24]
-|  |  |  |  |f_left:
-|  |  |  |  |  Int[1:17-1:18]: 1
-|  |  |  |  |f_op:
-|  |  |  |  |  OpDoubleDot[1:19-1:21]
-|  |  |  |  |f_right:
-|  |  |  |  |  Int[1:22-1:24]: 12
+|  |  |  AssocList[1:17-1:24]
+|  |  |  |  CompositeConstraintAssoc[1:17-1:24]
+|  |  |  |  |f_ids:
+|  |  |  |  |  DiscriminantChoiceList[1:15-1:15]: <empty list>
+|  |  |  |  |f_constraint_expr:
+|  |  |  |  |  BinOp[1:17-1:24]
+|  |  |  |  |  |f_left:
+|  |  |  |  |  |  Int[1:17-1:18]: 1
+|  |  |  |  |  |f_op:
+|  |  |  |  |  |  OpDoubleDot[1:19-1:21]
+|  |  |  |  |  |f_right:
+|  |  |  |  |  |  Int[1:22-1:24]: 12
 |f_aspects: <null>

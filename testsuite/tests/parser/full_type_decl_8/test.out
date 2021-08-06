@@ -19,15 +19,15 @@ TypeDecl[1:1-1:79]
 |  |  |f_name:
 |  |  |  Id[1:15-1:16]: A
 |  |  |f_constraint:
-|  |  |  DiscriminantConstraint[1:17-1:42]
+|  |  |  CompositeConstraint[1:17-1:42]
 |  |  |  |f_constraints:
 |  |  |  |  AssocList[1:18-1:41]
-|  |  |  |  |  DiscriminantAssoc[1:18-1:41]
+|  |  |  |  |  CompositeConstraintAssoc[1:18-1:41]
 |  |  |  |  |  |f_ids:
 |  |  |  |  |  |  DiscriminantChoiceList[1:18-1:35]
 |  |  |  |  |  |  |  Id[1:18-1:25]: Discr_1
 |  |  |  |  |  |  |  Id[1:28-1:35]: Discr_2
-|  |  |  |  |  |f_discr_expr:
+|  |  |  |  |  |f_constraint_expr:
 |  |  |  |  |  |  Int[1:39-1:41]: 12
 |  |f_interfaces:
 |  |  ParentList[1:41-1:41]: <empty list>

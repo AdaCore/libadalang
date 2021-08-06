@@ -4609,7 +4609,7 @@ class ComponentList(BaseFormalParamHolder):
                         pcl.type_decl.discriminants_list,
                         Entity.type_def.cast(DerivedTypeDef)
                         .subtype_indication.constraint
-                        .cast(DiscriminantConstraint)._.constraints,
+                        .cast(CompositeConstraint)._.constraints,
                         is_dottable_subp=False
                     ),
                     include_discriminants=False
@@ -7131,14 +7131,19 @@ class Constraint(AdaNode):
     def is_static():
         return Entity.match(
             lambda rc=RangeConstraint: rc.range.range.is_static_expr,
-            lambda ic=IndexConstraint:
-            ic.constraints.all(lambda c: c.match(
-                lambda st=SubtypeIndication: st.is_static_subtype,
-                lambda e=Expr: e.is_static_expr,
-                lambda _: False
-            )),
-            lambda dc=DiscriminantConstraint: dc.constraints.all(
-                lambda c: c.expr.is_static_expr
+            lambda cc=CompositeConstraint: If(
+                cc.is_index_constraint,
+                cc.constraints.all(
+                    lambda c: c.cast(CompositeConstraintAssoc).constraint_expr
+                    .match(
+                        lambda st=SubtypeIndication: st.is_static_subtype,
+                        lambda e=Expr: e.is_static_expr,
+                        lambda _: False
+                    )
+                ),
+                cc.constraints.all(
+                    lambda c: c.expr.is_static_expr
+                )
             ),
             lambda dc=DigitsConstraint: dc.range.then(
                 lambda range: range.range.is_static_expr,
@@ -7197,56 +7202,62 @@ class DeltaConstraint(Constraint):
     )
 
 
-class IndexConstraint(Constraint):
+class CompositeConstraint(Constraint):
     """
-    List of type constraints.
+    Constraint for a composite type. Due to ambiguities in the Ada grammar,
+    this could be either a list of index constraints, if the owning type is an
+    array type, or a list of discriminant constraints, if the owning type is a
+    discriminated record type.
     """
-    constraints = Field(type=T.ConstraintList)
 
-    @langkit_property()
-    def xref_equation():
-        typ = Var(Entity.subtype)
-        return Entity.constraints.logic_all(
-            lambda i, c:
-            # If the index constraint is an expression (which means it is
-            # either a BinOp (first .. last) or an AttributeRef (X'Range)),
-            # we assign to the type of that expression the type of the index
-            # which we are constraining, or else it would be resolved without
-            # any context and we could get erroneous types in some cases.
-            # Consider for example ``subtype T is List ('A' .. 'B')``: here,
-            # 'A' and 'B' could type to e.g. ``Character`` although the index
-            # type of ``List`` is for example ``My_Character``. But if we bind
-            # the type of ``'A' .. 'B'`` to ``My_Character`` as we now do,
-            # the type will be propagated to both 'A' and 'B' and therefore
-            # they will get the correct types.
-            c.cast(T.Expr).then(
-                lambda e:
-                Bind(e.expected_type_var, typ.index_type(i).base_subtype)
-                & e.matches_expected_type,
-                default_val=LogicTrue()
-            ) & c.sub_equation
-        )
-
-
-class DiscriminantConstraint(Constraint):
-    """
-    List of constraints that relate to type discriminants.
-    """
     constraints = Field(type=T.AssocList)
 
+    @langkit_property(public=True)
+    def is_index_constraint():
+        """
+        Whether this composite constraint is an index constraint.
+        """
+        return Entity.subtype.is_array_type
+
+    @langkit_property(public=True)
+    def is_discriminant_constraint():
+        """
+        Whether this composite constraint is a discriminant constraint.
+        """
+        return Not(Entity.is_index_constraint)
+
     @langkit_property()
     def xref_equation():
         typ = Var(Entity.subtype)
-
         return If(
-            # Due to ambiguities in the grammar, this can actually be parsed as
-            # a DiscriminantConstraint but be an index constraint.
-            typ.is_array,
+            Entity.is_index_constraint,
+            Entity.constraints.logic_all(lambda i, c: Let(
+                lambda ex=c.cast(T.CompositeConstraintAssoc).constraint_expr:
+                # If the index constraint is an expression (which means it
+                # is either a BinOp (first .. last) or an AttributeRef
+                # (X'Range)), we assign to the type of that expression the
+                # type of the index which we are constraining, or else it
+                # would be resolved without any context and we could get
+                # erroneous types in some cases.  Consider for example
+                # ``subtype T is List ('A' .. 'B')``: here, 'A' and 'B'
+                # could type to e.g. ``Character`` although the index type
+                # of ``List`` is for example ``My_Character``. But if we
+                # bind the type of ``'A' .. 'B'`` to ``My_Character`` as we
+                # now do, the type will be propagated to both 'A' and 'B'
+                # and therefore they will get the correct types.
 
-            # Index constraints imply no overloading
-            Entity.constraints.logic_all(
-                lambda c: c.expr.sub_equation
-            ),
+                # Note that it's currently necessary to first assign the
+                # expected type to the range before recursively
+                # constructing its xref equations, as we have cases (e.g.
+                # BinOp) where resolution takes different paths depending
+                # on its operands' types (e.g. whether it's a universal
+                # type or not).
+                ex.cast(T.Expr).then(
+                    lambda e:
+                    Bind(e.expected_type_var, typ.index_type(i)),
+                    default_val=LogicTrue()
+                ) & ex.sub_equation
+            )),
 
             # Regular discriminant constraint case
             Self.match_formals(
@@ -7289,14 +7300,14 @@ class BasicAssoc(AdaNode):
         )
 
 
-class DiscriminantAssoc(BasicAssoc):
+class CompositeConstraintAssoc(BasicAssoc):
     """
     Association of discriminant names to an expression.
     """
     ids = Field(type=T.DiscriminantChoiceList)
-    discr_expr = Field(type=T.Expr)
+    constraint_expr = Field(type=T.AdaNode)
 
-    expr = Property(Entity.discr_expr)
+    expr = Property(Entity.constraint_expr.cast_or_raise(T.Expr))
     names = Property(Self.ids.map(lambda i: i.cast(T.AdaNode)))
 
 
@@ -8341,7 +8352,7 @@ class SubtypeIndication(TypeExpr):
         default expressions.
         """
         constraints = Var(
-            Entity.constraint._.cast(DiscriminantConstraint).constraints
+            Entity.constraint._.cast(CompositeConstraint).constraints
         )
         # Build a discriminants list with their default expressions
         discrs = Var(
@@ -14198,7 +14209,7 @@ class AssocList(BasicAssoc.list):
             i.generic_entity_name.referenced_decl.cast(T.GenericDecl)
             ._.formal_part.abstract_formal_params,
 
-            lambda c=T.DiscriminantConstraint:
+            lambda c=T.CompositeConstraint:
             c.subtype._.discriminants_list,
 
             lambda a=T.BaseAggregate: origin.bind(Self, env.bind(

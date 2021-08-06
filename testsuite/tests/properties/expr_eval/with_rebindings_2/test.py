@@ -8,7 +8,7 @@ V_decl = u.root.findall(lal.ObjectDecl)[1]
 R_Arr_ref = V_decl.f_type_expr
 R_Arr_decl = R_Arr_ref.p_designated_type_decl
 R_ref = (R_Arr_decl.f_type_def.f_subtype_indication
-         .f_constraint.f_constraints[0].f_discr_expr)
+         .f_constraint.f_constraints[0].f_constraint_expr)
 R_decl = R_ref.p_referenced_decl()
 R_range = R_decl.p_discrete_range
 

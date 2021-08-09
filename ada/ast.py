@@ -9588,7 +9588,11 @@ class RelationOp(BinOp):
     Binary operation that compares two value, producing a boolean.
     """
     no_overload_equation = Property(
-        Self.type_bind_var(Self.left.type_var, Self.right.type_var)
+        # FIXME: Here we use matching_assign_type to work around the fact that
+        # we don't generally resolve implicit dereferences correctly. See
+        # design document about implicit dereference aspect.
+        Bind(Self.left.type_var, Self.right.type_var,
+             eq_prop=BaseTypeDecl.matching_assign_type)
         & Self.bool_bind(Self.type_var)
     )
 

@@ -5,10 +5,10 @@ Resolving xrefs for node <CallStmt type_class_attr.adb:7:4-7:29>
 ****************************************************************
 
 Expr: <CallExpr type_class_attr.adb:7:4-7:28>
-  references: type_class_attr.foo (system.aux_dec.type_class)
+  references: type_class_attr().foo(system.aux_dec.type_class)
   type:       None
 Expr: <Id "Foo" type_class_attr.adb:7:4-7:7>
-  references: type_class_attr.foo (system.aux_dec.type_class)
+  references: type_class_attr().foo(system.aux_dec.type_class)
   type:       None
 Expr: <AttributeRef type_class_attr.adb:7:9-7:27>
   references: None

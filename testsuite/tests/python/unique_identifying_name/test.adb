@@ -1,5 +1,6 @@
 procedure A is
    function Bar (X, Y : Integer) return Boolean is
+      function Foo return Integer;
    begin
       return X > Y;
    end Bar;
@@ -8,6 +9,7 @@ procedure A is
       return X > 42;
    end Bar;
    procedure Bar (X : Integer) is
+      function Foo return Integer;
    begin
       null;
    end Bar;

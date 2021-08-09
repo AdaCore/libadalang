@@ -5,16 +5,16 @@ Resolving xrefs for node <CallStmt test.adb:8:4-10:59>
 ******************************************************
 
 Expr: <CallExpr test.adb:8:4-10:58>
-  references: system.machine_code.asm (standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
+  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
   type:       None
 Expr: <Id "Asm" test.adb:8:4-8:7>
-  references: system.machine_code.asm (standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
+  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
   type:       None
 Expr: <Str ""incl %0"" test.adb:8:9-8:18>
   references: None
   type:       standard.string
 Expr: <Id "Inputs" test.adb:9:9-9:15>
-  references: system.machine_code.asm.inputs
+  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean).inputs
   type:       None
 Expr: <AttributeRef test.adb:9:20-9:54>
   references: None
@@ -32,7 +32,7 @@ Expr: <Id "Value" test.adb:9:48-9:53>
   references: None
   type:       interfaces.unsigned_32
 Expr: <Id "Outputs" test.adb:10:9-10:16>
-  references: system.machine_code.asm.outputs
+  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean).outputs
   type:       None
 Expr: <AttributeRef test.adb:10:20-10:57>
   references: None

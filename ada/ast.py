@@ -15011,7 +15011,9 @@ class ExceptionHandler(BasicDecl):
         )
     )
 
-    defining_names = Property(Entity.exception_name.singleton)
+    defining_names = Property(
+        Entity.exception_name.then(lambda n: n.singleton)
+    )
 
     @langkit_property()
     def expr_type():

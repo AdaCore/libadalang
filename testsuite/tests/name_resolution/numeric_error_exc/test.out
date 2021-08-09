@@ -9,8 +9,8 @@ Resolving xrefs for node <NullStmt test.adb:3:4-3:9>
 ****************************************************
 
 
-Resolving xrefs for node <ExceptionHandler ["None"] test.adb:5:4-6:12>
-**********************************************************************
+Resolving xrefs for node <ExceptionHandler [] test.adb:5:4-6:12>
+****************************************************************
 
 Expr: <Id "Numeric_Error" test.adb:5:9-5:22>
   references: <DefiningName __standard:117:3-117:16>

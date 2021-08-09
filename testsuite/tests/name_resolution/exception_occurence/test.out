@@ -5,19 +5,19 @@ Resolving xrefs for node <CallStmt test_exc.adb:8:4-8:37>
 *********************************************************
 
 Expr: <CallExpr test_exc.adb:8:4-8:36>
-  references: ada.text_io.put_line (standard.string)
+  references: ada.text_io.put_line(standard.string)
   type:       None
 Expr: <Id "Put_Line" test_exc.adb:8:4-8:12>
-  references: ada.text_io.put_line (standard.string)
+  references: ada.text_io.put_line(standard.string)
   type:       None
 Expr: <CallExpr test_exc.adb:8:14-8:35>
-  references: ada.exceptions.exception_message (ada.exceptions.exception_occurrence) return standard.string
+  references: ada.exceptions.exception_message((ada.exceptions.exception_occurrence) -> standard.string)
   type:       standard.string
 Expr: <Id "Exception_Message" test_exc.adb:8:14-8:31>
-  references: ada.exceptions.exception_message (ada.exceptions.exception_occurrence) return standard.string
+  references: ada.exceptions.exception_message((ada.exceptions.exception_occurrence) -> standard.string)
   type:       standard.string
 Expr: <Id "E" test_exc.adb:8:33-8:34>
-  references: test_exc.e
+  references: test_exc().e
   type:       ada.exceptions.exception_occurrence
 
 

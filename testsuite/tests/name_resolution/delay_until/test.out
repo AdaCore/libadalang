@@ -5,7 +5,7 @@ Resolving xrefs for node <DelayStmt delay_until.adb:12:7-12:29>
 ***************************************************************
 
 Expr: <Id "Poll_Time" delay_until.adb:12:19-12:28>
-  references: delay_until.poll_time
+  references: delay_until().poll_time
   type:       ada.real_time.time
 
 

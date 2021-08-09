@@ -20,7 +20,7 @@ Expr: <Id "Modular_IO" test.adb:5:35-5:45>
   references: ada.text_io.modular_io
   type:       None
 Expr: <Id "U" test.adb:5:47-5:48>
-  references: test.u
+  references: test().u
   type:       None
 
 

@@ -2507,34 +2507,54 @@ class BasicDecl(AdaNode):
             )
         ).cast(T.Body)
 
-    @langkit_property(return_type=T.SingleTokNode.array)
-    def fully_qualified_name_impl():
+    @langkit_property(return_type=T.String.array)
+    def fully_qualified_name_impl(include_profile=(T.Bool, False)):
         """
         Return the fully qualified name corresponding to this declaration, as
         an array of symbols.
         """
+        self_name = Var(Entity.defining_name.as_single_tok_node_array.map(
+            lambda t: t.text.concat(
+                If(include_profile, Entity.custom_id_text, String(""))
+            )
+        ))
+
         fqn = Var(If(
             Entity.is_compilation_unit_root,
-            Entity.defining_name.as_single_tok_node_array,
+            self_name,
 
             Entity.parent_basic_decl
-            ._.fully_qualified_name_impl.then(lambda fqn: If(
+            ._.fully_qualified_name_impl(include_profile=include_profile)
+            .then(lambda fqn: If(
                 Self.is_a(T.GenericPackageInternal, T.GenericSubpInternal),
                 fqn,
-                fqn.concat(Entity.defining_name._.as_single_tok_node_array)
+                fqn.concat(self_name)
             ))
         ))
 
         return Self.parent.cast(
-            T.Subunit)._.name.as_single_tok_node_array.concat(fqn)._or(fqn)
+            T.Subunit)._.name.as_single_tok_node_array.map(
+                lambda t: t.text).concat(fqn)._or(fqn)
 
-    @langkit_property(public=True, return_type=Symbol.array)
-    def fully_qualified_name_array():
+    @langkit_property(return_type=T.String.array)
+    def fully_qualified_name_string_array(include_profile=(T.Bool, False)):
         """
         Return the fully qualified name corresponding to this declaration, as
         an array of symbols.
         """
-        return Entity.fully_qualified_name_impl.map(lambda t: t.symbol)
+        return Entity.fully_qualified_name_impl(
+            include_profile=include_profile
+        )
+
+    @langkit_property(public=True, return_type=T.Symbol.array)
+    def fully_qualified_name_array(include_profile=(T.Bool, False)):
+        """
+        Return the fully qualified name corresponding to this declaration, as
+        an array of symbols.
+        """
+        return Entity.fully_qualified_name_string_array(
+            include_profile=include_profile
+        ).map(lambda t: t.to_symbol)
 
     @langkit_property(public=True, return_type=T.String)
     def fully_qualified_name():
@@ -2542,18 +2562,20 @@ class BasicDecl(AdaNode):
         Return the fully qualified name corresponding to this declaration.
         """
         return Entity.string_join(
-            Entity.fully_qualified_name_impl.map(lambda t: t.text),
+            Entity.fully_qualified_name_impl(),
             String(".")
         )
 
     @langkit_property(public=True, return_type=T.String)
-    def canonical_fully_qualified_name():
+    def canonical_fully_qualified_name(include_profile=(T.Bool, False)):
         """
         Return a canonical representation of the fully qualified name
         corresponding to this declaration.
         """
         return Entity.string_join(
-            Entity.fully_qualified_name_array.map(lambda t: t.image),
+            Entity.fully_qualified_name_array(include_profile=include_profile)
+            # Map to symbol & back to canonicalize
+            .map(lambda t: t.image),
             String(".")
         )
 
@@ -2571,8 +2593,8 @@ class BasicDecl(AdaNode):
         """
         return Entity.match(
             lambda _=T.AnonymousTypeDecl: Entity.custom_id_text,
-            lambda _: Entity.canonical_fully_qualified_name.concat(
-                Entity.custom_id_text
+            lambda _: Entity.canonical_fully_qualified_name(
+                include_profile=True
             )
         )
 
@@ -2581,18 +2603,20 @@ class BasicDecl(AdaNode):
         return Entity.subp_spec_or_null.then(
             # For subprograms, we'll compute their profiles as the unique
             # identifying text.
-            lambda ss: ss.unpacked_formal_params.then(
-                lambda ufp: String(" (").concat(
-                    Entity.string_join(
-                        ufp.map(
-                            lambda p: p.spec.type_expression.custom_id_text
-                        ),
-                        String(", ")
-                    )
-                ).concat(String(")"))
+            lambda ss: String("(").concat(
+                ss.returns.then(lambda _: String("(")).concat(
+                    ss.unpacked_formal_params.then(
+                        lambda ufp: Entity.string_join(
+                            ufp.map(
+                                lambda p: p.spec.type_expression.custom_id_text
+                            ),
+                            String(", ")
+                        )
+                    ).concat(ss.returns.then(lambda _: String(")")))
+                )
             ).concat(ss.returns.then(
-                lambda r: String(" return ").concat(r.custom_id_text)
-            )),
+                lambda r: String(" -> ").concat(r.custom_id_text)
+            )).concat(String(")")),
             default_val=String("")
         )
 

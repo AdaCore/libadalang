@@ -10,20 +10,20 @@ Expr: <AttributeRef test.adb:19:7-19:17>
   references: None
   type:       ada.task_identification.task_id
 Expr: <Id "T" test.adb:19:7-19:8>
-  references: test.t.t
-  type:       test.t.t
+  references: test().t.t
+  type:       test().t.t
 Expr: <Id "Identity" test.adb:19:9-19:17>
   references: None
   type:       None
 Expr: <OpEq "=" test.adb:19:18-19:19>
-  references: ada.task_identification."=" (ada.task_identification.task_id, ada.task_identification.task_id) return standard.boolean
+  references: ada.task_identification."="((ada.task_identification.task_id, ada.task_identification.task_id) -> standard.boolean)
   type:       None
 Expr: <AttributeRef test.adb:19:20-19:30>
   references: None
   type:       ada.task_identification.task_id
 Expr: <Id "X" test.adb:19:20-19:21>
-  references: test.x
-  type:       test.tt
+  references: test().x
+  type:       test().tt
 Expr: <Id "Identity" test.adb:19:22-19:30>
   references: None
   type:       None

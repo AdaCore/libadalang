@@ -14,7 +14,7 @@ Expr: <Id "Integer_IO" test.adb:5:31-5:41>
   references: ada.text_io.integer_io
   type:       None
 Expr: <Id "U" test.adb:5:43-5:44>
-  references: test.u
+  references: test().u
   type:       None
 
 

@@ -1677,6 +1677,7 @@ class BasicDecl(AdaNode):
         )
 
     @langkit_property(public=True, return_type=T.BasicDecl.entity,
+                      memoized=True,
                       dynamic_vars=[default_imprecise_fallback()])
     def canonical_part():
         """

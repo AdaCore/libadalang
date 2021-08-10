@@ -1,0 +1,13 @@
+Eval 'node.p_fully_qualified_name' on node <ObjectDecl ["A", "B"] test.adb:4:4-4:19>
+Exception: Can't call on a declaration with several names
+
+Eval 'node.p_defining_names[0].p_fully_qualified_name' on node <ObjectDecl ["A", "B"] test.adb:4:4-4:19>
+Result: 'Test.A'
+
+Eval 'node.p_defining_names[1].p_fully_qualified_name' on node <ObjectDecl ["A", "B"] test.adb:4:4-4:19>
+Result: 'Test.B'
+
+Eval 'node.p_defining_names[1].p_canonical_fully_qualified_name' on node <ObjectDecl ["A", "B"] test.adb:4:4-4:19>
+Result: 'test.b'
+
+

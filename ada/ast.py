@@ -2459,14 +2459,24 @@ class BasicDecl(AdaNode):
         Implementation of next_part_for_decl for basic decls, that can be
         reused by subclasses when they override next_part_for_decl.
         """
+        # Fetch the library level body unit that might contain the next part
+        # for this declaration.
         ignore(Var(
             Self.enclosing_compilation_unit.decl.match(
                 lambda _=Body: No(AnalysisUnit),
                 lambda b=BasicDecl:
                 b.as_bare_entity._.defining_name._.referenced_unit(
                     UnitBody,
-                    not_found_is_error=Not(b.is_a(
-                        T.BasePackageDecl, T.GenericPackageDecl
+                    not_found_is_error=Not(Or(
+                        # Body not mandatory if the library level declaration
+                        # is a package. We don't try to be more precise than
+                        # that.
+                        b.is_a(T.BasePackageDecl, T.GenericPackageDecl),
+
+                        # A body is not expected if the library level
+                        # declaration is an imported subprogram.
+                        And(b.is_a(T.BasicSubpDecl, T.GenericSubpDecl),
+                            b.as_entity.has_aspect("Import"))
                     ))
                 )
             )

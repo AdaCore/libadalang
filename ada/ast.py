@@ -2508,12 +2508,31 @@ class BasicDecl(AdaNode):
         ).cast(T.Body)
 
     @langkit_property(return_type=T.String.array)
-    def fully_qualified_name_impl(include_profile=(T.Bool, False)):
+    def fully_qualified_name_impl(
+        include_profile=(T.Bool, False),
+        dn=(T.DefiningName.entity, No(T.DefiningName.entity))
+    ):
         """
         Return the fully qualified name corresponding to this declaration, as
         an array of symbols.
+
+        If ``dn`` is null, take the first defining name for the declaration.
+        Else, assume that dn is one of the defining names for this declaration.
         """
-        self_name = Var(Entity.defining_name.as_single_tok_node_array.map(
+        # If this basic decl has several names, and a defining name was not
+        # passed, then raise an error. We assume that all internal callers will
+        # pass this correctly, so the only cases in which this property error
+        # should be raised is when the user calls a public property on a decl
+        # with several names.
+        ignore(Var(If(
+            dn.is_null & (Entity.defining_names.length > 1),
+            PropertyError(T.Bool,
+                          "Can't call on a declaration with several names"),
+            False
+        )))
+
+        def_name = Var(If(dn.is_null, Entity.defining_name, dn))
+        self_name = Var(def_name.as_single_tok_node_array.map(
             lambda t: t.text.concat(
                 If(include_profile, Entity.custom_id_text, String(""))
             )
@@ -2566,17 +2585,43 @@ class BasicDecl(AdaNode):
             String(".")
         )
 
+    @langkit_property(return_type=T.String)
+    def canonical_fully_qualified_name_impl(
+        include_profile=(T.Bool, False),
+        dn=(T.DefiningName.entity, No(T.DefiningName.entity))
+    ):
+        """
+        Implementation of canonical_fully_qualified_name.
+        """
+        return Entity.string_join(
+            Entity.fully_qualified_name_impl(
+                include_profile=include_profile, dn=dn
+            )
+            # Map to symbol & back to canonicalize
+            .map(lambda t: t.to_symbol).map(lambda t: t.image),
+            String(".")
+        )
+
     @langkit_property(public=True, return_type=T.String)
-    def canonical_fully_qualified_name(include_profile=(T.Bool, False)):
+    def canonical_fully_qualified_name():
         """
         Return a canonical representation of the fully qualified name
         corresponding to this declaration.
         """
-        return Entity.string_join(
-            Entity.fully_qualified_name_array(include_profile=include_profile)
-            # Map to symbol & back to canonicalize
-            .map(lambda t: t.image),
-            String(".")
+        return Entity.canonical_fully_qualified_name_impl()
+
+    @langkit_property(return_type=T.String)
+    def unique_identifying_name_impl(
+        dn=(T.DefiningName.entity, No(T.DefiningName.entity))
+    ):
+        """
+        Implementation for unique_identifying_name.
+        """
+        return Entity.match(
+            lambda _=T.AnonymousTypeDecl: Entity.custom_id_text,
+            lambda _: Entity.canonical_fully_qualified_name_impl(
+                include_profile=True, dn=dn
+            )
         )
 
     @langkit_property(public=True, return_type=T.String)
@@ -2591,12 +2636,7 @@ class BasicDecl(AdaNode):
             Notably, anything nested in an unnamed declare block won't be
             handled correctly.
         """
-        return Entity.match(
-            lambda _=T.AnonymousTypeDecl: Entity.custom_id_text,
-            lambda _: Entity.canonical_fully_qualified_name(
-                include_profile=True
-            )
-        )
+        return Entity.unique_identifying_name_impl()
 
     @langkit_property(return_type=T.String)
     def custom_id_text():
@@ -12040,6 +12080,38 @@ class DefiningName(Name):
     relative_name = Property(Entity.name.relative_name)
     ref_var = Property(Self.name.ref_var)
     env_elements_impl = Property(Entity.name.env_elements_impl)
+
+    @langkit_property(public=True, return_type=T.String)
+    def canonical_fully_qualified_name():
+        """
+        Return a canonical representation of the fully qualified name
+        corresponding to this defining name.
+        """
+        return Entity.basic_decl.canonical_fully_qualified_name_impl(dn=Entity)
+
+    @langkit_property(public=True, return_type=T.String)
+    def unique_identifying_name():
+        """
+        Return a unique identifying name for this defining name, provided this
+        declaration is a public declaration. In the case of subprograms, this
+        will include the profile.
+
+        .. attention::
+            This will only return a unique name for public declarations.
+            Notably, anything nested in an unnamed declare block won't be
+            handled correctly.
+        """
+        return Entity.basic_decl.unique_identifying_name_impl(Entity)
+
+    @langkit_property(public=True, return_type=T.String)
+    def fully_qualified_name():
+        """
+        Return the fully qualified name corresponding to this defining name.
+        """
+        return Entity.string_join(
+            Entity.basic_decl.fully_qualified_name_impl(dn=Entity),
+            String(".")
+        )
 
     @langkit_property()
     def all_env_els_impl(

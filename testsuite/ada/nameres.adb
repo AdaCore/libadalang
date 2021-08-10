@@ -941,8 +941,7 @@ procedure Nameres is
                         (if Show_Slocs or else Decl_Name.Is_Null
                          then Image (Decl_Name)
                          else Image
-                           (Decl_Name.P_Basic_Decl
-                            .P_Unique_Identifying_Name));
+                           (Decl_Name.P_Unique_Identifying_Name));
                   begin
                      Put_Line ("  references: " & Referenced_Decl_Image);
                   end;

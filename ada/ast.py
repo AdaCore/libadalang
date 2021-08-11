@@ -3676,10 +3676,6 @@ class TypeDef(AdaNode):
     is_enum_type = Property(False, dynamic_vars=[default_origin()])
 
     @langkit_property(dynamic_vars=[origin])
-    def is_record_type():
-        return False
-
-    @langkit_property(dynamic_vars=[origin])
     def accessed_type():
         return No(BaseTypeDecl.entity)
 
@@ -4186,7 +4182,6 @@ class RecordTypeDef(TypeDef):
     record_def = Field(type=T.BaseRecordDef)
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
-    is_record_type = Property(True)
 
     xref_equation = Property(LogicTrue())
 
@@ -4368,8 +4363,11 @@ class BaseTypeDecl(BasicDecl):
     def is_record_type():
         """
         Return whether this type is a record type.
+
+        .. ATTENTION:: Private tagged types extending public tagged records are
+            not considered as record types.
         """
-        return False
+        return Not(Entity.record_def.is_null)
 
     @langkit_property(public=True, dynamic_vars=[default_origin()])
     def is_array_type():
@@ -5462,7 +5460,6 @@ class TypeDecl(BaseTypeDecl):
 
     array_ndims = Property(Entity.type_def.array_ndims)
 
-    is_record_type = Property(Entity.type_def.is_record_type)
     is_real_type = Property(Entity.type_def.is_real_type)
     is_float_type = Property(Entity.type_def.is_float_type)
     is_fixed_point = Property(Entity.type_def.is_fixed_point)
@@ -6074,9 +6071,6 @@ class DerivedTypeDef(TypeDef):
     )
 
     is_enum_type = Property(Entity.base_type.is_enum_type)
-    is_record_type = Property(
-        Entity.is_tagged_type | Entity.base_type.is_record_type
-    )
     is_static = Property(Entity.subtype_indication.is_static_subtype)
 
     @langkit_property(return_type=Equation)

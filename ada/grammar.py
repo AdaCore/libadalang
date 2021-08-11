@@ -313,7 +313,7 @@ A.add_rules(
     anonymous_type_decl=AnonymousTypeDecl(
         Null(A.defining_id), Null(A.discriminant_part),
         Or(A.array_type_def, A.access_def),
-        A.aspect_spec
+        Null(A.aspect_spec)
     ),
 
     type_decl=Or(

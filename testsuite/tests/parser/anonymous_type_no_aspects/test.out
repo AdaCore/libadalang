@@ -1,0 +1,83 @@
+CompilationUnit[1:1-8:75]
+|f_prelude:
+|  AdaNodeList[1:1-1:37]
+|  |  WithClause[1:1-1:19]
+|  |  |f_has_limited:
+|  |  |  LimitedAbsent[1:1-1:1]
+|  |  |f_has_private:
+|  |  |  PrivateAbsent[1:1-1:1]
+|  |  |f_packages:
+|  |  |  NameList[1:6-1:18]
+|  |  |  |  DottedName[1:6-1:18]
+|  |  |  |  |f_prefix:
+|  |  |  |  |  Id[1:6-1:16]: Interfaces
+|  |  |  |  |f_suffix:
+|  |  |  |  |  Id[1:17-1:18]: C
+|  |  UsePackageClause[1:20-1:37]
+|  |  |f_packages:
+|  |  |  NameList[1:24-1:36]
+|  |  |  |  DottedName[1:24-1:36]
+|  |  |  |  |f_prefix:
+|  |  |  |  |  Id[1:24-1:34]: Interfaces
+|  |  |  |  |f_suffix:
+|  |  |  |  |  Id[1:35-1:36]: C
+|f_body:
+|  LibraryItem[3:1-8:75]
+|  |f_has_private:
+|  |  PrivateAbsent[1:37-1:37]
+|  |f_item:
+|  |  SubpDecl[3:1-8:75]
+|  |  |f_overriding:
+|  |  |  OverridingUnspecified[1:37-1:37]
+|  |  |f_subp_spec:
+|  |  |  SubpSpec[3:1-4:25]
+|  |  |  |f_subp_kind:
+|  |  |  |  SubpKindFunction[3:1-3:9]
+|  |  |  |f_subp_name:
+|  |  |  |  DefiningName[3:10-3:14]
+|  |  |  |  |f_name:
+|  |  |  |  |  Id[3:10-3:14]: Test
+|  |  |  |f_subp_params: <null>
+|  |  |  |f_subp_returns:
+|  |  |  |  AnonymousType[4:10-4:25]
+|  |  |  |  |f_type_decl:
+|  |  |  |  |  AnonymousTypeDecl[4:10-4:25]
+|  |  |  |  |  |f_name: <null>
+|  |  |  |  |  |f_discriminants: <null>
+|  |  |  |  |  |f_type_def:
+|  |  |  |  |  |  TypeAccessDef[4:10-4:25]
+|  |  |  |  |  |  |f_has_not_null:
+|  |  |  |  |  |  |  NotNullAbsent[4:9-4:9]
+|  |  |  |  |  |  |f_has_all:
+|  |  |  |  |  |  |  AllAbsent[4:16-4:16]
+|  |  |  |  |  |  |f_has_constant:
+|  |  |  |  |  |  |  ConstantAbsent[4:16-4:16]
+|  |  |  |  |  |  |f_subtype_indication:
+|  |  |  |  |  |  |  SubtypeIndication[4:17-4:25]
+|  |  |  |  |  |  |  |f_has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[4:16-4:16]
+|  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  Id[4:17-4:25]: unsigned
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |f_aspects:
+|  |  |  AspectSpec[5:3-8:74]
+|  |  |  |f_aspect_assocs:
+|  |  |  |  AspectAssocList[5:8-8:74]
+|  |  |  |  |  AspectAssoc[5:8-5:22]
+|  |  |  |  |  |f_id:
+|  |  |  |  |  |  Id[5:8-5:14]: Import
+|  |  |  |  |  |f_expr:
+|  |  |  |  |  |  Id[5:18-5:22]: True
+|  |  |  |  |  AspectAssoc[6:3-6:18]
+|  |  |  |  |  |f_id:
+|  |  |  |  |  |  Id[6:3-6:13]: Convention
+|  |  |  |  |  |f_expr:
+|  |  |  |  |  |  Id[6:17-6:18]: C
+|  |  |  |  |  AspectAssoc[7:3-8:74]
+|  |  |  |  |  |f_id:
+|  |  |  |  |  |  Id[7:3-7:16]: External_Name
+|  |  |  |  |  |f_expr:
+|  |  |  |  |  |  Str[8:1-8:74]: "_Z20clang_codeCompleteAtP21CXTranslationUnitImplPKcjjP13CXUnsavedFilejj"
+|f_pragmas:
+|  PragmaNodeList[8:75-8:75]: <empty list>

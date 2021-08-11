@@ -450,12 +450,18 @@ class GenerateDoc(lal.App):
                 for comp, discrs in comps.items():
                     doc, annots = self.get_documentation(comp)
                     for dn in comp.p_defining_names:
-                        fqn = comp.p_formal_type().p_fully_qualified_name
+                        formal_type = comp.p_formal_type()
+                        if formal_type.is_a(lal.AnonymousTypeDecl):
+                            tn = "``{}``".format(
+                                formal_type.text
+                            )
+                        else:
+                            tn = comp.p_formal_type().p_fully_qualified_name
                         comp_kind = (
                             "discriminant" if comp.is_a(lal.DiscriminantSpec)
                             else "component"
                         )
-                        self.add_string(f":{comp_kind} {fqn} {dn.text}:")
+                        self.add_string(f":{comp_kind} {tn} {dn.text}:")
                         with self.indent():
                             self.add_lines(doc)
 

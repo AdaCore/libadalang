@@ -1,7 +1,41 @@
+Advices & gotchas
+=================
+
+This section of the manual regroups together guidance that we consider vital to
+develop with Libadalang, but unlike the tutorial, this is meant as a grab bag
+that will be useful to new developers as well as experienced Libadalang
+developers. We advise people using Libadalang to come back to this section from
+time to time to see if there are new advices & gotchas.
+
+Ada API: Up & down casting ``Ada_Node`` instances
+-------------------------------------------------
+
+In :ada:ref:`Libadalang.Analysis`, a hierarchy of tagged types is declared,
+rooting in the  :ada:ref:`Libadalang.Analysis.Ada_Node` type. It is important
+to understand that those node types are equivalent to a class wide access to a
+node.
+
+They're in reality kind of a fat pointer, containing a pointer to the syntactic
+node, and some more context, like generic instantiation information.
+
+A consequence of this design choice is that you **cannot** use the regular Ada
+conversion functions to up/down cast node types:
+
+.. code-block:: ada
+   :linenos:
+
+    A : Ada_Node := Unit.Root;
+
+    --  This code is invalid and will raise an error
+    B : Compilation_Unit := Compilation_Unit (A);
+
+    --  This code is valid and will work as you expect
+    C : Compilation_Unit := A.As_Compilation_Unit;
+
 .. _standard-unit:
 
 Standard unit pecularities
-##########################
+--------------------------
 
 In Ada, the ``Standard`` package is special: is acting such as a built-in
 compilation unit and is the root of all other units: these are technically

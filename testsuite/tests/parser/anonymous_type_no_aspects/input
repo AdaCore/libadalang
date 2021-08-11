@@ -1,0 +1,8 @@
+with Interfaces.C; use Interfaces.C;
+
+function Test
+  return access unsigned  -- /usr/local/include/clang-c/Index.h:5809
+  with Import => True,
+  Convention => C,
+  External_Name =>
+"_Z20clang_codeCompleteAtP21CXTranslationUnitImplPKcjjP13CXUnsavedFilejj";

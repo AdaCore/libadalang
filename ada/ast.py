@@ -12118,6 +12118,16 @@ class DefiningName(Name):
         """
         return Entity.basic_decl.unique_identifying_name_impl(Entity)
 
+    @langkit_property(public=True, return_type=T.Symbol.array)
+    def fully_qualified_name_array():
+        """
+        Return the fully qualified name corresponding to this defining name, as
+        an array of symbols.
+        """
+        return Entity.basic_decl.fully_qualified_name_impl(
+            dn=Entity
+        ).map(lambda t: t.to_symbol)
+
     @langkit_property(public=True, return_type=T.String)
     def fully_qualified_name():
         """

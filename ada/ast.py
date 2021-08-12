@@ -8018,9 +8018,18 @@ class GenericInstantiation(BasicDecl):
             assoc_resolver=AdaNode.resolve_generic_actual
         )
 
+    @langkit_property(return_type=T.inner_env_assoc.array)
+    def instantiation_bindings():
+        # We force the computation of the corresponding generic declaration
+        # in this non-memoized property to avoid a false "infinite recursion"
+        # property error that can happen when the computation is only done in
+        # instantiation_bindings_internal.
+        ignore(Var(Self.nonbound_generic_decl))
+        return Entity.instantiation_bindings_internal
+
     @langkit_property(return_type=T.inner_env_assoc.array, memoized=True,
                       memoize_in_populate=True)
-    def instantiation_bindings():
+    def instantiation_bindings_internal():
         return If(
             Entity.is_any_formal,
             No(T.inner_env_assoc.array),

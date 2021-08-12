@@ -1,0 +1,12 @@
+type: api-change
+title: Change behavior of ``TypeDecl.is_record_type``
+
+description: |
+    Previous behavior was to return ``True`` on private tagged types extending
+    a public tagged type, which did yield unintuitive results when used in
+    conjunction with properties expecting record types, such as ``shapes``.
+
+    Now ``is_record_type`` simply returns whether the type has publicly
+    directly visible component (eg. directly contains a record definition).
+
+date: 2021-08-12

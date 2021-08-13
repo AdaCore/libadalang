@@ -489,6 +489,87 @@ package body Libadalang.Expr_Eval is
                return Create_Bool_Result (Result, E.As_Ada_Node);
             end;
 
+         when Ada_Relation_Op =>
+            declare
+               function Bool (X : Boolean; N : LAL.Ada_Node'Class := E)
+                  return Eval_Result renames Create_Bool_Result;
+
+               BO : constant LAL.Bin_Op := E.As_Bin_Op;
+               Op : constant LAL.Op := BO.F_Op;
+               L  : constant Eval_Result := Expr_Eval (BO.F_Left);
+               R  : constant Eval_Result := Expr_Eval (BO.F_Right);
+            begin
+               if L.Kind /= R.Kind then
+                  raise Property_Error with "Unsupported type discrepancy";
+               end if;
+
+               case R.Kind is
+               when Int =>
+                  case Op.Kind is
+                  when Ada_Op_Eq =>
+                     return Bool (L.Int_Result = R.Int_Result);
+                  when Ada_Op_Neq =>
+                     return Bool (L.Int_Result /= R.Int_Result);
+                  when Ada_Op_Lt =>
+                     return Bool (L.Int_Result < R.Int_Result);
+                  when Ada_Op_Lte =>
+                     return Bool (L.Int_Result <= R.Int_Result);
+                  when Ada_Op_Gt =>
+                     return Bool (L.Int_Result > R.Int_Result);
+                  when Ada_Op_Gte =>
+                     return Bool (L.Int_Result >= R.Int_Result);
+                  when others =>
+                     raise Program_Error with "Impossible path";
+                  end case;
+
+               when Real =>
+                  case Op.Kind is
+                  when Ada_Op_Eq =>
+                     return Bool (L.Real_Result = R.Real_Result);
+                  when Ada_Op_Neq =>
+                     return Bool (L.Real_Result /= R.Real_Result);
+                  when Ada_Op_Lt =>
+                     return Bool (L.Real_Result < R.Real_Result);
+                  when Ada_Op_Lte =>
+                     return Bool (L.Real_Result <= R.Real_Result);
+                  when Ada_Op_Gt =>
+                     return Bool (L.Real_Result > R.Real_Result);
+                  when Ada_Op_Gte =>
+                     return Bool (L.Real_Result >= R.Real_Result);
+                  when others =>
+                     raise Program_Error with "Impossible path";
+                  end case;
+
+               when Enum_Lit =>
+                  case Op.Kind is
+                  when Ada_Op_Eq =>
+                     return Bool (L.Enum_Result = R.Enum_Result);
+                  when Ada_Op_Neq =>
+                     return Bool (L.Enum_Result /= R.Enum_Result);
+                  when others =>
+                     raise Property_Error with
+                        "Unhandled relation operator on enum values: "
+                        & Op.Kind'Image;
+                  end case;
+
+               when String_Lit =>
+                  case Op.Kind is
+                  when Ada_Op_Eq =>
+                     return Bool
+                       (Langkit_Support.Text."="
+                         (L.String_Result, R.String_Result));
+                  when Ada_Op_Neq =>
+                     return Bool
+                       (Langkit_Support.Text."/="
+                         (L.String_Result, R.String_Result));
+                  when others =>
+                     raise Property_Error with
+                        "Unhandled relation operator on string values: "
+                        & Op.Kind'Image;
+                  end case;
+               end case;
+            end;
+
          when Ada_Bin_Op =>
             declare
                BO : constant LAL.Bin_Op := E.As_Bin_Op;
@@ -585,6 +666,7 @@ package body Libadalang.Expr_Eval is
                      return (String_Lit,
                              E.P_Expression_Type,
                              L.String_Result & R.String_Result);
+
                   when others =>
                      raise Property_Error with
                         "Wrong operator for string: " & Op.Kind'Image;

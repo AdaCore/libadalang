@@ -158,4 +158,76 @@ Expr <ObjectDecl ["Test_3"] test.adb:132:7-132:44> evaluated to String_Lit "Worl
 
 Expr <ObjectDecl ["Test_4"] test.adb:133:7-133:48> evaluated to String_Lit "Hello World!"
 
+Expr <ObjectDecl ["Test_1"] test.adb:140:7-140:34> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_2"] test.adb:141:7-141:34> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_3"] test.adb:142:7-142:34> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_4"] test.adb:143:7-143:34> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_5"] test.adb:144:7-144:34> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_6"] test.adb:145:7-145:34> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_7"] test.adb:146:7-146:34> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_8"] test.adb:147:7-147:34> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_1"] test.adb:154:7-154:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_2"] test.adb:155:7-155:38> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_3"] test.adb:156:7-156:38> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_4"] test.adb:157:7-157:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_5"] test.adb:158:7-158:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_6"] test.adb:159:7-159:38> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_7"] test.adb:160:7-160:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_8"] test.adb:161:7-161:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_1"] test.adb:170:7-170:33> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_2"] test.adb:171:7-171:33> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_3"] test.adb:172:7-172:34> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_4"] test.adb:173:7-173:34> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_1"] test.adb:180:7-180:37> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
+Expr <ObjectDecl ["Test_2"] test.adb:181:7-181:37> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_3"] test.adb:182:7-182:38> evaluated to Enum_Lit <EnumLiteralDecl ["False"] __standard:3:20-3:25>
+   Int value is 0
+
+Expr <ObjectDecl ["Test_4"] test.adb:183:7-183:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
+   Int value is 1
+
 Done.

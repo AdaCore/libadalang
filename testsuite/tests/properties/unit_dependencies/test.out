@@ -23,6 +23,13 @@ Unit dependencies of main (from main.adb):
 Unit dependencies of pkg (from pkg.ads):
   - standard (from __standard)
 
+Unit dependencies of subp (from subp.adb):
+  - subp (from subp.ads)
+  - standard (from __standard)
+
+Unit dependencies of subp (from subp.ads):
+  - standard (from __standard)
+
 Unit dependencies of pkg.bar.g (from subunits-g.adb):
   - impl (from impl.ads)
   - pkg.bar (from subunits.adb)

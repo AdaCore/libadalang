@@ -14677,10 +14677,19 @@ class CompilationUnit(AdaNode):
         one. This includes "with"ed units as well as the direct parent unit.
         """
         return Self.withed_units.concat(
-            Self.decl._.node_env._.env_node.then(
+            # Library-level subprogram bodies are handled specially here,
+            # as their parent environment is *not* their corresponding spec in
+            # our implementation (unlike for the rest of the library-level
+            # declarations).
+            Self.decl.cast(BaseSubpBody).then(
+                lambda subp: subp.as_bare_entity.previous_part.then(
+                    lambda pp:
+                    pp.enclosing_compilation_unit.as_bare_entity.singleton
+                )
+            )._or(Self.decl._.node_env._.env_node.then(
                 lambda n:
                 n.enclosing_compilation_unit.as_bare_entity.singleton
-            )
+            ))
         )
 
     @langkit_property(return_type=T.CompilationUnit.entity.array)

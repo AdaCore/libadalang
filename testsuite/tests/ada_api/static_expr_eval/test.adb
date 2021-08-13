@@ -134,4 +134,54 @@ begin
    begin
       null;
    end;
+
+   --  Relation operators (Integers)
+   declare
+      Test_1 : Boolean := 3 =  3;
+      Test_2 : Boolean := 3 /= 3;
+      Test_3 : Boolean := 3 <  3;
+      Test_4 : Boolean := 3 <  4;
+      Test_5 : Boolean := 3 <= 3;
+      Test_6 : Boolean := 3 >  3;
+      Test_7 : Boolean := 3 >  2;
+      Test_8 : Boolean := 3 >= 3;
+   begin
+      null;
+   end;
+
+   --  Relation operators (Reals)
+   declare
+      Test_1 : Boolean := 3.3 =  3.3;
+      Test_2 : Boolean := 3.3 /= 3.3;
+      Test_3 : Boolean := 3.3 <  3.3;
+      Test_4 : Boolean := 3.3 <  3.4;
+      Test_5 : Boolean := 3.3 <= 3.3;
+      Test_6 : Boolean := 3.3 >  3.3;
+      Test_7 : Boolean := 3.3 >  3.2;
+      Test_8 : Boolean := 3.3 >= 3.3;
+   begin
+      null;
+   end;
+
+   --  Relation operators (Enums)
+   declare
+      type T is (A, B);
+
+      Test_1 : Boolean := A = A;
+      Test_2 : Boolean := A = B;
+      Test_3 : Boolean := A /= A;
+      Test_4 : Boolean := A /= B;
+   begin
+      null;
+   end;
+
+   --  Relation operators (Strings)
+   declare
+      Test_1 : Boolean := "a" = "a";
+      Test_2 : Boolean := "a" = "b";
+      Test_3 : Boolean := "a" /= "a";
+      Test_4 : Boolean := "a" /= "b";
+   begin
+      null;
+   end;
 end Test;

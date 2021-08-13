@@ -54,7 +54,7 @@ package body Libadalang.Expr_Eval is
    --  Helper to create Eval_Result values to wrap real numbers
 
    function Create_Bool_Result
-     (Value : Boolean; N : LAL.Ada_Node) return Eval_Result;
+     (Value : Boolean; N : LAL.Ada_Node'Class) return Eval_Result;
    --  Helper to create an Eval_Result with Enum_Lit_Kind which denotes
    --  the standard True or False literal decls from the standart Boolean
    --  type.
@@ -158,7 +158,7 @@ package body Libadalang.Expr_Eval is
    ------------------------
 
    function Create_Bool_Result
-     (Value : Boolean; N : LAL.Ada_Node) return Eval_Result
+     (Value : Boolean; N : LAL.Ada_Node'Class) return Eval_Result
    is
       --  Get the standard Boolean type declaration
       Bool_Type : constant LAL.Base_Type_Decl :=

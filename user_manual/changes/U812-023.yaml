@@ -1,0 +1,8 @@
+type: bugfix
+title: Fix ``P_Base_Subp_Declarations`` for derived types
+description: |
+    This change fixes a bug where calling ``P_Base_Subp_Declarations`` on an
+    overriding subprogram declared in a non-package scope for a derived type T
+    would not have the subprogram itself in the returned array, not matching
+    what is stated in the documentation.
+date: 2021-08-13

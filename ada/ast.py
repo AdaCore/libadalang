@@ -5428,7 +5428,7 @@ class TypeDecl(BaseTypeDecl):
                 # For a derived type, overriding primitives can be declared in
                 # scope even if it is not a package scope.
                 Self.type_def.is_a(DerivedTypeDef),
-                Self.parent.parent.parent.cast(DeclarativePart).then(
+                Self.parent.parent.cast(DeclarativePart).then(
                     lambda dp: dp.as_bare_entity.decls.as_array
                 ),
                 No(AdaNode.entity.array)

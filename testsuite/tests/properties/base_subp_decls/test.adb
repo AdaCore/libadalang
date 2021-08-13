@@ -99,6 +99,14 @@ procedure Test is
       procedure Foo (Arg : C);
 
    end TC17_033;
+
+   procedure U812_023 is
+      type U is new Pkg.T with null record;
+
+      overriding procedure Foo (X : U) is null;
+   begin
+      null;
+   end U812_023;
 begin
    null;
 end Test;

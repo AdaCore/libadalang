@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix ``P_Imported_Units`` for library-level subps
+description: |
+    This change fixes a bug where the result of calling ``P_Imported_Units``
+    on a unit declaring the body of a library-level subprogram would never
+    contain the unit declaring its specification.
+date: 2021-08-13

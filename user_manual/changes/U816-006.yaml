@@ -1,0 +1,9 @@
+type: api-change
+title: Update ``PragmaArgumentAssoc``'s ``F_Id`` field
+description: |
+    This change adds support for parsing pragma argument assocs containing
+    attribute refs as in ``pragma Assertion_Policy (Post'Class => Ignore)``.
+    Thus we also rename ``PragmaArgumentAssoc``'s ``F_Id`` field to ``F_Name``,
+    as the most precise type of this field is now ``Name``.
+date: 2021-08-17
+

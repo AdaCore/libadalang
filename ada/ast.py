@@ -7256,8 +7256,10 @@ class Pragma(AdaNode):
             Entity.args.at(1).assoc_expr.cast_or_raise(T.Name),
             Entity.id.name_symbol.any_of(
                 'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline',
-                'Volatile', 'Unchecked_Union', 'Atomic', 'Atomic_Components',
-                'No_Return', "Interrupt_Handler", "Attach_Handler"
+                'Volatile', 'Volatile_Components', 'Unchecked_Union',
+                'Atomic', 'Atomic_Components', 'No_Return', "Discard_Names",
+                "Independent", "Independent_Components", "Asynchronous",
+                "Interrupt_Handler", "Attach_Handler",
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.BaseId),
 

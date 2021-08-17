@@ -9063,8 +9063,9 @@ class Expr(AdaNode):
         candidates = Var(candidate_actuals.concat(candidate_ret))
 
         return Or(
-            # A call to an abstract subprogram is necessarily dispatching
-            decl.is_a(AbstractSubpDecl, AbstractFormalSubpDecl),
+            # A call to an abstract formal subprogram is necessarily
+            # dispatching (see RM 12.6 8.5/2).
+            decl.is_a(AbstractFormalSubpDecl),
 
             # Otherwise check that there is a pair (``formal``, ``actual``)
             # where ``formal`` is a controlling formal parameter of the

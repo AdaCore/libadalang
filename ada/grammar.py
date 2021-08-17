@@ -710,7 +710,16 @@ A.add_rules(
     ###########
 
     pragma_argument=PragmaArgumentAssoc(
-        Opt(A.identifier, "=>"), A.expr
+        Opt(
+            Or(
+                # Enables parsing ``Post'Class => Ignore``, for example
+                AttributeRef(A.identifier, "'", A.identifier,
+                             Null(A.call_suffix)),
+
+                A.identifier
+            ),
+            "=>"
+        ), A.expr
     ),
 
     pragma=Pragma(

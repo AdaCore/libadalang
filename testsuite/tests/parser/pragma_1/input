@@ -1,0 +1,1 @@
+pragma Assertion_Policy (Post'Class => Ignore);

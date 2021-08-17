@@ -1,0 +1,4 @@
+Eval 'node.f_call.p_is_dispatching_call()' on node <CallStmt pkg-child.adb:4:7-4:15>
+Result: False
+
+

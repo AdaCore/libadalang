@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix ``p_is_dispatching_call`` on abstract subps
+description: |
+    This change fixes a bug where calling ``is_dispatching_call`` on a call
+    expression with a statically known target could erroneously return True
+    if the root subprogram was marked abstract.
+date: 2021-08-17

@@ -4,10 +4,10 @@ PragmaNode[1:1-1:28]
 |f_args:
 |  BaseAssocList[1:22-1:26]
 |  |  PragmaArgumentAssoc[1:22-1:23]
-|  |  |f_id: <null>
+|  |  |f_name: <null>
 |  |  |f_expr:
 |  |  |  Id[1:22-1:23]: A
 |  |  PragmaArgumentAssoc[1:25-1:26]
-|  |  |f_id: <null>
+|  |  |f_name: <null>
 |  |  |f_expr:
 |  |  |  Id[1:25-1:26]: B

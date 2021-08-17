@@ -426,20 +426,20 @@ procedure Nameres is
       if Name = "Config" then
          if Args'Length /= 1 then
             return N_Args_Error (1);
-         elsif Args (1).F_Id.Is_Null then
+         elsif Args (1).F_Name.Is_Null then
             return Error ("Missing argument name");
-         elsif Args (1).F_Id.Kind /= Ada_Identifier then
+         elsif Args (1).F_Name.Kind /= Ada_Identifier then
             return Error ("Argument name must be an identifier");
          else
             return (Pragma_Config,
-                    To_Unbounded_Text (Args (1).F_Id.Text),
+                    To_Unbounded_Text (Args (1).F_Name.Text),
                     Args (1).F_Expr);
          end if;
 
       elsif Name = "Section" then
          if Args'Length /= 1 then
             return N_Args_Error (1);
-         elsif not Args (1).F_Id.Is_Null then
+         elsif not Args (1).F_Name.Is_Null then
             return Error ("No argument name allowed");
          elsif Args (1).F_Expr.Kind /= Ada_String_Literal then
             return Error ("Section name must be a string literal");
@@ -457,13 +457,13 @@ procedure Nameres is
          declare
             Result : Decoded_Pragma (Pragma_Test);
          begin
-            if not Args (1).F_Id.Is_Null then
+            if not Args (1).F_Name.Is_Null then
                return Error ("No argument name allowed");
             end if;
             Result.Test_Expr := Args (1).F_Expr;
 
             if Args'Length > 1 then
-               if not Args (2).F_Id.Is_Null then
+               if not Args (2).F_Name.Is_Null then
                   return Error ("No argument name allowed");
                elsif Args (2).F_Expr.Kind /= Ada_Identifier
                      or else Args (2).F_Expr.Text /= "Debug"
@@ -530,7 +530,7 @@ procedure Nameres is
             Show_Slocs := True;
 
             for A of Args loop
-               if A.F_Id.Is_Null then
+               if A.F_Name.Is_Null then
                   --  This is a positional pragma argument
 
                   case N is
@@ -633,8 +633,8 @@ procedure Nameres is
                   --  This is a named argument. The grammar should make sure
                   --  that names for pragma arguments are identifiers.
                   declare
-                     pragma Assert (A.F_Id.Kind = Ada_Identifier);
-                     Name : constant Text_Type := A.F_Id.Text;
+                     pragma Assert (A.F_Name.Kind = Ada_Identifier);
+                     Name : constant Text_Type := A.F_Name.Text;
                   begin
                      if Name = "Imprecise_Fallback" then
                         Imprecise_Fallback := Decode_Boolean_Literal

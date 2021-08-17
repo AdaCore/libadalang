@@ -7469,7 +7469,7 @@ class PragmaArgumentAssoc(BaseAssoc):
     """
     Argument assocation in a pragma.
     """
-    id = Field(type=T.Identifier)
+    name = Field(type=T.Name)
     expr = Field(type=T.Expr)
     assoc_expr = Property(Entity.expr)
 

@@ -1,0 +1,436 @@
+Analyzing test.ads
+##################
+
+Resolving xrefs for node <ObjectDecl ["G_count"] test.ads:3:7-3:25>
+*******************************************************************
+
+Expr: <Id "Integer" test.ads:3:17-3:24>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <EndName test.ads:4:8-4:12>
+****************************************************
+
+Expr: <EndName test.ads:4:8-4:12>
+  references: <DefiningName test.ads:2:12-2:16>
+  type:       None
+Expr: <Id "Pack" test.ads:4:8-4:12>
+  references: <DefiningName test.ads:2:12-2:16>
+  type:       None
+
+Resolving xrefs for node <TypeDecl ["T"] test.ads:6:4-6:33>
+***********************************************************
+
+
+Resolving xrefs for node <SubpSpec test.ads:8:4-8:59>
+*****************************************************
+
+Expr: <Id "Boolean" test.ads:8:52-8:59>
+  references: <DefiningName __standard:3:8-3:15>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["Dummy"] test.ads:8:16-8:25>
+*****************************************************************
+
+Expr: <Id "T" test.ads:8:24-8:25>
+  references: <DefiningName test.ads:6:9-6:10>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["Unused"] test.ads:8:27-8:43>
+******************************************************************
+
+Expr: <Id "Integer" test.ads:8:36-8:43>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <SubpSpec test.ads:10:4-10:66>
+*******************************************************
+
+Expr: <Id "Integer" test.ads:10:59-10:66>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["X"] test.ads:10:18-10:30>
+***************************************************************
+
+Expr: <Id "T" test.ads:10:29-10:30>
+  references: <DefiningName test.ads:6:9-6:10>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["Y"] test.ads:10:32-10:50>
+***************************************************************
+
+Expr: <Id "Integer" test.ads:10:43-10:50>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <PragmaNode test.ads:11:4-11:34>
+*********************************************************
+
+Expr: <Id "Pre" test.ads:11:11-11:14>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:11:16-11:32>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test.ads:11:16-11:24>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.ads:11:16-11:19>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.ads:11:16-11:17>
+  references: <DefiningName test.ads:10:18-10:19>
+  type:       <TypeDecl ["T"] test.ads:6:4-6:33>
+Expr: <Id "F" test.ads:11:18-11:19>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.ads:11:21-11:23>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpEq "=" test.ads:11:25-11:26>
+  references: None
+  type:       None
+Expr: <Id "False" test.ads:11:27-11:32>
+  references: <DefiningName __standard:3:20-3:25>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+
+Resolving xrefs for node <PragmaNode test.ads:12:4-15:48>
+*********************************************************
+
+Expr: <Id "Post" test.ads:12:11-12:15>
+  references: None
+  type:       None
+Expr: <BinOp test.ads:12:17-15:46>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp test.ads:12:17-14:35>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp test.ads:12:17-13:51>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp test.ads:12:17-12:40>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:12:17-12:29>
+  references: None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test.ads:12:17-12:25>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.ads:12:17-12:20>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.ads:12:17-12:18>
+  references: <DefiningName test.ads:10:18-10:19>
+  type:       <TypeDecl ["T"] test.ads:6:4-6:33>
+Expr: <Id "F" test.ads:12:19-12:20>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.ads:12:22-12:24>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Old" test.ads:12:26-12:29>
+  references: None
+  type:       None
+Expr: <OpEq "=" test.ads:12:30-12:31>
+  references: None
+  type:       None
+Expr: <CallExpr test.ads:12:32-12:40>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.ads:12:32-12:35>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.ads:12:32-12:33>
+  references: <DefiningName test.ads:10:18-10:19>
+  type:       <TypeDecl ["T"] test.ads:6:4-6:33>
+Expr: <Id "F" test.ads:12:34-12:35>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.ads:12:37-12:39>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpAndThen "and then" test.ads:13:17-13:25>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:13:26-13:51>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:13:26-13:47>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName test.ads:13:26-13:43>
+  references: <DefiningName test.ads:3:7-3:14>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName test.ads:13:26-13:35>
+  references: <DefiningName test.ads:2:12-2:16>
+  type:       None
+Expr: <Id "Test" test.ads:13:26-13:30>
+  references: <DefiningName test.ads:1:9-1:13>
+  type:       None
+Expr: <Id "Pack" test.ads:13:31-13:35>
+  references: <DefiningName test.ads:2:12-2:16>
+  type:       None
+Expr: <Id "G_count" test.ads:13:36-13:43>
+  references: <DefiningName test.ads:3:7-3:14>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Old" test.ads:13:44-13:47>
+  references: None
+  type:       None
+Expr: <OpGt ">" test.ads:13:48-13:49>
+  references: None
+  type:       None
+Expr: <Int test.ads:13:50-13:51>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpAndThen "and then" test.ads:14:17-14:25>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:14:26-14:35>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:14:26-14:31>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test.ads:14:26-14:27>
+  references: <DefiningName test.ads:10:32-10:33>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Old" test.ads:14:28-14:31>
+  references: None
+  type:       None
+Expr: <OpGt ">" test.ads:14:32-14:33>
+  references: None
+  type:       None
+Expr: <Id "Y" test.ads:14:34-14:35>
+  references: <DefiningName test.ads:10:32-10:33>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpAndThen "and then" test.ads:15:17-15:25>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:15:26-15:46>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:15:26-15:36>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Pr1" test.ads:15:26-15:29>
+  references: <DefiningName test.ads:10:13-10:16>
+  type:       None
+Expr: <Id "Result" test.ads:15:30-15:36>
+  references: None
+  type:       None
+Expr: <OpEq "=" test.ads:15:37-15:38>
+  references: None
+  type:       None
+Expr: <CallExpr test.ads:15:39-15:46>
+  references: <DefiningName test.ads:25:13-25:16>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Bar" test.ads:15:39-15:42>
+  references: <DefiningName test.ads:25:13-25:16>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test.ads:15:44-15:45>
+  references: <DefiningName test.ads:10:32-10:33>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <PragmaNode test.ads:16:4-23:49>
+*********************************************************
+
+Expr: <Id "Test_Case" test.ads:16:11-16:20>
+  references: None
+  type:       None
+Expr: <Id "Name" test.ads:17:7-17:11>
+  references: None
+  type:       None
+Expr: <Str ""Pr test 1"" test.ads:17:15-17:26>
+  references: None
+  type:       None
+Expr: <Id "Mode" test.ads:18:7-18:11>
+  references: None
+  type:       None
+Expr: <Id "Nominal" test.ads:18:15-18:22>
+  references: None
+  type:       None
+Expr: <Id "Requires" test.ads:19:7-19:15>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:19:19-19:35>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test.ads:19:19-19:27>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.ads:19:19-19:22>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.ads:19:19-19:20>
+  references: <DefiningName test.ads:10:18-10:19>
+  type:       <TypeDecl ["T"] test.ads:6:4-6:33>
+Expr: <Id "F" test.ads:19:21-19:22>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.ads:19:24-19:26>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpEq "=" test.ads:19:28-19:29>
+  references: None
+  type:       None
+Expr: <Id "False" test.ads:19:30-19:35>
+  references: <DefiningName __standard:3:20-3:25>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Ensures" test.ads:20:7-20:14>
+  references: None
+  type:       None
+Expr: <BinOp test.ads:20:18-23:47>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp test.ads:20:18-22:36>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp test.ads:20:18-21:52>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp test.ads:20:18-20:41>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:20:18-20:30>
+  references: None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test.ads:20:18-20:26>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.ads:20:18-20:21>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.ads:20:18-20:19>
+  references: <DefiningName test.ads:10:18-10:19>
+  type:       <TypeDecl ["T"] test.ads:6:4-6:33>
+Expr: <Id "F" test.ads:20:20-20:21>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.ads:20:23-20:25>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Old" test.ads:20:27-20:30>
+  references: None
+  type:       None
+Expr: <OpEq "=" test.ads:20:31-20:32>
+  references: None
+  type:       None
+Expr: <CallExpr test.ads:20:33-20:41>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.ads:20:33-20:36>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" test.ads:20:33-20:34>
+  references: <DefiningName test.ads:10:18-10:19>
+  type:       <TypeDecl ["T"] test.ads:6:4-6:33>
+Expr: <Id "F" test.ads:20:35-20:36>
+  references: <DefiningName test.ads:8:13-8:14>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.ads:20:38-20:40>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpAndThen "and then" test.ads:21:18-21:26>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:21:27-21:52>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:21:27-21:48>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName test.ads:21:27-21:44>
+  references: <DefiningName test.ads:3:7-3:14>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName test.ads:21:27-21:36>
+  references: <DefiningName test.ads:2:12-2:16>
+  type:       None
+Expr: <Id "Test" test.ads:21:27-21:31>
+  references: <DefiningName test.ads:1:9-1:13>
+  type:       None
+Expr: <Id "Pack" test.ads:21:32-21:36>
+  references: <DefiningName test.ads:2:12-2:16>
+  type:       None
+Expr: <Id "G_count" test.ads:21:37-21:44>
+  references: <DefiningName test.ads:3:7-3:14>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Old" test.ads:21:45-21:48>
+  references: None
+  type:       None
+Expr: <OpGt ">" test.ads:21:49-21:50>
+  references: None
+  type:       None
+Expr: <Int test.ads:21:51-21:52>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpAndThen "and then" test.ads:22:18-22:26>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:22:27-22:36>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:22:27-22:32>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test.ads:22:27-22:28>
+  references: <DefiningName test.ads:10:32-10:33>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Old" test.ads:22:29-22:32>
+  references: None
+  type:       None
+Expr: <OpGt ">" test.ads:22:33-22:34>
+  references: None
+  type:       None
+Expr: <Id "Y" test.ads:22:35-22:36>
+  references: <DefiningName test.ads:10:32-10:33>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpAndThen "and then" test.ads:23:18-23:26>
+  references: None
+  type:       None
+Expr: <RelationOp test.ads:23:27-23:47>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef test.ads:23:27-23:37>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Pr1" test.ads:23:27-23:30>
+  references: <DefiningName test.ads:10:13-10:16>
+  type:       None
+Expr: <Id "Result" test.ads:23:31-23:37>
+  references: None
+  type:       None
+Expr: <OpEq "=" test.ads:23:38-23:39>
+  references: None
+  type:       None
+Expr: <CallExpr test.ads:23:40-23:47>
+  references: <DefiningName test.ads:25:13-25:16>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Bar" test.ads:23:40-23:43>
+  references: <DefiningName test.ads:25:13-25:16>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test.ads:23:45-23:46>
+  references: <DefiningName test.ads:10:32-10:33>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ExprFunction ["Bar"] test.ads:25:4-25:53>
+*******************************************************************
+
+Expr: <ParenExpr test.ads:25:49-25:52>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "X" test.ads:25:50-25:51>
+  references: <DefiningName test.ads:25:18-25:19>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <SubpSpec test.ads:25:4-25:45>
+*******************************************************
+
+Expr: <Id "Integer" test.ads:25:38-25:45>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <ParamSpec ["X"] test.ads:25:18-25:29>
+***************************************************************
+
+Expr: <Id "Integer" test.ads:25:22-25:29>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <EndName test.ads:26:5-26:9>
+*****************************************************
+
+Expr: <EndName test.ads:26:5-26:9>
+  references: <DefiningName test.ads:1:9-1:13>
+  type:       None
+Expr: <Id "Test" test.ads:26:5-26:9>
+  references: <DefiningName test.ads:1:9-1:13>
+  type:       None
+
+
+Done.

@@ -200,7 +200,9 @@ class AdaNode(ASTNode):
     in_contract = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
             lambda a: Self.is_contract_aspect(a.id.as_bare_entity.name_symbol)
-        )
+        )._or(p.cast(Pragma).then(
+            lambda p: Self.is_contract_aspect(p.id.as_bare_entity.name_symbol)
+        ))
     ).is_null))
 
     @langkit_property()
@@ -7239,6 +7241,35 @@ class Pragma(AdaNode):
             ),
             LogicTrue(),
 
+            # Pragma for preconditions and postconditions have full visibility
+            # on their associated subprogram's formals although they are not
+            # in an internal scope. We handle this by constructing the xref
+            # equation as if we were inside the subprogram, using the "env"
+            # bind below.
+            Entity.id.name_symbol.any_of(
+                "Pre", "Post", "Pre'Class", "Post'Class"
+            ),
+            env.bind(
+                Entity.associated_decls.at(0).children_env,
+                Entity.args.at(0).assoc_expr.sub_equation
+            ),
+
+            # Likewise for the "Requires" and "Ensures" associations of the
+            # "Test_Case" pragma.
+            Entity.id.name_is("Test_Case"),
+            env.bind(
+                Entity.associated_decls.at(0).children_env,
+                Entity.args.filter(
+                    lambda arg: arg.cast(PragmaArgumentAssoc).then(
+                        lambda parg: parg.name.name_symbol.any_of(
+                            "Requires", "Ensures"
+                        )
+                    )
+                ).logic_all(
+                    lambda arg: arg.assoc_expr.sub_equation
+                )
+            ),
+
             Entity.args.logic_all(
                 # In the default case, we try to resolve every associated
                 # expression, but we never fail, in order to not generate
@@ -7321,8 +7352,23 @@ class Pragma(AdaNode):
                     ), default_val=top_level_decl)
                 )
             ),
-            # If no name, then program unit pragma necessarily
-            default_val=enclosing_program_unit.singleton
+            default_val=If(
+                # If no name, either it's a contract pragma...
+                Self.is_contract_aspect(Entity.id.name_symbol),
+
+                # in which case they are attached to the closest subprogram
+                # above it.
+                Entity.declarative_scope.then(
+                    lambda decl_scope: decl_scope.decls.filter(
+                        lambda decl: decl.is_a(BasicDecl) & (decl < Self)
+                    ).then(
+                        lambda decls: decls.at(decls.length - 1)
+                    ).cast(BasicDecl).as_entity._.singleton
+                ),
+
+                # Or else it 's necessarily a program unit pragma
+                enclosing_program_unit.singleton
+            )
         )
 
     @langkit_property(return_type=T.Symbol)
@@ -14060,7 +14106,10 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def result_attr_equation():
-        containing_subp = Var(Self.parents.find(
+        # We find the containing subprogram starting the bound env's node
+        # instead of Self, as this attribute can appear in a pragma Post
+        # appearing *after* the subprogram.
+        containing_subp = Var(env.env_node.parents.find(
             lambda p: p.is_a(BasicSubpDecl, BaseSubpBody)
         ).as_entity.cast(T.BasicDecl))
 

@@ -3075,6 +3075,14 @@ class Body(BasicDecl):
         )
 
     @langkit_property()
+    def next_part_for_decl():
+        """
+        By default, bodies don't have a next part. This is not true for body
+        stubs, hence this property is overriden there.
+        """
+        return No(BasicDecl.entity)
+
+    @langkit_property()
     def is_subunit():
         return Self.parent.is_a(T.Subunit)
 

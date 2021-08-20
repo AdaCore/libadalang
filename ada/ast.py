@@ -7710,7 +7710,7 @@ class ObjectDecl(BasicDecl):
             Entity.is_in_private_part & Self.has_constant.as_bool,
             Self.declarative_scope.parent
             .cast(T.BasePackageDecl).public_part.children_env
-            .get_first(Self.name_symbol, LK.flat, categories=no_prims)
+            .get_first(Self.name_symbol, LK.minimal, categories=no_prims)
             .cast(T.BasicDecl),
             No(T.BasicDecl.entity)
         )
@@ -7724,8 +7724,8 @@ class ObjectDecl(BasicDecl):
         return If(
             Entity.is_in_public_part & Self.has_constant.as_bool,
             Self.declarative_scope.parent
-            .cast(T.BasePackageDecl).private_part.children_env
-            .get_first(Self.name_symbol, LK.flat, categories=no_prims)
+            .cast(T.BasePackageDecl).private_part._.children_env
+            .get_first(Self.name_symbol, LK.minimal, categories=no_prims)
             .cast(T.BasicDecl),
             No(T.BasicDecl.entity)
         )

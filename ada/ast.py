@@ -11003,6 +11003,38 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def entry_equation(e=T.EntryDecl.entity, root=T.Name):
+        """
+        Build the xref equation in case this node represents a call to the
+        given entry declaration.
+        """
+        return If(
+            e.has_family,
+
+            # Handle calls to entry families
+            e.family_type.then(
+                lambda ft: Self.type_bind_val(
+                    Entity.params.at(0).expr.type_var, ft
+                ),
+
+                # If the family type is None, it means it is an anonymous range
+                # in which case we don't need to constrain it further.
+                default_val=LogicTrue()
+            )
+            & Self.parent_name(root).cast(T.CallExpr).then(
+                lambda c: c.as_entity.entity_equation(e, root),
+
+                # The parent name can be null if the entry declaration has no
+                # parameter section besides the family type section.
+                default_val=LogicTrue()
+            ),
+
+            # If this entry decl declares no family we can treat it the same
+            # way as a subprogram call.
+            Entity.entity_equation(e, root)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def entity_equation(s=T.BasicDecl.entity, root=T.Name):
         # The called entity is the matched entity
         return Bind(Self.name.ref_var, s) & Cond(
@@ -11083,15 +11115,15 @@ class CallExpr(Name):
                 # For each potential entity match, we want to express the
                 # following constraints:
                 Let(lambda subps=Entity.env_elements: And(
-                    subps.logic_any(lambda e: Let(
-                        lambda s=e.cast_or_raise(BasicDecl.entity):
-                        If(
-                            s.cast(EntryDecl)._.spec.family_type.is_null,
-                            Entity.entity_equation(s, root),
-                            Self.parent_name(root).cast_or_raise(T.CallExpr)
-                            .as_entity.entity_equation(s, root),
-                        ),
-                    )),
+                    subps.logic_any(
+                        lambda s: s.cast(EntryDecl).then(
+                            lambda e: Entity.entry_equation(e, root),
+                            default_val=Entity.entity_equation(
+                                s.cast_or_raise(BasicDecl),
+                                root
+                            )
+                        )
+                    ),
                     Bind(Self.ref_var, Self.name.ref_var),
                     Entity.name.sub_equation
                 )) | If(Entity.name.is_simple_name,
@@ -12736,12 +12768,17 @@ class BaseId(SingleTokNode):
                         lambda spec: Let(
                             lambda real_pc=If(
                                 spec.cast(T.EntrySpec)._.family_type.is_null,
-                                pc, pc.parent.cast_or_raise(T.CallExpr)
+                                pc, pc.parent.cast(T.CallExpr)
                             ):
+                            # ``real_pc`` can be null if we are handling a
+                            # paramless entry decl that has an entry family,
+                            # in which case the subsequent checks are not
+                            # relevant.
+                            real_pc.is_null
 
                             # Either the subprogram is matching the CallExpr's
                             # parameters.
-                            And(
+                            | And(
                                 spec.is_matching_param_list(
                                     params, b.info.md.dottable_subp
                                 ),
@@ -13452,6 +13489,22 @@ class EntryDecl(BasicSubpDecl):
         Return the entry body associated to this entry declaration.
         """
         return Entity.body_part_for_decl.cast_or_raise(EntryBody)
+
+    @langkit_property(return_type=Bool)
+    def has_family():
+        """
+        Return whether this actually declares a family of entries.
+        """
+        return Not(Self.spec.family_type.is_null)
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    def family_type():
+        """
+        Return the type designated by the family type, if relevant. Note that
+        the family type may be an anonymous range, in which case this property
+        returns None.
+        """
+        return Entity.spec.family_type.cast(TypeExpr)._.designated_type
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),

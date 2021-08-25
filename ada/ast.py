@@ -9072,10 +9072,15 @@ class Expr(AdaNode):
         # is the return type of the called subprogram.
         candidate_ret = Var(
             spec.returns.then(lambda rt: Entity.parent.cast(T.AssignStmt).then(
-                lambda a: ExpectedTypeForExpr.new(
-                    expected_type=rt,
-                    expr=a.dest
-                ).singleton
+                lambda a: If(
+                    # This only applies to the RHS of the assign statement
+                    a.expr == Entity,
+                    ExpectedTypeForExpr.new(
+                        expected_type=rt,
+                        expr=a.dest
+                    ).singleton,
+                    No(ExpectedTypeForExpr.array)
+                )
             ))
         )
 

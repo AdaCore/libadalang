@@ -9142,8 +9142,8 @@ class Expr(AdaNode):
         return origin.bind(Self.origin_node, Entity.match(
             lambda _=NumLiteral: True,
             lambda _=StringLiteral: True,
-            lambda ar=AttributeRef: Or(
 
+            lambda ar=AttributeRef: Or(
                 Not(ar.prefix.name_designated_type
                     ._.root_type._.is_formal)
                 & (ar.attribute.name_symbol == 'Base'),
@@ -9155,28 +9155,38 @@ class Expr(AdaNode):
                 ar.prefix.referenced_decl._.is_array
                 & ar.attribute.name_symbol.any_of(
                     'First', 'Last', 'Length', 'Range'
-                ) & ar.args_list.then(
-                    lambda args: args.at(0).expr.is_static_expr
                 )
+            ) & ar.args_list.then(
+                # No matter the attribute, if it has arguments they must all be
+                # static for the whole thing to be considered static.
+                lambda args: args.all(lambda arg: arg.expr.is_static_expr),
+                default_val=True
             ),
+
             lambda ce=CallExpr:
             ce.name.name_designated_type._.is_static_decl
             & ce.params.at(0).expr.is_static_expr,
+
             lambda qe=QualExpr:
             qe.prefix.name_designated_type._.is_static_decl
             & qe.suffix.is_static_expr,
+
             lambda n=Name: n.referenced_decl.is_static_decl,
+
             lambda me=MembershipExpr:
             me.expr.is_static_expr & me.membership_exprs.all(
                 lambda e: e.is_static_expr
             ),
+
             lambda bo=BinOp:
             bo.left.is_static_expr
             & bo.right.is_static_expr
             & bo.op.referenced_decl.is_null,
+
             lambda uo=UnOp:
             uo.expr.is_static_expr
             & uo.op.referenced_decl.is_null,
+
             lambda i=IfExpr:
             i.cond_expr.is_static_expr & i.then_expr.is_static_expr
             & i.alternatives.all(
@@ -9185,7 +9195,9 @@ class Expr(AdaNode):
                 & a.then_expr.is_static_expr
             )
             & i.else_expr.is_static_expr,
+
             lambda pe=ParenExpr: pe.expr.is_static_expr,
+
             lambda _: False
         ))
 

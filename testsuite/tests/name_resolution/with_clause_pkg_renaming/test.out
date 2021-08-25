@@ -1,0 +1,21 @@
+Analyzing main.adb
+##################
+
+Resolving xrefs for node <WithClause main.adb:1:1-1:31>
+*******************************************************
+
+Expr: <Id "Renaming" main.adb:1:6-1:14>
+  references: <DefiningName renaming.ads:3:9-3:17>
+  type:       None
+Expr: <DottedName main.adb:1:16-1:30>
+  references: <DefiningName test-child.ads:1:9-1:19>
+  type:       None
+Expr: <Id "Renaming" main.adb:1:16-1:24>
+  references: <DefiningName renaming.ads:3:9-3:17>
+  type:       None
+Expr: <Id "Child" main.adb:1:25-1:30>
+  references: <DefiningName test-child.ads:1:9-1:19>
+  type:       None
+
+
+Done.

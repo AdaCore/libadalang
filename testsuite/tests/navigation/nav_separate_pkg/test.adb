@@ -1,5 +1,3 @@
-with Ada.Text_IO; use Ada.Text_IO;
-
 procedure Test is
    package Foo is
       I : Integer := 0;

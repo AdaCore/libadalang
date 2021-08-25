@@ -242,6 +242,7 @@ package body Libadalang.Env_Hooks is
       Not_Found_Is_Error : Boolean := False;
       Process_Parents    : Boolean := True) return Internal_Unit
    is
+
       procedure Prepare_Nameres (Unit : Internal_Unit);
       --  Prepare semantic analysis and reference Unit from the current unit
 
@@ -260,7 +261,7 @@ package body Libadalang.Env_Hooks is
 
       UFP              : constant Internal_Unit_Provider_Access :=
          Ctx.Unit_Provider;
-      Unit, First_Unit : Internal_Unit;
+      Unit             : Internal_Unit;
       Unit_Name        : constant Text_Type := To_String (Name);
    begin
       --  If we must not load missing units and this one is missing, do
@@ -302,26 +303,56 @@ package body Libadalang.Env_Hooks is
          end loop;
       end if;
 
-      --  In Ada, "with A.B" gives visibility to A and A.B. To process all
-      --  "mentioned" units, the following loop iterates on ["A.B", "A"].
+      if not Process_Parents then
+         Unit := UFP.Get_Unit (Ctx, To_String (Name), Kind);
 
-      for I in reverse Name'Range loop
-         declare
+         if Unit.Context.Event_Handler /= null then
+            Unit.Context.Event_Handler.Unit_Requested_Callback
+              (Ctx,
+               To_Text (Get_Filename (Unit)),
+               From_Unit,
+               Unit.AST_Root /= null,
+               Not_Found_Is_Error);
+         end if;
+
+         Prepare_Nameres (Unit);
+
+         return Unit;
+      end if;
+
+      declare
+         procedure Step
+           (Name  : Symbol_Type_Array; Index : Positive);
+         --  Step into each portion of ``Name``, resolving each unit
+         --  incrementally.  This is a recursive procedure, that will resolve
+         --  the name upwards from ``Name (Index)``.
+         --
+         --  This is a recursive procedure rather than a loop so that we can
+         --  handle package renamings, and modify the currently examined name:
+         --  For example, given the name ``("Text_IO", "Complex_IO")``, and
+         --  given ``"Text_IO"`` designates a package renaming to
+         --  ``Ada.Text_IO``, we will resolve the package renaming, and the
+         --  first recursive call to ``Step`` will be
+         --
+         --  ``Step (("Ada", "Text_IO", "Complex_IO"), 3)`` where we
+         --  substituted the renaming package to the renamed entity, and
+         --  incremented the index accordingly.
+
+         procedure Step
+           (Name  : Symbol_Type_Array;
+            Index : Positive)
+         is
             Current_Name : constant Symbol_Type_Array :=
-               Name (Name'First .. I);
+               Name (Name'First .. Index);
 
             I_Kind : constant Analysis_Unit_Kind :=
-              (if I = Name'Last then Kind else Unit_Specification);
+              (if Index = Name'Last then Kind else Unit_Specification);
             --  When looking for unit A.B, A is a specification even if we mean
             --  to fetch B's body.
 
             Is_Not_Found_Error : constant Boolean :=
-              (if I = Name'Last then Not_Found_Is_Error else True);
+              (if Index = Name'Last then Not_Found_Is_Error else True);
          begin
-
-            if not Process_Parents and I /= Name'Last then
-               exit;
-            end if;
 
             --  TODO??? We now handle file not found via
             --  Unit_Requested_Callback, but we don't really handle parsing
@@ -341,13 +372,56 @@ package body Libadalang.Env_Hooks is
 
             Prepare_Nameres (Unit);
 
-            --  The first iteration gives the unit we are required to return
-            if First_Unit = null then
-               First_Unit := Unit;
+            --  We're on the last portion of the name: return
+            if Index = Name'Last then
+               return;
             end if;
-         end;
-      end loop;
-      return First_Unit;
+
+            --  Else, recurse
+            declare
+               Internal_Name : constant Symbol_Type_Array_Access :=
+                 Create_Symbol_Type_Array (Internal_Symbol_Type_Array (Name));
+
+               Comp_Unit : constant Compilation_Unit := Wrap_Node
+                 (Ada_Node_P_Compilation_Unit_With_Name
+                    (Unit.AST_Root, Unit, Internal_Name)).As_Compilation_Unit;
+
+               Decl : constant Basic_Decl :=
+                 (if Comp_Unit.Is_Null
+                  then No_Basic_Decl
+                  else Comp_Unit.P_Decl);
+
+            begin
+               if not Decl.Is_Null and then Decl.Kind
+                  in Libadalang.Common.Ada_Package_Renaming_Decl_Range
+               then
+                  --  If the declaration is a package renaming, resolve the
+                  --  renamed package..
+                  declare
+                     Target : constant Basic_Decl :=
+                        Decl.As_Package_Renaming_Decl.P_Final_Renamed_Package;
+                     Resolved_Name : constant Symbol_Type_Array_Access
+                       := Basic_Decl_P_Fully_Qualified_Name_Array
+                          (Unwrap_Node (Target));
+                     New_Index : constant Positive :=
+                       Resolved_Name.Items'Last + 1;
+                  begin
+                     --  .. and make the next call to step consider the renamed
+                     --  package.
+                     Step (Symbol_Type_Array (Resolved_Name.Items)
+                           & Name (Index + 1 .. Name'Last), New_Index);
+                  end;
+               else
+                  --  Else, just resolve the next portion of the given name
+                  Step (Name, Index + 1);
+               end if;
+            end;
+         end Step;
+      begin
+         Step (Name, Name'First);
+      end;
+
+      return Unit;
    end Fetch_Unit;
 
    --------------------

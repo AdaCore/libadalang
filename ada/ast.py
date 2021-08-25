@@ -518,7 +518,16 @@ class AdaNode(ASTNode):
                           not_found_is_error, process_parents)
         )
 
-        return designated_analysis_unit.root._.match(
+        return Self.compilation_unit_with_name(designated_analysis_unit, name)
+
+    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
+    def compilation_unit_with_name(unit=T.AnalysisUnit, name=T.Symbol.array):
+        """
+        Helper for ``designated_compilation_unit``. From a given analysis unit,
+        that might contain several compilation units, and a name, return the
+        corresponding compilation unit.
+        """
+        return unit.root._.match(
             # If the root of the analysis unit is a single compilation unit,
             # it is necessarily the one we look for.
             lambda single=CompilationUnit: single,

@@ -1,15 +1,15 @@
 test-foo.adb
 ############
 
-Body previous part of <PackageBody ["Foo"] test-foo.adb:2:1-8:9> is <PackageBodyStub ["Foo"] test.adb:11:4-11:33> [test.adb]
-Decl of <PackageBody ["Foo"] test-foo.adb:2:1-8:9> is <PackageDecl ["Foo"] test.adb:4:4-7:12> [test.adb]
+Body previous part of <PackageBody ["Foo"] test-foo.adb:2:1-8:9> is <PackageBodyStub ["Foo"] test.adb:9:4-9:33> [test.adb]
+Decl of <PackageBody ["Foo"] test-foo.adb:2:1-8:9> is <PackageDecl ["Foo"] test.adb:2:4-5:12> [test.adb]
 
 test.adb
 ########
 
-Body of <PackageDecl ["Foo"] test.adb:4:4-7:12> is <PackageBody ["Foo"] test-foo.adb:2:1-8:9> [test-foo.adb]
-Body previous part of <PackageBodyStub ["Foo"] test.adb:11:4-11:33> is <PackageDecl ["Foo"] test.adb:4:4-7:12> [test.adb]
-Decl of <PackageBodyStub ["Foo"] test.adb:11:4-11:33> is <PackageDecl ["Foo"] test.adb:4:4-7:12> [test.adb]
-Body of <PackageBodyStub ["Foo"] test.adb:11:4-11:33> is <PackageBody ["Foo"] test-foo.adb:2:1-8:9> [test-foo.adb]
+Body of <PackageDecl ["Foo"] test.adb:2:4-5:12> is <PackageBody ["Foo"] test-foo.adb:2:1-8:9> [test-foo.adb]
+Body previous part of <PackageBodyStub ["Foo"] test.adb:9:4-9:33> is <PackageDecl ["Foo"] test.adb:2:4-5:12> [test.adb]
+Decl of <PackageBodyStub ["Foo"] test.adb:9:4-9:33> is <PackageDecl ["Foo"] test.adb:2:4-5:12> [test.adb]
+Body of <PackageBodyStub ["Foo"] test.adb:9:4-9:33> is <PackageBody ["Foo"] test-foo.adb:2:1-8:9> [test-foo.adb]
 
 Done.

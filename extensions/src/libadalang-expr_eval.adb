@@ -819,7 +819,7 @@ package body Libadalang.Expr_Eval is
                   if AR.F_Args.Is_Null or else AR.F_Args.Children_Count /= 1
                   then
                      raise Property_Error with
-                        "'Pred/'Succ require exactly two arguments";
+                        "'Pred/'Succ require exactly one argument";
                   end if;
 
                   declare

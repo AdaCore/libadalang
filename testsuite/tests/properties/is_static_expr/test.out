@@ -8,6 +8,6 @@
 <ObjectDecl ["Test_4"] test.adb:9:4-9:39> is not a static expr
 <ObjectDecl ["Test_5"] test.adb:11:4-11:39> is a static expr
 <ObjectDecl ["D"] test.adb:13:4-13:35> is a static expr
-<ObjectDecl ["Test_6"] test.adb:15:4-15:46> is not a static expr
+<ObjectDecl ["Test_6"] test.adb:15:4-15:46> is a static expr
 
 Done

@@ -9145,7 +9145,7 @@ class Expr(AdaNode):
 
                 ar.prefix.name_designated_type
                 ._.is_static_decl & ar.attribute.name_symbol.any_of(
-                    'First', 'Last', 'Range'
+                    'First', 'Last', 'Range', 'Val'
                 ),
                 ar.prefix.referenced_decl._.is_array
                 & ar.attribute.name_symbol.any_of(

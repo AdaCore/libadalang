@@ -854,6 +854,53 @@ package body Libadalang.Expr_Eval is
                         return Create_Enum_Result (Typ, Enum_Val);
                      end case;
                   end;
+               elsif Name in "val" then
+                  if AR.F_Args.Is_Null or else AR.F_Args.Children_Count /= 1
+                  then
+                     raise Property_Error with
+                        "'Val require exactly one argument";
+                  end if;
+
+                  declare
+                     Typ      : constant Base_Type_Decl :=
+                       AR.F_Prefix.P_Name_Designated_Type;
+                     Val      : constant Eval_Result :=
+                       Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
+                  begin
+                     if Val.Kind /= Int then
+                        raise Property_Error with
+                           "'Val expects an integer argument";
+                     end if;
+
+                     if Typ.P_Is_Int_Type then
+                        return Create_Int_Result (Typ, Val.Int_Result);
+                     elsif Typ.P_Is_Enum_Type then
+                        declare
+                           Index : constant Integer :=
+                              To_Integer (Val.Int_Result) + 1;
+
+                           Enum_Val : Enum_Literal_Decl :=
+                              No_Enum_Literal_Decl;
+                        begin
+                           if Index > 0 then
+                              Enum_Val := Child
+                                (Typ.P_Root_Type.As_Type_Decl.F_Type_Def
+                                 .As_Enum_Type_Def.F_Enum_Literals,
+                                 Index).As_Enum_Literal_Decl;
+                           end if;
+
+                           if Enum_Val.Is_Null then
+                              raise Property_Error with
+                                "out of bounds 'Val on enum";
+                           end if;
+
+                           return Create_Enum_Result (Typ, Enum_Val);
+                        end;
+                     else
+                        raise Property_Error with
+                           "'Val only applicable to scalar types";
+                     end if;
+                  end;
                else
                   raise Property_Error
                     with "Unhandled attribute ref: " & Image (Attr.Text);

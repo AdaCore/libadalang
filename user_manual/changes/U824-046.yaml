@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix stack overflow in ``P_Is_Dispatching_Call``
+description: |
+    This change fixes a bug where a stack overflow could occur when calling
+    the ``P_Is_Dispatching_Call`` property on the left-hand side of an assign
+    statement due to an erroneous handling of return type dispatching.
+date: 2021-08-25

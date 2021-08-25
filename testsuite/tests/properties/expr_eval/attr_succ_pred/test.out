@@ -5,10 +5,10 @@ Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Enum_Pred"] inval
 Exception: out of bounds 'Pred/'Succ on enum
 
 Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["No_Arg"] invalid.ads:9:4-9:46>
-Exception: 'Pred/'Succ require exactly two arguments
+Exception: 'Pred/'Succ require exactly one argument
 
 Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Two_Args"] invalid.ads:12:4-12:62>
-Exception: 'Pred/'Succ require exactly two arguments
+Exception: 'Pred/'Succ require exactly one argument
 
 
 Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Int_Succ"] valid.ads:3:4-3:52>

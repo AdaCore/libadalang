@@ -1,0 +1,7 @@
+Eval 'node.p_is_dispatching_call()' on node <Id "F" test.adb:25:9-25:10>
+Result: True
+
+Eval 'node.p_is_dispatching_call()' on node <Id "P" test.adb:28:9-28:10>
+Result: True
+
+

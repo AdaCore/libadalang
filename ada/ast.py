@@ -14393,6 +14393,7 @@ class AttributeRef(Name):
                         Self.type_var,
                         Self.prefix.ref_var),
 
+            # Access to object
             Entity.prefix.xref_equation
             & Or(
                 # In some cases, the expected type (Self.type_var) is known,
@@ -14407,7 +14408,7 @@ class AttributeRef(Name):
                 Bind(Self.prefix.type_var,
                      Self.type_var,
                      conv_prop=BaseTypeDecl.anonymous_access_type_or_null,
-                     eq_prop=BaseTypeDecl.matching_prefix_type),
+                     eq_prop=BaseTypeDecl.matching_type),
             )
         )
 

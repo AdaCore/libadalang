@@ -227,7 +227,12 @@ package body Libadalang.Helpers is
          Files : String_Vectors.Vector;
          Queue : String_Queues.Queue;
 
-         task type Main_Task_Type is
+         task type Main_Task_Type
+            --  increase task's Storage_Size to match the primary stack
+            --  size. This helps avoiding stack overflows in PLE for
+            --  client programs (such as nameres).
+            with Storage_Size => 8 * 1024 * 1024
+         is
             entry Start (ID : Job_ID);
             entry Stop;
          end Main_Task_Type;

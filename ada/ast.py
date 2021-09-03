@@ -5600,7 +5600,7 @@ class TypeDecl(BaseTypeDecl):
         handle_children(),
         reference(
             Self.cast(AdaNode).singleton,
-            through=T.TypeDecl.parent_primitives_env,
+            through=T.TypeDecl.refined_parent_primitives_env,
             kind=RefKind.transitive,
             dest_env=Self.node_env,
             cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
@@ -5657,11 +5657,14 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property(return_type=LexicalEnv.array)
     def primitives_envs(with_rebindings=T.EnvRebindings,
+                        stop_at=BaseTypeDecl.entity.array,
                         include_self=(Bool, False)):
         """
-        Return the environments containing the primitives for Self and all its
-        base types. All returned environments are rebound using the given
-        rebindings.
+        Return the environments containing the primitives for Self (if
+        ``include_self`` is True) and all its base types up to ``stop_at``:
+        upon rewinding the base type chain, if we stumble on one of the types
+        included in the ``stop_at`` set, we stop the recusion of that branch.
+        All returned environments are rebound using the given rebindings.
         """
         # TODO: Not clear if the below origin.bind is correct, investigate
         # later.
@@ -5672,9 +5675,12 @@ class TypeDecl(BaseTypeDecl):
             ),
             lambda _: No(T.TypeDecl.entity),
         ).then(
-            lambda bt:
-            bt.own_primitives_envs(with_rebindings)
-            .concat(bt.primitives_envs(with_rebindings)))
+            lambda bt: If(
+                stop_at.contains(bt),
+                No(LexicalEnv.array),
+                bt.own_primitives_envs(with_rebindings)
+                .concat(bt.primitives_envs(with_rebindings, stop_at, False)))
+            )
         ).concat(
             If(include_self,
                Entity.own_primitives_envs(with_rebindings),
@@ -5682,13 +5688,17 @@ class TypeDecl(BaseTypeDecl):
         ))
 
     @langkit_property(memoized=True)
-    def compute_primitives_env(include_self=(Bool, True)):
+    def compute_primitives_env(
+        include_self=(Bool, True),
+        stop_at=(BaseTypeDecl.entity.array, No(BaseTypeDecl.entity.array))
+    ):
         """
         Return a environment containing all primitives accessible to Self,
         with the adjusted `primitive_real_type` metadata field.
         """
         return Entity.primitives_envs(
             with_rebindings=Entity.info.rebindings,
+            stop_at=stop_at,
             include_self=include_self
         ).env_group(
             with_md=T.Metadata.new(primitive_real_type=Self)
@@ -5700,6 +5710,33 @@ class TypeDecl(BaseTypeDecl):
             Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             Entity.compute_primitives_env(include_self=False),
             Self.empty_env
+        )
+
+    @langkit_property()
+    def refined_parent_primitives_env():
+        """
+        Return a lexical environment containing the primitives inherited by
+        this type. This makes sure not to re-include primitives which have
+        already been inherited by the previous part of this type, so as to:
+
+         - Not overload lexical envs with useless entries (when one has view
+           on this part, it necessarily has view on its previous part).
+
+         - But most importantly, to fix a visibility issue arising when
+           resolving a reference to a subprogram overriden in the public part
+           of a package if the type has a refined declaration in its private
+           part, in which case the inherited subprogram would take precedence
+           over the overriden one (see testcase precise_override_2, U817-024).
+
+           This change fixes this issue because, by construction, if the
+           overriden subprogram lies in the public part, it means the public
+           type declaration already has a view on the inherited subprogram,
+           which means we won't include it in the environment computed here
+           for the private view.
+        """
+        return Entity.compute_primitives_env(
+            include_self=False,
+            stop_at=Entity.previous_part._.base_types
         )
 
     @langkit_property()

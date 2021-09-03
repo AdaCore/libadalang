@@ -1393,6 +1393,16 @@ class BasicDecl(AdaNode):
     with a language entity, for example a type or a variable.
     """
 
+    @langkit_property(public=True, return_type=T.Bool, memoized=True)
+    def is_ghost_code():
+        """
+        Return whether this declaration is ghost code or not. See SPARK RM 6.9.
+        """
+        return Or(
+            Entity.has_aspect('Ghost'),
+            Entity.parent_basic_decl._.is_ghost_code()
+        )
+
     @langkit_property()
     def env_hook_basic_decl():
         """
@@ -1913,9 +1923,13 @@ class BasicDecl(AdaNode):
         defined on any part of the entity.
         """
         parts_to_check = Var(If(
-            # For now, only 'Inline' is known to work on all parts. The list
-            # will grow as we discover more of these.
-            name.any_of('Inline'),
+            name.any_of(
+                'Inline',
+                # For ghost, an aspect only on the body is illegal, but we
+                # don't care about illegal cases, and this allows us to auto
+                # propagate the aspect from spec to body.
+                'Ghost'
+            ),
             Entity.all_parts,
             Entity.singleton
         ))
@@ -7241,6 +7255,17 @@ class Pragma(AdaNode):
     args = Field(type=T.BaseAssoc.list)
 
     xref_entry_point = Property(True)
+
+    @langkit_property(public=True)
+    def is_ghost_code():
+        """
+        Return whether this pragma is ghost code or not. See SPARK RM 6.9.
+        """
+        # We only consider pragmas that can be in lists of statements for the
+        # moment.
+        return Entity.id.sym.any_of(
+            'Assert', 'Assume', 'Loop_Invariant'
+        )
 
     @langkit_property()
     def xref_equation():
@@ -15286,6 +15311,31 @@ class Stmt(AdaNode):
     """
 
     xref_entry_point = Property(True)
+
+    @langkit_property(public=True)
+    def is_ghost_code():
+        """
+        Return whether this statement is ghost code or not. See SPARK RM 6.9.
+        """
+        return Or(
+            # Either this statement is part of a ghost declaration like a ghost
+            # package or function.
+            Entity.parent_basic_decl.then(
+                lambda bd: bd.is_ghost_code
+            ),
+
+            # Either it's an implicitly ghost statement, because it's assigning
+            # to a ghost variable, or calling a ghost procedure.
+            Entity.match(
+                lambda ass=T.AssignStmt:
+                ass.dest.referenced_decl.is_ghost_code,
+
+                lambda call=T.CallStmt:
+                call.call.referenced_decl.is_ghost_code,
+
+                lambda _: False
+            )
+        )
 
 
 class ErrorStmt(Stmt):

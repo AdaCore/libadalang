@@ -7177,6 +7177,9 @@ class BasicSubpDecl(BasicDecl):
         do(Self.env_hook),
 
         set_initial_env_by_name(
+            # TODO: This is wrong (should take into account whether the entity
+            # is private or not), but we have no example of cases where this is
+            # a problem yet.
             Self.child_decl_initial_env_name(True),
             Self.default_initial_env
         ),
@@ -7988,6 +7991,9 @@ class PackageDecl(BasePackageDecl):
         do(Self.env_hook),
 
         set_initial_env_by_name(
+            # TODO: This is wrong (should take into account whether the entity
+            # is private or not), but we have no example of cases where this is
+            # a problem yet.
             Self.child_decl_initial_env_name(True),
             Self.default_initial_env
         ),
@@ -8899,14 +8905,20 @@ class GenericSubpDecl(GenericDecl):
         do(Self.env_hook),
 
         set_initial_env_by_name(
-            Self.child_decl_initial_env_name,
+            # TODO: This is wrong (should take into account whether the entity
+            # is private or not), but we have no example of cases where this is
+            # a problem yet.
+            Self.child_decl_initial_env_name(True),
             Self.default_initial_env
         ),
 
-        add_to_env_kv(
+        add_to_env_by_name(
             key=Entity.name_symbol,
-            val=Self
+            val=Self,
+            name=Self.child_decl_initial_env_name(False),
+            fallback_env=Self.default_initial_env
         ),
+
 
         add_env(),
         do(Self.populate_dependent_units),
@@ -8962,6 +8974,9 @@ class GenericPackageDecl(GenericDecl):
         do(Self.env_hook),
 
         set_initial_env_by_name(
+            # TODO: This is wrong (should take into account whether the entity
+            # is private or not), but we have no example of cases where this is
+            # a problem yet.
             Self.child_decl_initial_env_name(True),
             Self.default_initial_env
         ),

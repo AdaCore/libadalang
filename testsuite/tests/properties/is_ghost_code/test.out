@@ -1,0 +1,18 @@
+<AssignStmt ghost_code.adb:21:7-21:15> is ghost: True
+<LoopStmt ghost_code.adb:24:7-26:16> is ghost: True
+<AssignStmt ghost_code.adb:29:4-29:18> is ghost: True
+<AssignStmt ghost_code.adb:30:4-30:13> is ghost: True
+<AssignStmt ghost_code.adb:31:4-31:36> is ghost: True
+<SubpBody ["Ghost_Code"] ghost_code.adb:3:1-32:16> is ghost: False
+<ExprFunction ["Foo"] ghost_code.adb:5:4-5:51> is ghost: True
+<TypeDecl ["Rec"] ghost_code.adb:7:4-10:26> is ghost: True
+<ComponentDecl ["A"] ghost_code.adb:8:7-8:19> is ghost: True
+<ComponentDecl ["B"] ghost_code.adb:9:7-9:19> is ghost: True
+<ObjectDecl ["R"] ghost_code.adb:12:4-12:36> is ghost: True
+<ObjectDecl ["D"] ghost_code.adb:13:4-13:27> is ghost: True
+<PackageDecl ["Ghost_Pkg"] ghost_code.adb:15:4-17:18> is ghost: True
+<ObjectDecl ["A"] ghost_code.adb:16:7-16:25> is ghost: True
+<PackageBody ["Ghost_Pkg"] ghost_code.adb:19:4-27:18> is ghost: True
+<PragmaNode ghost_code.adb:22:7-22:28> is ghost: True
+<PragmaNode ghost_code.adb:23:7-23:28> is ghost: True
+<PragmaNode ghost_code.adb:25:10-25:39> is ghost: True

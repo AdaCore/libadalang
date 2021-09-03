@@ -1,0 +1,2 @@
+driver: python
+input_sources: [ghost_code.adb]

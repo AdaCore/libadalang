@@ -1,0 +1,24 @@
+Analyzing pkg.ads
+#################
+
+Analyzing pkg-child.ads
+#######################
+
+Analyzing pkg-child.adb
+#######################
+
+Resolving xrefs for node <CallStmt pkg-child.adb:4:7-4:15>
+**********************************************************
+
+Expr: <CallExpr pkg-child.adb:4:7-4:14>
+  references: <DefiningName pkg-child.ads:4:25-4:28>
+  type:       None
+Expr: <Id "Foo" pkg-child.adb:4:7-4:10>
+  references: <DefiningName pkg-child.ads:4:25-4:28>
+  type:       None
+Expr: <Id "X" pkg-child.adb:4:12-4:13>
+  references: <DefiningName pkg-child.adb:2:20-2:21>
+  type:       <AnonymousTypeDecl ["None"] pkg-child.adb:2:24-2:32>
+
+
+Done.

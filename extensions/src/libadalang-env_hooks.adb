@@ -379,7 +379,7 @@ package body Libadalang.Env_Hooks is
 
             --  Else, recurse
             declare
-               Internal_Name : constant Symbol_Type_Array_Access :=
+               Internal_Name : Symbol_Type_Array_Access :=
                  Create_Symbol_Type_Array (Internal_Symbol_Type_Array (Name));
 
                Comp_Unit : constant Compilation_Unit := Wrap_Node
@@ -415,6 +415,8 @@ package body Libadalang.Env_Hooks is
                   --  Else, just resolve the next portion of the given name
                   Step (Name, Index + 1);
                end if;
+
+               Free (Internal_Name);
             end;
          end Step;
       begin

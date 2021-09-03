@@ -1,0 +1,2 @@
+driver: inline-playground
+input_sources: [aws-net-poll_events-g_poll.ads]

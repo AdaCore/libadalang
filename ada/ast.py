@@ -13066,6 +13066,12 @@ class Op(BaseId):
         # be bound in the xref equations of these two types.
         return LogicFalse()
 
+    @langkit_property()
+    def is_dispatching_call():
+        # The "is dispatching call" logic is implemented on the BinOp/UnOp
+        # itself.
+        return Entity.parent.cast(Expr).is_dispatching_call
+
 
 @has_abstract_list
 class Identifier(BaseId):

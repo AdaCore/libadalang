@@ -7330,8 +7330,8 @@ class Pragma(AdaNode):
                 'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body',
                 'Inline', 'Volatile'
             ),
-            Entity.associated_entity_name.then(
-                lambda n: n.xref_no_overloading, default_val=LogicTrue()
+            Entity.associated_entity_names.logic_all(
+                lambda n: n.xref_no_overloading
             ),
 
             Entity.id.name_is('Warnings'),
@@ -7358,28 +7358,32 @@ class Pragma(AdaNode):
             )
         )
 
-    @langkit_property()
-    def associated_entity_name():
+    @langkit_property(return_type=T.Name.entity.array)
+    def associated_entity_names():
         return Cond(
             Entity.id.name_symbol.any_of(
                 'Import', 'Export', 'Interface', 'Convention'
             ),
-            Entity.args.at(1).assoc_expr.cast_or_raise(T.Name),
+            Entity.args.at(1).assoc_expr.cast_or_raise(T.Name).singleton,
+
+            Entity.id.name_is('Inline'),
+            Entity.args.map(lambda a: a.assoc_expr.cast(T.Name)),
+
             Entity.id.name_symbol.any_of(
-                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body', 'Inline',
+                'Pack', 'Pure', 'Preelaborate', 'Elaborate_Body',
                 'Volatile', 'Volatile_Components', 'Unchecked_Union',
                 'Atomic', 'Atomic_Components', 'No_Return', "Discard_Names",
                 "Independent", "Independent_Components", "Asynchronous",
                 "Interrupt_Handler", "Attach_Handler",
             ),
-            Entity.args.at(0)._.assoc_expr.cast(T.BaseId),
+            Entity.args.at(0)._.assoc_expr.cast(T.Name)._.singleton,
 
-            No(T.BaseId.entity),
+            No(T.Name.entity.array),
         )
 
     @langkit_property()
     def associated_decls_helper():
-        return Entity.associated_entity_name.then(
+        return Entity.associated_entity_names.mapcat(
             # Find the current declarative scope
             lambda name: Entity.declarative_scope.then(
                 # Get entities in it
@@ -7421,14 +7425,17 @@ class Pragma(AdaNode):
         #     procedure Foo;
         #     procedure Foo (A : Integer);
         #     pragma Inline (Foo);
-        return Entity.associated_entity_name.then(
-            lambda name: Let(
+        return Entity.associated_entity_names.then(
+            lambda names: Let(
                 lambda p=Entity.associated_decls_helper._or(top_level_decl):
                 If(
                     Not(p.equals(No(T.BasicDecl.entity.array))),
                     p,
                     enclosing_program_unit.then(lambda epu: If(
-                        epu.defining_name.name_matches(name),
+                        And(
+                            names.length == 1,
+                            epu.defining_name.name_matches(names.at(0))
+                        ),
                         epu.singleton,
                         No(BasicDecl.entity.array)
                     ), default_val=top_level_decl)

@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <PragmaNode test.adb:6:4-6:34>
+*******************************************************
+
+Expr: <Id "Inline" test.adb:6:11-6:17>
+  references: None
+  type:       None
+Expr: <Id "Foo" test.adb:6:19-6:22>
+  references: <DefiningName test.adb:2:14-2:17>
+  type:       None
+Expr: <Id "Bar" test.adb:6:24-6:27>
+  references: <DefiningName test.adb:3:14-3:17>
+  type:       None
+Expr: <Id "Baz" test.adb:6:29-6:32>
+  references: <DefiningName test.adb:4:14-4:17>
+  type:       None
+
+
+Done.

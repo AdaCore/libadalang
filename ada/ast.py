@@ -1843,12 +1843,13 @@ class BasicDecl(AdaNode):
         lambda _: No(T.PrivatePart.entity),
     ))
 
-    @langkit_property(return_type=T.DeclarativePart.entity)
-    def declarative_region():
+    @langkit_property(return_type=T.DeclarativePart.entity.array)
+    def declarative_parts():
         """
-        Return the (first) declarative region of this BasicDecl, if applicable.
+        Return the declarative parts directly associated to this BasicDecl, if
+        any.
         """
-        return No(T.DeclarativePart.entity)
+        return No(T.DeclarativePart.entity.array)
 
     aspects = AbstractField(type=T.AspectSpec, doc="""
         Return the list of aspects that are attached to this node.
@@ -2018,7 +2019,7 @@ class BasicDecl(AdaNode):
             ))
 
             # Then, look inside decl, in the first declarative region of decl
-            ._or(Entity.declarative_region._.decls.find(
+            ._or(Entity.declarative_parts.at(0)._.decls.find(
                 lambda d: Entity.is_valid_pragma_for_name(name, d)
             ))
 
@@ -6587,6 +6588,13 @@ class TaskTypeDecl(BaseTypeDecl):
             default_val=LogicTrue()
         )
 
+    @langkit_property()
+    def declarative_parts():
+        tdef = Var(Entity.definition)
+        return tdef.public_part.cast(DeclarativePart).singleton.concat(
+            tdef.private_part.cast(DeclarativePart)._.singleton
+        )
+
 
 class SingleTaskTypeDecl(TaskTypeDecl):
     """
@@ -6622,6 +6630,13 @@ class ProtectedTypeDecl(BaseTypeDecl):
     @langkit_property()
     def xref_equation():
         return Entity.interfaces.logic_all(lambda ifc: ifc.xref_equation)
+
+    @langkit_property()
+    def declarative_parts():
+        pdef = Var(Entity.definition)
+        return pdef.public_part.cast(DeclarativePart).singleton.concat(
+            pdef.private_part.cast(DeclarativePart)._.singleton
+        )
 
     @langkit_property(return_type=T.Symbol.array)
     def env_names():
@@ -7682,6 +7697,13 @@ class SingleProtectedDecl(BasicDecl):
             lambda fqn: fqn.to_symbol.singleton
         )
 
+    @langkit_property()
+    def declarative_parts():
+        pdef = Var(Entity.definition)
+        return pdef.public_part.cast(DeclarativePart).singleton.concat(
+            pdef.private_part.cast(DeclarativePart)._.singleton
+        )
+
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
         add_env(names=Self.env_names)
@@ -8053,7 +8075,11 @@ class BasePackageDecl(BasicDecl):
             .cast(T.PackageBody)
         )
 
-    declarative_region = Property(Entity.public_part)
+    @langkit_property()
+    def declarative_parts():
+        return Entity.public_part.cast(DeclarativePart).singleton.concat(
+            Entity.private_part.cast(DeclarativePart)._.singleton
+        )
 
     @langkit_property(return_type=T.Symbol.array)
     def env_names():
@@ -15399,7 +15425,7 @@ class SubpBody(BaseSubpBody):
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.EndName)
 
-    declarative_region = Property(Entity.decls)
+    declarative_parts = Property(Entity.decls.singleton)
 
 
 class HandledStmts(AdaNode):
@@ -16189,7 +16215,7 @@ class PackageBody(Body):
     defining_names = Property(Entity.package_name.singleton)
     defining_env = Property(Entity.children_env)
 
-    declarative_region = Property(Entity.decls)
+    declarative_parts = Property(Entity.decls.singleton)
 
     @langkit_property()
     def package_decl_uses_clauses_envs():
@@ -16371,6 +16397,8 @@ class ProtectedBody(Body):
 
     defining_names = Property(Entity.name.singleton)
 
+    declarative_parts = Property(Entity.decls.singleton)
+
 
 class EntryBody(Body):
     """
@@ -16388,6 +16416,8 @@ class EntryBody(Body):
     end_name = Field(type=T.EndName)
 
     defining_names = Property(Entity.entry_name.singleton)
+
+    declarative_parts = Property(Entity.decls.singleton)
 
     env_spec = EnvSpec(
         do(Self.env_hook),

@@ -1,4 +1,4 @@
-procedure Test_It (Param : Integer) is
+procedure Test_It (Param : Integer; Param_2 : String) is
    A : constant Integer := 10;
    B : constant Integer := 5;
    C : constant Boolean := True;
@@ -13,6 +13,10 @@ procedure Test_It (Param : Integer) is
    D : constant String := "hello";
 
    Test_6 : constant Boolean := D'Length > 0;
+
+   E : constant Boolean := D'Length < 3;
+
+   F : constant Boolean := D'Length < Param_2'Length;
 begin
    null;
 end Test_It;

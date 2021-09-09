@@ -9311,7 +9311,7 @@ class Expr(AdaNode):
             lambda _=NumLiteral: True,
             lambda _=StringLiteral: True,
 
-            lambda ar=AttributeRef: Or(
+            lambda ar=AttributeRef: ar.prefix.is_static_expr & Or(
                 Not(ar.prefix.name_designated_type
                     ._.root_type._.is_formal)
                 & (ar.attribute.name_symbol == 'Base'),
@@ -9320,6 +9320,7 @@ class Expr(AdaNode):
                 ._.is_static_decl & ar.attribute.name_symbol.any_of(
                     'First', 'Last', 'Range', 'Val'
                 ),
+
                 ar.prefix.referenced_decl._.is_array
                 & ar.attribute.name_symbol.any_of(
                     'First', 'Last', 'Length', 'Range'

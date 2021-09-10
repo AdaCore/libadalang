@@ -29,21 +29,6 @@ UnitBody = AnalysisUnitKind.unit_body
 all_categories = RefCategories(default=True)
 no_prims = RefCategories(inherited_primitives=False, default=True)
 
-no_use_clauses = RefCategories(
-    use_pkg_clause=False, inherited_primitives=False, default=True
-)
-"""
-This new category allows making env queries that do not traverse use package
-clauses. For example, when looking for the previous part of a type, we don't
-want to find a matching declaration that was made visible by a use clause.
-
-.. note:: this is not equivalent to making a normal env lookup using the "flat"
-    lookup kind, as there are cases where we make a "parent" environment
-    visible using referenced environments, which would not be traversed with
-    the "flat" lookup kind but will correctly not be filtered-out using this
-    category.
-"""
-
 
 def default_origin():
     """
@@ -281,6 +266,16 @@ class AdaNode(ASTNode):
         return Self.parents.find(
             lambda n: n.is_a(CompilationUnit)
         ).cast_or_raise(CompilationUnit)
+
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def enclosing_basic_decl():
+        """
+        Return the first BasicDecl amongst the (strict) parents of Self, or
+        None.
+        """
+        return Entity.parent.parents.find(
+            lambda n: n.is_a(BasicDecl)
+        ).cast(BasicDecl)
 
     @langkit_property(return_type=Bool)
     def is_children_env(parent=LexicalEnv, current_env=LexicalEnv):
@@ -1851,6 +1846,23 @@ class BasicDecl(AdaNode):
         """
         return No(T.DeclarativePart.entity.array)
 
+    @langkit_property(return_type=T.LexicalEnv)
+    def immediate_declarative_region():
+        """
+        Return the immediate declarative region (RM 8.1) corresponding to this
+        declaration, that is, the concatenation of the declarative parts of
+        itself and all its completion. This does not include the declarative
+        regions of the enclosed declarations.
+
+        This is mainly used to restrict the scope in which to search for the
+        previous/next part of a body/declaration.
+        """
+        return Entity.all_parts.mapcat(
+            lambda part: part.declarative_parts.map(
+                lambda p: p.children_env
+            )
+        ).env_group()
+
     aspects = AbstractField(type=T.AspectSpec, doc="""
         Return the list of aspects that are attached to this node.
     """)
@@ -2908,9 +2920,21 @@ class Body(BasicDecl):
         Return the decl corresponding to this body. Specialized implementation
         for subprogram bodies.
         """
-        env = Var(Entity.children_env.env_parent)
+        parent = Var(Entity.parent_basic_decl)
+        elements = Var(If(
+            parent.is_a(BodyStub),
 
-        elements = Var(env.get(Entity.name_symbol, categories=no_use_clauses))
+            # If this subprogam's parent is a BodyStub, this subprogram is
+            # necessarily a Subunit and the stub is thus its previous part.
+            parent.cast(AdaNode).singleton,
+
+            # Otherwise look for the previous part in the immediate enclosing
+            # declarative region.
+            parent.immediate_declarative_region.get(
+                Entity.name_symbol,
+                lookup=LK.minimal
+            )
+        ))
 
         precise = Var(elements.find(
             lambda sp: And(
@@ -5035,17 +5059,28 @@ class BaseTypeDecl(BasicDecl):
         """
         Returns the previous part for this type decl.
         """
-        return Self.name.then(
-            lambda type_name:
+        return If(
+            Self.is_generic_formal,
 
-            Self.env_get(Entity.children_env, type_name.name_symbol,
-                         from_node=Self, categories=no_use_clauses)
-            .then(lambda previous_parts: previous_parts.find(lambda pp: Or(
-                And(Entity.is_in_private_part,
-                    pp.cast(T.BaseTypeDecl)._.is_private),
-                And(go_to_incomplete,
-                    pp.is_a(T.IncompleteTypeDecl)),
-            ))).cast(T.BaseTypeDecl)
+            # A generic formal type never has a previous part
+            No(T.BaseTypeDecl.entity),
+
+            # Otherwise look for the previous part in the immediate enclosing
+            # declarative region.
+            Self.name.then(
+                lambda type_name:
+
+                Entity.enclosing_basic_decl.immediate_declarative_region.get(
+                    symbol=type_name.name_symbol,
+                    from_node=Self,
+                    lookup=LK.minimal
+                ).then(lambda pp: pp.find(lambda pp: Or(
+                    And(Entity.is_in_private_part,
+                        pp.cast(T.BaseTypeDecl)._.is_private),
+                    And(go_to_incomplete,
+                        pp.is_a(T.IncompleteTypeDecl)),
+                ))).cast(T.BaseTypeDecl)
+            )
         )
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,

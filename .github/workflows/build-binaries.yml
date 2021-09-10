@@ -37,13 +37,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: AdaCore/gprbuild
-          path: gprbuild
-          fetch-depth: 0  # To be able do `git revert`
-      - name: Revert a libgpr patch (MacOS X only)
-        # The latest libgpr doesn't support GNAT CE 2020, but on MacOS X we
-        # don't have GNAT CE 2021. Let's revert this commit for now.
-        if: ${{ runner.os == 'macOS' }}
-        run: git -C gprbuild revert --no-edit 3341766255bf5ab90fe05a8e162894b7830adca6
+          # `gprbuild` directory raises a conflict in alr:
+          # https://github.com/alire-project/alire/issues/864
+          path: gprbuild_
       - name: Get gnatcoll core
         uses: actions/checkout@v2
         with:
@@ -66,19 +62,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ./cached_gnat
-          key: ${{ runner.os }}-gnat-ce-2021
-      - name: Get GNAT Community 2021 toolchain
-        if: ${{ runner.os != 'macOS' }}
-        uses: ada-actions/toolchain@ce2021
+          key: ${{ runner.os }}-alire-2021
+      - name: Get GNAT toolchain with alire
+        uses: alire-project/setup-alire@v1
         with:
-          distrib: community
-          install_dir: ./cached_gnat
-      - name: Get GNAT Community 2020 toolchain
-        if: ${{ runner.os == 'macOS' }}
-        uses: ada-actions/toolchain@ce2020
-        with:
-          distrib: community
-          install_dir: ./cached_gnat
+          toolchain: gnat_native^11 gprbuild^21
+          toolchain_dir: ./cached_gnat
       - name: Setup Python 3.8
         uses: actions/setup-python@v2
         with:

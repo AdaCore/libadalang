@@ -22,8 +22,16 @@
     (fun v ->
       f (!@ v))
 
-  let wrap v =
-    allocate ~finalise:dec_ref (ptr void) v
+  (* Keep is a special argument designed to extend the lifetime of an OCaml
+     value. We put in a ref which is set to [None] only in the finalization
+     function. This guarantees it won't be collected before. *)
+  let wrap ?keep v =
+    let ref_keep = ref keep in
+    let finalise arg =
+      ref_keep := None;
+      dec_ref arg
+    in
+    allocate ~finalise (ptr void) v
 
   let for_project
       ?(project = "")
@@ -71,4 +79,8 @@
     let array = CArray.of_list (ptr char) cstrings_null in
     let ptr = CArray.start array in
     let result = create_auto_provider ptr "" in
-    wrap result
+    (* Extend the lifetime of cstrings here, to make sure it is not garbage
+       collected while [create_auto_provided] executes, nor after. (It is not
+       clear whether LAL keeps internal references to this C object after the
+       call to create_auto_provider, but simpler fixes do not work anyway. *)
+    wrap ~keep:cstrings result

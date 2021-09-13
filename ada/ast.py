@@ -1992,14 +1992,16 @@ class BasicDecl(AdaNode):
         """
         Return the pragma with name ``name`` associated to this entity.
         """
-
         # First look at library level pragmas if Self is a library item
         return Entity.library_item_pragmas.then(
             # Check pragma's name
             lambda plist: plist.find(lambda p: p.id.name_is(name)),
         )._or(
-            # First look in the scope where Self is declared
-            Entity.declarative_scope._.decls.as_entity.find(
+            # First look in the scope where Self is declared. We don't use
+            # ``declarative_scope`` here, as this BasicDecl may not necessarily
+            # be in a DeclarativePart, as is the case for ComponentDecls.
+            # Instead, we simply look among this node's siblings.
+            Entity.parent.cast(AdaNode.list)._.find(
                 lambda d: Entity.is_valid_pragma_for_name(name, d)
             )
 
@@ -7415,10 +7417,12 @@ class Pragma(AdaNode):
     @langkit_property()
     def associated_decls_helper():
         return Entity.associated_entity_names.mapcat(
-            # Find the current declarative scope
-            lambda name: Entity.declarative_scope.then(
+            # Find the scope in which this pragma lies by fetching the closest
+            # lexical scope. We don't use ``declarative_scope`` here, as some
+            # decls do not lie in a DeclarativePart, such as ComponentDecls.
+            lambda name: Entity.semantic_parent.then(
                 # Get entities in it
-                lambda decl_scope: decl_scope.as_entity.children_env.get(
+                lambda parent: parent.children_env.get(
                     name.name_symbol, lookup=LK.flat, categories=no_prims
                 )
             )

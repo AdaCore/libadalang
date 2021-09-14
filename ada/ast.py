@@ -13150,7 +13150,7 @@ class Identifier(BaseId):
             'Pos', 'Val', 'Enum_Val',
             'First', 'Last', 'Range', 'Length',
             'Image', 'Wide_Image', 'Wide_Wide_Image',
-            'Asm_Input', 'Asm_Output',
+            'Asm_Input', 'Asm_Output', 'To_Address',
 
             # Those attributes return functions but were never implemented. We
             # still parse them in the old "wrong" fashion, in order not to
@@ -14231,6 +14231,9 @@ class AttributeRef(Name):
             rel_name.any_of('Asm_Input', 'Asm_Output'),
             Entity.inline_asm_equation,
 
+            rel_name == 'To_Address',
+            Entity.to_address_equation,
+
             PropertyError(Equation, "Unhandled attribute")
         )
 
@@ -14720,6 +14723,34 @@ class AttributeRef(Name):
                 Entity.args_list.at(1).expr.type_var,
                 Entity.prefix.name_designated_type
             )
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def to_address_equation():
+        """
+        Return the xref equation for the `To_Address` attribute.
+        """
+        # TODO: this property can be completely removed once we support
+        # attributes that return functions.
+        to_address_subp = Var(
+            Entity.get_unit_root_decl(
+                ['System', 'Storage_Elements'], UnitSpecification
+            )._.children_env.get_first(
+                'To_Address', lookup=LK.minimal
+            ).cast(BasicSubpDecl)
+        )
+        spec = Var(to_address_subp.subp_decl_spec)
+        return And(
+            Entity.prefix.sub_equation,
+            Bind(Entity.attribute.ref_var, to_address_subp),
+
+            Entity.args_list.at(0).expr.sub_equation,
+            spec.call_argument_equation(
+                spec.abstract_formal_params.at(0),
+                Entity.args_list.at(0).expr
+            ),
+
+            Self.type_bind_val(Entity.type_var, to_address_subp.expr_type)
         )
 
 

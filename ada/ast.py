@@ -16581,12 +16581,6 @@ class SubpBodyStub(BodyStub):
             key=Self.name_symbol,
             val=Self
         ),
-        add_to_env_by_name(
-            key='__nextpart',
-            val=Self,
-            name=Self.top_level_env_name.to_symbol,
-            fallback_env=No(T.LexicalEnv)
-        ),
         add_env(names=Self.env_names)
     )
 

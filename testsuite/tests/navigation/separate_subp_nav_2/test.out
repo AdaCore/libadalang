@@ -1,0 +1,11 @@
+Eval 'node.p_previous_part()' on node <SubpBody ["P"] test-p.adb:2:1-5:5>
+Result: <SubpBodyStub ["P"] test.adb:10:4-10:54>
+
+
+Eval 'node.p_previous_part()' on node <SubpBody ["P"] test.adb:6:4-7:27>
+Result: <SubpDecl ["P"] test.adb:3:4-3:44>
+
+Eval 'node.p_previous_part()' on node <SubpBodyStub ["P"] test.adb:10:4-10:54>
+Result: <SubpDecl ["P"] test.adb:4:4-4:42>
+
+

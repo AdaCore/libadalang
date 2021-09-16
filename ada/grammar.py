@@ -1137,7 +1137,8 @@ A.add_rules(
     direct_name=Or(A.identifier, A.string_literal, A.char_literal),
 
     param_assoc=ParamAssoc(
-        Opt(A.identifier | A.others_designator | A.string_literal, "=>"),
+        Opt(A.identifier | A.others_designator | A.string_literal,
+            "=>", cut()),
         A.expr | A.box_expr,
     ),
 

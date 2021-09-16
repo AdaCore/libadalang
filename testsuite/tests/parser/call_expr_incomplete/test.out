@@ -1,0 +1,20 @@
+input:1:17: Cannot parse <param_assoc>
+input:2:1: Expected '<>', got Termination
+input:1:1: Cannot parse <name>
+input:2:1: Expected ')', got Termination
+CallExpr[1:1-2:1] <<INCOMPLETE>>
+|f_name:
+|  Id[1:1-1:4]: Foo
+|f_suffix:
+|  AssocList[1:6-2:1] <<INCOMPLETE>>
+|  |  ParamAssoc[1:6-1:15]
+|  |  |f_designator:
+|  |  |  Id[1:6-1:9]: Bar
+|  |  |f_r_expr:
+|  |  |  Int[1:13-1:15]: 12
+|  |  ParamAssoc[1:17-2:1] <<INCOMPLETE>>
+|  |  |f_designator:
+|  |  |  Id[1:17-1:20]: Baz
+|  |  |f_r_expr: <null>
+
+==== Checking tree consistency ====

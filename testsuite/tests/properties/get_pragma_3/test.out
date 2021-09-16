@@ -4,8 +4,20 @@ Result: <PragmaNode pkg.adb:5:4-5:24>
 Eval 'node.p_associated_decls' on node <PragmaNode pkg.adb:5:4-5:24>
 Result: [<NullSubpDecl ["Foo"] pkg.adb:2:4-2:40>]
 
+Eval 'node.p_get_pragma("inline")' on node <ExprFunction ["GF_Function"] pkg.adb:10:4-10:47>
+Result: None
+
+Eval 'node.p_get_pragma("inline")' on node <GenericSubpInstantiation ["F_Function"] pkg.adb:13:4-13:43>
+Result: <PragmaNode pkg.adb:16:4-16:31>
+
+Eval 'node.p_associated_decls' on node <PragmaNode pkg.adb:16:4-16:31>
+Result: [<GenericSubpInstantiation ["F_Function"] pkg.adb:13:4-13:43>]
+
 
 Eval 'node.p_get_pragma("Inline")' on node <SubpDecl ["Foo"] pkg.ads:2:4-2:18>
+Result: None
+
+Eval 'node.p_get_pragma("inline")' on node <GenericSubpDecl ["GF_Function"] pkg.ads:5:4-6:40>
 Result: None
 
 

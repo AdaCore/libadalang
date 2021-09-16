@@ -6,4 +6,13 @@ package body Pkg is
    --% node.p_associated_decls
 
    procedure Foo is null;
+
+   function GF_Function return Integer is (0);
+   --% node.p_get_pragma("inline")
+
+   function F_Function is new GF_Function;
+   --% node.p_get_pragma("inline")
+
+   pragma Inline (F_Function);
+   --% node.p_associated_decls
 end Pkg;

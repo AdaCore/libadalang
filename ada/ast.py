@@ -7422,11 +7422,12 @@ class Pragma(AdaNode):
                     name.name_symbol, lookup=LK.flat, categories=no_prims
                 )
             )
+            # Map to the public view, to work on the instantiation nodes
+            # instead of the Generic*Internal nodes.
+            .map(lambda node: node.cast(T.BasicDecl).wrap_public_reference)
+
             # Only get entities that are after self in the *same* source
-            .filtermap(
-                lambda ent: ent.cast(T.BasicDecl),
-                lambda ent: And(ent.unit == Self.unit, ent.node < Self)
-            )
+            .filter(lambda ent: And(ent.unit == Self.unit, ent.node < Self))
         )
 
     @langkit_property(public=True)

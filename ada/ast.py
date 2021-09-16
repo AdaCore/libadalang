@@ -16013,6 +16013,14 @@ class AcceptStmt(CompositeStmt):
             )
         ).cast(EntryDecl)
 
+    @langkit_property(return_type=T.EntryDecl.entity, public=True,
+                      dynamic_vars=[default_origin()])
+    def corresponding_entry():
+        """
+        Return the entry which corresponds to this accept statement.
+        """
+        return env.bind(Entity.node_env, Entity.designated_entry)
+
     @langkit_property()
     def xref_equation():
         return And(

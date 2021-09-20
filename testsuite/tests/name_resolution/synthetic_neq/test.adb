@@ -13,4 +13,9 @@ begin
       raise Program_Error;
    end if;
    pragma Test_Statement;
+
+   if "/=" (A, B) then
+      raise Program_Error;
+   end if;
+   pragma Test_Statement;
 end Main;

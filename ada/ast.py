@@ -5,8 +5,9 @@ from langkit.dsl import (
     env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, RefKind, add_env, add_to_env, add_to_env_by_name, add_to_env_kv,
-    do, handle_children, reference, set_initial_env, set_initial_env_by_name
+    EnvSpec, RefKind, add_env, add_to_env, add_to_env_by_name,
+    add_to_env_by_name_kv, add_to_env_kv, do, handle_children, reference,
+    set_initial_env, set_initial_env_by_name
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
@@ -2148,6 +2149,22 @@ class BasicDecl(AdaNode):
                 other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
                 False
             )
+        )
+
+    @langkit_property(return_type=T.EnvAssoc.array)
+    def subp_decl_env_assocs():
+        """
+        Return the mappings that this subprogram should add to its current env.
+        In particular, this intercepts user-defined "=" operators so as to
+        introduce an implicit "/=" operator, as per RM 4.5.2 25.a.
+        """
+        return If(
+            Entity.defining_name.name_is('"="'),
+            Array([
+                new_env_assoc('"="', Self),
+                new_env_assoc('"/="', Self)
+            ]),
+            new_env_assoc(Entity.name_symbol, Self).singleton
         )
 
     @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True,
@@ -7226,8 +7243,7 @@ class BasicSubpDecl(BasicDecl):
         ),
 
         add_to_env_by_name(
-            key=Entity.name_symbol,
-            val=Self,
+            mappings=Entity.subp_decl_env_assocs,
             name=Self.child_decl_initial_env_name(False),
             fallback_env=Self.children_env
         ),
@@ -8093,7 +8109,7 @@ class PackageDecl(BasePackageDecl):
             Self.default_initial_env
         ),
 
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key=Entity.name_symbol,
             val=Self,
             name=Self.child_decl_initial_env_name(False),
@@ -9007,7 +9023,7 @@ class GenericSubpDecl(GenericDecl):
             Self.default_initial_env
         ),
 
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key=Entity.name_symbol,
             val=Self,
             name=Self.child_decl_initial_env_name(False),
@@ -9076,7 +9092,7 @@ class GenericPackageDecl(GenericDecl):
             Self.default_initial_env
         ),
 
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key=Entity.name_symbol,
             val=Self,
             name=Self.child_decl_initial_env_name(False),
@@ -9645,27 +9661,10 @@ class BinOp(Expr):
             lambda s: s.subp_spec_or_null.nb_max_params == 2
         ))
 
-        # When the operator is "/=" and there are no explicit overload, we
-        # might refer to the implicit declaration of the "/=" operator that
-        # comes with any overload of "=" that returns a Boolean.
-        refers_to_synthetic_neq = Var(And(
-            subps.length == 0,
-            Self.op.subprogram_symbol == '"/="'
-        ))
-
-        # So if that's the case, look for declarations of "="
-        refined_subps = Var(If(
-            refers_to_synthetic_neq,
-            Self.op.subprograms_for_symbol('"="', Entity).filter(
-                lambda s: s.subp_spec_or_null.nb_max_params == 2
-            ),
-            subps
-        ))
-
         return (
             Entity.left.sub_equation
             & Entity.right.sub_equation
-        ) & (refined_subps.logic_any(lambda subp: Let(
+        ) & (subps.logic_any(lambda subp: Let(
             lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
@@ -9684,9 +9683,7 @@ class BinOp(Expr):
             & Self.type_bind_val(Self.type_var,
                                  subp.subp_spec_or_null.return_type)
 
-            # The operator references the subprogram. We decide to make the
-            # implicitly generated '/=' refer to the '=' subprogram, if it
-            # exists.
+            # The operator references the subprogram
             & Bind(Self.op.ref_var, subp)
             & Bind(Self.op.subp_spec_var, subp.subp_spec_or_null)
         )) | Self.no_overload_equation)
@@ -15260,15 +15257,14 @@ class BaseSubpBody(Body):
         ),
 
         add_to_env_by_name(
-            key=Entity.name_symbol,
-            val=Self,
+            mappings=Entity.subp_decl_env_assocs,
             name=Self.initial_env_name(False),
             fallback_env=Self.children_env
         ),
 
         add_env(transitive_parent=True),
 
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.previous_part_env_name,
@@ -16098,7 +16094,7 @@ class PackageBody(Body):
             Self.default_initial_env
         ),
 
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.previous_part_env_name,
@@ -16226,7 +16222,7 @@ class TaskBody(Body):
             Self.default_initial_env
         ),
 
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.previous_part_env_name,
@@ -16308,7 +16304,7 @@ class ProtectedBody(Body):
             Self.default_initial_env
         ),
 
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.previous_part_env_name,
@@ -16488,7 +16484,7 @@ class ProtectedBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.top_level_env_name.to_symbol,
@@ -16516,7 +16512,7 @@ class SubpBodyStub(BodyStub):
             key=Self.name_symbol,
             val=Self
         ),
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.top_level_env_name.to_symbol,
@@ -16539,7 +16535,7 @@ class PackageBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.top_level_env_name.to_symbol,
@@ -16560,7 +16556,7 @@ class TaskBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_by_name(
+        add_to_env_by_name_kv(
             key='__nextpart',
             val=Self,
             name=Self.top_level_env_name.to_symbol,

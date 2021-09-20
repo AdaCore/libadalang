@@ -1,0 +1,8 @@
+type: bugfix
+title: Name resolution of implicit ``/=`` operator
+description: |
+    Currently, LAL's name resolution mechanism handles references to
+    implicit ``/=`` operators used as infix operators of a binary expression,
+    but not when they were referenced explicitly in a call expression, as in
+    ``"/=" (A, B)``. This change fixes this issue.
+date: 2021-09-20

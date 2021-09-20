@@ -13,4 +13,7 @@ begin
    if A /= B then
       null;
    end if;
+   if "/=" (A, B) then
+      null;
+   end if;
 end Main;

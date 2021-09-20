@@ -228,9 +228,9 @@ package body Libadalang.Helpers is
          Queue : String_Queues.Queue;
 
          task type Main_Task_Type
-            --  increase task's Storage_Size to match the primary stack
-            --  size. This helps avoiding stack overflows in PLE for
-            --  client programs (such as nameres).
+            --  Increase task's Storage_Size to match the primary stack size.
+            --  This helps avoiding stack overflows in PLE for client programs
+            --  (such as nameres).
             with Storage_Size => 8 * 1024 * 1024
          is
             entry Start (ID : Job_ID);

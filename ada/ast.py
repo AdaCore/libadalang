@@ -4660,6 +4660,18 @@ class BaseTypeDecl(BasicDecl):
         """
         return No(T.BaseTypeDecl.entity)
 
+    @langkit_property(dynamic_vars=[origin])
+    def accessed_type_no_call():
+        """
+        Like ``BaseTypeDecl.accessed_type``, but does not perform an implicit
+        call if Self represents an access-to-subprogram.
+        """
+        return If(
+            Entity.access_def.is_a(AccessToSubpDef),
+            No(BaseTypeDecl.entity),
+            Entity.accessed_type
+        )
+
     @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
     def final_accessed_type(first_call=(Bool, True)):
         """
@@ -5849,17 +5861,19 @@ class AnonymousTypeDecl(TypeDecl):
            the two access defs.
         """
 
+        self_subp_access = Var(Entity.type_def.cast(AccessToSubpDef))
+        other_subp_access = Var(other.access_def.cast(AccessToSubpDef))
+
         # If the anonymous type is an access type definition, then verify if
         #  the accessed type corresponds to other's accessed type.
-        return Entity.type_def.cast(AccessDef)._.match(
-            lambda asp=AccessToSubpDef:
-            other.access_def.cast(AccessToSubpDef).then(
-                lambda sa: sa.subp_spec.match_signature(
-                    asp.subp_spec, False
-                )
+        return Cond(
+            Not(self_subp_access.is_null) & Not(other_subp_access.is_null),
+            other_subp_access.subp_spec.match_signature(
+                self_subp_access.subp_spec, False
             ),
-            lambda ad:
-            ad.accessed_type.then(
+
+            self_subp_access.is_null & other_subp_access.is_null,
+            Entity.type_def.cast(AccessDef)._.accessed_type.then(
                 lambda ast: other.accessed_type.then(
                     lambda oat: Let(
                         lambda
@@ -5868,7 +5882,6 @@ class AnonymousTypeDecl(TypeDecl):
                         # access-to-T'Class.
                         exp=ast.cast(ClasswideTypeDecl)._.typedecl._or(ast),
                         act=oat.cast(ClasswideTypeDecl)._.typedecl._or(oat):
-
                         If(
                             for_assignment,
 
@@ -5881,7 +5894,9 @@ class AnonymousTypeDecl(TypeDecl):
                         ),
                     )
                 )
-            )
+            ),
+
+            False
         )
 
     xref_entry_point = Property(False)
@@ -14602,7 +14617,12 @@ class AttributeRef(Name):
                 # so we use to infer the prefix's type.
                 Bind(Self.type_var,
                      Self.prefix.type_var,
-                     conv_prop=BaseTypeDecl.accessed_type,
+
+                     # We use the `accessed_type_no_call` conversion property
+                     # here in case `Self.type_var` holds an access-to-
+                     # subprogram type so that we don't propagate its
+                     # return type to the prefix of the 'Access attribute.
+                     conv_prop=BaseTypeDecl.accessed_type_no_call,
                      eq_prop=BaseTypeDecl.matching_formal_type_inverted),
 
                 # In other cases, the type of the prefix is known, so we use

@@ -1,0 +1,24 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:13:4-13:34>
+*******************************************************
+
+Expr: <CallExpr test.adb:13:4-13:33>
+  references: <DefiningName test.adb:4:14-4:18>
+  type:       None
+Expr: <Id "Load" test.adb:13:4-13:8>
+  references: <DefiningName test.adb:4:14-4:18>
+  type:       None
+Expr: <AttributeRef test.adb:13:10-13:32>
+  references: None
+  type:       <TypeDecl ["T"] test.adb:2:4-2:61>
+Expr: <Id "Read_Bytes_Proc" test.adb:13:10-13:25>
+  references: <DefiningName test.adb:11:13-11:28>
+  type:       None
+Expr: <Id "Access" test.adb:13:26-13:32>
+  references: None
+  type:       None
+
+
+Done.

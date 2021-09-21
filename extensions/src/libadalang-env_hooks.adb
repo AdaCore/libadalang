@@ -400,7 +400,7 @@ package body Libadalang.Env_Hooks is
                   declare
                      Target : constant Basic_Decl :=
                         Decl.As_Package_Renaming_Decl.P_Final_Renamed_Package;
-                     Resolved_Name : constant Symbol_Type_Array_Access
+                     Resolved_Name : Symbol_Type_Array_Access
                        := Basic_Decl_P_Fully_Qualified_Name_Array
                           (Unwrap_Node (Target));
                      New_Index : constant Positive :=
@@ -410,6 +410,7 @@ package body Libadalang.Env_Hooks is
                      --  package.
                      Step (Symbol_Type_Array (Resolved_Name.Items)
                            & Name (Index + 1 .. Name'Last), New_Index);
+                     Free (Resolved_Name);
                   end;
                else
                   --  Else, just resolve the next portion of the given name

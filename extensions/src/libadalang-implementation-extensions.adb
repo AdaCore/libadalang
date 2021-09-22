@@ -447,7 +447,7 @@ package body Libadalang.Implementation.Extensions is
    begin
       if Node.Compilation_Unit_No_Env = Empty_Env then
          Node.Compilation_Unit_No_Env :=
-            Create_Static_Lexical_Env (No_Env_Getter, Node);
+            Create_Static_Lexical_Env (Empty_Env, Node);
       end if;
       return Node.Compilation_Unit_No_Env;
    end Compilation_Unit_P_Get_Empty_Env;

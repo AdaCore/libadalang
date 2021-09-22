@@ -6829,8 +6829,7 @@ class UsePackageClause(UseClause):
         reference(
             Self.packages.map(lambda n: n.cast(AdaNode)),
             T.Name.use_package_name_designated_env,
-            cond=Not(Self.parent.parent.is_a(T.CompilationUnit)),
-            category='use_pkg_clause'
+            cond=Not(Self.parent.parent.is_a(T.CompilationUnit))
         )
     )
 
@@ -7289,8 +7288,7 @@ class BasicSubpDecl(BasicDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
 
         reference(
@@ -8168,8 +8166,7 @@ class PackageDecl(BasePackageDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
 
         reference(
@@ -8431,8 +8428,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,
@@ -8578,8 +8574,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,
@@ -8656,8 +8651,7 @@ class PackageRenamingDecl(BasicDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,
@@ -8729,8 +8723,7 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,
@@ -8772,8 +8765,7 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,
@@ -9081,8 +9073,7 @@ class GenericSubpDecl(GenericDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,
@@ -9150,8 +9141,7 @@ class GenericPackageDecl(GenericDecl):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,
@@ -15356,7 +15346,6 @@ class BaseSubpBody(Body):
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
         ),
 
         reference(
@@ -16181,8 +16170,7 @@ class PackageBody(Body):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
 
         reference(
@@ -16308,7 +16296,6 @@ class TaskBody(Body):
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
         ),
 
         reference(
@@ -16389,8 +16376,7 @@ class ProtectedBody(Body):
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit),
-            category='use_pkg_clause'
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         ),
         reference(
             Self.top_level_use_type_clauses,

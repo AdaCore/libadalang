@@ -5,14 +5,15 @@ from langkit.dsl import (
     env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
-    EnvSpec, RefKind, add_env, add_to_env, add_to_env_by_name, add_to_env_kv,
-    do, handle_children, reference, set_initial_env, set_initial_env_by_name
+    EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, do, handle_children,
+    reference, set_initial_env
 )
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicLexicalEnv, DynamicVariable, EmptyEnv, Entity, If, Let,
     Literal, No, Not, Or, Property, PropertyError, RefCategories, Self, String,
-    Try, Var, ignore, langkit_property, lazy_field, new_env_assoc
+    Try, Var, current_env, direct_env, ignore, langkit_property,
+    lazy_field, named_env, new_env_assoc, no_env
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -1022,14 +1023,6 @@ class AdaNode(ASTNode):
         return Self.parent.then(lambda p: p.children_env,
                                 default_val=Self.children_env)
 
-    @langkit_property(dynamic_vars=[env])
-    def initial_env(scope=T.LexicalEnv):
-        """
-        Static method. Return ``scope`` if it is not EmptyEnv, and ``env``
-        otherwise.
-        """
-        return scope.then(lambda s: s, default_val=env)
-
     @langkit_property(ignore_warn_on_node=True, public=True)
     def top_level_decl(unit=AnalysisUnit):
         """
@@ -1662,6 +1655,37 @@ class BasicDecl(AdaNode):
 
             # This declaration
             No(T.Symbol)
+        )
+
+    @langkit_property(return_type=T.DesignatedEnv)
+    def child_decl_initial_env(private_part=(T.Bool, False)):
+        """
+        Return the initial env for this basic declaration. This is used
+        to set the parent environment of a child declaration to its actual
+        parent in terms of Ada semantics.
+
+        If ``private_part`` is True, return the env of the private part of its
+        parent.
+        """
+        return Self.child_decl_initial_env_name(private_part).then(
+            lambda name: named_env(name),
+            default_val=direct_env(Self.default_initial_env)
+        )
+
+    @langkit_property(return_type=T.env_assoc)
+    def child_decl_env_assoc():
+        """
+        Return the env association that describes where to register this
+        basic declaration. For a child declaration in particular, this orders
+        adding itself inside its parent declaration's environment.
+        """
+        return new_env_assoc(
+            key=Entity.name_symbol,
+            val=Self,
+            dest_env=named_env(
+                Self.child_decl_initial_env_name(False),
+                or_current=True
+            )
         )
 
     is_formal = Property(
@@ -2894,6 +2918,18 @@ class Body(BasicDecl):
             No(T.Symbol)
         )
 
+    @langkit_property(return_type=T.DesignatedEnv)
+    def body_initial_env():
+        """
+        Return the initial env for a body. It's always the current environment
+        except for compilation unit roots for which we use the environment of
+        their corresponding declaration.
+        """
+        return named_env(
+            Self.body_initial_env_name,
+            or_current=True
+        )
+
     @langkit_property(return_type=T.Symbol)
     def previous_part_env_name():
         """
@@ -2906,6 +2942,35 @@ class Body(BasicDecl):
             Self.is_subunit,
             Self.top_level_env_name.concat(String("__stub")).to_symbol,
             Self.top_level_env_name.to_symbol
+        )
+
+    @langkit_property(return_type=T.env_assoc)
+    def previous_part_link_env_assoc():
+        """
+        Return the env association that describes where to add a `__nextpart`
+        entry for this body, if it corresponds to a non-overloadable entity
+        (i.e. not a subprogram).
+
+        Note that entry navigation is handled a bit differently and in
+        particular we don't need a `__nextpart` link for them. Hence this
+        property is never called from EntryBody env specs.
+        """
+        return new_env_assoc(
+            key='__nextpart',
+            val=Self,
+            dest_env=Self.previous_part_env_name.then(
+                lambda name: named_env(name),
+                default_val=direct_env(
+                    env.bind(
+                        Self.default_initial_env,
+                        Entity.body_scope(
+                            follow_private=False,
+                            force_decl=True
+                        )
+                    ),
+                    or_current=True
+                )
+            )
         )
 
     @langkit_property(dynamic_vars=[default_imprecise_fallback()])
@@ -3297,6 +3362,14 @@ class BodyStub(Body):
         return Array([
             Self.top_level_env_name.concat(String("__stub")).to_symbol
         ])
+
+    @langkit_property()
+    def previous_part_link_env_assoc():
+        return new_env_assoc(
+            key='__nextpart',
+            val=Self,
+            dest_env=named_env(Self.top_level_env_name.to_symbol)
+        )
 
 
 @abstract
@@ -6790,10 +6863,7 @@ class WithClause(AdaNode):
     )
 
     env_spec = EnvSpec(
-        set_initial_env_by_name(
-            'Standard',
-            No(T.LexicalEnv)
-        )
+        set_initial_env(named_env('Standard'))
     )
 
 
@@ -6816,16 +6886,16 @@ class UseClause(AdaNode):
             utc.types.map(lambda n: n.name_designated_type_env).env_group()
         )
 
-    @langkit_property(return_type=T.Symbol)
-    def initial_env_name():
+    @langkit_property(return_type=T.DesignatedEnv)
+    def initial_env():
         """
-        Return the initial env name for a use clause. Always the standard
-        package for top level use clauses.
+        Return the initial env for a use clause. Always the standard package
+        for top level use clauses.
         """
         return If(
             Self.parent.parent.is_a(CompilationUnit),
-            'Standard',
-            No(T.Symbol)
+            named_env('Standard'),
+            current_env()
         )
 
 
@@ -6836,10 +6906,7 @@ class UsePackageClause(UseClause):
     packages = Field(type=T.Name.list)
 
     env_spec = EnvSpec(
-        set_initial_env_by_name(
-            Self.initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.initial_env),
 
         # Run PLE on the children (i.e. the names of USE'd packages) so that we
         # can run name resolution on them in the call to reference() below.
@@ -6891,10 +6958,7 @@ class UseTypeClause(UseClause):
     types = Field(type=T.Name.list)
 
     env_spec = EnvSpec(
-        set_initial_env_by_name(
-            Self.initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.initial_env),
 
         # Run PLE on the children (i.e. the names of USE'd packages) so that we
         # can run name resolution on them in the call to reference() below.
@@ -7284,20 +7348,14 @@ class BasicSubpDecl(BasicDecl):
         # Call the env hook to parse eventual parent unit
         do(Self.env_hook),
 
-        set_initial_env_by_name(
+        set_initial_env(
             # TODO: This is wrong (should take into account whether the entity
             # is private or not), but we have no example of cases where this is
             # a problem yet.
-            Self.child_decl_initial_env_name(True),
-            Self.default_initial_env
+            Self.child_decl_initial_env(True)
         ),
 
-        add_to_env_by_name(
-            key=Entity.name_symbol,
-            val=Self,
-            name=Self.child_decl_initial_env_name(False),
-            fallback_env=Self.children_env
-        ),
+        add_to_env(Entity.child_decl_env_assoc),
 
         add_env(names=Self.env_names),
 
@@ -7562,23 +7620,20 @@ class Pragma(AdaNode):
             )
         )
 
-    @langkit_property(return_type=T.Symbol)
-    def initial_env_name():
+    @langkit_property(return_type=T.DesignatedEnv)
+    def initial_env():
         """
         Return the initial env name for a pragma clause. We use the
         Standard package for top level use clauses.
         """
         return If(
             Self.parent.parent.is_a(CompilationUnit),
-            'Standard',
-            No(T.Symbol)
+            named_env('Standard'),
+            current_env()
         )
 
     env_spec = EnvSpec(
-        set_initial_env_by_name(
-            Self.initial_env_name,
-            Self.default_initial_env
-        )
+        set_initial_env(Self.initial_env)
     )
 
 
@@ -8166,20 +8221,14 @@ class PackageDecl(BasePackageDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
+        set_initial_env(
             # TODO: This is wrong (should take into account whether the entity
             # is private or not), but we have no example of cases where this is
             # a problem yet.
-            Self.child_decl_initial_env_name(True),
-            Self.default_initial_env
+            Self.child_decl_initial_env(True)
         ),
 
-        add_to_env_by_name(
-            key=Entity.name_symbol,
-            val=Self,
-            name=Self.child_decl_initial_env_name(False),
-            fallback_env=Self.default_initial_env
-        ),
+        add_to_env(Entity.child_decl_env_assoc),
 
         add_env(names=Self.env_names),
 
@@ -8429,10 +8478,7 @@ class GenericSubpInstantiation(GenericInstantiation):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.child_decl_initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.child_decl_initial_env),
 
         add_to_env_kv(
             key=Entity.name_symbol,
@@ -8580,9 +8626,11 @@ class GenericPackageInstantiation(GenericInstantiation):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.initial_env_name,
-            Self.default_initial_env
+        set_initial_env(
+            named_env(
+                Self.initial_env_name,
+                or_current=True
+            )
         ),
 
         add_to_env_kv(Entity.name_symbol, Self),
@@ -8653,10 +8701,7 @@ class PackageRenamingDecl(BasicDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.child_decl_initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.child_decl_initial_env),
 
         add_to_env_kv(
             key=Entity.name_symbol,
@@ -8725,10 +8770,7 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.child_decl_initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.child_decl_initial_env),
 
         add_to_env_kv(
             key=Entity.name_symbol,
@@ -8767,10 +8809,7 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.child_decl_initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.child_decl_initial_env),
 
         add_to_env_kv(
             key=Entity.name_symbol,
@@ -9071,24 +9110,19 @@ class GenericSubpDecl(GenericDecl):
         # Call the env hook to parse eventual parent unit
         do(Self.env_hook),
 
-        set_initial_env_by_name(
+        set_initial_env(
             # TODO: This is wrong (should take into account whether the entity
             # is private or not), but we have no example of cases where this is
             # a problem yet.
-            Self.child_decl_initial_env_name(True),
-            Self.default_initial_env
+            Self.child_decl_initial_env(True)
         ),
 
-        add_to_env_by_name(
-            key=Entity.name_symbol,
-            val=Self,
-            name=Self.child_decl_initial_env_name(False),
-            fallback_env=Self.default_initial_env
-        ),
-
+        add_to_env(Entity.child_decl_env_assoc),
 
         add_env(),
+
         do(Self.populate_dependent_units),
+
         reference(
             Self.top_level_use_package_clauses,
             through=T.Name.use_package_name_designated_env,
@@ -9139,20 +9173,14 @@ class GenericPackageDecl(GenericDecl):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
+        set_initial_env(
             # TODO: This is wrong (should take into account whether the entity
             # is private or not), but we have no example of cases where this is
             # a problem yet.
-            Self.child_decl_initial_env_name(True),
-            Self.default_initial_env
+            Self.child_decl_initial_env(True)
         ),
 
-        add_to_env_by_name(
-            key=Entity.name_symbol,
-            val=Self,
-            name=Self.child_decl_initial_env_name(False),
-            fallback_env=Self.default_initial_env
-        ),
+        add_to_env(Entity.child_decl_env_assoc),
 
         add_env(),
 
@@ -13304,7 +13332,7 @@ class EnumLiteralDecl(BasicSubpDecl):
     env_spec = EnvSpec(
 
         add_to_env_kv(Self.name_symbol, Self,
-                      dest_env=Entity.enum_type.node_env),
+                      dest_env=direct_env(Entity.enum_type.node_env)),
 
         # We add an env here so that parent_basic_decl/semantic_parent on the
         # enum subp spec work correctly and returns the EnumLiteralDecl rt. the
@@ -15335,36 +15363,46 @@ class BaseSubpBody(Body):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.initial_env_name(True),
-            Self.default_initial_env
+        set_initial_env(
+            named_env(
+                Self.initial_env_name(True),
+                or_current=True
+            )
         ),
 
-        add_to_env_by_name(
+        add_to_env_kv(
             key=Entity.name_symbol,
             val=Self,
-            name=Self.initial_env_name(False),
-            fallback_env=Self.children_env
+            dest_env=named_env(
+                Self.initial_env_name(False),
+                or_current=True
+            )
         ),
 
         add_env(transitive_parent=True),
 
-        add_to_env_by_name(
+        add_to_env_kv(
             key='__nextpart',
             val=Self,
-            name=Self.previous_part_env_name,
-            fallback_env=If(
+            dest_env=Self.previous_part_env_name.then(
+                lambda name: named_env(name),
+
                 # Due to overloading, it's not possible to find the previous
                 # part of a non-library item subprogram at this stage if it
                 # has a top level env name (e.g. a subprogram declared in a
                 # package), since its body could be defined in another unit.
-                Self.has_top_level_env_name,
-                No(LexicalEnv),
-                env.bind(
-                    Self.default_initial_env,
-                    Self.initial_env(
-                        Entity.body_scope(follow_private=False,
-                                          force_decl=True)
+                default_val=If(
+                    Self.has_top_level_env_name,
+                    no_env(),
+                    direct_env(
+                        env.bind(
+                            Self.default_initial_env,
+                            Entity.body_scope(
+                                follow_private=False,
+                                force_decl=True
+                            )
+                        ),
+                        or_current=True
                     )
                 )
             )
@@ -15510,7 +15548,7 @@ class ExceptionHandler(BasicDecl):
                 lambda n:
                 new_env_assoc(key=n.name_symbol,
                               val=Self,
-                              dest_env=Self.children_env)
+                              dest_env=current_env())
             ))
         )
     )
@@ -16177,23 +16215,9 @@ class PackageBody(Body):
         do(Self.env_hook),
 
         # Parent link is the package's decl, or private part if there is one
-        set_initial_env_by_name(
-            Self.body_initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.body_initial_env),
 
-        add_to_env_by_name(
-            key='__nextpart',
-            val=Self,
-            name=Self.previous_part_env_name,
-            fallback_env=env.bind(
-                Self.default_initial_env,
-                Self.initial_env(
-                    Entity.body_scope(follow_private=False,
-                                      force_decl=True)
-                )
-            )
-        ),
+        add_to_env(Entity.previous_part_link_env_assoc),
 
         # We make a transitive parent link only when the package is a library
         # level package.
@@ -16304,23 +16328,9 @@ class TaskBody(Body):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.body_initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.body_initial_env),
 
-        add_to_env_by_name(
-            key='__nextpart',
-            val=Self,
-            name=Self.previous_part_env_name,
-            fallback_env=env.bind(
-                Self.default_initial_env,
-                Self.initial_env(
-                    Entity.body_scope(follow_private=False,
-                                      force_decl=True)
-                )
-            )
-        ),
+        add_to_env(Entity.previous_part_link_env_assoc),
 
         add_env(),
 
@@ -16385,23 +16395,9 @@ class ProtectedBody(Body):
     env_spec = EnvSpec(
         do(Self.env_hook),
 
-        set_initial_env_by_name(
-            Self.body_initial_env_name,
-            Self.default_initial_env
-        ),
+        set_initial_env(Self.body_initial_env),
 
-        add_to_env_by_name(
-            key='__nextpart',
-            val=Self,
-            name=Self.previous_part_env_name,
-            fallback_env=env.bind(
-                Self.default_initial_env,
-                Self.initial_env(
-                    Entity.body_scope(follow_private=False,
-                                      force_decl=True)
-                )
-            )
-        ),
+        add_to_env(Entity.previous_part_link_env_assoc),
 
         add_env(),
 
@@ -16478,7 +16474,12 @@ class EntryBody(Body):
         do(Self.env_hook),
 
         set_initial_env(
-            env.bind(Self.default_initial_env, Entity.body_scope(False)),
+            direct_env(
+                env.bind(
+                    Self.default_initial_env,
+                    Entity.body_scope(False)
+                )
+            ),
         ),
 
         # Add the body to its own parent env
@@ -16573,12 +16574,7 @@ class ProtectedBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_by_name(
-            key='__nextpart',
-            val=Self,
-            name=Self.top_level_env_name.to_symbol,
-            fallback_env=No(T.LexicalEnv)
-        ),
+        add_to_env(Entity.previous_part_link_env_assoc),
         add_env(names=Self.env_names)
     )
 
@@ -16618,12 +16614,7 @@ class PackageBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_by_name(
-            key='__nextpart',
-            val=Self,
-            name=Self.top_level_env_name.to_symbol,
-            fallback_env=No(T.LexicalEnv)
-        ),
+        add_to_env(Entity.previous_part_link_env_assoc),
         add_env(names=Self.env_names)
     )
 
@@ -16639,12 +16630,7 @@ class TaskBodyStub(BodyStub):
     defining_names = Property(Entity.name.singleton)
 
     env_spec = EnvSpec(
-        add_to_env_by_name(
-            key='__nextpart',
-            val=Self,
-            name=Self.top_level_env_name.to_symbol,
-            fallback_env=No(T.LexicalEnv)
-        ),
+        add_to_env(Entity.previous_part_link_env_assoc),
         add_env(names=Self.env_names)
     )
 

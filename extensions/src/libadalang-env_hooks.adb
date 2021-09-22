@@ -411,6 +411,10 @@ package body Libadalang.Env_Hooks is
                      Step (Symbol_Type_Array (Resolved_Name.Items)
                            & Name (Index + 1 .. Name'Last), New_Index);
                      Free (Resolved_Name);
+                  exception
+                     when Property_Error =>
+                        Free (Resolved_Name);
+                        raise;
                   end;
                else
                   --  Else, just resolve the next portion of the given name
@@ -418,6 +422,10 @@ package body Libadalang.Env_Hooks is
                end if;
 
                Free (Internal_Name);
+            exception
+               when Property_Error =>
+                  Free (Internal_Name);
+                  raise;
             end;
          end Step;
       begin

@@ -3001,13 +3001,19 @@ class Body(BasicDecl):
         If the case of generic package declarations, this returns the
         ``package_decl`` field instead of the ``GenericPackageDecl`` itself.
         """
-        return origin.bind(
-            Self.origin_node, Entity.defining_name.all_env_els_impl
+        return If(
+            Self.is_library_item,
+            Self.enclosing_compilation_unit.other_part.then(
+                lambda part: part.decl.as_entity.cast(AdaNode)._.singleton
+            ),
+            origin.bind(
+                Self.origin_node, Entity.defining_name.all_env_els_impl
+            )
         ).map(
             lambda e: e.match(
                 lambda pkg_decl=T.PackageDecl: pkg_decl,
                 lambda gen_pkg_decl=T.GenericPackageDecl:
-                    gen_pkg_decl.package_decl,
+                gen_pkg_decl.package_decl,
                 lambda _: No(T.BasicDecl.entity)
             )
         ).find(

@@ -267,16 +267,6 @@ class AdaNode(ASTNode):
             lambda n: n.is_a(CompilationUnit)
         ).cast_or_raise(CompilationUnit)
 
-    @langkit_property(return_type=T.BasicDecl.entity)
-    def enclosing_basic_decl():
-        """
-        Return the first BasicDecl amongst the (strict) parents of Self, or
-        None.
-        """
-        return Entity.parent.parents.find(
-            lambda n: n.is_a(BasicDecl)
-        ).cast(BasicDecl)
-
     @langkit_property(return_type=Bool)
     def is_children_env(parent=LexicalEnv, current_env=LexicalEnv):
         """
@@ -469,6 +459,19 @@ class AdaNode(ASTNode):
                 sp.cast(T.BasicDecl)._or(sp.parent_basic_decl)
             )
         )
+
+    @langkit_property(return_type=T.LexicalEnv)
+    def immediate_declarative_region():
+        """
+        Return the immediate declarative region (RM 8.1) corresponding to this
+        node, that is, the concatenation of the declarative parts of itself
+        and all its completion. This does not include the declarative regions
+        of the enclosed declarations.
+
+        This is mainly used to restrict the scope in which to search for the
+        previous part of a declaration.
+        """
+        return No(T.LexicalEnv)
 
     @langkit_property(
         return_type=AnalysisUnit, external=True, uses_entity_info=False,
@@ -1846,18 +1849,9 @@ class BasicDecl(AdaNode):
         """
         return No(T.DeclarativePart.entity.array)
 
-    @langkit_property(return_type=T.LexicalEnv)
+    @langkit_property(memoized=True)
     def immediate_declarative_region():
-        """
-        Return the immediate declarative region (RM 8.1) corresponding to this
-        declaration, that is, the concatenation of the declarative parts of
-        itself and all its completion. This does not include the declarative
-        regions of the enclosed declarations.
-
-        This is mainly used to restrict the scope in which to search for the
-        previous/next part of a body/declaration.
-        """
-        return Entity.all_parts.mapcat(
+        return Entity.all_previous_parts.concat(Entity.singleton).mapcat(
             lambda part: part.declarative_parts.map(
                 lambda p: p.children_env
             )
@@ -2920,20 +2914,18 @@ class Body(BasicDecl):
         Return the decl corresponding to this body. Specialized implementation
         for subprogram bodies.
         """
-        parent = Var(Entity.parent_basic_decl)
+        parent = Var(Entity.semantic_parent)
         elements = Var(If(
-            parent.is_a(BodyStub),
-
             # If this subprogam's parent is a BodyStub, this subprogram is
             # necessarily a Subunit and the stub is thus its previous part.
-            parent.cast(AdaNode).singleton,
+            parent.is_a(BodyStub),
+            parent.singleton,
 
-            # Otherwise look for the previous part in the immediate enclosing
-            # declarative region.
+            # Otherwise, look in its immediate declarative region
             parent.immediate_declarative_region.get(
                 Entity.name_symbol,
                 lookup=LK.minimal
-            )
+            ),
         ))
 
         precise = Var(elements.find(
@@ -5070,7 +5062,7 @@ class BaseTypeDecl(BasicDecl):
             Self.name.then(
                 lambda type_name:
 
-                Entity.enclosing_basic_decl.immediate_declarative_region.get(
+                Entity.semantic_parent.immediate_declarative_region.get(
                     symbol=type_name.name_symbol,
                     from_node=Self,
                     lookup=LK.minimal
@@ -8061,6 +8053,10 @@ class PrivatePart(DeclarativePart):
                 ])
             )
         )
+
+    @langkit_property(return_type=T.LexicalEnv)
+    def immediate_declarative_region():
+        return Entity.semantic_parent.immediate_declarative_region
 
     env_spec = EnvSpec(
         add_to_env_kv('__privatepart', Self),
@@ -15958,6 +15954,10 @@ class DeclBlock(BlockStmt):
     decls = Field(type=T.DeclarativePart)
     stmts = Field(type=T.HandledStmts)
     end_name = Field(type=T.EndName)
+
+    @langkit_property()
+    def immediate_declarative_region():
+        return Entity.children_env
 
 
 class BeginBlock(BlockStmt):

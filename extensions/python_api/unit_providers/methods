@@ -1,15 +1,15 @@
 ## vim: filetype=makopython
 
-    # No matter the Python version, take bytes (forwarded as-is to C) but
-    # also accept text (encoded using the system encoding).
+    # Take bytes (forwarded as-is to C) but also accept text (encoded using the
+    # system encoding).
 
     @staticmethod
     def _coerce_bytes(label, value, what='a bytes string', or_none=False):
         if value is None and or_none:
             return None
-        elif isinstance(value, _py2to3.bytes_type):
+        elif isinstance(value, bytes):
             return value
-        elif isinstance(value, _py2to3.text_type):
+        elif isinstance(value, str):
             return value.encode()
         else:
             raise TypeError('`{}` argument must be {} (got {})'
@@ -21,7 +21,6 @@
         ${py_doc('libadalang.create_project_unit_provider', 8)}
 
         project_file = cls._coerce_bytes('project_file', project_file)
-        project_file_text = _py2to3.bytes_to_text(project_file)
         project = cls._coerce_bytes('project', project, or_none=True)
         target = cls._coerce_bytes('target', target, or_none=True)
         runtime = cls._coerce_bytes('runtime', runtime, or_none=True)

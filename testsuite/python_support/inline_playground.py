@@ -4,7 +4,6 @@ import os
 import sys
 
 import libadalang as lal
-from libadalang import _py2to3
 
 
 desc = """
@@ -72,19 +71,7 @@ class InlinePlayground(lal.App):
                         ' '.join(str(a) for a in pe.args)
                     ))
                 else:
-
-                    # Hide discrepancies between Python2 and Python3
-                    def canon_repr(value):
-                        if isinstance(value, _py2to3.text_type):
-                            return _py2to3.text_repr(value)
-                        elif isinstance(value, list):
-                            return '[{}]'.format(', '.join(
-                                canon_repr(v) for v in value
-                            ))
-                        else:
-                            return repr(value)
-
-                    print('Result: {}'.format(col(canon_repr(value), YELLOW)))
+                    print('Result: {}'.format(col(repr(value), YELLOW)))
                 print('')
 
         print('')

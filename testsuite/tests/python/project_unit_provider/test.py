@@ -1,26 +1,4 @@
 import libadalang
-from libadalang import _py2to3
-
-
-def unirepr(value, native_dict_keys=False):
-    if isinstance(value, _py2to3.bytes_type):
-        return _py2to3.bytes_repr(value)
-    elif isinstance(value, _py2to3.text_type):
-        return _py2to3.text_repr(value)
-    elif isinstance(value, dict):
-        return '{{{}}}'.format(', '.join(
-            '{}: {}'.format(
-                key if native_dict_keys else unirepr(key),
-                unirepr(item)
-            )
-            for key, item in sorted(value.items())
-        ))
-    elif isinstance(value, tuple):
-        if len(value) == 1:
-            return '({},)'.format(unirepr(value[0]))
-        return '({})'.format(', '.join(unirepr(item) for item in value))
-    else:
-        return repr(value)
 
 
 vars = {b'SRC_DIR': b'src1'}
@@ -38,9 +16,7 @@ for args in [
          project=u'no_such_project', scenario_vars=vars),
     dict(project_file=u'p.gpr', project=u'q', scenario_vars=vars),
 ]:
-    print('Trying to build with {}'.format(
-        unirepr(args, native_dict_keys=True)
-    ))
+    print('Trying to build with {}'.format(repr(args)))
     try:
         libadalang.UnitProvider.for_project(**args)
     except (

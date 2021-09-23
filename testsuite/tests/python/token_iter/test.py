@@ -1,5 +1,4 @@
 import libadalang as lal
-from libadalang import _py2to3
 
 
 def process(filename, with_trivia):
@@ -20,7 +19,7 @@ def process(filename, with_trivia):
             typ='trivia' if token.is_trivia else 'token ',
             index=token.index,
             kind=token.kind,
-            image=_py2to3.text_repr(token.text),
+            image=repr(token.text),
         ))
         prev_token = token
         token = token.next

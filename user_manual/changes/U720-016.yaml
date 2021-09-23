@@ -1,0 +1,6 @@
+type: api-change
+title: Discontinue Python2 support
+description: |
+    Libadalang's Python API no longer supports Python2 interpreters. Only
+    Python 3.7 versions and newer are now supported.
+date: 2021-09-24

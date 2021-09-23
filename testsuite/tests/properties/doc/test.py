@@ -26,7 +26,7 @@ def test(label, buffer, pred=None):
 
     try:
         doc = decl.p_doc
-        print('Doc: {}'.format(lal._py2to3.text_repr(doc)))
+        print('Doc: {}'.format(repr(doc)))
         print('')
     except lal.PropertyError as exc:
         print('Exception: {}'.format(' '.join(str(a) for a in exc.args)))

@@ -4,7 +4,6 @@ literals.
 """
 
 import libadalang as lal
-from libadalang import _py2to3
 
 
 c = lal.AnalysisContext('utf-8')
@@ -18,6 +17,4 @@ for decl in u.root.findall(lal.ObjectDecl):
         v = expr.p_denoted_value
     except lal.PropertyError:
         v = u'<PropertyError>'
-    print('{} ({}) -> {}'.format(
-        name, _py2to3.text_repr(expr.text), _py2to3.text_repr(v)
-    ))
+    print('{} ({}) -> {}'.format(name, repr(expr.text), repr(v)))

@@ -5,10 +5,10 @@ Trying to load not existing:
    ... got an exception: gnatcoll-projects.adb:XXX
 Trying to load project with unknown target:
    ... got no exception
-Trying to get unit: '\xe9'
+Trying to get unit: 'é'
    ... got no exception
    ... but we got diagnostics:
-0:0-0:0: 'Could not find source file for \xe9 (body file)'
+0:0-0:0: 'Could not find source file for é (body file)'
 Trying to get unit: ' '
    ... got no exception
    ... but we got diagnostics:

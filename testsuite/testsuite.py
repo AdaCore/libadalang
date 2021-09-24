@@ -128,6 +128,7 @@ class LALTestsuite(Testsuite):
             'has_pygments': has_pygments,
             'python': python_version,
             'valgrind': opts.valgrind,
+            'coverage': opts.coverage is not None,
         }
 
         ocaml_bindings = opts.with_ocaml_bindings

@@ -1,2 +1,4 @@
 driver: python
 input_sources: []
+control:
+  - [SKIP, coverage, "Copyright headers not preserved by instrumentation"]

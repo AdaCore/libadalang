@@ -6638,9 +6638,11 @@ class TaskTypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def declarative_parts():
-        tdef = Var(Entity.definition)
-        return tdef.public_part.cast(DeclarativePart).singleton.concat(
-            tdef.private_part.cast(DeclarativePart)._.singleton
+        return Entity.definition.then(
+            lambda tdef:
+            tdef.public_part.cast(DeclarativePart).singleton.concat(
+                tdef.private_part.cast(DeclarativePart)._.singleton
+            )
         )
 
 

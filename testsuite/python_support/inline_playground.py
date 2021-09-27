@@ -71,7 +71,7 @@ class InlinePlayground(lal.App):
                         ' '.join(str(a) for a in pe.args)
                     ))
                 else:
-                    print('Result: {}'.format(col(repr(value), YELLOW)))
+                    print('Result: {}'.format(col(ascii(value), YELLOW)))
                 print('')
 
         print('')

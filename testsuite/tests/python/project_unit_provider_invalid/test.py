@@ -42,7 +42,7 @@ ctx = libadalang.AnalysisContext(
 
 # And try to load units with various invalid names
 for filename in (u'\xe9', u' '):
-    pflush('Trying to get unit: {}'.format(repr(filename)))
+    pflush('Trying to get unit: {}'.format(ascii(filename)))
     try:
         unit = ctx.get_from_provider(
             filename, libadalang.AnalysisUnitKind.unit_body)
@@ -53,6 +53,6 @@ for filename in (u'\xe9', u' '):
         if unit.diagnostics:
             pflush('   ... but we got diagnostics:')
             for d in unit.diagnostics:
-                print('{}: {}'.format(d.sloc_range, repr(d.message)))
+                print('{}: {}'.format(d.sloc_range, ascii(d.message)))
 
 print('Done.')

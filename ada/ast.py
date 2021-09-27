@@ -2915,7 +2915,10 @@ class Body(BasicDecl):
         for subprogram bodies.
         """
         parent = Var(Entity.semantic_parent)
-        elements = Var(If(
+        elements = Var(Cond(
+            parent.is_null,
+            No(AdaNode.entity.array),
+
             # If this subprogam's parent is a BodyStub, this subprogram is
             # necessarily a Subunit and the stub is thus its previous part.
             parent.is_a(BodyStub),

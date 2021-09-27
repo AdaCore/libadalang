@@ -5,26 +5,26 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:4:4-4:48>
 *************************************************************
 
 Expr: <DottedName test.adb:4:8-4:22>
-  references: <DefiningName system.ads:67:9-67:16>
+  references: system.address
   type:       None
 Expr: <Id "System" test.adb:4:8-4:14>
-  references: <DefiningName system.ads:37:9-37:15>
+  references: system
   type:       None
 Expr: <Id "Address" test.adb:4:15-4:22>
-  references: <DefiningName system.ads:67:9-67:16>
+  references: system.address
   type:       None
 Expr: <AttributeRef test.adb:4:26-4:47>
   references: None
-  type:       <TypeDecl ["Address"] system.ads:116:4-116:36>
+  type:       system.address
 Expr: <Id "System" test.adb:4:26-4:32>
-  references: <DefiningName system.ads:37:9-37:15>
+  references: system
   type:       None
 Expr: <Id "To_Address" test.adb:4:33-4:43>
-  references: <DefiningName s-stoele.ads:106:13-106:23>
+  references: system.storage_elements.to_address((system.storage_elements.integer_address) -> system.address)
   type:       None
 Expr: <Int test.adb:4:45-4:46>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       standard.universal_int_type_
 
 
 Done.

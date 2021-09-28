@@ -101,13 +101,6 @@ package Libadalang.Implementation.Extensions is
       Env    : Internal_Substitution_Array_Access;
       E_Info : Internal_Entity_Info) return Character_Type_Array_Access;
 
-   ---------------------------
-   -- Generic_Instantiation --
-   ---------------------------
-
-   function Generic_Instantiation_P_Instantiation_Env
-     (Node : Bare_Generic_Instantiation) return Lexical_Env;
-
    -----------------
    -- Int_Literal --
    -----------------

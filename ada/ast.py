@@ -8232,9 +8232,6 @@ class GenericInstantiation(BasicDecl):
     """
     Instantiations of generics.
     """
-
-    inst_env = UserField(type=T.LexicalEnv, public=False)
-
     @lazy_field(return_type=LexicalEnv)
     def instantiation_env():
         return DynamicLexicalEnv(

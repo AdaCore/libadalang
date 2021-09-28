@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix ``Is_Static_Expr`` for character literals
+description: |
+    Calling the ``P_Is_Static_Expr`` property on a character literal
+    that references a declaration in ``standard`` would make LAL crash
+    instead of returning ``True``.
+date: 2021-09-28

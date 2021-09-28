@@ -9418,7 +9418,13 @@ class Expr(AdaNode):
             qe.prefix.name_designated_type._.is_static_decl
             & qe.suffix.is_static_expr,
 
-            lambda n=Name: n.referenced_decl.is_static_decl,
+            lambda n=Name: n.referenced_decl.then(
+                lambda decl: decl.is_static_decl,
+
+                # Handle specially standard character literals, since they
+                # don't have corresponding source declarations.
+                default_val=n.is_a(CharLiteral)
+            ),
 
             lambda me=MembershipExpr:
             me.expr.is_static_expr & me.membership_exprs.all(

@@ -514,20 +514,6 @@ package body Libadalang.Implementation.Extensions is
          (Eval.As_String (Expr_Eval_In_Env (Node, Env, E_Info)));
    end Expr_P_Eval_As_String_In_Env;
 
-   -----------------------------------------------
-   -- Generic_Instantiation_P_Instantiation_Env --
-   -----------------------------------------------
-
-   function Generic_Instantiation_P_Instantiation_Env
-     (Node : Bare_Generic_Instantiation) return Lexical_Env is
-   begin
-      if Node.Generic_Instantiation_Inst_Env = Empty_Env then
-         Node.Generic_Instantiation_Inst_Env := Create_Static_Lexical_Env
-           (No_Env_Getter, Node);
-      end if;
-      return Node.Generic_Instantiation_Inst_Env;
-   end Generic_Instantiation_P_Instantiation_Env;
-
    ---------------------------------
    -- Int_Literal_P_Denoted_Value --
    ---------------------------------

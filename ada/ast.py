@@ -7989,8 +7989,8 @@ class AnonymousExprDecl(BasicDecl):
     in order to return the relevant actual.
 
     Indeed, ``referenced_decl`` must return a ``BasicDecl``, but actuals of
-    generic instantiations are ``Expr``s. This wrapper node is therefore a
-    way to both satisfy the ``BasicDecl`` inteface, and provide to the user
+    generic instantiations are ``Expr``. This wrapper node is therefore a
+    way to both satisfy the ``BasicDecl`` interface, and provide to the user
     the expression of the actual through the ``expr`` field.
     """
     expr = Field(

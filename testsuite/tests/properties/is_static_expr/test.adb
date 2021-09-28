@@ -17,6 +17,8 @@ procedure Test_It (Param : Integer; Param_2 : String) is
    E : constant Boolean := D'Length < 3;
 
    F : constant Boolean := D'Length < Param_2'Length;
+
+   G : constant Character := 'X';
 begin
    null;
 end Test_It;

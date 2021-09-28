@@ -1123,7 +1123,8 @@ A.add_rules(
         BracketAggregate(
             "[", cut(),
             Opt(A.expr, "with"),
-            List(A.aggregate_assoc, sep=",", list_cls=AssocList),
+            List(A.aggregate_assoc,
+                 sep=",", list_cls=AssocList, empty_valid=True),
             "]"
         ),
 
@@ -1175,7 +1176,7 @@ A.add_rules(
     # parsers, so that we can use A.subtype_indication | A.name in allocator.
 
     qualified_name=QualExpr(
-        A.qual_name_internal, "'", Or(A.paren_expr, A.regular_aggregate)
+        A.qual_name_internal, "'", Or(A.paren_expr, A.aggregate)
     ),
 
     qual_name_internal=Or(

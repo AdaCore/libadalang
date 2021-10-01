@@ -1672,21 +1672,54 @@ class BasicDecl(AdaNode):
             default_val=direct_env(Self.default_initial_env)
         )
 
-    @langkit_property(return_type=T.env_assoc)
-    def child_decl_env_assoc():
+    @langkit_property(return_type=T.env_assoc.array)
+    def basic_decl_env_assocs(dest_env=T.DesignatedEnv):
+        """
+        Return an array of env assocs that should be added in the environment
+        designated by ``dest_env``. In the general case, it simply adds an
+        entry for Self using this declaration's name as key. However, if Self
+        corresponds to the declaration of a `"="` operator, we also generate
+        an order to add an entry for the `"/="` operator, as described in
+        RM 4.5.2 25.a.
+        """
+        name = Var(Entity.name_symbol)
+
+        base_assoc = Var(
+            new_env_assoc(
+                key=Entity.name_symbol,
+                val=Self,
+                dest_env=dest_env
+            ).singleton
+        )
+
+        implicit_neq_assoc = Var(If(
+            name == '"="',
+            new_env_assoc(
+                key='"/="',
+                val=Self,
+                dest_env=dest_env
+            ).singleton,
+            No(T.env_assoc.array)
+        ))
+
+        return base_assoc.concat(implicit_neq_assoc)
+
+    @langkit_property(return_type=T.env_assoc.array)
+    def child_decl_env_assocs():
         """
         Return the env association that describes where to register this
         basic declaration. For a child declaration in particular, this orders
         adding itself inside its parent declaration's environment.
+
+        .. note::
+            This intercepts user-defined "=" operators so as to introduce an
+            implicit "/=" operator, as per RM 4.5.2 25.a.
         """
-        return new_env_assoc(
-            key=Entity.name_symbol,
-            val=Self,
-            dest_env=named_env(
-                Self.child_decl_initial_env_name(False),
-                or_current=True
-            )
-        )
+        dest_env = Var(named_env(
+            Self.child_decl_initial_env_name(False),
+            or_current=True
+        ))
+        return Entity.basic_decl_env_assocs(dest_env)
 
     is_formal = Property(
         Self.parent.is_a(T.GenericFormal),
@@ -7355,7 +7388,7 @@ class BasicSubpDecl(BasicDecl):
             Self.child_decl_initial_env(True)
         ),
 
-        add_to_env(Entity.child_decl_env_assoc),
+        add_to_env(Entity.child_decl_env_assocs),
 
         add_env(names=Self.env_names),
 
@@ -8228,7 +8261,7 @@ class PackageDecl(BasePackageDecl):
             Self.child_decl_initial_env(True)
         ),
 
-        add_to_env(Entity.child_decl_env_assoc),
+        add_to_env(Entity.child_decl_env_assocs),
 
         add_env(names=Self.env_names),
 
@@ -9117,7 +9150,7 @@ class GenericSubpDecl(GenericDecl):
             Self.child_decl_initial_env(True)
         ),
 
-        add_to_env(Entity.child_decl_env_assoc),
+        add_to_env(Entity.child_decl_env_assocs),
 
         add_env(),
 
@@ -9180,7 +9213,7 @@ class GenericPackageDecl(GenericDecl):
             Self.child_decl_initial_env(True)
         ),
 
-        add_to_env(Entity.child_decl_env_assoc),
+        add_to_env(Entity.child_decl_env_assocs),
 
         add_env(),
 
@@ -9749,27 +9782,10 @@ class BinOp(Expr):
             lambda s: s.subp_spec_or_null.nb_max_params == 2
         ))
 
-        # When the operator is "/=" and there are no explicit overload, we
-        # might refer to the implicit declaration of the "/=" operator that
-        # comes with any overload of "=" that returns a Boolean.
-        refers_to_synthetic_neq = Var(And(
-            subps.length == 0,
-            Self.op.subprogram_symbol == '"/="'
-        ))
-
-        # So if that's the case, look for declarations of "="
-        refined_subps = Var(If(
-            refers_to_synthetic_neq,
-            Self.op.subprograms_for_symbol('"="', Entity).filter(
-                lambda s: s.subp_spec_or_null.nb_max_params == 2
-            ),
-            subps
-        ))
-
         return (
             Entity.left.sub_equation
             & Entity.right.sub_equation
-        ) & (refined_subps.logic_any(lambda subp: Let(
+        ) & (subps.logic_any(lambda subp: Let(
             lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
 
             # The subprogram's first argument must match Self's left
@@ -9788,9 +9804,7 @@ class BinOp(Expr):
             & Self.type_bind_val(Self.type_var,
                                  subp.subp_spec_or_null.return_type)
 
-            # The operator references the subprogram. We decide to make the
-            # implicitly generated '/=' refer to the '=' subprogram, if it
-            # exists.
+            # The operator references the subprogram
             & Bind(Self.op.ref_var, subp)
             & Bind(Self.op.subp_spec_var, subp.subp_spec_or_null)
         )) | Self.no_overload_equation)
@@ -15370,12 +15384,9 @@ class BaseSubpBody(Body):
             )
         ),
 
-        add_to_env_kv(
-            key=Entity.name_symbol,
-            val=Self,
-            dest_env=named_env(
-                Self.initial_env_name(False),
-                or_current=True
+        add_to_env(
+            Entity.basic_decl_env_assocs(
+                named_env(Self.initial_env_name(False), or_current=True)
             )
         ),
 

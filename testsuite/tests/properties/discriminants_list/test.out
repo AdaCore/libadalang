@@ -1,25 +1,31 @@
-Eval 'node.p_discriminants_list' on node <TypeDecl ["A"] test.adb:3:7-3:43>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["A"] test.adb:3:7-3:43>
 Result: [<DiscriminantSpec ["X"] test.adb:3:15-3:26>]
 
-Eval 'node.p_discriminants_list' on node <TypeDecl ["B"] test.adb:6:7-6:23>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["B"] test.adb:6:7-6:23>
 Result: [<DiscriminantSpec ["X"] test.adb:3:15-3:26>]
 
-Eval 'node.p_discriminants_list' on node <TypeDecl ["C"] test.adb:9:7-9:41>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["C"] test.adb:9:7-9:41>
 Result: [<DiscriminantSpec ["X"] test.adb:9:15-9:26>]
 
-Eval 'node.p_discriminants_list' on node <TypeDecl ["D"] test.adb:12:7-12:39>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["D"] test.adb:12:7-12:39>
 Result: [<DiscriminantSpec ["Y"] test.adb:12:15-12:26>]
 
-Eval 'node.p_discriminants_list' on node <TypeDecl ["E"] test.adb:15:7-15:30>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["E"] test.adb:15:7-15:30>
 Result: []
 
-Eval 'node.p_discriminants_list' on node <TypeDecl ["F"] test.adb:18:7-18:47>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["F"] test.adb:18:7-18:47>
 Result: [<DiscriminantSpec ["V"] test.adb:18:15-18:26>]
 
-Eval 'node.p_discriminants_list' on node <TypeDecl ["G"] test.adb:21:7-21:47>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["G"] test.adb:21:7-21:47>
 Result: [<DiscriminantSpec ["W"] test.adb:21:15-21:26>]
 
-Eval 'node.p_discriminants_list' on node <TypeDecl ["H"] test.adb:24:7-24:29>
+Eval 'node.p_discriminants_list()' on node <TypeDecl ["H"] test.adb:24:7-24:29>
 Result: []
+
+Eval 'node.p_discriminants_list()' on node <SubtypeDecl ["I"] test.adb:27:7-27:22>
+Result: []
+
+Eval 'node.p_discriminants_list()' on node <SubtypeDecl ["J"] test.adb:40:7-40:22>
+Result: [<DiscriminantSpec ["X"] test.adb:31:15-31:26>]
 
 

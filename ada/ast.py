@@ -5268,14 +5268,15 @@ class BaseTypeDecl(BasicDecl):
         public=True,
     )
 
-    discriminants_list = AbstractProperty(
-        type=BaseFormalParamDecl.entity.array,
-        doc="""
+    @langkit_property(return_type=BaseFormalParamDecl.entity.array,
+                      dynamic_vars=[default_origin()],
+                      kind=AbstractKind.abstract, public=True)
+    def discriminants_list():
+        """
         Return the list of all discriminants of this type. If this type has no
         discriminant or only unknown discriminants, an empty list is returned.
-        """,
-        public=True
-    )
+        """
+        pass
 
     root_type = Property(
         Entity,
@@ -5584,19 +5585,19 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property()
     def discriminants_list():
         # TODO: investigate if below origin.bind is valid
-        base_type = Var(origin.bind(Self, Entity.base_type))
+        base_type = Var(Entity.base_type)
         self_discs = Var(Entity.discriminants.then(
             lambda d: d.abstract_formal_params)
         )
 
-        return origin.bind(Self.origin_node, Cond(
+        return Cond(
             Entity.is_access_type,
             Entity.accessed_type.discriminants_list,
 
             self_discs.length > 0, self_discs,
             Not(base_type.is_null), Entity.base_type.discriminants_list,
             No(T.BaseFormalParamDecl.entity.array)
-        ))
+        )
 
     @lazy_field(return_type=LexicalEnv)
     def direct_primitives_env():
@@ -6612,7 +6613,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     base_types = Property(Entity.get_type.base_types)
     array_def = Property(Entity.get_type.array_def)
     is_classwide = Property(Entity.from_type_bound.is_classwide)
-    discriminants_list = Property(Entity.from_type_bound.discriminants_list)
+    discriminants_list = Property(Entity.get_type.discriminants_list)
     is_iterable_type = Property(Entity.get_type.is_iterable_type)
     iterable_comp_type = Property(Entity.get_type.iterable_comp_type)
     is_record_type = Property(Entity.get_type.is_record_type)

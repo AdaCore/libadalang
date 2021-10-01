@@ -443,7 +443,7 @@ class GenerateDoc(lal.App):
                         # this.
                         pass
                 else:
-                    for comp in decl.p_discriminants_list:
+                    for comp in decl.p_discriminants_list():
                         comps[comp] = set()
 
                 # Emit components

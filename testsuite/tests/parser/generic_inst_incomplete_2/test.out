@@ -1,0 +1,18 @@
+input:1:22: Missing ';'
+input:2:1: Expected '<>', got Termination
+GenericSubpInstantiation[1:1-1:21]
+|f_overriding:
+|  OverridingUnspecified[1:1-1:1]
+|f_kind:
+|  SubpKindProcedure[1:1-1:10]
+|f_subp_name:
+|  DefiningName[1:11-1:12]
+|  |f_name:
+|  |  Id[1:11-1:12]: A
+|f_generic_subp_name:
+|  Id[1:20-1:21]: B
+|f_params:
+|  AssocList[1:19-1:19]: <empty list>
+|f_aspects: <null>
+
+==== Checking tree consistency ====

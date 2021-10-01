@@ -422,7 +422,7 @@ A.add_rules(
         GenericPackageInstantiation(
             "package",
             A.defining_name, "is",
-            "new", A.static_name,
+            "new", cut(), A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc()
         ),
@@ -434,7 +434,7 @@ A.add_rules(
                 SubpKind.alt_function("function")
             ),
             A.defining_name, "is",
-            "new", A.static_name,
+            "new", cut(), A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc(),
         ),

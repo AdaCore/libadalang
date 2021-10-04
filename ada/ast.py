@@ -5643,19 +5643,27 @@ class TypeDecl(BaseTypeDecl):
                 )
             )
         ))
-        prim_subps = Var(pkg_decls.filtermap(
+        prim_subps = Var(pkg_decls.filter(
+            lambda decl: decl.cast(BasicDecl)._.subp_spec_or_null.then(
+                lambda spec:
+                spec.get_primitive_subp_types.contains(Self.as_bare_entity)
+            )
+        ).mapcat(
             lambda decl: Let(
                 lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
                     key=bd.defining_name.name_symbol,
                     val=bd.node,
                     metadata=T.Metadata.new(primitive=Self)
-                )
-            ),
-
-            lambda decl:
-            decl.cast(BasicDecl)
-                ._.subp_spec_or_null
-                ._.get_primitive_subp_types.contains(Self.as_bare_entity)
+                ).singleton.concat(If(
+                    bd.defining_name.name_is('"="'),
+                    T.inner_env_assoc.new(
+                        key='"/="',
+                        val=bd.node,
+                        metadata=T.Metadata.new(primitive=Self)
+                    ).singleton,
+                    No(T.inner_env_assoc.array)
+                ))
+            )
         ))
         return enum_lits.concat(prim_subps)
 

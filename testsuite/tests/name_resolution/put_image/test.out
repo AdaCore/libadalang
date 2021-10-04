@@ -1,0 +1,80 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:36:7-36:45>
+*******************************************************
+
+Expr: <AttributeRef test.adb:36:7-36:44>
+  references: None
+  type:       None
+Expr: <DottedName test.adb:36:7-36:27>
+  references: <DefiningName test.adb:5:12-5:13>
+  type:       None
+Expr: <Id "With_Attribute_Def" test.adb:36:7-36:25>
+  references: <DefiningName test.adb:4:12-4:30>
+  type:       None
+Expr: <Id "T" test.adb:36:26-36:27>
+  references: <DefiningName test.adb:5:12-5:13>
+  type:       None
+Expr: <Id "Put_Image" test.adb:36:28-36:37>
+  references: <DefiningName test.adb:10:17-10:20>
+  type:       None
+Expr: <Id "B" test.adb:36:39-36:40>
+  references: <DefiningName test.adb:31:20-31:21>
+  type:       <ClasswideTypeDecl ["Root_Buffer_Type"] a-sttebu.ads:26:4-27:74>
+Expr: <Id "X" test.adb:36:42-36:43>
+  references: <DefiningName test.adb:32:7-32:8>
+  type:       <TypeDecl ["T"] test.adb:5:7-5:29>
+
+Resolving xrefs for node <CallStmt test.adb:39:7-39:38>
+*******************************************************
+
+Expr: <AttributeRef test.adb:39:7-39:37>
+  references: None
+  type:       None
+Expr: <DottedName test.adb:39:7-39:20>
+  references: <DefiningName test.adb:17:12-17:13>
+  type:       None
+Expr: <Id "With_Aspect" test.adb:39:7-39:18>
+  references: <DefiningName test.adb:16:12-16:23>
+  type:       None
+Expr: <Id "T" test.adb:39:19-39:20>
+  references: <DefiningName test.adb:17:12-17:13>
+  type:       None
+Expr: <Id "Put_Image" test.adb:39:21-39:30>
+  references: <DefiningName test.adb:23:17-23:20>
+  type:       None
+Expr: <Id "B" test.adb:39:32-39:33>
+  references: <DefiningName test.adb:31:20-31:21>
+  type:       <ClasswideTypeDecl ["Root_Buffer_Type"] a-sttebu.ads:26:4-27:74>
+Expr: <Id "Y" test.adb:39:35-39:36>
+  references: <DefiningName test.adb:33:7-33:8>
+  type:       <TypeDecl ["T"] test.adb:17:7-18:32>
+
+Resolving xrefs for node <CallStmt test.adb:42:7-42:34>
+*******************************************************
+
+Expr: <AttributeRef test.adb:42:7-42:33>
+  references: None
+  type:       None
+Expr: <DottedName test.adb:42:7-42:16>
+  references: <DefiningName test.adb:28:12-28:13>
+  type:       None
+Expr: <Id "Unknown" test.adb:42:7-42:14>
+  references: <DefiningName test.adb:27:12-27:19>
+  type:       None
+Expr: <Id "T" test.adb:42:15-42:16>
+  references: <DefiningName test.adb:28:12-28:13>
+  type:       None
+Expr: <Id "Put_Image" test.adb:42:17-42:26>
+  references: None
+  type:       None
+Expr: <Id "B" test.adb:42:28-42:29>
+  references: <DefiningName test.adb:31:20-31:21>
+  type:       <ClasswideTypeDecl ["Root_Buffer_Type"] a-sttebu.ads:26:4-27:74>
+Expr: <Id "Z" test.adb:42:31-42:32>
+  references: <DefiningName test.adb:34:7-34:8>
+  type:       <TypeDecl ["T"] test.adb:28:7-28:29>
+
+
+Done.

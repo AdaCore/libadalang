@@ -810,6 +810,15 @@ class AdaNode(ASTNode):
         """
     )
 
+    root_buffer_type = Property(
+        Self.get_unit_root_decl(['Ada', 'Strings', 'Text_Buffers'],
+                                UnitSpecification)
+        ._.children_env.get_first('Root_Buffer_Type', lookup=LK.flat)
+        .cast(T.BaseTypeDecl), doc="""
+        Return the type Ada.Strings.Text_Buffers.Root_Buffer_Type
+        """
+    )
+
     @langkit_property(return_type=Bool)
     def has_with_visibility(refd_unit=AnalysisUnit):
         """
@@ -2500,6 +2509,28 @@ class BasicDecl(AdaNode):
                 Entity.subp_spec_or_null.return_type.matching_formal_type(typ),
                 params.at(1).spec.formal_type.matching_formal_type(typ),
             )
+        )
+
+    @langkit_property(return_type=Bool)
+    def is_put_image_subprogram_for_type(typ=T.BaseTypeDecl.entity):
+        """
+        Return whether this subprogram has the correct profile to be given
+        as argument to the `Put_Image` aspect.
+        """
+        root_buffer_type = Var(
+            Self.root_buffer_type.classwide_type.cast(T.BaseTypeDecl)
+        )
+        params = Var(Entity.subp_spec_or_null._.unpacked_formal_params)
+
+        return origin.bind(
+            Self.origin_node,
+            Self.is_subprogram
+
+            & params.at(0).spec.formal_type
+            .matching_formal_type(root_buffer_type)
+
+            & params.at(1).spec.formal_type
+            .matching_formal_type(typ)
         )
 
     @langkit_property(return_type=Bool)
@@ -7722,6 +7753,14 @@ class AttributeDefClause(AspectClause):
                 rel_name == 'Input',
             ),
 
+            rel_name.any_of('Put_Image'),
+            Entity.expr.cast_or_raise(T.Name).xref_no_overloading(all_els=True)
+            & Predicate(
+                BasicDecl.is_put_image_subprogram_for_type,
+                Entity.expr.cast(T.Name).ref_var,
+                attr.prefix.name_designated_type
+            ),
+
             Entity.expr.sub_equation
         ) & attr.then(
             lambda ar: ar.prefix.sub_equation, default_val=LogicTrue()
@@ -7901,6 +7940,16 @@ class AspectAssoc(AdaNode):
                         False
                     )
                 )
+            ),
+
+            # Put_Image aspect
+            Entity.id.name_is('Put_Image'),
+            Entity.expr.cast_or_raise(T.Name).xref_no_overloading(
+                sequential=False, all_els=True
+            ) & Predicate(
+                BasicDecl.is_put_image_subprogram_for_type,
+                Entity.expr.cast(T.Name).ref_var,
+                target.cast_or_raise(BaseTypeDecl).as_entity
             ),
 
             # Global aspect. Depends is always an aggregate, so doesn't need an
@@ -13272,7 +13321,7 @@ class Identifier(BaseId):
             'Fixed_Value', 'Integer_Value',
             'Pos', 'Val', 'Enum_Val',
             'First', 'Last', 'Range', 'Length',
-            'Image', 'Wide_Image', 'Wide_Wide_Image',
+            'Image', 'Wide_Image', 'Wide_Wide_Image', 'Put_Image',
             'Asm_Input', 'Asm_Output', 'To_Address',
 
             # Those attributes return functions but were never implemented. We
@@ -14357,6 +14406,9 @@ class AttributeRef(Name):
             rel_name == 'To_Address',
             Entity.to_address_equation,
 
+            rel_name == 'Put_Image',
+            Entity.put_image_equation,
+
             PropertyError(Equation, "Unhandled attribute")
         )
 
@@ -14879,6 +14931,33 @@ class AttributeRef(Name):
             ),
 
             Self.type_bind_val(Entity.type_var, to_address_subp.expr_type)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def put_image_equation():
+        """
+        Return the xref equation for the `Put_Image` attribute.
+        """
+        root_buffer_type = Var(Self.root_buffer_type.classwide_type)
+        typ = Var(Entity.prefix.name_designated_type)
+        put_image_aspect = Var(typ._.get_aspect('put_image'))
+        put_image_subp = Var(
+            put_image_aspect.value.cast(Name)._.referenced_decl
+        )
+        return And(
+            Entity.prefix.xref_no_overloading,
+            put_image_subp.then(
+                lambda subp: Bind(Entity.attribute.ref_var, subp),
+                default_val=LogicTrue()
+            ),
+
+            Entity.args_list.at(0).expr.sub_equation,
+            Bind(Entity.args_list.at(0).expr.type_var, root_buffer_type,
+                 eq_prop=BaseTypeDecl.matching_formal_type),
+
+            Entity.args_list.at(1).expr.sub_equation,
+            Bind(Entity.args_list.at(1).expr.type_var, typ,
+                 eq_prop=BaseTypeDecl.matching_formal_type)
         )
 
 

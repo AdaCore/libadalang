@@ -7564,6 +7564,17 @@ class Pragma(AdaNode):
                 )
             ),
 
+            # Likewise for the "Contract_Cases" pragma
+            Entity.id.name_is("Contract_Cases"),
+            env.bind(
+                Entity.associated_decls.at(0).children_env,
+                Entity.args.at(0).assoc_expr.cast(BaseAggregate)
+                .assocs.logic_all(
+                    lambda assoc:
+                    assoc.cast(AggregateAssoc).exprs_assoc_equation
+                )
+            ),
+
             Entity.args.logic_all(
                 # In the default case, we try to resolve every associated
                 # expression, but we never fail, in order to not generate
@@ -7905,7 +7916,7 @@ class AspectAssoc(AdaNode):
             # Contracts
             target.is_a(BasicSubpDecl, BaseSubpBody)
             & Entity.id.name_symbol.any_of(
-                'Pre', 'Post', 'Model_Pre', 'Model_Post'
+                'Pre', 'Post', 'Model_Pre', 'Model_Post', 'Contract_Cases'
             ),
 
             Entity.expr.sub_equation
@@ -10093,9 +10104,16 @@ class BaseAggregate(Expr):
         # aggregate, by accepting only type that can be represented by an
         # aggregate (e.g. records and arrays).
         type_constraint = Var(If(
+            # In the following cases, the aggregate is not a real expression:
+            # it's merely re-used as a pure syntactic construct to aggregate
+            # information.
             Self.in_aspect('Global') | Self.in_aspect('Refined_Global')
             | Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends')
-            | Self.in_aspect('Test_Case') | Self.in_aspect('Refined_State'),
+            | Self.in_aspect('Test_Case') | Self.in_aspect('Refined_State')
+            # Careful: normal aggregates can appear inside a contract_cases
+            # aspect's expression, so we must only special case the direct
+            # aggregate of that aspect.
+            | Self.is_contract_cases_base_aggregate,
             LogicTrue(),
             origin.bind(Self.origin_node,
                         Predicate(BaseTypeDecl.is_array_or_rec, Self.type_var))
@@ -10105,6 +10123,16 @@ class BaseAggregate(Expr):
             lambda ae: ae.sub_equation, default_val=LogicTrue()
         ) & Entity.assocs.logic_all(
             lambda assoc: assoc.sub_equation
+        )
+
+    @langkit_property(return_type=Bool)
+    def is_contract_cases_base_aggregate():
+        """
+        Return whether this is the aggregate directly used as the RHS of the
+        `Contract_Cases` aspect.
+        """
+        return Self.parent.cast(AspectAssoc).then(
+            lambda aspect: aspect.id.name_is('Contract_Cases')
         )
 
     @langkit_property(return_type=MultidimAggregateInfo, dynamic_vars=[origin],
@@ -11829,7 +11857,14 @@ class AggregateAssoc(BasicAssoc):
             Entity.test_case_assoc_equation,
 
             agg.in_aspect('Refined_State'),
-            Entity.refined_state_assoc_equation,
+            # Simply resolve all names present in the Refined_State aspect,
+            # as they must all refer to existing declarations.
+            Entity.exprs_assoc_equation,
+
+            agg.in_aspect('Contract_Cases'),
+            # Both the LHS and the RHS of a given contract_cases aggregate are
+            # ordinary Ada expressions.
+            Entity.exprs_assoc_equation,
 
             agg.parent.is_a(AspectClause, AspectAssoc, PragmaArgumentAssoc),
             LogicTrue(),
@@ -11991,11 +12026,11 @@ class AggregateAssoc(BasicAssoc):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def refined_state_assoc_equation():
+    def exprs_assoc_equation():
         """
-        Equation for the case where this is an aggregate assoc inside an
-        Refined_State aspect. Simply resolve all names present in it, as they
-        must all refer to existing declarations.
+        Return the xref equation for the case where this is an aggregate assoc
+        in which all the designator as well as the RHS are usual expressions
+        which can be recursively resolved.
         """
         return And(
             Entity.designators.logic_all(lambda d: d.sub_equation),

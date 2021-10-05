@@ -1,0 +1,6 @@
+type: new-feature
+title: Name resolution for ``Contract_Cases`` aspect
+description: |
+    This change adds name resolution support for the ``Contract_Cases`` aspect
+    which can come in two shapes: as an Ada 2012 aspect, or inside a pragma.
+date: 2021-10-05

@@ -18,6 +18,7 @@ import tempfile
 import webbrowser
 import yaml
 
+ENTRIES_PATH = P.dirname(P.realpath(__file__))
 
 from docutils.core import publish_string
 
@@ -39,7 +40,7 @@ def print_err(*args, **kwargs):
 
 @memoize
 def json_schema():
-    with open('entry_schema.yaml') as f:
+    with open(P.join(ENTRIES_PATH, 'entry_schema.yaml')) as f:
         schema = f.read()
     return yaml.safe_load(schema)
 
@@ -132,10 +133,13 @@ def get_entries(*args):
                 print("ERROR: not an entry file: {}".format(a))
         entries_names = args
     else:
-        entries_names = [f for f in glob('*.yaml') if f != 'entry_schema.yaml']
+        entries_names = [
+            f for f in glob(P.join(ENTRIES_PATH, '*.yaml'))
+            if P.basename(f) != 'entry_schema.yaml'
+        ]
 
     for fname in entries_names:
-        tn = fname.split('.')[0]
+        tn = P.basename(fname).split('.')[0]
         with open(fname) as f:
             entry = yaml.safe_load(f)
             entry['tn'] = tn

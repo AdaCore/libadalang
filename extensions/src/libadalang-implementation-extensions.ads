@@ -67,8 +67,7 @@ package Libadalang.Implementation.Extensions is
    --  Custom version of Short_Image for basic declarations. Include
    --  the names of the entities it declares.
 
-   function Basic_Decl_P_Doc
-     (Node : Bare_Basic_Decl) return Character_Type_Array_Access;
+   function Basic_Decl_P_Doc (Node : Bare_Basic_Decl) return String_Type;
 
    function Basic_Decl_P_Doc_Annotations
      (Node : Bare_Basic_Decl) return Internal_Doc_Annotation_Array_Access;
@@ -99,7 +98,7 @@ package Libadalang.Implementation.Extensions is
    function Expr_P_Eval_As_String_In_Env
      (Node   : Bare_Expr;
       Env    : Internal_Substitution_Array_Access;
-      E_Info : Internal_Entity_Info) return Character_Type_Array_Access;
+      E_Info : Internal_Entity_Info) return String_Type;
 
    -----------------
    -- Int_Literal --
@@ -113,7 +112,7 @@ package Libadalang.Implementation.Extensions is
    --------------------
 
    function String_Literal_P_Denoted_Value
-     (Node : Bare_String_Literal) return Character_Type_Array_Access;
+     (Node : Bare_String_Literal) return String_Type;
 
    ----------
    -- Expr --

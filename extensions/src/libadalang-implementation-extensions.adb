@@ -379,17 +379,14 @@ package body Libadalang.Implementation.Extensions is
    ----------------------
 
    function Basic_Decl_P_Doc
-     (Node : Bare_Basic_Decl) return Character_Type_Array_Access
+     (Node : Bare_Basic_Decl) return String_Type
    is
       use Libadalang.Doc_Utils;
       Decl : constant Libadalang.Analysis.Basic_Decl :=
          Public_Converters.Wrap_Node (Node).As_Basic_Decl;
       Doc  : constant Doc_Type := Get_Documentation (Decl);
-      Ret  : constant Character_Type_Array_Access :=
-         Create_Character_Type_Array (Doc.Doc.Length);
    begin
-      Ret.Items := Doc.Doc.To_String;
-      return Ret;
+      return Create_String (Doc.Doc.To_String);
    end Basic_Decl_P_Doc;
 
    ----------------------------------
@@ -412,13 +409,9 @@ package body Libadalang.Implementation.Extensions is
          declare
             Key     : constant Text_Type := Annotations_Maps.Key (El);
             Val     : constant Text_Type := Annotations_Maps.Element (El);
-            DSL_Key : constant Character_Type_Array_Access :=
-              Create_Character_Type_Array (Key'Length);
-            DSL_Val : constant Character_Type_Array_Access :=
-              Create_Character_Type_Array (Val'Length);
+            DSL_Key : constant String_Type := Create_String (Key);
+            DSL_Val : constant String_Type := Create_String (Val);
          begin
-            DSL_Key.Items := Key;
-            DSL_Val.Items := Val;
             Ret.Items (Idx) := (Key => DSL_Key, Value => DSL_Val);
          end;
          Idx := Idx + 1;
@@ -507,10 +500,10 @@ package body Libadalang.Implementation.Extensions is
    function Expr_P_Eval_As_String_In_Env
      (Node   : Bare_Expr;
       Env    : Internal_Substitution_Array_Access;
-      E_Info : Internal_Entity_Info) return Character_Type_Array_Access
+      E_Info : Internal_Entity_Info) return String_Type
    is
    begin
-      return Create_Character_Type_Array
+      return Create_String
          (Eval.As_String (Expr_Eval_In_Env (Node, Env, E_Info)));
    end Expr_P_Eval_As_String_In_Env;
 
@@ -533,12 +526,11 @@ package body Libadalang.Implementation.Extensions is
    ------------------------------------
 
    function String_Literal_P_Denoted_Value
-     (Node : Bare_String_Literal) return Character_Type_Array_Access
+     (Node : Bare_String_Literal) return String_Type
    is
       N_Text : constant Text_Type := Text (Node);
    begin
-      return Create_Character_Type_Array
-        (Sources.Decode_String_Literal (N_Text));
+      return Create_String (Sources.Decode_String_Literal (N_Text));
    end String_Literal_P_Denoted_Value;
 
    package Alloc_Logic_Var_Array is new

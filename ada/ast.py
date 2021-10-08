@@ -237,22 +237,11 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property(return_type=T.String)
-    def string_join(strns=T.String.array, sep=T.String):
-        """
-        Static method. Return the array of strings joined by separator ``sep``.
-        """
-        arr_len = Var(strns.length)
-
-        return strns.mapcat(lambda i, n: (
-            If(i == arr_len - 1, n, n.concat(sep))
-        ))
-
-    @langkit_property(return_type=T.String)
     def sym_join(syms=Symbol.array, sep=T.String):
         """
         Static method. Return the array of symbols joined by separator ``sep``.
         """
-        return Self.string_join(syms.map(lambda s: s.image), sep)
+        return sep.join(syms.map(lambda s: s.image))
 
     @langkit_property(return_type=T.CompilationUnit,
                       ignore_warn_on_node=True)
@@ -2707,10 +2696,7 @@ class BasicDecl(AdaNode):
         """
         Return the fully qualified name corresponding to this declaration.
         """
-        return Entity.string_join(
-            Entity.fully_qualified_name_impl(),
-            String(".")
-        )
+        return String(".").join(Entity.fully_qualified_name_impl())
 
     @langkit_property(return_type=T.String)
     def canonical_fully_qualified_name_impl(
@@ -2720,13 +2706,12 @@ class BasicDecl(AdaNode):
         """
         Implementation of canonical_fully_qualified_name.
         """
-        return Entity.string_join(
+        return String(".").join(
             Entity.fully_qualified_name_impl(
                 include_profile=include_profile, dn=dn
             )
             # Map to symbol & back to canonicalize
-            .map(lambda t: t.to_symbol).map(lambda t: t.image),
-            String(".")
+            .map(lambda t: t.to_symbol).map(lambda t: t.image)
         )
 
     @langkit_property(public=True, return_type=T.String)
@@ -2773,11 +2758,10 @@ class BasicDecl(AdaNode):
             lambda ss: String("(").concat(
                 ss.returns.then(lambda _: String("(")).concat(
                     ss.unpacked_formal_params.then(
-                        lambda ufp: Entity.string_join(
+                        lambda ufp: String(", ").join(
                             ufp.map(
                                 lambda p: p.spec.type_expression.custom_id_text
-                            ),
-                            String(", ")
+                            )
                         )
                     ).concat(ss.returns.then(lambda _: String(")")))
                 )
@@ -12488,9 +12472,8 @@ class DefiningName(Name):
         """
         Return the fully qualified name corresponding to this defining name.
         """
-        return Entity.string_join(
-            Entity.basic_decl.fully_qualified_name_impl(dn=Entity),
-            String(".")
+        return String(".").join(
+            Entity.basic_decl.fully_qualified_name_impl(dn=Entity)
         )
 
     @langkit_property()

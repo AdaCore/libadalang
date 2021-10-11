@@ -12842,7 +12842,13 @@ class EndName(Name):
 
     xref_equation = Property(Cond(
         Entity.basic_decl.is_a(T.SubpBody),
-        Bind(Self.ref_var, Entity.basic_decl),
+        Bind(Self.ref_var, Entity.basic_decl)
+        & Entity.name.cast(T.DottedName).then(
+            # Also resolve the prefix of the dotted name, in case this
+            # subprogram is a child unit.
+            lambda dn: dn.prefix.xref_equation,
+            default_val=LogicTrue()
+        ),
 
         Entity.parent.is_a(T.AcceptStmtWithStmts),
         Bind(Self.ref_var, Entity.parent.cast(T.AcceptStmt).designated_entry),

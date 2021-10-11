@@ -31,6 +31,7 @@ Analyzing pragmas.ads
 References to A (a.ads, 1:9-1:10)
    A (a.ads, 19:5-19:6)
    A.Child (a-child.adb, 1:11-1:18)
+   A.Child (a-child.adb, 5:5-5:12)
    package body A is (a.adb, 1:1-14:7)
    A (a.adb, 14:5-14:6)
    with A; (b.ads, 1:1-1:8)

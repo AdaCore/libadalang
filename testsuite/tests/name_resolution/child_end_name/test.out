@@ -50,16 +50,16 @@ Resolving xrefs for node <EndName pkg-foo.adb:3:5-3:12>
 *******************************************************
 
 Expr: <EndName pkg-foo.adb:3:5-3:12>
-  references: <DefiningName pkg-foo.ads:1:9-1:16>
+  references: <DefiningName pkg-foo.adb:1:14-1:21>
   type:       None
 Expr: <DottedName pkg-foo.adb:3:5-3:12>
-  references: <DefiningName pkg-foo.ads:1:9-1:16>
+  references: <DefiningName pkg-foo.adb:1:14-1:21>
   type:       None
 Expr: <Id "Pkg" pkg-foo.adb:3:5-3:8>
   references: <DefiningName pkg.ads:1:9-1:12>
   type:       None
 Expr: <Id "Foo" pkg-foo.adb:3:9-3:12>
-  references: <DefiningName pkg-foo.ads:1:9-1:16>
+  references: <DefiningName pkg-foo.adb:1:14-1:21>
   type:       None
 
 

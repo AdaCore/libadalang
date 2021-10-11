@@ -1,0 +1,26 @@
+type: bugfix
+title: Make end names always refer to their body
+description: |
+    This change fixes a discrepancy in the behavior of name resolution on
+    end names: an end name of a subprogram body would resolve to the body
+    itself, whereas for a package body it would resolve to the package
+    declaration. It now always resolve to the body.
+
+    As a side-effect, this change fixes a bug where the end name of an entity
+    ``X`` could be wrongly resolved to an entity declared inside ``X`` in case
+    that entity  was also named ``X``. The following snippet illustrates the
+    error case:
+
+    .. code:: ada
+
+        package body Foo is
+            procedure Foo is
+            begin
+                null;
+            end Foo;
+        end Foo;
+
+    In this example, the identifier ``Foo`` in the end name of the package
+    would resolve to the procedure body instead of its corresponding
+    package body.
+date: 2021-10-11

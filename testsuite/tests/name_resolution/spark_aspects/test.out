@@ -295,20 +295,20 @@ Resolving xrefs for node <EndName state_xrefs.adb:17:8-17:22>
 *************************************************************
 
 Expr: <EndName state_xrefs.adb:17:8-17:22>
-  references: <DefiningName state_xrefs.ads:10:12-10:26>
+  references: <DefiningName state_xrefs.adb:13:17-13:31>
   type:       None
 Expr: <Id "Nested_Private" state_xrefs.adb:17:8-17:22>
-  references: <DefiningName state_xrefs.ads:10:12-10:26>
+  references: <DefiningName state_xrefs.adb:13:17-13:31>
   type:       None
 
 Resolving xrefs for node <EndName state_xrefs.adb:18:5-18:16>
 *************************************************************
 
 Expr: <EndName state_xrefs.adb:18:5-18:16>
-  references: <DefiningName state_xrefs.ads:1:9-1:20>
+  references: <DefiningName state_xrefs.adb:1:14-1:25>
   type:       None
 Expr: <Id "State_Xrefs" state_xrefs.adb:18:5-18:16>
-  references: <DefiningName state_xrefs.ads:1:9-1:20>
+  references: <DefiningName state_xrefs.adb:1:14-1:25>
   type:       None
 
 

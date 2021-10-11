@@ -171,10 +171,10 @@ Resolving xrefs for node <EndName testpro.adb:25:10-25:26>
 **********************************************************
 
 Expr: <EndName testpro.adb:25:10-25:26>
-  references: <DefiningName testpro.adb:4:21-4:37>
+  references: <DefiningName testpro.adb:12:21-12:37>
   type:       None
 Expr: <Id "Protected_Buffer" testpro.adb:25:10-25:26>
-  references: <DefiningName testpro.adb:4:21-4:37>
+  references: <DefiningName testpro.adb:12:21-12:37>
   type:       None
 
 Resolving xrefs for node <ObjectDecl ["Inst"] testpro.adb:27:6-27:30>

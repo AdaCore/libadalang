@@ -282,10 +282,10 @@ Resolving xrefs for node <EndName selectwhen.adb:33:7-33:30>
 ************************************************************
 
 Expr: <EndName selectwhen.adb:33:7-33:30>
-  references: <DefiningName selectwhen.adb:4:8-4:31>
+  references: <DefiningName selectwhen.adb:9:13-9:36>
   type:       None
 Expr: <Id "Cyclic_Buffer_Task_Type" selectwhen.adb:33:7-33:30>
-  references: <DefiningName selectwhen.adb:4:8-4:31>
+  references: <DefiningName selectwhen.adb:9:13-9:36>
   type:       None
 
 

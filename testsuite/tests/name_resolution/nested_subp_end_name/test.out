@@ -1,0 +1,40 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpSpec test.adb:2:4-2:32>
+*****************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X"] test.adb:2:20-2:31>
+*************************************************************
+
+Expr: <Id "Integer" test.adb:2:24-2:31>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <NullStmt test.adb:4:7-4:12>
+*****************************************************
+
+
+Resolving xrefs for node <EndName test.adb:5:8-5:12>
+****************************************************
+
+Expr: <EndName test.adb:5:8-5:12>
+  references: <DefiningName test.adb:2:14-2:18>
+  type:       None
+Expr: <Id "Test" test.adb:5:8-5:12>
+  references: <DefiningName test.adb:2:14-2:18>
+  type:       None
+
+Resolving xrefs for node <EndName test.adb:6:5-6:9>
+***************************************************
+
+Expr: <EndName test.adb:6:5-6:9>
+  references: <DefiningName test.adb:1:14-1:18>
+  type:       None
+Expr: <Id "Test" test.adb:6:5-6:9>
+  references: <DefiningName test.adb:1:14-1:18>
+  type:       None
+
+
+Done.

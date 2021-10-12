@@ -1,0 +1,8 @@
+type: bugfix
+apis: [ada]
+title: "``Libadalang.Analysis.Print`` crash on null nodes"
+description: |
+    Calling the ``Print`` procedure from the ``Libadalang.Analysis`` package
+    used to raise a ``Contraint_Error`` exception when called on a null node
+    (e.g. ``No_Ada_Node``). It now just prints "None".
+date: 2021-10-12

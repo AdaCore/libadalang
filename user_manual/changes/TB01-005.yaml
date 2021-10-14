@@ -1,0 +1,8 @@
+type: bugfix
+title: Name resolution of ``limited with`` clauses
+description: |
+    This change fixes a bug where calling ``P_Referenced_Decl`` on any part
+    of a limited with clause importing a child unit of the current unit would
+    yield ``None``. The declaration inside the designated CompilationUnit is
+    now correctly returned.
+date: 2021-10-14

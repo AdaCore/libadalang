@@ -1,6 +1,26 @@
 Analyzing p-a.ads
 #################
 
+Resolving xrefs for node <WithClause p-a.ads:1:1-1:20>
+******************************************************
+
+Expr: <DottedName p-a.ads:1:14-1:19>
+  references: <DefiningName p-a-b.ads:1:9-1:14>
+  type:       None
+Expr: <DottedName p-a.ads:1:14-1:17>
+  references: <DefiningName p-a.ads:4:9-4:12>
+  type:       None
+Expr: <Id "P" p-a.ads:1:14-1:15>
+  references: <DefiningName p.ads:1:9-1:10>
+  type:       None
+Expr: <Id "A" p-a.ads:1:16-1:17>
+  references: <DefiningName p-a.ads:4:9-4:12>
+  type:       None
+Expr: <Id "B" p-a.ads:1:18-1:19>
+  references: <DefiningName p-a-b.ads:1:9-1:14>
+  type:       None
+
+
 Analyzing p-a-b.ads
 ###################
 
@@ -8,13 +28,13 @@ Resolving xrefs for node <DefiningName p-a-b.ads:1:9-1:14>
 **********************************************************
 
 Expr: <DottedName p-a-b.ads:1:9-1:12>
-  references: <DefiningName p-a.ads:3:9-3:12>
+  references: <DefiningName p-a.ads:4:9-4:12>
   type:       None
 Expr: <Id "P" p-a-b.ads:1:9-1:10>
   references: <DefiningName p.ads:1:9-1:10>
   type:       None
 Expr: <Id "A" p-a-b.ads:1:11-1:12>
-  references: <DefiningName p-a.ads:3:9-3:12>
+  references: <DefiningName p-a.ads:4:9-4:12>
   type:       None
 
 Resolving xrefs for node <SubpSpec p-a-b.ads:2:4-2:38>
@@ -25,10 +45,10 @@ Resolving xrefs for node <ParamSpec ["X"] p-a-b.ads:2:19-2:37>
 **************************************************************
 
 Expr: <AttributeRef p-a-b.ads:2:30-2:37>
-  references: <DefiningName p-a.ads:4:9-4:10>
+  references: <DefiningName p-a.ads:5:9-5:10>
   type:       None
 Expr: <Id "T" p-a-b.ads:2:30-2:31>
-  references: <DefiningName p-a.ads:4:9-4:10>
+  references: <DefiningName p-a.ads:5:9-5:10>
   type:       None
 Expr: <Id "Class" p-a-b.ads:2:32-2:37>
   references: None
@@ -44,13 +64,13 @@ Expr: <DottedName p-a-b.ads:3:5-3:10>
   references: <DefiningName p-a-b.ads:1:9-1:14>
   type:       None
 Expr: <DottedName p-a-b.ads:3:5-3:8>
-  references: <DefiningName p-a.ads:3:9-3:12>
+  references: <DefiningName p-a.ads:4:9-4:12>
   type:       None
 Expr: <Id "P" p-a-b.ads:3:5-3:6>
   references: <DefiningName p.ads:1:9-1:10>
   type:       None
 Expr: <Id "A" p-a-b.ads:3:7-3:8>
-  references: <DefiningName p-a.ads:3:9-3:12>
+  references: <DefiningName p-a.ads:4:9-4:12>
   type:       None
 Expr: <Id "B" p-a-b.ads:3:9-3:10>
   references: <DefiningName p-a-b.ads:1:9-1:14>

@@ -6890,9 +6890,24 @@ class WithClause(AdaNode):
     has_private = Field(type=Private)
     packages = Field(type=T.Name.list)
 
+    @langkit_property(return_type=Equation)
+    def child_unit_xref_equation(name=T.Name):
+        """
+        Given a name that fully qualified a library-level declaration (i.e.
+        a name in a with clause), return an xref equation that binds every
+        part of the name to its corresponding library-level declarations.
+        """
+        self_eq = Var(Bind(name.ref_var, Self.withed_unit_helper(name)._.decl))
+        return self_eq & name.cast(DottedName).then(
+            lambda dn: Entity.child_unit_xref_equation(dn.prefix),
+            default_val=LogicTrue()
+        )
+
     xref_entry_point = Property(True)
     xref_equation = Property(
-        Entity.packages.logic_all(lambda p: p.xref_no_overloading)
+        Self.packages.logic_all(
+            lambda p: Entity.child_unit_xref_equation(p)
+        )
     )
 
     env_spec = EnvSpec(

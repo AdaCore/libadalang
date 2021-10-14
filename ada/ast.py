@@ -7272,7 +7272,7 @@ class BasicSubpDecl(BasicDecl):
     Base class for subprogram declarations.
     """
 
-    defining_names = Property(Entity.subp_decl_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_decl_spec.name.singleton)
 
     defining_env = Property(Entity.subp_decl_spec.defining_env)
 
@@ -8882,7 +8882,7 @@ class FormalSubpDecl(ClassicSubpDecl):
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_spec.name.singleton)
 
     xref_equation = Property(
         Entity.default_expr.then(lambda e: e.match(
@@ -9129,8 +9129,7 @@ class GenericSubpDecl(GenericDecl):
     subp_decl = Field(type=T.GenericSubpInternal)
     aspects = NullField()
 
-    defining_names = Property(
-        Entity.subp_decl.subp_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_decl.subp_spec.name.singleton)
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def body_part():
@@ -13461,7 +13460,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
     Base class for subprogram specifications.
     """
 
-    name = AbstractProperty(type=T.DefiningName, ignore_warn_on_node=True)
+    name = AbstractProperty(type=T.DefiningName.entity)
     returns = AbstractProperty(
         type=T.TypeExpr.entity, public=True, doc="""
         Syntax property. Return the type expression node corresponding to the
@@ -13517,7 +13516,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ent = Var(If(use_entity_info, Entity, Self.as_bare_entity))
         return And(
             # Check that the names are the same
-            Not(match_name) | ent.name.matches(other.name),
+            Not(match_name) | ent.name.node.matches(other.name.node),
             ent.match_return_type(other),
             ent.match_formal_params(other, match_name),
         )
@@ -13687,7 +13686,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         # The ``name`` field can be null, for example if this subp spec is part
         # of an access-to-subprogram type declaration.
-        bd = Var(Entity.name.as_entity._.basic_decl)
+        bd = Var(Entity.name._.basic_decl)
         return bd._.canonical_part.then(
             lambda dp: If(
                 Not(follow_generic) & dp.is_a(GenericSubpInternal),
@@ -13783,7 +13782,7 @@ class EnumSubpSpec(BaseSubpSpec):
     """
     enum_decl = Property(Self.parent.cast(T.EnumLiteralDecl).as_entity)
 
-    name = Property(Entity.enum_decl.name.node)
+    name = Property(Entity.enum_decl.name)
     returns = Property(Entity.enum_decl.synth_type_expr)
     params = Property(No(T.ParamSpec.entity.array))
 
@@ -13797,7 +13796,7 @@ class SubpSpec(BaseSubpSpec):
     subp_params = Field(type=T.Params)
     subp_returns = Field(type=T.TypeExpr)
 
-    name = Property(Self.subp_name)
+    name = Property(Entity.subp_name)
     params = Property(Entity.subp_params._.params.map(lambda p: p))
 
     returns = Property(Entity.subp_returns)
@@ -13813,7 +13812,7 @@ class EntryDecl(BasicSubpDecl):
 
     subp_decl_spec = Property(Entity.spec)
 
-    defining_names = Property(Entity.spec.name.as_entity.singleton)
+    defining_names = Property(Entity.spec.name.singleton)
 
     @langkit_property(public=True, return_type=T.EntryBody.entity,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -13853,7 +13852,7 @@ class EntrySpec(BaseSubpSpec):
     family_type = Field(type=T.AdaNode)
     entry_params = Field(type=T.Params)
 
-    name = Property(Self.entry_name)
+    name = Property(Entity.entry_name)
     params = Property(
         Entity.entry_params.then(
             lambda p: p.params.map(lambda p: p),
@@ -15324,7 +15323,7 @@ class BaseSubpBody(Body):
     overriding = Field(type=Overriding)
     subp_spec = Field(type=T.SubpSpec)
 
-    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_spec.name.singleton)
 
     @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
     def defining_env():
@@ -16599,7 +16598,7 @@ class SubpBodyStub(BodyStub):
     subp_spec = Field(type=T.SubpSpec)
     aspects = Field(type=T.AspectSpec)
 
-    defining_names = Property(Entity.subp_spec.name.as_entity.singleton)
+    defining_names = Property(Entity.subp_spec.name.singleton)
     # Note that we don't have to override the defining_env property here since
     # what we put in lexical environment is their SubpSpec child.
 

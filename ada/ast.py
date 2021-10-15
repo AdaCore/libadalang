@@ -1222,17 +1222,26 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True)
     def env_get_real_from_node(from_node=T.AdaNode):
         """
-        Static property. Finds the closest BasicSubpDecl /
+        Static property. Finds the closest BasicSubpDecl / BaseSubpBody /
         GenericInstantiation. Is used by env_get and env_get_first wrappers to
-        refine from_node. The reason is that inside a declaration named D,
-        one can refer to previous declarations named D. But an env lookup
-        from a node inside D would return that D itself, not previous
-        declarations.
+        implement correct visibility rules for those. See documentation on
+        those properties.
         """
         return If(from_node.is_null, from_node, Let(
             lambda c=from_node.parents.find(
-                lambda n: n.is_a(T.BasicSubpDecl, T.GenericInstantiation)
-            ): If(c.is_null, from_node, c)
+                lambda n: n.is_a(T.GenericInstantiation, T.BaseSubpSpec)
+            ): Cond(
+                c.is_null,
+                from_node,
+
+                c.is_a(BaseSubpSpec),
+                c.cast(BaseSubpSpec).as_bare_entity.name.then(
+                    lambda name: name.basic_decl.node,
+                    default_val=from_node
+                ),
+
+                c
+            )
         ))
 
     @langkit_property()
@@ -1335,12 +1344,33 @@ class AdaNode(ASTNode):
         categories=(T.RefCategories, all_categories)
     ):
         """
-        Wrapper for ``env.get``. Refine ``from_node`` so that it starts from
-        the closest ``BasicSubpDecl``/``GenericInstantiation``. (see
-        ``AdaNode.env_get_real_from_node``).
+        Wrapper for ``env.get``. Refines the results so that Ada visibility
+        rules for subprogram specifications and generic instantiations are
+        correctly handled: names inside the two aforementioned constructs do
+        not have visibility on their enclosing declaration, such that the
+        following is legal:
+
+        .. code:: ada
+
+            type T is null record;
+            procedure T (X : T) is null;
+
+        Here, calling ``env_get("T")`` in the subp spec of subprogram ``T``
+        must not return the subprogram ``T`` itself, because according to Ada
+        the subprogram is not yet visible.
         """
-        return env.get(symbol, lookup, Self.env_get_real_from_node(from_node),
-                       categories)
+        results = Var(env.get(symbol, lookup, from_node, categories))
+        return Self.env_get_real_from_node(from_node).cast(BasicDecl).then(
+            lambda bd: If(
+                # If ``symbol`` corresponds to the name of the enclosing
+                # subprogram or instantiation, then filter it out, as we should
+                # not have visibility on it yet.
+                bd.as_bare_entity.defining_name.name_is(symbol),
+                results.filter(lambda r: r.node != bd),
+                results
+            ),
+            default_val=results
+        )
 
     @langkit_property()
     def env_get_first(
@@ -1351,13 +1381,10 @@ class AdaNode(ASTNode):
         categories=(T.RefCategories, all_categories)
     ):
         """
-        Wrapper for ``env.get_first``. Refine ``from_node`` so that it starts
-        from the closest ``BasicSubpDecl``/``GenericInstantiation``. (see
-        ``AdaNode.env_get_real_from_node``).
+        Wrapper for ``env.get_first``. Implements the same internal logic as
+        ``env_get`` but returns the first result only.
         """
-        return env.get_first(symbol, lookup,
-                             Self.env_get_real_from_node(from_node),
-                             categories)
+        return Self.env_get(env, symbol, lookup, from_node, categories).at(0)
 
 
 class DocAnnotation(Struct):

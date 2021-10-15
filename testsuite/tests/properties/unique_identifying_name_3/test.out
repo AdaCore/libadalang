@@ -1,0 +1,4 @@
+Eval 'node.p_unique_identifying_name' on node <SubpDecl ["A"] test.ads:5:7-5:27>
+Result: 'test.pkg.a(test.a)'
+
+

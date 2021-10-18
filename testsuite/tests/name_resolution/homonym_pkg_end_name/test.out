@@ -1,0 +1,50 @@
+Analyzing pkg-foo-pkg.adb
+#########################
+
+Resolving xrefs for node <DefiningName pkg-foo-pkg.adb:1:14-1:25>
+*****************************************************************
+
+Resolution failed for node <DefiningName pkg-foo-pkg.adb:1:14-1:25>
+
+Resolving xrefs for node <SubpSpec pkg-foo-pkg.adb:2:4-2:18>
+************************************************************
+
+
+Resolving xrefs for node <NullStmt pkg-foo-pkg.adb:4:7-4:12>
+************************************************************
+
+
+Resolving xrefs for node <EndName pkg-foo-pkg.adb:5:8-5:12>
+***********************************************************
+
+Expr: <EndName pkg-foo-pkg.adb:5:8-5:12>
+  references: <DefiningName pkg-foo-pkg.adb:2:14-2:18>
+  type:       None
+Expr: <Id "Main" pkg-foo-pkg.adb:5:8-5:12>
+  references: <DefiningName pkg-foo-pkg.adb:2:14-2:18>
+  type:       None
+
+Resolving xrefs for node <EndName pkg-foo-pkg.adb:6:5-6:16>
+***********************************************************
+
+Expr: <EndName pkg-foo-pkg.adb:6:5-6:16>
+  references: <DefiningName pkg-foo-pkg.adb:1:14-1:25>
+  type:       None
+Expr: <DottedName pkg-foo-pkg.adb:6:5-6:16>
+  references: <DefiningName pkg-foo-pkg.adb:1:14-1:25>
+  type:       None
+Expr: <DottedName pkg-foo-pkg.adb:6:5-6:12>
+  references: <DefiningName pkg-foo.ads:1:9-1:16>
+  type:       None
+Expr: <Id "Pkg" pkg-foo-pkg.adb:6:5-6:8>
+  references: <DefiningName pkg.ads:1:9-1:12>
+  type:       None
+Expr: <Id "Foo" pkg-foo-pkg.adb:6:9-6:12>
+  references: <DefiningName pkg-foo.ads:1:9-1:16>
+  type:       None
+Expr: <Id "Pkg" pkg-foo-pkg.adb:6:13-6:16>
+  references: <DefiningName pkg-foo-pkg.adb:1:14-1:25>
+  type:       None
+
+
+Done.

@@ -12886,18 +12886,15 @@ class EndName(Name):
         return Entity.parent.cast(T.AcceptStmtWithStmts).then(
             lambda stmt: Bind(Self.ref_var, stmt.designated_entry),
             default_val=Bind(Self.ref_var, Entity.basic_decl)
-        ) & env.bind(
-            # The end name of a package/subprogram X does not have visibility
-            # on the names introduced inside X, so construct the xref equations
-            # using the parent env of X: this avoids wrongly binding references
-            # appearing in the end name to entities declared inside X.
-            Entity.parent.node_env,
-            Entity.name.cast(T.DottedName).then(
-                # Also resolve the prefix of the dotted name, in case this
-                # subprogram is a child unit.
-                lambda dn: dn.prefix.xref_equation,
-                default_val=LogicTrue()
-            )
+        ) & Entity.name.cast(T.DottedName).then(
+            # Also resolve the prefix of the dotted name, in case this
+            # subprogram/package is a child unit: the fully qualified name must
+            # be resolved as seen from the standard package.
+            lambda dn: env.bind(
+                Entity.std_env,
+                dn.prefix.xref_no_overloading
+            ),
+            default_val=LogicTrue()
         )
 
     xref_entry_point = Property(True)

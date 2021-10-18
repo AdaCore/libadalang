@@ -1363,7 +1363,7 @@ class AdaNode(ASTNode):
                 # If ``symbol`` corresponds to the name of the enclosing
                 # subprogram or instantiation, then filter it out, as we should
                 # not have visibility on it yet.
-                bd.as_bare_entity.defining_name.name_is(symbol),
+                bd.as_bare_entity.defining_name._.name_is(symbol),
                 results.filter(lambda r: r.node != bd),
                 results
             ),

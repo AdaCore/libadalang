@@ -15,8 +15,8 @@ parser.add_argument('files', help='The files to analyze',
 
 
 def location(node):
-    return (node.token_start._sloc_range.start.line,
-            node.token_start._sloc_range.start.column)
+    return (node.token_start.sloc_range.start.line,
+            node.token_start.sloc_range.start.column)
 
 
 # Without semantic information, we cannot consider enumeration literals yet

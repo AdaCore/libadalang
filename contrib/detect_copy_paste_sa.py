@@ -143,11 +143,11 @@ class Code(object):
 
     @property
     def line(self):
-        return self.node.token_start._sloc_range.start.line
+        return self.node.token_start.sloc_range.start.line
 
     @property
     def end_line(self):
-        return self.node.token_end._sloc_range.end.line
+        return self.node.token_end.sloc_range.end.line
 
 
 class Encoder(object):

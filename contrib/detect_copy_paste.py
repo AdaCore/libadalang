@@ -54,21 +54,21 @@ small_subp_body_limit = 10
 
 
 def location(node):
-    return (node.token_start._sloc_range.start.line,
-            node.token_start._sloc_range.start.column)
+    return (node.token_start.sloc_range.start.line,
+            node.token_start.sloc_range.start.column)
 
 
 def line_range(node):
-    return (node.token_start._sloc_range.start.line,
-            node.token_end._sloc_range.end.line)
+    return (node.token_start.sloc_range.start.line,
+            node.token_end.sloc_range.end.line)
 
 
 def start_line(node):
-    return node.token_start._sloc_range.start.line
+    return node.token_start.sloc_range.start.line
 
 
 def end_line(node):
-    return node.token_end._sloc_range.end.line
+    return node.token_end.sloc_range.end.line
 
 
 def collect_local_names(locnames, node):

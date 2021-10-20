@@ -126,8 +126,8 @@ def list_blocks(node):
 
 
 def location(node):
-    return (node.token_start._sloc_range.start.line,
-            node.token_start._sloc_range.start.column)
+    return (node.token_start.sloc_range.start.line,
+            node.token_start.sloc_range.start.column)
 
 
 def has_same_blocks(node):

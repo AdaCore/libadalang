@@ -20,6 +20,10 @@ LIBRARY_KIND = 'static' if LAL_DISABLE_SHARED else 'relocatable'
 GPR_ARGS = [
     '-XLIBRARY_TYPE={}'.format(LIBRARY_KIND),
     '-XXMLADA_BUILD={}'.format(LIBRARY_KIND),
+
+    # Make sure GPRbuild does not try to rebuild Libadalang, as this will break
+    # other tests running in parallel.
+    '-XLIBADALANG_EXTERNALLY_BUILT=true',
 ]
 
 

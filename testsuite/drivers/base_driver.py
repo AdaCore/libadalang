@@ -191,7 +191,11 @@ class BaseDriver(DiffTestDriver):
         library_type = 'static' if self.disable_shared else 'relocatable'
         return ['-XLIBRARY_TYPE={}'.format(library_type),
                 '-XXMLADA_BUILD={}'.format(library_type),
-                '-XBUILD_MODE={}'.format(self.build_mode)]
+                '-XBUILD_MODE={}'.format(self.build_mode),
+
+                # Make sure GPRbuild does not try to rebuild Libadalang, as
+                # this will break other tests running in parallel.
+                '-XLIBADALANG_EXTERNALLY_BUILT=true']
 
     def read_file(self, filename):
         """

@@ -15,11 +15,8 @@ export DYLD_LIBRARY_PATH=/usr/local/lib
 export PATH=`ls -d $PWD/cached_gnat/*/bin |tr '\n' ':'`$PATH
 echo PATH=$PATH
 
-if [ $RUNNER_OS = Linux ]; then
-   LIBRARY_TYPES="relocatable,static"
-else
-   LIBRARY_TYPES="static"
-fi
+LIBRARY_TYPES="static"
+
 pip install -r langkit/REQUIREMENTS.dev
 pip install jsonschema
 pip install langkit/
@@ -38,6 +35,8 @@ python gnatcoll-bindings/iconv/setup.py install
 python gnatcoll-bindings/gmp/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=$LIBRARY_TYPES
 python gnatcoll-bindings/gmp/setup.py install
 
+# Disable SAL for langkit library
+sed -i -e '/for Library_Interface use/,/;/d' langkit/support/langkit_support.gpr
 eval `langkit/manage.py setenv`
 langkit/manage.py build-langkit-support --library-types $LIBRARY_TYPES
 langkit/manage.py install-langkit-support $prefix --library-types $LIBRARY_TYPES
@@ -46,17 +45,9 @@ BUILD=${DEBUG:+dev}  # Convert debug to dev
 
 # Build libadalang static library
 ./manage.py generate
+# Disable SAL for libadalang library
+sed -i -e '/for Interfaces use/,/;/d' ./build/libadalang.gpr
 ./manage.py build --library-types=static --build-mode ${BUILD:-prod}
 ./manage.py install --library-types=static --build-mode ${BUILD:-prod} $prefix
 gprinstall --uninstall --prefix=$prefix mains.gpr
 tar czf libadalang-$RUNNER_OS-`basename $GITHUB_REF`${DEBUG:+-dbg}-static.tar.gz -C $prefix .
-
-# Build libadalang relocatable library
-if [ "$LIBRARY_TYPES" != static ]; then
-  gprinstall --uninstall --prefix=$prefix libadalang.gpr
-  rm -rf build
-  ./manage.py generate
-  ./manage.py build --library-types=relocatable --build-mode ${BUILD:-prod}
-  ./manage.py install --library-types=relocatable --build-mode ${BUILD:-prod} $prefix
-  tar czf libadalang-$RUNNER_OS-`basename $GITHUB_REF`${DEBUG:+-dbg}.tar.gz -C $prefix .
-fi

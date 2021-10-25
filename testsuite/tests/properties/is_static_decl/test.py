@@ -8,7 +8,7 @@ for filename in sys.argv[1:]:
     u = lal.AnalysisContext().get_from_file(filename)
     assert not u.diagnostics
 
-    for n in u.root.findall(lal.TypeDecl):
+    for n in u.root.findall(lal.BaseTypeDecl):
         if n.p_is_static_decl():
             print('{} is a static decl'.format(n))
         else:

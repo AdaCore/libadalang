@@ -1,0 +1,22 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpSpec test.adb:4:4-4:31>
+*****************************************************
+
+
+Resolving xrefs for node <ParamSpec ["T"] test.adb:4:19-4:30>
+*************************************************************
+
+Expr: <AttributeRef test.adb:4:23-4:30>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       None
+Expr: <Id "T" test.adb:4:23-4:24>
+  references: <DefiningName test.adb:2:9-2:10>
+  type:       None
+Expr: <Id "Class" test.adb:4:25-4:30>
+  references: None
+  type:       None
+
+
+Done.

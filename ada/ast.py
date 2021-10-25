@@ -6228,7 +6228,10 @@ class DigitsConstraint(Constraint):
     range = Field(type=T.RangeSpec)
 
     xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.sub_equation
+        Entity.digits.sub_equation & Entity.range.then(
+            lambda range: range.sub_equation,
+            default_val=LogicTrue()
+        )
     )
 
 
@@ -6240,7 +6243,10 @@ class DeltaConstraint(Constraint):
     range = Field(type=T.RangeSpec)
 
     xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.sub_equation
+        Entity.digits.sub_equation & Entity.range.then(
+            lambda range: range.sub_equation,
+            default_val=LogicTrue()
+        )
     )
 
 

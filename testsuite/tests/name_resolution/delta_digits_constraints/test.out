@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubtypeDecl ["Fixed_ST"] test.adb:5:4-5:42>
+*********************************************************************
+
+Expr: <Id "Fixed_T" test.adb:5:24-5:31>
+  references: <DefiningName test.adb:2:9-2:16>
+  type:       None
+Expr: <Real test.adb:5:38-5:41>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+
+Resolving xrefs for node <SubtypeDecl ["Float_ST"] test.adb:7:4-7:41>
+*********************************************************************
+
+Expr: <Id "Float_T" test.adb:7:24-7:31>
+  references: <DefiningName test.adb:3:9-3:16>
+  type:       None
+Expr: <Int test.adb:7:39-7:40>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+
+
+Done.

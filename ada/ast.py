@@ -6195,8 +6195,14 @@ class Constraint(AdaNode):
             lambda dc=DiscriminantConstraint: dc.constraints.all(
                 lambda c: c.expr.is_static_expr
             ),
-            # TODO: Handle constraints for floating point types
-            lambda _: False
+            lambda dc=DigitsConstraint: dc.range.then(
+                lambda range: range.range.is_static_expr,
+                default_val=True
+            ),
+            lambda dc=DeltaConstraint: dc.range.then(
+                lambda range: range.range.is_static_expr,
+                default_val=True
+            )
         )
 
 

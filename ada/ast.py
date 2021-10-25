@@ -1233,10 +1233,7 @@ class AdaNode(ASTNode):
                 from_node,
 
                 c.is_a(BaseSubpSpec),
-                c.cast(BaseSubpSpec).as_bare_entity.name.then(
-                    lambda name: name.basic_decl.node,
-                    default_val=from_node
-                ),
+                c.cast(BaseSubpSpec).as_bare_entity.name.node,
 
                 c
             )
@@ -1357,17 +1354,24 @@ class AdaNode(ASTNode):
         must not return the subprogram ``T`` itself, because according to Ada
         the subprogram is not yet visible.
         """
-        results = Var(env.get(symbol, lookup, from_node, categories))
-        return Self.env_get_real_from_node(from_node).cast(BasicDecl).then(
-            lambda bd: If(
-                # If ``symbol`` corresponds to the name of the enclosing
-                # subprogram or instantiation, then filter it out, as we should
-                # not have visibility on it yet.
-                bd.as_bare_entity.defining_name._.name_is(symbol),
-                results.filter(lambda r: r.node != bd),
-                results
-            ),
-            default_val=results
+        real_from_node = Var(Self.env_get_real_from_node(from_node))
+        results = Var(env.get(symbol, lookup, real_from_node, categories))
+
+        # Fetch the BasicDecl corresponding to ``real_from_node``, so that
+        # we can filter it out from ``results``.
+        enclosing_bd = Var(real_from_node.cast(BasicDecl)._or(
+            real_from_node.cast(DefiningName).then(
+                lambda name: name.parent.parent.cast(BasicDecl)
+            )
+        ))
+
+        return If(
+            # If ``symbol`` corresponds to the name of the enclosing
+            # subprogram or instantiation, then filter it out, as we
+            # should not have visibility on it yet.
+            enclosing_bd.as_bare_entity._.defining_name._.name_is(symbol),
+            results.filter(lambda r: r.node != enclosing_bd),
+            results
         )
 
     @langkit_property()

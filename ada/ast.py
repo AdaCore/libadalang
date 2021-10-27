@@ -16489,6 +16489,8 @@ class TaskBody(Body):
 
     defining_names = Property(Entity.name.singleton)
 
+    declarative_parts = Property(Entity.decls.singleton)
+
     env_spec = EnvSpec(
         do(Self.env_hook),
 

@@ -1,0 +1,7 @@
+Eval 'node.p_next_part' on node <IncompleteTypeDecl ["Rec"] test.adb:7:7-7:16>
+Result: <TypeDecl ["Rec"] test.adb:10:7-12:18>
+
+Eval 'node.p_previous_part()' on node <TypeDecl ["Rec"] test.adb:10:7-12:18>
+Result: <IncompleteTypeDecl ["Rec"] test.adb:7:7-7:16>
+
+

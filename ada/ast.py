@@ -11193,6 +11193,8 @@ class Name(Expr):
             # handle 'Access case
             lambda a=T.AttributeRef: (a.prefix == Entity) & a.is_access_attr,
 
+            lambda l=T.AlternativesList: l.parent.is_a(AggregateAssoc),
+
             lambda _: False
         )
 

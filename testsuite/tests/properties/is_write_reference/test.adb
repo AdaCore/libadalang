@@ -35,4 +35,5 @@ begin
    R.Foo;
    R.Bar (Y);
    Pkg.Foo (R);
+   V := (A => X);
 end Main;

@@ -1,0 +1,7 @@
+type: bugfix
+title: Consider aggregate designators write references
+description: |
+    We now consider that names in designators of aggregate associations
+    are write references, so ``P_Is_Write_Reference`` on such a name will
+    now return True.
+date: 2021-11-05

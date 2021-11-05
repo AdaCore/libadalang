@@ -16,11 +16,21 @@ for call in u.root.findall(lal.CallStmt):
     called_body = called_decl.p_body_part()
     a = called_body.find(lal.AssignStmt)
     print("In instantiation of {}:".format(a.p_generic_instantiations[0]))
-    print("  - X.p_eval_as_int() => {}".format(
-        format_object_decl(a.f_dest.p_referenced_decl())
+
+    dest_decl = a.f_dest.p_referenced_decl()
+    print("  - X.p_referenced_decl() => {}".format(
+        format_object_decl(dest_decl)
     ))
-    print("  - Y.p_eval_as_int() => {}".format(
-        format_object_decl(a.f_expr.p_referenced_decl())
+    print("    - p_get_formal() => {}".format(
+        dest_decl.p_get_formal(())
+    ))
+
+    expr_decl = a.f_expr.p_referenced_decl()
+    print("  - Y.p_referenced_decl() => {}".format(
+        format_object_decl(expr_decl)
+    ))
+    print("    - p_get_formal() => {}".format(
+        expr_decl.p_get_formal()
     ))
     print("")
 

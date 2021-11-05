@@ -21,6 +21,10 @@ package Test is
                  and then Test.Pack.G_count'Old > 0
                  and then Y'Old > Y
                  and then Pr1'Result = Bar (Y));
+   pragma Precondition
+     (X.F (30) = False);
+   pragma Postcondition
+     (X.F (30)'Old = X.F (20) and then Pr1'Result = Bar (Y));
 
    function Bar (X : Integer) return Integer is (X);
 end Test;

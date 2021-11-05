@@ -173,7 +173,8 @@ class AdaNode(ASTNode):
     def is_contract_aspect(name=Symbol):
         return name.any_of(
             "Pre", "Pre'Class", "Post", "Post'Class", "Refined_Post",
-            "Invariant", "Invariant'Class",
+            "Precondition", "Postcondition", "Precondition'Class",
+            "Postcondition'Class", "Invariant", "Invariant'Class",
             "Type_Invariant", "Type_Invariant'Class",
             "Predicate", "Static_Predicate", "Dynamic_Predicate",
             "Default_Initial_Condition",
@@ -7614,7 +7615,9 @@ class Pragma(AdaNode):
             # equation as if we were inside the subprogram, using the "env"
             # bind below.
             Entity.id.name_symbol.any_of(
-                "Pre", "Post", "Pre'Class", "Post'Class"
+                "Pre", "Post", "Pre'Class", "Post'Class",
+                "Precondition", "Postcondition",
+                "Precondition'Class", "Postcondition'Class"
             ),
             env.bind(
                 Entity.associated_decls.at(0).children_env,

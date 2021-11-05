@@ -8185,23 +8185,25 @@ class AnonymousExprDecl(BasicDecl):
     defining_names = Property(No(T.DefiningName.entity.array))
     defining_env = Property(Entity.type_expression.defining_env)
 
-    @langkit_property(return_type=T.TypeExpr.entity, memoized=True)
-    def type_expression_internal():
+    @langkit_property(return_type=T.DefiningName.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()],
+                      memoized=True)
+    def get_formal():
         """
-        Internal memoized property that actually retrieves the type expression.
-        This is done in a memoized property because it involves non-trivial
-        computation.
+        Return the generic formal object declaration corresponding to this
+        actual.
         """
         assoc = Var(Entity.expr.parent.cast(BasicAssoc))
-        formal = Var(imprecise_fallback.bind(
-            False,
-            assoc.get_params.at(0).basic_decl
-        ))
-        return formal.type_expression
+        return assoc.get_params.at(0)
 
     @langkit_property()
     def type_expression():
-        return Entity.type_expression_internal
+        """
+        Internal property that actually retrieves the type expression. Since
+        this property requires non-trivial computation and is used during
+        name resolution, it's important for the ``get_formal`` to be memoized.
+        """
+        return Entity.get_formal.basic_decl.type_expression
 
     @langkit_property(public=True, return_type=Bool)
     def is_static_decl():

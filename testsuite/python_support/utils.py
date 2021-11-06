@@ -7,6 +7,7 @@ import subprocess
 
 LAL_ROOTDIR = os.path.abspath(os.environ['LIBADALANG_ROOTDIR'])
 LAL_DISABLE_SHARED = bool(int(os.environ['LIBADALANG_DISABLE_SHARED']))
+LAL_BUILD_MODE = os.environ['LIBADALANG_BUILD_MODE'] or "dev"
 
 DIRECTORY_MISSING_RE = re.compile(
     r'.*\.gpr:\d+:\d+: warning:'
@@ -20,6 +21,7 @@ LIBRARY_KIND = 'static' if LAL_DISABLE_SHARED else 'relocatable'
 GPR_ARGS = [
     '-XLIBRARY_TYPE={}'.format(LIBRARY_KIND),
     '-XXMLADA_BUILD={}'.format(LIBRARY_KIND),
+    '-XBUILD_MODE={}'.format(LAL_BUILD_MODE),
 
     # Make sure GPRbuild does not try to rebuild Libadalang, as this will break
     # other tests running in parallel.

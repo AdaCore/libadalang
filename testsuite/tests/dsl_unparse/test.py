@@ -37,6 +37,8 @@ except StopIteration:
         unparse_dest
     ))
 
+LAL_BUILD_MODE = os.environ['LIBADALANG_BUILD_MODE'] or "dev"
+
 sys.stdout.flush()
 subprocess.check_call(
     [
@@ -47,7 +49,7 @@ subprocess.check_call(
             'lkt',
             'build',
             'obj-mains',
-            'dev',
+            LAL_BUILD_MODE,
             'lkt_parse',
         ),
         '-s',

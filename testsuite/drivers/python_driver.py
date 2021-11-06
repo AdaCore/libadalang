@@ -82,7 +82,8 @@ class PythonRunner(object):
                 ),
                 'LIBADALANG_DISABLE_SHARED': str(
                     int(self.driver.disable_shared)
-                )
+                ),
+                'LIBADALANG_BUILD_MODE': self.driver.build_mode,
             }
         )
 

@@ -80,9 +80,10 @@ Ada with the `libadalang.gpr` project file, or in Python just import the
 Testing
 -------
 
-First, make sure you have the `build/bin` directory in your PATH so the
-test cases can access the `parse` program. Then, in the top-level directory,
-run:
+Unlike the build of Libadalang itself, the testsuite framework requires Python
+3.8 or later versions. Make sure you have the `build/bin` directory in your
+PATH so the test cases can access the `parse` program. Then, in the top-level
+directory, run:
 
     $ python testsuite/testsuite.py
 
@@ -99,6 +100,12 @@ pass other arguments to `testsuite.py`. For instance, if you want to run under
 a debugger only the `factor_0` test case, execute:
 
     $ python manage.py test -- -g testsuite/tests/parser/factor_0
+
+Note that it is possible to run tests that check the Libadalang Python bindings
+using a different Python interpreter. For instance, to check them against
+Python 3.7, run:
+
+    $ python manage.py test --with-python=python3.7
 
 Documentation
 -------------

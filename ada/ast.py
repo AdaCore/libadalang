@@ -3764,15 +3764,11 @@ class BaseFormalParamHolder(AdaNode):
             Entity.info.from_rebound
         ).cast(BaseTypeDecl))
 
-        # Compute the canonical types and discard the metadata fields for a
-        # more robust comparison.
-        canon_prim_type = Var(prim_type._.canonical_type._.without_md)
-
-        canon_typ = Var(typ.then(lambda t: t.canonical_type.without_md))
-
         return Cond(
-            canon_prim_type.node == canon_typ.node,
+            prim_type.node.is_null,
+            typ,
 
+            prim_type._.canonical_type.node == typ._.canonical_type.node,
             Entity.entity_no_md(
                 Entity.info.md.primitive_real_type._or(typ.node),
                 Entity.info.rebindings,
@@ -3865,13 +3861,13 @@ class BaseFormalParamHolder(AdaNode):
             )
         )
 
-        return typ.designated_type.then(
+        return typ.designated_type._.without_md.cast(BaseTypeDecl).then(
             lambda t: Let(
                 lambda rt=Entity.real_type(t):
                 If(
                     t == rt,
                     If(
-                        Entity.info.md.primitive_real_type.is_null,
+                        base_rebindings.is_null,
                         t,
                         TypeExpr.entity.new(
                             node=typ.node,

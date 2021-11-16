@@ -1,0 +1,10 @@
+type: new-feature
+title: Synthesize predefined operators
+description: |
+    This work introduces synthesized operators in Libadalang's lexical
+    scopes, so as to make them available for its name resolution mechanism.
+    This enables resolution of direct references to operators (e.g.
+    ``Standard."+"``) used in generic instantiations, subprogram renamings,
+    etc. However, these are not used for resolution of arbitrary binary or
+    unary operations yet.
+date: 2021-11-17

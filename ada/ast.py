@@ -761,12 +761,12 @@ class AdaNode(ASTNode):
     )
 
     bool_type = Property(
-        Self.std_entity('Boolean'), public=True, doc="""
+        Self.std_entity('Boolean').cast(T.BaseTypeDecl), public=True, doc="""
         Static method. Return the standard Boolean type.
         """
     )
     int_type = Property(
-        Self.std_entity('Integer'), public=True, doc="""
+        Self.std_entity('Integer').cast(T.BaseTypeDecl), public=True, doc="""
         Static method. Return the standard Integer type.
         """
     )
@@ -780,6 +780,48 @@ class AdaNode(ASTNode):
         Static method. Return the standard Universal Real type.
         """
     )
+
+    std_root_types = Property(
+        Self.std_entity('root_types_').cast(T.PackageDecl)._.children_env,
+        doc="""
+        Static method. Return the package containing the definitions of the
+        root types.
+        """
+    )
+    root_int_type = Property(
+        Self.std_root_types.get_first(
+            'root_integer', categories=no_prims, lookup=LK.minimal
+        ).cast(T.BaseTypeDecl),
+        doc="Static method. Return the root_integer type."
+    )
+    root_real_type = Property(
+        Self.std_root_types.get_first(
+            'root_real', categories=no_prims, lookup=LK.minimal
+        ).cast(T.BaseTypeDecl),
+        doc="Static method. Return the root_real type."
+    )
+
+    @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True,
+                      memoize_in_populate=True)
+    def root_type_ops_impl(sym=T.Symbol):
+        """
+        See `root_type_ops`.
+        """
+        return Self.std_root_types.get(
+            sym, lookup=LK.minimal, categories=no_prims
+        ).filtermap(
+            lambda n: n.cast(BasicDecl),
+            lambda n: n.cast_or_raise(BasicDecl).is_subprogram
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def root_type_ops(sym=T.Symbol):
+        """
+        Lookup the given symbol in the builtin `root_types` package. This is
+        used for fast-access to predefined operator on root types.
+        """
+        # Typical strategy for memoizing "static" functions
+        return Self.unit.root.root_type_ops_impl(sym)
 
     exc_id_type = Property(
         Self
@@ -1389,6 +1431,79 @@ class AdaNode(ASTNode):
         ``env_get`` but returns the first result only.
         """
         return Self.env_get(env, symbol, lookup, from_node, categories).at(0)
+
+    @langkit_property(return_type=T.DefiningName, memoized=True,
+                      ignore_warn_on_node=True)
+    def synthesize_defining_name(sym=T.Symbol):
+        """
+        Synthesizes a defining name and its inner identifier using the given
+        symbol.
+        """
+        return SyntheticDefiningName.new(
+            name=SyntheticIdentifier.new(
+                sym=sym,
+                logic_vars=No(T.Address)
+            ),
+            logic_vars=No(T.Address)
+        )
+
+    @langkit_property(return_type=T.env_assoc, memoized=True)
+    def create_unop_assoc(op=T.Symbol, rhs=T.BaseTypeDecl, ret=T.BaseTypeDecl):
+        """
+        Synthesizes a subprogram declaration named after the given symbol,
+        with a "Right" parameter having the ``rhs`` type, and the given
+        return type.
+        """
+        rhs_type_expr = Var(SyntheticTypeExpr.new(target_type=rhs))
+        ret_type_expr = Var(SyntheticTypeExpr.new(target_type=ret))
+
+        right_param = Var(SyntheticFormalParamDecl.new(
+            param_name='right',
+            param_type=rhs_type_expr
+        ))
+
+        spec = Var(PredefinedUnOpSpec.new(
+            op_symbol=op,
+            right_param=right_param,
+            return_type_expr=ret_type_expr
+        ))
+
+        subp = Var(SyntheticSubpDecl.new(spec=spec))
+
+        return new_env_assoc(key=op, value=subp)
+
+    @langkit_property(return_type=T.env_assoc, memoized=True)
+    def create_binop_assoc(op=T.Symbol,
+                           lhs=T.BaseTypeDecl, rhs=T.BaseTypeDecl,
+                           ret=T.BaseTypeDecl):
+        """
+        Synthesizes a subprogram declaration named after the given symbol,
+        with a "Left" parameter having the ``lhs`` type, a "Right" parameter
+        having the ``rhs`` type, and the given return type.
+        """
+        lhs_type_expr = Var(SyntheticTypeExpr.new(target_type=lhs))
+        rhs_type_expr = Var(SyntheticTypeExpr.new(target_type=rhs))
+        ret_type_expr = Var(SyntheticTypeExpr.new(target_type=ret))
+
+        left_param = Var(SyntheticFormalParamDecl.new(
+            param_name='left',
+            param_type=lhs_type_expr
+        ))
+        right_param = Var(SyntheticFormalParamDecl.new(
+            param_name='right',
+            param_type=rhs_type_expr
+        ))
+
+        spec = Var(PredefinedBinOpSpec.new(
+            op_symbol=op,
+            left_param=left_param,
+            right_param=right_param,
+            return_type_expr=ret_type_expr
+        ))
+
+        subp = Var(SyntheticSubpDecl.new(spec=spec))
+
+        return new_env_assoc(key=op, value=subp)
 
 
 class DocAnnotation(Struct):
@@ -3893,6 +4008,26 @@ class TypeDef(AdaNode):
         dynamic_vars=[origin]
     )
 
+    @langkit_property(return_type=T.env_assoc.array)
+    def predefined_operators():
+        """
+        Return the list of predefined operators for this type definition.
+        See TypeDecl.predefined_operators.
+
+        This property is overridden by the various TypeDef concrete classes to
+        implement type-specific logic.
+        """
+        return No(T.env_assoc.array)
+
+    @langkit_property(return_type=T.env_assoc.array)
+    def predefined_equality_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+        return [
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type)
+        ]
+
     @langkit_property(dynamic_vars=[origin])
     def is_discrete_type():
         return Entity.base_type.then(
@@ -4426,6 +4561,14 @@ class RecordTypeDef(TypeDef):
 
     xref_equation = Property(LogicTrue())
 
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        return If(
+            Self.has_limited.as_bool,
+            No(T.env_assoc.array),
+            Self.predefined_equality_operators
+        )
+
 
 @abstract
 class RealTypeDef(TypeDef):
@@ -4435,6 +4578,53 @@ class RealTypeDef(TypeDef):
     xref_equation = Property(LogicTrue())
 
     is_static = Property(True)
+
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+        int_type = Var(Self.int_type.node)
+        root_int_type = Var(Self.root_int_type.node)
+
+        defaults = Var([
+            Self.create_binop_assoc('"+"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"-"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"*"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"/"', self_type, self_type, self_type),
+            Self.create_binop_assoc('".."', self_type, self_type, self_type),
+
+            Self.create_binop_assoc('"**"', self_type, int_type, self_type),
+
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+
+            Self.create_unop_assoc('"+"', self_type, self_type),
+            Self.create_unop_assoc('"-"', self_type, self_type),
+            Self.create_unop_assoc('"abs"', self_type, self_type),
+        ])
+
+        # The root_real type also defines the three following operators
+        specials = Var(If(
+            self_type == Self.root_real_type.node,
+            [
+                Self.create_binop_assoc(
+                    '"*"', root_int_type, self_type, self_type
+                ),
+                Self.create_binop_assoc(
+                    '"*"', self_type, root_int_type, self_type
+                ),
+                Self.create_binop_assoc(
+                    '"/"', self_type, root_int_type, self_type
+                ),
+            ],
+            No(T.env_assoc.array)
+        ))
+
+        return defaults.concat(specials)
 
 
 class EvalDiscreteRange(Struct):
@@ -4819,6 +5009,10 @@ class BaseTypeDecl(BasicDecl):
         Whether type is a discrete type or not.
         """
         return Entity.is_int_type | Entity.is_enum_type | Entity.is_char_type
+
+    @langkit_property(return_type=Bool)
+    def is_not_root_int_type():
+        return Entity != Self.root_int_type
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
     def is_int_type():
@@ -5744,7 +5938,17 @@ class TypeDecl(BaseTypeDecl):
                 ))
             )
         ))
-        return enum_lits.concat(prim_subps)
+
+        # Also add this types' predefined operators to the list of primitives
+        predefined_ops = Var(Self.predefined_operators.map(
+            lambda assoc: T.inner_env_assoc.new(
+                key=assoc.key,
+                value=assoc.value,
+                metadata=T.Metadata.new(primitive=Self)
+            )
+        ))
+
+        return enum_lits.concat(prim_subps).concat(predefined_ops)
 
     array_ndims = Property(Entity.type_def.array_ndims)
 
@@ -5825,8 +6029,25 @@ class TypeDecl(BaseTypeDecl):
             self_env,
         )
 
+    @langkit_property(return_type=T.env_assoc.array, memoized=True)
+    def predefined_operators():
+        """
+        Return all the predefined operators for this type, as an array
+        of env associations ready to be added to a lexical environment.
+
+        Note that the universal int and universal real types are not real
+        type declarations and do not have their own operators (RM 3.4.1 - 7).
+        """
+        return If(
+            Self.any_of(Self.universal_int_type.node,
+                        Self.universal_real_type.node),
+            No(T.env_assoc.array),
+            Self.type_def.predefined_operators
+        )
+
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
+        add_to_env(Self.predefined_operators),
         add_env(),
         handle_children(),
         reference(
@@ -5901,7 +6122,7 @@ class TypeDecl(BaseTypeDecl):
         # later.
         return origin.bind(Self, Entity.base_types.mapcat(lambda t: t.match(
             lambda td=T.TypeDecl: td,
-            lambda std=T.SubtypeDecl: origin.bind(
+            lambda std=T.BaseSubtypeDecl: origin.bind(
                 std.node.origin_node, std.get_type.cast(T.TypeDecl)
             ),
             lambda _: No(T.TypeDecl.entity),
@@ -6145,6 +6366,32 @@ class EnumTypeDef(TypeDef):
 
     is_static = Property(True)
 
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+
+        defaults = Var([
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+        ])
+
+        # The boolean type has four additional builtin operations
+        specials = Var(If(
+            self_type == bool_type,
+            [Self.create_binop_assoc('"and"', self_type, self_type, self_type),
+             Self.create_binop_assoc('"or"', self_type, self_type, self_type),
+             Self.create_binop_assoc('"xor"', self_type, self_type, self_type),
+             Self.create_unop_assoc('"not"', self_type, self_type)],
+            No(T.env_assoc.array)
+        ))
+
+        return defaults.concat(specials)
+
 
 class FloatingPointDef(RealTypeDef):
     """
@@ -6164,6 +6411,36 @@ class OrdinaryFixedPointDef(RealTypeDef):
 
     is_fixed_point = Property(True)
 
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+        int_type = Var(Self.int_type.node)
+
+        return [
+            Self.create_binop_assoc('"+"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"-"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"*"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"/"', self_type, self_type, self_type),
+            Self.create_binop_assoc('".."', self_type, self_type, self_type),
+
+            Self.create_binop_assoc('"*"', int_type, self_type, self_type),
+            Self.create_binop_assoc('"*"', self_type, int_type, self_type),
+            Self.create_binop_assoc('"/"', self_type, int_type, self_type),
+            Self.create_binop_assoc('"**"', self_type, int_type, self_type),
+
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+
+            Self.create_unop_assoc('"+"', self_type, self_type),
+            Self.create_unop_assoc('"-"', self_type, self_type),
+            Self.create_unop_assoc('"abs"', self_type, self_type),
+        ]
+
 
 class DecimalFixedPointDef(RealTypeDef):
     """
@@ -6174,6 +6451,36 @@ class DecimalFixedPointDef(RealTypeDef):
     range = Field(type=T.RangeSpec)
 
     is_fixed_point = Property(True)
+
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+        int_type = Var(Self.int_type.node)
+
+        return [
+            Self.create_binop_assoc('"+"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"-"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"*"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"/"', self_type, self_type, self_type),
+            Self.create_binop_assoc('".."', self_type, self_type, self_type),
+
+            Self.create_binop_assoc('"*"', int_type, self_type, self_type),
+            Self.create_binop_assoc('"*"', self_type, int_type, self_type),
+            Self.create_binop_assoc('"/"', self_type, int_type, self_type),
+            Self.create_binop_assoc('"**"', self_type, int_type, self_type),
+
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+
+            Self.create_unop_assoc('"+"', self_type, self_type),
+            Self.create_unop_assoc('"-"', self_type, self_type),
+            Self.create_unop_assoc('"abs"', self_type, self_type),
+        ]
 
 
 @abstract
@@ -6295,7 +6602,7 @@ class IndexConstraint(Constraint):
             # equations, as we have cases (e.g. BinOp) where resolution takes
             # different paths depending on its operands' types (e.g. whether
             # it's a universal type or not).
-            # todo: rework this once expected types are available (T218-019).
+            # TODO: rework this once expected types are available (T218-019).
             c.cast(T.Expr).then(
                 lambda e: Self.type_bind_val(e.type_var, typ.index_type(i)),
                 default_val=LogicTrue()
@@ -6439,6 +6746,14 @@ class PrivateTypeDef(TypeDef):
 
     xref_equation = Property(LogicTrue())
 
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        return If(
+            Self.has_limited.as_bool,
+            Self.predefined_equality_operators,
+            No(T.env_assoc.array)
+        )
+
 
 class SignedIntTypeDef(TypeDef):
     """
@@ -6451,17 +6766,52 @@ class SignedIntTypeDef(TypeDef):
         # We try to bind the range expression's type to the type we're
         # defining. If not possible (for example because it's already of
         # another type), fallback.
-        Or(
-            Self.type_bind_val(Entity.range.range.type_var,
-                               Entity.containing_type),
-            LogicTrue()
-        )
-        & Entity.range.xref_equation
+        Entity.range.xref_equation
     )
 
     @langkit_property()
     def discrete_range():
         return Entity.range.range.discrete_range
+
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+        int_type = Var(Self.int_type.node)
+
+        defaults = Var([
+            Self.create_binop_assoc('"+"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"-"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"*"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"/"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"mod"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"rem"', self_type, self_type, self_type),
+            Self.create_binop_assoc('".."', self_type, self_type, self_type),
+
+            Self.create_binop_assoc('"**"', self_type, int_type, self_type),
+
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+
+            Self.create_unop_assoc('"+"', self_type, self_type),
+            Self.create_unop_assoc('"-"', self_type, self_type),
+            Self.create_unop_assoc('"abs"', self_type, self_type),
+        ])
+
+        # The root_integer type defines a special range returning the Integer
+        # type, which is used e.g. in for loops with anonymous range or
+        # array types with anonymous ranges. See RM 3.6 - 18.
+        specials = Var(If(
+            self_type == Self.root_int_type.node,
+            [Self.create_binop_assoc('".."', self_type, self_type, int_type)],
+            No(T.env_assoc.array)
+        ))
+
+        return defaults.concat(specials)
 
     is_static = Property(Entity.range.range.is_static_expr)
 
@@ -6481,6 +6831,38 @@ class ModIntTypeDef(TypeDef):
     def discrete_range():
         return DiscreteRange.new(low_bound=No(T.Expr.entity),
                                  high_bound=Entity.expr)
+
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+        int_type = Var(Self.int_type.node)
+
+        return [
+            Self.create_binop_assoc('"+"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"-"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"*"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"/"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"mod"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"rem"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"and"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"or"', self_type, self_type, self_type),
+            Self.create_binop_assoc('".."', self_type, self_type, self_type),
+
+            Self.create_binop_assoc('"**"', self_type, int_type, self_type),
+
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+
+            Self.create_unop_assoc('"+"', self_type, self_type),
+            Self.create_unop_assoc('"-"', self_type, self_type),
+            Self.create_unop_assoc('"abs"', self_type, self_type),
+            Self.create_unop_assoc('"not"', self_type, self_type),
+        ]
 
 
 @abstract
@@ -6568,8 +6950,8 @@ class ConstrainedArrayIndices(ArrayIndices):
             index.sub_equation
             & index.cast(T.Expr).then(
                 lambda expr:
-                Self.type_bind_val(expr.type_var, Self.int_type)
-                | Predicate(BaseTypeDecl.is_discrete_type, expr.type_var),
+                Predicate(BaseTypeDecl.is_discrete_type, expr.type_var)
+                & Predicate(BaseTypeDecl.is_not_root_int_type, expr.type_var),
                 default_val=LogicTrue()
             )
         )
@@ -6619,7 +7001,7 @@ class ArrayTypeDef(TypeDef):
     @langkit_property(dynamic_vars=[origin])
     def comp_type():
         """Returns the type stored as a component in the array."""
-        return (Entity.component_type.type_expr.designated_type)
+        return Entity.component_type.type_expr.designated_type
 
     @langkit_property(dynamic_vars=[origin])
     def index_type(dim=Int):
@@ -6633,6 +7015,32 @@ class ArrayTypeDef(TypeDef):
             Entity.indices.sub_equation,
             Entity.component_type.sub_equation
         )
+
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+
+        # Note: here, we define the `and`, `or`, `xor` and `not` operators
+        # for all array types (even if they don't make sense) because we have
+        # no way to know at this stage if the component type is a boolean type
+        # or not (e.g. the component type designates a generic formal).
+        # This does not seem to cause any problem for now in practice, but in
+        # theory it could hide user-defined operators in certain circumstances.
+        # TODO: This could be fixed by filtering out invalid operators when
+        # resolving names, somewhere the Entity info is available.
+        return [
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"and"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"or"', self_type, self_type, self_type),
+            Self.create_binop_assoc('"xor"', self_type, self_type, self_type),
+            Self.create_unop_assoc('"not"', self_type, self_type),
+        ]
 
     is_static = Property(Entity.indices.is_static)
 
@@ -6901,6 +7309,10 @@ class AccessDef(TypeDef):
     has_not_null = Field(type=NotNull)
 
     is_access_type = Property(True)
+
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        return Self.predefined_equality_operators
 
 
 class AccessToSubpDef(AccessDef):
@@ -9623,11 +10035,17 @@ class Expr(AdaNode):
             lambda bo=BinOp:
             bo.left.is_static_expr
             & bo.right.is_static_expr
-            & bo.op.referenced_decl.is_null,
+            & bo.op.referenced_decl.then(
+                lambda decl: decl.is_static_decl,
+                default_val=True
+            ),
 
             lambda uo=UnOp:
             uo.expr.is_static_expr
-            & uo.op.referenced_decl.is_null,
+            & uo.op.referenced_decl.then(
+                lambda decl: decl.is_static_decl,
+                default_val=True
+            ),
 
             lambda i=IfExpr:
             i.cond_expr.is_static_expr & i.then_expr.is_static_expr
@@ -9861,27 +10279,33 @@ class UnOp(Expr):
         return Entity.expr.sub_equation & If(
             Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends'),
             Entity.expr.sub_equation,
+            Or(Entity.overload_equation,
+               Self.type_bind_var(Self.type_var, Self.expr.type_var))
+        )
 
-            Entity.op.subprograms.filter(
-                lambda s: s.subp_spec_or_null.nb_max_params == 1
-            ).logic_any(lambda subp: Let(
-                lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
+    @langkit_property(dynamic_vars=[origin, env])
+    def overload_equation():
+        return Entity.op.subprograms.logic_any(
+            lambda subp: Entity.entity_eq(subp)
+        )
 
-                # The subprogram's first argument must match Self's left
-                # operand.
-                subp.subp_spec_or_null.call_argument_equation(
-                    ps.at(0).spec,
-                    Entity.expr
-                )
+    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    def entity_eq(subp=T.BasicDecl.entity):
+        spec = Var(subp.subp_spec_or_null)
+        ps = Var(spec.unpacked_formal_params)
+        return If(
+            ps.length == 1,
+            # The subprogram's first argument must match Self's left
+            # operand.
+            spec.call_argument_equation(ps.at(0).spec, Entity.expr)
 
-                # The subprogram's return type is the type of Self
-                & Self.type_bind_val(Self.type_var,
-                                     subp.subp_spec_or_null.return_type)
+            # The subprogram's return type is the type of Self
+            & Self.type_bind_val(Self.type_var, spec.return_type)
 
-                # The operator references the subprogram
-                & Bind(Self.op.ref_var, subp)
-                & Bind(Self.op.subp_spec_var, subp.subp_spec_or_null)
-            )) | Self.type_bind_var(Self.type_var, Self.expr.type_var)
+            # The operator references the subprogram
+            & Bind(Self.op.ref_var, subp)
+            & Bind(Self.op.subp_spec_var, spec),
+            LogicFalse()
         )
 
     @langkit_property()
@@ -9909,36 +10333,74 @@ class BinOp(Expr):
 
     @langkit_property()
     def xref_equation():
-        subps = Var(Entity.op.subprograms.filter(
-            lambda s: s.subp_spec_or_null.nb_max_params == 2
+        return And(
+            Entity.left.sub_equation,
+            Entity.right.sub_equation
+        ) & Cond(
+            Self.op.is_a(Op.alt_double_dot),
+            Entity.double_dot_equation,
+
+            Self.op.is_a(Op.alt_and_then, Op.alt_or_else),
+            Self.test_eq,
+
+            Entity.overload_equation | Entity.no_overload_equation
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    def double_dot_equation():
+        options = Var(Entity.op.root_type_ops('".."').concat(
+            Self.env_get(
+                Entity.node_env, '".."', from_node=Self
+            ).map(lambda e: e.cast_or_raise(T.BasicDecl))
         ))
 
-        return (
-            Entity.left.sub_equation
-            & Entity.right.sub_equation
-        ) & (subps.logic_any(lambda subp: Let(
-            lambda ps=subp.subp_spec_or_null.unpacked_formal_params:
+        return options.logic_any(
+            lambda opt: Entity.arguments_eq(opt.subp_spec_or_null)
+        ) | Self.test_eq
+
+    @langkit_property(dynamic_vars=[origin])
+    def test_eq():
+        return And(
+            Self.type_bind_var(Self.type_var, Self.left.type_var),
+            Self.type_bind_var(Self.type_var, Self.right.type_var)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    def arguments_eq(spec=T.BaseSubpSpec.entity):
+        ps = Var(spec.unpacked_formal_params)
+        return If(
+            ps.length == 2,
 
             # The subprogram's first argument must match Self's left
             # operand.
-            subp.subp_spec_or_null.call_argument_equation(
-                ps.at(0).spec, Entity.left
-            )
+            spec.call_argument_equation(ps.at(0).spec, Entity.left)
 
             # The subprogram's second argument must match Self's right
             # operand.
-            & subp.subp_spec_or_null.call_argument_equation(
-                ps.at(1).spec, Entity.right
-            )
+            & spec.call_argument_equation(ps.at(1).spec, Entity.right)
 
             # The subprogram's return type is the type of Self
-            & Self.type_bind_val(Self.type_var,
-                                 subp.subp_spec_or_null.return_type)
+            & Self.type_bind_val(Self.type_var, spec.return_type),
+
+            LogicFalse()
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    def entity_eq(subp=T.BasicDecl.entity):
+        spec = Var(subp.subp_spec_or_null)
+        return And(
+            Entity.arguments_eq(spec),
 
             # The operator references the subprogram
-            & Bind(Self.op.ref_var, subp)
-            & Bind(Self.op.subp_spec_var, subp.subp_spec_or_null)
-        )) | Self.no_overload_equation)
+            Bind(Self.op.ref_var, subp),
+            Bind(Self.op.subp_spec_var, spec)
+        )
+
+    @langkit_property(dynamic_vars=[origin, env])
+    def overload_equation():
+        return Entity.op.subprograms.logic_any(
+            lambda subp: Entity.entity_eq(subp)
+        )
 
     @langkit_property(dynamic_vars=[origin])
     def no_overload_equation():
@@ -9973,15 +10435,6 @@ class BinOp(Expr):
                 & Predicate(BaseTypeDecl.is_array_def_with_deref,
                             Self.type_var)
             ),
-
-            # We treat .. differently from other binary operators, because in
-            # the case of range of chars, as in 'a' .. 'z', type needs to flow
-            # upward, from the operator to the operands.
-            lambda _=Op.alt_double_dot: And(
-                Self.type_bind_var(Self.type_var, Self.left.type_var),
-                Self.type_bind_var(Self.type_var, Self.right.type_var)
-            ),
-
 
             lambda _: Or(
                 # TODO: several inlinings of the TypeBind macro below.
@@ -13375,12 +13828,26 @@ class Op(BaseId):
 
     @langkit_property(return_type=T.BasicDecl.entity.array)
     def subprograms_for_symbol(sym=T.Symbol, from_node=T.AdaNode.entity):
-        return Self.env_get(
+        """
+        Return the list of all operator definitions for the given operator
+        symbol. Note that corresponding operators of root types are returned
+        first in the list, so as to implement the "preference" behavior
+        described in RM 8.6 - 29 in BinOp and UnOp xref_equation.
+        """
+        return Self.root_type_ops(sym).concat(Self.env_get(
             from_node.node_env, sym, from_node=from_node.node
         ).filtermap(
             lambda e: e.cast_or_raise(T.BasicDecl),
-            lambda e: e.cast_or_raise(T.BasicDecl).is_subprogram
-        )
+            lambda e: And(
+                e.cast_or_raise(T.BasicDecl).is_subprogram,
+
+                # Note: we do not use synthesized operators for BinOp/UnOp
+                # resolution for now as it introduces a significant performance
+                # regression.
+                # TODO: retry when new solver is available.
+                Not(e.is_a(SyntheticSubpDecl))
+            )
+        ))
 
     subprograms = Property(
         Self.subprograms_for_symbol(Self.subprogram_symbol, Entity),
@@ -13967,6 +14434,111 @@ class EnumSubpSpec(BaseSubpSpec):
     params = Property(No(T.ParamSpec.entity.array))
 
 
+@synthetic
+class SyntheticIdentifier(Name):
+    """
+    Synthetic identifier.
+    """
+    sym = UserField(public=False, type=T.Symbol)
+    name_symbol = Property(Self.sym)
+
+
+@synthetic
+class SyntheticDefiningName(DefiningName):
+    """
+    Synthetic DefiningName.
+    """
+    # it is not possible to override Name.relative_name (which name_symbol is
+    # defined in terms of), so we override name_symbol directly.
+    name_symbol = Property(Self.name.name_symbol)
+
+
+@synthetic
+class SyntheticTypeExpr(TypeExpr):
+    """
+    Synthetic type expression. The designated type is already known at
+    instantiation time and is to be given in the `target_type` field.
+    """
+    target_type = Field(type=BaseTypeDecl)
+    designated_type = Property(Entity.target_type)
+
+
+@synthetic
+class SyntheticFormalParamDecl(BaseFormalParamDecl):
+    """
+    Synthetic parameter declaration.
+    """
+    param_name = UserField(type=T.Symbol, public=False)
+    param_type = Field(type=T.SyntheticTypeExpr)
+    aspects = NullField()
+    defining_names = Property(
+        [Self.synthesize_defining_name(Self.param_name).as_entity]
+    )
+
+    type_expression = Property(Entity.param_type)
+
+
+@synthetic
+class PredefinedUnOpSpec(BaseSubpSpec):
+    """
+    Synthetic subprogram specification for unary operators.
+    """
+    op_symbol = UserField(type=T.Symbol, public=False)
+    right_param = Field(type=T.SyntheticFormalParamDecl)
+    return_type_expr = Field(type=T.SyntheticTypeExpr)
+
+    name = Property(Self.synthesize_defining_name(Self.op_symbol).as_entity)
+    returns = Property(Entity.return_type_expr)
+
+    @langkit_property()
+    def abstract_formal_params():
+        return [Entity.right_param.cast(BaseFormalParamDecl)]
+
+
+@synthetic
+class PredefinedBinOpSpec(BaseSubpSpec):
+    """
+    Synthetic subprogram specification for binary operators.
+    """
+    op_symbol = UserField(type=T.Symbol, public=False)
+    left_param = Field(type=T.SyntheticFormalParamDecl)
+    right_param = Field(type=T.SyntheticFormalParamDecl)
+    return_type_expr = Field(type=T.SyntheticTypeExpr)
+
+    name = Property(Self.synthesize_defining_name(Self.op_symbol).as_entity)
+    returns = Property(Entity.return_type_expr)
+
+    @langkit_property()
+    def abstract_formal_params():
+        return [
+            Entity.left_param.cast(BaseFormalParamDecl),
+            Entity.right_param.cast(BaseFormalParamDecl)
+        ]
+
+
+@synthetic
+class SyntheticSubpDecl(BasicSubpDecl):
+    """
+    Synthetic subprogram declaration.
+
+    Is used to represent predefined operators. This should also be usable
+    for synthesizing function attributes.
+    """
+    aspects = NullField()
+    spec = Field(type=T.BaseSubpSpec)
+
+    defining_names = Property(No(T.DefiningName.entity.array))
+    subp_decl_spec = Property(Entity.spec)
+
+    @langkit_property()
+    def next_part_for_decl():
+        return No(BasicDecl.entity)
+
+    @langkit_property()
+    def is_static_decl():
+        return True
+
+
 class SubpSpec(BaseSubpSpec):
     """
     Subprogram specification.
@@ -14178,8 +14750,7 @@ class ForLoopSpec(LoopSpec):
                 binop.sub_equation
                 # The default type, if there is no other determined type, is
                 # Integer.
-                & Or(Self.type_bind_val(binop.type_var, Self.int_type),
-                     LogicTrue())
+                & Predicate(BaseTypeDecl.is_not_root_int_type, binop.type_var)
                 & Self.type_bind_var(Self.var_decl.id.type_var,
                                      binop.type_var),
 

@@ -19,7 +19,7 @@ Expr: <Id "Update" test.adb:14:15-14:21>
 Expr: <Aggregate test.adb:14:22-14:47>
   type:       <TypeDecl ["A"] test.adb:4:4-4:50>
 Expr: <BinOp test.adb:14:23-14:29>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:14:23-14:24>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

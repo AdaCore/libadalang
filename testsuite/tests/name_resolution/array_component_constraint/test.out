@@ -69,7 +69,7 @@ Resolving xrefs for node <ArrayTypeDef pack.ads:10:25-10:59>
 ************************************************************
 
 Expr: <BinOp pack.ads:10:32-10:38>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int pack.ads:10:32-10:33>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

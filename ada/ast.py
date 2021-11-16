@@ -9887,7 +9887,7 @@ class UnOp(Expr):
     @langkit_property()
     def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):
         return ExpectedTypeForExpr.new(
-            expected_type=spec.params.at(0).type_expression,
+            expected_type=spec.abstract_formal_params.at(0).type_expression,
             expr=Entity.expr
         ).singleton
 
@@ -10093,7 +10093,7 @@ class BinOp(Expr):
 
     @langkit_property()
     def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):
-        params = Var(Self.unpack_formals(spec.abstract_formal_params))
+        params = Var(spec.unpacked_formal_params)
         return Array([
             ExpectedTypeForExpr.new(
                 expected_type=params.at(0).spec.type_expression,
@@ -13645,11 +13645,12 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
     )
 
-    params = AbstractProperty(
-        type=T.ParamSpec.entity.array, public=True, doc="""
+    @langkit_property(return_type=T.ParamSpec.entity.array, public=True,
+                      kind=AbstractKind.abstract_runtime_check)
+    def params():
+        """
         Returns the array of parameters specification for this subprogram spec.
         """
-    )
 
     abstract_formal_params = Property(
         Entity.params.map(lambda p: p.cast(BaseFormalParamDecl))
@@ -13720,7 +13721,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
         If self meets the criteria for being a subprogram callable via the dot
         notation, return the type of dottable elements.
         """
-        return Entity.params.at(0)._.type_expr._.element_type
+        return Entity.abstract_formal_params.at(0).then(
+            lambda p: p.type_expression._.element_type
+        )
 
     @langkit_property(return_type=BaseTypeDecl.entity)
     def candidate_type_for_primitive(

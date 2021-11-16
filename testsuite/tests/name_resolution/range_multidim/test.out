@@ -35,7 +35,7 @@ Expr: <Id "A" test_range.adb:7:11-7:12>
 Expr: <Aggregate test_range.adb:7:16-7:48>
   type:       <TypeDecl ["A"] test_range.adb:5:4-5:66>
 Expr: <BinOp test_range.adb:7:17-7:24>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test_range.adb:7:17-7:18>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

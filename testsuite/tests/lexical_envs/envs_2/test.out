@@ -116,7 +116,7 @@ CompilationUnit[1:1-10:9]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Static_Primary, Parent=null):
-    standard: [<PackageDecl ["Standard"] __standard:1:1-123:14>]
+    standard: [<PackageDecl ["Standard"] __standard:1:1-128:14>]
 
 @2 = LexEnv(Static_Primary, Parent=null, Node=<PackageBody ["Foo"] input:1:1-10:9>):
     bar: [<SubpBody ["Bar"] input:2:4-9:12>]

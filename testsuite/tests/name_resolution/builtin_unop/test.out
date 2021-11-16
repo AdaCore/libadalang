@@ -22,7 +22,7 @@ Expr: <CallExpr testunop.adb:13:9-13:20>
   type:       <TypeDecl ["T"] testunop.adb:4:10-4:35>
 Expr: <DottedName testunop.adb:13:9-13:16>
   references: None
-  type:       None
+  type:       <TypeDecl ["T"] testunop.adb:4:10-4:35>
 Expr: <DottedName testunop.adb:13:9-13:12>
   references: <DefiningName testunop.adb:3:15-3:16>
   type:       None
@@ -34,7 +34,7 @@ Expr: <Id "E" testunop.adb:13:11-13:12>
   type:       None
 Expr: <Str ""+"" testunop.adb:13:13-13:16>
   references: None
-  type:       None
+  type:       <TypeDecl ["T"] testunop.adb:4:10-4:35>
 Expr: <Id "B" testunop.adb:13:18-13:19>
   references: <DefiningName testunop.adb:8:7-8:8>
   type:       <TypeDecl ["T"] testunop.adb:4:10-4:35>

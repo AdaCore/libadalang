@@ -91,10 +91,10 @@ Expr: <Id "Arr" test_brack_aggr.adb:21:9-21:12>
 Expr: <Aggregate test_brack_aggr.adb:21:16-21:44>
   type:       <TypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
 Expr: <BinOp test_brack_aggr.adb:21:38-21:43>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "I" test_brack_aggr.adb:21:38-21:39>
   references: <DefiningName test_brack_aggr.adb:21:21-21:22>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMult "*" test_brack_aggr.adb:21:40-21:41>
   references: None
   type:       None

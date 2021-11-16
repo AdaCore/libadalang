@@ -9,7 +9,7 @@ Resolving xrefs for node <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 ******************************************************************
 
 Expr: <BinOp testbinop.adb:3:25-3:34>
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testbinop.adb:3:25-3:26>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
@@ -57,13 +57,13 @@ Expr: <CallExpr testbinop.adb:8:9-8:23>
   type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 Expr: <DottedName testbinop.adb:8:9-8:16>
   references: None
-  type:       None
+  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 Expr: <Id "Pkg" testbinop.adb:8:9-8:12>
   references: <DefiningName testbinop.adb:2:12-2:15>
   type:       None
 Expr: <Str ""+"" testbinop.adb:8:13-8:16>
   references: None
-  type:       None
+  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 Expr: <Id "A" testbinop.adb:8:18-8:19>
   references: <DefiningName testbinop.adb:6:4-6:5>
   type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
@@ -79,13 +79,13 @@ Expr: <CallExpr testbinop.adb:10:7-10:21>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName testbinop.adb:10:7-10:14>
   references: None
-  type:       None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Pkg" testbinop.adb:10:7-10:10>
   references: <DefiningName testbinop.adb:2:12-2:15>
   type:       None
 Expr: <Str ""="" testbinop.adb:10:11-10:14>
   references: None
-  type:       None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "A" testbinop.adb:10:16-10:17>
   references: <DefiningName testbinop.adb:6:4-6:5>
   type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>

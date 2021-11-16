@@ -16,7 +16,7 @@ Expr: <OpDoubleDot ".." test.adb:7:24-7:26>
   references: None
   type:       None
 Expr: <BinOp test.adb:7:27-7:32>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["root_integer"] __standard:124:3-124:38>
 Expr: <Int test.adb:7:27-7:28>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

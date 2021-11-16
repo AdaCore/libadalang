@@ -9,7 +9,7 @@ Expr: <Id "A" testloop.adb:7:7-7:8>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "J" testloop.adb:7:12-7:13>
   references: <DefiningName testloop.adb:6:8-6:9>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

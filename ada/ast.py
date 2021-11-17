@@ -13962,6 +13962,42 @@ class EntryDecl(BasicSubpDecl):
         """
         return Entity.spec.family_type.cast(TypeExpr)._.designated_type
 
+    @langkit_property(public=True, return_type=T.AcceptStmt.entity.array)
+    def accept_stmts():
+        """
+        Return an array of accept statements corresponding to this entry.
+        """
+        return Entity.find_accept_stmts(
+            # Find the body part of the task declaration for the current entry
+            Entity.parent_basic_decl.match(
+                lambda st=T.SingleTaskTypeDecl.entity: st.parent_basic_decl,
+                lambda tt=T.TaskTypeDecl: tt,
+                lambda _: PropertyError(
+                    T.BasicDecl.entity,
+                    "Can only be called on EntryDecl in Tasks"
+                )
+            ).body_part_for_decl
+        )
+
+    @langkit_property(return_type=T.AcceptStmt.entity.array)
+    def find_accept_stmts(root=T.AdaNode.entity):
+        """
+        Find all accept statements in all children of ``root`` that correspond
+        to this entry declaration.
+        """
+        return root.children.then(
+            lambda child: child.filter(lambda n: Not(n.is_null))
+            .mapcat(lambda n: Entity.find_accept_stmts(n))
+        ).concat(
+            root.cast(T.AcceptStmt).then(
+                lambda stmt: If(
+                    stmt.corresponding_entry == Entity,
+                    stmt.singleton,
+                    No(AcceptStmt.entity.array)
+                )
+            )
+        )
+
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
         add_env()

@@ -1,0 +1,10 @@
+type: new-feature
+title: Source location information for decoding errors
+description: |
+    The diagnostic that is emitted for source decoding errors (for instance
+    "Could not decode source as UTF-8") used to have no source location
+    information, making it hard for Libadalang users to locate where the
+    invalid sequence of bytes is in the source. This diagnostic now is
+    associated to the source location corresponding to the place where source
+    decoding stopped.
+date: 2021-11-18

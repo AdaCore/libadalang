@@ -899,6 +899,8 @@ A.add_rules(
         NamedStmt(NamedStmtDecl(A.defining_id), ":", A.iblock_stmt),
     ),
 
+    while_loop_spec=WhileLoopSpec("while", cut(), A.expr),
+
     iloop_stmt=Or(
         ForLoopStmt(
             "for", cut(),
@@ -908,7 +910,7 @@ A.add_rules(
             "end", "loop", Opt(EndName(A.identifier)), ";"
         ),
         WhileLoopStmt(
-            WhileLoopSpec("while", cut(), A.expr),
+            A.while_loop_spec,
             "loop", A.stmts.dont_skip("end"),
             "end", "loop", Opt(EndName(A.identifier)), ";"
         ),

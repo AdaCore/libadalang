@@ -1271,8 +1271,9 @@ class AdaNode(ASTNode):
         Static method. Create an env mapping array from a list of BaseId to be
         used as keys, and a node to be used as value in the mappings.
         """
-        return defining_names.map(lambda n:
-                                  new_env_assoc(key=n.name_symbol, val=value))
+        return defining_names.map(
+            lambda n: new_env_assoc(key=n.name_symbol, value=value)
+        )
 
     @langkit_property(dynamic_vars=[origin])
     def type_bind_val(left=T.LogicVar, right=T.AdaNode.entity):
@@ -1717,7 +1718,7 @@ class BasicDecl(AdaNode):
         base_assoc = Var(
             new_env_assoc(
                 key=Entity.name_symbol,
-                val=Self,
+                value=Self,
                 dest_env=dest_env
             ).singleton
         )
@@ -1726,7 +1727,7 @@ class BasicDecl(AdaNode):
             name == '"="',
             new_env_assoc(
                 key='"/="',
-                val=Self,
+                value=Self,
                 dest_env=dest_env
             ).singleton,
             No(T.env_assoc.array)
@@ -3037,7 +3038,7 @@ class Body(BasicDecl):
         """
         return new_env_assoc(
             key='__nextpart',
-            val=Self,
+            value=Self,
             dest_env=Self.previous_part_env_name.then(
                 lambda name: named_env(name),
                 default_val=direct_env(
@@ -3447,7 +3448,7 @@ class BodyStub(Body):
     def previous_part_link_env_assoc():
         return new_env_assoc(
             key='__nextpart',
-            val=Self,
+            value=Self,
             dest_env=named_env(Self.top_level_env_name.to_symbol)
         )
 
@@ -5511,7 +5512,7 @@ class BaseTypeDecl(BasicDecl):
                 lambda decl: Let(
                     lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
                         key=bd.defining_name.name_symbol,
-                        val=bd.node,
+                        value=bd.node,
                         metadata=T.Metadata.new(dottable_subp=True)
                     )
                 ),
@@ -5716,7 +5717,7 @@ class TypeDecl(BaseTypeDecl):
             lambda etf: etf.enum_literals.map(
                 lambda lit: T.inner_env_assoc.new(
                     key=lit.name.name_symbol,
-                    val=lit,
+                    value=lit,
                     metadata=T.Metadata.new(primitive=Self)
                 )
             )
@@ -5730,13 +5731,13 @@ class TypeDecl(BaseTypeDecl):
             lambda decl: Let(
                 lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
                     key=bd.defining_name.name_symbol,
-                    val=bd.node,
+                    value=bd.node,
                     metadata=T.Metadata.new(primitive=Self)
                 ).singleton.concat(If(
                     bd.defining_name.name_is('"="'),
                     T.inner_env_assoc.new(
                         key='"/="',
-                        val=bd.node,
+                        value=bd.node,
                         metadata=T.Metadata.new(primitive=Self)
                     ).singleton,
                     No(T.inner_env_assoc.array)
@@ -8475,7 +8476,7 @@ class GenericInstantiation(BasicDecl):
                 ).map(
                    lambda i, pm: T.inner_env_assoc.new(
                        key=pm.formal.name.name_symbol,
-                       val=If(
+                       value=If(
                            pm.formal.spec.is_a(T.GenericFormalObjDecl),
                            Entity.actual_expr_decls.at(i),
                            pm.actual.assoc.expr.node
@@ -8646,7 +8647,7 @@ class GenericSubpInstantiation(GenericInstantiation):
 
         add_to_env_kv(
             key=Entity.name_symbol,
-            val=Self,
+            value=Self,
             resolver=T.GenericSubpInstantiation.designated_subp
         ),
 
@@ -8869,7 +8870,7 @@ class PackageRenamingDecl(BasicDecl):
 
         add_to_env_kv(
             key=Entity.name_symbol,
-            val=Self
+            value=Self
         ),
 
         add_env(),
@@ -8938,7 +8939,7 @@ class GenericPackageRenamingDecl(GenericRenamingDecl):
 
         add_to_env_kv(
             key=Entity.name_symbol,
-            val=Self
+            value=Self
         ),
 
         add_env(),
@@ -8977,7 +8978,7 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
 
         add_to_env_kv(
             key=Entity.name_symbol,
-            val=Self
+            value=Self
         ),
 
         add_env(),
@@ -15635,7 +15636,7 @@ class BaseSubpBody(Body):
 
         add_to_env_kv(
             key='__nextpart',
-            val=Self,
+            value=Self,
             dest_env=Self.previous_part_env_name.then(
                 lambda name: named_env(name),
 
@@ -15799,7 +15800,7 @@ class ExceptionHandler(BasicDecl):
             Entity.exception_name.then(lambda n: n.singleton.map(
                 lambda n:
                 new_env_assoc(key=n.name_symbol,
-                              val=Self,
+                              value=Self,
                               dest_env=current_env())
             ))
         )
@@ -16847,7 +16848,7 @@ class SubpBodyStub(BodyStub):
     env_spec = EnvSpec(
         add_to_env_kv(
             key=Self.name_symbol,
-            val=Self
+            value=Self
         ),
         add_env(names=Self.env_names)
     )

@@ -43,6 +43,9 @@ procedure Test_Float_Attrs is
 
    O : Integer := Duration'Small_Denominator;
    pragma Test_Statement;
+
+   P : Boolean := Float'Machine_Overflows;
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

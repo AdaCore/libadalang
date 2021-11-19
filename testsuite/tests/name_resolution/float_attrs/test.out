@@ -309,5 +309,27 @@ Expr: <Id "Machine_Overflows" test_float_attrs.adb:47:25-47:42>
   references: None
   type:       None
 
+Resolving xrefs for node <ObjectDecl ["Q"] test_float_attrs.adb:50:4-50:38>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:50:8-50:13>
+  references: <DefiningName __standard:14:8-14:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:50:17-50:37>
+  references: None
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Float" test_float_attrs.adb:50:17-50:22>
+  references: <DefiningName __standard:14:8-14:13>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Scaling" test_float_attrs.adb:50:23-50:30>
+  references: None
+  type:       None
+Expr: <Id "A" test_float_attrs.adb:50:32-50:33>
+  references: None
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Int test_float_attrs.adb:50:35-50:36>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+
 
 Done.

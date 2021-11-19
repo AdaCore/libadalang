@@ -13402,7 +13402,8 @@ class Identifier(BaseId):
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
             'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
-            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding', 'Exponent'
+            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding', 'Exponent',
+            'Scaling'
         )
     )
 
@@ -14509,6 +14510,9 @@ class AttributeRef(Name):
             rel_name.any_of('Exponent', 'Machine_Radix'),
             Entity.universal_int_equation,
 
+            rel_name == 'Scaling',
+            Entity.scaling_equation,
+
             rel_name == 'Mod',
             Entity.mod_equation,
 
@@ -14540,6 +14544,20 @@ class AttributeRef(Name):
                 arg.expr.sub_equation
                 & Self.type_bind_val(arg.expr.type_var, typ)
             )
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def scaling_equation():
+        """
+        Return the nameres equation for the Scaling attribute T'Scaling (X, I)
+        where T is a float type, X a value of type T and I an integer value.
+        """
+        typ = Var(Entity.prefix.name_designated_type)
+        return And(
+            Entity.prefix.sub_equation,
+            Self.type_bind_val(Self.type_var, typ),
+            Self.type_bind_val(Entity.args_list.at(0).expr.type_var, typ),
+            Self.universal_int_bind(Entity.args_list.at(1).expr.type_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

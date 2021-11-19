@@ -46,6 +46,9 @@ procedure Test_Float_Attrs is
 
    P : Boolean := Float'Machine_Overflows;
    pragma Test_Statement;
+
+   Q : Float := Float'Scaling (A, 2);
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

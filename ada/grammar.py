@@ -931,12 +931,13 @@ A.add_rules(
                      A.case_stmt, A.accept_stmt,
                      A.select_stmt),
 
+    elsif_part=ElsifStmtPart("elsif", A.expr, "then",
+                             A.stmts.dont_skip(Or("elsif", "else", "end"))),
+
     if_stmt=IfStmt(
         "if", cut(), A.expr, "then",
         A.stmts.dont_skip(Or("elsif", "else", "end")),
-        List(ElsifStmtPart("elsif", A.expr, "then",
-                           A.stmts.dont_skip(Or("elsif", "else", "end"))),
-             empty_valid=True),
+        List(A.elsif_part, empty_valid=True),
         Opt("else", A.stmts.dont_skip("end")),
         "end", "if", ";"
     ),

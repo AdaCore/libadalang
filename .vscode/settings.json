@@ -1,4 +1,4 @@
 {
-    "ada.projectFile": "build/src/mains.gpr",
+    "ada.projectFile": "build/mains.gpr",
     "git.ignoreLimitWarning": true
 }

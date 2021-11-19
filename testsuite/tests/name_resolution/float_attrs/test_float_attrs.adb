@@ -37,6 +37,12 @@ procedure Test_Float_Attrs is
 
    M : Integer := Float'Machine_Radix;
    pragma Test_Statement;
+
+   N : Integer := Duration'Small_Numerator;
+   pragma Test_Statement;
+
+   O : Integer := Duration'Small_Denominator;
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

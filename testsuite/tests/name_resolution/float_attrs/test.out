@@ -261,5 +261,37 @@ Expr: <Id "Machine_Radix" test_float_attrs.adb:38:25-38:38>
   references: None
   type:       None
 
+Resolving xrefs for node <ObjectDecl ["N"] test_float_attrs.adb:41:4-41:44>
+***************************************************************************
+
+Expr: <Id "Integer" test_float_attrs.adb:41:8-41:15>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:41:19-41:43>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Duration" test_float_attrs.adb:41:19-41:27>
+  references: <DefiningName __standard:112:8-112:16>
+  type:       <TypeDecl ["Duration"] __standard:112:3-114:42>
+Expr: <Id "Small_Numerator" test_float_attrs.adb:41:28-41:43>
+  references: None
+  type:       None
+
+Resolving xrefs for node <ObjectDecl ["O"] test_float_attrs.adb:44:4-44:46>
+***************************************************************************
+
+Expr: <Id "Integer" test_float_attrs.adb:44:8-44:15>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:44:19-44:45>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Id "Duration" test_float_attrs.adb:44:19-44:27>
+  references: <DefiningName __standard:112:8-112:16>
+  type:       <TypeDecl ["Duration"] __standard:112:3-114:42>
+Expr: <Id "Small_Denominator" test_float_attrs.adb:44:28-44:45>
+  references: None
+  type:       None
+
 
 Done.

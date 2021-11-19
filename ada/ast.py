@@ -14457,7 +14457,9 @@ class AttributeRef(Name):
             rel_name.any_of('Class', 'Base'),
             Entity.prefix.sub_equation,
 
-            rel_name.any_of('Valid', 'Machine_Overflows'),
+            rel_name.any_of('Valid', 'Machine_Overflows', 'Has_Access_Values',
+                            'Has_Discriminants', 'Has_Tagged_Values',
+                            'Definite', 'Constrained'),
             Entity.prefix.sub_equation
             & Self.bool_bind(Self.type_var),
 

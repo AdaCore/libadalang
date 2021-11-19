@@ -35,7 +35,7 @@ procedure Test_Float_Attrs is
    L : Integer := Float'Exponent (A);
    pragma Test_Statement;
 
-   M : Integer := Float'Machine_Radix (A);
+   M : Integer := Float'Machine_Radix;
    pragma Test_Statement;
 begin
    null;

@@ -13440,8 +13440,7 @@ class Identifier(BaseId):
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
             'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
-            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding', 'Exponent',
-            'Machine_Radix'
+            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding', 'Exponent'
         )
     )
 

@@ -1,7 +1,10 @@
 type: new-feature
-title: Grammar rule to parse while loop specs
+title: Add various grammar rules
 description: |
-    There is now a dedicated grammar rule to parse while loop specs (``while
-    X``): ``Libadalang.Common.While_Loop_Spec_Rule`` in the Ada API,
-    ``libadalang.GrammarRule.while_loop_spec_rule`` in the Python API.
-date: 2021-11-18
+    We have introduced additional grammar rules to parse partial Ada sources
+    (``Libadalang.Common.*_Rule`` in the Ada API and
+    ``libadalang.GrammarRule.*_rule`` in the Python API):
+
+    * while loop specs (``while X``): ``While_Loop_Spec_Rule``;
+    * ``elsif X then`` parts in ``if`` statements: ``Elsif_Part_Rule``.
+date: 2021-11-19

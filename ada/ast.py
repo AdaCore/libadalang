@@ -119,16 +119,17 @@ class AdaNode(ASTNode):
         the compilation unit node.
 
         This is designed in a way that will emit a
-        ``unit_requested(not_found_is_error=true, ...)`` callback when not
+        ``unit_requested(not_found_is_error=True, ...)`` event when not
         finding the unit is supposed to be an error within Ada semantics.
         """
+        # Try to fetch the spec and the body for ``unit_name``, but do not emit
+        # a unit_requested event yet.
         unit_name_array = Var(unit_name.as_symbol_array)
         spec = Var(Self.designated_compilation_unit(
             unit_name_array,
             kind=UnitSpecification,
             not_found_is_error=False
         ))
-
         body = Var(If(
             spec.is_null,
             Self.designated_compilation_unit(
@@ -140,15 +141,12 @@ class AdaNode(ASTNode):
             No(T.CompilationUnit)
         ))
 
-        ignore(Var(Cond(
-            body._.decl.is_a(T.PackageBody) & spec.is_null,
-
-            Self.designated_compilation_unit(
-                unit_name_array, kind=UnitSpecification,
-                not_found_is_error=True
-            ),
-
-            spec.is_null & body.is_null,
+        # Emit an event if one missing unit is actually required by Ada's
+        # semantics: either when we have a package body but got no spec, or
+        # when we have no body and no spec.
+        ignore(Var(If(
+            body._.decl.is_a(T.PackageBody) & spec.is_null
+            | spec.is_null & body.is_null,
 
             Self.designated_compilation_unit(
                 unit_name_array, kind=UnitSpecification,
@@ -158,6 +156,7 @@ class AdaNode(ASTNode):
             No(T.CompilationUnit)
         )))
 
+        # Return the requested unit (the spec takes precedence)
         return spec._or(body)
 
     @langkit_property(return_type=T.String)

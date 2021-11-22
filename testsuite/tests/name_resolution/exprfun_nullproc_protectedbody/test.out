@@ -1,0 +1,33 @@
+Analyzing new_prot.adb
+######################
+
+Resolving xrefs for node <SubpSpec new_prot.adb:15:7-15:36>
+***********************************************************
+
+
+Resolving xrefs for node <ParamSpec ["x"] new_prot.adb:15:24-15:35>
+*******************************************************************
+
+Expr: <Id "Integer" new_prot.adb:15:28-15:35>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+
+Resolving xrefs for node <ExprFunction ["Double"] new_prot.adb:17:7-17:55>
+**************************************************************************
+
+Expr: <ParenExpr new_prot.adb:17:41-17:54>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <BinOp new_prot.adb:17:42-17:53>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "counter" new_prot.adb:17:42-17:49>
+  references: <DefiningName new_prot.adb:7:7-7:14>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpMult "*" new_prot.adb:17:50-17:51>
+  references: None
+  type:       None
+Expr: <Int new_prot.adb:17:52-17:53>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+
+
+Done.

@@ -5340,6 +5340,21 @@ class BaseTypeDecl(BasicDecl):
         """
         pass
 
+    @langkit_property(return_type=T.BasicDecl.entity, dynamic_vars=[origin])
+    def corresponding_char_literal():
+        """
+        If Self denotes the declaration of a character type (i.e. an enum type
+        with character literals) and origin is bound to a character literal,
+        return the EnumLiteralDecl that symbolically corresponds to the
+        literal.
+        """
+        root = Var(Entity.root_type)
+        enum_type = Var(root.cast(TypeDecl)._.type_def.cast(EnumTypeDef))
+        sym = Var(origin.cast(CharLiteral).then(lambda l: l.symbol))
+        return enum_type._.enum_literals.find(
+            lambda lit_decl: lit_decl.name.name_is(sym)
+        )
+
     root_type = Property(
         Entity,
         dynamic_vars=[default_origin()],
@@ -13517,8 +13532,22 @@ class CharLiteral(BaseId):
     def xref_equation():
         return Or(
             Entity.base_id_xref_equation,
+
             Predicate(AdaNode.is_not_null, Self.type_var)
             & Predicate(BaseTypeDecl.is_char_type, Self.type_var)
+
+            # Ada RM 4.2 (3): since the expected type of the `CharLiteral` is
+            # known in this case (the predicates above let us through), we can
+            # use it to determine what the literal refers to. Hackish: we use
+            # the `origin` dynamic variable to pass an additional argument to
+            # the conversion property ``corresponding_char_literal``.
+            # TODO: fix this once we can pass explicit parameters to conversion
+            # properties.
+            & origin.bind(
+                Self,
+                Bind(Self.type_var, Self.ref_var,
+                     conv_prop=BaseTypeDecl.corresponding_char_literal)
+            )
         )
 
 

@@ -1,0 +1,23 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ReturnStmt test.adb:17:7-17:33>
+*********************************************************
+
+Expr: <Aggregate test.adb:17:14-17:32>
+  type:       <TypeDecl ["R"] test.adb:5:7-12:18>
+Expr: <Id "K" test.adb:17:15-17:16>
+  references: <DefiningName test.adb:5:15-5:16>
+  type:       None
+Expr: <Chr "'1'" test.adb:17:20-17:23>
+  references: <DefiningName test.adb:3:21-3:24>
+  type:       <TypeDecl ["Kind"] test.adb:3:7-3:31>
+Expr: <Id "X" test.adb:17:25-17:26>
+  references: <DefiningName test.adb:8:16-8:17>
+  type:       None
+Expr: <Int test.adb:17:30-17:31>
+  references: None
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

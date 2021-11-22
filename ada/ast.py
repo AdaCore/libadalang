@@ -7320,6 +7320,7 @@ class AccessToSubpDef(AccessDef):
     """
     has_protected = Field(type=Protected)
     subp_spec = Field(type=T.SubpSpec)
+    aspects = Field(type=T.AspectSpec)
 
     xref_equation = Property(LogicTrue())
 
@@ -8405,7 +8406,7 @@ class AspectAssoc(AdaNode):
             ),
 
             # Contracts
-            target.is_a(BasicSubpDecl, BaseSubpBody)
+            target.is_a(BasicSubpDecl, BaseSubpBody, AccessToSubpDef)
             & Entity.id.name_symbol.any_of(
                 'Pre', 'Post', 'Model_Pre', 'Model_Post', 'Contract_Cases'
             ),

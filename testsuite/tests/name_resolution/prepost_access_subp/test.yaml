@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [ats_types.adb]

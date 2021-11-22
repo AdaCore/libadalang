@@ -14485,6 +14485,9 @@ class AttributeRef(Name):
 
             rel_name == 'Storage_Pool', Entity.storage_pool_equation,
 
+            rel_name == 'Scalar_Storage_Order',
+            Entity.scalar_storage_order_equation,
+
             rel_name == 'Type_Class', Entity.type_class_equation,
 
             # Task attributes (RM 9.9)
@@ -14601,6 +14604,21 @@ class AttributeRef(Name):
             .get_unit_root_decl(['System', 'Storage_Pools'], UnitSpecification)
             ._.children_env.get_first('Root_Storage_Pool', lookup=LK.flat)
             .cast(T.BaseTypeDecl).classwide_type
+        )
+
+        return (Entity.prefix.xref_equation
+                & Self.type_bind_val(Self.type_var, typ))
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def scalar_storage_order_equation():
+        """
+        Equation for the Scalar_Storage_Order attribute.
+        """
+        typ = Var(
+            Entity
+            .get_unit_root_decl(['System'], UnitSpecification)
+            ._.children_env.get_first('Bit_Order', lookup=LK.flat)
+            .cast(T.BaseTypeDecl)
         )
 
         return (Entity.prefix.xref_equation

@@ -187,6 +187,8 @@ $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] __standard:1:1-128:14>]
 
 @2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-11:9>):
+    "/=": [<SyntheticSubpDecl [] input:2:20-5:14>, <SyntheticSubpDecl [] input:7:34-10:14>]
+    "=": [<SyntheticSubpDecl [] input:2:20-5:14>, <SyntheticSubpDecl [] input:7:34-10:14>]
     r1_type: [<TypeDecl ["R1_Type"] input:2:4-5:15>]
     r2_type: [<TypeDecl ["R2_Type"] input:7:4-10:15>]
 

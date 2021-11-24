@@ -8169,6 +8169,9 @@ class Pragma(AdaNode):
                     ).then(
                         lambda decls: decls.at(decls.length - 1)
                     ).cast(BasicDecl).as_entity._.singleton
+                )._or(
+                    # Or else to the closest parent subprogram
+                    enclosing_program_unit.singleton
                 ),
 
                 # Or else it 's necessarily a program unit pragma

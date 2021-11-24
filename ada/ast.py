@@ -6192,12 +6192,14 @@ class TypeDecl(BaseTypeDecl):
         return Entity.compute_primitives_env(include_self=True)
 
     @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
-    def get_primitives(only_inherited=(Bool, False)):
+    def get_primitives(only_inherited=(Bool, False),
+                       include_predefined_operators=(Bool, False)):
         """
         Return the list of all primitive operations that are available on this
         type. If `only_inherited` is True, it will only return the primitives
         that are implicitly inherited by this type, discarding those explicitly
-        defined on this type.
+        defined on this type. Predefined operators are included in the result
+        iff `include_predefined_operators` is True. It defaults to False.
         """
         prim_env = Var(If(
             only_inherited,
@@ -6205,8 +6207,14 @@ class TypeDecl(BaseTypeDecl):
             Entity.primitives_env
         ))
 
-        bds = Var(prim_env.get(symbol=No(T.Symbol)).map(
+        all_prims = Var(prim_env.get(symbol=No(T.Symbol)).map(
             lambda t: t.cast(BasicDecl)
+        ))
+
+        bds = Var(If(
+            include_predefined_operators,
+            all_prims,
+            all_prims.filter(lambda p: Not(p.is_a(SyntheticSubpDecl)))
         ))
 
         # Make sure to return only one instance of each primitive: the most

@@ -9,7 +9,7 @@ Resolving xrefs for node <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 ******************************************************************
 
 Expr: <BinOp testbinop.adb:3:25-3:34>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:       <TypeDecl ["root_integer"] __standard:124:3-124:38>
 Expr: <Int testbinop.adb:3:25-3:26>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>

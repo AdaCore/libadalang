@@ -6766,12 +6766,7 @@ class SignedIntTypeDef(TypeDef):
     range = Field(type=T.RangeSpec)
     is_int_type = Property(True)
 
-    xref_equation = Property(
-        # We try to bind the range expression's type to the type we're
-        # defining. If not possible (for example because it's already of
-        # another type), fallback.
-        Entity.range.xref_equation
-    )
+    xref_equation = Property(Entity.range.xref_equation)
 
     @langkit_property()
     def discrete_range():
@@ -6815,7 +6810,7 @@ class SignedIntTypeDef(TypeDef):
             No(T.env_assoc.array)
         ))
 
-        return defaults.concat(specials)
+        return specials.concat(defaults)
 
     is_static = Property(Entity.range.range.is_static_expr)
 

@@ -5,7 +5,7 @@ Resolving xrefs for node <TypeDecl ["My_Integer"] test.adb:2:4-2:56>
 ********************************************************************
 
 Expr: <BinOp test.adb:2:29-2:55>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:       <TypeDecl ["root_integer"] __standard:124:3-124:38>
 Expr: <UnOp test.adb:2:29-2:40>
   type:       <TypeDecl ["root_integer"] __standard:124:3-124:38>
 Expr: <OpMinus "-" test.adb:2:29-2:30>

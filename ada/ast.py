@@ -1075,17 +1075,13 @@ class AdaNode(ASTNode):
     @langkit_property()
     def unpack_formals(formal_params=T.BaseFormalParamDecl.entity.array):
         """
-        Static method. Couples (identifier, param spec) for all parameters.
+        Static method. DefiningName for all parameters.
         """
         return Self.unit.root.unpack_formals_impl(formal_params)
 
     @langkit_property()
     def unpack_formals_impl(formal_params=T.BaseFormalParamDecl.entity.array):
-        return formal_params.mapcat(
-            lambda spec: spec.defining_names.map(lambda id: SingleFormal.new(
-                name=id, spec=spec
-            ))
-        )
+        return formal_params.mapcat(lambda spec: spec.defining_names)
 
     @langkit_property(return_type=T.ParamMatch.array)
     def match_formals(formal_params=T.BaseFormalParamDecl.entity.array,
@@ -2640,11 +2636,12 @@ class BasicDecl(AdaNode):
         return origin.bind(
             Self.origin_node,
             Self.is_subprogram
-            & params.at(0).spec.formal_type.is_access_to(root_stream_type)
+            & params.at(0).formal_decl.formal_type
+            .is_access_to(root_stream_type)
             & If(
                 return_obj,
                 Entity.subp_spec_or_null.return_type.matching_formal_type(typ),
-                params.at(1).spec.formal_type.matching_formal_type(typ),
+                params.at(1).formal_decl.formal_type.matching_formal_type(typ),
             )
         )
 
@@ -2663,10 +2660,10 @@ class BasicDecl(AdaNode):
             Self.origin_node,
             Self.is_subprogram
 
-            & params.at(0).spec.formal_type
+            & params.at(0).formal_decl.formal_type
             .matching_formal_type(root_buffer_type)
 
-            & params.at(1).spec.formal_type
+            & params.at(1).formal_decl.formal_type
             .matching_formal_type(typ)
         )
 
@@ -2939,7 +2936,8 @@ class BasicDecl(AdaNode):
                     ss.unpacked_formal_params.then(
                         lambda ufp: String(", ").join(
                             ufp.map(
-                                lambda p: p.spec.type_expression.custom_id_text
+                                lambda p:
+                                p.formal_decl.type_expression.custom_id_text
                             )
                         )
                     ).concat(ss.returns.then(lambda _: String(")")))
@@ -3598,7 +3596,7 @@ class BaseFormalParamDecl(BasicDecl):
 
         return part.then(lambda d: (
             d.formal_param_holder_or_null._.unpacked_formal_params
-            .find(lambda sf: sf.name.name_is(p.name_symbol)).name
+            .find(lambda sf: sf.name_is(p.name_symbol))
         ))
 
     @langkit_property(return_type=T.DefiningName.entity,
@@ -3673,7 +3671,7 @@ class BaseFormalParamHolder(AdaNode):
     unpacked_formal_params = Property(
         Self.unpack_formals(Entity.abstract_formal_params),
         doc="""
-        Couples (identifier, param spec) for all parameters
+        Return ``DefiningName`` for all parameters.
         """
     )
 
@@ -3686,7 +3684,7 @@ class BaseFormalParamHolder(AdaNode):
 
     nb_min_params = Property(
         Self.as_bare_entity.unpacked_formal_params.filter(
-            lambda p: p.spec.is_mandatory
+            lambda p: p.formal_decl.is_mandatory
         ).length,
         type=Int, public=True, doc="""
         Return the minimum number of parameters this subprogram can be called
@@ -3735,7 +3733,7 @@ class BaseFormalParamHolder(AdaNode):
             params.length <= nb_max_params,
             match_list.all(lambda m: m.has_matched),
             match_list.filter(
-                lambda m: m.formal.spec.is_mandatory
+                lambda m: m.formal.formal_decl.is_mandatory
             ).length == nb_min_params,
         )
 
@@ -3746,7 +3744,8 @@ class BaseFormalParamHolder(AdaNode):
         Returns the type of each parameter of Self.
         """
         return Entity.unpacked_formal_params.map(
-            lambda fp: Entity.real_designated_type(fp.spec.type_expression)
+            lambda fp:
+            Entity.real_designated_type(fp.formal_decl.type_expression)
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
@@ -4322,11 +4321,13 @@ class ComponentList(BaseFormalParamHolder):
 
         # Get param matches for discriminants only
         discriminants_matches = Var(Self.match_formals(
-            td.discriminants_list, assocs, False
+            discriminants, assocs, False
         ).filter(
-            lambda pm: Not(discriminants
-                           .find(lambda d: d == pm.formal.spec)
-                           .is_null)
+            lambda pm: And(
+                Not(pm.formal.is_null),
+                Not(discriminants.find(
+                    lambda d: d == pm.formal.formal_decl).is_null)
+                )
         ))
 
         # Get param matches for all aggregates' params. Here, we use and pass
@@ -6259,7 +6260,7 @@ class TypeDecl(BaseTypeDecl):
                     origin.bind(
                         Self.origin_node,
                         ss.unpacked_formal_params.at(0)
-                        ._.spec.formal_type.matching_formal_type(Entity)
+                        ._.formal_decl.formal_type.matching_formal_type(Entity)
                     )
                 )
             )
@@ -6277,7 +6278,7 @@ class TypeDecl(BaseTypeDecl):
                     env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
                         lambda ss:
                         ss.unpacked_formal_params.at(0)
-                        ._.spec.formal_type.matching_formal_type(Entity)
+                        ._.formal_decl.formal_type.matching_formal_type(Entity)
                         & ss.return_type.is_implicit_deref
                     )
                 )
@@ -6641,11 +6642,12 @@ class DiscriminantConstraint(Constraint):
                 lambda pm:
                 pm.actual.assoc.expr.xref_equation
                 & Bind(
-                    pm.actual.assoc.expr.type_var, pm.formal.spec.formal_type,
+                    pm.actual.assoc.expr.type_var,
+                    pm.formal.formal_decl.formal_type,
                     eq_prop=BaseTypeDecl.matching_formal_type
                 )
                 & pm.actual.name.then(
-                    lambda name: Bind(name.ref_var, pm.formal.spec),
+                    lambda name: Bind(name.ref_var, pm.formal.formal_decl),
                     default_val=LogicTrue()
                 )
             )
@@ -7868,7 +7870,7 @@ class BasicSubpDecl(BasicDecl):
             Entity.info.md.dottable_subp,
             Bind(prefix.type_var,
                  Entity.subp_decl_spec
-                 .unpacked_formal_params.at(0)._.spec.formal_type,
+                 .unpacked_formal_params.at(0)._.formal_decl.formal_type,
                  eq_prop=BaseTypeDecl.matching_prefix_type),
             LogicTrue()
         )
@@ -8892,7 +8894,7 @@ class GenericInstantiation(BasicDecl):
                    lambda i, pm: T.inner_env_assoc.new(
                        key=pm.formal.name.name_symbol,
                        value=If(
-                           pm.formal.spec.is_a(T.GenericFormalObjDecl),
+                           pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
                            Entity.actual_expr_decls.at(i),
                            pm.actual.assoc.expr.node
                        ),
@@ -8974,7 +8976,7 @@ class GenericInstantiation(BasicDecl):
                 Entity.generic_inst_params, False
             ).logic_all(lambda pm: Let(
                 lambda actual_name=pm.actual.assoc.expr.cast(T.Name):
-                pm.formal.spec.cast(T.GenericFormal).decl.match(
+                pm.formal.formal_decl.cast(T.GenericFormal).decl.match(
                     lambda _=T.TypeDecl: actual_name.xref_no_overloading,
 
                     lambda subp_decl=T.FormalSubpDecl.entity:
@@ -9005,7 +9007,7 @@ class GenericInstantiation(BasicDecl):
                 ) & pm.actual.name.then(
                     lambda n:
                     Bind(n.ref_var,
-                         pm.formal.name.node.as_bare_entity.basic_decl),
+                         pm.formal.node.as_bare_entity.basic_decl),
                     default_val=LogicTrue()
                 )
             ))
@@ -10300,7 +10302,7 @@ class UnOp(Expr):
             ps.length == 1,
             # The subprogram's first argument must match Self's left
             # operand.
-            spec.call_argument_equation(ps.at(0).spec, Entity.expr)
+            spec.call_argument_equation(ps.at(0).formal_decl, Entity.expr)
 
             # The subprogram's return type is the type of Self
             & Self.type_bind_val(Self.type_var, spec.return_type)
@@ -10376,11 +10378,11 @@ class BinOp(Expr):
 
             # The subprogram's first argument must match Self's left
             # operand.
-            spec.call_argument_equation(ps.at(0).spec, Entity.left)
+            spec.call_argument_equation(ps.at(0).formal_decl, Entity.left)
 
             # The subprogram's second argument must match Self's right
             # operand.
-            & spec.call_argument_equation(ps.at(1).spec, Entity.right)
+            & spec.call_argument_equation(ps.at(1).formal_decl, Entity.right)
 
             # The subprogram's return type is the type of Self
             & Self.type_bind_val(Self.type_var, spec.return_type),
@@ -10552,11 +10554,11 @@ class BinOp(Expr):
         params = Var(spec.unpacked_formal_params)
         return Array([
             ExpectedTypeForExpr.new(
-                expected_type=params.at(0).spec.type_expression,
+                expected_type=params.at(0).formal_decl.type_expression,
                 expr=Entity.left
             ),
             ExpectedTypeForExpr.new(
-                expected_type=params.at(1).spec.type_expression,
+                expected_type=params.at(1).formal_decl.type_expression,
                 expr=Entity.right
             )
         ])
@@ -10741,7 +10743,8 @@ class BaseAggregate(Expr):
             Entity.all_components, Entity.assocs, False
         )
 
-    @langkit_property(return_type=T.SingleFormal, dynamic_vars=[origin, env])
+    @langkit_property(return_type=T.DefiningName.entity,
+                      dynamic_vars=[origin, env])
     def first_unmatched_formal():
         """
         Return the first discriminant or component that is not matched
@@ -11693,7 +11696,7 @@ class Name(Expr):
                 lambda _: No(T.DottedName.entity)
             ).then(lambda d: ExpectedTypeForExpr.new(
                 expected_type=spec.unpacked_formal_params.at(0)
-                .spec.type_expression,
+                .formal_decl.type_expression,
                 expr=d.prefix
             ).singleton))
         )
@@ -11864,7 +11867,7 @@ class CallExpr(Name):
             ).all(
                 lambda pm: And(
                     pm.has_matched,
-                    pm.formal.spec.formal_type.matching_type(
+                    pm.formal.formal_decl.formal_type.matching_type(
                         pm.actual.assoc.expr.cast(Name)._.name_designated_type
                     )
                 )
@@ -12208,7 +12211,8 @@ class CallExpr(Name):
                 Self.type_bind_val(Self.type_var, ret_type)
                 & If(constrain_params,
                      param.sub_equation, LogicTrue())
-                & Self.type_bind_val(param.type_var, formal.spec.formal_type)
+                & Self.type_bind_val(param.type_var,
+                                     formal.formal_decl.formal_type)
             )),
 
             LogicFalse()
@@ -12236,7 +12240,7 @@ class CallExpr(Name):
                 lambda pm: If(
                     pm.has_matched,
                     subp_spec.call_argument_equation(
-                        pm.formal.spec,
+                        pm.formal.formal_decl,
                         pm.actual.assoc.expr
                     ) & If(
                         # Bind actuals designators to parameters if there
@@ -12245,11 +12249,12 @@ class CallExpr(Name):
                         LogicTrue(),
                         Bind(
                             pm.actual.name.ref_var,
-                            Let(lambda n=pm.formal.spec: Entity.entity_no_md(
-                                n.node,
-                                n.info.rebindings,
-                                n.info.from_rebound
-                            ))
+                            Let(lambda n=pm.formal.formal_decl:
+                                Entity.entity_no_md(
+                                    n.node,
+                                    n.info.rebindings,
+                                    n.info.from_rebound
+                                ))
                         )
                     ),
                     LogicFalse()
@@ -12453,11 +12458,11 @@ class AggregateAssoc(BasicAssoc):
             matches.logic_all(lambda match: And(
                 Self.type_bind_val(
                     match.actual.assoc.expr.type_var,
-                    match.formal.spec.type_expression.designated_type
+                    match.formal.formal_decl.type_expression.designated_type
                 ),
                 match.actual.assoc.expr.sub_equation,
                 match.actual.name.then(
-                    lambda n: Bind(n.ref_var, match.formal.spec),
+                    lambda n: Bind(n.ref_var, match.formal.formal_decl),
                     LogicTrue()
                 )
             )),
@@ -12469,7 +12474,8 @@ class AggregateAssoc(BasicAssoc):
             agg.first_unmatched_formal.then(
                 lambda unmatched_formal: Self.type_bind_val(
                     Entity.expr.type_var,
-                    unmatched_formal.spec.type_expression.designated_type
+                    unmatched_formal.formal_decl
+                    .type_expression.designated_type
                 ),
                 default_val=LogicTrue()
             )
@@ -12718,7 +12724,7 @@ class AssocList(BasicAssoc.list):
         explicit_matches = Var(params.then(
             lambda _: Self.match_formals(params, Entity, is_dottable_subp).map(
                 lambda m: ParamActual.new(
-                    param=m.formal.name,
+                    param=m.formal,
                     actual=m.actual.assoc.expr
                 ),
             ))
@@ -12764,10 +12770,10 @@ class AssocList(BasicAssoc.list):
         others_matches = Var(others_assoc.then(
             lambda oa: Self.unpack_formals(params).filtermap(
                 lambda p: ParamActual.new(
-                    param=p.name,
+                    param=p,
                     actual=oa.expr
                 ),
-                lambda p: Not(given_matches.any(lambda m: m.param == p.name))
+                lambda p: Not(given_matches.any(lambda m: m.param == p))
             )
         ))
 
@@ -13063,6 +13069,16 @@ class DefiningName(Name):
     relative_name = Property(Entity.name.relative_name)
     ref_var = Property(Self.name.ref_var)
     env_elements_impl = Property(Entity.name.env_elements_impl)
+
+    @langkit_property(return_type=T.BaseFormalParamDecl.entity)
+    def formal_decl():
+        """
+        Return the parent `BaseFormalParamDecl` of this `DefiningName`.
+        Raise an error otherwise.
+        """
+        return Entity.parents.find(
+            lambda n: n.is_a(BaseFormalParamDecl)
+        ).cast_or_raise(T.BaseFormalParamDecl)
 
     @langkit_property(public=True, return_type=T.String)
     def canonical_fully_qualified_name():
@@ -14078,11 +14094,6 @@ class NullLiteral(SingleTokNode):
         return Predicate(BaseTypeDecl.is_access_type_predicate, Self.type_var)
 
 
-class SingleFormal(Struct):
-    name = UserField(type=DefiningName.entity)
-    spec = UserField(type=BaseFormalParamDecl.entity)
-
-
 class SingleActual(Struct):
     name = UserField(type=BaseId)
     assoc = UserField(type=T.BasicAssoc.entity)
@@ -14098,7 +14109,7 @@ class ParamMatch(Struct):
         Whether the matched ParamAssoc a ParamSpec.
     """)
     actual = UserField(type=SingleActual)
-    formal = UserField(type=SingleFormal)
+    formal = UserField(type=DefiningName.entity)
 
 
 @abstract
@@ -14285,7 +14296,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         # up every type.
 
         params = Var(Entity.unpacked_formal_params)
-        types = Var(params.map(lambda p: p.spec.type_expression).concat(
+        types = Var(params.map(lambda p: p.formal_decl.type_expression).concat(
             Entity.returns._.singleton
         ))
 

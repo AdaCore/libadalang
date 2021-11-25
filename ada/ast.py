@@ -3675,6 +3675,19 @@ class BaseFormalParamHolder(AdaNode):
         """
     )
 
+    @langkit_property(return_type=T.DefiningName.entity.array, public=True)
+    def formal_params():
+        """
+        Return all parameters as a ``DefiningName`` array. This property
+        doesn't return record discriminants nor variants when called on a
+        record component list.
+        """
+        return Entity.match(
+            lambda r=T.ComponentList:
+            Self.unpack_formals(r.components.keep(BaseFormalParamDecl)),
+            lambda _: Entity.unpacked_formal_params
+        )
+
     @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
     def match_param_list(params=T.AssocList.entity,
                          is_dottable_subp=Bool):

@@ -1413,20 +1413,6 @@ class AdaNode(ASTNode):
             results
         )
 
-    @langkit_property()
-    def env_get_first(
-        env=T.LexicalEnv,
-        symbol=T.Symbol,
-        lookup=(T.LookupKind, LK.recursive),
-        from_node=(T.AdaNode, No(T.AdaNode)),
-        categories=(T.RefCategories, all_categories)
-    ):
-        """
-        Wrapper for ``env.get_first``. Implements the same internal logic as
-        ``env_get`` but returns the first result only.
-        """
-        return Self.env_get(env, symbol, lookup, from_node, categories).at(0)
-
     @langkit_property(return_type=T.DefiningName, memoized=True,
                       ignore_warn_on_node=True)
     def synthesize_defining_name(sym=T.Symbol):
@@ -11625,13 +11611,11 @@ class Name(Expr):
                 ),
                 Bind(
                     i.ref_var,
-                    Self.env_get_first(
+                    i.env_get_first_visible(
                         env,
-                        i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
-                        lookup=If(Self.is_prefix, LK.recursive, LK.flat),
-                        categories=no_prims,
-                    ),
+                        lookup_type=If(Self.is_prefix, LK.recursive, LK.flat)
+                    )
                 )
             ),
 

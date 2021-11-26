@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix visibility issue when resolving types
+description: |
+    This change fixes a bug where Libadalang could wrongly resolve a type
+    to a library-level package with the same name, as if the package was
+    "with"ed.
+date: 2021-11-26

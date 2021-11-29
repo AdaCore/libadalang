@@ -371,6 +371,59 @@ package body Libadalang.Expr_Eval is
                begin
                   return Eval_Decl (Lits.Child (Lit_Index).As_Basic_Decl);
                end;
+            when Ada_Decimal_Fixed_Point_Def =>
+               declare
+                  Def : constant LAL.Decimal_Fixed_Point_Def :=
+                     D.As_Decimal_Fixed_Point_Def;
+
+                  Rng : constant LAL.Range_Spec := Def.F_Range;
+               begin
+                  --  If a range has been specified we simply recurse on it,
+                  --  otherwise we need to manually compute its bounds using
+                  --  the `digits` and `delta` values specified for this fixed
+                  --  point type definition.
+                  if Rng.Is_Null then
+                     declare
+                        Delta_Res : constant Eval_Result :=
+                           Expr_Eval (Def.F_Delta);
+
+                        Delta_Val : constant Long_Float :=
+                          (if Delta_Res.Kind in Real
+                           then Delta_Res.Real_Result
+                           else raise Property_Error with
+                              "delta must be real");
+
+                        Digits_Res : constant Eval_Result :=
+                           Expr_Eval (Def.F_Digits);
+
+                        Digits_Val : constant Integer :=
+                          (if Digits_Res.Kind in Int
+                           then To_Integer (Digits_Res.Int_Result)
+                           else raise Property_Error with
+                              "digits must be an integer");
+
+                        Bound : constant Long_Float :=
+                          (if Digits_Val > 0 and Delta_Val > 0.0
+                           then (10.0 ** Digits_Val - 1.0) * Delta_Val
+                           else raise Property_Error with
+                              "delta and digits must be positive");
+                     begin
+                        return
+                          (Kind        => Real,
+                           Expr_Type   => D.Parent.As_Base_Type_Decl,
+                           Real_Result =>
+                             (case A is
+                              when Range_First => -Bound,
+                              when Range_Last => Bound));
+                     end;
+                  else
+                     return Eval_Range_Attr (Rng.F_Range.As_Ada_Node, A);
+                  end if;
+               end;
+            when Ada_Ordinary_Fixed_Point_Def =>
+               return Eval_Range_Attr
+                 (D.As_Ordinary_Fixed_Point_Def.F_Range.F_Range.As_Ada_Node,
+                  A);
 
             when others =>
                raise Property_Error with

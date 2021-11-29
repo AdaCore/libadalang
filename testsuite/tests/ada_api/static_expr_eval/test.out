@@ -230,4 +230,24 @@ Expr <ObjectDecl ["Test_3"] test.adb:182:7-182:38> evaluated to Enum_Lit <EnumLi
 Expr <ObjectDecl ["Test_4"] test.adb:183:7-183:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
    Int value is 1
 
+Expr <ObjectDecl ["T_First"] test.adb:194:7-194:30> evaluated to Real 0.00E+00
+
+Expr <ObjectDecl ["T_Last"] test.adb:195:7-195:29> evaluated to Real 1.00E+00
+
+Expr <ObjectDecl ["U_First"] test.adb:197:7-197:30> evaluated to Real -9.90E+00
+
+Expr <ObjectDecl ["U_Last"] test.adb:198:7-198:29> evaluated to Real 9.90E+00
+
+Expr <ObjectDecl ["V_First"] test.adb:200:7-200:30> evaluated to Real -1.50E+00
+
+Expr <ObjectDecl ["V_Last"] test.adb:201:7-201:29> evaluated to Real 1.50E+00
+
+Property_Error: delta must be real
+
+Property_Error: digits must be an integer
+
+Property_Error: delta and digits must be positive
+
+Property_Error: delta and digits must be positive
+
 Done.

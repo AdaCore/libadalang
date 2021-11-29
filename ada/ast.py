@@ -3390,26 +3390,28 @@ class Body(BasicDecl):
         """
         return imprecise_fallback.bind(
             False,
-            Entity.match(
-                lambda pkg_body=T.PackageBody:
-                    pkg_body.decl_part.then(
-                        lambda d: d.parent.cast(T.GenericPackageDecl)
-                    ),
-                lambda bod=T.BaseSubpBody:
-                    # We're only searching for generics. We look at index 1 and
-                    # 2, because if self is a subunit, the first entity we find
-                    # will be the separate declaration. NOTE: We don't use
-                    # decl_part/previous_part on purpose: They can cause env
-                    # lookups, hence doing an infinite recursion.
-                    bod.children_env.env_parent.get(
-                        bod.name_symbol, categories=no_prims
-                    ).then(
-                        lambda results:
-                        results.at(1).cast(T.GenericSubpDecl)._or(
-                            results.at(2).cast(T.GenericSubpDecl)
-                        )
-                    ),
-                lambda _: No(T.GenericDecl.entity)
+            Cond(
+                Self.is_a(PackageBody),
+                Entity.decl_part.then(
+                    lambda d: d.parent.cast(T.GenericPackageDecl)
+                ),
+
+                Self.is_a(BaseSubpBody, SubpBodyStub),
+                # We're only searching for generics. We look at index 1 and
+                # 2, because if self is a subunit, the first entity we find
+                # will be the separate declaration. NOTE: We don't use
+                # decl_part/previous_part on purpose: They can cause env
+                # lookups, hence doing an infinite recursion.
+                Entity.children_env.env_parent.get(
+                    Entity.name_symbol, categories=no_prims
+                ).then(
+                    lambda results:
+                    results.at(1).cast(T.GenericSubpDecl)._or(
+                        results.at(2).cast(T.GenericSubpDecl)
+                    )
+                ),
+
+                No(T.GenericDecl.entity)
             )
         )
 
@@ -17467,7 +17469,24 @@ class SubpBodyStub(BodyStub):
             key=Self.name_symbol,
             value=Self
         ),
-        add_env(names=Self.env_names)
+        add_env(names=Self.env_names),
+
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.nested_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.prioritary,
+            shed_corresponding_rebindings=True,
+        ),
+
+        # We must also "inherit" the use clauses from the generic formal part
+        # of this body's generic declaration, if relevant.
+        reference(
+            Self.cast(T.AdaNode)._.singleton,
+            through=T.AdaNode.use_clauses_in_generic_formal_part,
+            cond=Self.should_ref_generic_formals,
+            kind=RefKind.normal
+        )
     )
 
     type_expression = Property(Entity.subp_spec.returns)

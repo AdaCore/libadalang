@@ -30,6 +30,7 @@ with GNATCOLL.Projects;  use GNATCOLL.Projects;
 with GNATCOLL.Traces;    use GNATCOLL.Traces;
 with GNATCOLL.Utils;     use GNATCOLL.Utils;
 
+with Libadalang.Project_Provider;
 with Libadalang.Analysis; use Libadalang.Analysis;
 
 --  This package provides various helpers to build applications based on
@@ -39,8 +40,7 @@ package Libadalang.Helpers is
 
    package Unit_Vectors is new Ada.Containers.Vectors
      (Positive, Analysis_Unit);
-   package String_Vectors is new Ada.Containers.Vectors
-     (Positive, Unbounded_String);
+   package String_Vectors renames Libadalang.Project_Provider.Filename_Vectors;
 
    procedure Load_Project
      (Project_File             : String;
@@ -62,14 +62,6 @@ package Libadalang.Helpers is
    --  See ``GNATCOLL.Projects.Set_Target_And_Runtime`` as well as
    --  ``GNATCOLL.Projects.Set_Config_File`` for more details about the use of
    --  ``Target``, ``RTS`` and ``Config_File``.
-
-   procedure List_Sources_From_Project
-     (Project             : Project_Tree'Class;
-      Include_Subprojects : Boolean;
-      Files               : out String_Vectors.Vector);
-   --  Append the list of all source files in ``Project``'s root project to
-   --  ``Files``. If ``Include_Subprojects`` is True, include all source files
-   --  in the imported projects, excluding those that are externally built.
 
    function Project_To_Provider
      (Project : Project_Tree_Access) return Unit_Provider_Reference;

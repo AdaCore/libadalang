@@ -24,8 +24,6 @@
 with Ada.Characters.Handling;
 with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Hashed_Maps;
-with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;
 with Ada.Strings.Unbounded.Hash;
 with Ada.Unchecked_Deallocation;
 
@@ -651,5 +649,74 @@ package body Libadalang.Project_Provider is
       Provider.Env := null;
       Provider.Is_Project_Owner := False;
    end Release;
+
+   ------------------
+   -- Source_Files --
+   ------------------
+
+   function Source_Files
+     (Tree : Prj.Project_Tree'Class;
+      Mode : Source_Files_Mode := Default)
+      return Filename_Vectors.Vector
+   is
+      use GNATCOLL.Projects;
+
+      Result : Filename_Vectors.Vector;
+
+      procedure Append (F : Virtual_File);
+      --  If ``F`` is an Ada source in the project tree, append it to
+      --  ``Result``.
+
+      package Sorting is new Filename_Vectors.Generic_Sorting ("<" => US."<");
+
+      ------------
+      -- Append --
+      ------------
+
+      procedure Append (F : Virtual_File) is
+         FI        : constant File_Info := Tree.Info (F);
+         Full_Name : Filesystem_String renames F.Full_Name.all;
+         Name      : constant String := +Full_Name;
+      begin
+         if FI.Language = "ada" then
+            Result.Append (US.To_Unbounded_String (Name));
+         end if;
+      end Append;
+
+   begin
+      --  First, get the requested set of sources from the project itself
+
+      declare
+         List : File_Array_Access :=
+           (Tree.Root_Project.Source_Files
+              (Recursive                => Mode /= Root_Project,
+               Include_Externally_Built =>
+                 Mode in Whole_Project | Whole_Project_With_Runtime));
+      begin
+         for F of List.all loop
+            Append (F);
+         end loop;
+         Unchecked_Free (List);
+      end;
+
+      --  Then, if requested, get runtime sources
+
+      if Mode = Whole_Project_With_Runtime then
+         declare
+            Env : constant Project_Environment_Access :=
+              Get_Environment (Tree.Root_Project);
+         begin
+            for F of Predefined_Source_Files (Env) loop
+               Append (F);
+            end loop;
+         end;
+      end if;
+
+      --  Sort the list of source files to return. Sorting gets the output
+      --  deterministic and thus helps reproducibility.
+
+      Sorting.Sort (Result);
+      return Result;
+   end Source_Files;
 
 end Libadalang.Project_Provider;

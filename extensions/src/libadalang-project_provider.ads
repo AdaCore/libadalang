@@ -21,6 +21,9 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Containers.Vectors;
+with Ada.Strings.Unbounded;
+
 with GNATCOLL.Projects;
 with GNATCOLL.Traces; use GNATCOLL.Traces;
 
@@ -97,5 +100,31 @@ package Libadalang.Project_Provider is
       when Unit_Body          => GNATCOLL.Projects.Unit_Body);
    --  Convert our kind for analysis unit into the corresponding
    --  ``GNATCOLL.Projects`` value.
+
+   package Filename_Vectors is new Ada.Containers.Vectors
+     (Index_Type   => Positive,
+      Element_Type => Ada.Strings.Unbounded.Unbounded_String,
+      "="          => Ada.Strings.Unbounded."=");
+
+   type Source_Files_Mode is
+     (Default, Root_Project, Whole_Project, Whole_Project_With_Runtime);
+
+   function Source_Files
+     (Tree : Prj.Project_Tree'Class;
+      Mode : Source_Files_Mode := Default)
+      return Filename_Vectors.Vector;
+   --  Return the list of source files in the given project ``Tree``. Which
+   --  sources are considered depends on ``Mode``:
+   --
+   --  * ``Default``: sources in the root project and its non-externally built
+   --    dependencies;
+   --
+   --  * ``Root_Project``: sources in the root project only;
+   --
+   --  * ``Whole_Project``: sources in the whole project tree (i.e. including
+   --    externally built dependencies);
+   --
+   --  * ``Whole_Project_With_Runtime``: sources in the whole project tree plus
+   --    runtime sources.
 
 end Libadalang.Project_Provider;

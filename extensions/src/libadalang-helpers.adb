@@ -46,8 +46,6 @@ package body Libadalang.Helpers is
    --  Exception used to abort the execution of an App in a user callback. See
    --  the Abort_App procedure.
 
-   function "+" (S : String) return Unbounded_String
-                 renames To_Unbounded_String;
    function "+" (S : Unbounded_String) return String renames To_String;
 
    procedure Print_Error (Message : String);
@@ -103,13 +101,6 @@ package body Libadalang.Helpers is
          Abort_Signaled_State : Boolean := False;
       end Abortion;
 
-      procedure List_Predefined_Sources
-        (Project : Project_Tree'Class;
-         Env     : Project_Environment_Access;
-         Files   : in out String_Vectors.Vector);
-      --  Append to Files the list of predefined sources (typically,
-      --  runtime files).
-
       function Files_From_Args
         (Files : out String_Vectors.Vector) return Boolean;
       --  If source files are passed on the command line, append them to Files
@@ -150,33 +141,6 @@ package body Libadalang.Helpers is
             New_Line;
          end if;
       end Dump_Exception;
-
-      -----------------------------
-      -- List_Predefined_Sources --
-      -----------------------------
-
-      procedure List_Predefined_Sources
-        (Project : Project_Tree'Class;
-         Env     : Project_Environment_Access;
-         Files   : in out String_Vectors.Vector)
-      is
-         List : File_Array := Predefined_Source_Files (Env);
-      begin
-         --  Sort for determinism
-         Sort (List);
-
-         for F of List loop
-            declare
-               FI        : constant File_Info := Project.Info (F);
-               Full_Name : Filesystem_String renames F.Full_Name.all;
-               Name      : constant String := +Full_Name;
-            begin
-               if FI.Language = "ada" then
-                  Files.Append (+Name);
-               end if;
-            end;
-         end loop;
-      end List_Predefined_Sources;
 
       ---------------------
       -- Files_From_Args --
@@ -385,14 +349,16 @@ package body Libadalang.Helpers is
             UFP := Project_To_Provider (Project);
 
             if not Files_From_Args (Files) then
-               List_Sources_From_Project
-                 (Project.all,
-                  Args.Process_Full_Project_Tree.Get,
-                  Files);
-            end if;
-
-            if Args.Process_Runtime.Get then
-               List_Predefined_Sources (Project.all, Env, Files);
+               declare
+                  Mode : constant Source_Files_Mode :=
+                    (if Args.Process_Runtime.Get
+                     then Whole_Project_With_Runtime
+                     else (if Args.Process_Full_Project_Tree.Get
+                           then Default
+                           else Root_Project));
+               begin
+                  Files.Append_Vector (Source_Files (Project.all, Mode));
+               end;
             end if;
 
             --  Fill in the provider
@@ -608,40 +574,6 @@ package body Libadalang.Helpers is
       end;
       Libadalang.Project_Provider.Trace.Trace ("Loading succeeded");
    end Load_Project;
-
-   -------------------------------
-   -- List_Sources_From_Project --
-   -------------------------------
-
-   procedure List_Sources_From_Project
-     (Project             : Project_Tree'Class;
-      Include_Subprojects : Boolean;
-      Files               : out String_Vectors.Vector)
-   is
-      --  Get a sorted list of source files in Project's root project.
-      --  Sorting gets the output deterministic and thus helps
-      --  reproducibility.
-
-      List : File_Array_Access :=
-        Project.Root_Project.Source_Files
-          (Recursive                => Include_Subprojects,
-           Include_Externally_Built => False);
-   begin
-      Sort (List.all);
-
-      for F of List.all loop
-         declare
-            FI        : constant File_Info := Project.Info (F);
-            Full_Name : Filesystem_String renames F.Full_Name.all;
-            Name      : constant String := +Full_Name;
-         begin
-            if FI.Language = "ada" then
-               Files.Append (+Name);
-            end if;
-         end;
-      end loop;
-      Unchecked_Free (List);
-   end List_Sources_From_Project;
 
    -------------------------
    -- Project_To_Provider --

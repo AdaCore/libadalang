@@ -184,4 +184,37 @@ begin
    begin
       null;
    end;
+
+   --  Fixed point ranges
+   declare
+      type T is delta 0.1 digits 8 range 0.0 .. 1.0;
+      type U is delta 0.1 digits 2;
+      type V is delta 0.1 range -1.5 .. 1.5;
+
+      T_First : T := T'First;
+      T_Last  : T := T'Last;
+
+      U_First : U := U'First;
+      U_Last  : U := U'Last;
+
+      V_First : V := V'First;
+      V_Last  : V := V'Last;
+   begin
+      null;
+   end;
+
+   --  Invalid decimal fixed point defs
+   declare
+      type T is delta 1 digits 2;
+      type U is delta 0.1 digits 2.5;
+      type V is delta 0.1 digits -3;
+      type W is delta -0.1 digits 3;
+
+      T_Last : T := T'Last;
+      U_Last : U := U'Last;
+      V_Last : V := V'Last;
+      W_Last : W := W'Last;
+   begin
+      null;
+   end;
 end Test;

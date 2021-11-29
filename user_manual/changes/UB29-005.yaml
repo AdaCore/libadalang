@@ -1,0 +1,10 @@
+type: api-change
+title: API to get the list of sources from a project file
+description: |
+    In the Ada API, the ``Libadalang.Helpers.List_Sources_From_Project``
+    function was removed and replaced with
+    ``Libadalang.Project_Provider.Source_Files``, with signature changes to
+    make it more configurable: it is now possible to get sources from
+    externally built projects as well as from the runtime.  This API has also
+    been bound to the Python bindings (``libadalang.SourceFiles.for_project``).
+date: 2021-11-29

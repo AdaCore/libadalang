@@ -1,0 +1,17 @@
+with "ext";
+
+project Lib is
+   for Source_Dirs use ("src-lib");
+
+   type Boolean is ("false", "true");
+   Alt : Boolean := external ("LIB_ALT", "false");
+
+   package Naming is
+      case Alt is
+         when "true" =>
+            for Spec ("lib") use "lib__alt.ads";
+         when "false" =>
+            for Spec ("lib") use "lib.ads";
+      end case;
+   end Naming;
+end Lib;

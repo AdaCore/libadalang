@@ -21,6 +21,9 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Strings.Unbounded;
+with Interfaces.C.Strings; use Interfaces.C.Strings;
+
 with GNATCOLL.Locks;
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
@@ -240,5 +243,80 @@ package body Libadalang.Implementation.C.Extensions is
          end return;
       end;
    end ada_create_auto_provider;
+
+   ------------------------------
+   -- ada_project_source_files --
+   ------------------------------
+
+   function ada_project_source_files
+     (Project_File    : chars_ptr;
+      Scenario_Vars   : System.Address;
+      Target, Runtime : chars_ptr;
+      Mode            : int) return Source_File_Array_Ref_Access
+   is
+      Tree   : Project_Tree_Access;
+      Env    : Project_Environment_Access;
+      M      : Source_Files_Mode;
+      Result : Filename_Vectors.Vector;
+   begin
+      Clear_Last_Exception;
+
+      --  Decode the ``Mode`` argument
+
+      begin
+         M := Source_Files_Mode'Val (Mode);
+      exception
+         when Exc : Constraint_Error =>
+            Set_Last_Exception (Exc);
+            return null;
+      end;
+
+      --  Load the project file and compute the list of source files
+
+      begin
+         Load_Project
+           (Project_File, Scenario_Vars, Target, Runtime, Tree, Env);
+      exception
+         when Exc : Invalid_Project =>
+            Set_Last_Exception (Exc);
+            return null;
+      end;
+
+      Result := Source_Files (Tree.all, M);
+      Free (Tree);
+      Free (Env);
+
+      --  Convert the vector to the C API result
+
+      declare
+         Ref : constant Source_File_Array_Ref_Access :=
+           new Source_File_Array_Ref (int (Result.Length));
+         I   : int := 1;
+      begin
+         Ref.C_Ptr := Ref.Items'Address;
+         for F of Result loop
+            Ref.Items (I) := New_String (Ada.Strings.Unbounded.To_String (F));
+            I := I + 1;
+         end loop;
+
+         return Ref;
+      end;
+   end ada_project_source_files;
+
+   --------------------------------
+   -- ada_free_source_file_array --
+   --------------------------------
+
+   procedure ada_free_source_file_array
+     (Source_Files : Source_File_Array_Ref_Access)
+   is
+      S : Source_File_Array_Ref_Access;
+   begin
+      for F of Source_Files.Items loop
+         Free (F);
+      end loop;
+      S := Source_Files;
+      Free (S);
+   end ada_free_source_file_array;
 
 end Libadalang.Implementation.C.Extensions;

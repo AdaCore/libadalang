@@ -1,4 +1,4 @@
-## vim: filetype=python
+## vim: filetype=makopython
 
 def token_match(self, other):
     """
@@ -46,3 +46,94 @@ def doc_name(n):
 
 Token.match = token_match
 Name.doc_name = doc_name
+
+
+import enum
+class SourceFilesMode(enum.Enum):
+    """
+    Mode to get a list of source files from a project file.
+
+    See ``SourceFiles.for_project``.
+    """
+    default = 0
+    root_project = 1
+    whole_project = 2
+    whole_project_with_runtime = 3
+
+
+class SourceFiles:
+
+    class _c_struct(ctypes.Structure):
+        _fields_ = [
+            ("length", ctypes.c_int),
+            ("c_ptr", ctypes.POINTER(ctypes.c_char_p)),
+            # Omit the "items" field: it has variable size and is not necessary
+            # to just read the items.
+        ]
+
+    _c_type = ctypes.POINTER(_c_struct)
+
+    _c_project_source_files = _import_func(
+        "ada_project_source_files",
+        [ctypes.c_char_p,
+         ctypes.POINTER(_project_scenario_variable),
+         ctypes.c_char_p,
+         ctypes.c_char_p,
+         ctypes.c_int],
+        _c_type,
+    )
+
+    _c_free_source_file_array = _import_func(
+        "ada_free_source_file_array", [_c_type], None
+    )
+
+    @classmethod
+    def for_project(
+        cls,
+        project_file: str,
+        scenario_vars: Dict[str, str] = {},
+        target: Opt[str] = None,
+        runtime: Opt[str] = None,
+        mode: SourceFilesMode = SourceFilesMode.default
+    ) -> List[str]:
+        ${py_doc('libadalang.source_files_for_project', 8)}
+
+        # Turn arguments into C API values
+        c_project_file = UnitProvider._coerce_bytes(
+            'project_file', project_file
+        )
+        c_target = UnitProvider._coerce_bytes('target', target, or_none=True)
+        c_runtime = UnitProvider._coerce_bytes(
+            'runtime', runtime, or_none=True
+        )
+
+        if scenario_vars:
+            items = scenario_vars.items()
+            scn_vars_array_type = _project_scenario_variable * (len(items) + 1)
+            c_scenario_vars = scn_vars_array_type()
+            for i, (name, value) in enumerate(items):
+                what = 'a dict mapping bytes strings to bytes strings'
+                name = UnitProvider._coerce_bytes('scenario_vars', name, what)
+                value = UnitProvider._coerce_bytes('scenario_vars', value,
+                                                   what)
+                c_scenario_vars[i] = _project_scenario_variable(name, value)
+            c_scenario_vars[-1] = _project_scenario_variable(None, None)
+        else:
+            c_scenario_vars = None
+
+        assert isinstance(mode, SourceFilesMode)
+        c_mode = mode.value
+
+        # Compute the list of source files, extract it (no error expected there
+        # unless we have a bug) and free the resources.
+        c_value = cls._c_project_source_files(
+            c_project_file, c_scenario_vars, c_target, c_runtime, c_mode
+        )
+        assert c_value
+        c_data = c_value.contents
+        result = [c_data.c_ptr[i] for i in range(c_data.length)]
+        cls._c_free_source_file_array(c_value)
+
+        # Now convert filenames to Unicode strings using the system default
+        # encoding, to be more consistent with other Python APIs.
+        return [f.decode() for f in result]

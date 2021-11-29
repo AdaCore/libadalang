@@ -1,0 +1,5 @@
+with "lib";
+
+project Root is
+   for Source_Dirs use ("src-root");
+end Root;

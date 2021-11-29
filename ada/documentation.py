@@ -2,6 +2,25 @@ libadalang_docs = {
     'libadalang.project_scenario_variable': """
         Couple name/value to define a scenario variable for a project.
     """,
+    'libadalang.source_files_for_project': """
+        Load the project file according to ``project_file``, ``scenario_vars``,
+        ``target`` and ``runtime``. On success, return the list of source
+        files in this project according to ``mode``:
+
+        * ``default``: sources in the root project and its non-externally built
+          dependencies;
+
+        * ``root_project``: sources in the root project only;
+
+        * ``whole_project``: sources in the whole project tree (i.e. including
+          externally built dependencies);
+
+        * ``whole_project_with_runtime``: sources in the whole project tree
+          plus runtime sources.
+
+        This raises an ``InvalidProjectError`` exception if the project cannot
+        be loaded with the given arguments.
+    """,
     'libadalang.create_project_unit_provider': """
         Load the project file at ``Project_File`` and return a unit provider
         that uses it.

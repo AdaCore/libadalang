@@ -1,0 +1,29 @@
+{}:
+  src-lib/lib.ads
+  src-root/root.ads
+
+{'mode': <SourceFilesMode.default: 0>}:
+  src-lib/lib.ads
+  src-root/root.ads
+
+{'mode': <SourceFilesMode.root_project: 1>}:
+  src-root/root.ads
+
+{'mode': <SourceFilesMode.whole_project: 2>}:
+  src-ext/ext.ads
+  src-lib/lib.ads
+  src-root/root.ads
+
+{'scenario_vars': {'LIB_ALT': 'true'}}:
+  src-lib/lib__alt.ads
+  src-root/root.ads
+
+invalid project:
+<InvalidProject exception>
+
+with runtime:
+  system.ads is present
+  src-ext/ext.ads
+  src-lib/lib.ads
+  src-root/root.ads
+Done

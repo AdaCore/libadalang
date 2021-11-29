@@ -1,0 +1,4 @@
+project Ext is
+   for Source_Dirs use ("src-ext");
+   for Externally_Built use "true";
+end Ext;

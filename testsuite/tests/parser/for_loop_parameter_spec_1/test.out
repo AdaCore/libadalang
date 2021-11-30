@@ -18,3 +18,4 @@ ForLoopSpec[1:1-1:19]
 |  ReverseAbsent[1:15-1:15]
 |f_iter_expr:
 |  Id[1:16-1:19]: Foo
+|f_iter_filter: <null>

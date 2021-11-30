@@ -14759,6 +14759,7 @@ class ForLoopSpec(LoopSpec):
     loop_type = Field(type=IterType)
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
+    iter_filter = Field(type=T.Expr)
 
     @langkit_property(return_type=Bool)
     def is_iterated_assoc_spec():
@@ -14858,6 +14859,11 @@ class ForLoopSpec(LoopSpec):
 
                 LogicFalse()
             ))
+        ) & If(
+            Entity.iter_filter.is_null,
+            LogicTrue(),
+            Self.bool_bind(Entity.iter_filter.type_var)
+            & Entity.iter_filter.sub_equation
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

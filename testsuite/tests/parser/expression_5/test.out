@@ -28,6 +28,7 @@ BinOp[1:1-1:53]
 |  |  |  |  |  |  ReverseAbsent[1:23-1:23]
 |  |  |  |  |  |f_iter_expr:
 |  |  |  |  |  |  Id[1:24-1:25]: B
+|  |  |  |  |  |f_iter_filter: <null>
 |  |  |  |  |f_expr:
 |  |  |  |  |  RelationOp[1:29-1:35]
 |  |  |  |  |  |f_left:

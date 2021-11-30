@@ -1049,7 +1049,8 @@ A.add_rules(
         ForLoopVarDecl(A.defining_id, Opt(":", A.subtype_indication)),
         IterType.alt_in("in") | IterType.alt_of("of"),
         Reverse("reverse"),
-        A.discrete_range | A.discrete_subtype_indication | A.name
+        A.discrete_range | A.discrete_subtype_indication | A.name,
+        Opt("when", A.expr)
     ),
 
     quantified_expr=QuantifiedExpr(

@@ -1,2 +1,2 @@
 driver: name-resolution
-input_sources: [iterassoc.adb]
+input_sources: [iterassoc.adb, iterassoc_filter.adb]

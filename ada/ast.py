@@ -12629,10 +12629,16 @@ class IteratedAssoc(BasicAssoc):
         array_type_def = Var(type_decl._.array_def)
 
         # NOTE: we need to resolve the spec first so that the indexing variable
-        # has a type.
+        # has a type when resolving `r_expr`.
+        # NOTE: if the form of the iterated_component_association is
+        # `for I in ..`, Ada requires the type of I to be the index type of the
+        # array (taking dimension into account) which we are building an
+        # aggregate for.
         spec_success = Var(Entity.spec.resolve_names_internal_with_eq(
-            Self.type_bind_val(Entity.spec.var_decl.id.type_var,
-                               array_type_def.index_type(root_agg.rank))
+            If(Self.spec.loop_type.is_a(IterType.alt_in),
+               Self.type_bind_val(Entity.spec.var_decl.id.type_var,
+                                  array_type_def.index_type(root_agg.rank)),
+               LogicTrue())
         ))
 
         return If(
@@ -14719,9 +14725,19 @@ class ForLoopVarDecl(BasicDecl):
             Self.id_type.is_null,
 
             # The type of a for loop variable does not need to be annotated, it
-            # can eventually be infered, which necessitates name resolution on
+            # can eventually be inferred, which necessitates name resolution on
             # the loop specification. Run resolution if necessary.
-            Entity.id.expression_type,
+            # NOTE: if we are in the context of an Ada 202x iterated component
+            # association things are a bit different: `id`'s type_var should
+            # already be set by the enclosing IteratedAssoc's resolution, and
+            # must be retrieved directly. Calling `expression_type` now would
+            # trigger an infinite loop because the enclosing ForLoopSpec is
+            # not an entry point in this context.
+            If(
+                Self.parent.cast(ForLoopSpec).is_iterated_assoc_spec,
+                Self.id.type_val.cast_or_raise(BaseTypeDecl),
+                Entity.id.expression_type,
+            ),
 
             # If there is a type annotation, just return it
             Entity.id_type.designated_type
@@ -14739,6 +14755,14 @@ class ForLoopSpec(LoopSpec):
     loop_type = Field(type=IterType)
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
+
+    @langkit_property(return_type=Bool)
+    def is_iterated_assoc_spec():
+        """
+        Return whether this for loop spec is part of an iterated component
+        association.
+        """
+        return Self.parent.is_a(IteratedAssoc)
 
     @langkit_property(memoized=True, call_memoizable=True,
                       dynamic_vars=[env, origin])
@@ -14851,7 +14875,10 @@ class ForLoopSpec(LoopSpec):
             LogicFalse()
         )
 
-    xref_entry_point = Property(True)
+    # This spec is not a complete resolution context when part of an iterated
+    # component association: we must know the type of the enclosing aggregate
+    # to determine the type of the iteration variable in case of a `for I in`.
+    xref_entry_point = Property(Not(Self.is_iterated_assoc_spec))
 
 
 class QuantifiedExpr(Expr):

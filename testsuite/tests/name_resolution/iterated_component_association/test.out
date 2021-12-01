@@ -1,20 +1,234 @@
 Analyzing iterassoc.adb
 #######################
 
-Resolving xrefs for node <ObjectDecl ["N"] iterassoc.adb:9:9-9:51>
+Resolving xrefs for node <ObjectDecl ["M"] iterassoc.adb:7:4-7:43>
 ******************************************************************
 
-Resolution failed for node <ObjectDecl ["N"] iterassoc.adb:9:9-9:51>
+Expr: <Id "A" iterassoc.adb:7:8-7:9>
+  references: <DefiningName iterassoc.adb:3:9-3:10>
+  type:       None
+Expr: <Aggregate iterassoc.adb:7:13-7:42>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "R" iterassoc.adb:7:23-7:24>
+  references: <DefiningName iterassoc.adb:2:9-2:10>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <BinOp iterassoc.adb:7:28-7:41>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <CallExpr iterassoc.adb:7:28-7:33>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:7:28-7:29>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "I" iterassoc.adb:7:31-7:32>
+  references: <DefiningName iterassoc.adb:7:18-7:19>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <OpMult "*" iterassoc.adb:7:34-7:35>
+  references: None
+  type:       None
+Expr: <CallExpr iterassoc.adb:7:36-7:41>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:7:36-7:37>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "I" iterassoc.adb:7:39-7:40>
+  references: <DefiningName iterassoc.adb:7:18-7:19>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
 
-Resolving xrefs for node <ObjectDecl ["M"] iterassoc.adb:12:9-12:64>
+Resolving xrefs for node <ObjectDecl ["M"] iterassoc.adb:10:4-10:52>
 ********************************************************************
 
-Resolution failed for node <ObjectDecl ["M"] iterassoc.adb:12:9-12:64>
+Expr: <Id "A" iterassoc.adb:10:8-10:9>
+  references: <DefiningName iterassoc.adb:3:9-3:10>
+  type:       None
+Expr: <Aggregate iterassoc.adb:10:13-10:51>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "R" iterassoc.adb:10:22-10:23>
+  references: None
+  type:       None
+Expr: <BinOp iterassoc.adb:10:27-10:33>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <Int iterassoc.adb:10:27-10:28>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpDoubleDot ".." iterassoc.adb:10:29-10:31>
+  references: None
+  type:       None
+Expr: <Int iterassoc.adb:10:32-10:33>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <BinOp iterassoc.adb:10:37-10:50>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <CallExpr iterassoc.adb:10:37-10:42>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:10:37-10:38>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "I" iterassoc.adb:10:40-10:41>
+  references: <DefiningName iterassoc.adb:10:18-10:19>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <OpMult "*" iterassoc.adb:10:43-10:44>
+  references: None
+  type:       None
+Expr: <CallExpr iterassoc.adb:10:45-10:50>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:10:45-10:46>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "I" iterassoc.adb:10:48-10:49>
+  references: <DefiningName iterassoc.adb:10:18-10:19>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
 
-Resolving xrefs for node <ObjectDecl ["O"] iterassoc.adb:15:9-15:48>
+Resolving xrefs for node <ObjectDecl ["N"] iterassoc.adb:13:4-13:48>
 ********************************************************************
 
-Resolution failed for node <ObjectDecl ["O"] iterassoc.adb:15:9-15:48>
+Expr: <Id "A" iterassoc.adb:13:8-13:9>
+  references: <DefiningName iterassoc.adb:3:9-3:10>
+  type:       None
+Expr: <Aggregate iterassoc.adb:13:13-13:47>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <BinOp iterassoc.adb:13:23-13:29>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <Int iterassoc.adb:13:23-13:24>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpDoubleDot ".." iterassoc.adb:13:25-13:27>
+  references: None
+  type:       None
+Expr: <Int iterassoc.adb:13:28-13:29>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <BinOp iterassoc.adb:13:33-13:46>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <CallExpr iterassoc.adb:13:33-13:38>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:13:33-13:34>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "I" iterassoc.adb:13:36-13:37>
+  references: <DefiningName iterassoc.adb:13:18-13:19>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <OpMult "*" iterassoc.adb:13:39-13:40>
+  references: None
+  type:       None
+Expr: <CallExpr iterassoc.adb:13:41-13:46>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:13:41-13:42>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "I" iterassoc.adb:13:44-13:45>
+  references: <DefiningName iterassoc.adb:13:18-13:19>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+
+Resolving xrefs for node <ObjectDecl ["O"] iterassoc.adb:16:4-16:43>
+********************************************************************
+
+Expr: <Id "A" iterassoc.adb:16:8-16:9>
+  references: <DefiningName iterassoc.adb:3:9-3:10>
+  type:       None
+Expr: <Aggregate iterassoc.adb:16:13-16:42>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "Float" iterassoc.adb:16:22-16:27>
+  references: None
+  type:       None
+Expr: <Id "X" iterassoc.adb:16:31-16:32>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <BinOp iterassoc.adb:16:36-16:41>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "F" iterassoc.adb:16:36-16:37>
+  references: <DefiningName iterassoc.adb:16:18-16:19>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <OpMult "*" iterassoc.adb:16:38-16:39>
+  references: None
+  type:       None
+Expr: <Id "F" iterassoc.adb:16:40-16:41>
+  references: <DefiningName iterassoc.adb:16:18-16:19>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+
+Resolving xrefs for node <ObjectDecl ["P"] iterassoc.adb:19:4-19:35>
+********************************************************************
+
+Expr: <Id "A" iterassoc.adb:19:8-19:9>
+  references: <DefiningName iterassoc.adb:3:9-3:10>
+  type:       None
+Expr: <Aggregate iterassoc.adb:19:13-19:34>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "X" iterassoc.adb:19:23-19:24>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <BinOp iterassoc.adb:19:28-19:33>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "F" iterassoc.adb:19:28-19:29>
+  references: <DefiningName iterassoc.adb:19:18-19:19>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <OpMult "*" iterassoc.adb:19:30-19:31>
+  references: None
+  type:       None
+Expr: <Id "F" iterassoc.adb:19:32-19:33>
+  references: <DefiningName iterassoc.adb:19:18-19:19>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+
+Resolving xrefs for node <ObjectDecl ["Q"] iterassoc.adb:25:4-27:44>
+********************************************************************
+
+Expr: <Id "AA" iterassoc.adb:25:8-25:10>
+  references: <DefiningName iterassoc.adb:23:9-23:11>
+  type:       None
+Expr: <Aggregate iterassoc.adb:26:6-27:43>
+  type:       <TypeDecl ["AA"] iterassoc.adb:23:4-23:37>
+Expr: <BinOp iterassoc.adb:26:16-26:22>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <Int iterassoc.adb:26:16-26:17>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpDoubleDot ".." iterassoc.adb:26:18-26:20>
+  references: None
+  type:       None
+Expr: <Int iterassoc.adb:26:21-26:22>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Aggregate iterassoc.adb:27:8-27:42>
+  type:       None
+Expr: <BinOp iterassoc.adb:27:18-27:24>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <Int iterassoc.adb:27:18-27:19>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpDoubleDot ".." iterassoc.adb:27:20-27:22>
+  references: None
+  type:       None
+Expr: <Int iterassoc.adb:27:23-27:24>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <BinOp iterassoc.adb:27:28-27:41>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <CallExpr iterassoc.adb:27:28-27:33>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:27:28-27:29>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "I" iterassoc.adb:27:31-27:32>
+  references: <DefiningName iterassoc.adb:26:11-26:12>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
+Expr: <OpMult "*" iterassoc.adb:27:34-27:35>
+  references: None
+  type:       None
+Expr: <CallExpr iterassoc.adb:27:36-27:41>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc.adb:27:36-27:37>
+  references: <DefiningName iterassoc.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
+Expr: <Id "J" iterassoc.adb:27:39-27:40>
+  references: <DefiningName iterassoc.adb:27:13-27:14>
+  type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
 
 
 Done.

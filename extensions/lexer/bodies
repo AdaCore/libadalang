@@ -36,30 +36,30 @@ begin
          when Ada_83 =>
             return False;
          when Ada_95 =>
-            return Sym in +Precomputed_Symbol_Abstract
-                        | +Precomputed_Symbol_Protected
-                        | +Precomputed_Symbol_Requeue
-                        | +Precomputed_Symbol_Tagged
-                        | +Precomputed_Symbol_Until;
+            return Sym in +Precomputed_Sym_Abstract
+                        | +Precomputed_Sym_Protected
+                        | +Precomputed_Sym_Requeue
+                        | +Precomputed_Sym_Tagged
+                        | +Precomputed_Sym_Until;
          when Ada_2005 =>
-            return Sym in +Precomputed_Symbol_Abstract
-                        | +Precomputed_Symbol_Interface
-                        | +Precomputed_Symbol_Overriding
-                        | +Precomputed_Symbol_Protected
-                        | +Precomputed_Symbol_Requeue
-                        | +Precomputed_Symbol_Synchronized
-                        | +Precomputed_Symbol_Tagged
-                        | +Precomputed_Symbol_Until;
+            return Sym in +Precomputed_Sym_Abstract
+                        | +Precomputed_Sym_Interface
+                        | +Precomputed_Sym_Overriding
+                        | +Precomputed_Sym_Protected
+                        | +Precomputed_Sym_Requeue
+                        | +Precomputed_Sym_Synchronized
+                        | +Precomputed_Sym_Tagged
+                        | +Precomputed_Sym_Until;
          when Ada_2012 =>
-            return Sym in +Precomputed_Symbol_Abstract
-                        | +Precomputed_Symbol_Interface
-                        | +Precomputed_Symbol_Overriding
-                        | +Precomputed_Symbol_Protected
-                        | +Precomputed_Symbol_Requeue
-                        | +Precomputed_Symbol_Some
-                        | +Precomputed_Symbol_Synchronized
-                        | +Precomputed_Symbol_Tagged
-                        | +Precomputed_Symbol_Until;
+            return Sym in +Precomputed_Sym_Abstract
+                        | +Precomputed_Sym_Interface
+                        | +Precomputed_Sym_Overriding
+                        | +Precomputed_Sym_Protected
+                        | +Precomputed_Sym_Requeue
+                        | +Precomputed_Sym_Some
+                        | +Precomputed_Sym_Synchronized
+                        | +Precomputed_Sym_Tagged
+                        | +Precomputed_Sym_Until;
       end case;
    end if;
 end Is_Keyword;

@@ -329,7 +329,10 @@ class AdaNode(ASTNode):
         completions for the current node. This method has to be overridden in
         order to specialize the completion.
         """
-        return Self.children_env.get(No(Symbol)).map(
+        return Self.env_get_public(
+            Self.children_env,
+            No(Symbol)
+        ).map(
             lambda n: CompletionItem.new(
                 decl=n.cast(T.BasicDecl),
                 is_dot_call=n.info.md.dottable_subp,
@@ -1475,6 +1478,26 @@ class AdaNode(ASTNode):
             enclosing_bd.as_bare_entity._.defining_name._.name_is(symbol),
             results.filter(lambda r: r.node != enclosing_bd),
             results
+        )
+
+    @langkit_property()
+    def env_get_public(
+        env=T.LexicalEnv,
+        symbol=T.Symbol,
+        lookup=(T.LookupKind, LK.recursive),
+        from_node=(T.AdaNode, No(T.AdaNode)),
+        categories=(T.RefCategories, all_categories)
+    ):
+        """
+        Like ``env_get`` but should be used when the results are to be returned
+        to users: this wrapper takes care of removing internal structures
+        which are of no use for users.
+        """
+        return Self.env_get(env, symbol, lookup, from_node, categories).filter(
+            lambda x: x.cast(PackageDecl).then(
+                lambda pkg: pkg.name_symbol != "root_types_",
+                default_val=True
+            )
         )
 
     @langkit_property(return_type=T.DefiningName, memoized=True,
@@ -17688,8 +17711,11 @@ class DottedName(Name):
             # to True.
             no_visibility.bind(
                 True,
-                Entity.prefix.designated_env.get(No(Symbol), LK.flat)
-                .filtermap(
+                Self.env_get_public(
+                    Entity.prefix.designated_env,
+                    No(Symbol),
+                    LK.flat
+                ).filtermap(
                     lambda n: CompletionItem.new(
                         decl=n.cast(T.BasicDecl),
                         is_dot_call=n.info.md.dottable_subp,

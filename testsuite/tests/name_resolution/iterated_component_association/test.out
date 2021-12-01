@@ -1,0 +1,20 @@
+Analyzing iterassoc.adb
+#######################
+
+Resolving xrefs for node <ObjectDecl ["N"] iterassoc.adb:9:9-9:51>
+******************************************************************
+
+Resolution failed for node <ObjectDecl ["N"] iterassoc.adb:9:9-9:51>
+
+Resolving xrefs for node <ObjectDecl ["M"] iterassoc.adb:12:9-12:64>
+********************************************************************
+
+Resolution failed for node <ObjectDecl ["M"] iterassoc.adb:12:9-12:64>
+
+Resolving xrefs for node <ObjectDecl ["O"] iterassoc.adb:15:9-15:48>
+********************************************************************
+
+Resolution failed for node <ObjectDecl ["O"] iterassoc.adb:15:9-15:48>
+
+
+Done.

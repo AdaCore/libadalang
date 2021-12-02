@@ -1,0 +1,4 @@
+Eval 'node.p_designated_generic_decl.p_body_part_for_decl()' on node <GenericPackageInstantiation ["My_Foo"] test.adb:3:4-3:40>
+Result: <PackageBody ["Foo"] foo.adb:1:1-3:9>
+
+

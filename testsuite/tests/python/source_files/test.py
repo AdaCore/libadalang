@@ -14,10 +14,12 @@ cwd = os.path.realpath(os.getcwd())
 def inside_test_dir(f):
     """
     If ``f`` is a filename under this test directory, return it relative to it.
-    Return None otherwise.
+    Return None otherwise. Also canonicalize paths to Unix-like syntax.
     """
     f = os.path.realpath(f)
-    return os.path.relpath(f, cwd) if f.startswith(cwd) else None
+    if not f.startswith(cwd):
+        return None
+    return os.path.relpath(f, cwd).replace("\\", "/")
 
 
 for kwargs in [

@@ -1,0 +1,6 @@
+type: new-feature
+title: Index attribute support (Ada 2022)
+description: |
+    Add support for the 'Index attribute which can be used on a precondition or
+    postcondition expression for an entry family.
+date: 2021-12-02

@@ -15228,6 +15228,9 @@ class AttributeRef(Name):
             rel_name == 'Put_Image',
             Entity.put_image_equation,
 
+            rel_name == 'Index',
+            Entity.index_equation,
+
             PropertyError(Equation, "Unhandled attribute")
         )
 
@@ -15806,6 +15809,20 @@ class AttributeRef(Name):
             Entity.args_list.at(1).expr.sub_equation,
             Bind(Entity.args_list.at(1).expr.type_var, typ,
                  eq_prop=BaseTypeDecl.matching_formal_type)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def index_equation():
+        """
+        Return the xref equation for the `Index` attribute.
+        """
+        typ = Var(
+            env.get_first(Entity.prefix.name_symbol)
+            .cast_or_raise(T.EntryDecl).family_type
+        )
+        return And(
+            Entity.prefix.sub_equation,
+            Self.type_bind_val(Self.type_var, typ)
         )
 
 

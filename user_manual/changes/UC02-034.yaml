@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix ``P_Next_Part_For_decl`` on GenericDecl nodes
+description: |
+    This change fixes a bug where calling ``P_Next_Part_For_decl`` on a
+    ``GenericDecl`` node would return None. This would impact all properties
+    based on it such as ``P_Body_Part_For_Decl``. It would only return the
+    expected result when called on the internal declaration
+    (``GenericPackageInternal`` or ``GenericSubpInternal``).
+date: 2021-12-02

@@ -9681,6 +9681,10 @@ class GenericDecl(BasicDecl):
         # the call to it.
         return Entity.decl.get_aspect_assoc(name)
 
+    @langkit_property()
+    def next_part_for_decl():
+        return Entity.decl.next_part_for_decl
+
 
 class GenericSubpDecl(GenericDecl):
     """

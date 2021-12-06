@@ -431,5 +431,109 @@ Expr: <Id "J" iterassoc_filter.adb:21:52-21:53>
   references: <DefiningName iterassoc_filter.adb:21:13-21:14>
   type:       <TypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
 
+Resolving xrefs for node <ObjectDecl ["B"] iterassoc_filter.adb:25:7-25:64>
+***************************************************************************
+
+Expr: <Id "Boolean" iterassoc_filter.adb:25:11-25:18>
+  references: <DefiningName __standard:3:8-3:15>
+  type:       None
+Expr: <ParenExpr iterassoc_filter.adb:25:22-25:63>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <QuantifiedExpr iterassoc_filter.adb:25:23-25:62>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp iterassoc_filter.adb:25:55-25:62>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" iterassoc_filter.adb:25:55-25:56>
+  references: <DefiningName iterassoc_filter.adb:25:31-25:32>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <OpGt ">" iterassoc_filter.adb:25:57-25:58>
+  references: None
+  type:       None
+Expr: <Real iterassoc_filter.adb:25:59-25:62>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+
+Resolving xrefs for node <ForLoopSpec iterassoc_filter.adb:25:31-25:51>
+***********************************************************************
+
+Expr: <Id "X" iterassoc_filter.adb:25:36-25:37>
+  references: <DefiningName iterassoc_filter.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
+Expr: <RelationOp iterassoc_filter.adb:25:43-25:51>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" iterassoc_filter.adb:25:43-25:44>
+  references: <DefiningName iterassoc_filter.adb:25:31-25:32>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <OpGte ">=" iterassoc_filter.adb:25:45-25:47>
+  references: None
+  type:       None
+Expr: <Real iterassoc_filter.adb:25:48-25:51>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+
+Resolving xrefs for node <ObjectDecl ["C"] iterassoc_filter.adb:26:7-26:78>
+***************************************************************************
+
+Expr: <Id "Boolean" iterassoc_filter.adb:26:11-26:18>
+  references: <DefiningName __standard:3:8-3:15>
+  type:       None
+Expr: <ParenExpr iterassoc_filter.adb:26:22-26:77>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <QuantifiedExpr iterassoc_filter.adb:26:23-26:76>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp iterassoc_filter.adb:26:65-26:76>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr iterassoc_filter.adb:26:65-26:70>
+  references: <DefiningName iterassoc_filter.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc_filter.adb:26:65-26:66>
+  references: <DefiningName iterassoc_filter.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
+Expr: <Id "I" iterassoc_filter.adb:26:68-26:69>
+  references: <DefiningName iterassoc_filter.adb:20:11-20:12>
+  type:       <TypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
+Expr: <OpGt ">" iterassoc_filter.adb:26:71-26:72>
+  references: None
+  type:       None
+Expr: <Real iterassoc_filter.adb:26:73-26:76>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+
+Resolving xrefs for node <ForLoopSpec iterassoc_filter.adb:26:32-26:61>
+***********************************************************************
+
+Expr: <BinOp iterassoc_filter.adb:26:37-26:43>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int iterassoc_filter.adb:26:37-26:38>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpDoubleDot ".." iterassoc_filter.adb:26:39-26:41>
+  references: None
+  type:       None
+Expr: <Int iterassoc_filter.adb:26:42-26:43>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <RelationOp iterassoc_filter.adb:26:49-26:61>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr iterassoc_filter.adb:26:49-26:54>
+  references: <DefiningName iterassoc_filter.adb:5:4-5:5>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "X" iterassoc_filter.adb:26:49-26:50>
+  references: <DefiningName iterassoc_filter.adb:5:4-5:5>
+  type:       <TypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
+Expr: <Id "I" iterassoc_filter.adb:26:52-26:53>
+  references: <DefiningName iterassoc_filter.adb:20:11-20:12>
+  type:       <TypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
+Expr: <OpGte ">=" iterassoc_filter.adb:26:55-26:57>
+  references: None
+  type:       None
+Expr: <Real iterassoc_filter.adb:26:58-26:61>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+
+Resolving xrefs for node <NullStmt iterassoc_filter.adb:28:7-28:12>
+*******************************************************************
+
+
 
 Done.

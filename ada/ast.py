@@ -9861,6 +9861,16 @@ class Expr(AdaNode):
         """
     )
 
+    xref_stop_resolution = Property(
+        # Pause resolution of ForLoopSpecs' iterator filter expression, so
+        # that the indexing variable's type can be fully inferred first.
+        # Otherwise, any reference to the indexing variable appearing in the
+        # filter expression will cause an infinite xref_equation recursion.
+        Self.parent.cast(T.ForLoopSpec).then(
+            lambda spec: spec.iter_filter == Self
+        )
+    )
+
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()],
                       return_type=T.Bool)
     def is_dynamically_tagged():

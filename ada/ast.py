@@ -2995,6 +2995,14 @@ class BasicDecl(AdaNode):
             default_val=Entity
         )
 
+    @langkit_property(kind=AbstractKind.abstract_runtime_check,
+                      public=True, return_type=Bool)
+    def is_constant_object():
+        """
+        Return whether this object is constant or not.
+        """
+        pass
+
 
 class ErrorDecl(BasicDecl):
     """
@@ -7755,6 +7763,10 @@ class ParamSpec(BaseFormalParamDecl):
 
     type_expression = Property(Entity.type_expr)
 
+    @langkit_property(return_type=Bool)
+    def is_constant_object():
+        return Self.mode.is_a(Mode.alt_in, Mode.alt_default)
+
     @langkit_property()
     def defining_env():
         return Entity.type_expr.defining_env
@@ -8553,6 +8565,29 @@ class ObjectDecl(BasicDecl):
     defining_names = Property(Entity.ids.map(lambda id: id))
     defining_env = Property(Entity.type_expr.defining_env)
     type_expression = Property(Entity.type_expr)
+
+    @langkit_property(return_type=Bool)
+    def is_constant_object():
+        return Or(
+            Self.has_constant.as_bool,
+
+            # A GenericFormalObjDecl is constant if the Mode is `in`
+            (
+                Self.parent.is_a(T.GenericFormalObjDecl)
+                & (Self.mode.is_a(Mode.alt_in, Mode.alt_default))
+            ),
+
+            # Renaming clause is:
+            Entity.renaming_clause.then(
+                lambda rc: If(
+                    # Always constant if it renames a function_call
+                    rc.renamed_object.is_call,
+                    True,
+                    # Constant if the renamed object is constant
+                    rc.renamed_object.referenced_decl.is_constant_object
+                )
+            )
+        )
 
     @langkit_property(public=True, return_type=Bool)
     def is_static_decl():

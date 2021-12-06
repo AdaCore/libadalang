@@ -1,0 +1,2 @@
+driver: inline-playground
+input_sources: [constant.ads, constant.adb, renam.ads, renam.adb]

@@ -1,0 +1,6 @@
+type: new-feature
+title: Add `p_is_constant_object` property.
+description: |
+    The property `p_is_constant_object` when called on an object returns whether
+    the object is constant or not.
+date: 2021-12-06

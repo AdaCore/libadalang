@@ -5,46 +5,59 @@ Resolving xrefs for node <CallStmt test.adb:11:4-11:16>
 *******************************************************
 
 Expr: <CallExpr test.adb:11:4-11:15>
-  references: <DefiningName test.adb:6:14-6:17>
-  type:       None
+  references:    <DefiningName test.adb:6:14-6:17>
+  type:          None
+  expected type: None
 Expr: <Id "Foo" test.adb:11:4-11:7>
-  references: <DefiningName test.adb:6:14-6:17>
-  type:       None
+  references:    <DefiningName test.adb:6:14-6:17>
+  type:          None
+  expected type: None
 Expr: <BinOp test.adb:11:9-11:14>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Int test.adb:11:9-11:10>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpPlus "+" test.adb:11:11-11:12>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:11:13-11:14>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:14:4-14:21>
 *********************************************************
 
 Expr: <Id "S" test.adb:14:4-14:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["F"] test.adb:4:4-4:23>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["F"] test.adb:4:4-4:23>
+  expected type: None
 Expr: <CallExpr test.adb:14:9-14:20>
-  references: <DefiningName test.adb:4:9-4:10>
-  type:       <TypeDecl ["F"] test.adb:4:4-4:23>
+  references:    <DefiningName test.adb:4:9-4:10>
+  type:          <TypeDecl ["F"] test.adb:4:4-4:23>
+  expected type: None
 Expr: <Id "F" test.adb:14:9-14:10>
-  references: <DefiningName test.adb:4:9-4:10>
-  type:       <TypeDecl ["F"] test.adb:4:4-4:23>
+  references:    <DefiningName test.adb:4:9-4:10>
+  type:          <TypeDecl ["F"] test.adb:4:4-4:23>
+  expected type: None
 Expr: <BinOp test.adb:14:12-14:19>
-  type:       <TypeDecl ["root_fixed"] __standard:121:3-121:50>
+  type:          <TypeDecl ["root_fixed"] __standard:121:3-121:50>
+  expected type: None
 Expr: <Int test.adb:14:12-14:13>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpMult "*" test.adb:14:14-14:15>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Real test.adb:14:16-14:19>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 
 
 Done.

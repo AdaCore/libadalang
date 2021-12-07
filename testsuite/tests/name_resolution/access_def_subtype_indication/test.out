@@ -5,35 +5,44 @@ Resolving xrefs for node <ForLoopSpec iter.adb:5:8-5:33>
 ********************************************************
 
 Expr: <Id "Integer" iter.adb:5:21-5:28>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Id "X" iter.adb:5:32-5:33>
-  references: <DefiningName iter.adb:3:4-3:5>
-  type:       <TypeDecl ["Vec"] iter.adb:2:4-2:48>
+  references:    <DefiningName iter.adb:3:4-3:5>
+  type:          <TypeDecl ["Vec"] iter.adb:2:4-2:48>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt iter.adb:6:7-6:30>
 *******************************************************
 
 Expr: <ExplicitDeref iter.adb:6:7-6:14>
-  references: <DefiningName iter.adb:5:8-5:11>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName iter.adb:5:8-5:11>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Ref" iter.adb:6:7-6:10>
-  references: <DefiningName iter.adb:5:8-5:11>
-  type:       <AnonymousTypeDecl ["None"] iter.adb:5:14-5:28>
+  references:    <DefiningName iter.adb:5:8-5:11>
+  type:          <AnonymousTypeDecl ["None"] iter.adb:5:14-5:28>
+  expected type: None
 Expr: <BinOp iter.adb:6:18-6:29>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <ExplicitDeref iter.adb:6:18-6:25>
-  references: <DefiningName iter.adb:5:8-5:11>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName iter.adb:5:8-5:11>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Ref" iter.adb:6:18-6:21>
-  references: <DefiningName iter.adb:5:8-5:11>
-  type:       <AnonymousTypeDecl ["None"] iter.adb:5:14-5:28>
+  references:    <DefiningName iter.adb:5:8-5:11>
+  type:          <AnonymousTypeDecl ["None"] iter.adb:5:14-5:28>
+  expected type: None
 Expr: <OpPlus "+" iter.adb:6:26-6:27>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int iter.adb:6:28-6:29>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

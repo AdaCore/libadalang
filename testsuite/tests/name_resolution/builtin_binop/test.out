@@ -9,89 +9,112 @@ Resolving xrefs for node <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 ******************************************************************
 
 Expr: <BinOp testbinop.adb:3:25-3:34>
-  type:       <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: None
 Expr: <Int testbinop.adb:3:25-3:26>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpDoubleDot ".." testbinop.adb:3:27-3:29>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int testbinop.adb:3:30-3:34>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <EndName testbinop.adb:4:8-4:11>
 *********************************************************
 
 Expr: <EndName testbinop.adb:4:8-4:11>
-  references: <DefiningName testbinop.adb:2:12-2:15>
-  type:       None
+  references:    <DefiningName testbinop.adb:2:12-2:15>
+  type:          None
+  expected type: None
 Expr: <Id "Pkg" testbinop.adb:4:8-4:11>
-  references: <DefiningName testbinop.adb:2:12-2:15>
-  type:       None
+  references:    <DefiningName testbinop.adb:2:12-2:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["A", "B"] testbinop.adb:6:4-6:25>
 ***********************************************************************
 
 Expr: <DottedName testbinop.adb:6:11-6:18>
-  references: <DefiningName testbinop.adb:3:12-3:15>
-  type:       None
+  references:    <DefiningName testbinop.adb:3:12-3:15>
+  type:          None
+  expected type: None
 Expr: <Id "Pkg" testbinop.adb:6:11-6:14>
-  references: <DefiningName testbinop.adb:2:12-2:15>
-  type:       None
+  references:    <DefiningName testbinop.adb:2:12-2:15>
+  type:          None
+  expected type: None
 Expr: <Id "Typ" testbinop.adb:6:15-6:18>
-  references: <DefiningName testbinop.adb:3:12-3:15>
-  type:       None
+  references:    <DefiningName testbinop.adb:3:12-3:15>
+  type:          None
+  expected type: None
 Expr: <Int testbinop.adb:6:22-6:24>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt testbinop.adb:8:4-8:24>
 ************************************************************
 
 Expr: <Id "A" testbinop.adb:8:4-8:5>
-  references: <DefiningName testbinop.adb:6:4-6:5>
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    <DefiningName testbinop.adb:6:4-6:5>
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 Expr: <CallExpr testbinop.adb:8:9-8:23>
-  references: None
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    None
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 Expr: <DottedName testbinop.adb:8:9-8:16>
-  references: None
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    None
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 Expr: <Id "Pkg" testbinop.adb:8:9-8:12>
-  references: <DefiningName testbinop.adb:2:12-2:15>
-  type:       None
+  references:    <DefiningName testbinop.adb:2:12-2:15>
+  type:          None
+  expected type: None
 Expr: <Str ""+"" testbinop.adb:8:13-8:16>
-  references: None
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    None
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 Expr: <Id "A" testbinop.adb:8:18-8:19>
-  references: <DefiningName testbinop.adb:6:4-6:5>
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    <DefiningName testbinop.adb:6:4-6:5>
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 Expr: <Id "B" testbinop.adb:8:21-8:22>
-  references: <DefiningName testbinop.adb:6:7-6:8>
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    <DefiningName testbinop.adb:6:7-6:8>
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 
 Resolving xrefs for node <IfStmt testbinop.adb:10:4-12:11>
 **********************************************************
 
 Expr: <CallExpr testbinop.adb:10:7-10:21>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <DottedName testbinop.adb:10:7-10:14>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "Pkg" testbinop.adb:10:7-10:10>
-  references: <DefiningName testbinop.adb:2:12-2:15>
-  type:       None
+  references:    <DefiningName testbinop.adb:2:12-2:15>
+  type:          None
+  expected type: None
 Expr: <Str ""="" testbinop.adb:10:11-10:14>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "A" testbinop.adb:10:16-10:17>
-  references: <DefiningName testbinop.adb:6:4-6:5>
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    <DefiningName testbinop.adb:6:4-6:5>
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 Expr: <Id "B" testbinop.adb:10:19-10:20>
-  references: <DefiningName testbinop.adb:6:7-6:8>
-  type:       <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  references:    <DefiningName testbinop.adb:6:7-6:8>
+  type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
+  expected type: None
 
 Resolving xrefs for node <NullStmt testbinop.adb:11:7-11:12>
 ************************************************************
@@ -101,11 +124,13 @@ Resolving xrefs for node <EndName testbinop.adb:13:5-13:14>
 ***********************************************************
 
 Expr: <EndName testbinop.adb:13:5-13:14>
-  references: <DefiningName testbinop.adb:1:11-1:20>
-  type:       None
+  references:    <DefiningName testbinop.adb:1:11-1:20>
+  type:          None
+  expected type: None
 Expr: <Id "Testbinop" testbinop.adb:13:5-13:14>
-  references: <DefiningName testbinop.adb:1:11-1:20>
-  type:       None
+  references:    <DefiningName testbinop.adb:1:11-1:20>
+  type:          None
+  expected type: None
 
 
 Done.

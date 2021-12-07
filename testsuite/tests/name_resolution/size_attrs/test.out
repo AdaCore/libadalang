@@ -5,113 +5,141 @@ Resolving xrefs for node <AssignStmt test.adb:11:4-11:16>
 *********************************************************
 
 Expr: <Id "I" test.adb:11:4-11:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef test.adb:11:9-11:15>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Id "R" test.adb:11:9-11:10>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Size" test.adb:11:11-11:15>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:14:4-14:16>
 *********************************************************
 
 Expr: <Id "I" test.adb:14:4-14:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef test.adb:14:9-14:15>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Id "X" test.adb:14:9-14:10>
-  references: <DefiningName test.adb:8:4-8:5>
-  type:       <TypeDecl ["R"] test.adb:2:4-4:15>
+  references:    <DefiningName test.adb:8:4-8:5>
+  type:          <TypeDecl ["R"] test.adb:2:4-4:15>
+  expected type: None
 Expr: <Id "Size" test.adb:14:11-14:15>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:17:4-17:23>
 *********************************************************
 
 Expr: <Id "I" test.adb:17:4-17:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef test.adb:17:9-17:22>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Id "R" test.adb:17:9-17:10>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Object_Size" test.adb:17:11-17:22>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:20:4-20:22>
 *********************************************************
 
 Expr: <Id "I" test.adb:20:4-20:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef test.adb:20:9-20:21>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Id "R" test.adb:20:9-20:10>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Value_Size" test.adb:20:11-20:21>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:23:4-23:40>
 *********************************************************
 
 Expr: <Id "I" test.adb:23:4-23:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef test.adb:23:9-23:39>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Id "R" test.adb:23:9-23:10>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Max_Size_In_Storage_Elements" test.adb:23:11-23:39>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:26:4-26:21>
 *********************************************************
 
 Expr: <Id "I" test.adb:26:4-26:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef test.adb:26:9-26:20>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Id "R" test.adb:26:9-26:10>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "VADS_Size" test.adb:26:11-26:20>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:29:4-29:31>
 *********************************************************
 
 Expr: <Id "I" test.adb:29:4-29:5>
-  references: <DefiningName test.adb:9:4-9:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef test.adb:29:9-29:30>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Id "R_Access" test.adb:29:9-29:17>
-  references: <DefiningName test.adb:6:9-6:17>
-  type:       None
+  references:    <DefiningName test.adb:6:9-6:17>
+  type:          None
+  expected type: None
 Expr: <Id "Storage_Size" test.adb:29:18-29:30>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

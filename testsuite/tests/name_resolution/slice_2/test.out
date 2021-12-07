@@ -5,55 +5,73 @@ Resolving xrefs for node <AssignStmt test.adb:6:4-6:37>
 *******************************************************
 
 Expr: <CallExpr test.adb:6:4-6:18>
-  references: <DefiningName test.adb:4:4-4:5>
-  type:       <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  references:    <DefiningName test.adb:4:4-4:5>
+  type:          <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  expected type: None
 Expr: <Id "X" test.adb:6:4-6:5>
-  references: <DefiningName test.adb:4:4-4:5>
-  type:       <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  references:    <DefiningName test.adb:4:4-4:5>
+  type:          <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  expected type: None
 Expr: <BinOp test.adb:6:7-6:17>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <BinOp test.adb:6:7-6:12>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test.adb:6:7-6:8>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpPlus "+" test.adb:6:9-6:10>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:6:11-6:12>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpDoubleDot ".." test.adb:6:13-6:15>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:6:16-6:17>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <CallExpr test.adb:6:22-6:36>
-  references: <DefiningName test.adb:4:4-4:5>
-  type:       <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  references:    <DefiningName test.adb:4:4-4:5>
+  type:          <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  expected type: None
 Expr: <Id "X" test.adb:6:22-6:23>
-  references: <DefiningName test.adb:4:4-4:5>
-  type:       <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  references:    <DefiningName test.adb:4:4-4:5>
+  type:          <TypeDecl ["Arr"] test.adb:2:4-2:57>
+  expected type: None
 Expr: <BinOp test.adb:6:25-6:35>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <BinOp test.adb:6:25-6:30>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test.adb:6:25-6:26>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpPlus "+" test.adb:6:27-6:28>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:6:29-6:30>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpDoubleDot ".." test.adb:6:31-6:33>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:6:34-6:35>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 
 Done.

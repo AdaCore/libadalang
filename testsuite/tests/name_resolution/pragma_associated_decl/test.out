@@ -5,11 +5,13 @@ Resolving xrefs for node <PragmaNode foo.ads:6:4-6:20>
 ******************************************************
 
 Expr: <Id "Pack" foo.ads:6:11-6:15>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "T" foo.ads:6:17-6:18>
-  references: <DefiningName foo.ads:5:9-5:10>
-  type:       None
+  references:    <DefiningName foo.ads:5:9-5:10>
+  type:          None
+  expected type: None
 
 
 Done.

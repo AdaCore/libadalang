@@ -10,49 +10,61 @@ Resolving xrefs for node <CallStmt tagged_prims.adb:30:4-30:15>
 ***************************************************************
 
 Expr: <DottedName tagged_prims.adb:30:4-30:14>
-  references: <DefiningName tagged_prims.adb:13:17-13:20>
-  type:       None
+  references:    <DefiningName tagged_prims.adb:13:17-13:20>
+  type:          None
+  expected type: None
 Expr: <Id "T_Inst" tagged_prims.adb:30:4-30:10>
-  references: <DefiningName tagged_prims.adb:21:4-21:10>
-  type:       <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  references:    <DefiningName tagged_prims.adb:21:4-21:10>
+  type:          <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  expected type: None
 Expr: <Id "Baz" tagged_prims.adb:30:11-30:14>
-  references: <DefiningName tagged_prims.adb:13:17-13:20>
-  type:       None
+  references:    <DefiningName tagged_prims.adb:13:17-13:20>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <CallStmt tagged_prims.adb:33:4-33:20>
 ***************************************************************
 
 Expr: <CallExpr tagged_prims.adb:33:4-33:19>
-  references: <DefiningName tagged_prims.adb:16:17-16:20>
-  type:       None
+  references:    <DefiningName tagged_prims.adb:16:17-16:20>
+  type:          None
+  expected type: None
 Expr: <Id "Baz" tagged_prims.adb:33:4-33:7>
-  references: <DefiningName tagged_prims.adb:16:17-16:20>
-  type:       None
+  references:    <DefiningName tagged_prims.adb:16:17-16:20>
+  type:          None
+  expected type: None
 Expr: <Id "T_Inst" tagged_prims.adb:33:9-33:15>
-  references: <DefiningName tagged_prims.adb:21:4-21:10>
-  type:       <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  references:    <DefiningName tagged_prims.adb:21:4-21:10>
+  type:          <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  expected type: None
 Expr: <Id "A" tagged_prims.adb:33:17-33:18>
-  references: <DefiningName tagged_prims.adb:23:4-23:5>
-  type:       <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  references:    <DefiningName tagged_prims.adb:23:4-23:5>
+  type:          <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  expected type: None
 
 Resolving xrefs for node <CallStmt tagged_prims.adb:36:4-36:19>
 ***************************************************************
 
 Expr: <CallExpr tagged_prims.adb:36:4-36:18>
-  references: <DefiningName tagged_prims.adb:16:17-16:20>
-  type:       None
+  references:    <DefiningName tagged_prims.adb:16:17-16:20>
+  type:          None
+  expected type: None
 Expr: <DottedName tagged_prims.adb:36:4-36:14>
-  references: <DefiningName tagged_prims.adb:16:17-16:20>
-  type:       None
+  references:    <DefiningName tagged_prims.adb:16:17-16:20>
+  type:          None
+  expected type: None
 Expr: <Id "T_Inst" tagged_prims.adb:36:4-36:10>
-  references: <DefiningName tagged_prims.adb:21:4-21:10>
-  type:       <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  references:    <DefiningName tagged_prims.adb:21:4-21:10>
+  type:          <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  expected type: None
 Expr: <Id "Baz" tagged_prims.adb:36:11-36:14>
-  references: <DefiningName tagged_prims.adb:16:17-16:20>
-  type:       None
+  references:    <DefiningName tagged_prims.adb:16:17-16:20>
+  type:          None
+  expected type: None
 Expr: <Id "A" tagged_prims.adb:36:16-36:17>
-  references: <DefiningName tagged_prims.adb:23:4-23:5>
-  type:       <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  references:    <DefiningName tagged_prims.adb:23:4-23:5>
+  type:          <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  expected type: None
 
 
 Done.

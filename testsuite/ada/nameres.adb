@@ -943,20 +943,29 @@ procedure Nameres is
                          else Image
                            (Decl_Name.P_Unique_Identifying_Name));
                   begin
-                     Put_Line ("  references: " & Referenced_Decl_Image);
+                     Put_Line ("  references:    " & Referenced_Decl_Image);
                   end;
                end if;
 
                declare
-                  Decl : constant Base_Type_Decl :=
+                  Type_Decl : constant Base_Type_Decl :=
                      P_Expression_Type (As_Expr (N));
+                  Expected_Type_Decl : constant Base_Type_Decl :=
+                     P_Expected_Expression_Type (As_Expr (N));
 
-                  Decl_Image : constant String :=
-                    (if Show_Slocs or else Decl.Is_Null
-                     then Image (Decl)
-                     else Image (Decl.P_Unique_Identifying_Name));
+                  Type_Decl_Image : constant String :=
+                    (if Show_Slocs or else Type_Decl.Is_Null
+                     then Image (Type_Decl)
+                     else Image (Type_Decl.P_Unique_Identifying_Name));
+
+                  Expected_Type_Decl_Image : constant String :=
+                    (if Show_Slocs or else Expected_Type_Decl.Is_Null
+                     then Image (Expected_Type_Decl)
+                     else Image
+                       (Expected_Type_Decl.P_Unique_Identifying_Name));
                begin
-                  Put_Line ("  type:       " & Decl_Image);
+                  Put_Line ("  type:          " & Type_Decl_Image);
+                  Put_Line ("  expected type: " & Expected_Type_Decl_Image);
                end;
             end if;
             return

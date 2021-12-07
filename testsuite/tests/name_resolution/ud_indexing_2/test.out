@@ -5,22 +5,28 @@ Resolving xrefs for node <ForLoopSpec test.adb:8:11-8:29>
 *********************************************************
 
 Expr: <CallExpr test.adb:8:16-8:29>
-  references: <DefiningName test.adb:5:7-5:11>
-  type:       <AnonymousTypeDecl ["None"] test.adb:5:14-5:39>
+  references:    <DefiningName test.adb:5:7-5:11>
+  type:          <AnonymousTypeDecl ["None"] test.adb:5:14-5:39>
+  expected type: None
 Expr: <Id "List" test.adb:8:16-8:20>
-  references: <DefiningName test.adb:5:7-5:11>
-  type:       <AnonymousTypeDecl ["None"] test.adb:5:14-5:39>
+  references:    <DefiningName test.adb:5:7-5:11>
+  type:          <AnonymousTypeDecl ["None"] test.adb:5:14-5:39>
+  expected type: None
 Expr: <BinOp test.adb:8:22-8:28>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test.adb:8:22-8:23>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <OpDoubleDot ".." test.adb:8:24-8:26>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:8:27-8:28>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 Resolving xrefs for node <NullStmt test.adb:9:10-9:15>
 ******************************************************

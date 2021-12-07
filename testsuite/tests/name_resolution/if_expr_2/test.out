@@ -8,27 +8,35 @@ Resolving xrefs for node <AssignStmt test.adb:9:4-9:52>
 *******************************************************
 
 Expr: <Id "A" test.adb:9:4-9:5>
-  references: <DefiningName test.adb:2:4-2:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:2:4-2:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <ParenExpr test.adb:9:9-9:51>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <IfExpr test.adb:9:10-9:50>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Foo" test.adb:9:13-9:16>
-  references: <DefiningName test.adb:5:13-5:16>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:5:13-5:16>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "Foo" test.adb:9:22-9:25>
-  references: <DefiningName test.adb:4:13-4:16>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:4:13-4:16>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "True" test.adb:9:32-9:36>
-  references: <DefiningName __standard:3:27-3:31>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "B" test.adb:9:42-9:43>
-  references: <DefiningName test.adb:2:7-2:8>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:2:7-2:8>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "C" test.adb:9:49-9:50>
-  references: <DefiningName test.adb:2:10-2:11>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:2:10-2:11>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 Test single then
 ----------------
@@ -37,28 +45,37 @@ Resolving xrefs for node <AssignStmt test.adb:13:4-13:48>
 *********************************************************
 
 Expr: <Id "A" test.adb:13:4-13:5>
-  references: <DefiningName test.adb:2:4-2:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:2:4-2:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <ParenExpr test.adb:13:9-13:47>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <IfExpr test.adb:13:10-13:46>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <ParenExpr test.adb:13:13-13:30>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <IfExpr test.adb:13:14-13:29>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "Foo" test.adb:13:17-13:20>
-  references: <DefiningName test.adb:5:13-5:16>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:5:13-5:16>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "Foo" test.adb:13:26-13:29>
-  references: <DefiningName test.adb:5:13-5:16>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:5:13-5:16>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "Foo" test.adb:13:36-13:39>
-  references: <DefiningName test.adb:4:13-4:16>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:4:13-4:16>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "B" test.adb:13:45-13:46>
-  references: <DefiningName test.adb:2:7-2:8>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:2:7-2:8>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 
 Done.

@@ -120,6 +120,8 @@ package Libadalang.Implementation.Extensions is
 
    function Expr_P_Type_Var (Node : Bare_Expr) return Logic_Var;
 
+   function Expr_P_Expected_Type_Var (Node : Bare_Expr) return Logic_Var;
+
    ---------------------
    -- Single_Tok_Node --
    ---------------------

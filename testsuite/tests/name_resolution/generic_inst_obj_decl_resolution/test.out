@@ -5,25 +5,32 @@ Resolving xrefs for node <ObjectDecl ["A"] test2.adb:10:4-10:42>
 ****************************************************************
 
 Expr: <DottedName test2.adb:10:8-10:15>
-  references: <| DefiningName test2.adb:5:12-5:15 [test2.adb:8:4] |>
-  type:       None
+  references:    <| DefiningName test2.adb:5:12-5:15 [test2.adb:8:4] |>
+  type:          None
+  expected type: None
 Expr: <Id "Bar" test2.adb:10:8-10:11>
-  references: <DefiningName test2.adb:8:12-8:15>
-  type:       None
+  references:    <DefiningName test2.adb:8:12-8:15>
+  type:          None
+  expected type: None
 Expr: <Id "Arr" test2.adb:10:12-10:15>
-  references: <| DefiningName test2.adb:5:12-5:15 [test2.adb:8:4] |>
-  type:       None
+  references:    <| DefiningName test2.adb:5:12-5:15 [test2.adb:8:4] |>
+  type:          None
+  expected type: None
 Expr: <Aggregate test2.adb:10:19-10:41>
-  type:       <| TypeDecl ["Arr"] test2.adb:5:7-5:46 [test2.adb:8:4] |>
+  type:          <| TypeDecl ["Arr"] test2.adb:5:7-5:46 [test2.adb:8:4] |>
+  expected type: None
 Expr: <Int test2.adb:10:20-10:21>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Int test2.adb:10:25-10:26>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Int test2.adb:10:38-10:40>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

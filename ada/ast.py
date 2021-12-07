@@ -10136,6 +10136,11 @@ class Expr(AdaNode):
     def type_var():
         pass
 
+    @langkit_property(return_type=LogicVar, external=True,
+                      uses_entity_info=False, uses_envs=False)
+    def expected_type_var():
+        pass
+
     type_val = Property(Self.type_var.get_value)
 
     expression_type = Property(
@@ -10145,6 +10150,16 @@ class Expr(AdaNode):
         doc="""
         Return the declaration corresponding to the type of this expression
         after name resolution.
+        """
+    )
+
+    expected_expression_type = Property(
+        Self.logic_val(Entity, Self.expected_type_var)
+            .value.cast_or_raise(T.BaseTypeDecl),
+        public=True,
+        doc="""
+        Return the declaration corresponding to the expected type of this
+        expression after name resolution.
         """
     )
 

@@ -5,31 +5,40 @@ Resolving xrefs for node <PragmaNode increment_array.adb:6:10-6:57>
 *******************************************************************
 
 Expr: <Id "Loop_Invariant" increment_array.adb:6:17-6:31>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <RelationOp increment_array.adb:6:33-6:55>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <CallExpr increment_array.adb:6:33-6:50>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <AttributeRef increment_array.adb:6:33-6:45>
-  references: None
-  type:       <TypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
+  references:    None
+  type:          <TypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
+  expected type: None
 Expr: <Id "X" increment_array.adb:6:33-6:34>
-  references: <DefiningName increment_array.adb:3:24-3:25>
-  type:       <TypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
+  references:    <DefiningName increment_array.adb:3:24-3:25>
+  type:          <TypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
+  expected type: None
 Expr: <Id "Loop_Entry" increment_array.adb:6:35-6:45>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int increment_array.adb:6:47-6:49>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpEq "=" increment_array.adb:6:51-6:52>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int increment_array.adb:6:53-6:55>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

@@ -5,20 +5,24 @@ Resolving xrefs for node <AspectAssoc state_xrefs.ads:2:8-2:31>
 ***************************************************************
 
 Expr: <Id "Abstract_State" state_xrefs.ads:2:8-2:22>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <AbstractStateDeclExpr state_xrefs.ads:2:26-2:31>
-  type:       None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.ads:3:8-3:31>
 ***************************************************************
 
 Expr: <Id "Initializes" state_xrefs.ads:3:8-3:19>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "State" state_xrefs.ads:3:26-3:31>
-  references: <DefiningName state_xrefs.ads:2:26-2:31>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec state_xrefs.ads:5:4-5:61>
 ************************************************************
@@ -28,104 +32,128 @@ Resolving xrefs for node <ParamSpec ["Param_1"] state_xrefs.ads:5:20-5:37>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.ads:5:30-5:37>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamSpec ["Param_2"] state_xrefs.ads:5:39-5:60>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.ads:5:53-5:60>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.ads:6:11-6:39>
 ****************************************************************
 
 Expr: <Id "Global" state_xrefs.ads:6:11-6:17>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.ads:6:22-6:39>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "In_Out" state_xrefs.ads:6:23-6:29>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "State" state_xrefs.ads:6:33-6:38>
-  references: <DefiningName state_xrefs.ads:2:26-2:31>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.ads:7:11-7:60>
 ****************************************************************
 
 Expr: <Id "Depends" state_xrefs.ads:7:11-7:18>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.ads:7:22-7:60>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.ads:7:23-7:39>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "Param_2" state_xrefs.ads:7:24-7:31>
-  references: <DefiningName state_xrefs.ads:5:39-5:46>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.ads:5:39-5:46>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "State" state_xrefs.ads:7:33-7:38>
-  references: <DefiningName state_xrefs.ads:2:26-2:31>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.ads:7:43-7:59>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "Param_1" state_xrefs.ads:7:44-7:51>
-  references: <DefiningName state_xrefs.ads:5:20-5:27>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.ads:5:20-5:27>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "State" state_xrefs.ads:7:53-7:58>
-  references: <DefiningName state_xrefs.ads:2:26-2:31>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.ads:11:11-11:65>
 ******************************************************************
 
 Expr: <Id "Abstract_State" state_xrefs.ads:11:11-11:25>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <AbstractStateDeclExpr state_xrefs.ads:11:29-11:65>
-  type:       None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.ads:11:48-11:64>
 ******************************************************************
 
 Expr: <Id "Part_Of" state_xrefs.ads:11:48-11:55>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "State" state_xrefs.ads:11:59-11:64>
-  references: <DefiningName state_xrefs.ads:2:26-2:31>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Var"] state_xrefs.ads:13:7-13:29>
 ************************************************************************
 
 Expr: <Id "Integer" state_xrefs.ads:13:13-13:20>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Int state_xrefs.ads:13:24-13:28>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <EndName state_xrefs.ads:14:8-14:22>
 *************************************************************
 
 Expr: <EndName state_xrefs.ads:14:8-14:22>
-  references: <DefiningName state_xrefs.ads:10:12-10:26>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:10:12-10:26>
+  type:          None
+  expected type: None
 Expr: <Id "Nested_Private" state_xrefs.ads:14:8-14:22>
-  references: <DefiningName state_xrefs.ads:10:12-10:26>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:10:12-10:26>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <EndName state_xrefs.ads:15:5-15:16>
 *************************************************************
 
 Expr: <EndName state_xrefs.ads:15:5-15:16>
-  references: <DefiningName state_xrefs.ads:1:9-1:20>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:1:9-1:20>
+  type:          None
+  expected type: None
 Expr: <Id "State_Xrefs" state_xrefs.ads:15:5-15:16>
-  references: <DefiningName state_xrefs.ads:1:9-1:20>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:1:9-1:20>
+  type:          None
+  expected type: None
 
 
 Analyzing state_xrefs.adb
@@ -135,50 +163,63 @@ Resolving xrefs for node <AspectAssoc state_xrefs.adb:2:8-2:73>
 ***************************************************************
 
 Expr: <Id "Refined_State" state_xrefs.adb:2:8-2:21>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:2:25-2:73>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "State" state_xrefs.adb:2:26-2:31>
-  references: <DefiningName state_xrefs.ads:2:26-2:31>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:2:35-2:72>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "C1" state_xrefs.adb:2:36-2:38>
-  references: <DefiningName state_xrefs.adb:4:4-4:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "C2" state_xrefs.adb:2:40-2:42>
-  references: <DefiningName state_xrefs.adb:5:4-5:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <DottedName state_xrefs.adb:2:44-2:71>
-  references: <DefiningName state_xrefs.ads:11:30-11:42>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:11:30-11:42>
+  type:          None
+  expected type: None
 Expr: <Id "Nested_Private" state_xrefs.adb:2:44-2:58>
-  references: <DefiningName state_xrefs.ads:10:12-10:26>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:10:12-10:26>
+  type:          None
+  expected type: None
 Expr: <Id "Nested_State" state_xrefs.adb:2:59-2:71>
-  references: <DefiningName state_xrefs.ads:11:30-11:42>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:11:30-11:42>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["C1"] state_xrefs.adb:4:4-4:22>
 *********************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:4:9-4:16>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Int state_xrefs.adb:4:20-4:21>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["C2"] state_xrefs.adb:5:4-5:22>
 *********************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:5:9-5:16>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Int state_xrefs.adb:5:20-5:21>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <SubpSpec state_xrefs.adb:7:4-7:61>
 ************************************************************
@@ -188,69 +229,88 @@ Resolving xrefs for node <ParamSpec ["Param_1"] state_xrefs.adb:7:20-7:37>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:7:30-7:37>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamSpec ["Param_2"] state_xrefs.adb:7:39-7:60>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:7:53-7:60>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:8:11-8:61>
 ****************************************************************
 
 Expr: <Id "Refined_Global" state_xrefs.adb:8:11-8:25>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:8:31-8:61>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "In_Out" state_xrefs.adb:8:32-8:38>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:8:52-8:60>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "C1" state_xrefs.adb:8:53-8:55>
-  references: <DefiningName state_xrefs.adb:4:4-4:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "C2" state_xrefs.adb:8:57-8:59>
-  references: <DefiningName state_xrefs.adb:5:4-5:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:9:11-10:56>
 *****************************************************************
 
 Expr: <Id "Refined_Depends" state_xrefs.adb:9:11-9:26>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:9:30-10:56>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:9:31-9:48>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "Param_2" state_xrefs.adb:9:32-9:39>
-  references: <DefiningName state_xrefs.adb:7:39-7:46>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:7:39-7:46>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "C1" state_xrefs.adb:9:41-9:43>
-  references: <DefiningName state_xrefs.adb:4:4-4:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "C2" state_xrefs.adb:9:45-9:47>
-  references: <DefiningName state_xrefs.adb:5:4-5:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:9:52-9:65>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "Param_1" state_xrefs.adb:9:53-9:60>
-  references: <DefiningName state_xrefs.adb:7:20-7:27>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:7:20-7:27>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "C2" state_xrefs.adb:9:62-9:64>
-  references: <DefiningName state_xrefs.adb:5:4-5:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Null state_xrefs.adb:10:32-10:36>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "C1" state_xrefs.adb:10:53-10:55>
-  references: <DefiningName state_xrefs.adb:4:4-4:6>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 Resolving xrefs for node <NullStmt state_xrefs.adb:11:13-11:18>
 ***************************************************************
@@ -260,56 +320,68 @@ Resolving xrefs for node <EndName state_xrefs.adb:11:23-11:27>
 **************************************************************
 
 Expr: <EndName state_xrefs.adb:11:23-11:27>
-  references: <DefiningName state_xrefs.adb:7:14-7:18>
-  type:       None
+  references:    <DefiningName state_xrefs.adb:7:14-7:18>
+  type:          None
+  expected type: None
 Expr: <Id "Proc" state_xrefs.adb:11:23-11:27>
-  references: <DefiningName state_xrefs.adb:7:14-7:18>
-  type:       None
+  references:    <DefiningName state_xrefs.adb:7:14-7:18>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc state_xrefs.adb:14:11-14:48>
 ******************************************************************
 
 Expr: <Id "Refined_State" state_xrefs.adb:14:11-14:24>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate state_xrefs.adb:14:28-14:48>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "Nested_State" state_xrefs.adb:14:29-14:41>
-  references: <DefiningName state_xrefs.ads:11:30-11:42>
-  type:       None
+  references:    <DefiningName state_xrefs.ads:11:30-11:42>
+  type:          None
+  expected type: None
 Expr: <Id "C3" state_xrefs.adb:14:45-14:47>
-  references: <DefiningName state_xrefs.adb:16:7-16:9>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName state_xrefs.adb:16:7-16:9>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["C3"] state_xrefs.adb:16:7-16:25>
 ***********************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:16:12-16:19>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Int state_xrefs.adb:16:23-16:24>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <EndName state_xrefs.adb:17:8-17:22>
 *************************************************************
 
 Expr: <EndName state_xrefs.adb:17:8-17:22>
-  references: <DefiningName state_xrefs.adb:13:17-13:31>
-  type:       None
+  references:    <DefiningName state_xrefs.adb:13:17-13:31>
+  type:          None
+  expected type: None
 Expr: <Id "Nested_Private" state_xrefs.adb:17:8-17:22>
-  references: <DefiningName state_xrefs.adb:13:17-13:31>
-  type:       None
+  references:    <DefiningName state_xrefs.adb:13:17-13:31>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <EndName state_xrefs.adb:18:5-18:16>
 *************************************************************
 
 Expr: <EndName state_xrefs.adb:18:5-18:16>
-  references: <DefiningName state_xrefs.adb:1:14-1:25>
-  type:       None
+  references:    <DefiningName state_xrefs.adb:1:14-1:25>
+  type:          None
+  expected type: None
 Expr: <Id "State_Xrefs" state_xrefs.adb:18:5-18:16>
-  references: <DefiningName state_xrefs.adb:1:14-1:25>
-  type:       None
+  references:    <DefiningName state_xrefs.adb:1:14-1:25>
+  type:          None
+  expected type: None
 
 
 Done.

@@ -5,21 +5,25 @@ Resolving xrefs for node <SubpRenamingDecl ["Foo"] main.adb:4:4-4:36>
 *********************************************************************
 
 Expr: <Id "B" main.adb:4:34-4:35>
-  references: <DefiningName main.adb:2:15-2:16>
-  type:       None
+  references:    <DefiningName main.adb:2:15-2:16>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <GenericPackageInstantiation ["Bar_Inst"] main.adb:12:4-12:39>
 ***************************************************************************************
 
 Expr: <Id "Bar" main.adb:12:28-12:31>
-  references: <DefiningName main.adb:10:12-10:15>
-  type:       None
+  references:    <DefiningName main.adb:10:12-10:15>
+  type:          None
+  expected type: None
 Expr: <Id "A" main.adb:12:33-12:34>
-  references: <DefiningName main.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName main.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "B" main.adb:12:36-12:37>
-  references: <DefiningName main.adb:2:15-2:16>
-  type:       None
+  references:    <DefiningName main.adb:2:15-2:16>
+  type:          None
+  expected type: None
 
 
 Done.

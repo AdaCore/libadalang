@@ -13,8 +13,9 @@ Resolving xrefs for node <ExceptionHandler [] test.adb:5:4-6:12>
 ****************************************************************
 
 Expr: <Id "Numeric_Error" test.adb:5:9-5:22>
-  references: <DefiningName __standard:124:3-124:16>
-  type:       None
+  references:    <DefiningName __standard:124:3-124:16>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <NullStmt test.adb:6:7-6:12>
 *****************************************************
@@ -24,11 +25,13 @@ Resolving xrefs for node <EndName test.adb:7:5-7:9>
 ***************************************************
 
 Expr: <EndName test.adb:7:5-7:9>
-  references: <DefiningName test.adb:1:11-1:15>
-  type:       None
+  references:    <DefiningName test.adb:1:11-1:15>
+  type:          None
+  expected type: None
 Expr: <Id "Test" test.adb:7:5-7:9>
-  references: <DefiningName test.adb:1:11-1:15>
-  type:       None
+  references:    <DefiningName test.adb:1:11-1:15>
+  type:          None
+  expected type: None
 
 
 Done.

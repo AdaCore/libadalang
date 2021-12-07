@@ -5,38 +5,49 @@ Resolving xrefs for node <AssignStmt test_access.adb:15:4-15:32>
 ****************************************************************
 
 Expr: <DottedName test_access.adb:15:4-15:26>
-  references: <DefiningName test_access.adb:8:7-8:8>
-  type:       <TypeDecl ["Int"] test_access.adb:2:4-2:38>
+  references:    <DefiningName test_access.adb:8:7-8:8>
+  type:          <TypeDecl ["Int"] test_access.adb:2:4-2:38>
+  expected type: None
 Expr: <DottedName test_access.adb:15:4-15:24>
-  references: <DefiningName test_access.adb:9:7-9:11>
-  type:       <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  references:    <DefiningName test_access.adb:9:7-9:11>
+  type:          <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  expected type: None
 Expr: <ExplicitDeref test_access.adb:15:4-15:19>
-  references: <DefiningName test_access.adb:9:7-9:11>
-  type:       <TypeDecl ["Linked_List_Record"] test_access.adb:7:4-10:15>
+  references:    <DefiningName test_access.adb:9:7-9:11>
+  type:          <TypeDecl ["Linked_List_Record"] test_access.adb:7:4-10:15>
+  expected type: None
 Expr: <DottedName test_access.adb:15:4-15:15>
-  references: <DefiningName test_access.adb:9:7-9:11>
-  type:       <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  references:    <DefiningName test_access.adb:9:7-9:11>
+  type:          <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  expected type: None
 Expr: <DottedName test_access.adb:15:4-15:10>
-  references: <DefiningName test_access.adb:9:7-9:11>
-  type:       <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  references:    <DefiningName test_access.adb:9:7-9:11>
+  type:          <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  expected type: None
 Expr: <Id "R" test_access.adb:15:4-15:5>
-  references: <DefiningName test_access.adb:12:4-12:5>
-  type:       <TypeDecl ["Linked_List_Record"] test_access.adb:7:4-10:15>
+  references:    <DefiningName test_access.adb:12:4-12:5>
+  type:          <TypeDecl ["Linked_List_Record"] test_access.adb:7:4-10:15>
+  expected type: None
 Expr: <Id "Next" test_access.adb:15:6-15:10>
-  references: <DefiningName test_access.adb:9:7-9:11>
-  type:       <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  references:    <DefiningName test_access.adb:9:7-9:11>
+  type:          <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  expected type: None
 Expr: <Id "Next" test_access.adb:15:11-15:15>
-  references: <DefiningName test_access.adb:9:7-9:11>
-  type:       <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  references:    <DefiningName test_access.adb:9:7-9:11>
+  type:          <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  expected type: None
 Expr: <Id "Next" test_access.adb:15:20-15:24>
-  references: <DefiningName test_access.adb:9:7-9:11>
-  type:       <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  references:    <DefiningName test_access.adb:9:7-9:11>
+  type:          <TypeDecl ["Linked_List"] test_access.adb:5:4-5:54>
+  expected type: None
 Expr: <Id "A" test_access.adb:15:25-15:26>
-  references: <DefiningName test_access.adb:8:7-8:8>
-  type:       <TypeDecl ["Int"] test_access.adb:2:4-2:38>
+  references:    <DefiningName test_access.adb:8:7-8:8>
+  type:          <TypeDecl ["Int"] test_access.adb:2:4-2:38>
+  expected type: None
 Expr: <Id "I" test_access.adb:15:30-15:31>
-  references: <DefiningName test_access.adb:13:4-13:5>
-  type:       <TypeDecl ["Int"] test_access.adb:2:4-2:38>
+  references:    <DefiningName test_access.adb:13:4-13:5>
+  type:          <TypeDecl ["Int"] test_access.adb:2:4-2:38>
+  expected type: None
 
 
 Done.

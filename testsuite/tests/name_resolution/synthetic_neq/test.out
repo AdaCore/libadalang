@@ -5,32 +5,40 @@ Resolving xrefs for node <IfStmt test.adb:12:4-14:11>
 *****************************************************
 
 Expr: <RelationOp test.adb:12:7-12:13>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "A" test.adb:12:7-12:8>
-  references: <DefiningName test.adb:10:4-10:5>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:29>
+  references:    <DefiningName test.adb:10:4-10:5>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:29>
+  expected type: None
 Expr: <OpNeq "/=" test.adb:12:9-12:11>
-  references: <DefiningName test.adb:5:16-5:19>
-  type:       None
+  references:    <DefiningName test.adb:5:16-5:19>
+  type:          None
+  expected type: None
 Expr: <Id "B" test.adb:12:12-12:13>
-  references: <DefiningName test.adb:10:7-10:8>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:29>
+  references:    <DefiningName test.adb:10:7-10:8>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:29>
+  expected type: None
 
 Resolving xrefs for node <IfStmt test.adb:17:4-19:11>
 *****************************************************
 
 Expr: <CallExpr test.adb:17:7-17:18>
-  references: <DefiningName test.adb:5:16-5:19>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:5:16-5:19>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Str ""/="" test.adb:17:7-17:11>
-  references: <DefiningName test.adb:5:16-5:19>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:5:16-5:19>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "A" test.adb:17:13-17:14>
-  references: <DefiningName test.adb:10:4-10:5>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:29>
+  references:    <DefiningName test.adb:10:4-10:5>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:29>
+  expected type: None
 Expr: <Id "B" test.adb:17:16-17:17>
-  references: <DefiningName test.adb:10:7-10:8>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:29>
+  references:    <DefiningName test.adb:10:7-10:8>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:29>
+  expected type: None
 
 
 Done.

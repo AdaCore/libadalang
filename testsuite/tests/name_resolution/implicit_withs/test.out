@@ -5,84 +5,109 @@ Resolving xrefs for node <ObjectDecl ["A"] test.adb:12:4-12:45>
 ***************************************************************
 
 Expr: <Id "Boolean" test.adb:12:8-12:15>
-  references: standard.boolean
-  type:       None
+  references:    standard.boolean
+  type:          None
+  expected type: None
 Expr: <ParenExpr test.adb:12:19-12:44>
-  type:       standard.boolean
+  type:          standard.boolean
+  expected type: None
 Expr: <RelationOp test.adb:12:20-12:43>
-  type:       standard.boolean
+  type:          standard.boolean
+  expected type: None
 Expr: <AttributeRef test.adb:12:20-12:30>
-  references: None
-  type:       ada.task_identification.task_id
+  references:    None
+  type:          ada.task_identification.task_id
+  expected type: None
 Expr: <Id "X" test.adb:12:20-12:21>
-  references: test().x
-  type:       test().task_t
+  references:    test().x
+  type:          test().task_t
+  expected type: None
 Expr: <Id "Identity" test.adb:12:22-12:30>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <OpEq "=" test.adb:12:31-12:32>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:12:33-12:43>
-  references: None
-  type:       ada.task_identification.task_id
+  references:    None
+  type:          ada.task_identification.task_id
+  expected type: None
 Expr: <Id "X" test.adb:12:33-12:34>
-  references: test().x
-  type:       test().task_t
+  references:    test().x
+  type:          test().task_t
+  expected type: None
 Expr: <Id "Identity" test.adb:12:35-12:43>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <NumberDecl ["B"] test.adb:19:4-19:36>
 ***************************************************************
 
 Expr: <ParenExpr test.adb:19:20-19:35>
-  type:       standard.boolean
+  type:          standard.boolean
+  expected type: None
 Expr: <RelationOp test.adb:19:21-19:34>
-  type:       standard.boolean
+  type:          standard.boolean
+  expected type: None
 Expr: <AttributeRef test.adb:19:21-19:26>
-  references: None
-  type:       ada.tags.tag
+  references:    None
+  type:          ada.tags.tag
+  expected type: None
 Expr: <Id "Y" test.adb:19:21-19:22>
-  references: test().y
-  type:       test().tagged_t.tagged_t
+  references:    test().y
+  type:          test().tagged_t.tagged_t
+  expected type: None
 Expr: <Id "Tag" test.adb:19:23-19:26>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <OpEq "=" test.adb:19:27-19:28>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:19:29-19:34>
-  references: None
-  type:       ada.tags.tag
+  references:    None
+  type:          ada.tags.tag
+  expected type: None
 Expr: <Id "Y" test.adb:19:29-19:30>
-  references: test().y
-  type:       test().tagged_t.tagged_t
+  references:    test().y
+  type:          test().tagged_t.tagged_t
+  expected type: None
 Expr: <Id "Tag" test.adb:19:31-19:34>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Dummy"] test.adb:27:10-27:57>
 ********************************************************************
 
 Expr: <DottedName test.adb:27:27-27:41>
-  references: system.address
-  type:       None
+  references:    system.address
+  type:          None
+  expected type: None
 Expr: <Id "System" test.adb:27:27-27:33>
-  references: system
-  type:       None
+  references:    system
+  type:          None
+  expected type: None
 Expr: <Id "Address" test.adb:27:34-27:41>
-  references: system.address
-  type:       None
+  references:    system.address
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:27:45-27:56>
-  references: None
-  type:       system.address
+  references:    None
+  type:          system.address
+  expected type: None
 Expr: <Id "Exc" test.adb:27:45-27:48>
-  references: test().exc
-  type:       ada.exceptions.exception_occurrence
+  references:    test().exc
+  type:          ada.exceptions.exception_occurrence
+  expected type: None
 Expr: <Id "Address" test.adb:27:49-27:56>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

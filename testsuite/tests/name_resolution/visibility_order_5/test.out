@@ -11,7 +11,7 @@ Expr: <DottedName root-pkg.adb:8:10-8:16>
 Expr: <Id "Inst" root-pkg.adb:8:10-8:14>
   references:    <DefiningName root-pkg.adb:6:10-6:14>
   type:          <TypeDecl ["X"] root-pkg.ads:11:4-13:15>
-  expected type: <TypeDecl ["X"] root-pkg.ads:11:4-13:15>
+  expected type: None
 Expr: <Id "Y" root-pkg.adb:8:15-8:16>
   references:    <DefiningName root-pkg.ads:12:7-12:8>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -19,7 +19,7 @@ Expr: <Id "Y" root-pkg.adb:8:15-8:16>
 Expr: <Int root-pkg.adb:8:20-8:22>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 
 Done.

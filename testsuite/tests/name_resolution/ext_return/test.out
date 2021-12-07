@@ -5,11 +5,13 @@ Resolving xrefs for node <AssignStmt testextreturn.adb:5:10-5:18>
 *****************************************************************
 
 Expr: <Id "A" testextreturn.adb:5:10-5:11>
-  references: <DefiningName testextreturn.adb:4:14-4:15>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName testextreturn.adb:4:14-4:15>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int testextreturn.adb:5:15-5:17>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <ExtendedReturnStmt testextreturn.adb:4:7-7:18>
 ************************************************************************

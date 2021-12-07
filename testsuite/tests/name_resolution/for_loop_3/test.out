@@ -5,29 +5,36 @@ Resolving xrefs for node <ForLoopSpec testloop.adb:5:8-5:33>
 ************************************************************
 
 Expr: <Id "My_Int" testloop.adb:5:13-5:19>
-  references: <DefiningName testloop.adb:2:9-2:15>
-  type:       None
+  references:    <DefiningName testloop.adb:2:9-2:15>
+  type:          None
+  expected type: None
 Expr: <BinOp testloop.adb:5:26-5:33>
-  type:       <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
+  type:          <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
+  expected type: None
 Expr: <Int testloop.adb:5:26-5:27>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpDoubleDot ".." testloop.adb:5:28-5:30>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int testloop.adb:5:31-5:33>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt testloop.adb:6:7-6:14>
 ***********************************************************
 
 Expr: <Id "B" testloop.adb:6:7-6:8>
-  references: <DefiningName testloop.adb:3:4-3:5>
-  type:       <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
+  references:    <DefiningName testloop.adb:3:4-3:5>
+  type:          <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
+  expected type: None
 Expr: <Id "J" testloop.adb:6:12-6:13>
-  references: <DefiningName testloop.adb:5:8-5:9>
-  type:       <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
+  references:    <DefiningName testloop.adb:5:8-5:9>
+  type:          <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
+  expected type: None
 
 
 Done.

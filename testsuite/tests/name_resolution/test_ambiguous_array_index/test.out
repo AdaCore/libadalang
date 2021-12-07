@@ -5,20 +5,25 @@ Resolving xrefs for node <ObjectDecl ["C"] testar.adb:12:4-12:35>
 *****************************************************************
 
 Expr: <Id "Array_Type" testar.adb:12:8-12:18>
-  references: <DefiningName testar.adb:7:9-7:19>
-  type:       None
+  references:    <DefiningName testar.adb:7:9-7:19>
+  type:          None
+  expected type: None
 Expr: <CallExpr testar.adb:12:22-12:34>
-  references: <DefiningName testar.adb:9:13-9:16>
-  type:       <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
+  references:    <DefiningName testar.adb:9:13-9:16>
+  type:          <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
+  expected type: None
 Expr: <Id "Arr" testar.adb:12:22-12:25>
-  references: <DefiningName testar.adb:9:13-9:16>
-  type:       <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
+  references:    <DefiningName testar.adb:9:13-9:16>
+  type:          <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
+  expected type: None
 Expr: <Int testar.adb:12:27-12:29>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Int testar.adb:12:31-12:33>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

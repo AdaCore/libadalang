@@ -5,11 +5,13 @@ Resolving xrefs for node <ObjectDecl ["A"] b-c-d.adb:4:7-4:23>
 **************************************************************
 
 Expr: <Id "Pouet" b-c-d.adb:4:11-4:16>
-  references: <DefiningName b.adb:12:12-12:17>
-  type:       None
+  references:    <DefiningName b.adb:12:12-12:17>
+  type:          None
+  expected type: None
 Expr: <Id "A2" b-c-d.adb:4:20-4:22>
-  references: <DefiningName b.adb:12:26-12:28>
-  type:       <TypeDecl ["Pouet"] b.adb:12:7-12:38>
+  references:    <DefiningName b.adb:12:26-12:28>
+  type:          <TypeDecl ["Pouet"] b.adb:12:7-12:38>
+  expected type: None
 
 
 Done.

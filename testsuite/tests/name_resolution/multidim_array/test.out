@@ -5,29 +5,38 @@ Resolving xrefs for node <ObjectDecl ["Inst"] test_array_indices.adb:6:4-7:55>
 ******************************************************************************
 
 Expr: <Id "A" test_array_indices.adb:6:11-6:12>
-  references: <DefiningName test_array_indices.adb:4:9-4:10>
-  type:       None
+  references:    <DefiningName test_array_indices.adb:4:9-4:10>
+  type:          None
+  expected type: None
 Expr: <Aggregate test_array_indices.adb:6:16-7:54>
-  type:       <TypeDecl ["A"] test_array_indices.adb:4:4-4:46>
+  type:          <TypeDecl ["A"] test_array_indices.adb:4:4-4:46>
+  expected type: None
 Expr: <Id "Yellow" test_array_indices.adb:6:17-6:23>
-  references: <DefiningName test_array_indices.adb:2:19-2:25>
-  type:       <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
+  references:    <DefiningName test_array_indices.adb:2:19-2:25>
+  type:          <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
+  expected type: None
 Expr: <Aggregate test_array_indices.adb:6:27-6:41>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Int test_array_indices.adb:6:38-6:40>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Aggregate test_array_indices.adb:7:27-7:53>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "Dark" test_array_indices.adb:7:28-7:32>
-  references: <DefiningName test_array_indices.adb:3:19-3:23>
-  type:       <TypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
+  references:    <DefiningName test_array_indices.adb:3:19-3:23>
+  type:          <TypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
+  expected type: None
 Expr: <Int test_array_indices.adb:7:36-7:38>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Int test_array_indices.adb:7:50-7:52>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

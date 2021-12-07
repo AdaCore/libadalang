@@ -5,33 +5,40 @@ Resolving xrefs for node <SubpSpec f.ads:1:1-1:39>
 **************************************************
 
 Expr: <Id "Integer" f.ads:1:32-1:39>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamSpec ["x"] f.ads:1:12-1:23>
 **********************************************************
 
 Expr: <Id "Integer" f.ads:1:16-1:23>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc f.ads:2:12-2:25>
 ******************************************************
 
 Expr: <Id "Pre" f.ads:2:12-2:15>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <RelationOp f.ads:2:19-2:25>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "x" f.ads:2:19-2:20>
-  references: <DefiningName f.ads:1:12-1:13>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName f.ads:1:12-1:13>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <OpGt ">" f.ads:2:21-2:22>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int f.ads:2:23-2:25>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

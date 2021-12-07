@@ -5,20 +5,25 @@ Resolving xrefs for node <CallStmt type_class_attr.adb:7:4-7:29>
 ****************************************************************
 
 Expr: <CallExpr type_class_attr.adb:7:4-7:28>
-  references: type_class_attr().foo(system.aux_dec.type_class)
-  type:       None
+  references:    type_class_attr().foo(system.aux_dec.type_class)
+  type:          None
+  expected type: None
 Expr: <Id "Foo" type_class_attr.adb:7:4-7:7>
-  references: type_class_attr().foo(system.aux_dec.type_class)
-  type:       None
+  references:    type_class_attr().foo(system.aux_dec.type_class)
+  type:          None
+  expected type: None
 Expr: <AttributeRef type_class_attr.adb:7:9-7:27>
-  references: None
-  type:       system.aux_dec.type_class
+  references:    None
+  type:          system.aux_dec.type_class
+  expected type: None
 Expr: <Id "Boolean" type_class_attr.adb:7:9-7:16>
-  references: standard.boolean
-  type:       standard.boolean
+  references:    standard.boolean
+  type:          standard.boolean
+  expected type: None
 Expr: <Id "Type_Class" type_class_attr.adb:7:17-7:27>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

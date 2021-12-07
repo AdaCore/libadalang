@@ -5,37 +5,47 @@ Resolving xrefs for node <AssignStmt test.adb:19:4-19:15>
 *********************************************************
 
 Expr: <Id "X" test.adb:19:4-19:5>
-  references: <DefiningName test.adb:16:4-16:5>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:36>
+  references:    <DefiningName test.adb:16:4-16:5>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:36>
+  expected type: None
 Expr: <BinOp test.adb:19:9-19:14>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:36>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:36>
+  expected type: None
 Expr: <Id "X" test.adb:19:9-19:10>
-  references: <DefiningName test.adb:16:4-16:5>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:36>
+  references:    <DefiningName test.adb:16:4-16:5>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:36>
+  expected type: None
 Expr: <OpConcat "&" test.adb:19:11-19:12>
-  references: <DefiningName test.adb:5:16-5:19>
-  type:       None
+  references:    <DefiningName test.adb:5:16-5:19>
+  type:          None
+  expected type: None
 Expr: <Int test.adb:19:13-19:14>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:21:4-21:15>
 *********************************************************
 
 Expr: <Id "Y" test.adb:21:4-21:5>
-  references: <DefiningName test.adb:17:4-17:5>
-  type:       <TypeDecl ["My_T"] test.adb:11:7-11:47>
+  references:    <DefiningName test.adb:17:4-17:5>
+  type:          <TypeDecl ["My_T"] test.adb:11:7-11:47>
+  expected type: None
 Expr: <BinOp test.adb:21:9-21:14>
-  type:       <TypeDecl ["My_T"] test.adb:11:7-11:47>
+  type:          <TypeDecl ["My_T"] test.adb:11:7-11:47>
+  expected type: None
 Expr: <Id "Y" test.adb:21:9-21:10>
-  references: <DefiningName test.adb:17:4-17:5>
-  type:       <TypeDecl ["My_T"] test.adb:11:7-11:47>
+  references:    <DefiningName test.adb:17:4-17:5>
+  type:          <TypeDecl ["My_T"] test.adb:11:7-11:47>
+  expected type: None
 Expr: <OpConcat "&" test.adb:21:11-21:12>
-  references: <DefiningName test.adb:5:16-5:19>
-  type:       None
+  references:    <DefiningName test.adb:5:16-5:19>
+  type:          None
+  expected type: None
 Expr: <Int test.adb:21:13-21:14>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

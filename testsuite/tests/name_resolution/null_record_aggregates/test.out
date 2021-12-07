@@ -5,25 +5,31 @@ Resolving xrefs for node <ObjectDecl ["No_Derived_1"] test.adb:8:4-8:63>
 ************************************************************************
 
 Expr: <Id "Derived" test.adb:8:28-8:35>
-  references: <DefiningName test.adb:4:9-4:16>
-  type:       None
+  references:    <DefiningName test.adb:4:9-4:16>
+  type:          None
+  expected type: None
 Expr: <NullRecordAggregate test.adb:8:39-8:62>
-  type:       <TypeDecl ["Derived"] test.adb:4:4-4:46>
+  type:          <TypeDecl ["Derived"] test.adb:4:4-4:46>
+  expected type: None
 Expr: <Id "Base" test.adb:8:40-8:44>
-  references: <DefiningName test.adb:2:9-2:13>
-  type:       <TypeDecl ["Base"] test.adb:2:4-2:36>
+  references:    <DefiningName test.adb:2:9-2:13>
+  type:          <TypeDecl ["Base"] test.adb:2:4-2:36>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["No_Derived_2"] test.adb:11:4-11:66>
 **************************************************************************
 
 Expr: <Id "Derived" test.adb:11:28-11:35>
-  references: <DefiningName test.adb:4:9-4:16>
-  type:       None
+  references:    <DefiningName test.adb:4:9-4:16>
+  type:          None
+  expected type: None
 Expr: <NullRecordAggregate test.adb:11:39-11:65>
-  type:       <TypeDecl ["Derived"] test.adb:4:4-4:46>
+  type:          <TypeDecl ["Derived"] test.adb:4:4-4:46>
+  expected type: None
 Expr: <Id "No_Base" test.adb:11:40-11:47>
-  references: <DefiningName test.adb:6:4-6:11>
-  type:       <TypeDecl ["Base"] test.adb:2:4-2:36>
+  references:    <DefiningName test.adb:6:4-6:11>
+  type:          <TypeDecl ["Base"] test.adb:2:4-2:36>
+  expected type: None
 
 
 Done.

@@ -5,14 +5,17 @@ Resolving xrefs for node <GotoStmt testblock.adb:8:7-8:18>
 **********************************************************
 
 Expr: <DottedName testblock.adb:8:12-8:17>
-  references: <DefiningName testblock.adb:7:9-7:10>
-  type:       None
+  references:    <DefiningName testblock.adb:7:9-7:10>
+  type:          None
+  expected type: None
 Expr: <Id "Foo" testblock.adb:8:12-8:15>
-  references: <DefiningName testblock.adb:3:4-3:7>
-  type:       None
+  references:    <DefiningName testblock.adb:3:4-3:7>
+  type:          None
+  expected type: None
 Expr: <Id "B" testblock.adb:8:16-8:17>
-  references: <DefiningName testblock.adb:7:9-7:10>
-  type:       None
+  references:    <DefiningName testblock.adb:7:9-7:10>
+  type:          None
+  expected type: None
 
 
 Done.

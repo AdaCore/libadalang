@@ -5,27 +5,33 @@ Resolving xrefs for node <CaseStmt repro.adb:7:7-10:16>
 *******************************************************
 
 Expr: <CallExpr repro.adb:7:12-7:24>
-  references: <DefiningName repro.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] repro.adb:3:7-3:29>
+  references:    <DefiningName repro.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
+  expected type: None
 Expr: <DottedName repro.adb:7:12-7:19>
-  references: <DefiningName repro.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] repro.adb:3:7-3:29>
+  references:    <DefiningName repro.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
+  expected type: None
 Expr: <Id "Pouet" repro.adb:7:12-7:17>
-  references: <DefiningName repro.adb:2:12-2:17>
-  type:       None
+  references:    <DefiningName repro.adb:2:12-2:17>
+  type:          None
+  expected type: None
 Expr: <Id "T" repro.adb:7:18-7:19>
-  references: <DefiningName repro.adb:3:12-3:13>
-  type:       None
+  references:    <DefiningName repro.adb:3:12-3:13>
+  type:          None
+  expected type: None
 Expr: <Int repro.adb:7:21-7:23>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <CaseStmtAlternative repro.adb:8:10-8:26>
 ******************************************************************
 
 Expr: <Int repro.adb:8:15-8:17>
-  references: None
-  type:       <TypeDecl ["T"] repro.adb:3:7-3:29>
+  references:    None
+  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
+  expected type: None
 
 Resolving xrefs for node <NullStmt repro.adb:8:21-8:26>
 *******************************************************
@@ -43,28 +49,33 @@ Resolving xrefs for node <UsePackageClause repro.adb:15:7-15:17>
 ****************************************************************
 
 Expr: <Id "Pouet" repro.adb:15:11-15:16>
-  references: <DefiningName repro.adb:2:12-2:17>
-  type:       None
+  references:    <DefiningName repro.adb:2:12-2:17>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <CaseStmt repro.adb:17:7-20:16>
 ********************************************************
 
 Expr: <CallExpr repro.adb:17:12-17:18>
-  references: <DefiningName repro.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] repro.adb:3:7-3:29>
+  references:    <DefiningName repro.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
+  expected type: None
 Expr: <Id "T" repro.adb:17:12-17:13>
-  references: <DefiningName repro.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] repro.adb:3:7-3:29>
+  references:    <DefiningName repro.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
+  expected type: None
 Expr: <Int repro.adb:17:15-17:17>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <CaseStmtAlternative repro.adb:18:10-18:26>
 ********************************************************************
 
 Expr: <Int repro.adb:18:15-18:17>
-  references: None
-  type:       <TypeDecl ["T"] repro.adb:3:7-3:29>
+  references:    None
+  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
+  expected type: None
 
 Resolving xrefs for node <NullStmt repro.adb:18:21-18:26>
 *********************************************************

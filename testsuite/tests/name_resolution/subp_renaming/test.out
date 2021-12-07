@@ -13,8 +13,9 @@ Resolving xrefs for node <ParamSpec ["A"] test_subp_renaming.adb:2:19-2:28>
 ***************************************************************************
 
 Expr: <Id "Float" test_subp_renaming.adb:2:23-2:28>
-  references: <DefiningName __standard:14:8-14:13>
-  type:       None
+  references:    <DefiningName __standard:14:8-14:13>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_subp_renaming.adb:3:4-3:31>
 *******************************************************************
@@ -24,15 +25,17 @@ Resolving xrefs for node <ParamSpec ["A"] test_subp_renaming.adb:3:19-3:30>
 ***************************************************************************
 
 Expr: <Id "Integer" test_subp_renaming.adb:3:23-3:30>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpRenamingDecl ["Bar"] test_subp_renaming.adb:5:4-5:42>
 ***********************************************************************************
 
 Expr: <Id "Foo" test_subp_renaming.adb:5:38-5:41>
-  references: <DefiningName test_subp_renaming.adb:2:14-2:17>
-  type:       None
+  references:    <DefiningName test_subp_renaming.adb:2:14-2:17>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec test_subp_renaming.adb:5:4-5:29>
 *******************************************************************
@@ -42,8 +45,9 @@ Resolving xrefs for node <ParamSpec ["I"] test_subp_renaming.adb:5:19-5:28>
 ***************************************************************************
 
 Expr: <Id "Float" test_subp_renaming.adb:5:23-5:28>
-  references: <DefiningName __standard:14:8-14:13>
-  type:       None
+  references:    <DefiningName __standard:14:8-14:13>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <NullStmt test_subp_renaming.adb:7:4-7:9>
 ******************************************************************
@@ -53,11 +57,13 @@ Resolving xrefs for node <EndName test_subp_renaming.adb:8:5-8:23>
 ******************************************************************
 
 Expr: <EndName test_subp_renaming.adb:8:5-8:23>
-  references: <DefiningName test_subp_renaming.adb:1:11-1:29>
-  type:       None
+  references:    <DefiningName test_subp_renaming.adb:1:11-1:29>
+  type:          None
+  expected type: None
 Expr: <Id "Test_Subp_Renaming" test_subp_renaming.adb:8:5-8:23>
-  references: <DefiningName test_subp_renaming.adb:1:11-1:29>
-  type:       None
+  references:    <DefiningName test_subp_renaming.adb:1:11-1:29>
+  type:          None
+  expected type: None
 
 
 Done.

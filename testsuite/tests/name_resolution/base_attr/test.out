@@ -5,59 +5,76 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:5:4-5:34>
 *************************************************************
 
 Expr: <AttributeRef test.adb:5:8-5:14>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "T" test.adb:5:8-5:9>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Base" test.adb:5:10-5:14>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <BinOp test.adb:5:18-5:33>
-  type:       <TypeDecl ["T"] test.adb:2:4-2:40>
+  type:          <TypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: None
 Expr: <CallExpr test.adb:5:18-5:29>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: None
 Expr: <AttributeRef test.adb:5:18-5:24>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: None
 Expr: <Id "T" test.adb:5:18-5:19>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Base" test.adb:5:20-5:24>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:5:26-5:28>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpPlus "+" test.adb:5:30-5:31>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:5:32-5:33>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:8:4-8:36>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:8:8-8:15>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:8:19-8:35>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <AttributeRef test.adb:8:19-8:25>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "T" test.adb:8:19-8:20>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       <TypeDecl ["T"] test.adb:2:4-2:40>
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          <TypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: None
 Expr: <Id "Base" test.adb:8:21-8:25>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "Alignment" test.adb:8:26-8:35>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

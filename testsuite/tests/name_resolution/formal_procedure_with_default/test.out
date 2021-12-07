@@ -5,14 +5,17 @@ Resolving xrefs for node <GenericFormalSubpDecl ["Whatever"] test.adb:13:7-13:53
 *********************************************************************************
 
 Expr: <DottedName test.adb:13:45-13:52>
-  references: <| DefiningName test.adb:7:17-7:20 [test.adb:12:12] |>
-  type:       None
+  references:    <| DefiningName test.adb:7:17-7:20 [test.adb:12:12] |>
+  type:          None
+  expected type: None
 Expr: <Id "Bla" test.adb:13:45-13:48>
-  references: <DefiningName test.adb:12:20-12:23>
-  type:       None
+  references:    <DefiningName test.adb:12:20-12:23>
+  type:          None
+  expected type: None
 Expr: <Id "Baa" test.adb:13:49-13:52>
-  references: <| DefiningName test.adb:7:17-7:20 [test.adb:12:12] |>
-  type:       None
+  references:    <| DefiningName test.adb:7:17-7:20 [test.adb:12:12] |>
+  type:          None
+  expected type: None
 
 
 Done.

@@ -9,34 +9,41 @@ Resolving xrefs for node <GenericPackageInstantiation ["My_Vecs"] for_of_derived
 **********************************************************************************************
 
 Expr: <Id "Vectors" for_of_derived.adb:4:27-4:34>
-  references: <DefiningName vectors.ads:46:9-46:16>
-  type:       None
+  references:    <DefiningName vectors.ads:46:9-46:16>
+  type:          None
+  expected type: None
 Expr: <Id "Natural" for_of_derived.adb:4:36-4:43>
-  references: <DefiningName __standard:5:11-5:18>
-  type:       None
+  references:    <DefiningName __standard:5:11-5:18>
+  type:          None
+  expected type: None
 Expr: <Id "Integer" for_of_derived.adb:4:45-4:52>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <TypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
 ***************************************************************************
 
 Expr: <DottedName for_of_derived.adb:6:24-6:38>
-  references: <| DefiningName vectors.ads:59:9-59:15 [for_of_derived.adb:4:4] |>
-  type:       None
+  references:    <| DefiningName vectors.ads:59:9-59:15 [for_of_derived.adb:4:4] |>
+  type:          None
+  expected type: None
 Expr: <Id "My_Vecs" for_of_derived.adb:6:24-6:31>
-  references: <DefiningName for_of_derived.adb:4:12-4:19>
-  type:       None
+  references:    <DefiningName for_of_derived.adb:4:12-4:19>
+  type:          None
+  expected type: None
 Expr: <Id "Vector" for_of_derived.adb:6:32-6:38>
-  references: <| DefiningName vectors.ads:59:9-59:15 [for_of_derived.adb:4:4] |>
-  type:       None
+  references:    <| DefiningName vectors.ads:59:9-59:15 [for_of_derived.adb:4:4] |>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["V"] for_of_derived.adb:8:4-8:16>
 ***********************************************************************
 
 Expr: <Id "The_Vec" for_of_derived.adb:8:8-8:15>
-  references: <DefiningName for_of_derived.adb:6:9-6:16>
-  type:       None
+  references:    <DefiningName for_of_derived.adb:6:9-6:16>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ForLoopStmt for_of_derived.adb:10:4-12:13>
 ********************************************************************
@@ -46,8 +53,9 @@ Resolving xrefs for node <ForLoopSpec for_of_derived.adb:10:8-10:15>
 ********************************************************************
 
 Expr: <Id "V" for_of_derived.adb:10:14-10:15>
-  references: <DefiningName for_of_derived.adb:8:4-8:5>
-  type:       <TypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
+  references:    <DefiningName for_of_derived.adb:8:4-8:5>
+  type:          <TypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
+  expected type: None
 
 Resolving xrefs for node <NullStmt for_of_derived.adb:11:7-11:12>
 *****************************************************************
@@ -57,11 +65,13 @@ Resolving xrefs for node <EndName for_of_derived.adb:13:5-13:19>
 ****************************************************************
 
 Expr: <EndName for_of_derived.adb:13:5-13:19>
-  references: <DefiningName for_of_derived.adb:3:11-3:25>
-  type:       None
+  references:    <DefiningName for_of_derived.adb:3:11-3:25>
+  type:          None
+  expected type: None
 Expr: <Id "For_Of_Derived" for_of_derived.adb:13:5-13:19>
-  references: <DefiningName for_of_derived.adb:3:11-3:25>
-  type:       None
+  references:    <DefiningName for_of_derived.adb:3:11-3:25>
+  type:          None
+  expected type: None
 
 
 Done.

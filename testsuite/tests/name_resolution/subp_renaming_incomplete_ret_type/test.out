@@ -9,82 +9,97 @@ Resolving xrefs for node <TypeDecl ["A_Access"] foo.ads:6:4-6:40>
 *****************************************************************
 
 Expr: <AttributeRef foo.ads:6:32-6:39>
-  references: <DefiningName foo.ads:4:9-4:10>
-  type:       None
+  references:    <DefiningName foo.ads:4:9-4:10>
+  type:          None
+  expected type: None
 Expr: <Id "A" foo.ads:6:32-6:33>
-  references: <DefiningName foo.ads:4:9-4:10>
-  type:       None
+  references:    <DefiningName foo.ads:4:9-4:10>
+  type:          None
+  expected type: None
 Expr: <Id "Class" foo.ads:6:34-6:39>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <TypeDecl ["A_List"] foo.ads:8:4-8:45>
 ***************************************************************
 
 Expr: <Id "List" foo.ads:8:23-8:27>
-  references: <DefiningName foo.ads:2:9-2:13>
-  type:       None
+  references:    <DefiningName foo.ads:2:9-2:13>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec foo.ads:11:4-11:65>
 ******************************************************
 
 Expr: <AttributeRef foo.ads:11:58-11:65>
-  references: <DefiningName foo.ads:4:9-4:10>
-  type:       None
+  references:    <DefiningName foo.ads:4:9-4:10>
+  type:          None
+  expected type: None
 Expr: <Id "A" foo.ads:11:58-11:59>
-  references: <DefiningName foo.ads:4:9-4:10>
-  type:       None
+  references:    <DefiningName foo.ads:4:9-4:10>
+  type:          None
+  expected type: None
 Expr: <Id "Class" foo.ads:11:60-11:65>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamSpec ["L"] foo.ads:11:25-11:35>
 **************************************************************
 
 Expr: <Id "A_List" foo.ads:11:29-11:35>
-  references: <DefiningName foo.ads:8:9-8:15>
-  type:       None
+  references:    <DefiningName foo.ads:8:9-8:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamSpec ["P"] foo.ads:11:37-11:49>
 **************************************************************
 
 Expr: <Id "Positive" foo.ads:11:41-11:49>
-  references: <DefiningName __standard:6:11-6:19>
-  type:       None
+  references:    <DefiningName __standard:6:11-6:19>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpRenamingDecl ["As_A"] foo.ads:13:4-13:79>
 ***********************************************************************
 
 Expr: <Id "Element_At" foo.ads:13:68-13:78>
-  references: <DefiningName foo.ads:11:13-11:23>
-  type:       None
+  references:    <DefiningName foo.ads:11:13-11:23>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec foo.ads:13:4-13:59>
 ******************************************************
 
 Expr: <AttributeRef foo.ads:13:52-13:59>
-  references: <DefiningName foo.ads:4:9-4:10>
-  type:       None
+  references:    <DefiningName foo.ads:4:9-4:10>
+  type:          None
+  expected type: None
 Expr: <Id "A" foo.ads:13:52-13:53>
-  references: <DefiningName foo.ads:4:9-4:10>
-  type:       None
+  references:    <DefiningName foo.ads:4:9-4:10>
+  type:          None
+  expected type: None
 Expr: <Id "Class" foo.ads:13:54-13:59>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamSpec ["X"] foo.ads:13:19-13:29>
 **************************************************************
 
 Expr: <Id "A_List" foo.ads:13:23-13:29>
-  references: <DefiningName foo.ads:8:9-8:15>
-  type:       None
+  references:    <DefiningName foo.ads:8:9-8:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamSpec ["C"] foo.ads:13:31-13:43>
 **************************************************************
 
 Expr: <Id "Positive" foo.ads:13:35-13:43>
-  references: <DefiningName __standard:6:11-6:19>
-  type:       None
+  references:    <DefiningName __standard:6:11-6:19>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <TypeDecl ["A"] foo.ads:15:4-15:33>
 ************************************************************
@@ -94,11 +109,13 @@ Resolving xrefs for node <EndName foo.ads:16:5-16:8>
 ****************************************************
 
 Expr: <EndName foo.ads:16:5-16:8>
-  references: <DefiningName foo.ads:1:9-1:12>
-  type:       None
+  references:    <DefiningName foo.ads:1:9-1:12>
+  type:          None
+  expected type: None
 Expr: <Id "Foo" foo.ads:16:5-16:8>
-  references: <DefiningName foo.ads:1:9-1:12>
-  type:       None
+  references:    <DefiningName foo.ads:1:9-1:12>
+  type:          None
+  expected type: None
 
 
 Done.

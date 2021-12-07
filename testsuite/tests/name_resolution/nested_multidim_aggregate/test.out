@@ -5,26 +5,34 @@ Resolving xrefs for node <AssignStmt repro_multidim.adb:13:4-13:56>
 *******************************************************************
 
 Expr: <Id "Inst" repro_multidim.adb:13:4-13:8>
-  references: <DefiningName repro_multidim.adb:10:4-10:8>
-  type:       <TypeDecl ["Rec"] repro_multidim.adb:5:4-8:15>
+  references:    <DefiningName repro_multidim.adb:10:4-10:8>
+  type:          <TypeDecl ["Rec"] repro_multidim.adb:5:4-8:15>
+  expected type: None
 Expr: <Aggregate repro_multidim.adb:13:12-13:55>
-  type:       <TypeDecl ["Rec"] repro_multidim.adb:5:4-8:15>
+  type:          <TypeDecl ["Rec"] repro_multidim.adb:5:4-8:15>
+  expected type: None
 Expr: <Id "B" repro_multidim.adb:13:13-13:14>
-  references: <DefiningName repro_multidim.adb:6:7-6:8>
-  type:       None
+  references:    <DefiningName repro_multidim.adb:6:7-6:8>
+  type:          None
+  expected type: None
 Expr: <Int repro_multidim.adb:13:18-13:20>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Arr" repro_multidim.adb:13:22-13:25>
-  references: <DefiningName repro_multidim.adb:7:7-7:10>
-  type:       None
+  references:    <DefiningName repro_multidim.adb:7:7-7:10>
+  type:          None
+  expected type: None
 Expr: <Aggregate repro_multidim.adb:13:29-13:54>
-  type:       <TypeDecl ["A"] repro_multidim.adb:3:4-3:38>
+  type:          <TypeDecl ["A"] repro_multidim.adb:3:4-3:38>
+  expected type: None
 Expr: <Aggregate repro_multidim.adb:13:40-13:53>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Int repro_multidim.adb:13:51-13:52>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

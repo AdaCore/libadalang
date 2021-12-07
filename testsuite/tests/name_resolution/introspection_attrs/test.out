@@ -5,81 +5,101 @@ Resolving xrefs for node <ObjectDecl ["A"] test.adb:5:7-5:42>
 *************************************************************
 
 Expr: <Id "Boolean" test.adb:5:11-5:18>
-  references: <DefiningName __standard:3:8-3:15>
-  type:       None
+  references:    <DefiningName __standard:3:8-3:15>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:5:22-5:41>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "T" test.adb:5:22-5:23>
-  references: <DefiningName test.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:30>
+  references:    <DefiningName test.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:30>
+  expected type: None
 Expr: <Id "Has_Access_Values" test.adb:5:24-5:41>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["B"] test.adb:8:7-8:42>
 *************************************************************
 
 Expr: <Id "Boolean" test.adb:8:11-8:18>
-  references: <DefiningName __standard:3:8-3:15>
-  type:       None
+  references:    <DefiningName __standard:3:8-3:15>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:8:22-8:41>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "T" test.adb:8:22-8:23>
-  references: <DefiningName test.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:30>
+  references:    <DefiningName test.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:30>
+  expected type: None
 Expr: <Id "Has_Discriminants" test.adb:8:24-8:41>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:11:7-11:42>
 ***************************************************************
 
 Expr: <Id "Boolean" test.adb:11:11-11:18>
-  references: <DefiningName __standard:3:8-3:15>
-  type:       None
+  references:    <DefiningName __standard:3:8-3:15>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:11:22-11:41>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "T" test.adb:11:22-11:23>
-  references: <DefiningName test.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:30>
+  references:    <DefiningName test.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:30>
+  expected type: None
 Expr: <Id "Has_Tagged_Values" test.adb:11:24-11:41>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["D"] test.adb:14:7-14:33>
 ***************************************************************
 
 Expr: <Id "Boolean" test.adb:14:11-14:18>
-  references: <DefiningName __standard:3:8-3:15>
-  type:       None
+  references:    <DefiningName __standard:3:8-3:15>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:14:22-14:32>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "T" test.adb:14:22-14:23>
-  references: <DefiningName test.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:30>
+  references:    <DefiningName test.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:30>
+  expected type: None
 Expr: <Id "Definite" test.adb:14:24-14:32>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["E"] test.adb:17:7-17:36>
 ***************************************************************
 
 Expr: <Id "Boolean" test.adb:17:11-17:18>
-  references: <DefiningName __standard:3:8-3:15>
-  type:       None
+  references:    <DefiningName __standard:3:8-3:15>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:17:22-17:35>
-  references: None
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    None
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "T" test.adb:17:22-17:23>
-  references: <DefiningName test.adb:3:12-3:13>
-  type:       <TypeDecl ["T"] test.adb:3:7-3:30>
+  references:    <DefiningName test.adb:3:12-3:13>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:30>
+  expected type: None
 Expr: <Id "Constrained" test.adb:17:24-17:35>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

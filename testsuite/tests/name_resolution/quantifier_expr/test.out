@@ -5,46 +5,62 @@ Resolving xrefs for node <ReturnStmt test.adb:6:7-8:37>
 *******************************************************
 
 Expr: <BinOp test.adb:7:9-8:36>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <ParenExpr test.adb:7:9-7:45>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <QuantifiedExpr test.adb:7:10-7:44>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <RelationOp test.adb:7:35-7:44>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <CallExpr test.adb:7:35-7:40>
-  references: <DefiningName test.adb:4:18-4:20>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:4:18-4:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "S1" test.adb:7:35-7:37>
-  references: <DefiningName test.adb:4:18-4:20>
-  type:       <TypeDecl ["Sequence"] test.adb:2:4-2:57>
+  references:    <DefiningName test.adb:4:18-4:20>
+  type:          <TypeDecl ["Sequence"] test.adb:2:4-2:57>
+  expected type: None
 Expr: <Id "K" test.adb:7:38-7:39>
-  references: <DefiningName test.adb:7:18-7:19>
-  type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  references:    <DefiningName test.adb:7:18-7:19>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: None
 Expr: <OpGt ">" test.adb:7:41-7:42>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:7:43-7:44>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpAndThen "and then" test.adb:7:46-7:54>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <ParenExpr test.adb:8:9-8:36>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <QuantifiedExpr test.adb:8:10-8:35>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <RelationOp test.adb:8:30-8:35>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "E" test.adb:8:30-8:31>
-  references: <DefiningName test.adb:8:19-8:20>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:8:19-8:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <OpLt "<" test.adb:8:32-8:33>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:8:34-8:35>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

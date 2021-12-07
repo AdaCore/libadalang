@@ -5,15 +5,17 @@ Resolving xrefs for node <IfStmt test.adb:9:7-15:14>
 ****************************************************
 
 Expr: <Id "Foo" test.adb:9:10-9:13>
-  references: <DefiningName test.adb:2:13-2:16>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:2:13-2:16>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 
 Resolving xrefs for node <CallStmt test.adb:10:10-10:18>
 ********************************************************
 
 Expr: <Id "Process" test.adb:10:10-10:17>
-  references: <DefiningName test.adb:4:14-4:21>
-  type:       None
+  references:    <DefiningName test.adb:4:14-4:21>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ElsifStmtPart test.adb:11:7-12:18>
 ************************************************************
@@ -24,15 +26,17 @@ Resolving xrefs for node <CallStmt test.adb:12:10-12:18>
 ********************************************************
 
 Expr: <Id "Process" test.adb:12:10-12:17>
-  references: <DefiningName test.adb:4:14-4:21>
-  type:       None
+  references:    <DefiningName test.adb:4:14-4:21>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <CallStmt test.adb:14:10-14:18>
 ********************************************************
 
 Expr: <Id "Process" test.adb:14:10-14:17>
-  references: <DefiningName test.adb:4:14-4:21>
-  type:       None
+  references:    <DefiningName test.adb:4:14-4:21>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <IfStmt test.adb:19:7-25:14>
 *****************************************************
@@ -43,29 +47,33 @@ Resolving xrefs for node <CallStmt test.adb:20:10-20:18>
 ********************************************************
 
 Expr: <Id "Process" test.adb:20:10-20:17>
-  references: <DefiningName test.adb:4:14-4:21>
-  type:       None
+  references:    <DefiningName test.adb:4:14-4:21>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ElsifStmtPart test.adb:21:7-22:18>
 ************************************************************
 
 Expr: <Id "Foo" test.adb:21:13-21:16>
-  references: <DefiningName test.adb:2:13-2:16>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:2:13-2:16>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 
 Resolving xrefs for node <CallStmt test.adb:22:10-22:18>
 ********************************************************
 
 Expr: <Id "Process" test.adb:22:10-22:17>
-  references: <DefiningName test.adb:4:14-4:21>
-  type:       None
+  references:    <DefiningName test.adb:4:14-4:21>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <CallStmt test.adb:24:10-24:18>
 ********************************************************
 
 Expr: <Id "Process" test.adb:24:10-24:17>
-  references: <DefiningName test.adb:4:14-4:21>
-  type:       None
+  references:    <DefiningName test.adb:4:14-4:21>
+  type:          None
+  expected type: None
 
 
 Done.

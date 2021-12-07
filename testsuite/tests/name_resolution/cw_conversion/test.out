@@ -5,26 +5,33 @@ Resolving xrefs for node <CallStmt testcwconv.adb:8:4-8:24>
 ***********************************************************
 
 Expr: <CallExpr testcwconv.adb:8:4-8:23>
-  references: <DefiningName testcwconv.adb:4:14-4:17>
-  type:       None
+  references:    <DefiningName testcwconv.adb:4:14-4:17>
+  type:          None
+  expected type: None
 Expr: <Id "Bar" testcwconv.adb:8:4-8:7>
-  references: <DefiningName testcwconv.adb:4:14-4:17>
-  type:       None
+  references:    <DefiningName testcwconv.adb:4:14-4:17>
+  type:          None
+  expected type: None
 Expr: <CallExpr testcwconv.adb:8:9-8:22>
-  references: <DefiningName testcwconv.adb:2:9-2:10>
-  type:       <ClasswideTypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  references:    <DefiningName testcwconv.adb:2:9-2:10>
+  type:          <ClasswideTypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  expected type: None
 Expr: <AttributeRef testcwconv.adb:8:9-8:16>
-  references: <DefiningName testcwconv.adb:2:9-2:10>
-  type:       <ClasswideTypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  references:    <DefiningName testcwconv.adb:2:9-2:10>
+  type:          <ClasswideTypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  expected type: None
 Expr: <Id "T" testcwconv.adb:8:9-8:10>
-  references: <DefiningName testcwconv.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName testcwconv.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Class" testcwconv.adb:8:11-8:16>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "Foo" testcwconv.adb:8:18-8:21>
-  references: <DefiningName testcwconv.adb:6:13-6:16>
-  type:       <TypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  references:    <DefiningName testcwconv.adb:6:13-6:16>
+  type:          <TypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  expected type: None
 
 
 Done.

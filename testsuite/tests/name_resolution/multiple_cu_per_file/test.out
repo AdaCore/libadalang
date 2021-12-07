@@ -5,45 +5,57 @@ Resolving xrefs for node <ObjectDecl ["I1"] foo.adb:5:4-5:43>
 *************************************************************
 
 Expr: <Id "Integer" foo.adb:5:18-5:25>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <CallExpr foo.adb:5:29-5:42>
-  references: <DefiningName specs.ada:2:13-2:17>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:2:13-2:17>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <DottedName foo.adb:5:29-5:38>
-  references: <DefiningName specs.ada:2:13-2:17>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:2:13-2:17>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Pkg1" foo.adb:5:29-5:33>
-  references: <DefiningName specs.ada:1:9-1:13>
-  type:       None
+  references:    <DefiningName specs.ada:1:9-1:13>
+  type:          None
+  expected type: None
 Expr: <Id "Fact" foo.adb:5:34-5:38>
-  references: <DefiningName specs.ada:2:13-2:17>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:2:13-2:17>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int foo.adb:5:40-5:41>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["I2"] foo.adb:8:4-8:41>
 *************************************************************
 
 Expr: <Id "Integer" foo.adb:8:18-8:25>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <CallExpr foo.adb:8:29-8:40>
-  references: <DefiningName specs.ada:6:13-6:15>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:6:13-6:15>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <DottedName foo.adb:8:29-8:36>
-  references: <DefiningName specs.ada:6:13-6:15>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:6:13-6:15>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Pkg2" foo.adb:8:29-8:33>
-  references: <DefiningName specs.ada:5:9-5:13>
-  type:       None
+  references:    <DefiningName specs.ada:5:9-5:13>
+  type:          None
+  expected type: None
 Expr: <Id "Id" foo.adb:8:34-8:36>
-  references: <DefiningName specs.ada:6:13-6:15>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:6:13-6:15>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int foo.adb:8:38-8:39>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Analyzing specs.ada
@@ -56,42 +68,55 @@ Resolving xrefs for node <ReturnStmt bodies.ada:9:10-9:44>
 **********************************************************
 
 Expr: <BinOp bodies.ada:9:17-9:43>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "I" bodies.ada:9:17-9:18>
-  references: <DefiningName bodies.ada:4:19-4:20>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName bodies.ada:4:19-4:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <OpMult "*" bodies.ada:9:19-9:20>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <CallExpr bodies.ada:9:21-9:43>
-  references: <DefiningName specs.ada:6:13-6:15>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:6:13-6:15>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <DottedName bodies.ada:9:21-9:28>
-  references: <DefiningName specs.ada:6:13-6:15>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:6:13-6:15>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Pkg2" bodies.ada:9:21-9:25>
-  references: <DefiningName specs.ada:5:9-5:13>
-  type:       None
+  references:    <DefiningName specs.ada:5:9-5:13>
+  type:          None
+  expected type: None
 Expr: <Id "Id" bodies.ada:9:26-9:28>
-  references: <DefiningName specs.ada:6:13-6:15>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName specs.ada:6:13-6:15>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <CallExpr bodies.ada:9:30-9:42>
-  references: <DefiningName bodies.ada:4:13-4:17>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName bodies.ada:4:13-4:17>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Fact" bodies.ada:9:30-9:34>
-  references: <DefiningName bodies.ada:4:13-4:17>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName bodies.ada:4:13-4:17>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <BinOp bodies.ada:9:36-9:41>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "I" bodies.ada:9:36-9:37>
-  references: <DefiningName bodies.ada:4:19-4:20>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName bodies.ada:4:19-4:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <OpMinus "-" bodies.ada:9:38-9:39>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int bodies.ada:9:40-9:41>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

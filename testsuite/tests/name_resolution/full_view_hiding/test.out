@@ -5,24 +5,31 @@ Resolving xrefs for node <ObjectDecl ["Inst3"] b-c.adb:4:4-4:33>
 ****************************************************************
 
 Expr: <Id "Typ" b-c.adb:4:12-4:15>
-  references: <DefiningName b-c.ads:4:9-4:12>
-  type:       None
+  references:    <DefiningName b-c.ads:4:9-4:12>
+  type:          None
+  expected type: None
 Expr: <BinOp b-c.adb:4:19-4:32>
-  type:       <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
+  type:          <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
+  expected type: None
 Expr: <Id "I2" b-c.adb:4:19-4:21>
-  references: <DefiningName b-c.adb:2:4-2:6>
-  type:       <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
+  references:    <DefiningName b-c.adb:2:4-2:6>
+  type:          <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
+  expected type: None
 Expr: <OpAnd "and" b-c.adb:4:22-4:25>
-  references: <DefiningName b.ads:5:13-5:18>
-  type:       None
+  references:    <DefiningName b.ads:5:13-5:18>
+  type:          None
+  expected type: None
 Expr: <Aggregate b-c.adb:4:26-4:32>
-  type:       <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
+  type:          <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
+  expected type: None
 Expr: <Int b-c.adb:4:27-4:28>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Int b-c.adb:4:30-4:31>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

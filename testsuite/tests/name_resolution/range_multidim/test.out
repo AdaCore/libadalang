@@ -17,57 +17,73 @@ Resolving xrefs for node <ArrayTypeDef test_range.adb:5:14-5:65>
 ****************************************************************
 
 Expr: <Id "Integer" test_range.adb:5:21-5:28>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Id "Color" test_range.adb:5:39-5:44>
-  references: <DefiningName test_range.adb:3:9-3:14>
-  type:       None
+  references:    <DefiningName test_range.adb:3:9-3:14>
+  type:          None
+  expected type: None
 Expr: <Id "Natural" test_range.adb:5:58-5:65>
-  references: <DefiningName __standard:5:11-5:18>
-  type:       None
+  references:    <DefiningName __standard:5:11-5:18>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Inst"] test_range.adb:7:4-7:49>
 **********************************************************************
 
 Expr: <Id "A" test_range.adb:7:11-7:12>
-  references: <DefiningName test_range.adb:5:9-5:10>
-  type:       None
+  references:    <DefiningName test_range.adb:5:9-5:10>
+  type:          None
+  expected type: None
 Expr: <Aggregate test_range.adb:7:16-7:48>
-  type:       <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  type:          <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  expected type: None
 Expr: <BinOp test_range.adb:7:17-7:24>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test_range.adb:7:17-7:18>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpDoubleDot ".." test_range.adb:7:19-7:21>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test_range.adb:7:22-7:24>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Aggregate test_range.adb:7:28-7:47>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <BinOp test_range.adb:7:29-7:40>
-  type:       <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  type:          <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  expected type: None
 Expr: <Id "Red" test_range.adb:7:29-7:32>
-  references: <DefiningName test_range.adb:3:19-3:22>
-  type:       <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  references:    <DefiningName test_range.adb:3:19-3:22>
+  type:          <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  expected type: None
 Expr: <OpDoubleDot ".." test_range.adb:7:33-7:35>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "Blue" test_range.adb:7:36-7:40>
-  references: <DefiningName test_range.adb:3:31-3:35>
-  type:       <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  references:    <DefiningName test_range.adb:3:31-3:35>
+  type:          <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  expected type: None
 Expr: <Int test_range.adb:7:44-7:46>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["S"] test_range.adb:9:4-9:16>
 *******************************************************************
 
 Expr: <Id "Natural" test_range.adb:9:8-9:15>
-  references: <DefiningName __standard:5:11-5:18>
-  type:       None
+  references:    <DefiningName __standard:5:11-5:18>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ForLoopStmt test_range.adb:11:4-15:13>
 ****************************************************************
@@ -77,21 +93,25 @@ Resolving xrefs for node <ForLoopSpec test_range.adb:11:8-11:27>
 ****************************************************************
 
 Expr: <AttributeRef test_range.adb:11:13-11:27>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Inst" test_range.adb:11:13-11:17>
-  references: <DefiningName test_range.adb:7:4-7:8>
-  type:       <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  references:    <DefiningName test_range.adb:7:4-7:8>
+  type:          <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  expected type: None
 Expr: <Id "Range" test_range.adb:11:18-11:23>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamAssoc test_range.adb:11:25-11:26>
 ****************************************************************
 
 Expr: <Int test_range.adb:11:25-11:26>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <ForLoopStmt test_range.adb:12:7-14:16>
 ****************************************************************
@@ -101,50 +121,61 @@ Resolving xrefs for node <ForLoopSpec test_range.adb:12:11-12:30>
 *****************************************************************
 
 Expr: <AttributeRef test_range.adb:12:16-12:30>
-  references: None
-  type:       <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  references:    None
+  type:          <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  expected type: None
 Expr: <Id "Inst" test_range.adb:12:16-12:20>
-  references: <DefiningName test_range.adb:7:4-7:8>
-  type:       <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  references:    <DefiningName test_range.adb:7:4-7:8>
+  type:          <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  expected type: None
 Expr: <Id "Range" test_range.adb:12:21-12:26>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ParamAssoc test_range.adb:12:28-12:29>
 ****************************************************************
 
 Expr: <Int test_range.adb:12:28-12:29>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test_range.adb:13:10-13:27>
 ****************************************************************
 
 Expr: <Id "S" test_range.adb:13:10-13:11>
-  references: <DefiningName test_range.adb:9:4-9:5>
-  type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  references:    <DefiningName test_range.adb:9:4-9:5>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: None
 Expr: <CallExpr test_range.adb:13:15-13:26>
-  references: <DefiningName test_range.adb:7:4-7:8>
-  type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  references:    <DefiningName test_range.adb:7:4-7:8>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: None
 Expr: <Id "Inst" test_range.adb:13:15-13:19>
-  references: <DefiningName test_range.adb:7:4-7:8>
-  type:       <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  references:    <DefiningName test_range.adb:7:4-7:8>
+  type:          <TypeDecl ["A"] test_range.adb:5:4-5:66>
+  expected type: None
 Expr: <Id "I" test_range.adb:13:21-13:22>
-  references: <DefiningName test_range.adb:11:8-11:9>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test_range.adb:11:8-11:9>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "J" test_range.adb:13:24-13:25>
-  references: <DefiningName test_range.adb:12:11-12:12>
-  type:       <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  references:    <DefiningName test_range.adb:12:11-12:12>
+  type:          <TypeDecl ["Color"] test_range.adb:3:4-3:37>
+  expected type: None
 
 Resolving xrefs for node <EndName test_range.adb:17:5-17:15>
 ************************************************************
 
 Expr: <EndName test_range.adb:17:5-17:15>
-  references: <DefiningName test_range.adb:1:11-1:21>
-  type:       None
+  references:    <DefiningName test_range.adb:1:11-1:21>
+  type:          None
+  expected type: None
 Expr: <Id "Test_Range" test_range.adb:17:5-17:15>
-  references: <DefiningName test_range.adb:1:11-1:21>
-  type:       None
+  references:    <DefiningName test_range.adb:1:11-1:21>
+  type:          None
+  expected type: None
 
 
 Done.

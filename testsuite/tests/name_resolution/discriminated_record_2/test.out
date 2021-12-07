@@ -5,31 +5,40 @@ Resolving xrefs for node <ObjectDecl ["Inst"] rd.adb:14:4-14:51>
 ****************************************************************
 
 Expr: <Id "R2" rd.adb:14:11-14:13>
-  references: <DefiningName rd.adb:10:9-10:11>
-  type:       None
+  references:    <DefiningName rd.adb:10:9-10:11>
+  type:          None
+  expected type: None
 Expr: <Aggregate rd.adb:14:17-14:50>
-  type:       <TypeDecl ["R2"] rd.adb:10:4-12:15>
+  type:          <TypeDecl ["R2"] rd.adb:10:4-12:15>
+  expected type: None
 Expr: <Id "A" rd.adb:14:18-14:19>
-  references: <DefiningName rd.adb:8:15-8:16>
-  type:       <TypeDecl ["N"] rd.adb:8:4-8:24>
+  references:    <DefiningName rd.adb:8:15-8:16>
+  type:          <TypeDecl ["N"] rd.adb:8:4-8:24>
+  expected type: None
 Expr: <Real rd.adb:14:21-14:25>
-  references: None
-  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+  references:    None
+  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: None
 Expr: <Real rd.adb:14:27-14:31>
-  references: None
-  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+  references:    None
+  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: None
 Expr: <Real rd.adb:14:33-14:37>
-  references: None
-  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+  references:    None
+  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: None
 Expr: <Int rd.adb:14:39-14:41>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int rd.adb:14:43-14:45>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int rd.adb:14:47-14:49>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 
 Done.

@@ -5,14 +5,17 @@ Resolving xrefs for node <GenericPackageInstantiation ["A"] generic_inst_hiding.
 ***********************************************************************************************
 
 Expr: <DottedName generic_inst_hiding.adb:12:21-12:24>
-  references: <DefiningName generic_inst_hiding.adb:4:15-4:16>
-  type:       None
+  references:    <DefiningName generic_inst_hiding.adb:4:15-4:16>
+  type:          None
+  expected type: None
 Expr: <Id "A" generic_inst_hiding.adb:12:21-12:22>
-  references: <DefiningName generic_inst_hiding.adb:2:12-2:13>
-  type:       None
+  references:    <DefiningName generic_inst_hiding.adb:2:12-2:13>
+  type:          None
+  expected type: None
 Expr: <Id "B" generic_inst_hiding.adb:12:23-12:24>
-  references: <DefiningName generic_inst_hiding.adb:4:15-4:16>
-  type:       None
+  references:    <DefiningName generic_inst_hiding.adb:4:15-4:16>
+  type:          None
+  expected type: None
 
 
 Done.

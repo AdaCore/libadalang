@@ -5,26 +5,33 @@ Resolving xrefs for node <AssignStmt test.adb:15:4-15:27>
 *********************************************************
 
 Expr: <Id "F" test.adb:15:4-15:5>
-  references: test().f
-  type:       standard.float
+  references:    test().f
+  type:          standard.float
+  expected type: None
 Expr: <CallExpr test.adb:15:9-15:26>
-  references: test().ef."**"((standard.float, standard.float) -> standard.float)
-  type:       standard.float
+  references:    test().ef."**"((standard.float, standard.float) -> standard.float)
+  type:          standard.float
+  expected type: None
 Expr: <DottedName test.adb:15:9-15:16>
-  references: test().ef."**"((standard.float, standard.float) -> standard.float)
-  type:       standard.float
+  references:    test().ef."**"((standard.float, standard.float) -> standard.float)
+  type:          standard.float
+  expected type: None
 Expr: <Id "EF" test.adb:15:9-15:11>
-  references: test().ef
-  type:       None
+  references:    test().ef
+  type:          None
+  expected type: None
 Expr: <Str ""**"" test.adb:15:12-15:16>
-  references: test().ef."**"((standard.float, standard.float) -> standard.float)
-  type:       standard.float
+  references:    test().ef."**"((standard.float, standard.float) -> standard.float)
+  type:          standard.float
+  expected type: None
 Expr: <Id "e" test.adb:15:17-15:18>
-  references: ada.numerics.e
-  type:       standard.universal_real_type_
+  references:    ada.numerics.e
+  type:          standard.universal_real_type_
+  expected type: None
 Expr: <Real test.adb:15:20-15:25>
-  references: None
-  type:       standard.universal_real_type_
+  references:    None
+  type:          standard.universal_real_type_
+  expected type: None
 
 
 Done.

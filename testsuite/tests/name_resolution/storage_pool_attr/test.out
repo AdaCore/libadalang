@@ -5,60 +5,77 @@ Resolving xrefs for node <ObjectDecl ["S"] storage_pool_attr.adb:10:4-10:71>
 ****************************************************************************
 
 Expr: <AttributeRef storage_pool_attr.adb:10:8-10:52>
-  references: system.storage_pools.root_storage_pool
-  type:       None
+  references:    system.storage_pools.root_storage_pool
+  type:          None
+  expected type: None
 Expr: <DottedName storage_pool_attr.adb:10:8-10:46>
-  references: system.storage_pools.root_storage_pool
-  type:       None
+  references:    system.storage_pools.root_storage_pool
+  type:          None
+  expected type: None
 Expr: <DottedName storage_pool_attr.adb:10:8-10:28>
-  references: system.storage_pools
-  type:       None
+  references:    system.storage_pools
+  type:          None
+  expected type: None
 Expr: <Id "System" storage_pool_attr.adb:10:8-10:14>
-  references: system
-  type:       None
+  references:    system
+  type:          None
+  expected type: None
 Expr: <Id "Storage_Pools" storage_pool_attr.adb:10:15-10:28>
-  references: system.storage_pools
-  type:       None
+  references:    system.storage_pools
+  type:          None
+  expected type: None
 Expr: <Id "Root_Storage_Pool" storage_pool_attr.adb:10:29-10:46>
-  references: system.storage_pools.root_storage_pool
-  type:       None
+  references:    system.storage_pools.root_storage_pool
+  type:          None
+  expected type: None
 Expr: <Id "Class" storage_pool_attr.adb:10:47-10:52>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <AttributeRef storage_pool_attr.adb:10:56-10:70>
-  references: None
-  type:       system.storage_pools.root_storage_pool.root_storage_pool
+  references:    None
+  type:          system.storage_pools.root_storage_pool.root_storage_pool
+  expected type: None
 Expr: <Id "B" storage_pool_attr.adb:10:56-10:57>
-  references: storage_pool_attr().b
-  type:       storage_pool_attr().a
+  references:    storage_pool_attr().b
+  type:          storage_pool_attr().a
+  expected type: None
 Expr: <Id "Storage_Pool" storage_pool_attr.adb:10:58-10:70>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <CallStmt storage_pool_attr.adb:13:4-13:29>
 ********************************************************************
 
 Expr: <CallExpr storage_pool_attr.adb:13:4-13:28>
-  references: system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)
-  type:       None
+  references:    system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)
+  type:          None
+  expected type: None
 Expr: <DottedName storage_pool_attr.adb:13:4-13:14>
-  references: system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)
-  type:       None
+  references:    system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)
+  type:          None
+  expected type: None
 Expr: <Id "S" storage_pool_attr.adb:13:4-13:5>
-  references: storage_pool_attr().s
-  type:       system.storage_pools.root_storage_pool.root_storage_pool
+  references:    storage_pool_attr().s
+  type:          system.storage_pools.root_storage_pool.root_storage_pool
+  expected type: None
 Expr: <Id "Allocate" storage_pool_attr.adb:13:6-13:14>
-  references: system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)
-  type:       None
+  references:    system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)
+  type:          None
+  expected type: None
 Expr: <Id "Add" storage_pool_attr.adb:13:16-13:19>
-  references: storage_pool_attr().add
-  type:       system.address
+  references:    storage_pool_attr().add
+  type:          system.address
+  expected type: None
 Expr: <Int storage_pool_attr.adb:13:21-13:23>
-  references: None
-  type:       standard.universal_int_type_
+  references:    None
+  type:          standard.universal_int_type_
+  expected type: None
 Expr: <Int storage_pool_attr.adb:13:25-13:27>
-  references: None
-  type:       standard.universal_int_type_
+  references:    None
+  type:          standard.universal_int_type_
+  expected type: None
 
 
 Done.

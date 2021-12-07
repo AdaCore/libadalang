@@ -5,26 +5,34 @@ Resolving xrefs for node <AssignStmt test.adb:12:4-12:18>
 *********************************************************
 
 Expr: <Id "X" test.adb:12:4-12:5>
-  references: <DefiningName test.adb:10:4-10:5>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName test.adb:10:4-10:5>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <RelationOp test.adb:12:9-12:17>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <ParenExpr test.adb:12:9-12:13>
-  type:       <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: None
 Expr: <UnOp test.adb:12:10-12:12>
-  type:       <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: None
 Expr: <OpPlus "+" test.adb:12:10-12:11>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:12:11-12:12>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpGt ">" test.adb:12:14-12:15>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:12:16-12:17>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

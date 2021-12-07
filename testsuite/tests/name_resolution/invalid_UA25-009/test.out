@@ -9,14 +9,17 @@ Resolving xrefs for node <ParamSpec ["T"] test.adb:4:19-4:30>
 *************************************************************
 
 Expr: <AttributeRef test.adb:4:23-4:30>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "T" test.adb:4:23-4:24>
-  references: <DefiningName test.adb:2:9-2:10>
-  type:       None
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          None
+  expected type: None
 Expr: <Id "Class" test.adb:4:25-4:30>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

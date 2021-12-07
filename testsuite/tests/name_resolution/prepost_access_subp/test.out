@@ -9,34 +9,43 @@ Resolving xrefs for node <ParamSpec ["X"] ats_types.adb:2:33-2:44>
 ******************************************************************
 
 Expr: <Id "Integer" ats_types.adb:2:37-2:44>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc ats_types.adb:2:51-2:69>
 **************************************************************
 
 Expr: <Id "Pre" ats_types.adb:2:51-2:54>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <RelationOp ats_types.adb:2:58-2:69>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <BinOp ats_types.adb:2:58-2:65>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "X" ats_types.adb:2:58-2:59>
-  references: <DefiningName ats_types.adb:2:33-2:34>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName ats_types.adb:2:33-2:34>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <OpMod "mod" ats_types.adb:2:60-2:63>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int ats_types.adb:2:64-2:65>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpEq "=" ats_types.adb:2:66-2:67>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int ats_types.adb:2:68-2:69>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <SubpSpec ats_types.adb:4:22-4:45>
 ***********************************************************
@@ -46,34 +55,43 @@ Resolving xrefs for node <ParamSpec ["X"] ats_types.adb:4:33-4:44>
 ******************************************************************
 
 Expr: <Id "Integer" ats_types.adb:4:37-4:44>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc ats_types.adb:4:51-4:70>
 **************************************************************
 
 Expr: <Id "Post" ats_types.adb:4:51-4:55>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <RelationOp ats_types.adb:4:59-4:70>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <BinOp ats_types.adb:4:59-4:66>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "X" ats_types.adb:4:59-4:60>
-  references: <DefiningName ats_types.adb:4:33-4:34>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName ats_types.adb:4:33-4:34>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <OpMod "mod" ats_types.adb:4:61-4:64>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int ats_types.adb:4:65-4:66>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpEq "=" ats_types.adb:4:67-4:68>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int ats_types.adb:4:69-4:70>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

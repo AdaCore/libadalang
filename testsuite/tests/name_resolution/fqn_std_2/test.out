@@ -5,46 +5,57 @@ Resolving xrefs for node <TypeDecl ["My_Int"] teststd.ads:2:4-2:40>
 *******************************************************************
 
 Expr: <DottedName teststd.ads:2:23-2:39>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Id "Standard" teststd.ads:2:23-2:31>
-  references: <DefiningName __standard:1:9-1:17>
-  type:       None
+  references:    <DefiningName __standard:1:9-1:17>
+  type:          None
+  expected type: None
 Expr: <Id "Integer" teststd.ads:2:32-2:39>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["A"] teststd.ads:3:4-3:38>
 ****************************************************************
 
 Expr: <DottedName teststd.ads:3:8-3:31>
-  references: <DefiningName teststd.ads:2:9-2:15>
-  type:       None
+  references:    <DefiningName teststd.ads:2:9-2:15>
+  type:          None
+  expected type: None
 Expr: <DottedName teststd.ads:3:8-3:24>
-  references: <DefiningName teststd.ads:1:9-1:16>
-  type:       None
+  references:    <DefiningName teststd.ads:1:9-1:16>
+  type:          None
+  expected type: None
 Expr: <Id "Standard" teststd.ads:3:8-3:16>
-  references: <DefiningName __standard:1:9-1:17>
-  type:       None
+  references:    <DefiningName __standard:1:9-1:17>
+  type:          None
+  expected type: None
 Expr: <Id "Teststd" teststd.ads:3:17-3:24>
-  references: <DefiningName teststd.ads:1:9-1:16>
-  type:       None
+  references:    <DefiningName teststd.ads:1:9-1:16>
+  type:          None
+  expected type: None
 Expr: <Id "My_Int" teststd.ads:3:25-3:31>
-  references: <DefiningName teststd.ads:2:9-2:15>
-  type:       None
+  references:    <DefiningName teststd.ads:2:9-2:15>
+  type:          None
+  expected type: None
 Expr: <Int teststd.ads:3:35-3:37>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <EndName teststd.ads:4:5-4:12>
 *******************************************************
 
 Expr: <EndName teststd.ads:4:5-4:12>
-  references: <DefiningName teststd.ads:1:9-1:16>
-  type:       None
+  references:    <DefiningName teststd.ads:1:9-1:16>
+  type:          None
+  expected type: None
 Expr: <Id "Teststd" teststd.ads:4:5-4:12>
-  references: <DefiningName teststd.ads:1:9-1:16>
-  type:       None
+  references:    <DefiningName teststd.ads:1:9-1:16>
+  type:          None
+  expected type: None
 
 
 Done.

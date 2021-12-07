@@ -5,50 +5,65 @@ Resolving xrefs for node <CallStmt test.adb:8:4-10:59>
 ******************************************************
 
 Expr: <CallExpr test.adb:8:4-10:58>
-  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
-  type:       None
+  references:    system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
+  type:          None
+  expected type: None
 Expr: <Id "Asm" test.adb:8:4-8:7>
-  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
-  type:       None
+  references:    system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean)
+  type:          None
+  expected type: None
 Expr: <Str ""incl %0"" test.adb:8:9-8:18>
-  references: None
-  type:       standard.string
+  references:    None
+  type:          standard.string
+  expected type: None
 Expr: <Id "Inputs" test.adb:9:9-9:15>
-  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean).inputs
-  type:       None
+  references:    system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean).inputs
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:9:20-9:54>
-  references: None
-  type:       system.machine_code.asm_input_operand
+  references:    None
+  type:          system.machine_code.asm_input_operand
+  expected type: None
 Expr: <Id "Unsigned_32" test.adb:9:20-9:31>
-  references: interfaces.unsigned_32
-  type:       None
+  references:    interfaces.unsigned_32
+  type:          None
+  expected type: None
 Expr: <Id "Asm_Input" test.adb:9:32-9:41>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Str ""a"" test.adb:9:43-9:46>
-  references: None
-  type:       standard.string
+  references:    None
+  type:          standard.string
+  expected type: None
 Expr: <Id "Value" test.adb:9:48-9:53>
-  references: None
-  type:       interfaces.unsigned_32
+  references:    None
+  type:          interfaces.unsigned_32
+  expected type: None
 Expr: <Id "Outputs" test.adb:10:9-10:16>
-  references: system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean).outputs
-  type:       None
+  references:    system.machine_code.asm(standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean).outputs
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:10:20-10:57>
-  references: None
-  type:       system.machine_code.asm_output_operand
+  references:    None
+  type:          system.machine_code.asm_output_operand
+  expected type: None
 Expr: <Id "Unsigned_32" test.adb:10:20-10:31>
-  references: interfaces.unsigned_32
-  type:       None
+  references:    interfaces.unsigned_32
+  type:          None
+  expected type: None
 Expr: <Id "Asm_Output" test.adb:10:32-10:42>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Str ""=a"" test.adb:10:44-10:48>
-  references: None
-  type:       standard.string
+  references:    None
+  type:          standard.string
+  expected type: None
 Expr: <Id "Result" test.adb:10:50-10:56>
-  references: None
-  type:       interfaces.unsigned_32
+  references:    None
+  type:          interfaces.unsigned_32
+  expected type: None
 
 
 Done.

@@ -5,28 +5,36 @@ Resolving xrefs for node <ObjectDecl ["R"] test.adb:17:4-17:44>
 ***************************************************************
 
 Expr: <Id "U" test.adb:17:8-17:9>
-  references: <DefiningName test.adb:13:9-13:10>
-  type:       None
+  references:    <DefiningName test.adb:13:9-13:10>
+  type:          None
+  expected type: None
 Expr: <Aggregate test.adb:17:13-17:43>
-  type:       <TypeDecl ["U"] test.adb:13:4-15:15>
+  type:          <TypeDecl ["U"] test.adb:13:4-15:15>
+  expected type: None
 Expr: <Id "X" test.adb:17:14-17:15>
-  references: <DefiningName test.adb:4:12-4:13>
-  type:       None
+  references:    <DefiningName test.adb:4:12-4:13>
+  type:          None
+  expected type: None
 Expr: <Int test.adb:17:19-17:20>
-  references: None
-  type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  references:    None
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: None
 Expr: <Id "C_A" test.adb:17:22-17:25>
-  references: <DefiningName test.adb:7:13-7:16>
-  type:       None
+  references:    <DefiningName test.adb:7:13-7:16>
+  type:          None
+  expected type: None
 Expr: <Int test.adb:17:29-17:31>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "C_B" test.adb:17:33-17:36>
-  references: <DefiningName test.adb:14:7-14:10>
-  type:       None
+  references:    <DefiningName test.adb:14:7-14:10>
+  type:          None
+  expected type: None
 Expr: <Int test.adb:17:40-17:42>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 
 Done.

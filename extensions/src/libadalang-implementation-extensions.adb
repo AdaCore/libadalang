@@ -552,8 +552,8 @@ package body Libadalang.Implementation.Extensions is
          declare
             LV_Number : constant Positive :=
               (case Node.Kind is
-                  when Ada_Single_Tok_Node => 3,
-                  when others              => 1);
+                  when Ada_Single_Tok_Node => 4,
+                  when others              => 2);
 
             Arr : constant Alloc_Logic_Var_Array.Element_Array_Access
               := Alloc_Logic_Var_Array.Alloc
@@ -580,7 +580,7 @@ package body Libadalang.Implementation.Extensions is
 
       return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (2)'Unrestricted_Access)
+           (Node.Expr_Logic_Vars) (3)'Unrestricted_Access)
       do
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
@@ -604,7 +604,7 @@ package body Libadalang.Implementation.Extensions is
 
       return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (3)'Unrestricted_Access)
+           (Node.Expr_Logic_Vars) (4)'Unrestricted_Access)
       do
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
@@ -638,6 +638,29 @@ package body Libadalang.Implementation.Extensions is
          end if;
       end return;
    end Expr_P_Type_Var;
+
+   ------------------------------
+   -- Expr_P_Expected_Type_Var --
+   ------------------------------
+
+   function Expr_P_Expected_Type_Var (Node : Bare_Expr) return Logic_Var
+   is
+   begin
+      Alloc_Logic_Vars (Node);
+
+      return Ret : constant Logic_Var := Logic_Var'
+        (Alloc_Logic_Var_Array.To_Pointer
+           (Node.Expr_Logic_Vars) (2)'Unrestricted_Access)
+      do
+         if Langkit_Support.Adalog.Debug.Debug
+            and then Ret.Dbg_Name = null
+         then
+            Ret.Dbg_Name := New_Unit_String
+              (Node.Unit,
+               Image (Short_Text_Image (Node)) & "." & "P_Expected_Type_Var");
+         end if;
+      end return;
+   end Expr_P_Expected_Type_Var;
 
    ----------------------------------
    -- Ada_Node_P_Resolve_Own_Names --

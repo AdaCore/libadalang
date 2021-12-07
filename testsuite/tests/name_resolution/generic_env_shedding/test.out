@@ -5,23 +5,29 @@ Resolving xrefs for node <AssignStmt main.adb:15:4-15:33>
 *********************************************************
 
 Expr: <Id "Val" main.adb:15:4-15:7>
-  references: <DefiningName main.adb:13:4-13:7>
-  type:       <TypeDecl ["Lol"] b.ads:2:4-2:28>
+  references:    <DefiningName main.adb:13:4-13:7>
+  type:          <TypeDecl ["Lol"] b.ads:2:4-2:28>
+  expected type: None
 Expr: <DottedName main.adb:15:11-15:32>
-  references: <| DefiningName b-c.ads:6:13-6:16 [main.adb:11:4, main.adb:8:7] |>
-  type:       <TypeDecl ["Lol"] b.ads:2:4-2:28>
+  references:    <| DefiningName b-c.ads:6:13-6:16 [main.adb:11:4, main.adb:8:7] |>
+  type:          <TypeDecl ["Lol"] b.ads:2:4-2:28>
+  expected type: None
 Expr: <DottedName main.adb:15:11-15:28>
-  references: <| DefiningName main.adb:8:15-8:23 [main.adb:11:4] |>
-  type:       None
+  references:    <| DefiningName main.adb:8:15-8:23 [main.adb:11:4] |>
+  type:          None
+  expected type: None
 Expr: <Id "Pkg_Inst" main.adb:15:11-15:19>
-  references: <DefiningName main.adb:11:12-11:20>
-  type:       None
+  references:    <DefiningName main.adb:11:12-11:20>
+  type:          None
+  expected type: None
 Expr: <Id "A_B_Inst" main.adb:15:20-15:28>
-  references: <| DefiningName main.adb:8:15-8:23 [main.adb:11:4] |>
-  type:       None
+  references:    <| DefiningName main.adb:8:15-8:23 [main.adb:11:4] |>
+  type:          None
+  expected type: None
 Expr: <Id "Bar" main.adb:15:29-15:32>
-  references: <| DefiningName b-c.ads:6:13-6:16 [main.adb:11:4, main.adb:8:7] |>
-  type:       <TypeDecl ["Lol"] b.ads:2:4-2:28>
+  references:    <| DefiningName b-c.ads:6:13-6:16 [main.adb:11:4, main.adb:8:7] |>
+  type:          <TypeDecl ["Lol"] b.ads:2:4-2:28>
+  expected type: None
 
 
 Done.

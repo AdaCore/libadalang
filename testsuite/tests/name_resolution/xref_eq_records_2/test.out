@@ -5,55 +5,69 @@ Resolving xrefs for node <AssignStmt test.adb:24:10-24:28>
 **********************************************************
 
 Expr: <Id "C" test.adb:24:10-24:11>
-  references: <DefiningName test.adb:12:7-12:8>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:12:7-12:8>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <CallExpr test.adb:24:15-24:27>
-  references: <DefiningName test.adb:17:16-17:19>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:17:16-17:19>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <Id "Bar" test.adb:24:15-24:18>
-  references: <DefiningName test.adb:17:16-17:19>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:17:16-17:19>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <Id "Baz" test.adb:24:20-24:23>
-  references: <DefiningName test.adb:20:16-20:19>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:20:16-20:19>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <Id "G" test.adb:24:25-24:26>
-  references: <DefiningName test.adb:14:7-14:8>
-  type:       <TypeDecl ["My_Record"] test.adb:6:4-9:15>
+  references:    <DefiningName test.adb:14:7-14:8>
+  type:          <TypeDecl ["My_Record"] test.adb:6:4-9:15>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:25:10-25:30>
 **********************************************************
 
 Expr: <Id "D" test.adb:25:10-25:11>
-  references: <DefiningName test.adb:12:10-12:11>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:12:10-12:11>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <CallExpr test.adb:25:15-25:29>
-  references: <DefiningName test.adb:16:16-16:19>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:16:16-16:19>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <Id "Bar" test.adb:25:15-25:18>
-  references: <DefiningName test.adb:16:16-16:19>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:16:16-16:19>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <Id "Baz" test.adb:25:20-25:23>
-  references: <DefiningName test.adb:19:16-19:19>
-  type:       <TypeDecl ["My_Int"] test.adb:3:4-3:39>
+  references:    <DefiningName test.adb:19:16-19:19>
+  type:          <TypeDecl ["My_Int"] test.adb:3:4-3:39>
+  expected type: None
 Expr: <Id "Baz" test.adb:25:25-25:28>
-  references: <DefiningName test.adb:20:16-20:19>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:20:16-20:19>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:26:10-26:19>
 **********************************************************
 
 Expr: <Id "E" test.adb:26:10-26:11>
-  references: <DefiningName test.adb:12:13-12:14>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:12:13-12:14>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <DottedName test.adb:26:15-26:18>
-  references: <DefiningName test.adb:8:7-8:8>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:8:7-8:8>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 Expr: <Id "G" test.adb:26:15-26:16>
-  references: <DefiningName test.adb:14:7-14:8>
-  type:       <TypeDecl ["My_Record"] test.adb:6:4-9:15>
+  references:    <DefiningName test.adb:14:7-14:8>
+  type:          <TypeDecl ["My_Record"] test.adb:6:4-9:15>
+  expected type: None
 Expr: <Id "F" test.adb:26:17-26:18>
-  references: <DefiningName test.adb:8:7-8:8>
-  type:       <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  references:    <DefiningName test.adb:8:7-8:8>
+  type:          <TypeDecl ["My_Float"] test.adb:4:4-4:31>
+  expected type: None
 
 
 Done.

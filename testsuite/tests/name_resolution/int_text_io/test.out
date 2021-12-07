@@ -5,23 +5,29 @@ Resolving xrefs for node <GenericPackageInstantiation ["Dec"] foo.adb:6:4-6:54>
 *******************************************************************************
 
 Expr: <DottedName foo.adb:6:23-6:45>
-  references: ada.text_io.decimal_io
-  type:       None
+  references:    ada.text_io.decimal_io
+  type:          None
+  expected type: None
 Expr: <DottedName foo.adb:6:23-6:34>
-  references: ada.text_io
-  type:       None
+  references:    ada.text_io
+  type:          None
+  expected type: None
 Expr: <Id "Ada" foo.adb:6:23-6:26>
-  references: ada
-  type:       None
+  references:    ada
+  type:          None
+  expected type: None
 Expr: <Id "Text_IO" foo.adb:6:27-6:34>
-  references: ada.text_io
-  type:       None
+  references:    ada.text_io
+  type:          None
+  expected type: None
 Expr: <Id "Decimal_IO" foo.adb:6:35-6:45>
-  references: ada.text_io.decimal_io
-  type:       None
+  references:    ada.text_io.decimal_io
+  type:          None
+  expected type: None
 Expr: <Id "Float" foo.adb:6:47-6:52>
-  references: standard.float
-  type:       None
+  references:    standard.float
+  type:          None
+  expected type: None
 
 
 Done.

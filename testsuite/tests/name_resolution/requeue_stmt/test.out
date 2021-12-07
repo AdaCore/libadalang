@@ -5,8 +5,9 @@ Resolving xrefs for node <RequeueStmt test_requeue.adb:34:13-34:34>
 *******************************************************************
 
 Expr: <Id "Wait_For_Get" test_requeue.adb:34:21-34:33>
-  references: <DefiningName test_requeue.adb:22:13-22:25>
-  type:       None
+  references:    <DefiningName test_requeue.adb:22:13-22:25>
+  type:          None
+  expected type: None
 
 
 Done.

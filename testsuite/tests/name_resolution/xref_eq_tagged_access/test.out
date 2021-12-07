@@ -5,103 +5,129 @@ Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:22:4-22:14>
 *************************************************************************
 
 Expr: <DottedName test_accesses_tagged.adb:22:4-22:7>
-  references: <DefiningName test_accesses_tagged.adb:9:7-9:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:9:7-9:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Id "J" test_accesses_tagged.adb:22:4-22:5>
-  references: <DefiningName test_accesses_tagged.adb:20:4-20:5>
-  type:       <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  references:    <DefiningName test_accesses_tagged.adb:20:4-20:5>
+  type:          <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  expected type: None
 Expr: <Id "D" test_accesses_tagged.adb:22:6-22:7>
-  references: <DefiningName test_accesses_tagged.adb:9:7-9:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:9:7-9:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Int test_accesses_tagged.adb:22:11-22:13>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:25:4-25:14>
 *************************************************************************
 
 Expr: <DottedName test_accesses_tagged.adb:25:4-25:7>
-  references: <DefiningName test_accesses_tagged.adb:5:7-5:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:5:7-5:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Id "J" test_accesses_tagged.adb:25:4-25:5>
-  references: <DefiningName test_accesses_tagged.adb:20:4-20:5>
-  type:       <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  references:    <DefiningName test_accesses_tagged.adb:20:4-20:5>
+  type:          <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  expected type: None
 Expr: <Id "B" test_accesses_tagged.adb:25:6-25:7>
-  references: <DefiningName test_accesses_tagged.adb:5:7-5:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:5:7-5:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Int test_accesses_tagged.adb:25:11-25:13>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:28:4-28:18>
 *************************************************************************
 
 Expr: <DottedName test_accesses_tagged.adb:28:4-28:11>
-  references: <DefiningName test_accesses_tagged.adb:9:7-9:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:9:7-9:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <ExplicitDeref test_accesses_tagged.adb:28:4-28:9>
-  references: <DefiningName test_accesses_tagged.adb:18:4-18:5>
-  type:       <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  references:    <DefiningName test_accesses_tagged.adb:18:4-18:5>
+  type:          <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  expected type: None
 Expr: <Id "I" test_accesses_tagged.adb:28:4-28:5>
-  references: <DefiningName test_accesses_tagged.adb:18:4-18:5>
-  type:       <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  references:    <DefiningName test_accesses_tagged.adb:18:4-18:5>
+  type:          <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  expected type: None
 Expr: <Id "D" test_accesses_tagged.adb:28:10-28:11>
-  references: <DefiningName test_accesses_tagged.adb:9:7-9:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:9:7-9:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Int test_accesses_tagged.adb:28:15-28:17>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:31:4-31:18>
 *************************************************************************
 
 Expr: <DottedName test_accesses_tagged.adb:31:4-31:11>
-  references: <DefiningName test_accesses_tagged.adb:5:7-5:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:5:7-5:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <ExplicitDeref test_accesses_tagged.adb:31:4-31:9>
-  references: <DefiningName test_accesses_tagged.adb:18:4-18:5>
-  type:       <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  references:    <DefiningName test_accesses_tagged.adb:18:4-18:5>
+  type:          <TypeDecl ["Rec_Child"] test_accesses_tagged.adb:8:4-10:15>
+  expected type: None
 Expr: <Id "I" test_accesses_tagged.adb:31:4-31:5>
-  references: <DefiningName test_accesses_tagged.adb:18:4-18:5>
-  type:       <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  references:    <DefiningName test_accesses_tagged.adb:18:4-18:5>
+  type:          <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  expected type: None
 Expr: <Id "B" test_accesses_tagged.adb:31:10-31:11>
-  references: <DefiningName test_accesses_tagged.adb:5:7-5:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:5:7-5:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Int test_accesses_tagged.adb:31:15-31:17>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:34:4-34:14>
 *************************************************************************
 
 Expr: <DottedName test_accesses_tagged.adb:34:4-34:7>
-  references: <DefiningName test_accesses_tagged.adb:9:7-9:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:9:7-9:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Id "I" test_accesses_tagged.adb:34:4-34:5>
-  references: <DefiningName test_accesses_tagged.adb:18:4-18:5>
-  type:       <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  references:    <DefiningName test_accesses_tagged.adb:18:4-18:5>
+  type:          <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  expected type: None
 Expr: <Id "D" test_accesses_tagged.adb:34:6-34:7>
-  references: <DefiningName test_accesses_tagged.adb:9:7-9:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:9:7-9:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Int test_accesses_tagged.adb:34:11-34:13>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <AssignStmt test_accesses_tagged.adb:37:4-37:14>
 *************************************************************************
 
 Expr: <DottedName test_accesses_tagged.adb:37:4-37:7>
-  references: <DefiningName test_accesses_tagged.adb:5:7-5:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:5:7-5:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Id "I" test_accesses_tagged.adb:37:4-37:5>
-  references: <DefiningName test_accesses_tagged.adb:18:4-18:5>
-  type:       <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  references:    <DefiningName test_accesses_tagged.adb:18:4-18:5>
+  type:          <TypeDecl ["Rec_Child_Access"] test_accesses_tagged.adb:16:4-16:50>
+  expected type: None
 Expr: <Id "B" test_accesses_tagged.adb:37:6-37:7>
-  references: <DefiningName test_accesses_tagged.adb:5:7-5:8>
-  type:       <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  references:    <DefiningName test_accesses_tagged.adb:5:7-5:8>
+  type:          <TypeDecl ["Integer"] test_accesses_tagged.adb:2:4-2:35>
+  expected type: None
 Expr: <Int test_accesses_tagged.adb:37:11-37:13>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

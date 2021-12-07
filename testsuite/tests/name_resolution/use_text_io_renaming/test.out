@@ -5,20 +5,25 @@ Resolving xrefs for node <CallStmt test.adb:7:4-7:24>
 *****************************************************
 
 Expr: <CallExpr test.adb:7:4-7:23>
-  references: ada.integer_wide_text_io.get(standard.wide_string, standard.integer, standard.positive)
-  type:       None
+  references:    ada.integer_wide_text_io.get(standard.wide_string, standard.integer, standard.positive)
+  type:          None
+  expected type: None
 Expr: <Id "Get" test.adb:7:4-7:7>
-  references: ada.integer_wide_text_io.get(standard.wide_string, standard.integer, standard.positive)
-  type:       None
+  references:    ada.integer_wide_text_io.get(standard.wide_string, standard.integer, standard.positive)
+  type:          None
+  expected type: None
 Expr: <Str ""12"" test.adb:7:9-7:13>
-  references: None
-  type:       standard.wide_string
+  references:    None
+  type:          standard.wide_string
+  expected type: None
 Expr: <Id "X" test.adb:7:15-7:16>
-  references: test().x
-  type:       standard.integer
+  references:    test().x
+  type:          standard.integer
+  expected type: None
 Expr: <Id "Last" test.adb:7:18-7:22>
-  references: test().last
-  type:       standard.positive
+  references:    test().last
+  type:          standard.positive
+  expected type: None
 
 
 Done.

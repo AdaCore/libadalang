@@ -9,84 +9,111 @@ Resolving xrefs for node <ParamSpec ["I"] test.adb:2:19-2:30>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:2:23-2:30>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <AspectAssoc test.adb:3:12-6:46>
 *********************************************************
 
 Expr: <Id "Contract_Cases" test.adb:3:12-3:26>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate test.adb:4:9-6:46>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <ParenExpr test.adb:4:10-6:37>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <CaseExpr test.adb:4:11-6:36>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "I" test.adb:4:16-4:17>
-  references: <DefiningName test.adb:2:19-2:20>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:2:19-2:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <CaseExprAlternative test.adb:5:13-5:35>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:5:18-5:19>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test.adb:5:22-5:23>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test.adb:5:26-5:27>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "True" test.adb:5:31-5:35>
-  references: <DefiningName __standard:3:27-3:31>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <CaseExprAlternative test.adb:6:13-6:36>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "False" test.adb:6:31-6:36>
-  references: <DefiningName __standard:3:20-3:25>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName __standard:3:20-3:25>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "True" test.adb:6:41-6:45>
-  references: <DefiningName __standard:3:27-3:31>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 
 Resolving xrefs for node <PragmaNode test.adb:10:4-13:45>
 *********************************************************
 
 Expr: <Id "Contract_Cases" test.adb:10:11-10:25>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Aggregate test.adb:11:7-13:43>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <ParenExpr test.adb:11:8-13:34>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <CaseExpr test.adb:11:9-13:33>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "I" test.adb:11:14-11:15>
-  references: <DefiningName test.adb:9:19-9:20>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:9:19-9:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <CaseExprAlternative test.adb:12:10-12:32>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Int test.adb:12:15-12:16>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test.adb:12:19-12:20>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test.adb:12:23-12:24>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "True" test.adb:12:28-12:32>
-  references: <DefiningName __standard:3:27-3:31>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <CaseExprAlternative test.adb:13:10-13:33>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Id "False" test.adb:13:28-13:33>
-  references: <DefiningName __standard:3:20-3:25>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName __standard:3:20-3:25>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "True" test.adb:13:38-13:42>
-  references: <DefiningName __standard:3:27-3:31>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 
 
 Done.

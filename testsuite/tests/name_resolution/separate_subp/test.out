@@ -13,21 +13,25 @@ Resolving xrefs for node <AssignStmt test-foo.adb:5:7-5:15>
 ***********************************************************
 
 Expr: <Id "J" test-foo.adb:5:7-5:8>
-  references: <DefiningName test.adb:8:4-8:5>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:8:4-8:5>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int test-foo.adb:5:12-5:14>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 Resolving xrefs for node <EndName test-foo.adb:6:8-6:11>
 ********************************************************
 
 Expr: <EndName test-foo.adb:6:8-6:11>
-  references: <DefiningName test-foo.adb:3:14-3:17>
-  type:       None
+  references:    <DefiningName test-foo.adb:3:14-3:17>
+  type:          None
+  expected type: None
 Expr: <Id "Bar" test-foo.adb:6:8-6:11>
-  references: <DefiningName test-foo.adb:3:14-3:17>
-  type:       None
+  references:    <DefiningName test-foo.adb:3:14-3:17>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <NullStmt test-foo.adb:8:4-8:9>
 ********************************************************
@@ -37,11 +41,13 @@ Resolving xrefs for node <EndName test-foo.adb:9:5-9:8>
 *******************************************************
 
 Expr: <EndName test-foo.adb:9:5-9:8>
-  references: <DefiningName test-foo.adb:2:11-2:14>
-  type:       None
+  references:    <DefiningName test-foo.adb:2:11-2:14>
+  type:          None
+  expected type: None
 Expr: <Id "Foo" test-foo.adb:9:5-9:8>
-  references: <DefiningName test-foo.adb:2:11-2:14>
-  type:       None
+  references:    <DefiningName test-foo.adb:2:11-2:14>
+  type:          None
+  expected type: None
 
 
 Done.

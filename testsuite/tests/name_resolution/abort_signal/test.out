@@ -5,36 +5,45 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:4:4-4:55>
 *************************************************************
 
 Expr: <Id "Exception_Id" test.adb:4:8-4:20>
-  references: <DefiningName a-except.ads:48:9-48:21>
-  type:       None
+  references:    <DefiningName a-except.ads:48:9-48:21>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:4:24-4:54>
-  references: None
-  type:       <TypeDecl ["Exception_Id"] a-except.ads:48:4-48:33>
+  references:    None
+  type:          <TypeDecl ["Exception_Id"] a-except.ads:48:4-48:33>
+  expected type: None
 Expr: <AttributeRef test.adb:4:24-4:45>
-  references: <DefiningName __standard:128:3-128:16>
-  type:       None
+  references:    <DefiningName __standard:128:3-128:16>
+  type:          None
+  expected type: None
 Expr: <Id "Standard" test.adb:4:24-4:32>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "Abort_Signal" test.adb:4:33-4:45>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "Identity" test.adb:4:46-4:54>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <RaiseStmt test.adb:7:4-7:32>
 ******************************************************
 
 Expr: <AttributeRef test.adb:7:10-7:31>
-  references: <DefiningName __standard:128:3-128:16>
-  type:       None
+  references:    <DefiningName __standard:128:3-128:16>
+  type:          None
+  expected type: None
 Expr: <Id "Standard" test.adb:7:10-7:18>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Id "Abort_Signal" test.adb:7:19-7:31>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

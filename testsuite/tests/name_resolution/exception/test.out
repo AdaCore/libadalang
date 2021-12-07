@@ -9,15 +9,17 @@ Resolving xrefs for node <ExceptionDecl ["C"] testexc.adb:5:4-5:28>
 *******************************************************************
 
 Expr: <Id "A" testexc.adb:5:26-5:27>
-  references: <DefiningName testexc.adb:2:4-2:5>
-  type:       None
+  references:    <DefiningName testexc.adb:2:4-2:5>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <RaiseStmt testexc.adb:8:4-8:12>
 *********************************************************
 
 Expr: <Id "A" testexc.adb:8:10-8:11>
-  references: <DefiningName testexc.adb:2:4-2:5>
-  type:       None
+  references:    <DefiningName testexc.adb:2:4-2:5>
+  type:          None
+  expected type: None
 
 
 Done.

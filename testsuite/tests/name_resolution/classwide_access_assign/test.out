@@ -11,11 +11,13 @@ Resolving xrefs for node <AssignStmt foo-bar.adb:5:7-5:14>
 **********************************************************
 
 Expr: <Id "Y" foo-bar.adb:5:7-5:8>
-  references: <DefiningName foo-bar.adb:3:7-3:8>
-  type:       <AnonymousTypeDecl ["None"] foo-bar.adb:3:11-3:32>
+  references:    <DefiningName foo-bar.adb:3:7-3:8>
+  type:          <AnonymousTypeDecl ["None"] foo-bar.adb:3:11-3:32>
+  expected type: None
 Expr: <Id "X" foo-bar.adb:5:12-5:13>
-  references: <DefiningName foo-bar.adb:2:20-2:21>
-  type:       <AnonymousTypeDecl ["None"] foo-bar.adb:2:24-2:39>
+  references:    <DefiningName foo-bar.adb:2:20-2:21>
+  type:          <AnonymousTypeDecl ["None"] foo-bar.adb:2:24-2:39>
+  expected type: None
 
 
 Done.

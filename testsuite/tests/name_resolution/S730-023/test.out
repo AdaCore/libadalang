@@ -5,20 +5,25 @@ Resolving xrefs for node <CallStmt test.adb:10:4-10:19>
 *******************************************************
 
 Expr: <CallExpr test.adb:10:4-10:18>
-  references: <DefiningName test.adb:5:14-5:17>
-  type:       None
+  references:    <DefiningName test.adb:5:14-5:17>
+  type:          None
+  expected type: None
 Expr: <Id "Foo" test.adb:10:4-10:7>
-  references: <DefiningName test.adb:5:14-5:17>
-  type:       None
+  references:    <DefiningName test.adb:5:14-5:17>
+  type:          None
+  expected type: None
 Expr: <AttributeRef test.adb:10:9-10:17>
-  references: None
-  type:       <AnonymousTypeDecl ["None"] test.adb:5:23-5:40>
+  references:    None
+  type:          <AnonymousTypeDecl ["None"] test.adb:5:23-5:40>
+  expected type: None
 Expr: <Id "X" test.adb:10:9-10:10>
-  references: <DefiningName test.adb:8:4-8:5>
-  type:       <TypeDecl ["Int_Access"] test.adb:3:4-3:38>
+  references:    <DefiningName test.adb:8:4-8:5>
+  type:          <TypeDecl ["Int_Access"] test.adb:3:4-3:38>
+  expected type: None
 Expr: <Id "Access" test.adb:10:11-10:17>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 
 
 Done.

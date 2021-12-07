@@ -5,21 +5,25 @@ Resolving xrefs for node <CaseStmt test.adb:30:7-33:16>
 *******************************************************
 
 Expr: <CallExpr test.adb:30:12-30:19>
-  references: <DefiningName test.adb:15:16-15:19>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:15:16-15:19>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "Foo" test.adb:30:12-30:15>
-  references: <DefiningName test.adb:15:16-15:19>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName test.adb:15:16-15:19>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Id "X" test.adb:30:17-30:18>
-  references: <DefiningName test.adb:27:4-27:5>
-  type:       <AnonymousTypeDecl ["None"] test.adb:27:8-27:16>
+  references:    <DefiningName test.adb:27:4-27:5>
+  type:          <AnonymousTypeDecl ["None"] test.adb:27:8-27:16>
+  expected type: None
 
 Resolving xrefs for node <CaseStmtAlternative test.adb:31:10-31:25>
 *******************************************************************
 
 Expr: <Int test.adb:31:15-31:16>
-  references: None
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 
 Resolving xrefs for node <NullStmt test.adb:31:20-31:25>
 ********************************************************

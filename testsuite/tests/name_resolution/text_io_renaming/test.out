@@ -5,17 +5,21 @@ Resolving xrefs for node <GenericPackageInstantiation ["IIO"] test.adb:5:4-5:46>
 ********************************************************************************
 
 Expr: <DottedName test.adb:5:23-5:41>
-  references: ada.text_io.integer_io
-  type:       None
+  references:    ada.text_io.integer_io
+  type:          None
+  expected type: None
 Expr: <Id "Text_IO" test.adb:5:23-5:30>
-  references: text_io
-  type:       None
+  references:    text_io
+  type:          None
+  expected type: None
 Expr: <Id "Integer_IO" test.adb:5:31-5:41>
-  references: ada.text_io.integer_io
-  type:       None
+  references:    ada.text_io.integer_io
+  type:          None
+  expected type: None
 Expr: <Id "U" test.adb:5:43-5:44>
-  references: test().u
-  type:       None
+  references:    test().u
+  type:          None
+  expected type: None
 
 
 Done.

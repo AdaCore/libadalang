@@ -8,8 +8,9 @@ Resolving xrefs for node <ExitStmt exit_stmt.adb:9:7-9:21>
 **********************************************************
 
 Expr: <Id "Foo" exit_stmt.adb:9:17-9:20>
-  references: <DefiningName exit_stmt.adb:2:13-2:16>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName exit_stmt.adb:2:13-2:16>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 
 Incorrect case
 --------------
@@ -26,14 +27,17 @@ Resolving xrefs for node <ExitStmt exit_stmt.adb:19:7-19:24>
 ************************************************************
 
 Expr: <DottedName exit_stmt.adb:19:12-19:23>
-  references: <DefiningName exit_stmt.adb:18:4-18:5>
-  type:       None
+  references:    <DefiningName exit_stmt.adb:18:4-18:5>
+  type:          None
+  expected type: None
 Expr: <Id "Exit_Stmt" exit_stmt.adb:19:12-19:21>
-  references: <DefiningName exit_stmt.adb:1:11-1:20>
-  type:       None
+  references:    <DefiningName exit_stmt.adb:1:11-1:20>
+  type:          None
+  expected type: None
 Expr: <Id "L" exit_stmt.adb:19:22-19:23>
-  references: <DefiningName exit_stmt.adb:18:4-18:5>
-  type:       None
+  references:    <DefiningName exit_stmt.adb:18:4-18:5>
+  type:          None
+  expected type: None
 
 
 Done.

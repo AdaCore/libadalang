@@ -5,16 +5,20 @@ Resolving xrefs for node <IfStmt testcst.adb:5:4-7:11>
 ******************************************************
 
 Expr: <RelationOp testcst.adb:5:7-5:15>
-  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
 Expr: <Id "B" testcst.adb:5:7-5:8>
-  references: <DefiningName testcst.adb:3:4-3:5>
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    <DefiningName testcst.adb:3:4-3:5>
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <OpEq "=" testcst.adb:5:9-5:10>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Real testcst.adb:5:11-5:15>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 
 
 Done.

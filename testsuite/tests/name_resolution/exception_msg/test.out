@@ -5,28 +5,36 @@ Resolving xrefs for node <RaiseStmt testexcmsg.adb:3:4-3:61>
 ************************************************************
 
 Expr: <Id "Constraint_Error" testexcmsg.adb:3:10-3:26>
-  references: <DefiningName __standard:123:3-123:19>
-  type:       None
+  references:    <DefiningName __standard:123:3-123:19>
+  type:          None
+  expected type: None
 Expr: <BinOp testexcmsg.adb:3:32-3:60>
-  type:       <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
 Expr: <Str ""Pouet"" testexcmsg.adb:3:32-3:39>
-  references: None
-  type:       <TypeDecl ["String"] __standard:105:3-105:57>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
 Expr: <OpConcat "&" testexcmsg.adb:3:40-3:41>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <AttributeRef testexcmsg.adb:3:42-3:60>
-  references: None
-  type:       <TypeDecl ["String"] __standard:105:3-105:57>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
 Expr: <Id "Integer" testexcmsg.adb:3:42-3:49>
-  references: <DefiningName __standard:4:8-4:15>
-  type:       None
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
 Expr: <Id "Image" testexcmsg.adb:3:50-3:55>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int testexcmsg.adb:3:57-3:59>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 
 
 Done.

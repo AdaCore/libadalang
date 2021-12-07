@@ -5,20 +5,25 @@ Resolving xrefs for node <AssignStmt test.adb:6:4-6:22>
 *******************************************************
 
 Expr: <Id "X" test.adb:6:4-6:5>
-  references: <DefiningName test.adb:4:4-4:5>
-  type:       <TypeDecl ["T"] test.adb:2:4-2:22>
+  references:    <DefiningName test.adb:4:4-4:5>
+  type:          <TypeDecl ["T"] test.adb:2:4-2:22>
+  expected type: None
 Expr: <CallExpr test.adb:6:9-6:21>
-  references: None
-  type:       <TypeDecl ["T"] test.adb:2:4-2:22>
+  references:    None
+  type:          <TypeDecl ["T"] test.adb:2:4-2:22>
+  expected type: None
 Expr: <Str ""and"" test.adb:6:9-6:14>
-  references: None
-  type:       <TypeDecl ["T"] test.adb:2:4-2:22>
+  references:    None
+  type:          <TypeDecl ["T"] test.adb:2:4-2:22>
+  expected type: None
 Expr: <Id "X" test.adb:6:16-6:17>
-  references: <DefiningName test.adb:4:4-4:5>
-  type:       <TypeDecl ["T"] test.adb:2:4-2:22>
+  references:    <DefiningName test.adb:4:4-4:5>
+  type:          <TypeDecl ["T"] test.adb:2:4-2:22>
+  expected type: None
 Expr: <Id "X" test.adb:6:19-6:20>
-  references: <DefiningName test.adb:4:4-4:5>
-  type:       <TypeDecl ["T"] test.adb:2:4-2:22>
+  references:    <DefiningName test.adb:4:4-4:5>
+  type:          <TypeDecl ["T"] test.adb:2:4-2:22>
+  expected type: None
 
 
 Done.

@@ -5,14 +5,17 @@ Resolving xrefs for node <CallStmt usealltype.adb:8:4-8:16>
 ***********************************************************
 
 Expr: <CallExpr usealltype.adb:8:4-8:15>
-  references: <DefiningName wat.ads:4:14-4:18>
-  type:       None
+  references:    <DefiningName wat.ads:4:14-4:18>
+  type:          None
+  expected type: None
 Expr: <Id "Prim" usealltype.adb:8:4-8:8>
-  references: <DefiningName wat.ads:4:14-4:18>
-  type:       None
+  references:    <DefiningName wat.ads:4:14-4:18>
+  type:          None
+  expected type: None
 Expr: <Id "Inst" usealltype.adb:8:10-8:14>
-  references: <DefiningName usealltype.adb:6:4-6:8>
-  type:       <TypeDecl ["A"] wat.ads:2:4-2:33>
+  references:    <DefiningName usealltype.adb:6:4-6:8>
+  type:          <TypeDecl ["A"] wat.ads:2:4-2:33>
+  expected type: None
 
 
 Done.

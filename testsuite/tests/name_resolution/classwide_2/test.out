@@ -5,14 +5,17 @@ Resolving xrefs for node <CallStmt testcw.adb:18:7-18:16>
 *********************************************************
 
 Expr: <CallExpr testcw.adb:18:7-18:15>
-  references: <DefiningName testcw.adb:7:17-7:20>
-  type:       None
+  references:    <DefiningName testcw.adb:7:17-7:20>
+  type:          None
+  expected type: None
 Expr: <Id "Foo" testcw.adb:18:7-18:10>
-  references: <DefiningName testcw.adb:7:17-7:20>
-  type:       None
+  references:    <DefiningName testcw.adb:7:17-7:20>
+  type:          None
+  expected type: None
 Expr: <Id "Cw" testcw.adb:18:12-18:14>
-  references: <DefiningName testcw.adb:16:7-16:9>
-  type:       <ClasswideTypeDecl ["A"] testcw.adb:3:7-5:18>
+  references:    <DefiningName testcw.adb:16:7-16:9>
+  type:          <ClasswideTypeDecl ["A"] testcw.adb:3:7-5:18>
+  expected type: None
 
 
 Done.

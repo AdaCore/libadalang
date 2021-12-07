@@ -5,173 +5,227 @@ Resolving xrefs for node <ObjectDecl ["Matrix1"] nag.adb:5:4-5:56>
 ******************************************************************
 
 Expr: <Id "M23" nag.adb:5:14-5:17>
-  references: <DefiningName nag.adb:3:12-3:15>
-  type:       None
+  references:    <DefiningName nag.adb:3:12-3:15>
+  type:          None
+  expected type: None
 Expr: <Aggregate nag.adb:5:21-5:55>
-  type:       <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  type:          <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  expected type: None
 Expr: <Aggregate nag.adb:5:22-5:37>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Real nag.adb:5:23-5:26>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:5:28-5:31>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:5:33-5:36>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Aggregate nag.adb:5:39-5:54>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Real nag.adb:5:40-5:43>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:5:45-5:48>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:5:50-5:53>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Matrix2"] nag.adb:8:4-8:66>
 ******************************************************************
 
 Expr: <Id "M23" nag.adb:8:14-8:17>
-  references: <DefiningName nag.adb:3:12-3:15>
-  type:       None
+  references:    <DefiningName nag.adb:3:12-3:15>
+  type:          None
+  expected type: None
 Expr: <Aggregate nag.adb:8:21-8:65>
-  type:       <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  type:          <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  expected type: None
 Expr: <Int nag.adb:8:22-8:23>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <BracketAggregate nag.adb:8:27-8:42>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Real nag.adb:8:28-8:31>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:8:33-8:36>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:8:38-8:41>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Int nag.adb:8:44-8:45>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <BracketAggregate nag.adb:8:49-8:64>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Real nag.adb:8:50-8:53>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:8:55-8:58>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Real nag.adb:8:60-8:63>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Matrix3"] nag.adb:11:4-12:59>
 ********************************************************************
 
 Expr: <Id "M23" nag.adb:11:14-11:17>
-  references: <DefiningName nag.adb:3:12-3:15>
-  type:       None
+  references:    <DefiningName nag.adb:3:12-3:15>
+  type:          None
+  expected type: None
 Expr: <BracketAggregate nag.adb:11:21-12:58>
-  type:       <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  type:          <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  expected type: None
 Expr: <Int nag.adb:11:22-11:23>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Aggregate nag.adb:11:27-11:57>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Int nag.adb:11:28-11:29>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Real nag.adb:11:33-11:36>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Int nag.adb:11:38-11:39>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Real nag.adb:11:43-11:46>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Int nag.adb:11:48-11:49>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Real nag.adb:11:53-11:56>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Int nag.adb:12:22-12:23>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Aggregate nag.adb:12:27-12:57>
-  type:       None
+  type:          None
+  expected type: None
 Expr: <Int nag.adb:12:28-12:29>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Real nag.adb:12:33-12:36>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Int nag.adb:12:38-12:39>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Real nag.adb:12:43-12:46>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 Expr: <Int nag.adb:12:48-12:49>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <Real nag.adb:12:53-12:56>
-  references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  references:    None
+  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Empty_Matrix1"] nag.adb:15:4-15:46>
 **************************************************************************
 
 Expr: <Id "Matrix" nag.adb:15:20-15:26>
-  references: <DefiningName nag.adb:2:9-2:15>
-  type:       None
+  references:    <DefiningName nag.adb:2:9-2:15>
+  type:          None
+  expected type: None
 Expr: <BinOp nag.adb:15:28-15:32>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int nag.adb:15:28-15:29>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpDoubleDot ".." nag.adb:15:29-15:31>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int nag.adb:15:31-15:32>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <BinOp nag.adb:15:34-15:38>
-  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
 Expr: <Int nag.adb:15:34-15:35>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <OpDoubleDot ".." nag.adb:15:35-15:37>
-  references: None
-  type:       None
+  references:    None
+  type:          None
+  expected type: None
 Expr: <Int nag.adb:15:37-15:38>
-  references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
 Expr: <BracketAggregate nag.adb:15:43-15:45>
-  type:       <TypeDecl ["Matrix"] nag.adb:2:4-2:70>
+  type:          <TypeDecl ["Matrix"] nag.adb:2:4-2:70>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Empty_Matrix2"] nag.adb:18:4-18:30>
 **************************************************************************
 
 Expr: <Id "M23" nag.adb:18:20-18:23>
-  references: <DefiningName nag.adb:3:12-3:15>
-  type:       None
+  references:    <DefiningName nag.adb:3:12-3:15>
+  type:          None
+  expected type: None
 Expr: <BracketAggregate nag.adb:18:27-18:29>
-  type:       <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  type:          <SubtypeDecl ["M23"] nag.adb:3:4-3:39>
+  expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Empty_Matrix3"] nag.adb:21:4-21:33>
 **************************************************************************
 
 Expr: <Id "Matrix" nag.adb:21:20-21:26>
-  references: <DefiningName nag.adb:2:9-2:15>
-  type:       None
+  references:    <DefiningName nag.adb:2:9-2:15>
+  type:          None
+  expected type: None
 Expr: <BracketAggregate nag.adb:21:30-21:32>
-  type:       <TypeDecl ["Matrix"] nag.adb:2:4-2:70>
+  type:          <TypeDecl ["Matrix"] nag.adb:2:4-2:70>
+  expected type: None
 
 
 Done.

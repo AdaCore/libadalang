@@ -5,8 +5,9 @@ Resolving xrefs for node <ForLoopSpec test.adb:7:8-7:16>
 ********************************************************
 
 Expr: <Id "Foo" test.adb:7:13-7:16>
-  references: <DefiningName test.adb:5:14-5:17>
-  type:       None
+  references:    <DefiningName test.adb:5:14-5:17>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <NullStmt test.adb:8:7-8:12>
 *****************************************************

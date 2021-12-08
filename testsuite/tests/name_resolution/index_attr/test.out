@@ -5,7 +5,7 @@ Resolving xrefs for node <EntrySpec index.ads:10:9-10:31>
 *********************************************************
 
 Expr: <Id "Entry_Id_Mod" index.ads:10:18-10:30>
-  references: None
+  references: <DefiningName index.ads:4:10-4:22>
   type:       None
 
 Resolving xrefs for node <AspectAssoc index.ads:11:11-11:29>
@@ -60,7 +60,7 @@ Resolving xrefs for node <EntrySpec index.ads:13:9-13:31>
 *********************************************************
 
 Expr: <Id "Entry_Id_Sub" index.ads:13:18-13:30>
-  references: None
+  references: <DefiningName index.ads:5:13-5:25>
   type:       None
 
 Resolving xrefs for node <AspectAssoc index.ads:14:11-14:31>

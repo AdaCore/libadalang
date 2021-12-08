@@ -19,7 +19,7 @@ Expr: <Id "Is_Empty" dic.ads:3:41-3:49>
 Expr: <Id "Set1" dic.ads:3:51-3:55>
   references:    <DefiningName dic.ads:2:9-2:13>
   type:          <TypeDecl ["Set1"] dic.ads:2:4-3:57>
-  expected type: None
+  expected type: <TypeDecl ["Set1"] dic.ads:2:4-3:57>
 
 Resolving xrefs for node <PragmaNode dic.ads:9:4-9:55>
 ******************************************************
@@ -39,7 +39,7 @@ Expr: <Id "Is_Empty" dic.ads:9:38-9:46>
 Expr: <Id "Set2" dic.ads:9:48-9:52>
   references:    <DefiningName dic.ads:8:9-8:13>
   type:          <TypeDecl ["Set2"] dic.ads:8:4-8:25>
-  expected type: None
+  expected type: <TypeDecl ["Set2"] dic.ads:8:4-8:25>
 
 
 Done.

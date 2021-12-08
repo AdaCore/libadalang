@@ -19,7 +19,7 @@ Expr: <Id "Enum" testsucc.adb:4:11-4:15>
 Expr: <Id "A" testsucc.adb:4:19-4:20>
   references:    <DefiningName testsucc.adb:2:18-2:19>
   type:          <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
 
 Resolving xrefs for node <ObjectDecl ["Inst_2"] testsucc.adb:5:4-5:37>
 **********************************************************************
@@ -31,7 +31,7 @@ Expr: <Id "Enum" testsucc.adb:5:13-5:17>
 Expr: <AttributeRef testsucc.adb:5:21-5:36>
   references:    None
   type:          <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
 Expr: <Id "Enum" testsucc.adb:5:21-5:25>
   references:    <DefiningName testsucc.adb:2:9-2:13>
   type:          None
@@ -43,7 +43,7 @@ Expr: <Id "Succ" testsucc.adb:5:26-5:30>
 Expr: <Id "Inst" testsucc.adb:5:31-5:35>
   references:    <DefiningName testsucc.adb:4:4-4:8>
   type:          <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
 
 Resolving xrefs for node <ObjectDecl ["Inst_3"] testsucc.adb:6:4-6:34>
 **********************************************************************
@@ -55,7 +55,7 @@ Expr: <Id "Enum" testsucc.adb:6:13-6:17>
 Expr: <AttributeRef testsucc.adb:6:21-6:33>
   references:    None
   type:          <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
 Expr: <Id "Enum" testsucc.adb:6:21-6:25>
   references:    <DefiningName testsucc.adb:2:9-2:13>
   type:          None
@@ -67,7 +67,7 @@ Expr: <Id "Succ" testsucc.adb:6:26-6:30>
 Expr: <Id "C" testsucc.adb:6:31-6:32>
   references:    <DefiningName testsucc.adb:2:24-2:25>
   type:          <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
 
 Resolving xrefs for node <NullStmt testsucc.adb:8:4-8:9>
 ********************************************************

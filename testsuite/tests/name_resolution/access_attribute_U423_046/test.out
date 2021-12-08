@@ -15,7 +15,7 @@ Expr: <Id "Load" test.adb:9:7-9:11>
 Expr: <AttributeRef test.adb:9:12-9:34>
   references:    None
   type:          <TypeDecl ["Read_Bytes_Proc"] x.ads:3:4-3:62>
-  expected type: None
+  expected type: <TypeDecl ["Read_Bytes_Proc"] x.ads:3:4-3:62>
 Expr: <Id "Read_Bytes_Proc" test.adb:9:12-9:27>
   references:    <DefiningName test.adb:5:14-5:29>
   type:          None

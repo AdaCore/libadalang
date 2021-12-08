@@ -11,7 +11,7 @@ Expr: <Id "Inst" p.adb:5:7-5:11>
 Expr: <CallExpr p.adb:5:15-5:29>
   references:    <DefiningName p.ads:4:18-4:25>
   type:          <TypeDecl ["U"] p.ads:3:4-3:22>
-  expected type: None
+  expected type: <TypeDecl ["U"] p.ads:3:4-3:22>
 Expr: <Id "Convert" p.adb:5:15-5:22>
   references:    <DefiningName p.ads:4:18-4:25>
   type:          <TypeDecl ["U"] p.ads:3:4-3:22>
@@ -19,7 +19,7 @@ Expr: <Id "Convert" p.adb:5:15-5:22>
 Expr: <Id "Self" p.adb:5:24-5:28>
   references:    <DefiningName p.adb:2:19-2:23>
   type:          <TypeDecl ["T"] p.ads:2:4-2:22>
-  expected type: None
+  expected type: <TypeDecl ["T"] p.ads:2:4-2:22>
 
 
 Done.

@@ -6,11 +6,11 @@ Resolving xrefs for node <IfStmt test.adb:16:4-18:11>
 
 Expr: <RelationOp test.adb:16:7-16:13>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "A" test.adb:16:7-16:8>
   references:    <DefiningName test.adb:14:4-14:5>
   type:          <TypeDecl ["U"] test.adb:9:7-9:27>
-  expected type: None
+  expected type: <TypeDecl ["U"] test.adb:9:7-9:27>
 Expr: <OpNeq "/=" test.adb:16:9-16:11>
   references:    <DefiningName test.adb:5:16-5:19>
   type:          None
@@ -18,7 +18,7 @@ Expr: <OpNeq "/=" test.adb:16:9-16:11>
 Expr: <Id "B" test.adb:16:12-16:13>
   references:    <DefiningName test.adb:14:7-14:8>
   type:          <TypeDecl ["U"] test.adb:9:7-9:27>
-  expected type: None
+  expected type: <TypeDecl ["U"] test.adb:9:7-9:27>
 
 Resolving xrefs for node <IfStmt test.adb:21:4-23:11>
 *****************************************************
@@ -26,7 +26,7 @@ Resolving xrefs for node <IfStmt test.adb:21:4-23:11>
 Expr: <CallExpr test.adb:21:7-21:18>
   references:    <DefiningName test.adb:5:16-5:19>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Str ""/="" test.adb:21:7-21:11>
   references:    <DefiningName test.adb:5:16-5:19>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
@@ -34,11 +34,11 @@ Expr: <Str ""/="" test.adb:21:7-21:11>
 Expr: <Id "A" test.adb:21:13-21:14>
   references:    <DefiningName test.adb:14:4-14:5>
   type:          <TypeDecl ["U"] test.adb:9:7-9:27>
-  expected type: None
+  expected type: <TypeDecl ["U"] test.adb:9:7-9:27>
 Expr: <Id "B" test.adb:21:16-21:17>
   references:    <DefiningName test.adb:14:7-14:8>
   type:          <TypeDecl ["U"] test.adb:9:7-9:27>
-  expected type: None
+  expected type: <TypeDecl ["U"] test.adb:9:7-9:27>
 
 
 Done.

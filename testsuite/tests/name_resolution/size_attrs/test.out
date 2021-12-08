@@ -11,7 +11,7 @@ Expr: <Id "I" test.adb:11:4-11:5>
 Expr: <AttributeRef test.adb:11:9-11:15>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "R" test.adb:11:9-11:10>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          None
@@ -31,7 +31,7 @@ Expr: <Id "I" test.adb:14:4-14:5>
 Expr: <AttributeRef test.adb:14:9-14:15>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.adb:14:9-14:10>
   references:    <DefiningName test.adb:8:4-8:5>
   type:          <TypeDecl ["R"] test.adb:2:4-4:15>
@@ -51,7 +51,7 @@ Expr: <Id "I" test.adb:17:4-17:5>
 Expr: <AttributeRef test.adb:17:9-17:22>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "R" test.adb:17:9-17:10>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          None
@@ -71,7 +71,7 @@ Expr: <Id "I" test.adb:20:4-20:5>
 Expr: <AttributeRef test.adb:20:9-20:21>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "R" test.adb:20:9-20:10>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          None
@@ -91,7 +91,7 @@ Expr: <Id "I" test.adb:23:4-23:5>
 Expr: <AttributeRef test.adb:23:9-23:39>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "R" test.adb:23:9-23:10>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          None
@@ -111,7 +111,7 @@ Expr: <Id "I" test.adb:26:4-26:5>
 Expr: <AttributeRef test.adb:26:9-26:20>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "R" test.adb:26:9-26:10>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          None
@@ -131,7 +131,7 @@ Expr: <Id "I" test.adb:29:4-29:5>
 Expr: <AttributeRef test.adb:29:9-29:30>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "R_Access" test.adb:29:9-29:17>
   references:    <DefiningName test.adb:6:9-6:17>
   type:          None

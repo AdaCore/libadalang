@@ -14,8 +14,8 @@ Resolving xrefs for node <CaseStmtAlternative test_case.adb:8:10-8:26>
 
 Expr: <Int test_case.adb:8:15-8:17>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <NullStmt test_case.adb:8:21-8:26>
 ***********************************************************

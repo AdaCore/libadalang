@@ -15,14 +15,14 @@ Expr: <Id "Integer" testmembership.adb:2:11-2:18>
 Expr: <Int testmembership.adb:2:22-2:24>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <IfStmt testmembership.adb:4:4-6:11>
 *************************************************************
 
 Expr: <MembershipExpr testmembership.adb:4:7-4:26>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "A" testmembership.adb:4:7-4:8>
   references:    <DefiningName testmembership.adb:2:4-2:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -34,18 +34,18 @@ Expr: <OpIn "in" testmembership.adb:4:9-4:11>
 Expr: <Int testmembership.adb:4:12-4:13>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testmembership.adb:4:16-4:17>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <BinOp testmembership.adb:4:20-4:26>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testmembership.adb:4:20-4:21>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." testmembership.adb:4:22-4:24>
   references:    None
   type:          None
@@ -53,7 +53,7 @@ Expr: <OpDoubleDot ".." testmembership.adb:4:22-4:24>
 Expr: <Id "B" testmembership.adb:4:25-4:26>
   references:    <DefiningName testmembership.adb:2:7-2:8>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <NullStmt testmembership.adb:5:7-5:12>
 ***************************************************************

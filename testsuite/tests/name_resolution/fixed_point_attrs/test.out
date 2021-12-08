@@ -27,7 +27,7 @@ Expr: <Id "T" test.adb:7:17-7:18>
 Expr: <AttributeRef test.adb:7:22-7:39>
   references:    None
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <Id "T" test.adb:7:22-7:23>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
@@ -39,7 +39,7 @@ Expr: <Id "Fixed_Value" test.adb:7:24-7:35>
 Expr: <Int test.adb:7:37-7:38>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:10:4-10:54>
 ***************************************************************
@@ -51,7 +51,7 @@ Expr: <Id "Integer" test.adb:10:17-10:24>
 Expr: <AttributeRef test.adb:10:28-10:53>
   references:    None
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:10:28-10:35>
   references:    <DefiningName __standard:4:8-4:15>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -63,7 +63,7 @@ Expr: <Id "Integer_Value" test.adb:10:36-10:49>
 Expr: <Id "B" test.adb:10:51-10:52>
   references:    <DefiningName test.adb:7:4-7:5>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 
 
 Done.

@@ -17,7 +17,7 @@ Expr: <Id "Y" foo-bar.adb:5:7-5:8>
 Expr: <Id "X" foo-bar.adb:5:12-5:13>
   references:    <DefiningName foo-bar.adb:2:20-2:21>
   type:          <AnonymousTypeDecl ["None"] foo-bar.adb:2:24-2:39>
-  expected type: None
+  expected type: <AnonymousTypeDecl ["None"] foo-bar.adb:3:11-3:32>
 
 
 Done.

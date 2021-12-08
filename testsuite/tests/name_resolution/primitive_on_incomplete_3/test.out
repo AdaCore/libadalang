@@ -11,7 +11,7 @@ Expr: <Id "U" pkg-bar.ads:4:17-4:18>
 Expr: <Id "Foo" pkg-bar.ads:4:22-4:25>
   references:    <DefiningName pkg.ads:4:13-4:16>
   type:          <TypeDecl ["U"] pkg-bar.ads:3:4-3:24>
-  expected type: None
+  expected type: <TypeDecl ["U"] pkg-bar.ads:3:4-3:24>
 
 
 Done.

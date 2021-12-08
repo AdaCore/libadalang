@@ -11,7 +11,7 @@ Expr: <Id "E" test.adb:4:8-4:9>
 Expr: <AttributeRef test.adb:4:13-4:27>
   references:    None
   type:          <TypeDecl ["E"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["E"] test.adb:2:4-2:24>
 Expr: <Id "E" test.adb:4:13-4:14>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          None
@@ -23,7 +23,7 @@ Expr: <Id "Enum_Val" test.adb:4:15-4:23>
 Expr: <Int test.adb:4:25-4:26>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

@@ -15,7 +15,7 @@ Expr: <Id "Do_Stuff" test.adb:20:10-20:18>
 Expr: <Id "X" test.adb:20:20-20:21>
   references:    <DefiningName test.adb:18:10-18:11>
   type:          <TypeDecl ["Foo"] test.adb:11:7-11:50>
-  expected type: None
+  expected type: <TypeDecl ["Foo"] test.adb:11:7-11:50>
 
 Resolving xrefs for node <CallStmt test.adb:27:4-27:15>
 *******************************************************

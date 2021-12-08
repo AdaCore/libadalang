@@ -18,11 +18,11 @@ Expr: <Id "Predicate" test.adb:6:15-6:24>
   expected type: None
 Expr: <RelationOp test.adb:6:28-6:39>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.adb:6:28-6:35>
   references:    None
   type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "U" test.adb:6:28-6:29>
   references:    <DefiningName test.adb:5:12-5:13>
   type:          None
@@ -38,7 +38,7 @@ Expr: <OpEq "=" test.adb:6:36-6:37>
 Expr: <Int test.adb:6:38-6:39>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <NullStmt test.adb:8:7-8:12>
 *****************************************************

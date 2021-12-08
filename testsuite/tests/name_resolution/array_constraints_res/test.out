@@ -10,11 +10,11 @@ Resolving xrefs for node <ExprFunction ["Foo"] test.adb:2:4-2:42>
 
 Expr: <ParenExpr test.adb:2:35-2:41>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:2:36-2:40>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <SubpSpec test.adb:2:4-2:31>
 *****************************************************
@@ -29,11 +29,11 @@ Resolving xrefs for node <ExprFunction ["Foo"] test.adb:3:4-3:44>
 
 Expr: <ParenExpr test.adb:3:33-3:43>
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Real test.adb:3:34-3:42>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <SubpSpec test.adb:3:4-3:29>
 *****************************************************
@@ -52,11 +52,11 @@ Resolving xrefs for node <ArrayTypeDef test.adb:4:14-4:41>
 
 Expr: <BinOp test.adb:4:21-4:29>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:4:21-4:22>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." test.adb:4:23-4:25>
   references:    None
   type:          None
@@ -64,7 +64,7 @@ Expr: <OpDoubleDot ".." test.adb:4:23-4:25>
 Expr: <Id "Foo" test.adb:4:26-4:29>
   references:    <DefiningName test.adb:2:13-2:16>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:4:34-4:41>
   references:    <DefiningName __standard:4:8-4:15>
   type:          None

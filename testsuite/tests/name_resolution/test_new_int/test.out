@@ -6,11 +6,11 @@ Resolving xrefs for node <TypeDecl ["New_Int"] test_new_int.adb:2:4-2:56>
 
 Expr: <BinOp test_new_int.adb:2:26-2:55>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <AttributeRef test_new_int.adb:2:26-2:39>
   references:    None
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test_new_int.adb:2:26-2:33>
   references:    <DefiningName __standard:4:8-4:15>
   type:          None
@@ -26,7 +26,7 @@ Expr: <OpDoubleDot ".." test_new_int.adb:2:40-2:42>
 Expr: <AttributeRef test_new_int.adb:2:43-2:55>
   references:    None
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test_new_int.adb:2:43-2:50>
   references:    <DefiningName __standard:4:8-4:15>
   type:          None

@@ -10,10 +10,10 @@ Expr: <Id "A" testcase.adb:8:4-8:5>
   expected type: None
 Expr: <ParenExpr testcase.adb:8:9-10:30>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <CaseExpr testcase.adb:8:10-10:29>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" testcase.adb:8:15-8:16>
   references:    <DefiningName testcase.adb:5:4-5:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -23,31 +23,31 @@ Expr: <CaseExprAlternative testcase.adb:9:10-9:27>
   expected type: None
 Expr: <Int testcase.adb:9:15-9:17>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testcase.adb:9:20-9:22>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" testcase.adb:9:26-9:27>
   references:    <DefiningName testcase.adb:5:4-5:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <CaseExprAlternative testcase.adb:10:10-10:29>
   type:          None
   expected type: None
 Expr: <Int testcase.adb:10:15-10:17>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testcase.adb:10:20-10:22>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Foo" testcase.adb:10:26-10:29>
   references:    <DefiningName testcase.adb:2:13-2:16>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

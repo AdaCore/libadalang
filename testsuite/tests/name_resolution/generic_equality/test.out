@@ -11,7 +11,7 @@ Expr: <Id "V" main.adb:10:4-10:5>
 Expr: <Id "V2" main.adb:10:9-10:11>
   references:    <DefiningName main.adb:7:7-7:9>
   type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:4:4] |>
-  expected type: None
+  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:4:4] |>
 
 Resolving xrefs for node <AssignStmt main.adb:13:4-13:13>
 *********************************************************
@@ -23,7 +23,7 @@ Expr: <Id "V3" main.adb:13:4-13:6>
 Expr: <Id "V4" main.adb:13:10-13:12>
   references:    <DefiningName main.adb:8:8-8:10>
   type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:5:4] |>
-  expected type: None
+  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:5:4] |>
 
 Resolving xrefs for node <AssignStmt main.adb:16:4-16:12>
 *********************************************************

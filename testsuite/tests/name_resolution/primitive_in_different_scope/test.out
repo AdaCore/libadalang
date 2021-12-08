@@ -14,7 +14,7 @@ Expr: <DottedName pkg.adb:10:7-10:21>
 Expr: <Id "X" pkg.adb:10:7-10:8>
   references:    <DefiningName pkg.adb:8:28-8:29>
   type:          <AnonymousTypeDecl ["None"] pkg.adb:8:32-8:46>
-  expected type: None
+  expected type: <AnonymousTypeDecl ["None"] pkg.ads:9:32-9:46>
 Expr: <Id "Private_Prim" pkg.adb:10:9-10:21>
   references:    <DefiningName pkg.ads:9:14-9:26>
   type:          None

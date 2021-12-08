@@ -91,7 +91,7 @@ Expr: <Id "Frobulize" testifc.adb:16:4-16:13>
 Expr: <Id "Inst" testifc.adb:16:15-16:19>
   references:    <DefiningName testifc.adb:12:4-12:8>
   type:          <TypeDecl ["B"] testifc.adb:10:4-10:43>
-  expected type: None
+  expected type: <TypeDecl ["B"] testifc.adb:10:4-10:43>
 
 Resolving xrefs for node <CallStmt testifc.adb:17:4-17:19>
 **********************************************************

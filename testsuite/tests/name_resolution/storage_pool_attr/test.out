@@ -35,7 +35,7 @@ Expr: <Id "Class" storage_pool_attr.adb:10:47-10:52>
 Expr: <AttributeRef storage_pool_attr.adb:10:56-10:70>
   references:    None
   type:          system.storage_pools.root_storage_pool.root_storage_pool
-  expected type: None
+  expected type: system.storage_pools.root_storage_pool.root_storage_pool
 Expr: <Id "B" storage_pool_attr.adb:10:56-10:57>
   references:    storage_pool_attr().b
   type:          storage_pool_attr().a
@@ -59,7 +59,7 @@ Expr: <DottedName storage_pool_attr.adb:13:4-13:14>
 Expr: <Id "S" storage_pool_attr.adb:13:4-13:5>
   references:    storage_pool_attr().s
   type:          system.storage_pools.root_storage_pool.root_storage_pool
-  expected type: None
+  expected type: system.storage_pools.root_storage_pool
 Expr: <Id "Allocate" storage_pool_attr.adb:13:6-13:14>
   references:    system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)
   type:          None
@@ -67,15 +67,15 @@ Expr: <Id "Allocate" storage_pool_attr.adb:13:6-13:14>
 Expr: <Id "Add" storage_pool_attr.adb:13:16-13:19>
   references:    storage_pool_attr().add
   type:          system.address
-  expected type: None
+  expected type: system.address
 Expr: <Int storage_pool_attr.adb:13:21-13:23>
   references:    None
   type:          standard.universal_int_type_
-  expected type: None
+  expected type: system.storage_elements.storage_count
 Expr: <Int storage_pool_attr.adb:13:25-13:27>
   references:    None
   type:          standard.universal_int_type_
-  expected type: None
+  expected type: system.storage_elements.storage_count
 
 
 Done.

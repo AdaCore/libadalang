@@ -30,8 +30,8 @@ Resolving xrefs for node <CaseStmtAlternative repro.adb:8:10-8:26>
 
 Expr: <Int repro.adb:8:15-8:17>
   references:    None
-  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["T"] repro.adb:3:7-3:29>
 
 Resolving xrefs for node <NullStmt repro.adb:8:21-8:26>
 *******************************************************
@@ -74,8 +74,8 @@ Resolving xrefs for node <CaseStmtAlternative repro.adb:18:10-18:26>
 
 Expr: <Int repro.adb:18:15-18:17>
   references:    None
-  type:          <TypeDecl ["T"] repro.adb:3:7-3:29>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["T"] repro.adb:3:7-3:29>
 
 Resolving xrefs for node <NullStmt repro.adb:18:21-18:26>
 *********************************************************

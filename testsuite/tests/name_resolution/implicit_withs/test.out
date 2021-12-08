@@ -10,14 +10,14 @@ Expr: <Id "Boolean" test.adb:12:8-12:15>
   expected type: None
 Expr: <ParenExpr test.adb:12:19-12:44>
   type:          standard.boolean
-  expected type: None
+  expected type: standard.boolean
 Expr: <RelationOp test.adb:12:20-12:43>
   type:          standard.boolean
-  expected type: None
+  expected type: standard.boolean
 Expr: <AttributeRef test.adb:12:20-12:30>
   references:    None
   type:          ada.task_identification.task_id
-  expected type: None
+  expected type: ada.task_identification.task_id
 Expr: <Id "X" test.adb:12:20-12:21>
   references:    test().x
   type:          test().task_t
@@ -33,7 +33,7 @@ Expr: <OpEq "=" test.adb:12:31-12:32>
 Expr: <AttributeRef test.adb:12:33-12:43>
   references:    None
   type:          ada.task_identification.task_id
-  expected type: None
+  expected type: ada.task_identification.task_id
 Expr: <Id "X" test.adb:12:33-12:34>
   references:    test().x
   type:          test().task_t
@@ -55,7 +55,7 @@ Expr: <RelationOp test.adb:19:21-19:34>
 Expr: <AttributeRef test.adb:19:21-19:26>
   references:    None
   type:          ada.tags.tag
-  expected type: None
+  expected type: ada.tags.tag
 Expr: <Id "Y" test.adb:19:21-19:22>
   references:    test().y
   type:          test().tagged_t.tagged_t
@@ -71,7 +71,7 @@ Expr: <OpEq "=" test.adb:19:27-19:28>
 Expr: <AttributeRef test.adb:19:29-19:34>
   references:    None
   type:          ada.tags.tag
-  expected type: None
+  expected type: ada.tags.tag
 Expr: <Id "Y" test.adb:19:29-19:30>
   references:    test().y
   type:          test().tagged_t.tagged_t
@@ -99,7 +99,7 @@ Expr: <Id "Address" test.adb:27:34-27:41>
 Expr: <AttributeRef test.adb:27:45-27:56>
   references:    None
   type:          system.address
-  expected type: None
+  expected type: system.address
 Expr: <Id "Exc" test.adb:27:45-27:48>
   references:    test().exc
   type:          ada.exceptions.exception_occurrence

@@ -17,11 +17,11 @@ Expr: <Id "Inst_2" testimplderef.adb:25:4-25:10>
 Expr: <Int testimplderef.adb:25:12-25:13>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testimplderef.adb:25:18-25:20>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 
 Done.

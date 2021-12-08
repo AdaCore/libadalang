@@ -11,7 +11,7 @@ Expr: <Id "A" testextreturn.adb:5:10-5:11>
 Expr: <Int testextreturn.adb:5:15-5:17>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ExtendedReturnStmt testextreturn.adb:4:7-7:18>
 ************************************************************************

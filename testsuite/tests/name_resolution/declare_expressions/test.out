@@ -10,14 +10,14 @@ Expr: <Id "Integer" test_decl_expr.adb:2:8-2:15>
   expected type: None
 Expr: <ParenExpr test_decl_expr.adb:2:19-2:55>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DeclExpr test_decl_expr.adb:2:20-2:54>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" test_decl_expr.adb:2:53-2:54>
   references:    <DefiningName test_decl_expr.adb:2:28-2:29>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

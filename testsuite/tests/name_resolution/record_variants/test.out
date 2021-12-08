@@ -20,15 +20,15 @@ Expr: <Id "Record_Type_2" foo.ads:39:9-39:22>
   expected type: None
 Expr: <Aggregate foo.ads:39:26-39:38>
   type:          <TypeDecl ["Record_Type_2"] foo.ads:30:4-37:15>
-  expected type: None
+  expected type: <TypeDecl ["Record_Type_2"] foo.ads:30:4-37:15>
 Expr: <Id "Bool" foo.ads:39:27-39:31>
   references:    <DefiningName foo.ads:6:34-6:38>
   type:          <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
-  expected type: None
+  expected type: <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Id "True" foo.ads:39:33-39:37>
   references:    <DefiningName __standard:3:27-3:31>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <ObjectDecl ["R3_A"] foo.ads:54:4-54:38>
 *****************************************************************
@@ -39,15 +39,15 @@ Expr: <Id "Record_Type_3" foo.ads:54:11-54:24>
   expected type: None
 Expr: <Aggregate foo.ads:54:28-54:37>
   type:          <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
-  expected type: None
+  expected type: <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
 Expr: <Id "Int" foo.ads:54:29-54:32>
   references:    <DefiningName foo.ads:6:23-6:26>
   type:          <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
-  expected type: None
+  expected type: <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Int foo.ads:54:34-54:36>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ObjectDecl ["R3_B"] foo.ads:57:4-57:41>
 *****************************************************************
@@ -58,15 +58,15 @@ Expr: <Id "Record_Type_3" foo.ads:57:11-57:24>
   expected type: None
 Expr: <Aggregate foo.ads:57:28-57:40>
   type:          <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
-  expected type: None
+  expected type: <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
 Expr: <Id "Char" foo.ads:57:29-57:33>
   references:    <DefiningName foo.ads:6:28-6:32>
   type:          <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
-  expected type: None
+  expected type: <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Id "True" foo.ads:57:35-57:39>
   references:    <DefiningName __standard:3:27-3:31>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <ObjectDecl ["R3_C"] foo.ads:60:4-60:39>
 *****************************************************************
@@ -77,15 +77,15 @@ Expr: <Id "Record_Type_3" foo.ads:60:11-60:24>
   expected type: None
 Expr: <Aggregate foo.ads:60:28-60:38>
   type:          <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
-  expected type: None
+  expected type: <TypeDecl ["Record_Type_3"] foo.ads:45:4-52:15>
 Expr: <Id "Bool" foo.ads:60:29-60:33>
   references:    <DefiningName foo.ads:6:34-6:38>
   type:          <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
-  expected type: None
+  expected type: <TypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Int foo.ads:60:35-60:37>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

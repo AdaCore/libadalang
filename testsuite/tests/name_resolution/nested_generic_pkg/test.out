@@ -11,7 +11,7 @@ Expr: <Id "F" main.adb:9:4-9:5>
 Expr: <CallExpr main.adb:9:9-9:28>
   references:    <| DefiningName a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <DottedName main.adb:9:9-9:23>
   references:    <| DefiningName a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -27,7 +27,7 @@ Expr: <Id "Convert" main.adb:9:16-9:23>
 Expr: <Int main.adb:9:25-9:27>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

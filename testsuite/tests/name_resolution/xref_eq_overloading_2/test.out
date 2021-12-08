@@ -11,7 +11,7 @@ Expr: <Id "I" test1.adb:13:4-13:5>
 Expr: <CallExpr test1.adb:13:9-13:14>
   references:    <DefiningName test1.adb:8:13-8:14>
   type:          <TypeDecl ["My_Integer"] test1.adb:2:4-2:39>
-  expected type: None
+  expected type: <TypeDecl ["My_Integer"] test1.adb:2:4-2:39>
 Expr: <Id "B" test1.adb:13:9-13:10>
   references:    <DefiningName test1.adb:8:13-8:14>
   type:          <TypeDecl ["My_Integer"] test1.adb:2:4-2:39>
@@ -19,7 +19,7 @@ Expr: <Id "B" test1.adb:13:9-13:10>
 Expr: <Id "A" test1.adb:13:12-13:13>
   references:    <DefiningName test1.adb:5:13-5:14>
   type:          <TypeDecl ["My_Integer"] test1.adb:2:4-2:39>
-  expected type: None
+  expected type: <TypeDecl ["My_Integer"] test1.adb:2:4-2:39>
 
 
 Done.

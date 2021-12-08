@@ -10,7 +10,7 @@ Resolving xrefs for node <ReturnStmt foo.adb:9:4-9:13>
 Expr: <Id "R" foo.adb:9:11-9:12>
   references:    <DefiningName foo.adb:2:4-2:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

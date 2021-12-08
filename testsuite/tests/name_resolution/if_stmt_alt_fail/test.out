@@ -7,7 +7,7 @@ Resolving xrefs for node <IfStmt test.adb:9:7-15:14>
 Expr: <Id "Foo" test.adb:9:10-9:13>
   references:    <DefiningName test.adb:2:13-2:16>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <CallStmt test.adb:10:10-10:18>
 ********************************************************
@@ -57,7 +57,7 @@ Resolving xrefs for node <ElsifStmtPart test.adb:21:7-22:18>
 Expr: <Id "Foo" test.adb:21:13-21:16>
   references:    <DefiningName test.adb:2:13-2:16>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <CallStmt test.adb:22:10-22:18>
 ********************************************************

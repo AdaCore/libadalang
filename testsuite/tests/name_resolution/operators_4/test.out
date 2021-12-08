@@ -10,25 +10,25 @@ Expr: <Id "Y" testop.adb:13:5-13:6>
   expected type: None
 Expr: <BinOp testop.adb:13:10-13:21>
   type:          <TypeDecl ["T"] testop.adb:2:5-2:29>
-  expected type: None
+  expected type: <TypeDecl ["T"] testop.adb:2:5-2:29>
 Expr: <Id "N" testop.adb:13:10-13:11>
   references:    <DefiningName testop.adb:7:5-7:6>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["T"] testop.adb:2:5-2:29>
 Expr: <OpMult "*" testop.adb:13:12-13:13>
   references:    None
   type:          None
   expected type: None
 Expr: <ParenExpr testop.adb:13:14-13:21>
   type:          <TypeDecl ["T"] testop.adb:2:5-2:29>
-  expected type: None
+  expected type: <TypeDecl ["T"] testop.adb:2:5-2:29>
 Expr: <BinOp testop.adb:13:15-13:20>
   type:          <TypeDecl ["T"] testop.adb:2:5-2:29>
-  expected type: None
+  expected type: <TypeDecl ["T"] testop.adb:2:5-2:29>
 Expr: <Id "X" testop.adb:13:15-13:16>
   references:    <DefiningName testop.adb:9:5-9:6>
   type:          <TypeDecl ["T"] testop.adb:2:5-2:29>
-  expected type: None
+  expected type: <TypeDecl ["T"] testop.adb:2:5-2:29>
 Expr: <OpMinus "-" testop.adb:13:17-13:18>
   references:    None
   type:          None
@@ -36,7 +36,7 @@ Expr: <OpMinus "-" testop.adb:13:17-13:18>
 Expr: <Int testop.adb:13:19-13:20>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["T"] testop.adb:2:5-2:29>
 
 
 Done.

@@ -11,7 +11,7 @@ Expr: <Id "V" main.adb:14:4-14:5>
 Expr: <CallExpr main.adb:14:9-14:24>
   references:    <DefiningName main.adb:9:13-9:24>
   type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
-  expected type: None
+  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
 Expr: <Id "Filter_Even" main.adb:14:9-14:20>
   references:    <DefiningName main.adb:9:13-9:24>
   type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
@@ -19,7 +19,7 @@ Expr: <Id "Filter_Even" main.adb:14:9-14:20>
 Expr: <Id "V" main.adb:14:22-14:23>
   references:    <DefiningName main.adb:11:4-11:5>
   type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
-  expected type: None
+  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4, vector_ops.ads:6:4] |>
 
 
 Done.

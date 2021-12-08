@@ -15,7 +15,7 @@ Expr: <Id "Foo" test.adb:14:4-14:7>
 Expr: <Id "Inst" test.adb:14:9-14:13>
   references:    <DefiningName test.adb:12:4-12:8>
   type:          <TypeDecl ["C"] test.adb:8:7-8:30>
-  expected type: None
+  expected type: <AnonymousTypeDecl ["None"] test.adb:5:29-5:43>
 
 
 Done.

@@ -19,7 +19,7 @@ Expr: <Id "T" test.adb:6:10-6:11>
 Expr: <AttributeRef test.adb:6:15-6:24>
   references:    None
   type:          <TypeDecl ["T"] test.adb:3:7-3:29>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:3:7-3:29>
 Expr: <DottedName test.adb:6:15-6:18>
   references:    <DefiningName test.adb:3:12-3:13>
   type:          None

@@ -15,7 +15,7 @@ Expr: <Id "Prim" usealltype.adb:8:4-8:8>
 Expr: <Id "Inst" usealltype.adb:8:10-8:14>
   references:    <DefiningName usealltype.adb:6:4-6:8>
   type:          <TypeDecl ["A"] wat.ads:2:4-2:33>
-  expected type: None
+  expected type: <TypeDecl ["A"] wat.ads:2:4-2:33>
 
 
 Done.

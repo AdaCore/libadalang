@@ -7,15 +7,15 @@ Resolving xrefs for node <ReturnStmt test.adb:14:10-14:26>
 Expr: <DottedName test.adb:14:17-14:25>
   references:    <DefiningName test.adb:4:10-4:13>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Self" test.adb:14:17-14:21>
   references:    <DefiningName test.adb:12:21-12:25>
   type:          <TypeDecl ["T"] test.adb:3:7-5:18>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:3:7-5:18>
 Expr: <Id "Foo" test.adb:14:22-14:25>
   references:    <DefiningName test.adb:4:10-4:13>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ObjectDecl ["Y"] test.adb:20:4-20:25>
 ***************************************************************
@@ -27,15 +27,15 @@ Expr: <Id "Integer" test.adb:20:8-20:15>
 Expr: <DottedName test.adb:20:19-20:24>
   references:    <DefiningName test.adb:4:10-4:13>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.adb:20:19-20:20>
   references:    <DefiningName test.adb:19:4-19:5>
   type:          <TypeDecl ["T"] test.adb:3:7-5:18>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:3:7-5:18>
 Expr: <Id "Foo" test.adb:20:21-20:24>
   references:    <DefiningName test.adb:4:10-4:13>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:23:4-23:25>
 ***************************************************************
@@ -47,7 +47,7 @@ Expr: <Id "Integer" test.adb:23:8-23:15>
 Expr: <DottedName test.adb:23:19-23:24>
   references:    <DefiningName test.adb:8:16-8:19>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.adb:23:19-23:20>
   references:    <DefiningName test.adb:19:4-19:5>
   type:          <TypeDecl ["T"] test.adb:3:7-5:18>
@@ -55,7 +55,7 @@ Expr: <Id "X" test.adb:23:19-23:20>
 Expr: <Id "Bar" test.adb:23:21-23:24>
   references:    <DefiningName test.adb:8:16-8:19>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

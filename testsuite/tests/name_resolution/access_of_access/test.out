@@ -11,15 +11,15 @@ Expr: <Id "O" testaccacc.adb:9:4-9:5>
 Expr: <ExplicitDeref testaccacc.adb:9:9-9:21>
   references:    <DefiningName testaccacc.adb:5:4-5:8>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <ExplicitDeref testaccacc.adb:9:9-9:17>
   references:    <DefiningName testaccacc.adb:5:4-5:8>
   type:          <TypeDecl ["A"] testaccacc.adb:2:4-2:33>
-  expected type: None
+  expected type: <TypeDecl ["A"] testaccacc.adb:2:4-2:33>
 Expr: <Id "Inst" testaccacc.adb:9:9-9:13>
   references:    <DefiningName testaccacc.adb:5:4-5:8>
   type:          <TypeDecl ["AA"] testaccacc.adb:3:4-3:28>
-  expected type: None
+  expected type: <TypeDecl ["AA"] testaccacc.adb:3:4-3:28>
 
 
 Done.

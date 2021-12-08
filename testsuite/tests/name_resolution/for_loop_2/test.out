@@ -11,7 +11,7 @@ Expr: <Id "B" testloop.adb:6:7-6:8>
 Expr: <Id "J" testloop.adb:6:12-6:13>
   references:    <DefiningName testloop.adb:5:8-5:9>
   type:          <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
-  expected type: None
+  expected type: <TypeDecl ["My_Int"] testloop.adb:2:4-2:55>
 
 
 Done.

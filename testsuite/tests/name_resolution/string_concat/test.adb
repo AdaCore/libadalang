@@ -8,6 +8,9 @@ procedure Test is
    F : constant String := A & D;
    G : constant String := "lol" & B;
 
+   H : constant String := String ("lol" & G);
+
+   I : constant String := "a" & "a" & "a";
 begin
    null;
 end Test;

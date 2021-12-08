@@ -9,11 +9,11 @@ Expr: <Id "Y" test.adb:7:4-7:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ParenExpr test.adb:7:9-9:27>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <CaseExpr test.adb:7:10-9:26>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.adb:7:15-7:16>
   references:    <DefiningName test.adb:4:4-4:5>
   type:          <TypeDecl ["T"] test.adb:2:4-2:24>
@@ -27,11 +27,11 @@ Expr: <Id "T" test.adb:8:15-8:16>
   expected type: None
 Expr: <BinOp test.adb:8:23-8:29>
   type:          <TypeDecl ["T"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <Id "A" test.adb:8:23-8:24>
   references:    <DefiningName test.adb:2:15-2:16>
   type:          <TypeDecl ["T"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
   references:    None
   type:          None
@@ -39,18 +39,18 @@ Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
 Expr: <Id "B" test.adb:8:28-8:29>
   references:    <DefiningName test.adb:2:18-2:19>
   type:          <TypeDecl ["T"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <Int test.adb:8:33-8:34>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <CaseExprAlternative test.adb:9:10-9:26>
   type:          None
   expected type: None
 Expr: <Int test.adb:9:25-9:26>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

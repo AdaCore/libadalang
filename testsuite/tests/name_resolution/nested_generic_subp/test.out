@@ -15,7 +15,7 @@ Expr: <Id "Int_Vec_Sort" main.adb:13:4-13:16>
 Expr: <Id "V" main.adb:13:18-13:19>
   references:    <DefiningName main.adb:11:4-11:5>
   type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
-  expected type: None
+  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
 
 
 Done.

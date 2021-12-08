@@ -18,11 +18,11 @@ Expr: <Id "Pre" index.ads:11:11-11:14>
   expected type: None
 Expr: <RelationOp index.ads:11:18-11:29>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef index.ads:11:18-11:25>
   references:    None
   type:          <TypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
-  expected type: None
+  expected type: <TypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
 Expr: <Id "E" index.ads:11:18-11:19>
   references:    <DefiningName index.ads:10:15-10:16>
   type:          None
@@ -38,7 +38,7 @@ Expr: <OpLt "<" index.ads:11:26-11:27>
 Expr: <Int index.ads:11:28-11:29>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
 
 Resolving xrefs for node <PragmaNode index.ads:12:9-12:45>
 **********************************************************
@@ -49,11 +49,11 @@ Expr: <Id "Postcondition" index.ads:12:16-12:29>
   expected type: None
 Expr: <RelationOp index.ads:12:31-12:43>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef index.ads:12:31-12:38>
   references:    None
   type:          <TypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
-  expected type: None
+  expected type: <TypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
 Expr: <Id "E" index.ads:12:31-12:32>
   references:    <DefiningName index.ads:10:15-10:16>
   type:          None
@@ -69,7 +69,7 @@ Expr: <OpGte ">=" index.ads:12:39-12:41>
 Expr: <Int index.ads:12:42-12:43>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
 
 Resolving xrefs for node <EntrySpec index.ads:13:9-13:31>
 *********************************************************
@@ -88,11 +88,11 @@ Expr: <Id "Post" index.ads:14:11-14:15>
   expected type: None
 Expr: <RelationOp index.ads:14:19-14:31>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef index.ads:14:19-14:26>
   references:    None
   type:          <SubtypeDecl ["Entry_Id_Sub"] index.ads:5:5-5:50>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "F" index.ads:14:19-14:20>
   references:    <DefiningName index.ads:13:15-13:16>
   type:          None
@@ -108,7 +108,7 @@ Expr: <OpGte ">=" index.ads:14:27-14:29>
 Expr: <Int index.ads:14:30-14:31>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <PragmaNode index.ads:15:9-15:43>
 **********************************************************
@@ -119,11 +119,11 @@ Expr: <Id "Precondition" index.ads:15:16-15:28>
   expected type: None
 Expr: <RelationOp index.ads:15:30-15:41>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef index.ads:15:30-15:37>
   references:    None
   type:          <SubtypeDecl ["Entry_Id_Sub"] index.ads:5:5-5:50>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "F" index.ads:15:30-15:31>
   references:    <DefiningName index.ads:13:15-13:16>
   type:          None
@@ -139,7 +139,7 @@ Expr: <OpLt "<" index.ads:15:38-15:39>
 Expr: <Int index.ads:15:40-15:41>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <EndName index.ads:16:9-16:10>
 *******************************************************

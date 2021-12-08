@@ -11,7 +11,7 @@ Expr: <Id "A" test1.adb:13:7-13:8>
 Expr: <CallExpr test1.adb:13:12-13:17>
   references:    <DefiningName test1.adb:6:13-6:14>
   type:          <TypeDecl ["Int"] test1.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Int"] test1.adb:2:4-2:30>
 Expr: <Id "B" test1.adb:13:12-13:13>
   references:    <DefiningName test1.adb:6:13-6:14>
   type:          <TypeDecl ["Int"] test1.adb:2:4-2:30>
@@ -19,7 +19,7 @@ Expr: <Id "B" test1.adb:13:12-13:13>
 Expr: <Id "A" test1.adb:13:15-13:16>
   references:    <DefiningName test1.adb:9:4-9:5>
   type:          <TypeDecl ["Int"] test1.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Int"] test1.adb:2:4-2:30>
 
 Resolving xrefs for node <AssignStmt test1.adb:14:7-14:18>
 **********************************************************
@@ -31,7 +31,7 @@ Expr: <Id "C" test1.adb:14:7-14:8>
 Expr: <CallExpr test1.adb:14:12-14:17>
   references:    <DefiningName test1.adb:7:13-7:14>
   type:          <TypeDecl ["Int2"] test1.adb:3:4-3:31>
-  expected type: None
+  expected type: <TypeDecl ["Int2"] test1.adb:3:4-3:31>
 Expr: <Id "B" test1.adb:14:12-14:13>
   references:    <DefiningName test1.adb:7:13-7:14>
   type:          <TypeDecl ["Int2"] test1.adb:3:4-3:31>
@@ -39,7 +39,7 @@ Expr: <Id "B" test1.adb:14:12-14:13>
 Expr: <Id "A" test1.adb:14:15-14:16>
   references:    <DefiningName test1.adb:9:4-9:5>
   type:          <TypeDecl ["Int"] test1.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Int"] test1.adb:2:4-2:30>
 
 Resolving xrefs for node <AssignStmt test1.adb:15:7-15:18>
 **********************************************************
@@ -51,7 +51,7 @@ Expr: <Id "A" test1.adb:15:7-15:8>
 Expr: <CallExpr test1.adb:15:12-15:17>
   references:    <DefiningName test1.adb:5:13-5:14>
   type:          <TypeDecl ["Int"] test1.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Int"] test1.adb:2:4-2:30>
 Expr: <Id "B" test1.adb:15:12-15:13>
   references:    <DefiningName test1.adb:5:13-5:14>
   type:          <TypeDecl ["Int"] test1.adb:2:4-2:30>
@@ -59,7 +59,7 @@ Expr: <Id "B" test1.adb:15:12-15:13>
 Expr: <Id "C" test1.adb:15:15-15:16>
   references:    <DefiningName test1.adb:10:4-10:5>
   type:          <TypeDecl ["Int2"] test1.adb:3:4-3:31>
-  expected type: None
+  expected type: <TypeDecl ["Int2"] test1.adb:3:4-3:31>
 
 
 Done.

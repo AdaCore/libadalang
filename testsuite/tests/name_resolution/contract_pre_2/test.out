@@ -26,11 +26,11 @@ Expr: <Id "Pre" test.adb:3:14-3:17>
   expected type: None
 Expr: <RelationOp test.adb:3:19-3:24>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" test.adb:3:19-3:20>
   references:    <DefiningName test.adb:2:18-2:19>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpGt ">" test.adb:3:21-3:22>
   references:    None
   type:          None
@@ -38,7 +38,7 @@ Expr: <OpGt ">" test.adb:3:21-3:22>
 Expr: <Int test.adb:3:23-3:24>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <PragmaNode test.adb:4:7-4:36>
 *******************************************************
@@ -49,11 +49,11 @@ Expr: <Id "Precondition" test.adb:4:14-4:26>
   expected type: None
 Expr: <RelationOp test.adb:4:28-4:34>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" test.adb:4:28-4:29>
   references:    <DefiningName test.adb:2:18-2:19>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpLt "<" test.adb:4:30-4:31>
   references:    None
   type:          None
@@ -61,7 +61,7 @@ Expr: <OpLt "<" test.adb:4:30-4:31>
 Expr: <Int test.adb:4:32-4:34>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <PragmaNode test.adb:5:7-5:36>
 *******************************************************
@@ -72,11 +72,11 @@ Expr: <Id "Post" test.adb:5:14-5:18>
   expected type: None
 Expr: <RelationOp test.adb:5:20-5:34>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.adb:5:20-5:30>
   references:    None
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Foo" test.adb:5:20-5:23>
   references:    <DefiningName test.adb:2:13-2:16>
   type:          None
@@ -92,7 +92,7 @@ Expr: <OpGt ">" test.adb:5:31-5:32>
 Expr: <Int test.adb:5:33-5:34>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <PragmaNode test.adb:6:7-6:45>
 *******************************************************
@@ -103,11 +103,11 @@ Expr: <Id "Postcondition" test.adb:6:14-6:27>
   expected type: None
 Expr: <RelationOp test.adb:6:29-6:43>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.adb:6:29-6:39>
   references:    None
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Foo" test.adb:6:29-6:32>
   references:    <DefiningName test.adb:2:13-2:16>
   type:          None
@@ -123,18 +123,18 @@ Expr: <OpLt "<" test.adb:6:40-6:41>
 Expr: <Id "X" test.adb:6:42-6:43>
   references:    <DefiningName test.adb:2:18-2:19>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ReturnStmt test.adb:8:7-8:20>
 *******************************************************
 
 Expr: <BinOp test.adb:8:14-8:19>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.adb:8:14-8:15>
   references:    <DefiningName test.adb:2:18-2:19>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMinus "-" test.adb:8:16-8:17>
   references:    None
   type:          None
@@ -142,7 +142,7 @@ Expr: <OpMinus "-" test.adb:8:16-8:17>
 Expr: <Int test.adb:8:18-8:19>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <EndName test.adb:9:8-9:11>
 ****************************************************

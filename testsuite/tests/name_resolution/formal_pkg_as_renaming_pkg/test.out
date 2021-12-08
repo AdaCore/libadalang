@@ -31,7 +31,7 @@ Expr: <Id "Get" main.adb:5:12-5:15>
 Expr: <Int main.adb:5:17-5:19>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

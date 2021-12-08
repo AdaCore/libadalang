@@ -6,14 +6,14 @@ Resolving xrefs for node <ExprFunction ["Foo"] test.adb:7:7-8:52>
 
 Expr: <ParenExpr test.adb:8:9-8:51>
   type:          standard.boolean
-  expected type: None
+  expected type: standard.boolean
 Expr: <RelationOp test.adb:8:10-8:50>
   type:          standard.boolean
-  expected type: None
+  expected type: standard.boolean
 Expr: <AttributeRef test.adb:8:10-8:32>
   references:    None
   type:          system.bit_order
-  expected type: None
+  expected type: system.bit_order
 Expr: <Id "T" test.adb:8:10-8:11>
   references:    test().pkg.t
   type:          test().pkg.t
@@ -29,7 +29,7 @@ Expr: <OpEq "=" test.adb:8:33-8:34>
 Expr: <Id "Low_Order_First" test.adb:8:35-8:50>
   references:    system.bit_order.low_order_first(() -> system.bit_order.low_order_first)
   type:          system.bit_order
-  expected type: None
+  expected type: system.bit_order
 
 
 Done.

@@ -15,7 +15,7 @@ Expr: <Id "I" test-foo.adb:5:7-5:8>
 Expr: <Int test-foo.adb:5:12-5:14>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AssignStmt test-foo.adb:6:7-6:15>
 ***********************************************************
@@ -27,7 +27,7 @@ Expr: <Id "J" test-foo.adb:6:7-6:8>
 Expr: <Int test-foo.adb:6:12-6:14>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <EndName test-foo.adb:7:8-7:11>
 ********************************************************

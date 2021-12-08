@@ -10,11 +10,11 @@ Expr: <Id "X" test.adb:5:4-5:5>
   expected type: None
 Expr: <BinOp test.adb:5:9-5:17>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <Id "X" test.adb:5:9-5:10>
   references:    <DefiningName test.adb:3:4-3:5>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <OpDiv "/" test.adb:5:11-5:12>
   references:    None
   type:          None
@@ -22,7 +22,7 @@ Expr: <OpDiv "/" test.adb:5:11-5:12>
 Expr: <Real test.adb:5:13-5:17>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 
 Resolving xrefs for node <AssignStmt test.adb:8:4-8:15>
 *******************************************************
@@ -33,11 +33,11 @@ Expr: <Id "X" test.adb:8:4-8:5>
   expected type: None
 Expr: <BinOp test.adb:8:9-8:14>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <Id "X" test.adb:8:9-8:10>
   references:    <DefiningName test.adb:3:4-3:5>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <OpMult "*" test.adb:8:11-8:12>
   references:    None
   type:          None
@@ -45,7 +45,7 @@ Expr: <OpMult "*" test.adb:8:11-8:12>
 Expr: <Int test.adb:8:13-8:14>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AssignStmt test.adb:11:4-11:25>
 *********************************************************
@@ -56,11 +56,11 @@ Expr: <Id "X" test.adb:11:4-11:5>
   expected type: None
 Expr: <BinOp test.adb:11:9-11:24>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <Id "X" test.adb:11:9-11:10>
   references:    <DefiningName test.adb:3:4-3:5>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <OpMult "*" test.adb:11:11-11:12>
   references:    None
   type:          None
@@ -68,18 +68,18 @@ Expr: <OpMult "*" test.adb:11:11-11:12>
 Expr: <QualExpr test.adb:11:13-11:24>
   references:    <DefiningName __standard:4:8-4:15>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:11:13-11:20>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          None
   expected type: None
 Expr: <ParenExpr test.adb:11:21-11:24>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:11:22-11:23>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AssignStmt test.adb:14:4-14:27>
 *********************************************************
@@ -89,12 +89,12 @@ Expr: <Id "X" test.adb:14:4-14:5>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
   expected type: None
 Expr: <BinOp test.adb:14:9-14:26>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  type:          <TypeDecl ["T"] test.adb:2:4-2:42>
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <Real test.adb:14:9-14:12>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <OpMult "*" test.adb:14:13-14:14>
   references:    None
   type:          None
@@ -102,18 +102,18 @@ Expr: <OpMult "*" test.adb:14:13-14:14>
 Expr: <QualExpr test.adb:14:15-14:26>
   references:    <DefiningName __standard:4:8-4:15>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:14:15-14:22>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          None
   expected type: None
 Expr: <ParenExpr test.adb:14:23-14:26>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:14:24-14:25>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

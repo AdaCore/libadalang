@@ -11,7 +11,7 @@ Expr: <Id "Val" main.adb:15:4-15:7>
 Expr: <DottedName main.adb:15:11-15:32>
   references:    <| DefiningName b-c.ads:6:13-6:16 [main.adb:11:4, main.adb:8:7] |>
   type:          <TypeDecl ["Lol"] b.ads:2:4-2:28>
-  expected type: None
+  expected type: <TypeDecl ["Lol"] b.ads:2:4-2:28>
 Expr: <DottedName main.adb:15:11-15:28>
   references:    <| DefiningName main.adb:8:15-8:23 [main.adb:11:4] |>
   type:          None
@@ -27,7 +27,7 @@ Expr: <Id "A_B_Inst" main.adb:15:20-15:28>
 Expr: <Id "Bar" main.adb:15:29-15:32>
   references:    <| DefiningName b-c.ads:6:13-6:16 [main.adb:11:4, main.adb:8:7] |>
   type:          <TypeDecl ["Lol"] b.ads:2:4-2:28>
-  expected type: None
+  expected type: <TypeDecl ["Lol"] b.ads:2:4-2:28>
 
 
 Done.

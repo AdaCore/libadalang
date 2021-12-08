@@ -11,7 +11,7 @@ Expr: <Id "Pouet" b-c-d.adb:4:11-4:16>
 Expr: <Id "A2" b-c-d.adb:4:20-4:22>
   references:    <DefiningName b.adb:12:26-12:28>
   type:          <TypeDecl ["Pouet"] b.adb:12:7-12:38>
-  expected type: None
+  expected type: <TypeDecl ["Pouet"] b.adb:12:7-12:38>
 
 
 Done.

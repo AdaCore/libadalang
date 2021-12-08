@@ -17,15 +17,15 @@ Expr: <Id "Y" pkg-foo.adb:5:4-5:5>
 Expr: <DottedName pkg-foo.adb:5:9-5:12>
   references:    <DefiningName pkg.ads:5:7-5:8>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" pkg-foo.adb:5:9-5:10>
   references:    <DefiningName pkg-foo.adb:2:4-2:5>
   type:          <TypeDecl ["T"] pkg.ads:4:4-6:15>
-  expected type: None
+  expected type: <TypeDecl ["T"] pkg.ads:4:4-6:15>
 Expr: <Id "X" pkg-foo.adb:5:11-5:12>
   references:    <DefiningName pkg.ads:5:7-5:8>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

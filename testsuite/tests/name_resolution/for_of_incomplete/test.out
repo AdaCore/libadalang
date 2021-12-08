@@ -103,7 +103,7 @@ Expr: <DottedName test.adb:16:7-16:12>
 Expr: <Id "V" test.adb:16:7-16:8>
   references:    <DefiningName test.adb:15:8-15:9>
   type:          <ClasswideTypeDecl ["Foo"] test.adb:8:7-8:38>
-  expected type: None
+  expected type: <ClasswideTypeDecl ["Foo"] test.adb:8:7-8:38>
 Expr: <Id "Bar" test.adb:16:9-16:12>
   references:    <DefiningName test.adb:10:17-10:20>
   type:          None

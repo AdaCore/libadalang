@@ -15,7 +15,7 @@ Resolving xrefs for node <CaseStmtAlternative test.adb:11:10-12:21>
 Expr: <Id "A" test.adb:11:15-11:16>
   references:    <DefiningName test.adb:2:18-2:19>
   type:          <TypeDecl ["Kind"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["Kind"] test.adb:2:4-2:24>
 
 Resolving xrefs for node <CallStmt test.adb:12:13-12:21>
 ********************************************************
@@ -44,7 +44,7 @@ Resolving xrefs for node <CaseStmtAlternative test.adb:15:10-16:21>
 Expr: <Id "C" test.adb:15:15-15:16>
   references:    <DefiningName test.adb:2:21-2:22>
   type:          <TypeDecl ["Kind"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["Kind"] test.adb:2:4-2:24>
 
 Resolving xrefs for node <CallStmt test.adb:16:13-16:21>
 ********************************************************

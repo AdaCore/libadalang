@@ -11,7 +11,7 @@ Expr: <Id "Y" test.adb:12:4-12:5>
 Expr: <CallExpr test.adb:12:9-12:72>
   references:    <DefiningName test.adb:9:4-9:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <CallExpr test.adb:12:9-12:68>
   references:    <DefiningName test.adb:9:4-9:5>
   type:          <TypeDecl ["A1"] test.adb:5:4-5:42>
@@ -43,37 +43,37 @@ Expr: <Id "Sub_Index_T" test.adb:12:12-12:23>
 Expr: <Int test.adb:12:26-12:27>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <BinOp test.adb:12:30-12:36>
-  type:          <TypeDecl ["Index_T"] test.adb:2:4-2:33>
-  expected type: None
+  type:          None
+  expected type: <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:30-12:31>
   references:    None
-  type:          <TypeDecl ["Index_T"] test.adb:2:4-2:33>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <OpDoubleDot ".." test.adb:12:32-12:34>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:12:35-12:36>
   references:    None
-  type:          <TypeDecl ["Index_T"] test.adb:2:4-2:33>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:39-12:40>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Id "Sub_Index_T" test.adb:12:43-12:54>
   references:    <DefiningName test.adb:3:12-3:23>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:12:61-12:67>
   type:          <SubtypeDecl ["Sub_Index_T"] test.adb:3:4-3:48>
-  expected type: None
+  expected type: <SubtypeDecl ["Sub_Index_T"] test.adb:3:4-3:48>
 Expr: <Int test.adb:12:61-12:62>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <SubtypeDecl ["Sub_Index_T"] test.adb:3:4-3:48>
 Expr: <OpDoubleDot ".." test.adb:12:63-12:65>
   references:    None
   type:          None
@@ -81,11 +81,11 @@ Expr: <OpDoubleDot ".." test.adb:12:63-12:65>
 Expr: <Int test.adb:12:66-12:67>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <SubtypeDecl ["Sub_Index_T"] test.adb:3:4-3:48>
 Expr: <Int test.adb:12:70-12:71>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Index_T"] test.adb:2:4-2:33>
 
 
 Done.

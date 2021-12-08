@@ -11,7 +11,7 @@ Expr: <Id "Array_Type" testar.adb:12:8-12:18>
 Expr: <CallExpr testar.adb:12:22-12:34>
   references:    <DefiningName testar.adb:9:13-9:16>
   type:          <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
-  expected type: None
+  expected type: <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
 Expr: <Id "Arr" testar.adb:12:22-12:25>
   references:    <DefiningName testar.adb:9:13-9:16>
   type:          <TypeDecl ["Array_Type"] testar.adb:7:4-7:60>
@@ -19,11 +19,11 @@ Expr: <Id "Arr" testar.adb:12:22-12:25>
 Expr: <Int testar.adb:12:27-12:29>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <Int testar.adb:12:31-12:33>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 
 
 Done.

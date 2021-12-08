@@ -12,7 +12,7 @@ Expr: <Id "Integer" foo.adb:5:17-5:24>
 Expr: <CallExpr foo.adb:5:28-5:46>
   references:    <DefiningName src2.ada:2:13-2:17>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName foo.adb:5:28-5:42>
   references:    <DefiningName src2.ada:2:13-2:17>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
@@ -36,7 +36,7 @@ Expr: <Id "Fact" foo.adb:5:38-5:42>
 Expr: <Int foo.adb:5:44-5:45>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 Resolving xrefs for node <CallStmt foo.adb:8:4-8:8>
 ***************************************************

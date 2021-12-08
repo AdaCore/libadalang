@@ -19,7 +19,7 @@ Expr: <Id "Address" test.adb:4:15-4:22>
 Expr: <AttributeRef test.adb:4:26-4:47>
   references:    None
   type:          system.address
-  expected type: None
+  expected type: system.address
 Expr: <Id "System" test.adb:4:26-4:32>
   references:    system
   type:          None
@@ -31,7 +31,7 @@ Expr: <Id "To_Address" test.adb:4:33-4:43>
 Expr: <Int test.adb:4:45-4:46>
   references:    None
   type:          standard.universal_int_type_
-  expected type: None
+  expected type: system.storage_elements.integer_address
 
 
 Done.

@@ -11,7 +11,7 @@ Expr: <Id "Integer" entryfam.adb:12:14-12:21>
 Expr: <Id "Spec" entryfam.adb:12:25-12:29>
   references:    <DefiningName entryfam.adb:10:20-10:24>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <CallStmt entryfam.adb:23:4-23:16>
 ***********************************************************
@@ -42,8 +42,8 @@ Expr: <Int entryfam.adb:23:9-23:10>
   expected type: None
 Expr: <Int entryfam.adb:23:13-23:14>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

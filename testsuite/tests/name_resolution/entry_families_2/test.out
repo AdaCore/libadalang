@@ -71,7 +71,7 @@ Expr: <Id "F" test.adb:22:6-22:7>
 Expr: <Id "B" test.adb:22:9-22:10>
   references:    <DefiningName test.adb:3:22-3:23>
   type:          <TypeDecl ["Enum2"] test.adb:3:4-3:25>
-  expected type: None
+  expected type: <TypeDecl ["Enum2"] test.adb:3:4-3:25>
 
 
 Done.

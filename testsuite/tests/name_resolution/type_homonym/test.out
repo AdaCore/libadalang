@@ -11,11 +11,11 @@ Expr: <Id "Integer" test.adb:9:11-9:18>
 Expr: <DottedName test.adb:9:22-9:34>
   references:    <DefiningName test.adb:3:7-3:10>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <CallExpr test.adb:9:22-9:30>
   references:    <DefiningName test.adb:6:13-6:16>
   type:          <TypeDecl ["Foo"] test.adb:2:4-4:15>
-  expected type: None
+  expected type: <TypeDecl ["Foo"] test.adb:2:4-4:15>
 Expr: <Id "Bar" test.adb:9:22-9:25>
   references:    <DefiningName test.adb:6:13-6:16>
   type:          <TypeDecl ["Foo"] test.adb:2:4-4:15>
@@ -23,11 +23,11 @@ Expr: <Id "Bar" test.adb:9:22-9:25>
 Expr: <Int test.adb:9:27-9:29>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Foo" test.adb:9:31-9:34>
   references:    <DefiningName test.adb:3:7-3:10>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

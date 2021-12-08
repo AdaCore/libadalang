@@ -10,11 +10,11 @@ Expr: <Id "X" test.adb:6:4-6:5>
   expected type: None
 Expr: <BinOp test.adb:6:9-6:24>
   type:          ada.strings.unbounded.unbounded_string
-  expected type: None
+  expected type: ada.strings.unbounded.unbounded_string
 Expr: <Id "X" test.adb:6:9-6:10>
   references:    test().x
   type:          ada.strings.unbounded.unbounded_string
-  expected type: None
+  expected type: ada.strings.unbounded.unbounded_string
 Expr: <OpConcat "&" test.adb:6:11-6:12>
   references:    ada.strings.unbounded."&"((ada.strings.unbounded.unbounded_string, ada.strings.unbounded.unbounded_string) -> ada.strings.unbounded.unbounded_string)
   type:          None
@@ -22,7 +22,7 @@ Expr: <OpConcat "&" test.adb:6:11-6:12>
 Expr: <CallExpr test.adb:6:13-6:24>
   references:    ada.strings.unbounded.head((ada.strings.unbounded.unbounded_string, standard.natural, standard.character) -> ada.strings.unbounded.unbounded_string)
   type:          ada.strings.unbounded.unbounded_string
-  expected type: None
+  expected type: ada.strings.unbounded.unbounded_string
 Expr: <Id "Head" test.adb:6:13-6:17>
   references:    ada.strings.unbounded.head((ada.strings.unbounded.unbounded_string, standard.natural, standard.character) -> ada.strings.unbounded.unbounded_string)
   type:          ada.strings.unbounded.unbounded_string
@@ -30,11 +30,11 @@ Expr: <Id "Head" test.adb:6:13-6:17>
 Expr: <Id "Y" test.adb:6:19-6:20>
   references:    test().y
   type:          ada.strings.unbounded.unbounded_string
-  expected type: None
+  expected type: ada.strings.unbounded.unbounded_string
 Expr: <Int test.adb:6:22-6:23>
   references:    None
   type:          standard.universal_int_type_
-  expected type: None
+  expected type: standard.natural
 
 
 Done.

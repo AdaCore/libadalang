@@ -27,7 +27,7 @@ Expr: <Id "Class" main.adb:12:28-12:33>
 Expr: <Id "Create" main.adb:12:37-12:43>
   references:    <| DefiningName vector.ads:6:13-6:19 [main.adb:4:4] |>
   type:          <| ClasswideTypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
-  expected type: None
+  expected type: <| ClasswideTypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
 
 Resolving xrefs for node <CallStmt main.adb:14:7-14:21>
 *******************************************************
@@ -43,7 +43,7 @@ Expr: <DottedName main.adb:14:7-14:15>
 Expr: <Id "V" main.adb:14:7-14:8>
   references:    <DefiningName main.adb:12:7-12:8>
   type:          <| ClasswideTypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
-  expected type: None
+  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
 Expr: <Id "Append" main.adb:14:9-14:15>
   references:    <| DefiningName vector.ads:8:14-8:20 [main.adb:4:4] |>
   type:          None
@@ -51,7 +51,7 @@ Expr: <Id "Append" main.adb:14:9-14:15>
 Expr: <Int main.adb:14:17-14:19>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

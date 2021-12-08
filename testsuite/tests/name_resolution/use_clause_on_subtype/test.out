@@ -13,11 +13,11 @@ Expr: <Id "X" main.adb:7:4-7:5>
   expected type: None
 Expr: <BinOp main.adb:7:9-7:14>
   type:          <TypeDecl ["T"] pkg.ads:3:4-3:26>
-  expected type: None
+  expected type: <SubtypeDecl ["R"] pkg.ads:7:4-7:19>
 Expr: <Id "X" main.adb:7:9-7:10>
   references:    <DefiningName main.adb:5:4-5:5>
   type:          <SubtypeDecl ["R"] pkg.ads:7:4-7:19>
-  expected type: None
+  expected type: <TypeDecl ["T"] pkg.ads:3:4-3:26>
 Expr: <OpPlus "+" main.adb:7:11-7:12>
   references:    <DefiningName pkg.ads:5:13-5:16>
   type:          None
@@ -25,7 +25,7 @@ Expr: <OpPlus "+" main.adb:7:11-7:12>
 Expr: <Id "X" main.adb:7:13-7:14>
   references:    <DefiningName main.adb:5:4-5:5>
   type:          <SubtypeDecl ["R"] pkg.ads:7:4-7:19>
-  expected type: None
+  expected type: <TypeDecl ["T"] pkg.ads:3:4-3:26>
 
 
 Done.

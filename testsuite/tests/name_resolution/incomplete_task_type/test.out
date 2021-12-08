@@ -11,7 +11,7 @@ Expr: <Id "P" test.adb:8:15-8:16>
 Expr: <Id "X" test.adb:8:20-8:21>
   references:    <DefiningName test.adb:7:20-7:21>
   type:          <TypeDecl ["P"] test.adb:4:7-4:26>
-  expected type: None
+  expected type: <TypeDecl ["P"] test.adb:4:7-4:26>
 
 
 Done.

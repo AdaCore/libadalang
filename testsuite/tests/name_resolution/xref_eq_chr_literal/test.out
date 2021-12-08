@@ -11,7 +11,7 @@ Expr: <Id "C" testchrlit.adb:6:4-6:5>
 Expr: <Chr "'a'" testchrlit.adb:6:9-6:12>
   references:    <DefiningName testchrlit.adb:2:18-2:21>
   type:          <TypeDecl ["Char"] testchrlit.adb:2:4-2:33>
-  expected type: None
+  expected type: <TypeDecl ["Char"] testchrlit.adb:2:4-2:33>
 
 Resolving xrefs for node <AssignStmt testchrlit.adb:9:4-9:12>
 *************************************************************

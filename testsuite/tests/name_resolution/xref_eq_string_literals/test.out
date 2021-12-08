@@ -11,7 +11,7 @@ Expr: <Id "S" teststrlit.adb:13:4-13:5>
 Expr: <Str ""abc"" teststrlit.adb:13:9-13:14>
   references:    None
   type:          <TypeDecl ["Str"] teststrlit.adb:4:4-4:36>
-  expected type: None
+  expected type: <TypeDecl ["Str"] teststrlit.adb:4:4-4:36>
 
 Resolving xrefs for node <AssignStmt teststrlit.adb:16:4-16:15>
 ***************************************************************
@@ -28,7 +28,7 @@ Expr: <Id "I" teststrlit.adb:19:4-19:5>
 Expr: <CallExpr teststrlit.adb:19:9-19:20>
   references:    <DefiningName teststrlit.adb:9:13-9:16>
   type:          <TypeDecl ["Int"] teststrlit.adb:3:4-3:31>
-  expected type: None
+  expected type: <TypeDecl ["Int"] teststrlit.adb:3:4-3:31>
 Expr: <Id "Foo" teststrlit.adb:19:9-19:12>
   references:    <DefiningName teststrlit.adb:9:13-9:16>
   type:          <TypeDecl ["Int"] teststrlit.adb:3:4-3:31>
@@ -36,7 +36,7 @@ Expr: <Id "Foo" teststrlit.adb:19:9-19:12>
 Expr: <Str ""abc"" teststrlit.adb:19:14-19:19>
   references:    None
   type:          <TypeDecl ["Str"] teststrlit.adb:4:4-4:36>
-  expected type: None
+  expected type: <TypeDecl ["Str"] teststrlit.adb:4:4-4:36>
 
 
 Done.

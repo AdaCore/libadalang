@@ -11,7 +11,7 @@ Expr: <Id "Integer" test.adb:8:8-8:15>
 Expr: <CallExpr test.adb:8:19-8:35>
   references:    <| DefiningName p.ads:6:13-6:16 [test.adb:6:4] |>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.adb:8:19-8:26>
   references:    <| DefiningName p.ads:6:13-6:16 [test.adb:6:4] |>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
@@ -31,7 +31,7 @@ Expr: <Id "X" test.adb:8:28-8:29>
 Expr: <Int test.adb:8:33-8:34>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

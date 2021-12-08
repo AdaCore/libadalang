@@ -11,15 +11,15 @@ Expr: <Id "E" test_record.adb:15:7-15:8>
 Expr: <DottedName test_record.adb:15:12-15:15>
   references:    <DefiningName test_record.adb:8:7-8:8>
   type:          <TypeDecl ["My_Float"] test_record.adb:4:4-4:31>
-  expected type: None
+  expected type: <TypeDecl ["My_Float"] test_record.adb:4:4-4:31>
 Expr: <Id "G" test_record.adb:15:12-15:13>
   references:    <DefiningName test_record.adb:13:7-13:8>
   type:          <TypeDecl ["My_Record"] test_record.adb:6:4-9:15>
-  expected type: None
+  expected type: <TypeDecl ["My_Record"] test_record.adb:6:4-9:15>
 Expr: <Id "F" test_record.adb:15:14-15:15>
   references:    <DefiningName test_record.adb:8:7-8:8>
   type:          <TypeDecl ["My_Float"] test_record.adb:4:4-4:31>
-  expected type: None
+  expected type: <TypeDecl ["My_Float"] test_record.adb:4:4-4:31>
 
 
 Done.

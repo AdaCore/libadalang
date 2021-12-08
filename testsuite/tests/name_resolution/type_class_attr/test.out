@@ -15,7 +15,7 @@ Expr: <Id "Foo" type_class_attr.adb:7:4-7:7>
 Expr: <AttributeRef type_class_attr.adb:7:9-7:27>
   references:    None
   type:          system.aux_dec.type_class
-  expected type: None
+  expected type: system.aux_dec.type_class
 Expr: <Id "Boolean" type_class_attr.adb:7:9-7:16>
   references:    standard.boolean
   type:          standard.boolean

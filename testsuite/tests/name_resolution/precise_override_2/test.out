@@ -21,7 +21,7 @@ Expr: <Id "Foo" pkg-child.adb:4:7-4:10>
 Expr: <Id "X" pkg-child.adb:4:12-4:13>
   references:    <DefiningName pkg-child.adb:2:20-2:21>
   type:          <AnonymousTypeDecl ["None"] pkg-child.adb:2:24-2:32>
-  expected type: None
+  expected type: <AnonymousTypeDecl ["None"] pkg-child.ads:4:34-4:42>
 
 
 Done.

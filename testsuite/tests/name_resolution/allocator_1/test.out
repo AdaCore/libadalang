@@ -10,7 +10,7 @@ Expr: <Id "I" pouet.adb:13:4-13:5>
   expected type: None
 Expr: <Allocator pouet.adb:13:9-13:14>
   type:          <TypeDecl ["T_Ptr"] pouet.adb:8:4-8:31>
-  expected type: None
+  expected type: <TypeDecl ["T_Ptr"] pouet.adb:8:4-8:31>
 Expr: <Id "T" pouet.adb:13:13-13:14>
   references:    <DefiningName pouet.adb:4:9-4:10>
   type:          None
@@ -25,26 +25,26 @@ Expr: <Id "J" pouet.adb:16:4-16:5>
   expected type: None
 Expr: <Allocator pouet.adb:16:9-16:23>
   type:          <AnonymousTypeDecl ["None"] pouet.adb:11:8-11:16>
-  expected type: None
+  expected type: <AnonymousTypeDecl ["None"] pouet.adb:11:8-11:16>
 Expr: <QualExpr pouet.adb:16:13-16:23>
   references:    <DefiningName pouet.adb:4:9-4:10>
   type:          <TypeDecl ["T"] pouet.adb:4:4-6:15>
   expected type: None
 Expr: <Id "T" pouet.adb:16:13-16:14>
   references:    <DefiningName pouet.adb:4:9-4:10>
-  type:          <TypeDecl ["T"] pouet.adb:4:4-6:15>
+  type:          None
   expected type: None
 Expr: <Aggregate pouet.adb:16:15-16:23>
   type:          <TypeDecl ["T"] pouet.adb:4:4-6:15>
-  expected type: None
+  expected type: <TypeDecl ["T"] pouet.adb:4:4-6:15>
 Expr: <Int pouet.adb:16:16-16:18>
   references:    None
-  type:          <TypeDecl ["Integer"] pouet.adb:2:4-2:44>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] pouet.adb:2:4-2:44>
 Expr: <Int pouet.adb:16:20-16:22>
   references:    None
-  type:          <TypeDecl ["Integer"] pouet.adb:2:4-2:44>
-  expected type: None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] pouet.adb:2:4-2:44>
 
 
 Done.

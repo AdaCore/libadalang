@@ -11,7 +11,7 @@ Expr: <Id "A" test1.adb:6:4-6:5>
 Expr: <Id "B" test1.adb:6:9-6:10>
   references:    <DefiningName test1.adb:4:4-4:5>
   type:          <TypeDecl ["Int"] test1.adb:2:4-2:30>
-  expected type: None
+  expected type: <TypeDecl ["Int"] test1.adb:2:4-2:30>
 
 Resolving xrefs for node <AssignStmt test1.adb:9:4-9:12>
 ********************************************************
@@ -23,7 +23,7 @@ Expr: <Id "A" test1.adb:9:4-9:5>
 Expr: <Int test1.adb:9:9-9:11>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Int"] test1.adb:2:4-2:30>
 
 
 Done.

@@ -17,12 +17,12 @@ Expr: <Id "Base" test.adb:5:10-5:14>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:5:18-5:33>
-  type:          <TypeDecl ["T"] test.adb:2:4-2:40>
-  expected type: None
+  type:          <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
+  expected type: <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
 Expr: <CallExpr test.adb:5:18-5:29>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
-  expected type: None
+  expected type: <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
 Expr: <AttributeRef test.adb:5:18-5:24>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
@@ -46,7 +46,7 @@ Expr: <OpPlus "+" test.adb:5:30-5:31>
 Expr: <Int test.adb:5:32-5:33>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:8:4-8:36>
 *************************************************************
@@ -58,7 +58,7 @@ Expr: <Id "Integer" test.adb:8:8-8:15>
 Expr: <AttributeRef test.adb:8:19-8:35>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <AttributeRef test.adb:8:19-8:25>
   references:    None
   type:          None

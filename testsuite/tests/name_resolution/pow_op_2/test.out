@@ -11,7 +11,7 @@ Expr: <Id "F" test.adb:15:4-15:5>
 Expr: <CallExpr test.adb:15:9-15:26>
   references:    test().ef."**"((standard.float, standard.float) -> standard.float)
   type:          standard.float
-  expected type: None
+  expected type: standard.float
 Expr: <DottedName test.adb:15:9-15:16>
   references:    test().ef."**"((standard.float, standard.float) -> standard.float)
   type:          standard.float
@@ -27,11 +27,11 @@ Expr: <Str ""**"" test.adb:15:12-15:16>
 Expr: <Id "e" test.adb:15:17-15:18>
   references:    ada.numerics.e
   type:          standard.universal_real_type_
-  expected type: None
+  expected type: standard.float
 Expr: <Real test.adb:15:20-15:25>
   references:    None
   type:          standard.universal_real_type_
-  expected type: None
+  expected type: standard.float
 
 
 Done.

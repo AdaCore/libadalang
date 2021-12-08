@@ -6,24 +6,24 @@ Resolving xrefs for node <TypeDecl ["My_Integer"] test.adb:2:4-2:56>
 
 Expr: <BinOp test.adb:2:29-2:55>
   type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <UnOp test.adb:2:29-2:40>
   type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpMinus "-" test.adb:2:29-2:30>
   references:    None
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:2:31-2:40>
   type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <BinOp test.adb:2:32-2:39>
   type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <Int test.adb:2:32-2:33>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpPow "**" test.adb:2:34-2:36>
   references:    None
   type:          None
@@ -31,21 +31,21 @@ Expr: <OpPow "**" test.adb:2:34-2:36>
 Expr: <Int test.adb:2:37-2:39>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." test.adb:2:41-2:43>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp test.adb:2:44-2:55>
   type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <BinOp test.adb:2:44-2:51>
   type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <Int test.adb:2:44-2:45>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpPow "**" test.adb:2:46-2:48>
   references:    None
   type:          None
@@ -53,7 +53,7 @@ Expr: <OpPow "**" test.adb:2:46-2:48>
 Expr: <Int test.adb:2:49-2:51>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMinus "-" test.adb:2:52-2:53>
   references:    None
   type:          None
@@ -61,7 +61,7 @@ Expr: <OpMinus "-" test.adb:2:52-2:53>
 Expr: <Int test.adb:2:54-2:55>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 
 
 Done.

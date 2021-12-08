@@ -23,11 +23,11 @@ Expr: <Id "Visit" d.adb:4:9-4:14>
 Expr: <Id "R" d.adb:4:16-4:17>
   references:    <DefiningName d.adb:2:40-2:41>
   type:          <TypeDecl ["Root_Type"] c.ads:4:4-4:34>
-  expected type: None
+  expected type: <TypeDecl ["Root_Type"] c.ads:4:4-4:34>
 Expr: <Id "Self" d.adb:4:19-4:23>
   references:    <DefiningName d.adb:2:21-2:25>
   type:          <TypeDecl ["Foo"] d.ads:4:4-4:28>
-  expected type: None
+  expected type: <TypeDecl ["Foo"] d.ads:4:4-4:28>
 
 
 Done.

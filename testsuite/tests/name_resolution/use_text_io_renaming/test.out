@@ -15,15 +15,15 @@ Expr: <Id "Get" test.adb:7:4-7:7>
 Expr: <Str ""12"" test.adb:7:9-7:13>
   references:    None
   type:          standard.wide_string
-  expected type: None
+  expected type: standard.wide_string
 Expr: <Id "X" test.adb:7:15-7:16>
   references:    test().x
   type:          standard.integer
-  expected type: None
+  expected type: standard.integer
 Expr: <Id "Last" test.adb:7:18-7:22>
   references:    test().last
   type:          standard.positive
-  expected type: None
+  expected type: standard.positive
 
 
 Done.

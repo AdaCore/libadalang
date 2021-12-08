@@ -14,7 +14,7 @@ Resolving xrefs for node <ExprFunction ["Create"] prim_ret.adb:4:7-4:52>
 
 Expr: <NullRecordAggregate prim_ret.adb:4:38-4:51>
   type:          <TypeDecl ["Base"] prim_ret.adb:3:7-3:32>
-  expected type: None
+  expected type: <TypeDecl ["Base"] prim_ret.adb:3:7-3:32>
 
 Resolving xrefs for node <SubpSpec prim_ret.adb:4:7-4:34>
 *********************************************************
@@ -70,7 +70,7 @@ Expr: <Id "Inst" prim_ret.adb:12:4-12:8>
 Expr: <Id "Create" prim_ret.adb:12:12-12:18>
   references:    <DefiningName prim_ret.adb:4:16-4:22>
   type:          <TypeDecl ["Derived"] prim_ret.adb:7:4-7:31>
-  expected type: None
+  expected type: <TypeDecl ["Derived"] prim_ret.adb:7:4-7:31>
 
 Resolving xrefs for node <EndName prim_ret.adb:13:5-13:13>
 **********************************************************

@@ -11,7 +11,7 @@ Expr: <Id "C" testuse.adb:16:4-16:5>
 Expr: <Id "Foo" testuse.adb:16:9-16:12>
   references:    <DefiningName testuse.adb:9:16-9:19>
   type:          <TypeDecl ["Float"] testuse.adb:3:4-3:45>
-  expected type: None
+  expected type: <TypeDecl ["Float"] testuse.adb:3:4-3:45>
 
 
 Done.

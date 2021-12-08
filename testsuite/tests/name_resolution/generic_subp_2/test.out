@@ -23,7 +23,7 @@ Expr: <Id "Print_Int" main.adb:8:10-8:19>
 Expr: <Int main.adb:8:21-8:23>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

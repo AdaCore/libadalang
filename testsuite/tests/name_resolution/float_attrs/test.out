@@ -11,7 +11,7 @@ Expr: <Id "Float" test_float_attrs.adb:2:8-2:13>
 Expr: <AttributeRef test_float_attrs.adb:2:17-2:35>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:2:17-2:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -23,7 +23,7 @@ Expr: <Id "Floor" test_float_attrs.adb:2:23-2:28>
 Expr: <Real test_float_attrs.adb:2:30-2:34>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["B"] test_float_attrs.adb:5:4-5:36>
 *************************************************************************
@@ -35,7 +35,7 @@ Expr: <Id "Float" test_float_attrs.adb:5:8-5:13>
 Expr: <AttributeRef test_float_attrs.adb:5:17-5:35>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:5:17-5:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -47,7 +47,7 @@ Expr: <Id "Rounding" test_float_attrs.adb:5:23-5:31>
 Expr: <Id "A" test_float_attrs.adb:5:33-5:34>
   references:    <DefiningName test_float_attrs.adb:2:4-2:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["C"] test_float_attrs.adb:8:4-8:42>
 *************************************************************************
@@ -59,7 +59,7 @@ Expr: <Id "Float" test_float_attrs.adb:8:8-8:13>
 Expr: <AttributeRef test_float_attrs.adb:8:17-8:41>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:8:17-8:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -70,11 +70,11 @@ Expr: <Id "Ceiling" test_float_attrs.adb:8:23-8:30>
   expected type: None
 Expr: <BinOp test_float_attrs.adb:8:32-8:40>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "B" test_float_attrs.adb:8:32-8:33>
   references:    <DefiningName test_float_attrs.adb:5:4-5:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <OpPlus "+" test_float_attrs.adb:8:34-8:35>
   references:    None
   type:          None
@@ -82,7 +82,7 @@ Expr: <OpPlus "+" test_float_attrs.adb:8:34-8:35>
 Expr: <Real test_float_attrs.adb:8:36-8:40>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["D"] test_float_attrs.adb:11:4-11:49>
 ***************************************************************************
@@ -94,7 +94,7 @@ Expr: <Id "Float" test_float_attrs.adb:11:8-11:13>
 Expr: <AttributeRef test_float_attrs.adb:11:17-11:48>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:11:17-11:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -105,11 +105,11 @@ Expr: <Id "Truncation" test_float_attrs.adb:11:23-11:33>
   expected type: None
 Expr: <BinOp test_float_attrs.adb:11:35-11:47>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "C" test_float_attrs.adb:11:35-11:36>
   references:    <DefiningName test_float_attrs.adb:8:4-8:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <OpPlus "+" test_float_attrs.adb:11:37-11:38>
   references:    None
   type:          None
@@ -117,7 +117,7 @@ Expr: <OpPlus "+" test_float_attrs.adb:11:37-11:38>
 Expr: <Real test_float_attrs.adb:11:39-11:47>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["E"] test_float_attrs.adb:14:4-14:40>
 ***************************************************************************
@@ -129,7 +129,7 @@ Expr: <Id "Float" test_float_attrs.adb:14:8-14:13>
 Expr: <AttributeRef test_float_attrs.adb:14:17-14:39>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:14:17-14:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -141,11 +141,11 @@ Expr: <Id "Copy_Sign" test_float_attrs.adb:14:23-14:32>
 Expr: <Id "C" test_float_attrs.adb:14:34-14:35>
   references:    <DefiningName test_float_attrs.adb:8:4-8:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "D" test_float_attrs.adb:14:37-14:38>
   references:    <DefiningName test_float_attrs.adb:11:4-11:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["F"] test_float_attrs.adb:17:4-17:40>
 ***************************************************************************
@@ -157,7 +157,7 @@ Expr: <Id "Float" test_float_attrs.adb:17:8-17:13>
 Expr: <AttributeRef test_float_attrs.adb:17:17-17:39>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:17:17-17:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -169,11 +169,11 @@ Expr: <Id "Remainder" test_float_attrs.adb:17:23-17:32>
 Expr: <Id "D" test_float_attrs.adb:17:34-17:35>
   references:    <DefiningName test_float_attrs.adb:11:4-11:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "E" test_float_attrs.adb:17:37-17:38>
   references:    <DefiningName test_float_attrs.adb:14:4-14:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["G"] test_float_attrs.adb:20:4-20:39>
 ***************************************************************************
@@ -185,7 +185,7 @@ Expr: <Id "Float" test_float_attrs.adb:20:8-20:13>
 Expr: <AttributeRef test_float_attrs.adb:20:17-20:38>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:20:17-20:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -197,11 +197,11 @@ Expr: <Id "Adjacent" test_float_attrs.adb:20:23-20:31>
 Expr: <Id "E" test_float_attrs.adb:20:33-20:34>
   references:    <DefiningName test_float_attrs.adb:14:4-14:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "F" test_float_attrs.adb:20:36-20:37>
   references:    <DefiningName test_float_attrs.adb:17:4-17:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["H"] test_float_attrs.adb:23:4-23:37>
 ***************************************************************************
@@ -213,7 +213,7 @@ Expr: <Id "Float" test_float_attrs.adb:23:8-23:13>
 Expr: <AttributeRef test_float_attrs.adb:23:17-23:36>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:23:17-23:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
@@ -233,7 +233,7 @@ Expr: <Id "Float" test_float_attrs.adb:26:8-26:13>
 Expr: <AttributeRef test_float_attrs.adb:26:17-26:34>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:26:17-26:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -253,7 +253,7 @@ Expr: <Id "Float" test_float_attrs.adb:29:8-29:13>
 Expr: <AttributeRef test_float_attrs.adb:29:17-29:36>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:29:17-29:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -273,7 +273,7 @@ Expr: <Id "Float" test_float_attrs.adb:32:8-32:13>
 Expr: <AttributeRef test_float_attrs.adb:32:17-32:43>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:32:17-32:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -285,7 +285,7 @@ Expr: <Id "Machine_Rounding" test_float_attrs.adb:32:23-32:39>
 Expr: <Id "A" test_float_attrs.adb:32:41-32:42>
   references:    <DefiningName test_float_attrs.adb:2:4-2:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["L"] test_float_attrs.adb:35:4-35:38>
 ***************************************************************************
@@ -297,7 +297,7 @@ Expr: <Id "Integer" test_float_attrs.adb:35:8-35:15>
 Expr: <AttributeRef test_float_attrs.adb:35:19-35:37>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Float" test_float_attrs.adb:35:19-35:24>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -309,7 +309,7 @@ Expr: <Id "Exponent" test_float_attrs.adb:35:25-35:33>
 Expr: <Id "A" test_float_attrs.adb:35:35-35:36>
   references:    <DefiningName test_float_attrs.adb:2:4-2:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <ObjectDecl ["M"] test_float_attrs.adb:38:4-38:39>
 ***************************************************************************
@@ -321,7 +321,7 @@ Expr: <Id "Integer" test_float_attrs.adb:38:8-38:15>
 Expr: <AttributeRef test_float_attrs.adb:38:19-38:38>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Float" test_float_attrs.adb:38:19-38:24>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -341,7 +341,7 @@ Expr: <Id "Integer" test_float_attrs.adb:41:8-41:15>
 Expr: <AttributeRef test_float_attrs.adb:41:19-41:43>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Duration" test_float_attrs.adb:41:19-41:27>
   references:    <DefiningName __standard:112:8-112:16>
   type:          <TypeDecl ["Duration"] __standard:112:3-114:42>
@@ -361,7 +361,7 @@ Expr: <Id "Integer" test_float_attrs.adb:44:8-44:15>
 Expr: <AttributeRef test_float_attrs.adb:44:19-44:45>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Duration" test_float_attrs.adb:44:19-44:27>
   references:    <DefiningName __standard:112:8-112:16>
   type:          <TypeDecl ["Duration"] __standard:112:3-114:42>
@@ -381,7 +381,7 @@ Expr: <Id "Boolean" test_float_attrs.adb:47:8-47:15>
 Expr: <AttributeRef test_float_attrs.adb:47:19-47:42>
   references:    None
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Float" test_float_attrs.adb:47:19-47:24>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -401,7 +401,7 @@ Expr: <Id "Float" test_float_attrs.adb:50:8-50:13>
 Expr: <AttributeRef test_float_attrs.adb:50:17-50:37>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:50:17-50:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -411,13 +411,13 @@ Expr: <Id "Scaling" test_float_attrs.adb:50:23-50:30>
   type:          None
   expected type: None
 Expr: <Id "A" test_float_attrs.adb:50:32-50:33>
-  references:    None
+  references:    <DefiningName test_float_attrs.adb:2:4-2:5>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Int test_float_attrs.adb:50:35-50:36>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ObjectDecl ["R"] test_float_attrs.adb:53:4-53:40>
 ***************************************************************************
@@ -429,7 +429,7 @@ Expr: <Id "Boolean" test_float_attrs.adb:53:8-53:15>
 Expr: <AttributeRef test_float_attrs.adb:53:19-53:39>
   references:    None
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Float" test_float_attrs.adb:53:19-53:24>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -449,7 +449,7 @@ Expr: <Id "Float" test_float_attrs.adb:56:8-56:13>
 Expr: <AttributeRef test_float_attrs.adb:56:17-56:40>
   references:    None
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Float" test_float_attrs.adb:56:17-56:22>
   references:    <DefiningName __standard:14:8-14:13>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
@@ -461,7 +461,7 @@ Expr: <Id "Machine" test_float_attrs.adb:56:23-56:30>
 Expr: <Real test_float_attrs.adb:56:32-56:39>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
 
 
 Done.

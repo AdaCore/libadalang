@@ -22,14 +22,14 @@ Expr: <Id "Pre" ats_types.adb:2:51-2:54>
   expected type: None
 Expr: <RelationOp ats_types.adb:2:58-2:69>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp ats_types.adb:2:58-2:65>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" ats_types.adb:2:58-2:59>
   references:    <DefiningName ats_types.adb:2:33-2:34>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" ats_types.adb:2:60-2:63>
   references:    None
   type:          None
@@ -37,7 +37,7 @@ Expr: <OpMod "mod" ats_types.adb:2:60-2:63>
 Expr: <Int ats_types.adb:2:64-2:65>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" ats_types.adb:2:66-2:67>
   references:    None
   type:          None
@@ -45,7 +45,7 @@ Expr: <OpEq "=" ats_types.adb:2:66-2:67>
 Expr: <Int ats_types.adb:2:68-2:69>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <SubpSpec ats_types.adb:4:22-4:45>
 ***********************************************************
@@ -68,14 +68,14 @@ Expr: <Id "Post" ats_types.adb:4:51-4:55>
   expected type: None
 Expr: <RelationOp ats_types.adb:4:59-4:70>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: None
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp ats_types.adb:4:59-4:66>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" ats_types.adb:4:59-4:60>
   references:    <DefiningName ats_types.adb:4:33-4:34>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" ats_types.adb:4:61-4:64>
   references:    None
   type:          None
@@ -83,7 +83,7 @@ Expr: <OpMod "mod" ats_types.adb:4:61-4:64>
 Expr: <Int ats_types.adb:4:65-4:66>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" ats_types.adb:4:67-4:68>
   references:    None
   type:          None
@@ -91,7 +91,7 @@ Expr: <OpEq "=" ats_types.adb:4:67-4:68>
 Expr: <Int ats_types.adb:4:69-4:70>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

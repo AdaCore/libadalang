@@ -11,7 +11,7 @@ Expr: <Id "N" testaccesstosubp.adb:10:4-10:5>
 Expr: <CallExpr testaccesstosubp.adb:10:9-10:15>
   references:    <DefiningName testaccesstosubp.adb:6:4-6:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" testaccesstosubp.adb:10:9-10:10>
   references:    <DefiningName testaccesstosubp.adb:6:4-6:5>
   type:          <TypeDecl ["Pouet"] testaccesstosubp.adb:2:4-2:63>
@@ -19,7 +19,7 @@ Expr: <Id "A" testaccesstosubp.adb:10:9-10:10>
 Expr: <Int testaccesstosubp.adb:10:12-10:14>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

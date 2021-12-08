@@ -15,7 +15,7 @@ Expr: <Id "Print" test.adb:14:5-14:10>
 Expr: <CallExpr test.adb:14:12-14:44>
   references:    <DefiningName test.adb:12:5-12:11>
   type:          <TypeDecl ["Arr"] test.adb:5:5-5:51>
-  expected type: None
+  expected type: <TypeDecl ["Arr"] test.adb:5:5-5:51>
 Expr: <Id "TheArr" test.adb:14:12-14:18>
   references:    <DefiningName test.adb:12:5-12:11>
   type:          <TypeDecl ["Arr"] test.adb:5:5-5:51>
@@ -26,11 +26,11 @@ Expr: <Id "Color" test.adb:14:20-14:25>
   expected type: None
 Expr: <BinOp test.adb:14:32-14:43>
   type:          <TypeDecl ["Color"] test.adb:2:5-2:60>
-  expected type: None
+  expected type: <TypeDecl ["Color"] test.adb:2:5-2:60>
 Expr: <Id "Red" test.adb:14:32-14:35>
   references:    <DefiningName test.adb:2:20-2:23>
   type:          <TypeDecl ["Color"] test.adb:2:5-2:60>
-  expected type: None
+  expected type: <TypeDecl ["Color"] test.adb:2:5-2:60>
 Expr: <OpDoubleDot ".." test.adb:14:36-14:38>
   references:    None
   type:          None
@@ -38,7 +38,7 @@ Expr: <OpDoubleDot ".." test.adb:14:36-14:38>
 Expr: <Id "Blue" test.adb:14:39-14:43>
   references:    <DefiningName test.adb:2:32-2:36>
   type:          <TypeDecl ["Color"] test.adb:2:5-2:60>
-  expected type: None
+  expected type: <TypeDecl ["Color"] test.adb:2:5-2:60>
 
 Resolving xrefs for node <CallStmt test.adb:16:5-16:30>
 *******************************************************
@@ -54,7 +54,7 @@ Expr: <Id "Print" test.adb:16:5-16:10>
 Expr: <CallExpr test.adb:16:12-16:28>
   references:    <DefiningName test.adb:12:5-12:11>
   type:          <TypeDecl ["Arr"] test.adb:5:5-5:51>
-  expected type: None
+  expected type: <TypeDecl ["Arr"] test.adb:5:5-5:51>
 Expr: <Id "TheArr" test.adb:16:12-16:18>
   references:    <DefiningName test.adb:12:5-12:11>
   type:          <TypeDecl ["Arr"] test.adb:5:5-5:51>

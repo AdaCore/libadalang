@@ -17,7 +17,7 @@ Expr: <Id "Integer" pkg-impl_g.adb:3:11-3:18>
 Expr: <DottedName pkg-impl_g.adb:3:22-3:30>
   references:    <DefiningName pkg-impl_g.ads:2:4-2:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Impl_G" pkg-impl_g.adb:3:22-3:28>
   references:    <DefiningName pkg-impl_g.ads:3:9-3:19>
   type:          None
@@ -25,7 +25,7 @@ Expr: <Id "Impl_G" pkg-impl_g.adb:3:22-3:28>
 Expr: <Id "X" pkg-impl_g.adb:3:29-3:30>
   references:    <DefiningName pkg-impl_g.ads:2:4-2:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: None
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

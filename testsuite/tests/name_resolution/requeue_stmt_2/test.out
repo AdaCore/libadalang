@@ -23,7 +23,7 @@ Expr: <Id "B" test_requeue.adb:37:21-37:22>
 Expr: <Id "Foo" test_requeue.adb:37:24-37:27>
   references:    <DefiningName test_requeue.adb:33:19-33:22>
   type:          <TypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
-  expected type: None
+  expected type: <TypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
 
 Resolving xrefs for node <RequeueStmt test_requeue.adb:42:13-42:29>
 *******************************************************************

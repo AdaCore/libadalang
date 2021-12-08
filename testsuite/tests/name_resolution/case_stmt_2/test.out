@@ -18,11 +18,11 @@ Expr: <Id "T" test.adb:8:15-8:16>
   expected type: None
 Expr: <BinOp test.adb:8:23-8:29>
   type:          <TypeDecl ["T"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <Id "A" test.adb:8:23-8:24>
   references:    <DefiningName test.adb:2:15-2:16>
   type:          <TypeDecl ["T"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
   references:    None
   type:          None
@@ -30,7 +30,7 @@ Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
 Expr: <Id "B" test.adb:8:28-8:29>
   references:    <DefiningName test.adb:2:18-2:19>
   type:          <TypeDecl ["T"] test.adb:2:4-2:24>
-  expected type: None
+  expected type: <TypeDecl ["T"] test.adb:2:4-2:24>
 
 Resolving xrefs for node <NullStmt test.adb:9:13-9:18>
 ******************************************************

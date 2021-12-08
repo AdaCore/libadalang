@@ -14695,6 +14695,11 @@ class EntrySpec(BaseSubpSpec):
     )
     returns = Property(No(T.TypeExpr.entity))
 
+    xref_equation = Property(Entity.family_type.then(
+        lambda r: r.sub_equation,
+        default_val=LogicTrue()
+    ))
+
 
 class Quantifier(AdaNode):
     """

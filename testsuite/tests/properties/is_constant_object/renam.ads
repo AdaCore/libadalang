@@ -12,12 +12,9 @@ package Renam is
    One : Integer renames Un;
    --% node.p_is_constant_object
 
-   --  TODO: Add the following test when Ada2022 optional subtype_mark
-   --  in object renames is supported by libadalang.
-
-   --  Deux : constant := 2;
-   --  Two renames Deux;
-   --  --% node.p_is_constant_object
+   Deux : constant := 2;
+   Two renames Deux;
+   --% node.p_is_constant_object
 
    TT : T renames MyT;
    --% node.p_is_constant_object
@@ -26,6 +23,9 @@ package Renam is
    Tab : constant My_Int_Array := (2, 3, 5);
 
    Tab1 : Integer renames Tab (1);
+   --% node.p_is_constant_object
+
+   Tab2 renames Tab (2);
    --% node.p_is_constant_object
 
    function R (A : Integer) return Integer;

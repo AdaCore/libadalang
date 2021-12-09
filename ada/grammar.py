@@ -480,6 +480,7 @@ A.add_rules(
 
     object_decl=Or(
         A.sub_object_decl,
+        A.no_type_object_renaming_decl,
         A.single_task_decl,
         A.protected_decl,
         A.number_decl
@@ -495,6 +496,18 @@ A.add_rules(
         cut(),
         Opt(":=", A.expr),
         Opt(A.renaming_clause),
+        A.aspect_spec,
+        ";"
+    ),
+
+    no_type_object_renaming_decl=NoTypeObjectRenamingDecl(
+        A.defining_id_list,
+        Null(Aliased),
+        Null(Constant),
+        Null(Mode),
+        Null(TypeExpr),
+        Null(Expr),
+        A.renaming_clause,
         A.aspect_spec,
         ";"
     ),

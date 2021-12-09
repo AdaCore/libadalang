@@ -8716,6 +8716,18 @@ class ExtendedReturnStmtObjectDecl(ObjectDecl):
     pass
 
 
+class NoTypeObjectRenamingDecl(ObjectDecl):
+    """
+    Object declaration without subtype indication. This node has been
+    introduced to cover a special case for `ObjectDecl`, where `type_expr`
+    is made optional (AI12-0275), and therefore cannot fit in an
+    `ObjectDecl`.
+    """
+    @langkit_property()
+    def xref_equation():
+        return Entity.renaming_clause.renamed_object.sub_equation
+
+
 class DeclarativePart(AdaNode):
     """
     List of declarations.

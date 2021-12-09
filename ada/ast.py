@@ -8543,6 +8543,8 @@ class NumberDecl(BasicDecl):
 
     xref_equation = Property(Entity.expr.sub_equation)
 
+    is_constant_object = Property(True)
+
 
 class ObjectDecl(BasicDecl):
     """
@@ -8569,12 +8571,13 @@ class ObjectDecl(BasicDecl):
     @langkit_property(return_type=Bool)
     def is_constant_object():
         return Or(
-            Self.has_constant.as_bool,
+            Entity.has_constant.then(lambda c: c.as_bool),
 
             # A GenericFormalObjDecl is constant if the Mode is `in`
-            (
+            Entity.mode.then(
+                lambda m:
                 Self.parent.is_a(T.GenericFormalObjDecl)
-                & (Self.mode.is_a(Mode.alt_in, Mode.alt_default))
+                & (m.is_a(Mode.alt_in, Mode.alt_default))
             ),
 
             # Renaming clause is:
@@ -8719,9 +8722,9 @@ class ExtendedReturnStmtObjectDecl(ObjectDecl):
 class NoTypeObjectRenamingDecl(ObjectDecl):
     """
     Object declaration without subtype indication. This node has been
-    introduced to cover a special case for `ObjectDecl`, where `type_expr`
-    is made optional (AI12-0275), and therefore cannot fit in an
-    `ObjectDecl`.
+    introduced to cover a special case for ``ObjectDecl``, where
+    ``type_expr`` is made optional (AI12-0275), and therefore cannot
+    fit in an ``ObjectDecl``.
     """
     @langkit_property()
     def xref_equation():

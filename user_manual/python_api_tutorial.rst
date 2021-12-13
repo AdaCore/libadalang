@@ -239,3 +239,75 @@ deal with name resolution in Ada:
 
 You can find these and all the other properties documented in your favorite
 language's API reference.
+
+
+Find all references
+-------------------
+
+Source processing tools often need to look for all references to an entity. For
+instance: all references to an object declaration, all types that derive from a
+type ``T``, all calls to a subprogram ``P``, etc.
+
+Libadalang provides several properties to answer such queries:
+``p_find_all_references``, ``p_find_all_derived_types``, ``p_find_all_calls``,
+etc. All these properties have in common that they take as argument the list of
+analysis units in which to look for the references. For instance, in order to
+look for all the references to the ``v`` object declaration in units
+``foo.adb``, ``bar.adb`` and ``foobar.adb``, one may write:
+
+.. code-block:: ada
+
+   import libadalang as lal
+
+   context: lal.AnalysisContext = ...
+   v: lal.ObjectDecl = ...
+
+   v_first_id = v.f_ids[0]
+   units = [context.get_from_file("foo.adb"),
+           context.get_from_file("bar.adb"),
+           context.get_from_file("foobar.adb")]
+
+   print(f"Looking for references to {v_first_id}:")
+   for r in v_first_id.p_find_all_references(units):
+       print(f"{r.kind}: {r.ref}")
+
+The first step is to get the ``defining_name`` node on which to perform the
+query: in the ``A, B : Integer`` object declaration, for instance, this allows
+one to specifically query all references to ``A``. The second step is to select
+the set of units in which to look for references. The last step is to call the
+``p_find_all_references`` property and process its results.
+
+This property returns an array of ``RefResult`` values, which contain both:
+``ref`` (a ``BaseId`` node), which constitutes the reference to the defining
+name, and ``kind`` (a ``RefResultKind`` enumeration value), which gives more
+information about this reference: whether Libadalang successfully managed to
+compute this information, whether it had to do error recovery or completely
+failed (for instance due to incorrect analyzed source code).
+
+List of sources in a project
+----------------------------
+
+Even though there is no dedicated Python API to analyze GNAT project files,
+Libadalang provides a convenience function to compute such a list:
+``libadalang.SourceFiles.for_project``. This is especially useful to compute
+the analysis units to pass to the ``p_find_all_*`` properties (described in the
+previous section).
+
+This function takes the information necessary to load a project tree (name of
+the project file, scenario variables, etc.), a mode to determine the scope of
+the sources to consider (root project only, the whole project tree, the
+runtime, ...) and just returns the list of source files:
+
+.. code-block:: ada
+
+   import libadalang as lal
+
+   context: lal.AnalysisContext = ...
+   id: lal.DefiningName = ...
+
+   source_files = lal.SourceFiles.for_project("foo.gpr")
+   units = [context.get_from_file(f) for f in source_files]
+
+   print(f"Looking for references to {id}:")
+   for r in id.p_find_all_references(units):
+       print(f"{r.kind}: {r.ref}")

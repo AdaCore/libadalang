@@ -407,6 +407,84 @@ name resolution in Ada:
 You can find these and all the other properties documented in your favorite
 language's API reference.
 
+Find all references
+-------------------
+
+Source processing tools often need to look for all references to an entity. For
+instance: all references to an object declaration, all types that derive from a
+type ``T``, all calls to a subprogram ``P``, etc.
+
+Libadalang provides several properties to answer such queries:
+``P_Find_All_References``, ``P_Find_All_Derived_Types``, ``P_Find_All_Calls``,
+etc. All these properties have in common that they take as argument the list of
+analysis units in which to look for the references. For instance, in order to
+look for all the references to the ``V`` object declaration in units
+``foo.adb``, ``bar.adb`` and ``foobar.adb``, one may write:
+
+.. code-block:: ada
+
+    declare
+       Context    : constant Analysis_Context := ...;
+       V          : constant Object_Decl := ...;
+       V_First_Id : constant Defining_Name := V.F_Ids.List_Child (1);
+       Units      : constant Analysis_Unit_Array :=
+         (Context.Get_From_File ("foo.adb"),
+          Context.Get_From_File ("bar.adb"),
+          Context.Get_From_File ("foobar.adb"));
+    begin
+       Put_Line ("Looking for references to " & V_First_Id.Image & ":");
+       for R of V_First_Id.P_Find_All_References (Units) loop
+          Put_Line (Kind (R)'Image & " - " & Ref (R).Image);
+       end loop;
+    end;
+
+The first step is to get the ``Defining_Name`` node on which to perform the
+query: in the ``A, B : Integer`` object declaration, for instance, this allows
+one to specifically query all references to ``A``. The second step is to select
+the set of units in which to look for references. The last step is to call the
+``P_Find_All_References`` property and process its results.
+
+This property returns an array of ``Ref_Result`` values, which contain both:
+``Ref`` (a ``Base_Id`` node), which constitutes the reference to the defining
+name, and ``Kind`` (a ``Ref_Result_Kind`` enumeration value), which gives more
+information about this reference: whether Libadalang successfully managed to
+compute this information, whether it had to do error recovery or completely
+failed (for instance due to incorrect analyzed source code).
+
+List of sources in a project
+----------------------------
+
+Even though ``GNATCOLL.Projects`` provides facilities to get the list of source
+files in a project, this operation is so common for Libadalang tools that
+Libadalang provides a convenience function to compute such a list:
+``Libadalang.Project_Provider.Source_Files``. This is especially useful to
+compute the analysis units to pass to the ``P_Find_All_*`` properties
+(described in the previous section).
+
+This function takes a project tree (``GNATCOLL.Projects.Project_Tree``) and a
+mode to determine the scope of the sources to consider (root project only,
+the whole project tree, the runtime, ...) and just returns the list of source
+files:
+
+.. code-block:: ada
+
+   declare
+      Project : Project_Tree := ...;
+      Context : Analysis_Context := ...;
+      Id      : Defining_Name := ...;
+      Sources : constant Filename_Vectors.Vector := Source_Files (Project);
+      Units   : Analysis_Unit_Array (1 .. Sources.Last_Index);
+   begin
+      for I in Units'Range loop
+         Units (I) := Context.Get_From_File (To_String (Sources (I)));
+      end loop;
+
+      Put_Line ("Looking for references to " & Id.Image & ":");
+      for R of Id.P_Find_All_References (Units) loop
+          Put_Line (Kind (R)'Image & " - " & Ref (R).Image);
+      end loop;
+    end;
+
 .. _ada-generic-app:
 
 Ada generic application framework

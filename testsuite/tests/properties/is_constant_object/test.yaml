@@ -1,2 +1,2 @@
 driver: inline-playground
-input_sources: [constant.ads, constant.adb, renam.ads, renam.adb]
+input_sources: [constant.ads, constant.adb, renam.ads, renam.adb, discr.adb, accessconst.adb]

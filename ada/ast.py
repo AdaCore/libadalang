@@ -3634,6 +3634,8 @@ class DiscriminantSpec(BaseFormalParamDecl):
 
     xref_entry_point = Property(True)
 
+    is_constant_object = Property(True)
+
     @langkit_property()
     def xref_equation():
         return And(
@@ -8570,12 +8572,18 @@ class ObjectDecl(BasicDecl):
 
             # Renaming clause is:
             Entity.renaming_clause.then(
-                lambda rc: If(
+                lambda rc: Cond(
                     # Always constant if it renames a function_call
                     rc.renamed_object.is_call,
                     True,
+
+                    # Constant if the renamed object is an ExplicitDeref of an
+                    # access constant type.
+                    rc.renamed_object.is_a(T.ExplicitDeref),
+                    rc.renamed_object.is_constant,
+
                     # Constant if the renamed object is constant
-                    rc.renamed_object.referenced_decl.is_constant_object
+                    rc.renamed_object.is_constant
                 )
             )
         )
@@ -11839,6 +11847,14 @@ class Name(Expr):
         """
         return Self.sym_join(Self.as_symbol_array, String(".")).to_symbol
 
+    @langkit_property(kind=AbstractKind.abstract_runtime_check,
+                      return_type=Bool)
+    def is_constant():
+        """
+        Return whether this name denotes a constant value.
+        """
+        pass
+
 
 class DiscreteSubtypeName(Name):
     """
@@ -12926,6 +12942,16 @@ class ExplicitDeref(Name):
                 & Entity.parent_name_equation(typ, root),
                 default_val=LogicFalse()
             )
+        )
+
+    @langkit_property()
+    def is_constant():
+        # The dereference expression is constant if its access type is
+        # constant.
+        return origin.bind(
+            Self,
+            Entity.prefix.expression_type._.access_def
+            .cast(T.TypeAccessDef)._.has_constant.as_bool
         )
 
 

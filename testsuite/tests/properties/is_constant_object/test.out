@@ -1,3 +1,16 @@
+Eval 'node.p_is_constant_object' on node <ObjectDecl ["Var"] accessconst.adb:3:4-3:47>
+Result: False
+
+Eval 'node.p_is_constant_object' on node <ObjectDecl ["Const_Var_All"] accessconst.adb:6:4-6:44>
+Result: True
+
+Eval 'node.p_is_constant_object' on node <ObjectDecl ["Vbr"] accessconst.adb:10:4-10:38>
+Result: False
+
+Eval 'node.p_is_constant_object' on node <ObjectDecl ["Vbr_All"] accessconst.adb:13:4-13:38>
+Result: False
+
+
 Eval '[x.p_is_constant_object for x in node.f_params]' on node <Params constant.adb:2:3-5:20>
 Result: [True, True, False, False]
 
@@ -28,6 +41,16 @@ Result: True
 
 Eval '[x.p_is_constant_object for x in node.f_subp_decl.f_subp_spec.p_params]' on node <GenericSubpDecl ["P"] constant.ads:1:1-11:21>
 Result: [True, True, False, False]
+
+
+Eval 'node.find(lal.DiscriminantSpec).p_is_constant_object' on node <TypeDecl ["Person"] discr.adb:3:4-11:15>
+Result: True
+
+Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:17:4-17:56>
+Result: True
+
+Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:19:4-19:56>
+Result: True
 
 
 Eval 'node.p_is_constant_object' on node <ObjectDecl ["R4"] renam.adb:3:7-3:39>

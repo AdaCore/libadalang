@@ -16622,6 +16622,8 @@ class ExceptionHandler(BasicDecl):
 
     xref_entry_point = Property(True)
 
+    is_constant_object = Property(True)
+
 
 @abstract
 class Stmt(AdaNode):

@@ -4257,6 +4257,8 @@ class ComponentDecl(BaseFormalParamDecl):
 
     type_expression = Property(Self.component_def.type_expr.as_entity)
 
+    is_constant_object = Property(False)
+
     @langkit_property(return_type=Equation)
     def constrain_prefix(prefix=T.Expr):
         # Simple type equivalence
@@ -14026,6 +14028,10 @@ class Identifier(BaseId):
         )
     )
 
+    @langkit_property()
+    def is_constant():
+        return Entity.referenced_decl.is_constant_object
+
 
 class StringLiteral(BaseId):
     """
@@ -14825,6 +14831,19 @@ class ForLoopVarDecl(BasicDecl):
         )
 
     env_spec = EnvSpec(add_to_env_kv(Self.name_symbol, Self))
+
+    @langkit_property()
+    def is_constant_object():
+        # TODO: add support for Constant/Variable_Indexing
+        loop_spec = Var(Entity.parent.cast(ForLoopSpec))
+        return If(
+            # IterType.alt_of loops are constant if the iterable object is
+            # constant.
+            loop_spec.loop_type.is_a(IterType.alt_of),
+            loop_spec.iter_expr.cast_or_raise(Name).is_constant,
+            # IterType.alt_in loops are always constant
+            True
+        )
 
 
 class ForLoopSpec(LoopSpec):
@@ -16038,6 +16057,15 @@ class DottedName(Name):
                 & e.cast(BasicDecl.entity).constrain_prefix(Self.prefix)
                 & Self.type_bind_var(Self.type_var, Self.suffix.type_var)
             ))
+        )
+
+    @langkit_property()
+    def is_constant():
+        # A dotted name references a constant object if the prefix or the
+        # suffix does.
+        return Or(
+            Entity.prefix.is_constant,
+            Entity.suffix.is_constant
         )
 
 

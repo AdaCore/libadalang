@@ -53,6 +53,22 @@ Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_co
 Result: True
 
 
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:12:4-14:13>
+Result: True
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:17:4-19:13>
+Result: False
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:22:4-24:13>
+Result: True
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:27:4-29:13>
+Result: True
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:32:4-34:13>
+Result: True
+
+
 Eval 'node.p_is_constant_object' on node <ObjectDecl ["R4"] renam.adb:3:7-3:39>
 Result: True
 

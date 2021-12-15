@@ -11,6 +11,10 @@ Eval 'node.p_is_constant_object' on node <ObjectDecl ["Vbr_All"] accessconst.adb
 Result: False
 
 
+Eval 'node.p_referenced_decl().p_is_constant_object' on node <Id "E" choice.adb:12:15-12:16>
+Result: True
+
+
 Eval '[x.p_is_constant_object for x in node.f_params]' on node <Params constant.adb:2:3-5:20>
 Result: [True, True, False, False]
 

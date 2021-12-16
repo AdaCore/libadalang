@@ -57,6 +57,10 @@ Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_co
 Result: True
 
 
+Eval 'node.find(lal.AttributeRef).p_is_constant' on node <EntryDecl ["E"] index.ads:9:6-10:27>
+Result: True
+
+
 Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:12:4-14:13>
 Result: True
 

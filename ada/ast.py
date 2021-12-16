@@ -11850,7 +11850,7 @@ class Name(Expr):
         return Self.sym_join(Self.as_symbol_array, String(".")).to_symbol
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=Bool)
+                      public=True, return_type=Bool)
     def is_constant():
         """
         Return whether this name denotes a constant value.
@@ -15107,6 +15107,8 @@ class AttributeRef(Name):
     r_ref_var = UserField(type=LogicVar, public=False)
 
     relative_name = Property(Entity.prefix.relative_name)
+
+    is_constant = Property(True)
 
     designated_type_impl = Property(Cond(
         Self.attribute.sym == 'Class',

@@ -57,6 +57,10 @@ Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_co
 Result: True
 
 
+Eval 'node.find(lal.ExtendedReturnStmtObjectDecl).p_is_constant_object' on node <ExtendedReturnStmt ers.adb:4:4-4:44>
+Result: True
+
+
 Eval 'node.find(lal.AttributeRef).p_is_constant' on node <EntryDecl ["E"] index.ads:9:6-10:27>
 Result: True
 

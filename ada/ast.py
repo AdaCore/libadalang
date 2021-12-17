@@ -8587,7 +8587,10 @@ class ObjectDecl(BasicDecl):
                     # Constant if the renamed object is constant
                     rc.renamed_object.is_constant
                 )
-            )
+            ),
+
+            # Constant if the object is protected
+            Entity.type_expr.designated_type_decl.is_a(ProtectedTypeDecl)
         )
 
     @langkit_property(public=True, return_type=Bool)
@@ -14030,7 +14033,29 @@ class Identifier(BaseId):
 
     @langkit_property()
     def is_constant():
-        return Entity.referenced_decl.is_constant_object
+        return Or(
+            Entity.referenced_decl.is_constant_object,
+
+            # An instance of a protected variable is constant within
+            # a function body of the corresponding protected unit.
+            Entity.parents.find(
+                # We just check that the variable is used within a
+                # function first, then we ensure that it is protected
+                # by looking at its declaration, which should be inside
+                # the private part of the corresponding protected unit.
+                lambda n: n.cast(T.BaseSubpBody)._.subp_spec
+                .subp_kind.is_a(SubpKind.alt_function)
+            ).then(
+                lambda _: And(
+                    Entity.referenced_decl.is_in_private_part,
+                    Not(
+                        Entity.referenced_decl.parents.find(
+                            lambda n: n.is_a(T.ProtectedTypeDecl)
+                        ).is_null
+                    )
+                )
+            )
+        )
 
 
 class StringLiteral(BaseId):

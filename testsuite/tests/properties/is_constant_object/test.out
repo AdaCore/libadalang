@@ -81,6 +81,10 @@ Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt l
 Result: True
 
 
+Eval '[x.p_is_constant for x in node.findall(lal.QualExpr)]' on node <ForLoopStmt qual.adb:4:4-6:13>
+Result: [True, True]
+
+
 Eval 'node.p_is_constant_object' on node <ObjectDecl ["R4"] renam.adb:3:7-3:39>
 Result: True
 

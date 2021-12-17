@@ -15050,6 +15050,8 @@ class QualExpr(Name):
 
     relative_name = Property(Entity.prefix.relative_name)
 
+    is_constant = Property(True)
+
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation(root=(T.Name, No(T.Name))):
         return And(

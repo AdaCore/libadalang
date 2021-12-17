@@ -11612,18 +11612,6 @@ class Name(Expr):
         """
     )
 
-    @langkit_property(return_type=T.Bool)
-    def is_simple_name():
-        """
-        Returns whether Self is a BaseId or a DottedName composed only of
-        BaseIds.
-        """
-        return Self.match(
-            lambda _=T.BaseId: True,
-            lambda dt=T.DottedName: dt.prefix.is_simple_name,
-            lambda _: False
-        )
-
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
                       return_type=LogicVar)
     def ref_var():
@@ -12546,66 +12534,10 @@ class CallExpr(Name):
                         )
                     ),
                     Entity.name.sub_equation
-                )) | If(Entity.name.is_simple_name,
-                        Entity.operator_equation,
-                        LogicFalse())
+                ))
                 # TODO: Bug here: if operator equation, then parent equation is
                 # not called!
             )
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def operator_equation():
-        """
-        Equation for built-in operators.
-        """
-        rel_name = Var(Entity.name.name_symbol)
-
-        return Entity.params._.unpacked_params.then(
-            lambda params: Let(
-                lambda base_name_eq=Entity.name.base_name.then(
-                    lambda n: n.sub_equation,
-                    default_val=LogicTrue()
-                ): Cond(
-                    (params.length == 2)
-                    & rel_name.any_of('"="',  '"="', '"/="', '"<"', '"<="',
-                                      '">"', '">="'),
-                    Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                       params.at(1).assoc.expr.type_var)
-                    & Self.bool_bind(Self.type_var)
-                    & base_name_eq,
-
-
-                    (params.length == 2)
-                    & rel_name.any_of(
-                        '"and"', '"or"', '"xor"', '"abs"', '"*"',
-                        '"/"', '"mod"', '"rem"', '"+"', '"-"', '"&"'
-                    ),
-                    Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                       params.at(1).assoc.expr.type_var)
-                    & Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                         Self.type_var)
-                    & base_name_eq,
-
-
-                    (params.length == 2) & (rel_name == '"**"'),
-                    Self.type_bind_val(params.at(1).assoc.expr.type_var,
-                                       Self.universal_int_type)
-                    & Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                         Self.type_var)
-                    & base_name_eq,
-
-
-                    (params.length == 1)
-                    & rel_name.any_of('"+"', '"-"', '"not"', '"abs"'),
-                    Self.type_bind_var(params.at(0).assoc.expr.type_var,
-                                       Self.type_var)
-                    & base_name_eq,
-
-                    LogicFalse()
-                )
-            ),
-            default_val=LogicFalse()
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

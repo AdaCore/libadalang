@@ -81,6 +81,17 @@ Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt l
 Result: True
 
 
+Eval 'node.f_return_expr.p_is_constant' on node <ReturnStmt protect.adb:10:10-10:19>
+Result: True
+
+Eval 'node.f_return_expr.p_is_constant' on node <ReturnStmt protect.adb:16:10-16:19>
+Result: False
+
+
+Eval 'node.p_is_constant_object' on node <ObjectDecl ["PO"] protect.ads:11:4-11:11>
+Result: True
+
+
 Eval '[x.p_is_constant for x in node.findall(lal.QualExpr)]' on node <ForLoopStmt qual.adb:4:4-6:13>
 Result: [True, True]
 

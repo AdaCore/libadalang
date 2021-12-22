@@ -24,16 +24,28 @@ Result: True
 Eval 'node.p_is_constant_object' on node <ObjectDecl ["D"] constant.adb:10:4-10:21>
 Result: False
 
-Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:13:4-13:11>
+Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:20:4-20:11>
 Result: False
 
-Eval 'node.f_expr.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:13:4-13:11>
+Eval 'node.f_expr.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:20:4-20:11>
 Result: True
 
-Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:16:4-16:11>
+Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:23:4-23:11>
 Result: False
 
-Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:18:4-18:23>
+Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:25:4-25:23>
+Result: False
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:28:4-28:14>
+Result: True
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:30:4-30:14>
+Result: False
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:34:4-34:19>
+Result: True
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:36:4-36:19>
 Result: False
 
 
@@ -50,10 +62,13 @@ Result: [True, True, False, False]
 Eval 'node.find(lal.DiscriminantSpec).p_is_constant_object' on node <TypeDecl ["Person"] discr.adb:3:4-11:15>
 Result: True
 
-Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:17:4-17:56>
+Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:18:4-18:56>
 Result: True
 
-Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:19:4-19:56>
+Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:20:4-20:56>
+Result: True
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt discr.adb:22:4-22:23>
 Result: True
 
 
@@ -128,6 +143,37 @@ Eval 'node.p_is_constant_object' on node <ObjectDecl ["Tab1"] renam.ads:25:4-25:
 Result: True
 
 Eval 'node.p_is_constant_object' on node <NoTypeObjectRenamingDecl ["Tab2"] renam.ads:28:4-28:25>
+Result: True
+
+
+Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:15:4-15:31>
+Result: False
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:15:4-15:31>
+Result: True
+
+Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:19:4-19:30>
+Result: False
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:19:4-19:30>
+Result: False
+
+Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:23:4-23:41>
+Result: False
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:23:4-23:41>
+Result: True
+
+Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:27:4-27:40>
+Result: False
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:27:4-27:40>
+Result: False
+
+Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:31:4-31:23>
+Result: False
+
+Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:31:4-31:23>
 Result: True
 
 

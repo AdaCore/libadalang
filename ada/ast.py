@@ -11918,6 +11918,27 @@ class CallExpr(Name):
     relative_name = Property(Entity.name.relative_name)
 
     @langkit_property()
+    def is_constant():
+        return Cond(
+            # Case for type conversion: CallExpr has one
+            # argument and its name denotes a type declaration.
+            And(
+                Entity.params.length == 1,
+                Entity.name.referenced_decl.is_a(T.TypeDecl)
+            ),
+            Entity.params.at(0).expr.match(
+                # View conversion: constant if the object is constant (value
+                # conversion is always constant).
+                lambda n=Name: n.is_constant,
+                lambda _: True
+            ),
+
+            # General case that handles subprogram call, array
+            # subcomponent access expression, and array slice.
+            Entity.referenced_decl.is_constant_object
+        )
+
+    @langkit_property()
     def designated_env():
         typ = Var(Entity.name.name_designated_type)
 
@@ -14033,8 +14054,16 @@ class Identifier(BaseId):
 
     @langkit_property()
     def is_constant():
+        rd = Var(Entity.referenced_decl)
         return Or(
-            Entity.referenced_decl.is_constant_object,
+            # Check if the referenced declaration is constant (filter out
+            # subprograms as it makes no sense to call is_constant_object
+            # on them).
+            If(
+                Not(rd.is_subprogram),
+                rd.is_constant_object,
+                False
+            ),
 
             # An instance of a protected variable is constant within
             # a function body of the corresponding protected unit.
@@ -14047,9 +14076,9 @@ class Identifier(BaseId):
                 .subp_kind.is_a(SubpKind.alt_function)
             ).then(
                 lambda _: And(
-                    Entity.referenced_decl.is_in_private_part,
+                    rd.is_in_private_part,
                     Not(
-                        Entity.referenced_decl.parents.find(
+                        rd.parents.find(
                             lambda n: n.is_a(T.ProtectedTypeDecl)
                         ).is_null
                     )
@@ -14173,6 +14202,8 @@ class NumLiteral(SingleTokNode):
     """
 
     annotations = Annotations(repr_name="Num")
+
+    is_constant = Property(True)
 
 
 class RealLiteral(NumLiteral):

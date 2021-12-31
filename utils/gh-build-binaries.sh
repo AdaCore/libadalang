@@ -21,6 +21,8 @@ pip install -r langkit/REQUIREMENTS.dev
 pip install jsonschema
 pip install langkit/
 
+export MACOSX_DEPLOYMENT_TARGET=10.11
+
 alr --non-interactive get xmlada
 cd xmlada*
 ./configure --prefix=$prefix ${DEBUG:+--enable-build=Debug}
@@ -29,6 +31,12 @@ cd ..
 
 make -C gprbuild_ prefix=$prefix BUILD=${DEBUG:-production} GPRBUILD_OPTIONS="-cargs:C -Dst_mtim=st_mtimespec -gargs" libgpr.build.{shared,static} libgpr.install.{shared,static}
 BUILD=`echo $DEBUG| tr [a-z] [A-Z]`  # Convert to uppercase
+
+# On MacOS ld links unneeded process-wrappers.o into ALS executable and
+# includes ___darwin_check_fd_set_overflow symbols, that prevents execution
+# on older Mac OS X. See #875 in als repo.
+rm -rfv gnatcoll-core/src/os/unix/process-wrappers.c
+
 make -C gnatcoll-core prefix=$prefix BUILD=${BUILD:-PROD} LIBRARY_TYPES="${LIBRARY_TYPES/,/ }" build install
 python gnatcoll-bindings/iconv/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=$LIBRARY_TYPES
 python gnatcoll-bindings/iconv/setup.py install

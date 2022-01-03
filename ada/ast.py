@@ -7968,6 +7968,8 @@ class SubpDecl(ClassicSubpDecl):
     """
     aspects = Field(type=T.AspectSpec)
 
+    is_constant_object = Property(True)
+
 
 class AbstractSubpDecl(ClassicSubpDecl):
     """
@@ -8572,22 +8574,8 @@ class ObjectDecl(BasicDecl):
                 & (m.is_a(Mode.alt_in, Mode.alt_default))
             ),
 
-            # Renaming clause is:
-            Entity.renaming_clause.then(
-                lambda rc: Cond(
-                    # Always constant if it renames a function_call
-                    rc.renamed_object.is_call,
-                    True,
-
-                    # Constant if the renamed object is an ExplicitDeref of an
-                    # access constant type.
-                    rc.renamed_object.is_a(T.ExplicitDeref),
-                    rc.renamed_object.is_constant,
-
-                    # Constant if the renamed object is constant
-                    rc.renamed_object.is_constant
-                )
-            ),
+            # Renaming clause is constant if the renamed object is constant
+            Entity.renaming_clause._.renamed_object.is_constant,
 
             # Constant if the object is protected
             Entity.type_expr.designated_type_decl.is_a(ProtectedTypeDecl)

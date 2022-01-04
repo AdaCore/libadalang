@@ -15595,7 +15595,7 @@ class QualExpr(Name):
 
     @langkit_property(return_type=Equation)
     def xref_equation():
-        typ = Entity.prefix.designated_type_impl
+        typ = Var(Entity.prefix.designated_type_impl)
 
         return (
             Entity.suffix.sub_equation

@@ -32,4 +32,5 @@ TypeDecl[1:1-1:50]
 |  |  |  |  OpDoubleDot[1:41-1:43]
 |  |  |  |f_right:
 |  |  |  |  Real[1:44-1:49]: 360.0
+|f_default_type: <null>
 |f_aspects: <null>

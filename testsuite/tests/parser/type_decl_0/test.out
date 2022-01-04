@@ -257,4 +257,5 @@ TypeDecl[1:1-18:12]
 |  |  |  |  |  |  |  |  AdaNodeList[16:29-16:34]
 |  |  |  |  |  |  |  |  |  NullComponentDecl[16:29-16:34]
 |  |  |  |  |  |  |  |f_variant_part: <null>
+|f_default_type: <null>
 |f_aspects: <null>

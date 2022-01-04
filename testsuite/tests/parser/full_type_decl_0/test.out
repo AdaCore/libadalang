@@ -23,4 +23,5 @@ TypeDecl[1:1-1:21]
 |  |  |  |  DefiningName[1:18-1:19]
 |  |  |  |  |f_name:
 |  |  |  |  |  Id[1:18-1:19]: D
+|f_default_type: <null>
 |f_aspects: <null>

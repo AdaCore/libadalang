@@ -19,4 +19,5 @@ TypeDecl[1:1-1:24]
 |  |  |f_name:
 |  |  |  Id[1:22-1:23]: B
 |  |  |f_constraint: <null>
+|f_default_type: <null>
 |f_aspects: <null>

@@ -31,6 +31,7 @@ CompilationUnit[1:1-4:14]
 |  |  |  |  |  |  |  |  |  DefiningName[2:18-2:21]
 |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[2:18-2:21]: Red
+|  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  EnumRepClause[3:4-3:28]
 |  |  |  |  |  |f_type_name:

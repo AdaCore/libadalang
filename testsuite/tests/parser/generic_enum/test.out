@@ -69,6 +69,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  DefiningName[4:26-4:27]
 |  |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  |  Id[4:26-4:27]: C
+|  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  GenericPackageDecl[5:4-10:10]
 |  |  |  |  |  |f_formal_part:

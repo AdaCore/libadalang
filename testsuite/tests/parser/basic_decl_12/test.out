@@ -49,6 +49,7 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  |  |  Id[1:64-1:69]: Class
 |  |  |  |  |  |  |  |  |  |f_args: <null>
 |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |f_aspects: <null>

@@ -28,4 +28,5 @@ TypeDecl[1:1-1:27]
 |  |f_record_extension: <null>
 |  |f_has_with_private:
 |  |  WithPrivateAbsent[1:26-1:26]
+|f_default_type: <null>
 |f_aspects: <null>

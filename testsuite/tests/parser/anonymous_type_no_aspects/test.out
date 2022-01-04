@@ -59,6 +59,7 @@ CompilationUnit[1:1-8:75]
 |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[4:17-4:25]: unsigned
 |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |f_aspects:
 |  |  |  AspectSpec[5:3-8:74]

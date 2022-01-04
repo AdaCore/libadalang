@@ -63,4 +63,5 @@ TypeDecl[1:1-1:81]
 |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_variant_part: <null>
+|f_default_type: <null>
 |f_aspects: <null>

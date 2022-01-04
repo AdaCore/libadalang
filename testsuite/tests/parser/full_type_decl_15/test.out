@@ -16,4 +16,5 @@ TypeDecl[1:1-1:25]
 |  |  |  |  OpDoubleDot[1:19-1:21]
 |  |  |  |f_right:
 |  |  |  |  Int[1:22-1:24]: 12
+|f_default_type: <null>
 |f_aspects: <null>

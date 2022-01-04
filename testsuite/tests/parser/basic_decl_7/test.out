@@ -8,4 +8,5 @@ TypeDecl[1:1-1:18]
 |  ModIntTypeDef[1:11-1:17]
 |  |f_expr:
 |  |  BoxExpr[1:15-1:17]
+|f_default_type: <null>
 |f_aspects: <null>

@@ -4694,6 +4694,7 @@ class BaseTypeDecl(BasicDecl):
                 has_not_null=T.NotNullAbsent.new(),
                 type_decl=Self
             ),
+            default_type=No(T.Name),
             aspects=No(T.AspectSpec)
         ).cast(T.BaseTypeDecl).as_entity
 
@@ -5807,6 +5808,7 @@ class TypeDecl(BaseTypeDecl):
     """
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
+    default_type = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
 
     is_iterable_type = Property(
@@ -6084,7 +6086,10 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property(return_type=Equation)
     def xref_equation():
         # TODO: Handle discriminants
-        return Entity.type_def.sub_equation
+        return Entity.type_def.sub_equation & Entity.default_type.then(
+            lambda dt: dt.sub_equation,
+            default_val=LogicTrue()
+        )
 
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 

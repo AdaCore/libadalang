@@ -20,4 +20,5 @@ TypeDecl[1:1-1:69]
 |  |  |  |  OpDoubleDot[1:61-1:63]
 |  |  |  |f_right:
 |  |  |  |  Id[1:64-1:68]: High
+|f_default_type: <null>
 |f_aspects: <null>

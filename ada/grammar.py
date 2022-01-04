@@ -314,7 +314,7 @@ A.add_rules(
     anonymous_type_decl=AnonymousTypeDecl(
         Null(A.defining_id), Null(A.discriminant_part),
         Or(A.array_type_def, A.access_def),
-        Null(A.aspect_spec)
+        Null(A.name), Null(A.aspect_spec)
     ),
 
     type_decl=Or(
@@ -331,6 +331,7 @@ A.add_rules(
                     "private"
                 ),
             ),
+            Opt("or", "use", A.name),
             A.aspect_spec, sc()
         ),
         IncompleteTaggedTypeDecl(

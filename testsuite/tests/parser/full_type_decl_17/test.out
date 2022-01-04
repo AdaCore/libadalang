@@ -39,4 +39,5 @@ TypeDecl[1:1-1:51]
 |  |  |  |f_name:
 |  |  |  |  Id[1:43-1:50]: Integer
 |  |  |  |f_constraint: <null>
+|f_default_type: <null>
 |f_aspects: <null>

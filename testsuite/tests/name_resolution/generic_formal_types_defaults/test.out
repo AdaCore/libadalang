@@ -1,0 +1,54 @@
+Analyzing set.adb
+#################
+
+Resolving xrefs for node <TypeDecl ["Item_Count"] set.adb:4:7-4:50>
+*******************************************************************
+
+Expr: <BoxExpr set.adb:4:32-4:34>
+  type:       None
+Expr: <Id "Natural" set.adb:4:42-4:49>
+  references: <DefiningName __standard:5:11-5:18>
+  type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+
+Resolving xrefs for node <GenericPackageInstantiation ["New_Pck1"] set.adb:10:4-10:63>
+**************************************************************************************
+
+Expr: <Id "Pck" set.adb:10:28-10:31>
+  references: <DefiningName set.adb:7:12-7:15>
+  type:       None
+Expr: <Id "Item_Type" set.adb:10:33-10:42>
+  references: <DefiningName set.adb:3:12-3:21>
+  type:       None
+Expr: <Id "Integer" set.adb:10:46-10:53>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <Id "I" set.adb:10:55-10:56>
+  references: <DefiningName set.adb:6:7-6:8>
+  type:       None
+Expr: <Int set.adb:10:60-10:61>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+
+Resolving xrefs for node <GenericPackageInstantiation ["New_Pck2"] set.adb:13:4-13:55>
+**************************************************************************************
+
+Expr: <Id "Pck" set.adb:13:28-13:31>
+  references: <DefiningName set.adb:7:12-7:15>
+  type:       None
+Expr: <Id "Integer" set.adb:13:33-13:40>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <Id "Integer" set.adb:13:42-13:49>
+  references: <DefiningName __standard:4:8-4:15>
+  type:       None
+Expr: <UnOp set.adb:13:51-13:53>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <OpMinus "-" set.adb:13:51-13:52>
+  references: None
+  type:       None
+Expr: <Int set.adb:13:52-13:53>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+
+
+Done.

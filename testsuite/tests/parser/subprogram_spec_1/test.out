@@ -65,6 +65,7 @@ SubpSpec[1:1-1:65]
 |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  Id[1:42-1:49]: Integer
 |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_default_expr: <null>
 |  |  |  |f_aspects: <null>

@@ -12,4 +12,5 @@ TypeDecl[1:1-1:52]
 |  |  ParentList[1:38-1:51]
 |  |  |  Id[1:38-1:42]: Ilol
 |  |  |  Id[1:47-1:51]: Imdr
+|f_default_type: <null>
 |f_aspects: <null>

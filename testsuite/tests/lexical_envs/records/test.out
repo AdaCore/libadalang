@@ -82,6 +82,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  |f_variant_part: <null>
+|  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  TypeDecl[7:4-10:15]
 |  |  |  |  |  |f_name:
@@ -173,6 +174,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  |f_variant_part: <null>
+|  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |f_private_part: <null>
 |  |  |f_end_name:

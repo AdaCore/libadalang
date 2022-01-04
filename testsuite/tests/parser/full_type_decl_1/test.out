@@ -23,4 +23,5 @@ TypeDecl[1:1-1:27]
 |  |  |  |  DefiningName[1:22-1:25]
 |  |  |  |  |f_name:
 |  |  |  |  |  Chr[1:22-1:25]: 'D'
+|f_default_type: <null>
 |f_aspects: <null>

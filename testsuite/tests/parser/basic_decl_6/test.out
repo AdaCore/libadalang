@@ -10,4 +10,5 @@ TypeDecl[1:1-1:20]
 |  |  RangeSpec[1:11-1:19]
 |  |  |f_range:
 |  |  |  BoxExpr[1:17-1:19]
+|f_default_type: <null>
 |f_aspects: <null>

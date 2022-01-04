@@ -11,4 +11,5 @@ TypeDecl[1:1-1:30]
 |  |f_digits:
 |  |  BoxExpr[1:27-1:29]
 |  |f_range: <null>
+|f_default_type: <null>
 |f_aspects: <null>

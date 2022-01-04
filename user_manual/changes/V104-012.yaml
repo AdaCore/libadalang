@@ -1,0 +1,6 @@
+type: new-feature
+title: Defaults for generic formal types (Ada 2022)
+description: |
+    Allow default subtypes to be specified in generic formal type
+    parameters.
+date: 2022-01-04

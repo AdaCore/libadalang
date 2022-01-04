@@ -143,6 +143,7 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[6:30-6:34]: Item
 |  |  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_type: <null>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_default_expr: <null>
 |  |  |  |f_renaming_clause: <null>

@@ -331,5 +331,21 @@ Expr: <Int test_float_attrs.adb:50:35-50:36>
   references: None
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 
+Resolving xrefs for node <ObjectDecl ["R"] test_float_attrs.adb:53:4-53:40>
+***************************************************************************
+
+Expr: <Id "Boolean" test_float_attrs.adb:53:8-53:15>
+  references: <DefiningName __standard:3:8-3:15>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:53:19-53:39>
+  references: None
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Float" test_float_attrs.adb:53:19-53:24>
+  references: <DefiningName __standard:14:8-14:13>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Machine_Rounds" test_float_attrs.adb:53:25-53:39>
+  references: None
+  type:       None
+
 
 Done.

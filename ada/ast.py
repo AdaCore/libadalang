@@ -12649,8 +12649,6 @@ class AggregateAssoc(BasicAssoc):
             agg.in_aspect('Depends') | agg.in_aspect('Refined_Depends'),
             Entity.depends_assoc_equation,
 
-            agg.in_aspect('Depends'), Entity.depends_assoc_equation,
-
             agg.in_aspect('Test_Case'),
             Entity.test_case_assoc_equation,
 

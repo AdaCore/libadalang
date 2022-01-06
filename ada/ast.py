@@ -12595,8 +12595,7 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def subscriptable_type_equation(typ=T.BaseTypeDecl.entity,
-                                    constrain_params=(Bool, True)):
+    def subscriptable_type_equation(typ=T.BaseTypeDecl.entity):
         """
         Construct an equation verifying if Self is conformant to the type
         designator passed in parameter.
@@ -12635,11 +12634,8 @@ class CallExpr(Name):
 
                     # Or a regular array access
                     Entity.params._.logic_all(
-                        lambda i, pa: If(
-                            constrain_params,
-                            pa.expr.sub_equation,
-                            LogicTrue()
-                        )
+                        lambda i, pa:
+                        pa.expr.sub_equation
                         & atd.indices.constrain_index_expr(pa.expr, i)
                     )
                     & Self.type_bind_val(Self.type_var, atd.comp_type)
@@ -12677,9 +12673,8 @@ class CallExpr(Name):
                 ret_type=fn.subp_spec_or_null.return_type,
                 param=Entity.params.at(0).expr:
 
-                Self.type_bind_val(Self.type_var, ret_type)
-                & If(constrain_params,
-                     param.sub_equation, LogicTrue())
+                Bind(Self.type_var, ret_type)
+                & param.sub_equation
                 & Self.type_bind_val(param.type_var,
                                      formal.formal_decl.formal_type)
             )),

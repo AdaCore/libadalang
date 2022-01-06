@@ -12531,7 +12531,6 @@ class CallExpr(Name):
                             )
                         )
                     ),
-                    Bind(Self.ref_var, Self.name.ref_var),
                     Entity.name.sub_equation
                 )) | If(Entity.name.is_simple_name,
                         Entity.operator_equation,

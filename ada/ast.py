@@ -179,6 +179,7 @@ class AdaNode(ASTNode):
             "Default_Initial_Condition",
             "Contract_Cases", "Test_Case",
             "Global", "Refined_Global", "Refined_State",
+            "Stable_Properties",
             "Depends", "Refined_Depends",
             "Predicate_Failure"
         )
@@ -8574,11 +8575,59 @@ class AspectAssoc(AdaNode):
             # in `Convention => C` to the first visible entity named C.
             Entity.id.name_is('Convention'), LogicTrue(),
 
+            Entity.id.name_is('Stable_Properties'),
+            Entity.stable_properties_assoc_equation,
+
             # Default resolution: For the moment we didn't encode specific
             # resolution rules for every aspect, so by default at least try to
             # name resolve the expression.
             Entity.expr.then(lambda e: e.sub_equation, default_val=LogicTrue())
             | LogicTrue()
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def stable_properties_assoc_equation():
+        """
+        Equation for the case where this is an aspect assoc for a
+        Stable_Properties aspect.
+        """
+        # Get the list of names defined by the aspect
+        identifiers = Var(
+            Entity.expr.match(
+                # AspectAssoc is of the form: (name1, name2, ...)
+                lambda a=T.Aggregate: a.assocs.map(lambda i: i.expr),
+                # AspectAssoc is of the form: (name)
+                lambda pe=T.ParenExpr: pe.expr.singleton,
+                lambda _: No(T.Expr.entity).singleton
+            ).map(
+                lambda e:
+                # Ignore the `not` keyword (useless for nameres)
+                e.cast(T.UnOp).then(
+                    lambda uo: If(uo.op.is_a(Op.alt_not), uo.expr, e),
+                    default_val=e
+                )
+            ).map(
+                # Names defined by the assoc can only be `Identifier`s
+                lambda e: e.cast_or_raise(T.Identifier)
+            )
+        )
+
+        return identifiers.logic_all(
+            lambda i: Self.env_get(
+                env,
+                i.sym,
+                lookup=LK.recursive,
+                from_node=Self.origin_node,
+                categories=all_categories
+            ).filter(
+                # It can only refer to a SubpDecl or an ExprFunction
+                lambda f: f.is_a(T.SubpDecl, T.ExprFunction)
+                & i.denotes_the_property_function(
+                    f.cast(T.BasicDecl).subp_spec_or_null
+                )
+            ).logic_any(
+                lambda f: Bind(i.ref_var, f)
+            )
         )
 
     @langkit_property(return_type=T.String)
@@ -14041,6 +14090,45 @@ class BaseId(SingleTokNode):
                 default_val=items.filter(lambda e: Not(e.is_a(BaseTypeDecl)))
             )
         ))
+
+    @langkit_property(return_type=Bool)
+    def denotes_the_property_function(subp_spec=T.BaseSubpSpec.entity):
+        # Return true whether this node can refer to a property function
+        # detoned by `subp_spec`. (see RM 7.3.4 about stable properties of a
+        # type). This equation has to be called in the scope of the
+        # `Stable_Properties` aspect name resolution.
+
+        primitive_types = Var(subp_spec.primitive_subp_types())
+
+        # ``subp_decl`` is a property function of this node if it comes from a
+        # `Stable_Properties` AspectAssoc and:
+        return And(
+            # It only has one single parameter (mode in but not checked here)
+            subp_spec.params.length == 1,
+
+            # It matches the type for which the Stable_Properties is defined.
+            # There are two cases:
+            Entity.parent_basic_decl.match(
+                # Either the Stable_Properties aspect is defined within a
+                # TypeDecl.
+                lambda td=T.TypeDecl: Not(
+                        primitive_types.find(
+                            lambda t: t == td
+                        ).is_null
+                    ),
+                # Or within a SubpDecl
+                lambda sd=T.SubpDecl: Not(
+                        sd.subp_spec.primitive_subp_types().filter(
+                            lambda t1: Not(
+                                primitive_types.find(
+                                    lambda t2: t1 == t2
+                                ).is_null
+                            )
+                        ).is_null
+                    ),
+                lambda _: False
+            )
+        )
 
     @langkit_property()
     def xref_equation():

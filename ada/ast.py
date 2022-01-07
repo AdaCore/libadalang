@@ -16414,6 +16414,8 @@ class BaseSubpBody(Body):
 
     defining_names = Property(Entity.subp_spec.name.singleton)
 
+    is_constant_object = Property(True)
+
     @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
     def defining_env():
         return If(

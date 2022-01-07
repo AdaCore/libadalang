@@ -96,6 +96,10 @@ Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt l
 Result: True
 
 
+Eval 'node.p_is_constant_object' on node <ObjectDecl ["My_2"] pack.adb:7:4-7:38>
+Result: True
+
+
 Eval 'node.f_return_expr.p_is_constant' on node <ReturnStmt protect.adb:10:10-10:19>
 Result: True
 

@@ -38,7 +38,7 @@ Expr: <Int p.adb:10:37-10:39>
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Str ""ha"" p.adb:10:41-10:45>
   references: None
-  type:       None
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <PragmaNode p.adb:13:4-13:45>
 ******************************************************
@@ -59,7 +59,46 @@ Expr: <Int p.adb:13:35-13:37>
   type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
 Expr: <Str ""hi"" p.adb:13:39-13:43>
   references: None
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <PragmaNode p.adb:16:4-16:69>
+******************************************************
+
+Expr: <Id "Assert" p.adb:16:11-16:17>
+  references: None
   type:       None
+Expr: <RelationOp p.adb:16:19-16:24>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "I" p.adb:16:19-16:20>
+  references: <DefiningName p.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpEq "=" p.adb:16:21-16:22>
+  references: None
+  type:       None
+Expr: <Int p.adb:16:23-16:24>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <ParenExpr p.adb:16:26-16:67>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <IfExpr p.adb:16:27-16:66>
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <RelationOp p.adb:16:30-16:35>
+  type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "I" p.adb:16:30-16:31>
+  references: <DefiningName p.adb:4:4-4:5>
+  type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLt "<" p.adb:16:32-16:33>
+  references: None
+  type:       None
+Expr: <Int p.adb:16:34-16:35>
+  references: None
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+Expr: <Str ""too low"" p.adb:16:41-16:50>
+  references: None
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""too high"" p.adb:16:56-16:66>
+  references: None
+  type:       <TypeDecl ["String"] __standard:105:3-105:57>
 
 
 Done.

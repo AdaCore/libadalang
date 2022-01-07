@@ -12,4 +12,8 @@ Primitives inherited by <TypeDecl ["U"] test.adb:36:7-36:50>:
   <NullSubpDecl ["G"] test.adb:6:7-6:35>
   <NullSubpDecl ["A"] test.adb:22:7-22:35>
   <NullSubpDecl ["B"] test.adb:26:7-26:35>
+Primitives inherited by <TypeDecl ["U"] test.adb:52:7-52:60>:
+  <NullSubpDecl ["A"] test.adb:42:7-42:35>
+  <NullSubpDecl ["C"] test.adb:46:7-46:35>
+  <NullSubpDecl ["B"] test.adb:53:7-53:35>
 Done

@@ -12,4 +12,7 @@ begin
 
    pragma Compile_Time_Error (J < 15, "hi");
    pragma Test_Statement;
+
+   pragma Assert (I = 9, (if I < 9 then "too low" else "too high"));
+   pragma Test_Statement;
 end P;

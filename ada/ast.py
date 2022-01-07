@@ -8008,8 +8008,17 @@ class Pragma(AdaNode):
                 Entity.id.name_is('Compile_Time_Warning'),
                 Entity.id.name_is('Compile_Time_Error'),
             ),
-            Let(lambda expr=Entity.args.at(0).assoc_expr:
-                expr.sub_equation & Self.bool_bind(expr.type_var)),
+            Let(
+                lambda expr=Entity.args.at(0).assoc_expr:
+                expr.sub_equation & Self.bool_bind(expr.type_var)
+                & Entity.args.at(1)._.assoc_expr.then(
+                    lambda msg:
+                    msg.sub_equation
+                    & Self.type_bind_val(msg.type_var,
+                                         Self.std_entity('String')),
+                    default_val=LogicTrue()
+                )
+            ),
 
             Entity.id.name_is('Unreferenced'),
             Entity.args.logic_all(

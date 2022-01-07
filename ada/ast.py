@@ -5754,6 +5754,23 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
+    @langkit_property(return_type=Bool)
+    def has_base_type(target=T.BaseTypeDecl):
+        """
+        Return whether the given type is amongst the bases types (direct or
+        indirect) of self.
+
+        .. note:: Unlike `is_derived_type`, we don't care here about the
+            rebindings of `target`, meaning any instance of `target` will be
+            accepted.
+        """
+        return Or(
+            Self == target,
+            Entity.base_types.any(
+                lambda bt: bt.has_base_type(target)
+            )
+        )
+
 
 @synthetic
 class ClasswideTypeDecl(BaseTypeDecl):
@@ -6232,21 +6249,21 @@ class TypeDecl(BaseTypeDecl):
 
         # Make sure to return only one instance of each primitive: the most
         # "overriding" one.
-        return origin.bind(Self.origin_node, bds.filter(
-            lambda a: bds.all(lambda b: Let(
-                lambda
-                a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl),
-                b_prim=b.info.md.primitive.as_bare_entity.cast(BaseTypeDecl):
+        return bds.filter(lambda a: Let(
+            lambda
+            a_spec=a.subp_spec_or_null,
+            a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl):
 
+            bds.all(lambda b: Or(
                 # If two primitives have the same signature, keep the one on
                 # the most derived type.
-                Or(
-                    Not(a.subp_spec_or_null.match_signature(
-                        b.subp_spec_or_null,
-                        match_name=True, use_entity_info=True
-                    )),
-                    a_prim.is_derived_type(b_prim)
-                )
+                Not(a_spec.match_signature(
+                    b.subp_spec_or_null,
+                    match_name=True, use_entity_info=True
+                )),
+                Not(a_prim.has_base_type(
+                    b.info.md.primitive.cast(BaseTypeDecl)
+                ).is_null)
             ))
         ))
 

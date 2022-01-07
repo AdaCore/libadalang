@@ -35,6 +35,23 @@ procedure Test is
    package T is
       type U is new S.U and I.W with null record;
    end T;
+
+   generic
+   package G is
+      type T is tagged null record;
+      procedure A (X : T) is null;
+
+      type I is interface;
+      procedure B (X : I) is null;
+      procedure C (X : I) is null;
+   end G;
+
+   package G_Test is
+      package G_Inst is new G;
+
+      type U is new G_Inst.T and G_Inst.I with null record;
+      procedure B (X : U) is null;
+   end G_Test;
 begin
    null;
 end Test;

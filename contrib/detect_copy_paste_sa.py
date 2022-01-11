@@ -50,9 +50,9 @@ def suffix_array(s, k=256, n=None):
         n = len(s)
         s += [0, 0, 0]
 
-    n0 = (n + 2) / 3
-    n1 = (n + 1) / 3
-    n2 = n / 3
+    n0 = int((n + 2) / 3)
+    n1 = int((n + 1) / 3)
+    n2 = int(n / 3)
     n02 = n0 + n2
 
     s12 = [0] * (n02 + 3)
@@ -79,9 +79,9 @@ def suffix_array(s, k=256, n=None):
             c1 = s[SA12[i] + 1]
             c2 = s[SA12[i] + 2]
         if SA12[i] % 3 == 1:
-            s12[SA12[i] / 3] = name
+            s12[int(SA12[i] / 3)] = name
         else:
-            s12[SA12[i] / 3 + n0] = name
+            s12[int(SA12[i] / 3 + n0)] = name
 
     if name < n02:
         SA12 = suffix_array(s12, name, n02)
@@ -102,9 +102,9 @@ def suffix_array(s, k=256, n=None):
             if SA12[t] < n0 else (SA12[t] - n0) * 3 + 2
         j = SA0[p]
         if (SA12[t] < n0 and (s[i], s12[SA12[t] + n0]) <=
-                (s[j], s12[j / 3])) or \
+                (s[j], s12[int(j / 3)])) or \
                 (s[i], s[i + 1], s12[SA12[t] - n0 + 1]) <= \
-                (s[j], s[j + 1], s12[j / 3 + n0]):
+                (s[j], s[j + 1], s12[int(j / 3) + n0]):
             SA.append(i)
             t += 1
             if t == n02:
@@ -431,7 +431,7 @@ def do_files(files, args):
     # Display the results
     if copy_pastes:
         print('%4s %4s: %s' % ('LINE', 'SIZE', 'CHUNKS'))
-    for chunks in copy_pastes.itervalues():
+    for chunks in copy_pastes.values():
         for chunk in sorted(chunks, key=lambda x: x[0].size):
             print('%4d %4d: %-40s (%4d,%4d) ~= %-40s (%4d, %4d)' % (
                 len(chunk[0]),

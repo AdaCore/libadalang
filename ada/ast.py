@@ -7456,6 +7456,20 @@ class FormalDiscreteTypeDef(TypeDef):
 
     is_discrete_type = Property(True)
 
+    @langkit_property(memoized=True)
+    def predefined_operators():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        bool_type = Var(Self.bool_type.node)
+        return [
+            Self.create_binop_assoc('"<"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"<="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('"/="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">"', self_type, self_type, bool_type),
+            Self.create_binop_assoc('">="', self_type, self_type, bool_type),
+            Self.create_binop_assoc('".."', self_type, self_type, self_type),
+        ]
+
 
 class NullComponentDecl(AdaNode):
     """

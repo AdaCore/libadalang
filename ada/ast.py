@@ -6839,8 +6839,8 @@ class PrivateTypeDef(TypeDef):
     def predefined_operators():
         return If(
             Self.has_limited.as_bool,
-            Self.predefined_equality_operators,
-            No(T.env_assoc.array)
+            No(T.env_assoc.array),
+            Self.predefined_equality_operators
         )
 
 

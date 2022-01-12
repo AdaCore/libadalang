@@ -1,0 +1,7 @@
+type: new-feature
+title: Most declarations allows aspect specifications
+description: |
+    As stated by the 2022 Ada standard revision, this new feature allows aspect
+    specifications on most declarations. It concerns extended return object
+    declarations, discriminant specifications, and entry index specifications.
+date: 2022-01-12

@@ -15,6 +15,7 @@ KnownDiscriminantPart[1:1-1:26]
 |  |  |  |  Id[1:6-1:13]: Integer
 |  |  |  |f_constraint: <null>
 |  |  |f_default_expr: <null>
+|  |  |f_aspects: <null>
 |  |  DiscriminantSpec[1:15-1:25]
 |  |  |f_ids:
 |  |  |  DefiningNameList[1:15-1:16]
@@ -29,3 +30,4 @@ KnownDiscriminantPart[1:1-1:26]
 |  |  |  |  Id[1:19-1:25]: String
 |  |  |  |f_constraint: <null>
 |  |  |f_default_expr: <null>
+|  |  |f_aspects: <null>

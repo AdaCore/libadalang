@@ -227,7 +227,7 @@ A.add_rules(
 
     discriminant_spec=DiscriminantSpec(
         List(A.defining_id, sep=","), ":", A.type_expr,
-        Opt(":=", A.expr)
+        Opt(":=", A.expr), Opt(A.aspect_spec)
     ),
 
     discr_spec_list=List(A.discriminant_spec, sep=";"),
@@ -805,7 +805,8 @@ A.add_rules(
     entry_body=EntryBody(
         "entry", A.defining_id,
         Opt(EntryIndexSpec("(", "for", A.defining_id, "in",
-                           A.discrete_subtype_definition, ")")),
+                           A.discrete_subtype_definition,
+                           Opt(A.aspect_spec), ")")),
         EntryCompletionFormalParams(Opt(A.param_specs)),
         A.aspect_spec,
         "when", A.expr,

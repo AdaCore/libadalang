@@ -106,6 +106,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  Id[7:22-7:29]: Natural
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |f_type_def:
 |  |  |  |  |  |  RecordTypeDef[7:34-10:14]
 |  |  |  |  |  |  |f_has_abstract:

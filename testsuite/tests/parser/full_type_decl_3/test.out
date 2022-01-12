@@ -21,6 +21,7 @@ TypeDecl[1:1-1:65]
 |  |  |  |  |  Id[1:19-1:26]: Integer
 |  |  |  |  |f_constraint: <null>
 |  |  |  |f_default_expr: <null>
+|  |  |  |f_aspects: <null>
 |f_type_def:
 |  RecordTypeDef[1:31-1:64]
 |  |f_has_abstract:

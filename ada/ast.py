@@ -3623,7 +3623,7 @@ class DiscriminantSpec(BaseFormalParamDecl):
     ids = Field(type=T.DefiningName.list)
     type_expr = Field(type=T.TypeExpr)
     default_expr = Field(type=T.Expr)
-    aspects = NullField()
+    aspects = Field(type=T.AspectSpec)
 
     env_spec = EnvSpec(add_to_env(Self.env_mappings(Self.ids, Self)))
 
@@ -17609,7 +17609,7 @@ class EntryIndexSpec(BasicDecl):
 
     id = Field(type=T.DefiningName)
     subtype = Field(type=T.AdaNode)
-    aspects = NullField()
+    aspects = Field(type=T.AspectSpec)
 
     env_spec = EnvSpec(add_to_env_kv(Entity.name_symbol, Self))
 

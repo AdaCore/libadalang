@@ -1,0 +1,13 @@
+Eval 'node.find(lal.ParamSpecList)[1].p_has_aspect('Fail')' on node <ExprFunction ["Foo"] aspec.adb:2:4-3:33>
+Result: False
+
+Eval 'node.find(lal.ParamSpecList)[1].p_has_aspect('Unreferenced')' on node <ExprFunction ["Foo"] aspec.adb:2:4-3:33>
+Result: True
+
+Eval 'node.find(lal.ParamSpecList)[1].p_get_aspect('Fail')' on node <ExprFunction ["Foo"] aspec.adb:2:4-3:33>
+Result: <Aspect exists=False node=None value=None>
+
+Eval 'node.find(lal.ParamSpecList)[1].p_get_aspect('Unreferenced')' on node <ExprFunction ["Foo"] aspec.adb:2:4-3:33>
+Result: <Aspect exists=True node=<AspectAssoc aspec.adb:2:48-2:60> value=None>
+
+

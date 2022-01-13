@@ -1,7 +1,7 @@
 with GNATCOLL.Projects;
 with GNATCOLL.VFS;
 
-with Libadalang.Unit_Files.Projects;
+with Libadalang.Project_Provider;
 
 package body Helpers is
    package VFS renames GNATCOLL.VFS;
@@ -15,31 +15,29 @@ package body Helpers is
 
       Project : GPR.Project_Tree_Access;
 
-      function Load_Project return LAL.Unit_Provider_Access;
+      function Load_Project return LAL.Unit_Provider_Reference;
 
       ------------------
       -- Load_Project --
       ------------------
 
-      function Load_Project return LAL.Unit_Provider_Access is
-         use Libadalang.Unit_Files.Projects;
+      function Load_Project return LAL.Unit_Provider_Reference is
+         use Libadalang.Project_Provider;
 
-         Env      : GPR.Project_Environment_Access;
-         Provider : Project_Unit_Provider_Access;
+         Env : GPR.Project_Environment_Access;
       begin
          --  Load the project and create a unit provider wrapping it
          Project := new GPR.Project_Tree;
          GPR.Initialize (Env);
          Project.Load (VFS.Create (VFS."+" (Project_Path)));
-         Provider := new Project_Unit_Provider_Type'
-           (Create (Project, Env, True));
 
-         return LAL.Unit_Provider_Access (Provider);
+         return Create_Project_Unit_Provider
+           (Project, Env => Env, Is_Project_Owner => True);
       end Load_Project;
 
-      Provider : constant LAL.Unit_Provider_Access := Load_Project;
-      Context  : constant LAL.Analysis_Context := LAL.Create
-        (Unit_Provider => LAL.Unit_Provider_Access_Cst (Provider));
+      Provider : constant LAL.Unit_Provider_Reference := Load_Project;
+      Context  : constant LAL.Analysis_Context := LAL.Create_Context
+        (Unit_Provider => Provider);
       Files    : VFS.File_Array_Access;
 
    begin

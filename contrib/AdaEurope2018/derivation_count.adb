@@ -5,6 +5,7 @@ with Ada.Containers.Hashed_Maps;
 with Ada.Text_IO;
 
 with Libadalang.Analysis;
+with Libadalang.Common;
 
 with Helpers;
 
@@ -12,10 +13,11 @@ procedure Derivation_Count is
 
    package TIO renames Ada.Text_IO;
    package LAL renames Libadalang.Analysis;
-   use type LAL.Ada_Node_Kind_Type;
+   package LALCO renames Libadalang.Common;
+   use type LALCO.Ada_Node_Kind_Type;
 
    function Hash (TD : LAL.Base_Type_Decl) return Ada.Containers.Hash_Type is
-     (TD.Hash);
+     (LAL.Ada_Node'Class (TD).Hash);
 
    package Derivation_Histogram_Maps is new Ada.Containers.Hashed_Maps
      (Key_Type        => LAL.Base_Type_Decl,
@@ -27,13 +29,14 @@ procedure Derivation_Count is
    --  Mapping of tagged type declarations to the number of times this type
    --  declaration is derived.
 
-   function Process_Node (Node : LAL.Ada_Node'Class) return LAL.Visit_Status;
+   function Process_Node (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status;
 
    ------------------
    -- Process_Node --
    ------------------
 
-   function Process_Node (Node : LAL.Ada_Node'Class) return LAL.Visit_Status is
+   function Process_Node (Node : LAL.Ada_Node'Class) return LALCO.Visit_Status
+   is
       use Derivation_Histogram_Maps;
 
       Base     : LAL.Base_Type_Decl;
@@ -43,15 +46,15 @@ procedure Derivation_Count is
    begin
       --  Skip all nodes that are not the derivation of a tagged type, or that
       --  are "with private".
-      if Node.Kind /= LAL.Ada_Derived_Type_Def then
-         return LAL.Into;
+      if Node.Kind /= LALCO.Ada_Derived_Type_Def then
+         return LALCO.Into;
       end if;
 
       Derived := Node.As_Derived_Type_Def;
       if Derived.F_Has_With_Private.P_As_Bool
-        or else not Derived.P_Is_Tagged_Type
+        or else not Derived.Parent.As_Type_Decl.P_Is_Tagged_Type
       then
-         return LAL.Into;
+         return LALCO.Into;
       end if;
 
       --  Get the canonical view for the type from which Derived is derived
@@ -64,7 +67,7 @@ procedure Derivation_Count is
          Histogram.Replace_Element (Cur, Element (Cur) + 1);
       end if;
 
-      return LAL.Into;
+      return LALCO.Into;
    end Process_Node;
 
    Units : Helpers.Unit_Vectors.Vector;

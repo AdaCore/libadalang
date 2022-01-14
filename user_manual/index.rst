@@ -17,7 +17,6 @@ Contents:
    python_api_ref
    examples/index.rst
    api_changes
-   design_documents/index.rst
 
 Indices and tables
 ==================

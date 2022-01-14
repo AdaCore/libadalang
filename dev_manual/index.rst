@@ -9,6 +9,7 @@ Contents:
 
    testsuite
    dev_doc
+   design_documents/index.rst
 
 Indices and tables
 ==================

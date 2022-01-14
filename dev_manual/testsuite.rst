@@ -16,12 +16,16 @@ testcase is a directory that contains a ``test.yaml`` file.
 Running the testsuite
 *********************
 
+Unlike the build of Libadalang itself, the testsuite framework requires Python
+3.8 or later versions as well as the `e3-testsuite
+<https://github.com/AdaCore/e3-testsuite/>`_ Python library.
+
 The quickest and easiest way to get the work done is running using the ``test``
 command from ``manage.py``:
 
 .. code-block:: shell
 
-    ada/manage.py test
+    python manage.py test
 
 This is actually a wrapper around the "real" testsuite framework. The need for
 such a wrapper arises from the fact that you have to properly setup your
@@ -39,13 +43,13 @@ testsuite:
 
 .. code-block:: shell
 
-    eval `ada/manage.py setenv`
+    eval `python manage.py setenv`
 
 Once this is done, you can execute:
 
 .. code-block:: shell
 
-    testsuite/testsuite.py
+    python testsuite/testsuite.py
 
 This will run all the testcases and then output a summary (number of
 success/failures). If you want to run only a subset of tests, for instance only
@@ -53,30 +57,34 @@ testcases for the C API, run:
 
 .. code-block:: shell
 
-    testsuite/testsuite.py tests/c-api
+    python testsuite/testsuite.py tests/c_api
 
-You want to take advantage of your multi-core processor? Run:
+If you want to run tests under Valgrind, add the ``--valgrind`` option:
 
 .. code-block:: shell
 
-    testsuite/testsuite.py -j8
+    python testsuite/testsuite.py --valgrind
 
-And voilà! The testsuite will run 8 tests in parallel! If you want to know more
-about available options, just get some help:
+It is possible to run tests that check the Libadalang Python bindings using a
+different Python interpreter. For instance, to check them against Python 3.7,
+run:
+
+.. code-block:: shell
+
+    python manage.py test --with-python=python3.7
+
+To know more about available options, use the ``--help`` option.
 
 .. code-block:: shell
 
     testsuite/testsuite.py --help
 
-As a final note, you can stick to ``ada/manage.py test`` command and still pass
-additional options to the testsuite: just prepend options with the ``--``
-separator. For instance:
+As a final note, you can keep using the ``ada/manage.py test`` command and
+still pass additional options to the testsuite:
 
 .. code-block:: shell
 
-    ada/manage.py test -- -j8
-
-Here you go!
+    ./manage.py test --valgrind
 
 
 Python testcases

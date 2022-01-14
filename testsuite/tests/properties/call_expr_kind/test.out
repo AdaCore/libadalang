@@ -1,0 +1,22 @@
+Eval 'node.f_call.p_kind' on node <CallStmt kind.adb:26:7-26:14>
+Result: 'call'
+
+Eval 'node.f_dest.f_prefix.p_kind' on node <AssignStmt kind.adb:33:4-33:31>
+Result: 'type_conversion'
+
+Eval 'node.f_expr.f_prefix.p_kind' on node <AssignStmt kind.adb:33:4-33:31>
+Result: 'type_conversion'
+
+Eval 'node.f_expr.p_kind' on node <AssignStmt kind.adb:37:4-37:23>
+Result: 'type_conversion'
+
+Eval 'node.f_expr.p_kind' on node <AssignStmt kind.adb:40:4-40:14>
+Result: 'array_index'
+
+Eval 'node.f_expr.p_kind' on node <AssignStmt kind.adb:43:4-43:19>
+Result: 'array_slice'
+
+Eval 'node.f_expr.p_kind' on node <AssignStmt kind.adb:46:4-46:16>
+Result: 'call'
+
+

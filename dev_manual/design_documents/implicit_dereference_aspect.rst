@@ -21,16 +21,16 @@ wrong to use the equality property to handle type/subtype coercion:
 2. In the new solver, those equations will just be impossible to use, so we
    must get rid of those unsoundesses before we make the switch.
 
-High level solution for expected subtype (TODO fill out)
---------------------------------------------------------
+High level solution for expected subtype (TODO: fill out)
+---------------------------------------------------------
 
 The high level solution for the expected subtype problem is to have two
 variable for call actuals, one for the real subtype, and one for the expected
 subtype, and use a predicate between the two variables for the subtype
 correspondence. TODO fill out when we start implementing.
 
-High level solution for implicit dereference aspect (TODO fill out)
--------------------------------------------------------------------
+High level solution for implicit dereference aspect (TODO: fill out)
+--------------------------------------------------------------------
 
 In the ARM, the static semantics/name resolution rules for this aspect state
 that basically as soon as a name refers to an object with this aspect, then it
@@ -39,6 +39,7 @@ is the type specified by the implicit dereference aspect, else, it is the
 original type.
 
 The high level solution for the implicit dereference aspect would be to encode
-that disjunction in the name resolution of the `Name` node. This does not
-appear to be very difficult, appart from the necessary plumbing. TODO fill out
-when we start implementing.
+that disjunction in the name resolution of the ``Name`` node. This does not
+appear to be very difficult, appart from the necessary plumbing.
+
+TODO: fill out when we start implementing.

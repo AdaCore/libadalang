@@ -4,9 +4,9 @@ Name Resolution of Char Literals
 Current problem
 ---------------
 
-Currently, a char literal that is not user defined will resolve to `None`.
+Currently, a char literal that is not user defined will resolve to ``None``.
 This is because we cannot add all existing char literals in the lexical
-environments due to their number (think about `Wide_Wide_Character`).
+environments due to their number (think about ``Wide_Wide_Character``).
 
 Proposed Solution
 -----------------

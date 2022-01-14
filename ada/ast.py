@@ -11967,6 +11967,21 @@ class TargetName(Name):
         )
 
 
+class CallExprKind(Enum):
+    """
+    Kind of CallExpr type.
+
+    - ``call`` is when the CallExpr is a procedure or function call.
+    - ``array_slice``, ``array_index`` is when the CallExpr is in fact an
+      array slice or an array subcomponent access expression, respectively.
+    - ``type_conversion`` is when the CallExpr is a type conversion.
+    """
+    call = EnumValue()
+    array_slice = EnumValue()
+    array_index = EnumValue()
+    type_conversion = EnumValue()
+
+
 class CallExpr(Name):
     """
     Represent a syntactic call expression.
@@ -11986,15 +12001,41 @@ class CallExpr(Name):
 
     relative_name = Property(Entity.name.relative_name)
 
-    @langkit_property()
-    def is_constant():
+    @langkit_property(public=True)
+    def kind():
+        """
+        Return whether this expression is a subprogram call, an array
+        subcomponent access expression, an array slice or a type conversion.
+        """
         return Cond(
+            Entity.is_call,
+            CallExprKind.call,
+
+            Entity.is_array_slice,
+            CallExprKind.array_slice,
+
+            origin.bind(
+                Self.origin_node,
+                Not(Entity.name.expression_type.array_def_with_deref.is_null)
+            ),
+            CallExprKind.array_index,
+
             # Case for type conversion: CallExpr has one
             # argument and its name denotes a type declaration.
             And(
                 Entity.params.length == 1,
                 Entity.name.referenced_decl.is_a(T.TypeDecl)
             ),
+            CallExprKind.type_conversion,
+
+            # Should not happen
+            PropertyError(CallExprKind, "undetermined CallExpr kind")
+        )
+
+    @langkit_property()
+    def is_constant():
+        return Cond(
+            Entity.kind == CallExprKind.type_conversion,
             Entity.params.at(0).expr.match(
                 # View conversion: constant if the object is constant (value
                 # conversion is always constant).

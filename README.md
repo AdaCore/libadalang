@@ -20,29 +20,14 @@ Libadalang does not (at the moment) provide full legality checks for the Ada
 language.  If you want such a functionality, you’ll need to use a full Ada
 compiler, such as GNAT.
 
+While it can be used in Ada (2012+) and Python (3.7+), Libadalang also provides
+a low-level C API (meant to write bindings to other languages) and an
+experimental OCaml API.
+
 If you have problems building or using Libadalang, or want to suggest
 enhancements, please open [a GitHub
 issue](https://github.com/AdaCore/libadalang/issues/). We also gladly accept
 [pull requests](https://github.com/AdaCore/libadalang/pulls)!
-
-High level architecture
------------------------
-
-Libadalang is a library that can be used from Ada (2012+) and Python, amongst
-other languages (we also have a C API, and an experimental OCaml API). Most of
-its code is Ada code, generated from the language specification that you can
-find in [ada](ada).
-
-*WARNING*: You will *not* find the generated code in the repository. You have
-to generate it yourself. We're thinking about some plans to auto-generate the
-code and put it in another repo/branch.
-
-It is using the [Langkit](https://github.com/AdaCore/langkit) framework as a
-basis, and is at the time of writing the main project developped using it.
-
-The language specification, while embedded in Python syntax, is mostly its own
-language, the Langkit DSL, that is used to specify the part of Ada syntax and
-semantics that are of interest to us.
 
 Status of the project
 ---------------------
@@ -55,7 +40,7 @@ of Libadalang, you'll need to build from one of the stable branches, such as
 Libadalang currently:
 
 * Is able to parse 100% of Ada 2012 syntax, and presents a well formed tree for
-  it.
+  it. Support for Ada 2022 constructs is a work in progress.
 
 * Is able to recover most common syntax errors. The error messages are
   behind those of GNAT, but the recovery will potentially work better in many
@@ -64,81 +49,34 @@ Libadalang currently:
 * Provides name resolution/navigation.
 
 * Is able to handle some very simple incremental processing. Reparsing a source
-  A and querying xref on a source B that depends on A is theoretically
-  supported, and works in most cases, but this use case is not yet thoroughly
-  tested.
+  A and querying xref on a source B that depends on A is handled efficiently.
 
-Quick guide to use Libadalang
------------------------------
+How to use Libadalang
+---------------------
 
-In order to use Libadalang, one has first to generate its code and to build it.
-You can read and run manually the steps in the [User
-Manual](user_manual/building.rst). After this, you can either use Libadalang in
-Ada with the `libadalang.gpr` project file, or in Python just import the
-`libadalang` module.
+There are several ways to get Libadalang:
 
-Testing
--------
+* Build it using the [Libadalang Alire
+  crate](https://alire.ada.dev/crates/libadalang).  This will only let you
+  build the current and the previous releases (i.e. not the development
+  version), but is by far the easiest way, as [Alire](https://alire.ada.dev/)
+  automatically deals with dependencies.
 
-Unlike the build of Libadalang itself, the testsuite framework requires Python
-3.8 or later versions. Make sure you have the `build/bin` directory in your
-PATH so the test cases can access the `parse` program. Then, in the top-level
-directory, run:
+* Build it from Git repository sources: install all dependencies, generate its
+  code and to build it. Please refer to the [User
+  Manual](user_manual/building.rst) for detailed instructions.
 
-    $ python testsuite/testsuite.py
+* **Important**: if you are an AdaCore customer with a GNAT Pro subscription,
+  please get Libadalang through GNATtracker, as this is the only version of
+  Libadalang that is covered by your support contract.
 
-If you want to learn more about this test driver's options (for instance to run
-tests under Valgrind), add a `-h` flag.
+To learn how to use the API from Libadalang's the development branch, you can
+read the [AdaCore Live
+Docs](http://docs.adacore.com/live/wave/libadalang/html/libadalang_ug/index.html)
+(updated daily).
 
-Because adding `build/bin` to the `PATH` is not very convenient, `manage.py`
-provides a shortcut to run the testsuite:
-
-    $ python manage.py test
-
-It runs the testsuite with the `--enable-color` option. It is also possible to
-pass other arguments to `testsuite.py`. For instance, if you want to run under
-a debugger only the `factor_0` test case, execute:
-
-    $ python manage.py test -- -g testsuite/tests/parser/factor_0
-
-Note that it is possible to run tests that check the Libadalang Python bindings
-using a different Python interpreter. For instance, to check them against
-Python 3.7, run:
-
-    $ python manage.py test --with-python=python3.7
-
-Documentation
--------------
-
-Libadalang comes with two separate Sphinx-based documentations: the User Manual
-and the Developer Manual.
-
-The first one lies in the ``user_manual`` directory and the second one in the
-``dev_manual`` directory. You can consult them as text files or build them. For
-instance, to generate HTML documents, run from the top directory:
-
-```sh
-$ make -C user_manual html
-$ make -C dev_manual html
-```
-
-And then open the generated files in your favorite browser:
-
-```sh
-$ $BROWSER user_manual/_build/html/index.html
-$ $BROWSER dev_manual/_build/html/index.html
-```
-
-Note that, as the User Manual relies on Ada and Python code introspection, you
-need a working Libadalang Python API in order to build it. See [the
-corresponding procedure](user_manual/building.rst) for more details.
-
-You can also read Libadalang's documentation corresponding to its `stable`
-branch directly from the [AdaCore Live
-Docs](http://docs.adacore.com/live/wave/libadalang/html/libadalang_ug/index.html).
-
-Playing
--------
+Quick overview
+--------------
 
 Libadalang has a Python API, for easy prototyping and explorative programming.
 It ships with an executable named `playground`, that allows you to analyze Ada
@@ -169,7 +107,7 @@ there are multiple.
 
 Enjoy!
 
-In [1]: print u.root.text
+In [1]: print(u.root.text)
 with Ada.Text_IO; use Ada.Text_IO;
 
 procedure Main is
@@ -177,10 +115,10 @@ begin
     Put_Line ("Hello World");
 end Main;
 
-In [2]: print u.root.findall(mdl.CallExpr)
+In [2]: print(u.root.findall(mdl.CallExpr))
 [<CallExpr 5:5-5:29>]
 
-In [3]: print u.root.findall(mdl.CallExpr)[0].text
+In [3]: print(u.root.findall(mdl.CallExpr)[0].text)
 Put_Line ("Hello World")
 ~~~
 
@@ -229,3 +167,16 @@ instead of ASIS:
 6. Libadalang is not tied to a particular compiler version. This combined with
    its staged and error tolerant design means that you can use it to detect
    bugs in Ada compilers/tools.
+
+Implementation
+--------------
+
+The Libadalang project is based on the
+[Langkit](https://github.com/AdaCore/langkit) framework, so its
+Ada/Python/C/OCaml source code is not checked in this repository: it is instead
+generated from the Langkit language specification that you can find in
+[ada/](ada/). This language specification, while embedded in Python syntax, is
+mostly its own language, the Langkit DSL, that is used to specify the part of
+
+See the [Developer Manual](dev_manual) for more information about Libadalang's
+development.

@@ -2415,8 +2415,8 @@ class BasicDecl(AdaNode):
             lambda d: d.info.md.primitive.cast(BaseTypeDecl).as_bare_entity
         ).unique)
 
-        # Among this set of type, find the one which is not derived from any
-        # of the other, i.e. the base-most type on which the original
+        # Among this set of type, find the ones which are not derived from any
+        # of the others, i.e. the base-most types on which the original
         # subprogram is declared.
         return base_types.filter(
             lambda t: Not(base_types.any(
@@ -2426,7 +2426,7 @@ class BasicDecl(AdaNode):
                 )
             ))
         ).map(
-            # Get back the subprogram
+            # Get back the subprograms declared on the base types
             lambda root_type: base_decls.find(
                 lambda d: d.info.md.primitive == root_type.node
             )

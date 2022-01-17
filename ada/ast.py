@@ -2353,7 +2353,10 @@ class BasicDecl(AdaNode):
         seen if we need to extend it.
         """
         return Entity.is_subprogram.then(
-            lambda _: Entity.subp_spec_or_null.then(
+            # We use `without_md` below because we don't want to take into
+            # account Entity's metadata, as the result of this property
+            # shouldn't depend upon how this node was retrieved.
+            lambda _: Entity.without_md.cast(BasicDecl).subp_spec_or_null.then(
                 lambda spec:
 
                 # We don't want the canonicalized primitive type, but the most

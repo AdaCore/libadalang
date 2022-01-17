@@ -1,0 +1,6 @@
+type: bugfix
+title: Fix behavior of ``P_Base_Subp_Declarations``
+description: |
+    This property would previously misbehave when called on a subprogram node
+    that was retrieved through a previous call to `P_Base_Subp_Declarations`.
+date: 2022-01-24

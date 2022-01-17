@@ -14869,7 +14869,7 @@ class ForLoopVarDecl(BasicDecl):
     """
 
     id = Field(type=T.DefiningName)
-    id_type = Field(type=T.SubtypeIndication)
+    id_type = Field(type=T.TypeExpr)
     aspects = NullField()
 
     defining_names = Property(Entity.id.singleton)

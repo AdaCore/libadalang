@@ -1,0 +1,6 @@
+type: new-feature
+title: Access definition for loop param subtype indication
+description: |
+    As stated by the 2022 Ada standard revision, this new feature adds support
+    for access definition in loop parameter subtype indication.
+date: 2022-01-18

@@ -16,7 +16,7 @@ def centered(text):
 
 
 name = 'Libadalang'
-copyright = 'Copyright (C) 2014-2021, AdaCore'
+copyright = 'Copyright (C) 2014-2022, AdaCore'
 
 header = """{}
 

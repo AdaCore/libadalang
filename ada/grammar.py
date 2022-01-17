@@ -1060,7 +1060,7 @@ A.add_rules(
     ),
 
     for_loop_param_spec=ForLoopSpec(
-        ForLoopVarDecl(A.defining_id, Opt(":", A.subtype_indication)),
+        ForLoopVarDecl(A.defining_id, Opt(":", A.type_expr)),
         IterType.alt_in("in") | IterType.alt_of("of"),
         Reverse("reverse"),
         A.discrete_range | A.discrete_subtype_indication | A.name,

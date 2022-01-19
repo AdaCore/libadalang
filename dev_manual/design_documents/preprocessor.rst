@@ -186,6 +186,25 @@ The preprocessing logic to build on top of this looks trivial: replace
 depending on the corresponding otions), replace references to defined symbols
 with associated values and return back the resulting source buffer.
 
+To summarize:
+
+1. The preprocessor uses Langkit's file reader mechanism:
+
+   a. It first reads the input source file and decodes it as an ISO-8859-1
+      source buffer.
+
+   b. It then runs Libadalang's standard lexer.
+
+   c. It then runs a hand written parser over the token stream, to localize
+      preprocessing directives and symbol references. This builds a
+      "preprocessing tree".
+
+   d. Finally, it creates a new source buffer to contain the expanded code and
+      runs over the preprocessing tree to fill the buffer.
+
+2. The standard Langkit unit parsing takes the decoded buffer and runs its
+   regular lexing/parsing process.
+
 
 Limitations
 -----------

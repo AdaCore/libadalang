@@ -1,0 +1,2 @@
+driver: inline-playground
+input_sources: [pkg.ads, pkg.adb, pkg-der.ads, pkg-der.adb]

@@ -5755,6 +5755,19 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=Bool)
+    def has_base_type_impl(target=T.BaseTypeDecl):
+        """
+        Implementation of `has_base_type`, which assumes that `target` has
+        been canonicalized.
+        """
+        return Or(
+            Entity.canonical_type.node == target,
+            Entity.base_types.any(
+                lambda bt: bt.has_base_type(target)
+            )
+        )
+
+    @langkit_property(return_type=Bool)
     def has_base_type(target=T.BaseTypeDecl):
         """
         Return whether the given type is amongst the bases types (direct or
@@ -5764,11 +5777,8 @@ class BaseTypeDecl(BasicDecl):
             rebindings of `target`, meaning any instance of `target` will be
             accepted.
         """
-        return Or(
-            Self == target,
-            Entity.base_types.any(
-                lambda bt: bt.has_base_type(target)
-            )
+        return Entity.has_base_type_impl(
+            target.as_bare_entity.canonical_type.node
         )
 
 

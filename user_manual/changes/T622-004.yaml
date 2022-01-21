@@ -1,0 +1,10 @@
+type: new-feature
+title: Add the new property ``Name.call_params``
+description: |
+    This property, when called on a ``Name`` denoting a call expression, returns
+    an array of parameter-expression pair (the ``ParamActual`` struct is used to
+    hold this pair of ``DefiningName`` and ``Expr`` nodes). It returns all the
+    parameters of the function, even those that are not provided explicitly by
+    the call. In that case, the expression associated with that parameter is the
+    default expression defined by the function/procedure specification.
+date: 2022-01-21

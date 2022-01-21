@@ -11119,6 +11119,16 @@ class RefResult(Struct):
     kind = UserField(type=RefResultKind, default_value=RefResultKind.no_ref)
 
 
+class ParamActual(Struct):
+    """
+    Data structure used by zip_with_params and Name.call_params properties.
+    Associates an expression (the actual) to a formal param declaration (the
+    parameter).
+    """
+    param = UserField(type=T.DefiningName.entity)
+    actual = UserField(type=T.Expr.entity)
+
+
 @abstract
 class Name(Expr):
     """
@@ -12042,6 +12052,73 @@ class Name(Expr):
         Return whether this name denotes a constant value.
         """
         pass
+
+    @langkit_property(public=True, return_type=ParamActual.array)
+    def call_params():
+        """
+        Returns an array of pairs, associating formal parameters to actual or
+        default expressions.
+        """
+        return If(
+            Entity.is_call,
+
+            Let(
+                lambda offset=If(Entity.is_dot_call, 1, 0),
+                # Get the actuals of this call expression if any
+                aparams=Entity.cast(CallExpr)._.params,
+                # Create an array of pairs from the subprogram formals and
+                # default expressions.
+                dparams=Entity.referenced_decl()
+                .subp_spec_or_null._.params.mapcat(
+                    lambda i, p: p.defining_names.map(
+                        lambda n: ParamActual.new(
+                            param=n,
+                            actual=If(
+                                # Handling dot notation (first actual is
+                                # denoted by the prefix of the dot call).
+                                And(Entity.is_dot_call, i == 0),
+
+                                Entity.cast(CallExpr).then(
+                                    lambda c: c.name.cast(DottedName).prefix,
+                                    default_val=Entity.cast(DottedName).prefix
+                                ),
+
+                                p.default_expr
+                            )
+                        )
+                    )
+                ):
+
+                # Create a new array by updating the actuals if the call
+                # expression provides some.
+                aparams.then(
+                    lambda ap: dparams.map(
+                        lambda i, dp: ParamActual.new(
+                            param=dp.param,
+                            # Search if a named param expression exists for
+                            # this formal param in the call assoc list.
+                            actual=If(
+                                # Handling dot notation (do not update first
+                                # actual).
+                                And(Entity.is_dot_call, i == 0),
+
+                                dp.actual,
+
+                                ap.actual_for_param_at(
+                                    dp.param, i-offset, dp.actual
+                                )
+                            )
+                        )
+                    ),
+                    default_val=dparams
+                )
+            ),
+
+            PropertyError(
+                T.ParamActual.array,
+                "this name doesn't reference a call expression"
+            )
+        )
 
 
 class DiscreteSubtypeName(Name):
@@ -12984,21 +13061,42 @@ class MultiDimArrayAssoc(AggregateAssoc):
     pass
 
 
-class ParamActual(Struct):
-    """
-    Data structure used by zip_with_params property. Associates an expression
-    (the actual) to a formal param declaration (the parameter).
-    """
-    param = UserField(type=T.DefiningName.entity)
-    actual = UserField(type=T.Expr.entity)
-
-
 class AssocList(BasicAssoc.list):
     """
     List of associations.
     """
 
-    @langkit_property()
+    @langkit_property(return_type=T.Expr.entity)
+    def actual_for_param_at(param=T.DefiningName.entity,
+                            pos=T.Int,
+                            default_expr=(T.Expr.entity, No(T.Expr.entity))):
+        """
+        Return the actual expression for ``param`` if any, ``default_expr``
+        otherwise.
+        """
+        up = Var(Entity.unpacked_params)
+
+        return up.find(
+            # Search expression for parameter `param` if a named one exists
+            lambda p: p.name._.cast(Identifier)
+            .matches(param.name.cast(Identifier).node)
+        ).then(
+            lambda a: a.assoc.expr,
+            # Otherwise, get the parameter using its position if any
+            default_val=If(
+                Or(
+                    up.at(pos).is_null,
+                    Not(up.at(pos).assoc.cast(ParamAssoc).designator.is_null)
+                ),
+                # None was found, either by name or by position, return
+                # default expression.
+                default_expr,
+                # Use expression for param by position
+                up.at(pos).assoc.expr
+            )
+        )
+
+    @langkit_property(memoized=True)
     def unpacked_params():
         """
         Given the list of ParamAssoc, that can in certain case designate

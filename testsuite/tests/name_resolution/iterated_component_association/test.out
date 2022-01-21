@@ -45,7 +45,7 @@ Expr: <Id "A" iterassoc.adb:10:8-10:9>
 Expr: <Aggregate iterassoc.adb:10:13-10:51>
   type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
 Expr: <Id "R" iterassoc.adb:10:22-10:23>
-  references: None
+  references: <DefiningName iterassoc.adb:2:9-2:10>
   type:       None
 Expr: <BinOp iterassoc.adb:10:27-10:33>
   type:       <TypeDecl ["R"] iterassoc.adb:2:4-2:27>
@@ -134,7 +134,7 @@ Expr: <Id "A" iterassoc.adb:16:8-16:9>
 Expr: <Aggregate iterassoc.adb:16:13-16:42>
   type:       <TypeDecl ["A"] iterassoc.adb:3:4-3:33>
 Expr: <Id "Float" iterassoc.adb:16:22-16:27>
-  references: None
+  references: <DefiningName __standard:14:8-14:13>
   type:       None
 Expr: <Id "X" iterassoc.adb:16:31-16:32>
   references: <DefiningName iterassoc.adb:5:4-5:5>
@@ -295,7 +295,7 @@ Expr: <Id "A" iterassoc_filter.adb:10:8-10:9>
 Expr: <Aggregate iterassoc_filter.adb:10:13-10:56>
   type:       <TypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
 Expr: <Id "Float" iterassoc_filter.adb:10:22-10:27>
-  references: None
+  references: <DefiningName __standard:14:8-14:13>
   type:       None
 Expr: <Id "X" iterassoc_filter.adb:10:31-10:32>
   references: <DefiningName iterassoc_filter.adb:5:4-5:5>

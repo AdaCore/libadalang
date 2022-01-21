@@ -14915,6 +14915,14 @@ class ForLoopVarDecl(BasicDecl):
             True
         )
 
+    @langkit_property()
+    def xref_equation():
+        return Entity.id.sub_equation & If(
+            Entity.id_type.is_null,
+            LogicTrue(),
+            Entity.id_type.sub_equation
+        )
+
 
 class ForLoopSpec(LoopSpec):
     """
@@ -14959,7 +14967,7 @@ class ForLoopSpec(LoopSpec):
 
     @langkit_property(return_type=Equation)
     def xref_equation():
-        return Self.loop_type.match(
+        return Entity.var_decl.sub_equation & Self.loop_type.match(
 
             # This is a for .. in
             lambda _=IterType.alt_in:

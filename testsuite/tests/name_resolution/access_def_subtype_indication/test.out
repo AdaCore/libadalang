@@ -5,7 +5,7 @@ Resolving xrefs for node <ForLoopSpec iter.adb:5:8-5:33>
 ********************************************************
 
 Expr: <Id "Integer" iter.adb:5:21-5:28>
-  references: None
+  references: <DefiningName __standard:4:8-4:15>
   type:       None
 Expr: <Id "X" iter.adb:5:32-5:33>
   references: <DefiningName iter.adb:3:4-3:5>

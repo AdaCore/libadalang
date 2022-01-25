@@ -9005,6 +9005,16 @@ class ExceptionDecl(BasicDecl):
         )
 
 
+class ParamActual(Struct):
+    """
+    Data structure used by zip_with_params, Name.call_params, and
+    GenericInstantiation.inst_params properties. Associates an expression (the
+    actual) to a formal param declaration (the parameter).
+    """
+    param = UserField(type=T.DefiningName.entity)
+    actual = UserField(type=T.Expr.entity)
+
+
 @abstract
 class GenericInstantiation(BasicDecl):
     """
@@ -9160,6 +9170,40 @@ class GenericInstantiation(BasicDecl):
             ))
         )
     )
+
+    @langkit_property(public=True, return_type=ParamActual.array)
+    def inst_params():
+        """
+        Returns an array of pairs, associating formal parameters to actual or
+        default expressions.
+        """
+        ap = Var(Entity.generic_inst_params)
+
+        return Entity.designated_generic_decl.cast_or_raise(
+            T.GenericDecl
+        )._.formal_part.decls.mapcat(
+            # Unpack generic formals with their default expressions
+            lambda d: d.match(
+                lambda t=GenericFormalTypeDecl: ParamActual.new(
+                    param=t.decl.cast(TypeDecl).name,
+                    actual=No(Expr.entity)
+                ).singleton,
+                lambda o=GenericFormalObjDecl:
+                o.decl.cast(ObjectDecl).ids.map(
+                    lambda i: ParamActual.new(
+                        param=i,
+                        actual=o.decl.cast(ObjectDecl).default_expr
+                    )
+                ),
+                lambda _: No(ParamActual).singleton
+            )
+        ).map(
+            # Update actuals from instantiation params
+            lambda i, dp: ParamActual.new(
+                param=dp.param,
+                actual=ap.actual_for_param_at(dp.param, i, dp.actual)
+            )
+        )
 
 
 class GenericSubpInstantiation(GenericInstantiation):
@@ -11046,16 +11090,6 @@ class RefResult(Struct):
     """
     ref = UserField(type=T.BaseId.entity)
     kind = UserField(type=RefResultKind, default_value=RefResultKind.no_ref)
-
-
-class ParamActual(Struct):
-    """
-    Data structure used by zip_with_params and Name.call_params properties.
-    Associates an expression (the actual) to a formal param declaration (the
-    parameter).
-    """
-    param = UserField(type=T.DefiningName.entity)
-    actual = UserField(type=T.Expr.entity)
 
 
 @abstract

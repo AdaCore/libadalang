@@ -80,14 +80,16 @@ class Manage(ManageScript):
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
-        from langkit.compile_context import ADA_BODY, CompileCtx, LibraryEntity
+        from langkit.compile_context import (
+            AdaSourceKind, CompileCtx, LibraryEntity
+        )
         from ada.lexer import ada_lexer
         from ada.grammar import ada_grammar
         from ada.documentation import libadalang_docs
 
         ctx = CompileCtx(
             lang_name='Ada',
-            short_name='LAL',
+            short_name='lal',
             lexer=ada_lexer,
             grammar=ada_grammar,
             default_charset='iso-8859-1',
@@ -102,18 +104,19 @@ class Manage(ManageScript):
 
         # Internals need to access environment hooks and the symbolizer
         ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Env_Hooks',
+                            AdaSourceKind.body, 'Libadalang.Env_Hooks',
                             use_clause=True)
         ctx.add_with_clause('Implementation',
-                            ADA_BODY, 'Libadalang.Sources',
+                            AdaSourceKind.body, 'Libadalang.Sources',
                             use_clause=False)
 
         # Bind Libadalang's custom iterators to the public API
         ctx.add_with_clause('Iterators',
-                            ADA_BODY, 'Libadalang.Iterators.Extensions')
+                            AdaSourceKind.body,
+                            'Libadalang.Iterators.Extensions')
 
         # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
-        ctx.add_with_clause('Analysis', ADA_BODY, 'Libadalang.Lexer')
+        ctx.add_with_clause('Analysis', AdaSourceKind.body, 'Libadalang.Lexer')
 
         ctx.post_process_ada = ada.copyright.format_ada
         ctx.post_process_cpp = ada.copyright.format_c
@@ -122,12 +125,12 @@ class Manage(ManageScript):
 
         # Register our custom exception types
         ctx.register_exception_type(
-            package=[names.Name("GNATCOLL"), names.Name("Projects")],
+            package=["GNATCOLL", "Projects"],
             name=names.Name("Invalid_Project"),
             doc_section="libadalang.project_provider",
         )
         ctx.register_exception_type(
-            package=[names.Name("Libadalang"), names.Name("Project_Provider")],
+            package=["Libadalang", "Project_Provider"],
             name=names.Name("Unsupported_View_Error"),
             doc_section="libadalang.project_provider",
         )

@@ -553,7 +553,7 @@ package body Libadalang.Implementation.Extensions is
 
             Arr : constant Alloc_Logic_Var_Array.Element_Array_Access
               := Alloc_Logic_Var_Array.Alloc
-                (Node.Unit.AST_Mem_Pool, LV_Number);
+                (Node.Unit.Ast_Mem_Pool, LV_Number);
          begin
             for I in 1 .. LV_Number loop
                Arr (I) := Null_Var_Record;

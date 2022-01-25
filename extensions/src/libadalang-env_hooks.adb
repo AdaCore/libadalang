@@ -257,7 +257,7 @@ package body Libadalang.Env_Hooks is
 
       procedure Prepare_Nameres (Unit : Internal_Unit) is
       begin
-         if Unit.AST_Root /= null then
+         if Unit.Ast_Root /= null then
             Populate_Lexical_Env (Wrap_Unit (Unit));
             Reference_Unit (From       => From_Unit,
                             Referenced => Unit);
@@ -316,7 +316,7 @@ package body Libadalang.Env_Hooks is
               (Ctx,
                To_Text (Get_Filename (Unit)),
                From_Unit,
-               Unit.AST_Root /= null,
+               Unit.Ast_Root /= null,
                Not_Found_Is_Error);
          end if;
 
@@ -371,7 +371,7 @@ package body Libadalang.Env_Hooks is
                  (Ctx,
                   To_Text (Get_Filename (Unit)),
                   From_Unit,
-                  Unit.AST_Root /= null,
+                  Unit.Ast_Root /= null,
                   Is_Not_Found_Error);
             end if;
 
@@ -389,7 +389,7 @@ package body Libadalang.Env_Hooks is
 
                Comp_Unit : constant Compilation_Unit := Wrap_Node
                  (Ada_Node_P_Compilation_Unit_With_Name
-                    (Unit.AST_Root, Unit, Internal_Name)).As_Compilation_Unit;
+                    (Unit.Ast_Root, Unit, Internal_Name)).As_Compilation_Unit;
 
                Decl : constant Basic_Decl :=
                  (if Comp_Unit.Is_Null

@@ -10921,17 +10921,17 @@ class RefResultKind(Enum):
     """
     Kind for the result of a cross reference operation.
 
-    - ``NoRef`` is for no reference, it is the null value for this enum.
-    - ``Precise`` is when the reference result is precise.
-    - ``Imprecise`` is when there was an error computing the precise result,
+    - ``no_ref`` is for no reference, it is the null value for this enum.
+    - ``precise`` is when the reference result is precise.
+    - ``imprecise`` is when there was an error computing the precise result,
       and a result was gotten in an imprecise fashion.
-    - ``Error`` is for unrecoverable errors (either there is no imprecise path
+    - ``error`` is for unrecoverable errors (either there is no imprecise path
       for the request you made, or the imprecise path errored out too.
     """
-    NoRef = EnumValue(is_default=True)
-    Precise = EnumValue()
-    Imprecise = EnumValue()
-    Error = EnumValue()
+    no_ref = EnumValue(is_default=True)
+    precise = EnumValue()
+    imprecise = EnumValue()
+    error = EnumValue()
 
 
 class RefdDecl(Struct):
@@ -10940,7 +10940,7 @@ class RefdDecl(Struct):
     """
     decl = UserField(type=T.BasicDecl.entity,
                      default_value=No(T.BasicDecl.entity))
-    kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
+    kind = UserField(type=RefResultKind, default_value=RefResultKind.no_ref)
 
 
 class RefdDef(Struct):
@@ -10949,7 +10949,7 @@ class RefdDef(Struct):
     """
     def_name = UserField(type=T.DefiningName.entity,
                          default_value=No(T.DefiningName.entity))
-    kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
+    kind = UserField(type=RefResultKind, default_value=RefResultKind.no_ref)
 
 
 class RefResult(Struct):
@@ -10957,7 +10957,7 @@ class RefResult(Struct):
     Result for a cross reference query returning a reference.
     """
     ref = UserField(type=T.BaseId.entity)
-    kind = UserField(type=RefResultKind, default_value=RefResultKind.NoRef)
+    kind = UserField(type=RefResultKind, default_value=RefResultKind.no_ref)
 
 
 @abstract
@@ -11443,7 +11443,7 @@ class Name(Expr):
         """
         return Try(
             Entity.referenced_decl_internal,
-            RefdDecl.new(kind=RefResultKind.Error)
+            RefdDecl.new(kind=RefResultKind.error)
         )
 
     @langkit_property(public=True, return_type=RefdDecl,
@@ -11472,15 +11472,15 @@ class Name(Expr):
                     # precise result.
                     RefdDecl.new(
                         decl=v.value.cast(T.BasicDecl.entity),
-                        kind=RefResultKind.Precise
+                        kind=RefResultKind.precise
                     ),
 
                     # Else, just take the first corresponding declaration,
                     # return as an imprecise result.
                     Entity._.first_corresponding_decl.then(
                         lambda fcd:
-                        RefdDecl.new(decl=fcd, kind=RefResultKind.Imprecise),
-                        default_val=RefdDecl.new(kind=RefResultKind.Error)
+                        RefdDecl.new(decl=fcd, kind=RefResultKind.imprecise),
+                        default_val=RefdDecl.new(kind=RefResultKind.error)
                     )
                 )),
 
@@ -11489,11 +11489,11 @@ class Name(Expr):
                     v.success,
                     RefdDecl.new(
                         decl=v.value.cast_or_raise(T.BasicDecl.entity),
-                        kind=RefResultKind.Precise
+                        kind=RefResultKind.precise
                     ),
                     RefdDecl.new(
                         decl=No(BasicDecl.entity),
-                        kind=RefResultKind.Error
+                        kind=RefResultKind.error
                     )
                 ))
             ).then(lambda res: RefdDecl.new(
@@ -11501,8 +11501,8 @@ class Name(Expr):
                 kind=res.kind
             ).then(lambda res: If(
                 # Never return a null node with a Precise result: this
-                # indicates that it should be a NoRef (e.g. builtin operator).
-                res.decl.is_null & (res.kind == RefResultKind.Precise),
+                # indicates that it should be a no_ref (e.g. builtin operator).
+                res.decl.is_null & (res.kind == RefResultKind.precise),
                 No(RefdDecl),
                 res
             )))
@@ -13297,7 +13297,7 @@ class DefiningName(Name):
                 lambda id: Entity.is_referenced_by(id)
                 .then(lambda ref_kind: If(
                     ref_kind.any_of(
-                        RefResultKind.Precise, RefResultKind.Imprecise
+                        RefResultKind.precise, RefResultKind.imprecise
                     ),
                     RefResult.new(ref=id, kind=ref_kind).singleton,
                     No(RefResult.array)
@@ -13349,7 +13349,7 @@ class DefiningName(Name):
 
             If(id.is_defining,
                RefdDef.new(def_name=id.enclosing_defining_name,
-                           kind=RefResultKind.Precise),
+                           kind=RefResultKind.precise),
                id.failsafe_referenced_def_name)
 
             .then(
@@ -13372,12 +13372,12 @@ class DefiningName(Name):
                             ),
                         ),
                         def_res.kind,
-                        RefResultKind.NoRef
+                        RefResultKind.no_ref
                     )
                 )
             ),
 
-            RefResultKind.NoRef
+            RefResultKind.no_ref
         )
 
     @langkit_property(public=True, return_type=T.RefResult.array,

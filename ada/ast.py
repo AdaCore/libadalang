@@ -6264,16 +6264,30 @@ class TypeDecl(BaseTypeDecl):
             a_spec=a.subp_spec_or_null,
             a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl):
 
-            bds.all(lambda b: Or(
-                # If two primitives have the same signature, keep the one on
-                # the most derived type.
-                Not(a_spec.match_signature(
-                    b.subp_spec_or_null,
-                    match_name=True, use_entity_info=True
-                )),
-                Not(a_prim.has_base_type(
-                    b.info.md.primitive.cast(BaseTypeDecl)
-                ).is_null)
+            bds.all(lambda b: Let(
+                lambda b_prim=b.info.md.primitive.cast(BaseTypeDecl):
+                Or(
+                    # If two primitives have the same signature
+                    Not(a_spec.match_signature(
+                        b.subp_spec_or_null,
+                        match_name=True, use_entity_info=True
+                    )),
+
+                    # Either the type of the first primitive derives from the
+                    # type of the second primitive.
+                    a_prim.has_base_type(b_prim),
+
+                    # Or the second primitive is defined on an interface type,
+                    # in which case the first primitive overrides it without
+                    # deriving from the type of the second primitive.
+                    Let(
+                        lambda
+                        b_prim_ent=b_prim.as_bare_entity:
+
+                        b_prim_ent.is_interface_type
+                        & Not(b_prim_ent.has_base_type(a_prim.node))
+                    )
+                )
             ))
         ))
 

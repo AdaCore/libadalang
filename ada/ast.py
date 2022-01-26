@@ -9078,9 +9078,10 @@ class ExceptionDecl(BasicDecl):
 
 class ParamActual(Struct):
     """
-    Data structure used by zip_with_params, Name.call_params, and
-    GenericInstantiation.inst_params properties. Associates an expression (the
-    actual) to a formal param declaration (the parameter).
+    Data structure used by zip_with_params, Name.call_params,
+    GenericInstantiation.inst_params, and BaseAggregate.aggregate_params
+    properties. Associates an expression (the actual) to a formal param
+    declaration (the parameter).
     """
     param = UserField(type=T.DefiningName.entity)
     actual = UserField(type=T.Expr.entity)
@@ -11078,6 +11079,14 @@ class BaseAggregate(Expr):
                 ))
             )
         )
+
+    @langkit_property(public=True, return_type=T.ParamActual.array)
+    def aggregate_params():
+        """
+        Returns an array of pairs, associating formal parameters to actual
+        expressions. See ``zip_with_params``.
+        """
+        return Entity.assocs.zip_with_params
 
 
 class Aggregate(BaseAggregate):

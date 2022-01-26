@@ -1,0 +1,22 @@
+Eval 'node.p_get_primitives()' on node <TypeDecl ["I"] test.adb:4:7-4:27>
+Result: [<AbstractSubpDecl ["Foo"] test.adb:7:7-7:41>]
+
+Eval 'node.p_get_primitives()' on node <TypeDecl ["I2"] test.adb:9:7-9:28>
+Result: [<NullSubpDecl ["Foo"] test.adb:12:7-12:38>]
+
+Eval 'node.p_get_primitives()' on node <TypeDecl ["I3"] test.adb:14:7-14:41>
+Result: [<AbstractSubpDecl ["Foo"] test.adb:7:7-7:41>, <NullSubpDecl ["Foo"] test.adb:12:7-12:38>]
+
+Eval 'node.p_get_primitives()' on node <TypeDecl ["U"] test.adb:31:7-31:69>
+Result: [<NullSubpDecl ["Foo"] test.adb:21:7-21:37>]
+
+Eval 'node.p_get_primitives()' on node <TypeDecl ["V"] test.adb:34:7-34:58>
+Result: [<NullSubpDecl ["Foo"] test.adb:21:7-21:37>]
+
+Eval 'node.p_get_primitives()' on node <TypeDecl ["W"] test.adb:37:7-37:46>
+Result: [<NullSubpDecl ["Foo"] test.adb:12:7-12:38>]
+
+Eval 'node.p_get_primitives()' on node <TypeDecl ["J"] test.adb:42:7-42:38>
+Result: [<AbstractSubpDecl ["Foo"] test.adb:45:7-45:41>]
+
+

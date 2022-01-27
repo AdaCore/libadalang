@@ -7737,6 +7737,17 @@ class AnonymousType(TypeExpr):
     custom_id_text = Property(Entity.type_decl.text)
 
 
+class ParamActual(Struct):
+    """
+    Data structure used by zip_with_params, Name.call_params,
+    GenericInstantiation.inst_params, BaseAggregate.aggregate_params, and
+    SubtypeIndication.subtype_constraints properties. Associates an expression
+    (the actual) to a formal param declaration (the parameter).
+    """
+    param = UserField(type=T.DefiningName.entity)
+    actual = UserField(type=T.Expr.entity)
+
+
 class SubtypeIndication(TypeExpr):
     """
     Reference to a type by name.
@@ -7752,6 +7763,41 @@ class SubtypeIndication(TypeExpr):
     designated_type = Property(
         env.bind(Entity.node_env, Entity.name.designated_type_impl)
     )
+
+    @langkit_property(public=True, return_type=ParamActual.array)
+    def subtype_constraints():
+        """
+        Returns an array of pairs, associating formal parameters to actual or
+        default expressions.
+        """
+        constraints = Var(
+            Entity.constraint._.cast(DiscriminantConstraint).constraints
+        )
+        # Build a discriminants list with their default expressions
+        discrs = Var(
+            Entity.designated_type_decl._.discriminants_list.mapcat(
+                lambda d: Let(
+                    lambda ds=d.cast(DiscriminantSpec):
+                    ds.ids.map(
+                        lambda i: ParamActual.new(
+                            param=i,
+                            actual=ds.default_expr
+                        )
+                    )
+                )
+            )
+        )
+
+        # Update the constraints expressions if some are provided
+        return constraints.then(
+            lambda c: discrs.map(
+                lambda i, dp: ParamActual.new(
+                    param=dp.param,
+                    actual=c.actual_for_param_at(dp.param, i, dp.actual)
+                )
+            ),
+            default_val=discrs
+        )
 
     @langkit_property()
     def xref_equation():
@@ -9003,17 +9049,6 @@ class ExceptionDecl(BasicDecl):
             lambda c: c.renamed_object.xref_no_overloading,
             default_val=LogicTrue()
         )
-
-
-class ParamActual(Struct):
-    """
-    Data structure used by zip_with_params, Name.call_params,
-    GenericInstantiation.inst_params, and BaseAggregate.aggregate_params
-    properties. Associates an expression (the actual) to a formal param
-    declaration (the parameter).
-    """
-    param = UserField(type=T.DefiningName.entity)
-    actual = UserField(type=T.Expr.entity)
 
 
 @abstract
@@ -13060,7 +13095,7 @@ class AssocList(BasicAssoc.list):
             default_val=If(
                 Or(
                     up.at(pos).is_null,
-                    Not(up.at(pos).assoc.cast(ParamAssoc).designator.is_null)
+                    Not(up.at(pos).assoc.names.is_null)
                 ),
                 # None was found, either by name or by position, return
                 # default expression.

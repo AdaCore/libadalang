@@ -1,0 +1,16 @@
+Eval 'node.f_component_def.f_type_expr.p_subtype_constraints' on node <ComponentDecl ["Track1"] discr.adb:15:16-15:50>
+Result: []
+
+Eval 'node.f_type_expr.p_subtype_constraints' on node <ObjectDecl ["P1"] discr.adb:21:4-21:20>
+Result: [<ParamActual param=<DefiningName discr.adb:7:20-7:24> actual=<Id "Disk" discr.adb:7:37-7:41>>, <ParamActual param=<DefiningName discr.adb:7:43-7:47> actual=<Int discr.adb:7:72-7:73>>, <ParamActual param=<DefiningName discr.adb:7:49-7:53> actual=<Int discr.adb:7:72-7:73>>]
+
+Eval 'node.f_type_expr.p_subtype_constraints' on node <ObjectDecl ["P2"] discr.adb:23:4-23:60>
+Result: [<ParamActual param=<DefiningName discr.adb:7:20-7:24> actual=<Id "Printer" discr.adb:23:29-23:36>>, <ParamActual param=<DefiningName discr.adb:7:43-7:47> actual=<Int discr.adb:23:46-23:47>>, <ParamActual param=<DefiningName discr.adb:7:49-7:53> actual=<Int discr.adb:23:57-23:58>>]
+
+Eval 'node.f_type_expr.p_subtype_constraints' on node <ObjectDecl ["P3"] discr.adb:25:4-25:36>
+Result: [<ParamActual param=<DefiningName discr.adb:7:20-7:24> actual=<Id "Printer" discr.adb:25:21-25:28>>, <ParamActual param=<DefiningName discr.adb:7:43-7:47> actual=<Int discr.adb:25:30-25:31>>, <ParamActual param=<DefiningName discr.adb:7:49-7:53> actual=<Int discr.adb:25:33-25:34>>]
+
+Eval 'node.f_type_expr.p_subtype_constraints' on node <ObjectDecl ["P4"] discr.adb:27:4-27:54>
+Result: [<ParamActual param=<DefiningName discr.adb:7:20-7:24> actual=<Id "Printer" discr.adb:27:45-27:52>>, <ParamActual param=<DefiningName discr.adb:7:43-7:47> actual=<Int discr.adb:27:34-27:35>>, <ParamActual param=<DefiningName discr.adb:7:49-7:53> actual=<Int discr.adb:27:34-27:35>>]
+
+

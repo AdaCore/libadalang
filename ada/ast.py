@@ -16211,7 +16211,9 @@ class CompilationUnit(AdaNode):
     def withed_units():
         """
         Look for all "with" clauses at the top of this compilation unit and
-        return all the compilation units designated by them.
+        return all the compilation units designated by them. For the complete
+        dependencies list of compilation units, see the ``unit_dependencies``
+        property.
         """
         return Self.top_level_with_package_clauses.map(
             # Try to fetch the compilation unit in a spec file first. If this
@@ -16269,7 +16271,9 @@ class CompilationUnit(AdaNode):
     def unit_dependencies():
         """
         Return the list of all the compilation units that are (direct and
-        indirect) dependencies of this one.
+        indirect) dependencies of this one. See the
+        ``withed_units``/``imported_units`` properties to only get the direct
+        dependencies of this unit.
         """
         return Self.unit_dependencies_helper(
             No(T.CompilationUnit.entity.array),

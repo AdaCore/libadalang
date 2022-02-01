@@ -10823,6 +10823,17 @@ class BaseAggregate(Expr):
         """
         Return the list of all discriminants that must be associated by this
         aggregate.
+
+        .. attention::
+            This property is part of the name resolution algorithm for
+            AggregateAssocs and therefore is probably not what you're looking
+            for, as it makes several assumptions on the content of logic vars.
+            Find more details in `AggregateAssoc.record_assoc_equation`.
+
+        .. note::
+            This property must be memoized because all AggregateAssocs that are
+            children of this aggregate will call it during their name
+            resolution routine.
         """
         td = Var(Self.type_val.cast(BaseTypeDecl))
         record_decl = Var(td.record_def.comps.type_decl)
@@ -10835,6 +10846,10 @@ class BaseAggregate(Expr):
         """
         Return the list of all components that must be associated by this
         aggregate.
+
+        .. attention::
+            This property is part of the name resolution algorithm for
+            AggregateAssocs. More details under `all_discriminants`.
         """
         td = Var(Self.type_val.cast(BaseTypeDecl))
         comp_list = Var(td.record_def.comps)
@@ -10846,6 +10861,10 @@ class BaseAggregate(Expr):
         """
         Return the list of all discriminants specified by this aggregate,
         together with the actual used for it.
+
+        .. attention::
+            This property is part of the name resolution algorithm for
+            AggregateAssocs. More details under `all_discriminants`.
         """
         return Self.match_formals(
             Entity.all_discriminants, Entity.assocs, False
@@ -10857,6 +10876,10 @@ class BaseAggregate(Expr):
         """
         Return the list of all components specified by this aggregate,
         together with the actual used for it.
+
+        .. attention::
+            This property is part of the name resolution algorithm for
+            AggregateAssocs. More details under `all_discriminants`.
         """
         return Self.match_formals(
             Entity.all_components, Entity.assocs, False
@@ -10868,6 +10891,10 @@ class BaseAggregate(Expr):
         """
         Return the first discriminant or component that is not matched
         explicitly.
+
+        .. attention::
+            This property is part of the name resolution algorithm for
+            AggregateAssocs. More details under `all_discriminants`.
         """
         # Try to find an unmatched discriminant first
         unmatched_discr = Var(

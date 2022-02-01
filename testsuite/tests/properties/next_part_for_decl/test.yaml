@@ -1,0 +1,2 @@
+driver: inline-playground
+input_sources: [bug-sb08-025.adb]

@@ -5461,6 +5461,11 @@ class BaseTypeDecl(BasicDecl):
     def next_part():
         """
         Returns the next part for this type decl.
+
+        .. note:: Since this property returns a ``BaseTypeDecl``, it cannot be
+            used to retrieve the next part of ``TaskTypeDecl`` and
+            ``ProtectedTypeDecl`` nodes as their next part is actually a
+            ``Body``. Use ``BasicDecl.next_part_for_decl`` for those instead.
         """
 
         return Entity.match(
@@ -5576,6 +5581,10 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property()
     def next_part_for_decl():
         return Entity.match(
+            # SingleTaskTypeDecl next part is its parent SingleTaskDecl next
+            # part.
+            lambda sttd=T.SingleTaskTypeDecl:
+            sttd.parent_basic_decl.basic_decl_next_part_for_decl,
             lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
             lambda _: Entity.next_part.cast(T.BasicDecl.entity)
         )

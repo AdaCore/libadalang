@@ -243,8 +243,8 @@ class AdaNode(ASTNode):
         """
         return sep.join(syms.map(lambda s: s.image))
 
-    @langkit_property(return_type=T.CompilationUnit,
-                      ignore_warn_on_node=True)
+    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True,
+                      public=True)
     def enclosing_compilation_unit():
         """
         Return the compilation unit containing this node.

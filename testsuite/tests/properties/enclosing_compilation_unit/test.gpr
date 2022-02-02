@@ -1,0 +1,7 @@
+project Test is
+   package Naming is
+      for body ("Main") use "test.adb" at 2;
+      for spec ("Test") use "test.adb" at 1;
+      for body ("Test") use "test.adb" at 3;
+   end Naming;
+end Test;

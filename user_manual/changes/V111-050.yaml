@@ -1,0 +1,8 @@
+type: new-feature
+title: Add a ``P_Enclosing_Compilation_Unit`` property
+description: |
+    When invoked a node, returns the compilation unit in which the node
+    belongs. This is different from ``Unit`` which returns the corresponding
+    *Analysis* unit, because there may be several compilation units defined
+    in the same analysis unit.
+date: 2022-02-02

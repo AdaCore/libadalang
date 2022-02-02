@@ -1,0 +1,10 @@
+Eval 'node.p_designated_generic_decl.p_enclosing_compilation_unit.p_generic_instantiations' on node <GenericPackageInstantiation ["My_Pkg"] test.adb:11:4-11:31>
+Result: [<GenericPackageInstantiation ["My_Pkg"] test.adb:11:4-11:31>]
+
+Eval 'node.p_enclosing_compilation_unit' on node <NullStmt test.adb:14:4-14:9>
+Result: <CompilationUnit test.adb:6:1-16:10>
+
+Eval 'node.p_enclosing_compilation_unit' on node <AssignStmt test.adb:22:7-22:14>
+Result: <CompilationUnit test.adb:18:1-25:10>
+
+

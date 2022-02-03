@@ -81,8 +81,6 @@ package body Libadalang.Implementation.C.Extensions is
       Tree            : out Project_Tree_Access;
       Env             : out Project_Environment_Access)
    is
-      use type System.Address;
-
       Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
 
       PF            : constant String := Value (Project_File);

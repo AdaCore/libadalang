@@ -37,9 +37,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: AdaCore/gprbuild
-          # `gprbuild` directory raises a conflict in alr:
-          # https://github.com/alire-project/alire/issues/864
-          path: gprbuild_
+          path: gprbuild
       - name: Get gnatcoll core
         uses: actions/checkout@v2
         with:

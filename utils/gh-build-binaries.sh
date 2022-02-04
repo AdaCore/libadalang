@@ -50,7 +50,7 @@ build_archive()
   # Build libadalang static library
   ./manage.py generate
 
-  if [ $LIBRARY_TYPE = "static"]; then
+  if [ $LIBRARY_TYPE = "static" ]; then
     # Disable SAL for static libadalang library
     sed -i -e '/for .*Interface.* use/,/;/d' ./build/libadalang.gpr
   fi

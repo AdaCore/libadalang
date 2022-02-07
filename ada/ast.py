@@ -1215,11 +1215,11 @@ class AdaNode(ASTNode):
 
             bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
             bd.cast(T.AbstractSubpDecl).subp_decl_spec
-            .get_primitive_subp_first_type.defining_name,
+            .primitive_subp_first_type.defining_name,
 
             bd.then(lambda bd: bd.is_a(T.BasicSubpDecl)),
             bd.cast(T.BasicSubpDecl).subp_decl_spec
-            .get_primitive_subp_first_type.then(
+            .primitive_subp_first_type.then(
                 lambda prim_typ:
                 prim_typ.is_tagged_type.then(
                     lambda _: prim_typ.private_completion.then(
@@ -2369,7 +2369,9 @@ class BasicDecl(AdaNode):
                 # private
                 # type P is new B with record ...
 
-                spec.get_primitive_subp_tagged_type(canonicalize=False)
+                # We can call the `candidate_` version because the over-
+                # approximation will get cancelled by the following logic.
+                spec.candidate_primitive_subp_tagged_type(canonicalize=False)
                 .then(
                     lambda t:
                     t.full_view.primitives_env
@@ -2444,7 +2446,11 @@ class BasicDecl(AdaNode):
         given units.
         """
         spec = Var(Entity.subp_spec_or_null)
-        prim_type = Var(spec._.get_primitive_subp_tagged_type)
+
+        # We can call the `candidate_` version because the over-approximation
+        # will get cancelled by the following logic.
+        prim_type = Var(spec._.candidate_primitive_subp_tagged_type)
+
         derivations = Var(prim_type._.find_all_derived_types(units))
 
         return derivations.mapcat(
@@ -5939,16 +5945,20 @@ class TypeDecl(BaseTypeDecl):
         package this type is declared in.
         """
         scope = Var(Self.declarative_scope)
-        pkg_decls = Var(scope._.parent.as_bare_entity._.match(
+        is_derived_tagged = Var(Self.as_bare_entity.is_derived_tagged_type)
+        decl_parts = Var(scope._.parent.as_bare_entity._.match(
             lambda pkg_decl=BasePackageDecl:
+            # Self is declared in a package scope, we should check all the
+            # declarative parts of it.
             pkg_decl.public_part.decls.as_array.concat(
                 pkg_decl.private_part._.decls.as_array
             ),
-            lambda pkg_body=PackageBody: pkg_body.decls.decls.as_array,
-            lambda _: If(
-                # For a derived type, overriding primitives can be declared in
-                # scope even if it is not a package scope.
-                Self.type_def.is_a(DerivedTypeDef),
+            lambda _:
+            # Self is not declared in a package scope: the only way that there
+            # can be a primitive of Self here is if Self is a derived tagged
+            # type.
+            If(
+                is_derived_tagged,
                 Self.parent.parent.cast(DeclarativePart).then(
                     lambda dp: dp.as_bare_entity.decls.as_array
                 ),
@@ -5964,10 +5974,28 @@ class TypeDecl(BaseTypeDecl):
                 )
             )
         ))
-        prim_subps = Var(pkg_decls.filter(
+        prim_subps = Var(decl_parts.filter(
             lambda decl: decl.cast(BasicDecl)._.subp_spec_or_null.then(
-                lambda spec:
-                spec.get_primitive_subp_types.contains(Self.as_bare_entity)
+                lambda spec: spec.candidate_primitive_subp_types.contains(
+                    Self.as_bare_entity
+                ) & If(
+                    # For candidate primitives not declared in a package decl,
+                    # we must further check if they are overriding a parent
+                    # primitive.
+                    # This check is not done in `candidate_type_for_primitive`
+                    # because it may cause infinite recursions if the parent
+                    # type is declared in the same scope as Self.
+                    Not(scope.parent.is_a(BasePackageDecl)),
+                    Self.as_bare_entity.parent_primitives_env.get(
+                        spec.name.name_symbol
+                    ).any(
+                        lambda x:
+                        x.cast(BasicDecl).subp_spec_or_null.match_signature(
+                            spec, match_name=False, use_entity_info=True
+                        )
+                    ),
+                    True
+                )
             )
         ).mapcat(
             lambda decl: Let(
@@ -6043,6 +6071,11 @@ class TypeDecl(BaseTypeDecl):
         | Self.type_def.cast(T.DerivedTypeDef).then(
             lambda dtd: dtd.has_with_private.as_bool
         )
+    )
+
+    is_derived_tagged_type = Property(
+        Entity.type_def.is_tagged_type
+        & Entity.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef)
     )
 
     array_def = Property(Entity.type_def.match(
@@ -9996,7 +10029,8 @@ class Expr(AdaNode):
                         lambda spec:
                         # Controlling result: the controlling parameter and
                         # result have the same type.
-                        spec.get_primitive_subp_first_type == spec.return_type
+                        spec.candidate_primitive_subp_first_type ==
+                        spec.return_type
                     )
                 ),
 
@@ -10078,7 +10112,7 @@ class Expr(AdaNode):
             candidates.any(
                 lambda c: And(
                     Not(spec
-                        .candidate_type_for_primitive(c.expected_type)
+                        .get_candidate_type_for_primitive(c.expected_type)
                         .is_null),
 
                     # No need to check that the type of the expression
@@ -14482,7 +14516,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BaseTypeDecl.entity)
-    def candidate_type_for_primitive(
+    def get_candidate_type_for_primitive(
         type_expr=T.TypeExpr.entity, canonicalize=(T.Bool, True)
     ):
         """
@@ -14525,23 +14559,26 @@ class BaseSubpSpec(BaseFormalParamHolder):
         return If(
             And(
                 Or(
-                    # In case of a derived type, a subprogram defined in the
-                    # same scope may be a primitive even in a non-package scope
-                    # if that subprogram overrides a previous primitive.
-                    # Therefore the correct behavior here would be to compute
-                    # the primitives of `final_type` and check if one of its
-                    # primitives matches the signature of this subprogram.
-                    # Since this is particularly heavy for feature that is
-                    # rarely used, we decide to employ the same approximation
-                    # as GNAT: Consider this subprogram a primitive.
-                    final_type.cast(TypeDecl)._.type_def.is_a(DerivedTypeDef),
-
-                    # For all other cases, both the subprogram and the type
-                    # must be in a package declaration.
+                    # Either both the subprogram and the type are declared in
+                    # in a package declaration...
                     And(
                         type_scope._.parent.is_a(BasePackageDecl),
                         decl_scope._.parent.is_a(BasePackageDecl)
-                    )
+                    ),
+
+                    # Or, in case of a derived tagged type, a subprogram
+                    # defined in the same scope may be a primitive even in a
+                    # non-package scope if that subprogram overrides a previous
+                    # primitive.
+                    # Therefore the correct behavior here would be to compute
+                    # the primitives of `final_type` and check if one of its
+                    # primitives matches the signature of this subprogram.
+                    # Unfortunately we cannot do that here, because it would
+                    # trigger infinite recursions if the parent is defined
+                    # in the same scope. Therefore, the final filtering is done
+                    # in `direct_primitive_subps` and the result of this
+                    # property is not 100% accurate.
+                    final_type.cast(TypeDecl)._.is_derived_tagged_type
                 ),
 
                 # A subprogram may not be a primitive of a classwide type
@@ -14560,13 +14597,12 @@ class BaseSubpSpec(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BaseTypeDecl.entity.array, memoized=True)
-    def get_primitive_subp_types(canonicalize=(T.Bool, True)):
+    def candidate_primitive_subp_types(canonicalize=(T.Bool, True)):
         """
-        Return the types of which this subprogram is a primitive of. If
-        ``canonicalize`` is true, then the returned types will be
+        Return the types of which this subprogram is a candidate primitive of.
+        If ``canonicalize`` is true, then the returned types will be
         canonicalized.
         """
-
         # TODO: This might be improved by checking for spelling before looking
         # up every type.
 
@@ -14576,7 +14612,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ))
 
         return types.map(
-            lambda t: Entity.candidate_type_for_primitive(
+            lambda t: Entity.get_candidate_type_for_primitive(
                 t, canonicalize=canonicalize
             )
         ).filter(
@@ -14589,21 +14625,22 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ).unique
 
     @langkit_property(return_type=BaseTypeDecl.entity)
-    def get_primitive_subp_first_type():
+    def candidate_primitive_subp_first_type():
         """
-        Return the first type of which this subprogram is a primitive of.
+        Return the first type of which this subprogram is a candidate
+        primitive of.
         """
-        return Entity.get_primitive_subp_types.then(lambda p: p.at(0))
+        return Entity.candidate_primitive_subp_types.then(lambda p: p.at(0))
 
     @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
-    def get_primitive_subp_tagged_type(canonicalize=(T.Bool, True)):
+    def candidate_primitive_subp_tagged_type(canonicalize=(T.Bool, True)):
         """
         If this subprogram is a primitive for a tagged type, then return this
         type. If ``canonicalize`` is true, then the returned types will be
         canonicalized.
         """
         return origin.bind(
-            Self, Entity.get_primitive_subp_types(canonicalize).find(
+            Self, Entity.candidate_primitive_subp_types(canonicalize).find(
                 lambda t: t.full_view.is_tagged_type
             )
         )
@@ -14642,13 +14679,38 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         return Entity.decl_spec(follow_generic=False)
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def as_primitive_subp_type(typ=T.BaseTypeDecl.entity):
+        """
+        Given a type that was retrieved by one of the `candidate_primitive_*`
+        properties, return itself if the subp spec actually corresponds to a
+        primitive of this type, otherwise return null.
+        This is needed because the result of the `candidate_primitive_*`
+        properties is an approximation.
+        """
+        # `Entity.name` can be null for access-to-subprogram specifications
+        return Entity.name.then(
+            lambda name:
+            # This is node is indeed a primitive if we can find it in `typ`'s
+            # primitives env.
+            typ._.primitives_env.get(name.name_symbol).any(
+                lambda b: b.node == name.basic_decl.node
+            ).then(
+                lambda _: typ
+            )
+        )
+
     @langkit_property(return_type=BaseTypeDecl.entity.array, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
     def primitive_subp_types():
         """
         Return the types of which this subprogram is a primitive of.
         """
-        return Entity.primitive_decl_spec._.get_primitive_subp_types
+        return Entity.primitive_decl_spec.then(
+            lambda spec: spec.candidate_primitive_subp_types.filter(
+                lambda c: Not(spec.as_primitive_subp_type(c).is_null)
+            )
+        )
 
     @langkit_property(return_type=BaseTypeDecl.entity, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -14656,7 +14718,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         Return the first type of which this subprogram is a primitive of.
         """
-        return Entity.primitive_decl_spec._.get_primitive_subp_first_type
+        return Entity.primitive_decl_spec.then(
+            lambda spec: spec.as_primitive_subp_type(
+                spec.candidate_primitive_subp_first_type
+            )
+        )
 
     @langkit_property(return_type=BaseTypeDecl.entity, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -14665,7 +14731,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
         If this subprogram is a primitive for a tagged type, then return this
         type.
         """
-        return Entity.primitive_decl_spec._.get_primitive_subp_tagged_type
+        return Entity.primitive_decl_spec.then(
+            lambda spec: spec.as_primitive_subp_type(
+                spec.candidate_primitive_subp_tagged_type
+            )
+        )
 
     @langkit_property(return_type=BaseTypeDecl.entity.array)
     def dottable_subp_of():

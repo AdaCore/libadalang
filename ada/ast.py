@@ -7740,9 +7740,10 @@ class AnonymousType(TypeExpr):
 class ParamActual(Struct):
     """
     Data structure used by zip_with_params, Name.call_params,
-    GenericInstantiation.inst_params, BaseAggregate.aggregate_params, and
-    SubtypeIndication.subtype_constraints properties. Associates an expression
-    (the actual) to a formal param declaration (the parameter).
+    GenericInstantiation.inst_params, BaseAggregate.aggregate_params,
+    SubtypeIndication.subtype_constraints, and EnumRepClause.params
+    properties. Associates an expression (the actual) to a formal param
+    declaration (the parameter).
     """
     param = UserField(type=T.DefiningName.entity)
     actual = UserField(type=T.Expr.entity)
@@ -8387,6 +8388,26 @@ class EnumRepClause(AspectClause):
     def xref_equation():
         # TODO: resolve names in ``aggregate``
         return Entity.type_name.xref_no_overloading
+
+    @langkit_property(public=True, return_type=ParamActual.array)
+    def params():
+        """
+        Returns an array of pairs, associating enum literals to representation
+        clause actuals.
+        """
+        # Get the enum literals
+        el = Var(Entity.type_name.referenced_decl().cast(T.BaseTypeDecl)
+                 .root_type.cast(T.TypeDecl).type_def.cast(T.EnumTypeDef)
+                 .enum_literals)
+        # Get the representation clause actuals
+        ra = Var(Entity.aggregate.assocs)
+
+        return el.map(
+            lambda i, l: ParamActual.new(
+                param=l.name,
+                actual=ra.actual_for_param_at(l.name, i)
+            )
+        )
 
 
 class AttributeDefClause(AspectClause):

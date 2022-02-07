@@ -1,0 +1,16 @@
+Eval 'node.p_params' on node <EnumRepClause proc.adb:8:4-8:29>
+Result: [<ParamActual param=<DefiningName proc.adb:2:27-2:30> actual=<UnOp proc.adb:8:17-8:19>>, <ParamActual param=<DefiningName proc.adb:2:32-2:37> actual=<Int proc.adb:8:21-8:22>>, <ParamActual param=<DefiningName proc.adb:2:39-2:43> actual=<Int proc.adb:8:24-8:27>>]
+
+Eval 'node.p_params' on node <EnumRepClause proc.adb:10:4-10:53>
+Result: [<ParamActual param=<DefiningName proc.adb:2:27-2:30> actual=<UnOp proc.adb:10:24-10:26>>, <ParamActual param=<DefiningName proc.adb:2:32-2:37> actual=<Int proc.adb:10:37-10:38>>, <ParamActual param=<DefiningName proc.adb:2:39-2:43> actual=<Int proc.adb:10:48-10:51>>]
+
+Eval 'node.p_params' on node <EnumRepClause proc.adb:12:4-12:53>
+Result: [<ParamActual param=<DefiningName proc.adb:2:27-2:30> actual=<UnOp proc.adb:12:36-12:38>>, <ParamActual param=<DefiningName proc.adb:2:32-2:37> actual=<Int proc.adb:12:26-12:27>>, <ParamActual param=<DefiningName proc.adb:2:39-2:43> actual=<Int proc.adb:12:48-12:51>>]
+
+Eval 'node.p_params' on node <EnumRepClause proc.adb:16:4-16:45>
+Result: [<ParamActual param=<DefiningName __standard:3:20-3:25> actual=<Int proc.adb:16:42-16:43>>, <ParamActual param=<DefiningName __standard:3:27-3:31> actual=<Int proc.adb:16:30-16:31>>]
+
+Eval 'node.p_params' on node <EnumRepClause proc.adb:20:4-20:28>
+Result: [<ParamActual param=<DefiningName __standard:3:20-3:25> actual=<Int proc.adb:20:22-20:23>>, <ParamActual param=<DefiningName __standard:3:27-3:31> actual=<Int proc.adb:20:25-20:26>>]
+
+

@@ -1,0 +1,2 @@
+driver: inline-playground
+input_sources: [proc.adb]

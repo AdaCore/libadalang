@@ -35,3 +35,10 @@ Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDe
 Result: <TypeDecl ["T"] foo.ads:8:4-8:33>
 
 
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Bar"] inherit.adb:7:4-7:29>
+Result: <TypeDecl ["U"] inherit.adb:4:4-4:41>
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["New_Bar"] inherit.adb:11:4-11:33>
+Result: None
+
+

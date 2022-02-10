@@ -7754,6 +7754,21 @@ class SubtypeIndication(TypeExpr):
         env.bind(Entity.node_env, Entity.name.designated_type_impl)
     )
 
+    @langkit_property(return_type=T.CompletionItem.iterator)
+    def complete():
+        """
+        Return possible completions for a type indication at this point in the
+        file.
+        """
+        return Self.children_env.get(No(Symbol)).filtermap(
+            lambda n: CompletionItem.new(
+                decl=n.cast(T.BasicDecl),
+                is_dot_call=n.info.md.dottable_subp,
+                is_visible=Self.has_with_visibility(n.unit)
+            ),
+            lambda n: n.is_a(T.BaseTypeDecl)
+        ).to_iterator
+
     @langkit_property()
     def xref_equation():
         # Called by allocator.xref_equation, since the suffix can be either a
@@ -14290,6 +14305,10 @@ class Identifier(BaseId):
             'Scaling'
         )
     )
+
+    @langkit_property(return_type=T.CompletionItem.iterator)
+    def complete():
+        return Entity.parent.complete
 
     @langkit_property()
     def is_constant():

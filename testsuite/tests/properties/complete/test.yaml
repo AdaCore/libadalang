@@ -1,2 +1,3 @@
 driver: inline-playground
-input_sources: [testcomp.adb, test_pkg-foo.adb, private.adb]
+input_sources: [testcomp.adb, test_pkg-foo.adb, private.adb,
+                subtype_indication.adb]

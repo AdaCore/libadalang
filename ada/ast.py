@@ -83,6 +83,7 @@ class CompletionItem(Struct):
     decl = UserField(T.BasicDecl.entity)
     is_dot_call = UserField(T.Bool, default_value=False)
     is_visible = UserField(T.Bool, default_value=True)
+    weight = UserField(T.Int, default_value=0)
 
 
 @abstract
@@ -7754,6 +7755,27 @@ class SubtypeIndication(TypeExpr):
         env.bind(Entity.node_env, Entity.name.designated_type_impl)
     )
 
+    @langkit_property(return_type=T.CompletionItem.iterator)
+    def complete():
+        """
+        Return possible completions for a type indication at this point in the
+        file. Completions for a type indication are more likely coming from a
+        type declaration. PackageDecls have a medium weigth in order to provide
+        completion of fully qualified names.
+        """
+        return Self.children_env.get(No(Symbol)).map(
+            lambda n: CompletionItem.new(
+                decl=n.cast(T.BasicDecl),
+                is_dot_call=n.info.md.dottable_subp,
+                is_visible=Self.has_with_visibility(n.unit),
+                weight=n.match(
+                    lambda _=T.BaseTypeDecl: 100,
+                    lambda _=T.PackageDecl: 50,
+                    lambda _: 0
+                )
+            )
+        ).to_iterator
+
     @langkit_property()
     def xref_equation():
         # Called by allocator.xref_equation, since the suffix can be either a
@@ -14290,6 +14312,10 @@ class Identifier(BaseId):
             'Scaling'
         )
     )
+
+    @langkit_property(return_type=T.CompletionItem.iterator)
+    def complete():
+        return Entity.parent.complete
 
     @langkit_property()
     def is_constant():

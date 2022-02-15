@@ -146,8 +146,9 @@ class Manage(ManageScript):
 
     @property
     def main_programs(self):
-        return super(Manage, self).main_programs | {'nameres', 'navigate',
-                                                    'gnat_compare'}
+        return super(Manage, self).main_programs | {
+            'nameres', 'navigate', 'gnat_compare', 'lal_prep',
+        }
 
     def do_generate(self, args):
         # Always generate the unparsing machinery and report unused

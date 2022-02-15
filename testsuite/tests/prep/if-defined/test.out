@@ -1,0 +1,50 @@
+== input.ada ==
+
+# -c
+
+procedure Foo is
+--! #if X'Defined then
+--!    $X : constant String := "hello world";
+--! #else
+   I : constant Integer := -1;
+--! #end if;
+begin
+   null;
+end Foo;
+
+# -c -DX=Bar
+
+procedure Foo is
+--! #if X'Defined then
+   Bar : constant String := "hello world";
+--! #else
+--!    I : constant Integer := -1;
+--! #end if;
+begin
+   null;
+end Foo;
+
+# -c -DX=
+
+procedure Foo is
+--! #if X'Defined then
+    : constant String := "hello world";
+--! #else
+--!    I : constant Integer := -1;
+--! #end if;
+begin
+   null;
+end Foo;
+
+# -c -u
+
+procedure Foo is
+--! #if X'Defined then
+--!    $X : constant String := "hello world";
+--! #else
+   I : constant Integer := -1;
+--! #end if;
+begin
+   null;
+end Foo;
+

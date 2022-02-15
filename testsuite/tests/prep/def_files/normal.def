@@ -1,0 +1,5 @@
+empty :=  --  Empty
+string := "foo""bar"
+symbol := ._.A.0  --  Weird symbol
+
+--  Empty line

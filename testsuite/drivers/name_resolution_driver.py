@@ -16,6 +16,9 @@ class NameResolutionDriver(BaseDriver):
         project_file = self.test_env.get('project_file', None)
         auto_provider_dirs = self.test_env.get('auto_provider_dirs', None)
         imprecise_fallback = self.test_env.get('imprecise_fallback', False)
+        preprocessor_data_file = self.test_env.get('preprocessor_data_file',
+                                                   None)
+        preprocessor_path = self.test_env.get('preprocessor_path', [])
 
         args = list(input_sources)
         if charset:
@@ -27,5 +30,9 @@ class NameResolutionDriver(BaseDriver):
                     args)
         if imprecise_fallback:
             args.insert(0, '--imprecise-fallback')
+        if preprocessor_data_file:
+            args = [f'--preprocessor-data-file={preprocessor_data_file}'] + [
+                f'--preprocessor-path={d}' for d in preprocessor_path
+            ] + args
 
         self.run_and_check(['nameres'] + args, memcheck=True)

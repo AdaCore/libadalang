@@ -27,6 +27,10 @@ with Ada.Unchecked_Deallocation;
 
 package Libadalang.Implementation.C.Extensions is
 
+   ----------------------
+   -- Project provider --
+   ----------------------
+
    type Project_Scenario_Variable is record
       Name, Value : chars_ptr;
    end record
@@ -81,5 +85,21 @@ package Libadalang.Implementation.C.Extensions is
      (Source_Files : Source_File_Array_Ref_Access)
      with Export, Convention => C;
    --  Free the given list of source files
+
+   ------------------
+   -- Preprocessor --
+   ------------------
+
+   function ada_create_preprocessor_from_file
+     (Filename    : chars_ptr;
+      Path_Data   : access chars_ptr;
+      Path_Length : int;
+      Line_Mode   : access int) return ada_file_reader
+   with Export => True, Convention => C;
+   --  Load the preprocessor data file at ``Filename`` using, directory names
+   --  in the ``Path_Data``/``Path_Length`` array  to look for definition
+   --  files. If ``Line_Mode`` is not null, use it to force the line mode in
+   --  each preprocessed source file. Return a file reader that preprocesses
+   --  sources accordingly.
 
 end Libadalang.Implementation.C.Extensions;

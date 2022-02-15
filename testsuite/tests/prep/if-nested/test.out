@@ -1,0 +1,192 @@
+== input.ada ==
+
+# -c -DX=False -DZ=False
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+--!    Bar (1);
+--! #  if Y then
+--!    Bar (2);
+--! #  end if;
+--! #else
+   Bar (3);
+--! #  if Z then
+--!    Bar (4);
+--! #  end if;
+--! #end if;
+end Foo;
+
+# -c -DX=False -DZ=True
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+--!    Bar (1);
+--! #  if Y then
+--!    Bar (2);
+--! #  end if;
+--! #else
+   Bar (3);
+--! #  if Z then
+   Bar (4);
+--! #  end if;
+--! #end if;
+end Foo;
+
+# -c -DX=True -DY=False
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+   Bar (1);
+--! #  if Y then
+--!    Bar (2);
+--! #  end if;
+--! #else
+--!    Bar (3);
+--! #  if Z then
+--!    Bar (4);
+--! #  end if;
+--! #end if;
+end Foo;
+
+# -c -DX=True -DY=True
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+   Bar (1);
+--! #  if Y then
+   Bar (2);
+--! #  end if;
+--! #else
+--!    Bar (3);
+--! #  if Z then
+--!    Bar (4);
+--! #  end if;
+--! #end if;
+end Foo;
+
+# -b -DX=False -DZ=False
+
+with Bar;
+
+procedure Foo is
+begin
+
+
+
+
+
+
+   Bar (3);
+
+
+
+
+end Foo;
+
+# -b -DX=False -DZ=True
+
+with Bar;
+
+procedure Foo is
+begin
+
+
+
+
+
+
+   Bar (3);
+
+   Bar (4);
+
+
+end Foo;
+
+# -b -DX=True  -DY=False
+
+with Bar;
+
+procedure Foo is
+begin
+
+   Bar (1);
+
+
+
+
+
+
+
+
+
+end Foo;
+
+# -b -DX=True  -DY=True
+
+with Bar;
+
+procedure Foo is
+begin
+
+   Bar (1);
+
+   Bar (2);
+
+
+
+
+
+
+
+end Foo;
+
+# -DX=False -DZ=False
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (3);
+end Foo;
+
+# -DX=False -DZ=True
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (3);
+   Bar (4);
+end Foo;
+
+# -DX=True  -DY=False
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (1);
+end Foo;
+
+# -DX=True  -DY=True
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (1);
+   Bar (2);
+end Foo;
+

@@ -21,16 +21,19 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Strings.Unbounded;
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
+with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Locks;
-with GNATCOLL.Projects; use GNATCOLL.Projects;
-with GNATCOLL.VFS;      use GNATCOLL.VFS;
+with GNATCOLL.Projects;   use GNATCOLL.Projects;
+with GNATCOLL.VFS;        use GNATCOLL.VFS;
+
+with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Auto_Provider;     use Libadalang.Auto_Provider;
 with Libadalang.GPR_Lock;
+with Libadalang.Preprocessing;     use Libadalang.Preprocessing;
 with Libadalang.Project_Provider;  use Libadalang.Project_Provider;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 
@@ -316,5 +319,64 @@ package body Libadalang.Implementation.C.Extensions is
       S := Source_Files;
       Free (S);
    end ada_free_source_file_array;
+
+   ---------------------------------------
+   -- ada_create_preprocessor_from_file --
+   ---------------------------------------
+
+   function ada_create_preprocessor_from_file
+     (Filename    : chars_ptr;
+      Path_Data   : access chars_ptr;
+      Path_Length : int;
+      Line_Mode   : access int) return ada_file_reader
+   is
+      Path   : Any_Path;
+      FR_Ref : File_Reader_Reference;
+   begin
+      Clear_Last_Exception;
+
+      --  Convert the given path data into an ``Any_Path`` value. To do this,
+      --  concatenate all of its strings separated with NUL bytes and let
+      --  ``Parse_Path`` split it back.
+
+      declare
+         Path_Array : array (1 .. Path_Length) of chars_ptr
+         with Import, Address => Path_Data.all'Address;
+
+         Path_Str : Unbounded_String;
+      begin
+         for I in Path_Array'Range loop
+            if I > 1 then
+               Append (Path_Str, ASCII.NUL);
+            end if;
+            Append (Path_Str, Value (Path_Array (I)));
+         end loop;
+
+         Path := Parse_Path
+           (To_String (Path_Str), Separator => ASCII.NUL, CWD => If_Empty);
+      end;
+
+      --  Now create the file reader and wrap it to get the correct return type
+
+      begin
+         if Line_Mode = null then
+            FR_Ref := Create_Preprocessor_From_File (Value (Filename), Path);
+         else
+            FR_Ref := Create_Preprocessor_From_File
+              (Value (Filename), Path, Any_Line_Mode'Val (Line_Mode.all));
+         end if;
+      exception
+         when Exc : File_Read_Error | Syntax_Error =>
+            Set_Last_Exception (Exc);
+            return ada_file_reader (System.Null_Address);
+      end;
+
+      declare
+         FR_Int : constant Internal_File_Reader_Access :=
+           Wrap_Public_File_Reader (FR_Ref);
+      begin
+         return Wrap_Private_File_Reader (FR_Int);
+      end;
+   end ada_create_preprocessor_from_file;
 
 end Libadalang.Implementation.C.Extensions;

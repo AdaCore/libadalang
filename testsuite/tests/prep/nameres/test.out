@@ -1,0 +1,12 @@
+Analyzing foo.adb
+#################
+
+Resolving xrefs for node <CallStmt foo.adb:13:4-13:8>
+*****************************************************
+
+Expr: <Id "Bar" foo.adb:13:4-13:7>
+  references: <DefiningName foo.adb:5:14-5:17>
+  type:       None
+
+
+Done.

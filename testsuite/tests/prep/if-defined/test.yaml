@@ -1,0 +1,8 @@
+driver: prep
+configs:
+    input.ada: [
+        "-c",
+        "-c -DX=Bar",
+        "-c -DX=",
+        "-c -u"
+    ]

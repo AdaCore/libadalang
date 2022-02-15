@@ -290,6 +290,22 @@ package Libadalang.Helpers is
                & " passed, the auto provider will be used, and project options"
                & " ignored");
 
+         package Preprocessor_Data_File is new Parse_Option
+           (Parser, Long => "--preprocessor-data-file",
+            Arg_Type    => Unbounded_String,
+            Default_Val => Null_Unbounded_String,
+            Help        =>
+              "Filename for the preprocessor data file (enables"
+              & " preprocessing).");
+
+         package Preprocessor_Path is new Parse_Option_List
+           (Parser, Long => "--preprocessor-path",
+            Arg_Type    => Unbounded_String,
+            Accumulate  => True,
+            Help        =>
+              "Directory name to consider when looking for preprocessor"
+              & " definition files.");
+
          package Jobs is new Parse_Option
            (Parser, "-j", "--jobs",
             Arg_Type    => Natural,

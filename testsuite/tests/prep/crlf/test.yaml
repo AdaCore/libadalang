@@ -1,0 +1,5 @@
+driver: prep
+configs:
+    input.ada: ["-c -DX=False", "-c -DX=True"]
+encoding: binary
+strict_line_endings: true

@@ -1,0 +1,8 @@
+Int_Sym := 1
+Other_Int_Sym := 2
+
+Str_Sym := "hello"
+Other_Str_Sym := "world"
+
+Sym_Sym := A
+Other_Sym_Sym := B

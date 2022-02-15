@@ -1,0 +1,14 @@
+driver: prep
+configs:
+    input.ada: [
+        "-c -DX=False -DY=False",
+        "-c -DX=False -DY=True",
+        "-c -DX=True -DY=False",
+        "-c -DX=True -DY=True",
+        "-b -DX=True",
+        "-b -DX=False -DY=True",
+        "-b -DX=False -DY=False",
+        "-DX=True",
+        "-DX=False -DY=True",
+        "-DX=False -DY=False",
+    ]

@@ -1,0 +1,12 @@
+*-s
+"s01.adb" "d.def"
+"s02.adb" "d.def" -u
+"s03.adb" "d.def" -u -DA=X -DBEE="foo" -DCEE="foo""bar"
+"s04.adb" "d.def"-u-DA=X-DBEE="foo"-DCEE="foo""bar"
+"s05.adb" "d.def" -DA= -DB=._. -DC="foo bar"""
+"s06.adb" -DA -DB= -DMEH
+"s07.adb" -c
+"s08.adb" -c -b
+"s09.adb" -b -c
+"s10.adb" -u
+"s11.adb"

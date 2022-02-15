@@ -60,6 +60,7 @@ newhtml:
 		$(LAL_BUILD_DIR)/src/libadalang-introspection.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-iterators.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-lexer.ads \
+		   ../extensions/src/libadalang-preprocessing.ads \
 		   ../extensions/src/libadalang-project_provider.ads \
 		-O generated
 

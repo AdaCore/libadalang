@@ -19,9 +19,9 @@ from e3.testsuite import Testsuite, logger
 from langkit.coverage import GNATcov
 
 from drivers import (
-    adaapi_driver, capi_driver, gnat_compare_driver,
-    inline_pg_driver, name_resolution_driver, navigation_driver, ocaml_driver,
-    parser_driver, python_driver
+    adaapi_driver, capi_driver, gnat_compare_driver, inline_pg_driver,
+    name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
+    prep_driver, python_driver
 )
 
 
@@ -30,13 +30,14 @@ class LALTestsuite(Testsuite):
     test_driver_map = {
         'ada-api': adaapi_driver.AdaAPIDriver,
         'c-api': capi_driver.CAPIDriver,
+        'gnat_compare': gnat_compare_driver.GNATCompareDriver,
+        'inline-playground': inline_pg_driver.InlinePlaygroundDriver,
+        'name-resolution': name_resolution_driver.NameResolutionDriver,
         'navigation': navigation_driver.NavigationDriver,
         'ocaml': ocaml_driver.OCamlDriver,
         'parser': parser_driver.ParserDriver,
+        'prep': prep_driver.PrepDriver,
         'python': python_driver.PythonDriver,
-        'gnat_compare': gnat_compare_driver.GNATCompareDriver,
-        'name-resolution': name_resolution_driver.NameResolutionDriver,
-        'inline-playground': inline_pg_driver.InlinePlaygroundDriver
     }
 
     # Even though we test Libadalang only in native configurations, this allows

@@ -1,0 +1,37 @@
+== input.ada ==
+
+# No option
+
+with Bar;
+
+procedure Foo is
+begin
+      Bar;
+end Foo;
+
+# -b
+
+with Bar;
+
+procedure Foo is
+begin
+
+
+
+      Bar;
+
+end Foo;
+
+# -c
+
+with Bar;
+
+procedure Foo is
+begin
+--!    # if X'Defined then
+--!       Bar ($X);
+--!    # else
+      Bar;
+--!    # end if;
+end Foo;
+

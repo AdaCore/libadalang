@@ -1,0 +1,45 @@
+== Missing file ==
+
+Error while parsing preprocessor data file:
+  FileReadError: no such file: prep.txt
+
+== Syntax error ==
+
+Error while parsing preprocessor data file:
+  SyntaxError: prep.txt:1:1: Ada source filename expected
+
+== Normal (default line mode) ==
+
+Preprocessor output on foo.adb:
+   1 | with Ada.Text_IO; use Ada.Text_IO;
+   2 |
+   3 | procedure Foo is
+   4 |    procedure Bar is
+   5 |    begin
+   6 |       Put_Line ("$X");
+   7 |    end Bar;
+   8 | begin
+   9 |    Bar;
+  10 | end Foo;
+  11 |
+
+== Normal (comment line mode) ==
+
+Preprocessor output on foo.adb:
+   1 | with Ada.Text_IO; use Ada.Text_IO;
+   2 |
+   3 | procedure Foo is
+   4 | --! #if X'Defined then
+   5 |    procedure Bar is
+   6 |    begin
+   7 |       Put_Line ("$X");
+   8 |    end Bar;
+   9 | --! #else
+  10 | --!    procedure Bar is null;
+  11 | --! #end if;
+  12 | begin
+  13 |    Bar;
+  14 | end Foo;
+  15 |
+
+Done

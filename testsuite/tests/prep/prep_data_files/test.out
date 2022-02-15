@@ -1,0 +1,87 @@
+== cannot-read-def-file.txt ==
+
+LANGKIT_SUPPORT.ERRORS.FILE_READ_ERROR: no such file: no-such-file.txt
+
+== invalid-def-1.txt ==
+
+LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-1.txt:1:11: for option -D: invalid preprocessing symbol name: 
+
+== invalid-def-2.txt ==
+
+LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-2.txt:2:1: unterminated string literal
+
+== invalid-def-3.txt ==
+
+LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-3.txt:1:8: invalid token
+
+== standard.txt ==
+
+# default
+  -s
+  <none>
+
+# "s01.adb"
+  a -> Symbol(...)
+  b -> Symbol(...)
+  z -> Symbol(._._.)
+
+# "s02.adb"
+  -u
+  a -> Symbol(...)
+  b -> Symbol(...)
+  z -> Symbol(._._.)
+
+# "s03.adb"
+  -u
+  a -> Symbol(X)
+  b -> Symbol(...)
+  bee -> String("foo")
+  cee -> String("foo""bar")
+  z -> Symbol(._._.)
+
+# "s04.adb"
+  -u
+  a -> Symbol(X)
+  b -> Symbol(...)
+  bee -> String("foo")
+  cee -> String("foo""bar")
+  z -> Symbol(._._.)
+
+# "s05.adb"
+  a -> <null>
+  b -> Symbol(._.)
+  c -> String("foo bar""")
+  z -> Symbol(._._.)
+
+# "s06.adb"
+  a -> <null>
+  b -> <null>
+  meh -> <null>
+
+# "s07.adb"
+  -c
+  <none>
+
+# "s08.adb"
+  -b
+  <none>
+
+# "s09.adb"
+  -c
+  <none>
+
+# "s10.adb"
+  -u
+  <none>
+
+# "s11.adb"
+  <disabled>
+
+== unknown-switch.txt ==
+
+LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: unknown-switch.txt:1:11: invalid switch: -x
+
+== no-such-file.txt ==
+
+LANGKIT_SUPPORT.ERRORS.FILE_READ_ERROR: no such file: no-such-file.txt
+Done.

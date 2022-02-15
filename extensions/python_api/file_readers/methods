@@ -1,0 +1,64 @@
+## vim: ft=makopython
+
+    class LineMode(_Enum):
+        """
+        Determine how the preprocessor treats directives and disabled lines in
+        the output.
+
+        ``delete_lines``
+
+          Just delete these lines: this breaks line number correspondance
+          between the original source and the preprocessed one. This
+          corresponds to GNATprep's default mode.
+
+        ``blank_lines``
+
+          Replace these lines with empty lines. This corresponds to GNATprep's
+          ``-b`` option.
+
+        ``comment_lines``
+
+          Preserve these lines and emit a ``--!`` comment marker in front of
+          them. This corresponds to GNATprep's ``-c`` option.
+        """
+
+        delete_lines = "delete_lines"
+        blank_lines = "blank_lines"
+        comment_lines = "comment_lines"
+
+        _name = "LineMode"
+        _c_to_py = [delete_lines, blank_lines, comment_lines]
+        _py_to_c = {name: index for index, name in enumerate(_c_to_py)}
+
+    @classmethod
+    def create_preprocessor_from_file(
+        cls,
+        filename: str,
+        path: List[str],
+        line_mode: Optional[FileReader.LineMode]
+    ) -> FileReader:
+        ${py_doc('libadalang.create_preprocessor_from_file', 8)}
+
+        # Create an array of C strings to hold the path directories
+        c_dirs = [ctypes.c_char_p(_unwrap_filename(d)) for d in path]
+        c_path_data = (ctypes.c_char_p * len(c_dirs))()
+        for i, d in enumerate(c_dirs):
+            c_path_data[i] = d
+
+        # Create the pointer to this array, with the expected type according to
+        # ctypes.
+        c_path_type = ctypes.POINTER(ctypes.c_char_p)
+        c_path = ctypes.cast(ctypes.byref(c_path_data), c_path_type)
+
+        # Pass the line mode to force, if any
+        if line_mode is not None:
+            lm = ctypes.c_int(FileReader.LineMode._unwrap(line_mode))
+            lm_ref = ctypes.byref(lm)
+        else:
+            lm_ref = ctypes.POINTER(ctypes.c_int)()
+
+        # We can now create the file reader itself
+        c_value = _create_preprocessor_from_file(
+            _unwrap_filename(filename), c_path, len(c_dirs), lm_ref
+        )
+        return cls(c_value)

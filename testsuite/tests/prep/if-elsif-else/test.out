@@ -1,0 +1,134 @@
+== input.ada ==
+
+# -c -DX=False -DY=False
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+--!    Bar (1);
+--! #elsif Y then
+--!    Bar (2);
+--! #else
+   Bar (3);
+--! #end if;
+end Foo;
+
+# -c -DX=False -DY=True
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+--!    Bar (1);
+--! #elsif Y then
+   Bar (2);
+--! #else
+--!    Bar (3);
+--! #end if;
+end Foo;
+
+# -c -DX=True -DY=False
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+   Bar (1);
+--! #elsif Y then
+--!    Bar (2);
+--! #else
+--!    Bar (3);
+--! #end if;
+end Foo;
+
+# -c -DX=True -DY=True
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+   Bar (1);
+--! #elsif Y then
+--!    Bar (2);
+--! #else
+--!    Bar (3);
+--! #end if;
+end Foo;
+
+# -b -DX=True
+
+with Bar;
+
+procedure Foo is
+begin
+
+   Bar (1);
+
+
+
+
+
+end Foo;
+
+# -b -DX=False -DY=True
+
+with Bar;
+
+procedure Foo is
+begin
+
+
+
+   Bar (2);
+
+
+
+end Foo;
+
+# -b -DX=False -DY=False
+
+with Bar;
+
+procedure Foo is
+begin
+
+
+
+
+
+   Bar (3);
+
+end Foo;
+
+# -DX=True
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (1);
+end Foo;
+
+# -DX=False -DY=True
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (2);
+end Foo;
+
+# -DX=False -DY=False
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (3);
+end Foo;
+

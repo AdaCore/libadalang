@@ -1,0 +1,3 @@
+driver: prep
+configs:
+    input.ada: ["-c -DTrue_Sym=True -DFalse_Sym=False -DFoo_Sym=foo"]

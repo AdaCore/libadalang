@@ -1,0 +1,47 @@
+== input.ada ==
+
+# -DX
+
+with Bar;
+
+procedure Foo is
+begin
+   --  Comment a
+   Bar (1);
+   --  Comment b
+end Foo;
+
+# -DX -b
+
+with Bar;
+
+procedure Foo is
+begin
+
+   --  Comment a
+   Bar (1);
+   --  Comment b
+
+
+
+
+
+end Foo;
+
+# -DX -c
+
+with Bar;
+
+procedure Foo is
+begin
+--! # if X then
+   --  Comment a
+   Bar (1);
+   --  Comment b
+--! # else
+--!    --  Comment c
+--!    Bar (2);
+--!    --  Comment d
+--! # end if;
+end Foo;
+

@@ -1,0 +1,8 @@
+driver: prep
+configs:
+    else-without-if.ada: ["-c"]
+    elsif-without-if.ada: ["-c -DX=True"]
+    end-if-without-if.ada: ["-c"]
+    extra-else.ada: ["-c -DX=True", "-c -DX=False"]
+    extra-elsif.ada: ["-c -DX=True", "-c -DX=False"]
+    missing-end-if.ada: ["-c -DX=True", "-c -DX=False"]

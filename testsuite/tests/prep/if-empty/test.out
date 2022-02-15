@@ -1,0 +1,11 @@
+== input.ada ==
+
+# -DX
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar (1);
+end Foo;
+

@@ -1,0 +1,72 @@
+== input.ada ==
+
+# -c -DX=True
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+   Bar;
+--! #else
+--!    null;
+--! #end if;
+end Foo;
+
+# -c -DX=False
+
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+--!    Bar;
+--! #else
+   null;
+--! #end if;
+end Foo;
+
+# -b -DX=True
+
+with Bar;
+
+procedure Foo is
+begin
+
+   Bar;
+
+
+
+end Foo;
+
+# -b -DX=False
+
+with Bar;
+
+procedure Foo is
+begin
+
+
+
+   null;
+
+end Foo;
+
+# -DX=True
+
+with Bar;
+
+procedure Foo is
+begin
+   Bar;
+end Foo;
+
+# -DX=False
+
+with Bar;
+
+procedure Foo is
+begin
+   null;
+end Foo;
+

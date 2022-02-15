@@ -1,0 +1,10 @@
+## vim: ft=makopython
+
+_create_preprocessor_from_file = _import_func(
+   "ada_create_preprocessor_from_file",
+   [ctypes.c_char_p,
+    ctypes.POINTER(ctypes.c_char_p),
+    ctypes.c_int,
+    ctypes.POINTER(ctypes.c_int)],
+   _file_reader,
+)

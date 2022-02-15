@@ -1,0 +1,4 @@
+driver: name-resolution
+input_sources: [foo.adb]
+preprocessor_data_file: prep.txt
+preprocessor_path: ["d1", "d2"]

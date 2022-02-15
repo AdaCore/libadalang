@@ -1,0 +1,4 @@
+Int_Sym := 10
+Other_Int_Sym := 20
+
+Str_Sym := "foo"

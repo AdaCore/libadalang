@@ -99,4 +99,17 @@ libadalang_docs = {
 
             Find a way to report discarded source files/compilation units.
     """,
+    'libadalang.create_preprocessor_from_file': """
+        Load the preprocessor data file at ``filename``, using directory names
+        in ``path`` to look for for it and the definition files it references.
+        Return a file reader that preprocesses sources accordingly.
+
+        If ``line_mode`` is passed, use it to force the line mode for source
+        files on which the preprocessor is enabled.  Forcing the line mode is
+        often needed as the default is to remove lines that contain
+        preprocessor directives and disabled code, which breaks the line number
+        correspondance between original source code and preprocessed one.
+        Forcing to ``blank_lines`` or ``comment_lines`` preserves this
+        correspondance.
+    """,
 }

@@ -1,0 +1,49 @@
+== empty-eof.def ==
+
+empty -> <null>
+
+== empty.def ==
+
+<none>
+
+== invalid-column.def ==
+
+Syntax error: invalid-column.def:1:8: invalid token
+
+== invalid-token.def ==
+
+Syntax error: invalid-token.def:1:12: invalid token
+
+== normal.def ==
+
+empty -> <null>
+string -> String("foo""bar")
+symbol -> Symbol(._.A.0)
+
+== nospace.def ==
+
+empty -> <null>
+string -> String("foo")
+symbol -> Symbol(._.A.0)
+
+== stray-column.def ==
+
+Syntax error: stray-column.def:1:8: stray colon
+
+== stray-dash.def ==
+
+Syntax error: stray-dash.def:1:11: stray dash
+
+== string-eof.def ==
+
+string -> String("foo")
+
+== symbol-eof.def ==
+
+symbol -> Symbol(A)
+
+== unterm-string.def ==
+
+Syntax error: unterm-string.def:1:9: invalid token
+
+Done.

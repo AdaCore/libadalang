@@ -18420,3 +18420,51 @@ class AbstractStateDeclExpr(Expr):
     state_decl = Field(type=AdaNode)
 
     xref_equation = Property(LogicTrue())
+
+
+@abstract
+class PpDirective(AdaNode):
+    """
+    Base node for all preprocessor directives.
+    """
+
+
+class PpThenKw(AdaNode):
+    """
+    ``then`` keyword in preprocessor directives.
+    """
+    # Unparsers require to have a single sequence of tokens for a given node.
+    # We need parsers for ``PpIfDirective`` and ``PpElseDirective`` to accept
+    # both ``[els]if X then`` and ``[els]if X`` syntax forms, so we have to
+    # create a (possible null) ``then_kw`` field for both.
+    pass
+
+
+class PpIfDirective(PpDirective):
+    """
+    ``if ... [then]`` preprocessor directive.
+    """
+    expr = Field(type=Expr)
+    then_kw = Field(type=PpThenKw)
+
+
+class PpElsifDirective(PpDirective):
+    """
+    ``elsif ... [then]`` preprocessor directive.
+    """
+    expr = Field(type=Expr)
+    then_kw = Field(type=PpThenKw)
+
+
+class PpElseDirective(PpDirective):
+    """
+    ``else`` preprocessor directive.
+    """
+    pass
+
+
+class PpEndIfDirective(PpDirective):
+    """
+    ``end if;`` preprocessor directive.
+    """
+    pass

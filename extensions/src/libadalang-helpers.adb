@@ -33,12 +33,16 @@ with System.Multiprocessors;
 with GNAT.OS_Lib;
 with GNAT.Traceback.Symbolic;
 
-with GNATCOLL.VFS;       use GNATCOLL.VFS;
+with GNATCOLL.File_Paths;
+with GNATCOLL.Strings; use GNATCOLL.Strings;
+with GNATCOLL.VFS;     use GNATCOLL.VFS;
+
+with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
+with Langkit_Support.Text;         use Langkit_Support.Text;
 
 with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
+with Libadalang.Preprocessing;    use Libadalang.Preprocessing;
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
-
-with Langkit_Support.Text; use Langkit_Support.Text;
 
 package body Libadalang.Helpers is
 
@@ -175,11 +179,14 @@ package body Libadalang.Helpers is
          Env     : Project_Environment_Access;
          --  Reference to the loaded project tree, if any. Null otherwise.
 
+         FR : File_Reader_Reference;
+         --  File reader to use in all contexts for this app
+
          UFP : Unit_Provider_Reference;
          --  When project file handling is enabled, corresponding unit provider
 
          EH : Event_Handler_Reference;
-         --  Event handler for command line app.
+         --  Event handler for command line app
 
          type App_Job_Context_Array_Access is access App_Job_Context_Array;
          procedure Free is new Ada.Unchecked_Deallocation
@@ -207,6 +214,7 @@ package body Libadalang.Helpers is
 
          procedure Finalize is
          begin
+            FR := No_File_Reader_Reference;
             UFP := No_Unit_Provider_Reference;
             EH := No_Event_Handler_Ref;
             if Project /= null then
@@ -322,6 +330,60 @@ package body Libadalang.Helpers is
 
          if not Args.Parser.Parse then
             return;
+         end if;
+
+         --  If preprocessor support is requested, create the corresponding
+         --  file reader.
+
+         if Length (Args.Preprocessor_Data_File.Get) > 0 then
+            declare
+               --  First create the path to find the preprocessor data file and
+               --  the definition files.
+
+               use GNATCOLL.File_Paths;
+               US_Dirs : constant Args.Preprocessor_Path.Result_Array :=
+                  Args.Preprocessor_Path.Get;
+               XS_Dirs : XString_Array (US_Dirs'Range);
+
+               Default_Config : File_Config;
+               File_Configs   : File_Config_Maps.Map;
+            begin
+               for I in US_Dirs'Range loop
+                  XS_Dirs (I) := To_XString (+US_Dirs (I));
+               end loop;
+
+               --  Then parse these files
+
+               Parse_Preprocessor_Data_File
+                 (+Args.Preprocessor_Data_File.Get,
+                  Create_Path (XS_Dirs),
+                  Default_Config,
+                  File_Configs);
+
+               --  Force the "blank lines" mode, as the default "delete lines"
+               --  mode changes line numbers, and is thus tooling unfriendly.
+
+               declare
+                  procedure Force_Line_Mode (Config : in out File_Config);
+
+                  ---------------------
+                  -- Force_Line_Mode --
+                  ---------------------
+
+                  procedure Force_Line_Mode (Config : in out File_Config) is
+                  begin
+                     Config.Line_Mode := Blank_Lines;
+                  end Force_Line_Mode;
+               begin
+                  Iterate
+                    (Default_Config, File_Configs, Force_Line_Mode'Access);
+               end;
+
+               --  We are finally ready to create the preprocessing file reader
+               --  from these configurations.
+
+               FR := Create_Preprocessor (Default_Config, File_Configs);
+            end;
          end if;
 
          --  Use the default command line event handler. Forward the value of
@@ -446,6 +508,7 @@ package body Libadalang.Helpers is
                App_Ctx         => App_Ctx'Unchecked_Access,
                Analysis_Ctx    => Create_Context
                                     (Charset       => +Args.Charset.Get,
+                                     File_Reader   => FR,
                                      Unit_Provider => UFP,
                                      Event_Handler => EH),
                Units_Processed => <>,

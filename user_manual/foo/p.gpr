@@ -1,0 +1,5 @@
+with "libadalang";
+project p is
+for main use ("main.adb");
+for object_dir use "obj";
+end p;

@@ -1,0 +1,3 @@
+driver: prep
+configs:
+    input.ada: ["-c -u -DT=True -DF=False"]

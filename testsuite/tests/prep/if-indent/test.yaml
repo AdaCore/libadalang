@@ -1,0 +1,3 @@
+driver: prep
+configs:
+    input.ada: ["", "-b", "-c"]

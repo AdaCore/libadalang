@@ -9,7 +9,8 @@ from langkit.parsers import (Cut, Grammar, List, Null, Opt, Or, Pick,
                              Predicate, Skip, _)
 
 
-ada_grammar = Grammar(main_rule_name='compilation')
+ada_grammar = Grammar(main_rule_name='compilation',
+                      extra_entry_points={'pp_directive'})
 A = ada_grammar
 
 
@@ -1364,4 +1365,29 @@ A.add_rules(
         A.relation
     ),
 
+    pp_directive=Or(
+        PpIfDirective("if", cut(), A.pp_expr, A.pp_then),
+        PpElsifDirective("elsif", cut(), A.pp_expr, A.pp_then),
+        PpElseDirective("else"),
+        PpEndIfDirective("end", "if", ";"),
+    ),
+
+    pp_then=Opt(PpThenKw("then")),
+
+    pp_expr=Or(
+        BinOp(A.pp_expr, A.boolean_op, cut(), A.pp_term),
+        A.pp_term,
+    ),
+
+    pp_term=Or(
+        ParenExpr("(", A.pp_expr, ")"),
+        UnOp(Op.alt_not("not"), A.pp_expr),
+        BinOp(A.identifier,
+              Or(Op.alt_eq("="),
+                 Op.alt_lt("<"), Op.alt_lte("<="),
+                 Op.alt_gt(">"), Op.alt_gte(">=")),
+              Or(A.string_literal, A.int_literal, A.identifier)),
+        AttributeRef(A.identifier, "'", A.identifier, Null(AdaNode)),
+        A.identifier,
+    ),
 )

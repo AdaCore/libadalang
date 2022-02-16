@@ -10597,7 +10597,7 @@ class UnOp(Expr):
     def xref_equation():
         return Entity.expr.sub_equation & If(
             Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends'),
-            Entity.expr.sub_equation,
+            LogicTrue(),
             Or(Entity.overload_equation,
                Self.type_bind_var(Self.type_var, Self.expr.type_var))
         )

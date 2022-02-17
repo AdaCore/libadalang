@@ -16328,8 +16328,17 @@ class DottedName(Name):
                     # Filter elements that are coming from a body that is not
                     # visible. This can happen with dottable subprograms
                     # defined in bodies.
-                    lambda n: Or(n.owning_unit_kind == UnitSpecification,
-                                 Self.has_visibility(n))
+                    # NOTE: We also filter `PrivatePart`s here as they are
+                    # useless from the completion point of view.
+                    lambda n: And(
+                        # Order matters here, `has_visibility` below should not
+                        # be called with n being a PrivatePart.
+                        Not(n.is_a(PrivatePart)),
+                        Or(
+                            n.owning_unit_kind == UnitSpecification,
+                            Self.has_visibility(n)
+                        )
+                    )
                 ).to_iterator
             )
         ))

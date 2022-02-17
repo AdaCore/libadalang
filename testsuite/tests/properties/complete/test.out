@@ -1,3 +1,7 @@
+Eval 'list(node.f_call.p_complete)' on node <CallStmt private.adb:16:4-18:1>
+Result: [<CompletionItem decl=<PackageBody ["Q"] private.adb:8:4-13:10> is_dot_call=False is_visible=True>, <CompletionItem decl=<SubpDecl ["P"] private.adb:3:7-3:33> is_dot_call=False is_visible=True>]
+
+
 Eval 'list(node.p_complete)' on node <DottedName test_pkg-foo.adb:8:7-10:10>
 Result: [<CompletionItem decl=<SubpDecl ["My_Method"] test_pkg.ads:6:4-6:49> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpDecl ["My_Body_Method"] test_pkg.adb:6:4-6:54> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpBody ["My_Method"] test_pkg.adb:8:4-11:18> is_dot_call=True is_visible=True>, <CompletionItem decl=<SubpBody ["My_Body_Method"] test_pkg.adb:13:4-18:23> is_dot_call=True is_visible=True>, <CompletionItem decl=<NullSubpDecl ["Base_Method"] base.ads:3:4-3:53> is_dot_call=True is_visible=True>]
 

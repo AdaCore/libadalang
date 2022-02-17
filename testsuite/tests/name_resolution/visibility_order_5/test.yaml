@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [root-pkg.adb]
+with_default_project: False

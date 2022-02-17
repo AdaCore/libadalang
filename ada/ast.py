@@ -17981,7 +17981,7 @@ class ProtectedBody(Body):
 
         reference(Self.cast(AdaNode).singleton,
                   through=T.Body.body_decl_scope,
-                  kind=RefKind.transitive),
+                  kind=RefKind.prioritary),
 
         # Reference stub's env if the body is a separate
         reference(Self.cast(AdaNode).singleton,

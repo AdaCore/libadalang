@@ -1,0 +1,6 @@
+type: bugfix
+title: Filter out `SyntheticSubpDecl` nodes for completion
+description: |
+  SyntheticSubpDecl nodes are useless in the scope of completion, this
+  patch simply filters them out.
+date: 2022-02-18

@@ -315,13 +315,27 @@ class AdaNode(ASTNode):
         """
         Return possible completions at this point in the file.
         """
+        return Entity.complete_items.filter(
+            # This property filters out `SyntheticSubpDecl` items
+            # because they are of no use for completion. Additional
+            # filtering can be done in `complete_items`.
+            lambda n: n.decl.cast(T.SyntheticSubpDecl).is_null
+        ).to_iterator
+
+    @langkit_property(return_type=T.CompletionItem.array)
+    def complete_items():
+        """
+        Internal method used by `complete` to get the array of possible
+        completions for the current node. This method has to be
+        overridden in order to specialize the completion.
+        """
         return Self.children_env.get(No(Symbol)).map(
             lambda n: CompletionItem.new(
                 decl=n.cast(T.BasicDecl),
                 is_dot_call=n.info.md.dottable_subp,
                 is_visible=Self.has_with_visibility(n.unit)
             )
-        ).to_iterator
+        )
 
     @langkit_property(public=True, return_type=T.Symbol.array)
     def valid_keywords():
@@ -7976,15 +7990,15 @@ class SubtypeIndication(TypeExpr):
         env.bind(Entity.node_env, Entity.name.designated_type_impl)
     )
 
-    @langkit_property(return_type=T.CompletionItem.iterator)
-    def complete():
+    @langkit_property(return_type=T.CompletionItem.array)
+    def complete_items():
         """
         Return possible completions for a type indication at this point in the
         file. Completions for a type indication are more likely coming from a
         type declaration. PackageDecls have a medium weigth in order to provide
         completion of fully qualified names.
         """
-        return Self.children_env.get(No(Symbol)).map(
+        return Entity.children_env.get(No(Symbol)).map(
             lambda n: CompletionItem.new(
                 decl=n.cast(T.BasicDecl),
                 is_dot_call=n.info.md.dottable_subp,
@@ -7995,7 +8009,7 @@ class SubtypeIndication(TypeExpr):
                     lambda _: 0
                 )
             )
-        ).to_iterator
+        )
 
     @langkit_property(public=True, return_type=ParamActual.array)
     def subtype_constraints():
@@ -15058,9 +15072,9 @@ class Identifier(BaseId):
         )
     )
 
-    @langkit_property(return_type=T.CompletionItem.iterator)
-    def complete():
-        return Entity.parent.complete
+    @langkit_property(return_type=T.CompletionItem.array)
+    def complete_items():
+        return Entity.parent.complete_items
 
     @langkit_property()
     def is_constant():
@@ -17143,8 +17157,8 @@ class DottedName(Name):
 
     has_context_free_type = Property(Not(Self.suffix.is_a(CharLiteral)))
 
-    @langkit_property(return_type=T.CompletionItem.iterator)
-    def complete():
+    @langkit_property(return_type=T.CompletionItem.array)
+    def complete_items():
         return origin.bind(Self.origin_node, env.bind(
             Self.node_env,
             # In completion we always want to return everything, and flag
@@ -17166,7 +17180,6 @@ class DottedName(Name):
                             Self.has_with_visibility(n.unit),
                         )
                     ),
-
                     # Filter elements that are coming from a body that is not
                     # visible. This can happen with dottable subprograms
                     # defined in bodies.
@@ -17181,7 +17194,7 @@ class DottedName(Name):
                             Self.has_visibility(n)
                         )
                     )
-                ).to_iterator
+                )
             )
         ))
 
@@ -19041,8 +19054,8 @@ class AlternativesList(AdaNode.list):
             lambda cs: cs.expr.expression_type
         )
 
-    @langkit_property(public=True, return_type=T.CompletionItem.iterator)
-    def complete():
+    @langkit_property(return_type=T.CompletionItem.array)
+    def complete_items():
         """
         Return possible completions at this point in the file.
         """
@@ -19060,7 +19073,7 @@ class AlternativesList(AdaNode.list):
                     lambda _: 0
                 )
             )
-        ).to_iterator
+        )
 
 
 class ExprAlternativesList(Expr.list):

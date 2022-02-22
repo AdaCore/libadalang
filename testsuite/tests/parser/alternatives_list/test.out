@@ -1,0 +1,13 @@
+input:2:5: Cannot parse <case_alt>
+input:3:1: Expected 'others', got 'end'
+CaseStmt[1:1-4:1] <<INCOMPLETE>>
+|f_expr:
+|  Id[1:6-1:7]: A
+|f_alternatives:
+|  CaseStmtAlternativeList[2:5-3:1] <<INCOMPLETE>>
+|  |  CaseStmtAlternative[2:5-3:1] <<INCOMPLETE>>
+|  |  |f_choices:
+|  |  |  AlternativesList[2:9-2:9]: <empty list>
+|  |  |f_stmts: <null>
+
+==== Checking tree consistency ====

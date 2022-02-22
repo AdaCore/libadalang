@@ -883,7 +883,7 @@ A.add_rules(
     ),
 
     case_alt=CaseStmtAlternative(
-        "when", A.choice_list, "=>",
+        "when", cut(), A.choice_list, "=>",
         A.stmts.dont_skip(Or("when", "end"))
     ),
 

@@ -18176,7 +18176,36 @@ class AlternativesList(AdaNode.list):
     List of alternatives in a ``when ...`` clause.
     """
 
-    pass
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def enum_type():
+        """
+        If this AlternativesList belongs to a case statement, return the type
+        of the enum this case statement operates on. Null otherwise.
+        """
+        return Entity.parent.parent.parent.cast(T.CaseStmt).then(
+            lambda cs: cs.expr.expression_type
+        )
+
+    @langkit_property(public=True, return_type=T.CompletionItem.iterator)
+    def complete():
+        """
+        Return possible completions at this point in the file.
+        """
+        return Self.children_env.get(No(Symbol)).map(
+            lambda n: CompletionItem.new(
+                decl=n.cast(T.BasicDecl),
+                is_dot_call=n.info.md.dottable_subp,
+                is_visible=Self.has_with_visibility(n.unit),
+                weight=n.match(
+                    lambda eld=T.EnumLiteralDecl: If(
+                        Entity.enum_type == eld.enum_type,
+                        100,
+                        0
+                    ),
+                    lambda _: 0
+                )
+            )
+        ).to_iterator
 
 
 class ExprAlternativesList(Expr.list):

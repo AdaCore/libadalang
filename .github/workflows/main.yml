@@ -115,7 +115,7 @@ jobs:
         run: |
             langkit/manage.py build-langkit-support
             langkit/manage.py install-langkit-support $PREFIX
-            langkit/manage.py make --no-langkit-support
+            langkit/manage.py make --no-langkit-support --no-mypy
 
       - name: Build libadalang
         run: |

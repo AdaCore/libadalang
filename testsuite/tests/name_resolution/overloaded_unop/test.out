@@ -14,7 +14,7 @@ Expr: <OpMinus "-" p.adb:4:31-4:32>
   type:       None
 Expr: <Int p.adb:4:32-4:33>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

@@ -31,7 +31,7 @@ Expr: <OpGt ">" test.adb:3:21-3:22>
   type:       None
 Expr: <Int test.adb:3:23-3:24>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <PragmaNode test.adb:4:7-4:36>
 *******************************************************
@@ -49,7 +49,7 @@ Expr: <OpLt "<" test.adb:4:30-4:31>
   type:       None
 Expr: <Int test.adb:4:32-4:34>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <PragmaNode test.adb:5:7-5:36>
 *******************************************************
@@ -73,7 +73,7 @@ Expr: <OpGt ">" test.adb:5:31-5:32>
   type:       None
 Expr: <Int test.adb:5:33-5:34>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <PragmaNode test.adb:6:7-6:45>
 *******************************************************
@@ -112,7 +112,7 @@ Expr: <OpMinus "-" test.adb:8:16-8:17>
   type:       None
 Expr: <Int test.adb:8:18-8:19>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EndName test.adb:9:8-9:11>
 ****************************************************

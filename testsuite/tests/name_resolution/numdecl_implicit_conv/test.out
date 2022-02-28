@@ -8,13 +8,13 @@ Expr: <RelationOp testcst.adb:5:7-5:15>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "B" testcst.adb:5:7-5:8>
   references: <DefiningName testcst.adb:3:4-3:5>
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <OpEq "=" testcst.adb:5:9-5:10>
   references: None
   type:       None
 Expr: <Real testcst.adb:5:11-5:15>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 
 
 Done.

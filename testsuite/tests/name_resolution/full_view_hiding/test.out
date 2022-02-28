@@ -19,10 +19,10 @@ Expr: <Aggregate b-c.adb:4:26-4:32>
   type:       <TypeDecl ["Typ"] b-c.ads:4:4-4:26>
 Expr: <Int b-c.adb:4:27-4:28>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int b-c.adb:4:30-4:31>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

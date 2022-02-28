@@ -12,7 +12,7 @@ Expr: <Id "R" foo.adb:5:7-5:8>
   type:       <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <AttributeRef foo.adb:5:12-5:24>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <DottedName foo.adb:5:12-5:17>
   references: <DefiningName foo.ads:5:7-5:10>
   type:       <TypeDecl ["Arr"] foo.ads:2:4-2:56>

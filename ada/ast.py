@@ -15679,6 +15679,10 @@ class AttributeRef(Name):
             rel_name == 'Index',
             Entity.index_equation,
 
+            rel_name == "Abort_Signal",
+            Bind(Self.ref_var, Self.std_entity('abort_signal_'))
+            & Bind(Self.type_var, No(BaseTypeDecl.entity)),
+
             PropertyError(Equation, "Unhandled attribute")
         )
 

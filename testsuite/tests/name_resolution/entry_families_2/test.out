@@ -9,7 +9,7 @@ Expr: <Id "E" test.adb:12:14-12:15>
   type:       None
 Expr: <Int test.adb:12:17-12:18>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <AcceptStmt test.adb:15:7-15:20>
 *********************************************************
@@ -38,7 +38,7 @@ Expr: <Id "E" test.adb:19:6-19:7>
   type:       None
 Expr: <Int test.adb:19:9-19:10>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <CallStmt test.adb:22:4-22:12>
 *******************************************************

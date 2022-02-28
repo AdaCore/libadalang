@@ -18,7 +18,7 @@ Expr: <Id "T" repro.adb:7:18-7:19>
   type:       None
 Expr: <Int repro.adb:7:21-7:23>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <CaseStmtAlternative repro.adb:8:10-8:26>
 ******************************************************************
@@ -57,7 +57,7 @@ Expr: <Id "T" repro.adb:17:12-17:13>
   type:       <TypeDecl ["T"] repro.adb:3:7-3:29>
 Expr: <Int repro.adb:17:15-17:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <CaseStmtAlternative repro.adb:18:10-18:26>
 ********************************************************************

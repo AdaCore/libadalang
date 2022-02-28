@@ -11,16 +11,16 @@ Expr: <BracketAggregate test_brack_aggr.adb:3:15-3:27>
   type:       <TypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
 Expr: <Int test_brack_aggr.adb:3:16-3:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test_brack_aggr.adb:3:19-3:20>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test_brack_aggr.adb:3:22-3:23>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test_brack_aggr.adb:3:25-3:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ObjectDecl ["B"] test_brack_aggr.adb:6:4-6:39>
 ************************************************************************
@@ -35,16 +35,16 @@ Expr: <Id "A" test_brack_aggr.adb:6:16-6:17>
   type:       <TypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
 Expr: <Int test_brack_aggr.adb:6:23-6:24>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test_brack_aggr.adb:6:28-6:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test_brack_aggr.adb:6:31-6:32>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test_brack_aggr.adb:6:36-6:37>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ObjectDecl ["P2"] test_brack_aggr.adb:15:4-15:41>
 ***************************************************************************
@@ -94,13 +94,13 @@ Expr: <BinOp test_brack_aggr.adb:21:26-21:34>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test_brack_aggr.adb:21:26-21:27>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpDoubleDot ".." test_brack_aggr.adb:21:28-21:30>
   references: None
   type:       None
 Expr: <Int test_brack_aggr.adb:21:31-21:34>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <BinOp test_brack_aggr.adb:21:38-21:43>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "I" test_brack_aggr.adb:21:38-21:39>
@@ -111,7 +111,7 @@ Expr: <OpMult "*" test_brack_aggr.adb:21:40-21:41>
   type:       None
 Expr: <Int test_brack_aggr.adb:21:42-21:43>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

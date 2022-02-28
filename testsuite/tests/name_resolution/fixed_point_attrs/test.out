@@ -6,7 +6,7 @@ Resolving xrefs for node <NumberDecl ["A"] test.adb:4:4-4:28>
 
 Expr: <AttributeRef test.adb:4:20-4:27>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Id "T" test.adb:4:20-4:21>
   references: <DefiningName test.adb:2:9-2:10>
   type:       <TypeDecl ["T"] test.adb:2:4-2:42>
@@ -31,7 +31,7 @@ Expr: <Id "Fixed_Value" test.adb:7:24-7:35>
   type:       None
 Expr: <Int test.adb:7:37-7:38>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:10:4-10:54>
 ***************************************************************

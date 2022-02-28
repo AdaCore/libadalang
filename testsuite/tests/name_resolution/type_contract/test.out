@@ -62,7 +62,7 @@ Expr: <OpEq "=" test.ads:13:34-13:35>
   type:       None
 Expr: <Int test.ads:13:36-13:37>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ComponentDecl ["X"] test.ads:17:7-17:19>
 ******************************************************************

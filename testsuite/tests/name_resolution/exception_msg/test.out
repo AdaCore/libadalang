@@ -5,7 +5,7 @@ Resolving xrefs for node <RaiseStmt testexcmsg.adb:3:4-3:61>
 ************************************************************
 
 Expr: <Id "Constraint_Error" testexcmsg.adb:3:10-3:26>
-  references: <DefiningName __standard:116:3-116:19>
+  references: <DefiningName __standard:123:3-123:19>
   type:       None
 Expr: <BinOp testexcmsg.adb:3:32-3:60>
   type:       <TypeDecl ["String"] __standard:105:3-105:57>
@@ -26,7 +26,7 @@ Expr: <Id "Image" testexcmsg.adb:3:50-3:55>
   type:       None
 Expr: <Int testexcmsg.adb:3:57-3:59>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

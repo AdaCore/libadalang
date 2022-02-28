@@ -25,7 +25,7 @@ Expr: <OpGt ">" fuand.adb:16:25-16:26>
   type:       None
 Expr: <Int fuand.adb:16:27-16:28>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpAndThen "and then" fuand.adb:16:29-16:37>
   references: None
   type:       None
@@ -45,7 +45,7 @@ Expr: <OpGt ">" fuand.adb:16:53-16:54>
   type:       None
 Expr: <Int fuand.adb:16:55-16:56>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

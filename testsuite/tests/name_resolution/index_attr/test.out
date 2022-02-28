@@ -30,7 +30,7 @@ Expr: <OpLt "<" index.ads:11:26-11:27>
   type:       None
 Expr: <Int index.ads:11:28-11:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <PragmaNode index.ads:12:9-12:45>
 **********************************************************
@@ -54,7 +54,7 @@ Expr: <OpGte ">=" index.ads:12:39-12:41>
   type:       None
 Expr: <Int index.ads:12:42-12:43>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EntrySpec index.ads:13:9-13:31>
 *********************************************************
@@ -85,7 +85,7 @@ Expr: <OpGte ">=" index.ads:14:27-14:29>
   type:       None
 Expr: <Int index.ads:14:30-14:31>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <PragmaNode index.ads:15:9-15:43>
 **********************************************************
@@ -109,7 +109,7 @@ Expr: <OpLt "<" index.ads:15:38-15:39>
   type:       None
 Expr: <Int index.ads:15:40-15:41>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EndName index.ads:16:9-16:10>
 *******************************************************

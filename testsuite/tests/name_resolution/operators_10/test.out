@@ -11,16 +11,16 @@ Expr: <Id "Foo" test.adb:11:4-11:7>
   references: <DefiningName test.adb:6:14-6:17>
   type:       None
 Expr: <BinOp test.adb:11:9-11:14>
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test.adb:11:9-11:10>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpPlus "+" test.adb:11:11-11:12>
   references: None
   type:       None
 Expr: <Int test.adb:11:13-11:14>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <AssignStmt test.adb:14:4-14:21>
 *********************************************************
@@ -35,16 +35,16 @@ Expr: <Id "F" test.adb:14:9-14:10>
   references: <DefiningName test.adb:4:9-4:10>
   type:       <TypeDecl ["F"] test.adb:4:4-4:23>
 Expr: <BinOp test.adb:14:12-14:19>
-  type:       <TypeDecl ["root_fixed"] __standard:126:3-126:50>
+  type:       <TypeDecl ["root_fixed"] __standard:121:3-121:50>
 Expr: <Int test.adb:14:12-14:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpMult "*" test.adb:14:14-14:15>
   references: None
   type:       None
 Expr: <Real test.adb:14:16-14:19>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 
 
 Done.

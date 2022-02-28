@@ -201,7 +201,7 @@ Expr: <Id "Insert" testpro.adb:29:9-29:15>
   type:       None
 Expr: <Int testpro.adb:29:17-29:19>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EndName testpro.adb:30:5-30:13>
 *********************************************************

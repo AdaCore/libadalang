@@ -27,7 +27,7 @@ Expr: <Id "Fact" foo.adb:4:38-4:42>
   type:       <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Int foo.adb:4:44-4:45>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

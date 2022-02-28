@@ -15,7 +15,7 @@ Expr: <Id "Y" root-pkg.adb:8:15-8:16>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int root-pkg.adb:8:20-8:22>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

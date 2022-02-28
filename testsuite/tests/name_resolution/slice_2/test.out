@@ -16,13 +16,13 @@ Expr: <BinOp test.adb:6:7-6:12>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:6:7-6:8>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpPlus "+" test.adb:6:9-6:10>
   references: None
   type:       None
 Expr: <Int test.adb:6:11-6:12>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpDoubleDot ".." test.adb:6:13-6:15>
   references: None
   type:       None
@@ -41,13 +41,13 @@ Expr: <BinOp test.adb:6:25-6:30>
   type:       <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:6:25-6:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpPlus "+" test.adb:6:27-6:28>
   references: None
   type:       None
 Expr: <Int test.adb:6:29-6:30>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpDoubleDot ".." test.adb:6:31-6:33>
   references: None
   type:       None

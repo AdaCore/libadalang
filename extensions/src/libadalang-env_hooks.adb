@@ -171,11 +171,6 @@ package body Libadalang.Env_Hooks is
      "    range -((2 ** 63 - 1) * 0.000000001) .." & ASCII.LF &
      "          +((2 ** 63 - 1) * 0.000000001);" & ASCII.LF &
      "  for Duration'Small use 0.000000001;" & ASCII.LF &
-     "  Constraint_Error : exception;" & ASCII.LF &
-     "  Numeric_Error    : exception;" & ASCII.LF &
-     "  Program_Error    : exception;" & ASCII.LF &
-     "  Storage_Error    : exception;" & ASCII.LF &
-     "  Tasking_Error    : exception;" & ASCII.LF &
      "  type Universal_Int_Type_ is range -1 .. 1;" & ASCII.LF &
      "  type Universal_Real_Type_ is digits 16;" & ASCII.LF &
      "  package root_types_ is" & ASCII.LF &
@@ -183,6 +178,12 @@ package body Libadalang.Env_Hooks is
      "  type root_real is digits 16;" & ASCII.LF &
      "  type root_fixed is delta 0.1 range -1.0 .. 1.0;" & ASCII.LF &
      "  end root_types_;" & ASCII.LF &
+     "  Constraint_Error : exception;" & ASCII.LF &
+     "  Numeric_Error    : exception;" & ASCII.LF &
+     "  Program_Error    : exception;" & ASCII.LF &
+     "  Storage_Error    : exception;" & ASCII.LF &
+     "  Tasking_Error    : exception;" & ASCII.LF &
+     "  Abort_Signal_    : exception;" & ASCII.LF &
      "end Standard;" & ASCII.LF;
 
    ---------------------

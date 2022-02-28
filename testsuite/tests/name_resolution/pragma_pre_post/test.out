@@ -86,7 +86,7 @@ Expr: <Id "F" test.ads:11:18-11:19>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:11:21-11:23>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpEq "=" test.ads:11:25-11:26>
   references: None
   type:       None
@@ -125,7 +125,7 @@ Expr: <Id "F" test.ads:12:19-12:20>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:12:22-12:24>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "Old" test.ads:12:26-12:29>
   references: None
   type:       None
@@ -146,7 +146,7 @@ Expr: <Id "F" test.ads:12:34-12:35>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:12:37-12:39>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpAndThen "and then" test.ads:13:17-13:25>
   references: None
   type:       None
@@ -178,7 +178,7 @@ Expr: <OpGt ">" test.ads:13:48-13:49>
   type:       None
 Expr: <Int test.ads:13:50-13:51>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpAndThen "and then" test.ads:14:17-14:25>
   references: None
   type:       None
@@ -263,7 +263,7 @@ Expr: <Id "F" test.ads:19:21-19:22>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:19:24-19:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpEq "=" test.ads:19:28-19:29>
   references: None
   type:       None
@@ -298,7 +298,7 @@ Expr: <Id "F" test.ads:20:20-20:21>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:20:23-20:25>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "Old" test.ads:20:27-20:30>
   references: None
   type:       None
@@ -319,7 +319,7 @@ Expr: <Id "F" test.ads:20:35-20:36>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:20:38-20:40>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpAndThen "and then" test.ads:21:18-21:26>
   references: None
   type:       None
@@ -351,7 +351,7 @@ Expr: <OpGt ">" test.ads:21:49-21:50>
   type:       None
 Expr: <Int test.ads:21:51-21:52>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpAndThen "and then" test.ads:22:18-22:26>
   references: None
   type:       None
@@ -421,7 +421,7 @@ Expr: <Id "F" test.ads:25:9-25:10>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:25:12-25:14>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpEq "=" test.ads:25:16-25:17>
   references: None
   type:       None
@@ -456,7 +456,7 @@ Expr: <Id "F" test.ads:27:9-27:10>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:27:12-27:14>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "Old" test.ads:27:16-27:19>
   references: None
   type:       None
@@ -477,7 +477,7 @@ Expr: <Id "F" test.ads:27:24-27:25>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.ads:27:27-27:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpAndThen "and then" test.ads:27:31-27:39>
   references: None
   type:       None

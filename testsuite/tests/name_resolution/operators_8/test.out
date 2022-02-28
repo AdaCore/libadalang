@@ -10,21 +10,21 @@ Expr: <Id "X" test.adb:12:4-12:5>
 Expr: <RelationOp test.adb:12:9-12:17>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <ParenExpr test.adb:12:9-12:13>
-  type:       <TypeDecl ["root_integer"] __standard:124:3-124:38>
+  type:       <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <UnOp test.adb:12:10-12:12>
-  type:       <TypeDecl ["root_integer"] __standard:124:3-124:38>
+  type:       <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpPlus "+" test.adb:12:10-12:11>
   references: None
   type:       None
 Expr: <Int test.adb:12:11-12:12>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpGt ">" test.adb:12:14-12:15>
   references: None
   type:       None
 Expr: <Int test.adb:12:16-12:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

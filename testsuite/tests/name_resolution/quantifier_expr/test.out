@@ -26,7 +26,7 @@ Expr: <OpGt ">" test.adb:7:41-7:42>
   type:       None
 Expr: <Int test.adb:7:43-7:44>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpAndThen "and then" test.adb:7:46-7:54>
   references: None
   type:       None
@@ -44,7 +44,7 @@ Expr: <OpLt "<" test.adb:8:32-8:33>
   type:       None
 Expr: <Int test.adb:8:34-8:35>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

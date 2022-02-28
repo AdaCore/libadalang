@@ -34,7 +34,7 @@ Expr: <Id "My_Int" teststd.ads:3:25-3:31>
   type:       None
 Expr: <Int teststd.ads:3:35-3:37>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EndName teststd.ads:4:5-4:12>
 *******************************************************

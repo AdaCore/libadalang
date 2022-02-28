@@ -15,7 +15,7 @@ Expr: <Id "V2" main.adb:13:12-13:14>
   type:       <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
 Expr: <Real main.adb:13:16-13:20>
   references: None
-  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 
 Resolving xrefs for node <CallStmt main.adb:16:4-16:19>
 *******************************************************
@@ -31,7 +31,7 @@ Expr: <Id "V" main.adb:16:12-16:13>
   type:       <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
 Expr: <Int main.adb:16:15-16:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

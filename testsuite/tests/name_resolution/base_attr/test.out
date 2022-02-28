@@ -29,13 +29,13 @@ Expr: <Id "Base" test.adb:5:20-5:24>
   type:       None
 Expr: <Int test.adb:5:26-5:28>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpPlus "+" test.adb:5:30-5:31>
   references: None
   type:       None
 Expr: <Int test.adb:5:32-5:33>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:8:4-8:36>
 *************************************************************
@@ -45,7 +45,7 @@ Expr: <Id "Integer" test.adb:8:8-8:15>
   type:       None
 Expr: <AttributeRef test.adb:8:19-8:35>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <AttributeRef test.adb:8:19-8:25>
   references: None
   type:       None

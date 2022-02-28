@@ -33,13 +33,13 @@ Expr: <OpMod "mod" pp_formal.ads:3:21-3:24>
   type:       None
 Expr: <Int pp_formal.ads:3:25-3:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpEq "=" pp_formal.ads:3:27-3:28>
   references: None
   type:       None
 Expr: <Int pp_formal.ads:3:29-3:30>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <AspectAssoc pp_formal.ads:3:32-3:45>
 **************************************************************

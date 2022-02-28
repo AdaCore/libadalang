@@ -14,10 +14,10 @@ Expr: <Id "Inst_2" testimplderef.adb:25:4-25:10>
   type:       <TypeDecl ["Ptr_Arr"] testimplderef.adb:11:4-11:35>
 Expr: <Int testimplderef.adb:25:12-25:13>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int testimplderef.adb:25:18-25:20>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

@@ -24,7 +24,7 @@ Expr: <Aggregate repro_multidim.adb:13:40-13:53>
   type:       None
 Expr: <Int repro_multidim.adb:13:51-13:52>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

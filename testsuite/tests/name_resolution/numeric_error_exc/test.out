@@ -13,7 +13,7 @@ Resolving xrefs for node <ExceptionHandler [] test.adb:5:4-6:12>
 ****************************************************************
 
 Expr: <Id "Numeric_Error" test.adb:5:9-5:22>
-  references: <DefiningName __standard:117:3-117:16>
+  references: <DefiningName __standard:124:3-124:16>
   type:       None
 
 Resolving xrefs for node <NullStmt test.adb:6:7-6:12>

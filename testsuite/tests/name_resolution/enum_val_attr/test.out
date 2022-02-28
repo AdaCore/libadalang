@@ -18,7 +18,7 @@ Expr: <Id "Enum_Val" test.adb:4:15-4:23>
   type:       None
 Expr: <Int test.adb:4:25-4:26>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

@@ -66,7 +66,7 @@ Expr: <OpMinus "-" base_types.ads:6:63-6:64>
   type:       None
 Expr: <Int base_types.ads:6:65-6:66>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <RelationOp base_types.ads:7:13-7:45>
   type:       <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef base_types.ads:7:13-7:29>

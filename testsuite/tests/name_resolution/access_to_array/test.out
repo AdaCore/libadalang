@@ -103,7 +103,7 @@ Expr: <Str ""lol"" testarraccess.adb:13:16-13:21>
   type:       <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Int testarraccess.adb:13:28-13:29>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <AssignStmt testarraccess.adb:15:4-15:19>
 ******************************************************************
@@ -122,7 +122,7 @@ Expr: <Id "S" testarraccess.adb:15:9-15:10>
   type:       <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <Int testarraccess.adb:15:16-15:17>
   references: None
-  type:       <TypeDecl ["Universal_Int_Type_"] __standard:121:3-121:45>
+  type:       <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EndName testarraccess.adb:16:5-16:18>
 ***************************************************************

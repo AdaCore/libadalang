@@ -52,6 +52,9 @@ procedure Test_Float_Attrs is
 
    R : Boolean := Float'Machine_Rounds;
    pragma Test_Statement;
+
+   S : Float := Float'Machine (1.0E+11);
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

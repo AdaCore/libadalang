@@ -347,5 +347,24 @@ Expr: <Id "Machine_Rounds" test_float_attrs.adb:53:25-53:39>
   references: None
   type:       None
 
+Resolving xrefs for node <ObjectDecl ["S"] test_float_attrs.adb:56:4-56:41>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:56:8-56:13>
+  references: <DefiningName __standard:14:8-14:13>
+  type:       None
+Expr: <AttributeRef test_float_attrs.adb:56:17-56:40>
+  references: None
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Float" test_float_attrs.adb:56:17-56:22>
+  references: <DefiningName __standard:14:8-14:13>
+  type:       <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Machine" test_float_attrs.adb:56:23-56:30>
+  references: None
+  type:       None
+Expr: <Real test_float_attrs.adb:56:32-56:39>
+  references: None
+  type:       <TypeDecl ["Universal_Real_Type_"] __standard:122:3-122:42>
+
 
 Done.

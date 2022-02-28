@@ -14308,8 +14308,8 @@ class Identifier(BaseId):
             # still parse them in the old "wrong" fashion, in order not to
             # trigger a resolution failure.
             'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
-            'Remainder', 'Adjacent', 'Mod', 'Machine_Rounding', 'Exponent',
-            'Scaling'
+            'Remainder', 'Adjacent', 'Mod', 'Machine', 'Machine_Rounding',
+            'Exponent', 'Scaling'
         )
     )
 
@@ -15655,7 +15655,7 @@ class AttributeRef(Name):
 
             rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation',
                             'Copy_Sign', 'Remainder', 'Adjacent',
-                            'Machine_Rounding'),
+                            'Machine', 'Machine_Rounding'),
             Entity.float_funcs_equation,
 
             rel_name.any_of('Exponent', 'Machine_Radix'),

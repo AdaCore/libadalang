@@ -4734,27 +4734,6 @@ class BaseTypeDecl(BasicDecl):
             ).cast(T.BaseTypeDecl).as_entity
         )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity)
-    def model_of_type():
-        """
-        Return the type for which this type is a model, if applicable.
-        """
-        return (
-            Entity.get_aspect_spec_expr('Model_Of')
-            .cast_or_raise(T.Name).name_designated_type
-        )
-
-    @langkit_property(return_type=T.BaseTypeDecl.entity)
-    def modeled_type(from_unit=AnalysisUnit):
-        """
-        Return model type for this type if applicable.
-        """
-        types_with_models = Var(Self.top_level_decl(from_unit)
-                                .cast_or_raise(T.PackageDecl).public_part
-                                .types_with_models)
-
-        return types_with_models.find(lambda t: t.model_of_type == Entity)
-
     @langkit_property(return_type=Bool)
     def is_view_of_type(comp_view=T.BaseTypeDecl.entity):
         """
@@ -8620,30 +8599,6 @@ class AspectAssoc(AdaNode):
             Entity.expr.sub_equation
             & Self.bool_bind(Self.expr.type_var),
 
-            # Model_Of aspect on types
-            target.is_a(T.BaseTypeDecl)
-            & Entity.id.name_symbol.any_of('Model_Of'),
-            Bind(Self.expr.cast_or_raise(T.Name).ref_var,
-                 Entity.expr.cast_or_raise(T.Name).name_designated_type),
-
-            # Model_Of aspect on subprograms
-            target.is_a(T.BasicSubpDecl)
-            & Entity.id.name_symbol.any_of('Model_Of'),
-            Bind(
-                Self.expr.cast_or_raise(T.Name).ref_var,
-                Entity.expr.cast_or_raise(T.Name).all_env_elements_internal
-                .find(
-                    lambda e:
-                    e.is_a(T.BasicSubpDecl)
-                    & e.cast(T.BasicSubpDecl).subp_decl_spec
-                    .match_signature(
-                        target.as_entity.cast_or_raise(T.BasicSubpDecl)
-                        .subp_decl_spec,
-                        False
-                    )
-                )
-            ),
-
             # Put_Image aspect
             Entity.id.name_is('Put_Image'),
             Entity.expr.cast_or_raise(T.Name).xref_no_overloading(
@@ -8961,15 +8916,6 @@ class DeclarativePart(AdaNode):
     annotations = Annotations(snaps=True)
 
     decls = Field(type=T.AdaNode.list)
-
-    @langkit_property(memoized=True)
-    def types_with_models():
-        return Self.as_bare_entity.decls.filtermap(
-            lambda d: d.cast(T.BaseTypeDecl),
-            lambda d:
-            Not(d.cast(T.BaseTypeDecl)
-                ._.get_aspect_spec_expr('Model_Of').is_null)
-        )
 
     @langkit_property()
     def use_clauses_envs():
@@ -15709,9 +15655,6 @@ class AttributeRef(Name):
     @langkit_property()
     def designated_env():
         return Cond(
-            Entity.attribute.name_is('Model'),
-            Entity.designated_env_model_attr,
-
             Entity.is_access_attr,
             Entity.prefix.designated_env,
 
@@ -15722,17 +15665,6 @@ class AttributeRef(Name):
 
             EmptyEnv
         )
-
-    @langkit_property(return_type=LexicalEnv, dynamic_vars=[env, origin])
-    def designated_env_model_attr():
-        model_types = Var(
-            Entity.prefix.env_elements
-            .map(lambda e: e.cast_or_raise(T.BasicDecl).expr_type)
-            .map(lambda t: t.modeled_type(Self.unit))
-            .filter(lambda t: Not(t.is_null))
-        )
-
-        return model_types.map(lambda mt: mt.defining_env).env_group()
 
     @langkit_property()
     def xref_equation():
@@ -15816,9 +15748,6 @@ class AttributeRef(Name):
                             'Initialized'),
             Entity.prefix.sub_equation
             & Self.bool_bind(Self.type_var),
-
-            # Lal checkers specific
-            rel_name == 'Model', Entity.model_attr_equation,
 
             rel_name.any_of('Width', 'Component_Size', 'Position',
                             'Mantissa', 'Model_Mantissa', 'Machine_Mantissa',
@@ -15983,22 +15912,6 @@ class AttributeRef(Name):
 
         return (Entity.prefix.xref_equation
                 & Self.type_bind_val(Self.type_var, typ))
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def model_attr_equation():
-        return (
-            Entity.prefix.sub_equation
-            & Self.type_var.domain(
-                Self.top_level_decl(Self.unit)
-                .cast_or_raise(T.PackageDecl).public_part
-                .types_with_models.map(lambda t: t.cast(T.AdaNode))
-            )
-
-            # TODO: inlining of the TypeBind macro
-            & Bind(Self.type_var, Self.prefix.type_var,
-                   eq_prop=BaseTypeDecl.matching_type,
-                   conv_prop=BaseTypeDecl.model_of_type)
-        )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def bind_to_prefix_eq():

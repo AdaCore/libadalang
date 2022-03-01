@@ -5,7 +5,7 @@ from ada.lexer import ada_lexer as L
 
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
-from langkit.parsers import (Grammar, List, Cut, Null, Opt, Or, Pick,
+from langkit.parsers import (Cut, Grammar, List, Null, Opt, Or, Pick,
                              Predicate, Skip, _)
 
 

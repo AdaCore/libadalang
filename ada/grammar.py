@@ -6,7 +6,7 @@ from ada.lexer import ada_lexer as L
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
 from langkit.parsers import (Cut, Grammar, List, Null, Opt, Or, Pick,
-                             Predicate, Skip, _)
+                             Predicate, Skip, StopCut, _)
 
 
 ada_grammar = Grammar(main_rule_name='compilation')
@@ -696,7 +696,29 @@ A.add_rules(
     # cause parsing errors.
 
     discrete_subtype_indication=DiscreteSubtypeIndication(
-        NotNull("not", "null"), A.subtype_name, A.range_constraint
+        # In our efforts to improve incomplete parsing for better parsing
+        # recovery, we added `Cut` parsers in all the `DottedName` that were
+        # not using it already. Unfortunatly, one of these `DottedName` didn't
+        # behave correctly with a `Cut` parser because of the rules used in
+        # `call_suffix`.
+        #
+        # Indeed, this rule parses slices and call params making the following
+        # code impossible to parse with a `Cut` in the `subtype_name`` rule,
+        # hence the `StopCut` below.
+        #
+        # Here is an example of code that do not parse without `StopCut`::
+        #
+        #     Call (X.all)
+        #           ^^ `X.` is parsed as an incomplete subtype_name
+        #             ^^^ then `all` doesn't match the expected next token
+        #
+        # with the corresponding parsers stack::
+        #
+        #     name (consumes `Call (`` in a `CallExpr`)
+        #     | call_suffix
+        #       | discrete_subtype_indication (consumes `X.` if no `StopCut`)
+        #     then, `name` expects `)` but next token is `all`.
+        NotNull("not", "null"), StopCut(A.subtype_name), A.range_constraint
     ),
 
     constrained_subtype_indication=ConstrainedSubtypeIndication(
@@ -1199,7 +1221,7 @@ A.add_rules(
     ),
 
     qual_name_internal=Or(
-        DottedName(A.qual_name_internal, ".", A.direct_name),
+        DottedName(A.qual_name_internal, ".", Cut(), A.direct_name),
         # Attributes, needed because of 'Class: A'Class'(...)
         AttributeRef(
             A.qual_name_internal, "'", A.identifier, Null(AdaNode)
@@ -1253,7 +1275,7 @@ A.add_rules(
     # since the langkit parsing engine is eager, accepting CallExprs will
     # always eat the type constraints.
     subtype_name=Or(
-        DottedName(A.subtype_name, ".", A.direct_name),
+        DottedName(A.subtype_name, ".", Cut(), A.direct_name),
         AttributeRef(A.subtype_name, "'", A.identifier,
                      Opt("(", A.call_suffix, ")")),
         A.direct_name,

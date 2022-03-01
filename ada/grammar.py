@@ -5,8 +5,8 @@ from ada.lexer import ada_lexer as L
 
 # This import is after the language.ast import, because we want to be sure
 # no class from langkit.expressions are shadowing the parser combinators.
-from langkit.parsers import (Grammar, List, NoBacktrack as cut, Null, Opt, Or,
-                             Pick, Predicate, Skip, _)
+from langkit.parsers import (Grammar, List, Cut, Null, Opt, Or, Pick,
+                             Predicate, Skip, _)
 
 
 ada_grammar = Grammar(main_rule_name='compilation')
@@ -134,7 +134,7 @@ A.add_rules(
     ),
 
     task_type_decl=TaskTypeDecl(
-        "task", "type", cut(), A.defining_id, Opt(A.discriminant_part),
+        "task", "type", Cut(), A.defining_id, Opt(A.discriminant_part),
         A.aspect_spec,
         Opt(A.task_def), sc()
     ),
@@ -343,7 +343,7 @@ A.add_rules(
     ),
 
     variant_part=VariantPart(
-        "case", cut(), A.identifier, "is",
+        "case", Cut(), A.identifier, "is",
         List(A.variant),
         "end", "case", sc()
     ),
@@ -423,7 +423,7 @@ A.add_rules(
         GenericPackageInstantiation(
             "package",
             A.defining_name, "is",
-            "new", cut(), A.static_name,
+            "new", Cut(), A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc()
         ),
@@ -435,7 +435,7 @@ A.add_rules(
                 SubpKind.alt_function("function")
             ),
             A.defining_name, "is",
-            "new", cut(), A.static_name,
+            "new", Cut(), A.static_name,
             Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc(),
         ),
@@ -493,7 +493,7 @@ A.add_rules(
         Constant("constant"),
         Opt(A.mode),
         A.type_expr,
-        cut(),
+        Cut(),
         Opt(":=", A.expr),
         Opt(A.renaming_clause),
         A.aspect_spec,
@@ -527,7 +527,7 @@ A.add_rules(
 
     number_decl=NumberDecl(
         A.defining_id_list, ":", "constant",
-        cut(),
+        Cut(),
         ":=",
         A.simple_expr, sc()
     ),
@@ -566,10 +566,10 @@ A.add_rules(
         AspectAssoc(A.name, Opt("=>", Or(A.expr, A.contract_cases_expr)))
     ),
 
-    aspect_spec=Opt(AspectSpec("with", cut(), List(A.aspect_assoc, sep=","))),
+    aspect_spec=Opt(AspectSpec("with", Cut(), List(A.aspect_assoc, sep=","))),
 
     single_task_decl=SingleTaskDecl(
-        "task", cut(),
+        "task", Cut(),
         SingleTaskTypeDecl(
             A.defining_id, Null(A.discriminant_part),
             A.aspect_spec, Opt(A.task_def)
@@ -607,7 +607,7 @@ A.add_rules(
 
     aspect_clause=Or(
         EnumRepClause("for", A.static_name, "use",
-                      A.regular_aggregate, cut(), ";"),
+                      A.regular_aggregate, Cut(), ";"),
         RecordRepClause(
             "for", A.static_name, "use", "record",
             Opt("at", "mod", A.simple_expr, sc()),
@@ -617,7 +617,7 @@ A.add_rules(
         AtClause("for", A.direct_name, "use", "at", A.expr, ";"),
         # We put AttributeDefClause last, because it's the most general rule,
         # and that will allow us to get the best error recovery.
-        AttributeDefClause("for", A.name, "use", cut(), A.expr, ";"),
+        AttributeDefClause("for", A.name, "use", Cut(), A.expr, ";"),
     ),
 
     param_spec=ParamSpec(
@@ -630,7 +630,7 @@ A.add_rules(
         A.aspect_spec,
     ),
 
-    param_specs=Params("(", cut(), List(A.param_spec, sep=";"), ")"),
+    param_specs=Params("(", Cut(), List(A.param_spec, sep=";"), ")"),
 
     subp_spec=SubpSpec(
         Or(SubpKind.alt_procedure("procedure"),
@@ -737,7 +737,7 @@ A.add_rules(
     ),
 
     pragma=Pragma(
-        "pragma", cut(), A.identifier,
+        "pragma", Cut(), A.identifier,
         Opt("(",
             List(Or(A.pragma_argument, A.contract_case_assoc), sep=","),
             ")"),
@@ -810,7 +810,7 @@ A.add_rules(
         EntryCompletionFormalParams(Opt(A.param_specs)),
         A.aspect_spec,
         "when", A.expr,
-        "is", cut(),
+        "is", Cut(),
         A.recov_decl_part,
         "begin",
         A.handled_stmts,
@@ -832,7 +832,7 @@ A.add_rules(
 
     task_body=TaskBody(
         "task", "body", A.defining_name, A.aspect_spec,
-        "is", cut(), A.recov_decl_part,
+        "is", Cut(), A.recov_decl_part,
         "begin",
         A.handled_stmts,
         end_liblevel_block(), sc()
@@ -850,7 +850,7 @@ A.add_rules(
 
 
     package_body=PackageBody(
-        "package", "body", cut(), A.defining_name, A.aspect_spec,
+        "package", "body", Cut(), A.defining_name, A.aspect_spec,
         "is", A.decl_part.dont_skip(Or("begin", "end")),
         Opt("begin", A.handled_stmts),
         end_liblevel_block(), ";"
@@ -860,7 +860,7 @@ A.add_rules(
 
     select_stmt=SelectStmt(
         "select",
-        cut(),
+        Cut(),
         List(SelectWhenPart(
             Opt("when", A.expr, "=>"),
             A.stmts.dont_skip(Or("else", "then", "end", "or"))
@@ -883,26 +883,26 @@ A.add_rules(
     ),
 
     case_alt=CaseStmtAlternative(
-        "when", cut(), A.choice_list, "=>",
+        "when", Cut(), A.choice_list, "=>",
         A.stmts.dont_skip(Or("when", "end"))
     ),
 
     case_stmt=CaseStmt(
-        "case", cut(), A.expr, "is", List(A.case_alt),
+        "case", Cut(), A.expr, "is", List(A.case_alt),
         "end", "case", ";"
     ),
 
     ext_return_stmt=ExtendedReturnStmt(
-        "return", A.ext_ret_stmt_object_decl, cut(),
+        "return", A.ext_ret_stmt_object_decl, Cut(),
         Opt("do", A.handled_stmts, "end", "return"), ";"
     ),
 
     iblock_stmt=Or(
         BeginBlock(
-            "begin", cut(), A.handled_stmts, end_named_block(), sc()
+            "begin", Cut(), A.handled_stmts, end_named_block(), sc()
         ),
         DeclBlock(
-            "declare", cut(),
+            "declare", Cut(),
             A.recov_decl_part,
             "begin",
             A.handled_stmts, end_named_block(), sc()
@@ -914,11 +914,11 @@ A.add_rules(
         NamedStmt(NamedStmtDecl(A.defining_id), ":", A.iblock_stmt),
     ),
 
-    while_loop_spec=WhileLoopSpec("while", cut(), A.expr),
+    while_loop_spec=WhileLoopSpec("while", Cut(), A.expr),
 
     iloop_stmt=Or(
         ForLoopStmt(
-            "for", cut(),
+            "for", Cut(),
             A.for_loop_param_spec,
             "loop",
             A.stmts.dont_skip("end"),
@@ -931,7 +931,7 @@ A.add_rules(
         ),
         LoopStmt(
             Null(LoopSpec),
-            "loop", cut(), A.stmts.dont_skip("end"),
+            "loop", Cut(), A.stmts.dont_skip("end"),
             "end", "loop", Opt(EndName(A.identifier)), ";"
         ),
     ),
@@ -950,7 +950,7 @@ A.add_rules(
                              A.stmts.dont_skip(Or("elsif", "else", "end"))),
 
     if_stmt=IfStmt(
-        "if", cut(), A.expr, "then",
+        "if", Cut(), A.expr, "then",
         A.stmts.dont_skip(Or("elsif", "else", "end")),
         List(A.elsif_part, empty_valid=True),
         Opt("else", A.stmts.dont_skip("end")),
@@ -990,7 +990,7 @@ A.add_rules(
         A.subp_spec,
         A.aspect_spec,
         "is",
-        cut(),
+        Cut(),
         A.recov_decl_part,
         "begin",
         A.handled_stmts,
@@ -1014,7 +1014,7 @@ A.add_rules(
         empty_valid=True, list_cls=StmtList
     ),
 
-    label=Label("<<", cut(), LabelDecl(A.defining_id), ">>"),
+    label=Label("<<", Cut(), LabelDecl(A.defining_id), ">>"),
 
     stmt=Or(A.compound_stmt, A.simple_stmt),
 
@@ -1028,12 +1028,12 @@ A.add_rules(
 
     null_stmt=NullStmt(L.Null, sc()),
 
-    assignment_stmt=AssignStmt(A.name, ":=", cut(), A.expr, sc()),
+    assignment_stmt=AssignStmt(A.name, ":=", Cut(), A.expr, sc()),
 
-    goto_stmt=GotoStmt("goto", cut(), A.static_name, sc()),
+    goto_stmt=GotoStmt("goto", Cut(), A.static_name, sc()),
 
     exit_stmt=ExitStmt(
-        "exit", cut(), Opt(A.static_name), Opt("when", A.expr), sc()
+        "exit", Cut(), Opt(A.static_name), Opt("when", A.expr), sc()
     ),
 
     return_stmt=ReturnStmt("return", Opt(A.expr), sc()),
@@ -1055,7 +1055,7 @@ A.add_rules(
     null_literal=NullLiteral(L.Null),
 
     allocator=Allocator(
-        "new", cut(), Opt("(", A.name, ")"),
+        "new", Cut(), Opt("(", A.name, ")"),
         A.qualified_name | A.subtype_indication
     ),
 
@@ -1104,7 +1104,7 @@ A.add_rules(
 
     aggregate_assoc=Or(
         IteratedAssoc(
-            "for", cut(),
+            "for", Cut(),
             A.for_loop_param_spec, "=>",
             A.expr | A.discrete_range
         ),
@@ -1118,13 +1118,13 @@ A.add_rules(
         NullRecordAggregate("(", Opt(A.expr, "with"),
                             "null", "record", Null(AssocList), ")"),
         DeltaAggregate(
-            "(", A.expr, "with", "delta", cut(),
+            "(", A.expr, "with", "delta", Cut(),
             List(A.aggregate_assoc, sep=",", list_cls=AssocList),
             ")"
         ),
 
         Aggregate(
-            "(", cut(),
+            "(", Cut(),
             Opt(A.expr, "with"),
             List(A.aggregate_assoc, sep=",", list_cls=AssocList),
             ")"
@@ -1133,14 +1133,14 @@ A.add_rules(
 
     bracket_aggregate=Or(
         BracketDeltaAggregate(
-            "[", A.expr, "with", "delta", cut(),
+            "[", A.expr, "with", "delta", Cut(),
             List(A.aggregate_assoc, sep=",", list_cls=AssocList),
             "]"
         ),
 
 
         BracketAggregate(
-            "[", cut(),
+            "[", Cut(),
             Opt(A.expr, "with"),
             List(A.aggregate_assoc,
                  sep=",", list_cls=AssocList, empty_valid=True),
@@ -1158,7 +1158,7 @@ A.add_rules(
 
     param_assoc=ParamAssoc(
         Opt(A.identifier | A.others_designator | A.string_literal,
-            "=>", cut()),
+            "=>", Cut()),
         A.expr | A.box_expr,
     ),
 
@@ -1208,9 +1208,9 @@ A.add_rules(
     ),
 
     name=Or(
-        CallExpr(A.name, "(", cut(), A.call_suffix, ")"),
+        CallExpr(A.name, "(", Cut(), A.call_suffix, ")"),
         ExplicitDeref(A.name, ".", "all"),
-        DottedName(A.name, ".", cut(), A.direct_name),
+        DottedName(A.name, ".", Cut(), A.direct_name),
 
         # Special case for 'Update
         UpdateAttributeRef(
@@ -1239,7 +1239,7 @@ A.add_rules(
 
     update_attr_aggregate=Or(
         A.regular_aggregate,
-        Aggregate("(", cut(), Null(Expr), A.update_attr_content, ")")
+        Aggregate("(", Cut(), Null(Expr), A.update_attr_content, ")")
     ),
 
     update_attr_content=List(A.multidim_array_assoc, sep=",",
@@ -1260,7 +1260,7 @@ A.add_rules(
     ),
 
     static_name=Or(
-        DottedName(A.static_name, ".", cut(), A.direct_name),
+        DottedName(A.static_name, ".", Cut(), A.direct_name),
         A.direct_name
     ),
 
@@ -1279,8 +1279,8 @@ A.add_rules(
     ),
 
     factor=Or(
-        UnOp(Op.alt_abs("abs") | Op.alt_not("not"), cut(), A.primary),
-        BinOp(A.primary, Op.alt_pow("**"), cut(), A.primary),
+        UnOp(Op.alt_abs("abs") | Op.alt_not("not"), Cut(), A.primary),
+        BinOp(A.primary, Op.alt_pow("**"), Cut(), A.primary),
         A.primary
     ),
 
@@ -1288,12 +1288,12 @@ A.add_rules(
         BinOp(A.term, Or(Op.alt_mult("*"),
                          Op.alt_div("/"),
                          Op.alt_mod("mod"),
-                         Op.alt_rem("rem")), cut(), A.factor),
+                         Op.alt_rem("rem")), Cut(), A.factor),
         A.factor
     ),
 
     unop_term=Or(
-        UnOp(Op.alt_plus("+") | Op.alt_minus("-"), cut(), A.term),
+        UnOp(Op.alt_plus("+") | Op.alt_minus("-"), Cut(), A.term),
         A.term
     ),
 
@@ -1301,7 +1301,7 @@ A.add_rules(
         BinOp(
             A.simple_expr,
             Or(Op.alt_plus("+"), Op.alt_minus("-"), Op.alt_concat("&")),
-            cut(),
+            Cut(),
             A.term
         ),
         A.unop_term
@@ -1350,7 +1350,7 @@ A.add_rules(
             Or(Op.alt_eq("="), Op.alt_neq("/="),
                Op.alt_lt("<"), Op.alt_lte("<="),
                Op.alt_gt(">"), Op.alt_gte(">=")),
-            cut(),
+            Cut(),
             A.simple_expr
         ),
 
@@ -1360,7 +1360,7 @@ A.add_rules(
     ),
 
     expr=Or(
-        BinOp(A.expr, A.boolean_op, cut(), A.relation),
+        BinOp(A.expr, A.boolean_op, Cut(), A.relation),
         A.relation
     ),
 

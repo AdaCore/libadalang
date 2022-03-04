@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import pprint
 import sys
 
 import libadalang as lal
@@ -71,7 +72,17 @@ class InlinePlayground(lal.App):
                         ' '.join(str(a) for a in pe.args)
                     ))
                 else:
-                    print('Result: {}'.format(col(ascii(value), YELLOW)))
+                    value_prefix = 'Result: '
+                    # Post-process the result of pprint.pformat so that
+                    # non-ASCII or non-printable characters are escaped.
+                    indent = '\n' + len(value_prefix) * ' '
+                    value_repr = "".join(
+                        c if (32 <= ord(c) <= 127
+                              or c == '\n') else ascii(c)[1:-1]
+                        for c in (pprint.pformat(value)
+                                  .replace('\n', indent))
+                    )
+                    print(value_prefix + col(value_repr, YELLOW))
                 print('')
 
         print('')

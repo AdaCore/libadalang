@@ -1,15 +1,24 @@
 Eval 'node.f_subp_spec.p_formal_params' on node <SubpBody ["P"] pkg.adb:2:5-6:11>
-Result: [<DefiningName pkg.adb:2:18-2:19>, <DefiningName pkg.adb:2:21-2:22>, <DefiningName pkg.adb:2:24-2:25>, <DefiningName pkg.adb:2:37-2:38>]
+Result: [<DefiningName pkg.adb:2:18-2:19>,
+         <DefiningName pkg.adb:2:21-2:22>,
+         <DefiningName pkg.adb:2:24-2:25>,
+         <DefiningName pkg.adb:2:37-2:38>]
 
 
 Eval 'node.f_subp_spec.p_formal_params' on node <SubpDecl ["P"] pkg.ads:2:5-2:52>
-Result: [<DefiningName pkg.ads:2:18-2:19>, <DefiningName pkg.ads:2:21-2:22>, <DefiningName pkg.ads:2:24-2:25>, <DefiningName pkg.ads:2:37-2:38>]
+Result: [<DefiningName pkg.ads:2:18-2:19>,
+         <DefiningName pkg.ads:2:21-2:22>,
+         <DefiningName pkg.ads:2:24-2:25>,
+         <DefiningName pkg.ads:2:37-2:38>]
 
 Eval 'node.f_discriminants.p_formal_params' on node <TypeDecl ["R"] pkg.ads:7:5-12:20>
 Result: [<DefiningName pkg.ads:7:13-7:16>]
 
 Eval 'node.f_type_def.f_record_def.f_components.p_formal_params' on node <TypeDecl ["R"] pkg.ads:7:5-12:20>
-Result: [<DefiningName pkg.ads:9:13-9:14>, <DefiningName pkg.ads:10:13-10:14>, <DefiningName pkg.ads:11:13-11:14>, <DefiningName pkg.ads:11:16-11:17>]
+Result: [<DefiningName pkg.ads:9:13-9:14>,
+         <DefiningName pkg.ads:10:13-10:14>,
+         <DefiningName pkg.ads:11:13-11:14>,
+         <DefiningName pkg.ads:11:16-11:17>]
 
 Eval 'node.parent.parent.parent.f_components.p_formal_params' on node <ComponentDecl ["B"] pkg.ads:21:21-21:33>
 Result: [<DefiningName pkg.ads:21:21-21:22>]

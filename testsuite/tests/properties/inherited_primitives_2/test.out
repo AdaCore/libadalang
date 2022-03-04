@@ -1,19 +1,27 @@
 Eval 'node.p_get_primitives()' on node <TypeDecl ["D"] pkg-der.adb:4:4-4:37>
-Result: [<SubpDecl ["Priv"] pkg.ads:11:4-11:41>, <SubpDecl ["Foo"] pkg-der.adb:7:4-7:26>, <NullSubpDecl ["Foo"] pkg-der.adb:8:4-8:34>]
+Result: [<SubpDecl ["Priv"] pkg.ads:11:4-11:41>,
+         <SubpDecl ["Foo"] pkg-der.adb:7:4-7:26>,
+         <NullSubpDecl ["Foo"] pkg-der.adb:8:4-8:34>]
 
 
 Eval 'node.p_get_primitives()' on node <TypeDecl ["U"] pkg-der.ads:2:4-2:29>
-Result: [<SubpDecl ["Bar"] pkg-der.ads:5:4-5:26>, <SubpDecl ["Foo"] pkg-der.ads:6:4-6:26>, <NullSubpDecl ["Bar"] pkg-der.ads:12:4-12:34>]
+Result: [<SubpDecl ["Bar"] pkg-der.ads:5:4-5:26>,
+         <SubpDecl ["Foo"] pkg-der.ads:6:4-6:26>,
+         <NullSubpDecl ["Bar"] pkg-der.ads:12:4-12:34>]
 
 Eval 'node.p_get_primitives()' on node <TypeDecl ["U"] pkg-der.ads:9:4-9:37>
-Result: [<SubpDecl ["Priv"] pkg.ads:11:4-11:41>, <SubpDecl ["Bar"] pkg-der.ads:5:4-5:26>, <NullSubpDecl ["Bar"] pkg-der.ads:12:4-12:34>]
+Result: [<SubpDecl ["Priv"] pkg.ads:11:4-11:41>,
+         <SubpDecl ["Bar"] pkg-der.ads:5:4-5:26>,
+         <NullSubpDecl ["Bar"] pkg-der.ads:12:4-12:34>]
 
 
 
 Eval 'node.p_get_primitives()' on node <TypeDecl ["T"] pkg.ads:2:4-2:38>
-Result: [<AbstractSubpDecl ["Foo"] pkg.ads:5:4-5:38>, <SubpDecl ["Priv"] pkg.ads:11:4-11:41>]
+Result: [<AbstractSubpDecl ["Foo"] pkg.ads:5:4-5:38>,
+         <SubpDecl ["Priv"] pkg.ads:11:4-11:41>]
 
 Eval 'node.p_get_primitives()' on node <TypeDecl ["T"] pkg.ads:8:4-8:42>
-Result: [<AbstractSubpDecl ["Foo"] pkg.ads:5:4-5:38>, <SubpDecl ["Priv"] pkg.ads:11:4-11:41>]
+Result: [<AbstractSubpDecl ["Foo"] pkg.ads:5:4-5:38>,
+         <SubpDecl ["Priv"] pkg.ads:11:4-11:41>]
 
 

@@ -1,4 +1,0 @@
-driver: parser
-rule: basic_decl
-check-consistency: true
-test-unparsing: false

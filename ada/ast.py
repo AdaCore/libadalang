@@ -16800,7 +16800,8 @@ class CompilationUnit(AdaNode):
         ))
         return Self.designated_compilation_unit(
             Self.syntactic_fully_qualified_name,
-            kind=other_kind
+            kind=other_kind,
+            not_found_is_error=False,
         )._.as_bare_entity
 
     @langkit_property(return_type=Bool, public=True)

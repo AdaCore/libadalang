@@ -365,31 +365,55 @@ package body Libadalang.Env_Hooks is
            (Name  : Symbol_Type_Array;
             Index : Positive)
          is
-            Current_Name : constant Symbol_Type_Array :=
-              Name (Name'First .. Index);
+            Is_Last : constant Boolean := Index = Name'Last;
+            --  Whether this call to ``Step`` is the last one, i.e. the one to
+            --  fetch the unit to return.
+
+            Current_Name : constant Text_Type :=
+              To_String (Name (Name'First .. Index));
 
             I_Kind : constant Analysis_Unit_Kind :=
-              (if Index = Name'Last then Kind else Unit_Specification);
+              (if Is_Last then Kind else Unit_Specification);
             --  When looking for unit ``A.B``, ``A`` is a specification even if
             --  we mean to fetch ``B``'s body, unless ``B`` is a subunit (in
             --  that case ``A`` must have a body).
          begin
-            Unit := UFP.Get_Unit (Ctx, To_String (Current_Name), I_Kind);
+            Unit := UFP.Get_Unit (Ctx, Current_Name, I_Kind);
+
+            --  If we are trying to fetch a dependency of the requested unit,
+            --  it may be a subunit: if fetching a spec did not work, try
+            --  fetching a body instead.
+
+            if not Is_Last and then Unit.Ast_Root = null then
+               declare
+                  B : constant Internal_Unit :=
+                    UFP.Get_Unit (Ctx, Current_Name, Unit_Body);
+               begin
+                  Emit_Unit_Requested
+                    (Unit => B, Not_Found_Is_Error => False);
+
+                  --  Consider the body for the rest of the processing iff we
+                  --  have found it, otherwise keep the spec unit in ``Unit``.
+
+                  if B.Ast_Root /= null then
+                     Unit := B;
+                  end if;
+               end;
+            end if;
 
             --  Consider that a missing unit is an error if
             --  ``Not_Found_Is_Error`` or if ``Unit`` is not the requested unit
             --  (i.e. just another unit in the closure).
 
             Emit_Unit_Requested
-              (Unit => Unit,
-               Not_Found_Is_Error => Index /= Name'Last
-                                     or else Not_Found_Is_Error);
+              (Unit               => Unit,
+               Not_Found_Is_Error => not Is_Last or else Not_Found_Is_Error);
 
             Prepare_Nameres (Unit);
 
             --  We're on the last portion of the name: return
 
-            if Index = Name'Last then
+            if Is_Last then
                return;
             end if;
 

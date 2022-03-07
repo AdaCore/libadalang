@@ -9253,11 +9253,13 @@ class GenericInstantiation(BasicDecl):
         """
         ap = Var(Entity.generic_inst_params)
 
-        return Entity.designated_generic_decl.cast_or_raise(
-            T.GenericDecl
-        )._.formal_part.decls.mapcat(
+        return Entity.nonbound_generic_decl._.formal_part.decls.mapcat(
             # Unpack generic formals with their default expressions
             lambda d: d.match(
+                lambda t=GenericFormalPackage: ParamActual.new(
+                    param=t.decl.cast(GenericPackageInstantiation).name,
+                    actual=No(Expr.entity)
+                ).singleton,
                 lambda t=GenericFormalTypeDecl: ParamActual.new(
                     param=t.decl.cast(TypeDecl).name,
                     actual=No(Expr.entity)
@@ -9269,6 +9271,20 @@ class GenericInstantiation(BasicDecl):
                         actual=o.decl.cast(ObjectDecl).default_expr
                     )
                 ),
+                lambda sp=GenericFormalSubpDecl: Let(
+                    lambda subp=sp.decl.cast(FormalSubpDecl):
+
+                    ParamActual.new(
+                        param=sp.defining_name,
+                        actual=If(
+                            subp.default_expr.is_a(BoxExpr),
+                            subp.designated_subprogram_from(
+                                inst=Entity
+                            )._.defining_name,
+                            subp.default_expr
+                        )
+                    )
+                ).singleton,
                 lambda _: No(ParamActual).singleton
             )
         ).map(
@@ -13123,8 +13139,7 @@ class AssocList(BasicAssoc.list):
 
         return up.find(
             # Search expression for parameter `param` if a named one exists
-            lambda p: p.name._.cast(Identifier)
-            .matches(param.name.cast(Identifier).node)
+            lambda p: p.name._.matches(param.name.node)
         ).then(
             lambda a: a.assoc.expr,
             # Otherwise, get the parameter using its position if any

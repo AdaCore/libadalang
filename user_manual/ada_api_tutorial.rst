@@ -232,6 +232,8 @@ can go further with semantic analysis. The most used feature in this domain is
 the computation of cross references ("xrefs"): the ability to reach the
 definition a particular identifier references.
 
+.. _ada-api-tutorial-unit-provider:
+
 Resolving files
 ---------------
 

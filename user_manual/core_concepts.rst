@@ -164,6 +164,12 @@ useful providers:
 * one that looks for all source files that match a given file name pattern in a
   given list of directory (the "auto unit provider").
 
+You can find documentation for the unit providers that Libadalang implements in
+the :ref:`Ada API reference <ada-unit-providers>` and for Python in
+:class:`libadalang.UnitProvider`. Tutorials for both languages show how this
+works in practice: see the :ref:`Ada tutorial <ada-api-tutorial-unit-provider>`
+and the :ref:`Python tutorial <python-api-tutorial-unit-provider>`.
+
 .. _unit-providers-aggregate:
 
 Aggregate projects

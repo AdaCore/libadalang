@@ -228,21 +228,9 @@ package body Libadalang.Env_Hooks is
 
    function Fetch_Unit
      (Ctx                : Internal_Context;
-      Name               : Bare_Name;
-      Kind               : Analysis_Unit_Kind;
-      Load_If_Needed     : Boolean;
-      Do_Prepare_Nameres : Boolean := True) return Internal_Unit is
-   begin
-      return Fetch_Unit
-        (Ctx, Name_To_Symbols (Name), Name.Unit, Kind, Load_If_Needed,
-         Do_Prepare_Nameres);
-   end Fetch_Unit;
-
-   function Fetch_Unit
-     (Ctx                : Internal_Context;
       Name               : Symbol_Type_Array;
-      From_Unit          : Internal_Unit;
       Kind               : Analysis_Unit_Kind;
+      From_Unit          : Internal_Unit;
       Load_If_Needed     : Boolean;
       Do_Prepare_Nameres : Boolean := True;
       Not_Found_Is_Error : Boolean := False;
@@ -250,7 +238,15 @@ package body Libadalang.Env_Hooks is
    is
 
       procedure Prepare_Nameres (Unit : Internal_Unit);
-      --  Prepare semantic analysis and reference Unit from the current unit
+      --  Prepare semantic analysis and add a reference from ``From_Unit`` to
+      --  ``Unit``.
+
+      procedure Emit_Unit_Requested
+        (Unit               : Internal_Unit;
+         Not_Found_Is_Error : Boolean);
+      --  If there is an event handler, invoke its ``Unit_Requested_Callback``
+      --  event for ``Unit``. ``Not_Found_Is_Error`` is forwarded as-is to the
+      --  callback.
 
       ---------------------
       -- Prepare_Nameres --
@@ -265,23 +261,48 @@ package body Libadalang.Env_Hooks is
          end if;
       end Prepare_Nameres;
 
-      UFP              : constant Internal_Unit_Provider_Access :=
-         Ctx.Unit_Provider;
-      Unit             : Internal_Unit;
-      Unit_Name        : constant Text_Type := To_String (Name);
+      -------------------------
+      -- Emit_Unit_Requested --
+      -------------------------
+
+      procedure Emit_Unit_Requested
+        (Unit               : Internal_Unit;
+         Not_Found_Is_Error : Boolean) is
+      begin
+         --  TODO??? We now handle file not found via
+         --  ``Unit_Requested_Callback``, but we don't really handle parsing
+         --  errors directly. Do we need to do something more? Or can we
+         --  consider that anything can be done in the callback anyway?
+
+         if Ctx.Event_Handler /= null then
+            Ctx.Event_Handler.Unit_Requested_Callback
+              (Ctx,
+               To_Text (Get_Filename (Unit)),
+               From_Unit,
+               Unit.Ast_Root /= null,
+               Not_Found_Is_Error);
+         end if;
+      end Emit_Unit_Requested;
+
+      UFP       : constant Internal_Unit_Provider_Access := Ctx.Unit_Provider;
+      Unit_Name : constant Text_Type := To_String (Name);
+      Unit      : Internal_Unit;
    begin
       --  If we must not load missing units and this one is missing, do
       --  nothing.
+
       if not Load_If_Needed
          and then not Has_Unit (Ctx, UFP.Get_Unit_Filename (Unit_Name, Kind))
       then
          return null;
       end if;
 
+      --  If we are not preparing nameres, we can directly return the unit
+      --  corresponding to the entire name.
+
       if not Do_Prepare_Nameres then
-         --  If we are not preparing nameres, we can directly return the unit
-         --  corresponding to the entire name.
-         return UFP.Get_Unit (Ctx, Unit_Name, Kind);
+         Unit := UFP.Get_Unit (Ctx, Unit_Name, Kind);
+         return Unit;
       end if;
 
       --  GNAT kludge: as an "optimization", the generic subpackages in
@@ -289,13 +310,11 @@ package body Libadalang.Env_Hooks is
       --  Ada.Text_IO unit itself, but in private child packages. GNAT
       --  magically imports them in Ada.Text_IO's namespace.
       --
-      --  Here, try to import these child unit as soon as someone WITHes
+      --  Here, try to import these child units as soon as someone WITHes
       --  Ada.Text_IO.
 
-      if Kind = Unit_Specification and then
-        (Unit_Name = Text_IO or else
-         Unit_Name = Wide_Text_IO or else
-         Unit_Name = Wide_Wide_Text_IO)
+      if Kind = Unit_Specification
+         and then Unit_Name in Text_IO | Wide_Text_IO | Wide_Wide_Text_IO
       then
          for SP of Text_IO_Subpackages loop
             declare
@@ -309,20 +328,14 @@ package body Libadalang.Env_Hooks is
          end loop;
       end if;
 
+      --  If we should load only the unit that ``Name`` and ``Kind`` designate,
+      --  return it now and return. Do not forget to emit the "unit requested
+      --  callback" event.
+
       if not Process_Parents then
-         Unit := UFP.Get_Unit (Ctx, To_String (Name), Kind);
-
-         if Unit.Context.Event_Handler /= null then
-            Unit.Context.Event_Handler.Unit_Requested_Callback
-              (Ctx,
-               To_Text (Get_Filename (Unit)),
-               From_Unit,
-               Unit.Ast_Root /= null,
-               Not_Found_Is_Error);
-         end if;
-
+         Unit := UFP.Get_Unit (Ctx, Unit_Name, Kind);
+         Emit_Unit_Requested (Unit, Not_Found_Is_Error);
          Prepare_Nameres (Unit);
-
          return Unit;
       end if;
 
@@ -344,46 +357,44 @@ package body Libadalang.Env_Hooks is
          --  substituted the renaming package to the renamed entity, and
          --  incremented the index accordingly.
 
+         ----------
+         -- Step --
+         ----------
+
          procedure Step
            (Name  : Symbol_Type_Array;
             Index : Positive)
          is
             Current_Name : constant Symbol_Type_Array :=
-               Name (Name'First .. Index);
+              Name (Name'First .. Index);
 
             I_Kind : constant Analysis_Unit_Kind :=
               (if Index = Name'Last then Kind else Unit_Specification);
-            --  When looking for unit A.B, A is a specification even if we mean
-            --  to fetch B's body.
-
-            Is_Not_Found_Error : constant Boolean :=
-              (if Index = Name'Last then Not_Found_Is_Error else True);
+            --  When looking for unit ``A.B``, ``A`` is a specification even if
+            --  we mean to fetch ``B``'s body, unless ``B`` is a subunit (in
+            --  that case ``A`` must have a body).
          begin
-
-            --  TODO??? We now handle file not found via
-            --  Unit_Requested_Callback, but we don't really handle parsing
-            --  errors directly. Do we need to do something more ? Or can we
-            --  consider that anything can be done in the callback anyway?
-
             Unit := UFP.Get_Unit (Ctx, To_String (Current_Name), I_Kind);
 
-            if Unit.Context.Event_Handler /= null then
-               Unit.Context.Event_Handler.Unit_Requested_Callback
-                 (Ctx,
-                  To_Text (Get_Filename (Unit)),
-                  From_Unit,
-                  Unit.Ast_Root /= null,
-                  Is_Not_Found_Error);
-            end if;
+            --  Consider that a missing unit is an error if
+            --  ``Not_Found_Is_Error`` or if ``Unit`` is not the requested unit
+            --  (i.e. just another unit in the closure).
+
+            Emit_Unit_Requested
+              (Unit => Unit,
+               Not_Found_Is_Error => Index /= Name'Last
+                                     or else Not_Found_Is_Error);
 
             Prepare_Nameres (Unit);
 
             --  We're on the last portion of the name: return
+
             if Index = Name'Last then
                return;
             end if;
 
             --  Else, recurse
+
             declare
                Internal_Name : Symbol_Type_Array_Access :=
                  Create_Symbol_Type_Array (Internal_Symbol_Type_Array (Name));
@@ -398,24 +409,29 @@ package body Libadalang.Env_Hooks is
                   else Comp_Unit.P_Decl);
 
             begin
-               if not Decl.Is_Null and then Decl.Kind
-                  in Libadalang.Common.Ada_Package_Renaming_Decl_Range
+               if not Decl.Is_Null
+                  and then Decl.Kind in
+                    Libadalang.Common.Ada_Package_Renaming_Decl_Range
                then
                   --  If the declaration is a package renaming, resolve the
                   --  renamed package..
+
                   declare
-                     Target : constant Basic_Decl :=
-                        Decl.As_Package_Renaming_Decl.P_Final_Renamed_Package;
-                     Resolved_Name : Symbol_Type_Array_Access
-                       := Basic_Decl_P_Fully_Qualified_Name_Array
-                          (Unwrap_Node (Target));
-                     New_Index : constant Positive :=
+                     Target        : constant Basic_Decl :=
+                       Decl.As_Package_Renaming_Decl.P_Final_Renamed_Package;
+                     Resolved_Name : Symbol_Type_Array_Access :=
+                       Basic_Decl_P_Fully_Qualified_Name_Array
+                         (Unwrap_Node (Target));
+                     New_Index     : constant Positive :=
                        Resolved_Name.Items'Last + 1;
                   begin
                      --  .. and make the next call to step consider the renamed
                      --  package.
-                     Step (Symbol_Type_Array (Resolved_Name.Items)
-                           & Name (Index + 1 .. Name'Last), New_Index);
+
+                     Step
+                       (Name  => Symbol_Type_Array (Resolved_Name.Items)
+                                 & Name (Index + 1 .. Name'Last),
+                        Index => New_Index);
                      Free (Resolved_Name);
                   exception
                      when Property_Error =>
@@ -424,6 +440,7 @@ package body Libadalang.Env_Hooks is
                   end;
                else
                   --  Else, just resolve the next portion of the given name
+
                   Step (Name, Index + 1);
                end if;
 

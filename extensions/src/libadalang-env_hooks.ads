@@ -42,30 +42,32 @@ private package Libadalang.Env_Hooks is
 
    function Fetch_Unit
      (Ctx                : Internal_Context;
-      Name               : Bare_Name;
-      Kind               : Analysis_Unit_Kind;
-      Load_If_Needed     : Boolean;
-      Do_Prepare_Nameres : Boolean := True) return Internal_Unit;
-
-   function Fetch_Unit
-     (Ctx                : Internal_Context;
       Name               : Symbol_Type_Array;
-      From_Unit          : Internal_Unit;
       Kind               : Analysis_Unit_Kind;
+      From_Unit          : Internal_Unit;
       Load_If_Needed     : Boolean;
       Do_Prepare_Nameres : Boolean := True;
       Not_Found_Is_Error : Boolean := False;
       Process_Parents    : Boolean := True) return Internal_Unit;
-   --  Fetch the unit for the file that (Name, Kind) designate. If
-   --  Do_Prepare_Nameres is set, populate its lexical environment and
-   --  reference the result from Name's unit.
+   --  Fetch the unit for the file that ``(Name, Kind)`` designate.
    --
-   --  When Name is an illegal unit name (a call expression, for instance),
-   --  this raises a Property_Error.
+   --  ``From_Unit`` must be the analysis unit whose analysis triggers the
+   --  loading of ``(Name, Kind)``.
    --
-   --  If Load_If_Needed is true, the analysis unit is loaded when it's not
-   --  already. Otherwise, it is not loaded in this case and this returns
-   --  No_Analysis_Unit.
+   --  If ``Load_If_Needed`` is False and the unit to fetch is not loaded yet,
+      --  do nothing and return null. Make sure it is loaded in all other
+      --  cases.
+   --
+   --  If ``Do_Prepare_Nameres`` is True, populate the lexical environment of
+   --  loaded analysis units and add a reference from ``From_Unit`` to the
+   --  returned analysis unit.
+   --
+   --  ``Not_Found_Is_Error`` is forwarded to the ``Unit_Requested_Callback``
+   --  even handler when that handler is called.
+   --
+   --  If ``Process_Parents`` is True, automatically load the "parents" for the
+   --  unit to fetch (for instance: fetch ``A`` if the unit ``A.B`` is
+   --  requested).
 
    procedure Fetch_Standard (Context : Internal_Context);
    --  Create the "Standard" analysis unit in Context. This unit will be called

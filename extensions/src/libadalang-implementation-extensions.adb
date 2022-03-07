@@ -59,10 +59,10 @@ package body Libadalang.Implementation.Extensions is
    is
    begin
       return Env_Hooks.Fetch_Unit
-        (Node.Unit.Context,
-         Env_Hooks.Symbol_Type_Array (Name.Items),
-         Node.Unit,
-         Kind,
+        (Ctx                => Node.Unit.Context,
+         Name               => Env_Hooks.Symbol_Type_Array (Name.Items),
+         Kind               => Kind,
+         From_Unit          => Node.Unit,
          Load_If_Needed     => Load_If_Needed,
          Not_Found_Is_Error => Not_Found_Is_Error,
          Process_Parents    => Process_Parents);
@@ -181,9 +181,13 @@ package body Libadalang.Implementation.Extensions is
                Dec_Ref (Qualified_Name);
                if Is_Special then
                   return Env_Hooks.Fetch_Unit
-                    (Context,
-                     Env_Hooks.Symbol_Type_Array (Ada_Text_IO_Symbol_Array),
-                     Node.Unit, Unit_Specification, True, False);
+                    (Ctx                => Context,
+                     Name               =>
+                       Env_Hooks.Symbol_Type_Array (Ada_Text_IO_Symbol_Array),
+                     Kind               => Unit_Specification,
+                     From_Unit          => Node.Unit,
+                     Load_If_Needed     => True,
+                     Do_Prepare_Nameres => False);
                end if;
             end;
          end if;

@@ -14042,7 +14042,7 @@ class BaseId(SingleTokNode):
         des_type_1 = Var(Self.env_get_first_visible(
             env,
             from_node=Self,
-            lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
+            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal),
         ).then(
             lambda env_el: Self.designated_type_impl_get_real_type(env_el)
         ))
@@ -14051,7 +14051,7 @@ class BaseId(SingleTokNode):
         des_type_2 = Var(Self.env_get_first_visible(
             env,
             from_node=origin,
-            lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
+            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal),
         ).then(
             lambda env_el: Self.designated_type_impl_get_real_type(env_el)
         ))

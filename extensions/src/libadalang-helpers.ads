@@ -89,7 +89,7 @@ package Libadalang.Helpers is
    --
    --  * Default (look in the current directory);
    --  * Project_File (from a GPR project file);
-   --  * Auto_dir (files in a list of directories).
+   --  * Auto_Dir (files in a list of directories).
 
    type Source_Provider_Kind is (Default, Project_File, Auto_Dir);
    type Source_Provider

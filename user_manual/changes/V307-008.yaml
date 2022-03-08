@@ -1,0 +1,10 @@
+type: new-feature
+apis: [ada]
+title: "``GNAT.Regexp`` support in ``Libadalang.Auto_Provider``"
+description: |
+   ``Libadalang.Auto_Provider`` now has a ``Find_Files_Regexp`` function. It
+   works eactly like the existing ``Find_Files`` function, but takes a
+   ``GNAT.Regexp.Regexp`` pattern instead of a ``GNAT.Regpat.Pattern_Matcher``
+   one.
+
+date: 2022-03-08

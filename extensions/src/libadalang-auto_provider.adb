@@ -29,6 +29,18 @@ with Libadalang.Unit_Files;
 
 package body Libadalang.Auto_Provider is
 
+   ----------------
+   -- Find_Files --
+   ----------------
+
+   function Find_Files
+     (Filter       : not null access function (Name : String) return Boolean;
+      Directories  : GNATCOLL.VFS.File_Array)
+      return GNATCOLL.VFS.File_Array_Access;
+   --  Common implementation for the two public ``Find_Files`` functions:
+   --  return the list of files in ``Directories`` for which ``Filter`` (when
+   --  called on the file base name) returns True.
+
    procedure Add_Entry
      (Provider : in out Auto_Unit_Provider;
       Filename : Virtual_File;
@@ -76,8 +88,7 @@ package body Libadalang.Auto_Provider is
    ----------------
 
    function Find_Files
-     (Name_Pattern : GNAT.Regpat.Pattern_Matcher :=
-        Default_Source_Filename_Pattern;
+     (Filter       : not null access function (Name : String) return Boolean;
       Directories  : GNATCOLL.VFS.File_Array)
       return GNATCOLL.VFS.File_Array_Access
    is
@@ -93,7 +104,7 @@ package body Libadalang.Auto_Provider is
                (D, Filter => Files_Only);
          begin
             for F of Files.all loop
-               if GNAT.Regpat.Match (Name_Pattern, +F.Base_Name) then
+               if Filter.all (+F.Base_Name) then
                   Result.Append (F);
                end if;
             end loop;
@@ -109,6 +120,37 @@ package body Libadalang.Auto_Provider is
          end loop;
       end return;
    end Find_Files;
+
+   ----------------
+   -- Find_Files --
+   ----------------
+
+   function Find_Files
+     (Name_Pattern : GNAT.Regpat.Pattern_Matcher :=
+        Default_Source_Filename_Pattern;
+      Directories  : GNATCOLL.VFS.File_Array)
+      return GNATCOLL.VFS.File_Array_Access
+   is
+      function Filter (Name : String) return Boolean
+      is (GNAT.Regpat.Match (Name_Pattern, Name));
+   begin
+      return Find_Files (Filter'Access, Directories);
+   end Find_Files;
+
+   -----------------------
+   -- Find_Files_Regexp --
+   -----------------------
+
+   function Find_Files_Regexp
+     (Name_Pattern : GNAT.Regexp.Regexp := Default_Source_Filename_Regexp;
+      Directories  : GNATCOLL.VFS.File_Array)
+      return GNATCOLL.VFS.File_Array_Access
+   is
+      function Filter (Name : String) return Boolean
+      is (GNAT.Regexp.Match (Name, Name_Pattern));
+   begin
+      return Find_Files (Filter'Access, Directories);
+   end Find_Files_Regexp;
 
    -----------------------
    -- Get_Unit_Filename --

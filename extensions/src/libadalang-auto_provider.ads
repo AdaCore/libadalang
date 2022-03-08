@@ -32,6 +32,7 @@ with Langkit_Support.Symbols;
 
 private with Ada.Containers.Hashed_Maps;
 
+with GNAT.Regexp;
 with GNAT.Regpat;
 
 with GNATCOLL.VFS;
@@ -44,8 +45,10 @@ package Libadalang.Auto_Provider is
    use Support.Text;
 
    Default_Source_Filename_Pattern : constant GNAT.Regpat.Pattern_Matcher :=
-      GNAT.Regpat.Compile ("\.(ad.|a|spc|bdy)$");
-   --  Default matcher for Ada source filenames. This matches most usual file
+     GNAT.Regpat.Compile ("\.(ad.|a|spc|bdy)$");
+   Default_Source_Filename_Regexp : constant GNAT.Regexp.Regexp :=
+     GNAT.Regexp.Compile (".*\.(ad.|a|spc|bdy)");
+   --  Default matchers for Ada source filenames. They match most usual file
    --  extensions used for Ada sources: ``.ads``, ``.adb``, ``.ada``, ``.spc``,
    --  ``.bdy``, etc.
 
@@ -58,6 +61,15 @@ package Libadalang.Auto_Provider is
    --  given ``Directories`` whose name match the given regular expression
    --  ``Name_Pattern``. The result is dynamically allocated, so the caller
    --  must free it when done with it.
+
+   function Find_Files_Regexp
+     (Name_Pattern : GNAT.Regexp.Regexp := Default_Source_Filename_Regexp;
+      Directories  : GNATCOLL.VFS.File_Array)
+      return GNATCOLL.VFS.File_Array_Access;
+   --  Like ``Find_Files``, but works on GNAT.Regexp patterns.
+   --
+   --  Note: this function is not an overload, so that calls such as
+   --  ``Find_Files (Directories => D);`` are not ambiguous.
 
    type Auto_Unit_Provider is
       new Libadalang.Analysis.Unit_Provider_Interface with private;

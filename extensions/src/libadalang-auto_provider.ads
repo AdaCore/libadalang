@@ -44,7 +44,7 @@ package Libadalang.Auto_Provider is
    use Support.Text;
 
    Default_Source_Filename_Pattern : constant GNAT.Regpat.Pattern_Matcher :=
-      GNAT.Regpat.Compile (".*\.(ad.|a|spc|bdy)");
+      GNAT.Regpat.Compile ("\.(ad.|a|spc|bdy)$");
    --  Default matcher for Ada source filenames. This matches most usual file
    --  extensions used for Ada sources: ``.ads``, ``.adb``, ``.ada``, ``.spc``,
    --  ``.bdy``, etc.

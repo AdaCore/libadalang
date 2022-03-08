@@ -1,0 +1,10 @@
+--  vim: filetype=ada
+
+--  The auto provider is not supposed to find this file as its extension is
+--  "adbx", which the default regexp should not accept (it used to). So we
+--  should have a warning that says that "spec for bar" is not found.
+
+procedure Bar is
+begin
+   null;
+end Bar;

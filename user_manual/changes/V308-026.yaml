@@ -1,0 +1,10 @@
+type: bugfix
+apis: [ada]
+title: Fix the default filename pattern in ``Libadalang.Auto_Provider``
+description: |
+   The default filename pattern for the ``Find_Files`` function in
+   ``Libadalang.Auto_Provider`` used to be too lax: it used to accept for
+   instance ``foo.adbx`` whereas only the ``.adb`` extensions were meant to
+   match. This pattern is now stricter and rejects the former.
+
+date: 2022-03-08

@@ -1366,8 +1366,8 @@ A.add_rules(
     ),
 
     pp_directive=Or(
-        PpIfDirective("if", cut(), A.pp_expr, A.pp_then),
-        PpElsifDirective("elsif", cut(), A.pp_expr, A.pp_then),
+        PpIfDirective("if", Cut(), A.pp_expr, A.pp_then),
+        PpElsifDirective("elsif", Cut(), A.pp_expr, A.pp_then),
         PpElseDirective("else"),
         PpEndIfDirective("end", "if", ";"),
     ),
@@ -1375,7 +1375,7 @@ A.add_rules(
     pp_then=Opt(PpThenKw("then")),
 
     pp_expr=Or(
-        BinOp(A.pp_expr, A.boolean_op, cut(), A.pp_term),
+        BinOp(A.pp_expr, A.boolean_op, Cut(), A.pp_term),
         A.pp_term,
     ),
 

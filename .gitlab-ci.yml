@@ -33,17 +33,17 @@ stages:
    - *gnat_env
 
 .venv_cache: &venv_cache
-   key: langkit_venv
+   key: lal_venv
    paths:
      - $VENV_DIR
 
 .alire_cache: &alire_cache
-   key: alire
+   key: lal_alire
    paths:
       - alire
 
 .deps_checkouts_cache: &deps_checkouts_cache
-   key: deps_checkouts
+   key: lal_deps_checkouts
    paths:
      - xmlada
      - gprbuild
@@ -56,7 +56,7 @@ stages:
    - *venv_cache
    - *alire_cache
    - *deps_checkouts_cache
-   - key: lal
+   - key: lal_build_artifacts
      paths:
         - $PREFIX
         - build

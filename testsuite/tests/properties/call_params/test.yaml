@@ -1,2 +1,2 @@
 driver: inline-playground
-input_sources: [callp.adb, pkg.adb, pkg,ads, dot.adb]
+input_sources: [callp.adb, pkg.adb, pkg,ads, dot.adb, call_array.adb]

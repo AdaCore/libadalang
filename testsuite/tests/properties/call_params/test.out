@@ -1,4 +1,28 @@
 
+Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:11:4-11:40>
+Result: [<ParamActual param=<DefiningName call_array.adb:2:19-2:20> actual=<Int call_array.adb:11:37-11:38>>,
+         <ParamActual param=<DefiningName call_array.adb:2:32-2:33> actual=<Id "True" call_array.adb:11:14-11:18>>,
+         <ParamActual param=<DefiningName call_array.adb:2:35-2:36> actual=<Id "False" call_array.adb:11:25-11:30>>]
+
+Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:13:4-13:36>
+Result: [<ParamActual param=<DefiningName call_array.adb:2:19-2:20> actual=<Int call_array.adb:13:9-13:11>>,
+         <ParamActual param=<DefiningName call_array.adb:2:32-2:33> actual=<Id "True" call_array.adb:13:18-13:22>>,
+         <ParamActual param=<DefiningName call_array.adb:2:35-2:36> actual=<Id "False" call_array.adb:13:29-13:34>>]
+
+Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:15:4-15:26>
+Result: [<ParamActual param=<DefiningName call_array.adb:2:19-2:20> actual=<Int call_array.adb:15:9-15:11>>,
+         <ParamActual param=<DefiningName call_array.adb:2:32-2:33> actual=<Id "True" call_array.adb:15:13-15:17>>,
+         <ParamActual param=<DefiningName call_array.adb:2:35-2:36> actual=<Id "False" call_array.adb:15:19-15:24>>]
+
+Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:17:4-17:31>
+Result: [<ParamActual param=<DefiningName call_array.adb:5:39-5:40> actual=<Int call_array.adb:17:27-17:29>>,
+         <ParamActual param=<DefiningName call_array.adb:5:42-5:43> actual=<Int call_array.adb:17:18-17:20>>]
+
+Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:19:4-19:23>
+Result: [<ParamActual param=<DefiningName call_array.adb:5:39-5:40> actual=<Int call_array.adb:19:17-19:18>>,
+         <ParamActual param=<DefiningName call_array.adb:5:42-5:43> actual=<Int call_array.adb:19:20-19:21>>]
+
+
 Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:35:4-35:42>
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:3:26-3:27>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:4:26-4:27>>,

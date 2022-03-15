@@ -12666,8 +12666,8 @@ class Name(Expr):
                 aparams=Entity.cast(CallExpr)._.params,
                 # Create an array of pairs from the subprogram formals and
                 # default expressions.
-                dparams=Entity.referenced_decl()
-                .subp_spec_or_null._.params.mapcat(
+                dparams=Entity.called_subp_spec
+                .cast(SubpSpec)._.subp_params._.params.mapcat(
                     lambda i, p: p.defining_names.map(
                         lambda n: ParamActual.new(
                             param=n,

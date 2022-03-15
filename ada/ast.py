@@ -578,7 +578,10 @@ class AdaNode(ASTNode):
         pass
 
     xref_stop_resolution = Property(False)
-    stop_resolution_equation = Property(LogicTrue())
+    stop_resolution_equation = Property(
+        LogicTrue(),
+        dynamic_vars=[env, origin]
+    )
 
     @langkit_property()
     def xref_initial_env():
@@ -624,8 +627,11 @@ class AdaNode(ASTNode):
             lambda c: If(
                 c.xref_entry_point,
                 True,
-                If(c.xref_stop_resolution, c.as_entity.resolve_own_names, True)
-                & c.as_entity.resolve_children_names,
+                If(
+                    c.as_entity.xref_stop_resolution,
+                    c.as_entity.resolve_own_names,
+                    True
+                ) & c.as_entity.resolve_children_names,
             ),
             default_val=True
         ))
@@ -10839,7 +10845,7 @@ class BinOp(Expr):
             Self.left.matches_expected_formal_prim_type,
             Self.right.matches_expected_formal_prim_type,
 
-            Bind(Self.type_var, Self.bool_type)
+            Bind(Self.type_var, Self.left.type_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
@@ -12558,18 +12564,16 @@ class CallExpr(Name):
         return Entity.bottom_up_name_equation
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def type_conv_xref_equation():
+    def type_conv_self_xref_equation():
         """
-        Helper for xref_equation, handles construction of the equation in type
-        conversion cases.
+        Helper for xref_equation and stop_resolution_equation, handles the
+        construction of the equation in type conversion cases, without the
+        recursion on the argument.
         """
         return And(
-            Bind(Entity.params.at(0).expr.expected_type_var,
-                 No(BaseTypeDecl.entity)),
-            Entity.params.at(0).expr.sub_equation,
             Entity.name.subtype_indication_equation,
             Bind(Self.name.ref_var, Self.name.type_var),
-            Bind(Self.type_var, Self.name.ref_var),
+            Bind(Self.type_var, Self.name.ref_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -12651,6 +12655,26 @@ class CallExpr(Name):
             )
         )
 
+    @langkit_property(return_type=Bool)
+    def is_type_conversion():
+        """
+        Return whether this CallExpr actually represents a type conversion.
+        """
+        return And(
+            Not(Entity.name.is_a(QualExpr)),
+            Not(Entity.name.name_designated_type.is_null)
+        )
+
+    xref_stop_resolution = Property(
+        Entity.super() | Entity.is_type_conversion
+    )
+
+    stop_resolution_equation = Property(If(
+        Entity.is_type_conversion,
+        Entity.type_conv_self_xref_equation,
+        Entity.super()
+    ))
+
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation(root=T.Name):
         """
@@ -12658,11 +12682,13 @@ class CallExpr(Name):
         subprogram call cases.
         """
         return Cond(
-            Not(Entity.name.is_a(QualExpr))
-            & Not(Entity.name.name_designated_type.is_null),
+            Entity.is_type_conversion,
 
             # Type conversion case
-            Entity.type_conv_xref_equation
+            Entity.type_conv_self_xref_equation
+            & Bind(Entity.params.at(0).expr.expected_type_var,
+                   No(BaseTypeDecl.entity))
+            & Entity.params.at(0).expr.sub_equation
             & Entity.parent_name(root).as_entity.then(
                 lambda pn: pn.parent_name_equation(
                     Entity.name.name_designated_type,
@@ -18514,6 +18540,7 @@ class RangeSpec(AdaNode):
 
     range = Field(type=Expr)
 
+    xref_stop_resolution = Property(Self.parent.is_a(ComponentClause))
     xref_equation = Property(Entity.range.xref_equation)
 
 

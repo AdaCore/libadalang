@@ -114,11 +114,20 @@ setup-dependency-checkouts:
           (
             cd langkit
             git remote set-url origin "$langkit_url"
-            git pull --rebase
+            git fetch origin
           )
        else
           git clone "$langkit_url"
        fi
+
+     # Pick the langkit branch that corresponds to the tested libadalang
+     # branch, if it exists.
+     - |
+         (
+           cd langkit
+           git checkout "origin/$CI_COMMIT_REF_NAME" || git checkout "origin/master"
+         )
+
    cache: *deps_checkouts_cache
 
 #########

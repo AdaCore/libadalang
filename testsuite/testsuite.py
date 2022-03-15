@@ -99,6 +99,16 @@ class LALTestsuite(Testsuite):
             help='Rewrite test baselines according to current output.'
         )
 
+        # Temporary discriminant while we support compilers that do not have
+        # support for the Put_Image attribute.
+        parser.add_argument(
+            '--no-has-put-image',
+            action='store_false',
+            dest='has_put_image',
+            help='Expect tests requiring support for the Put_Image attribute'
+                 ' to fail.'
+        )
+
     def set_up(self):
         super().set_up()
         opts = self.env.options
@@ -128,6 +138,7 @@ class LALTestsuite(Testsuite):
             'os': self.env.build.os.name,
             'has_pygments': has_pygments,
             'python': python_version,
+            'has_put_image': opts.has_put_image,
             'valgrind': opts.valgrind,
             'coverage': opts.coverage is not None,
         }

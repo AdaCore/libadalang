@@ -1,2 +1,5 @@
 driver: name-resolution
 input_sources: [test.adb]
+control:
+  - [XFAIL, "not has_put_image",
+     "Requires 'Put_Image support in the Ada runtime"]

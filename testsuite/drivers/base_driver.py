@@ -54,6 +54,12 @@ class BaseDriver(DiffTestDriver):
             self.test_env.get('use_testsuite_python', False)
         )
 
+        # If we are running this on Windows and this testcase has a
+        # Windows-specific baseline, use it.
+        windows_baseline_file = self.test_env.get("windows_baseline_file")
+        if self.env.build.os.name == "windows" and windows_baseline_file:
+            self.test_env.setdefault("baseline_file", windows_baseline_file)
+
     @property
     def disable_shared(self):
         return self.env.options.disable_shared

@@ -3,3 +3,4 @@ configs:
     input.ada: ["-c -DX=False", "-c -DX=True"]
 encoding: binary
 strict_line_endings: true
+windows_baseline_file: test_win.out

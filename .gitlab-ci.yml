@@ -145,6 +145,14 @@ build-job:
       - setup-python
       - setup-gnat
    script:
+      # Uninstall dependencies, so that gprinstall does not complain when we
+      # try to install updates.
+      - |
+        for project in xmlada gnatcoll gnatcoll_iconv gnatcoll_gmp
+        do
+          gprinstall --uninstall $project --prefix=$PREFIX || true
+        done
+
       # Build Langkit dependencies
       - |
             (cd xmlada ; ./configure --prefix=$PREFIX && make && make install)

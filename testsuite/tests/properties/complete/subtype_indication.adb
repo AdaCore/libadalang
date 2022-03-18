@@ -17,6 +17,9 @@ procedure Subtype_Indication is
       entry B;
    end Barrr;
 
+   type Babar is new B
+   --% list(node.p_complete)
+
    D : B;
    --% list(node.f_type_expr.f_name.p_complete)
    E : Bo;

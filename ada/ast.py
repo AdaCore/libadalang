@@ -8004,7 +8004,19 @@ class SubtypeIndication(TypeExpr):
                 is_dot_call=n.info.md.dottable_subp,
                 is_visible=Self.has_with_visibility(n.unit),
                 weight=n.match(
-                    lambda _=T.BaseTypeDecl: 100,
+                    lambda btd=T.BaseTypeDecl: If(
+                        # Do not promote Self as a possible completion for
+                        # itself::
+                        #
+                        #     type My_Type is new M
+                        #                          ^ set My_Type's weight to 0
+                        And(
+                            Entity.parent.is_a(T.DerivedTypeDef),
+                            Entity.parent.parent == btd
+                        ),
+                        0,
+                        100,
+                    ),
                     lambda _=T.PackageDecl: 50,
                     lambda _: 0
                 )

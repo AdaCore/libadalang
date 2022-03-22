@@ -2747,9 +2747,13 @@ class BasicDecl(AdaNode):
                     UnitBody,
                     not_found_is_error=Not(Or(
                         # Body not mandatory if the library level declaration
-                        # is a package. We don't try to be more precise than
-                        # that.
-                        b.is_a(T.BasePackageDecl, T.GenericPackageDecl),
+                        # is a package (regular, generic, or instantiated). We
+                        # don't try to be more precise than that.
+                        b.is_a(
+                            T.BasePackageDecl,
+                            T.GenericPackageDecl,
+                            T.GenericPackageInstantiation,
+                        ),
 
                         # A body is not expected if the library level
                         # declaration is an imported subprogram.

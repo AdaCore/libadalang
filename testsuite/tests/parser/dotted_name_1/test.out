@@ -1,0 +1,39 @@
+input:1:20: Cannot parse <qual_name_internal>
+input:1:22: Expected Char, got '''
+ObjectDecl[1:1-1:27]
+|f_ids:
+|  DefiningNameList[1:1-1:2]
+|  |  DefiningName[1:1-1:2]
+|  |  |f_name:
+|  |  |  Id[1:1-1:2]: O
+|f_has_aliased:
+|  AliasedAbsent[1:4-1:4]
+|f_has_constant:
+|  ConstantAbsent[1:4-1:4]
+|f_mode:
+|  ModeDefault[1:4-1:4]
+|f_type_expr:
+|  SubtypeIndication[1:5-1:12]
+|  |f_has_not_null:
+|  |  NotNullAbsent[1:4-1:4]
+|  |f_name:
+|  |  Id[1:5-1:12]: Integer
+|  |f_constraint: <null>
+|f_default_expr:
+|  Allocator[1:16-1:26]
+|  |f_subpool: <null>
+|  |f_type_or_expr:
+|  |  QualExpr[1:20-1:26]
+|  |  |f_prefix:
+|  |  |  DottedName[1:20-1:22] <<INCOMPLETE>>
+|  |  |  |f_prefix:
+|  |  |  |  Id[1:20-1:21]: P
+|  |  |  |f_suffix: <null>
+|  |  |f_suffix:
+|  |  |  ParenExpr[1:23-1:26]
+|  |  |  |f_expr:
+|  |  |  |  Id[1:24-1:25]: A
+|f_renaming_clause: <null>
+|f_aspects: <null>
+
+==== Checking tree consistency ====

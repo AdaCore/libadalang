@@ -7,24 +7,24 @@ Expr <ObjectDecl ["Expr_2"] test.adb:8:4-8:26> evaluated to Enum_Lit <EnumLitera
 Expr <ObjectDecl ["Expr_3"] test.adb:9:4-9:27> evaluated to Int 12
    Int value is 12
 
-Expr <ObjectDecl ["Expr_4"] test.adb:10:4-10:27> evaluated to Real 1.20E+01
+Expr <ObjectDecl ["Expr_4"] test.adb:10:4-10:27> evaluated to Real 12
 
 Expr <ObjectDecl ["Expr_5"] test.adb:11:4-11:31> evaluated to Int 12
    Int value is 12
 
 Property_Error: Object decl does not have a default expression nor a renaming clause.
 
-Expr <ObjectDecl ["X"] test.adb:18:7-18:24> evaluated to Real 3.50E+00
+Expr <ObjectDecl ["X"] test.adb:18:7-18:24> evaluated to Real 7/2
 
-Expr <ObjectDecl ["Y"] test.adb:19:7-19:24> evaluated to Real 1.50E+00
+Expr <ObjectDecl ["Y"] test.adb:19:7-19:24> evaluated to Real 3/2
 
-Expr <ObjectDecl ["Plus"] test.adb:21:7-21:30> evaluated to Real 5.00E+00
+Expr <ObjectDecl ["Plus"] test.adb:21:7-21:30> evaluated to Real 5
 
-Expr <ObjectDecl ["Minus"] test.adb:22:7-22:30> evaluated to Real 2.00E+00
+Expr <ObjectDecl ["Minus"] test.adb:22:7-22:30> evaluated to Real 2
 
-Expr <ObjectDecl ["Times"] test.adb:23:7-23:30> evaluated to Real 5.25E+00
+Expr <ObjectDecl ["Times"] test.adb:23:7-23:30> evaluated to Real 21/4
 
-Expr <ObjectDecl ["Div"] test.adb:24:7-24:30> evaluated to Real 2.33E+00
+Expr <ObjectDecl ["Div"] test.adb:24:7-24:30> evaluated to Real 7/3
 
 Expr <ObjectDecl ["X"] test.adb:31:7-31:24> evaluated to Int 3
    Int value is 3
@@ -50,9 +50,9 @@ Expr <ObjectDecl ["X"] test.adb:44:7-44:43> evaluated to Int 37
 Expr <ObjectDecl ["Y"] test.adb:45:7-45:43> evaluated to Int 14
    Int value is 14
 
-Expr <ObjectDecl ["Z"] test.adb:46:7-46:45> evaluated to Real 1.45E+01
+Expr <ObjectDecl ["Z"] test.adb:46:7-46:45> evaluated to Real 29/2
 
-Expr <ObjectDecl ["Z"] test.adb:47:7-47:45> evaluated to Real 1.20E+01
+Expr <ObjectDecl ["Z"] test.adb:47:7-47:45> evaluated to Real 12
 
 Expr <ObjectDecl ["Z"] test.adb:48:7-48:41> evaluated to Int 14
    Int value is 14
@@ -230,17 +230,17 @@ Expr <ObjectDecl ["Test_3"] test.adb:182:7-182:38> evaluated to Enum_Lit <EnumLi
 Expr <ObjectDecl ["Test_4"] test.adb:183:7-183:38> evaluated to Enum_Lit <EnumLiteralDecl ["True"] __standard:3:27-3:31>
    Int value is 1
 
-Expr <ObjectDecl ["T_First"] test.adb:194:7-194:30> evaluated to Real 0.00E+00
+Expr <ObjectDecl ["T_First"] test.adb:194:7-194:30> evaluated to Real 0
 
-Expr <ObjectDecl ["T_Last"] test.adb:195:7-195:29> evaluated to Real 1.00E+00
+Expr <ObjectDecl ["T_Last"] test.adb:195:7-195:29> evaluated to Real 1
 
-Expr <ObjectDecl ["U_First"] test.adb:197:7-197:30> evaluated to Real -9.90E+00
+Expr <ObjectDecl ["U_First"] test.adb:197:7-197:30> evaluated to Real -1393301134717747/140737488355328
 
-Expr <ObjectDecl ["U_Last"] test.adb:198:7-198:29> evaluated to Real 9.90E+00
+Expr <ObjectDecl ["U_Last"] test.adb:198:7-198:29> evaluated to Real 1393301134717747/140737488355328
 
-Expr <ObjectDecl ["V_First"] test.adb:200:7-200:30> evaluated to Real -1.50E+00
+Expr <ObjectDecl ["V_First"] test.adb:200:7-200:30> evaluated to Real -3/2
 
-Expr <ObjectDecl ["V_Last"] test.adb:201:7-201:29> evaluated to Real 1.50E+00
+Expr <ObjectDecl ["V_Last"] test.adb:201:7-201:29> evaluated to Real 3/2
 
 Property_Error: delta must be real
 

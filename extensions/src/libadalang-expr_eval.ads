@@ -21,7 +21,9 @@
 -- <http://www.gnu.org/licenses/>.                                          --
 ------------------------------------------------------------------------------
 
+with GNATCOLL.GMP; use GNATCOLL.GMP;
 with GNATCOLL.GMP.Integers;
+with GNATCOLL.GMP.Rational_Numbers;
 
 with Libadalang.Analysis;
 
@@ -37,6 +39,10 @@ package Libadalang.Expr_Eval is
 
    subtype Big_Integer is GNATCOLL.GMP.Integers.Big_Integer;
 
+   subtype Rational is GNATCOLL.GMP.Rational_Numbers.Rational;
+
+   subtype Double is GNATCOLL.GMP.Double;
+
    type Expr_Kind is (Enum_Lit, Int, Real, String_Lit);
 
    type Eval_Result (Kind : Expr_Kind := Int) is limited record
@@ -48,7 +54,7 @@ package Libadalang.Expr_Eval is
          when Int =>
             Int_Result : Big_Integer;
          when Real =>
-            Real_Result : Long_Float;
+            Real_Result : Rational;
          when String_Lit =>
             String_Result : Unbounded_Text_Type;
       end case;

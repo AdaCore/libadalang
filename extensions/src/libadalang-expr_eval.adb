@@ -31,6 +31,7 @@ with Libadalang.Sources;  use Libadalang.Sources;
 package body Libadalang.Expr_Eval is
 
    use type GNATCOLL.GMP.Integers.Big_Integer;
+   use type GNATCOLL.GMP.Rational_Numbers.Rational;
 
    function "+" (S : Wide_Wide_String) return Unbounded_Wide_Wide_String
                  renames To_Unbounded_Wide_Wide_String;
@@ -50,7 +51,7 @@ package body Libadalang.Expr_Eval is
 
    function Create_Real_Result
      (Expr_Type  : LAL.Base_Type_Decl;
-      Value      : Long_Float) return Eval_Result;
+      Value      : Rational) return Eval_Result;
    --  Helper to create Eval_Result values to wrap real numbers
 
    function Create_Bool_Result
@@ -79,6 +80,9 @@ package body Libadalang.Expr_Eval is
    function As_Bool (Self : Eval_Result) return Boolean;
    --  Return ``Self`` as a Boolean, if it is indeed of type
    --  ``Standard.Boolean``.
+
+   function Min (Left, Right : Rational) return Rational;
+   function Max (Left, Right : Rational) return Rational;
 
    ------------------------
    -- Create_Enum_Result --
@@ -122,9 +126,13 @@ package body Libadalang.Expr_Eval is
 
    function Create_Real_Result
      (Expr_Type  : LAL.Base_Type_Decl;
-      Value      : Long_Float) return Eval_Result is
+      Value      : Rational) return Eval_Result is
    begin
-      return ((Kind => Real, Expr_Type => Expr_Type, Real_Result => Value));
+      return Result : Eval_Result :=
+        (Kind => Real, Expr_Type => Expr_Type, Real_Result => <>)
+      do
+         Result.Real_Result.Set (Value);
+      end return;
    end Create_Real_Result;
 
    ------------------------------
@@ -178,7 +186,6 @@ package body Libadalang.Expr_Eval is
 
    procedure Raise_To_N (Left, Right : Big_Integer; Result : out Big_Integer)
    is
-      use GNATCOLL.GMP;
       N : Unsigned_Long;
    begin
       if Right < 0 then
@@ -206,6 +213,36 @@ package body Libadalang.Expr_Eval is
       when Constraint_Error =>
          raise Property_Error with "out of range big integer";
    end To_Integer;
+
+   ---------
+   -- Min --
+   ---------
+
+   function Min (Left, Right : Rational) return Rational is
+   begin
+      return Mini : Rational do
+         if Left <= Right then
+            Mini.Set (Left);
+         else
+            Mini.Set (Right);
+         end if;
+      end return;
+   end Min;
+
+   ---------
+   -- Max --
+   ---------
+
+   function Max (Left, Right : Rational) return Rational is
+   begin
+      return Maxi : Rational do
+         if Left >= Right then
+            Maxi.Set (Left);
+         else
+            Maxi.Set (Right);
+         end if;
+      end return;
+   end Max;
 
    ---------------
    -- Expr_Eval --
@@ -394,9 +431,9 @@ package body Libadalang.Expr_Eval is
                         Delta_Res : constant Eval_Result :=
                            Expr_Eval (Def.F_Delta);
 
-                        Delta_Val : constant Long_Float :=
+                        Delta_Val : constant Double :=
                           (if Delta_Res.Kind in Real
-                           then Delta_Res.Real_Result
+                           then Delta_Res.Real_Result.To_Double
                            else raise Property_Error with
                               "delta must be real");
 
@@ -409,19 +446,22 @@ package body Libadalang.Expr_Eval is
                            else raise Property_Error with
                               "digits must be an integer");
 
-                        Bound : constant Long_Float :=
+                        Bound : constant Double :=
                           (if Digits_Val > 0 and Delta_Val > 0.0
                            then (10.0 ** Digits_Val - 1.0) * Delta_Val
                            else raise Property_Error with
                               "delta and digits must be positive");
                      begin
-                        return
+                        return Result : Eval_Result :=
                           (Kind        => Real,
                            Expr_Type   => D.Parent.As_Base_Type_Decl,
-                           Real_Result =>
+                           Real_Result => <>)
+                        do
+                           Result.Real_Result.Set
                              (case A is
                               when Range_First => -Bound,
-                              when Range_Last => Bound));
+                              when Range_Last => Bound);
+                        end return;
                      end;
                   else
                      return Eval_Range_Attr (Rng.F_Range.As_Ada_Node, A);
@@ -524,9 +564,13 @@ package body Libadalang.Expr_Eval is
                     E.As_Int_Literal.P_Denoted_Value);
 
          when Ada_Real_Literal =>
-            return (Real,
-                    E.P_Universal_Real_Type.As_Base_Type_Decl,
-                    Long_Float'Value (Image (E.Text)));
+            return Result : Eval_Result :=
+              (Kind        => Real,
+               Expr_Type   => E.P_Universal_Real_Type.As_Base_Type_Decl,
+               Real_Result => <>)
+            do
+               Decode_Real_Literal (E.Text, Result.Real_Result);
+            end return;
 
          when Ada_String_Literal =>
             return (String_Lit,
@@ -682,18 +726,18 @@ package body Libadalang.Expr_Eval is
                when Real =>
                   --  Handle arithmetic operators on Real values
                   declare
-                     Result : Long_Float;
+                     Result : Rational;
                   begin
                      begin
                         case Op.Kind is
                         when Ada_Op_Plus =>
-                           Result := L.Real_Result + R.Real_Result;
+                           Result.Set (L.Real_Result + R.Real_Result);
                         when Ada_Op_Minus =>
-                           Result := L.Real_Result - R.Real_Result;
+                           Result.Set (L.Real_Result - R.Real_Result);
                         when Ada_Op_Mult =>
-                           Result := L.Real_Result * R.Real_Result;
+                           Result.Set (L.Real_Result * R.Real_Result);
                         when Ada_Op_Div =>
-                           Result := L.Real_Result / R.Real_Result;
+                           Result.Set (L.Real_Result / R.Real_Result);
                         when others =>
                            raise Property_Error with
                               "Unhandled operator: " & Op.Kind'Image;
@@ -795,17 +839,17 @@ package body Libadalang.Expr_Eval is
 
                when Real =>
                   declare
-                     Operand : Long_Float renames Operand_Val.Real_Result;
-                     Result  : Long_Float;
+                     Operand : Rational renames Operand_Val.Real_Result;
+                     Result  : Rational;
                   begin
                      begin
                         case Op_Kind is
                         when Ada_Op_Minus =>
-                           Result := -Operand;
+                           Result.Set (-Operand);
                         when Ada_Op_Plus =>
-                           Result := Operand;
+                           Result.Set (Operand);
                         when Ada_Op_Abs =>
-                           Result := abs Operand;
+                           Result.Set (abs Operand);
                         when Ada_Op_Not =>
                            raise Property_Error with
                               "Invalid ""not"" operator for floating point"
@@ -874,9 +918,8 @@ package body Libadalang.Expr_Eval is
                            return Create_Real_Result
                              (Typ,
                               (if Name = "min"
-                               then Long_Float'Min
-                                 (Val_1.Real_Result, Val_2.Real_Result)
-                               else Long_Float'Max
+                               then Min (Val_1.Real_Result, Val_2.Real_Result)
+                               else Max
                                  (Val_1.Real_Result, Val_2.Real_Result)));
                         when others =>
                            raise Property_Error with
@@ -999,13 +1042,13 @@ package body Libadalang.Expr_Eval is
                if Designated_Type.P_Is_Float_Type then
                   declare
                      Arg_Val : constant Eval_Result := Expr_Eval (Arg);
-                     Result  : Long_Float;
+                     Result  : Rational;
                   begin
                      case Arg_Val.Kind is
                      when Int =>
-                        Result := Long_Float (To_Integer (Arg_Val.Int_Result));
+                        Result.Set (Arg_Val.Int_Result);
                      when Real =>
-                        Result := Arg_Val.Real_Result;
+                        Result.Set (Arg_Val.Real_Result);
                      when Enum_Lit =>
                         raise Property_Error with "Invalid enum argument";
                      when String_Lit =>
@@ -1023,7 +1066,8 @@ package body Libadalang.Expr_Eval is
                      when Int =>
                         Result.Set (Arg_Val.Int_Result);
                      when Real =>
-                        Result.Set (GNATCOLL.GMP.Long (Arg_Val.Real_Result));
+                        Result.Set
+                          (GNATCOLL.GMP.Long (Arg_Val.Real_Result.To_Double));
                      when Enum_Lit =>
                         raise Property_Error with "Invalid enum argument";
                      when String_Lit =>
@@ -1134,7 +1178,7 @@ package body Libadalang.Expr_Eval is
         & Self.Kind'Image & " "
         & (case Self.Kind is
            when Int => Self.Int_Result.Image,
-           when Real => Self.Real_Result'Image,
+           when Real => Self.Real_Result.Image,
            when Enum_Lit => Self.Enum_Result.Image,
            when String_Lit => Encode (To_Text (Self.String_Result), "UTF-8"))
         & ">";

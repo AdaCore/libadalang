@@ -329,7 +329,7 @@ package body Libadalang.Sources is
       Exponent : Integer;
       --  Exponent to apply to Numeral, so that the designated number is::
       --
-      --     Numeral * 10 ** Exponent.
+      --     Numeral * Base ** Exponent.
    end record;
    --  Result of the analysis of a numeric literal string
 
@@ -606,7 +606,7 @@ package body Libadalang.Sources is
          declare
             Exponent : GNATCOLL.GMP.Integers.Big_Integer;
          begin
-            Exponent.Set (10);
+            Exponent.Set (Long (Parsed.Base));
             Exponent.Raise_To_N (Unsigned_Long (Parsed.Exponent));
             Result.Multiply (Exponent);
          end;

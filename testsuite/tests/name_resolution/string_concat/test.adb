@@ -11,6 +11,8 @@ procedure Test is
    H : constant String := String ("lol" & G);
 
    I : constant String := "a" & "a" & "a";
+
+   J : constant String := String ("lol" & G & "hihi");
 begin
    null;
 end Test;

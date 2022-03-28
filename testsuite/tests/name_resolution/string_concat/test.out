@@ -206,18 +206,60 @@ Expr: <Str ""a"" test.adb:13:39-13:42>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 
-Resolving xrefs for node <NullStmt test.adb:15:4-15:9>
+Resolving xrefs for node <ObjectDecl ["J"] test.adb:15:4-15:55>
+***************************************************************
+
+Expr: <Id "String" test.adb:15:17-15:23>
+  references:    <DefiningName __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:15:27-15:54>
+  references:    <DefiningName __standard:105:8-105:14>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "String" test.adb:15:27-15:33>
+  references:    <DefiningName __standard:105:8-105:14>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <BinOp test.adb:15:35-15:53>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <BinOp test.adb:15:35-15:44>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""lol"" test.adb:15:35-15:40>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" test.adb:15:41-15:42>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "G" test.adb:15:43-15:44>
+  references:    <DefiningName test.adb:9:4-9:5>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" test.adb:15:45-15:46>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""hihi"" test.adb:15:47-15:53>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <NullStmt test.adb:17:4-17:9>
 ******************************************************
 
 
-Resolving xrefs for node <EndName test.adb:16:5-16:9>
+Resolving xrefs for node <EndName test.adb:18:5-18:9>
 *****************************************************
 
-Expr: <EndName test.adb:16:5-16:9>
+Expr: <EndName test.adb:18:5-18:9>
   references:    <DefiningName test.adb:1:11-1:15>
   type:          None
   expected type: None
-Expr: <Id "Test" test.adb:16:5-16:9>
+Expr: <Id "Test" test.adb:18:5-18:9>
   references:    <DefiningName test.adb:1:11-1:15>
   type:          None
   expected type: None

@@ -74,5 +74,33 @@ Decode_Integer_Literal ("16#f#e+1") = 240
 Decode_Integer_Literal ("16#f#e-1") = <Property_Error: invalid numeric literal>
 Decode_Integer_Literal ("1e+1") = 10
 Decode_Integer_Literal ("1ee1") = <Property_Error: invalid numeric literal>
+Decode_Integer_Literal ("1.0") = <Property_Error: invalid numeric literal>
+Decode_Integer_Literal ("1.") = <Property_Error: invalid numeric literal>
+
+Decode_Real_Literal ("1") = <Property_Error: invalid numeric literal>
+Decode_Real_Literal ("1.0.0") = <Property_Error: invalid numeric literal>
+Decode_Real_Literal ("1..0") = <Property_Error: invalid numeric literal>
+Decode_Real_Literal ("1.") = <Property_Error: invalid numeric literal>
+Decode_Real_Literal ("1.0") = 1
+Decode_Real_Literal ("1.00") = 1
+Decode_Real_Literal ("0.0") = 0
+Decode_Real_Literal ("0.01") = 1/100
+Decode_Real_Literal ("8#1.0#") = 1
+Decode_Real_Literal ("1.0e1") = 10
+Decode_Real_Literal ("1.0e0") = 1
+Decode_Real_Literal ("1.0e-1") = 1/10
+Decode_Real_Literal ("1.0e-0") = 1
+Decode_Real_Literal ("1.0e10") = 10000000000
+Decode_Real_Literal ("1.0e-10") = 1/10000000000
+Decode_Real_Literal ("1_0.0_0e10") = 100000000000
+Decode_Real_Literal ("1_0.0_0e-10") = 1/1000000000
+Decode_Real_Literal ("8#1.0#E2") = 64
+Decode_Real_Literal ("8#1.0#E-2") = 1/64
+Decode_Real_Literal ("0.33") = 33/100
+Decode_Real_Literal ("0.333") = 333/1000
+Decode_Real_Literal ("12345.67890") = 123456789/10000
+Decode_Real_Literal ("09876.54321") = 987654321/100000
+Decode_Real_Literal ("09876.54321E+012") = 9876543210000000
+Decode_Real_Literal ("09876.54321E-012") = 987654321/100000000000000000
 
 Done.

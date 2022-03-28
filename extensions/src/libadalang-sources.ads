@@ -22,6 +22,7 @@
 ------------------------------------------------------------------------------
 
 with GNATCOLL.GMP.Integers;
+with GNATCOLL.GMP.Rational_Numbers;
 
 with Langkit_Support.Symbols; use Langkit_Support.Symbols;
 
@@ -70,5 +71,11 @@ package Libadalang.Sources is
    --  TODO(T206-025): use an OUT parameter instead of a function return type
    --  to workaround a GNAT finalization bug when the function raises an
    --  exception.
+
+   procedure Decode_Real_Literal
+     (Text   : Text_Type;
+      Result : out GNATCOLL.GMP.Rational_Numbers.Rational);
+   --  Turn Text, a valid Ada real literal, into a rational number. Raise a
+   --  Libadalang.Analysis.Property_Error if Text is not a valid literal.
 
 end Libadalang.Sources;

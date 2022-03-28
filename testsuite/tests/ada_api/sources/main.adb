@@ -4,6 +4,7 @@ with Ada.Exceptions; use Ada.Exceptions;
 with Ada.Text_IO;    use Ada.Text_IO;
 
 with GNATCOLL.GMP.Integers;
+with GNATCOLL.GMP.Rational_Numbers;
 
 with Langkit_Support.Errors; use Langkit_Support.Errors;
 with Langkit_Support.Text;   use Langkit_Support.Text;
@@ -15,6 +16,7 @@ procedure Main is
    procedure Test_Decode_Character_Literal (Input : Text_Type);
    procedure Test_Decode_String_Literal (Input : Text_Type);
    procedure Test_Decode_Integer_Literal (Input : Text_Type);
+   procedure Test_Decode_Real_Literal (Input : Text_Type);
    procedure Put_Exception (Exc : Exception_Occurrence);
 
    --------------------------
@@ -83,6 +85,25 @@ procedure Main is
             Put_Exception (Exc);
       end;
    end Test_Decode_Integer_Literal;
+
+   ------------------------------
+   -- Test_Decode_Real_Literal --
+   ------------------------------
+
+   procedure Test_Decode_Real_Literal (Input : Text_Type) is
+   begin
+      Put ("Decode_Real_Literal ("
+           & Image (Input, With_Quotes => True) & ") = ");
+      declare
+         Result : GNATCOLL.GMP.Rational_Numbers.Rational;
+      begin
+         Decode_Real_Literal (Input, Result);
+         Put_Line (Result.Image);
+      exception
+         when Exc : Property_Error =>
+            Put_Exception (Exc);
+      end;
+   end Test_Decode_Real_Literal;
 
    -------------------
    -- Put_Exception --
@@ -173,6 +194,35 @@ begin
    Test_Decode_Integer_Literal ("16#f#e-1");
    Test_Decode_Integer_Literal ("1e+1");
    Test_Decode_Integer_Literal ("1ee1");
+   Test_Decode_Integer_Literal ("1.0");
+   Test_Decode_Integer_Literal ("1.");
+   New_Line;
+
+   Test_Decode_Real_Literal ("1");
+   Test_Decode_Real_Literal ("1.0.0");
+   Test_Decode_Real_Literal ("1..0");
+   Test_Decode_Real_Literal ("1.");
+   Test_Decode_Real_Literal ("1.0");
+   Test_Decode_Real_Literal ("1.00");
+   Test_Decode_Real_Literal ("0.0");
+   Test_Decode_Real_Literal ("0.01");
+   Test_Decode_Real_Literal ("8#1.0#");
+   Test_Decode_Real_Literal ("1.0e1");
+   Test_Decode_Real_Literal ("1.0e0");
+   Test_Decode_Real_Literal ("1.0e-1");
+   Test_Decode_Real_Literal ("1.0e-0");
+   Test_Decode_Real_Literal ("1.0e10");
+   Test_Decode_Real_Literal ("1.0e-10");
+   Test_Decode_Real_Literal ("1_0.0_0e10");
+   Test_Decode_Real_Literal ("1_0.0_0e-10");
+   Test_Decode_Real_Literal ("8#1.0#E2");
+   Test_Decode_Real_Literal ("8#1.0#E-2");
+   Test_Decode_Real_Literal ("0.33");
+   Test_Decode_Real_Literal ("0.333");
+   Test_Decode_Real_Literal ("12345.67890");
+   Test_Decode_Real_Literal ("09876.54321");
+   Test_Decode_Real_Literal ("09876.54321E+012");
+   Test_Decode_Real_Literal ("09876.54321E-012");
    New_Line;
 
    Put_Line ("Done.");

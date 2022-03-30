@@ -16237,11 +16237,11 @@ class AttributeRef(Name):
 
             # Prefix is a type
             Entity.prefix.xref_no_overloading & Cond(
-                typ.is_array & is_length,
+                typ.is_array_def_with_deref & is_length,
                 Self.universal_int_bind(Self.type_var),
 
                 # If it's an array, take the appropriate index type
-                typ.is_array,
+                typ.is_array_def_with_deref,
                 Self.type_bind_val(Self.type_var, typ.index_type(dim)),
 
                 # If it's a discrete type, then bind to the discrete type

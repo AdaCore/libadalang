@@ -8423,6 +8423,25 @@ class Pragma(AdaNode):
                 assoc.cast(AggregateAssoc).contract_cases_assoc_equation
             ),
 
+            Entity.id.name_is("Debug"),
+            If(
+                # If we have two arguments, the first one is a conditional
+                # expression.
+                Entity.args.length == 2,
+                Let(
+                    lambda expr=Entity.args.at(0).assoc_expr:
+                    Bind(expr.expected_type_var, Self.bool_type)
+                    & expr.sub_equation
+                    & expr.matches_expected_formal_prim_type
+                ),
+                LogicTrue()
+            ) & Let(
+                lambda
+                proc=Entity.args.at(Entity.args.length - 1)._.assoc_expr:
+                Bind(proc.type_var, No(BaseTypeDecl.entity))
+                & proc.sub_equation
+            ),
+
             Entity.args.logic_all(
                 # In the default case, we try to resolve every associated
                 # expression, but we never fail, in order to not generate

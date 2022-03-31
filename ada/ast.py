@@ -13885,11 +13885,22 @@ class IfExpr(CondExpr):
     def no_expected_type_equation():
         """
         Return the equation to use when the expected type is not known, for
-        example if we are inside a type conversion. In that case, we assume
-        that the "then" branch has a context-free type and we'll use it to
-        infer the type of Self.
+        example if we are inside a type conversion. In that case, we'll infer
+        the type of the if expression by taking the common base subtype of the
+        context-free types of all the sub-branches.
         """
-        return Bind(Self.type_var, Self.then_expr.type_var)
+        return Self.then_expr.singleton.concat(
+            Self.alternatives.map(lambda a: a.then_expr)
+        ).concat(
+            Self.else_expr._.singleton
+        ).filter(
+            lambda e: e.has_context_free_type
+        ).logic_all(
+            lambda e:
+            Predicate(BaseTypeDecl.is_universal_type, e.type_var)
+            | Bind(e.type_var, Self.type_var,
+                   conv_prop=BaseTypeDecl.base_subtype)
+        )
 
 
 class ElsifExprPart(AdaNode):

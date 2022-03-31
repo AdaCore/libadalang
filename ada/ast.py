@@ -5289,6 +5289,18 @@ class BaseTypeDecl(BasicDecl):
         dynamic_vars=[default_origin()]
     )
 
+    @langkit_property(dynamic_vars=[default_origin()])
+    def is_tagged_type_with_deref():
+        """
+        Return whether Self is a tagged type after being implicitly
+        dereferenced.
+        """
+        return If(
+            Not(Entity.get_imp_deref.is_null),
+            Entity.accessed_type,
+            Entity
+        ).is_tagged_type
+
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
         Return the base type entity for this derived type declaration
@@ -11401,8 +11413,28 @@ class MembershipExpr(Expr):
         & Entity.expr.sub_equation
         & Entity.membership_exprs.logic_all(
             lambda m: m.cast(T.Name)._.name_designated_type.then(
-                # Tagged type check
-                lambda _: m.cast(T.Name).xref_no_overloading,
+                # Tagged type check or subtype membership check
+                lambda typ:
+                m.cast(T.Name).xref_no_overloading
+                & Cond(
+                    # If testing a specific tagged type membership, the
+                    # expected type of the tested expression is the type at the
+                    # root of the tagged type hierarchy.
+                    # TODO: This is currently not possible to express because
+                    # of an unrelated bug (see V408-038), but we can at least
+                    # constrain the resulting type to be tagged after implicit
+                    # dereference.
+                    typ.is_tagged_type,
+                    Bind(Self.expr.expected_type_var, No(BaseTypeDecl.entity))
+                    & Predicate(BaseTypeDecl.is_tagged_type_with_deref,
+                                Self.expr.type_var),
+
+                    # This is a simple subtype membership test, so the expected
+                    # type of the tested expression is the subtype's base type.
+                    Bind(Self.expr.expected_type_var,
+                         typ.base_subtype)
+                    & Self.expr.matches_expected_formal_type
+                ),
 
                 # Regular membership check
                 default_val=And(

@@ -175,8 +175,7 @@ package body Libadalang.Env_Hooks is
      "  type Universal_Real_Type_ is digits 16;" & ASCII.LF &
      "  package root_types_ is" & ASCII.LF &
      "  type root_integer is range -1 .. 1;" & ASCII.LF &
-     "  type root_real is digits 16;" & ASCII.LF &
-     "  type root_fixed is delta 0.1 range -1.0 .. 1.0;" & ASCII.LF &
+     "  type root_real is digits 16;" & ASCII.LF & ASCII.LF &
      "  end root_types_;" & ASCII.LF &
      "  Constraint_Error : exception;" & ASCII.LF &
      "  Numeric_Error    : exception;" & ASCII.LF &

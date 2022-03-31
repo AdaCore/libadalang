@@ -10,7 +10,7 @@ Expr: <RelationOp testcst.adb:5:7-5:15>
 Expr: <Id "B" testcst.adb:5:7-5:8>
   references:    <DefiningName testcst.adb:3:4-3:5>
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_fixed"] __standard:121:3-121:50>
+  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpEq "=" testcst.adb:5:9-5:10>
   references:    None
   type:          None
@@ -18,7 +18,7 @@ Expr: <OpEq "=" testcst.adb:5:9-5:10>
 Expr: <Real testcst.adb:5:11-5:15>
   references:    None
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_fixed"] __standard:121:3-121:50>
+  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
 
 
 Done.

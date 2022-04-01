@@ -485,9 +485,17 @@ package body Libadalang.Expr_Eval is
                --  variants (Wide_Character, etc.) as they are not defined in
                --  their exact shape. We must therefore implement a specific
                --  path to handle them here.
-               if Node_Type in Std_Char_Type
-                             | Std_Wide_Char_Type
-                             | Std_Wide_Wide_Char_Type
+               --  Note: The condition below was previously implemented with
+               --  a membership expression ``Node_Type in Std_Char_Type | ...``
+               --  but Ada specifies that the predefined `"="` operator must be
+               --  used in that case even if user-defined operator hides it.
+               --  However, the predefined operator is too strict for us in
+               --  this case: we want the comparison to discard irrelevant
+               --  metadata (like how the node was retrieved) and so need to
+               --  make sure the custom equality operators are called instead.
+               if Node_Type = Std_Char_Type
+                  or else Node_Type = Std_Wide_Char_Type
+                  or else Node_Type = Std_Wide_Wide_Char_Type
                then
                   --  Note that Langkit_Support's Character_Type is a
                   --  Wide_Wide_Character which can therefore also be used to

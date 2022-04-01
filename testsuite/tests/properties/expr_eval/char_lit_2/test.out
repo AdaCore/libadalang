@@ -1,0 +1,4 @@
+Eval 'node.f_expr.f_suffix.p_eval_as_int' on node <AssignStmt test.adb:12:4-12:27>
+Result: 65
+
+

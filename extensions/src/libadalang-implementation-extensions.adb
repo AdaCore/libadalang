@@ -339,6 +339,13 @@ package body Libadalang.Implementation.Extensions is
             return "None";
          end if;
 
+         case Node.Kind is
+            when Ada_Synthetic_Defining_Name =>
+               return Text (Node);
+            when others =>
+               null;
+         end case;
+
          case Env_Hooks.Defining_Name_Nodes (Node.Kind) is
             when Ada_Base_Id =>
                return Text (Node);

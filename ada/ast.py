@@ -12214,21 +12214,27 @@ class Name(Expr):
         consider that there is no match for all other node kinds.
         """
         return Self.match(
-            lambda id=Identifier:
-                n.cast(Identifier).then(
-                    lambda other_id: id.sym.equals(other_id.sym)
-                ),
-            lambda sl=StringLiteral:
-                n.cast(StringLiteral).then(
-                    lambda other_sl: sl.sym.equals(other_sl.sym)
-                ),
-            lambda dn=DottedName:
-                n.cast(DottedName).then(
-                    lambda sn: And(
-                        sn.prefix.matches(dn.prefix),
-                        sn.suffix.matches(dn.suffix)
-                    )
-                ),
+            lambda id=SyntheticIdentifier: n.cast(Identifier).then(
+                # We only need to check the case where `n` is an `Identifier`
+                # as `SyntheticIdentifier`s can only be compared to those
+                # when matching formals (see AdaNode.match_formals). This case
+                # will happen when the formal comes from a synthetic operator
+                # definition, and the actual from a call with a named
+                # parameter (which will necessarily be an `Identifier`).
+                lambda other_id: id.sym.equals(other_id.sym)
+            ),
+            lambda id=Identifier: n.cast(Identifier).then(
+                lambda other_id: id.sym.equals(other_id.sym)
+            ),
+            lambda sl=StringLiteral: n.cast(StringLiteral).then(
+                lambda other_sl: sl.sym.equals(other_sl.sym)
+            ),
+            lambda dn=DottedName: n.cast(DottedName).then(
+                lambda sn: And(
+                    sn.prefix.matches(dn.prefix),
+                    sn.suffix.matches(dn.suffix)
+                )
+            ),
             lambda di=DefiningName: n.matches(di.name),
             lambda _: False
         )

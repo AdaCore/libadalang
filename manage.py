@@ -118,6 +118,11 @@ class Manage(ManageScript):
         # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
         ctx.add_with_clause('Analysis', AdaSourceKind.body, 'Libadalang.Lexer')
 
+        # LAL.Lexer.Is_Keyword's implementation uses precomputed symbols
+        ctx.add_with_clause('Lexer',
+                            AdaSourceKind.body,
+                            'Libadalang.Implementation')
+
         ctx.post_process_ada = ada.copyright.format_ada
         ctx.post_process_cpp = ada.copyright.format_c
         ctx.post_process_python = ada.copyright.format_python

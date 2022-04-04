@@ -9,7 +9,8 @@ function Is_Keyword
    Index   : Token_Or_Trivia_Index;
    Version : Language_Version) return Boolean
 is
-   use Libadalang.Common.Precomputed_Symbols;
+   use Libadalang.Implementation;
+   use Libadalang.Implementation.Precomputed_Symbols;
    use Langkit_Support.Symbols;
    use Langkit_Support.Token_Data_Handlers;
 

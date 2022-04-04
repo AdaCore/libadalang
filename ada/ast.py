@@ -1473,23 +1473,41 @@ class AdaNode(ASTNode):
         with a "Right" parameter having the ``rhs`` type, and the given
         return type.
         """
-        rhs_type_expr = Var(SyntheticTypeExpr.new(target_type=rhs))
-        ret_type_expr = Var(SyntheticTypeExpr.new(target_type=ret))
+        return new_env_assoc(
+            key=op,
+            value=SyntheticSubpDecl.new(spec=PredefinedUnOpSpec.new(
+                op_symbol=op,
+                right_param=SyntheticFormalParamDecl.new(
+                    param_name='right',
+                    param_type=SyntheticTypeExpr.new(target_type=rhs)
+                ),
+                return_type_expr=SyntheticTypeExpr.new(target_type=ret)
+            ))
+        )
 
-        right_param = Var(SyntheticFormalParamDecl.new(
-            param_name='right',
-            param_type=rhs_type_expr
-        ))
-
-        spec = Var(PredefinedUnOpSpec.new(
-            op_symbol=op,
-            right_param=right_param,
-            return_type_expr=ret_type_expr
-        ))
-
-        subp = Var(SyntheticSubpDecl.new(spec=spec))
-
-        return new_env_assoc(key=op, value=subp)
+    @langkit_property(return_type=T.env_assoc, memoized=True)
+    def create_binop_assoc_impl(op=T.Symbol,
+                                lhs=T.TypeExpr, rhs=T.TypeExpr,
+                                ret=T.TypeExpr):
+        """
+        Implementation for the various `create_binop_assoc*` variants. The
+        shorthands take care of synthesizing type expressions when necessary.
+        """
+        return new_env_assoc(
+            key=op,
+            value=SyntheticSubpDecl.new(spec=PredefinedBinOpSpec.new(
+                op_symbol=op,
+                left_param=SyntheticFormalParamDecl.new(
+                    param_name='left',
+                    param_type=lhs
+                ),
+                right_param=SyntheticFormalParamDecl.new(
+                    param_name='right',
+                    param_type=rhs
+                ),
+                return_type_expr=ret
+            ))
+        )
 
     @langkit_property(return_type=T.env_assoc, memoized=True)
     def create_binop_assoc(op=T.Symbol,
@@ -1500,29 +1518,54 @@ class AdaNode(ASTNode):
         with a "Left" parameter having the ``lhs`` type, a "Right" parameter
         having the ``rhs`` type, and the given return type.
         """
-        lhs_type_expr = Var(SyntheticTypeExpr.new(target_type=lhs))
-        rhs_type_expr = Var(SyntheticTypeExpr.new(target_type=rhs))
-        ret_type_expr = Var(SyntheticTypeExpr.new(target_type=ret))
+        return Self.create_binop_assoc_impl(
+            op,
+            SyntheticTypeExpr.new(target_type=lhs),
+            SyntheticTypeExpr.new(target_type=rhs),
+            SyntheticTypeExpr.new(target_type=ret)
+        )
 
-        left_param = Var(SyntheticFormalParamDecl.new(
-            param_name='left',
-            param_type=lhs_type_expr
-        ))
-        right_param = Var(SyntheticFormalParamDecl.new(
-            param_name='right',
-            param_type=rhs_type_expr
-        ))
+    @langkit_property(return_type=T.env_assoc, memoized=True)
+    def create_binop_assoc_l_expr(op=T.Symbol,
+                                  lhs=T.TypeExpr, rhs=T.BaseTypeDecl,
+                                  ret=T.BaseTypeDecl):
+        """
+        Like `create_binop_assoc` but the left parameter's type is given as a
+        type expression.
+        """
+        return Self.create_binop_assoc_impl(
+            op,
+            lhs,
+            SyntheticTypeExpr.new(target_type=rhs),
+            SyntheticTypeExpr.new(target_type=ret)
+        )
 
-        spec = Var(PredefinedBinOpSpec.new(
-            op_symbol=op,
-            left_param=left_param,
-            right_param=right_param,
-            return_type_expr=ret_type_expr
-        ))
+    @langkit_property(return_type=T.env_assoc, memoized=True)
+    def create_binop_assoc_r_expr(op=T.Symbol,
+                                  lhs=T.BaseTypeDecl, rhs=T.TypeExpr,
+                                  ret=T.BaseTypeDecl):
+        """
+        Like `create_binop_assoc` but the right parameter's type is given as a
+        type expression.
+        """
+        return Self.create_binop_assoc_impl(
+            op,
+            SyntheticTypeExpr.new(target_type=lhs),
+            rhs,
+            SyntheticTypeExpr.new(target_type=ret)
+        )
 
-        subp = Var(SyntheticSubpDecl.new(spec=spec))
-
-        return new_env_assoc(key=op, value=subp)
+    @langkit_property(return_type=T.env_assoc, memoized=True)
+    def create_binop_assoc_l_r_expr(op=T.Symbol,
+                                    lhs=T.TypeExpr, rhs=T.TypeExpr,
+                                    ret=T.BaseTypeDecl):
+        """
+        Like `create_binop_assoc` but the left and right parameters' types are
+        given as type expressions.
+        """
+        return Self.create_binop_assoc_impl(
+            op, lhs, rhs, SyntheticTypeExpr.new(target_type=ret)
+        )
 
 
 class DocAnnotation(Struct):
@@ -7244,6 +7287,7 @@ class ArrayTypeDef(TypeDef):
     def predefined_operators():
         self_type = Var(Self.parent.cast(TypeDecl))
         bool_type = Var(Self.bool_type.node)
+        comp_type_expr = Var(Self.component_type.type_expr)
 
         # Note: here, we define the `and`, `or`, `xor` and `not` operators
         # for all array types (even if they don't make sense) because we have
@@ -7264,6 +7308,20 @@ class ArrayTypeDef(TypeDef):
             Self.create_binop_assoc('"or"', self_type, self_type, self_type),
             Self.create_binop_assoc('"xor"', self_type, self_type, self_type),
             Self.create_unop_assoc('"not"', self_type, self_type),
+
+            # The 4 predefined array concatenation operators
+            Self.create_binop_assoc_l_r_expr(
+                '"&"', comp_type_expr, comp_type_expr, self_type
+            ),
+            Self.create_binop_assoc_l_expr(
+                '"&"', comp_type_expr, self_type, self_type
+            ),
+            Self.create_binop_assoc_r_expr(
+                '"&"', self_type, comp_type_expr, self_type
+            ),
+            Self.create_binop_assoc(
+                '"&"', self_type, self_type, self_type
+            ),
         ]
 
     is_static = Property(Entity.indices.is_static)
@@ -15619,7 +15677,7 @@ class SyntheticFormalParamDecl(BaseFormalParamDecl):
     Synthetic parameter declaration.
     """
     param_name = UserField(type=T.Symbol, public=False)
-    param_type = Field(type=T.SyntheticTypeExpr)
+    param_type = Field(type=T.TypeExpr)
     aspects = NullField()
     defining_names = Property(
         [Self.synthesize_defining_name(Self.param_name).as_entity]
@@ -15653,7 +15711,7 @@ class PredefinedBinOpSpec(BaseSubpSpec):
     op_symbol = UserField(type=T.Symbol, public=False)
     left_param = Field(type=T.SyntheticFormalParamDecl)
     right_param = Field(type=T.SyntheticFormalParamDecl)
-    return_type_expr = Field(type=T.SyntheticTypeExpr)
+    return_type_expr = Field(type=T.TypeExpr)
 
     name = Property(Self.synthesize_defining_name(Self.op_symbol).as_entity)
     returns = Property(Entity.return_type_expr)

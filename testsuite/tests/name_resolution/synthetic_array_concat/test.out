@@ -1,0 +1,101 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:4:4-4:24>
+*******************************************************
+
+Expr: <Id "X" test.adb:4:4-4:5>
+  references:    <DefiningName test.adb:2:4-2:5>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <CallExpr test.adb:4:9-4:23>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""&"" test.adb:4:9-4:12>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Chr "'a'" test.adb:4:14-4:17>
+  references:    <DefiningName __standard:21:22-21:25>
+  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
+Expr: <Chr "'b'" test.adb:4:19-4:22>
+  references:    None
+  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
+
+Resolving xrefs for node <AssignStmt test.adb:7:4-7:24>
+*******************************************************
+
+Expr: <Id "X" test.adb:7:4-7:5>
+  references:    <DefiningName test.adb:2:4-2:5>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <CallExpr test.adb:7:9-7:23>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""&"" test.adb:7:9-7:12>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Chr "'a'" test.adb:7:14-7:17>
+  references:    <DefiningName __standard:21:22-21:25>
+  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
+Expr: <Str ""b"" test.adb:7:19-7:22>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <AssignStmt test.adb:10:4-10:24>
+*********************************************************
+
+Expr: <Id "X" test.adb:10:4-10:5>
+  references:    <DefiningName test.adb:2:4-2:5>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <CallExpr test.adb:10:9-10:23>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""&"" test.adb:10:9-10:12>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Str ""a"" test.adb:10:14-10:17>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Chr "'b'" test.adb:10:19-10:22>
+  references:    None
+  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
+
+Resolving xrefs for node <AssignStmt test.adb:13:4-13:24>
+*********************************************************
+
+Expr: <Id "X" test.adb:13:4-13:5>
+  references:    <DefiningName test.adb:2:4-2:5>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <CallExpr test.adb:13:9-13:23>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""&"" test.adb:13:9-13:12>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Str ""a"" test.adb:13:14-13:17>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""b"" test.adb:13:19-13:22>
+  references:    None
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+
+
+Done.

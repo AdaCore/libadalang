@@ -1,0 +1,4 @@
+Eval 'node.p_expression_type' on node <Id "X" test.adb:7:27-7:28>
+Result: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+
+

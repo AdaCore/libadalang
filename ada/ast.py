@@ -3169,6 +3169,7 @@ class Body(BasicDecl):
         Return True if ``origin`` is directly in the scope of this body.
         """
         return And(
+            Not(origin.is_null),
             origin.unit == Self.unit,
             Not(origin.parents.find(lambda p: p == Self).is_null)
         )

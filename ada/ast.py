@@ -5927,7 +5927,10 @@ class BaseTypeDecl(BasicDecl):
                 default_val=scope._.parent.cast(BasePackageDecl).as_entity
             )
         )
-        return If(
+        return Cond(
+            Not(Entity.is_tagged_type),
+            No(T.inner_env_assoc.array),
+
             pkg.is_null,
             No(T.inner_env_assoc.array),
 
@@ -5948,8 +5951,7 @@ class BaseTypeDecl(BasicDecl):
 
                 lambda decl:
                 decl.cast(BasicDecl)
-                ._.subp_spec_or_null
-                ._.dottable_subp_of.contains(Entity)
+                ._.subp_spec_or_null._.dottable_subp_of == Entity
             )
         )
 
@@ -15687,7 +15689,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         typ = Var(Entity.candidate_primitive_subp_tagged_type)
         return Not(typ.is_null) & (typ == Entity.return_type)
 
-    @langkit_property(return_type=BaseTypeDecl.entity.array)
+    @langkit_property(return_type=BaseTypeDecl.entity, memoized=True)
     def dottable_subp_of():
         """
         Returns whether the subprogram containing this spec is a subprogram
@@ -15697,7 +15699,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             Entity.nb_max_params > 0,
             Entity.potential_dottable_type.then(lambda t: Cond(
                 t.is_a(ClasswideTypeDecl),
-                t.cast(ClasswideTypeDecl).typedecl.singleton,
+                t.cast(ClasswideTypeDecl).typedecl,
 
                 # NOTE: We are not actually implementing the correct Ada
                 # semantics here, because you can call primitives via the dot
@@ -15705,11 +15707,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 # However, since private types don't have components, this
                 # should not ever be a problem with legal Ada.
                 t.full_view.is_tagged_type,
-                t.singleton,
+                t,
 
-                No(T.BaseTypeDecl.entity.array)
+                No(T.BaseTypeDecl.entity)
             )),
-            No(T.BaseTypeDecl.entity.array)
+            No(T.BaseTypeDecl.entity)
         ))
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,

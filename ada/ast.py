@@ -17078,6 +17078,8 @@ class DottedName(Name):
     subp_spec_var = Property(Self.suffix.subp_spec_var)
     defines_subp_spec_var = Property(True)
 
+    has_context_free_type = Property(Not(Self.suffix.is_a(CharLiteral)))
+
     @langkit_property(return_type=T.CompletionItem.iterator)
     def complete():
         return origin.bind(Self.origin_node, env.bind(

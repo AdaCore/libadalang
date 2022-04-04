@@ -690,9 +690,42 @@ package body Libadalang.Expr_Eval is
                R  : constant Eval_Result := Expr_Eval (BO.F_Right);
             begin
                if L.Kind /= R.Kind then
-                  --  TODO??? There are actually some rules about implicit
-                  --  conversions that we might have to implement someday.
-                  raise Property_Error with "Unsupported type discrepancy";
+                  if L.Kind = Int and then R.Kind = Real
+                    and then Op.Kind = Ada_Op_Mult
+                  then
+                     declare
+                        Result : Rational;
+                        Left : Rational;
+                     begin
+                        Left.Set (L.Int_Result);
+                        Result.Set (Left * R.Real_Result);
+                        return Create_Real_Result (R.Expr_Type, Result);
+                     end;
+                  elsif L.Kind = Real and then R.Kind = Int
+                    and then Op.Kind = Ada_Op_Mult
+                  then
+                     declare
+                        Result : Rational;
+                        Right : Rational;
+                     begin
+                        Right.Set (R.Int_Result);
+                        Result.Set (L.Real_Result * Right);
+                        return Create_Real_Result (L.Expr_Type, Result);
+                     end;
+                  elsif L.Kind = Real and then R.Kind = Int
+                    and then Op.Kind = Ada_Op_Div
+                  then
+                     declare
+                        Result : Rational;
+                        Right : Rational;
+                     begin
+                        Right.Set (R.Int_Result);
+                        Result.Set (L.Real_Result / Right);
+                        return Create_Real_Result (L.Expr_Type, Result);
+                     end;
+                  else
+                     raise Property_Error with "Unsupported type discrepancy";
+                  end if;
                end if;
 
                case R.Kind is

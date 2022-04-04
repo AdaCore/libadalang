@@ -217,4 +217,19 @@ begin
    begin
       null;
    end;
+
+   -- Test basic mixed real/integer operations
+   declare
+      Plus_RI  : Float := 3.5 + 2;
+      Plus_IR  : Float := 3 + 2.5;
+      Minus_RI : Float := 3.5 - 2;
+      Minus_IR : Float := 3 - 2.5;
+      Times_RI : Float := 3.5 * 2;
+      Times_IR : Float := 3 * 2.5;
+      Div_RI   : Float := 3.5 / 2;
+      Div_IR   : Float := 3 / 2.5;
+   begin
+      null;
+   end;
+
 end Test;

@@ -250,4 +250,20 @@ Property_Error: delta and digits must be positive
 
 Property_Error: delta and digits must be positive
 
+Property_Error: Unsupported type discrepancy
+
+Property_Error: Unsupported type discrepancy
+
+Property_Error: Unsupported type discrepancy
+
+Property_Error: Unsupported type discrepancy
+
+Expr <ObjectDecl ["Times_RI"] test.adb:227:7-227:35> evaluated to Real 7
+
+Expr <ObjectDecl ["Times_IR"] test.adb:228:7-228:35> evaluated to Real 15/2
+
+Expr <ObjectDecl ["Div_RI"] test.adb:229:7-229:35> evaluated to Real 7/4
+
+Property_Error: Unsupported type discrepancy
+
 Done.

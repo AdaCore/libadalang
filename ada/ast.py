@@ -15044,7 +15044,7 @@ class Identifier(BaseId):
             'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min', 'Max',
             'Value', 'Wide_Value', 'Wide_Wide_Value',
             'Fixed_Value', 'Integer_Value',
-            'Pos', 'Val', 'Enum_Val',
+            'Pos', 'Val', 'Enum_Rep', 'Enum_Val',
             'First', 'Last', 'Range', 'Length',
             'Image', 'Wide_Image', 'Wide_Wide_Image', 'Put_Image',
             'Asm_Input', 'Asm_Output', 'To_Address',

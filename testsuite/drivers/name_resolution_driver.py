@@ -1,4 +1,5 @@
-from typing import List
+import os.path
+from typing import Dict, List
 
 from e3.testsuite.driver.classic import TestAbortWithError
 
@@ -23,6 +24,15 @@ class NameResolutionDriver(BaseDriver):
     ``project_file``
 
         A filename for a project file, used to create a project unit provider.
+
+    ``project_path``
+
+        List of directory names (relative to the testsuite root directory)
+        to add to the project files lookup path (``GPR_PROJECT_PATH``).
+
+    ``project_vars``
+
+        Name/value mapping for project files external variables.
 
     ``auto_provider_dirs``
 
@@ -56,12 +66,32 @@ class NameResolutionDriver(BaseDriver):
         Optional arguments to pass to "nameres".
         """
 
+        env: Dict[str, str] = {}
+        """
+        Additional environment variables for "nameres".
+        """
+
+        # Path for project files: make directories from the "project_path" key
+        # prioritary and append existing paths from the environment.
+        env["GPR_PROJECT_PATH"] = os.path.pathsep.join(
+            [
+                os.path.join(self.env.root_dir, p)
+                for p in self.test_env.get("project_path", [])
+            ]
+            + os.environ.get("GPR_PROJECT_PATH", "").split(os.path.pathsep)
+        )
+
         # List of source files to process and unit provider
         input_sources = self.test_env.get("input_sources", [])
 
         project_file = self.test_env.get("project_file", None)
         if project_file:
             args.append(f"-P{project_file}")
+
+        for name, value in sorted(
+            self.test_env.get("project_vars", {}).items()
+        ):
+            args.append(f"-X{name}={value}")
 
         auto_provider_dirs = self.test_env.get("auto_provider_dirs", None)
         if auto_provider_dirs:
@@ -89,4 +119,8 @@ class NameResolutionDriver(BaseDriver):
         if self.test_env.get("batch"):
             args += ["--all", "--only-show-failures", "--no-traceback"]
 
-        self.run_and_check(["nameres"] + args + input_sources, memcheck=True)
+        self.run_and_check(
+            argv=["nameres"] + args + input_sources,
+            memcheck=True,
+            env=env,
+        )

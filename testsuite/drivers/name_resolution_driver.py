@@ -33,6 +33,13 @@ class NameResolutionDriver(BaseDriver):
         Boolean (false by default) to trigger implicit fallbacks during name
         resolution.
 
+    ``batch``
+
+        If true, run name resolution on the whole sources (not just the nameres
+        pragmas) and only show failures, with no traceback. This is useful to
+        check on a big codebase that there are no (new) name resolution
+        failures.
+
     ``preprocesor_data_file``
 
         Filename for the preprocessor data file.
@@ -78,5 +85,8 @@ class NameResolutionDriver(BaseDriver):
 
         if self.test_env.get("imprecise_fallback"):
             args.append("--imprecise-fallback")
+
+        if self.test_env.get("batch"):
+            args += ["--all", "--only-show-failures", "--no-traceback"]
 
         self.run_and_check(["nameres"] + args + input_sources, memcheck=True)

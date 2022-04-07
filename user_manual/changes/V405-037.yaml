@@ -1,0 +1,5 @@
+type: bugfix
+title: Fix ``Enum_Rep`` attribute name resolution
+description: |
+  This patch fixes the name resolution of the ``Enum_Rep`` attribute.
+date: 2022-04-11

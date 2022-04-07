@@ -16401,7 +16401,7 @@ class AttributeRef(Name):
                             'Maximum_Alignment', 'System_Allocator_Alignment',
                             'Finalization_Size', 'Descriptor_Size',
                             'Alignment', 'First_Bit', 'Last_Bit',
-                            'Default_Bit_Order', 'Enum_Rep', 'Range_Length',
+                            'Default_Bit_Order', 'Range_Length',
                             'Storage_Unit',
                             'Small_Numerator', 'Small_Denominator'),
             Entity.prefix.sub_equation
@@ -16437,7 +16437,7 @@ class AttributeRef(Name):
                             'Machine', 'Machine_Rounding'),
             Entity.float_funcs_equation,
 
-            rel_name.any_of('Exponent', 'Machine_Radix'),
+            rel_name.any_of('Exponent', 'Machine_Radix', 'Enum_Rep'),
             Entity.universal_int_equation,
 
             rel_name == 'Scaling',

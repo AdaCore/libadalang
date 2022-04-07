@@ -21,9 +21,9 @@ Expr: <Id "Enum_Rep" main.adb:13:14-13:22>
   type:          None
   expected type: None
 Expr: <Id "Var" main.adb:13:24-13:27>
-  references:    None
-  type:          None
-  expected type: None
+  references:    <DefiningName main.adb:10:4-10:7>
+  type:          <TypeDecl ["Enum"] main.adb:2:4-2:27>
+  expected type: <TypeDecl ["Enum"] main.adb:2:4-2:27>
 
 Resolving xrefs for node <AssignStmt main.adb:15:4-15:28>
 *********************************************************
@@ -45,9 +45,9 @@ Expr: <Id "Enum_Rep" main.adb:15:15-15:23>
   type:          None
   expected type: None
 Expr: <Id "E" main.adb:15:25-15:26>
-  references:    None
-  type:          None
-  expected type: None
+  references:    <DefiningName main.adb:5:19-5:20>
+  type:          <TypeDecl ["Enum2"] main.adb:5:4-5:28>
+  expected type: <TypeDecl ["Enum2"] main.adb:5:4-5:28>
 
 Resolving xrefs for node <AssignStmt main.adb:17:4-17:28>
 *********************************************************
@@ -69,9 +69,9 @@ Expr: <Id "Enum_Rep" main.adb:17:15-17:23>
   type:          None
   expected type: None
 Expr: <Id "H" main.adb:17:25-17:26>
-  references:    None
-  type:          None
-  expected type: None
+  references:    <DefiningName main.adb:7:19-7:20>
+  type:          <TypeDecl ["Enum3"] main.adb:7:4-7:28>
+  expected type: <TypeDecl ["Enum3"] main.adb:7:4-7:28>
 
 Resolving xrefs for node <AssignStmt main.adb:19:4-19:29>
 *********************************************************

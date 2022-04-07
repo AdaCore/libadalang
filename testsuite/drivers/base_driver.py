@@ -149,6 +149,10 @@ class BaseDriver(DiffTestDriver):
         if env:
             subp_env.update(env)
 
+            self.result.log += "Env:\n"
+            for name, value in sorted(env.items()):
+                self.result.log += f"  {name}={value}\n"
+
         # If this testcase produced trace files, move them to the
         # testsuite-wide directory for later use.
 

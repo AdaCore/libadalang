@@ -12,7 +12,7 @@ class NameResolutionDriver(BaseDriver):
     The following list documents supported keys (in ``test.yaml``). All keys
     are assumed to be optional unless told otherwise.
 
-    ``input_sources`` (mandatory)
+    ``input_sources``
 
         A list of filenames for the source files to process.
 
@@ -50,11 +50,7 @@ class NameResolutionDriver(BaseDriver):
         """
 
         # List of source files to process and unit provider
-        if "input_sources" not in self.test_env:
-            raise TestAbortWithError(
-                "Missing 'input_sources' key in test.yaml"
-            )
-        input_sources = self.test_env["input_sources"]
+        input_sources = self.test_env.get("input_sources", [])
 
         project_file = self.test_env.get("project_file", None)
         if project_file:

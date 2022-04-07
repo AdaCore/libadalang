@@ -59,11 +59,13 @@ class NameResolutionDriver(BaseDriver):
         List of directories where preprocessor data files can be found.
     """
 
+    perf_supported = True
+
     def run(self):
 
-        args: List[str] = []
+        args: List[str] = ["nameres"]
         """
-        Optional arguments to pass to "nameres".
+        Arguments to pass to "nameres".
         """
 
         env: Dict[str, str] = {}
@@ -116,11 +118,20 @@ class NameResolutionDriver(BaseDriver):
         if self.test_env.get("imprecise_fallback"):
             args.append("--imprecise-fallback")
 
+        # In batch mode, run name resolution on the whole code base (i.e. not
+        # just on nameres-specific pragmas) and display only error messages,
+        # not traceback (for test output stability).
         if self.test_env.get("batch"):
-            args += ["--all", "--only-show-failures", "--no-traceback"]
+            args += ["--all", "--no-traceback"]
 
-        self.run_and_check(
-            argv=["nameres"] + args + input_sources,
-            memcheck=True,
-            env=env,
-        )
+            # In perf mode, we need nameres not to print anything
+            if not self.perf_mode:
+                args.append("--only-show-failures")
+
+        # Add optional explicit list of sources to process
+        args += input_sources
+
+        if self.perf_mode:
+            self.run_for_perf(argv=args + ["--quiet"], env=env)
+        else:
+            self.run_and_check(argv=args, memcheck=True, env=env)

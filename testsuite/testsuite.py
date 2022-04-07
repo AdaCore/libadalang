@@ -11,10 +11,13 @@ Run the Libadalang testsuite.
 import glob
 import os
 import shutil
+import statistics
 import subprocess
 import sys
+from typing import Any, Callable
 
 from e3.testsuite import Testsuite, logger
+from e3.testsuite.testcase_finder import ProbingError, YAMLTestFinder
 
 from langkit.coverage import GNATcov
 
@@ -23,6 +26,34 @@ from drivers import (
     name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
     prep_driver, python_driver
 )
+
+
+class PerfTestFinder(YAMLTestFinder):
+    """
+    Testcase finder to use in perf mode.
+
+    This finder automatically discard tests that do not have performance
+    measuring instructions. This is preferable to creating these tests but
+    skipping them (SKIP status) as most tests do not support performance
+    measurements: less noise in the testsuite report.
+    """
+
+    def probe(self, testsuite, dirpath, dirnames, filenames):
+        # Probe testcases as usual...
+        result = super().probe(testsuite, dirpath, dirnames, filenames)
+
+        # But reject testcases which do not contain performance measuring
+        # instructions.
+        if result is None or "perf" not in result.test_env:
+            return None
+
+        # Make sure that the driver supports performance measuring
+        if not result.driver_cls.perf_supported:
+            raise ProbingError(
+                "this driver does not support performance measuring"
+            )
+
+        return result
 
 
 class LALTestsuite(Testsuite):
@@ -43,6 +74,14 @@ class LALTestsuite(Testsuite):
     # Even though we test Libadalang only in native configurations, this allows
     # us to know whether we are testing for a 32 or 64bit platform.
     enable_cross_support = True
+
+    @property
+    def test_finders(self):
+        return [
+            PerfTestFinder()
+            if self.env.options.perf_mode
+            else YAMLTestFinder()
+        ]
 
     def add_options(self, parser):
         parser.add_argument(
@@ -93,6 +132,13 @@ class LALTestsuite(Testsuite):
                  ' source directory layout, etc.).'
         )
 
+        parser.add_argument(
+            '--perf-mode',
+            help='Run the testsuite in performance mode: only run tests with'
+                 ' instructions to measure performance. The argument is the'
+                 ' directory in which to put profile data files.'
+        )
+
         # Convenience options for developpers
         parser.add_argument(
             '--rewrite', '-r', action='store_true',
@@ -112,6 +158,16 @@ class LALTestsuite(Testsuite):
     def set_up(self):
         super().set_up()
         opts = self.env.options
+
+        # The perf mode is peculiar and incompatible with several other modes
+        if opts.perf_mode:
+            for enabled, option in [
+                (opts.coverage, "--coverage"),
+                (opts.valgrind, "--valgrind"),
+            ]:
+                if enabled:
+                    logger.error(f"--perf-mode incompatible with {option}")
+                    raise RuntimeError
 
         try:
             import pygments
@@ -157,6 +213,18 @@ class LALTestsuite(Testsuite):
         os.mkdir(traces_dir)
         self.env.traces_dir = traces_dir
 
+        # If requested, enable the performance mode. In this case, make sure
+        # that the directory in which to create profile data exists.
+        if opts.perf_mode:
+            perf_dir = os.path.abspath(opts.perf_mode)
+            if not os.path.exists(perf_dir):
+                os.mkdir(perf_dir)
+
+            self.env.perf_mode = True
+            self.env.perf_dir = perf_dir
+        else:
+            self.env.perf_mode = False
+
         self.env.rewrite_baselines = opts.rewrite
 
     def tear_down(self):
@@ -173,12 +241,52 @@ class LALTestsuite(Testsuite):
                 working_dir=self.working_dir,
             )
 
+        # If requested, display a short summary of performance metrics
+        if self.env.perf_mode:
+            self.perf_report()
+
         super().tear_down()
 
     def write_comment_file(self, f):
         f.write('Control condition env:')
         for k, v in sorted(self.env.control_condition_env.items()):
             f.write('\n  {}={}'.format(k, v))
+
+    def perf_report(self) -> None:
+        """
+        Print a summary of performance metrics on the standard output.
+        """
+        print("Performance metrics:")
+
+        def format_time(seconds: float) -> str:
+            return "{:.2f}s".format(seconds)
+
+        def format_memory(bytes_count: int) -> str:
+            units = ["B", "KB", "MB", "GB"]
+            unit = units.pop(0)
+            while units and bytes_count > 1000:
+                unit = units.pop(0)
+                bytes_count /= 1000
+            return "{:.2f}{}".format(bytes_count, unit)
+
+        def compute_stats(numbers_str: str,
+                          get_value: Callable[[str], Any],
+                          format_value: Callable[[Any], str]) -> str:
+            numbers = [get_value(n) for n in numbers_str.split()]
+            return (
+                f"{format_value(min(numbers))} .. {format_value(max(numbers))}"
+                f" (median: {format_value(statistics.median(numbers))})"
+            )
+
+        # Print a summary of metrics for each testcase separately
+        for test_name, entry in sorted(self.report_index.entries.items()):
+            if "time" not in entry.info:
+                continue
+            print(f"* {test_name}:")
+            print("  time: "
+                  + compute_stats(entry.info["time"], float, format_time))
+            print("  memory: "
+                  + compute_stats(entry.info["memory"], int, format_memory))
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 import os
 import os.path
 import sys
+from typing import Dict, List, Optional, Tuple, Union
 
 from e3.testsuite.control import YAMLTestControlCreator
 from e3.testsuite.driver.classic import (TestAbortWithError,
@@ -14,6 +15,25 @@ class BaseDriver(DiffTestDriver):
     """
     Base class to provide common test driver helpers.
     """
+
+    perf_supported = False
+    """
+    Whether this driver supports the perf mode.
+    """
+
+    @property
+    def perf_mode(self) -> bool:
+        """
+        Return whether the performance mode is active.
+        """
+        return self.env.options.perf_mode
+
+    @property
+    def default_process_timeout(self):
+        # In perf mode, disable process timeout as some profiling operations
+        # can take a really long time to complete, and this is both okay and
+        # hard to measure.
+        return None if self.perf_mode else super().default_process_timeout
 
     @property
     def test_control_creator(self):
@@ -59,6 +79,12 @@ class BaseDriver(DiffTestDriver):
         windows_baseline_file = self.test_env.get("windows_baseline_file")
         if self.env.build.os.name == "windows" and windows_baseline_file:
             self.test_env.setdefault("baseline_file", windows_baseline_file)
+
+    @property
+    def baseline(self) -> Tuple[Optional[str], Union[str, bytes], bool]:
+        # In perf mode, our purpose is to measure performance, not to check
+        # results.
+        return (None, "", False) if self.perf_mode else super().baseline
 
     @property
     def disable_shared(self):
@@ -127,6 +153,23 @@ class BaseDriver(DiffTestDriver):
     # Run helpers
     #
 
+    def subp_env(self, env: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+        """
+        Return the environment to use for a subprocess.
+
+        :param env: Variables to define in the subprocess. They overwrite in
+            the subprocess variables defined for the current process.
+        """
+        result = dict(os.environ)
+        if env:
+            result.update(env)
+
+            self.result.log += "Env:\n"
+            for name, value in sorted(env.items()):
+                self.result.log += f"  {name}={value}\n"
+
+        return result
+
     def run_and_check(self, argv, memcheck=False, append_output=True,
                       status_code=0, encoding=None, env=None):
         """
@@ -141,17 +184,7 @@ class BaseDriver(DiffTestDriver):
         In case of failure, the test output is appended to the actual output
         and a TestError is raised.
         """
-        # Depending on the testsuite engine (gnatpython.testsuite or polyfill),
-        # all test drivers can run in the same process. Because of this, we
-        # must avoid concurrent mutations of the environment: work on a copy
-        # instead.
-        subp_env = dict(os.environ)
-        if env:
-            subp_env.update(env)
-
-            self.result.log += "Env:\n"
-            for name, value in sorted(env.items()):
-                self.result.log += f"  {name}={value}\n"
+        subp_env = self.subp_env(env)
 
         # If this testcase produced trace files, move them to the
         # testsuite-wide directory for later use.
@@ -190,6 +223,92 @@ class BaseDriver(DiffTestDriver):
             self.valgrind_errors.extend(self.valgrind.parse_report())
 
         return p.out
+
+    def run_for_perf(self,
+                     argv: List[str],
+                     env: Optional[Dict[str, str]] = None) -> None:
+        """
+        Run a subprocess and collect performance data from it.
+
+        Time and memory metrics go to the ``TestResult.info`` table:
+
+        * the "time" entry contains a space-separated list of floats for the
+          time in seconds it took to run each instance of the subprocess;
+
+        * the "memory" entry contains a space-separated list of integers for
+          the approximative number of bytes each instance of the subprocess
+          allocated.
+
+        When created, files for time and memory profiles go to the "perf"
+        working directory and the corresponding file names are stored in the
+        "time-profile" and "memory-profile" entries in the ``TestResult.info``
+        table.
+        """
+        perf_dir = self.env.perf_dir
+
+        # Common arguments for "self.shell"
+        subp_env = self.subp_env(env)
+        cwd = self.working_dir()
+
+        def run(*prefix: str) -> str:
+            """
+            Run the subprocess with the "prefix" additional arguments. Return
+            the subprocess output.
+            """
+            return self.shell(
+                args=list(prefix) + argv,
+                cwd=cwd, env=subp_env,
+                analyze_output=False
+            ).out
+
+        def data_file(suffix: str) -> str:
+            """
+            Return the name of the data file to use for this test, with the
+            given suffix.
+            """
+            return f"{self.test_name}___{suffix}"
+
+        # Run the subprocess in each of the requested performance measuring
+        # mode.
+        for mode, param in self.test_env["perf"].items():
+            if mode == "default":
+                # Run the subprocess several time under "time" to get its
+                # execution time + maximum resident set size (memory occupied).
+                time_list: List[str] = []
+                memory_list: List[str] = []
+                for i in range(param):
+                    result = run("time", "-f", "%M %e")
+                    memory, time = result.split()
+                    time_list.append(time)
+                    memory_list.append(str(int(memory) * 1024))
+                self.result.info["time"] = " ".join(time_list)
+                self.result.info["memory"] = " ".join(memory_list)
+
+            elif mode == "profile-time":
+                # Run the subprocess under "perf record" to get a profile (and
+                # eventually a frame graph).
+                f = data_file("perf.data")
+                run(
+                    "perf",
+                    "record",
+                    "--call-graph=dwarf",
+                    "-F100",
+                    "-o",
+                    os.path.join(perf_dir, f),
+                    "--"
+                )
+                self.result.info["time-profile"] = f
+
+            elif mode == "profile-memory":
+                # Run the subprocess under valgrind/massif to analyze where
+                # memory is allocated.
+                f = data_file("massif.data")
+                fabs = os.path.join(perf_dir, f)
+                run("valgrind", "--tool=massif", f"--massif-out-file={fabs}")
+                self.result.info["memory-profile"] = f
+
+            else:
+                raise TestError(f"invalid perf mode: {mode}")
 
     @property
     def gpr_scenario_vars(self):

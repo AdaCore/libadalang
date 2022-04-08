@@ -6821,7 +6821,8 @@ class RangeConstraint(Constraint):
     @langkit_property()
     def xref_equation():
         return And(
-            Bind(Self.range.range.expected_type_var, Entity.subtype),
+            Bind(Self.range.range.expected_type_var,
+                 Entity.subtype.base_subtype),
             Entity.range.sub_equation,
             Entity.range.range.matches_expected_type
         )
@@ -6881,7 +6882,7 @@ class IndexConstraint(Constraint):
             # they will get the correct types.
             c.cast(T.Expr).then(
                 lambda e:
-                Bind(e.expected_type_var, typ.index_type(i))
+                Bind(e.expected_type_var, typ.index_type(i).base_subtype)
                 & e.matches_expected_type,
                 default_val=LogicTrue()
             ) & c.sub_equation

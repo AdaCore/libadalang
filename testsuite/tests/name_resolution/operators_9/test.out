@@ -9,23 +9,23 @@ Expr: <Id "Array_Type" test.adb:7:10-7:20>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:7:22-7:32>
-  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:7:22-7:23>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." test.adb:7:24-7:26>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp test.adb:7:27-7:32>
-  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:7:27-7:28>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpPlus "+" test.adb:7:29-7:30>
   references:    None
   type:          None
@@ -33,7 +33,7 @@ Expr: <OpPlus "+" test.adb:7:29-7:30>
 Expr: <Int test.adb:7:31-7:32>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

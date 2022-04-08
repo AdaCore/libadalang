@@ -16818,7 +16818,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def access_equation():
         return Or(
-            # Access to subprogram
+            # Access to statically known subprogram
             Entity.prefix.xref_no_overloading(all_els=True)
             & Predicate(BaseTypeDecl.is_subp_access_of,
                         Self.type_var,
@@ -16837,10 +16837,21 @@ class AttributeRef(Name):
                 # here in case `Self.type_var` holds an access-to-
                 # subprogram type so that we don't propagate its
                 # return type to the prefix of the 'Access attribute.
-                Bind(Self.expected_type_var, Self.prefix.expected_type_var,
-                     conv_prop=BaseTypeDecl.accessed_type_no_call)
-                & Entity.prefix.matches_expected_formal_type
-                & Bind(Self.expected_type_var, Self.type_var),
+                Bind(Self.expected_type_var, Self.type_var)
+                & Bind(Self.expected_type_var, Self.prefix.expected_type_var,
+                       conv_prop=BaseTypeDecl.accessed_type_no_call)
+                & Or(
+                    # Either the expected type of the prefix is None, meaning
+                    # the conversion property above was applied on a subprogram
+                    # access (for which we cannot retrieve the dereferenced
+                    # type). In that case type should be None as well.
+                    Bind(Self.prefix.expected_type_var, Self.prefix.type_var)
+                    & Bind(Self.prefix.type_var, No(BaseTypeDecl.entity)),
+
+                    # Or it's an object access and so the actual type must
+                    # match the expected type we inferred above.
+                    Entity.prefix.matches_expected_formal_type
+                ),
 
                 # If the expected type is not known, synthesize an anonymous
                 # access type for this expression.

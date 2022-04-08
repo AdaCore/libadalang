@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:8:4-8:25>
+*******************************************************
+
+Expr: <Id "X" test.adb:8:4-8:5>
+  references:    <DefiningName test.adb:6:4-6:5>
+  type:          <TypeDecl ["Access_Proc"] test.adb:2:4-2:58>
+  expected type: None
+Expr: <AttributeRef test.adb:8:9-8:24>
+  references:    None
+  type:          <TypeDecl ["Access_Proc"] test.adb:2:4-2:58>
+  expected type: <TypeDecl ["Access_Proc"] test.adb:2:4-2:58>
+Expr: <ExplicitDeref test.adb:8:9-8:17>
+  references:    <DefiningName test.adb:4:13-4:17>
+  type:          None
+  expected type: None
+Expr: <Id "Func" test.adb:8:9-8:13>
+  references:    <DefiningName test.adb:4:13-4:17>
+  type:          <TypeDecl ["Access_Proc"] test.adb:2:4-2:58>
+  expected type: <TypeDecl ["Access_Proc"] test.adb:2:4-2:58>
+Expr: <Id "Access" test.adb:8:18-8:24>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

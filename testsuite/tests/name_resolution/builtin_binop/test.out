@@ -9,12 +9,12 @@ Resolving xrefs for node <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 ******************************************************************
 
 Expr: <BinOp testbinop.adb:3:25-3:34>
-  type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int testbinop.adb:3:25-3:26>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpDoubleDot ".." testbinop.adb:3:27-3:29>
   references:    None
   type:          None
@@ -22,7 +22,7 @@ Expr: <OpDoubleDot ".." testbinop.adb:3:27-3:29>
 Expr: <Int testbinop.adb:3:30-3:34>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EndName testbinop.adb:4:8-4:11>
 *********************************************************

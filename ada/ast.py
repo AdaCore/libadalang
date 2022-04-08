@@ -11022,7 +11022,23 @@ class BinOp(Expr):
             LogicTrue(),
             Bind(Self.expected_type_var, Self.root_int_type),
             Bind(Self.expected_type_var, Self.int_type)
-        ) & Entity.no_overload_equation
+        ) & And(
+            Predicate(AdaNode.is_not_null, Self.expected_type_var),
+            Bind(Self.expected_type_var, Self.type_var),
+            Bind(Self.type_var, Self.left.expected_type_var),
+            Bind(Self.type_var, Self.right.expected_type_var)
+        ) & Or(
+            # Expected type was given explicitly, so we can simply check that
+            # the type inferred for the operands matches. This is generally
+            # the case for ranges in component representation clauses or
+            # in subtype indications' constraints.
+            Self.left.matches_expected_formal_type
+            & Self.right.matches_expected_formal_type,
+
+            # Expected was not given explicitly, so we must infer it here.
+            # This is generally the case for ranges in for loop specs.
+            Entity.numeric_type_from_operands_equation(Self.type_var)
+        )
 
     @langkit_property(dynamic_vars=[origin])
     def test_eq():
@@ -18883,7 +18899,16 @@ class RangeSpec(AdaNode):
     range = Field(type=Expr)
 
     xref_stop_resolution = Property(Self.parent.is_a(ComponentClause))
-    xref_equation = Property(Entity.range.xref_equation)
+    xref_equation = Property(Entity.range.xref_equation & If(
+        # Ada RM says that for component clauses and signed int type
+        # definitions, the expected type is any integer type.
+        Self.parent.is_a(ComponentClause, SignedIntTypeDef),
+
+        Self.universal_int_bind(Self.range.expected_type_var)
+        & Entity.range.matches_expected_type,
+
+        LogicTrue()
+    ))
 
 
 class IncompleteTypeDecl(BaseTypeDecl):

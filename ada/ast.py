@@ -4780,13 +4780,14 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()],
-                      public=True)
+                      memoized=True, public=True)
     def base_subtype():
         """
         If this type decl is a subtype decl, return the base subtype. If not,
         return ``Self``.
         """
         return Entity.match(
+            lambda db=T.DiscreteBaseSubtypeDecl: db,
             lambda st=T.BaseSubtypeDecl: st.get_type.base_subtype,
             lambda _: Entity
         )
@@ -11161,7 +11162,8 @@ class BinOp(Expr):
                 # Self. This will allow Self's type to be used in the next
                 # disjunction to infer the type of the operands if necessary.
                 Predicate(AdaNode.is_not_null, Self.expected_type_var)
-                & Bind(Self.type_var, Self.expected_type_var),
+                & Bind(Self.expected_type_var, Self.type_var,
+                       conv_prop=BaseTypeDecl.derefed_base_subtype),
 
                 # Otherwise, we cannot infer the type of Self from its expected
                 # type, so we will infer it from one of the operands, since at

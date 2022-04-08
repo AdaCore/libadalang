@@ -134,7 +134,8 @@ procedure Nameres is
 
       package Only_Show_Failures is new Parse_Flag
         (App.Args.Parser, Long => "--only-show-failures",
-         Help => "Only output failures on stdout");
+         Help => "Only output failures on stdout. Note that this triggers"
+                 & " failures logging even when --quiet is passed.");
 
       package Imprecise_Fallback is new Parse_Flag
         (App.Args.Parser, Long => "--imprecise-fallback",
@@ -360,7 +361,9 @@ procedure Nameres is
      (E   : Ada.Exceptions.Exception_Occurrence;
       Obj : in out J.JSON_Value) is
    begin
-      App.Dump_Exception (E);
+      if not Quiet or else Args.Only_Show_Failures.Get then
+         App.Dump_Exception (E);
+      end if;
 
       if Args.JSON.Get then
          Obj.Set_Field ("success", False);
@@ -1036,7 +1039,10 @@ procedure Nameres is
                Obj.Set_Field ("success", True);
             end if;
          else
-            Put_Line ("Resolution failed for node " & Node.Image);
+            if not Quiet then
+               Put_Line ("Resolution failed for node " & Node.Image);
+            end if;
+
             if XFAIL then
                Increment (Job_Data.Stats.Nb_Xfails);
             else

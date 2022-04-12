@@ -3,6 +3,7 @@
 import os.path
 import subprocess
 import sys
+from langkit.utils import LibraryType
 
 
 # For developer convenience, add the "langkit" directory next to this script to
@@ -173,7 +174,7 @@ class Manage(ManageScript):
         argv = [
             sys.executable,
             self.dirs.lang_source_dir('testsuite', 'testsuite.py'),
-            '-Edtmp', '--build-mode={}'.format(args.build_mode),
+            '-Edtmp', '--build-mode={}'.format(args.build_modes[0].name),
 
             # Arguments to pass to GNATcoverage, just in case coverage is
             # requested.
@@ -184,8 +185,10 @@ class Manage(ManageScript):
         if not args.disable_ocaml:
             argv.append('--with-ocaml-bindings')
             argv.append(os.path.join(args.build_dir, 'ocaml'))
-        if not args.library_types.relocatable:
+
+        if not LibraryType.relocatable in args.library_types:
             argv.append('--disable-shared')
+
         argv.extend(unknown_args)
         argv.extend(getattr(args, 'testsuite-args'))
 

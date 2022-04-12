@@ -12,7 +12,7 @@ Setup
 To generate and build the library itself, you'll need to go through the
 following steps:
 
-* Make sure you have a working Python3 installation (version 3.7 or newer).
+* Make sure you have a working Python 3.9 or 3.10 installation.
 
 * Install the GNAT tools and compiler. You can find Community Editions on
   `AdaCore's website <https://www.adacore.com/download>`_.

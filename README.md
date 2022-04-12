@@ -20,9 +20,9 @@ Libadalang does not (at the moment) provide full legality checks for the Ada
 language.  If you want such a functionality, you’ll need to use a full Ada
 compiler, such as GNAT.
 
-While it can be used in Ada (2012+) and Python (3.7+), Libadalang also provides
-a low-level C API (meant to write bindings to other languages) and an
-experimental OCaml API.
+While it can be used in Ada (2012+) and Python (3.9 or Python 3.10) Libadalang
+also provides a low-level C API (meant to write bindings to other languages)
+and an experimental OCaml API.
 
 If you have problems building or using Libadalang, or want to suggest
 enhancements, please open [a GitHub

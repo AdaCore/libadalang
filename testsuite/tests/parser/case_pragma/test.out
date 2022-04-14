@@ -1,0 +1,38 @@
+CaseStmt[1:1-7:10]
+|f_expr:
+|  Id[1:6-1:7]: V
+|f_pragmas:
+|  PragmaNodeList[2:4-2:23]
+|  |  PragmaNode[2:4-2:23]
+|  |  |f_id:
+|  |  |  Id[2:11-2:15]: List
+|  |  |f_args:
+|  |  |  BaseAssocList[2:18-2:20]
+|  |  |  |  PragmaArgumentAssoc[2:18-2:20]
+|  |  |  |  |f_name: <null>
+|  |  |  |  |f_expr:
+|  |  |  |  |  Id[2:18-2:20]: On
+|f_alternatives:
+|  CaseStmtAlternativeList[3:4-6:14]
+|  |  CaseStmtAlternative[3:4-4:14]
+|  |  |f_choices:
+|  |  |  AlternativesList[3:9-3:10]
+|  |  |  |  Id[3:9-3:10]: A
+|  |  |f_stmts:
+|  |  |  StmtList[4:7-4:14]
+|  |  |  |  AssignStmt[4:7-4:14]
+|  |  |  |  |f_dest:
+|  |  |  |  |  Id[4:7-4:8]: I
+|  |  |  |  |f_expr:
+|  |  |  |  |  Int[4:12-4:13]: 1
+|  |  CaseStmtAlternative[5:4-6:14]
+|  |  |f_choices:
+|  |  |  AlternativesList[5:9-5:15]
+|  |  |  |  OthersDesignator[5:9-5:15]
+|  |  |f_stmts:
+|  |  |  StmtList[6:7-6:14]
+|  |  |  |  AssignStmt[6:7-6:14]
+|  |  |  |  |f_dest:
+|  |  |  |  |  Id[6:7-6:8]: I
+|  |  |  |  |f_expr:
+|  |  |  |  |  Int[6:12-6:13]: 2

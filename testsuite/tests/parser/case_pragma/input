@@ -1,0 +1,7 @@
+case V is
+   pragma List ( On );
+   when A =>
+      I := 1;
+   when others =>
+      I := 2;
+end case;

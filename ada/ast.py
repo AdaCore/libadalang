@@ -18321,6 +18321,7 @@ class CaseStmt(CompositeStmt):
     """
 
     expr = Field(type=T.Expr)
+    pragmas = Field(type=T.Pragma.list)
     alternatives = Field(type=T.CaseStmtAlternative.list)
 
     @langkit_property()

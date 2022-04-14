@@ -31,6 +31,8 @@ CompilationUnit[1:1-7:12]
 |  |  |  |  |  CaseStmt[3:4-6:13]
 |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  Id[3:9-3:13]: Mode
+|  |  |  |  |  |f_pragmas:
+|  |  |  |  |  |  PragmaNodeList[3:16-3:16]: <empty list>
 |  |  |  |  |  |f_alternatives:
 |  |  |  |  |  |  CaseStmtAlternativeList[4:7-5:23]
 |  |  |  |  |  |  |  CaseStmtAlternative[4:7-5:23]

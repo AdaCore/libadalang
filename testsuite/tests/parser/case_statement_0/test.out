@@ -1,6 +1,8 @@
 CaseStmt[1:1-1:128]
 |f_expr:
 |  Id[1:6-1:7]: X
+|f_pragmas:
+|  PragmaNodeList[1:10-1:10]: <empty list>
 |f_alternatives:
 |  CaseStmtAlternativeList[1:11-1:118]
 |  |  CaseStmtAlternative[1:11-1:34]

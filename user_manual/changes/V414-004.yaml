@@ -1,0 +1,16 @@
+type: bugfix
+title: Fix parsing of pragma in a case statement
+description: |
+    Libadalang used to reject pragma statements that appeared before the first
+    alternative:
+
+    .. code-block:: ada
+
+       case Foo is
+           pragma Assert (True);
+           when A => null;
+           when B => null;
+       end case;
+
+    This is valid Ada, so it is now accepted.
+date: 2022-04-14

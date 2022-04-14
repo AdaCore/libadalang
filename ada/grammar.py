@@ -911,7 +911,9 @@ A.add_rules(
     ),
 
     case_stmt=CaseStmt(
-        "case", Cut(), A.expr, "is", List(A.case_alt),
+        "case", Cut(), A.expr, "is",
+        List(A.pragma, empty_valid=True),
+        List(A.case_alt),
         "end", "case", ";"
     ),
 

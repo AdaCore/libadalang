@@ -32,6 +32,14 @@ procedure Test is
 
    procedure Pouet3 is null;
    --% node.p_has_aspect('inline')
+
+   package P is
+      type Vector is private with
+        Default_Initial_Condition => True;
+   private
+      type Vector is null record;
+      --% node.p_has_aspect("default_initial_condition")
+   end P;
 begin
    null;
 end Test;

@@ -2199,10 +2199,10 @@ class BasicDecl(AdaNode):
         parts_to_check = Var(If(
             name.any_of(
                 'Inline',
-                # For ghost, an aspect only on the body is illegal, but we
-                # don't care about illegal cases, and this allows us to auto
-                # propagate the aspect from spec to body.
-                'Ghost'
+                # For the following aspects, an aspect only on the body is
+                # illegal, but we don't care about illegal cases, and this
+                # allows us to auto propagate the aspect from spec to body.
+                'Ghost', 'Default_Initial_Condition'
             ),
             Entity.all_parts,
             Entity.singleton

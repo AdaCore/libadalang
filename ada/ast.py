@@ -9074,6 +9074,13 @@ class AspectAssoc(AdaNode):
             ),
         )
 
+    @langkit_property(public=True)
+    def is_ghost_code():
+        """
+        Return whether this aspect is ghost code or not. See SPARK RM 6.9.
+        """
+        return Entity.id.name_symbol.any_of('Pre', 'Post', 'Contract_Cases')
+
 
 class NumberDecl(BasicDecl):
     """

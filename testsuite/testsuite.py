@@ -138,6 +138,13 @@ class LALTestsuite(Testsuite):
                  ' instructions to measure performance. The argument is the'
                  ' directory in which to put profile data files.'
         )
+        parser.add_argument(
+            '--perf-no-profile',
+            action='store_true',
+            help='When running the testsuite in performance mode, only run'
+                 ' the default perf measurements (no profile). This is useful'
+                 ' to get feedback quickly during development.'
+        )
 
         # Convenience options for developpers
         parser.add_argument(
@@ -222,6 +229,7 @@ class LALTestsuite(Testsuite):
 
             self.env.perf_mode = True
             self.env.perf_dir = perf_dir
+            self.env.perf_no_profile = opts.perf_no_profile
         else:
             self.env.perf_mode = False
 

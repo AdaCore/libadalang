@@ -284,6 +284,11 @@ class BaseDriver(DiffTestDriver):
                 self.result.info["time"] = " ".join(time_list)
                 self.result.info["memory"] = " ".join(memory_list)
 
+            elif self.env.perf_no_profile:
+                # If we are asked for this testsuite run not to compute
+                # profiles, skip to the next mode.
+                continue
+
             elif mode == "profile-time":
                 # Run the subprocess under "perf record" to get a profile (and
                 # eventually a frame graph).

@@ -115,5 +115,81 @@ Expr: <Id "True" test.adb:13:38-13:42>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 
+Resolving xrefs for node <SubpSpec test.adb:16:4-16:31>
+*******************************************************
+
+
+Resolving xrefs for node <ParamSpec ["I"] test.adb:16:19-16:30>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:16:23-16:30>
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:17:12-20:26>
+***********************************************************
+
+Expr: <Id "Contract_Cases" test.adb:17:12-17:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:18:9-20:26>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:18:10-18:15>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "I" test.adb:18:10-18:11>
+  references:    <DefiningName test.adb:16:19-16:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLt "<" test.adb:18:12-18:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:18:14-18:15>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <RelationOp test.adb:18:19-18:24>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "I" test.adb:18:19-18:20>
+  references:    <DefiningName test.adb:16:19-16:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLt "<" test.adb:18:21-18:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:18:23-18:24>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <RelationOp test.adb:19:10-19:15>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "I" test.adb:19:10-19:11>
+  references:    <DefiningName test.adb:16:19-16:20>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpGt ">" test.adb:19:12-19:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:19:14-19:15>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "True" test.adb:19:19-19:23>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "False" test.adb:20:20-20:25>
+  references:    <DefiningName __standard:3:20-3:25>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+
 
 Done.

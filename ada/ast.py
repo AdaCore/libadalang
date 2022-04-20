@@ -13729,7 +13729,9 @@ class AggregateAssoc(BasicAssoc):
                     Bind(e.expected_type_var, Self.bool_type)
                     & e.sub_equation
                     & e.matches_expected_formal_prim_type,
-                    default_val=LogicFalse()
+
+                    # Nothing to do for `others =>`
+                    default_val=LogicTrue()
                 )
             ),
             Bind(Entity.expr.expected_type_var, Self.bool_type),

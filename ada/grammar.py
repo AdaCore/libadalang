@@ -937,7 +937,7 @@ A.add_rules(
 
     ext_return_stmt=ExtendedReturnStmt(
         "return", A.ext_ret_stmt_object_decl, Cut(),
-        Opt("do", A.handled_stmts, "end", "return"), ";"
+        Opt("do", Cut(), A.handled_stmts, "end", "return"), ";"
     ),
 
     iblock_stmt=Or(

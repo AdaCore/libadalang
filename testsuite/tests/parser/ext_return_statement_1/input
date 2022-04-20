@@ -1,0 +1,4 @@
+return R : Natural := 0 do
+   for I in A'Range loop
+      Result := Result;
+   end loop;

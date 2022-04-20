@@ -1,0 +1,4 @@
+driver: parser
+rule: ext_return_stmt
+check-consistency: true
+test-unparsing: false

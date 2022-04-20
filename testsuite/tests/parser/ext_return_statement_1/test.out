@@ -1,0 +1,68 @@
+input:5:1: Cannot parse <ext_return_stmt>
+input:5:1: Expected 'end', got Termination
+input:1:1: Cannot parse <ext_return_stmt>
+input:5:1: Expected ';', got Termination
+ExtendedReturnStmt[1:1-5:1] <<INCOMPLETE>>
+|f_decl:
+|  ExtendedReturnStmtObjectDecl[1:8-1:24]
+|  |f_ids:
+|  |  DefiningNameList[1:8-1:9]
+|  |  |  DefiningName[1:8-1:9]
+|  |  |  |f_name:
+|  |  |  |  Id[1:8-1:9]: R
+|  |f_has_aliased:
+|  |  AliasedAbsent[1:11-1:11]
+|  |f_has_constant:
+|  |  ConstantAbsent[1:11-1:11]
+|  |f_mode:
+|  |  ModeDefault[1:11-1:11]
+|  |f_type_expr:
+|  |  SubtypeIndication[1:12-1:19]
+|  |  |f_has_not_null:
+|  |  |  NotNullAbsent[1:11-1:11]
+|  |  |f_name:
+|  |  |  Id[1:12-1:19]: Natural
+|  |  |f_constraint: <null>
+|  |f_default_expr:
+|  |  Int[1:23-1:24]: 0
+|  |f_renaming_clause: <null>
+|  |f_aspects: <null>
+|f_stmts:
+|  HandledStmts[1:27-5:1]
+|  |f_stmts:
+|  |  StmtList[2:4-4:13]
+|  |  |  ForLoopStmt[2:4-4:13]
+|  |  |  |f_spec:
+|  |  |  |  ForLoopSpec[2:8-2:20]
+|  |  |  |  |f_var_decl:
+|  |  |  |  |  ForLoopVarDecl[2:8-2:9]
+|  |  |  |  |  |f_id:
+|  |  |  |  |  |  DefiningName[2:8-2:9]
+|  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  Id[2:8-2:9]: I
+|  |  |  |  |  |f_id_type: <null>
+|  |  |  |  |f_loop_type:
+|  |  |  |  |  IterTypeIn[2:10-2:12]
+|  |  |  |  |f_has_reverse:
+|  |  |  |  |  ReverseAbsent[2:12-2:12]
+|  |  |  |  |f_iter_expr:
+|  |  |  |  |  AttributeRef[2:13-2:20]
+|  |  |  |  |  |f_prefix:
+|  |  |  |  |  |  Id[2:13-2:14]: A
+|  |  |  |  |  |f_attribute:
+|  |  |  |  |  |  Id[2:15-2:20]: Range
+|  |  |  |  |  |f_args:
+|  |  |  |  |  |  AssocList[2:15-2:15]: <empty list>
+|  |  |  |  |f_iter_filter: <null>
+|  |  |  |f_stmts:
+|  |  |  |  StmtList[3:7-3:24]
+|  |  |  |  |  AssignStmt[3:7-3:24]
+|  |  |  |  |  |f_dest:
+|  |  |  |  |  |  Id[3:7-3:13]: Result
+|  |  |  |  |  |f_expr:
+|  |  |  |  |  |  Id[3:17-3:23]: Result
+|  |  |  |f_end_name: <null>
+|  |f_exceptions:
+|  |  AdaNodeList[4:12-4:12]: <empty list>
+
+==== Checking tree consistency ====

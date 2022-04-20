@@ -18376,14 +18376,20 @@ class Stmt(AdaNode):
             # Either it's an implicitly ghost statement, because it's assigning
             # to a ghost variable, or calling a ghost procedure.
             Entity.match(
-                lambda ass=T.AssignStmt:
-                ass.dest.referenced_defining_name.is_ghost_code,
-
-                lambda call=T.CallStmt:
-                call.call.referenced_defining_name.is_ghost_code,
-
-                lambda _: False
-            )
+                lambda ass=T.AssignStmt: ass.dest.failsafe_referenced_def_name,
+                lambda call=T.CallStmt: call.call.failsafe_referenced_def_name,
+                lambda _: No(RefdDef)
+            ).then(lambda res: If(
+                # Sometimes name resolution errors are materialized by None
+                # being returned from the queries instead of a property error.
+                # But None doesn't necessarily mean there was an error, so we
+                # explicitly handle the error cases by raising an exception as
+                # we don't want errors to be silently ignored, and we use the
+                # null coalescing operator to handle the legitimate cases.
+                res.kind == RefResultKind.error,
+                PropertyError(Bool, "Name resolution error"),
+                res.def_name._.is_ghost_code
+            ))
         )
 
 

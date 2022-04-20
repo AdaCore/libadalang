@@ -1,8 +1,14 @@
-Working on node <SubpDecl ["Foo"] test.adb:2:4-4:27>
+Working on node <SubpDecl ["Foo"] test.adb:4:4-6:27>
 ====================================================
 
 Eval 'node.f_aspects.f_aspect_assocs[0].p_is_ghost_code'
 Result: True
 
 Eval 'node.f_aspects.f_aspect_assocs[1].p_is_ghost_code'
+Result: False
+
+Working on node <CallStmt test.adb:13:4-13:45>
+==============================================
+
+Eval 'node.p_is_ghost_code'
 Result: False

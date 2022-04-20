@@ -443,7 +443,8 @@ A.add_rules(
             "package",
             A.defining_name, "is",
             "new", Cut(), A.static_name,
-            Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
+            Opt("(", Cut(),
+                List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc()
         ),
 
@@ -455,7 +456,8 @@ A.add_rules(
             ),
             A.defining_name, "is",
             "new", Cut(), A.static_name,
-            Opt("(", List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
+            Opt("(", Cut(),
+                List(A.param_assoc, sep=",", list_cls=AssocList), ")"),
             A.aspect_spec, sc(),
         ),
     ),

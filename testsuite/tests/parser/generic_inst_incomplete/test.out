@@ -1,6 +1,7 @@
-input:1:20: Missing ';'
-input:2:1: Expected '<>', got Termination
-GenericPackageInstantiation[1:1-1:19]
+input:2:1: Cannot parse <generic_instantiation>
+input:2:1: Expected ')', got Termination
+input:2:1: Missing ';'
+GenericPackageInstantiation[1:1-1:22]
 |f_name:
 |  DefiningName[1:9-1:10]
 |  |f_name:
@@ -8,7 +9,11 @@ GenericPackageInstantiation[1:1-1:19]
 |f_generic_pkg_name:
 |  Id[1:18-1:19]: B
 |f_params:
-|  AssocList[1:17-1:17]: <empty list>
+|  AssocList[1:21-1:22]
+|  |  ParamAssoc[1:21-1:22]
+|  |  |f_designator: <null>
+|  |  |f_r_expr:
+|  |  |  Id[1:21-1:22]: C
 |f_aspects: <null>
 
 ==== Checking tree consistency ====

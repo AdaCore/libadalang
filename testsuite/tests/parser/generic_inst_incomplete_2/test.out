@@ -1,6 +1,7 @@
-input:1:22: Missing ';'
-input:2:1: Expected '<>', got Termination
-GenericSubpInstantiation[1:1-1:21]
+input:2:1: Cannot parse <generic_instantiation>
+input:2:1: Expected ')', got Termination
+input:2:1: Missing ';'
+GenericSubpInstantiation[1:1-1:24]
 |f_overriding:
 |  OverridingUnspecified[1:1-1:1]
 |f_kind:
@@ -12,7 +13,11 @@ GenericSubpInstantiation[1:1-1:21]
 |f_generic_subp_name:
 |  Id[1:20-1:21]: B
 |f_params:
-|  AssocList[1:19-1:19]: <empty list>
+|  AssocList[1:23-1:24]
+|  |  ParamAssoc[1:23-1:24]
+|  |  |f_designator: <null>
+|  |  |f_r_expr:
+|  |  |  Id[1:23-1:24]: C
 |f_aspects: <null>
 
 ==== Checking tree consistency ====

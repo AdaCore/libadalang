@@ -1,1 +1,1 @@
-procedure A is new B (
+procedure A is new B (C

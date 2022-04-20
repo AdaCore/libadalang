@@ -39,7 +39,7 @@ Expr: <Int testindexing.adb:30:10-30:12>
 Expr: <Id "A" testindexing.adb:30:17-30:18>
   references:    <DefiningName testindexing.adb:27:4-27:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Ref"] testindexing.adb:6:7-7:41>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

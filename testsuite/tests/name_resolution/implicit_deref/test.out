@@ -23,7 +23,19 @@ Expr: <Id "X" test.adb:10:4-10:5>
 Expr: <Id "I" test.adb:10:9-10:10>
   references:    <DefiningName test.adb:5:4-5:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Rec"] test.adb:2:4-3:35>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:12:4-12:11>
+*********************************************************
+
+Expr: <Id "X" test.adb:12:4-12:5>
+  references:    <DefiningName test.adb:6:4-6:5>
+  type:          <TypeDecl ["Rec"] test.adb:2:4-3:35>
+  expected type: None
+Expr: <Id "X" test.adb:12:9-12:10>
+  references:    <DefiningName test.adb:6:4-6:5>
+  type:          <TypeDecl ["Rec"] test.adb:2:4-3:35>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

@@ -4965,6 +4965,19 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()])
+    def derefed_type():
+        """
+        If this type defines an Implicit_Dereference aspect, return the
+        accessed type, otherwise return Self.
+        """
+        return If(
+            Entity.is_null | Entity.get_imp_deref.is_null,
+            Entity,
+            Entity.accessed_type,
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity,
+                      dynamic_vars=[default_origin()])
     def derefed_base_subtype():
         """
         Return the base subtype of this subtype. If this type defines an
@@ -18420,7 +18433,8 @@ class AssignStmt(SimpleStmt):
     def xref_equation():
         return (
             Entity.dest.sub_equation
-            & Bind(Self.expr.expected_type_var, Self.dest.type_var)
+            & Bind(Self.dest.type_var, Self.expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_type)
             & Entity.expr.sub_equation
             & Self.expr.matches_expected_assign_type
         )

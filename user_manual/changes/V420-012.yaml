@@ -1,0 +1,9 @@
+type: bugfix
+title: Assignments with ``Implicit_Dereference`` aspect
+description: |
+    This change fixes a bug where name resolution would fail when resolving
+    an assignment of the form ``X := (E => ...);`` where ``X`` is implicitly
+    deferenced and the right-hand side is an aggregate expression matching
+    the dereferenced type.
+date: 2022-04-20
+

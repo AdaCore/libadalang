@@ -284,5 +284,21 @@ Expr: <Id "X" test_globals.adb:48:32-48:33>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 
+Resolving xrefs for node <SubpSpec test_globals.adb:54:4-54:30>
+***************************************************************
+
+
+Resolving xrefs for node <AspectAssoc test_globals.adb:55:12-55:26>
+*******************************************************************
+
+Expr: <Id "Global" test_globals.adb:55:12-55:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Null test_globals.adb:55:22-55:26>
+  references:    None
+  type:          None
+  expected type: None
+
 
 Done.

@@ -8993,7 +8993,11 @@ class AspectAssoc(AdaNode):
             # Global aspect. Depends is always an aggregate, so doesn't need an
             # entry.
             Entity.id.name_is('Global') | Entity.id.name_is('Refined_Global'),
-            Entity.expr.sub_equation,
+            If(
+                Entity.expr.is_a(NullLiteral),
+                LogicTrue(),
+                Entity.expr.sub_equation
+            ),
 
             # Do not resolve anything inside those aspect, as identifiers act
             # as reserved words. For example, we do not want to resolve `C`

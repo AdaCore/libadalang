@@ -51,6 +51,12 @@ procedure Test_Globals is
 
    procedure With_Null (X : Integer) is null;
 
+   procedure Test_Null_Global
+      with Global => null;
+   pragma Test_Block;
+
+   procedure Test_Null_Global is null;
+
 begin
    A := 12;
    B := 15;

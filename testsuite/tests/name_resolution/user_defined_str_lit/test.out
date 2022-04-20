@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:10:4-10:30>
+***************************************************************
+
+Expr: <DottedName test.adb:10:8-10:15>
+  references:    <DefiningName test.adb:3:12-3:15>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" test.adb:10:8-10:11>
+  references:    <DefiningName test.adb:2:12-2:15>
+  type:          None
+  expected type: None
+Expr: <Id "Str" test.adb:10:12-10:15>
+  references:    <DefiningName test.adb:3:12-3:15>
+  type:          None
+  expected type: None
+Expr: <Str ""Helloooo"" test.adb:10:19-10:29>
+  references:    None
+  type:          <TypeDecl ["Str"] test.adb:3:7-4:40>
+  expected type: <TypeDecl ["Str"] test.adb:3:7-4:40>
+
+
+Done.

@@ -1,0 +1,9 @@
+type: new-feature
+title: Add support for user-defined literals
+description: |
+    This change adds support for Ada 2022 user-defined literals. In particular,
+    Libadalang name resolution used to fail on expressions expecting a type
+    defining an ``Integer_Literal``, ``Real_Literal`` or ``String_Literal``
+    aspect but for which an integer literal, real literal or string literal
+    was given, respectively.
+date: 2022-04-20

@@ -5226,12 +5226,63 @@ class BaseTypeDecl(BasicDecl):
         """Whether type is an integer type or not."""
         return False
 
-    @langkit_property(dynamic_vars=[origin])
-    def is_str_type_or_null():
-        return Self.is_null | (
-            # A string type must be a one dimensional array of characters
-            (Entity.array_ndims == 1) & Entity.comp_type._.is_char_type
+    @langkit_property(dynamic_vars=[default_origin()])
+    def allows_universal_int():
+        """
+        Whether a universal integer can be used to initialize a value of this
+        type. This is true for integer types in general, but also for arbitrary
+        types that define the Integer_Literal aspect.
+        """
+        return Entity.is_int_type | Entity.base_subtype.then(
+            # We check on the base_subtype because the aspect can only be
+            # specified on the type's first subtype.
+            lambda bt: Not(bt.get_aspect_spec_expr("Integer_Literal").is_null),
+            default_val=False
         )
+
+    @langkit_property(dynamic_vars=[default_origin()])
+    def allows_universal_real():
+        """
+        Whether a universal real can be used to initialize a value of this
+        type. This is true for real types in general, but also for arbitrary
+        types that define the Real_Literal aspect.
+        """
+        return Entity.is_real_type | Entity.base_subtype.then(
+            # We check on the base_subtype because the aspect can only be
+            # specified on the type's first subtype.
+            lambda bt: Not(bt.get_aspect_spec_expr("Real_Literal").is_null),
+            default_val=False
+        )
+
+    @langkit_property(dynamic_vars=[default_origin()])
+    def allows_string_literal():
+        """
+        Whether a string literal can be used to initialize a value of this
+        type. This is true for string types in general, but also for arbitrary
+        types that define the String_Literal aspect.
+
+        .. note::
+            We also check that the node is not null because this property is
+            used directly as a logic predicate and may be invoked with null
+            nodes (unlike the other `allows_*` properties).
+        """
+        return And(
+            Not(Self.is_null),
+            Entity.is_str_type | Entity.base_subtype.then(
+                # We check on the base_subtype because the aspect can only be
+                # specified on the type's first subtype.
+                lambda bt:
+                Not(bt.get_aspect_spec_expr("String_Literal").is_null),
+                default_val=False
+            )
+        )
+
+    @langkit_property(dynamic_vars=[origin])
+    def is_str_type():
+        """
+        Whether this is a string type (a one dimensional array of characters).
+        """
+        return (Entity.array_ndims == 1) & Entity.comp_type._.is_char_type
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
     def accessed_type():
@@ -5581,13 +5632,13 @@ class BaseTypeDecl(BasicDecl):
             Not(actual_type.is_null),
             Or(
                 And(actual_type == Self.universal_int_type,
-                    expected_type.is_int_type),
+                    expected_type.allows_universal_int),
 
                 And(expected_type == Self.universal_int_type,
                     actual_type.is_int_type),
 
                 And(actual_type == Self.universal_real_type,
-                    expected_type.is_real_type),
+                    expected_type.allows_universal_real),
 
                 And(expected_type == Self.universal_real_type,
                     actual_type.is_real_type),
@@ -15203,7 +15254,7 @@ class StringLiteral(BaseId):
             # case we don't want to constrain its type.
             Self.parent.is_a(Name),
             Entity.base_id_xref_equation,
-            Predicate(BaseTypeDecl.is_str_type_or_null,
+            Predicate(BaseTypeDecl.allows_string_literal,
                       Self.expected_type_var)
             & Bind(Self.expected_type_var, Self.type_var)
         )

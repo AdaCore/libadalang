@@ -1,0 +1,77 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:21:4-21:30>
+***************************************************************
+
+Expr: <DottedName test.adb:21:8-21:24>
+  references:    <DefiningName test.adb:3:12-3:19>
+  type:          None
+  expected type: None
+Expr: <Id "Big_Ints" test.adb:21:8-21:16>
+  references:    <DefiningName test.adb:2:12-2:20>
+  type:          None
+  expected type: None
+Expr: <Id "Big_Int" test.adb:21:17-21:24>
+  references:    <DefiningName test.adb:3:12-3:19>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:21:28-21:29>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
+
+Resolving xrefs for node <ObjectDecl ["Y"] test.adb:25:4-25:30>
+***************************************************************
+
+Expr: <DottedName test.adb:25:8-25:24>
+  references:    <DefiningName test.adb:3:12-3:19>
+  type:          None
+  expected type: None
+Expr: <Id "Big_Ints" test.adb:25:8-25:16>
+  references:    <DefiningName test.adb:2:12-2:20>
+  type:          None
+  expected type: None
+Expr: <Id "Big_Int" test.adb:25:17-25:24>
+  references:    <DefiningName test.adb:3:12-3:19>
+  type:          None
+  expected type: None
+Expr: <Id "N" test.adb:25:28-25:29>
+  references:    <DefiningName test.adb:24:4-24:5>
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
+
+Resolving xrefs for node <ObjectDecl ["Z"] test.adb:29:4-29:21>
+***************************************************************
+
+Expr: <Id "Big_Pos" test.adb:29:8-29:15>
+  references:    <DefiningName test.adb:28:12-28:19>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:29:19-29:20>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Big_Pos"] test.adb:28:4-28:40>
+
+Resolving xrefs for node <ObjectDecl ["XX"] test.adb:32:4-32:31>
+****************************************************************
+
+Expr: <DottedName test.adb:32:9-32:25>
+  references:    <DefiningName test.adb:3:12-3:19>
+  type:          None
+  expected type: None
+Expr: <Id "Big_Ints" test.adb:32:9-32:17>
+  references:    <DefiningName test.adb:2:12-2:20>
+  type:          None
+  expected type: None
+Expr: <Id "Big_Int" test.adb:32:18-32:25>
+  references:    <DefiningName test.adb:3:12-3:19>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:32:29-32:30>
+  references:    <DefiningName test.adb:21:4-21:5>
+  type:          <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
+  expected type: <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
+
+
+Done.

@@ -8628,7 +8628,7 @@ class Pragma(AdaNode):
                     enclosing_program_unit.then(lambda epu: If(
                         And(
                             names.length == 1,
-                            epu.defining_name.name_matches(names.at(0))
+                            names.at(0).referenced_decl() == epu
                         ),
                         epu.singleton,
                         No(BasicDecl.entity.array)

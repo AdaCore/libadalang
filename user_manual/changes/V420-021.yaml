@@ -1,0 +1,17 @@
+type: bugfix
+title: Fix pragma associated declarations search
+description: |
+    Libadalang used to compare names to search for pragma's associated
+    declarations which could lead to wrong results when nested packages are
+    involved in the comparison.
+
+    .. code-block:: ada
+
+       package Pkg.Child is
+          pragma Pure (Child);
+       end Pkg.Child;
+
+    Package ``Pkg.Child`` declaration was not associated with ``pragma Pure
+    (Child)`` because of names comparison. This is now fixed by comparing
+    ``Child``'s referenced declaration with its enclosing unit declaration.
+date: 2022-04-21

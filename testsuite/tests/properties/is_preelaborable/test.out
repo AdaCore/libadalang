@@ -21,4 +21,6 @@ pkg4-nested1.adb: True
 pkg4-nested1-foo.adb: True
 pkg5.ads:       True
 pkg6.ads:       False
+pkg7.ads:       True
+pkg7-child.ads: True
 Done

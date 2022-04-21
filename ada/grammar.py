@@ -245,7 +245,7 @@ A.add_rules(
     formal_discrete_type_def=FormalDiscreteTypeDef("(", "<>", ")"),
 
     record_def=Or(
-        RecordDef("record", A.component_list, "end", "record"),
+        RecordDef("record", A.component_list, "end", Cut(), "record"),
         NullRecordDef(
             "null", "record",
             ComponentList(

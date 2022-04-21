@@ -1,0 +1,47 @@
+input:1:11: Cannot parse <record_def>
+input:3:4: Expected 'record', got ';'
+TypeDecl[1:1-4:1] <<INCOMPLETE>>
+|f_name:
+|  DefiningName[1:6-1:7]
+|  |f_name:
+|  |  Id[1:6-1:7]: A
+|f_discriminants: <null>
+|f_type_def:
+|  RecordTypeDef[1:11-3:4] <<INCOMPLETE>>
+|  |f_has_abstract:
+|  |  AbstractAbsent[1:10-1:10]
+|  |f_has_tagged:
+|  |  TaggedAbsent[1:10-1:10]
+|  |f_has_limited:
+|  |  LimitedAbsent[1:10-1:10]
+|  |f_record_def:
+|  |  RecordDef[1:11-3:4] <<INCOMPLETE>>
+|  |  |f_components:
+|  |  |  ComponentList[2:4-2:16]
+|  |  |  |f_components:
+|  |  |  |  AdaNodeList[2:4-2:16]
+|  |  |  |  |  ComponentDecl[2:4-2:16]
+|  |  |  |  |  |f_ids:
+|  |  |  |  |  |  DefiningNameList[2:4-2:5]
+|  |  |  |  |  |  |  DefiningName[2:4-2:5]
+|  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  Id[2:4-2:5]: X
+|  |  |  |  |  |f_component_def:
+|  |  |  |  |  |  ComponentDef[2:8-2:15]
+|  |  |  |  |  |  |f_has_aliased:
+|  |  |  |  |  |  |  AliasedAbsent[2:7-2:7]
+|  |  |  |  |  |  |f_has_constant:
+|  |  |  |  |  |  |  ConstantAbsent[2:7-2:7]
+|  |  |  |  |  |  |f_type_expr:
+|  |  |  |  |  |  |  SubtypeIndication[2:8-2:15]
+|  |  |  |  |  |  |  |f_has_not_null:
+|  |  |  |  |  |  |  |  NotNullAbsent[2:7-2:7]
+|  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  Id[2:8-2:15]: Integer
+|  |  |  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |  |f_default_expr: <null>
+|  |  |  |  |  |f_aspects: <null>
+|  |  |  |f_variant_part: <null>
+|f_aspects: <null>
+
+==== Checking tree consistency ====

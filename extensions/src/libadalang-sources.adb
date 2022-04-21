@@ -94,6 +94,14 @@ package body Libadalang.Sources is
       Result      : Text_Type (Name'Range);
       Result_Last : Integer := Name'First - 1;
 
+      Fold_Casing : Boolean := True;
+      --  Whether we need to fold casing.
+      --
+      --  Our goal here is to fold the casing of everything but character
+      --  literals, so that 'A' and 'a' stay different. Single quotes can
+      --  appear in other context through (Pre'Class), so disable case folding
+      --  only when the first codepoint is a single quote.
+
       I : Positive := Name'First;
    begin
       --  Decode bracket encodings
@@ -131,9 +139,17 @@ package body Libadalang.Sources is
             end if;
          end;
 
-         --  Now, perform case folding
+         --  Disable case folding if the first codepoint is a single quote
 
-         Result (Result_Last) := To_Lower (Result (Result_Last));
+         if I = Name'First and then Result (Result_Last) = ''' then
+            Fold_Casing := False;
+         end if;
+
+         --  Perform case folding when appropriate
+
+         if Fold_Casing then
+            Result (Result_Last) := To_Lower (Result (Result_Last));
+         end if;
 
          I := I + 1;
       end loop;

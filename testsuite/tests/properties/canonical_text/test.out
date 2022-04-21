@@ -7,6 +7,12 @@ Result: 'this_is_\u03c0'
 Eval 'node.p_canonical_text' on node <Id "["000003C0"]_Name" foo.ads:8:4-8:21>
 Result: '\u03c0_name'
 
+Eval 'node.p_canonical_text' on node <Chr "'A'" foo.ads:13:7-13:10>
+Result: "'A'"
+
+Eval 'node.p_canonical_text' on node <Chr "'a'" foo.ads:16:7-16:10>
+Result: "'a'"
+
 
 Eval 'node.p_defining_name.p_canonical_text' on node <PackageDecl ["pKg.BAR"] pkg-bar.ads:1:1-3:13>
 Result: 'pkg.bar'

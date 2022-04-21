@@ -8,6 +8,14 @@ procedure Foo is
    ["000003C0"]_Name
    --% $node.p_canonical_text
    : constant String := "["0003C0"]";
+
+   type C_Type is (
+      'A'
+      --% $node.p_canonical_text
+      ,
+      'a'
+      --% $node.p_canonical_text
+   );
 begin
    null;
 end Foo;

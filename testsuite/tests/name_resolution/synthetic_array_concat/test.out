@@ -17,7 +17,7 @@ Expr: <Str ""&"" test.adb:4:9-4:12>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Chr "'a'" test.adb:4:14-4:17>
-  references:    <DefiningName __standard:21:22-21:25>
+  references:    None
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <Chr "'b'" test.adb:4:19-4:22>
@@ -41,7 +41,7 @@ Expr: <Str ""&"" test.adb:7:9-7:12>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Chr "'a'" test.adb:7:14-7:17>
-  references:    <DefiningName __standard:21:22-21:25>
+  references:    None
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <Str ""b"" test.adb:7:19-7:22>

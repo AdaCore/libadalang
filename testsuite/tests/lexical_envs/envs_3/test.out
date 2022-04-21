@@ -225,7 +225,7 @@ $root = LexEnv(Static_Primary, Parent=null):
     "or": [<SyntheticSubpDecl [] __standard:3:19-3:32>, <SyntheticSubpDecl [] __standard:105:18-105:56>, <SyntheticSubpDecl [] __standard:107:23-108:38>, <SyntheticSubpDecl [] __standard:109:28-110:43>]
     "rem": [<SyntheticSubpDecl [] __standard:4:19-4:53>, <SyntheticSubpDecl [] __standard:7:34-7:66>, <SyntheticSubpDecl [] __standard:8:34-8:68>, <SyntheticSubpDecl [] __standard:9:34-9:68>, <SyntheticSubpDecl [] __standard:10:34-10:68>, <SyntheticSubpDecl [] __standard:11:34-11:70>]
     "xor": [<SyntheticSubpDecl [] __standard:3:19-3:32>, <SyntheticSubpDecl [] __standard:105:18-105:56>, <SyntheticSubpDecl [] __standard:107:23-108:38>, <SyntheticSubpDecl [] __standard:109:28-110:43>]
-    'a': [<EnumLiteralDecl ["'A'"] __standard:21:22-21:25>, <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>, <EnumLiteralDecl ["'A'"] __standard:23:32-23:35>]
+    'A': [<EnumLiteralDecl ["'A'"] __standard:21:22-21:25>, <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>, <EnumLiteralDecl ["'A'"] __standard:23:32-23:35>]
     a: [<PackageDecl ["A"] input:10:1-11:7>]
     abort_signal_: [<ExceptionDecl ["Abort_Signal_"] __standard:128:3-128:32>]
     ascii: [<PackageDecl ["ASCII"] __standard:24:3-104:13>]

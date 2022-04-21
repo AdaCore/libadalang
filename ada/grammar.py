@@ -1252,7 +1252,7 @@ A.add_rules(
         # Class attribute
         AttributeRef(A.name, "'", A.identifier, Null(A.call_suffix)),
 
-        QualExpr(A.name, "'", Or(A.paren_expr, A.regular_aggregate)),
+        QualExpr(A.name, "'", Or(A.paren_expr, A.aggregate)),
 
         A.direct_name_or_target_name,
     ),

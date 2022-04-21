@@ -1,0 +1,7 @@
+type: bugfix
+title: Accept bracket aggregates in all qualified expressions
+short_title: Bracket aggregates for qualified expressions
+description: |
+  Bracket aggregates support (Ada 2022) was partially missing. Libadalang now
+  correctly parses any qualified expression using bracket aggregates.
+date: 2022-04-21

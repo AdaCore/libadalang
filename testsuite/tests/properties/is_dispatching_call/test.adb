@@ -12,7 +12,7 @@ procedure Main is
 
       function Foo_Bar return T is (null record);
 
-      overriding function Dyn_Tag (Self : T) return T is (null record);
+      function Dyn_Tag (Self : T) return T is (null record);
    end PT;
 
    package PU is
@@ -88,8 +88,8 @@ begin
    --  Should be dispatching (across the qual expr, paren expr, declare
    --  expr, and case expr).
    T'((declare
-         A : Boolean;
-       begin (case True is
+         A : constant Boolean := True;
+       begin (case A is
               when True => X.Dyn_Tag,
               when others => Y.Dyn_Tag))).Foo_1;
 

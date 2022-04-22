@@ -30,7 +30,7 @@ Analyzing references of Bar_2 (<DefiningName test.adb:11:16-11:21>)
 Analyzing references of Foo_Bar (<DefiningName test.adb:13:16-13:23>)
   Reference <RefResult ref=<Id "Foo_Bar" test.adb:47:9-47:16> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_Bar" test.adb:57:9-57:16> kind=precise> is not a dispatching call.
-Analyzing references of Dyn_Tag (<DefiningName test.adb:15:27-15:34>)
+Analyzing references of Dyn_Tag (<DefiningName test.adb:15:16-15:23>)
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:72:6-72:13> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:76:6-76:13> kind=precise> is not a dispatching call.
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:79:9-79:16> kind=precise> is a dispatching call.

@@ -1,5 +1,7 @@
-input:1:22: Missing ';'
+input:2:1: Cannot parse <param_assoc>
 input:2:1: Expected '<>', got Termination
+input:1:22: Missing ';'
+input:2:1: Expected ')', got Termination
 GenericSubpInstantiation[1:1-1:21]
 |f_overriding:
 |  OverridingUnspecified[1:1-1:1]

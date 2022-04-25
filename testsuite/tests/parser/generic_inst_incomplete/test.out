@@ -1,5 +1,7 @@
-input:1:20: Missing ';'
+input:2:1: Cannot parse <param_assoc>
 input:2:1: Expected '<>', got Termination
+input:1:20: Missing ';'
+input:2:1: Expected ')', got Termination
 GenericPackageInstantiation[1:1-1:19]
 |f_name:
 |  DefiningName[1:9-1:10]

@@ -1196,7 +1196,7 @@ A.add_rules(
 
     param_assoc=ParamAssoc(
         Opt(A.identifier | A.others_designator | A.string_literal,
-            "=>", Cut()),
+            "=>"), Cut(),
         A.expr | A.box_expr,
     ),
 

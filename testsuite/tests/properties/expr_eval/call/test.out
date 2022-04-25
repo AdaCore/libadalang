@@ -4,11 +4,11 @@ Working on node <ObjectDecl ["I1"] invalid.ads:3:4-3:37>
 Eval 'node.f_default_expr.p_eval_as_int'
 Exception: Unhandled call expr: Foo (1)
 
-Working on node <ErrorDecl [] invalid.ads:6:39-6:40>
-====================================================
+Working on node <ObjectDecl ["I2"] invalid.ads:6:4-9:4>
+=======================================================
 
-Eval 'node.previous_sibling.previous_sibling.f_default_expr.p_eval_as_int'
-Exception: Unhandled call expr: Integer (
+Eval 'node.f_default_expr.p_eval_as_int'
+Exception: attempt to evaluate a null node
 
 Working on node <ObjectDecl ["I3"] invalid.ads:9:4-9:44>
 ========================================================

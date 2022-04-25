@@ -4,7 +4,7 @@ package Invalid is
    --% node.f_default_expr.p_eval_as_int
 
    I2 : constant Integer := Integer ();
-   --% node.previous_sibling.previous_sibling.f_default_expr.p_eval_as_int
+   --% node.f_default_expr.p_eval_as_int
 
    I3 : constant Integer := Integer (True);
    --% node.f_default_expr.p_eval_as_int

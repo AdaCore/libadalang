@@ -781,7 +781,7 @@ A.add_rules(
 
     pragma=Pragma(
         "pragma", Cut(), A.identifier,
-        Opt("(",
+        Opt("(", Cut(),
             List(Or(A.pragma_argument, A.contract_case_assoc), sep=","),
             ")"),
         sc()

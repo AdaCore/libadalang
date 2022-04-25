@@ -1,0 +1,14 @@
+input:2:1: Cannot parse <pragma>
+input:2:1: Expected ')', got Termination
+input:2:1: Missing ';'
+PragmaNode[1:1-1:12]
+|f_id:
+|  Id[1:8-1:9]: P
+|f_args:
+|  BaseAssocList[1:11-1:12]
+|  |  PragmaArgumentAssoc[1:11-1:12]
+|  |  |f_name: <null>
+|  |  |f_expr:
+|  |  |  Id[1:11-1:12]: A
+
+==== Checking tree consistency ====

@@ -1,0 +1,4 @@
+driver: parser
+rule: pragma
+check-consistency: true
+test-unparsing: false

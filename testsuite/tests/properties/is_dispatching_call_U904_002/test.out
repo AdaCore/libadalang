@@ -1,0 +1,19 @@
+Eval 'node.f_expr.p_is_dispatching_call()' on node <AssignStmt d.adb:50:10-50:24>
+Result: False
+
+Eval 'node.f_expr.f_right.p_is_call' on node <AssignStmt d.adb:50:10-50:24>
+Result: False
+
+Eval 'node.f_expr.f_right.p_is_dispatching_call()' on node <AssignStmt d.adb:50:10-50:24>
+Result: False
+
+Eval 'node.f_expr.p_is_dispatching_call()' on node <AssignStmt d.adb:54:10-54:25>
+Result: True
+
+Eval 'node.f_expr.f_right.p_is_call' on node <AssignStmt d.adb:54:10-54:25>
+Result: True
+
+Eval 'node.f_expr.f_right.p_is_dispatching_call()' on node <AssignStmt d.adb:54:10-54:25>
+Result: True
+
+

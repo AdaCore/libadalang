@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix implementation of ``is_dispatching_call``
+description: |
+    This change fills a hole in the implementation of ``is_dispatching_call``,
+    where calls with tag-indeterminate operands but a controlling result could
+    only be considered dispatching in the context of an assignment, but not
+    when an enclosing call could be used to determine its controlling tag
+    value.
+date: 2022-04-25

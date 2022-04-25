@@ -10548,16 +10548,15 @@ class Expr(AdaNode):
                 lambda qual_expr=QualExpr:
                 qual_expr.suffix.is_dynamically_tagged,
 
-                # If expr is a dispatching call with a controlling result, then
-                # it's dynamically tagged.
+                # If expr is a call with a controlling result which has at
+                # least one dynamically tagged controlling operand, then it's
+                # dynamically tagged.
                 lambda n=Name: And(
-                    n.is_dispatching_call,
+                    n.is_direct_call,
                     n.called_subp_spec.cast(T.BaseSubpSpec).then(
                         lambda spec:
-                        # Controlling result: the controlling parameter and
-                        # result have the same type.
-                        spec.candidate_primitive_subp_first_type ==
-                        spec.return_type
+                        spec.has_controlling_result
+                        & n.has_dynamic_controlling_operand(spec)
                     )
                 ),
 
@@ -10594,64 +10593,113 @@ class Expr(AdaNode):
 
     @langkit_property(return_type=T.Bool,
                       dynamic_vars=[default_imprecise_fallback()])
+    def has_dynamic_controlling_operand(spec=T.BaseSubpSpec.entity):
+        """
+        Return whether this call has at least one controlling operand which is
+        dynamically tagged.
+        """
+        # Retrieve the candidate expressions on which the tag check could
+        # be made, together with the expected type for them.
+        # Then, check that there is a pair (``formal``, ``actual``)
+        # where ``formal`` is a controlling formal parameter of the
+        # primitive subprogram ``decl``, and ``actual`` is a dynamically
+        # tagged expression used for this parameter.
+        return Entity.potential_actuals_for_dispatch(spec).any(
+            lambda c: And(
+                Not(spec.get_candidate_type_for_primitive(
+                    c.expected_type).is_null),
+                c.expr.is_dynamically_tagged
+            )
+        )
+
+    @langkit_property(return_type=T.Expr.entity)
+    def parent_candidate_dispatching_call():
+        """
+        Return the closest parent expression that can be a dispatching call
+        and which can control the tag value of this expression according to
+        Ada semantics (see RM 3.9.2 17/2).
+        """
+        return Entity.parent.match(
+            lambda ce=CallExpr: If(
+                Entity == ce.name,
+                ce.parent_candidate_dispatching_call,
+                ce
+            ),
+            lambda dn=DottedName: If(
+                Entity == dn.suffix,
+                dn.parent_candidate_dispatching_call,
+                dn
+            ),
+            lambda uo=UnOp: If(
+                Entity == uo.op,
+                uo.parent_candidate_dispatching_call,
+                uo
+            ),
+            lambda bo=BinOp: If(
+                Entity == bo.op,
+                bo.parent_candidate_dispatching_call,
+                bo
+            ),
+            lambda ce=CondExpr: If(
+                ce.dependent_exprs.contains(Entity),
+                ce.parent_candidate_dispatching_call,
+                No(Expr.entity)
+            ),
+            lambda pe=ParenExpr: pe.parent_candidate_dispatching_call,
+            lambda qe=QualExpr: qe.parent_candidate_dispatching_call,
+            lambda de=DeclExpr: de.parent_candidate_dispatching_call,
+            lambda pa=ParamAssoc: pa.parent.parent.cast(CallExpr),
+            lambda _: No(Expr.entity)
+        )
+
+    @langkit_property(return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def has_dynamic_context():
+        """
+        Return whether the tag value for this tag-indeterminate expression can
+        be determined from the enclosing context, that is, whether this is the
+        RHS of an assign statement which destination has a classwide type, or a
+        controlling operand of an enclosing call which is itself dispatching.
+        """
+        return Entity.parent.cast(AssignStmt).then(
+            # If we're the RHS of an assignment, RM 3.9.2 (18.1/2) applies:
+            # The controlling operand is the LHS of the assignment.
+            lambda a: And(
+                # This only applies to the RHS of the assign statement
+                a.expr == Entity,
+                Entity.expected_expression_type.is_classwide
+            ),
+
+            # If we're an argument of an enclosing dispatching call, then
+            # RM 3.9.2 (18/2) applies: The controlling tag value of this
+            # call is the controlling tag value of the enclosing call.
+            default_val=Entity.parent_candidate_dispatching_call
+            ._.is_dispatching_call
+        )
+
+    @langkit_property(return_type=T.Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
     def is_dispatching_call_impl(decl=T.BasicDecl.entity):
         """
         Common logic for the implementation of is_dispatching_call on the
         various node types. ``decl`` should be the declaration of the
         subprogram being called.
         """
-        spec = Var(
-            decl.canonical_part.subp_spec_or_null(follow_generic=True)
-        )
-
-        # Retrieve the candidate expressions on which the tag check could
-        # be made, together with the expected type for them.
-        candidate_actuals = Var(Entity.potential_actuals_for_dispatch(spec))
-
-        # Handle the case where the dispatch is done on the tag of the
-        # LHS expr of an assign statement. In that case, its expected type
-        # is the return type of the called subprogram.
-        candidate_ret = Var(
-            spec.returns.then(lambda rt: Entity.parent.cast(T.AssignStmt).then(
-                lambda a: If(
-                    # This only applies to the RHS of the assign statement
-                    a.expr == Entity,
-                    ExpectedTypeForExpr.new(
-                        expected_type=rt,
-                        expr=a.dest
-                    ).singleton,
-                    No(ExpectedTypeForExpr.array)
-                )
-            ))
-        )
-
-        candidates = Var(candidate_actuals.concat(candidate_ret))
-
+        spec = Var(decl.canonical_part.subp_spec_or_null(follow_generic=True))
         return Or(
             # A call to an abstract formal subprogram is necessarily
             # dispatching (see RM 12.6 8.5/2).
             decl.is_a(AbstractFormalSubpDecl),
 
-            # Otherwise check that there is a pair (``formal``, ``actual``)
-            # where ``formal`` is a controlling formal parameter of the
-            # primitive subprogram ``decl``, and ``actual`` is a dynamically
-            # tagged expression used for this parameter.
-            candidates.any(
-                lambda c: And(
-                    Not(spec
-                        .get_candidate_type_for_primitive(c.expected_type)
-                        .is_null),
+            # Alternatively, check if there is a controlling operand that is
+            # dynamically tagged.
+            Entity.has_dynamic_controlling_operand(spec),
 
-                    # No need to check that the type of the expression
-                    # is exactly the classwide type of the expected
-                    # type, but simply that it is classwide.
-                    # Also note that the primitive can be on a an anonymous
-                    # access of the tagged type, which means we should also
-                    # accept the argument if it's type is an access on a
-                    # classwide type.
-                    c.expr.is_dynamically_tagged
-                )
-            )
+            # Otherwise, it means that all controlling operands are statically
+            # tagged or tag-indeterminate. In the latter case, we need to check
+            # that the called primitive has a controlling result and that the
+            # tag can be determined from context.
+            spec.has_controlling_result & Entity.has_dynamic_context
         )
 
     @langkit_property(public=True, return_type=T.Bool,
@@ -15627,6 +15675,17 @@ class BaseSubpSpec(BaseFormalParamHolder):
                 spec.candidate_primitive_subp_tagged_type
             )
         )
+
+    @langkit_property(return_type=Bool,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def has_controlling_result():
+        """
+        Return whether this subprogram has a controlling result, i.e. that
+        it is the primitive of a tagged type ``T`` and its return type is
+        ``T`` as well.
+        """
+        typ = Var(Entity.candidate_primitive_subp_tagged_type)
+        return Not(typ.is_null) & (typ == Entity.return_type)
 
     @langkit_property(return_type=BaseTypeDecl.entity.array)
     def dottable_subp_of():

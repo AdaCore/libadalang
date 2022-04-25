@@ -1,0 +1,26 @@
+Analyzing references of F0 (<DefiningName test.adb:7:16-7:18>)
+  Reference <Id "F0" test.adb:71:8-71:10> is not a dispatching call.
+  Reference <Id "F0" test.adb:71:12-71:14> is not a dispatching call.
+  Reference <Id "F0" test.adb:75:11-75:13> is a dispatching call.
+  Reference <Id "F0" test.adb:79:8-79:10> is a dispatching call.
+  Reference <Id "F0" test.adb:83:16-83:18> is a dispatching call.
+  Reference <Id "F0" test.adb:87:12-87:14> is a dispatching call.
+  Reference <Id "F0" test.adb:88:12-88:14> is a dispatching call.
+  Reference <Id "F0" test.adb:88:23-88:25> is a dispatching call.
+Analyzing references of F1 (<DefiningName test.adb:8:16-8:18>)
+  Reference <Id "F1" test.adb:83:8-83:10> is a dispatching call.
+  Reference <Id "F1" test.adb:83:12-83:14> is a dispatching call.
+  Reference <Id "F1" test.adb:83:22-83:24> is a dispatching call.
+  Reference <Id "F1" test.adb:83:26-83:28> is a dispatching call.
+  Reference <Id "F1" test.adb:88:16-88:18> is a dispatching call.
+Analyzing references of F2 (<DefiningName test.adb:9:16-9:18>)
+  Reference <Id "F2" test.adb:87:8-87:10> is a dispatching call.
+  Reference <Id "F2" test.adb:88:8-88:10> is a dispatching call.
+Analyzing references of P2 (<DefiningName test.adb:10:17-10:19>)
+  Reference <Id "P2" test.adb:71:4-71:6> is not a dispatching call.
+  Reference <Id "P2" test.adb:75:4-75:6> is a dispatching call.
+  Reference <Id "P2" test.adb:79:4-79:6> is a dispatching call.
+  Reference <Id "P2" test.adb:83:4-83:6> is a dispatching call.
+  Reference <Id "P2" test.adb:87:4-87:6> is a dispatching call.
+
+Done

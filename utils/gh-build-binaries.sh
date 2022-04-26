@@ -62,11 +62,11 @@ build_archive()
 }
 
 # Disable SAL for static langkit library
-sed -i -e '/for .*Interface.* use/,/;/d' langkit/support/langkit_support.gpr
+sed -i -e '/for .*Interface.* use/,/;/d' langkit/langkit/support/langkit_support.gpr
 
 build_archive "static" "static"
 
 if [ $RUNNER_OS = Linux ]; then
-   git -C langkit checkout support/langkit_support.gpr
+   git -C langkit checkout langkit/support/langkit_support.gpr
    build_archive "relocatable" "shared"
 fi

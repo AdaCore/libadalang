@@ -15487,7 +15487,7 @@ class Identifier(BaseId):
             # trigger a resolution failure.
             'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
             'Remainder', 'Adjacent', 'Mod', 'Machine', 'Machine_Rounding',
-            'Exponent', 'Scaling'
+            'Exponent', 'Scaling', 'Compose', 'Fraction'
         )
     )
 
@@ -16849,7 +16849,8 @@ class AttributeRef(Name):
                             'Alignment', 'First_Bit', 'Last_Bit',
                             'Default_Bit_Order', 'Range_Length',
                             'Storage_Unit',
-                            'Small_Numerator', 'Small_Denominator'),
+                            'Small_Numerator', 'Small_Denominator',
+                            'Machine_Emin', 'Machine_Emax'),
             Entity.prefix.sub_equation
             & Self.universal_int_bind(Self.type_var),
 
@@ -16880,14 +16881,14 @@ class AttributeRef(Name):
 
             rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation',
                             'Copy_Sign', 'Remainder', 'Adjacent',
-                            'Machine', 'Machine_Rounding'),
+                            'Machine', 'Machine_Rounding', 'Fraction'),
             Entity.float_funcs_equation,
 
             rel_name.any_of('Exponent', 'Machine_Radix', 'Enum_Rep'),
             Entity.universal_int_equation,
 
-            rel_name == 'Scaling',
-            Entity.scaling_equation,
+            rel_name.any_of('Scaling', 'Compose'),
+            Entity.float_universal_int_equation,
 
             rel_name == 'Mod',
             Entity.mod_equation,
@@ -16931,9 +16932,9 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def scaling_equation():
+    def float_universal_int_equation():
         """
-        Return the nameres equation for the Scaling attribute T'Scaling (X, I)
+        Return the nameres equation for the float attribute T'Attr (X, I)
         where T is a float type, X a value of type T and I an integer value.
         """
         typ = Var(Entity.prefix.name_designated_type)

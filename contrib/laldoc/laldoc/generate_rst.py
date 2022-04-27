@@ -351,7 +351,6 @@ class GenerateDoc(lal.App):
                 f"{pkg_name }\n"
                 f"{UNDERLINES[self._package_nesting_level] * len(pkg_name )}"
             )
-            self.add_lines(['', f".. ada:set_package:: {pkg_name}"])
         else:
             generic = "generic_" if gen_package is not None else ""
             self.add_lines([f".. ada:{generic}package:: {pkg_name}", ""])

@@ -34,8 +34,8 @@ Expr: <Id "Class" storage_pool_attr.adb:10:47-10:52>
   expected type: None
 Expr: <AttributeRef storage_pool_attr.adb:10:56-10:70>
   references:    None
-  type:          system.storage_pools.root_storage_pool.root_storage_pool
-  expected type: system.storage_pools.root_storage_pool.root_storage_pool
+  type:          system.storage_pools.root_storage_pool'class
+  expected type: system.storage_pools.root_storage_pool'class
 Expr: <Id "B" storage_pool_attr.adb:10:56-10:57>
   references:    storage_pool_attr().b
   type:          storage_pool_attr().a
@@ -58,7 +58,7 @@ Expr: <DottedName storage_pool_attr.adb:13:4-13:14>
   expected type: None
 Expr: <Id "S" storage_pool_attr.adb:13:4-13:5>
   references:    storage_pool_attr().s
-  type:          system.storage_pools.root_storage_pool.root_storage_pool
+  type:          system.storage_pools.root_storage_pool'class
   expected type: system.storage_pools.root_storage_pool
 Expr: <Id "Allocate" storage_pool_attr.adb:13:6-13:14>
   references:    system.storage_pools.allocate(system.storage_pools.root_storage_pool, system.address, system.storage_elements.storage_count, system.storage_elements.storage_count)

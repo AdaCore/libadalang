@@ -58,7 +58,7 @@ Expr: <AttributeRef test.adb:19:21-19:26>
   expected type: ada.tags.tag
 Expr: <Id "Y" test.adb:19:21-19:22>
   references:    test().y
-  type:          test().tagged_t.tagged_t
+  type:          test().tagged_t'class
   expected type: None
 Expr: <Id "Tag" test.adb:19:23-19:26>
   references:    None
@@ -74,7 +74,7 @@ Expr: <AttributeRef test.adb:19:29-19:34>
   expected type: ada.tags.tag
 Expr: <Id "Y" test.adb:19:29-19:30>
   references:    test().y
-  type:          test().tagged_t.tagged_t
+  type:          test().tagged_t'class
   expected type: None
 Expr: <Id "Tag" test.adb:19:31-19:34>
   references:    None

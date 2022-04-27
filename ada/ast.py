@@ -428,41 +428,52 @@ class AdaNode(ASTNode):
         .. note:: When called on a node lying outside of a library item's
             declaration or subunit's body this property will return null.
         """
-        return Entity.semantic_parent.then(
-            lambda sp: If(
-                sp.is_a(GenericPackageInternal) | sp.is_a(GenericSubpInternal),
-                Let(
-                    lambda
-                    inst=sp.info.rebindings._.new_env.env_node.cast(BasicDecl):
+        return If(
+            # On synthetic types that are rooted in their parents, we want to
+            # call parent_basic_decl on the parent type, to avoid getting the
+            # type itself as a parent_basic_decl (since some types introduce a
+            # scope).
+            Entity.is_a(ClasswideTypeDecl, DiscreteBaseSubtypeDecl,
+                        SynthAnonymousTypeDecl),
+            Entity.semantic_parent.parent_basic_decl,
 
-                    # If the parent is a generic package and the top-most
-                    # rebinding is an instantiation of this package, return
-                    # the instantiation instead. Make sure to drop the top-most
-                    # rebinding in the returned entity.
+            Entity.semantic_parent.then(
+                lambda sp: If(
+                    sp.is_a(GenericPackageInternal, GenericSubpInternal),
                     Let(
-                        lambda designated=If(
-                            sp.is_a(GenericPackageInternal),
+                        lambda inst=sp.info.rebindings
+                        ._.new_env.env_node.cast(BasicDecl):
 
-                            inst.cast(GenericPackageInstantiation)
-                            .as_bare_entity._.designated_package,
+                        # If the parent is a generic package and the top-most
+                        # rebinding is an instantiation of this package, return
+                        # the instantiation instead. Make sure to drop the
+                        # top-most rebinding in the returned entity.
+                        Let(
+                            lambda designated=If(
+                                sp.is_a(GenericPackageInternal),
 
-                            inst.cast(GenericSubpInstantiation)
-                            .as_bare_entity._.designated_subp
-                        ): If(
-                            designated.node == sp.node,
-                            T.BasicDecl.entity.new(
-                                node=inst,
-                                info=T.entity_info.new(
-                                    md=No(T.Metadata),
-                                    rebindings=sp.info.rebindings.get_parent,
-                                    from_rebound=False
-                                )
-                            ),
-                            sp.parent.cast(T.BasicDecl)
+                                inst.cast(GenericPackageInstantiation)
+                                .as_bare_entity._.designated_package,
+
+                                inst.cast(GenericSubpInstantiation)
+                                .as_bare_entity._.designated_subp
+                            ): If(
+                                designated.node == sp.node,
+                                T.BasicDecl.entity.new(
+                                    node=inst,
+                                    info=T.entity_info.new(
+                                        md=No(T.Metadata),
+                                        rebindings=sp.info
+                                        .rebindings.get_parent,
+                                        from_rebound=False
+                                    )
+                                ),
+                                sp.parent.cast(T.BasicDecl)
+                            )
                         )
-                    )
-                ),
-                sp.cast(T.BasicDecl)._or(sp.parent_basic_decl)
+                    ),
+                    sp.cast(T.BasicDecl)._or(sp.parent_basic_decl)
+                )
             )
         )
 

@@ -1,0 +1,10 @@
+Eval 'node[1][3].p_designated_type_decl.p_parent_basic_decl' on node <SubpDecl ["Foo"] test.adb:6:4-8:19>
+Result: <SubpBody ["Test"] test.adb:3:1-18:10>
+
+Eval 'node[1][3].p_designated_type_decl.p_parent_basic_decl' on node <SubpDecl ["Bar"] test.adb:11:4-11:49>
+Result: <PackageDecl ["Standard"] __standard:1:1-129:14>
+
+Eval 'node[1][0].p_expression_type.p_parent_basic_decl' on node <AssignStmt test.adb:16:4-16:35>
+Result: <PackageDecl ["Standard"] __standard:1:1-129:14>
+
+

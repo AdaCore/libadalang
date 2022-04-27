@@ -22,7 +22,7 @@ Base
 
     B field
 
-    .. ada:procedure:: procedure Barize (Self : A)
+    .. ada:procedure:: procedure Barize (Self : Base.A)
         :package: Base
 
         Barize :ada:ref:`Self`
@@ -88,7 +88,7 @@ Base
 
             Documentation for generic formal
 
-.. ada:procedure:: procedure Proc_With_Documented_Params (A : Integer; -- Doc for param ``A`` B : Float -- Doc for param ``B`` )
+.. ada:procedure:: procedure Proc_With_Documented_Params (A : Standard.Integer; B : Standard.Float)
     :package: Base
 :param Standard.Float B:
 

@@ -377,6 +377,36 @@ class GenerateDoc(lal.App):
 
     def handle_entity(self, decl: lal.BasicDecl):
 
+        def make_profile(s: lal.BaseSubpSpec) -> str:
+            """
+            Reconstruct a text profile for given subprogram spec, with fully
+            qualified type names.
+            """
+
+            def typ(te: lal.TypeExpr) -> str:
+                # TODO: Anonymous types are not handled fully yet: we just
+                # grab their text, but we should expand inner type names too to
+                # be fully qualified.
+                if te.is_a(lal.AnonymousType):
+                    return strip_ws(te.text)
+                else:
+                    return te.p_designated_type_decl.p_fully_qualified_name
+
+            params = "({})".format("; ".join(
+                f"{strip_ws(p.f_ids.text)} : "
+                f"{typ(p.f_type_expr)}"
+                for p in s.f_subp_params.f_params
+            )) if s.f_subp_params else ""
+
+            returns = (
+                f"return {typ(s.f_subp_returns)}" if s.f_subp_returns else ""
+            )
+            ret = (
+                f"{s.f_subp_kind.text} {s.f_subp_name.text}"
+                f" {params} {returns}"
+            )
+            return ret
+
         # Get the documentation content
         doc, annotations = self.get_documentation(decl)
 
@@ -392,7 +422,7 @@ class GenerateDoc(lal.App):
 
         if isinstance(decl, (lal.BasicSubpDecl, lal.ExprFunction)):
             subp_spec = decl.p_subp_spec_or_null()
-            prof = strip_ws(subp_spec.text)
+            prof = make_profile(subp_spec)
             subp_kind = (
                 'procedure' if subp_spec.p_returns is None
                 else 'function'

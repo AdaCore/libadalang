@@ -2928,11 +2928,30 @@ class BasicDecl(AdaNode):
             False
         )))
 
-        def_name = Var(If(dn.is_null, Entity.defining_name, dn))
-        self_name = Var(def_name.as_single_tok_node_array.map(
-            lambda t: t.text.concat(
+        def_name = Var(If(
+            dn.is_null, Entity.defining_name, dn
+        ).as_single_tok_node_array)
+
+        self_name = Var(def_name.map(
+            lambda i, t: t.text.concat(
                 If(include_profile, Entity.custom_id_text, String(""))
-            )
+            ).concat(If(
+                i == (def_name.length - 1),
+                Cond(Entity.is_a(T.ClasswideTypeDecl), String("'Class"),
+                     Entity.is_a(T.DiscreteBaseSubtypeDecl), String("'Base"),
+
+                     # For the moment, SynthAnonymousTypeDecl is used solely to
+                     # generate anonymous access types. We give those a name.
+                     # NOTE: this is not an Ada type as per the RM, and is used
+                     # for the GNAT specific 'Unrestricted_Access attribute, so
+                     # we give this type a name that doesn't exist in the RM
+                     # either.
+                     Entity.is_a(T.SynthAnonymousTypeDecl),
+                     String("'Anonymous_Access"),
+
+                     String("")),
+                String("")
+            ))
         ))
 
         fqn = Var(If(

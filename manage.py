@@ -24,10 +24,6 @@ class Manage(ManageScript):
 
     ENABLE_BUILD_WARNINGS_DEFAULT = True
 
-    PERF_PARSE = 'parse'
-    PERF_PARSE_AND_TRAVERSE = 'parse-and-traverse'
-    PERF_CHOICES = (PERF_PARSE, PERF_PARSE_AND_TRAVERSE)
-
     def add_extra_subcommands(self) -> None:
         ########
         # Test #
@@ -45,37 +41,6 @@ class Manage(ManageScript):
             help='Arguments to pass to testsuite.py.'
         )
         self.add_build_mode_arg(self.test_parser)
-
-        #############
-        # Perf Test #
-        #############
-
-        self.perf_test_parser = self.add_subcommand(self.do_perf_test)
-        self.perf_test_parser.add_argument(
-            '--work-dir', default='performance_testsuite',
-            help='Directory into which the performance testsuite will be'
-                 ' executed'
-        )
-        self.perf_test_parser.add_argument(
-            '--nb-runs', type=int, default=4,
-            help='Number of runs (default: 4)'
-        )
-        self.perf_test_parser.add_argument(
-            '--no-recompile', action='store_true',
-            help='Do not recompile the library before running the perf'
-                 ' testsuite'
-        )
-        self.perf_test_parser.add_argument(
-            '--scenario', '-s',
-            choices=self.PERF_CHOICES, default=self.PERF_PARSE,
-            help='Profiling scenario to use. Basically: "what to measure?".'
-        )
-        self.perf_test_parser.add_argument(
-            '--with-trivia', action='store_true',
-            help='Include trivia in parsing'
-        )
-        self.add_generate_args(self.perf_test_parser)
-        self.add_build_args(self.perf_test_parser)
 
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
@@ -263,124 +228,6 @@ class Manage(ManageScript):
                 if ext in ('.ads', '.adb'):
                     ada_files.add(os.path.join(root, filename))
         return ada_files
-
-    def do_perf_test(self, args):
-        """
-        Run the performance regression testsuite.
-        """
-        from time import time
-
-        self.set_context(args)
-
-        def file_lines(filename):
-            with open(filename) as f:
-                return len(list(f))
-
-        check_source_language(
-            not os.path.isabs(args.build_dir),
-            "--build-dir should be a relative path for perf testsuite"
-        )
-
-        work_dir = os.path.abspath(args.work_dir)
-        variant_name = args.build_dir
-        report_file = os.path.join(work_dir,
-                                   'report-{}.txt'.format(variant_name))
-        args.build_dir = os.path.join(work_dir, args.build_dir)
-
-        if not args.no_recompile:
-            # The perf testsuite only needs the "parse" main program
-            args.disable_mains = self.main_programs - {'parse'}
-
-            # Build libadalang in production mode inside of the perf testsuite
-            # directory.
-            self.dirs.set_build_dir(args.build_dir)
-            args.build_mode = 'prod'
-            self._mkdir(args.build_dir)
-            self.do_make(args)
-
-        # Checkout the code bases that we will use for the perf testsuite
-        source_dir = os.path.join(work_dir, "source")
-        try:
-            os.mkdir(source_dir)
-        except OSError:
-            pass
-        os.chdir(source_dir)
-        if not os.path.exists('gnat'):
-            subprocess.check_call([
-                'svn', 'co',
-                'svn+ssh://svn.us.adacore.com/Dev/trunk/gnat',
-                '-r', '314163',
-                '--ignore-externals'
-            ])
-        if not os.path.exists('gps'):
-            subprocess.check_call(['git', 'clone',
-                                   'ssh://review.eu.adacore.com:29418/gps'])
-        os.chdir('gps')
-        subprocess.check_call(['git', 'checkout',
-                               '00b73897a867514732d48ae1429faf97fb07ad7c'])
-        os.chdir('..')
-
-        # Make a list of every ada file
-
-        # Exclude some files that are contained here but that we do not parse
-        # correctly.
-        excluded_patterns = ['@', 'a-numeri', 'rad-project']
-        ada_files = filter(
-            lambda f: all(map(lambda p: p not in f, excluded_patterns)),
-            self._find_ada_sources(source_dir)
-        )
-        file_list_name = 'ada_file_list'
-        with open(file_list_name, 'w') as file_list:
-            for f in ada_files:
-                file_list.write(f + '\n')
-
-        # Get a count of the total number of ada source lines
-        lines_count = sum(map(file_lines, ada_files))
-
-        with open(report_file, 'w') as f:
-            def write_report(text, color=None):
-                if color:
-                    printcol(text, color)
-                else:
-                    print(text)
-                print(text, file=f)
-
-            write_report('=================================', Colors.HEADER)
-            write_report('= Performance testsuite results =', Colors.HEADER)
-            write_report('=================================', Colors.HEADER)
-            write_report('')
-            write_report('Name: {}'.format(variant_name))
-            write_report('Scenario: {}'.format(args.scenario))
-            write_report('')
-            elapsed_list = []
-            parse_args = ['{}/bin/parse'.format(args.build_dir), '-s', '-F',
-                          file_list_name]
-            if args.scenario == self.PERF_PARSE_AND_TRAVERSE:
-                parse_args.append('-C')
-            if args.with_trivia:
-                parse_args.append('-P')
-            for _ in range(args.nb_runs):
-                # Execute parse on the file list and get the elapsed time
-                t = time()
-                subprocess.check_call(parse_args)
-                elapsed = time() - t
-                elapsed_list.append(elapsed)
-
-                # Print a very basic report
-                write_report(
-                    'Parsed {0} lines of Ada code in {1:.2f} seconds'.format(
-                        lines_count, elapsed
-                    )
-                )
-
-            write_report('')
-            write_report('= Performance summary =', Colors.OKGREEN)
-            write_report(
-                'Mean time to parse {0} lines of code:'
-                ' {1:.2f} seconds'.format(
-                    lines_count, sum(elapsed_list) / float(len(elapsed_list))
-                )
-            )
 
 
 if __name__ == '__main__':

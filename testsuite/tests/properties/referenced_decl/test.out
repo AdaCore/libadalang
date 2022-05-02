@@ -1,0 +1,7 @@
+Eval 'node.findall(lambda n: n.text == "B")[1]' on node <ExprFunction ["Copy"] foo.adb:12:4-15:45>
+Result: <Id "B" foo.adb:14:34-14:35>
+
+Eval 'node.findall(lambda n: n.text == "B")[1].p_referenced_decl()' on node <ExprFunction ["Copy"] foo.adb:12:4-15:45>
+Result: <ComponentDecl ["B"] foo.adb:7:23-7:35>
+
+

@@ -4428,6 +4428,23 @@ class ComponentList(BaseFormalParamHolder):
         )
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
+    def abstract_formal_params_for_delta_assocs():
+        """
+        Return all the components lists of this ComponentList, which includes
+        the current and parent components, and all the components lists of the
+        variant part, recursively, regardless of the discriminants values. This
+        list is used for DeltaAggregate name resolution.
+        """
+        variant_part_components = Var(Entity.variant_part._.variant.mapcat(
+            lambda v: v.components.abstract_formal_params_for_delta_assocs
+        ))
+        self_components = Var(Entity.components.keep(BaseFormalParamDecl))
+        parent_components = Var(Entity.parent_component_list
+                                ._.abstract_formal_params_for_delta_assocs)
+        return (variant_part_components.concat(self_components)
+                .concat(parent_components))
+
+    @langkit_property(return_type=BaseFormalParamDecl.entity.array)
     def abstract_formal_params_impl(
         discriminants=T.ParamMatch.array,
         include_discriminants=(Bool, True),
@@ -11678,7 +11695,13 @@ class BaseAggregate(Expr):
         """
         td = Var(Self.type_val.cast(BaseTypeDecl))
         comp_list = Var(td.record_def.comps)
-        return comp_list.abstract_formal_params_for_assocs(Entity.assocs)
+        return If(
+            Entity.is_a(T.DeltaAggregate),
+            # For delta aggregates, get all the components regardless of the
+            # discriminant values.
+            comp_list.abstract_formal_params_for_delta_assocs,
+            comp_list.abstract_formal_params_for_assocs(Entity.assocs)
+        )
 
     @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[origin],
                       memoized=True)
@@ -11775,6 +11798,7 @@ class BracketAggregate(Aggregate):
 
 class DeltaAggregate(BaseAggregate):
     """
+    Aggregate for delta aggregate (Ada 2022).
     """
     pass
 

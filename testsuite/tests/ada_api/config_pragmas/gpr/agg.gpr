@@ -1,0 +1,7 @@
+aggregate project Agg is
+   for Project_Files use ("a.gpr");
+
+   package Builder is
+      for Global_Configuration_Pragmas use "gagg.adc";
+   end Builder;
+end Agg;

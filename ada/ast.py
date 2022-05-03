@@ -17634,6 +17634,87 @@ class CompilationUnit(AdaNode):
             )
         )
 
+    @langkit_property(
+        return_type=T.Pragma.array,
+        external=True,
+        uses_entity_info=False,
+        uses_envs=False,
+    )
+    def external_config_pragmas():
+        """
+        Return the list of pragmas from configuration pragmas files that apply
+        to ``Self``'s unit.
+        """
+        pass
+
+    @langkit_property(return_type=T.Pragma.array)
+    def local_config_pragmas():
+        """
+        Return the list of configuration pragmas defined in the prelude of the
+        current unit.
+        """
+        return Self.prelude.filtermap(
+            lambda n: n.cast(Pragma),
+            lambda n: n.is_a(Pragma),
+        )
+
+    @langkit_property(return_type=T.Pragma.array)
+    def sources_config_pragmas():
+        """
+        Return the list of configuration pragmas defined in Ada sources and
+        which apply to the current unit.
+        """
+        # First get pragmas in the prelude
+        current_unit = Var(Self.local_config_pragmas)
+
+        # Then get pragmas in related units
+        related_units = Var(
+            Cond(
+                # If Self is a spec, we need to look at its body, and
+                # conversely.
+                Self.body.is_a(T.LibraryItem),
+                Self.other_part._.local_config_pragmas,
+
+                # If Self is a sub-unit, we need to look at all subunits up in
+                # the chain, the root body, and the corresponding spec.
+                Self.body.is_a(T.Subunit),
+                Self.body.cast(Subunit).root_unit._.sources_config_pragmas,
+
+                No(T.Pragma.array),
+            )
+        )
+
+        return current_unit.concat(related_units)
+
+    @langkit_property(return_type=T.Pragma.entity.array, public=True)
+    def all_config_pragmas():
+        """
+        Return the list of configuration pragmas that apply to the current
+        unit.
+
+        .. note:: Using this property before creating the configuration pragmas
+           files mapping using subprograms from the
+           ``Libadalang.Config_Pragmas`` package will raise an error.
+        """
+        return (
+            Self.sources_config_pragmas.concat(Self.external_config_pragmas)
+            .map(lambda n: n.as_bare_entity)
+        )
+
+    @langkit_property(return_type=T.Pragma.entity.array, public=True)
+    def config_pragmas(name=T.Symbol):
+        """
+        Return the list of configuration pragmas wih the given name that apply
+        to the current unit.
+
+        .. note:: Using this property before creating the configuration pragmas
+           files mapping using subprograms from the
+           ``Libadalang.Config_Pragmas`` package will raise an error.
+        """
+        return Self.all_config_pragmas.filter(
+            lambda n: n.id.name_symbol == name
+        )
+
 
 @abstract
 class BaseSubpBody(Body):

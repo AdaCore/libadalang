@@ -68,13 +68,18 @@ class Manage(ManageScript):
             documentations=libadalang_docs,
         )
 
-        # Internals need to access environment hooks and the symbolizer
+        # Internals need to access environment hooks, the symbolizer and
+        # internal configuration pragmas file tables.
         ctx.add_with_clause('Implementation',
                             AdaSourceKind.body, 'Libadalang.Env_Hooks',
                             use_clause=True)
         ctx.add_with_clause('Implementation',
                             AdaSourceKind.body, 'Libadalang.Sources',
                             use_clause=False)
+        ctx.add_with_clause('Implementation',
+                            AdaSourceKind.spec,
+                            'Libadalang.Config_Pragmas_Impl',
+                            use_clause=True)
 
         # Bind Libadalang's custom iterators to the public API
         ctx.add_with_clause('Iterators',

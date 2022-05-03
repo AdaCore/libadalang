@@ -1,0 +1,7 @@
+## vim: filetype=makoada
+
+Config_Pragmas : Internal_Config_Pragmas_Mapping;
+--  Mapping to associate configuration pragmas files to source files
+
+Config_Pragmas_Set : Boolean := False;
+--  Whether ``Config_Pragmas`` was initialized

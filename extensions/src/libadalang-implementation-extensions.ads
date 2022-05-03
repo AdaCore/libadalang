@@ -86,6 +86,9 @@ package Libadalang.Implementation.Extensions is
    function Compilation_Unit_P_Get_Empty_Env
      (Node : Bare_Compilation_Unit) return Lexical_Env;
 
+   function Compilation_Unit_P_External_Config_Pragmas
+     (Node : Bare_Compilation_Unit) return Bare_Pragma_Node_Array_Access;
+
    ----------
    -- Expr --
    ----------

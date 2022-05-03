@@ -1,0 +1,108 @@
+== invalid.adb ==
+
+== no context==
+
+LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: null context
+
+== foreign key unit==
+
+LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: foreign unit
+
+== foreign value unit==
+
+LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: foreign unit
+
+== foreign global==
+
+LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: foreign unit
+
+== null key unit==
+
+LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: null unit key
+
+== null value unit==
+
+LANGKIT_SUPPORT.ERRORS.PRECONDITION_FAILURE: null unit value
+
+Done.
+
+
+== projects.adb ==
+
+## gpr/c.gpr
+
+.. A
+   pkg_a.ads: Local_A Global_C
+   pkg_a2.ads: Local_A Global_C
+.. B
+   pkg_b.ads: Local_B Global_C
+.. C
+   pkg_c.ads: Global_C
+
+## gpr/b.gpr
+
+.. A
+   pkg_a.ads: Local_A
+   pkg_a2.ads: Local_A
+.. B
+   pkg_b.ads: Local_B
+
+## gpr/ext_a1.gpr
+
+.. A
+   pkg_a.ads: Local_Ext_A
+.. Ext_A1
+   pkg_a.ads: Local_Ext_A
+   pkg_a2.ads: Local_Ext_A
+   pkg_a3.ads: Local_Ext_A
+
+## gpr/ext_a2.gpr
+
+.. A
+   pkg_a.ads:
+.. Ext_A2
+   pkg_a.ads:
+   pkg_a2.ads:
+   pkg_a3.ads:
+
+## gpr/ext_a3.gpr
+
+.. A
+   pkg_a.ads: Local_A
+.. Ext_A3
+   pkg_a.ads: Local_A
+   pkg_a2.ads: Local_A
+   pkg_a3.ads: Local_A
+
+## gpr/agg.gpr
+
+.. A
+   pkg_a.ads: Local_A Global_Agg
+   pkg_a2.ads: Local_A Global_Agg
+.. Agg
+
+## gpr/c.gpr
+   (starting at a)
+
+.. A
+   pkg_a.ads: Local_A Global_C
+   pkg_a2.ads: Local_A Global_C
+.. B
+   pkg_b.ads: Global_C
+.. C
+   pkg_c.ads: Global_C
+
+Done.
+
+
+== sources.adb ==
+
+Trying to get configuration pragmas without creating the mapping first...
+LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR: missing configuration pragmas files mapping
+
+pkg.ads: Cfg_1 Cfg_2 Global_Foo
+pkg.adb: Cfg_2 Cfg_1 Global_Foo
+pkg-foo.adb: Cfg_3 Cfg_2 Cfg_1 Global_Foo
+pkg-foo-bar.adb: Cfg_4 Cfg_3 Cfg_2 Cfg_1 Global_Foo
+
+Done.

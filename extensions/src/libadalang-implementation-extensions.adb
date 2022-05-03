@@ -32,6 +32,7 @@ with Langkit_Support.Bump_Ptr;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Config_Pragmas_Impl;
 with Libadalang.Doc_Utils;
 with Libadalang.Env_Hooks;
 with Libadalang.Expr_Eval;
@@ -455,6 +456,108 @@ package body Libadalang.Implementation.Extensions is
       end if;
       return Node.Compilation_Unit_No_Env;
    end Compilation_Unit_P_Get_Empty_Env;
+
+   ----------------------------------------
+   -- Compilation_Unit_P_External_Config_Pragmas --
+   ----------------------------------------
+
+   function Compilation_Unit_P_External_Config_Pragmas
+     (Node : Bare_Compilation_Unit) return Bare_Pragma_Node_Array_Access
+   is
+
+      function Fetch
+        (Pragmas_Unit : Config_Pragmas_Impl.Internal_Unit)
+         return Bare_Pragma_Node_List;
+      --  Return the ``Pragma.list`` node that is the root of the
+      --  ``Pragmas_Unit`` analysis unit, or null if there is no root node or
+      --  if it is not a list of pragmas.
+
+      procedure Append
+        (Result  : in out Bare_Pragma_Node_Array_Record;
+         Next    : in out Positive;
+         Pragmas : Bare_Pragma_Node_List);
+      --  Append all pragmas from ``Pragmas`` to ``Result`` starting at index
+      --  ``Next``. Increment ``Next`` accordingly.
+
+      -----------
+      -- Fetch --
+      -----------
+
+      function Fetch
+        (Pragmas_Unit : Config_Pragmas_Impl.Internal_Unit)
+         return Bare_Pragma_Node_List
+      is
+         U : constant Internal_Unit := Internal_Unit (Pragmas_Unit);
+      begin
+         return
+           (if U = null
+               or else U.Ast_Root = null
+               or else U.Ast_Root.Kind /= Ada_Pragma_Node_List
+            then null
+            else U.Ast_Root);
+      end Fetch;
+
+      ------------
+      -- Append --
+      ------------
+
+      procedure Append
+        (Result  : in out Bare_Pragma_Node_Array_Record;
+         Next    : in out Positive;
+         Pragmas : Bare_Pragma_Node_List) is
+      begin
+         if Pragmas = null then
+            return;
+         end if;
+
+         for I in 1 .. Pragmas.Count loop
+            Result.Items (Next) := Pragmas.Nodes (I);
+            Next := Next + 1;
+         end loop;
+      end Append;
+
+      use Config_Pragmas_Impl.Unit_Maps;
+
+      U   : constant Internal_Unit := Node.Unit;
+      Ctx : constant Internal_Context := U.Context;
+
+   begin
+      --  Make sure that the mapping for configuration pragmas files was set
+
+      if not Ctx.Config_Pragmas_Set then
+         raise Property_Error
+           with "missing configuration pragmas files mapping";
+      end if;
+
+      --  Fetch the global and local list of configuration pragmas (if any)
+
+      declare
+         Cur : constant Cursor := Ctx.Config_Pragmas.Local_Pragmas.Find
+           (Config_Pragmas_Impl.Internal_Unit (U));
+
+         Local  : constant Bare_Pragma_Node_List :=
+           (if Has_Element (Cur)
+            then Fetch (Element (Cur))
+            else null);
+         Global : constant Bare_Pragma_Node_List :=
+           Fetch (Ctx.Config_Pragmas.Global_Pragmas);
+
+         --  Now that we know how many pragmas are out there, allocate the
+         --  result.
+
+         Length : constant Natural :=
+           (if Local = null then 0 else Local.Count)
+           + (if Global = null then 0 else Global.Count);
+         Next   : Positive := 1;
+      begin
+         return Result : constant Bare_Pragma_Node_Array_Access :=
+           Create_Bare_Pragma_Node_Array (Length)
+         do
+            Append (Result.all, Next, Local);
+            Append (Result.all, Next, Global);
+         end return;
+      end;
+   end Compilation_Unit_P_External_Config_Pragmas;
 
    ----------------------
    -- Expr_Eval_In_Env --

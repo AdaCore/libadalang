@@ -56,6 +56,7 @@ newhtml:
 		$(LAL_BUILD_DIR)/src/libadalang-analysis.ads \
 		   ../extensions/src/libadalang-auto_provider.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-common.ads \
+		   ../extensions/src/libadalang-config_pragmas.ads \
 		   ../extensions/src/libadalang-helpers.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-introspection.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-iterators.ads \

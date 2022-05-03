@@ -1,0 +1,5 @@
+driver: ada-api
+main:
+  - invalid.adb
+  - projects.adb
+  - sources.adb

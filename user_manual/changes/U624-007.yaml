@@ -1,0 +1,10 @@
+type: new-feature
+title: Configuration pragrmas handling
+description: |
+  ``CompilationUnit`` nodes have new properties: ``P_All_Config_Pragmas`` and
+  ``P_Config_Pragmas``. They both allow one to query the list of configuration
+  pragmas that apply to a given compilation unit. In order to use them, one
+  needs to associate configuration pragmas files to analysis units thanks to
+  the subprograms defined in the ``Libadalang.Config_Pragmas`` package first.
+apis: [ada]
+date: 2022-05-03

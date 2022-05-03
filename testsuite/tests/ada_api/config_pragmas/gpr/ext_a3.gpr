@@ -1,0 +1,6 @@
+project Ext_A3 extends "a.gpr" is
+
+   for Source_Dirs use ("../src/ext_a");
+   for Object_Dir use "../obj/ext_a3";
+
+end Ext_A3;

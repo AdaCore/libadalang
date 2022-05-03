@@ -9527,16 +9527,18 @@ class GenericInstantiation(BasicDecl):
                 Self.default_initial_env,
                 Self.nonbound_generic_decl._.formal_part.match_param_list(
                     Entity.generic_inst_params, False
+                ).filter(
+                    lambda pm: Not(pm.actual.assoc.expr.is_a(BoxExpr))
                 ).map(
-                   lambda i, pm: T.inner_env_assoc.new(
-                       key=pm.formal.name.name_symbol,
-                       value=If(
-                           pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
-                           Entity.actual_expr_decls.at(i),
-                           pm.actual.assoc.expr.node
-                       ),
-                       metadata=T.Metadata.new()
-                   )
+                    lambda i, pm: T.inner_env_assoc.new(
+                        key=pm.formal.name.name_symbol,
+                        value=If(
+                            pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
+                            Entity.actual_expr_decls.at(i),
+                            pm.actual.assoc.expr.node
+                        ),
+                        metadata=T.Metadata.new()
+                    )
                 )
             )
         )
@@ -9611,6 +9613,8 @@ class GenericInstantiation(BasicDecl):
             Entity.designated_generic_decl.cast_or_raise(T.GenericDecl)
             ._.formal_part.match_param_list(
                 Entity.generic_inst_params, False
+            ).filter(
+                lambda pm: Not(pm.actual.assoc.expr.is_a(BoxExpr))
             ).logic_all(lambda pm: Let(
                 lambda actual_name=pm.actual.assoc.expr.cast(T.Name):
                 pm.formal.formal_decl.cast(T.GenericFormal).decl.match(

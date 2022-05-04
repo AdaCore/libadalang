@@ -1,9 +1,4 @@
 driver: ada-api
 main: main.adb
-input_sources: [
-    p.gpr,
-    src1/p1.ada_specification,
-    src2/p2.ada_specification
-]
 control:
     - [XFAIL, "valgrind", "Pending resolution of S912-003"]

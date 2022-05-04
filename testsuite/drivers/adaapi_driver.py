@@ -16,11 +16,6 @@ class AdaAPIDriver(BaseDriver):
         Optional list of command-line arguments to pass to the test program.
         The default is an empty list.
 
-    ``input_sources``
-
-        Optional list of source files, to be passed as additional command-line
-        arguments to the test program. The default is an empty list.
-
     ``status_code``
 
         Optional status code (int) that is expected for the test program
@@ -39,9 +34,7 @@ class AdaAPIDriver(BaseDriver):
 
     def run(self):
         main = self.test_env['main']
-
-        input_sources = self.test_env.get('input_sources', [])
-        argv = self.test_env.get('argv', []) + input_sources
+        argv = self.test_env.get('argv', [])
 
         status_code = self.test_env.get('status_code', 0)
 

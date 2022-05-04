@@ -1,3 +1,2 @@
 driver: ada-api
 main: main.adb
-input_sources: [foo.adb]

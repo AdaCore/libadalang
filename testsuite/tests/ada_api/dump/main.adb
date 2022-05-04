@@ -1,4 +1,5 @@
-with Ada.Text_IO;         use Ada.Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
+
 with Libadalang.Analysis; use Libadalang.Analysis;
 
 procedure Main is

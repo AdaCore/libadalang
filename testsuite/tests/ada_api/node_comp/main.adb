@@ -1,4 +1,4 @@
-with Ada.Text_IO;          use Ada.Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
 

@@ -1,6 +1,6 @@
-with Ada.Text_IO;          use Ada.Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 
-with Langkit_Support.Text;  use Langkit_Support.Text;
+with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;  use Libadalang.Analysis;
 with Libadalang.Common;    use Libadalang.Common;

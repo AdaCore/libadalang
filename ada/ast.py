@@ -4337,10 +4337,20 @@ class ComponentDecl(BaseFormalParamDecl):
 
     @langkit_property(return_type=Equation)
     def constrain_prefix(prefix=T.Expr):
-        # Simple type equivalence
-        return And(
-            Bind(prefix.expected_type_var, Entity.container_type),
-            prefix.matches_expected_prefix_type
+        return If(
+            # If the prefix is `X'Unrestricted_Access`, we have an implicit
+            # dereference. Do not constrain the equation further here and let
+            # the AttributeRef's xref_equation handle this case.
+            prefix.cast(AttributeRef)._.is_access_attr,
+
+            LogicTrue(),
+
+            # The expected type of the prefix is the record type of this
+            # component.
+            And(
+                Bind(prefix.expected_type_var, Entity.container_type),
+                prefix.matches_expected_prefix_type
+            )
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity)

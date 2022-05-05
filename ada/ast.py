@@ -2738,6 +2738,9 @@ class BasicDecl(AdaNode):
                             T.BasePackageDecl,
                             T.GenericPackageDecl,
                             T.GenericPackageInstantiation,
+                            T.PackageRenamingDecl,
+                            T.SubpRenamingDecl,
+                            T.GenericRenamingDecl
                         ),
 
                         # A body is not expected if the library level

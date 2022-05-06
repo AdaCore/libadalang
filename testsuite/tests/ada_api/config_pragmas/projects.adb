@@ -66,7 +66,6 @@ procedure Projects is
             then No_Project
             else Prj.Project_From_Name (Project));
       Import_From_Project (Ctx, Prj, P);
-      Free (Env);
 
       --  Now check the configuration pragmas for all sources in the project
       --  tree.
@@ -87,6 +86,9 @@ procedure Projects is
          Next (It);
       end loop;
       New_Line;
+
+      Prj.Unload;
+      Free (Env);
    end Run;
 
 begin

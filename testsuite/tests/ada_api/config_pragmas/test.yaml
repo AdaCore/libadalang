@@ -3,3 +3,5 @@ main:
   - invalid.adb
   - projects.adb
   - sources.adb
+control:
+    - [XFAIL, "valgrind", "Pending resolution of V506-022"]

@@ -87,7 +87,7 @@ libadalang_docs = {
         the default charset (ISO-8859-1) is used.
 
         % if lang == 'c':
-        `input_files` must point to a ``NULL``-terminated array of
+        ``input_files`` must point to a ``NULL``-terminated array of
         filenames.  Once this function returns, this array and the strings
         it contains can be deallocated.
 
@@ -95,9 +95,7 @@ libadalang_docs = {
         ``${capi.get_name('destroy_unit_provider')}``.
         % endif
 
-        .. admonition:: todo
-
-            Find a way to report discarded source files/compilation units.
+        .. TODO: Find a way to report discarded source files/compilation units.
     """,
     'libadalang.create_preprocessor_from_file': """
         Load the preprocessor data file at ``filename``, using directory names

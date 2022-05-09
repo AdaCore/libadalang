@@ -325,9 +325,9 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.CompletionItem.array)
     def complete_items():
         """
-        Internal method used by `complete` to get the array of possible
-        completions for the current node. This method has to be
-        overridden in order to specialize the completion.
+        Internal method used by ``complete`` to get the array of possible
+        completions for the current node. This method has to be overridden in
+        order to specialize the completion.
         """
         return Self.children_env.get(No(Symbol)).map(
             lambda n: CompletionItem.new(
@@ -509,9 +509,9 @@ class AdaNode(ASTNode):
         loaded yet.
 
         For nested library units, this will trigger the processing of parent
-        library units, so for example, if you `get_unit('A.B.C')`, this will
-        load units `A.B.C`, `A.B` and `A`, except if `process_parents` is
-        False.
+        library units, so for example, if you ``get_unit('A.B.C')``, this will
+        load units ``A.B.C``, ``A.B`` and ``A``, except if ``process_parents``
+        is False.
 
         ``not_found_is_error`` will condition the parameter of the same name in
         the ``Unit_Requested`` callback. The client of ``get_unit`` is supposed
@@ -708,12 +708,13 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.LexicalEnv)
     def resolve_names_from_closest_entry_point_impl():
         """
-        Implementation helper for `resolve_names_from_closest_entry_point`.
+        Implementation helper for ``resolve_names_from_closest_entry_point``.
         Instead of returning a Boolean, it returns a LexicalEnv, which is
         either None (indicating that resolution failed), or contains the
         lexical environment which the children of that node should bind when
         resolving their own names. This allows propagating the initial env
-        we got from `Entity.xref_initial_env` on the closest xref entry point.
+        we got from ``Entity.xref_initial_env`` on the closest xref entry
+        point.
         """
         return If(
             # This is the closest entry point: resolve its names and return
@@ -833,7 +834,7 @@ class AdaNode(ASTNode):
         lambda sym=Symbol: Self.unit.root.std_entity_implem(sym),
         public=True,
         doc="Static property. Return an entity from the standard package"
-            " with name `sym`."
+            " with name ``sym``."
     )
 
     std_entity_implem = Property(
@@ -886,7 +887,7 @@ class AdaNode(ASTNode):
                       memoize_in_populate=True)
     def root_type_ops_impl(sym=T.Symbol):
         """
-        See `root_type_ops`.
+        See ``root_type_ops``.
         """
         return Self.std_root_types.get(
             sym, lookup=LK.minimal, categories=no_prims
@@ -898,7 +899,7 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.BasicDecl.entity.array)
     def root_type_ops(sym=T.Symbol):
         """
-        Lookup the given symbol in the builtin `root_types` package. This is
+        Lookup the given symbol in the builtin ``root_types`` package. This is
         used for fast-access to predefined operator on root types.
         """
         # Typical strategy for memoizing "static" functions
@@ -1515,7 +1516,7 @@ class AdaNode(ASTNode):
                                 lhs=T.TypeExpr, rhs=T.TypeExpr,
                                 ret=T.TypeExpr):
         """
-        Implementation for the various `create_binop_assoc*` variants. The
+        Implementation for the various ``create_binop_assoc*`` variants. The
         shorthands take care of synthesizing type expressions when necessary.
         """
         return new_env_assoc(
@@ -1555,7 +1556,7 @@ class AdaNode(ASTNode):
                                   lhs=T.TypeExpr, rhs=T.BaseTypeDecl,
                                   ret=T.BaseTypeDecl):
         """
-        Like `create_binop_assoc` but the left parameter's type is given as a
+        Like ``create_binop_assoc`` but the left parameter's type is given as a
         type expression.
         """
         return Self.create_binop_assoc_impl(
@@ -1570,8 +1571,8 @@ class AdaNode(ASTNode):
                                   lhs=T.BaseTypeDecl, rhs=T.TypeExpr,
                                   ret=T.BaseTypeDecl):
         """
-        Like `create_binop_assoc` but the right parameter's type is given as a
-        type expression.
+        Like ``create_binop_assoc`` but the right parameter's type is given as
+        a type expression.
         """
         return Self.create_binop_assoc_impl(
             op,
@@ -1585,8 +1586,8 @@ class AdaNode(ASTNode):
                                     lhs=T.TypeExpr, rhs=T.TypeExpr,
                                     ret=T.BaseTypeDecl):
         """
-        Like `create_binop_assoc` but the left and right parameters' types are
-        given as type expressions.
+        Like ``create_binop_assoc`` but the left and right parameters' types
+        are given as type expressions.
         """
         return Self.create_binop_assoc_impl(
             op, lhs, rhs, SyntheticTypeExpr.new(target_type=ret)
@@ -1901,8 +1902,8 @@ class BasicDecl(AdaNode):
         Return an array of env assocs that should be added in the environment
         designated by ``dest_env``. In the general case, it simply adds an
         entry for Self using this declaration's name as key. However, if Self
-        corresponds to the declaration of a `"="` operator, we also generate
-        an order to add an entry for the `"/="` operator, as described in
+        corresponds to the declaration of a ``"="`` operator, we also generate
+        an order to add an entry for the ``"/="`` operator, as described in
         RM 4.5.2 25.a.
         """
         name = Var(Entity.name_symbol)
@@ -2332,8 +2333,8 @@ class BasicDecl(AdaNode):
         the set of all subprogram declarations that it overrides (including
         itself).
 
-        NOTE: for the moment this only works for tagged types. Remains to be
-        seen if we need to extend it.
+        .. NOTE:: for the moment this only works for tagged types. Remains to
+            be seen if we need to extend it.
         """
         return Entity.is_subprogram.then(
             # We use `without_md` below because we don't want to take into
@@ -2641,7 +2642,7 @@ class BasicDecl(AdaNode):
     def is_put_image_subprogram_for_type(typ=T.BaseTypeDecl.entity):
         """
         Return whether this subprogram has the correct profile to be given
-        as argument to the `Put_Image` aspect.
+        as argument to the ``Put_Image`` aspect.
         """
         root_buffer_type = Var(
             Self.root_buffer_type.classwide_type.cast(T.BaseTypeDecl)
@@ -3061,12 +3062,14 @@ class BasicDecl(AdaNode):
             which could become problematic. Moreover, as of yet this property
             only exists to handle the ``GenericSubpInternal`` case, which could
             actually be addressed cleanly in at least two different ways:
-              - By adding interfaces to langkit, so that a
-                ``GenericSubpInstantiation`` could be both a
-                ``GenericInstantiation`` and a ``BasicSubpDecl``.
-              - By also working with ``GenericSubpInstantiation`` nodes
-                internally. This mostly means getting rid of
-                ``GenericSubpInternal`` nodes in the envs.
+
+            - By adding interfaces to langkit, so that a
+              ``GenericSubpInstantiation`` could be both a
+              ``GenericInstantiation`` and a ``BasicSubpDecl``.
+
+            - By also working with ``GenericSubpInstantiation`` nodes
+              internally. This mostly means getting rid of
+              ``GenericSubpInternal`` nodes in the envs.
         """
         return Entity.cast(GenericSubpInternal).then(
             lambda g: g.get_instantiation._or(g),
@@ -3227,12 +3230,12 @@ class Body(BasicDecl):
     @langkit_property(return_type=T.env_assoc)
     def previous_part_link_env_assoc():
         """
-        Return the env association that describes where to add a `__nextpart`
+        Return the env association that describes where to add a ``__nextpart``
         entry for this body, if it corresponds to a non-overloadable entity
         (i.e. not a subprogram).
 
         Note that entry navigation is handled a bit differently and in
-        particular we don't need a `__nextpart` link for them. Hence this
+        particular we don't need a ``__nextpart`` link for them. Hence this
         property is never called from EntryBody env specs.
         """
         return new_env_assoc(
@@ -3639,7 +3642,7 @@ class BodyStub(Body):
     def env_names():
         """
         All body stubs allow for a named environment, which is registered with
-        a `__stub` appended to the body's top_level_env_name.
+        a ``__stub`` appended to the body's top_level_env_name.
         """
         return Array([
             Self.top_level_env_name.concat(String("__stub")).to_symbol
@@ -3914,18 +3917,21 @@ class BaseFormalParamHolder(AdaNode):
         type it designates, taking into account the fact that Self might be
         the specification of an inherited subprogram. Overall, we can
         distinguish the following cases:
-          - Self is a primitive subprogram inherited from a base type and
-            ``typ`` designates that base type, in which case we should return
-            the inheriting type.
-          - Self is a primitive subprogram inherited from a base type but
-            ``typ`` does not designate that base type, in which case we must
-            compute the actual designated type by taking into account the
-            rebindings associated with the base type. This is done by
-            traversing the inheritance hierarchy starting from the inheriting
-            type up to the inherited type and extracting the rebindings that we
-            got along the way.
-          - Self is not an inherited primitive subprogram, in which case we
-            simply return the designated type using the normal path.
+
+        - Self is a primitive subprogram inherited from a base type and
+          ``typ`` designates that base type, in which case we should return
+          the inheriting type.
+
+        - Self is a primitive subprogram inherited from a base type but
+          ``typ`` does not designate that base type, in which case we must
+          compute the actual designated type by taking into account the
+          rebindings associated with the base type. This is done by
+          traversing the inheritance hierarchy starting from the inheriting
+          type up to the inherited type and extracting the rebindings that we
+          got along the way.
+
+        - Self is not an inherited primitive subprogram, in which case we
+          simply return the designated type using the normal path.
 
         The first two points are illustrated with the following example.
 
@@ -3946,9 +3952,9 @@ class BaseFormalParamHolder(AdaNode):
             X : My_T    := (null record);
             Y : Integer := Foo (X);                    -- C
 
-        Resolving the reference to `Foo` at line C gets us the function
-        declaration at line A with the appropriate metadata indicating it is
-        a primitive subprogram of T inherited by My_T.
+        Resolving the reference to ``Foo`` at line C gets us the function
+        declaration at line A with the appropriate metadata indicating it is a
+        primitive subprogram of T inherited by My_T.
 
         Calling this property on the ``T`` node from the ``Self : T`` parameter
         specification is an instance of the first case. We should obviously
@@ -3956,10 +3962,10 @@ class BaseFormalParamHolder(AdaNode):
 
         Calling it on ``G`` from the return type specification is an instance
         of the second case. We traverse up the inheritance hierarchy starting
-        from ``My_T`` and get to ``T [B]``, where [B] indicates the rebindings
-        corresponding to the instantiation at line B. We can now use those
-        rebindings to compute the actual designated type (the type designated
-        by ``G [B]``) which correctly yields ``Integer``.
+        from ``My_T`` and get to ``T [B]``, where ``[B]`` indicates the
+        rebindings corresponding to the instantiation at line B. We can now use
+        those rebindings to compute the actual designated type (the type
+        designated by ``G [B]``) which correctly yields ``Integer``.
 
         This property is used during the construction of xref equations for
         call expressions in order to match the right parameter and return
@@ -5076,7 +5082,7 @@ class BaseTypeDecl(BasicDecl):
     def array_concat_result_type(other=T.BaseTypeDecl.entity):
         """
         Considering that Self is the actual type of the left operand of an
-        array concatenation and `other` the actual type of its right operand,
+        array concatenation and ``other`` the actual type of its right operand,
         return the type of the result of the array concatenation.
         """
         return Cond(
@@ -5099,7 +5105,7 @@ class BaseTypeDecl(BasicDecl):
     def expected_array_concat_operand_type(operand_type=T.BaseTypeDecl.entity):
         """
         Considering that Self is the result type of an array concatenation and
-        `operand_type` is the actual type of one of the operands, return the
+        ``operand_type`` is the actual type of one of the operands, return the
         expected type for that operand. In other words: if the actual type of
         the operand is a subtype of the component-type of the resulting array,
         return the component type of the array. Otherwise return the array type
@@ -5438,9 +5444,9 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(dynamic_vars=[origin])
     def array_def_with_deref():
         """
-        Return the array definition corresponding to type `Self` in the context
-        of array-indexing, e.g. implicitly dereferencing if `Self` is an
-        access.
+        Return the array definition corresponding to type ``Self`` in the
+        context of array-indexing, e.g. implicitly dereferencing if ``Self`` is
+        an access.
         """
         return Cond(
             Entity.is_array, Entity.array_def,
@@ -5465,9 +5471,9 @@ class BaseTypeDecl(BasicDecl):
                       return_type=T.BaseTypeDecl.entity, public=True)
     def comp_type(is_subscript=(Bool, False)):
         """
-        Return the component type of `Self`, if applicable. The component type
-        is the type you'll get if you call a value whose type is `Self`.  So it
-        can either be:
+        Return the component type of ``Self``, if applicable. The component
+        type is the type you'll get if you call a value whose type is ``Self``.
+        So it can either be:
 
         1. The component type for an array.
         2. The return type for an access to function.
@@ -6069,7 +6075,7 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=Bool)
     def has_base_type_impl(target=T.BaseTypeDecl):
         """
-        Implementation of `has_base_type`, which assumes that `target` has
+        Implementation of ``has_base_type``, which assumes that ``target`` has
         been canonicalized.
         """
         return Or(
@@ -6085,9 +6091,9 @@ class BaseTypeDecl(BasicDecl):
         Return whether the given type is amongst the bases types (direct or
         indirect) of self.
 
-        .. note:: Unlike `is_derived_type`, we don't care here about the
-            rebindings of `target`, meaning any instance of `target` will be
-            accepted.
+        .. note:: Unlike ``is_derived_type``, we don't care here about the
+            rebindings of ``target``, meaning any instance of ``target`` will
+            be accepted.
         """
         return Entity.has_base_type_impl(
             target.as_bare_entity.canonical_type.node
@@ -6521,7 +6527,7 @@ class TypeDecl(BaseTypeDecl):
     ):
         """
         Return a environment containing all primitives accessible to Self,
-        with the adjusted `primitive_real_type` metadata field.
+        with the adjusted ``primitive_real_type`` metadata field.
         """
         return Entity.primitives_envs(
             with_rebindings=Entity.info.rebindings,
@@ -6575,10 +6581,10 @@ class TypeDecl(BaseTypeDecl):
                        include_predefined_operators=(Bool, False)):
         """
         Return the list of all primitive operations that are available on this
-        type. If `only_inherited` is True, it will only return the primitives
+        type. If ``only_inherited`` is True, it will only return the primitives
         that are implicitly inherited by this type, discarding those explicitly
         defined on this type. Predefined operators are included in the result
-        iff `include_predefined_operators` is True. It defaults to False.
+        iff ``include_predefined_operators`` is True. It defaults to False.
         """
         prim_env = Var(If(
             only_inherited,
@@ -11709,7 +11715,7 @@ class BaseAggregate(Expr):
     def is_contract_cases_base_aggregate():
         """
         Return whether this is the aggregate directly used as the RHS of the
-        `Contract_Cases` aspect.
+        ``Contract_Cases`` aspect.
         """
         return Self.parent.cast(AspectAssoc).then(
             lambda aspect: aspect.id.name_is('Contract_Cases')
@@ -11753,7 +11759,7 @@ class BaseAggregate(Expr):
             This property is part of the name resolution algorithm for
             AggregateAssocs and therefore is probably not what you're looking
             for, as it makes several assumptions on the content of logic vars.
-            Find more details in `AggregateAssoc.record_assoc_equation`.
+            Find more details in ``AggregateAssoc.record_assoc_equation``.
 
         .. note::
             This property must be memoized because all AggregateAssocs that are
@@ -11774,7 +11780,7 @@ class BaseAggregate(Expr):
 
         .. attention::
             This property is part of the name resolution algorithm for
-            AggregateAssocs. More details under `all_discriminants`.
+            AggregateAssocs. More details under ``all_discriminants``.
         """
         td = Var(Self.type_val.cast(BaseTypeDecl))
         comp_list = Var(td.record_def.comps)
@@ -11795,7 +11801,7 @@ class BaseAggregate(Expr):
 
         .. attention::
             This property is part of the name resolution algorithm for
-            AggregateAssocs. More details under `all_discriminants`.
+            AggregateAssocs. More details under ``all_discriminants``.
         """
         return Self.match_formals(
             Entity.all_discriminants, Entity.assocs, False
@@ -11810,7 +11816,7 @@ class BaseAggregate(Expr):
 
         .. attention::
             This property is part of the name resolution algorithm for
-            AggregateAssocs. More details under `all_discriminants`.
+            AggregateAssocs. More details under ``all_discriminants``.
         """
         return Self.match_formals(
             Entity.all_components, Entity.assocs, False
@@ -11825,7 +11831,7 @@ class BaseAggregate(Expr):
 
         .. attention::
             This property is part of the name resolution algorithm for
-            AggregateAssocs. More details under `all_discriminants`.
+            AggregateAssocs. More details under ``all_discriminants``.
         """
         # Try to find an unmatched discriminant first
         unmatched_discr = Var(
@@ -12192,8 +12198,8 @@ class Name(Expr):
             ^-------^     Self.name
             ^---^         Self.name.name
 
-        `Self.innermost_name` will return the node corresponding to
-        `Self.name.name`.
+        ``Self.innermost_name`` will return the node corresponding to
+        ``Self.name.name``.
         """
         name = Var(Self.match(
             lambda ce=T.CallExpr: ce.name,
@@ -12435,7 +12441,9 @@ class Name(Expr):
     def referenced_decl_internal():
         """
         Return the declaration this node references. Try not to run name res if
-        already resolved. INTERNAL USE ONLY.
+        already resolved.
+
+        .. warning:: INTERNAL USE ONLY.
         """
         return If(
             # First, check whether the name is defining, in which case it
@@ -12712,15 +12720,15 @@ class Name(Expr):
         """
         Whether this name is a write reference.
 
-        For example, `X` is a write reference in the following cases:
+        For example, ``X`` is a write reference in the following cases:
 
-        1. `X := 2;`
-        2. `X (2) := 2;`
-        3. `P(F => X)` where F is declared `out` or `in out`.
-        4. `P(F => T (X))` where F is declared `out` or `in out`
-        5. `X'Access`.
-        6. `X.C := 2`, `R.X := 2`
-        7. `X.P` where the formal for X is declared `out` or `in out`.
+        1. ``X := 2;``
+        2. ``X (2) := 2;``
+        3. ``P(F => X)`` where F is declared ``out`` or ``in out``.
+        4. ``P(F => T (X))`` where F is declared ``out`` or ``in out``
+        5. ``X'Access``.
+        6. ``X.C := 2``, ``R.X := 2``
+        7. ``X.P`` where the formal for X is declared ``out`` or ``in out``.
 
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "write reference".
@@ -13766,8 +13774,8 @@ class AggregateAssoc(BasicAssoc):
     def contract_cases_assoc_equation():
         """
         Equation for the case where this is an aggregate assoc for a
-        Contract_Cases aspect. Both the `guard` and the `consequence` must be
-        of type Boolean.
+        Contract_Cases aspect. Both the ``guard`` and the ``consequence`` must
+        be of type Boolean.
         """
         return And(
             Entity.designators.logic_all(
@@ -14391,7 +14399,7 @@ class DefiningName(Name):
     @langkit_property(return_type=T.BaseFormalParamDecl.entity)
     def formal_decl():
         """
-        Return the parent `BaseFormalParamDecl` of this `DefiningName`.
+        Return the parent ``BaseFormalParamDecl`` of this ``DefiningName``.
         Raise an error otherwise.
         """
         return Entity.parents.find(
@@ -14653,8 +14661,8 @@ class DefiningName(Name):
         the defining name of.
 
         This will return the name corresponding to the call, excluding the
-        parameters if there are any. For instance, it will return `A` for the
-        `A (B)` call.
+        parameters if there are any. For instance, it will return ``A`` for the
+        ``A (B)`` call.
 
         .. note:: This does not yet support calls done inside generics.
         """
@@ -15838,9 +15846,9 @@ class BaseSubpSpec(BaseFormalParamHolder):
         checked.
 
         If use_entity_info is True and Entity's metadata has values for fields
-        `primitive` and `primitive_real_type` (e.g. if it was retrieved from a
-        primitive_env), those will be taken into account and match_signature
-        will return True if `other` overrides `Entity`.
+        ``primitive`` and ``primitive_real_type`` (e.g. if it was retrieved
+        from a primitive_env), those will be taken into account and
+        match_signature will return True if ``other`` overrides ``Entity``.
         """
         ent = Var(If(use_entity_info, Entity, Self.as_bare_entity))
         return And(
@@ -16043,11 +16051,11 @@ class BaseSubpSpec(BaseFormalParamHolder):
     @langkit_property(return_type=T.BaseTypeDecl.entity)
     def as_primitive_subp_type(typ=T.BaseTypeDecl.entity):
         """
-        Given a type that was retrieved by one of the `candidate_primitive_*`
+        Given a type that was retrieved by one of the ``candidate_primitive_*``
         properties, return itself if the subp spec actually corresponds to a
-        primitive of this type, otherwise return null.
-        This is needed because the result of the `candidate_primitive_*`
-        properties is an approximation.
+        primitive of this type, otherwise return null. This is needed because
+        the result of the ``candidate_primitive_*`` properties is an
+        approximation.
         """
         # `Entity.name` can be null for access-to-subprogram specifications
         return Entity.name.then(
@@ -16188,7 +16196,7 @@ class SyntheticDefiningName(DefiningName):
 class SyntheticTypeExpr(TypeExpr):
     """
     Synthetic type expression. The designated type is already known at
-    instantiation time and is to be given in the `target_type` field.
+    instantiation time and is to be given in the ``target_type`` field.
     """
     target_type = Field(type=BaseTypeDecl)
 
@@ -17523,7 +17531,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def to_address_equation():
         """
-        Return the xref equation for the `To_Address` attribute.
+        Return the xref equation for the ``To_Address`` attribute.
         """
         # TODO: this property can be completely removed once we support
         # attributes that return functions.
@@ -17551,7 +17559,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def put_image_equation():
         """
-        Return the xref equation for the `Put_Image` attribute.
+        Return the xref equation for the ``Put_Image`` attribute.
         """
         root_buffer_type = Var(Self.root_buffer_type.classwide_type)
         typ = Var(Entity.prefix.name_designated_type)
@@ -17582,7 +17590,7 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def index_equation():
         """
-        Return the xref equation for the `Index` attribute.
+        Return the xref equation for the ``Index`` attribute.
         """
         typ = Var(
             env.get_first(Entity.prefix.name_symbol)

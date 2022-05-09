@@ -9,3 +9,15 @@ Working on node <GenericSubpInstantiation ["Instantiated_Proc"] test.adb:14:4-14
 
 Eval 'node.p_is_ghost_code'
 Result: True
+
+Working on node <PackageRenamingDecl ["Renamed_Pkg"] test.adb:20:4-20:36>
+=========================================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True
+
+Working on node <SubpRenamingDecl ["Renamed_Proc"] test.adb:25:4-25:40>
+=======================================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True

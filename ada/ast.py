@@ -14892,7 +14892,15 @@ class DefiningName(Name):
             # Instantiation of generic ghost entity is ghost code
             bd.cast(GenericInstantiation).then(
                 lambda gi: gi.designated_generic_decl.is_ghost_code()
-            )
+            ),
+
+            # Renaming of ghost entity is ghost code
+            bd.match(
+                lambda sr=SubpRenamingDecl: sr.renames.renamed_object,
+                lambda pr=PackageRenamingDecl: pr.renames.renamed_object,
+                lambda gr=GenericRenamingDecl: gr.renaming_name,
+                lambda _: No(Name.entity)
+            ).then(lambda c: c.referenced_defining_name._.is_ghost_code())
         )
 
     @langkit_property()

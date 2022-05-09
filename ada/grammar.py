@@ -1140,12 +1140,14 @@ A.add_rules(
 
     others_designator=OthersDesignator("others"),
 
+    iterated_assoc=IteratedAssoc(
+        "for", Cut(),
+        A.for_loop_param_spec, "=>",
+        A.expr | A.discrete_range
+    ),
+
     aggregate_assoc=Or(
-        IteratedAssoc(
-            "for", Cut(),
-            A.for_loop_param_spec, "=>",
-            A.expr | A.discrete_range
-        ),
+        A.iterated_assoc,
         AggregateAssoc(
             Opt(A.choice_list, "=>"),
             Or(A.box_expr, A.expr)
@@ -1245,6 +1247,13 @@ A.add_rules(
         A.direct_name
     ),
 
+    value_sequence=ValueSequence(
+        # Since parallel keyword is not supported yet, the following optional
+        # parts are not parsed (RM 4.5.10):
+        # - ``[parallel[(chunk_specification)] [aspect_specification]]``.
+        "[", A.iterated_assoc, "]"
+    ),
+
     name=Or(
         CallExpr(A.name, "(", Cut(), A.call_suffix, ")"),
         ExplicitDeref(A.name, ".", "all"),
@@ -1255,6 +1264,13 @@ A.add_rules(
             A.name, "'",
             Identifier(L.Identifier(match_text="Update")),
             A.update_attr_aggregate
+        ),
+
+        # Special case for 'Reduce
+        ReduceAttributeRef(
+            Or(A.name, A.value_sequence), "'",
+            Identifier(L.Identifier(match_text="Reduce")),
+            "(", A.call_suffix, ")"
         ),
 
         # General Attributes

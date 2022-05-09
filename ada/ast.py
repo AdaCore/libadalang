@@ -2659,6 +2659,43 @@ class BasicDecl(AdaNode):
         """
         return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl)
 
+    @langkit_property(return_type=T.Bool)
+    def is_valid_reducer_candidate():
+        """
+        Return True if self is a subprogram node that is a valid reducer
+        candidate as per RM 4.5.10 definition of the reducer program used by
+        the ``'Reduce`` attribute (Ada 2022).
+        """
+        # A reducer candidate can be a function or a procedure
+        return Entity.is_subprogram.then(
+            lambda _: Entity.subp_spec_or_null.then(
+                lambda spec: Let(
+                    lambda param_types=spec.param_types,
+                    return_type=spec.return_type:
+
+                    And(
+                        # It should have two params
+                        param_types.length == 2,
+
+                        If(
+                            return_type.is_null,
+                            # If it is a procedure, the first param mode should
+                            # be `in out` while the second one should be `in`.
+                            Let(
+                                lambda param_modes=spec.param_modes:
+                                param_modes.at(0).is_a(Mode.alt_in_out)
+                                & param_modes.at(1).is_a(Mode.alt_in,
+                                                         Mode.alt_default)
+                            ),
+                            # Else, it is a function, and its return type
+                            # should be identical to its first param type.
+                            return_type == param_types.at(0)
+                        )
+                    )
+                )
+            )
+        )
+
     @langkit_property(return_type=Bool)
     def is_stream_subprogram_for_type(typ=T.BaseTypeDecl.entity,
                                       return_obj=Bool):
@@ -3906,6 +3943,15 @@ class BaseFormalParamHolder(AdaNode):
         return Entity.unpacked_formal_params.map(
             lambda fp:
             Entity.real_designated_type(fp.formal_decl.type_expression)
+        )
+
+    @langkit_property(return_type=T.Mode.entity.array)
+    def param_modes():
+        """
+        Returns the mode of each parameter of Self.
+        """
+        return Entity.unpacked_formal_params.map(
+            lambda fp: fp.formal_decl.cast(ParamSpec).mode
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
@@ -13993,7 +14039,7 @@ class IteratedAssoc(BasicAssoc):
         Entity.parent.parent.cast_or_raise(BaseAggregate)
     )
 
-    xref_stop_resolution = Property(True)
+    xref_stop_resolution = Property(Entity.parent.parent.is_a(BaseAggregate))
 
     @langkit_property()
     def xref_equation():
@@ -14045,6 +14091,32 @@ class IteratedAssoc(BasicAssoc):
             ),
             LogicFalse()
         )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def xref_equation_for_reduce():
+        """
+        Equation specialization for ``ValueSequence`` name resolution (part of
+        ``ReduceAttributeRef``).
+        """
+        # The expected type is the expected type of the ReduceAttributeRef
+        # holding this iterated assoc.
+        expected_typ = Var(Entity.parent.cast(ValueSequence).iter_assoc.expr
+                           .expected_type_var)
+
+        # See Self.xref_equation for more details
+        spec_success = Var(Entity.spec.resolve_names_internal_with_eq(
+            If(Self.spec.loop_type.is_a(IterType.alt_in),
+               Bind(Entity.spec.iter_expr.cast(Expr).expected_type_var,
+                    expected_typ)
+               & Entity.spec.iter_expr.cast(Expr).matches_expected_type,
+               LogicTrue())
+        ))
+
+        return If(spec_success,
+                  Entity.expr.sub_equation
+                  & Bind(Entity.expr.expected_type_var, expected_typ)
+                  & Entity.expr.matches_expected_type,
+                  LogicFalse())
 
 
 class MultiDimArrayAssoc(AggregateAssoc):
@@ -17794,6 +17866,96 @@ class AttributeRef(Name):
             .cast_or_raise(T.EntryDecl).family_type
         )
         return Entity.prefix.sub_equation & Bind(Self.type_var, typ)
+
+
+class ValueSequence(AdaNode):
+    """
+    The value sequence of a reduction expression (see ``ReduceAttributeRef``).
+    Ada 2022, RM 4.5.10.
+    """
+    # NOTE: add chunck and aspect specification fields when parallel keyword is
+    # supported.
+    iter_assoc = Field(type=T.IteratedAssoc)
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def xref_equation():
+        """
+        Return the nameres equation for this ValueSequence.
+        """
+        return Entity.iter_assoc.xref_equation_for_reduce
+
+
+class ReduceAttributeRef(Name):
+    """
+    Reduction expression (``Reduce`` attribute). Ada 2022, RM 4.5.10.
+    """
+    prefix = Field(type=T.AdaNode)
+    attribute = Field(type=T.Identifier)
+    args = Field(type=T.AdaNode)
+
+    ref_var = Property(Self.r_ref_var)
+    r_ref_var = UserField(type=LogicVar, public=False)
+
+    args_list = Property(Entity.args._.cast_or_raise(T.AssocList))
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def xref_equation():
+        """
+        Return the nameres equation for the Reduce attribute:
+        ``Expr'Reduce (Reducer, InitVal)``
+        where Expr is either a ``Name`` or a ``SequenceValue`` denoting a
+        collection to reduce, ``Reducer`` is the subprogram to use to perform
+        the reduction and ``InitVal`` is the initial value to be used by the
+        reducer.
+        """
+        reducer = Var(Entity.args_list.at(0).expr)
+
+        return Self.env_get(
+            env=env,
+            symbol=reducer.cast(BaseId).sym,
+            from_node=Self.origin_node
+        ).logic_any(
+            lambda subp:
+            subp.cast(BasicDecl)._.is_valid_reducer_candidate.then(
+                lambda _:
+                Entity.xref_equation_for_reducer_candidate(subp
+                                                           .cast(BasicDecl)),
+                default_val=LogicFalse()
+            )
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def xref_equation_for_reducer_candidate(subp=T.BasicDecl.entity):
+        """
+        Build the equation for a reducer candidate.
+        """
+        reducer = Var(Entity.args_list.at(0).expr.cast(BaseId))
+        initial_value_expression = Var(Entity.args_list.at(1).expr)
+
+        # We don't need to take too many precautions here since we are sure the
+        # subp parameter is a valid reducer candidate, its supb_spec isn't null
+        # and it has parameters.
+        param_types = Var(subp.subp_spec_or_null.param_types)
+        accum_type = Var(param_types.at(0))
+        value_type = Var(param_types.at(1))
+
+        return And(
+            Entity.prefix.cast(ValueSequence).then(
+                lambda vs:
+                Bind(vs.iter_assoc.expr.expected_type_var, value_type)
+                & vs.iter_assoc.expr.matches_expected_type,
+                default_val=LogicTrue()
+            ),
+            Entity.prefix.sub_equation,
+
+            Bind(Self.type_var, accum_type),
+
+            Bind(reducer.ref_var, subp),
+
+            Bind(initial_value_expression.expected_type_var, accum_type),
+            initial_value_expression.sub_equation,
+            initial_value_expression.matches_expected_formal_type
+        )
 
 
 class UpdateAttributeRef(AttributeRef):

@@ -1,0 +1,15 @@
+ReduceAttributeRef[1:1-1:22]
+|f_prefix:
+|  Id[1:1-1:2]: G
+|f_attribute:
+|  Id[1:3-1:9]: Reduce
+|f_args:
+|  AssocList[1:10-1:21]
+|  |  ParamAssoc[1:10-1:15]
+|  |  |f_designator: <null>
+|  |  |f_r_expr:
+|  |  |  Str[1:10-1:15]: "and"
+|  |  ParamAssoc[1:17-1:21]
+|  |  |f_designator: <null>
+|  |  |f_r_expr:
+|  |  |  Id[1:17-1:21]: True

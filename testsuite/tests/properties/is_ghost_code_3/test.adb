@@ -14,4 +14,7 @@ begin
    --  Since there is no reference for Integer'Write, this tests checks
    --  that calling `is_ghost_code` does not crash on null references.
    --% node.p_is_ghost_code
+
+   pragma Assert_And_Cut (True);
+   --% node.p_is_ghost_code
 end Test;

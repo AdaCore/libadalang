@@ -8460,7 +8460,7 @@ class Pragma(AdaNode):
         # We only consider pragmas that can be in lists of statements for the
         # moment.
         return Entity.id.sym.any_of(
-            'Assert', 'Assume', 'Loop_Invariant'
+            'Assert', 'Assert_And_Cut', 'Assume', 'Loop_Invariant'
         )
 
     @langkit_property()

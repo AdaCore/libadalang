@@ -12,3 +12,9 @@ Working on node <CallStmt test.adb:13:4-13:45>
 
 Eval 'node.p_is_ghost_code'
 Result: False
+
+Working on node <PragmaNode test.adb:18:4-18:33>
+================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True

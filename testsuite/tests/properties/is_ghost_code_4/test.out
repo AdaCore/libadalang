@@ -1,0 +1,11 @@
+Working on node <GenericPackageInstantiation ["Instantiated_Pkg"] test.adb:6:4-6:44>
+====================================================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True
+
+Working on node <GenericSubpInstantiation ["Instantiated_Proc"] test.adb:14:4-14:48>
+====================================================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True

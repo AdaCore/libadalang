@@ -14884,9 +14884,15 @@ class DefiningName(Name):
         Return whether the entity defined by this name is ghost or not.
         See SPARK RM 6.9.
         """
+        bd = Var(Entity.basic_decl_no_internal)
         return Or(
             Entity.has_aspect('Ghost'),
-            Entity.basic_decl_no_internal.parent_basic_decl._.is_ghost_code()
+            bd.parent_basic_decl._.is_ghost_code(),
+
+            # Instantiation of generic ghost entity is ghost code
+            bd.cast(GenericInstantiation).then(
+                lambda gi: gi.designated_generic_decl.is_ghost_code()
+            )
         )
 
     @langkit_property()

@@ -12570,9 +12570,10 @@ class Name(Expr):
         1. `X := 2;`
         2. `X (2) := 2;`
         3. `P(F => X)` where F is declared `out` or `in out`.
-        4. `X'Access`.
-        5. `X.C := 2`, `R.X := 2`
-        6. `X.P` where the formal for X is declared `out` or `in out`.
+        4. `P(F => T (X))` where F is declared `out` or `in out`
+        5. `X'Access`.
+        6. `X.C := 2`, `R.X := 2`
+        7. `X.P` where the formal for X is declared `out` or `in out`.
 
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "write reference".
@@ -12608,8 +12609,13 @@ class Name(Expr):
             ),
 
             # Handle out/inout param case
-            lambda p=T.ParamAssoc: p.get_params.any(
-                lambda m: m.basic_decl.cast(T.ParamSpec)._.mode._.is_writable
+            lambda p=T.ParamAssoc: If(
+                p.parent.parent.cast(CallExpr)._.is_type_conversion,
+                p.parent.parent.cast(CallExpr).is_write_reference,
+                p.get_params.any(
+                    lambda m:
+                    m.basic_decl.cast(T.ParamSpec)._.mode._.is_writable
+                )
             ),
 
             # handle 'Access case

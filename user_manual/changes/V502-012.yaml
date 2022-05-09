@@ -1,0 +1,6 @@
+type: bugfix
+title: Fix ``is_write_reference`` for type conversions
+description: |
+    This change fixes a bug where type conversions used as actual for out
+    parameters where not flagged as write references.
+date: 2022-05-09

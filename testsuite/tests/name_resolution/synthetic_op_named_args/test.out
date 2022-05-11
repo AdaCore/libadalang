@@ -9,11 +9,11 @@ Expr: <Id "Boolean" test.adb:3:8-3:15>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:3:19-3:47>
-  references:    None
+  references:    <SyntheticDefiningName __standard:4:19-4:53>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Str "">="" test.adb:3:19-3:23>
-  references:    None
+  references:    <SyntheticDefiningName __standard:4:19-4:53>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Left" test.adb:3:25-3:29>

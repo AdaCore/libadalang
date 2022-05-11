@@ -2,10 +2,10 @@ Working on node <ObjectDecl ["B"] test.adb:9:4-9:34>
 ====================================================
 
 Eval 'node.f_default_expr.f_name.p_referenced_decl()'
-Result: <SyntheticSubpDecl [] test.adb:3:17-3:24>
+Result: <SyntheticSubpDecl [""] test.adb:3:17-3:24>
 
 Working on node <ObjectDecl ["C"] test.adb:16:7-16:33>
 ======================================================
 
 Eval 'node.f_default_expr.f_name.p_referenced_decl()'
-Result: <SyntheticSubpDecl [] test.adb:13:17-13:21>
+Result: <SyntheticSubpDecl [""] test.adb:13:17-13:21>

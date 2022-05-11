@@ -64,11 +64,11 @@ Expr: <Id "A" testbinop.adb:8:4-8:5>
   type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
   expected type: None
 Expr: <CallExpr testbinop.adb:8:9-8:23>
-  references:    None
+  references:    <SyntheticDefiningName testbinop.adb:3:19-3:34>
   type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
   expected type: <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
 Expr: <DottedName testbinop.adb:8:9-8:16>
-  references:    None
+  references:    <SyntheticDefiningName testbinop.adb:3:19-3:34>
   type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
   expected type: None
 Expr: <Id "Pkg" testbinop.adb:8:9-8:12>
@@ -76,7 +76,7 @@ Expr: <Id "Pkg" testbinop.adb:8:9-8:12>
   type:          None
   expected type: None
 Expr: <Str ""+"" testbinop.adb:8:13-8:16>
-  references:    None
+  references:    <SyntheticDefiningName testbinop.adb:3:19-3:34>
   type:          <TypeDecl ["Typ"] testbinop.adb:3:7-3:35>
   expected type: None
 Expr: <Id "A" testbinop.adb:8:18-8:19>
@@ -92,11 +92,11 @@ Resolving xrefs for node <IfStmt testbinop.adb:10:4-12:11>
 **********************************************************
 
 Expr: <CallExpr testbinop.adb:10:7-10:21>
-  references:    None
+  references:    <SyntheticDefiningName testbinop.adb:3:19-3:34>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName testbinop.adb:10:7-10:14>
-  references:    None
+  references:    <SyntheticDefiningName testbinop.adb:3:19-3:34>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Pkg" testbinop.adb:10:7-10:10>
@@ -104,7 +104,7 @@ Expr: <Id "Pkg" testbinop.adb:10:7-10:10>
   type:          None
   expected type: None
 Expr: <Str ""="" testbinop.adb:10:11-10:14>
-  references:    None
+  references:    <SyntheticDefiningName testbinop.adb:3:19-3:34>
   type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "A" testbinop.adb:10:16-10:17>

@@ -21,11 +21,11 @@ Expr: <Id "A" testunop.adb:13:4-13:5>
   type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: None
 Expr: <CallExpr testunop.adb:13:9-13:20>
-  references:    None
+  references:    <SyntheticDefiningName testunop.adb:4:20-4:34>
   type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: <TypeDecl ["T"] testunop.adb:4:10-4:35>
 Expr: <DottedName testunop.adb:13:9-13:16>
-  references:    None
+  references:    <SyntheticDefiningName testunop.adb:4:20-4:34>
   type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: None
 Expr: <DottedName testunop.adb:13:9-13:12>
@@ -41,7 +41,7 @@ Expr: <Id "E" testunop.adb:13:11-13:12>
   type:          None
   expected type: None
 Expr: <Str ""+"" testunop.adb:13:13-13:16>
-  references:    None
+  references:    <SyntheticDefiningName testunop.adb:4:20-4:34>
   type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: None
 Expr: <Id "B" testunop.adb:13:18-13:19>

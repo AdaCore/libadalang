@@ -16264,7 +16264,6 @@ class SyntheticSubpDecl(BasicSubpDecl):
     aspects = NullField()
     spec = Field(type=T.BaseSubpSpec)
 
-    defining_names = Property(No(T.DefiningName.entity.array))
     subp_decl_spec = Property(Entity.spec)
 
     @langkit_property()

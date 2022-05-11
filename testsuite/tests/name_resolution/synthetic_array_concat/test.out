@@ -9,11 +9,11 @@ Expr: <Id "X" test.adb:4:4-4:5>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <CallExpr test.adb:4:9-4:23>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Str ""&"" test.adb:4:9-4:12>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Chr "'a'" test.adb:4:14-4:17>
@@ -33,11 +33,11 @@ Expr: <Id "X" test.adb:7:4-7:5>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <CallExpr test.adb:7:9-7:23>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Str ""&"" test.adb:7:9-7:12>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Chr "'a'" test.adb:7:14-7:17>
@@ -57,11 +57,11 @@ Expr: <Id "X" test.adb:10:4-10:5>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <CallExpr test.adb:10:9-10:23>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Str ""&"" test.adb:10:9-10:12>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Str ""a"" test.adb:10:14-10:17>
@@ -81,11 +81,11 @@ Expr: <Id "X" test.adb:13:4-13:5>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <CallExpr test.adb:13:9-13:23>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Str ""&"" test.adb:13:9-13:12>
-  references:    None
+  references:    <SyntheticDefiningName __standard:105:18-105:56>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Str ""a"" test.adb:13:14-13:17>

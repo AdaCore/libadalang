@@ -39,7 +39,7 @@ Expr: <Id "J" p.adb:10:33-10:34>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpLt "<" p.adb:10:35-10:36>
-  references:    None
+  references:    <SyntheticDefiningName __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int p.adb:10:37-10:39>
@@ -66,7 +66,7 @@ Expr: <Id "J" p.adb:13:31-13:32>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpLt "<" p.adb:13:33-13:34>
-  references:    None
+  references:    <SyntheticDefiningName __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int p.adb:13:35-13:37>

@@ -13,7 +13,7 @@ Expr: <Id "F" test.adb:12:30-12:31>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:12:35-12:40>
-  references:    None
+  references:    <SyntheticDefiningName test.adb:3:17-3:30>
   type:          None
   expected type: None
 Expr: <Id "P" test.adb:12:35-12:36>
@@ -21,7 +21,7 @@ Expr: <Id "P" test.adb:12:35-12:36>
   type:          None
   expected type: None
 Expr: <Str ""+"" test.adb:12:37-12:40>
-  references:    None
+  references:    <SyntheticDefiningName test.adb:3:17-3:30>
   type:          None
   expected type: None
 

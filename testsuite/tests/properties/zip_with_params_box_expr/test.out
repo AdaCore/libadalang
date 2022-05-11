@@ -35,4 +35,4 @@ Working on node <GenericPackageInstantiation ["My_Foo"] test.adb:59:7-59:33>
 ============================================================================
 
 Eval 'node.f_params.p_zip_with_params()'
-Result: [<ParamActual param=<DefiningName test.adb:55:24-55:27> actual=None>]
+Result: [<ParamActual param=<DefiningName test.adb:55:24-55:27> actual=<SyntheticDefiningName __standard:4:19-4:53>>]

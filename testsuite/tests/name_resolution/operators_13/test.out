@@ -19,7 +19,7 @@ Expr: <Real test.adb:12:9-12:12>
   type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpMult "*" test.adb:12:13-12:14>
-  references:    None
+  references:    <SyntheticDefiningName __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:12:15-12:19>
@@ -29,7 +29,7 @@ Expr: <UnOp test.adb:12:16-12:18>
   type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
   expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpPlus "+" test.adb:12:16-12:17>
-  references:    None
+  references:    <SyntheticDefiningName __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:17-12:18>

@@ -1,0 +1,19 @@
+<%
+string_array_struct = capi.get_name('string_array_ptr_struct')
+%>
+
+    // ===== Native structures =====
+
+    /** Project manager native is just a pointer. */
+    public interface ProjectManagerNative extends Pointer {}
+
+    /** Structure for a string array. */
+    @CContext(LibDirectives.class)
+    @CStruct("${string_array_struct}")
+    public interface StringArrayNative extends PointerBase {
+        @CField("length") public int get_length();
+        @CField("length") public void set_length(int length);
+
+        @CField("c_ptr") public CCharPointerPointer get_c_ptr();
+        @CField("c_ptr") public void set_c_ptr(CCharPointerPointer c_ptr);
+    }

@@ -1,0 +1,32 @@
+<%
+nat = c_api.get_name
+%>
+
+    // --- Project manager functions
+
+    /** Function to load a GPR project */
+    @CompilerDirectives.TruffleBoundary
+    public static native PointerWrapper ${nat("gpr_project_load")}(
+        String projectFile,
+        String target,
+        String runtime
+    );
+
+    /** Free the given project */
+    @CompilerDirectives.TruffleBoundary
+    public static native void ${nat("gpr_project_free")}(
+        ProjectManager project
+    );
+
+    /** Get the unit provider for the given project */
+    @CompilerDirectives.TruffleBoundary
+    public static native UnitProvider ${nat("gpr_project_create_unit_provider")}(
+        ProjectManager project
+    );
+
+    /** Get the source file array for the given project */
+    @CompilerDirectives.TruffleBoundary
+    public static native String[] ${nat("gpr_project_source_files")}(
+        ProjectManager project,
+        int mode
+    );

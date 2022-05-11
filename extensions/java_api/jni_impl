@@ -1,0 +1,104 @@
+<%
+nat = c_api.get_name
+def jni_func_sig(name, return_type, do_nat=True):
+    func_base_name = (nat(name) if do_nat else name).replace('_', '_1')
+    return 'JNIEXPORT ' + return_type + ' JNICALL Java_' + ctx.lib_name.lower + '_' + ctx.lib_name.camel + '_00024JNILib_' + func_base_name
+%>
+
+#include <string.h>
+
+// Translate a java byte array to a C char pointer with the UTF-8 encoding
+char * to_c_string(
+    JNIEnv *env,
+    jbyteArray java_bytes
+) {
+    // Create the result content and get the bytes from the java array
+    int length = ((int) (*env)->GetArrayLength(env, java_bytes));
+    char *res = (char *) malloc((length + 1) * sizeof(char));
+    (*env)->GetByteArrayRegion(env, java_bytes, 0, length, (jbyte *) res);
+    res[length] = '\0';
+
+    // Return the result
+    return res;
+}
+
+// Create a java byte array from a C char pointer
+jbyteArray to_j_string(
+    JNIEnv *env,
+    char *c_string
+) {
+    // Get the string length
+    int length = strlen(c_string);
+    jbyteArray res = (*env)->NewByteArray(env, length);
+
+    // Fill the result array
+    for(int i = 0 ; i < length ; i++) {
+        (*env)->SetByteArrayRegion(env, res, (jsize) i, 1, (jbyte *) &c_string[i]);
+    }
+
+    // Return the result
+    return res;
+}
+
+// The structure to get the project files
+typedef struct {
+    int length;
+    char **files;
+} source_file_array;
+
+// Declaration of the ada functions
+source_file_array *ada_project_source_files(char *, void *, char *, char *, int);
+void ada_free_source_file_array(source_file_array *);
+
+// Create a source files array with a project file
+${jni_func_sig("ada_project_source_files", "jobjectArray", False)}(
+    JNIEnv *env,
+    jobject this,
+    jbyteArray project_file,
+    jbyteArray target,
+    jbyteArray runtime,
+    jint mode
+) {
+    // Translate the arguments to C values
+    char *project_file_c = to_c_string(env, project_file);
+    char *target_c = to_c_string(env, target);
+    char *runtime_c = to_c_string(env, runtime);
+    int mode_c = (int) mode;
+
+    // Call the native method with the arguments
+    source_file_array *source_files_c = ada_project_source_files(
+        project_file_c,
+        NULL,
+        target_c,
+        runtime_c,
+        mode_c
+    );
+
+
+    // Free the translated strings
+    free(project_file_c);
+    free(target_c);
+    free(runtime_c);
+
+    // Test if the return is null
+    if(source_files_c == NULL) {
+        return NULL;
+    }
+
+    // Create the result array
+    jclass clazz = (*env)->FindClass(env, "[B");
+    jobjectArray result_array = (*env)->NewObjectArray(env, (jsize) source_files_c->length, clazz, NULL);
+
+
+    // Fill the result array
+    for(int i = 0 ; i < source_files_c->length ; i++) {
+        jbyteArray source_file = to_j_string(env, source_files_c->files[i]);
+        (*env)->SetObjectArrayElement(env, result_array, (jsize) i, (jobject) source_file);
+    }
+
+    // Free the native source file array
+    ada_free_source_file_array(source_files_c);
+
+    // Return the result array
+    return result_array;
+}

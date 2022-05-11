@@ -1,0 +1,90 @@
+
+    // ==========
+    // Define things to handle project loading
+    // ==========
+    
+    public static enum SourceFileMode implements Enum {
+
+        // ----- Enum values -----
+
+        DEFAULT(0),
+        ROOT_PROJECT(1),
+        WHOLE_PROJECT(2),
+        WHOLE_PROJECT_WITH_RUNTIME(3),
+        ;
+
+        // ----- Attributes -----
+
+        private int value;
+        private static final Map<Integer, SourceFileMode> map = new HashMap<>();
+
+        // ----- Constructors -----
+
+        private SourceFileMode(int value) {this.value = value;}
+
+        static {
+            for(SourceFileMode elem : SourceFileMode.values()) {
+                map.put(elem.value, elem);
+            }
+        }
+
+        // ----- Class methods -----
+
+        public static SourceFileMode CtoJ(int cValue) throws ValueException {
+            if(!map.containsKey(cValue)) throw new ValueException("Wrong enum request SourceFileMode: " + cValue);
+            return (SourceFileMode) map.get(cValue);
+        }
+
+        public int JtoC() {return this.value;}
+
+    }
+
+    public static class SourceFiles {
+
+        // ----- Attributes -----
+
+        public final byte[][] content;
+
+        public String[] files;
+
+        // ----- Constructors -----
+
+        public SourceFiles(
+            byte[][] content
+        ) {
+            this.content = content;
+            this.files = null;
+        }
+
+        public static SourceFiles fromProjectFile(
+            String projectFile,
+            // TODO : Handle the scenario variables
+            String target,
+            String runtime,
+            SourceFileMode mode
+        ) {
+            return new SourceFiles(C_LIB.ada_project_source_files(
+                projectFile.getBytes(),
+                target.getBytes(),
+                runtime.getBytes(),
+                mode.JtoC()
+            ));
+        }
+
+        // ----- Class methods -----
+
+        public String[] getFiles() {
+            if(this.files == null) {
+                if(this.content != null) {
+                    this.files = new String[this.content.length];
+                    for(int i = 0 ; i < this.content.length ; i++) {
+                        this.files[i] = new String(this.content[i]);
+                    }
+                } else {
+                    this.files = new String[0];
+                }
+            }
+            return this.files;
+        }
+
+    }

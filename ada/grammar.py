@@ -301,8 +301,7 @@ A.add_rules(
             NotNull("not", "null"),
             "access",
             Protected(res("protected")),
-            A.subp_spec,
-            A.aspect_spec
+            A.subp_spec
         ),
         TypeAccessDef(
             NotNull("not", "null"),

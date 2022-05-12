@@ -93,5 +93,63 @@ Expr: <Int ats_types.adb:4:69-4:70>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
 
+Resolving xrefs for node <SubpSpec ats_types.adb:12:30-12:59>
+*************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["My_Size"] ats_types.adb:12:41-12:58>
+**************************************************************************
+
+Expr: <Id "Natural" ats_types.adb:12:51-12:58>
+  references:    <DefiningName __standard:5:11-5:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc ats_types.adb:13:9-13:24>
+***************************************************************
+
+Expr: <Id "Size" ats_types.adb:13:9-13:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "My_Size" ats_types.adb:13:17-13:24>
+  references:    <DefiningName ats_types.adb:11:4-11:11>
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc ats_types.adb:13:26-13:51>
+****************************************************************
+
+Expr: <Id "Pre" ats_types.adb:13:26-13:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp ats_types.adb:13:33-13:51>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp ats_types.adb:13:33-13:47>
+  type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+Expr: <Id "My_Size" ats_types.adb:13:33-13:40>
+  references:    <DefiningName ats_types.adb:11:4-11:11>
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+Expr: <OpMod "mod" ats_types.adb:13:41-13:44>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ats_types.adb:13:45-13:47>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+Expr: <OpEq "=" ats_types.adb:13:48-13:49>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ats_types.adb:13:50-13:51>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+
 
 Done.

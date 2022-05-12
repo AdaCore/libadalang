@@ -43,6 +43,12 @@ procedure Test is
    --% node.p_has_aspect("pre")
    --% node.p_has_aspect("pre'class")
    --% node.p_has_aspect("invariant")
+
+   Op : access function (Arg1 : Integer; Arg2 : Integer) return Integer
+     with Import => True,
+       Convention => C,
+       External_Name => "op";
+   --% node.p_has_aspect("convention")
 begin
    null;
 end Test;

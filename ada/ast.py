@@ -7663,7 +7663,6 @@ class AccessToSubpDef(AccessDef):
     """
     has_protected = Field(type=Protected)
     subp_spec = Field(type=T.SubpSpec)
-    aspects = Field(type=T.AspectSpec)
 
     xref_equation = Property(LogicTrue())
 
@@ -8948,9 +8947,22 @@ class AspectAssoc(AdaNode):
                 'Pre', 'Post', 'Refined_Post', 'Type_Invariant', 'Invariant',
                 'Predicate', 'Static_Predicate', 'Dynamic_Predicate'
             ),
-            Bind(Self.expr.expected_type_var, Self.bool_type)
-            & Entity.expr.sub_equation
-            & Self.expr.matches_expected_formal_prim_type,
+            Let(
+                lambda expr_equation_env=If(
+                    # Ada 2022 allows Pre and Post aspects for
+                    # access-to-subprogram types. In such case, visibility
+                    # rules change. The TypeDecl environment should be
+                    # considered for name resolution.
+                    Entity.id.name_symbol.any_of('Pre', 'Post')
+                    & target.cast(TypeDecl)._.type_def.is_a(AccessToSubpDef),
+                    target.cast(TypeDecl).type_def.children_env,
+                    Entity.node_env
+                ):
+                Bind(Self.expr.expected_type_var, Self.bool_type)
+                & env.bind(expr_equation_env,
+                           Entity.expr.sub_equation)
+                & Self.expr.matches_expected_formal_prim_type
+            ),
 
             Entity.id.name_is('Contract_Cases'),
             Entity.expr.sub_equation,

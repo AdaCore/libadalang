@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix access-to-subprogram Pre/Post aspects support
+description: |
+  This patch fixes incorrect support of access-to-subprogram Pre/Post aspects
+  handling. Aspects were wrongly parsed along with the access-to-subprogram
+  while they should be parsed along with the corresponding declaration. Name
+  resolution has been fixed accordingly too: in Ada 2022, Pre/Post accesses are
+  allowed on access-to-subprogram, therefore it is now part of the resolution.
+date: 2022-05-12

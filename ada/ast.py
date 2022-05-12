@@ -2893,6 +2893,65 @@ class BasicDecl(AdaNode):
             )
         ).cast(T.Body)
 
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def next_part_for_name(sym=T.Symbol):
+        """
+        Internal method for computing the next part of a basic decl according
+        to one of its defining names. By default, this property behaves just
+        like ``next_part_for_decl``. However it can be overriden for node types
+        for which the next part depends on the defining name to consider. One
+        example of that are constant declarations:
+
+        .. code:: ada
+
+            package Pkg is
+                X, Y : constant Integer;
+            private
+                X : constant Integer := 1;
+                Y : constant Integer := 2;
+            end Pkg;
+
+        So, ``next_part_for_name`` is overriden in ``ObjectDecl``.
+        """
+        ignore(sym)
+        return Entity.next_part_for_decl
+
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def previous_part_for_name(sym=T.Symbol):
+        """
+        Internal method for computing the previous part of a basic decl
+        according to one of its defining names. By default, this property
+        behaves just like ``next_part_for_decl``. However it can be overriden
+        for node types for which the previous part depends on the defining name
+        to consider. One example of that are subprogram parameters:
+
+        .. code:: ada
+
+            package Pkg is
+                X : constant Integer;
+                Y : constant Integer;
+            private
+                X, Y : constant Integer := 1;
+            end Pkg;
+
+        So, ``previous_part_for_name`` is overriden in ``ObjectDecl``.
+        """
+        ignore(sym)
+        return Entity.previous_part_for_decl
+
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def canonical_part_for_name(sym=T.Symbol):
+        """
+        Return the canonical part for this decl. In the case of decls composed
+        of several parts, the canonical part will be the first part.
+        """
+        return Entity.previous_part_for_name(sym).then(
+            lambda pp: pp.canonical_part_for_name(sym), default_val=Entity
+        )
+
     @langkit_property(return_type=T.String.array)
     def fully_qualified_name_impl(
         include_profile=(T.Bool, False),
@@ -9176,34 +9235,52 @@ class ObjectDecl(BasicDecl):
             )
         )
 
-    @langkit_property(public=True)
-    def public_part_decl():
+    @langkit_property()
+    def next_part_for_name(sym=T.Symbol):
+        return If(
+            Entity.is_in_public_part & Self.has_constant.as_bool,
+            Self.declarative_scope.parent
+            .cast(T.BasePackageDecl).private_part._.children_env
+            .get_first(sym, LK.minimal, categories=no_prims)
+            .cast(T.BasicDecl),
+            No(T.BasicDecl.entity)
+        )
+
+    @langkit_property()
+    def previous_part_for_name(sym=T.Symbol):
+        return If(
+            Entity.is_in_private_part & Self.has_constant.as_bool,
+            Self.declarative_scope.parent
+            .cast(T.BasePackageDecl).public_part.children_env
+            .get_first(sym, LK.minimal, categories=no_prims)
+            .cast(T.BasicDecl),
+            No(T.BasicDecl.entity)
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity, public=True)
+    def private_part_decl():
         """
         If this object decl is the constant completion of an object decl in the
         public part, return the object decl from the public part.
         """
         return If(
-            Entity.is_in_private_part & Self.has_constant.as_bool,
-            Self.declarative_scope.parent
-            .cast(T.BasePackageDecl).public_part.children_env
-            .get_first(Self.name_symbol, LK.minimal, categories=no_prims)
-            .cast(T.BasicDecl),
-            No(T.BasicDecl.entity)
+            Self.ids.length > 1,
+            PropertyError(T.BasicDecl.entity,
+                          "Can't call on a declaration with several names"),
+            Entity.next_part_for_name(Entity.name_symbol)
         )
 
-    @langkit_property(public=True)
-    def private_part_decl():
+    @langkit_property(return_type=T.BasicDecl.entity, public=True)
+    def public_part_decl():
         """
         If this object decl is the incomplete declaration of a constant in a
         public part, return its completion in the private part.
         """
         return If(
-            Entity.is_in_public_part & Self.has_constant.as_bool,
-            Self.declarative_scope.parent
-            .cast(T.BasePackageDecl).private_part._.children_env
-            .get_first(Self.name_symbol, LK.minimal, categories=no_prims)
-            .cast(T.BasicDecl),
-            No(T.BasicDecl.entity)
+            Self.ids.length > 1,
+            PropertyError(T.BasicDecl.entity,
+                          "Can't call on a declaration with several names"),
+            Entity.previous_part_for_name(Entity.name_symbol)
         )
 
     @langkit_property()
@@ -14552,21 +14629,27 @@ class DefiningName(Name):
         )
 
     next_part = Property(
-        Entity.find_matching_name(Entity.basic_decl.next_part_for_decl),
+        Entity.find_matching_name(
+            Entity.basic_decl.next_part_for_name(Entity.name_symbol)
+        ),
         public=True,
         doc="Like ``BasicDecl.next_part_for_decl`` on a defining name",
         dynamic_vars=[default_imprecise_fallback()]
     )
 
     previous_part = Property(
-        Entity.find_matching_name(Entity.basic_decl.previous_part_for_decl),
+        Entity.find_matching_name(
+            Entity.basic_decl.previous_part_for_name(Entity.name_symbol)
+        ),
         public=True,
         doc="Like ``BasicDecl.previous_part_for_decl`` on a defining name",
         dynamic_vars=[default_imprecise_fallback()]
     )
 
     canonical_part = Property(
-        Entity.find_matching_name(Entity.basic_decl.canonical_part),
+        Entity.find_matching_name(
+            Entity.basic_decl.canonical_part_for_name(Entity.name_symbol)
+        ),
         public=True,
         doc="Like ``BasicDecl.canonical_part`` on a defining name",
         dynamic_vars=[default_imprecise_fallback()]

@@ -1,0 +1,48 @@
+Working on node <EntryDecl ["IP"] test.adb:9:10-9:30>
+=====================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<AbstractSubpDecl ["IP"] test.adb:5:7-5:47>,
+         <EntryDecl ["IP"] test.adb:9:10-9:30>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<AbstractSubpDecl ["IP"] test.adb:5:7-5:47>]
+
+Working on node <SubpDecl ["IQ"] test.adb:13:10-13:34>
+======================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<AbstractSubpDecl ["IQ"] test.adb:6:7-6:47>,
+         <SubpDecl ["IQ"] test.adb:13:10-13:34>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<AbstractSubpDecl ["IQ"] test.adb:6:7-6:47>]
+
+Working on node <EntryDecl ["IP"] test.adb:19:10-19:30>
+=======================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<AbstractSubpDecl ["IP"] test.adb:5:7-5:47>,
+         <EntryDecl ["IP"] test.adb:19:10-19:30>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<AbstractSubpDecl ["IP"] test.adb:5:7-5:47>]
+
+Working on node <EntryDecl ["IQ"] test.adb:23:10-23:30>
+=======================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<AbstractSubpDecl ["IQ"] test.adb:6:7-6:47>,
+         <EntryDecl ["IQ"] test.adb:23:10-23:30>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<AbstractSubpDecl ["IQ"] test.adb:6:7-6:47>]
+
+Working on node <EntryDecl ["IR"] test.adb:27:10-27:19>
+=======================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<EntryDecl ["IR"] test.adb:27:10-27:19>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<EntryDecl ["IR"] test.adb:27:10-27:19>]

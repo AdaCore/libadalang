@@ -1,0 +1,8 @@
+type: new-feature
+title: Complete implementation of ``Base_Subp_Declarations``
+description: |
+    This change adds support for ``P_Base_Subp_Declarations`` on subprograms
+    defined in protected types and task types, so that it takes into account
+    subprograms coming from their parent interfaces.
+    Note that this also fixes the behavior of ``P_Root_Subp_Declarations``.
+date: 2022-05-12

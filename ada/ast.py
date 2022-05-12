@@ -3753,15 +3753,12 @@ class BaseFormalParamDecl(BasicDecl):
         return Entity.semantic_parent.cast(T.BasicDecl)
 
     @langkit_property(return_type=T.DefiningName.entity)
-    def get_param(part=T.BasicDecl.entity,
-                  param=(T.DefiningName.entity, No(T.DefiningName.entity))):
-
-        p = Var(param._or(Entity.defining_name))
-
-        return part.then(lambda d: (
+    def get_param(part=T.BasicDecl.entity, param=T.Symbol):
+        return part.then(
+            lambda d:
             d.formal_param_holder_or_null._.unpacked_formal_params
-            .find(lambda sf: sf.name_is(p.name_symbol))
-        ))
+            .find(lambda sf: sf.name_is(param))
+        )
 
     @langkit_property(return_type=T.DefiningName.entity,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -3771,18 +3768,31 @@ class BaseFormalParamDecl(BasicDecl):
         spec in the subprogram decl.
         """
         return Entity.get_param(
-            Entity.parent_decl.cast(T.BaseSubpBody)._.decl_part, param
+            Entity.parent_decl.cast(T.BaseSubpBody)._.decl_part,
+            param.name_symbol
         )._or(param)
 
     @langkit_property()
-    def next_part_for_decl():
+    def next_part_for_name(sym=T.Symbol):
         return Entity.get_param(
-            Entity.parent_decl._.next_part_for_decl)._.basic_decl
+            Entity.parent_decl._.next_part_for_decl,
+            sym
+        )._.basic_decl
+
+    @langkit_property()
+    def previous_part_for_name(sym=T.Symbol):
+        return Entity.get_param(
+            Entity.parent_decl._.previous_part_for_decl,
+            sym
+        )._.basic_decl
+
+    @langkit_property()
+    def next_part_for_decl():
+        return Entity.next_part_for_name(Entity.name_symbol)
 
     @langkit_property()
     def previous_part_for_decl():
-        return Entity.get_param(
-            Entity.parent_decl._.previous_part_for_decl)._.basic_decl
+        return Entity.previous_part_for_name(Entity.name_symbol)
 
 
 class DiscriminantSpec(BaseFormalParamDecl):

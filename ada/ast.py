@@ -2434,45 +2434,64 @@ class BasicDecl(AdaNode):
         the set of all subprogram declarations that it overrides (including
         itself).
 
-        .. NOTE:: for the moment this only works for tagged types. Remains to
+        .. note:: for the moment this only works for tagged types. Remains to
             be seen if we need to extend it.
         """
-        return Entity.is_subprogram.then(
-            # We use `without_md` below because we don't want to take into
-            # account Entity's metadata, as the result of this property
-            # shouldn't depend upon how this node was retrieved.
-            lambda _: Entity.without_md.cast(BasicDecl).subp_spec_or_null.then(
-                lambda spec:
+        is_subp = Var(Entity.is_subprogram)
+        parent = Var(Entity.canonical_part.parent_basic_decl)
+        task_or_protected = Var(parent.is_a(ProtectedTypeDecl, TaskTypeDecl))
 
-                # We don't want the canonicalized primitive type, but the most
-                # visible: the most visible might be a private type that has a
-                # more specific derivation than the canonical (public) type:
-                #
-                # type A is tagged private;
-                # type B is new A with private;
-                # type P is new A with private;
-                # private
-                # type P is new B with record ...
+        # We use `without_md` below because we don't want to take into
+        # account Entity's metadata, as the result of this property
+        # shouldn't depend upon how this node was retrieved.
+        spec = Var(Entity.without_md.cast(BasicDecl).subp_spec_or_null)
 
-                # We can call the `candidate_` version because the over-
-                # approximation will get cancelled by the following logic.
-                spec.candidate_primitive_subp_tagged_type(canonicalize=False)
-                .then(
-                    lambda t:
-                    t.full_view.primitives_env
-                    .get(Entity.name_symbol).filtermap(
-                        lambda bd: bd.cast(BasicDecl).canonical_part,
-                        lambda bd: bd.cast(BasicDecl)._.subp_spec_or_null.then(
-                            lambda s:
-                            # Since `s` is retrieved from `t`'s primitives env,
-                            # its metadata fields `primitive` and
-                            # `primitive_real_type` are set and therefore
-                            # the following `match_signature` call will return
-                            # true if `s` is overridable by `spec`.
-                            s.match_signature(spec, match_name=False,
-                                              use_entity_info=True)
-                        )
-                    )
+        # Retrieve an environment that contains all the candidate subprograms
+        # that can be base declarations of this one.
+        prims_env = Var(Cond(
+            # If we are in a task or protected type, accumulate the primitives
+            # of the parent interfaces, and add the subprogram defined in the
+            # scope of the protected or task type.
+            is_subp & task_or_protected,
+            parent.cast(BaseTypeDecl).base_types.map(
+                lambda bt: bt.full_view.primitives_env
+            ).concat(parent.children_env.singleton).env_group(),
+
+            # For classical types, we can simply fetch the primitives_env
+            is_subp,
+            spec.candidate_primitive_subp_tagged_type(canonicalize=False).then(
+                lambda t: t.full_view.primitives_env
+            ),
+
+            No(LexicalEnv)
+        ))
+
+        # We don't want the canonicalized primitive type, but the most
+        # visible: the most visible might be a private type that has a
+        # more specific derivation than the canonical (public) type:
+        #
+        # type A is tagged private;
+        # type B is new A with private;
+        # type P is new A with private;
+        # private
+        # type P is new B with record ...
+
+        # We can call the `candidate_` version because the over-
+        # approximation will get cancelled by the following logic.
+        return prims_env.get(Entity.name_symbol, lookup=LK.minimal).filtermap(
+            lambda bd: bd.cast(BasicDecl).canonical_part,
+            lambda bd: bd.cast(BasicDecl)._.subp_spec_or_null.then(
+                lambda s:
+                # Since `s` is retrieved from `t`'s primitives env,
+                # its metadata fields `primitive` and
+                # `primitive_real_type` are set and therefore
+                # the following `match_signature` call will return
+                # true if `s` is overridable by `spec`.
+                s.match_signature(
+                    spec,
+                    match_name=False,
+                    use_entity_info=True,
+                    ignore_first_param=task_or_protected
                 )
             )
         ).unique
@@ -2498,7 +2517,22 @@ class BasicDecl(AdaNode):
         # if this subprogram is a primitive of some type T and overrides some
         # subprogram P, get all the other overrides of P which are primitives
         # of parent types of T.
-        base_decls = Var(Entity.base_subp_declarations)
+        raw_base_decls = Var(Entity.base_subp_declarations)
+
+        # If this subprogram is defined in a protected type or task type,
+        # we must do things a bit different since the `primitive` metadata
+        # field is not set on those subprograms. Fortunately, the reasoning is
+        # quite trivial for those cases: since one cannot override a subprogram
+        # defined in a protected type or task type, the root subprogram cannot
+        # be Self unless there is no other base subprogram. So, simply filter
+        # Self out of the base subp declarations in that case.
+        parent = Var(Entity.canonical_part.parent_basic_decl)
+        task_or_protected = Var(parent.is_a(ProtectedTypeDecl, TaskTypeDecl))
+        base_decls = Var(If(
+            task_or_protected & (raw_base_decls.length > 1),
+            raw_base_decls.filter(lambda bd: bd.node != Self),
+            raw_base_decls
+        ))
 
         # Compute the set of all such types for which an override is declared
         base_types = Var(base_decls.map(
@@ -4243,13 +4277,20 @@ class BaseFormalParamHolder(AdaNode):
 
     @langkit_property(return_type=Bool)
     def match_formal_params(other=T.BaseFormalParamHolder.entity,
-                            match_names=(Bool, True)):
+                            match_names=(Bool, True),
+                            ignore_first_param=(Bool, False)):
         """
         Check whether self's params match other's.
         """
         # Check that there is the same number of formals and that each
         # formal matches.
-        self_params = Var(Entity.unpacked_formal_params)
+        self_params = Var(Entity.unpacked_formal_params.then(
+            lambda params: If(
+                ignore_first_param,
+                params.filter(lambda i, e: i != 0),
+                params
+            )
+        ))
         other_params = Var(other.unpacked_formal_params)
 
         self_types = Var(origin.bind(Self.origin_node, Entity.param_types))
@@ -7994,6 +8035,10 @@ class TaskTypeDecl(BaseTypeDecl):
     definition = Field(type=T.TaskDef)
     is_task_type = Property(True)
 
+    base_interfaces = Property(
+        Entity.definition.interfaces.map(lambda i: i.name_designated_type)
+    )
+
     @langkit_property(return_type=T.Symbol.array)
     def env_names():
         return Self.top_level_env_name.then(
@@ -8052,6 +8097,10 @@ class ProtectedTypeDecl(BaseTypeDecl):
     discriminants_list = Property(Entity.discriminants.abstract_formal_params)
 
     defining_env = Property(Entity.children_env)
+
+    base_interfaces = Property(
+        Entity.interfaces.map(lambda i: i.name_designated_type)
+    )
 
     @langkit_property()
     def next_part_for_decl():
@@ -16253,7 +16302,8 @@ class BaseSubpSpec(BaseFormalParamHolder):
 
     @langkit_property(return_type=Bool)
     def match_signature(other=T.BaseSubpSpec.entity, match_name=Bool,
-                        use_entity_info=(Bool, True)):
+                        use_entity_info=(Bool, True),
+                        ignore_first_param=(Bool, False)):
         """
         Return whether SubpSpec's signature matches Self's.
 
@@ -16267,13 +16317,19 @@ class BaseSubpSpec(BaseFormalParamHolder):
         ``primitive`` and ``primitive_real_type`` (e.g. if it was retrieved
         from a primitive_env), those will be taken into account and
         match_signature will return True if ``other`` overrides ``Entity``.
+
+        If ignore_first_param is True, do the signature match by ignoring the
+        Self's first parameter. This can be used for example when matching a
+        TaskType's procedure with one of its parent interface primitives,
+        because the subprogram from the task has an implicit Self parameter
+        which does not appear in the subprogram specification.
         """
         ent = Var(If(use_entity_info, Entity, Self.as_bare_entity))
         return And(
             # Check that the names are the same
             Not(match_name) | ent.name.node.matches(other.name.node),
             ent.match_return_type(other),
-            ent.match_formal_params(other, match_name),
+            ent.match_formal_params(other, match_name, ignore_first_param),
         )
 
     @langkit_property(return_type=Bool)

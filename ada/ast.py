@@ -15150,9 +15150,9 @@ class Identifier(BaseId):
         return Or(
             # Check if the referenced declaration is constant (filter out
             # subprograms as it makes no sense to call is_constant_object
-            # on them).
+            # on them, except for EnumLiteralDecls).
             If(
-                Not(rd.is_subprogram),
+                Or(Not(rd.is_subprogram), rd.is_a(EnumLiteralDecl)),
                 rd.is_constant_object,
                 False
             ),
@@ -15218,6 +15218,8 @@ class EnumLiteralDecl(BasicSubpDecl):
     aspects = NullField()
 
     is_static_decl = Property(True)
+
+    is_constant_object = Property(True)
 
     @langkit_property(public=True)
     def enum_type():

@@ -162,9 +162,9 @@ ada_lexer.add_patterns(
 
 rules = [
     # Blanks and trivia
-    (Pattern(r"[ \t\r\n\f]+"), Token.Whitespace),
-    (Pattern(r"--(.?)+"),      Token.Comment),
-    (Pattern(r"#(.?)+"),       Token.PrepLine),
+    (Pattern(r"[ \t\r\n\f\v]+"), Token.Whitespace),
+    (Pattern(r"--(.?)+"),        Token.Comment),
+    (Pattern(r"#(.?)+"),         Token.PrepLine),
 ]
 
 # Those keywords can also be attributes, which is why they have special

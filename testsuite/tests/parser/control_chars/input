@@ -1,0 +1,4 @@
+	pragma Foo;  --  horizontal tabulation
+pragma Foo;  --  vertical tabulation
+pragma Foo;  --  form feed
+pragma Foo;  --  carriage return

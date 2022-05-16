@@ -9,9 +9,23 @@ from langkit.parsers import (Cut, Grammar, List, Null, Opt, Or, Pick,
                              Predicate, Skip, StopCut, _)
 
 
-ada_grammar = Grammar(main_rule_name='compilation',
-                      extra_entry_points={'pp_directive'})
+entry_points = {
+    "compilation": "Parse an Ada source file.",
+    "compilation_unit": "Parse a compilation unit.",
+    "expr": "Parse an expression.",
+    "pp_directive": "Parse a preprocessor directive.",
+    "stmt": (
+        "Parse a statement, or a compound statement (trailing semicolon"
+        " included)."
+    ),
+}
+
+ada_grammar = Grammar(
+    main_rule_name="compilation",
+    extra_entry_points=set(entry_points) - {"compilation"},
+)
 A = ada_grammar
+A.user_defined_rules_docs.update(entry_points)
 
 
 def res(text):

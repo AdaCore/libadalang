@@ -1,9 +1,9 @@
-type: bugfix
-title: Fix implementation of ``is_dispatching_call``
+type: new-feature
+title: Introduce public/documented grammar rules
+api: ["ada"]
 description: |
-    This change fills a hole in the implementation of ``is_dispatching_call``,
-    where calls with tag-indeterminate operands but a controlling result could
-    only be considered dispatching in the context of an assignment, but not
-    when an enclosing call could be used to determine its controlling tag
-    value.
-date: 2022-04-25
+    Thanks to new functions in the ``Langkit_Support.Generic_API`` and
+    ``Langkit_Support.Generic_API.Introspection`` packages, it is now possible
+    to query whether a grammar rule is "public", the type of nodes it can
+    create, as well as its documentation.
+date: 2022-05-16

@@ -27,10 +27,10 @@ with Ada.Containers.Hashed_Maps;
 with Ada.Strings.Unbounded.Hash;
 with Ada.Unchecked_Deallocation;
 
-with GNATCOLL.Locks;
+with GNAT.Task_Lock;
+
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
-with Libadalang.GPR_Lock;
 with Libadalang.Unit_Files;
 
 package body Libadalang.Project_Provider is
@@ -562,11 +562,11 @@ package body Libadalang.Project_Provider is
       Name     : Text_Type;
       Kind     : Analysis_Unit_Kind) return String
    is
-      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
-
       Str_Name : constant String :=
         Libadalang.Unit_Files.Unit_String_Name (Name);
    begin
+      GNAT.Task_Lock.Lock;
+
       --  Look for a source file corresponding to Name/Kind in all projects
       --  associated to this Provider. Note that unlike what is documented,
       --  it's not because File_From_Unit returns an non-empty string that the
@@ -588,6 +588,7 @@ package body Libadalang.Project_Provider is
                   Fullname : constant String := +Path.Full_Name;
                begin
                   if Fullname'Length /= 0 then
+                     GNAT.Task_Lock.Unlock;
                      return Fullname;
                   end if;
                end;
@@ -595,7 +596,13 @@ package body Libadalang.Project_Provider is
          end;
       end loop;
 
+      GNAT.Task_Lock.Unlock;
       return "";
+
+   exception
+      when others =>
+         GNAT.Task_Lock.Unlock;
+         raise;
    end Get_Unit_Filename;
 
    --------------
@@ -635,10 +642,10 @@ package body Libadalang.Project_Provider is
    -- Release --
    -------------
 
-   overriding procedure Release (Provider : in out Project_Unit_Provider)
-   is
-      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
+   overriding procedure Release (Provider : in out Project_Unit_Provider) is
    begin
+      GNAT.Task_Lock.Lock;
+
       Prj.Unchecked_Free (Provider.Projects);
       if Provider.Is_Project_Owner then
          Prj.Unload (Provider.Tree.all);
@@ -648,6 +655,13 @@ package body Libadalang.Project_Provider is
       Provider.Tree := null;
       Provider.Env := null;
       Provider.Is_Project_Owner := False;
+
+      GNAT.Task_Lock.Unlock;
+
+   exception
+      when others =>
+         GNAT.Task_Lock.Unlock;
+         raise;
    end Release;
 
    ------------------

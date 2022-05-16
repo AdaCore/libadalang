@@ -26,13 +26,13 @@ with Ada.Strings.Maps.Constants;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Wide_Wide_Characters.Handling;
 
-with GNATCOLL.Locks;
+with GNAT.Task_Lock;
+
 with GNATCOLL.Projects;
 with GNATCOLL.VFS; use GNATCOLL.VFS;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.GPR_Lock;
 with Libadalang.Project_Provider;
 
 package body Libadalang.Unit_Files is
@@ -103,15 +103,23 @@ package body Libadalang.Unit_Files is
    --------------------
 
    function File_From_Unit
-     (Name : Text_Type; Kind : Analysis_Unit_Kind) return String
-   is
-      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
+     (Name : Text_Type; Kind : Analysis_Unit_Kind) return String is
    begin
-      return +GNATCOLL.Projects.File_From_Unit
+      GNAT.Task_Lock.Lock;
+
+      return Result : constant String := +GNATCOLL.Projects.File_From_Unit
         (GNATCOLL.Projects.No_Project,
          Unit_String_Name (Name),
          Libadalang.Project_Provider.Convert (Kind),
-         "ada");
+         "ada")
+      do
+         GNAT.Task_Lock.Unlock;
+      end return;
+
+   exception
+      when others =>
+         GNAT.Task_Lock.Unlock;
+         raise;
    end File_From_Unit;
 
 end Libadalang.Unit_Files;

@@ -23,8 +23,9 @@
 
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
+with GNAT.Task_Lock;
+
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
-with GNATCOLL.Locks;
 with GNATCOLL.Projects;   use GNATCOLL.Projects;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
 
@@ -32,7 +33,6 @@ with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Auto_Provider;     use Libadalang.Auto_Provider;
-with Libadalang.GPR_Lock;
 with Libadalang.Preprocessing;     use Libadalang.Preprocessing;
 with Libadalang.Project_Provider;  use Libadalang.Project_Provider;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
@@ -87,14 +87,13 @@ package body Libadalang.Implementation.C.Extensions is
       Tree            : out Project_Tree_Access;
       Env             : out Project_Environment_Access)
    is
-      Dummy : GNATCOLL.Locks.Scoped_Lock (Libadalang.GPR_Lock.Lock'Access);
-
       PF            : constant String := Value (Project_File);
       Target_Value  : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
       Runtime_Value : constant String :=
         (if Runtime = Null_Ptr then "" else Value (Runtime));
    begin
+      GNAT.Task_Lock.Lock;
 
       --  Initialize the environment (target, runtime, externals) before
       --  loading the project.
@@ -128,6 +127,13 @@ package body Libadalang.Implementation.C.Extensions is
             Free (Env);
             raise;
       end;
+
+      GNAT.Task_Lock.Unlock;
+
+   exception
+      when others =>
+         GNAT.Task_Lock.Unlock;
+         raise;
    end Load_Project;
 
    --------------------------------------

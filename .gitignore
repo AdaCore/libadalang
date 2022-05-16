@@ -1,6 +1,7 @@
 # Python junk
 *.pyc
 __pycache__
+*.egg-info
 
 # Vim junk
 *.swp
@@ -20,6 +21,7 @@ langkit.prof
 README.html
 core.*
 valgrind.out
+user_manual/generated
 
 # GNAT/GPS/GDB junk
 auto.cgpr

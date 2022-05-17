@@ -1,0 +1,21 @@
+type: bugfix
+title: Implement primitives merging in ``Get_Primitives``
+description: |
+    This change improves the behavior of the property in the following code
+    pattern:
+
+    .. code:: ada
+
+        type I1 is interface;
+        procedure Foo (X : I1);
+
+        type I2 is interface;
+        procedure Foo (X : I2);
+
+        type T is new I1 and I2;
+
+    Previously, ``Get_Primitives`` invoked on type T would return the two
+    inherited primitives, from I1 and I2. Now, the primitives are "merged"
+    and ``Get_Primitives`` will only return the one that is inherited first
+    when multiple primitives are compatible (so, the one from I1 in that case).
+date: 2022-05-24

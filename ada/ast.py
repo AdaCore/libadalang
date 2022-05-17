@@ -6080,7 +6080,7 @@ class BaseTypeDecl(BasicDecl):
         return Or(
             Entity.canonical_type.node == target,
             Entity.base_types.any(
-                lambda bt: bt.has_base_type(target)
+                lambda bt: bt.has_base_type_impl(target)
             )
         )
 
@@ -6094,7 +6094,7 @@ class BaseTypeDecl(BasicDecl):
             rebindings of ``target``, meaning any instance of ``target`` will
             be accepted.
         """
-        return Entity.has_base_type_impl(
+        return Entity.full_view.has_base_type_impl(
             target.as_bare_entity.canonical_type.node
         )
 
@@ -6603,18 +6603,18 @@ class TypeDecl(BaseTypeDecl):
 
         # Make sure to return only one instance of each primitive: the most
         # "overriding" one.
-        return bds.filter(lambda a: Let(
+        return bds.filter(lambda i, a: Let(
             lambda
             a_spec=a.subp_spec_or_null,
             a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl):
 
-            bds.all(lambda b: Let(
+            bds.all(lambda j, b: Let(
                 lambda b_prim=b.info.md.primitive.cast(BaseTypeDecl):
                 Or(
                     # Note that we don't want to use `match_name=True` in the
                     # call to `match_signature` below because it also compares
                     # the name of the parameters which we don't want to take
-                    # into account here. Therefore we first compare the names
+                    # into account here. Therefore, we first compare the names
                     # of the subprogram separately.
                     Not(a.defining_name.node.matches(b.defining_name.node)),
 
@@ -6624,20 +6624,35 @@ class TypeDecl(BaseTypeDecl):
                         match_name=False, use_entity_info=True
                     )),
 
-                    # Either the type of the first primitive derives from the
-                    # type of the second primitive.
-                    a_prim.has_base_type(b_prim),
+                    Let(lambda b_prim_ent=b_prim.as_bare_entity: If(
+                        # Test if the type of the first primitive (a) derives
+                        # from the type of the second primitive (b)...
+                        a_prim.has_base_type(b_prim_ent.node),
 
-                    # Or the second primitive is defined on an interface type,
-                    # in which case the first primitive overrides it without
-                    # deriving from the type of the second primitive.
-                    Let(
-                        lambda
-                        b_prim_ent=b_prim.as_bare_entity:
+                        # Case a derives from b...
 
-                        b_prim_ent.is_interface_type
-                        & Not(b_prim_ent.has_base_type(a_prim.node))
-                    )
+                        # If b also derives from a, it means the types are
+                        # equal: both primitives are in fact the same
+                        # subprogram, but the first one is the declaration and
+                        # the second one is the body. In that case we decide to
+                        # keep the body.
+                        # Else if b does not derive from a, it means the
+                        # primitive on a overrides the primitive on b, so
+                        # return True.
+                        (i >= j) | Not(b_prim_ent.has_base_type(a_prim.node)),
+
+                        # Case a does *not* derive from b...
+
+                        # If b also does not derive from a, the two base types
+                        # are unrelated, it means that the primitives are
+                        # merged in a single one (remember their signature
+                        # match). We keep the one that is inherited first with
+                        # respect to the list of parents.
+                        # But if b derives from a, we return False as we don't
+                        # want to keep this primitive: we will keep the most
+                        # inherited one (defined on b) later instead.
+                        (i <= j) & Not(b_prim_ent.has_base_type(a_prim.node))
+                    ))
                 )
             ))
         ))

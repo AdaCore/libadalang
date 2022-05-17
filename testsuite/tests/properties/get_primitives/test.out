@@ -1,0 +1,13 @@
+Working on node <TypeDecl ["I_5_7"] test.adb:19:4-19:42>
+========================================================
+
+Eval 'node.p_get_primitives()'
+Result: [<AbstractSubpDecl ["Proc_1"] test.adb:4:4-4:42>,
+         <AbstractSubpDecl ["Proc_2"] test.adb:5:4-5:42>,
+         <AbstractSubpDecl ["Proc_3"] test.adb:6:4-6:42>,
+         <AbstractSubpDecl ["F_4"] test.adb:7:4-7:53>,
+         <AbstractSubpDecl ["F_5"] test.adb:8:4-8:53>,
+         <AbstractSubpDecl ["Proc_4"] test.adb:14:4-14:42>,
+         <AbstractSubpDecl ["Proc_5"] test.adb:15:4-15:42>,
+         <AbstractSubpDecl ["Fun_6"] test.adb:16:4-16:55>,
+         <AbstractSubpDecl ["Fun_7"] test.adb:17:4-17:55>]

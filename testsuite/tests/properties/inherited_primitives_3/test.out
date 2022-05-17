@@ -14,8 +14,7 @@ Working on node <TypeDecl ["I3"] test.adb:14:7-14:41>
 =====================================================
 
 Eval 'node.p_get_primitives()'
-Result: [<AbstractSubpDecl ["Foo"] test.adb:7:7-7:41>,
-         <NullSubpDecl ["Foo"] test.adb:12:7-12:38>]
+Result: [<AbstractSubpDecl ["Foo"] test.adb:7:7-7:41>]
 
 Working on node <TypeDecl ["U"] test.adb:31:7-31:69>
 ====================================================

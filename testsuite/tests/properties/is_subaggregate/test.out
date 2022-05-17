@@ -1,0 +1,19 @@
+Eval 'node.f_default_expr' on node <ObjectDecl ["T"] test.adb:2:4-3:37>
+Result: <Aggregate test.adb:3:7-3:36>
+
+Eval 'node.f_default_expr.p_is_subaggregate' on node <ObjectDecl ["T"] test.adb:2:4-3:37>
+Result: False
+
+Eval 'node.f_default_expr[1][0][1]' on node <ObjectDecl ["T"] test.adb:2:4-3:37>
+Result: <Aggregate test.adb:3:8-3:18>
+
+Eval 'node.f_default_expr[1][0][1].p_is_subaggregate' on node <ObjectDecl ["T"] test.adb:2:4-3:37>
+Result: True
+
+Eval 'node.f_default_expr[1][1][1]' on node <ObjectDecl ["T"] test.adb:2:4-3:37>
+Result: <Aggregate test.adb:3:20-3:35>
+
+Eval 'node.f_default_expr[1][1][1].p_is_subaggregate' on node <ObjectDecl ["T"] test.adb:2:4-3:37>
+Result: True
+
+

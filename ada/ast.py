@@ -11777,6 +11777,17 @@ class BaseAggregate(Expr):
         """
         return Entity.assocs.zip_with_params
 
+    @langkit_property(public=True, return_type=T.Bool)
+    def is_subaggregate():
+        """
+        Return whether this aggregate is actually a subaggregate of a
+        multidimensional array aggregate, as described in RM 4.3.3.
+        """
+        # The `multidim_root_aggregate` property assumes that the top-level
+        # aggregate's type_var has been set, so run nameres beforehand.
+        ignore(Var(Entity.resolve_names_from_closest_entry_point))
+        return origin.bind(Self, Entity.multidim_root_aggregate.rank > 0)
+
 
 class Aggregate(BaseAggregate):
     """

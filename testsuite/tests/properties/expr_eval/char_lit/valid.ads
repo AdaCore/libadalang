@@ -17,4 +17,22 @@ package Valid is
    E2 : constant Enum := 'B';
    --% node.f_default_expr.p_eval_as_int
 
+   function F1 return Character renames 'A';
+   --% node.f_renames.f_renamed_object.p_eval_as_int
+
+   function F2 return Enum renames 'A';
+   --% node.f_renames.f_renamed_object.p_eval_as_int
+
+   function F3 return Character renames 'Z';
+   --% node.f_renames.f_renamed_object.p_eval_as_int
+
+   function F4 return Enum renames 'B';
+   --% node.f_renames.f_renamed_object.p_eval_as_int
+
+   R1 : Character renames C1;
+   --% node.f_renaming_clause.f_renamed_object.p_eval_as_int
+
+   R2 : Enum renames E1;
+   --% node.f_renaming_clause.f_renamed_object.p_eval_as_int
+
 end Valid;

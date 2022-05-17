@@ -18455,10 +18455,20 @@ class SubpRenamingDecl(BaseSubpBody):
     xref_entry_point = Property(True)
     xref_equation = Property(Or(
         And(
-            Entity.renames.renamed_object.xref_no_overloading(all_els=True),
-            Predicate(BasicDecl.subp_decl_match_signature,
-                      Entity.renames.renamed_object.ref_var,
-                      Entity.cast(T.BasicDecl)),
+            If(
+                Entity.renames.renamed_object.is_a(CharLiteral),
+
+                # If the renamed object is a char literal, simply resolves its
+                # equation.
+                Bind(Entity.renames.renamed_object.expected_type_var,
+                     Entity.subp_spec.return_type)
+                & Entity.renames.renamed_object.sub_equation,
+
+                Entity.renames.renamed_object.xref_no_overloading(all_els=True)
+                & Predicate(BasicDecl.subp_decl_match_signature,
+                            Entity.renames.renamed_object.ref_var,
+                            Entity.cast(T.BasicDecl))
+            ),
 
             # TODO: since we don't yet represent function attributes ('Image,
             # etc.) as proper functions, the xref_equation as written so far

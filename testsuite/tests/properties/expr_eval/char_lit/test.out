@@ -39,3 +39,39 @@ Working on node <ObjectDecl ["E2"] valid.ads:17:4-17:30>
 
 Eval 'node.f_default_expr.p_eval_as_int'
 Result: 1
+
+Working on node <SubpRenamingDecl ["F1"] valid.ads:20:4-20:45>
+==============================================================
+
+Eval 'node.f_renames.f_renamed_object.p_eval_as_int'
+Result: 65
+
+Working on node <SubpRenamingDecl ["F2"] valid.ads:23:4-23:40>
+==============================================================
+
+Eval 'node.f_renames.f_renamed_object.p_eval_as_int'
+Result: 0
+
+Working on node <SubpRenamingDecl ["F3"] valid.ads:26:4-26:45>
+==============================================================
+
+Eval 'node.f_renames.f_renamed_object.p_eval_as_int'
+Result: 90
+
+Working on node <SubpRenamingDecl ["F4"] valid.ads:29:4-29:40>
+==============================================================
+
+Eval 'node.f_renames.f_renamed_object.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["R1"] valid.ads:32:4-32:30>
+========================================================
+
+Eval 'node.f_renaming_clause.f_renamed_object.p_eval_as_int'
+Result: 65
+
+Working on node <ObjectDecl ["R2"] valid.ads:35:4-35:25>
+========================================================
+
+Eval 'node.f_renaming_clause.f_renamed_object.p_eval_as_int'
+Result: 0

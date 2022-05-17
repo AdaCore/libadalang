@@ -1608,16 +1608,6 @@ class BasicDecl(AdaNode):
     with a language entity, for example a type or a variable.
     """
 
-    @langkit_property(public=True, return_type=T.Bool, memoized=True)
-    def is_ghost_code():
-        """
-        Return whether this declaration is ghost code or not. See SPARK RM 6.9.
-        """
-        return Or(
-            Entity.has_aspect('Ghost'),
-            Entity.parent_basic_decl._.is_ghost_code()
-        )
-
     @langkit_property()
     def env_hook_basic_decl():
         """
@@ -2093,17 +2083,6 @@ class BasicDecl(AdaNode):
             Entity.unshed_rebindings(rebindings.get_parent)
         )
 
-    @langkit_property(public=True)
-    def is_imported():
-        """
-        Whether this declaration is imported from another language.
-        """
-        return Or(
-            Not(Entity.get_aspect_assoc('Import').is_null),
-            Not(Entity.get_pragma('Import').is_null),
-            Not(Entity.get_pragma('Interface').is_null),
-        )
-
     @langkit_property(return_type=T.Bool)
     def is_library_item():
         """
@@ -2172,29 +2151,6 @@ class BasicDecl(AdaNode):
             No(T.Pragma.list.entity)
         )
 
-    @langkit_property(return_type=Aspect,
-                      dynamic_vars=[default_imprecise_fallback()])
-    def get_aspect_impl(name=Symbol):
-        """
-        Return the aspect with the name ``name`` associated to this specific
-        entity part.
-        """
-        return Entity.get_pragma(name).then(
-            lambda p: Aspect.new(
-                exists=True, node=p, value=p.args._.at(1)._.assoc_expr
-            )
-        )._or(Entity.get_aspect_assoc(name).then(
-            lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)
-        ))._or(Entity.get_representation_clause(name).then(
-            lambda rc: Aspect.new(exists=True, node=rc, value=rc.expr)
-        ))._or(If(
-            name == 'Address',
-            Entity.get_at_clause.then(
-                lambda atc: Aspect.new(exists=True, node=atc, value=atc.expr)
-            ),
-            No(Aspect)
-        ))
-
     @langkit_property(return_type=Aspect, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
     def get_aspect(name=Symbol):
@@ -2210,22 +2166,7 @@ class BasicDecl(AdaNode):
         Note: for some aspects (e.g. Inline), Libadalang will check if they are
         defined on any part of the entity.
         """
-        parts_to_check = Var(If(
-            name.any_of(
-                'Inline',
-                # For the following aspects, an aspect only on the body is
-                # illegal, but we don't care about illegal cases, and this
-                # allows us to auto propagate the aspect from spec to body.
-                'Ghost', 'Default_Initial_Condition'
-            ),
-            Entity.all_parts,
-            Entity.singleton
-        ))
-        return parts_to_check.map(
-            lambda p: p.get_aspect_impl(name)
-        ).find(
-            lambda a: a.exists
-        )
+        return Entity.defining_name_or_raise._.get_aspect(name)
 
     @langkit_property(return_type=Bool, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -2236,80 +2177,14 @@ class BasicDecl(AdaNode):
 
         "Aspect" is used as in RM terminology (see RM 13).
         """
-        a = Var(Entity.get_aspect(name))
-
-        return a.exists & If(
-            Self.is_contract_aspect(name),
-
-            # We don't want to evaluate the predicate condition to determine
-            # if its present.
-            True,
-
-            a.value.then(lambda val: Or(
-                # Only check the value of the expression if it is determined to
-                # be of a boolean type, so we don't erroneously try to cast a
-                # value to bool when it would be wrong.
-                Not(val.expression_type == Self.bool_type),
-                val.eval_as_int == BigIntLiteral(1)
-            ), default_val=True)
-        )
-
-    @langkit_property(return_type=T.Bool)
-    def is_valid_pragma_for_name(name=Symbol, decl=AdaNode.entity):
-        """
-        Helper property for ``get_pragma``. Used to check that ``decl`` is a
-        pragma declaration that has the given name and is a valid pragma for
-        this declaration.
-        """
-        return decl.cast(T.Pragma).then(
-            lambda p: And(
-                # Check pragma's name
-                p.id.name_is(name),
-                # Check that it's associated to self
-                Not(p.associated_decls.find(lambda d: d == Entity)
-                    .is_null),
-                # Check that the pragma is after the decl
-                (Self < p.node)
-            )
-        )
+        return Entity.defining_name_or_raise._.has_aspect(name)
 
     @langkit_property(return_type=T.Pragma.entity, public=True)
     def get_pragma(name=Symbol):
         """
         Return the pragma with name ``name`` associated to this entity.
         """
-        # First look at library level pragmas if Self is a library item
-        return Entity.library_item_pragmas.then(
-            # Check pragma's name
-            lambda plist: plist.find(lambda p: p.id.name_is(name)),
-        )._or(
-            # First look in the scope where Self is declared. We don't use
-            # ``declarative_scope`` here, as this BasicDecl may not necessarily
-            # be in a DeclarativePart, as is the case for ComponentDecls.
-            # Instead, we simply look among this node's siblings.
-            Entity.parent.cast(AdaNode.list)._.find(
-                lambda d: Entity.is_valid_pragma_for_name(name, d)
-            )
-
-            # Then, if entity is declared in the public part of a package or
-            # protected def, corresponding pragma might be in the private part.
-            ._or(Entity.declarative_scope.cast(T.PublicPart).then(
-                lambda pp: pp.parent.match(
-                    lambda pkg=T.BasePackageDecl: pkg.private_part,
-                    lambda ptd=T.ProtectedDef: ptd.private_part,
-                    lambda _: No(T.PrivatePart)
-                )._.decls.as_entity.find(
-                    lambda d: Entity.is_valid_pragma_for_name(name, d)
-                )
-            ))
-
-            # Then, look inside decl, in the first declarative region of decl
-            ._or(Entity.declarative_parts.at(0)._.decls.find(
-                lambda d: Entity.is_valid_pragma_for_name(name, d)
-            ))
-
-            .cast(T.Pragma)
-        )
+        return Entity.defining_name_or_raise._.get_pragma(name)
 
     @langkit_property(return_type=T.AttributeDefClause.entity, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -2318,15 +2193,7 @@ class BasicDecl(AdaNode):
         Return the representation clause associated to this type decl that
         defines the given attribute name.
         """
-        return Entity.declarative_scope._.decls.as_entity.find(
-            lambda d: d.cast(T.AttributeDefClause).then(
-                lambda p: Let(
-                    lambda attr=p.attribute_expr.cast_or_raise(T.AttributeRef):
-                        And(attr.attribute.name_is(name),
-                            attr.prefix.referenced_decl == Entity)
-                )
-            )
-        ).cast(T.AttributeDefClause.entity)
+        return Entity.defining_name_or_raise._.get_representation_clause(name)
 
     @langkit_property(return_type=T.AtClause.entity, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -2334,11 +2201,21 @@ class BasicDecl(AdaNode):
         """
         Return the at clause associated to this declaration.
         """
-        return Entity.declarative_scope._.decls.as_entity.find(
-            lambda d: d.cast(AtClause).then(
-                lambda p: p.name.referenced_decl == Entity
-            )
-        ).cast(AtClause.entity)
+        return Entity.defining_name_or_raise._.get_at_clause()
+
+    @langkit_property(public=True)
+    def is_imported():
+        """
+        Whether this declaration is imported from another language.
+        """
+        return Entity.defining_name_or_raise._.is_imported
+
+    @langkit_property(public=True, return_type=T.Bool)
+    def is_ghost_code():
+        """
+        Return whether this declaration is ghost code or not. See SPARK RM 6.9.
+        """
+        return Entity.defining_name_or_raise._.is_ghost_code
 
     @langkit_property(public=True)
     def is_compilation_unit_root():
@@ -2605,6 +2482,20 @@ class BasicDecl(AdaNode):
         as suffixes when Self is a prefix.
         """
     )
+
+    @langkit_property(return_type=T.DefiningName.entity)
+    def defining_name_or_raise():
+        """
+        Return the defining name of this ``BasicDecl``, if and only if there
+        is a unique defining name for it. Otherwise, raise a property error.
+        """
+        dns = Var(Entity.defining_names)
+        return If(
+            dns.length > 1,
+            PropertyError(DefiningName.entity,
+                          "BasicDecl with multiple defining names"),
+            dns.at(0)
+        )
 
     @langkit_property(dynamic_vars=[origin], return_type=T.BaseTypeDecl.entity)
     def identity_type():
@@ -8546,7 +8437,7 @@ class Pragma(AdaNode):
                 "Precondition'Class", "Postcondition'Class",
                 "Test_Case", "Contract_Cases"
             ),
-            Entity.associated_decls.at(0).children_env,
+            Entity.associated_entities.at(0).children_env,
             Entity.children_env
         )
 
@@ -8695,7 +8586,7 @@ class Pragma(AdaNode):
         )
 
     @langkit_property()
-    def associated_decls_helper():
+    def associated_entities_helper():
         return Entity.associated_entity_names.mapcat(
             # Find the scope in which this pragma lies by fetching the closest
             # lexical scope. We don't use ``declarative_scope`` here, as some
@@ -8705,25 +8596,31 @@ class Pragma(AdaNode):
                 lambda parent: parent.children_env.get(
                     name.name_symbol, lookup=LK.flat, categories=no_prims
                 )
+                # Map to the public view, to work on the instantiation nodes
+                # instead of the Generic*Internal nodes.
+                .map(
+                    lambda node:
+                    node.cast(T.BasicDecl).wrap_public_reference
+                    .defining_names.find(
+                        lambda dn: dn.name_is(name.name_symbol)
+                    )
+                )
             )
-            # Map to the public view, to work on the instantiation nodes
-            # instead of the Generic*Internal nodes.
-            .map(lambda node: node.cast(T.BasicDecl).wrap_public_reference)
 
             # Only get entities that are after self in the *same* source
             .filter(lambda ent: And(ent.unit == Self.unit, ent.node < Self))
         )
 
     @langkit_property(public=True)
-    def associated_decls():
+    def associated_entities():
         """
         Return an array of ``BasicDecl`` instances associated with this pragma,
         or an empty array if non applicable.
         """
         top_level_decl = Var(Self.parent.parent.cast(T.CompilationUnit).then(
             lambda cu: cu.body.cast_or_raise(T.LibraryItem)
-            .item.as_entity.singleton,
-            default_val=No(BasicDecl.entity.array)
+            .item.as_entity.defining_name.singleton,
+            default_val=No(DefiningName.entity.array)
         ))
 
         enclosing_program_unit = Var(Self.parents.find(
@@ -8743,17 +8640,17 @@ class Pragma(AdaNode):
         #     pragma Inline (Foo);
         return Entity.associated_entity_names.then(
             lambda names: Let(
-                lambda p=Entity.associated_decls_helper._or(top_level_decl):
+                lambda p=Entity.associated_entities_helper._or(top_level_decl):
                 If(
-                    Not(p.equals(No(T.BasicDecl.entity.array))),
+                    Not(p.equals(No(T.DefiningName.entity.array))),
                     p,
                     enclosing_program_unit.then(lambda epu: If(
                         And(
                             names.length == 1,
                             names.at(0).referenced_decl() == epu
                         ),
-                        epu.singleton,
-                        No(BasicDecl.entity.array)
+                        epu.defining_name.singleton,
+                        No(DefiningName.entity.array)
                     ), default_val=top_level_decl)
                 )
             ),
@@ -8776,7 +8673,7 @@ class Pragma(AdaNode):
 
                 # Or else it 's necessarily a program unit pragma
                 enclosing_program_unit.singleton
-            )
+            ).map(lambda bd: bd.defining_name)
         )
 
     @langkit_property(return_type=T.DesignatedEnv)
@@ -9273,11 +9170,8 @@ class ObjectDecl(BasicDecl):
         If this object decl is the constant completion of an object decl in the
         public part, return the object decl from the public part.
         """
-        return If(
-            Self.ids.length > 1,
-            PropertyError(T.BasicDecl.entity,
-                          "Can't call on a declaration with several names"),
-            Entity.next_part_for_name(Entity.name_symbol)
+        return Entity.next_part_for_name(
+            Entity.defining_name_or_raise.name_symbol
         )
 
     @langkit_property(return_type=T.BasicDecl.entity, public=True)
@@ -9286,11 +9180,8 @@ class ObjectDecl(BasicDecl):
         If this object decl is the incomplete declaration of a constant in a
         public part, return its completion in the private part.
         """
-        return If(
-            Self.ids.length > 1,
-            PropertyError(T.BasicDecl.entity,
-                          "Can't call on a declaration with several names"),
-            Entity.previous_part_for_name(Entity.name_symbol)
+        return Entity.previous_part_for_name(
+            Entity.defining_name_or_raise.name_symbol
         )
 
     @langkit_property()
@@ -14443,6 +14334,18 @@ class DefiningName(Name):
         doc="Returns this DefiningName's basic declaration"
     )
 
+    basic_decl_no_internal = Property(
+        Entity.basic_decl.then(
+            lambda bd: If(
+                bd.is_a(GenericPackageInternal, GenericSubpInternal),
+                bd.parent.cast_or_raise(BasicDecl),
+                bd
+            )
+        ),
+        doc="Returns this DefiningName's basic declaration but discard "
+            "intermediate internal nodes."
+    )
+
     @langkit_property(public=True, return_type=T.RefResult.array,
                       dynamic_vars=[default_origin(),
                                     default_imprecise_fallback()])
@@ -14664,6 +14567,236 @@ class DefiningName(Name):
         doc="Like ``BasicDecl.canonical_part`` on a defining name",
         dynamic_vars=[default_imprecise_fallback()]
     )
+
+    @langkit_property(return_type=T.DefiningName.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def all_previous_parts():
+        """
+        Return all previous parts of this entity, where the first part
+        is at the beginning of the array.
+        """
+        return Entity.previous_part.then(
+            lambda pp: If(
+                Entity == pp,
+                No(DefiningName.entity.array),
+                pp.all_previous_parts.concat(pp.singleton)
+            )
+        )
+
+    @langkit_property(return_type=T.DefiningName.entity.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def all_next_parts():
+        """
+        Return all next parts of this entity, where the last part is at the
+        end of the array.
+        """
+        return Entity.next_part.then(
+            lambda np: If(
+                Entity == np,
+                No(DefiningName.entity.array),
+                np.singleton.concat(np.all_next_parts)
+            )
+        )
+
+    @langkit_property(return_type=T.DefiningName.entity.array, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def all_parts():
+        """
+        Return all parts that define this entity, sorted from first part to
+        last part.
+        """
+        prevs = Var(Entity.all_previous_parts)
+        nexts = Var(Entity.all_next_parts)
+        return prevs.concat(Entity.singleton).concat(nexts)
+
+    @langkit_property(return_type=Aspect,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_aspect_impl(name=Symbol):
+        """
+        Return the aspect with the name ``name`` associated to this specific
+        entity part.
+        """
+        return Entity.get_pragma(name).then(
+            lambda p: Aspect.new(
+                exists=True, node=p, value=p.args._.at(1)._.assoc_expr
+            )
+        )._or(Entity.basic_decl.get_aspect_assoc(name).then(
+            lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)
+        ))._or(Entity.get_representation_clause(name).then(
+            lambda rc: Aspect.new(exists=True, node=rc, value=rc.expr)
+        ))._or(If(
+            name == 'Address',
+            Entity.get_at_clause.then(
+                lambda atc: Aspect.new(exists=True, node=atc, value=atc.expr)
+            ),
+            No(Aspect)
+        ))
+
+    @langkit_property(return_type=Aspect, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_aspect(name=Symbol):
+        """
+        Return the aspect with name ``name`` associated to entity that this
+        name defines.
+
+        Aspects are properties of entities that can be specified by the Ada
+        program, either via aspect specifications, pragmas, or attributes.
+
+        This will return the syntactic node corresponding to attribute
+        directly.
+
+        Note: for some aspects (e.g. Inline), Libadalang will check if they are
+        defined on any part of the entity.
+        """
+        parts_to_check = Var(If(
+            name.any_of(
+                'Inline',
+                # For the following aspects, an aspect only on the body is
+                # illegal, but we don't care about illegal cases, and this
+                # allows us to auto propagate the aspect from spec to body.
+                'Ghost', 'Default_Initial_Condition'
+            ),
+            Entity.all_parts,
+            Entity.singleton
+        ))
+        return parts_to_check.map(
+            lambda p: p.get_aspect_impl(name)
+        ).find(
+            lambda a: a.exists
+        )
+
+    @langkit_property(return_type=Bool, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def has_aspect(name=Symbol):
+        """
+        Returns whether the boolean aspect named ``name`` is set on the entity
+        represented by this node.
+
+        "Aspect" is used as in RM terminology (see RM 13).
+        """
+        a = Var(Entity.get_aspect(name))
+
+        return a.exists & If(
+            Self.is_contract_aspect(name),
+
+            # We don't want to evaluate the predicate condition to determine
+            # if its present.
+            True,
+
+            a.value.then(lambda val: Or(
+                # Only check the value of the expression if it is determined to
+                # be of a boolean type, so we don't erroneously try to cast a
+                # value to bool when it would be wrong.
+                Not(val.expression_type == Self.bool_type),
+                val.eval_as_int == BigIntLiteral(1)
+            ), default_val=True)
+        )
+
+    @langkit_property(return_type=T.Bool)
+    def is_valid_pragma_for_name(name=Symbol, decl=AdaNode.entity):
+        """
+        Helper property for ``get_pragma``. Used to check that ``decl`` is a
+        pragma declaration that has the given name and is a valid pragma for
+        the entity defined by this defining name.
+        """
+        return decl.cast(T.Pragma).then(
+            lambda p: And(
+                # Check pragma's name
+                p.id.name_is(name),
+                # Check that it's associated to self
+                Not(p.associated_entities.find(lambda d: d == Entity)
+                    .is_null),
+                # Check that the pragma is after the decl
+                (Self < p.node)
+            )
+        )
+
+    @langkit_property(return_type=T.Pragma.entity, public=True)
+    def get_pragma(name=Symbol):
+        """
+        Return the pragma with name ``name`` associated to this entity.
+        """
+        bd = Var(Entity.basic_decl)
+        # First look at library level pragmas if Self is a library item
+        return bd.library_item_pragmas.then(
+            # Check pragma's name
+            lambda plist: plist.find(lambda p: p.id.name_is(name)),
+        )._or(
+            # First look in the scope where Self is declared. We don't use
+            # ``declarative_scope`` here, as this BasicDecl may not necessarily
+            # be in a DeclarativePart, as is the case for ComponentDecls.
+            # Instead, we simply look among this node's siblings.
+            bd.parent.cast(AdaNode.list)._.find(
+                lambda d: Entity.is_valid_pragma_for_name(name, d)
+            )
+
+            # Then, if entity is declared in the public part of a package or
+            # protected def, corresponding pragma might be in the private part.
+            ._or(bd.declarative_scope.cast(T.PublicPart).then(
+                lambda pp: pp.parent.match(
+                    lambda pkg=T.BasePackageDecl: pkg.private_part,
+                    lambda ptd=T.ProtectedDef: ptd.private_part,
+                    lambda _: No(T.PrivatePart)
+                )._.decls.as_entity.find(
+                    lambda d: Entity.is_valid_pragma_for_name(name, d)
+                )
+            ))
+
+            # Then, look inside decl, in the first declarative region of decl
+            ._or(bd.declarative_parts.at(0)._.decls.find(
+                lambda d: Entity.is_valid_pragma_for_name(name, d)
+            ))
+
+            .cast(T.Pragma)
+        )
+
+    @langkit_property(return_type=T.AttributeDefClause.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_representation_clause(name=Symbol):
+        """
+        Return the representation clause associated to this entity that
+        defines the given attribute name.
+        """
+        return Entity.basic_decl.declarative_scope._.decls.as_entity.find(
+            lambda d: d.cast(T.AttributeDefClause).then(
+                lambda p: Let(
+                    lambda attr=p.attribute_expr.cast_or_raise(T.AttributeRef):
+                        And(attr.attribute.name_is(name),
+                            attr.prefix.referenced_defining_name == Entity)
+                )
+            )
+        ).cast(T.AttributeDefClause.entity)
+
+    @langkit_property(return_type=T.AtClause.entity, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_at_clause():
+        """
+        Return the at clause associated to this entity.
+        """
+        return Entity.basic_decl.declarative_scope._.decls.as_entity.find(
+            lambda d: d.cast(AtClause).then(
+                lambda p: p.name.referenced_defining_name == Entity
+            )
+        ).cast(AtClause.entity)
+
+    @langkit_property(public=True, return_type=T.Bool)
+    def is_imported():
+        """
+        Whether this entity defined by this name is imported from another
+        language.
+        """
+        return Entity.has_aspect('Import') | Entity.has_aspect('Interface')
+
+    @langkit_property(public=True, return_type=T.Bool, memoized=True)
+    def is_ghost_code():
+        """
+        Return whether the entity defined by this name is ghost or not.
+        See SPARK RM 6.9.
+        """
+        return Or(
+            Entity.has_aspect('Ghost'),
+            Entity.basic_decl_no_internal.parent_basic_decl._.is_ghost_code()
+        )
 
     @langkit_property()
     def xref_equation():
@@ -18165,10 +18298,10 @@ class Stmt(AdaNode):
             # to a ghost variable, or calling a ghost procedure.
             Entity.match(
                 lambda ass=T.AssignStmt:
-                ass.dest.referenced_decl.is_ghost_code,
+                ass.dest.referenced_defining_name.is_ghost_code,
 
                 lambda call=T.CallStmt:
-                call.call.referenced_decl.is_ghost_code,
+                call.call.referenced_defining_name.is_ghost_code,
 
                 lambda _: False
             )

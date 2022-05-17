@@ -3,7 +3,7 @@ procedure Test is
       X : Integer;
       --% node.p_get_pragma("atomic")
       pragma Atomic (X);
-      --% node.p_associated_decls
+      --% node.p_associated_entities
    end record;
 begin
    null;

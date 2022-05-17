@@ -1,7 +1,7 @@
 Eval 'node.p_get_pragma("atomic")' on node <ComponentDecl ["X"] test.adb:3:7-3:19>
 Result: <PragmaNode test.adb:5:7-5:25>
 
-Eval 'node.p_associated_decls' on node <PragmaNode test.adb:5:7-5:25>
-Result: [<ComponentDecl ["X"] test.adb:3:7-3:19>]
+Eval 'node.p_associated_entities' on node <PragmaNode test.adb:5:7-5:25>
+Result: [<DefiningName test.adb:3:7-3:8>]
 
 

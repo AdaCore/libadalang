@@ -1,0 +1,19 @@
+Eval 'node.f_ids[0].p_has_aspect("volatile")' on node <ObjectDecl ["X", "Y"] test.adb:3:7-3:22>
+Result: True
+
+Eval 'node.f_ids[1].p_has_aspect("volatile")' on node <ObjectDecl ["X", "Y"] test.adb:3:7-3:22>
+Result: False
+
+Eval 'node.f_ids[0].p_get_at_clause()' on node <ObjectDecl ["X", "Y"] test.adb:10:7-10:22>
+Result: None
+
+Eval 'node.f_ids[1].p_get_at_clause()' on node <ObjectDecl ["X", "Y"] test.adb:10:7-10:22>
+Result: <AtClause test.adb:13:7-13:30>
+
+Eval 'node.f_ids[0].p_get_representation_clause("address")' on node <ObjectDecl ["X", "Y"] test.adb:17:7-17:22>
+Result: None
+
+Eval 'node.f_ids[1].p_get_representation_clause("address")' on node <ObjectDecl ["X", "Y"] test.adb:17:7-17:22>
+Result: <AttributeDefClause test.adb:20:7-20:35>
+
+

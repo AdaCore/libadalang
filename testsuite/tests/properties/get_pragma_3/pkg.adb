@@ -3,7 +3,7 @@ package body Pkg is
    --% node.p_get_pragma("Inline")
    --
    pragma Inline (Foo);
-   --% node.p_associated_decls
+   --% node.p_associated_entities
 
    procedure Foo is null;
 
@@ -14,5 +14,5 @@ package body Pkg is
    --% node.p_get_pragma("inline")
 
    pragma Inline (F_Function);
-   --% node.p_associated_decls
+   --% node.p_associated_entities
 end Pkg;

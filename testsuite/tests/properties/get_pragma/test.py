@@ -11,8 +11,8 @@ for filename in sys.argv[1:]:
     for n in u.root.findall(lal.PragmaNode):
         print('{} -> {} ->> {}'.format(
             n,
-            n.p_associated_decls,
-            n.p_associated_decls[0].p_get_pragma(n.f_id.text)
+            n.p_associated_entities,
+            n.p_associated_entities[0].p_get_pragma(n.f_id.text)
         ))
 
     print('')

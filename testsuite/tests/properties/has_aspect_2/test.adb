@@ -40,6 +40,15 @@ procedure Test is
       type Vector is null record;
       --% node.p_has_aspect("default_initial_condition")
    end P;
+
+   generic
+   procedure Pouet4;
+   --% node.p_has_aspect('inline')
+
+   pragma Inline (Pouet4);
+
+   procedure Pouet4 is null;
+   --% node.p_has_aspect('inline')
 begin
    null;
 end Test;

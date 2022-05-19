@@ -19,4 +19,10 @@ Result: True
 Eval 'node.p_has_aspect("default_initial_condition")' on node <TypeDecl ["Vector"] test.adb:40:7-40:34>
 Result: True
 
+Eval 'node.p_has_aspect('inline')' on node <GenericSubpDecl ["Pouet4"] test.adb:44:4-45:21>
+Result: True
+
+Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet4"] test.adb:50:4-50:29>
+Result: True
+
 

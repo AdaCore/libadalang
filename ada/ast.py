@@ -14751,7 +14751,7 @@ class DefiningName(Name):
         """
         Return the pragma with name ``name`` associated to this entity.
         """
-        bd = Var(Entity.basic_decl)
+        bd = Var(Entity.basic_decl_no_internal)
         # First look at library level pragmas if Self is a library item
         return bd.library_item_pragmas.then(
             # Check pragma's name
@@ -14792,7 +14792,7 @@ class DefiningName(Name):
         Return the representation clause associated to this entity that
         defines the given attribute name.
         """
-        return Entity.basic_decl.declarative_scope._.decls.as_entity.find(
+        return Entity.declarative_scope._.decls.as_entity.find(
             lambda d: d.cast(T.AttributeDefClause).then(
                 lambda p: Let(
                     lambda attr=p.attribute_expr.cast_or_raise(T.AttributeRef):
@@ -14808,7 +14808,7 @@ class DefiningName(Name):
         """
         Return the at clause associated to this entity.
         """
-        return Entity.basic_decl.declarative_scope._.decls.as_entity.find(
+        return Entity.declarative_scope._.decls.as_entity.find(
             lambda d: d.cast(AtClause).then(
                 lambda p: p.name.referenced_defining_name == Entity
             )

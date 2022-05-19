@@ -56,6 +56,10 @@ class InlinePlayground(lal.App):
             default=os.isatty(sys.stdout.fileno()),
             help='Prettify output for CLI use'
         )
+        self.parser.add_argument(
+            '--charset', default=None,
+            help='Charset to use for source decoding'
+        )
         super(InlinePlayground, self).add_arguments()
 
     def prepare_output(self) -> None:

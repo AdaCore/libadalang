@@ -1,13 +1,23 @@
-Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Foo"] test.adb:10:4-10:31>
+Working on node <SubpDecl ["Foo"] test.adb:10:4-10:31>
+======================================================
+
+Eval 'node.findall(lal.Name)[-1].doc_name'
 Result: 'Child_Pkg.My_Int'
 
-Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Foo"] test.adb:18:4-18:38>
+Working on node <SubpDecl ["Foo"] test.adb:18:4-18:38>
+======================================================
+
+Eval 'node.findall(lal.Name)[-1].doc_name'
 Result: 'Pkg.My_String'
 
-Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Bar"] test.adb:21:4-21:34>
+Working on node <SubpDecl ["Bar"] test.adb:21:4-21:34>
+======================================================
+
+Eval 'node.findall(lal.Name)[-1].doc_name'
 Result: 'Pkg.My_String'
 
-Eval 'node.findall(lal.Name)[-1].doc_name' on node <SubpDecl ["Baz"] test.adb:24:4-24:45>
+Working on node <SubpDecl ["Baz"] test.adb:24:4-24:45>
+======================================================
+
+Eval 'node.findall(lal.Name)[-1].doc_name'
 Result: 'My_Other_String'
-
-

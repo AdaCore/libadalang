@@ -1,4 +1,5 @@
-Eval 'node.find(lal.SubtypeIndication).p_designated_type_decl' on node <GenericSubpDecl ["AWS.Net.Poll_Events.G_Poll"] aws-net-poll_events-g_poll.ads:5:9-5:79>
+Working on node <GenericSubpDecl ["AWS.Net.Poll_Events.G_Poll"] aws-net-poll_events-g_poll.ads:5:9-5:79>
+========================================================================================================
+
+Eval 'node.find(lal.SubtypeIndication).p_designated_type_decl'
 Result: <SubtypeDecl ["Timeout_Type"] aws-net-poll_events.ads:5:4-5:45>
-
-

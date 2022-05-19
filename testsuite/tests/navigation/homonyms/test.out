@@ -1,34 +1,59 @@
-Eval 'node.p_body_part()' on node <SubpDecl ["Bar"] bar.adb:3:7-3:21>
+Working on node <SubpDecl ["Bar"] bar.adb:3:7-3:21>
+===================================================
+
+Eval 'node.p_body_part()'
 Result: <SubpBody ["Bar"] bar.adb:9:7-12:15>
 
-Eval 'node.p_body_part' on node <PackageDecl ["Bar"] bar.adb:2:4-5:12>
+Working on node <PackageDecl ["Bar"] bar.adb:2:4-5:12>
+======================================================
+
+Eval 'node.p_body_part'
 Result: <PackageBody ["Bar"] bar.adb:8:4-14:12>
 
-Eval 'node.p_decl_part()' on node <SubpBody ["Bar"] bar.adb:9:7-12:15>
+Working on node <SubpBody ["Bar"] bar.adb:9:7-12:15>
+====================================================
+
+Eval 'node.p_decl_part()'
 Result: <SubpDecl ["Bar"] bar.adb:3:7-3:21>
 
-Eval 'node.p_decl_part()' on node <PackageBody ["Bar"] bar.adb:8:4-14:12>
+Working on node <PackageBody ["Bar"] bar.adb:8:4-14:12>
+=======================================================
+
+Eval 'node.p_decl_part()'
 Result: <PackageDecl ["Bar"] bar.adb:2:4-5:12>
 
-Eval 'node.p_decl_part()' on node <SubpBody ["Bar"] bar.adb:1:1-18:9>
+Working on node <SubpBody ["Bar"] bar.adb:1:1-18:9>
+===================================================
+
+Eval 'node.p_decl_part()'
 Result: <SubpDecl ["Bar"] bar.ads:1:1-1:15>
 
+Working on node <SubpDecl ["Bar"] bar.ads:1:1-1:15>
+===================================================
 
-Eval 'node.p_body_part()' on node <SubpDecl ["Bar"] bar.ads:1:1-1:15>
+Eval 'node.p_body_part()'
 Result: <SubpBody ["Bar"] bar.adb:1:1-18:9>
 
+Working on node <SubpBody ["Foo"] foo.adb:2:4-5:8>
+==================================================
 
-Eval 'node.p_decl_part()' on node <SubpBody ["Foo"] foo.adb:2:4-5:8>
+Eval 'node.p_decl_part()'
 Result: <SubpDecl ["Foo"] foo.ads:2:4-2:32>
 
-Eval 'node.p_decl_part()' on node <PackageBody ["Foo"] foo.adb:1:1-7:5>
+Working on node <PackageBody ["Foo"] foo.adb:1:1-7:5>
+=====================================================
+
+Eval 'node.p_decl_part()'
 Result: <PackageDecl ["Foo"] foo.ads:1:1-4:9>
 
+Working on node <SubpDecl ["Foo"] foo.ads:2:4-2:32>
+===================================================
 
-Eval 'node.p_body_part()' on node <SubpDecl ["Foo"] foo.ads:2:4-2:32>
+Eval 'node.p_body_part()'
 Result: <SubpBody ["Foo"] foo.adb:2:4-5:8>
 
-Eval 'node.p_body_part' on node <PackageDecl ["Foo"] foo.ads:1:1-4:9>
+Working on node <PackageDecl ["Foo"] foo.ads:1:1-4:9>
+=====================================================
+
+Eval 'node.p_body_part'
 Result: <PackageBody ["Foo"] foo.adb:1:1-7:5>
-
-

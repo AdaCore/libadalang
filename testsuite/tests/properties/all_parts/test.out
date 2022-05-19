@@ -1,17 +1,26 @@
-Eval 'node.p_all_parts()' on node <SubpBodyStub ["Foo"] pkg.adb:4:4-4:30>
+Working on node <SubpBodyStub ["Foo"] pkg.adb:4:4-4:30>
+=======================================================
+
+Eval 'node.p_all_parts()'
 Result: [<SubpDecl ["Foo"] pkg.ads:2:4-2:18>,
          <SubpBodyStub ["Foo"] pkg.adb:4:4-4:30>,
          <SubpBody ["Foo"] pkg-foo.adb:2:1-5:9>]
 
+Working on node <TypeDecl ["U"] pkg.ads:4:4-4:22>
+=================================================
 
-Eval 'node.p_all_parts()' on node <TypeDecl ["U"] pkg.ads:4:4-4:22>
+Eval 'node.p_all_parts()'
 Result: [<TypeDecl ["U"] pkg.ads:4:4-4:22>, <TypeDecl ["U"] pkg.ads:15:4-15:26>]
 
-Eval 'node.parent.parent.p_all_parts()' on node <Id "Integer" pkg.ads:8:11-8:18>
+Working on node <Id "Integer" pkg.ads:8:11-8:18>
+================================================
+
+Eval 'node.parent.parent.p_all_parts()'
 Result: [<ParamSpec ["X"] pkg.ads:8:7-8:18>, <ParamSpec ["X"] pkg.adb:7:19-7:30>]
 
-Eval 'node.p_all_parts()' on node <IncompleteTypeDecl ["T"] pkg.ads:12:4-12:11>
+Working on node <IncompleteTypeDecl ["T"] pkg.ads:12:4-12:11>
+=============================================================
+
+Eval 'node.p_all_parts()'
 Result: [<IncompleteTypeDecl ["T"] pkg.ads:12:4-12:11>,
          <TypeDecl ["T"] pkg.adb:2:4-2:26>]
-
-

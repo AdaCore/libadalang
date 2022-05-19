@@ -1,7 +1,8 @@
-Eval 'node.f_type_expr.p_designated_type_decl.p_fully_qualified_name' on node <ObjectDecl ["X"] test.adb:9:4-9:19>
+Working on node <ObjectDecl ["X"] test.adb:9:4-9:19>
+====================================================
+
+Eval 'node.f_type_expr.p_designated_type_decl.p_fully_qualified_name'
 Result: 'Test.Pkg_Inst.T'
 
-Eval 'node.f_type_expr.p_designated_type_decl.p_get_uninstantiated_node.p_fully_qualified_name' on node <ObjectDecl ["X"] test.adb:9:4-9:19>
+Eval 'node.f_type_expr.p_designated_type_decl.p_get_uninstantiated_node.p_fully_qualified_name'
 Result: 'Test.Pkg.T'
-
-

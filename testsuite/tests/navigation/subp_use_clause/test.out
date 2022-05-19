@@ -1,10 +1,11 @@
+Working on node <SubpBody ["B"] proc.adb:4:4-7:10>
+==================================================
 
-
-Eval 'node.p_previous_part()' on node <SubpBody ["B"] proc.adb:4:4-7:10>
+Eval 'node.p_previous_part()'
 Result: None
 
+Working on node <SubpBody [""+""] test.adb:9:6-12:14>
+=====================================================
 
-Eval 'node.p_canonical_part()' on node <SubpBody [""+""] test.adb:9:6-12:14>
+Eval 'node.p_canonical_part()'
 Result: <SubpBody [""+""] test.adb:9:6-12:14>
-
-

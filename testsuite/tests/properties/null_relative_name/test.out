@@ -1,13 +1,17 @@
-Eval 'node.p_relative_name' on node <ExceptionHandler [] test.adb:5:4-8:12>
+Working on node <ExceptionHandler [] test.adb:5:4-8:12>
+=======================================================
+
+Eval 'node.p_relative_name'
 Result: None
 
-Eval 'node.p_relative_name_text' on node <ExceptionHandler [] test.adb:5:4-8:12>
+Eval 'node.p_relative_name_text'
 Result: ''
 
-Eval 'node.p_relative_name' on node <ExceptionHandler ["B"] test.adb:10:4-13:12>
+Working on node <ExceptionHandler ["B"] test.adb:10:4-13:12>
+============================================================
+
+Eval 'node.p_relative_name'
 Result: <Id "B" test.adb:10:9-10:10>
 
-Eval 'node.p_relative_name_text' on node <ExceptionHandler ["B"] test.adb:10:4-13:12>
+Eval 'node.p_relative_name_text'
 Result: 'b'
-
-

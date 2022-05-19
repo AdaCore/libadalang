@@ -1,4 +1,5 @@
-Eval 'node.f_expr.f_suffix.p_eval_as_int' on node <AssignStmt test.adb:12:4-12:27>
+Working on node <AssignStmt test.adb:12:4-12:27>
+================================================
+
+Eval 'node.f_expr.f_suffix.p_eval_as_int'
 Result: 65
-
-

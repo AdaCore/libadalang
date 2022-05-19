@@ -1,13 +1,23 @@
-Eval 'node.p_discrete_range' on node <TypeDecl ["A"] test.adb:2:4-2:26>
+Working on node <TypeDecl ["A"] test.adb:2:4-2:26>
+==================================================
+
+Eval 'node.p_discrete_range'
 Result: <DiscreteRange low_bound=<Int __standard:5:37-5:38> high_bound=<UnOp __standard:5:42-5:56>>
 
-Eval 'node.p_discrete_range' on node <TypeDecl ["B"] test.adb:4:4-4:38>
+Working on node <TypeDecl ["B"] test.adb:4:4-4:38>
+==================================================
+
+Eval 'node.p_discrete_range'
 Result: <DiscreteRange low_bound=<Int test.adb:4:26-4:27> high_bound=<AttributeRef test.adb:4:31-4:37>>
 
-Eval 'node.p_discrete_range' on node <SubtypeDecl ["C"] test.adb:6:4-6:55>
+Working on node <SubtypeDecl ["C"] test.adb:6:4-6:55>
+=====================================================
+
+Eval 'node.p_discrete_range'
 Result: <DiscreteRange low_bound=<BinOp test.adb:6:25-6:36> high_bound=<CallExpr test.adb:6:40-6:54>>
 
-Eval 'node.p_discrete_range' on node <SubtypeDecl ["D"] test.adb:8:4-8:19>
+Working on node <SubtypeDecl ["D"] test.adb:8:4-8:19>
+=====================================================
+
+Eval 'node.p_discrete_range'
 Result: <DiscreteRange low_bound=<Int test.adb:4:26-4:27> high_bound=<AttributeRef test.adb:4:31-4:37>>
-
-

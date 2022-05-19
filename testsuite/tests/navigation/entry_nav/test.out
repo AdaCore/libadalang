@@ -1,19 +1,35 @@
-Eval 'node.p_body_part()' on node <EntryDecl ["E"] test.adb:3:7-3:15>
+Working on node <EntryDecl ["E"] test.adb:3:7-3:15>
+===================================================
+
+Eval 'node.p_body_part()'
 Result: <EntryBody ["E"] test.adb:20:7-23:13>
 
-Eval 'node.p_body_part()' on node <EntryDecl ["E"] test.adb:6:7-6:29>
+Working on node <EntryDecl ["E"] test.adb:6:7-6:29>
+===================================================
+
+Eval 'node.p_body_part()'
 Result: <EntryBody ["E"] test.adb:14:7-17:13>
 
-Eval 'node.p_body_part()' on node <EntryDecl ["F"] test.adb:9:7-9:38>
+Working on node <EntryDecl ["F"] test.adb:9:7-9:38>
+===================================================
+
+Eval 'node.p_body_part()'
 Result: <EntryBody ["F"] test.adb:26:7-29:13>
 
-Eval 'node.p_decl_part()' on node <EntryBody ["E"] test.adb:14:7-17:13>
+Working on node <EntryBody ["E"] test.adb:14:7-17:13>
+=====================================================
+
+Eval 'node.p_decl_part()'
 Result: <EntryDecl ["E"] test.adb:6:7-6:29>
 
-Eval 'node.p_decl_part()' on node <EntryBody ["E"] test.adb:20:7-23:13>
+Working on node <EntryBody ["E"] test.adb:20:7-23:13>
+=====================================================
+
+Eval 'node.p_decl_part()'
 Result: <EntryDecl ["E"] test.adb:3:7-3:15>
 
-Eval 'node.p_decl_part()' on node <EntryBody ["F"] test.adb:26:7-29:13>
+Working on node <EntryBody ["F"] test.adb:26:7-29:13>
+=====================================================
+
+Eval 'node.p_decl_part()'
 Result: <EntryDecl ["F"] test.adb:9:7-9:38>
-
-

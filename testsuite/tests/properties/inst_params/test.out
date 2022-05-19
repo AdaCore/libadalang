@@ -1,193 +1,290 @@
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["Flag1"] gen_cmp.adb:26:4-29:59>
+Working on node <GenericSubpInstantiation ["Flag1"] gen_cmp.adb:26:4-29:59>
+===========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName gen_cmp.adb:4:12-4:24> actual=<Id "Integer" gen_cmp.adb:26:48-26:55>>,
          <ParamActual param=<DefiningName gen_cmp.adb:5:12-5:22> actual=<Id "Alpha" gen_cmp.adb:27:48-27:53>>,
          <ParamActual param=<DefiningName gen_cmp.adb:6:12-6:22> actual=<Id "My_Array" gen_cmp.adb:28:48-28:56>>,
          <ParamActual param=<DefiningName gen_cmp.adb:7:21-7:24> actual=<Id "Less_Than" gen_cmp.adb:29:48-29:57>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["Flag2"] gen_cmp.adb:32:4-32:69>
+Working on node <GenericSubpInstantiation ["Flag2"] gen_cmp.adb:32:4-32:69>
+===========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName gen_cmp.adb:4:12-4:24> actual=<Id "Integer" gen_cmp.adb:32:32-32:39>>,
          <ParamActual param=<DefiningName gen_cmp.adb:5:12-5:22> actual=<Id "Alpha" gen_cmp.adb:32:41-32:46>>,
          <ParamActual param=<DefiningName gen_cmp.adb:6:12-6:22> actual=<Id "My_Array" gen_cmp.adb:32:48-32:56>>,
          <ParamActual param=<DefiningName gen_cmp.adb:7:21-7:24> actual=<Id "Less_Than" gen_cmp.adb:32:58-32:67>>]
 
+Working on node <GenericSubpInstantiation ["I1P1"] geni.adb:35:4-35:39>
+=======================================================================
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I1P1"] geni.adb:35:4-35:39>
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:3:12-3:13> actual=<Id "Integer" geni.adb:35:30-35:37>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I2P1"] geni.adb:37:4-37:44>
+Working on node <GenericSubpInstantiation ["I2P1"] geni.adb:37:4-37:44>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:3:12-3:13> actual=<Id "Integer" geni.adb:37:35-37:42>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I1P2"] geni.adb:40:4-40:46>
+Working on node <GenericSubpInstantiation ["I1P2"] geni.adb:40:4-40:46>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:7:12-7:14> actual=<Id "Integer" geni.adb:40:30-40:37>>,
          <ParamActual param=<DefiningName geni.adb:8:12-8:14> actual=<Id "Float" geni.adb:40:39-40:44>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I2P2"] geni.adb:42:4-42:58>
+Working on node <GenericSubpInstantiation ["I2P2"] geni.adb:42:4-42:58>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:7:12-7:14> actual=<Id "Float" geni.adb:42:51-42:56>>,
          <ParamActual param=<DefiningName geni.adb:8:12-8:14> actual=<Id "Integer" geni.adb:42:36-42:43>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I1P4"] geni.adb:45:4-45:45>
+Working on node <GenericSubpInstantiation ["I1P4"] geni.adb:45:4-45:45>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:12:12-12:13> actual=<Id "Integer" geni.adb:45:30-45:37>>,
          <ParamActual param=<DefiningName geni.adb:13:7-13:8> actual=<Int geni.adb:45:39-45:40>>,
          <ParamActual param=<DefiningName geni.adb:13:10-13:11> actual=<Int geni.adb:45:42-45:43>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I2P4"] geni.adb:47:4-47:60>
+Working on node <GenericSubpInstantiation ["I2P4"] geni.adb:47:4-47:60>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:12:12-12:13> actual=<Id "Integer" geni.adb:47:51-47:58>>,
          <ParamActual param=<DefiningName geni.adb:13:7-13:8> actual=<Int geni.adb:47:35-47:36>>,
          <ParamActual param=<DefiningName geni.adb:13:10-13:11> actual=<Int geni.adb:47:43-47:44>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I3P4"] geni.adb:49:4-49:55>
+Working on node <GenericSubpInstantiation ["I3P4"] geni.adb:49:4-49:55>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:12:12-12:13> actual=<Id "Integer" geni.adb:49:30-49:37>>,
          <ParamActual param=<DefiningName geni.adb:13:7-13:8> actual=<Int geni.adb:49:52-49:53>>,
          <ParamActual param=<DefiningName geni.adb:13:10-13:11> actual=<Int geni.adb:49:44-49:45>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I1P5"] geni.adb:52:4-52:51>
+Working on node <GenericSubpInstantiation ["I1P5"] geni.adb:52:4-52:51>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:17:12-17:13> actual=<Id "Integer" geni.adb:52:30-52:37>>,
          <ParamActual param=<DefiningName geni.adb:18:7-18:8> actual=<Int geni.adb:52:39-52:40>>,
          <ParamActual param=<DefiningName geni.adb:18:10-18:11> actual=<Int geni.adb:52:42-52:43>>,
          <ParamActual param=<DefiningName geni.adb:19:7-19:8> actual=<Int geni.adb:52:45-52:46>>,
          <ParamActual param=<DefiningName geni.adb:20:7-20:8> actual=<Int geni.adb:52:48-52:49>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I2P5"] geni.adb:54:4-54:61>
+Working on node <GenericSubpInstantiation ["I2P5"] geni.adb:54:4-54:61>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:17:12-17:13> actual=<Id "Integer" geni.adb:54:30-54:37>>,
          <ParamActual param=<DefiningName geni.adb:18:7-18:8> actual=<Int geni.adb:54:39-54:40>>,
          <ParamActual param=<DefiningName geni.adb:18:10-18:11> actual=<Int geni.adb:54:42-54:43>>,
          <ParamActual param=<DefiningName geni.adb:19:7-19:8> actual=<Int geni.adb:54:58-54:59>>,
          <ParamActual param=<DefiningName geni.adb:20:7-20:8> actual=<Int geni.adb:54:50-54:51>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I3P5"] geni.adb:56:4-56:71>
+Working on node <GenericSubpInstantiation ["I3P5"] geni.adb:56:4-56:71>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:17:12-17:13> actual=<Id "Integer" geni.adb:56:30-56:37>>,
          <ParamActual param=<DefiningName geni.adb:18:7-18:8> actual=<Int geni.adb:56:68-56:69>>,
          <ParamActual param=<DefiningName geni.adb:18:10-18:11> actual=<Int geni.adb:56:44-56:45>>,
          <ParamActual param=<DefiningName geni.adb:19:7-19:8> actual=<Int geni.adb:56:52-56:53>>,
          <ParamActual param=<DefiningName geni.adb:20:7-20:8> actual=<Int geni.adb:56:60-56:61>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I4P5"] geni.adb:58:4-58:76>
+Working on node <GenericSubpInstantiation ["I4P5"] geni.adb:58:4-58:76>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:17:12-17:13> actual=<Id "Integer" geni.adb:58:67-58:74>>,
          <ParamActual param=<DefiningName geni.adb:18:7-18:8> actual=<Int geni.adb:58:59-58:60>>,
          <ParamActual param=<DefiningName geni.adb:18:10-18:11> actual=<Int geni.adb:58:35-58:36>>,
          <ParamActual param=<DefiningName geni.adb:19:7-19:8> actual=<Int geni.adb:58:43-58:44>>,
          <ParamActual param=<DefiningName geni.adb:20:7-20:8> actual=<Int geni.adb:58:51-58:52>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I5P5"] geni.adb:60:4-60:55>
+Working on node <GenericSubpInstantiation ["I5P5"] geni.adb:60:4-60:55>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:17:12-17:13> actual=<Id "Integer" geni.adb:60:30-60:37>>,
          <ParamActual param=<DefiningName geni.adb:18:7-18:8> actual=<Int geni.adb:60:52-60:53>>,
          <ParamActual param=<DefiningName geni.adb:18:10-18:11> actual=<Int geni.adb:60:44-60:45>>,
          <ParamActual param=<DefiningName geni.adb:19:7-19:8> actual=<Int geni.adb:19:22-19:23>>,
          <ParamActual param=<DefiningName geni.adb:20:7-20:8> actual=<Int geni.adb:20:22-20:23>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I6P5"] geni.adb:62:4-62:63>
+Working on node <GenericSubpInstantiation ["I6P5"] geni.adb:62:4-62:63>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:17:12-17:13> actual=<Id "Integer" geni.adb:62:30-62:37>>,
          <ParamActual param=<DefiningName geni.adb:18:7-18:8> actual=<Int geni.adb:62:60-62:61>>,
          <ParamActual param=<DefiningName geni.adb:18:10-18:11> actual=<Int geni.adb:62:44-62:45>>,
          <ParamActual param=<DefiningName geni.adb:19:7-19:8> actual=<Int geni.adb:62:52-62:53>>,
          <ParamActual param=<DefiningName geni.adb:20:7-20:8> actual=<Int geni.adb:20:22-20:23>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I1P6"] geni.adb:65:4-65:51>
+Working on node <GenericSubpInstantiation ["I1P6"] geni.adb:65:4-65:51>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:24:12-24:13> actual=<Id "Integer" geni.adb:65:30-65:37>>,
          <ParamActual param=<DefiningName geni.adb:25:7-25:8> actual=<Int geni.adb:65:39-65:40>>,
          <ParamActual param=<DefiningName geni.adb:25:10-25:11> actual=<Int geni.adb:65:42-65:43>>,
          <ParamActual param=<DefiningName geni.adb:26:7-26:8> actual=<Int geni.adb:65:45-65:46>>,
          <ParamActual param=<DefiningName geni.adb:26:10-26:11> actual=<Int geni.adb:65:48-65:49>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I2P6"] geni.adb:67:4-67:61>
+Working on node <GenericSubpInstantiation ["I2P6"] geni.adb:67:4-67:61>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:24:12-24:13> actual=<Id "Integer" geni.adb:67:30-67:37>>,
          <ParamActual param=<DefiningName geni.adb:25:7-25:8> actual=<Int geni.adb:67:39-67:40>>,
          <ParamActual param=<DefiningName geni.adb:25:10-25:11> actual=<Int geni.adb:67:42-67:43>>,
          <ParamActual param=<DefiningName geni.adb:26:7-26:8> actual=<Int geni.adb:67:58-67:59>>,
          <ParamActual param=<DefiningName geni.adb:26:10-26:11> actual=<Int geni.adb:67:50-67:51>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I3P6"] geni.adb:69:4-69:71>
+Working on node <GenericSubpInstantiation ["I3P6"] geni.adb:69:4-69:71>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:24:12-24:13> actual=<Id "Integer" geni.adb:69:30-69:37>>,
          <ParamActual param=<DefiningName geni.adb:25:7-25:8> actual=<Int geni.adb:69:68-69:69>>,
          <ParamActual param=<DefiningName geni.adb:25:10-25:11> actual=<Int geni.adb:69:44-69:45>>,
          <ParamActual param=<DefiningName geni.adb:26:7-26:8> actual=<Int geni.adb:69:52-69:53>>,
          <ParamActual param=<DefiningName geni.adb:26:10-26:11> actual=<Int geni.adb:69:60-69:61>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I4P6"] geni.adb:71:4-71:76>
+Working on node <GenericSubpInstantiation ["I4P6"] geni.adb:71:4-71:76>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:24:12-24:13> actual=<Id "Integer" geni.adb:71:67-71:74>>,
          <ParamActual param=<DefiningName geni.adb:25:7-25:8> actual=<Int geni.adb:71:59-71:60>>,
          <ParamActual param=<DefiningName geni.adb:25:10-25:11> actual=<Int geni.adb:71:35-71:36>>,
          <ParamActual param=<DefiningName geni.adb:26:7-26:8> actual=<Int geni.adb:71:43-71:44>>,
          <ParamActual param=<DefiningName geni.adb:26:10-26:11> actual=<Int geni.adb:71:51-71:52>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I5P6"] geni.adb:73:4-73:55>
+Working on node <GenericSubpInstantiation ["I5P6"] geni.adb:73:4-73:55>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:24:12-24:13> actual=<Id "Integer" geni.adb:73:30-73:37>>,
          <ParamActual param=<DefiningName geni.adb:25:7-25:8> actual=<Int geni.adb:73:52-73:53>>,
          <ParamActual param=<DefiningName geni.adb:25:10-25:11> actual=<Int geni.adb:73:44-73:45>>,
          <ParamActual param=<DefiningName geni.adb:26:7-26:8> actual=<Int geni.adb:26:25-26:26>>,
          <ParamActual param=<DefiningName geni.adb:26:10-26:11> actual=<Int geni.adb:26:25-26:26>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["I6P6"] geni.adb:75:4-75:63>
+Working on node <GenericSubpInstantiation ["I6P6"] geni.adb:75:4-75:63>
+=======================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:24:12-24:13> actual=<Id "Integer" geni.adb:75:30-75:37>>,
          <ParamActual param=<DefiningName geni.adb:25:7-25:8> actual=<Int geni.adb:75:60-75:61>>,
          <ParamActual param=<DefiningName geni.adb:25:10-25:11> actual=<Int geni.adb:75:44-75:45>>,
          <ParamActual param=<DefiningName geni.adb:26:7-26:8> actual=<Int geni.adb:75:52-75:53>>,
          <ParamActual param=<DefiningName geni.adb:26:10-26:11> actual=<Int geni.adb:26:25-26:26>>]
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["I1PA"] geni.adb:89:4-89:45>
+Working on node <GenericPackageInstantiation ["I1PA"] geni.adb:89:4-89:45>
+==========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:79:12-79:13> actual=<Id "Integer" geni.adb:89:28-89:35>>,
          <ParamActual param=<DefiningName geni.adb:80:7-80:8> actual=<Int geni.adb:80:22-80:23>>,
          <ParamActual param=<DefiningName geni.adb:81:7-81:8> actual=<Int geni.adb:81:25-81:26>>,
          <ParamActual param=<DefiningName geni.adb:81:10-81:11> actual=<Int geni.adb:81:25-81:26>>,
          <ParamActual param=<DefiningName geni.adb:82:7-82:8> actual=<Int geni.adb:89:42-89:43>>]
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["I2PA"] geni.adb:91:4-91:50>
+Working on node <GenericPackageInstantiation ["I2PA"] geni.adb:91:4-91:50>
+==========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:79:12-79:13> actual=<Id "Integer" geni.adb:91:33-91:40>>,
          <ParamActual param=<DefiningName geni.adb:80:7-80:8> actual=<Int geni.adb:80:22-80:23>>,
          <ParamActual param=<DefiningName geni.adb:81:7-81:8> actual=<Int geni.adb:81:25-81:26>>,
          <ParamActual param=<DefiningName geni.adb:81:10-81:11> actual=<Int geni.adb:81:25-81:26>>,
          <ParamActual param=<DefiningName geni.adb:82:7-82:8> actual=<Int geni.adb:91:47-91:48>>]
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["I3PA"] geni.adb:93:4-93:49>
+Working on node <GenericPackageInstantiation ["I3PA"] geni.adb:93:4-93:49>
+==========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:79:12-79:13> actual=<Id "Integer" geni.adb:93:28-93:35>>,
          <ParamActual param=<DefiningName geni.adb:80:7-80:8> actual=<Int geni.adb:93:37-93:38>>,
          <ParamActual param=<DefiningName geni.adb:81:7-81:8> actual=<Int geni.adb:93:40-93:41>>,
          <ParamActual param=<DefiningName geni.adb:81:10-81:11> actual=<Int geni.adb:93:43-93:44>>,
          <ParamActual param=<DefiningName geni.adb:82:7-82:8> actual=<Int geni.adb:93:46-93:47>>]
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["I4PA"] geni.adb:95:4-95:69>
+Working on node <GenericPackageInstantiation ["I4PA"] geni.adb:95:4-95:69>
+==========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:79:12-79:13> actual=<Id "Integer" geni.adb:95:28-95:35>>,
          <ParamActual param=<DefiningName geni.adb:80:7-80:8> actual=<Int geni.adb:95:50-95:51>>,
          <ParamActual param=<DefiningName geni.adb:81:7-81:8> actual=<Int geni.adb:95:58-95:59>>,
          <ParamActual param=<DefiningName geni.adb:81:10-81:11> actual=<Int geni.adb:95:42-95:43>>,
          <ParamActual param=<DefiningName geni.adb:82:7-82:8> actual=<Int geni.adb:95:66-95:67>>]
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["I5PA"] geni.adb:97:4-97:74>
+Working on node <GenericPackageInstantiation ["I5PA"] geni.adb:97:4-97:74>
+==========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName geni.adb:79:12-79:13> actual=<Id "Integer" geni.adb:97:57-97:64>>,
          <ParamActual param=<DefiningName geni.adb:80:7-80:8> actual=<Int geni.adb:97:33-97:34>>,
          <ParamActual param=<DefiningName geni.adb:81:7-81:8> actual=<Int geni.adb:97:41-97:42>>,
          <ParamActual param=<DefiningName geni.adb:81:10-81:11> actual=<Int geni.adb:97:49-97:50>>,
          <ParamActual param=<DefiningName geni.adb:82:7-82:8> actual=<Int geni.adb:97:71-97:72>>]
 
+Working on node <GenericSubpInstantiation ["My_Foo"] test.adb:23:7-23:43>
+=========================================================================
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["My_Foo"] test.adb:23:7-23:43>
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName test.adb:4:24-4:25> actual=<DefiningName test.adb:20:16-20:17>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["My_Int_Bar"] test.adb:26:7-26:62>
+Working on node <GenericSubpInstantiation ["My_Int_Bar"] test.adb:26:7-26:62>
+=============================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName test.adb:12:15-12:16> actual=<Id "Integer" test.adb:26:53-26:60>>,
          <ParamActual param=<DefiningName test.adb:13:24-13:25> actual=<DefiningName test.adb:20:16-20:17>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["My_Float_Bar"] test.adb:29:7-29:62>
+Working on node <GenericSubpInstantiation ["My_Float_Bar"] test.adb:29:7-29:62>
+===============================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName test.adb:12:15-12:16> actual=<Id "Float" test.adb:29:55-29:60>>,
          <ParamActual param=<DefiningName test.adb:13:24-13:25> actual=<DefiningName test.adb:21:16-21:17>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["My_Float_Bar"] test.adb:42:7-42:62>
+Working on node <GenericSubpInstantiation ["My_Float_Bar"] test.adb:42:7-42:62>
+===============================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName test.adb:12:15-12:16> actual=<Id "Float" test.adb:42:55-42:60>>,
          <ParamActual param=<DefiningName test.adb:13:24-13:25> actual=<DefiningName test.adb:40:16-40:17>>]
 
-Eval 'node.p_inst_params' on node <GenericSubpInstantiation ["My_Foo"] test.adb:49:7-49:52>
+Working on node <GenericSubpInstantiation ["My_Foo"] test.adb:49:7-49:52>
+=========================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName test.adb:4:24-4:25> actual=<Id "G" test.adb:49:49-49:50>>]
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["My_Foo"] test.adb:59:7-59:33>
+Working on node <GenericPackageInstantiation ["My_Foo"] test.adb:59:7-59:33>
+============================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName test.adb:55:24-55:27> actual=None>]
 
+Working on node <GenericPackageInstantiation ["Inst_1"] what.adb:17:4-17:40>
+============================================================================
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["Inst_1"] what.adb:17:4-17:40>
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName what.adb:5:12-5:13> actual=<Id "Integer" what.adb:17:31-17:38>>]
 
-Eval 'node.p_inst_params' on node <GenericPackageInstantiation ["Inst_2"] what.adb:19:4-19:48>
+Working on node <GenericPackageInstantiation ["Inst_2"] what.adb:19:4-19:48>
+============================================================================
+
+Eval 'node.p_inst_params'
 Result: [<ParamActual param=<DefiningName what.adb:11:12-11:13> actual=<Id "Integer" what.adb:19:31-19:38>>,
          <ParamActual param=<DefiningName what.adb:12:20-12:23> actual=<Id "Inst_1" what.adb:19:40-19:46>>,
          <ParamActual param=<DefiningName what.adb:13:22-13:30> actual=<DottedName what.adb:13:45-13:52>>]
-
-

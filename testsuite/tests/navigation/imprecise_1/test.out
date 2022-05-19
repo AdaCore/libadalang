@@ -1,14 +1,23 @@
-Eval 'node.p_decl_part(imprecise_fallback=True)' on node <NullSubpDecl ["Foo"] pkg.adb:2:4-2:41>
+Working on node <NullSubpDecl ["Foo"] pkg.adb:2:4-2:41>
+=======================================================
+
+Eval 'node.p_decl_part(imprecise_fallback=True)'
 Result: <SubpDecl ["Foo"] pkg.ads:2:4-2:33>
 
-Eval 'node.p_decl_part(imprecise_fallback=True)' on node <ExprFunction ["Bar"] pkg.adb:4:4-4:42>
+Working on node <ExprFunction ["Bar"] pkg.adb:4:4-4:42>
+=======================================================
+
+Eval 'node.p_decl_part(imprecise_fallback=True)'
 Result: <SubpDecl ["Bar"] pkg.ads:4:4-4:18>
 
+Working on node <SubpDecl ["Foo"] pkg.ads:2:4-2:33>
+===================================================
 
-Eval 'node.p_body_part(imprecise_fallback=True)' on node <SubpDecl ["Foo"] pkg.ads:2:4-2:33>
+Eval 'node.p_body_part(imprecise_fallback=True)'
 Result: <NullSubpDecl ["Foo"] pkg.adb:2:4-2:41>
 
-Eval 'node.p_body_part(imprecise_fallback=True)' on node <SubpDecl ["Bar"] pkg.ads:4:4-4:18>
+Working on node <SubpDecl ["Bar"] pkg.ads:4:4-4:18>
+===================================================
+
+Eval 'node.p_body_part(imprecise_fallback=True)'
 Result: <ExprFunction ["Bar"] pkg.adb:4:4-4:42>
-
-

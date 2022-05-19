@@ -1,10 +1,17 @@
-Eval 'node.p_next_part_for_decl()' on node <TaskTypeDecl ["Worker"] bug-sb08-025.adb:3:4-5:15>
+Working on node <TaskTypeDecl ["Worker"] bug-sb08-025.adb:3:4-5:15>
+===================================================================
+
+Eval 'node.p_next_part_for_decl()'
 Result: <TaskBody ["Worker"] bug-sb08-025.adb:8:4-12:15>
 
-Eval 'node.parent.parent.p_next_part_for_decl()' on node <Id "Count_Down" bug-sb08-025.adb:16:9-16:19>
+Working on node <Id "Count_Down" bug-sb08-025.adb:16:9-16:19>
+=============================================================
+
+Eval 'node.parent.parent.p_next_part_for_decl()'
 Result: <TaskBody ["Count_Down"] bug-sb08-025.adb:23:4-31:19>
 
-Eval 'node.p_next_part_for_decl()' on node <SingleTaskDecl ["Count_Down"] bug-sb08-025.adb:16:4-20:19>
+Working on node <SingleTaskDecl ["Count_Down"] bug-sb08-025.adb:16:4-20:19>
+===========================================================================
+
+Eval 'node.p_next_part_for_decl()'
 Result: <TaskBody ["Count_Down"] bug-sb08-025.adb:23:4-31:19>
-
-

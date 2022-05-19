@@ -1,16 +1,29 @@
-Eval 'node.p_canonical_part()' on node <NullSubpDecl ["Proc"] test.adb:9:7-9:38>
+Working on node <NullSubpDecl ["Proc"] test.adb:9:7-9:38>
+=========================================================
+
+Eval 'node.p_canonical_part()'
 Result: <SubpDecl ["Proc"] test.adb:5:7-5:30>
 
-Eval 'node.p_canonical_part()' on node <NullSubpDecl ["Proc_2"] test.adb:12:7-12:40>
+Working on node <NullSubpDecl ["Proc_2"] test.adb:12:7-12:40>
+=============================================================
+
+Eval 'node.p_canonical_part()'
 Result: <SubpDecl ["Proc_2"] test.adb:7:7-7:32>
 
-Eval 'node.p_canonical_part()' on node <NullSubpDecl ["Proc_2"] test.adb:21:7-21:51>
+Working on node <NullSubpDecl ["Proc_2"] test.adb:21:7-21:51>
+=============================================================
+
+Eval 'node.p_canonical_part()'
 Result: <SubpDecl ["Proc_2"] test.adb:19:7-19:43>
 
-Eval 'node.f_call.f_name.p_referenced_decl().p_canonical_part()' on node <CallStmt test.adb:27:4-27:15>
+Working on node <CallStmt test.adb:27:4-27:15>
+==============================================
+
+Eval 'node.f_call.f_name.p_referenced_decl().p_canonical_part()'
 Result: <SubpDecl ["Proc"] test.adb:5:7-5:30>
 
-Eval 'node.f_call.f_name.p_referenced_decl().p_canonical_part()' on node <CallStmt test.adb:30:4-30:17>
+Working on node <CallStmt test.adb:30:4-30:17>
+==============================================
+
+Eval 'node.f_call.f_name.p_referenced_decl().p_canonical_part()'
 Result: <SubpDecl ["Proc_2"] test.adb:19:7-19:43>
-
-

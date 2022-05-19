@@ -1,24 +1,35 @@
+Working on node <SubpBody ["Foo"] multi_units.adb:2:1-5:9>
+==========================================================
 
-
-Eval 'node.p_decl_part()' on node <SubpBody ["Foo"] multi_units.adb:2:1-5:9>
+Eval 'node.p_decl_part()'
 Result: <SubpDecl ["Foo"] pkg.ads:2:4-2:18>
 
-Eval 'node.p_decl_part()' on node <SubpBody ["Bar"] multi_units.adb:9:1-12:9>
+Working on node <SubpBody ["Bar"] multi_units.adb:9:1-12:9>
+===========================================================
+
+Eval 'node.p_decl_part()'
 Result: <SubpDecl ["Bar"] pkg.ads:5:4-5:18>
 
-Eval 'node.p_body_part()' on node <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
+Working on node <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
+==============================================================
+
+Eval 'node.p_body_part()'
 Result: <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
 
-Eval 'node.p_previous_part()' on node <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31>
+Working on node <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31>
+==================================================================
+
+Eval 'node.p_previous_part()'
 Result: <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
 
-Eval 'node.p_next_part_for_decl()' on node <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31>
+Eval 'node.p_next_part_for_decl()'
 Result: <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
 
-Eval 'node.p_previous_part()' on node <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
+Working on node <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
+==============================================================
+
+Eval 'node.p_previous_part()'
 Result: <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31>
 
-Eval 'node.p_decl_part()' on node <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
+Eval 'node.p_decl_part()'
 Result: <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
-
-

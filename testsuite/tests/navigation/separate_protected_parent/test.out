@@ -1,4 +1,5 @@
-Eval 'node.p_parent_basic_decl' on node <ProtectedBody ["T"] pkg-t.adb:2:1-7:7>
+Working on node <ProtectedBody ["T"] pkg-t.adb:2:1-7:7>
+=======================================================
+
+Eval 'node.p_parent_basic_decl'
 Result: <ProtectedBodyStub ["T"] pkg.adb:2:4-2:33>
-
-

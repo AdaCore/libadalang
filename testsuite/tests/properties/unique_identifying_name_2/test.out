@@ -1,10 +1,11 @@
-Eval 'node.p_unique_identifying_name' on node <ObjectDecl ["A", "B"] test.adb:2:4-2:19>
+Working on node <ObjectDecl ["A", "B"] test.adb:2:4-2:19>
+=========================================================
+
+Eval 'node.p_unique_identifying_name'
 Exception: Can't call on a declaration with several names
 
-Eval 'node.p_defining_names[0].p_unique_identifying_name' on node <ObjectDecl ["A", "B"] test.adb:2:4-2:19>
+Eval 'node.p_defining_names[0].p_unique_identifying_name'
 Result: 'test(standard.float).a'
 
-Eval 'node.p_defining_names[1].p_unique_identifying_name' on node <ObjectDecl ["A", "B"] test.adb:2:4-2:19>
+Eval 'node.p_defining_names[1].p_unique_identifying_name'
 Result: 'test(standard.float).b'
-
-

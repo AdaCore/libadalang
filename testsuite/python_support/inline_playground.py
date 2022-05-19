@@ -27,6 +27,12 @@ def col(msg, color):
 class InlinePlayground(lal.App):
 
     def main(self):
+        self._output_empty = True
+        """
+        Track whether we have written to the output. Used to emit line breaks
+        when appropriate (see the ``prepare_output`` method).
+        """
+
         # Sort unit by filename to have a deterministic processing order
         for _, unit in sorted(self.units.items()):
             self.process_unit(unit)
@@ -42,6 +48,12 @@ class InlinePlayground(lal.App):
         )
         super(InlinePlayground, self).add_arguments()
 
+    def prepare_output(self) -> None:
+        if self._output_empty:
+            self._output_empty = False
+        else:
+            print("")
+
     def process_unit(self, unit):
 
         def previous_not_trivia(token):
@@ -50,16 +62,32 @@ class InlinePlayground(lal.App):
                 ret = ret.previous
             return ret
 
+        # Last node for which we evaluated an expression, so that we print
+        # "Working on node X" only once per node.
+        last_node = None
+
         for tok in unit.iter_tokens():
             if tok.kind == 'Comment' and tok.text.startswith('--%'):
                 expr_text = tok.text[3:].strip()
+
+                # Lookup the node on which to evaluate the expression, emit a
+                # heading if the node changed.
                 current_node = unit.root.lookup(
                     previous_not_trivia(tok).sloc_range.start
                 )
-                print("Eval '{}' on node {}".format(
-                    col(expr_text, YELLOW),
-                    col(current_node.entity_repr, YELLOW)
-                ))
+                if current_node != last_node:
+                    def heading(with_colors):
+                        node_repr = current_node.entity_repr
+                        if with_colors:
+                            node_repr = col(node_repr, YELLOW)
+                        return f"Working on node {node_repr}"
+                    self.prepare_output()
+                    print(heading(with_colors=True))
+                    print("=" * len(heading(with_colors=False)))
+                last_node = current_node
+
+                self.prepare_output()
+                print("Eval '{}'".format(col(expr_text, YELLOW)))
                 try:
                     value = eval(
                         expr_text, None,
@@ -81,9 +109,6 @@ class InlinePlayground(lal.App):
                                   .replace('\n', indent))
                     )
                     print(value_prefix + col(value_repr, YELLOW))
-                print('')
-
-        print('')
 
 
 if __name__ == '__main__':

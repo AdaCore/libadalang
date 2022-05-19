@@ -1,4 +1,5 @@
-Eval 'node.p_fully_qualified_name' on node <SubpDecl ["Baz"] foo.ads:4:4-4:18>
+Working on node <SubpDecl ["Baz"] foo.ads:4:4-4:18>
+===================================================
+
+Eval 'node.p_fully_qualified_name'
 Result: 'Foo.Baz'
-
-

@@ -1,7 +1,11 @@
-Eval 'node.p_previous_part_for_decl()' on node <TypeDecl ["T"] test.adb:6:7-6:29>
+Working on node <TypeDecl ["T"] test.adb:6:7-6:29>
+==================================================
+
+Eval 'node.p_previous_part_for_decl()'
 Result: <IncompleteTypeDecl ["T"] test.adb:4:7-4:14>
 
-Eval 'node.p_previous_part_for_decl()' on node <NullSubpDecl ["Foo"] test.adb:11:7-11:29>
+Working on node <NullSubpDecl ["Foo"] test.adb:11:7-11:29>
+==========================================================
+
+Eval 'node.p_previous_part_for_decl()'
 Result: <SubpDecl ["Foo"] test.adb:9:7-9:21>
-
-

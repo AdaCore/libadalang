@@ -1,31 +1,51 @@
-Eval 'node.p_accept_stmts' on node <EntryDecl ["E"] pkg.adb:10:13-10:21>
+Working on node <EntryDecl ["E"] pkg.adb:10:13-10:21>
+=====================================================
+
+Eval 'node.p_accept_stmts'
 Result: [<AcceptStmt pkg.adb:16:13-16:22>]
 
-Eval 'node.p_accept_stmts' on node <EntryDecl ["E"] pkg.adb:24:9-24:17>
+Working on node <EntryDecl ["E"] pkg.adb:24:9-24:17>
+====================================================
+
+Eval 'node.p_accept_stmts'
 Result: [<AcceptStmt pkg.adb:30:9-30:18>]
 
+Working on node <EntryDecl ["E"] pkg.ads:3:9-3:17>
+==================================================
 
-Eval 'node.p_accept_stmts' on node <EntryDecl ["E"] pkg.ads:3:9-3:17>
+Eval 'node.p_accept_stmts'
 Result: [<AcceptStmt pkg.adb:4:9-4:18>]
 
-Eval 'node.p_accept_stmts' on node <EntryDecl ["F"] pkg.ads:5:9-5:17>
+Working on node <EntryDecl ["F"] pkg.ads:5:9-5:17>
+==================================================
+
+Eval 'node.p_accept_stmts'
 Result: []
 
+Working on node <EntryDecl ["E1"] pkg2.adb:4:9-4:18>
+====================================================
 
-Eval 'node.p_accept_stmts' on node <EntryDecl ["E1"] pkg2.adb:4:9-4:18>
+Eval 'node.p_accept_stmts'
 Result: [<AcceptStmtWithStmts pkg2.adb:18:17-20:24>,
          <AcceptStmt pkg2.adb:27:21-27:31>,
          <AcceptStmt pkg2.adb:33:13-33:23>,
          <AcceptStmt pkg2.adb:35:13-35:23>,
          <AcceptStmt pkg2.adb:37:13-37:23>]
 
-Eval 'node.p_accept_stmts' on node <EntryDecl ["E2"] pkg2.adb:6:9-6:18>
+Working on node <EntryDecl ["E2"] pkg2.adb:6:9-6:18>
+====================================================
+
+Eval 'node.p_accept_stmts'
 Result: [<AcceptStmtWithStmts pkg2.adb:22:17-24:24>, <AcceptStmt pkg2.adb:39:13-39:23>]
 
-Eval 'node.p_accept_stmts' on node <EntryDecl ["E3"] pkg2.adb:8:9-8:18>
+Working on node <EntryDecl ["E3"] pkg2.adb:8:9-8:18>
+====================================================
+
+Eval 'node.p_accept_stmts'
 Result: [<AcceptStmtWithStmts pkg2.adb:26:17-29:24>]
 
-Eval 'node.p_accept_stmts' on node <EntryDecl ["E4"] pkg2.adb:10:9-10:18>
+Working on node <EntryDecl ["E4"] pkg2.adb:10:9-10:18>
+======================================================
+
+Eval 'node.p_accept_stmts'
 Result: []
-
-

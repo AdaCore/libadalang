@@ -1,14 +1,23 @@
-Eval 'node.p_corresponding_entry()' on node <AcceptStmtWithStmts test-u.adb:4:4-6:14>
+Working on node <AcceptStmtWithStmts test-u.adb:4:4-6:14>
+=========================================================
+
+Eval 'node.p_corresponding_entry()'
 Result: <EntryDecl ["Start"] test.adb:30:7-30:19>
 
+Working on node <AcceptStmtWithStmts test.adb:11:7-13:17>
+=========================================================
 
-Eval 'node.p_corresponding_entry()' on node <AcceptStmtWithStmts test.adb:11:7-13:17>
+Eval 'node.p_corresponding_entry()'
 Result: <EntryDecl ["Start"] test.adb:3:7-3:19>
 
-Eval 'node.p_corresponding_entry()' on node <AcceptStmtWithStmts test.adb:17:10-19:18>
+Working on node <AcceptStmtWithStmts test.adb:17:10-19:18>
+==========================================================
+
+Eval 'node.p_corresponding_entry()'
 Result: <EntryDecl ["Foo"] test.adb:6:7-6:29>
 
-Eval 'node.p_corresponding_entry()' on node <AcceptStmtWithStmts test.adb:22:10-24:18>
+Working on node <AcceptStmtWithStmts test.adb:22:10-24:18>
+==========================================================
+
+Eval 'node.p_corresponding_entry()'
 Result: <EntryDecl ["Foo"] test.adb:5:7-5:31>
-
-

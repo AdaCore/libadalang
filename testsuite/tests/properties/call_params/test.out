@@ -1,306 +1,500 @@
+Working on node <CallStmt call_array.adb:11:4-11:40>
+====================================================
 
-Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:11:4-11:40>
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName call_array.adb:2:19-2:20> actual=<Int call_array.adb:11:37-11:38>>,
          <ParamActual param=<DefiningName call_array.adb:2:32-2:33> actual=<Id "True" call_array.adb:11:14-11:18>>,
          <ParamActual param=<DefiningName call_array.adb:2:35-2:36> actual=<Id "False" call_array.adb:11:25-11:30>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:13:4-13:36>
+Working on node <CallStmt call_array.adb:13:4-13:36>
+====================================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName call_array.adb:2:19-2:20> actual=<Int call_array.adb:13:9-13:11>>,
          <ParamActual param=<DefiningName call_array.adb:2:32-2:33> actual=<Id "True" call_array.adb:13:18-13:22>>,
          <ParamActual param=<DefiningName call_array.adb:2:35-2:36> actual=<Id "False" call_array.adb:13:29-13:34>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:15:4-15:26>
+Working on node <CallStmt call_array.adb:15:4-15:26>
+====================================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName call_array.adb:2:19-2:20> actual=<Int call_array.adb:15:9-15:11>>,
          <ParamActual param=<DefiningName call_array.adb:2:32-2:33> actual=<Id "True" call_array.adb:15:13-15:17>>,
          <ParamActual param=<DefiningName call_array.adb:2:35-2:36> actual=<Id "False" call_array.adb:15:19-15:24>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:17:4-17:31>
+Working on node <CallStmt call_array.adb:17:4-17:31>
+====================================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName call_array.adb:5:39-5:40> actual=<Int call_array.adb:17:27-17:29>>,
          <ParamActual param=<DefiningName call_array.adb:5:42-5:43> actual=<Int call_array.adb:17:18-17:20>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt call_array.adb:19:4-19:23>
+Working on node <CallStmt call_array.adb:19:4-19:23>
+====================================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName call_array.adb:5:39-5:40> actual=<Int call_array.adb:19:17-19:18>>,
          <ParamActual param=<DefiningName call_array.adb:5:42-5:43> actual=<Int call_array.adb:19:20-19:21>>]
 
+Working on node <AssignStmt callp.adb:35:4-35:42>
+=================================================
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:35:4-35:42>
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:3:26-3:27>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:4:26-4:27>>,
          <ParamActual param=<DefiningName callp.adb:5:7-5:9> actual=<Int callp.adb:5:26-5:27>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:38:4-38:49>
+Working on node <AssignStmt callp.adb:38:4-38:49>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:38:42-38:43>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:38:44-38:45>>,
          <ParamActual param=<DefiningName callp.adb:5:7-5:9> actual=<Int callp.adb:38:46-38:47>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:41:4-41:45>
+Working on node <AssignStmt callp.adb:41:4-41:45>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:41:42-41:43>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:4:26-4:27>>,
          <ParamActual param=<DefiningName callp.adb:5:7-5:9> actual=<Int callp.adb:5:26-5:27>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:44:4-44:69>
+Working on node <AssignStmt callp.adb:44:4-44:69>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:44:48-44:49>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:44:57-44:58>>,
          <ParamActual param=<DefiningName callp.adb:5:7-5:9> actual=<Int callp.adb:44:66-44:67>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:47:4-47:63>
+Working on node <AssignStmt callp.adb:47:4-47:63>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:47:42-47:43>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:47:51-47:52>>,
          <ParamActual param=<DefiningName callp.adb:5:7-5:9> actual=<Int callp.adb:47:60-47:61>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:50:4-50:63>
+Working on node <AssignStmt callp.adb:50:4-50:63>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:50:42-50:43>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:50:60-50:61>>,
          <ParamActual param=<DefiningName callp.adb:5:7-5:9> actual=<Int callp.adb:50:51-50:52>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:53:4-53:60>
+Working on node <AssignStmt callp.adb:53:4-53:60>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:3:7-3:9> actual=<Int callp.adb:3:26-3:27>>,
          <ParamActual param=<DefiningName callp.adb:4:7-4:9> actual=<Int callp.adb:53:48-53:49>>,
          <ParamActual param=<DefiningName callp.adb:5:7-5:9> actual=<Int callp.adb:53:57-53:58>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:56:4-56:43>
+Working on node <AssignStmt callp.adb:56:4-56:43>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:11:7-11:9> actual=<Int callp.adb:11:30-11:31>>,
          <ParamActual param=<DefiningName callp.adb:11:11-11:13> actual=<Int callp.adb:11:30-11:31>>,
          <ParamActual param=<DefiningName callp.adb:12:7-12:9> actual=<Int callp.adb:12:26-12:27>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:59:4-59:50>
+Working on node <AssignStmt callp.adb:59:4-59:50>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:11:7-11:9> actual=<Int callp.adb:59:43-59:44>>,
          <ParamActual param=<DefiningName callp.adb:11:11-11:13> actual=<Int callp.adb:59:45-59:46>>,
          <ParamActual param=<DefiningName callp.adb:12:7-12:9> actual=<Int callp.adb:59:47-59:48>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:62:4-62:46>
+Working on node <AssignStmt callp.adb:62:4-62:46>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:11:7-11:9> actual=<Int callp.adb:62:43-62:44>>,
          <ParamActual param=<DefiningName callp.adb:11:11-11:13> actual=<Int callp.adb:11:30-11:31>>,
          <ParamActual param=<DefiningName callp.adb:12:7-12:9> actual=<Int callp.adb:12:26-12:27>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:65:4-65:70>
+Working on node <AssignStmt callp.adb:65:4-65:70>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:11:7-11:9> actual=<Int callp.adb:65:49-65:50>>,
          <ParamActual param=<DefiningName callp.adb:11:11-11:13> actual=<Int callp.adb:65:58-65:59>>,
          <ParamActual param=<DefiningName callp.adb:12:7-12:9> actual=<Int callp.adb:65:67-65:68>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:68:4-68:64>
+Working on node <AssignStmt callp.adb:68:4-68:64>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:11:7-11:9> actual=<Int callp.adb:68:43-68:44>>,
          <ParamActual param=<DefiningName callp.adb:11:11-11:13> actual=<Int callp.adb:68:52-68:53>>,
          <ParamActual param=<DefiningName callp.adb:12:7-12:9> actual=<Int callp.adb:68:61-68:62>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:71:4-71:64>
+Working on node <AssignStmt callp.adb:71:4-71:64>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:11:7-11:9> actual=<Int callp.adb:71:43-71:44>>,
          <ParamActual param=<DefiningName callp.adb:11:11-11:13> actual=<Int callp.adb:71:61-71:62>>,
          <ParamActual param=<DefiningName callp.adb:12:7-12:9> actual=<Int callp.adb:71:52-71:53>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:74:4-74:61>
+Working on node <AssignStmt callp.adb:74:4-74:61>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:11:7-11:9> actual=<Int callp.adb:11:30-11:31>>,
          <ParamActual param=<DefiningName callp.adb:11:11-11:13> actual=<Int callp.adb:74:49-74:50>>,
          <ParamActual param=<DefiningName callp.adb:12:7-12:9> actual=<Int callp.adb:74:58-74:59>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:77:4-77:43>
+Working on node <AssignStmt callp.adb:77:4-77:43>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:18:7-18:9> actual=<Int callp.adb:18:26-18:27>>,
          <ParamActual param=<DefiningName callp.adb:19:7-19:9> actual=<Int callp.adb:19:30-19:31>>,
          <ParamActual param=<DefiningName callp.adb:19:11-19:13> actual=<Int callp.adb:19:30-19:31>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:80:4-80:50>
+Working on node <AssignStmt callp.adb:80:4-80:50>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:18:7-18:9> actual=<Int callp.adb:80:43-80:44>>,
          <ParamActual param=<DefiningName callp.adb:19:7-19:9> actual=<Int callp.adb:80:45-80:46>>,
          <ParamActual param=<DefiningName callp.adb:19:11-19:13> actual=<Int callp.adb:80:47-80:48>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:83:4-83:46>
+Working on node <AssignStmt callp.adb:83:4-83:46>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:18:7-18:9> actual=<Int callp.adb:83:43-83:44>>,
          <ParamActual param=<DefiningName callp.adb:19:7-19:9> actual=<Int callp.adb:19:30-19:31>>,
          <ParamActual param=<DefiningName callp.adb:19:11-19:13> actual=<Int callp.adb:19:30-19:31>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:86:4-86:70>
+Working on node <AssignStmt callp.adb:86:4-86:70>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:18:7-18:9> actual=<Int callp.adb:86:49-86:50>>,
          <ParamActual param=<DefiningName callp.adb:19:7-19:9> actual=<Int callp.adb:86:58-86:59>>,
          <ParamActual param=<DefiningName callp.adb:19:11-19:13> actual=<Int callp.adb:86:67-86:68>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:89:4-89:64>
+Working on node <AssignStmt callp.adb:89:4-89:64>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:18:7-18:9> actual=<Int callp.adb:89:43-89:44>>,
          <ParamActual param=<DefiningName callp.adb:19:7-19:9> actual=<Int callp.adb:89:52-89:53>>,
          <ParamActual param=<DefiningName callp.adb:19:11-19:13> actual=<Int callp.adb:89:61-89:62>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:92:4-92:64>
+Working on node <AssignStmt callp.adb:92:4-92:64>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:18:7-18:9> actual=<Int callp.adb:92:43-92:44>>,
          <ParamActual param=<DefiningName callp.adb:19:7-19:9> actual=<Int callp.adb:92:61-92:62>>,
          <ParamActual param=<DefiningName callp.adb:19:11-19:13> actual=<Int callp.adb:92:52-92:53>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:95:4-95:61>
+Working on node <AssignStmt callp.adb:95:4-95:61>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:18:7-18:9> actual=<Int callp.adb:18:26-18:27>>,
          <ParamActual param=<DefiningName callp.adb:19:7-19:9> actual=<Int callp.adb:95:49-95:50>>,
          <ParamActual param=<DefiningName callp.adb:19:11-19:13> actual=<Int callp.adb:95:58-95:59>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:98:4-98:43>
+Working on node <AssignStmt callp.adb:98:4-98:43>
+=================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:25:7-25:9> actual=<Int callp.adb:25:26-25:27>>,
          <ParamActual param=<DefiningName callp.adb:26:7-26:9> actual=<Int callp.adb:26:30-26:31>>,
          <ParamActual param=<DefiningName callp.adb:26:11-26:13> actual=<Int callp.adb:26:30-26:31>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:101:4-101:50>
+Working on node <AssignStmt callp.adb:101:4-101:50>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:25:7-25:9> actual=<Int callp.adb:101:43-101:44>>,
          <ParamActual param=<DefiningName callp.adb:26:7-26:9> actual=<Int callp.adb:101:45-101:46>>,
          <ParamActual param=<DefiningName callp.adb:26:11-26:13> actual=<Int callp.adb:101:47-101:48>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:104:4-104:46>
+Working on node <AssignStmt callp.adb:104:4-104:46>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:25:7-25:9> actual=<Int callp.adb:104:43-104:44>>,
          <ParamActual param=<DefiningName callp.adb:26:7-26:9> actual=<Int callp.adb:26:30-26:31>>,
          <ParamActual param=<DefiningName callp.adb:26:11-26:13> actual=<Int callp.adb:26:30-26:31>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:107:4-107:70>
+Working on node <AssignStmt callp.adb:107:4-107:70>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:25:7-25:9> actual=<Int callp.adb:107:49-107:50>>,
          <ParamActual param=<DefiningName callp.adb:26:7-26:9> actual=<Int callp.adb:107:58-107:59>>,
          <ParamActual param=<DefiningName callp.adb:26:11-26:13> actual=<Int callp.adb:107:67-107:68>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:110:4-110:64>
+Working on node <AssignStmt callp.adb:110:4-110:64>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:25:7-25:9> actual=<Int callp.adb:110:43-110:44>>,
          <ParamActual param=<DefiningName callp.adb:26:7-26:9> actual=<Int callp.adb:110:52-110:53>>,
          <ParamActual param=<DefiningName callp.adb:26:11-26:13> actual=<Int callp.adb:110:61-110:62>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:113:4-113:64>
+Working on node <AssignStmt callp.adb:113:4-113:64>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:25:7-25:9> actual=<Int callp.adb:113:43-113:44>>,
          <ParamActual param=<DefiningName callp.adb:26:7-26:9> actual=<Int callp.adb:113:61-113:62>>,
          <ParamActual param=<DefiningName callp.adb:26:11-26:13> actual=<Int callp.adb:113:52-113:53>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:116:4-116:61>
+Working on node <AssignStmt callp.adb:116:4-116:61>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:25:7-25:9> actual=<Int callp.adb:25:26-25:27>>,
          <ParamActual param=<DefiningName callp.adb:26:7-26:9> actual=<Int callp.adb:116:49-116:50>>,
          <ParamActual param=<DefiningName callp.adb:26:11-26:13> actual=<Int callp.adb:116:58-116:59>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:119:4-119:59>
+Working on node <AssignStmt callp.adb:119:4-119:59>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:30:7-30:9> actual=<Int callp.adb:119:38-119:39>>,
          <ParamActual param=<DefiningName callp.adb:30:21-30:23> actual=<Int callp.adb:119:56-119:57>>,
          <ParamActual param=<DefiningName callp.adb:30:25-30:27> actual=<Int callp.adb:119:47-119:48>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt callp.adb:122:4-122:50>
+Working on node <AssignStmt callp.adb:122:4-122:50>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName callp.adb:30:7-30:9> actual=<Int callp.adb:122:38-122:39>>,
          <ParamActual param=<DefiningName callp.adb:30:21-30:23> actual=<Int callp.adb:30:44-30:45>>,
          <ParamActual param=<DefiningName callp.adb:30:25-30:27> actual=<Int callp.adb:122:47-122:48>>]
 
+Working on node <CallStmt dot.adb:28:4-28:18>
+=============================================
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:28:4-28:18>
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:3:20-3:21> actual=<Int dot.adb:28:15-28:16>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:30:4-30:13>
+Working on node <CallStmt dot.adb:30:4-30:13>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:3:20-3:21> actual=<Int dot.adb:30:10-30:11>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:32:4-32:9>
+Working on node <CallStmt dot.adb:32:4-32:9>
+============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:3:20-3:21> actual=<Int dot.adb:3:35-3:36>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:34:4-34:13>
+Working on node <CallStmt dot.adb:34:4-34:13>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:6:20-6:21> actual=<Int dot.adb:34:10-34:11>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:36:4-36:9>
+Working on node <CallStmt dot.adb:36:4-36:9>
+============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:6:20-6:21> actual=<Int dot.adb:6:35-6:36>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:38:4-38:13>
+Working on node <CallStmt dot.adb:38:4-38:13>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:9:21-9:22> actual=<Id "X" dot.adb:38:4-38:5>>,
          <ParamActual param=<DefiningName dot.adb:9:28-9:29> actual=<Int dot.adb:38:10-38:11>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:40:4-40:18>
+Working on node <CallStmt dot.adb:40:4-40:18>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:9:21-9:22> actual=<Id "X" dot.adb:40:4-40:5>>,
          <ParamActual param=<DefiningName dot.adb:9:28-9:29> actual=<Int dot.adb:40:15-40:16>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:42:4-42:9>
+Working on node <CallStmt dot.adb:42:4-42:9>
+============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:9:21-9:22> actual=<Id "X" dot.adb:42:4-42:5>>,
          <ParamActual param=<DefiningName dot.adb:9:28-9:29> actual=<Int dot.adb:9:43-9:44>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:44:4-44:13>
+Working on node <CallStmt dot.adb:44:4-44:13>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:10:21-10:22> actual=<Id "X" dot.adb:44:4-44:5>>,
          <ParamActual param=<DefiningName dot.adb:10:28-10:29> actual=<Int dot.adb:44:10-44:11>>,
          <ParamActual param=<DefiningName dot.adb:10:46-10:47> actual=<Int dot.adb:10:61-10:62>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:46:4-46:18>
+Working on node <CallStmt dot.adb:46:4-46:18>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:10:21-10:22> actual=<Id "X" dot.adb:46:4-46:5>>,
          <ParamActual param=<DefiningName dot.adb:10:28-10:29> actual=<Int dot.adb:46:15-46:16>>,
          <ParamActual param=<DefiningName dot.adb:10:46-10:47> actual=<Int dot.adb:10:61-10:62>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:48:4-48:9>
+Working on node <CallStmt dot.adb:48:4-48:9>
+============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:10:21-10:22> actual=<Id "X" dot.adb:48:4-48:5>>,
          <ParamActual param=<DefiningName dot.adb:10:28-10:29> actual=<Int dot.adb:10:43-10:44>>,
          <ParamActual param=<DefiningName dot.adb:10:46-10:47> actual=<Int dot.adb:10:61-10:62>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:50:4-50:16>
+Working on node <CallStmt dot.adb:50:4-50:16>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:10:21-10:22> actual=<Id "X" dot.adb:50:4-50:5>>,
          <ParamActual param=<DefiningName dot.adb:10:28-10:29> actual=<Int dot.adb:50:10-50:11>>,
          <ParamActual param=<DefiningName dot.adb:10:46-10:47> actual=<Int dot.adb:50:13-50:14>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:52:4-52:26>
+Working on node <CallStmt dot.adb:52:4-52:26>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:10:21-10:22> actual=<Id "X" dot.adb:52:4-52:5>>,
          <ParamActual param=<DefiningName dot.adb:10:28-10:29> actual=<Int dot.adb:52:15-52:16>>,
          <ParamActual param=<DefiningName dot.adb:10:46-10:47> actual=<Int dot.adb:52:23-52:24>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt dot.adb:54:4-54:21>
+Working on node <CallStmt dot.adb:54:4-54:21>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName dot.adb:10:21-10:22> actual=<Id "X" dot.adb:54:4-54:5>>,
          <ParamActual param=<DefiningName dot.adb:10:28-10:29> actual=<Int dot.adb:54:10-54:11>>,
          <ParamActual param=<DefiningName dot.adb:10:46-10:47> actual=<Int dot.adb:54:18-54:19>>]
 
+Working on node <AssignStmt pkg.adb:32:7-32:15>
+===============================================
 
-
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:32:7-32:15>
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:2:17-2:18> actual=<Int pkg.adb:2:32-2:33>>,
          <ParamActual param=<DefiningName pkg.adb:2:35-2:36> actual=<Int pkg.adb:2:50-2:51>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:34:7-34:19>
+Working on node <AssignStmt pkg.adb:34:7-34:19>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:2:17-2:18> actual=<Int pkg.adb:34:16-34:17>>,
          <ParamActual param=<DefiningName pkg.adb:2:35-2:36> actual=<Int pkg.adb:2:50-2:51>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:36:7-36:22>
+Working on node <AssignStmt pkg.adb:36:7-36:22>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:2:17-2:18> actual=<Int pkg.adb:36:16-36:17>>,
          <ParamActual param=<DefiningName pkg.adb:2:35-2:36> actual=<Int pkg.adb:36:19-36:20>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:38:7-38:24>
+Working on node <AssignStmt pkg.adb:38:7-38:24>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:2:17-2:18> actual=<Int pkg.adb:2:32-2:33>>,
          <ParamActual param=<DefiningName pkg.adb:2:35-2:36> actual=<Int pkg.adb:38:21-38:22>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:40:7-40:10>
+Working on node <CallStmt pkg.adb:40:7-40:10>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:6:18-6:19> actual=<Int pkg.adb:6:33-6:34>>,
          <ParamActual param=<DefiningName pkg.adb:6:36-6:37> actual=<Int pkg.adb:6:51-6:52>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:42:7-42:14>
+Working on node <CallStmt pkg.adb:42:7-42:14>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:6:18-6:19> actual=<Int pkg.adb:42:11-42:12>>,
          <ParamActual param=<DefiningName pkg.adb:6:36-6:37> actual=<Int pkg.adb:6:51-6:52>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:44:7-44:17>
+Working on node <CallStmt pkg.adb:44:7-44:17>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:6:18-6:19> actual=<Int pkg.adb:44:11-44:12>>,
          <ParamActual param=<DefiningName pkg.adb:6:36-6:37> actual=<Id "X" pkg.adb:44:14-44:15>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:46:7-46:19>
+Working on node <CallStmt pkg.adb:46:7-46:19>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:6:18-6:19> actual=<Int pkg.adb:6:33-6:34>>,
          <ParamActual param=<DefiningName pkg.adb:6:36-6:37> actual=<Id "X" pkg.adb:46:16-46:17>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:49:7-49:15>
+Working on node <AssignStmt pkg.adb:49:7-49:15>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:11:17-11:18> actual=<Int pkg.adb:11:35-11:36>>,
          <ParamActual param=<DefiningName pkg.adb:11:20-11:21> actual=<Int pkg.adb:11:35-11:36>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:51:7-51:19>
+Working on node <AssignStmt pkg.adb:51:7-51:19>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:11:17-11:18> actual=<Int pkg.adb:51:16-51:17>>,
          <ParamActual param=<DefiningName pkg.adb:11:20-11:21> actual=<Int pkg.adb:11:35-11:36>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:53:7-53:22>
+Working on node <AssignStmt pkg.adb:53:7-53:22>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:11:17-11:18> actual=<Int pkg.adb:53:16-53:17>>,
          <ParamActual param=<DefiningName pkg.adb:11:20-11:21> actual=<Int pkg.adb:53:19-53:20>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:55:7-55:24>
+Working on node <AssignStmt pkg.adb:55:7-55:24>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:11:17-11:18> actual=<Int pkg.adb:11:35-11:36>>,
          <ParamActual param=<DefiningName pkg.adb:11:20-11:21> actual=<Int pkg.adb:55:21-55:22>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:57:7-57:10>
+Working on node <CallStmt pkg.adb:57:7-57:10>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:15:18-15:19> actual=<Int pkg.adb:15:36-15:37>>,
          <ParamActual param=<DefiningName pkg.adb:15:21-15:22> actual=<Int pkg.adb:15:36-15:37>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:59:7-59:14>
+Working on node <CallStmt pkg.adb:59:7-59:14>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:15:18-15:19> actual=<Int pkg.adb:59:11-59:12>>,
          <ParamActual param=<DefiningName pkg.adb:15:21-15:22> actual=<Int pkg.adb:15:36-15:37>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:61:7-61:17>
+Working on node <CallStmt pkg.adb:61:7-61:17>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:15:18-15:19> actual=<Int pkg.adb:61:11-61:12>>,
          <ParamActual param=<DefiningName pkg.adb:15:21-15:22> actual=<Id "X" pkg.adb:61:14-61:15>>]
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:63:7-63:19>
+Working on node <CallStmt pkg.adb:63:7-63:19>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: [<ParamActual param=<DefiningName pkg.adb:15:18-15:19> actual=<Int pkg.adb:15:36-15:37>>,
          <ParamActual param=<DefiningName pkg.adb:15:21-15:22> actual=<Id "X" pkg.adb:63:16-63:17>>]
 
-Eval 'node.f_expr.p_call_params' on node <AssignStmt pkg.adb:66:7-66:15>
+Working on node <AssignStmt pkg.adb:66:7-66:15>
+===============================================
+
+Eval 'node.f_expr.p_call_params'
 Result: []
 
-Eval 'node.f_call.p_call_params' on node <CallStmt pkg.adb:68:7-68:10>
+Working on node <CallStmt pkg.adb:68:7-68:10>
+=============================================
+
+Eval 'node.f_call.p_call_params'
 Result: []
-
-

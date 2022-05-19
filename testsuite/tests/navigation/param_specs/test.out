@@ -1,31 +1,41 @@
-Eval 'node.f_subp_spec[2][0][0][0][0].p_next_part()' on node <SubpDecl ["Foo"] test.ads:2:4-2:35>
+Working on node <SubpDecl ["Foo"] test.ads:2:4-2:35>
+====================================================
+
+Eval 'node.f_subp_spec[2][0][0][0][0].p_next_part()'
 Result: <DefiningName test.ads:10:19-10:20>
 
-Eval 'node.f_subp_spec[2][0][0][0][1].p_next_part()' on node <SubpDecl ["Foo"] test.ads:2:4-2:35>
+Eval 'node.f_subp_spec[2][0][0][0][1].p_next_part()'
 Result: <DefiningName test.ads:10:32-10:33>
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_next_part()' on node <SubpDecl ["Bar"] test.ads:6:4-6:45>
+Working on node <SubpDecl ["Bar"] test.ads:6:4-6:45>
+====================================================
+
+Eval 'node.f_subp_spec[2][0][0][0][0].p_next_part()'
 Result: <DefiningName test.ads:14:19-14:20>
 
-Eval 'node.f_subp_spec[2][0][1][0][0].p_next_part()' on node <SubpDecl ["Bar"] test.ads:6:4-6:45>
+Eval 'node.f_subp_spec[2][0][1][0][0].p_next_part()'
 Result: <DefiningName test.ads:14:22-14:23>
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_previous_part()' on node <NullSubpDecl ["Foo"] test.ads:10:4-10:53>
+Working on node <NullSubpDecl ["Foo"] test.ads:10:4-10:53>
+==========================================================
+
+Eval 'node.f_subp_spec[2][0][0][0][0].p_previous_part()'
 Result: <DefiningName test.ads:2:19-2:20>
 
-Eval 'node.f_subp_spec[2][0][1][0][0].p_previous_part()' on node <NullSubpDecl ["Foo"] test.ads:10:4-10:53>
+Eval 'node.f_subp_spec[2][0][1][0][0].p_previous_part()'
 Result: <DefiningName test.ads:2:22-2:23>
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_previous_part()' on node <NullSubpDecl ["Bar"] test.ads:14:4-14:43>
+Working on node <NullSubpDecl ["Bar"] test.ads:14:4-14:43>
+==========================================================
+
+Eval 'node.f_subp_spec[2][0][0][0][0].p_previous_part()'
 Result: <DefiningName test.ads:6:19-6:20>
 
-Eval 'node.f_subp_spec[2][0][0][0][1].p_previous_part()' on node <NullSubpDecl ["Bar"] test.ads:14:4-14:43>
+Eval 'node.f_subp_spec[2][0][0][0][1].p_previous_part()'
 Result: <DefiningName test.ads:6:32-6:33>
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_canonical_part()' on node <NullSubpDecl ["Bar"] test.ads:14:4-14:43>
+Eval 'node.f_subp_spec[2][0][0][0][0].p_canonical_part()'
 Result: <DefiningName test.ads:6:19-6:20>
 
-Eval 'node.f_subp_spec[2][0][0][0][1].p_canonical_part()' on node <NullSubpDecl ["Bar"] test.ads:14:4-14:43>
+Eval 'node.f_subp_spec[2][0][0][0][1].p_canonical_part()'
 Result: <DefiningName test.ads:6:32-6:33>
-
-

@@ -1,20 +1,35 @@
-Eval 'node.p_canonical_text' on node <Id "["03C0"]" foo.ads:2:4-2:12>
+Working on node <Id "["03C0"]" foo.ads:2:4-2:12>
+================================================
+
+Eval 'node.p_canonical_text'
 Result: '\u03c0'
 
-Eval 'node.p_canonical_text' on node <Id "This_Is_["03C0"]" foo.ads:5:4-5:20>
+Working on node <Id "This_Is_["03C0"]" foo.ads:5:4-5:20>
+========================================================
+
+Eval 'node.p_canonical_text'
 Result: 'this_is_\u03c0'
 
-Eval 'node.p_canonical_text' on node <Id "["000003C0"]_Name" foo.ads:8:4-8:21>
+Working on node <Id "["000003C0"]_Name" foo.ads:8:4-8:21>
+=========================================================
+
+Eval 'node.p_canonical_text'
 Result: '\u03c0_name'
 
-Eval 'node.p_canonical_text' on node <Chr "'A'" foo.ads:13:7-13:10>
+Working on node <Chr "'A'" foo.ads:13:7-13:10>
+==============================================
+
+Eval 'node.p_canonical_text'
 Result: "'A'"
 
-Eval 'node.p_canonical_text' on node <Chr "'a'" foo.ads:16:7-16:10>
+Working on node <Chr "'a'" foo.ads:16:7-16:10>
+==============================================
+
+Eval 'node.p_canonical_text'
 Result: "'a'"
 
+Working on node <PackageDecl ["pKg.BAR"] pkg-bar.ads:1:1-3:13>
+==============================================================
 
-Eval 'node.p_defining_name.p_canonical_text' on node <PackageDecl ["pKg.BAR"] pkg-bar.ads:1:1-3:13>
+Eval 'node.p_defining_name.p_canonical_text'
 Result: 'pkg.bar'
-
-

@@ -1,13 +1,23 @@
-Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["A"] foo.ads:5:4-5:24>
+Working on node <NumberDecl ["A"] foo.ads:5:4-5:24>
+===================================================
+
+Eval 'node.f_expr.p_is_operator_name'
 Result: True
 
-Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["B"] foo.ads:8:4-8:30>
+Working on node <NumberDecl ["B"] foo.ads:8:4-8:30>
+===================================================
+
+Eval 'node.f_expr.p_is_operator_name'
 Result: True
 
-Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["C"] foo.ads:11:4-11:35>
+Working on node <NumberDecl ["C"] foo.ads:11:4-11:35>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
 Result: True
 
-Eval 'node.f_expr.p_is_operator_name' on node <NumberDecl ["D"] foo.ads:14:4-14:36>
+Working on node <NumberDecl ["D"] foo.ads:14:4-14:36>
+=====================================================
+
+Eval 'node.f_expr.p_is_operator_name'
 Result: False
-
-

@@ -1,25 +1,32 @@
-Eval 'node.parent.f_name.p_referenced_decl()' on node <PackageBody ["Nested"] p-nested.adb:2:1-7:12>
+Working on node <PackageBody ["Nested"] p-nested.adb:2:1-7:12>
+==============================================================
+
+Eval 'node.parent.f_name.p_referenced_decl()'
 Result: <PackageBody ["P"] p.adb:1:1-12:7>
 
+Working on node <SubpBody ["X"] p-x.adb:3:14-6:7>
+=================================================
 
-Eval 'node.parent.f_name.p_referenced_decl()' on node <SubpBody ["X"] p-x.adb:3:14-6:7>
+Eval 'node.parent.f_name.p_referenced_decl()'
 Result: <PackageBody ["P"] p.adb:1:1-12:7>
 
+Working on node <SubpDecl ["Boo"] p.adb:6:7-6:21>
+=================================================
 
-Eval 'node.p_next_part_for_decl()' on node <SubpDecl ["Boo"] p.adb:6:7-6:21>
+Eval 'node.p_next_part_for_decl()'
 Result: <SubpBody ["Boo"] p-nested.adb:3:4-6:12>
 
+Working on node <SubpDecl ["X"] p.ads:3:4-3:30>
+===============================================
 
-Eval 'node.p_next_part_for_decl()' on node <SubpDecl ["X"] p.ads:3:4-3:30>
+Eval 'node.p_next_part_for_decl()'
 Result: <SubpBodyStub ["X"] p.adb:3:4-3:42>
 
-Eval 'node.p_next_part_for_decl().p_next_part_for_decl()' on node <SubpDecl ["X"] p.ads:3:4-3:30>
+Eval 'node.p_next_part_for_decl().p_next_part_for_decl()'
 Result: <SubpBody ["X"] p-x.adb:3:14-6:7>
 
-Eval 'node.p_next_part_for_decl().p_next_part_for_decl().p_previous_part()' on node <SubpDecl ["X"] p.ads:3:4-3:30>
+Eval 'node.p_next_part_for_decl().p_next_part_for_decl().p_previous_part()'
 Result: <SubpBodyStub ["X"] p.adb:3:4-3:42>
 
-Eval 'node.p_next_part_for_decl().p_previous_part()' on node <SubpDecl ["X"] p.ads:3:4-3:30>
+Eval 'node.p_next_part_for_decl().p_previous_part()'
 Result: <SubpDecl ["X"] p.ads:3:4-3:30>
-
-

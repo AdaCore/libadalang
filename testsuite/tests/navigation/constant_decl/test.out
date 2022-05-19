@@ -1,16 +1,20 @@
-Eval 'node.p_private_part_decl' on node <ObjectDecl ["X"] test.ads:2:4-2:25>
+Working on node <ObjectDecl ["X"] test.ads:2:4-2:25>
+====================================================
+
+Eval 'node.p_private_part_decl'
 Result: <ObjectDecl ["X"] test.ads:7:4-7:30>
 
-Eval 'node.p_next_part_for_decl()' on node <ObjectDecl ["X"] test.ads:2:4-2:25>
+Eval 'node.p_next_part_for_decl()'
 Result: <ObjectDecl ["X"] test.ads:7:4-7:30>
 
-Eval 'node.p_public_part_decl' on node <ObjectDecl ["X"] test.ads:7:4-7:30>
+Working on node <ObjectDecl ["X"] test.ads:7:4-7:30>
+====================================================
+
+Eval 'node.p_public_part_decl'
 Result: <ObjectDecl ["X"] test.ads:2:4-2:25>
 
-Eval 'node.p_previous_part_for_decl()' on node <ObjectDecl ["X"] test.ads:7:4-7:30>
+Eval 'node.p_previous_part_for_decl()'
 Result: <ObjectDecl ["X"] test.ads:2:4-2:25>
 
-Eval 'node.p_canonical_part()' on node <ObjectDecl ["X"] test.ads:7:4-7:30>
+Eval 'node.p_canonical_part()'
 Result: <ObjectDecl ["X"] test.ads:2:4-2:25>
-
-

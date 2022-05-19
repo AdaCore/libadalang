@@ -1,44 +1,77 @@
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Lol"] bar.adb:5:7-5:29>
+Working on node <SubpDecl ["Lol"] bar.adb:5:7-5:29>
+===================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: None
 
+Working on node <ConcreteFormalSubpDecl ["Foo"] bar.ads:5:7-5:34>
+=================================================================
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <ConcreteFormalSubpDecl ["Foo"] bar.ads:5:7-5:34>
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: None
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <ConcreteFormalSubpDecl ["Foo"] bar.ads:7:7-7:34>
+Working on node <ConcreteFormalSubpDecl ["Foo"] bar.ads:7:7-7:34>
+=================================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: None
 
+Working on node <NullSubpDecl ["Bar"] foo.adb:2:4-2:37>
+=======================================================
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <NullSubpDecl ["Bar"] foo.adb:2:4-2:37>
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: <TypeDecl ["T"] foo.ads:8:4-8:33>
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <NullSubpDecl ["Dummy"] foo.adb:5:4-5:39>
+Working on node <NullSubpDecl ["Dummy"] foo.adb:5:4-5:39>
+=========================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: None
 
-Eval 'node.f_type_def.f_subp_spec.p_primitive_subp_tagged_type()' on node <TypeDecl ["Test_Access"] foo.adb:8:4-8:52>
+Working on node <TypeDecl ["Test_Access"] foo.adb:8:4-8:52>
+===========================================================
+
+Eval 'node.f_type_def.f_subp_spec.p_primitive_subp_tagged_type()'
 Result: None
 
+Working on node <SubpDecl ["Foo"] foo.ads:5:4-5:29>
+===================================================
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Foo"] foo.ads:5:4-5:29>
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: None
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Bar"] foo.ads:9:4-9:29>
+Working on node <SubpDecl ["Bar"] foo.ads:9:4-9:29>
+===================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: <TypeDecl ["T"] foo.ads:8:4-8:33>
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Foo"] foo.ads:13:7-13:32>
+Working on node <SubpDecl ["Foo"] foo.ads:13:7-13:32>
+=====================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: None
 
-Eval 'node.f_subp_decl.f_subp_spec.p_primitive_subp_tagged_type()' on node <GenericSubpDecl ["Dummy"] foo.ads:17:4-19:31>
+Working on node <GenericSubpDecl ["Dummy"] foo.ads:17:4-19:31>
+==============================================================
+
+Eval 'node.f_subp_decl.f_subp_spec.p_primitive_subp_tagged_type()'
 Result: None
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Baz"] foo.ads:23:4-23:29>
+Working on node <SubpDecl ["Baz"] foo.ads:23:4-23:29>
+=====================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: <TypeDecl ["T"] foo.ads:8:4-8:33>
 
+Working on node <SubpDecl ["Bar"] inherit.adb:7:4-7:29>
+=======================================================
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["Bar"] inherit.adb:7:4-7:29>
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: <TypeDecl ["U"] inherit.adb:4:4-4:41>
 
-Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()' on node <SubpDecl ["New_Bar"] inherit.adb:11:4-11:33>
+Working on node <SubpDecl ["New_Bar"] inherit.adb:11:4-11:33>
+=============================================================
+
+Eval 'node.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
 Result: None
-
-

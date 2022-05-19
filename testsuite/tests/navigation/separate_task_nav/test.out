@@ -1,13 +1,14 @@
-Eval 'node.p_next_part_for_decl()' on node <SingleTaskDecl ["Tsk"] t.ads:2:4-4:12>
+Working on node <SingleTaskDecl ["Tsk"] t.ads:2:4-4:12>
+=======================================================
+
+Eval 'node.p_next_part_for_decl()'
 Result: <TaskBodyStub ["Tsk"] t.adb:3:4-3:30>
 
-Eval 'node.p_next_part_for_decl().p_next_part_for_decl()' on node <SingleTaskDecl ["Tsk"] t.ads:2:4-4:12>
+Eval 'node.p_next_part_for_decl().p_next_part_for_decl()'
 Result: <TaskBody ["Tsk"] t-tsk.adb:4:1-10:9>
 
-Eval 'node.p_next_part_for_decl().p_next_part_for_decl().p_previous_part()' on node <SingleTaskDecl ["Tsk"] t.ads:2:4-4:12>
+Eval 'node.p_next_part_for_decl().p_next_part_for_decl().p_previous_part()'
 Result: <TaskBodyStub ["Tsk"] t.adb:3:4-3:30>
 
-Eval 'node.p_next_part_for_decl().p_previous_part()' on node <SingleTaskDecl ["Tsk"] t.ads:2:4-4:12>
+Eval 'node.p_next_part_for_decl().p_previous_part()'
 Result: <SingleTaskDecl ["Tsk"] t.ads:2:4-4:12>
-
-

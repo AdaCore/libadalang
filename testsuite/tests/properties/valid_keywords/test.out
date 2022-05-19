@@ -1,4 +1,7 @@
-Eval 'node.p_valid_keywords' on node <SubpBody ["Main"] test.adb:1:1-4:10>
+Working on node <SubpBody ["Main"] test.adb:1:1-4:10>
+=====================================================
+
+Eval 'node.p_valid_keywords'
 Result: ['abort',
          'abs',
          'abstract',
@@ -72,5 +75,3 @@ Result: ['abort',
          'while',
          'with',
          'xor']
-
-

@@ -1,31 +1,56 @@
-Eval 'node.p_has_aspect("interrupt_handler")' on node <SubpDecl ["Handler1_Hdl"] interrupts.ads:7:7-7:53>
+Working on node <SubpDecl ["Handler1_Hdl"] interrupts.ads:7:7-7:53>
+===================================================================
+
+Eval 'node.p_has_aspect("interrupt_handler")'
 Result: True
 
-Eval 'node.p_has_aspect("interrupt_handler")' on node <SubpDecl ["Handler1"] interrupts.ads:9:7-9:49>
+Working on node <SubpDecl ["Handler1"] interrupts.ads:9:7-9:49>
+===============================================================
+
+Eval 'node.p_has_aspect("interrupt_handler")'
 Result: True
 
-Eval 'node.p_has_aspect("interrupt_handler")' on node <SubpDecl ["Handler2"] interrupts.ads:12:7-12:26>
+Working on node <SubpDecl ["Handler2"] interrupts.ads:12:7-12:26>
+=================================================================
+
+Eval 'node.p_has_aspect("interrupt_handler")'
 Result: True
 
-Eval 'node.p_has_aspect("interrupt_handler")' on node <SubpDecl ["Handler2_Hdl"] interrupts.ads:16:7-16:30>
+Working on node <SubpDecl ["Handler2_Hdl"] interrupts.ads:16:7-16:30>
+=====================================================================
+
+Eval 'node.p_has_aspect("interrupt_handler")'
 Result: True
 
-Eval 'node.p_has_aspect("interrupt_handler")' on node <SubpDecl ["Handler4"] interrupts.ads:20:7-20:26>
+Working on node <SubpDecl ["Handler4"] interrupts.ads:20:7-20:26>
+=================================================================
+
+Eval 'node.p_has_aspect("interrupt_handler")'
 Result: False
 
-Eval 'node.p_has_aspect("attach_handler")' on node <SubpDecl ["Handler4"] interrupts.ads:20:7-20:26>
+Eval 'node.p_has_aspect("attach_handler")'
 Result: False
 
-Eval 'node.p_has_aspect("attach_handler")' on node <SubpDecl ["Handler5_Hdl"] interrupts.ads:24:7-24:67>
+Working on node <SubpDecl ["Handler5_Hdl"] interrupts.ads:24:7-24:67>
+=====================================================================
+
+Eval 'node.p_has_aspect("attach_handler")'
 Result: True
 
-Eval 'node.p_has_aspect("attach_handler")' on node <SubpDecl ["Handler5"] interrupts.ads:26:7-26:63>
+Working on node <SubpDecl ["Handler5"] interrupts.ads:26:7-26:63>
+=================================================================
+
+Eval 'node.p_has_aspect("attach_handler")'
 Result: True
 
-Eval 'node.p_has_aspect("attach_handler")' on node <SubpDecl ["Handler6"] interrupts.ads:29:7-29:26>
+Working on node <SubpDecl ["Handler6"] interrupts.ads:29:7-29:26>
+=================================================================
+
+Eval 'node.p_has_aspect("attach_handler")'
 Result: True
 
-Eval 'node.p_has_aspect("attach_handler")' on node <SubpDecl ["Handler6_Hdl"] interrupts.ads:33:7-33:30>
+Working on node <SubpDecl ["Handler6_Hdl"] interrupts.ads:33:7-33:30>
+=====================================================================
+
+Eval 'node.p_has_aspect("attach_handler")'
 Result: True
-
-

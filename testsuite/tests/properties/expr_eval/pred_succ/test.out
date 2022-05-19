@@ -1,16 +1,26 @@
-Eval 'node.find(lal.BinOp).f_left.p_eval_as_int' on node <TypeDecl ["B"] testpredsucc.adb:3:4-3:56>
+Working on node <TypeDecl ["B"] testpredsucc.adb:3:4-3:56>
+==========================================================
+
+Eval 'node.find(lal.BinOp).f_left.p_eval_as_int'
 Result: 2
 
-Eval 'node.find(lal.BinOp).f_right.p_eval_as_int' on node <TypeDecl ["B"] testpredsucc.adb:3:4-3:56>
+Eval 'node.find(lal.BinOp).f_right.p_eval_as_int'
 Result: 199
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Inst"] testpredsucc.adb:9:4-9:38>
+Working on node <ObjectDecl ["Inst"] testpredsucc.adb:9:4-9:38>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
 Result: 1
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Inst"] testpredsucc.adb:12:4-12:38>
+Working on node <ObjectDecl ["Inst"] testpredsucc.adb:12:4-12:38>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
 Exception: out of bounds 'Pred/'Succ on enum
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["Inst2"] testpredsucc.adb:15:4-15:29>
+Working on node <ObjectDecl ["Inst2"] testpredsucc.adb:15:4-15:29>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
 Result: 0
-
-

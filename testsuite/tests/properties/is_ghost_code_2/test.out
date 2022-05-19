@@ -1,40 +1,65 @@
-Eval 'node.f_ids[0].p_is_ghost_code' on node <ObjectDecl ["X", "Y"] test.adb:3:7-3:31>
+Working on node <ObjectDecl ["X", "Y"] test.adb:3:7-3:31>
+=========================================================
+
+Eval 'node.f_ids[0].p_is_ghost_code'
 Result: False
 
-Eval 'node.f_ids[1].p_is_ghost_code' on node <ObjectDecl ["X", "Y"] test.adb:3:7-3:31>
+Eval 'node.f_ids[1].p_is_ghost_code'
 Result: False
 
-Eval 'node.p_is_ghost_code' on node <ObjectDecl ["X"] test.adb:12:7-12:39>
+Working on node <ObjectDecl ["X"] test.adb:12:7-12:39>
+======================================================
+
+Eval 'node.p_is_ghost_code'
 Result: True
 
-Eval 'node.p_is_ghost_code' on node <ObjectDecl ["Y"] test.adb:14:7-14:28>
+Working on node <ObjectDecl ["Y"] test.adb:14:7-14:28>
+======================================================
+
+Eval 'node.p_is_ghost_code'
 Result: False
 
-Eval 'node.f_ids[0].p_is_ghost_code' on node <ObjectDecl ["X", "Y"] test.adb:17:7-17:36>
+Working on node <ObjectDecl ["X", "Y"] test.adb:17:7-17:36>
+===========================================================
+
+Eval 'node.f_ids[0].p_is_ghost_code'
 Result: True
 
-Eval 'node.f_ids[1].p_is_ghost_code' on node <ObjectDecl ["X", "Y"] test.adb:17:7-17:36>
+Eval 'node.f_ids[1].p_is_ghost_code'
 Result: False
 
-Eval 'node.p_is_ghost_code' on node <AssignStmt test.adb:31:10-31:21>
+Working on node <AssignStmt test.adb:31:10-31:21>
+=================================================
+
+Eval 'node.p_is_ghost_code'
 Result: False
 
-Eval 'node.p_is_ghost_code' on node <AssignStmt test.adb:33:10-33:21>
+Working on node <AssignStmt test.adb:33:10-33:21>
+=================================================
+
+Eval 'node.p_is_ghost_code'
 Result: True
 
-Eval 'node.p_is_ghost_code' on node <AssignStmt test.adb:37:13-37:24>
+Working on node <AssignStmt test.adb:37:13-37:24>
+=================================================
+
+Eval 'node.p_is_ghost_code'
 Result: False
 
-Eval 'node.p_is_ghost_code' on node <GenericPackageInternal ["Pkg_4"] test.adb:44:4-45:14>
+Working on node <GenericPackageInternal ["Pkg_4"] test.adb:44:4-45:14>
+======================================================================
+
+Eval 'node.p_is_ghost_code'
 Result: False
 
-Eval 'node.parent.p_is_ghost_code' on node <GenericPackageInternal ["Pkg_4"] test.adb:44:4-45:14>
+Eval 'node.parent.p_is_ghost_code'
 Result: False
 
-Eval 'node.p_is_ghost_code' on node <GenericPackageInternal ["Pkg_5"] test.adb:51:4-52:14>
+Working on node <GenericPackageInternal ["Pkg_5"] test.adb:51:4-52:14>
+======================================================================
+
+Eval 'node.p_is_ghost_code'
 Result: True
 
-Eval 'node.parent.p_is_ghost_code' on node <GenericPackageInternal ["Pkg_5"] test.adb:51:4-52:14>
+Eval 'node.parent.p_is_ghost_code'
 Result: True
-
-

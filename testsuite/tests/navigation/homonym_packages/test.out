@@ -1,4 +1,5 @@
-Eval 'node.p_previous_part_for_decl()' on node <PackageBody ["Pkg.Foo.Pkg"] pkg-foo-pkg.adb:1:1-2:17>
+Working on node <PackageBody ["Pkg.Foo.Pkg"] pkg-foo-pkg.adb:1:1-2:17>
+======================================================================
+
+Eval 'node.p_previous_part_for_decl()'
 Result: <PackageDecl ["Pkg.Foo.Pkg"] pkg-foo-pkg.ads:1:1-2:17>
-
-

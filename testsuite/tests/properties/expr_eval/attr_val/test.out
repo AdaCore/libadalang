@@ -1,16 +1,26 @@
-Eval 'node.f_default_expr.p_is_static_expr()' on node <ObjectDecl ["R"] test.adb:8:4-8:38>
+Working on node <ObjectDecl ["R"] test.adb:8:4-8:38>
+====================================================
+
+Eval 'node.f_default_expr.p_is_static_expr()'
 Result: True
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["R"] test.adb:8:4-8:38>
+Eval 'node.f_default_expr.p_eval_as_int'
 Result: 0
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["S"] test.adb:12:4-12:38>
+Working on node <ObjectDecl ["S"] test.adb:12:4-12:38>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
 Exception: out of bounds 'Val on enum
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["T"] test.adb:15:4-15:39>
+Working on node <ObjectDecl ["T"] test.adb:15:4-15:39>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
 Exception: out of bounds 'Val on enum
 
-Eval 'node.f_default_expr.p_eval_as_int' on node <ObjectDecl ["U"] test.adb:18:4-18:37>
+Working on node <ObjectDecl ["U"] test.adb:18:4-18:37>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
 Result: -3
-
-

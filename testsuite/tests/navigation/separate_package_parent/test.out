@@ -1,7 +1,11 @@
-Eval 'node.p_parent_basic_decl' on node <Subunit pkg-inner.adb:1:1-8:7>
+Working on node <Subunit pkg-inner.adb:1:1-8:7>
+===============================================
+
+Eval 'node.p_parent_basic_decl'
 Result: None
 
-Eval 'node.p_parent_basic_decl' on node <PackageBody ["Inner"] pkg-inner.adb:3:1-8:7>
+Working on node <PackageBody ["Inner"] pkg-inner.adb:3:1-8:7>
+=============================================================
+
+Eval 'node.p_parent_basic_decl'
 Result: <PackageBodyStub ["Inner"] pkg.adb:2:4-2:35>
-
-

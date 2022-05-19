@@ -1,25 +1,47 @@
-Eval 'node.p_is_interface_type()' on node <TypeDecl ["R"] test.adb:2:4-2:26>
+Working on node <TypeDecl ["R"] test.adb:2:4-2:26>
+==================================================
+
+Eval 'node.p_is_interface_type()'
 Result: False
 
-Eval 'node.p_is_interface_type()' on node <TypeDecl ["I"] test.adb:5:4-5:24>
+Working on node <TypeDecl ["I"] test.adb:5:4-5:24>
+==================================================
+
+Eval 'node.p_is_interface_type()'
 Result: True
 
-Eval 'node.p_is_interface_type()' on node <SubtypeDecl ["J"] test.adb:8:4-8:19>
+Working on node <SubtypeDecl ["J"] test.adb:8:4-8:19>
+=====================================================
+
+Eval 'node.p_is_interface_type()'
 Result: True
 
-Eval 'node.p_is_interface_type()' on node <SubtypeDecl ["K"] test.adb:11:4-11:19>
+Working on node <SubtypeDecl ["K"] test.adb:11:4-11:19>
+=======================================================
+
+Eval 'node.p_is_interface_type()'
 Result: False
 
-Eval 'node.p_is_interface_type()' on node <TypeDecl ["JJ"] test.adb:14:4-14:31>
+Working on node <TypeDecl ["JJ"] test.adb:14:4-14:31>
+=====================================================
+
+Eval 'node.p_is_interface_type()'
 Result: True
 
-Eval 'node.p_is_interface_type()' on node <TypeDecl ["T"] test.adb:17:4-17:33>
+Working on node <TypeDecl ["T"] test.adb:17:4-17:33>
+====================================================
+
+Eval 'node.p_is_interface_type()'
 Result: False
 
-Eval 'node.p_is_interface_type()' on node <TypeDecl ["TT"] test.adb:20:4-20:44>
+Working on node <TypeDecl ["TT"] test.adb:20:4-20:44>
+=====================================================
+
+Eval 'node.p_is_interface_type()'
 Result: False
 
-Eval 'node.p_is_interface_type()' on node <SubtypeDecl ["JC"] test.adb:23:4-23:27>
+Working on node <SubtypeDecl ["JC"] test.adb:23:4-23:27>
+========================================================
+
+Eval 'node.p_is_interface_type()'
 Result: True
-
-

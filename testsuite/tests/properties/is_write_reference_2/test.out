@@ -1,13 +1,14 @@
-Eval 'node[0][1][0][1]' on node <CallStmt test.adb:9:7-9:25>
+Working on node <CallStmt test.adb:9:7-9:25>
+============================================
+
+Eval 'node[0][1][0][1]'
 Result: <CallExpr test.adb:9:12-9:23>
 
-Eval 'node[0][1][0][1].p_is_write_reference()' on node <CallStmt test.adb:9:7-9:25>
+Eval 'node[0][1][0][1].p_is_write_reference()'
 Result: True
 
-Eval 'node[0][1][0][1][1][0][1]' on node <CallStmt test.adb:9:7-9:25>
+Eval 'node[0][1][0][1][1][0][1]'
 Result: <Id "X" test.adb:9:21-9:22>
 
-Eval 'node[0][1][0][1][1][0][1].p_is_write_reference()' on node <CallStmt test.adb:9:7-9:25>
+Eval 'node[0][1][0][1][1][0][1].p_is_write_reference()'
 Result: True
-
-

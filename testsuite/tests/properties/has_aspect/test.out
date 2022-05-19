@@ -1,34 +1,59 @@
-Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet0"] test.adb:5:4-5:29>
+Working on node <NullSubpDecl ["Pouet0"] test.adb:5:4-5:29>
+===========================================================
+
+Eval 'node.p_has_aspect('inline')'
 Result: False
 
-Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet1"] test.adb:8:4-9:19>
+Working on node <NullSubpDecl ["Pouet1"] test.adb:8:4-9:19>
+===========================================================
+
+Eval 'node.p_has_aspect('inline')'
 Result: True
 
-Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet2"] test.adb:12:4-13:30>
+Working on node <NullSubpDecl ["Pouet2"] test.adb:12:4-13:30>
+=============================================================
+
+Eval 'node.p_has_aspect('inline')'
 Result: False
 
-Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet3"] test.adb:16:4-17:29>
+Working on node <NullSubpDecl ["Pouet3"] test.adb:16:4-17:29>
+=============================================================
+
+Eval 'node.p_has_aspect('inline')'
 Result: True
 
-Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet4"] test.adb:20:4-21:27>
+Working on node <NullSubpDecl ["Pouet4"] test.adb:20:4-21:27>
+=============================================================
+
+Eval 'node.p_has_aspect('inline')'
 Result: True
 
-Eval 'node.p_has_aspect('inline')' on node <NullSubpDecl ["Pouet5"] test.adb:24:4-25:28>
+Working on node <NullSubpDecl ["Pouet5"] test.adb:24:4-25:28>
+=============================================================
+
+Eval 'node.p_has_aspect('inline')'
 Result: False
 
-Eval 'node.p_has_aspect('size')' on node <TypeDecl ["Small"] test.adb:28:4-30:15>
+Working on node <TypeDecl ["Small"] test.adb:28:4-30:15>
+========================================================
+
+Eval 'node.p_has_aspect('size')'
 Result: True
 
-Eval 'node.p_has_aspect('small')' on node <TypeDecl ["Angle"] test.adb:34:4-34:51>
+Working on node <TypeDecl ["Angle"] test.adb:34:4-34:51>
+========================================================
+
+Eval 'node.p_has_aspect('small')'
 Result: True
 
-Eval 'node.p_has_aspect("pre")' on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+Working on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+==========================================================
+
+Eval 'node.p_has_aspect("pre")'
 Result: True
 
-Eval 'node.p_has_aspect("pre'class")' on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+Eval 'node.p_has_aspect("pre'class")'
 Result: True
 
-Eval 'node.p_has_aspect("invariant")' on node <ExprFunction ["Bar"] test.adb:39:4-42:33>
+Eval 'node.p_has_aspect("invariant")'
 Result: True
-
-

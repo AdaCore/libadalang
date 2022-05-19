@@ -1,5 +1,6 @@
-Eval 'node.p_base_subp_declarations()' on node <SubpDecl ["Finalize"] test.ads:6:4-6:38>
+Working on node <SubpDecl ["Finalize"] test.ads:6:4-6:38>
+=========================================================
+
+Eval 'node.p_base_subp_declarations()'
 Result: [<NullSubpDecl ["Finalize"] a-finali.ads:54:4-54:70>,
          <SubpDecl ["Finalize"] test.ads:6:4-6:38>]
-
-

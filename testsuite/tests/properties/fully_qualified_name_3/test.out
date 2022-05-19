@@ -1,34 +1,65 @@
-Eval 'node.p_fully_qualified_name' on node <ObjectDecl ["X"] test.adb:4:7-4:19>
+Working on node <ObjectDecl ["X"] test.adb:4:7-4:19>
+====================================================
+
+Eval 'node.p_fully_qualified_name'
 Result: 'Test.Foo.X'
 
-Eval 'node.p_fully_qualified_name' on node <ObjectDecl ["Y"] test.adb:9:10-9:22>
+Working on node <ObjectDecl ["Y"] test.adb:9:10-9:22>
+=====================================================
+
+Eval 'node.p_fully_qualified_name'
 Result: 'Test.Foo.Bar.Y'
 
-Eval 'node.p_fully_qualified_name' on node <ObjectDecl ["Z"] test.adb:13:13-13:25>
+Working on node <ObjectDecl ["Z"] test.adb:13:13-13:25>
+=======================================================
+
+Eval 'node.p_fully_qualified_name'
 Result: 'Test.Foo.Bar.Baz.Z'
 
-Eval 'node.p_fully_qualified_name' on node <GenericSubpDecl ["Lol"] test.adb:20:7-21:35>
+Working on node <GenericSubpDecl ["Lol"] test.adb:20:7-21:35>
+=============================================================
+
+Eval 'node.p_fully_qualified_name'
 Result: 'Test.Foo.Lol'
 
-Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name' on node <AssignStmt test.adb:36:4-36:25>
+Working on node <AssignStmt test.adb:36:4-36:25>
+================================================
+
+Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Foo_Inst.X'
 
-Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name' on node <AssignStmt test.adb:39:4-39:25>
+Working on node <AssignStmt test.adb:39:4-39:25>
+================================================
+
+Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Bar_Inst.Y'
 
-Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name' on node <AssignStmt test.adb:42:4-42:38>
+Working on node <AssignStmt test.adb:42:4-42:38>
+================================================
+
+Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Foo_Inst.Foo_Bar_Inst.Y'
 
-Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name' on node <AssignStmt test.adb:45:4-45:29>
+Working on node <AssignStmt test.adb:45:4-45:29>
+================================================
+
+Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Bar_Inst.Baz.Z'
 
-Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name' on node <AssignStmt test.adb:48:4-48:42>
+Working on node <AssignStmt test.adb:48:4-48:42>
+================================================
+
+Eval 'node.f_expr.p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Foo_Inst.Foo_Bar_Inst.Baz.Z'
 
-Eval 'node[0][1][0][0].p_referenced_decl().p_fully_qualified_name' on node <CallStmt test.adb:51:4-51:23>
+Working on node <CallStmt test.adb:51:4-51:23>
+==============================================
+
+Eval 'node[0][1][0][0].p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Lol.X'
 
-Eval 'node[0][1][0][0].p_referenced_decl().p_fully_qualified_name' on node <CallStmt test.adb:54:4-54:36>
+Working on node <CallStmt test.adb:54:4-54:36>
+==============================================
+
+Eval 'node[0][1][0][0].p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Foo_Inst.Foo_Lol.X'
-
-

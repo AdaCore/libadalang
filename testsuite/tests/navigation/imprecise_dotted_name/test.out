@@ -1,7 +1,8 @@
-Eval 'node.f_call.f_name.p_referenced_decl()' on node <CallStmt test.adb:10:4-10:18>
+Working on node <CallStmt test.adb:10:4-10:18>
+==============================================
+
+Eval 'node.f_call.f_name.p_referenced_decl()'
 Result: None
 
-Eval 'node.f_call.f_name.p_referenced_decl(imprecise_fallback=True)' on node <CallStmt test.adb:10:4-10:18>
+Eval 'node.f_call.f_name.p_referenced_decl(imprecise_fallback=True)'
 Result: <SubpDecl ["Hello"] test.adb:3:7-3:23>
-
-

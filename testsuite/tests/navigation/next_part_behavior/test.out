@@ -1,10 +1,17 @@
-Eval 'node.p_next_part_for_decl()' on node <SubpDecl ["G"] test.ads:2:4-2:30>
+Working on node <SubpDecl ["G"] test.ads:2:4-2:30>
+==================================================
+
+Eval 'node.p_next_part_for_decl()'
 Result: None
 
-Eval 'node.p_next_part_for_decl()' on node <ExprFunction ["F"] test.ads:5:4-6:13>
+Working on node <ExprFunction ["F"] test.ads:5:4-6:13>
+======================================================
+
+Eval 'node.p_next_part_for_decl()'
 Result: None
 
-Eval 'node.p_next_part_for_decl()' on node <ObjectDecl ["I"] test.ads:9:4-9:31>
+Working on node <ObjectDecl ["I"] test.ads:9:4-9:31>
+====================================================
+
+Eval 'node.p_next_part_for_decl()'
 Result: None
-
-

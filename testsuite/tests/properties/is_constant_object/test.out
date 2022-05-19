@@ -1,187 +1,323 @@
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Var"] accessconst.adb:3:4-3:47>
+Working on node <ObjectDecl ["Var"] accessconst.adb:3:4-3:47>
+=============================================================
+
+Eval 'node.p_is_constant_object'
 Result: False
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Const_Var_All"] accessconst.adb:6:4-6:44>
+Working on node <ObjectDecl ["Const_Var_All"] accessconst.adb:6:4-6:44>
+=======================================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Vbr"] accessconst.adb:10:4-10:38>
+Working on node <ObjectDecl ["Vbr"] accessconst.adb:10:4-10:38>
+===============================================================
+
+Eval 'node.p_is_constant_object'
 Result: False
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Vbr_All"] accessconst.adb:13:4-13:38>
+Working on node <ObjectDecl ["Vbr_All"] accessconst.adb:13:4-13:38>
+===================================================================
+
+Eval 'node.p_is_constant_object'
 Result: False
 
+Working on node <Id "E" choice.adb:12:15-12:16>
+===============================================
 
-Eval 'node.p_referenced_decl().p_is_constant_object' on node <Id "E" choice.adb:12:15-12:16>
+Eval 'node.p_referenced_decl().p_is_constant_object'
 Result: True
 
+Working on node <Params constant.adb:2:3-5:20>
+==============================================
 
-Eval '[x.p_is_constant_object for x in node.f_params]' on node <Params constant.adb:2:3-5:20>
+Eval '[x.p_is_constant_object for x in node.f_params]'
 Result: [True, True, False, False]
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["C"] constant.adb:8:4-8:30>
+Working on node <ObjectDecl ["C"] constant.adb:8:4-8:30>
+========================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["D"] constant.adb:10:4-10:21>
+Working on node <ObjectDecl ["D"] constant.adb:10:4-10:21>
+==========================================================
+
+Eval 'node.p_is_constant_object'
 Result: False
 
-Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:20:4-20:11>
+Working on node <AssignStmt constant.adb:20:4-20:11>
+====================================================
+
+Eval 'node.f_dest.p_referenced_decl().p_is_constant_object'
 Result: False
 
-Eval 'node.f_expr.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:20:4-20:11>
+Eval 'node.f_expr.p_referenced_decl().p_is_constant_object'
 Result: True
 
-Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:23:4-23:11>
+Working on node <AssignStmt constant.adb:23:4-23:11>
+====================================================
+
+Eval 'node.f_dest.p_referenced_decl().p_is_constant_object'
 Result: False
 
-Eval 'node.f_dest.p_referenced_decl().p_is_constant_object' on node <AssignStmt constant.adb:25:4-25:23>
+Working on node <AssignStmt constant.adb:25:4-25:23>
+====================================================
+
+Eval 'node.f_dest.p_referenced_decl().p_is_constant_object'
 Result: False
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:28:4-28:14>
+Working on node <AssignStmt constant.adb:28:4-28:14>
+====================================================
+
+Eval 'node.f_expr.p_is_constant'
 Result: True
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:30:4-30:14>
+Working on node <AssignStmt constant.adb:30:4-30:14>
+====================================================
+
+Eval 'node.f_expr.p_is_constant'
 Result: False
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:34:4-34:19>
+Working on node <AssignStmt constant.adb:34:4-34:19>
+====================================================
+
+Eval 'node.f_expr.p_is_constant'
 Result: True
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt constant.adb:36:4-36:19>
+Working on node <AssignStmt constant.adb:36:4-36:19>
+====================================================
+
+Eval 'node.f_expr.p_is_constant'
 Result: False
 
+Working on node <ObjectDecl ["X"] constant.ads:3:4-3:17>
+========================================================
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["X"] constant.ads:3:4-3:17>
+Eval 'node.p_is_constant_object'
 Result: False
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Y"] constant.ads:5:4-5:13>
+Working on node <ObjectDecl ["Y"] constant.ads:5:4-5:13>
+========================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval '[x.p_is_constant_object for x in node.f_subp_decl.f_subp_spec.p_params]' on node <GenericSubpDecl ["P"] constant.ads:1:1-11:21>
+Working on node <GenericSubpDecl ["P"] constant.ads:1:1-11:21>
+==============================================================
+
+Eval '[x.p_is_constant_object for x in node.f_subp_decl.f_subp_spec.p_params]'
 Result: [True, True, False, False]
 
+Working on node <TypeDecl ["Person"] discr.adb:3:4-11:15>
+=========================================================
 
-Eval 'node.find(lal.DiscriminantSpec).p_is_constant_object' on node <TypeDecl ["Person"] discr.adb:3:4-11:15>
+Eval 'node.find(lal.DiscriminantSpec).p_is_constant_object'
 Result: True
 
-Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:18:4-18:56>
+Working on node <AssignStmt discr.adb:18:4-18:56>
+=================================================
+
+Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object'
 Result: True
 
-Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object' on node <AssignStmt discr.adb:20:4-20:56>
+Working on node <AssignStmt discr.adb:20:4-20:56>
+=================================================
+
+Eval 'node.find(lal.AggregateAssoc).f_designators[0].p_referenced_decl().p_is_constant_object'
 Result: True
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt discr.adb:22:4-22:23>
+Working on node <AssignStmt discr.adb:22:4-22:23>
+=================================================
+
+Eval 'node.f_expr.p_is_constant'
 Result: True
 
+Working on node <ObjectDecl ["C"] enumlit.ads:3:4-3:20>
+=======================================================
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["C"] enumlit.ads:3:4-3:20>
+Eval 'node.p_is_constant_object'
 Result: True
 
+Working on node <ExtendedReturnStmt ers.adb:4:4-4:44>
+=====================================================
 
-Eval 'node.find(lal.ExtendedReturnStmtObjectDecl).p_is_constant_object' on node <ExtendedReturnStmt ers.adb:4:4-4:44>
+Eval 'node.find(lal.ExtendedReturnStmtObjectDecl).p_is_constant_object'
 Result: True
 
+Working on node <EntryDecl ["E"] index.ads:9:6-10:27>
+=====================================================
 
-Eval 'node.find(lal.AttributeRef).p_is_constant' on node <EntryDecl ["E"] index.ads:9:6-10:27>
+Eval 'node.find(lal.AttributeRef).p_is_constant'
 Result: True
 
+Working on node <ForLoopStmt loops.adb:12:4-14:13>
+==================================================
 
-Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:12:4-14:13>
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object'
 Result: True
 
-Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:17:4-19:13>
+Working on node <ForLoopStmt loops.adb:17:4-19:13>
+==================================================
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object'
 Result: False
 
-Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:22:4-24:13>
+Working on node <ForLoopStmt loops.adb:22:4-24:13>
+==================================================
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object'
 Result: True
 
-Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:27:4-29:13>
+Working on node <ForLoopStmt loops.adb:27:4-29:13>
+==================================================
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object'
 Result: True
 
-Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object' on node <ForLoopStmt loops.adb:32:4-34:13>
+Working on node <ForLoopStmt loops.adb:32:4-34:13>
+==================================================
+
+Eval 'node.find(lal.ForLoopVarDecl).p_is_constant_object'
 Result: True
 
+Working on node <ObjectDecl ["My_2"] pack.adb:7:4-7:38>
+=======================================================
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["My_2"] pack.adb:7:4-7:38>
+Eval 'node.p_is_constant_object'
 Result: True
 
+Working on node <ReturnStmt protect.adb:10:10-10:19>
+====================================================
 
-Eval 'node.f_return_expr.p_is_constant' on node <ReturnStmt protect.adb:10:10-10:19>
+Eval 'node.f_return_expr.p_is_constant'
 Result: True
 
-Eval 'node.f_return_expr.p_is_constant' on node <ReturnStmt protect.adb:16:10-16:19>
+Working on node <ReturnStmt protect.adb:16:10-16:19>
+====================================================
+
+Eval 'node.f_return_expr.p_is_constant'
 Result: False
 
+Working on node <ObjectDecl ["PO"] protect.ads:11:4-11:11>
+==========================================================
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["PO"] protect.ads:11:4-11:11>
+Eval 'node.p_is_constant_object'
 Result: True
 
+Working on node <ForLoopStmt qual.adb:4:4-6:13>
+===============================================
 
-Eval '[x.p_is_constant for x in node.findall(lal.QualExpr)]' on node <ForLoopStmt qual.adb:4:4-6:13>
+Eval '[x.p_is_constant for x in node.findall(lal.QualExpr)]'
 Result: [True, True]
 
+Working on node <ObjectDecl ["R4"] renam.adb:3:7-3:39>
+======================================================
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["R4"] renam.adb:3:7-3:39>
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <NoTypeObjectRenamingDecl ["R5"] renam.adb:5:7-5:29>
+Working on node <NoTypeObjectRenamingDecl ["R5"] renam.adb:5:7-5:29>
+====================================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Uno"] renam.adb:7:7-7:27>
+Working on node <ObjectDecl ["Uno"] renam.adb:7:7-7:27>
+=======================================================
+
+Eval 'node.p_is_constant_object'
 Result: False
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Dos"] renam.adb:9:7-9:40>
+Working on node <ObjectDecl ["Dos"] renam.adb:9:7-9:40>
+=======================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["B"] renam.adb:16:7-16:29>
+Working on node <ObjectDecl ["B"] renam.adb:16:7-16:29>
+=======================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <NoTypeObjectRenamingDecl ["C"] renam.adb:18:7-18:19>
+Working on node <NoTypeObjectRenamingDecl ["C"] renam.adb:18:7-18:19>
+=====================================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
+Working on node <ObjectDecl ["One"] renam.ads:12:4-12:29>
+=========================================================
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["One"] renam.ads:12:4-12:29>
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <NoTypeObjectRenamingDecl ["Two"] renam.ads:16:4-16:21>
+Working on node <NoTypeObjectRenamingDecl ["Two"] renam.ads:16:4-16:21>
+=======================================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["TT"] renam.ads:19:4-19:23>
+Working on node <ObjectDecl ["TT"] renam.ads:19:4-19:23>
+========================================================
+
+Eval 'node.p_is_constant_object'
 Result: False
 
-Eval 'node.p_is_constant_object' on node <ObjectDecl ["Tab1"] renam.ads:25:4-25:35>
+Working on node <ObjectDecl ["Tab1"] renam.ads:25:4-25:35>
+==========================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
-Eval 'node.p_is_constant_object' on node <NoTypeObjectRenamingDecl ["Tab2"] renam.ads:28:4-28:25>
+Working on node <NoTypeObjectRenamingDecl ["Tab2"] renam.ads:28:4-28:25>
+========================================================================
+
+Eval 'node.p_is_constant_object'
 Result: True
 
+Working on node <AssignStmt view.adb:15:4-15:31>
+================================================
 
-Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:15:4-15:31>
+Eval 'node.f_dest.p_is_constant'
 Result: False
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:15:4-15:31>
+Eval 'node.f_expr.p_is_constant'
 Result: True
 
-Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:19:4-19:30>
+Working on node <AssignStmt view.adb:19:4-19:30>
+================================================
+
+Eval 'node.f_dest.p_is_constant'
 Result: False
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:19:4-19:30>
+Eval 'node.f_expr.p_is_constant'
 Result: False
 
-Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:23:4-23:41>
+Working on node <AssignStmt view.adb:23:4-23:41>
+================================================
+
+Eval 'node.f_dest.p_is_constant'
 Result: False
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:23:4-23:41>
+Eval 'node.f_expr.p_is_constant'
 Result: True
 
-Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:27:4-27:40>
+Working on node <AssignStmt view.adb:27:4-27:40>
+================================================
+
+Eval 'node.f_dest.p_is_constant'
 Result: False
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:27:4-27:40>
+Eval 'node.f_expr.p_is_constant'
 Result: False
 
-Eval 'node.f_dest.p_is_constant' on node <AssignStmt view.adb:31:4-31:23>
+Working on node <AssignStmt view.adb:31:4-31:23>
+================================================
+
+Eval 'node.f_dest.p_is_constant'
 Result: False
 
-Eval 'node.f_expr.p_is_constant' on node <AssignStmt view.adb:31:4-31:23>
+Eval 'node.f_expr.p_is_constant'
 Result: True
-
-

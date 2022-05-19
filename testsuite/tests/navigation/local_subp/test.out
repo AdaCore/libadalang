@@ -1,4 +1,5 @@
-Eval 'node.p_defining_name.p_next_part()' on node <SubpDecl ["Foo"] test.adb:4:7-4:21>
+Working on node <SubpDecl ["Foo"] test.adb:4:7-4:21>
+====================================================
+
+Eval 'node.p_defining_name.p_next_part()'
 Result: <DefiningName test.adb:7:17-7:20>
-
-

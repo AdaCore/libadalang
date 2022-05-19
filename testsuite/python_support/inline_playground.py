@@ -2,7 +2,9 @@
 
 import os
 import pprint
+import re
 import sys
+from typing import Optional
 
 import libadalang as lal
 
@@ -18,6 +20,14 @@ expression in a context containing the following variables:
 
 
 YELLOW = '\033[33m'
+
+assign_expr_re = re.compile(
+    "\s*"
+    "(?P<identifier>[a-zA-Z_][a-zA-Z0-9_]*)"
+    "\s*"
+    "="
+    "(?P<expr>.*)"
+)
 
 
 def col(msg, color):
@@ -66,9 +76,27 @@ class InlinePlayground(lal.App):
         # "Working on node X" only once per node.
         last_node = None
 
+        # Environment for assignment commands
+        local_env = {"lal": lal}
+
         for tok in unit.iter_tokens():
             if tok.kind == 'Comment' and tok.text.startswith('--%'):
-                expr_text = tok.text[3:].strip()
+                cmd = tok.text[3:]
+
+                target: Optional[str] = None
+                expr: str
+
+                # If the command starts with "<identifier> =", then it's an
+                # assignment. Otherwise, we just have an expression to
+                # evaluate.
+                m = assign_expr_re.match(cmd)
+                if m is not None:
+                    target = m.group("identifier")
+                    expr = m.group("expr")
+                else:
+                    expr = cmd
+
+                expr = expr.strip()
 
                 # Lookup the node on which to evaluate the expression, emit a
                 # heading if the node changed.
@@ -87,20 +115,28 @@ class InlinePlayground(lal.App):
                 last_node = current_node
 
                 self.prepare_output()
-                print("Eval '{}'".format(col(expr_text, YELLOW)))
+                if target:
+                    print("Set '{}' to '{}'".format(
+                        col(target, YELLOW), col(expr, YELLOW)
+                    ))
+                else:
+                    print("Eval '{}'".format(col(expr, YELLOW)))
+
+                # Evaluate the expression and print the result. First, update
+                # the environment to give access to the current node to the
+                # expression to evaluate.
+                local_env["node"] = current_node
+                value = None
                 try:
-                    value = eval(
-                        expr_text, None,
-                        {'lal': lal, 'node': current_node}
-                    )
+                    value = eval(expr, None, local_env)
                 except lal.PropertyError as pe:
                     print('Exception: {}'.format(
                         ' '.join(str(a) for a in pe.args)
                     ))
                 else:
-                    value_prefix = 'Result: '
                     # Post-process the result of pprint.pformat so that
                     # non-ASCII or non-printable characters are escaped.
+                    value_prefix = 'Result: '
                     indent = '\n' + len(value_prefix) * ' '
                     value_repr = "".join(
                         c if (32 <= ord(c) <= 127
@@ -109,6 +145,10 @@ class InlinePlayground(lal.App):
                                   .replace('\n', indent))
                     )
                     print(value_prefix + col(value_repr, YELLOW))
+
+                # If this was an assigment, do it now for the next expressions
+                if target:
+                    local_env[target] = value
 
 
 if __name__ == '__main__':

@@ -7,10 +7,10 @@ procedure Test is
    procedure Bar (X : out Integer) is
    begin
       Foo (Integer (X));
-      --% node[0][1][0][1]
-      --% node[0][1][0][1].p_is_write_reference()
-      --% node[0][1][0][1][1][0][1]
-      --% node[0][1][0][1][1][0][1].p_is_write_reference()
+      --% foo_arg = node.f_call.f_suffix[0].f_r_expr
+      --% foo_arg.p_is_write_reference()
+      --% x_arg = foo_arg.f_suffix[0].f_r_expr
+      --% x_arg.p_is_write_reference()
    end Bar;
 begin
    null;

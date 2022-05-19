@@ -1,41 +1,53 @@
 Working on node <SubpDecl ["Foo"] test.ads:2:4-2:35>
 ====================================================
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_next_part()'
-Result: <DefiningName test.ads:10:19-10:20>
+Set 'ids' to 'node.f_subp_spec.f_subp_params.f_params[0].f_ids'
+Result: <DefiningNameList test.ads:2:19-2:23>
 
-Eval 'node.f_subp_spec[2][0][0][0][1].p_next_part()'
-Result: <DefiningName test.ads:10:32-10:33>
+Eval 'ids[0].p_next_part()'
+Result: <DefiningName test.ads:12:19-12:20>
 
-Working on node <SubpDecl ["Bar"] test.ads:6:4-6:45>
+Eval 'ids[1].p_next_part()'
+Result: <DefiningName test.ads:12:32-12:33>
+
+Working on node <SubpDecl ["Bar"] test.ads:7:4-7:45>
 ====================================================
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_next_part()'
-Result: <DefiningName test.ads:14:19-14:20>
+Set 'params' to 'node.f_subp_spec.f_subp_params.f_params'
+Result: <ParamSpecList test.ads:7:19-7:43>
 
-Eval 'node.f_subp_spec[2][0][1][0][0].p_next_part()'
-Result: <DefiningName test.ads:14:22-14:23>
+Eval 'params[0].f_ids[0].p_next_part()'
+Result: <DefiningName test.ads:17:19-17:20>
 
-Working on node <NullSubpDecl ["Foo"] test.ads:10:4-10:53>
+Eval 'params[1].f_ids[0].p_next_part()'
+Result: <DefiningName test.ads:17:22-17:23>
+
+Working on node <NullSubpDecl ["Foo"] test.ads:12:4-12:53>
 ==========================================================
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_previous_part()'
+Set 'params' to 'node.f_subp_spec.f_subp_params.f_params'
+Result: <ParamSpecList test.ads:12:19-12:43>
+
+Eval 'params[0].f_ids[0].p_previous_part()'
 Result: <DefiningName test.ads:2:19-2:20>
 
-Eval 'node.f_subp_spec[2][0][1][0][0].p_previous_part()'
+Eval 'params[1].f_ids[0].p_previous_part()'
 Result: <DefiningName test.ads:2:22-2:23>
 
-Working on node <NullSubpDecl ["Bar"] test.ads:14:4-14:43>
+Working on node <NullSubpDecl ["Bar"] test.ads:17:4-17:43>
 ==========================================================
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_previous_part()'
-Result: <DefiningName test.ads:6:19-6:20>
+Set 'ids' to 'node.f_subp_spec.f_subp_params.f_params[0].f_ids'
+Result: <DefiningNameList test.ads:17:19-17:23>
 
-Eval 'node.f_subp_spec[2][0][0][0][1].p_previous_part()'
-Result: <DefiningName test.ads:6:32-6:33>
+Eval 'ids[0].p_previous_part()'
+Result: <DefiningName test.ads:7:19-7:20>
 
-Eval 'node.f_subp_spec[2][0][0][0][0].p_canonical_part()'
-Result: <DefiningName test.ads:6:19-6:20>
+Eval 'ids[1].p_previous_part()'
+Result: <DefiningName test.ads:7:32-7:33>
 
-Eval 'node.f_subp_spec[2][0][0][0][1].p_canonical_part()'
-Result: <DefiningName test.ads:6:32-6:33>
+Eval 'ids[0].p_canonical_part()'
+Result: <DefiningName test.ads:7:19-7:20>
+
+Eval 'ids[1].p_canonical_part()'
+Result: <DefiningName test.ads:7:32-7:33>

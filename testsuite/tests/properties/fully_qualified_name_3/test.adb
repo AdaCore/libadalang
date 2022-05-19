@@ -49,8 +49,10 @@ begin
    --% node.f_expr.p_referenced_decl().p_fully_qualified_name
 
    Test_Lol (X => 42);
-   --% node[0][1][0][0].p_referenced_decl().p_fully_qualified_name
+   --% x = node.f_call.f_suffix[0].f_designator
+   --% x.p_referenced_decl().p_fully_qualified_name
 
    Test_Foo_Inst.Foo_Lol (X => 42);
-   --% node[0][1][0][0].p_referenced_decl().p_fully_qualified_name
+   --% x = node.f_call.f_suffix[0].f_designator
+   --% x.p_referenced_decl().p_fully_qualified_name
 end Test;

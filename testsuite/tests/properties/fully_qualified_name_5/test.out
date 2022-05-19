@@ -4,17 +4,23 @@ Working on node <ObjectDecl ["A", "B"] test.adb:4:4-4:19>
 Eval 'node.p_fully_qualified_name'
 Exception: Can't call on a declaration with several names
 
-Eval 'node.p_defining_names[0].p_fully_qualified_name'
+Set 'a' to 'node.p_defining_names[0]'
+Result: <DefiningName test.adb:4:4-4:5>
+
+Set 'b' to 'node.p_defining_names[1]'
+Result: <DefiningName test.adb:4:7-4:8>
+
+Eval 'a.p_fully_qualified_name'
 Result: 'Test.A'
 
-Eval 'node.p_defining_names[1].p_fully_qualified_name'
+Eval 'b.p_fully_qualified_name'
 Result: 'Test.B'
 
-Eval 'node.p_defining_names[0].p_fully_qualified_name_array'
+Eval 'a.p_fully_qualified_name_array'
 Result: ['test', 'a']
 
-Eval 'node.p_defining_names[1].p_fully_qualified_name_array'
+Eval 'b.p_fully_qualified_name_array'
 Result: ['test', 'b']
 
-Eval 'node.p_defining_names[1].p_canonical_fully_qualified_name'
+Eval 'b.p_canonical_fully_qualified_name'
 Result: 'test.b'

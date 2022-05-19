@@ -1,14 +1,14 @@
 Working on node <CallStmt test.adb:9:7-9:25>
 ============================================
 
-Eval 'node[0][1][0][1]'
+Set 'foo_arg' to 'node.f_call.f_suffix[0].f_r_expr'
 Result: <CallExpr test.adb:9:12-9:23>
 
-Eval 'node[0][1][0][1].p_is_write_reference()'
+Eval 'foo_arg.p_is_write_reference()'
 Result: True
 
-Eval 'node[0][1][0][1][1][0][1]'
+Set 'x_arg' to 'foo_arg.f_suffix[0].f_r_expr'
 Result: <Id "X" test.adb:9:21-9:22>
 
-Eval 'node[0][1][0][1][1][0][1].p_is_write_reference()'
+Eval 'x_arg.p_is_write_reference()'
 Result: True

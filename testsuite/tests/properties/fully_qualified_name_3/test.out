@@ -55,11 +55,17 @@ Result: 'Test.Test_Foo_Inst.Foo_Bar_Inst.Baz.Z'
 Working on node <CallStmt test.adb:51:4-51:23>
 ==============================================
 
-Eval 'node[0][1][0][0].p_referenced_decl().p_fully_qualified_name'
+Set 'x' to 'node.f_call.f_suffix[0].f_designator'
+Result: <Id "X" test.adb:51:14-51:15>
+
+Eval 'x.p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Lol.X'
 
-Working on node <CallStmt test.adb:54:4-54:36>
+Working on node <CallStmt test.adb:55:4-55:36>
 ==============================================
 
-Eval 'node[0][1][0][0].p_referenced_decl().p_fully_qualified_name'
+Set 'x' to 'node.f_call.f_suffix[0].f_designator'
+Result: <Id "X" test.adb:55:27-55:28>
+
+Eval 'x.p_referenced_decl().p_fully_qualified_name'
 Result: 'Test.Test_Foo_Inst.Foo_Lol.X'

@@ -1,20 +1,20 @@
 Working on node <ObjectDecl ["T"] test.adb:2:4-3:37>
 ====================================================
 
-Eval 'node.f_default_expr'
+Set 'root_aggr' to 'node.f_default_expr'
 Result: <Aggregate test.adb:3:7-3:36>
 
-Eval 'node.f_default_expr.p_is_subaggregate'
+Eval 'root_aggr.p_is_subaggregate'
 Result: False
 
-Eval 'node.f_default_expr[1][0][1]'
+Set 'sub_aggr_1' to 'root_aggr.f_assocs[0].f_r_expr'
 Result: <Aggregate test.adb:3:8-3:18>
 
-Eval 'node.f_default_expr[1][0][1].p_is_subaggregate'
+Eval 'sub_aggr_1.p_is_subaggregate'
 Result: True
 
-Eval 'node.f_default_expr[1][1][1]'
+Set 'sub_aggr_2' to 'root_aggr.f_assocs[1].f_r_expr'
 Result: <Aggregate test.adb:3:20-3:35>
 
-Eval 'node.f_default_expr[1][1][1].p_is_subaggregate'
+Eval 'sub_aggr_2.p_is_subaggregate'
 Result: True

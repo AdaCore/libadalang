@@ -3,6 +3,6 @@ package body Foo is
    begin
       return False;
    end;
-   --% $node.p_decl_part()
+   --% node.p_decl_part()
 end;
---% $node.p_decl_part()
+--% node.p_decl_part()

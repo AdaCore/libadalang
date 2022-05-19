@@ -3,21 +3,21 @@ procedure Test is
    B : constant Boolean := False;
 
    procedure Pouet0 is null;
-   --% $node.p_has_aspect('inline')
+   --% node.p_has_aspect('inline')
 
    procedure Pouet1 is null
       with Inline;
-   --% $node.p_has_aspect('inline')
+   --% node.p_has_aspect('inline')
 
    procedure Pouet2
       with Inline;
 
    procedure Pouet2 is null;
-   --% $node.p_has_aspect('inline')
+   --% node.p_has_aspect('inline')
 
    package Pkg is
       procedure Pouet3;
-      --% $node.p_has_aspect('inline')
+      --% node.p_has_aspect('inline')
    end Pkg;
 
    package body Pkg is

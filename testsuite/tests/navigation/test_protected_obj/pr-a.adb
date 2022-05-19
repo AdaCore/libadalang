@@ -6,4 +6,4 @@ protected body A is
       pragma Test_Statement;
    end Foo;
 end A;
---% $node.p_previous_part().p_next_part_for_decl()
+--% node.p_previous_part().p_next_part_for_decl()

@@ -3,15 +3,15 @@ procedure Test is
 
 
    A : Float :=
-     Foo --% $node.p_failsafe_referenced_def_name(True)
+     Foo --% node.p_failsafe_referenced_def_name(True)
       (12);
 
    B : Integer :=
-     Foo --% $node.p_failsafe_referenced_def_name(True)
+     Foo --% node.p_failsafe_referenced_def_name(True)
        (12);
 
    C : Integer :=
-     Barz --% $node.p_failsafe_referenced_def_name(True)
+     Barz --% node.p_failsafe_referenced_def_name(True)
        (12);
 
    D : Integer;

@@ -1,6 +1,6 @@
 package Foo is
    type T is (A, B, C);
-   --% $node.p_get_enum_representation_clause()
+   --% node.p_get_enum_representation_clause()
 
    X : Integer;  --  something in the middle
 

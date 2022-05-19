@@ -53,8 +53,6 @@ class InlinePlayground(lal.App):
         for tok in unit.iter_tokens():
             if tok.kind == 'Comment' and tok.text.startswith('--%'):
                 expr_text = tok.text[3:].strip()
-                if expr_text.startswith('$'):
-                    expr_text = expr_text[1:].strip()
                 current_node = unit.root.lookup(
                     previous_not_trivia(tok).sloc_range.start
                 )

@@ -13,7 +13,7 @@ Expr: <Id "Character" test.adb:2:17-2:26>
   type:          None
   expected type: None
 Expr: <Chr "'l'" test.adb:2:30-2:33>
-  references:    None
+  references:    <SyntheticDefiningName __standard:21:3-21:27>
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 
@@ -60,7 +60,7 @@ Expr: <BinOp test.adb:6:27-6:38>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Chr "'c'" test.adb:6:27-6:30>
-  references:    None
+  references:    <SyntheticDefiningName __standard:21:3-21:27>
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <OpConcat "&" test.adb:6:31-6:32>

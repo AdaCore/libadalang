@@ -35,7 +35,7 @@ Expr: <BinOp test.adb:7:29-7:39>
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <Chr "'E'" test.adb:7:29-7:32>
-  references:    None
+  references:    <SyntheticDefiningName __standard:21:3-21:27>
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <OpDoubleDot ".." test.adb:7:33-7:35>
@@ -43,7 +43,7 @@ Expr: <OpDoubleDot ".." test.adb:7:33-7:35>
   type:          None
   expected type: None
 Expr: <Chr "'E'" test.adb:7:36-7:39>
-  references:    None
+  references:    <SyntheticDefiningName __standard:21:3-21:27>
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 
@@ -66,7 +66,7 @@ Expr: <OpDoubleDot ".." test.adb:10:33-10:35>
   type:          None
   expected type: None
 Expr: <Chr "'E'" test.adb:10:36-10:39>
-  references:    None
+  references:    <SyntheticDefiningName __standard:21:3-21:27>
   type:          <TypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
 

@@ -75,3 +75,27 @@ Working on node <ObjectDecl ["R2"] valid.ads:35:4-35:25>
 
 Eval 'node.f_renaming_clause.f_renamed_object.p_eval_as_int'
 Result: 0
+
+Working on node <ObjectDecl ["WC1"] valid.ads:38:4-38:41>
+=========================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 11918
+
+Working on node <ObjectDecl ["WWC1"] valid.ads:41:4-41:47>
+==========================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 131108
+
+Working on node <SubpRenamingDecl ["Fwc1"] valid.ads:44:4-44:52>
+================================================================
+
+Eval 'node.f_renames.f_renamed_object.p_eval_as_int'
+Result: 11918
+
+Working on node <SubpRenamingDecl ["Fwwc1"] valid.ads:47:4-47:58>
+=================================================================
+
+Eval 'node.f_renames.f_renamed_object.p_eval_as_int'
+Result: 131108

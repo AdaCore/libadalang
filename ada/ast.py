@@ -865,6 +865,23 @@ class AdaNode(ASTNode):
         Static method. Return the standard Universal Real type.
         """
     )
+    std_char_type = Property(
+        Self.std_entity('Character').cast(T.BaseTypeDecl), public=True, doc="""
+        Static method. Return the standard Character type.
+        """
+    )
+    std_wide_char_type = Property(
+        Self.std_entity('Wide_Character').cast(T.BaseTypeDecl), public=True,
+        doc="""
+        Static method. Return the standard Wide_Character type.
+        """
+    )
+    std_wide_wide_char_type = Property(
+        Self.std_entity('Wide_Wide_Character').cast(T.BaseTypeDecl),
+        public=True, doc="""
+        Static method. Return the standard Wide_Wide_Character type.
+        """
+    )
 
     std_root_types = Property(
         Self.std_entity('root_types_').cast(T.PackageDecl)._.children_env,
@@ -5881,19 +5898,38 @@ class BaseTypeDecl(BasicDecl):
         """
         pass
 
-    @langkit_property(return_type=T.BasicDecl.entity, dynamic_vars=[origin])
+    @langkit_property(return_type=T.BasicDecl.entity, dynamic_vars=[origin],
+                      memoized=True)
     def corresponding_char_literal():
         """
         If Self denotes the declaration of a character type (i.e. an enum type
         with character literals) and origin is bound to a character literal,
         return the EnumLiteralDecl that symbolically corresponds to the
-        literal.
+        literal, or synthesize one if the enum type is one of the standard
+        Character types (we need to synthesize them since we cannot declare
+        them all in our standard package implementation because of their
+        number).
         """
         root = Var(Entity.root_type)
         enum_type = Var(root.cast(TypeDecl)._.type_def.cast(EnumTypeDef))
         sym = Var(origin.cast(CharLiteral).then(lambda l: l.symbol))
-        return enum_type._.enum_literals.find(
+
+        char_lit = Var(enum_type._.enum_literals.find(
             lambda lit_decl: lit_decl.name.name_is(sym)
+        ))
+
+        return If(
+            # If we didn't find a char literal and the enum type is one of the
+            # standard characters types, synthesize the corresponding character
+            # enum literal.
+            char_lit.is_null & enum_type.is_std_char_type,
+
+            SyntheticCharEnumLit.new(
+                char_symbol=sym,
+                enum_type=enum_type.parent.cast(TypeDecl),
+            ).as_entity,
+
+            char_lit
         )
 
     root_type = Property(
@@ -6814,6 +6850,15 @@ class EnumTypeDef(TypeDef):
     xref_equation = Property(LogicTrue())
 
     is_static = Property(True)
+
+    @langkit_property()
+    def is_std_char_type():
+        self_type = Var(Self.parent.cast(TypeDecl))
+        return self_type.any_of(
+            Self.std_char_type.node,
+            Self.std_wide_char_type.node,
+            Self.std_wide_wide_char_type.node
+        )
 
     @langkit_property(memoized=True)
     def predefined_operators():
@@ -11018,13 +11063,8 @@ class Expr(AdaNode):
             qe.prefix.name_designated_type._.is_static_decl
             & qe.suffix.is_static_expr,
 
-            lambda n=Name: n.referenced_decl.then(
-                lambda decl: decl.is_static_decl,
-
-                # Handle specially standard character literals, since they
-                # don't have corresponding source declarations.
-                default_val=n.is_a(CharLiteral)
-            ),
+            lambda n=Name:
+            n.referenced_decl._.is_static_decl,
 
             lambda me=MembershipExpr:
             me.expr.is_static_expr & me.membership_exprs.all(
@@ -15794,6 +15834,30 @@ class EnumLiteralDecl(BasicSubpDecl):
         # type decl.
         add_env()
     )
+
+
+@synthetic
+class SyntheticCharEnumLit(BasicSubpDecl):
+    """
+    Synthetic character enum literal declaration.
+    """
+    char_symbol = UserField(type=T.Symbol, public=False)
+    enum_type = UserField(type=T.BaseTypeDecl.entity, public=False)
+    aspects = NullField()
+
+    defining_names = Property(
+        [Self.synthesize_defining_name(Self.char_symbol).as_entity]
+    )
+
+    expr = Property(Entity.defining_names.at(0), public=True, doc="""
+    Return the CharLiteral expression corresponding to this enum literal.
+    """)
+
+    is_static_decl = Property(True)
+
+    @langkit_property(memoized=True)
+    def subp_decl_spec():
+        return T.EnumSubpSpec.new().as_entity
 
 
 class CharLiteral(BaseId):

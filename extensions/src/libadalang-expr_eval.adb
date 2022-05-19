@@ -266,6 +266,13 @@ package body Libadalang.Expr_Eval is
                        D.As_Enum_Literal_Decl.P_Enum_Type.As_Base_Type_Decl,
                        D.As_Enum_Literal_Decl);
 
+            when Ada_Synthetic_Char_Enum_Lit =>
+
+               --  A synthesized character enum declaration evaluates to the
+               --  evaluation of its expression.
+               return Expr_Eval
+                 (D.As_Synthetic_Char_Enum_Lit.P_Expr.As_Expr);
+
             when Ada_Number_Decl =>
 
                --  A number declaration evaluates to the evaluation of its

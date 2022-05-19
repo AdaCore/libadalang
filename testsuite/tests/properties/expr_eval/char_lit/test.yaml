@@ -1,2 +1,3 @@
 driver: inline-playground
+charset: utf-8
 input_sources: [valid.ads, invalid.ads]

@@ -1,2 +1,3 @@
 driver: name-resolution
-input_sources: [test.adb]
+charset: utf-8
+input_sources: [test.adb, lit.ads]

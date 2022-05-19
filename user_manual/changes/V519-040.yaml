@@ -1,0 +1,8 @@
+type: new-feature
+title: On-demand synthesis of character literals
+description: |
+  Since we cannot add all existing character literals in the lexical
+  environments due to their number (think about ``Wide_Wide_Character``), a
+  character literal that is not user defined was resolved to ``None``. This new
+  feature fixes this issue by synthesizing the required literal, on-demand.
+date: 2022-05-19

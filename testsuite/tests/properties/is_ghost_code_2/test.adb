@@ -52,6 +52,23 @@ procedure Test is
    end Pkg_5;
    --% node.p_is_ghost_code
    --% node.parent.p_is_ghost_code
+
+   task TT_1;
+   --% node.p_is_ghost_code
+
+   task body TT_1 is
+   begin
+      null;
+   end TT_1;
+
+   task TT_2 with Ghost;
+   --% node.p_is_ghost_code
+
+   task body TT_2 is
+   begin
+      null;
+   end TT_2;
+   --% node.p_is_ghost_code
 begin
    null;
 end Test;

@@ -14372,7 +14372,8 @@ class DefiningName(Name):
     basic_decl_no_internal = Property(
         Entity.basic_decl.then(
             lambda bd: If(
-                bd.is_a(GenericPackageInternal, GenericSubpInternal),
+                bd.is_a(GenericPackageInternal, GenericSubpInternal,
+                        SingleTaskTypeDecl),
                 bd.parent.cast_or_raise(BasicDecl),
                 bd
             )

@@ -63,3 +63,21 @@ Result: True
 
 Eval 'node.parent.p_is_ghost_code'
 Result: True
+
+Working on node <SingleTaskDecl ["TT_1"] test.adb:56:4-56:14>
+=============================================================
+
+Eval 'node.p_is_ghost_code'
+Result: False
+
+Working on node <SingleTaskDecl ["TT_2"] test.adb:64:4-64:25>
+=============================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True
+
+Working on node <TaskBody ["TT_2"] test.adb:67:4-70:13>
+=======================================================
+
+Eval 'node.p_is_ghost_code'
+Result: True

@@ -411,9 +411,7 @@ class GenerateDoc(lal.App):
         doc, annotations = self.get_documentation(decl)
 
         def emit_directive(directive_header):
-            self.add_lines([
-                directive_header,
-            ])
+            self.add_lines([directive_header])
             with self.indent():
                 self.add_lines([
                     ":package: "

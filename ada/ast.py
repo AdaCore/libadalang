@@ -6611,10 +6611,17 @@ class TypeDecl(BaseTypeDecl):
             bds.all(lambda b: Let(
                 lambda b_prim=b.info.md.primitive.cast(BaseTypeDecl):
                 Or(
-                    # If two primitives have the same signature
+                    # Note that we don't want to use `match_name=True` in the
+                    # call to `match_signature` below because it also compares
+                    # the name of the parameters which we don't want to take
+                    # into account here. Therefore we first compare the names
+                    # of the subprogram separately.
+                    Not(a.defining_name.node.matches(b.defining_name.node)),
+
+                    # If two primitives have the same signature...
                     Not(a_spec.match_signature(
                         b.subp_spec_or_null,
-                        match_name=True, use_entity_info=True
+                        match_name=False, use_entity_info=True
                     )),
 
                     # Either the type of the first primitive derives from the

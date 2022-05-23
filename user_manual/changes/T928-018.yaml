@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix ``P_Get_Primitives`` when param names differ
+description: |
+    This change fixes a bug where ``P_Get_Primitives`` would previously
+    consider that a subprogram does not override its base subprogram when the
+    names of the parameters didn't match. In those cases, both the base
+    subprogram and its override would appear in the resulting list, whereas we
+    only expect the most overriden one to appear.
+date: 2022-05-23

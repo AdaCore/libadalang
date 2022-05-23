@@ -355,7 +355,7 @@ class AdaNode(ASTNode):
                 decl=n.cast(T.BasicDecl),
                 is_dot_call=n.info.md.dottable_subp,
                 is_visible=Self.has_with_visibility(n.unit),
-                weight=Self.complete_item_weight(n.cast(T.BasicDecl))
+                weight=Entity.complete_item_weight(n.cast(T.BasicDecl))
             )
         )
 
@@ -7987,6 +7987,19 @@ class CompositeConstraint(Constraint):
             Entity.subtype.is_array_type,
             Entity.subtype.is_access_type
             & Entity.subtype.accessed_type.is_array_type
+        )
+
+    @langkit_property()
+    def complete_item_weight(item=T.BasicDecl.entity):
+        # If the constraint's type is an enum, promote EnumLiteralDecl nodes
+        # that match that type.
+        return If(
+            Entity.subtype.discriminants_list.any(
+                lambda td:
+                td.formal_type == item.cast(T.EnumLiteralDecl)._.enum_type
+            ),
+            100,
+            Entity.super(item)
         )
 
     @langkit_property(public=True)

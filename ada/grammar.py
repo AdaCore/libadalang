@@ -217,7 +217,7 @@ A.add_rules(
 
         # Only valid for discriminant constraints
         Opt(List(A.identifier, sep="|",
-                 list_cls=DiscriminantChoiceList), "=>"),
+                 list_cls=DiscriminantChoiceList), "=>"), Cut(),
 
         # Only valid for index constraints
         A.discrete_range | A.discrete_subtype_indication

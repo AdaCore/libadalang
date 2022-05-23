@@ -42,6 +42,16 @@ else:
 UNDERLINES = ["-", "^", "\""]
 
 
+def is_documentable_subp(node: lal.BasicDecl):
+    """
+    Return whether ``node`` is part of the class of subprogram declarations we
+    want to document.
+    """
+    return node.is_a(
+        lal.BasicSubpDecl, lal.ExprFunction, lal.SubpRenamingDecl
+    )
+
+
 def strip_ws(strn: str) -> str:
     """
     Strip whitespace from ``strn``.
@@ -275,7 +285,7 @@ class GenerateDoc(lal.App):
             if annotations.get('no-document'):
                 continue
 
-            if decl.is_a(lal.BasicSubpDecl, lal.ExprFunction):
+            if is_documentable_subp(decl):
                 # Look for the type under which this subprogram should be
                 # documented ("owning_type"). This is either the explicitly
                 # asked type ("belongs-to" annotation) or the type that is a
@@ -418,7 +428,7 @@ class GenerateDoc(lal.App):
                     f"{decl.p_parent_basic_decl.p_fully_qualified_name}"
                 ])
 
-        if isinstance(decl, (lal.BasicSubpDecl, lal.ExprFunction)):
+        if is_documentable_subp(decl):
             subp_spec = decl.p_subp_spec_or_null()
             prof = make_profile(subp_spec)
             subp_kind = (

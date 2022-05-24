@@ -1,0 +1,13 @@
+type: bugfix
+title: Improve implementation of ``P_Is_Ghost_Code``
+description: |
+    This change fixes a number of problems in the previous implementation
+    of ``P_Is_Ghost_Code``:
+
+    * Adds ``P_Is_Ghost_Code`` property on aspect associations, which
+      returns True on Ada 2012 contract aspects (Pre, Post, etc).
+    * Renamings of ghost entities are now considered ghost themselves.
+    * Instantiations of ghost generic entities are now considered ghost
+      themselves.
+    * pragma ``Assert_And_Cut`` is also a ghost pragma.
+date: 2022-05-24

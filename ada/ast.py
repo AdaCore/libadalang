@@ -5300,10 +5300,9 @@ class BaseTypeDecl(BasicDecl):
         type. This is true for string types in general, but also for arbitrary
         types that define the String_Literal aspect.
 
-        .. note::
-            We also check that the node is not null because this property is
-            used directly as a logic predicate and may be invoked with null
-            nodes (unlike the other `allows_*` properties).
+        .. note:: We also check that the node is not null because this property
+           is used directly as a logic predicate and may be invoked with null
+           nodes (unlike the other ``allows_*`` properties).
         """
         return And(
             Not(Self.is_null),

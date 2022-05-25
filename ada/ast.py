@@ -10494,6 +10494,7 @@ class GenericFormal(BaseFormalParamDecl):
     """
     decl = Field(T.BasicDecl)
     aspects = NullField()
+
     defining_names = Property(Entity.decl.defining_names)
     type_expression = Property(Entity.decl.type_expression)
 

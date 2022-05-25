@@ -246,9 +246,9 @@ class AdaNode(ASTNode):
         """
         Return the compilation unit containing this node.
 
-        .. note:: This returns the ``CompilationUnit`` node, which is different
-           from the ``AnalysisUnit``. In particular, an analysis unit can
-           contain multiple compilation units.
+        .. note:: This returns the :typeref:`CompilationUnit` node, which is
+           different from the ``AnalysisUnit``. In particular, an analysis unit
+           can contain multiple compilation units.
         """
         return Self.parents.find(
             lambda n: n.is_a(CompilationUnit)
@@ -462,10 +462,10 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.LexicalEnv)
     def immediate_declarative_region():
         """
-        Return the immediate declarative region (RM 8.1) corresponding to this
-        node, that is, the concatenation of the declarative parts of itself
-        and all its completion. This does not include the declarative regions
-        of the enclosed declarations.
+        Return the immediate declarative region (:rmlink:`8.1`)
+        corresponding to this node, that is, the concatenation of the
+        declarative parts of itself and all its completion. This does not
+        include the declarative regions of the enclosed declarations.
 
         This is mainly used to restrict the scope in which to search for the
         previous part of a declaration.
@@ -1395,7 +1395,7 @@ class AdaNode(ASTNode):
         """
         Static method. Return an equation that will bind type_var to any
         integer value, corresponding to the notion of universal_integer in the
-        Ada RM.
+        Ada RM (see :rmlink:`3.4.1`).
         """
         return Bind(type_var, Self.universal_int_type)
 
@@ -1403,7 +1403,9 @@ class AdaNode(ASTNode):
     def universal_real_bind(type_var=T.LogicVar):
         """
         Static method. Return an equation that will bind type_var to any real
-        value, corresponding to the notion of universal_real in the Ada RM.
+        value, corresponding to the notion of universal_real in the Ada RM (see
+        :rmlink:`3.4.1`).
+
         """
         return Bind(type_var, Self.universal_real_type)
 
@@ -1624,7 +1626,7 @@ class DocAnnotation(Struct):
 
 class Aspect(Struct):
     """
-    Composite field representing the aspect of an entity (RM 13).
+    Composite field representing the aspect of an entity (:rmlink:`13`).
     """
     exists = UserField(Bool, doc="Whether the aspect is defined or not")
     node = UserField(T.AdaNode.entity,
@@ -1636,8 +1638,8 @@ class Aspect(Struct):
 @abstract
 class BasicDecl(AdaNode):
     """
-    Root class for an Ada declaration (RM 3.1). A declaration associates a name
-    with a language entity, for example a type or a variable.
+    Root class for an Ada declaration (:rmlink:`3.1`). A declaration
+    associates a name with a language entity, for example a type or a variable.
     """
 
     @langkit_property()
@@ -1924,7 +1926,7 @@ class BasicDecl(AdaNode):
         entry for Self using this declaration's name as key. However, if Self
         corresponds to the declaration of a ``"="`` operator, we also generate
         an order to add an entry for the ``"/="`` operator, as described in
-        RM 4.5.2 25.a.
+        :rmlink:`4.5.2` 25.a.
         """
         name = Var(Entity.name_symbol)
 
@@ -1957,7 +1959,7 @@ class BasicDecl(AdaNode):
 
         .. note::
             This intercepts user-defined "=" operators so as to introduce an
-            implicit "/=" operator, as per RM 4.5.2 25.a.
+            implicit "/=" operator, as per :rmlink:`4.5.2` 25.a.
         """
         dest_env = Var(named_env(
             Self.child_decl_initial_env_name(False),
@@ -2207,7 +2209,7 @@ class BasicDecl(AdaNode):
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
 
-        "Aspect" is used as in RM terminology (see RM 13).
+        "Aspect" is used as in RM terminology (see :rmlink:`13`).
         """
         return Entity.defining_name_or_raise._.has_aspect(name)
 
@@ -3156,8 +3158,8 @@ class ErrorDecl(BasicDecl):
 @abstract
 class Body(BasicDecl):
     """
-    Base class for an Ada body (RM 3.11). A body is the completion of a
-    declaration.
+    Base class for an Ada body (:rmlink:`3.11`). A body is the completion
+    of a declaration.
     """
 
     @langkit_property()
@@ -3638,8 +3640,8 @@ class Body(BasicDecl):
 @abstract
 class BodyStub(Body):
     """
-    Base class for a body stub (RM 10.1.3). A body stub is meant to be
-    completed by .
+    Base class for a body stub (:rmlink:`10.1.3`). A body stub is meant to
+    be completed by .
     """
 
     @langkit_property(public=True)
@@ -3774,7 +3776,7 @@ class BaseFormalParamDecl(BasicDecl):
 
 class DiscriminantSpec(BaseFormalParamDecl):
     """
-    Known list of discriminants in type declarations.
+    Known list of discriminants in type declarations (:rmlink:`3.7`).
     """
     ids = Field(type=T.DefiningName.list)
     type_expr = Field(type=T.TypeExpr)
@@ -3809,9 +3811,18 @@ class DiscriminantSpec(BaseFormalParamDecl):
 @abstract
 class BaseFormalParamHolder(AdaNode):
     """
-    Base class for lists of formal parameters. This is used both for subprogram
-    specifications and for records, so that we can share the matching and
-    unpacking logic.
+    Base class for lists of formal parameters. This is used in every case a
+    list of "formals" can be called or instantiated, so in all the following
+    cases:
+
+    * Subprogram specifications (and subprogram calls).
+    * Component lists (and aggregates).
+    * Generic formals (and generic instantiations).
+
+    This allows to share the parameter unpacking/matching logic.
+
+    This is a Libadalang abstraction that has no existence in the Ada reference
+    manual.
     """
 
     abstract_formal_params = AbstractProperty(
@@ -4124,7 +4135,7 @@ class DiscriminantPart(BaseFormalParamHolder):
 
 class KnownDiscriminantPart(DiscriminantPart):
     """
-    Known list of discriminants in type declarations.
+    Known list of discriminants in type declarations (:rmlink:`3.7`).
     """
 
     discr_specs = Field(type=T.DiscriminantSpec.list)
@@ -4138,7 +4149,7 @@ class KnownDiscriminantPart(DiscriminantPart):
 
 class UnknownDiscriminantPart(DiscriminantPart):
     """
-    Unknown list of discriminants in type declarations.
+    Unknown list of discriminants in type declarations (:rmlink:`3.7`).
     """
     pass
 
@@ -4146,7 +4157,7 @@ class UnknownDiscriminantPart(DiscriminantPart):
 @abstract
 class TypeDef(AdaNode):
     """
-    Base class for type definitions.
+    Base class for type definitions (:rmlink:`3.2.1`).
     """
 
     @langkit_property(return_type=T.DiscreteRange)
@@ -4348,7 +4359,8 @@ class Variant(AdaNode):
 
 class VariantPart(AdaNode):
     """
-    Variant part in a discriminated type record declaration.
+    Variant part in a discriminated type record declaration
+    (:rmlink:`3.8.1`).
 
     This corresponds to the whole ``case ... is ... end case;`` block.
     """
@@ -4411,7 +4423,7 @@ class VariantPart(AdaNode):
 
 class ComponentDecl(BaseFormalParamDecl):
     """
-    Declaration for a component.
+    Declaration for a component (:rmlink:`3.8`).
     """
     ids = Field(type=T.DefiningName.list)
     component_def = Field(type=T.ComponentDef)
@@ -4496,7 +4508,7 @@ class Shape(Struct):
 
 class ComponentList(BaseFormalParamHolder):
     """
-    List of component declarations.
+    List of component declarations (:rmlink:`3.8`).
     """
     components = Field(type=T.AdaNode.list)
     variant_part = Field(type=T.VariantPart)
@@ -4625,7 +4637,7 @@ class ComponentList(BaseFormalParamHolder):
 @abstract
 class BaseRecordDef(AdaNode):
     """
-    Base class for record definitions.
+    Base class for record definitions (:rmlink:`3.8`).
     """
     components = Field(type=T.ComponentList)
 
@@ -4761,7 +4773,7 @@ class Protected(AdaNode):
 
 class RecordTypeDef(TypeDef):
     """
-    Type definition for a record.
+    Type definition for a record (:rmlink:`3.8`).
     """
     has_abstract = Field(type=Abstract)
     has_tagged = Field(type=Tagged)
@@ -4784,7 +4796,7 @@ class RecordTypeDef(TypeDef):
 @abstract
 class RealTypeDef(TypeDef):
     """
-    Type definition for real numbers.
+    Type definition for real numbers (:rmlink:`3.5.6`).
     """
     is_static = Property(True)
 
@@ -4867,7 +4879,8 @@ class LogicValResult(Struct):
 @abstract
 class BaseTypeDecl(BasicDecl):
     """
-    Base class for type declarations.
+    Base class for type declarations. It unifies every kind of type that exists
+    in Ada, including types that have no source existence like classwide types.
     """
     name = Field(type=T.DefiningName)
 
@@ -6179,8 +6192,7 @@ class BaseTypeDecl(BasicDecl):
 class ClasswideTypeDecl(BaseTypeDecl):
     """
     Synthetic node (not parsed, generated from a property call). Refers to the
-    classwide type for a given tagged type. The aim is that those be mostly
-    equivalent to their non-classwide type, except for some resolution rules.
+    classwide type for a given tagged type (:rmlink:`3.4.1`).
     """
     # We don't want to add the classwide type to the environment
     env_spec = EnvSpec()
@@ -6227,7 +6239,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
 class TypeDecl(BaseTypeDecl):
     """
-    Type declarations that embed a type definition node.
+    Type declarations that embed a type definition node. Corresponds to the
+    ARM's full type declarations (:rmlink:`3.2.1`).
     """
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
@@ -6496,11 +6509,12 @@ class TypeDecl(BaseTypeDecl):
     @langkit_property(return_type=T.env_assoc.array, memoized=True)
     def predefined_operators():
         """
-        Return all the predefined operators for this type, as an array
-        of env associations ready to be added to a lexical environment.
+        Return all the predefined operators for this type, as an array of env
+        associations ready to be added to a lexical environment.
 
         Note that the universal int and universal real types are not real
-        type declarations and do not have their own operators (RM 3.4.1 - 7).
+        type declarations and do not have their own operators
+        (:rmlink:`3.4.1` - 7).
         """
         return If(
             Self.any_of(Self.universal_int_type.node,
@@ -6791,7 +6805,9 @@ class TypeDecl(BaseTypeDecl):
 
 class AnonymousTypeDecl(TypeDecl):
     """
-    Anonymous type declaration (for anonymous array or access types).
+    Anonymous type declaration (for anonymous array or access types). This
+    class has no RM existence, and anonymous (sub)types are refered to
+    implicitly in the RM.
     """
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
@@ -6860,7 +6876,7 @@ class SynthAnonymousTypeDecl(AnonymousTypeDecl):
 
 class EnumTypeDef(TypeDef):
     """
-    Type definition for enumerations.
+    Type definition for enumerations (:rmlink:`3.5.1`).
     """
     enum_literals = Field(type=T.EnumLiteralDecl.list)
 
@@ -6912,7 +6928,7 @@ class EnumTypeDef(TypeDef):
 
 class FloatingPointDef(RealTypeDef):
     """
-    Type definition for floating-point numbers.
+    Type definition for floating-point numbers (:rmlink:`3.5.7`).
     """
     num_digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
@@ -6944,7 +6960,7 @@ class FloatingPointDef(RealTypeDef):
 
 class OrdinaryFixedPointDef(RealTypeDef):
     """
-    Type definition for ordinary fixed-point numbers.
+    Type definition for ordinary fixed-point numbers (:rmlink:`3.5.9`).
     """
     delta = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
@@ -7006,7 +7022,7 @@ class OrdinaryFixedPointDef(RealTypeDef):
 
 class DecimalFixedPointDef(RealTypeDef):
     """
-    Type definition for decimal fixed-point numbers.
+    Type definition for decimal fixed-point numbers (:rmlink:`3.5.9`).
     """
     delta = Field(type=T.Expr)
     digits = Field(type=T.Expr)
@@ -7087,7 +7103,7 @@ class BaseAssoc(AdaNode):
 @abstract
 class Constraint(AdaNode):
     """
-    Base class for type constraints.
+    Base class for type constraints (:rmlink:`3.2.2`).
     """
     subtype = Property(origin.bind(
         Self.origin_node,
@@ -7126,7 +7142,7 @@ class Constraint(AdaNode):
 
 class RangeConstraint(Constraint):
     """
-    Range-based type constraint.
+    Range-based type constraint (:rmlink:`3.5`).
     """
     range = Field(type=T.RangeSpec)
 
@@ -7142,7 +7158,7 @@ class RangeConstraint(Constraint):
 
 class DigitsConstraint(Constraint):
     """
-    Digits and range type constraint.
+    Digits and range type constraint (:rmlink:`3.5.9`).
     """
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
@@ -7157,7 +7173,7 @@ class DigitsConstraint(Constraint):
 
 class DeltaConstraint(Constraint):
     """
-    Delta and range type constraint.
+    Delta and range type constraint (:rmlink:`J.3`).
     """
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
@@ -7172,10 +7188,10 @@ class DeltaConstraint(Constraint):
 
 class CompositeConstraint(Constraint):
     """
-    Constraint for a composite type. Due to ambiguities in the Ada grammar,
-    this could be either a list of index constraints, if the owning type is an
-    array type, or a list of discriminant constraints, if the owning type is a
-    discriminated record type.
+    Constraint for a composite type (:rmlink:`3.6.1`). Due to ambiguities in
+    the Ada grammar, this could be either a list of index constraints, if the
+    owning type is an array type, or a list of discriminant constraints, if the
+    owning type is a discriminated record type.
     """
 
     constraints = Field(type=T.AssocList)
@@ -7270,7 +7286,7 @@ class BasicAssoc(AdaNode):
 
 class CompositeConstraintAssoc(BasicAssoc):
     """
-    Association of discriminant names to an expression.
+    Association of discriminant names to an expression (:rmlink:`3.7.1`).
     """
     ids = Field(type=T.DiscriminantChoiceList)
     constraint_expr = Field(type=T.AdaNode)
@@ -7281,7 +7297,7 @@ class CompositeConstraintAssoc(BasicAssoc):
 
 class DerivedTypeDef(TypeDef):
     """
-    Type definition for a derived type.
+    Type definition for a derived type (:rmlink:`3.4`).
     """
     has_abstract = Field(type=Abstract)
     has_limited = Field(type=Limited)
@@ -7333,6 +7349,10 @@ class DerivedTypeDef(TypeDef):
 class PrivateTypeDef(TypeDef):
     """
     Type definition for a private type.
+
+    Libadalang diverges from the ARM here, treating private types like regular
+    type declarations that have an embedded type definition. This type
+    definition hence corresponds to :rmlink:`7.3`.
     """
     has_abstract = Field(type=Abstract)
     has_tagged = Field(type=Tagged)
@@ -7353,7 +7373,7 @@ class PrivateTypeDef(TypeDef):
 
 class SignedIntTypeDef(TypeDef):
     """
-    Type definition for a signed integer type.
+    Type definition for a signed integer type (:rmlink:`3.5.4`).
     """
     range = Field(type=T.RangeSpec)
     is_int_type = Property(True)
@@ -7399,7 +7419,7 @@ class SignedIntTypeDef(TypeDef):
 
 class ModIntTypeDef(TypeDef):
     """
-    Type definition for a modular integer type.
+    Type definition for a modular integer type (:rmlink:`3.5.4`).
     """
     expr = Field(type=T.Expr)
     is_int_type = Property(True)
@@ -7448,7 +7468,7 @@ class ModIntTypeDef(TypeDef):
 @abstract
 class ArrayIndices(AdaNode):
     """
-    Specification for array indexes.
+    Specification for array indexes (:rmlink:`3.6`).
     """
     ndims = AbstractProperty(
         type=Int,
@@ -7487,7 +7507,7 @@ class ArrayIndices(AdaNode):
 
 class UnconstrainedArrayIndices(ArrayIndices):
     """
-    Unconstrained specification for array indexes.
+    Unconstrained specification for array indexes (:rmlink:`3.6`).
     """
     types = Field(type=T.UnconstrainedArrayIndex.list)
     ndims = Property(Self.types.length)
@@ -7516,7 +7536,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
 
 class ConstrainedArrayIndices(ArrayIndices):
     """
-    Constrained specification for array indexes.
+    Constrained specification for array indexes (:rmlink:`3.6`).
     """
     list = Field(type=T.ConstraintList)
 
@@ -7567,7 +7587,7 @@ class ConstrainedArrayIndices(ArrayIndices):
 
 class ComponentDef(AdaNode):
     """
-    Definition for a component.
+    Definition for a component (:rmlink:`3.6`).
     """
     has_aliased = Field(type=Aliased)
     has_constant = Field(type=Constant)
@@ -7580,7 +7600,7 @@ class ComponentDef(AdaNode):
 
 class ArrayTypeDef(TypeDef):
     """
-    Type definition for an array.
+    Type definition for an array (:rmlink:`3.6`).
     """
     indices = Field(type=T.ArrayIndices)
     component_type = Field(type=T.ComponentDef)
@@ -7659,7 +7679,7 @@ class InterfaceKind(AdaNode):
 
 class InterfaceTypeDef(TypeDef):
     """
-    Type definition for an interface.
+    Type definition for an interface (:rmlink:`3.9.4`).
     """
     interface_kind = Field(type=InterfaceKind)
     interfaces = Field(type=T.ParentList)
@@ -7678,7 +7698,7 @@ class InterfaceTypeDef(TypeDef):
 @abstract
 class BaseSubtypeDecl(BaseTypeDecl):
     """
-    Base class for subtype declarations.
+    Base class for subtype declarations (:rmlink:`3.2.2`).
     """
 
     @langkit_property(return_type=T.BaseTypeDecl.entity)
@@ -7743,7 +7763,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
 
 class SubtypeDecl(BaseSubtypeDecl):
     """
-    Subtype declaration.
+    Subtype declaration (:rmlink:`3.2.2`).
     """
     subtype = Field(type=T.SubtypeIndication)
     aspects = Field(type=T.AspectSpec)
@@ -7786,7 +7806,7 @@ class DiscreteBaseSubtypeDecl(BaseSubtypeDecl):
 
 class TaskDef(AdaNode):
     """
-    Type definition for a task type.
+    Type definition for a task type (:rmlink:`9.1`).
     """
     interfaces = Field(type=T.ParentList)
     public_part = Field(type=T.PublicPart)
@@ -7800,7 +7820,7 @@ class TaskDef(AdaNode):
 
 class ProtectedDef(AdaNode):
     """
-    Type definition for a protected object.
+    Type definition for a protected object (:rmlink:`9.4`).
     """
     public_part = Field(type=T.PublicPart)
     private_part = Field(type=T.PrivatePart)
@@ -7809,7 +7829,7 @@ class ProtectedDef(AdaNode):
 
 class TaskTypeDecl(BaseTypeDecl):
     """
-    Declaration for a task type.
+    Declaration for a task type (:rmlink:`9.1`).
     """
     discriminants = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
@@ -7852,7 +7872,7 @@ class TaskTypeDecl(BaseTypeDecl):
 
 class SingleTaskTypeDecl(TaskTypeDecl):
     """
-    Type declaration for a single task.
+    Type declaration for a single task (:rmlink:`9.1`).
     """
     env_spec = EnvSpec(
         # In this case, we don't want to add this type to the env, because it's
@@ -7864,7 +7884,7 @@ class SingleTaskTypeDecl(TaskTypeDecl):
 
 class ProtectedTypeDecl(BaseTypeDecl):
     """
-    Declaration for a protected type.
+    Declaration for a protected type (:rmlink:`9.4`).
     """
     discriminants = Field(type=T.DiscriminantPart)
     aspects = Field(type=T.AspectSpec)
@@ -7907,7 +7927,7 @@ class ProtectedTypeDecl(BaseTypeDecl):
 @abstract
 class AccessDef(TypeDef):
     """
-    Base class for access type definitions.
+    Base class for access type definitions (:rmlink:`3.10`).
     """
     has_not_null = Field(type=NotNull)
 
@@ -7920,7 +7940,7 @@ class AccessDef(TypeDef):
 
 class AccessToSubpDef(AccessDef):
     """
-    Type definition for accesses to subprograms.
+    Type definition for accesses to subprograms (:rmlink:`3.10`).
     """
     has_protected = Field(type=Protected)
     subp_spec = Field(type=T.SubpSpec)
@@ -7937,7 +7957,7 @@ class AccessToSubpDef(AccessDef):
 @abstract
 class BaseTypeAccessDef(AccessDef):
     """
-    Base class for access type definitions.
+    Base class for access type definitions (:rmlink:`3.10`).
     """
     pass
 
@@ -7967,7 +7987,8 @@ class AnonymousTypeAccessDef(BaseTypeAccessDef):
 
 class FormalDiscreteTypeDef(TypeDef):
     """
-    Type definition for discrete types in generic formals.
+    Type definition for discrete types in generic formals
+    (:rmlink:`12.5.2`).
     """
     xref_equation = Property(LogicTrue())
 
@@ -7989,14 +8010,14 @@ class FormalDiscreteTypeDef(TypeDef):
 
 class NullComponentDecl(AdaNode):
     """
-    Placeholder for the ``null`` in lists of components.
+    Placeholder for the ``null`` in lists of components (:rmlink:`3.8`).
     """
     pass
 
 
 class WithClause(AdaNode):
     """
-    With clause.
+    With clause (:rmlink:`10.1.2`).
     """
     has_limited = Field(type=Limited)
     has_private = Field(type=Private)
@@ -8030,7 +8051,7 @@ class WithClause(AdaNode):
 @abstract
 class UseClause(AdaNode):
     """
-    Base class for use clauses.
+    Base class for use clauses (:rmlink:`10.1.2`).
     """
     xref_entry_point = Property(True)
 
@@ -8061,7 +8082,7 @@ class UseClause(AdaNode):
 
 class UsePackageClause(UseClause):
     """
-    Use clause for packages.
+    Use clause for packages (:rmlink:`8.4`).
     """
     packages = Field(type=T.Name.list)
 
@@ -8112,7 +8133,7 @@ class UsePackageClause(UseClause):
 
 class UseTypeClause(UseClause):
     """
-    Use clause for types.
+    Use clause for types (:rmlink:`8.4`).
     """
     has_all = Field(type=All)
     types = Field(type=T.Name.list)
@@ -8143,6 +8164,8 @@ class TypeExpr(AdaNode):
 
     Since Ada has both subtype_indications and anonymous (inline) type
     declarations, a type expression contains one or the other.
+
+    This node has no ARM correspondence.
     """
 
     array_ndims = Property(
@@ -8266,7 +8289,7 @@ class ParamActual(Struct):
 
 class SubtypeIndication(TypeExpr):
     """
-    Reference to a type by name.
+    Reference to a type by name (:rmlink:`3.2.2`).
     """
     has_not_null = Field(type=NotNull)
     name = Field(type=T.Name)
@@ -8403,7 +8426,7 @@ class DiscreteSubtypeIndication(SubtypeIndication):
 
 class Mode(AdaNode):
     """
-    Syntactic indicators for passing modes in formals.
+    Syntactic indicators for passing modes in formals (:rmlink:`6.1`).
     """
     enum_node = True
     alternatives = ["in", "out", "in_out", "default"]
@@ -8419,7 +8442,7 @@ class Mode(AdaNode):
 
 class ParamSpec(BaseFormalParamDecl):
     """
-    Specification for a parameter.
+    Specification for a parameter (:rmlink:`6.1`).
     """
     ids = Field(type=T.DefiningName.list)
     has_aliased = Field(type=Aliased)
@@ -8481,7 +8504,7 @@ class ParamSpec(BaseFormalParamDecl):
 
 class AspectSpec(AdaNode):
     """
-    List of aspects in a declaration.
+    List of aspects in a declaration (:rmlink:`13.1.1`).
     """
     aspect_assocs = Field(type=T.AspectAssoc.list)
 
@@ -8663,7 +8686,7 @@ class ClassicSubpDecl(BasicSubpDecl):
 
 class SubpDecl(ClassicSubpDecl):
     """
-    Regular subprogram declaration.
+    Regular subprogram declaration (:rmlink:`6.1`).
     """
     aspects = Field(type=T.AspectSpec)
 
@@ -8672,15 +8695,15 @@ class SubpDecl(ClassicSubpDecl):
 
 class AbstractSubpDecl(ClassicSubpDecl):
     """
-    Declaration for an abstract subprogram.
+    Declaration for an abstract subprogram (:rmlink:`3.9.3`).
     """
     aspects = Field(type=T.AspectSpec)
 
 
 class Pragma(AdaNode):
     """
-    Class for pragmas (RM 2.8). Pragmas are compiler directives, that can be
-    language or compiler defined.
+    Class for pragmas (:rmlink:`2.8`). Pragmas are compiler directives,
+    that can be language or compiler defined.
     """
     id = Field(type=T.Identifier)
     args = Field(type=T.BaseAssoc.list)
@@ -8989,7 +9012,7 @@ class AspectClause(AdaNode):
 
 class EnumRepClause(AspectClause):
     """
-    Representation clause for enumeration types.
+    Representation clause for enumeration types (:rmlink:`13.4`).
     """
     type_name = Field(type=T.Name)
     aggregate = Field(type=T.BaseAggregate)
@@ -9022,7 +9045,8 @@ class EnumRepClause(AspectClause):
 
 class AttributeDefClause(AspectClause):
     """
-    Clause for an attribute definition (``for ...'Attribute use ...;``).
+    Clause for an attribute definition (``for ...'Attribute use ...;``)
+    (:rmlink:`13.3`).
     """
     attribute_expr = Field(type=T.Name)
     expr = Field(type=T.Expr)
@@ -9063,7 +9087,7 @@ class AttributeDefClause(AspectClause):
 
 class ComponentClause(AdaNode):
     """
-    Representation clause for a single component.
+    Representation clause for a single component (:rmlink:`13.5.1`).
     """
     id = Field(type=T.Identifier)
     position = Field(type=T.Expr)
@@ -9091,7 +9115,7 @@ class ComponentClause(AdaNode):
 
 class RecordRepClause(AspectClause):
     """
-    Representation clause for a record type.
+    Representation clause for a record type (:rmlink:`13.5.1`).
     """
     name = Field(type=T.Name)
     at_expr = Field(type=T.Expr)
@@ -9110,7 +9134,7 @@ class RecordRepClause(AspectClause):
 
 class AtClause(AspectClause):
     """
-    Representation clause (``for .. use at ...;``).
+    Representation clause (``for .. use at ...;``) (:rmlink:`13.5.1`).
     """
     name = Field(type=T.BaseId)
     expr = Field(type=T.Expr)
@@ -9122,7 +9146,7 @@ class AtClause(AspectClause):
 
 class SingleTaskDecl(BasicDecl):
     """
-    Declaration for a single task.
+    Declaration for a single task (:rmlink:`9.1`).
     """
     task_type = Field(type=T.SingleTaskTypeDecl)
     aspects = NullField()
@@ -9146,7 +9170,7 @@ class SingleTaskDecl(BasicDecl):
 
 class SingleProtectedDecl(BasicDecl):
     """
-    Declaration for a single protected object.
+    Declaration for a single protected object (:rmlink:`9.4`).
     """
     name = Field(type=T.DefiningName)
     aspects = Field(type=T.AspectSpec)
@@ -9336,7 +9360,7 @@ class AspectAssoc(AdaNode):
 
 class NumberDecl(BasicDecl):
     """
-    Declaration for a static constant number.
+    Declaration for a static constant number (:rmlink:`3.3.2`).
     """
     ids = Field(type=T.DefiningName.list)
     expr = Field(type=T.Expr)
@@ -9374,9 +9398,9 @@ class NumberDecl(BasicDecl):
 
 class ObjectDecl(BasicDecl):
     """
-    Base class for Ada object declarations (RM 3.3.1). Ada object declarations
-    are variables/constants declarations that can be declared in any
-    declarative scope.
+    Base class for Ada object declarations (:rmlink:`3.3.1`). Ada object
+    declarations are variables/constants declarations that can be declared in
+    any declarative scope.
     """
 
     ids = Field(type=T.DefiningName.list)
@@ -9546,7 +9570,8 @@ class AnonymousExprDecl(BasicDecl):
 
 class ExtendedReturnStmtObjectDecl(ObjectDecl):
     """
-    Object declaration that is part of an extended return statement.
+    Object declaration that is part of an extended return statement
+    (:rmlink:`6.5`).
     """
     pass
 
@@ -9565,7 +9590,7 @@ class NoTypeObjectRenamingDecl(ObjectDecl):
 
 class DeclarativePart(AdaNode):
     """
-    List of declarations.
+    List of declarations (:rmlink:`3.11`).
     """
     annotations = Annotations(snaps=True)
 
@@ -9622,15 +9647,9 @@ class PublicPart(DeclarativePart):
 @abstract
 class BasePackageDecl(BasicDecl):
     """
-    Package declarations. Concrete instances of this class
-    will be created in generic package declarations. Other non-generic
-    package declarations will be instances of PackageDecl.
-
-    The behavior is the same, the only difference is that BasePackageDecl
-    and PackageDecl have different behavior regarding lexical environments.
-    In the case of generic package declarations, we use BasePackageDecl
-    which has no env_spec, and the environment behavior is handled by the
-    GenericPackageDecl instance.
+    Base class for package declarations. This will be used
+    both for non-generic package declarations (via :typeref:`PackageDecl`) and
+    for generic ones (via :typeref:`GenericPackageInternal`).
     """
     package_name = Field(type=T.DefiningName)
     aspects = Field(type=T.AspectSpec)
@@ -9683,7 +9702,7 @@ class BasePackageDecl(BasicDecl):
 
 class PackageDecl(BasePackageDecl):
     """
-    Non-generic package declarations.
+    Non-generic package declarations (:rmlink:`7.1`).
     """
     env_spec = EnvSpec(
         do(Self.env_hook),
@@ -9717,7 +9736,7 @@ class PackageDecl(BasePackageDecl):
 
 class ExceptionDecl(BasicDecl):
     """
-    Exception declarations.
+    Exception declarations (:rmlink:`11.1`).
     """
     ids = Field(type=T.DefiningName.list)
     renames = Field(type=T.RenamingClause)
@@ -9746,7 +9765,7 @@ class ExceptionDecl(BasicDecl):
 @abstract
 class GenericInstantiation(BasicDecl):
     """
-    Instantiations of generics.
+    Instantiations of generics (:rmlink:`12.3`).
     """
     @lazy_field(return_type=LexicalEnv)
     def instantiation_env():
@@ -9957,7 +9976,7 @@ class GenericInstantiation(BasicDecl):
 
 class GenericSubpInstantiation(GenericInstantiation):
     """
-    Instantiations of a generic subprogram.
+    Instantiations of a generic subprogram .
     """
 
     overriding = Field(type=Overriding)
@@ -10191,7 +10210,7 @@ class SyntheticRenamingClause(RenamingClause):
 
 class PackageRenamingDecl(BasicDecl):
     """
-    Declaration for a package renaming.
+    Declaration for a package renaming (:rmlink:`8.5.3`).
     """
 
     name = Field(type=T.DefiningName)
@@ -10258,7 +10277,7 @@ class PackageRenamingDecl(BasicDecl):
 @abstract
 class GenericRenamingDecl(BasicDecl):
     """
-    Base node for all generic renaming declarations.
+    Base node for all generic renaming declarations (:rmlink:`8.5.5`).
     """
     renaming_name = AbstractProperty(type=T.Name.entity)
 
@@ -10279,7 +10298,7 @@ class GenericRenamingDecl(BasicDecl):
 
 class GenericPackageRenamingDecl(GenericRenamingDecl):
     """
-    Declaration for a generic package renaming.
+    Declaration for a generic package renaming (:rmlink:`8.5.5`).
     """
     name = Field(type=T.DefiningName)
     renames = Field(type=T.Name)
@@ -10366,7 +10385,8 @@ class GenericSubpRenamingDecl(GenericRenamingDecl):
 @abstract
 class FormalSubpDecl(ClassicSubpDecl):
     """
-    Formal subprogram declarations, in generic declarations formal parts.
+    Formal subprogram declarations, in generic declarations formal parts
+    (:rmlink:`12.6`).
     """
     default_expr = Field(type=T.Expr)
     aspects = Field(type=T.AspectSpec)
@@ -10452,7 +10472,7 @@ class FormalSubpDecl(ClassicSubpDecl):
 
 class ConcreteFormalSubpDecl(FormalSubpDecl):
     """
-    Formal declaration for a concrete subprogram.
+    Formal declaration for a concrete subprogram (:rmlink:`12.6`).
     """
 
     pass
@@ -10460,7 +10480,7 @@ class ConcreteFormalSubpDecl(FormalSubpDecl):
 
 class AbstractFormalSubpDecl(FormalSubpDecl):
     """
-    Formal declaration for an abstract subprogram.
+    Formal declaration for an abstract subprogram (:rmlink:`12.6`).
     """
 
     pass
@@ -10468,7 +10488,7 @@ class AbstractFormalSubpDecl(FormalSubpDecl):
 
 class GenericFormalPart(BaseFormalParamHolder):
     """
-    List of declaration for generic formals.
+    List of declaration for generic formals (:rmlink:`12.1`).
     """
     decls = Field(type=T.AdaNode.list)
 
@@ -10511,7 +10531,7 @@ class GenericFormalObjDecl(GenericFormal):
 
 class GenericFormalTypeDecl(GenericFormal):
     """
-    Formal declaration for a type.
+    Formal declaration for a type (:rmlink:`12.1`).
     """
 
     pass
@@ -10519,7 +10539,7 @@ class GenericFormalTypeDecl(GenericFormal):
 
 class GenericFormalSubpDecl(GenericFormal):
     """
-    Formal declaration for a subprogram.
+    Formal declaration for a subprogram (:rmlink:`12.1`).
     """
 
     pass
@@ -10527,7 +10547,7 @@ class GenericFormalSubpDecl(GenericFormal):
 
 class GenericFormalPackage(GenericFormal):
     """
-    Formal declaration for a package.
+    Formal declaration for a package (:rmlink:`12.1`).
     """
 
     pass
@@ -10597,7 +10617,7 @@ class GenericSubpInternal(BasicSubpDecl):
 @abstract
 class GenericDecl(BasicDecl):
     """
-    Base class for generic declarations.
+    Base class for generic declarations (:rmlink:`12.1`).
     """
     formal_part = Field(type=T.GenericFormalPart)
     decl = AbstractProperty(type=T.BasicDecl.entity)
@@ -10617,7 +10637,7 @@ class GenericDecl(BasicDecl):
 
 class GenericSubpDecl(GenericDecl):
     """
-    Generic subprogram declaration.
+    Generic subprogram declaration (:rmlink:`12.1`).
     """
 
     subp_decl = Field(type=T.GenericSubpInternal)
@@ -10694,7 +10714,7 @@ class GenericPackageInternal(BasePackageDecl):
 
 class GenericPackageDecl(GenericDecl):
     """
-    Generic package declaration.
+    Generic package declaration (:rmlink:`12.1`).
     """
     env_spec = EnvSpec(
         do(Self.env_hook),
@@ -10768,7 +10788,7 @@ class Substitution(Struct):
 @has_abstract_list
 class Expr(AdaNode):
     """
-    Base class for expressions.
+    Base class for expressions (:rmlink:`4.4`).
     """
 
     logic_vars = UserField(type=T.Address, public=False)
@@ -10874,7 +10894,8 @@ class Expr(AdaNode):
                       return_type=T.Bool)
     def is_dynamically_tagged():
         """
-        Returns whether this expression is dynamically tagged (See RM 3.9.2).
+        Returns whether this expression is dynamically tagged (See
+        :rmlink:`3.9.2`).
         """
         # See ARM 3.9.2 for the rules
         return origin.bind(Self.origin_node, Or(
@@ -10952,9 +10973,9 @@ class Expr(AdaNode):
     @langkit_property(return_type=T.Expr.entity)
     def parent_candidate_dispatching_call():
         """
-        Return the closest parent expression that can be a dispatching call
-        and which can control the tag value of this expression according to
-        Ada semantics (see RM 3.9.2 17/2).
+        Return the closest parent expression that can be a dispatching call and
+        which can control the tag value of this expression according to Ada
+        semantics (see :rmlink:`3.9.2` 17/2).
         """
         return Entity.parent.match(
             lambda ce=CallExpr: If(
@@ -11063,7 +11084,7 @@ class Expr(AdaNode):
     def is_static_expr():
         """
         Return whether this expression is static according to the ARM
-        definition of static. See RM 4.9.
+        definition of static. See :rmlink:`4.9`.
         """
         return origin.bind(Self.origin_node, Entity.match(
             lambda _=NumLiteral: True,
@@ -11303,7 +11324,7 @@ class ContractCaseAssoc(BaseAssoc):
 
 class DeclExpr(Expr):
     """
-    Declare expression (Ada 2020).
+    Declare expression (Ada 2020, :rmlink:`4.5.9`).
     """
 
     decls = Field(type=T.BasicDecl.list)
@@ -11327,6 +11348,10 @@ class DeclExpr(Expr):
 class ContractCases(Expr):
     """
     List of associations for the ``Contract_Case`` aspect.
+
+    Contract cases is a non standard Ada extension that's mainly useful in
+    SPARK. See `the SPARK RM <https://docs.adacore.com/spark2014-docs/>`_ for
+    more details.
     """
     contract_cases = Field(ContractCaseAssoc.list)
 
@@ -11351,6 +11376,10 @@ class ParenExpr(Expr):
 class UnOp(Expr):
     """
     Unary expression.
+
+    This encompasses several ARM expressions, because it is used for every
+    unary operator in Ada. Those expressions are all documented in
+    :rmlink:`4.4`.
     """
 
     op = Field(type=T.Op)
@@ -11410,6 +11439,9 @@ class UnOp(Expr):
 class BinOp(Expr):
     """
     Binary expression.
+
+    This encompasses several ARM expressions, because it is used for every
+    binary expression in Ada, all documented in ::rmlink:`4.4`.
     """
 
     left = Field(type=T.Expr)
@@ -11790,7 +11822,8 @@ class BinOp(Expr):
 
 class RelationOp(BinOp):
     """
-    Binary operation that compares two value, producing a boolean.
+    Binary operation that compares two value, producing a boolean
+    (:rmlink:`4.4`).
     """
     has_context_free_type = Property(True)
 
@@ -11805,7 +11838,7 @@ class RelationOp(BinOp):
 
 class MembershipExpr(Expr):
     """
-    Represent a membership test (in/not in operators).
+    Represent a membership test (in/not in operators) (:rmlink:`4.4`).
 
     Note that we don't consider them as binary operators since multiple
     expressions on the right hand side are allowed.
@@ -11866,7 +11899,7 @@ class MultidimAggregateInfo(Struct):
 @abstract
 class BaseAggregate(Expr):
     """
-    Base class for aggregates.
+    Base class for aggregates (:rmlink:`4.3`).
     """
 
     ancestor_expr = Field(type=T.Expr)
@@ -12065,7 +12098,7 @@ class BaseAggregate(Expr):
     def is_subaggregate():
         """
         Return whether this aggregate is actually a subaggregate of a
-        multidimensional array aggregate, as described in RM 4.3.3.
+        multidimensional array aggregate, as described in :rmlink:`4.3.3`.
         """
         # The `multidim_root_aggregate` property assumes that the top-level
         # aggregate's type_var has been set, so run nameres beforehand.
@@ -12075,32 +12108,32 @@ class BaseAggregate(Expr):
 
 class Aggregate(BaseAggregate):
     """
-    Aggregate that is not a ``null record`` aggregate.
+    Aggregate that is not a ``null record`` aggregate (:rmlink:`4.3`).
     """
 
 
 class NullRecordAggregate(BaseAggregate):
     """
-    Aggregate for ``null record``.
+    Aggregate for ``null record`` (:rmlink:`4.3`).
     """
 
 
 class BracketAggregate(Aggregate):
     """
-    Bracket array or container aggregate (Ada 2020).
+    Bracket array or container aggregate (Ada 2020, :rmlink:`4.3`).
     """
 
 
 class DeltaAggregate(BaseAggregate):
     """
-    Aggregate for delta aggregate (Ada 2022).
+    Aggregate for delta aggregate (Ada 2022, :rmlink:`4.3`).
     """
     pass
 
 
 class BracketDeltaAggregate(DeltaAggregate):
     """
-    Bracket delta aggregate (Ada 2020).
+    Bracket delta aggregate (Ada 2020, :rmlink:`4.3`).
     """
     pass
 
@@ -12160,7 +12193,7 @@ class RefResult(Struct):
 @abstract
 class Name(Expr):
     """
-    Base class for names.
+    Base class for names (:rmlink:`4.1`).
     """
 
     enclosing_defining_name = Property(
@@ -13153,7 +13186,7 @@ class Name(Expr):
 
 class DiscreteSubtypeName(Name):
     """
-    Subtype name for membership test expressions.
+    Subtype name for membership test expressions (:rmlink:`3.6`).
     """
 
     subtype = Field(type=T.DiscreteSubtypeIndication)
@@ -13161,7 +13194,7 @@ class DiscreteSubtypeName(Name):
 
 class TargetName(Name):
     """
-    Name for Ada 2020 ``@``.
+    Name for Ada 2020 ``@`` (:rmlink:`5.2.1`).
     """
 
     r_ref_var = UserField(LogicVar, public=False)
@@ -13205,7 +13238,9 @@ class CallExpr(Name):
     Represent a syntactic call expression.
 
     At the semantic level, this can be either a subprogram call, an array
-    subcomponent access expression, an array slice or a type conversion.
+    subcomponent access expression, an array slice or a type conversion, all
+    described in :rmlink:`4.1`, except for subprogram call statements,
+    described in :rmlink:`6.4`.
     """
     name = Field(type=T.Name)
     suffix = Field(type=T.AdaNode)
@@ -13719,7 +13754,7 @@ class CallExpr(Name):
 
 class ParamAssoc(BasicAssoc):
     """
-    Assocation (X => Y) used for aggregates and parameter associations.
+    Assocation (X => Y) used for parameter associations (:rmlink:`6.4`).
     """
     designator = Field(type=T.AdaNode)
     r_expr = Field(type=T.Expr)
@@ -13746,7 +13781,7 @@ class ParamAssoc(BasicAssoc):
 
 class AggregateAssoc(BasicAssoc):
     """
-    Assocation (X => Y) used for aggregates and parameter associations.
+    Assocation (X => Y) used for aggregates associations (:rmlink:`4.3`).
     """
     designators = Field(type=T.AlternativesList)
     r_expr = Field(type=T.Expr)
@@ -14007,7 +14042,7 @@ class AggregateAssoc(BasicAssoc):
 
 class IteratedAssoc(BasicAssoc):
     """
-    Iterated association (Ada 2020).
+    Iterated association (Ada 2020, :rmlink:`4.3.3`).
     """
     spec = Field(type=T.ForLoopSpec)
     r_expr = Field(type=T.Expr)
@@ -14103,7 +14138,6 @@ class MultiDimArrayAssoc(AggregateAssoc):
     """
     Association used for multi-dimension array aggregates.
     """
-
     pass
 
 
@@ -14271,7 +14305,7 @@ class StmtList(AdaNode.list):
 
 class ExplicitDeref(Name):
     """
-    Explicit dereference expression (``.all``).
+    Explicit dereference expression (``.all``) (:rmlink:`4.1`).
     """
 
     prefix = Field(type=T.Name)
@@ -14354,6 +14388,9 @@ class ExplicitDeref(Name):
 class BoxExpr(Expr):
     """
     Box expression (``<>``).
+
+    This is not an expression per-se in Ada, but treating it as one helps us
+    keep coherent types in some cases, like aggregates expressions.
     """
     xref_equation = Property(Bind(Self.type_var, Self.expected_type_var))
 
@@ -14368,7 +14405,7 @@ class OthersDesignator(AdaNode):
 @abstract
 class CondExpr(Expr):
     """
-    Base class for a conditional expressions (RM 4.5.7).
+    Base class for a conditional expressions (:rmlink:`4.5.7`).
     """
 
     @langkit_property(public=True,
@@ -14383,7 +14420,7 @@ class CondExpr(Expr):
 
 class IfExpr(CondExpr):
     """
-    ``if`` expression (RM 4.5.7).
+    ``if`` expression (:rmlink`4.5.7`).
     """
 
     cond_expr = Field(type=T.Expr)
@@ -14493,7 +14530,7 @@ class ElsifExprPart(AdaNode):
 
 class CaseExpr(CondExpr):
     """
-    ``case`` expression (RM 4.5.7).
+    ``case`` expression (:rmlink:`4.5.7`).
     """
     expr = Field(type=T.Expr)
     cases = Field(type=T.CaseExprAlternative.list)
@@ -14611,7 +14648,7 @@ class SingleTokNode(Name):
 
 class DefiningName(Name):
     """
-    Name that defines an entity.
+    Name that defines an entity (:rmlink:`3.1`).
     """
     name = Field(type=T.Name)
 
@@ -14730,7 +14767,8 @@ class DefiningName(Name):
         """
         Return whether this is a name that defines an "=" operator which
         implicitly declares an "/=" operator giving the complementary result,
-        which is True iff this "=" declaration returns a Boolean (RM 6.6-6/3).
+        which is True iff this "=" declaration returns a Boolean
+        (:rmlink:`6.6` 6/3).
         """
         return And(
             Self.name_is('"="'),
@@ -15026,7 +15064,7 @@ class DefiningName(Name):
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
 
-        "Aspect" is used as in RM terminology (see RM 13).
+        "Aspect" is used as in RM terminology (see :rmlink:`13`).
         """
         a = Var(Entity.get_aspect(name))
 
@@ -15708,7 +15746,7 @@ class Op(BaseId):
         Return the list of all operator definitions for the given operator
         symbol. Note that corresponding operators of root types are returned
         first in the list, so as to implement the "preference" behavior
-        described in RM 8.6 - 29 in BinOp and UnOp xref_equation.
+        described in :rmlink:`8.6` - 29 in BinOp and UnOp xref_equation.
         """
         return Self.root_type_ops(sym).concat(Self.env_get(
             from_node.node_env, sym, from_node=from_node.node
@@ -15751,7 +15789,7 @@ class Op(BaseId):
 @has_abstract_list
 class Identifier(BaseId):
     """
-    Regular identifier.
+    Regular identifier (:rmlink:`2.3`).
     """
 
     annotations = Annotations(repr_name="Id")
@@ -15830,7 +15868,7 @@ class Identifier(BaseId):
 
 class StringLiteral(BaseId):
     """
-    String literal.
+    String literal (:rmlink:`2.6`).
     """
 
     annotations = Annotations(repr_name="Str")
@@ -15860,7 +15898,7 @@ class StringLiteral(BaseId):
 
 class EnumLiteralDecl(BasicSubpDecl):
     """
-    Declaration for an enumeration literal.
+    Declaration for an enumeration literal (:rmlink:`3.5.1`).
     """
 
     name = Field(type=T.DefiningName)
@@ -15927,7 +15965,7 @@ class SyntheticCharEnumLit(BasicSubpDecl):
 
 class CharLiteral(BaseId):
     """
-    Character literal.
+    Character literal (:rmlink:`4.1`).
     """
 
     annotations = Annotations(repr_name="Chr")
@@ -15967,7 +16005,7 @@ class CharLiteral(BaseId):
 @abstract
 class NumLiteral(SingleTokNode):
     """
-    Base class for number literals.
+    Base class for number literals (:rmlink:`2.4`).
     """
 
     annotations = Annotations(repr_name="Num")
@@ -15977,7 +16015,7 @@ class NumLiteral(SingleTokNode):
 
 class RealLiteral(NumLiteral):
     """
-    Literal for a real number.
+    Literal for a real number (:rmlink:`2.4`).
     """
 
     annotations = Annotations(repr_name="Real")
@@ -15989,7 +16027,7 @@ class RealLiteral(NumLiteral):
 
 class IntLiteral(NumLiteral):
     """
-    Literal for an integer.
+    Literal for an integer (:rmlink:`2.4`).
     """
 
     annotations = Annotations(repr_name="Int")
@@ -16009,7 +16047,7 @@ class IntLiteral(NumLiteral):
 
 class NullLiteral(SingleTokNode):
     """
-    The ``null`` literal.
+    The ``null`` literal (:rmlink:`4.4`).
     """
 
     annotations = Annotations(repr_name="Null")
@@ -16046,7 +16084,7 @@ class ParamMatch(Struct):
 @abstract
 class BaseSubpSpec(BaseFormalParamHolder):
     """
-    Base class for subprogram specifications.
+    Base class for subprogram specifications (:rmlink:`6.1`).
     """
 
     name = AbstractProperty(type=T.DefiningName.entity)
@@ -16568,7 +16606,7 @@ class SyntheticSubpDecl(BasicSubpDecl):
 
 class SubpSpec(BaseSubpSpec):
     """
-    Subprogram specification.
+    Subprogram specification (:rmlink:`6.1`).
     """
     subp_kind = Field(type=T.SubpKind)
     subp_name = Field(type=T.DefiningName)
@@ -16583,7 +16621,7 @@ class SubpSpec(BaseSubpSpec):
 
 class EntryDecl(BasicSubpDecl):
     """
-    Entry declaration.
+    Entry declaration (:rmlink:`9.4`).
     """
     overriding = Field(type=Overriding)
     spec = Field(type=T.EntrySpec)
@@ -16662,6 +16700,11 @@ class EntryDecl(BasicSubpDecl):
 class EntrySpec(BaseSubpSpec):
     """
     Entry specification.
+
+    This node does not have ARM existence, because in the RM subprogram
+    specifications don't encompass the ad-hoc specifications that happen in
+    entry declarations. Entry declarations are described in
+    :rmlink:`9.5.2`.
     """
     entry_name = Field(type=T.DefiningName)
     family_type = Field(type=T.AdaNode)
@@ -16701,14 +16744,15 @@ class IterType(AdaNode):
 @abstract
 class LoopSpec(AdaNode):
     """
-    Base class for loop specifications.
+    Base class for loop specifications (:rmlink:`5.5`).
     """
     pass
 
 
 class ForLoopVarDecl(BasicDecl):
     """
-    Declaration for the controlling variable in a ``for`` loop.
+    Declaration for the controlling variable in a ``for`` loop
+    (:rmlink:`5.5`).
     """
 
     id = Field(type=T.DefiningName)
@@ -16769,7 +16813,7 @@ class ForLoopVarDecl(BasicDecl):
 
 class ForLoopSpec(LoopSpec):
     """
-    Specification for a ``for`` loop.
+    Specification for a ``for`` loop (:rmlink:`5.5`).
     """
 
     var_decl = Field(type=T.ForLoopVarDecl)
@@ -16903,7 +16947,7 @@ class ForLoopSpec(LoopSpec):
 
 class QuantifiedExpr(Expr):
     """
-    Quantified expression.
+    Quantified expression (:rmlink:`4.5.8`).
     """
     quantifier = Field(type=Quantifier)
     loop_spec = Field(type=T.ForLoopSpec)
@@ -16927,7 +16971,7 @@ class QuantifiedExpr(Expr):
 
 class Allocator(Expr):
     """
-    Allocator expression (``new ...``).
+    Allocator expression (``new ...``) (:rmlink:`4.8`).
     """
 
     subpool = Field(type=T.Name)
@@ -16958,7 +17002,7 @@ class Allocator(Expr):
 
 class QualExpr(Name):
     """
-    Qualified expression (``...'(...)``).
+    Qualified expression (``...'(...)``) .(:rmlink:`4.7`).
     """
 
     prefix = Field(type=T.Name)
@@ -17016,7 +17060,7 @@ class QualExpr(Name):
 
 class AttributeRef(Name):
     """
-    Expression to reference an attribute.
+    Expression to reference an attribute (:rmlink:`4.1.4`).
     """
 
     prefix = Field(type=T.Name)
@@ -17943,7 +17987,8 @@ class ReduceAttributeRef(Name):
 
 class UpdateAttributeRef(AttributeRef):
     """
-    Reference to the ``Update`` attribute.
+    Reference to the ``Update`` attribute, which is a non standard GNAT
+    attribute.
     """
     @langkit_property()
     def xref_equation():
@@ -17961,7 +18006,7 @@ class UpdateAttributeRef(AttributeRef):
 
 class RaiseExpr(Expr):
     """
-    Expression to raise an exception.
+    Expression to raise an exception (:rmlink:`4.4`).
     """
 
     exception_name = Field(type=T.Name)
@@ -17988,7 +18033,7 @@ class RaiseExpr(Expr):
 
 class DottedName(Name):
     """
-    Name to select a suffix in a prefix.
+    Name to select a suffix in a prefix (:rmlink:`4.1.3`).
     """
 
     prefix = Field(type=T.Name)
@@ -18119,7 +18164,7 @@ class DottedName(Name):
 
 class CompilationUnit(AdaNode):
     """
-    Root node for all Ada analysis units.
+    Root node for all Ada analysis units (:rmlink:`10.1.1`).
     """
 
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
@@ -18492,7 +18537,7 @@ class CompilationUnit(AdaNode):
 @abstract
 class BaseSubpBody(Body):
     """
-    Base class for subprogram bodies.
+    Base class for subprogram bodies (:rmlink:`6.3`).
     """
 
     overriding = Field(type=Overriding)
@@ -18639,7 +18684,7 @@ class BaseSubpBody(Body):
 
 class ExprFunction(BaseSubpBody):
     """
-    Expression function.
+    Expression function (:rmlink:`6.8`).
     """
 
     expr = Field(type=T.Expr)
@@ -18656,7 +18701,7 @@ class ExprFunction(BaseSubpBody):
 
 class NullSubpDecl(BaseSubpBody):
     """
-    Declaration for a null subprogram.
+    Declaration for a null subprogram (:rmlink:`6.1`).
     """
 
     aspects = Field(type=T.AspectSpec)
@@ -18664,7 +18709,7 @@ class NullSubpDecl(BaseSubpBody):
 
 class SubpRenamingDecl(BaseSubpBody):
     """
-    Declaration for a subprogram renaming.
+    Declaration for a subprogram renaming (:rmlink:`8.5.4`).
     """
 
     renames = Field(type=T.RenamingClause)
@@ -18706,7 +18751,7 @@ class SubpRenamingDecl(BaseSubpBody):
 
 class SubpBody(BaseSubpBody):
     """
-    Subprogram body.
+    Subprogram body(:rmlink:`6.3`) .
     """
 
     aspects = Field(type=T.AspectSpec)
@@ -18719,7 +18764,7 @@ class SubpBody(BaseSubpBody):
 
 class HandledStmts(AdaNode):
     """
-    List of statements, with optional exception handlers.
+    List of statements, with optional exception handlers (:rmlink:`11.2`).
     """
 
     annotations = Annotations(snaps=True)
@@ -18730,7 +18775,7 @@ class HandledStmts(AdaNode):
 
 class ExceptionHandler(BasicDecl):
     """
-    Exception handler.
+    Exception handler (:rmlink:`11.2`).
     """
 
     exception_name = Field(type=T.DefiningName)
@@ -18775,7 +18820,7 @@ class ExceptionHandler(BasicDecl):
 @abstract
 class Stmt(AdaNode):
     """
-    Bass class for statements.
+    Bass class for statements (:rmlink:`5.1`).
     """
 
     xref_entry_point = Property(True)
@@ -18822,7 +18867,7 @@ class ErrorStmt(Stmt):
 @abstract
 class SimpleStmt(Stmt):
     """
-    Base class for simple statements.
+    Base class for simple statements (:rmlink:`5.1`).
     """
 
     pass
@@ -18831,7 +18876,7 @@ class SimpleStmt(Stmt):
 @abstract
 class CompositeStmt(Stmt):
     """
-    Base class for composite statements.
+    Base class for composite statements (:rmlink:`5.1`).
     """
 
     pass
@@ -18839,7 +18884,7 @@ class CompositeStmt(Stmt):
 
 class CallStmt(SimpleStmt):
     """
-    Statement for entry or procedure calls.
+    Statement for entry or procedure calls (:rmlink:`6.4`).
     """
 
     call = Field(type=T.Name)
@@ -18856,7 +18901,7 @@ class CallStmt(SimpleStmt):
 
 class NullStmt(SimpleStmt):
     """
-    ``null;`` statement.
+    ``null;`` statement (:rmlink:`5.1`).
     """
 
     @langkit_property()
@@ -18866,7 +18911,7 @@ class NullStmt(SimpleStmt):
 
 class AssignStmt(SimpleStmt):
     """
-    Statement for assignments.
+    Statement for assignments (:rmlink:`5.2`).
     """
 
     dest = Field(type=T.Name)
@@ -18885,7 +18930,7 @@ class AssignStmt(SimpleStmt):
 
 class GotoStmt(SimpleStmt):
     """
-    ``goto`` statement.
+    ``goto`` statement (:rmlink:`5.8`).
     """
 
     label_name = Field(type=T.Name)
@@ -18897,7 +18942,7 @@ class GotoStmt(SimpleStmt):
 
 class ExitStmt(SimpleStmt):
     """
-    ``exit`` statement.
+    ``exit`` statement (:rmlink:`5.7`).
     """
 
     loop_name = Field(type=T.Name)
@@ -18923,7 +18968,7 @@ class ExitStmt(SimpleStmt):
 
 class ReturnStmt(SimpleStmt):
     """
-    ``return`` statement.
+    ``return`` statement (:rmlink:`6.5`).
     """
 
     return_expr = Field(type=T.Expr)
@@ -18947,7 +18992,7 @@ class ReturnStmt(SimpleStmt):
 
 class RequeueStmt(SimpleStmt):
     """
-    ``requeue`` statement.
+    ``requeue`` statement (:rmlink:`9.5.4`).
     """
 
     call_name = Field(type=T.Name)
@@ -19017,7 +19062,7 @@ class RequeueStmt(SimpleStmt):
 
 class AbortStmt(SimpleStmt):
     """
-    ``abort`` statement.
+    ``abort`` statement (:rmlink:`9.8`).
     """
 
     names = Field(type=T.Name.list)
@@ -19033,7 +19078,7 @@ class AbortStmt(SimpleStmt):
 
 class DelayStmt(SimpleStmt):
     """
-    ``delay`` statement.
+    ``delay`` statement (:rmlink:`9.6`).
     """
 
     has_until = Field(type=Until)
@@ -19051,7 +19096,7 @@ class DelayStmt(SimpleStmt):
 
 class RaiseStmt(SimpleStmt):
     """
-    ``raise`` statement.
+    ``raise`` statement (:rmlink:`11.3`).
     """
 
     exception_name = Field(type=T.Name)
@@ -19078,7 +19123,7 @@ class RaiseStmt(SimpleStmt):
 
 class IfStmt(CompositeStmt):
     """
-    ``if`` statement block.
+    ``if`` statement block (:rmlink:`5.3`).
     """
 
     cond_expr = Field(type=T.Expr)
@@ -19116,7 +19161,7 @@ class ElsifStmtPart(AdaNode):
 
 class LabelDecl(BasicDecl):
     """
-    Declaration for a code label.
+    Declaration for a code label (:rmlink:`5.1`).
     """
 
     name = Field(type=T.DefiningName)
@@ -19129,7 +19174,7 @@ class LabelDecl(BasicDecl):
 
 class Label(SimpleStmt):
     """
-    Statement to declare a code label.
+    Statement to declare a code label (:rmlink:`5.1`).
     """
 
     decl = Field(type=T.LabelDecl)
@@ -19141,7 +19186,7 @@ class Label(SimpleStmt):
 
 class WhileLoopSpec(LoopSpec):
     """
-    Specification for a ``while`` loop.
+    Specification for a ``while`` loop (:rmlink:`5.5`).
     """
 
     expr = Field(type=T.Expr)
@@ -19186,7 +19231,7 @@ class NamedStmt(CompositeStmt):
 @abstract
 class BaseLoopStmt(CompositeStmt):
     """
-    Base class for loop statements.
+    Base class for loop statements (:rmlink:`5.5`).
     """
 
     spec = Field(type=T.LoopSpec)
@@ -19201,7 +19246,7 @@ class BaseLoopStmt(CompositeStmt):
 
 class LoopStmt(BaseLoopStmt):
     """
-    Statement for simple loops (``loop ... end loop;``).
+    Statement for simple loops (``loop ... end loop;``) (:rmlink:`5.5`).
     """
 
     pass
@@ -19209,7 +19254,8 @@ class LoopStmt(BaseLoopStmt):
 
 class ForLoopStmt(BaseLoopStmt):
     """
-    Statement for ``for`` loops (``for ... loop ... end loop;``).
+    Statement for ``for`` loops (``for ... loop ... end loop;``)
+    (:rmlink:`5.5`).
     """
 
     env_spec = EnvSpec(add_env())
@@ -19217,7 +19263,8 @@ class ForLoopStmt(BaseLoopStmt):
 
 class WhileLoopStmt(BaseLoopStmt):
     """
-    Statement for ``while`` loops (``while ... loop ... end loop;``).
+    Statement for ``while`` loops (``while ... loop ... end loop;``)
+    (:rmlink:`5.5`).
     """
 
     pass
@@ -19226,7 +19273,7 @@ class WhileLoopStmt(BaseLoopStmt):
 @abstract
 class BlockStmt(CompositeStmt):
     """
-    Base class for statement blocks.
+    Base class for statement blocks (:rmlink:`5.6`).
     """
 
     env_spec = EnvSpec(add_env())
@@ -19236,7 +19283,7 @@ class BlockStmt(CompositeStmt):
 
 class DeclBlock(BlockStmt):
     """
-    Statement block with a declarative part.
+    Statement block with a declarative part (:rmlink:`5.6`).
     """
 
     decls = Field(type=T.DeclarativePart)
@@ -19250,7 +19297,7 @@ class DeclBlock(BlockStmt):
 
 class BeginBlock(BlockStmt):
     """
-    Statement block with no declarative part.
+    Statement block with no declarative part (:rmlink:`5.6`).
     """
 
     stmts = Field(type=T.HandledStmts)
@@ -19259,7 +19306,7 @@ class BeginBlock(BlockStmt):
 
 class ExtendedReturnStmt(CompositeStmt):
     """
-    Extended ``return`` statement.
+    Extended ``return`` statement (:rmlink:`6.5`).
     """
 
     decl = Field(type=T.ExtendedReturnStmtObjectDecl)
@@ -19274,7 +19321,7 @@ class ExtendedReturnStmt(CompositeStmt):
 
 class CaseStmt(CompositeStmt):
     """
-    ``case`` statement.
+    ``case`` statement (:rmlink:`5.4`).
     """
 
     expr = Field(type=T.Expr)
@@ -19346,7 +19393,7 @@ class EntryCompletionFormalParams(BaseFormalParamHolder):
 
 class AcceptStmt(CompositeStmt):
     """
-    ``accept`` statement.
+    ``accept`` statement (:rmlink:`9.5.2`).
     """
 
     name = Field(type=T.Identifier)
@@ -19385,7 +19432,7 @@ class AcceptStmt(CompositeStmt):
 
 class AcceptStmtWithStmts(AcceptStmt):
     """
-    Extended ``accept`` statement.
+    Extended ``accept`` statement (:rmlink:`9.5.2`).
     """
 
     stmts = Field(type=T.HandledStmts)
@@ -19394,7 +19441,7 @@ class AcceptStmtWithStmts(AcceptStmt):
 
 class SelectStmt(CompositeStmt):
     """
-    ``select`` statements block.
+    ``select`` statements block (:rmlink:`9.7`).
     """
 
     guards = Field(type=T.SelectWhenPart.list)
@@ -19408,7 +19455,7 @@ class SelectStmt(CompositeStmt):
 
 class SelectWhenPart(AdaNode):
     """
-    Alternative part in a ``select`` statements block.
+    Alternative part in a ``select`` statements block (:rmlink:`9.7`).
     """
 
     cond_expr = Field(type=T.Expr)
@@ -19428,7 +19475,7 @@ class SelectWhenPart(AdaNode):
 
 class TerminateAlternative(SimpleStmt):
     """
-    ``terminate`` alternative in a ``select`` statement.
+    ``terminate`` alternative in a ``select`` statement (:rmlink:`9.7`).
     """
 
     xref_equation = Property(LogicTrue())
@@ -19436,7 +19483,7 @@ class TerminateAlternative(SimpleStmt):
 
 class PackageBody(Body):
     """
-    Package body.
+    Package body (:rmlink:`7.2`).
     """
     env_spec = EnvSpec(
         do(Self.env_hook),
@@ -19541,7 +19588,7 @@ class PackageBody(Body):
 
 class TaskBody(Body):
     """
-    Task body.
+    Task body (:rmlink:`9.1`).
     """
 
     name = Field(type=T.DefiningName)
@@ -19618,7 +19665,7 @@ class TaskBody(Body):
 
 class ProtectedBody(Body):
     """
-    Protected object body.
+    Protected object body (:rmlink:`9.4`).
     """
 
     env_spec = EnvSpec(
@@ -19682,7 +19729,7 @@ class ProtectedBody(Body):
 
 class EntryBody(Body):
     """
-    Entry body.
+    Entry body (:rmlink:`9.5.2`).
     """
 
     entry_name = Field(type=T.DefiningName)
@@ -19732,7 +19779,7 @@ class EntryBody(Body):
 
 class EntryIndexSpec(BasicDecl):
     """
-    Index specification for an entry body.
+    Index specification for an entry body (:rmlink:`9.5.2`).
     """
 
     id = Field(type=T.DefiningName)
@@ -19757,7 +19804,7 @@ class EntryIndexSpec(BasicDecl):
 
 class Subunit(AdaNode):
     """
-    Subunit (``separate``).
+    Subunit (``separate``) (:rmlink:`10.1.3`).
     """
 
     name = Field(type=T.Name)
@@ -19798,7 +19845,7 @@ class Subunit(AdaNode):
 
 class ProtectedBodyStub(BodyStub):
     """
-    Stub for a protected object body (``is separate``).
+    Stub for a protected object body (``is separate``) (:rmlink:`10.1.3`).
     """
 
     name = Field(type=T.DefiningName)
@@ -19814,7 +19861,7 @@ class ProtectedBodyStub(BodyStub):
 
 class SubpBodyStub(BodyStub):
     """
-    Stub for a subprogram body (``is separate``).
+    Stub for a subprogram body (``is separate``) (:rmlink:`10.1.3`).
     """
 
     overriding = Field(type=Overriding)
@@ -19855,7 +19902,7 @@ class SubpBodyStub(BodyStub):
 
 class PackageBodyStub(BodyStub):
     """
-    Stub for a package body (``is separate``).
+    Stub for a package body (``is separate``) (:rmlink:`10.1.3`).
     """
 
     name = Field(type=T.DefiningName)
@@ -19871,7 +19918,7 @@ class PackageBodyStub(BodyStub):
 
 class TaskBodyStub(BodyStub):
     """
-    Stub for a task body (``is separate``).
+    Stub for a task body (``is separate``) (:rmlink:`10.1.3`).
     """
 
     name = Field(type=T.DefiningName)
@@ -19887,7 +19934,7 @@ class TaskBodyStub(BodyStub):
 
 class LibraryItem(AdaNode):
     """
-    Library item in a compilation unit.
+    Library item in a compilation unit (:rmlink:`10.1.1`).
     """
 
     has_private = Field(type=Private)
@@ -19896,7 +19943,7 @@ class LibraryItem(AdaNode):
 
 class RangeSpec(AdaNode):
     """
-    Range specification.
+    Range specification (:rmlink:`3.5.7`).
     """
 
     range = Field(type=Expr)
@@ -19916,7 +19963,7 @@ class RangeSpec(AdaNode):
 
 class IncompleteTypeDecl(BaseTypeDecl):
     """
-    Incomplete declaration for a type.
+    Incomplete declaration for a type (:rmlink:`12.5`).
     """
 
     discriminants = Field(type=T.DiscriminantPart)

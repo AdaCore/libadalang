@@ -25,6 +25,7 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+from docutils import nodes
 import os
 import sphinx_rtd_theme
 
@@ -343,6 +344,7 @@ epub_exclude_files = ['search.html']
 # If false, no index is generated.
 #epub_use_index = True
 
+
 def setup(app):
     """
     This hook will be automatically executed when building the documentation.
@@ -366,6 +368,11 @@ def setup(app):
     if tags.has('legacy_laldoc'):
         import laldoc
         app.add_directive('ada_auto_package', laldoc.AutoPackage)
+
+    from sphinxcontrib import adadomain
+    # Register the rmlink role at the toplevel, so that we can reference the RM
+    # everywhere, including in the Python API ref.
+    app.add_role('rmlink', adadomain.rmlink)
 
     import subprocess
     from os import path as P

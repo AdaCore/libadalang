@@ -1,10 +1,17 @@
-Eval 'node[1][3].p_designated_type_decl.p_fully_qualified_name' on node <SubpDecl ["Foo"] test.adb:9:4-11:19>
+Working on node <SubpDecl ["Foo"] test.adb:9:4-11:19>
+=====================================================
+
+Eval 'node[1][3].p_designated_type_decl.p_fully_qualified_name'
 Result: "Test.T'Class"
 
-Eval 'node[1][3].p_designated_type_decl.p_fully_qualified_name' on node <SubpDecl ["Bar"] test.adb:14:4-14:49>
+Working on node <SubpDecl ["Bar"] test.adb:14:4-14:49>
+======================================================
+
+Eval 'node[1][3].p_designated_type_decl.p_fully_qualified_name'
 Result: "Standard.Integer'Base"
 
-Eval 'node[1][0].p_expression_type.p_fully_qualified_name' on node <AssignStmt test.adb:19:4-19:35>
+Working on node <AssignStmt test.adb:19:4-19:35>
+================================================
+
+Eval 'node[1][0].p_expression_type.p_fully_qualified_name'
 Result: "Standard.Integer'Anonymous_Access"
-
-

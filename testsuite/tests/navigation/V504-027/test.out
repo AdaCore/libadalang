@@ -1,0 +1,14 @@
+Working on node <CallStmt test.adb:21:4-21:13>
+==============================================
+
+Set 'called' to 'node.f_call.p_referenced_decl()'
+Result: <SubpDecl ["Prim"] test.adb:5:7-5:30>
+
+Set 'next' to 'called.p_next_part_for_decl()'
+Result: <SubpRenamingDecl ["Prim"] test.adb:10:7-10:42>
+
+Set 'renamed' to 'next.f_renames.f_renamed_object'
+Result: <Id "Foo" test.adb:10:38-10:41>
+
+Eval 'renamed.p_referenced_decl()'
+Result: <NullSubpDecl ["Foo"] test.adb:9:7-9:37>

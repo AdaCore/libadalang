@@ -4750,8 +4750,6 @@ class RealTypeDef(TypeDef):
     """
     Type definition for real numbers.
     """
-    xref_equation = Property(LogicTrue())
-
     is_static = Property(True)
 
     @langkit_property(memoized=True)
@@ -6848,6 +6846,25 @@ class FloatingPointDef(RealTypeDef):
     range = Field(type=T.RangeSpec)
     is_float_type = Property(True)
 
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a floating point type definition.
+        """
+        return And(
+            # As per RM 3.5.7, the num_digits expression is expected to be of
+            # any integer type.
+            Entity.universal_int_bind(Entity.num_digits.expected_type_var),
+            Entity.num_digits.sub_equation,
+            Entity.num_digits.matches_expected_type,
+
+            # Expressions from the range specification are expected to be of
+            # any real type, the types need not be the same.
+            Entity.universal_real_bind(Entity.range.range.expected_type_var),
+            Entity.range.range.sub_equation,
+            Entity.range.range.matches_expected_type
+        )
+
 
 class OrdinaryFixedPointDef(RealTypeDef):
     """
@@ -6857,6 +6874,25 @@ class OrdinaryFixedPointDef(RealTypeDef):
     range = Field(type=T.RangeSpec)
 
     is_fixed_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for an ordinary fixed point type definition.
+        """
+        return And(
+            # As per RM 3.5.9, the delta expression is expected to be of any
+            # real type.
+            Entity.universal_real_bind(Entity.delta.expected_type_var),
+            Entity.delta.sub_equation,
+            Entity.delta.matches_expected_type,
+
+            # Expressions from the range specification are expected to be of
+            # any real type, the types need not be the same.
+            Entity.universal_real_bind(Entity.range.range.expected_type_var),
+            Entity.range.range.sub_equation,
+            Entity.range.range.matches_expected_type
+        )
 
     @langkit_property(memoized=True)
     def predefined_operators():
@@ -6897,6 +6933,30 @@ class DecimalFixedPointDef(RealTypeDef):
     range = Field(type=T.RangeSpec)
 
     is_fixed_point = Property(True)
+
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a decimal fixed point type definition.
+        """
+        return And(
+            # As per RM 3.5.9, the delta expression is expected to be of any
+            # real type.
+            Entity.universal_real_bind(Entity.delta.expected_type_var),
+            Entity.delta.sub_equation,
+            Entity.delta.matches_expected_type,
+
+            # The digits expression is expected to be of any integer type
+            Entity.universal_int_bind(Entity.digits.expected_type_var),
+            Entity.digits.sub_equation,
+            Entity.digits.matches_expected_type,
+
+            # Expressions from the range specification are expected to be of
+            # any real type, the types need not be the same.
+            Entity.universal_real_bind(Entity.range.range.expected_type_var),
+            Entity.range.range.sub_equation,
+            Entity.range.range.matches_expected_type
+        )
 
     @langkit_property(memoized=True)
     def predefined_operators():

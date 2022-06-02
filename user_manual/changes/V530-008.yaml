@@ -1,0 +1,6 @@
+type: bugfix
+title: Fix name resolution of ``RealTypeDef`` nodes
+description: |
+  Run complete name resolution on ``RealTypeDef`` nodes in order to correctly
+  reference the variables used by the definition.
+date: 2022-06-02

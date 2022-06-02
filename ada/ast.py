@@ -62,11 +62,6 @@ class Metadata(Struct):
                   " the dot notation",
         default_value=False
     )
-    access_entity = UserField(
-        Bool,
-        doc="Whether the accessed entity is an anonymous access to it or not.",
-        default_value=False
-    )
     primitive = UserField(
         T.AdaNode,
         doc="The type for which this subprogram is a primitive, if any",
@@ -270,22 +265,6 @@ class AdaNode(ASTNode):
             current_env == parent, True,
             current_env.is_null, False,
             Self.is_children_env(parent, current_env.env_parent)
-        )
-
-    @langkit_property(return_type=T.AdaNode.entity)
-    def trigger_access_entity(val=T.Bool):
-        """
-        Return Self as an entity, but with the ``access_entity`` field set to
-        val. Helper for the 'Unrestricted_Access machinery.
-        """
-        new_md = Var(Entity.info.md.update(access_entity=val))
-
-        return AdaNode.entity.new(
-            node=Entity.node, info=T.entity_info.new(
-                rebindings=Entity.info.rebindings,
-                md=new_md,
-                from_rebound=Entity.info.from_rebound
-            )
         )
 
     @langkit_property(return_type=T.AdaNode.entity)
@@ -2594,18 +2573,7 @@ class BasicDecl(AdaNode):
 
         expr_type will return the declaration of the type F.
         """
-        ret = Var(Entity.type_expression.then(lambda te: te.designated_type))
-
-        # If the entity is actually an anonymous access to the decl rather than
-        # the decl itself, return an anonymous access type pointing to the type
-        # of the decl.
-        ret_2 = Var(If(
-            Entity.info.md.access_entity,
-            ret.anonymous_access_type,
-            ret
-        ))
-
-        return ret_2
+        return Entity.type_expression.then(lambda te: te.designated_type)
 
     type_expression = Property(
         No(T.TypeExpr).as_entity,
@@ -14323,13 +14291,17 @@ class ExplicitDeref(Name):
 
     @langkit_property()
     def env_elements_impl():
-        return origin.bind(
-            Self.origin_node,
-            Entity.prefix.env_elements_impl.filter(
+        prefix = Var(Entity.prefix)
+        env_els = Var(prefix.env_elements_impl)
+        return If(
+            prefix.cast(AttributeRef)._.is_access_attr,
+            env_els,
+            origin.bind(Self.origin_node, env_els.filter(
                 # Env elements for access derefs need to be of an access type
-                lambda e:
-                e.cast(BasicDecl)._.expr_type.then(lambda t: t.is_access_type)
-            )
+                lambda e: e.cast(BasicDecl)._.expr_type.then(
+                    lambda t: t.is_access_type
+                )
+            ))
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -14355,14 +14327,14 @@ class ExplicitDeref(Name):
         return Entity.prefix.sub_equation & env_els.logic_any(
             lambda el: el.cast(T.BasicDecl).expr_type.then(
                 lambda typ:
-
-                # Bind Self's ref var to the entity, with the access_entity
-                # field set to False, since self designated the non-access
-                # entity.
-                Bind(Self.ref_var, el.trigger_access_entity(False))
-
+                Bind(Self.ref_var, el)
                 & Bind(Self.ref_var, Self.prefix.ref_var)
-                & Entity.parent_name_equation(typ, root),
+                & Entity.parent_name_equation(
+                    If(Entity.prefix.cast(AttributeRef)._.is_access_attr,
+                       typ.anonymous_access_type,
+                       typ),
+                    root
+                ),
                 default_val=LogicFalse()
             )
         )
@@ -17075,12 +17047,11 @@ class AttributeRef(Name):
     def env_elements_impl():
         return Cond(
             Self.attribute.sym == 'Unrestricted_Access',
-            Entity.prefix.env_elements_impl.map(
-                lambda e:
-                # Using unrestricted accesses, the entities are actually
-                # anonymous access to entities, so mark the entities as such.
-                e.cast_or_raise(T.BasicDecl).trigger_access_entity(True)
-            ),
+
+            # We need to implement env_elements_impl for this attribute to
+            # handle the `X'Unrestricted_Access.all` pattern, because the
+            # ExplicitDeref node expects it to return the declarations of `X`.
+            Entity.prefix.env_elements_impl,
 
             No(T.AdaNode.entity.array),
         )

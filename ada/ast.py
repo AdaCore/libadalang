@@ -6860,9 +6860,13 @@ class FloatingPointDef(RealTypeDef):
 
             # Expressions from the range specification are expected to be of
             # any real type, the types need not be the same.
-            Entity.universal_real_bind(Entity.range.range.expected_type_var),
-            Entity.range.range.sub_equation,
-            Entity.range.range.matches_expected_type
+            Entity.range.then(
+                lambda r:
+                Entity.universal_real_bind(r.range.expected_type_var)
+                & r.range.sub_equation
+                & r.range.matches_expected_type,
+                default_val=LogicTrue()
+            )
         )
 
 
@@ -6889,9 +6893,13 @@ class OrdinaryFixedPointDef(RealTypeDef):
 
             # Expressions from the range specification are expected to be of
             # any real type, the types need not be the same.
-            Entity.universal_real_bind(Entity.range.range.expected_type_var),
-            Entity.range.range.sub_equation,
-            Entity.range.range.matches_expected_type
+            Entity.range.then(
+                lambda r:
+                Entity.universal_real_bind(r.range.expected_type_var)
+                & r.range.sub_equation
+                & r.range.matches_expected_type,
+                default_val=LogicTrue()
+            )
         )
 
     @langkit_property(memoized=True)
@@ -6953,9 +6961,13 @@ class DecimalFixedPointDef(RealTypeDef):
 
             # Expressions from the range specification are expected to be of
             # any real type, the types need not be the same.
-            Entity.universal_real_bind(Entity.range.range.expected_type_var),
-            Entity.range.range.sub_equation,
-            Entity.range.range.matches_expected_type
+            Entity.range.then(
+                lambda r:
+                Entity.universal_real_bind(r.range.expected_type_var)
+                & r.range.sub_equation
+                & r.range.matches_expected_type,
+                default_val=LogicTrue()
+            )
         )
 
     @langkit_property(memoized=True)

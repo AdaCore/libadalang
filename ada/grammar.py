@@ -15,8 +15,8 @@ entry_points = {
     "expr": "Parse an expression.",
     "pp_directive": "Parse a preprocessor directive.",
     "stmt": (
-        "Parse a statement, or a compound statement (trailing semicolon"
-        " included)."
+        "Parse a statement, a pragma, or a compound statement (trailing"
+        " semicolon included)."
     ),
 }
 

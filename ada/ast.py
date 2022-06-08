@@ -2218,6 +2218,10 @@ class BasicDecl(AdaNode):
     def get_pragma(name=Symbol):
         """
         Return the pragma with name ``name`` associated to this entity.
+
+        Please use the ``p_get_aspects`` property instead if you are interested
+        in aspects, i.e. information that can be represented by either aspect
+        specification nodes, pragma nodes or attribute definition nodes.
         """
         return Entity.defining_name_or_raise._.get_pragma(name)
 
@@ -14960,6 +14964,10 @@ class DefiningName(Name):
     def get_pragma(name=Symbol):
         """
         Return the pragma with name ``name`` associated to this entity.
+
+        Please use the ``p_get_aspects`` property instead if you are interested
+        in aspects, i.e. information that can be represented by either aspect
+        specification nodes, pragma nodes or attribute definition nodes.
         """
         bd = Var(Entity.basic_decl_no_internal)
         # First look at library level pragmas if Self is a library item

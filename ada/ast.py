@@ -6464,8 +6464,16 @@ class TypeDecl(BaseTypeDecl):
             Entity.has_ud_indexing,
             Entity.constant_indexing_fns
             .concat(Entity.variable_indexing_fns)
-            .map(lambda fn: fn.defining_env)
-            .concat([self_env]).env_group(),
+            .filtermap(
+                lambda fn: fn.defining_env,
+                lambda fn:
+                # If the function's return type designates the current type, do
+                # not call defining_env to avoid infinite recursion since the
+                # defining environment designated by the function's return type
+                # is the one of Entity.
+                Not(Entity.is_view_of_type(
+                    fn.subp_spec_or_null._.return_type))
+            ).concat([self_env]).env_group(),
 
             self_env,
         )

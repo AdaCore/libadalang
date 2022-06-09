@@ -1,0 +1,46 @@
+Analyzing reduced.adb
+#####################
+
+Resolving xrefs for node <ExprFunction [""=""] reduced.adb:36:7-40:20>
+**********************************************************************
+
+Expr: <ParenExpr reduced.adb:37:9-40:19>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <IfExpr reduced.adb:37:10-40:18>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp reduced.adb:37:13-37:38>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName reduced.adb:37:13-37:23>
+  references:    <DefiningName reduced.adb:24:24-24:28>
+  type:          <TypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
+  expected type: <TypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
+Expr: <Id "Right" reduced.adb:37:13-37:18>
+  references:    <DefiningName reduced.adb:36:36-36:41>
+  type:          <TypeDecl ["JSON_Value"] reduced.adb:24:7-31:18>
+  expected type: None
+Expr: <Id "Kind" reduced.adb:37:19-37:23>
+  references:    <DefiningName reduced.adb:24:24-24:28>
+  type:          <TypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
+  expected type: <TypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
+Expr: <OpEq "=" reduced.adb:37:24-37:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Integer_Kind" reduced.adb:37:26-37:38>
+  references:    <DefiningName reduced.adb:12:10-12:22>
+  type:          <TypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
+  expected type: <TypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
+Expr: <Id "True" reduced.adb:38:13-38:17>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "False" reduced.adb:40:13-40:18>
+  references:    <DefiningName __standard:3:20-3:25>
+  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+
+
+Done.

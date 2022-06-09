@@ -21,6 +21,13 @@ from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 env = DynamicVariable('env', LexicalEnv)
 origin = DynamicVariable('origin', T.AdaNode)
 no_visibility = DynamicVariable('no_visibility', T.Bool)
+include_ud_indexing = DynamicVariable('include_ud_indexing', T.Bool)
+"""
+The ``include_ud_indexing`` var is used to propagate the information of
+whether we should look for user-defined indexing functions when building the
+defining env of a type. Typically, this is set to True when the defining env
+is needed by a CallExpr, but is False in other contexts.
+"""
 
 imprecise_fallback = DynamicVariable('imprecise_fallback', Bool)
 
@@ -53,6 +60,14 @@ def default_imprecise_fallback():
     False.
     """
     return (imprecise_fallback, False)
+
+
+def default_include_ud_indexing():
+    """
+    Helper to return an include_ud_indexing dynamic param spec which defaults
+    to False.
+    """
+    return (include_ud_indexing, False)
 
 
 @env_metadata
@@ -2552,7 +2567,7 @@ class BasicDecl(AdaNode):
 
     defining_env = Property(
         EmptyEnv,
-        dynamic_vars=[origin],
+        dynamic_vars=[origin, default_include_ud_indexing()],
         doc="""
         Return a lexical environment that contains entities that are accessible
         as suffixes when Self is a prefix.
@@ -6614,19 +6629,14 @@ class TypeDecl(BaseTypeDecl):
             Not(imp_deref.is_null),
             Array([self_env, Entity.accessed_type.defining_env]).env_group(),
 
-            Entity.has_ud_indexing,
-            Entity.constant_indexing_fns
-            .concat(Entity.variable_indexing_fns)
-            .filtermap(
-                lambda fn: fn.defining_env,
-                lambda fn:
-                # If the function's return type designates the current type, do
-                # not call defining_env to avoid infinite recursion since the
-                # defining environment designated by the function's return type
-                # is the one of Entity.
-                Not(Entity.is_view_of_type(
-                    fn.subp_spec_or_null._.return_type))
-            ).concat([self_env]).env_group(),
+            include_ud_indexing & Entity.has_ud_indexing,
+            include_ud_indexing.bind(
+                False,
+                Entity.constant_indexing_fns
+                .concat(Entity.variable_indexing_fns)
+                .map(lambda fn: fn.defining_env)
+                .concat([self_env]).env_group()
+            ),
 
             self_env,
         )
@@ -8308,7 +8318,7 @@ class TypeExpr(AdaNode):
     def accessed_type():
         return Entity.designated_type._.accessed_type
 
-    @langkit_property(dynamic_vars=[origin])
+    @langkit_property(dynamic_vars=[origin, include_ud_indexing])
     def defining_env():
         return Entity.designated_type.defining_env
 
@@ -13432,11 +13442,19 @@ class CallExpr(Name):
 
         return If(
             Not(typ.is_null),
+
             typ.defining_env,
-            Entity.env_elements.map(lambda e: e.match(
-                lambda bd=BasicDecl.entity:       bd.defining_env,
-                lambda _:                         EmptyEnv,
-            )).env_group()
+
+            # Since we are in a CallExpr, we need to include user-defined
+            # indexing in defining_env of the prefix, as it might actually be
+            # used here.
+            include_ud_indexing.bind(
+                True,
+                Entity.env_elements.map(lambda e: e.match(
+                    lambda bd=BasicDecl.entity:       bd.defining_env,
+                    lambda _:                         EmptyEnv,
+                )).env_group()
+            )
         )
 
     @langkit_property()
@@ -18690,7 +18708,7 @@ class BaseSubpBody(Body):
 
     is_constant_object = Property(True)
 
-    @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
+    @langkit_property()
     def defining_env():
         return If(
             Entity.in_scope,

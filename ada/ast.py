@@ -737,7 +737,8 @@ class AdaNode(ASTNode):
                 # point: `res` will contain the environment to use if we need
                 # to resolve names inside Self, or None if resolution failed.
                 lambda
-                res=Entity.parent.resolve_names_from_closest_entry_point_impl:
+                res=Entity.parent
+                ._.resolve_names_from_closest_entry_point_impl:
 
                 Cond(
                     # Resolution failed for the parent, so return None as well

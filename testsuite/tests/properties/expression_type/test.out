@@ -1,0 +1,26 @@
+Working on node <PackageBody ["Test"] test.adb:1:1-6:10>
+========================================================
+
+Eval '[(e, e.p_expression_type) for e in node.findall(lal.Expr)]'
+Result: [(<DefiningName test.adb:1:14-1:18>, None),
+         (<Id "Test" test.adb:1:14-1:18>, None),
+         (<DefiningName test.adb:2:13-2:14>, None),
+         (<Id "F" test.adb:2:13-2:14>, None),
+         (<Id "Boolean" test.adb:2:22-2:29>, None),
+         (<Id "True" test.adb:4:14-4:18>, <TypeDecl ["Boolean"] __standard:3:3-3:33>),
+         (<EndName test.adb:5:8-5:9>, None),
+         (<Id "F" test.adb:5:8-5:9>, None),
+         (<EndName test.adb:6:5-6:9>, None),
+         (<Id "Test" test.adb:6:5-6:9>, None)]
+
+Working on node <PackageDecl ["Test"] test.ads:1:1-3:10>
+========================================================
+
+Eval '[(e, e.p_expression_type) for e in node.findall(lal.Expr)]'
+Result: [(<DefiningName test.ads:1:9-1:13>, None),
+         (<Id "Test" test.ads:1:9-1:13>, None),
+         (<DefiningName test.ads:2:13-2:14>, None),
+         (<Id "F" test.ads:2:13-2:14>, None),
+         (<Id "Boolean" test.ads:2:22-2:29>, None),
+         (<EndName test.ads:3:5-3:9>, None),
+         (<Id "Test" test.ads:3:5-3:9>, None)]

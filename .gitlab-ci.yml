@@ -1,65 +1,86 @@
 variables:
-   # The Python virtualenv directory
-   VENV_DIR: $CI_PROJECT_DIR/venv
+  # The Python virtualenv directory
+  VENV_DIR: $CI_PROJECT_DIR/venv
 
-   # Where we store alire, the alire config, and the toolchain
-   # packages pulled by Alire (gnat, gprbuild)
-   ALIRE_DIR: $CI_PROJECT_DIR/alire
+  # Where we store alire, the alire config, and the toolchain packages pulled
+  # by Alire (gnat, gprbuild).
+  ALIRE_DIR: $CI_PROJECT_DIR/alire
 
-   # Where the dependencies and langkit is installed
-   PREFIX: $CI_PROJECT_DIR/prefix
+  # Where the dependencies are installed (all but Langkit: libgpr, xmlada,
+  # gnatcoll).
+  DEPS_DIR: $CI_PROJECT_DIR/deps
 
-   # The dependency .gprs live here
-   GPR_PROJECT_PATH: $CI_PROJECT_DIR/prefix/share/gpr
+  # Where Libadalang is installed
+  PREFIX: $CI_PROJECT_DIR/prefix
+
+  # Give GPR tools access to all installed projects
+  GPR_PROJECT_PATH: $CI_PROJECT_DIR/deps/share/gpr:$CI_PROJECT_DIR/prefix/share/gpr
 
 stages:
   - setup
-  - build
+  - build-deps
+  - build-lalkit
   - test
 
-# These define "macros" used below
+##########
+# Macros #
+##########
+
+# Environment variables
 
 .use_python_env: &python_env
-   - source $VENV_DIR/bin/activate
+  - source $VENV_DIR/bin/activate
+  - export PYTHONPATH=$CI_PROJECT_DIR/langkit
 
 .use_gnat_env: &gnat_env
-   - |
-     for dep in `ls $ALIRE_DIR/cache/dependencies/` ; do
-        export PATH=$ALIRE_DIR/cache/dependencies/$dep/bin/:$PATH
-     done
+  - |
+    for dep in `ls $ALIRE_DIR/cache/dependencies/` ; do
+      export PATH=$ALIRE_DIR/cache/dependencies/$dep/bin/:$PATH
+      export LD_LIBRARY_PATH=$ALIRE_DIR/cache/dependencies/$dep/lib/:$LD_LIBRARY_PATH
+      export LD_LIBRARY_PATH=$ALIRE_DIR/cache/dependencies/$dep/lib64/:$LD_LIBRARY_PATH
+    done
+
+    # GNAT stores libgnat and libgnarl deep in its tree: try to make them
+    # available.
+    for so in $(find "$ALIRE_DIR/cache/dependencies/gnat_native"* -name "libgnat*.so")
+    do
+      dir="$(dirname "$so")"
+      export LD_LIBRARY_PATH="$dir:$LD_LIBRARY_PATH"
+    done
 
 .use_langkit_env: &langkit_env
-   - *python_env
-   - *gnat_env
+  - *python_env
+  - *gnat_env
+
+# Caches
 
 .venv_cache: &venv_cache
-   key: lal_venv
-   paths:
-     - $VENV_DIR
+  key: lal_venv
+  paths:
+    - $VENV_DIR
 
 .alire_cache: &alire_cache
-   key: lal_alire
-   paths:
-      - alire
+  key: lal_alire
+  paths:
+     - alire
 
 .deps_checkouts_cache: &deps_checkouts_cache
-   key: lal_deps_checkouts
-   paths:
-     - xmlada
-     - gprbuild
-     - gnatcoll-core
-     - gnatcoll-bindings
-     - langkit
-
+  key: lal_deps_checkouts
+  paths:
+    - xmlada
+    - gprbuild
+    - gnatcoll-core
+    - gnatcoll-bindings
 
 .lal_caches: &lal_caches
-   - *venv_cache
-   - *alire_cache
-   - *deps_checkouts_cache
-   - key: lal_build_artifacts
-     paths:
-        - $PREFIX
-        - build
+  - *venv_cache
+  - *alire_cache
+  - *deps_checkouts_cache
+  - key: lal_build_artifacts
+    paths:
+      - $DEPS_DIR
+      - build
+      - langkit/langkit/support/obj
 
 #########
 # setup #
@@ -67,131 +88,146 @@ stages:
 
 # Setup Python and the Python virtualenv
 setup-python:
-   stage: setup
-   script:
-    - |
-      if [ ! -e $VENV_DIR ]; then
-         echo "setting up a virtual env in $VENV_DIR"
-         mkdir $VENV_DIR
-         python3 -m venv $VENV_DIR
-         source $VENV_DIR/bin/activate
-         pip3 install -r REQUIREMENTS.dev
-         pip3 install jsonschema
-      fi
-   cache: *venv_cache
+  stage: setup
+  script:
+   - |
+     if [ ! -e $VENV_DIR ]; then
+        echo "setting up a virtual env in $VENV_DIR"
+        mkdir $VENV_DIR
+        python3 -m venv $VENV_DIR
+        source $VENV_DIR/bin/activate
+        pip3 install -r REQUIREMENTS.dev
+        pip3 install jsonschema
+     fi
+  cache: *venv_cache
 
 # Setup the gnat toolchain, and gprbuild, using alire
 setup-gnat:
-   stage: setup
-   script:
-     - |
-       if [ ! -e alire ]; then
-          mkdir alire
-          cd alire
-          wget -q https://github.com/alire-project/alire/releases/download/v1.1.2/alr-1.1.2-bin-x86_64-linux.zip
-          unzip alr-1.1.2-bin-x86_64-linux.zip
-          ./bin/alr -c $ALIRE_DIR toolchain --install gnat_native=11.2.3
-          ./bin/alr -c $ALIRE_DIR toolchain --install gprbuild=22.0.1
-       fi
-   cache: *alire_cache
+  stage: setup
+  script:
+    - |
+      if [ ! -e alire ]; then
+         mkdir alire
+         cd alire
+         wget -q https://github.com/alire-project/alire/releases/download/v1.1.2/alr-1.1.2-bin-x86_64-linux.zip
+         unzip alr-1.1.2-bin-x86_64-linux.zip
+         ./bin/alr -c $ALIRE_DIR toolchain --install gnat_native=11.2.3
+         ./bin/alr -c $ALIRE_DIR toolchain --install gprbuild=22.0.1
+      fi
+  cache: *alire_cache
 
 # Grab source dependencies from GitLab and GitHub
 setup-dependency-checkouts:
-   stage: setup
-   script:
-     - |
-       for dep in xmlada gprbuild gnatcoll-core gnatcoll-bindings ; do
-          if [ -e $dep ]; then
-             (cd $dep ; git pull --rebase)
-          else
-             git clone https://github.com/AdaCore/$dep
-          fi
-       done
-
-     - |
-       langkit_url="https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/libadalang/langkit"
-       if [ -e langkit ]; then
-          (
-            cd langkit
-            git remote set-url origin "$langkit_url"
-            git fetch origin
-          )
+  stage: setup
+  script: |
+    for dep in xmlada gprbuild gnatcoll-core gnatcoll-bindings ; do
+       if [ -e $dep ]; then
+          (cd $dep ; git pull --rebase)
        else
-          git clone "$langkit_url"
+          git clone https://github.com/AdaCore/$dep
        fi
+    done
 
-     # Pick the langkit branch that corresponds to the tested libadalang
-     # branch, if it exists.
-     - |
-         (
-           cd langkit
-           git checkout "origin/$CI_COMMIT_REF_NAME" || git checkout "origin/master"
-         )
+  cache: *deps_checkouts_cache
 
-   cache: *deps_checkouts_cache
+setup-langkit-checkout:
+  stage: setup
+  script: |
+    # Pick the Langkit branch that corresponds to the tested Libadalang branch,
+    # if it exists.
+    langkit_url="https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/libadalang/langkit"
+    rm -rf langkit
+    git clone "$langkit_url"
+    (cd langkit; git checkout "origin/$CI_COMMIT_REF_NAME" || git checkout "origin/master")
 
-#########
-# build #
-#########
+  artifacts:
+    paths:
+      - langkit
+    expire_in: 1 day
 
-build-job:
-   stage: build
-   before_script:
-      # Source the env
-      - *langkit_env
-      # Checks
-      - gnatls -v
-   dependencies:
-      - setup-python
-      - setup-gnat
-   script:
-      # Uninstall dependencies, so that gprinstall does not complain when we
-      # try to install updates.
-      - |
-        for project in xmlada gnatcoll gnatcoll_iconv gnatcoll_gmp
-        do
-          gprinstall --uninstall $project --prefix=$PREFIX || true
-        done
+##############
+# build-deps #
+##############
 
-      # Build Langkit dependencies
-      - |
-            (cd xmlada ; ./configure --prefix=$PREFIX && make && make install)
-            make -C gprbuild prefix=$PREFIX libgpr.build libgpr.install
-            make -C gnatcoll-core prefix=$PREFIX ENABLE_SHARED=yes build install
-            python gnatcoll-bindings/iconv/setup.py build -j0 \
-                --prefix=$PREFIX --library-types=static,relocatable
-            python gnatcoll-bindings/iconv/setup.py install
-            python gnatcoll-bindings/gmp/setup.py build -j0 \
-                --prefix=$PREFIX --library-types=static,relocatable
-            python gnatcoll-bindings/gmp/setup.py install
+build-deps-job:
+  stage: build-deps
+  before_script:
+    - *langkit_env
+  dependencies:
+    - setup-python
+    - setup-gnat
+  script: |
+    # Uninstall dependencies, so that gprinstall does not complain when we
+    # try to install updates.
+    for project in xmlada gnatcoll gnatcoll_iconv gnatcoll_gmp
+    do
+      gprinstall --uninstall $project --prefix=$DEPS_DIR || true
+    done
 
-      # Build+install Langkit
-      - |
-            pip install ./langkit
-            langkit/manage.py make --no-mypy
+    # Build and install Langkit's dependencies
 
-      # Build Libadalang
-      - |
-            eval `langkit/manage.py setenv`
-            ./manage.py make
+    (cd xmlada ; ./configure --prefix=$DEPS_DIR && make && make install)
+    make -C gprbuild prefix=$DEPS_DIR libgpr.build libgpr.install
+    make -C gnatcoll-core prefix=$DEPS_DIR ENABLE_SHARED=yes build install
+    python gnatcoll-bindings/iconv/setup.py build -j0 \
+        --prefix=$DEPS_DIR --library-types=static,relocatable
+    python gnatcoll-bindings/iconv/setup.py install
+    python gnatcoll-bindings/gmp/setup.py build -j0 \
+        --prefix=$DEPS_DIR --library-types=static,relocatable
+    python gnatcoll-bindings/gmp/setup.py install
 
-   cache: *lal_caches
+  cache: *lal_caches
+
+################
+# build-lalkit #
+################
+
+build-lalkit-job:
+  stage: build-lalkit
+  before_script:
+    - *langkit_env
+  dependencies:
+    - setup-python
+    - setup-gnat
+    - setup-langkit-checkout
+  script: |
+    # Build Langkit and install Langkit_Support
+    langkit/manage.py make --no-mypy
+    langkit/manage.py install-langkit-support "$PREFIX"
+
+    # Build and install Libadalang
+    eval `langkit/manage.py setenv`
+    ./manage.py make
+    ./manage.py install "$PREFIX"
+
+  cache: *lal_caches
+  artifacts:
+    paths:
+      - langkit
+      - $PREFIX
+    expire_in: 1 day
 
 ########
 # test #
 ########
 
 test:
-   stage: test
-   before_script: *langkit_env
-   dependencies:
-      - setup-python
-      - build-job
-   script: |
-      eval `langkit/manage.py setenv`
-      ./manage.py test \
-        --disable-ocaml \
-        --failure-exit-code=1 \
-        --no-has-put-image
+  stage: test
+  before_script: *langkit_env
+  dependencies:
+    - setup-python
+    - setup-gnat
+    - build-lalkit-job
+  script: |
+    eval `langkit/manage.py setenv`
+    export C_INCLUDE_PATH="$PREFIX/include:$C_INCLUDE_PATH"
+    export LD_LIBRARY_PATH="$DEPS_DIR/lib:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
+    export PATH="$PREFIX/bin:$PATH"
+    export PYTHONPATH="$PREFIX/python:$PYTHONPATH"
+    testsuite/testsuite.py \
+      -E \
+      --failure-exit-code=1 \
+      --no-has-put-image
 
-   cache: *lal_caches
+  cache: *lal_caches

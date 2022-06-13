@@ -1,3 +1,14 @@
+import docutils.parsers.rst.roles
+
+from langkit.documentation import PassthroughNode
+
+
+# Passthrough the ada:rmlink role, that we want to be handled by
+# sphinxcontrib-adadomain in generated doc.
+docutils.parsers.rst.roles.register_local_role(
+    "rmlink", PassthroughNode.role_fn
+)
+
 libadalang_docs = {
     'libadalang.project_scenario_variable': """
         Couple name/value to define a scenario variable for a project.

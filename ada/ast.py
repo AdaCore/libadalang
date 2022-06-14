@@ -8454,7 +8454,7 @@ class BasicSubpDecl(BasicDecl):
         ))
 
         # If found, reuse the rebindings of the decl on the body
-        return result.node.as_entity._.without_md.cast(Body)
+        return result.node.as_entity
 
     @langkit_property(return_type=T.BasicDecl.entity)
     def next_part_for_decl():

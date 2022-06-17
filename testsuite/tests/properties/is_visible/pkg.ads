@@ -1,4 +1,6 @@
 package Pkg is
+   pragma Elaborate_Body;
+
    Test_Pkg_Public : Integer;
 
    generic

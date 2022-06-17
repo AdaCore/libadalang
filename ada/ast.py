@@ -395,6 +395,32 @@ class AdaNode(ASTNode):
         """
         return Entity.semantic_parent_helper(Entity.node_env)
 
+    @langkit_property(return_type=T.Bool)
+    def is_in_top_level_public_part():
+        """
+        Return whether this node ultimately lies in the public part of a
+        top-level package.
+        """
+        node = Var(Entity.semantic_parent)
+        return Cond(
+            node.is_null,
+            False,
+
+            node.is_a(PrivatePart)
+            & node.parent.cast(BasePackageDecl)._.is_compilation_unit_root,
+            False,
+
+            node.is_a(PackageBody)
+            & node.cast(PackageBody).is_compilation_unit_root,
+            False,
+
+            node.is_a(BasePackageDecl)
+            & node.cast(BasePackageDecl).is_compilation_unit_root,
+            True,
+
+            node.is_in_top_level_public_part
+        )
+
     @langkit_property(public=True, return_type=T.BasicDecl.entity)
     def parent_basic_decl():
         """
@@ -2322,7 +2348,18 @@ class BasicDecl(AdaNode):
             # If Self is declared in a private part, check that we can find it
             # from origin's env.
             Entity.is_in_private_part,
-            from_node.node_env.get(Entity.name_symbol).contains(Entity),
+            from_node.node_env.get(Entity.name_symbol).contains(Entity)
+            # Even if the above expression is True, we may not have visibility
+            # according to Ada rules: in LAL, library-level child packages'
+            # parent environments are defined to be their parent packages'
+            # private part. The expression below filters out cases where Entity
+            # is declared in the private part of a library-level package and
+            # from_node lies in the public part of a child package.
+            & Not(
+                Entity.parent.parent.parent.cast(PackageDecl)
+                .is_compilation_unit_root
+                & from_node.is_in_top_level_public_part
+            ),
 
             # If Self is declared in a public part, origin has visibility on it
             # iff it has visibility on the parent of Self: do a recursive call

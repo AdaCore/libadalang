@@ -3,7 +3,8 @@ Test_Pkg_Public           is visible to              Origin_Pkg_Body ? True
 Test_Pkg_Public           is visible to        Origin_Pkg_Inner_Body ? True
 Test_Pkg_Public           is visible to       Origin_Other_Pkg_Inner ? True
 Test_Pkg_Public           is visible to        Origin_Pkg_Child_Subp ? True
-Test_Pkg_Public           is visible to         Origin_Pkg_Child_Pkg ? True
+Test_Pkg_Public           is visible to  Origin_Pkg_Child_Pkg_Public ? True
+Test_Pkg_Public           is visible to Origin_Pkg_Child_Pkg_Private ? True
 Test_Pkg_Public           is visible to    Origin_Pkg_Child_Pkg_Body ? True
 
 Test_Pkg_Generic_Child    is visible to                  Origin_Main ? True
@@ -11,7 +12,8 @@ Test_Pkg_Generic_Child    is visible to              Origin_Pkg_Body ? True
 Test_Pkg_Generic_Child    is visible to        Origin_Pkg_Inner_Body ? True
 Test_Pkg_Generic_Child    is visible to       Origin_Other_Pkg_Inner ? True
 Test_Pkg_Generic_Child    is visible to        Origin_Pkg_Child_Subp ? True
-Test_Pkg_Generic_Child    is visible to         Origin_Pkg_Child_Pkg ? True
+Test_Pkg_Generic_Child    is visible to  Origin_Pkg_Child_Pkg_Public ? True
+Test_Pkg_Generic_Child    is visible to Origin_Pkg_Child_Pkg_Private ? True
 Test_Pkg_Generic_Child    is visible to    Origin_Pkg_Child_Pkg_Body ? True
 
 Test_Pkg_Private          is visible to                  Origin_Main ? False
@@ -19,7 +21,8 @@ Test_Pkg_Private          is visible to              Origin_Pkg_Body ? True
 Test_Pkg_Private          is visible to        Origin_Pkg_Inner_Body ? True
 Test_Pkg_Private          is visible to       Origin_Other_Pkg_Inner ? False
 Test_Pkg_Private          is visible to        Origin_Pkg_Child_Subp ? True
-Test_Pkg_Private          is visible to         Origin_Pkg_Child_Pkg ? True
+Test_Pkg_Private          is visible to  Origin_Pkg_Child_Pkg_Public ? False
+Test_Pkg_Private          is visible to Origin_Pkg_Child_Pkg_Private ? True
 Test_Pkg_Private          is visible to    Origin_Pkg_Child_Pkg_Body ? True
 
 Test_Pkg_Inner_Public     is visible to                  Origin_Main ? False
@@ -27,7 +30,8 @@ Test_Pkg_Inner_Public     is visible to              Origin_Pkg_Body ? True
 Test_Pkg_Inner_Public     is visible to        Origin_Pkg_Inner_Body ? True
 Test_Pkg_Inner_Public     is visible to       Origin_Other_Pkg_Inner ? False
 Test_Pkg_Inner_Public     is visible to        Origin_Pkg_Child_Subp ? True
-Test_Pkg_Inner_Public     is visible to         Origin_Pkg_Child_Pkg ? True
+Test_Pkg_Inner_Public     is visible to  Origin_Pkg_Child_Pkg_Public ? False
+Test_Pkg_Inner_Public     is visible to Origin_Pkg_Child_Pkg_Private ? True
 Test_Pkg_Inner_Public     is visible to    Origin_Pkg_Child_Pkg_Body ? True
 
 Test_Pkg_Inner_Private    is visible to                  Origin_Main ? False
@@ -35,7 +39,8 @@ Test_Pkg_Inner_Private    is visible to              Origin_Pkg_Body ? False
 Test_Pkg_Inner_Private    is visible to        Origin_Pkg_Inner_Body ? True
 Test_Pkg_Inner_Private    is visible to       Origin_Other_Pkg_Inner ? False
 Test_Pkg_Inner_Private    is visible to        Origin_Pkg_Child_Subp ? False
-Test_Pkg_Inner_Private    is visible to         Origin_Pkg_Child_Pkg ? False
+Test_Pkg_Inner_Private    is visible to  Origin_Pkg_Child_Pkg_Public ? False
+Test_Pkg_Inner_Private    is visible to Origin_Pkg_Child_Pkg_Private ? False
 Test_Pkg_Inner_Private    is visible to    Origin_Pkg_Child_Pkg_Body ? False
 
 Test_Generic_Pkg          is visible to                  Origin_Main ? True
@@ -43,7 +48,8 @@ Test_Generic_Pkg          is visible to              Origin_Pkg_Body ? True
 Test_Generic_Pkg          is visible to        Origin_Pkg_Inner_Body ? True
 Test_Generic_Pkg          is visible to       Origin_Other_Pkg_Inner ? True
 Test_Generic_Pkg          is visible to        Origin_Pkg_Child_Subp ? True
-Test_Generic_Pkg          is visible to         Origin_Pkg_Child_Pkg ? True
+Test_Generic_Pkg          is visible to  Origin_Pkg_Child_Pkg_Public ? True
+Test_Generic_Pkg          is visible to Origin_Pkg_Child_Pkg_Private ? True
 Test_Generic_Pkg          is visible to    Origin_Pkg_Child_Pkg_Body ? True
 
 Done

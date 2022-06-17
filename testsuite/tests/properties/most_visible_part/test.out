@@ -1,0 +1,37 @@
+Origin_Main                  sees the public  part of Test_Pkg
+Origin_Pkg_Body              sees the private part of Test_Pkg
+Origin_Pkg_Inner_Body        sees the private part of Test_Pkg
+Origin_Other_Pkg_Inner       sees the public  part of Test_Pkg
+Origin_Pkg_Child_Subp        sees the private part of Test_Pkg
+Origin_Pkg_Child_Pkg_Public  sees the public  part of Test_Pkg
+Origin_Pkg_Child_Pkg_Private sees the private part of Test_Pkg
+Origin_Pkg_Child_Pkg_Body    sees the private part of Test_Pkg
+
+Origin_Main                  sees the public  part of Test_Pkg_Generic_Child
+Origin_Pkg_Body              sees the public  part of Test_Pkg_Generic_Child
+Origin_Pkg_Inner_Body        sees the public  part of Test_Pkg_Generic_Child
+Origin_Other_Pkg_Inner       sees the public  part of Test_Pkg_Generic_Child
+Origin_Pkg_Child_Subp        sees the public  part of Test_Pkg_Generic_Child
+Origin_Pkg_Child_Pkg_Public  sees the public  part of Test_Pkg_Generic_Child
+Origin_Pkg_Child_Pkg_Private sees the public  part of Test_Pkg_Generic_Child
+Origin_Pkg_Child_Pkg_Body    sees the public  part of Test_Pkg_Generic_Child
+
+Origin_Main                  sees the public  part of Test_Pkg_Inner
+Origin_Pkg_Body              sees the public  part of Test_Pkg_Inner
+Origin_Pkg_Inner_Body        sees the private part of Test_Pkg_Inner
+Origin_Other_Pkg_Inner       sees the public  part of Test_Pkg_Inner
+Origin_Pkg_Child_Subp        sees the public  part of Test_Pkg_Inner
+Origin_Pkg_Child_Pkg_Public  sees the public  part of Test_Pkg_Inner
+Origin_Pkg_Child_Pkg_Private sees the public  part of Test_Pkg_Inner
+Origin_Pkg_Child_Pkg_Body    sees the public  part of Test_Pkg_Inner
+
+Origin_Main                  sees the public  part of Test_Generic_Pkg
+Origin_Pkg_Body              sees the public  part of Test_Generic_Pkg
+Origin_Pkg_Inner_Body        sees the public  part of Test_Generic_Pkg
+Origin_Other_Pkg_Inner       sees the public  part of Test_Generic_Pkg
+Origin_Pkg_Child_Subp        sees the public  part of Test_Generic_Pkg
+Origin_Pkg_Child_Pkg_Public  sees the public  part of Test_Generic_Pkg
+Origin_Pkg_Child_Pkg_Private sees the public  part of Test_Generic_Pkg
+Origin_Pkg_Child_Pkg_Body    sees the public  part of Test_Generic_Pkg
+
+Done

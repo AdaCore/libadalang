@@ -2948,6 +2948,51 @@ class BasicDecl(AdaNode):
             lambda pp: pp.canonical_part_for_name(sym), default_val=Entity
         )
 
+    @langkit_property(return_type=T.BasicDecl.entity, public=True,
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def most_visible_part():
+        """
+        Given an origin node and the entity represented by Self, this property
+        returns the most visible completion of Self that can be seen by origin,
+        according to Ada's visibility rules.
+        """
+        return Entity.defining_name_or_raise.most_visible_part._.basic_decl
+
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[origin, imprecise_fallback])
+    def most_visible_part_for_name(sym=T.Symbol):
+        """
+        Internal method for computing the most visible part of a basic decl
+        according to one of its defining names.
+        """
+        np = Var(Entity.next_part_for_name(sym))
+        return Cond(
+            # This is already the most visible part
+            np.is_null,
+            Entity,
+
+            # A null origin means any "find the most complete part"
+            origin.is_null,
+            np.most_visible_part_for_name(sym),
+
+            # If the entity is not a package declaration, we only need to check
+            # if its lexical env is one of the parents of origin's env.
+            Not(np.is_in_private_part | np.is_in_public_part),
+            If(
+                origin.node_env.get(sym).contains(Entity),
+                np.most_visible_part_for_name(sym),
+                Entity
+            ),
+
+            # Otherwise this is a package declaration, so we can use the
+            # is_visible property.
+            np.is_visible(origin.as_bare_entity),
+            np.most_visible_part_for_name(sym),
+
+            # Otherwise this was the most visible part
+            Entity
+        )
+
     @langkit_property(return_type=T.String.array)
     def fully_qualified_name_impl(
         include_profile=(T.Bool, False),
@@ -14997,6 +15042,18 @@ class DefiningName(Name):
         doc="Like ``BasicDecl.canonical_part`` on a defining name",
         dynamic_vars=[default_imprecise_fallback()]
     )
+
+    @langkit_property(return_type=T.DefiningName.entity, public=True,
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def most_visible_part():
+        """
+        Given an origin node and the entity represented by Self, this property
+        returns the most visible completion of Self that can be seen by origin,
+        according to Ada's visibility rules.
+        """
+        return Entity.find_matching_name(
+            Entity.basic_decl.most_visible_part_for_name(Entity.name_symbol)
+        )
 
     @langkit_property(return_type=T.DefiningName.entity.array,
                       dynamic_vars=[default_imprecise_fallback()])

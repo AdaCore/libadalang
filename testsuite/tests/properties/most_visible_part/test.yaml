@@ -1,0 +1,5 @@
+driver: python
+input_sources: [
+   main.adb, pkg.ads, pkg.adb, other_pkg.ads, pkg_g.ads,
+   pkg-child_subp.adb, pkg-child_pkg.ads, pkg-child_pkg.adb
+]

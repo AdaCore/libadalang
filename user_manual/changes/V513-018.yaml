@@ -1,0 +1,7 @@
+type: new-feature
+title: Add ``p_most_visible_part`` property
+description: |
+    Given a declaration and an origin node, this property returns the most
+    most complete part of the declaration that the origin has visibility on
+    according to Ada visibility rules.
+date: 2022-06-17

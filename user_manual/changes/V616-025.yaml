@@ -1,0 +1,8 @@
+type: bugfix
+title: Add ``SyntheticCharEnumLit`` missing support
+description: |
+  Freshly introduced ``SyntheticCharEnumLit`` node, used to synthesize character
+  literals, was missing some support. This change fixes the
+  ``p_unique_identifying_name`` property, which was failing when called on a
+  ``SyntheticDefiningName`` (representing the synthetic character literal).
+date: 2022-06-20

@@ -1,0 +1,3 @@
+driver: inline-playground
+input_sources: [test.adb]
+charset: utf-8

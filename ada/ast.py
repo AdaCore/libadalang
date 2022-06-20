@@ -3019,10 +3019,13 @@ class BasicDecl(AdaNode):
 
         def_name = Var(If(
             dn.is_null, Entity.defining_name, dn
-        ).as_single_tok_node_array)
+        ).match(
+            lambda scel=T.SyntheticDefiningName: [scel.name_symbol.image],
+            lambda n: n.as_single_tok_node_array.map(lambda t: t.text)
+        ))
 
         self_name = Var(def_name.map(
-            lambda i, t: t.text.concat(
+            lambda i, t: t.concat(
                 If(include_profile, Entity.custom_id_text, String(""))
             ).concat(If(
                 i == (def_name.length - 1),
@@ -6036,8 +6039,16 @@ class BaseTypeDecl(BasicDecl):
             char_lit.is_null & enum_type.is_std_char_type,
 
             SyntheticCharEnumLit.new(
+                # Ideally, name should take a SyntheticDefiningName, built from
+                # the symbol `sym`, but that would mean that name's parent is
+                # Self here rather than the SyntheticCharEnumLit we are
+                # creating. It matters for the DefiningName.basic_decl property
+                # for example. To workaround that issue, we also pass the
+                # symbol to the SyntheticCharEnumLit node in order to build the
+                # SyntheticDefiningName there, afterwards.
+                name=No(T.DefiningName),
                 char_symbol=sym,
-                enum_type=enum_type.parent.cast(TypeDecl),
+                enum_type_decl=enum_type.parent.cast(TypeDecl),
             ).as_entity,
 
             char_lit
@@ -16033,29 +16044,27 @@ class EnumLiteralDecl(BasicSubpDecl):
         add_env()
     )
 
+    enum_decl_name = Property(Entity.name)
+
 
 @synthetic
-class SyntheticCharEnumLit(BasicSubpDecl):
+class SyntheticCharEnumLit(EnumLiteralDecl):
     """
     Synthetic character enum literal declaration.
     """
     char_symbol = UserField(type=T.Symbol, public=False)
-    enum_type = UserField(type=T.BaseTypeDecl.entity, public=False)
-    aspects = NullField()
+    enum_type_decl = UserField(type=T.TypeDecl.entity, public=False)
 
-    defining_names = Property(
-        [Self.synthesize_defining_name(Self.char_symbol).as_entity]
-    )
+    enum_type = Property(Entity.enum_type_decl)
 
     expr = Property(Entity.defining_names.at(0), public=True, doc="""
     Return the CharLiteral expression corresponding to this enum literal.
     """)
+    enum_decl_name = Property(Entity.expr)
 
-    is_static_decl = Property(True)
-
-    @langkit_property(memoized=True)
-    def subp_decl_spec():
-        return T.EnumSubpSpec.new().as_entity
+    defining_names = Property(
+        [Self.synthesize_defining_name(Self.char_symbol).as_entity]
+    )
 
 
 class CharLiteral(BaseId):
@@ -16557,7 +16566,7 @@ class EnumSubpSpec(BaseSubpSpec):
     """
     enum_decl = Property(Self.parent.cast(T.EnumLiteralDecl).as_entity)
 
-    name = Property(Entity.enum_decl.name)
+    name = Property(Entity.enum_decl.enum_decl_name)
     returns = Property(Entity.enum_decl.synth_type_expr)
     params = Property(No(T.ParamSpec.entity.array))
 
@@ -16579,6 +16588,8 @@ class SyntheticDefiningName(DefiningName):
     # it is not possible to override Name.relative_name (which name_symbol is
     # defined in terms of), so we override name_symbol directly.
     name_symbol = Property(Self.name.name_symbol)
+
+    as_symbol_array = Property(Self.name_symbol.singleton)
 
 
 @synthetic

@@ -380,6 +380,23 @@ class AdaNode(ASTNode):
                 head.singleton.concat(tail))
         )
 
+    @langkit_property(return_type=T.EnvRebindings)
+    def remove_rebindings(base=T.EnvRebindings, suffix=T.EnvRebindings):
+        """
+        If the rebindings in ``base`` end with ``suffix``, ``base`` is
+        returned without it. Otherwise ``base`` is returned as-is.
+        """
+        return Cond(
+            base.is_null | suffix.is_null,
+            base,
+
+            And(base.old_env == suffix.old_env,
+                base.new_env == suffix.new_env),
+            Self.remove_rebindings(base.get_parent, suffix.get_parent),
+
+            base
+        )
+
     # We mark this property as memoizable because for the moment, we only ever
     # get the first result of logic resolution, so we only ever want the result
     # of the first evaluation of this property. When we change that, we'll
@@ -460,44 +477,12 @@ class AdaNode(ASTNode):
             Entity.is_a(ClasswideTypeDecl, DiscreteBaseSubtypeDecl,
                         SynthAnonymousTypeDecl),
             Entity.semantic_parent.parent_basic_decl,
-
             Entity.semantic_parent.then(
                 lambda sp: If(
-                    sp.is_a(GenericPackageInternal, GenericSubpInternal),
-                    Let(
-                        lambda inst=sp.info.rebindings
-                        ._.new_env.env_node.cast(BasicDecl):
-
-                        # If the parent is a generic package and the top-most
-                        # rebinding is an instantiation of this package, return
-                        # the instantiation instead. Make sure to drop the
-                        # top-most rebinding in the returned entity.
-                        Let(
-                            lambda designated=If(
-                                sp.is_a(GenericPackageInternal),
-
-                                inst.cast(GenericPackageInstantiation)
-                                .as_bare_entity._.designated_package,
-
-                                inst.cast(GenericSubpInstantiation)
-                                .as_bare_entity._.designated_subp
-                            ): If(
-                                designated.node == sp.node,
-                                T.BasicDecl.entity.new(
-                                    node=inst,
-                                    info=T.entity_info.new(
-                                        md=No(T.Metadata),
-                                        rebindings=sp.info
-                                        .rebindings.get_parent,
-                                        from_rebound=False
-                                    )
-                                ),
-                                sp.parent.cast(T.BasicDecl)
-                            )
-                        )
-                    ),
-                    sp.cast(T.BasicDecl)._or(sp.parent_basic_decl)
-                )
+                    sp.is_a(GenericSubpInternal, GenericPackageInternal),
+                    sp.cast(BasicDecl).get_instantiation,
+                    sp.cast(BasicDecl)
+                )._or(sp.parent_basic_decl)
             )
         )
 
@@ -2297,6 +2282,43 @@ class BasicDecl(AdaNode):
         """
         return Entity.defining_name_or_raise._.is_ghost_code
 
+    @langkit_property(return_type=T.GenericInstantiation.entity)
+    def get_instantiation():
+        """
+        Assuming Self is a Generic*Internal node (BasicDecl is their greatest
+        common parent), return the GenericInstantiation node from which this
+        Generic*Internal node is derived.
+
+        .. ATTENTION:: If this Generic*Internal is not part of an
+            instantiation, but has been fetched through the formal generic
+            subprogram, this will return None. None is also returned if the
+            rebindings do not correspond to the instantiation of this generic
+            declaration.
+        """
+        inst_node = Var(Entity.info.rebindings.then(
+            lambda r: r.new_env.env_node.cast_or_raise(GenericInstantiation)
+        ))
+        designated_decl = Var(
+            inst_node.as_bare_entity._.designated_generic_decl
+        )
+        return If(
+            designated_decl.node == Self.parent,
+            T.GenericInstantiation.entity.new(
+                node=inst_node,
+                info=T.entity_info.new(
+                    # Since we return the instantiation itself, remove
+                    # it from its rebindings.
+                    rebindings=Self.remove_rebindings(
+                        Entity.info.rebindings,
+                        designated_decl.info.rebindings
+                    ),
+                    from_rebound=Entity.info.from_rebound,
+                    md=T.Metadata.new()
+                )
+            ),
+            No(GenericInstantiation.entity)
+        )
+
     @langkit_property(public=True)
     def is_compilation_unit_root():
         """
@@ -3224,9 +3246,10 @@ class BasicDecl(AdaNode):
               internally. This mostly means getting rid of
               ``GenericSubpInternal`` nodes in the envs.
         """
-        return Entity.cast(GenericSubpInternal).then(
-            lambda g: g.get_instantiation._or(g),
-            default_val=Entity
+        return If(
+            Entity.is_a(GenericSubpInternal, GenericPackageInternal),
+            Entity.get_instantiation._or(Entity),
+            Entity
         )
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
@@ -10698,55 +10721,6 @@ class GenericSubpInternal(BasicSubpDecl):
     subp_decl_spec = Property(Entity.subp_spec)
 
     env_spec = EnvSpec(add_env(names=Self.env_names))
-
-    @langkit_property(return_type=T.EnvRebindings)
-    def remove_rebindings(base=T.EnvRebindings, suffix=T.EnvRebindings):
-        """
-        If the rebindings in ``base`` end with ``suffix``, ``base`` is
-        returned without it. Otherwise ``base`` is returned as-is.
-        """
-        return Cond(
-            base.is_null | suffix.is_null,
-            base,
-
-            And(base.old_env == suffix.old_env,
-                base.new_env == suffix.new_env),
-            Self.remove_rebindings(base.get_parent, suffix.get_parent),
-
-            base
-        )
-
-    @langkit_property(return_type=T.GenericSubpInstantiation.entity)
-    def get_instantiation():
-        """
-        Return the generic subprogram instantiation node from which this
-        GenericSubpInternal node is derived.
-
-        .. ATTENTION:: If this GenericSubpInternal is not part of an
-            instantiation, but has been fetched through the formal generic
-            subprogram, this will return None.
-        """
-        return Entity.info.rebindings.then(
-            lambda rebindings: Let(
-                lambda inst_node=rebindings.new_env.env_node
-                .cast_or_raise(GenericSubpInstantiation):
-
-                T.GenericSubpInstantiation.entity.new(
-                    node=inst_node,
-                    info=T.entity_info.new(
-                        # Since we return the instantiation itself, remove
-                        # it from its rebindings.
-                        rebindings=Self.remove_rebindings(
-                            Entity.info.rebindings,
-                            inst_node.as_bare_entity.designated_subp
-                            .info.rebindings
-                        ),
-                        from_rebound=Entity.info.from_rebound,
-                        md=T.Metadata.new()
-                    )
-                )
-            )
-        )
 
 
 @abstract

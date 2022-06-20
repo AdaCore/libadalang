@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix ``parent_basic_decl`` in nested generic contexts
+description: |
+    This change fixes a bug where calling the ``p_parent_basic_decl`` property
+    on a node in a nested generic context (with at least two layers of
+    generics) could return a node in an incoherent state. Further queries on
+    that node could raise a PropertyError ``Old_Env presents twice in
+    rebindings``.
+date: 2022-06-20

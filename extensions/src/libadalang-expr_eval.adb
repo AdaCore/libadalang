@@ -81,9 +81,6 @@ package body Libadalang.Expr_Eval is
    --  Return ``Self`` as a Boolean, if it is indeed of type
    --  ``Standard.Boolean``.
 
-   function Min (Left, Right : Rational) return Rational;
-   function Max (Left, Right : Rational) return Rational;
-
    ------------------------
    -- Create_Enum_Result --
    ------------------------
@@ -213,36 +210,6 @@ package body Libadalang.Expr_Eval is
       when Constraint_Error =>
          raise Property_Error with "out of range big integer";
    end To_Integer;
-
-   ---------
-   -- Min --
-   ---------
-
-   function Min (Left, Right : Rational) return Rational is
-   begin
-      return Mini : Rational do
-         if Left <= Right then
-            Mini.Set (Left);
-         else
-            Mini.Set (Right);
-         end if;
-      end return;
-   end Min;
-
-   ---------
-   -- Max --
-   ---------
-
-   function Max (Left, Right : Rational) return Rational is
-   begin
-      return Maxi : Rational do
-         if Left >= Right then
-            Maxi.Set (Left);
-         else
-            Maxi.Set (Right);
-         end if;
-      end return;
-   end Max;
 
    ---------------
    -- Expr_Eval --
@@ -948,12 +915,19 @@ package body Libadalang.Expr_Eval is
                                     then Val_1 else Val_2).Int_Result);
                            end if;
                         when Real =>
-                           return Create_Real_Result
-                             (Typ,
-                              (if Name = "min"
-                               then Min (Val_1.Real_Result, Val_2.Real_Result)
-                               else Max
-                                 (Val_1.Real_Result, Val_2.Real_Result)));
+                           if Name = "min" then
+                              return Create_Real_Result
+                                (Typ,
+                                 Eval_Result'
+                                   (if Val_1.Real_Result < Val_2.Real_Result
+                                    then Val_1 else Val_2).Real_Result);
+                           else
+                              return Create_Real_Result
+                                (Typ,
+                                 Eval_Result'
+                                   (if Val_1.Real_Result > Val_2.Real_Result
+                                    then Val_1 else Val_2).Real_Result);
+                           end if;
                         when others =>
                            raise Property_Error with
                               "'Min/'Max not applicable on enum types";

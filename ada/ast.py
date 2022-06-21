@@ -289,7 +289,8 @@ class AdaNode(ASTNode):
         """
         return Self.as_bare_entity
 
-    @langkit_property(public=True, return_type=T.CompletionItem.iterator)
+    @langkit_property(public=True, return_type=T.CompletionItem.iterator,
+                      final=True)
     def complete():
         """
         Return possible completions at this point in the file.

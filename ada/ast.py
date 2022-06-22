@@ -16451,7 +16451,10 @@ class BaseSubpSpec(BaseFormalParamHolder):
             typ._.primitives_env.get(name.name_symbol).any(
                 lambda b: b.node == name.basic_decl.node
             ).then(
-                lambda _: typ
+                # If seen from an inherited primitive, make sure the returned
+                # type corresponds to the derived type and not the base type
+                # by using `real_type`.
+                lambda _: Entity.real_type(typ)
             )
         )
 

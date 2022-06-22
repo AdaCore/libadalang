@@ -1,0 +1,8 @@
+Working on node <CallStmt test.adb:14:4-14:16>
+==============================================
+
+Set 'called_subp' to 'node.f_call.p_referenced_decl()'
+Result: <NullSubpDecl ["Foo"] test.adb:5:7-5:37>
+
+Eval 'called_subp.p_subp_spec_or_null().p_primitive_subp_tagged_type()'
+Result: <TypeDecl ["U"] test.adb:9:7-9:44>

@@ -1,0 +1,16 @@
+type: bugfix
+title: Add missing "precise types" field documentations
+description: |
+   The documentations associated to following fields were lacking a description
+   of the precise types these fields could contain:
+
+   * ``BaseAggregate.f_ancestor_expr``
+   * ``BaseAggregate.f_assocs``
+   * ``AttributeRef.f_args``
+   * ``ComponentList.f_components``
+   * ``ObjectDecl.f_type_expr``
+   * ``ObjectDecl.f_default_expr``
+   * ``RaiseExpr.f_exception_name``
+
+   This is now fixed.
+date: 2022-06-23

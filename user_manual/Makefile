@@ -7,7 +7,6 @@ SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
 LAL_BUILD_DIR = ../build
-LANGKIT_DIR = ../langkit
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
@@ -64,12 +63,6 @@ newhtml:
 		$(LAL_BUILD_DIR)/src/libadalang-lexer.ads \
 		   ../extensions/src/libadalang-preprocessing.ads \
 		   ../extensions/src/libadalang-project_provider.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-text.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-symbols.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-diagnostics.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-diagnostics-output.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-slocs.ads \
-		   $(LANGKIT_DIR)/langkit/support/langkit_support-file_readers.ads \
 		-O generated
 
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) -t new_laldoc $(BUILDDIR)/html

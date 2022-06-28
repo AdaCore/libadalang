@@ -196,4 +196,6 @@ types are represented with partial definitions:
 
 Defining all values for each is not realistic, as for instance
 ``Wide_Wide_Character`` has 4 billion values: it is not reasonable to allocate
-memory for all of them.
+memory for all of them. Nevertheless, undefined characters are properly
+supported and synthesized on-demand, which means that any
+characters from any sets can be properly handled by Libadalang.

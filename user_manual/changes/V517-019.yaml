@@ -3,7 +3,7 @@ title: Aspects are associated with defining names
 description: |
     This change reworks the way aspects (aspect associations, pragmas and
     representation clauses) are exposed in Libadalang. They were previously
-    associated with ``BasicDecl``s, but since basic declarations allow
+    associated with ``BasicDecl`` nodes, but since basic declarations allow
     multiple defining names and aspects can be defined on a single one of
     them, the ``P_Has_Aspect`` property and other similar properties defined
     on ``BasicDecl`` were not fine-grain enough. This change fixes that by

@@ -2919,7 +2919,7 @@ class BasicDecl(AdaNode):
     relative_name = Property(
         Entity.defining_name._.relative_name, public=True, doc="""
         Return the relative name for Self. If Self's defining name is
-        ``A.B.C``, return C as a node.
+        ``A.B.C``, return ``C`` as a node.
         """
     )
 
@@ -11292,7 +11292,8 @@ class Expr(AdaNode):
                       dynamic_vars=[default_imprecise_fallback()])
     def is_dispatching_call():
         """
-        Returns True if this Name corresponds to a dispatching call, including:
+        Returns True if this ``Name`` corresponds to a dispatching call,
+        including:
 
         - Calls done through subprogram access types.
         - Calls to dispatching subprograms, in the object-oriented sense.
@@ -11300,7 +11301,8 @@ class Expr(AdaNode):
         .. note:: This is an experimental feature. There might be some
             discrepancy with the GNAT concept of "dispatching call".
 
-        .. note:: This should only be called on a Name and UnOp or a BinOp.
+        .. note:: This should only be called on a ``Name`` and ``UnOp``
+            or a ``BinOp``.
         """
         return PropertyError(
             T.Bool,
@@ -11400,7 +11402,7 @@ class Expr(AdaNode):
 
         .. note::
             In order for a call to this not to raise, the expression needs to
-            be a static expression, as specified in the ARM section 4.9. You
+            be a static expression, as specified in :rmlink:`4.9`. You
             can verify whether an expression is static with the
             ``is_static_expr`` property.
 
@@ -11421,7 +11423,7 @@ class Expr(AdaNode):
 
         .. note::
             In order for a call to this not to raise, the expression needs to
-            be a static expression, as specified in the ARM section 4.9. You
+            be a static expression, as specified in :rmlink:`4.9`. You
             can verify whether an expression is static with the
             ``is_static_expr`` property.
 
@@ -11440,7 +11442,7 @@ class Expr(AdaNode):
 
         .. note::
             In order for a call to this not to raise, the expression needs to
-            be a static expression, as specified in the ARM section 4.9. You
+            be a static expression, as specified in :rmlink:`4.9`. You
             can verify whether an expression is static with the
             ``is_static_expr`` property.
 
@@ -11461,7 +11463,7 @@ class Expr(AdaNode):
 
         .. note::
             In order for a call to this not to raise, the expression needs to
-            be a static expression, as specified in the ARM section 4.9. You
+            be a static expression, as specified in :rmlink:`4.9`. You
             can verify whether an expression is static with the
             ``is_static_expr`` property.
 
@@ -13060,7 +13062,7 @@ class Name(Expr):
         type=T.SingleTokNode.entity, runtime_check=True, public=True,
         doc="""
         Returns the relative name of this instance. For example,
-        for a prefix A.B.C, this will return C.
+        for a prefix ``A.B.C``, this will return ``C``.
         """
     )
 
@@ -15285,8 +15287,8 @@ class DefiningName(Name):
         This will return the syntactic node corresponding to attribute
         directly.
 
-        Note: for some aspects (e.g. Inline), Libadalang will check if they are
-        defined on any part of the entity.
+        Note: for some aspects (e.g. ``Inline``), Libadalang will check if they
+        are defined on any part of the entity.
         """
         parts_to_check = Var(If(
             name.any_of(
@@ -15312,7 +15314,7 @@ class DefiningName(Name):
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
 
-        "Aspect" is used as in RM terminology (see :rmlink:`13`).
+        "Aspect" is used as in RM terminology (see :rmlink:`13.1`).
         """
         a = Var(Entity.get_aspect(name))
 

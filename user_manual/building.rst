@@ -1,10 +1,12 @@
 Building Libadalang
 ###################
 
-First, note that if you have access to a pre-built Libadalang package, which
-generally come with GNAT Pro and GNAT Community, then you do not need to go
-through the following steps: just follow the instructions in the ``README``
-file that comes with this pre-built package.
+First, note that if you have access to a pre-built Libadalang package, bundled
+with GNAT Pro if you have a GNAT Pro subscription (for community users, we have
+a Libadalang crate on `Alire <https://alire.ada.dev/crates/libadalang>`_), then
+you do not need to go through the following steps: just follow the instructions
+in the ``README`` file that comes with this pre-built package.
+
 
 Setup
 -----
@@ -14,8 +16,10 @@ following steps:
 
 * Make sure you have a working Python 3.9 or 3.10 installation.
 
-* Install the GNAT tools and compiler. You can find Community Editions on
-  `AdaCore's website <https://www.adacore.com/download>`_.
+* Install the GNAT tools and compiler. If do not have access to GNAT Pro, you
+  can find public editions of the Ada toolchain on your distribution repository
+  (as for example `here <https://packages.debian.org/sid/gnat>`_ for Debian) or
+  by installing it from `Alire <https://alire.ada.dev/docs/>`_.
 
 * Build and install the GNATcoll library (core, plus Iconv and GMP bindings).
   You can find its source release on `AdaCore's website
@@ -156,18 +160,20 @@ Libadalang installed (and in particular its Python bindings) or to update your
 environment without installing it: see the corresponding section above.
 
 In addition, you need to install the ``laldoc`` Python project, which contains
-documentation extraction helpers:
+documentation extraction helpers, as well as ``sphinxcontrib-adadomain`` to
+properly generate Sphinx that documents Ada API:
 
 .. code-block:: sh
 
    $ pip install contrib/laldoc
+   $ pip install git+https://github.com/AdaCore/sphinxcontrib-adadomain
 
 From there, building this documentation as a set of static HTML pages is as
 easy as running the following command from the ``user_manual`` directory:
 
 .. code-block:: sh
 
-   $ make html
+   $ make newhtml
 
 Assuming successful completion, the documentation is then available in
 the ``user_manual/_build/html`` directory: you can start reading it from the
@@ -178,4 +184,4 @@ Note that on Mac OS X, security features require you to explicitly pass the
 
 .. code-block:: sh
 
-   $ make html LD_LIBRARY_PATH="$LD_LIBRARY_PATH"
+   $ make newhtml LD_LIBRARY_PATH="$LD_LIBRARY_PATH"

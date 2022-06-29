@@ -467,7 +467,7 @@ package body Libadalang.Env_Hooks is
                   Step (Name, Index + 1);
                end if;
 
-               Free (Internal_Name);
+               Dec_Ref (Internal_Name);
             exception
                when Property_Error =>
                   Free (Internal_Name);

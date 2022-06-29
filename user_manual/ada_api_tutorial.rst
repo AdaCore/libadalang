@@ -524,11 +524,11 @@ Let's say you want to create a simple application that will flag all the
     --  app.ads
 
     with Libadalang.Analysis; use Libadalang.Analysis;
-    with Libadalang.Helpers;
+    with Libadalang.Helpers;  use Libadalang.Helpers;
 
     package App is
 
-       procedure Process_Unit (Unit : Analysis_Unit);
+       procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
 
        package App is new Libadalang.Helpers.App
          (Name         => "example_app",
@@ -544,14 +544,16 @@ Let's say you want to create a simple application that will flag all the
 
     package body App is
 
-       procedure Process_Unit (Unit : Analysis_Unit) is
+       procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit) is
+          pragma Unreferenced (Context);
+
           function Visit (Node : Ada_Node'Class) return Visit_Status;
 
           function Visit (Node : Ada_Node'Class) return Visit_Status is
           begin
              case Node.Kind is
              when Ada_Goto_Stmt =>
-                Put_Line ("Found goto stmt: " & Node.Short_Image);
+                Put_Line ("Found goto stmt: " & Node.Image);
                 return Over;
              when others =>
                 return Into;

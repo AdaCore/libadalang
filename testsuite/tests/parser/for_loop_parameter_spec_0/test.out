@@ -18,7 +18,8 @@ ForLoopSpec[1:1-1:21]
 |  |  |  Id[1:6-1:7]: B
 |  |  |f_attribute:
 |  |  |  Id[1:8-1:13]: First
-|  |  |f_args: <null>
+|  |  |f_args:
+|  |  |  AssocList[1:8-1:8]: <empty list>
 |  |f_op:
 |  |  OpDoubleDot[1:14-1:16]
 |  |f_right:

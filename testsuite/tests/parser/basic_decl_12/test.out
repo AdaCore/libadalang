@@ -47,7 +47,8 @@ SubpDecl[1:1-1:125]
 |  |  |  |  |  |  |  |  |  |  Id[1:43-1:63]: Source_Buffer_Record
 |  |  |  |  |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  |  |  |  |  Id[1:64-1:69]: Class
-|  |  |  |  |  |  |  |  |  |f_args: <null>
+|  |  |  |  |  |  |  |  |  |f_args:
+|  |  |  |  |  |  |  |  |  |  AssocList[1:64-1:64]: <empty list>
 |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_default_expr: <null>

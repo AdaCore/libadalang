@@ -1,0 +1,6 @@
+type: bugfix
+title: Improve AttributeRef parsing robustness
+description: |
+  This change fixes a bug in the parser where an ``AttributeRef`` would be
+  wrongly parsed when followed by a slice.
+date: 2022-06-30

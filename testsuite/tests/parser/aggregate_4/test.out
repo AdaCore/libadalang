@@ -22,6 +22,7 @@ Aggregate[1:1-1:27]
 |  |  |  |  |  |  Id[1:9-1:12]: Str
 |  |  |  |  |f_attribute:
 |  |  |  |  |  Id[1:14-1:19]: Range
-|  |  |  |  |f_args: <null>
+|  |  |  |  |f_args:
+|  |  |  |  |  AssocList[1:14-1:14]: <empty list>
 |  |  |f_r_expr:
 |  |  |  Chr[1:23-1:26]: ' '

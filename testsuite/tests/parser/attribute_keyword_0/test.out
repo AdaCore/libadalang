@@ -3,4 +3,5 @@ AttributeRef[1:1-1:18]
 |  Id[1:1-1:11]: identifier
 |f_attribute:
 |  Id[1:12-1:18]: access
-|f_args: <null>
+|f_args:
+|  AssocList[1:18-1:18]: <empty list>

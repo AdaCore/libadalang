@@ -7,11 +7,13 @@ AttributeRef[1:1-1:22]
 |  |  |  Id[1:1-1:2]: A
 |  |  |f_attribute:
 |  |  |  Id[1:5-1:6]: C
-|  |  |f_args: <null>
+|  |  |f_args:
+|  |  |  AssocList[1:6-1:6]: <empty list>
 |  |f_suffix:
 |  |  ParenExpr[1:9-1:14]
 |  |  |f_expr:
 |  |  |  Chr[1:10-1:13]: 'D'
 |f_attribute:
 |  Id[1:15-1:22]: Pointer
-|f_args: <null>
+|f_args:
+|  AssocList[1:22-1:22]: <empty list>

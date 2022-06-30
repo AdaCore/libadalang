@@ -10,6 +10,7 @@ PragmaNode[1:1-1:48]
 |  |  |  |  Id[1:26-1:30]: Post
 |  |  |  |f_attribute:
 |  |  |  |  Id[1:31-1:36]: Class
-|  |  |  |f_args: <null>
+|  |  |  |f_args:
+|  |  |  |  AssocList[1:36-1:36]: <empty list>
 |  |  |f_expr:
 |  |  |  Id[1:40-1:46]: Ignore

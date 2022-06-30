@@ -17282,7 +17282,14 @@ class AttributeRef(Name):
         No(BaseTypeDecl.entity)
     ))
 
-    args_list = Property(Entity.args._.cast_or_raise(T.AssocList))
+    @langkit_property()
+    def args_list():
+        assoc_list = Var(Entity.args._.cast_or_raise(T.AssocList))
+        return If(
+            assoc_list.length > 0,
+            assoc_list,
+            No(T.AssocList.entity)
+        )
 
     has_context_free_type = Property(Not(Self.is_access_attr))
 
@@ -18116,7 +18123,7 @@ class ReduceAttributeRef(Name):
     """
     prefix = Field(type=T.AdaNode)
     attribute = Field(type=T.Identifier)
-    args = Field(type=T.AdaNode)
+    args = Field(type=T.BasicAssoc.list)
 
     ref_var = Property(Self.r_ref_var)
     r_ref_var = UserField(type=LogicVar, public=False)

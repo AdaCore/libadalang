@@ -14,6 +14,9 @@ procedure Test is
 
    With_Subscript : String := Float'Image (2.0) (1 .. 2);
    pragma Test_Statement;
+
+   Slice : String := My_Float'Image (1 .. 2);
+   pragma Test_Statement;
 begin
    null;
 end Test;

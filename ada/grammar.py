@@ -769,7 +769,7 @@ A.add_rules(
             Or(
                 # Enables parsing ``Post'Class => Ignore``, for example
                 AttributeRef(A.identifier, "'", A.identifier,
-                             Null(A.call_suffix)),
+                             Null(A.attr_suffix)),
 
                 A.identifier
             ),
@@ -1218,6 +1218,8 @@ A.add_rules(
         List(A.param_assoc, sep=",", list_cls=AssocList)
     ),
 
+    attr_suffix=List(A.param_assoc, sep=",", list_cls=AssocList),
+
     # TODO: Those two rules exist only to be able to specifically parse
     # qualified expressions in the context of allocators, because using the
     # more general "name" rule will create an ambiguity::
@@ -1275,16 +1277,16 @@ A.add_rules(
         ReduceAttributeRef(
             Or(A.name, A.value_sequence), "'",
             Identifier(L.Identifier(match_text="Reduce")),
-            "(", A.call_suffix, ")"
+            "(", A.attr_suffix, ")"
         ),
 
         # General Attributes
         AttributeRef(A.name, "'",
                      Predicate(A.identifier, T.Identifier.is_attr_with_args),
-                     Opt("(", A.call_suffix, ")")),
+                     Opt("(", A.attr_suffix, ")")),
 
         # Class attribute
-        AttributeRef(A.name, "'", A.identifier, Null(A.call_suffix)),
+        AttributeRef(A.name, "'", A.identifier, Null(A.attr_suffix)),
 
         QualExpr(A.name, "'", Or(A.paren_expr, A.aggregate)),
 
@@ -1314,7 +1316,7 @@ A.add_rules(
     subtype_name=Or(
         DottedName(A.subtype_name, ".", Cut(), A.direct_name),
         AttributeRef(A.subtype_name, "'", A.identifier,
-                     Opt("(", A.call_suffix, ")")),
+                     Opt("(", A.attr_suffix, ")")),
         A.direct_name,
     ),
 

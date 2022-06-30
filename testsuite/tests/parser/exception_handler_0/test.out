@@ -7,7 +7,8 @@ ExceptionHandler[1:1-1:34]
 |  |  |  Id[1:6-1:11]: Pouet
 |  |  |f_attribute:
 |  |  |  Id[1:12-1:24]: Abort_Signal
-|  |  |f_args: <null>
+|  |  |f_args:
+|  |  |  AssocList[1:24-1:24]: <empty list>
 |f_stmts:
 |  StmtList[1:28-1:34]
 |  |  CallStmt[1:28-1:34]

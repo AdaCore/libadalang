@@ -1,0 +1,9 @@
+driver: inline-playground
+input_sources:
+   - foo.adb
+   - bar.adb
+   - bar-baz.adb
+   - pkg-foo.adb
+   - subp_pkg.adb
+   - missing-subp.adb
+   - with_missing_subp.ads

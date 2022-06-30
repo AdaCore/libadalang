@@ -3391,16 +3391,40 @@ class Body(BasicDecl):
             )
         )
 
-    @langkit_property(dynamic_vars=[default_imprecise_fallback()])
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[default_imprecise_fallback()])
     def subp_previous_part():
         """
         Return the decl corresponding to this body. Specialized implementation
         for subprogram bodies.
+
+        .. ATTENTION:: It is important to not perform any signature match in
+            cases where we don't need to (top-level subprograms), as the
+            robustness of some important properties is at stake (e.g.
+            imported_units, and therefore find_all_references).
         """
-        parent = Var(Entity.semantic_parent)
+        parent = Var(If(
+            Entity.is_library_item,
+            Entity.parent.parent,
+            Entity.semantic_parent
+        ))
+
         elements = Var(Cond(
             parent.is_null,
             No(AdaNode.entity.array),
+
+            # If this is a library-level subprogram, the previous part can be
+            # found by fetching the compilation unit spec.
+            parent.is_a(CompilationUnit),
+            parent.cast(CompilationUnit).other_part.then(
+                # Make sure the previous part is at least a subprogram,
+                # and not an arbitrary declaration.
+                lambda cu: If(
+                    cu.decl.is_a(BasicSubpDecl, GenericSubpDecl),
+                    cu.decl.cast(AdaNode).as_entity.singleton,
+                    No(AdaNode.entity.array)
+                )
+            ),
 
             # If this subprogam's parent is a BodyStub, this subprogram is
             # necessarily a Subunit and the stub is thus its previous part.
@@ -3414,8 +3438,15 @@ class Body(BasicDecl):
             ),
         ))
 
-        precise = Var(elements.find(
-            lambda sp: And(
+        # Since no overloading is possible for library-level subprograms and
+        # separate subprograms, the element we found is already precise, and so
+        # we don't need to perform the signature matching below.
+        already_precise = Var(parent.is_a(CompilationUnit, BodyStub))
+
+        precise = Var(If(
+            already_precise,
+            elements.at(0),
+            elements.find(lambda sp: And(
                 Not(sp.is_null),
                 Not(sp.node == Self),
                 sp.match(
@@ -3445,7 +3476,7 @@ class Body(BasicDecl):
 
                     lambda _: False
                 )
-            )
+            ))
         ).cast_or_raise(T.BasicDecl.entity))
 
         return If(
@@ -18342,7 +18373,10 @@ class CompilationUnit(AdaNode):
             # our implementation (unlike for the rest of the library-level
             # declarations).
             Self.decl.cast(BaseSubpBody).then(
-                lambda subp: subp.as_bare_entity.previous_part.then(
+                # We call subp_previous_part directly to avoid unnecessary
+                # detours in which code that raises property errors could
+                # be accidentally added.
+                lambda subp: subp.as_bare_entity.subp_previous_part.then(
                     lambda pp:
                     pp.enclosing_compilation_unit.as_bare_entity.singleton
                 )

@@ -153,7 +153,7 @@ ada_lexer.add_patterns(
     ('ws', r"[ ]*"),
     # TODO: handle Unicode properties in Langkit and switch back to
     # \p{ID_Start} and \p{ID_Continue}.
-    ('identifier', r"\$?(\p{Lu}|\p{Ll}|\p{Lt}|\p{Lm}|\p{Lo}|\p{Nl}"
+    ('identifier', r"[\$_]?(\p{Lu}|\p{Ll}|\p{Lt}|\p{Lm}|\p{Lo}|\p{Nl}"
                    r"|{bracket_char})"
                    r"(\p{Lu}|\p{Ll}|\p{Lt}|\p{Lm}|\p{Lo}|\p{Nl}|\p{Nd}|\p{Mn}"
                    r"|\p{Mc}"

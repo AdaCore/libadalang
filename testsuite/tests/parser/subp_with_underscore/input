@@ -1,0 +1,1 @@
+procedure _A (B : Integer) is abstract;

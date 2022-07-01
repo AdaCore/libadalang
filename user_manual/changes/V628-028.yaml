@@ -1,0 +1,9 @@
+type : bugfix
+title: Fix ``for in`` loop name resolution
+description: |
+  Name resolution of ``for in`` loop checks that the iterator comes from a valid
+  iterable type. The predicate used to do so was only checking for types coming
+  from the Ada ``Iterator_Interfaces`` package. This change allows the predicate
+  to take into account user-defined iterable types (ones specified by the
+  ``Iterable`` aspect).
+date: 2022-07-01

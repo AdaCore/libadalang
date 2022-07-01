@@ -5513,7 +5513,10 @@ class BaseTypeDecl(BasicDecl):
         typ = Var(Entity.cast(T.ClasswideTypeDecl).then(
             lambda cw: cw.typedecl, default_val=Entity)
         )
-        return typ.semantic_parent.semantic_parent.node == iifcs
+        return Or(
+            typ.semantic_parent.semantic_parent.node == iifcs,
+            Entity.canonical_part.has_aspect("Iterable")
+        )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
     def is_discrete_type():

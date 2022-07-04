@@ -7406,7 +7406,11 @@ class CompositeConstraint(Constraint):
         """
         Whether this composite constraint is an index constraint.
         """
-        return Entity.subtype.is_array_type
+        return Or(
+            Entity.subtype.is_array_type,
+            Entity.subtype.is_access_type
+            & Entity.subtype.accessed_type.is_array_type
+        )
 
     @langkit_property(public=True)
     def is_discriminant_constraint():

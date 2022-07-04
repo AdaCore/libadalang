@@ -8,7 +8,7 @@ import libadalang
 from utils import GPR_ARGS
 
 
-copyright_chunk = "Libadalang is free software"
+copyright_chunk = "SPDX-License-Identifier: Apache-2.0"
 
 
 def check_file(filename):

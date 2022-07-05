@@ -1,0 +1,37 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["I"] test.adb:23:4-23:33>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:23:8-23:15>
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:23:19-23:32>
+  references:    <DefiningName test.adb:3:7-3:10>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CallExpr test.adb:23:19-23:28>
+  references:    <DefiningName test.adb:22:4-22:5>
+  type:          <TypeDecl ["Reference_Type"] test.adb:12:7-14:44>
+  expected type: <TypeDecl ["Int"] test.adb:2:4-4:15>
+Expr: <ExplicitDeref test.adb:23:19-23:24>
+  references:    <DefiningName test.adb:22:4-22:5>
+  type:          <TypeDecl ["Map"] test.adb:7:7-10:46>
+  expected type: None
+Expr: <Id "M" test.adb:23:19-23:20>
+  references:    <DefiningName test.adb:22:4-22:5>
+  type:          <TypeDecl ["Map_Access"] test.adb:19:7-19:41>
+  expected type: <TypeDecl ["Map_Access"] test.adb:19:7-19:41>
+Expr: <Int test.adb:23:26-23:27>
+  references:    None
+  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Val" test.adb:23:29-23:32>
+  references:    <DefiningName test.adb:3:7-3:10>
+  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

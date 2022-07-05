@@ -4463,7 +4463,7 @@ class TypeDef(AdaNode):
         """
     )
 
-    @langkit_property(dynamic_vars=[origin])
+    @langkit_property(dynamic_vars=[origin, include_ud_indexing])
     def defining_env():
         # Regroup implementations for subclasses here instead of overriding to
         # avoid code duplication (multiple cases have the same implementation).
@@ -6640,8 +6640,11 @@ class TypeDecl(BaseTypeDecl):
 
             # Here, we need to call defining_env on TypeDef, in order to not
             # recurse for ever (accessed_type is called by defining_env).
-            Entity.type_def.defining_env.get_first(
-                imp_deref.cast(T.Name).name_symbol, categories=no_prims
+            include_ud_indexing.bind(
+                False,
+                Entity.type_def.defining_env.get_first(
+                    imp_deref.cast(T.Name).name_symbol, categories=no_prims
+                )
             )
 
             # We cast to BaseFormalParamDecl. Following Ada's legality rule,

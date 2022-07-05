@@ -802,7 +802,7 @@ package body Libadalang.Implementation.Extensions is
       end return;
 
    exception
-      when Property_Error =>
+      when Precondition_Failure | Property_Error =>
          Dec_Ref (R);
          --  Memoize the exception result, to be able to re-raise a
          --  property_error if this is called again with the same params.

@@ -98,7 +98,7 @@ package body Libadalang.Iterators.Extensions is
       return not N.Is_Null
              and then N.P_Gnat_Xref (P.Imprecise_Fallback) = P.Name;
    exception
-      when Property_Error =>
+      when Precondition_Failure | Property_Error =>
          return False;
    end Evaluate;
 

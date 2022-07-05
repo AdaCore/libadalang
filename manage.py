@@ -66,6 +66,7 @@ class Manage(ManageScript):
             symbol_canonicalizer=LibraryEntity('Libadalang.Sources',
                                                'Canonicalize'),
             documentations=libadalang_docs,
+            property_exceptions={"Precondition_Failure"},
         )
 
         # Internals need to access environment hooks, the symbolizer and

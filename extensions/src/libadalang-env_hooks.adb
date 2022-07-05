@@ -439,7 +439,7 @@ package body Libadalang.Env_Hooks is
                         Index => New_Index);
                      Free (Resolved_Name);
                   exception
-                     when Property_Error =>
+                     when Precondition_Failure | Property_Error =>
                         Free (Resolved_Name);
                         raise;
                   end;
@@ -451,7 +451,7 @@ package body Libadalang.Env_Hooks is
 
                Dec_Ref (Internal_Name);
             exception
-               when Property_Error =>
+               when Precondition_Failure | Property_Error =>
                   Free (Internal_Name);
                   raise;
             end;

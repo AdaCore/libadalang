@@ -257,7 +257,7 @@ analysis units in which to look for the references. For instance, in order to
 look for all the references to the ``v`` object declaration in units
 ``foo.adb``, ``bar.adb`` and ``foobar.adb``, one may write:
 
-.. code-block:: ada
+.. code-block:: python
 
    import libadalang as lal
 
@@ -300,7 +300,7 @@ the project file, scenario variables, etc.), a mode to determine the scope of
 the sources to consider (root project only, the whole project tree, the
 runtime, ...) and just returns the list of source files:
 
-.. code-block:: ada
+.. code-block:: python
 
    import libadalang as lal
 

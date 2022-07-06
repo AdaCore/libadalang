@@ -10,9 +10,6 @@
         )
 
     def create_unit_provider(self):
-
-        from tempfile import mkdtemp
-
         if not self.args.project:
             return None
 

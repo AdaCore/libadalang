@@ -1,5 +1,5 @@
 """
-Check that ``SourceFiles.for_project`` works as expected.
+Check that ``GPRProject.source_files`` works as expected.
 """
 
 from dataclasses import dataclass
@@ -22,39 +22,44 @@ def inside_test_dir(f):
     return os.path.relpath(f, cwd).replace("\\", "/")
 
 
-for kwargs in [
-    {},
-    {"mode": lal.SourceFilesMode.default},
-    {"mode": lal.SourceFilesMode.root_project},
-    {"mode": lal.SourceFilesMode.whole_project},
-    {"scenario_vars": {"LIB_ALT": "true"}},
+prjs = {
+    "orig": lal.GPRProject("root.gpr"),
+    "alt": lal.GPRProject("root.gpr", scenario_vars={"LIB_ALT": "true"}),
+}
+
+for prj, kwargs in [
+    ("orig", {}),
+    ("orig", {"mode": lal.SourceFilesMode.default}),
+    ("orig", {"mode": lal.SourceFilesMode.root_project}),
+    ("orig", {"mode": lal.SourceFilesMode.whole_project}),
+    ("alt", {}),
 ]:
-    print(f"{kwargs}:")
-    for f in lal.SourceFiles.for_project("root.gpr", **kwargs):
+    print(f"{prj} {kwargs}:")
+    sf = prjs[prj].source_files(**kwargs)
+    for f in sf:
         print(f"  {inside_test_dir(f) or f}")
     print("")
 
 
 print("invalid project:")
 try:
-    lal.SourceFiles.for_project("foo.gpr")
+    lal.GPRProject("foo.gpr")
 except lal.InvalidProject:
-    print("<InvalidProject exception>")
+    print("  <InvalidProject exception>")
 else:
-    print("Unexpected absence of exception")
+    print("  Unexpected absence of exception")
 print("")
 
 
 print("with runtime:")
-files = lal.SourceFiles.for_project(
-    "root.gpr", mode=lal.SourceFilesMode.whole_project_with_runtime
-)
+prj = lal.GPRProject("root.gpr")
+files = prj.source_files(lal.SourceFilesMode.whole_project_with_runtime)
 if "system.ads" in {os.path.basename(f) for f in files}:
     print("  system.ads is present")
     for f in files:
         rel_f = inside_test_dir(f)
         if rel_f:
             print(f"  {rel_f}")
-
+print("")
 
 print('Done')

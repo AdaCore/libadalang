@@ -7,11 +7,25 @@
 
 with Ada.Unchecked_Deallocation;
 
+with GNATCOLL.Projects; use GNATCOLL.Projects;
+
 package Libadalang.Implementation.C.Extensions is
 
    ----------------------
-   -- Project provider --
+   -- Project handling --
    ----------------------
+
+   type ada_gpr_project is record
+      Tree : Project_Tree_Access;
+      Env  : Project_Environment_Access;
+   end record
+      with Convention => C;
+
+   type ada_gpr_project_ptr is access all ada_gpr_project
+      with Convention => C;
+
+   procedure Free is new Ada.Unchecked_Deallocation
+     (ada_gpr_project, ada_gpr_project_ptr);
 
    type Project_Scenario_Variable is record
       Name, Value : chars_ptr;
@@ -21,19 +35,29 @@ package Libadalang.Implementation.C.Extensions is
    type Project_Scenario_Variable_Array is
       array (Positive range <>) of Project_Scenario_Variable
       with Convention => C;
+   --  Array of name/value definitions for scenario variables. The last entry
+   --  in such arrays must be a null/null association.
 
-   function ada_create_project_unit_provider
-     (Project_File, Project : chars_ptr;
-      Scenario_Vars         : System.Address;
-      Target, Runtime       : chars_ptr) return ada_unit_provider
-      with Export     => True,
-           Convention => C;
+   function ada_gpr_project_load
+     (Project_File    : chars_ptr;
+      Scenario_Vars   : System.Address;
+      Target, Runtime : chars_ptr) return ada_gpr_project_ptr
+     with Export, Convention => C;
+   --  Load a project file with the given parameter. On success, allocate and
+   --  return an ``ada_gpr_project`` record. Raise an ``Invalid_Project``
+   --  exception on failure.
 
-   function ada_create_auto_provider
-     (Input_Files : System.Address;
-      Charset     : chars_ptr) return ada_unit_provider
-      with Export     => True,
-           Convention => C;
+   procedure ada_gpr_project_free (Self : ada_gpr_project_ptr)
+     with Export, Convention => C;
+   --  Free resources allocated for ``Self``
+
+   function ada_gpr_project_create_unit_provider
+     (Self    : ada_gpr_project_ptr;
+      Project : chars_ptr) return ada_unit_provider
+     with Export, Convention => C;
+   --  Create a project provider using the given GPR project. If ``Project`` is
+   --  passed, it must be the name of a sub-project. If the selected project
+   --  contains conflicting sources, raise an ``Inavlid_Project`` exception.
 
    type Source_File_Array is array (int range <>) of chars_ptr;
    type Source_File_Array_Ref (Length : int) is record
@@ -48,25 +72,35 @@ package Libadalang.Implementation.C.Extensions is
    procedure Free is new Ada.Unchecked_Deallocation
      (Source_File_Array_Ref, Source_File_Array_Ref_Access);
 
-   function ada_project_source_files
-     (Project_File    : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr;
-      Mode            : int) return Source_File_Array_Ref_Access
+   function ada_gpr_project_source_files
+     (Self : ada_gpr_project_ptr;
+      Mode : int) return Source_File_Array_Ref_Access
      with Export, Convention => C;
-   --  Load the project file according to ``Project_File``, ``Scenario_Vars``,
-   --  ``Target`` and ``Runtime``. On success, compute the list of source files
-   --  in this project according to ``Mode`` (whose value maps to positions in
-   --  the ``Libadalang.Project_Provider.Source_Files_Mode`` enum) and return
-   --  it.
-   --
-   --  On project loading failure, return null and set the exception info
-   --  accordingly.
+   --  Compute the list of source files in the given GPR project according to
+   --  ``Mode`` (whose value maps to positions in the
+   --  ``Libadalang.Project_Provider.Source_Files_Mode`` enum) and return it.
 
-   procedure ada_free_source_file_array
+   procedure ada_gpr_project_free_source_files
      (Source_Files : Source_File_Array_Ref_Access)
      with Export, Convention => C;
    --  Free the given list of source files
+
+   function ada_create_project_unit_provider
+     (Project_File, Project : chars_ptr;
+      Scenario_Vars         : System.Address;
+      Target, Runtime       : chars_ptr) return ada_unit_provider
+     with Export, Convention => C;
+   --  Load a project file and create a unit provider for it in one pass
+
+   ------------------------
+   -- Auto unit provider --
+   ------------------------
+
+   function ada_create_auto_provider
+     (Input_Files : System.Address;
+      Charset     : chars_ptr) return ada_unit_provider
+      with Export     => True,
+           Convention => C;
 
    ------------------
    -- Preprocessor --

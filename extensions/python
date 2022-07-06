@@ -61,9 +61,164 @@ class SourceFilesMode(enum.Enum):
     whole_project_with_runtime = 3
 
 
-class SourceFiles:
+class GPRProject:
+    """
+    Load a GPR project file.
+    """
 
-    class _c_struct(ctypes.Structure):
+    class _UnitProvider(UnitProvider):
+        def __init__(self, project: GPRProject, c_value: Any):
+            super().__init__(c_value)
+
+            # Keep a reference on the GPRProject instance that was used to
+            # create this unit provider so that the project lives at least as
+            # long as the unit provider.
+            self._project = project
+
+    def __init__(self,
+                 project_file: str,
+                 scenario_vars: Dict[str, str] = {},
+                 target: Opt[str] = None,
+                 runtime: Opt[str] = None):
+        """
+        Load a GPR project file.
+
+        This may raise an ``InvalidProjectError`` exception if an error occurs
+        when loading the project.
+
+        :param project_file: Filename for the project to load.
+        :param screnario_vars: External variables for the project to load.
+        :param target: Name of the target for the project to load. Assume the
+            native platform if left to None.
+        :param runtime: Name of the runtime for the project to load. Use the
+            default runtime for the selected target if left to None.
+        """
+        # First, define this attribute so that __del__ work even if the
+        # constructor aborts later on because of an exception.
+        self._c_value = None
+
+        # Turn arguments into C API values
+        c_project_file = self._coerce_bytes('project_file', project_file)
+        c_target = self._coerce_bytes('target', target, or_none=True)
+        c_runtime = self._coerce_bytes('runtime', runtime, or_none=True)
+
+        if scenario_vars:
+            items = scenario_vars.items()
+            scn_vars_array_type = (
+                self._c_project_scenario_variable * (len(items) + 1)
+            )
+            c_scenario_vars = scn_vars_array_type()
+            for i, (name, value) in enumerate(items):
+                what = 'a dict mapping bytes strings to bytes strings'
+                name = self._coerce_bytes('scenario_vars', name, what)
+                value = self._coerce_bytes('scenario_vars', value, what)
+                c_scenario_vars[i] = self._c_project_scenario_variable(
+                    name, value
+                )
+            c_scenario_vars[-1] = self._c_project_scenario_variable(None, None)
+        else:
+            c_scenario_vars = None
+
+        # Compute the list of source files, extract it (no error expected there
+        # unless we have a bug) and free the resources.
+        self._c_value = self._c_load(
+            c_project_file, c_scenario_vars, c_target, c_runtime
+        )
+
+    def __del__(self):
+        if self._c_value is not None:
+            self._c_free(self._c_value)
+
+    def create_unit_provider(self, project: Opt[str] = None) -> UnitProvider:
+        """
+        Return a unit provider that uses this GPR project.
+
+        :param project: If None, let the unit provider use the whole project
+            tree. Otherwise, restrict the unit provider to the project with the
+            given name in the project tree.
+
+            As unit providers must guarantee that there exists at most one
+            source file for each couple (unit name, unit kind), aggregate
+            projects that contains several conflicting units are not supported:
+            trying to use one will yield an ``InvalidProjectError`` exception.
+        """
+        c_project = self._coerce_bytes('project', project, or_none=True)
+        c_value = self._c_create_unit_provider(self._c_value, c_project)
+        return self._UnitProvider(self, c_value)
+
+    def source_files(self, mode: SourceFilesMode = SourceFilesMode.default):
+        """
+        Return the list of source files in this project according to ``mode``:
+
+        * ``default``: sources in the root project and its non-externally built
+          dependencies;
+
+        * ``root_project``: sources in the root project only;
+
+        * ``whole_project``: sources in the whole project tree (i.e. including
+          externally built dependencies);
+
+        * ``whole_project_with_runtime``: sources in the whole project tree
+          plus runtime sources.
+        """
+
+        assert isinstance(mode, SourceFilesMode)
+        c_mode = mode.value
+
+        # Compute the list of source files, extract it (no error expected there
+        # unless we have a bug) and free the resources.
+        c_value = self._c_source_files(self._c_value, c_mode)
+        assert c_value
+        c_data = c_value.contents
+        result = [c_data.c_ptr[i] for i in range(c_data.length)]
+        self._c_free_source_files(c_value)
+
+        # Now convert filenames to Unicode strings using the system default
+        # encoding, to be more consistent with other Python APIs.
+        return [f.decode() for f in result]
+
+    @staticmethod
+    def _coerce_bytes(label, value, what='a bytes string', or_none=False):
+        """
+        Take bytes (forwarded as-is to C) but also accept text (encoded using
+        the system encoding).
+        """
+        if value is None and or_none:
+            return None
+        elif isinstance(value, bytes):
+            return value
+        elif isinstance(value, str):
+            return value.encode()
+        else:
+            raise TypeError('`{}` argument must be {} (got {})'
+                            .format(label, what, _type_fullname(type(value))))
+
+    _c_type = _hashable_c_pointer()
+
+    class _c_project_scenario_variable(ctypes.Structure):
+        _fields_ = [('name', ctypes.c_char_p),
+                    ('value', ctypes.c_char_p)]
+
+    _c_load = staticmethod(_import_func(
+        "ada_gpr_project_load",
+        [ctypes.c_char_p,
+         ctypes.POINTER(_c_project_scenario_variable),
+         ctypes.c_char_p,
+         ctypes.c_char_p],
+        _c_type,
+    ))
+
+    _c_free = staticmethod(
+        _import_func("ada_gpr_project_free", [_c_type], None)
+    )
+
+    _c_create_unit_provider = staticmethod(_import_func(
+        "ada_gpr_project_create_unit_provider",
+        [_c_type, ctypes.c_char_p],
+        _unit_provider,
+    ))
+
+    class _c_source_file_array(ctypes.Structure):
         _fields_ = [
             ("length", ctypes.c_int),
             ("c_ptr", ctypes.POINTER(ctypes.c_char_p)),
@@ -71,69 +226,13 @@ class SourceFiles:
             # to just read the items.
         ]
 
-    _c_type = ctypes.POINTER(_c_struct)
+    _c_source_file_array_ptr = ctypes.POINTER(_c_source_file_array)
 
-    _c_project_source_files = _import_func(
-        "ada_project_source_files",
-        [ctypes.c_char_p,
-         ctypes.POINTER(_project_scenario_variable),
-         ctypes.c_char_p,
-         ctypes.c_char_p,
-         ctypes.c_int],
-        _c_type,
-    )
-
-    _c_free_source_file_array = _import_func(
-        "ada_free_source_file_array", [_c_type], None
-    )
-
-    @classmethod
-    def for_project(
-        cls,
-        project_file: str,
-        scenario_vars: Dict[str, str] = {},
-        target: Opt[str] = None,
-        runtime: Opt[str] = None,
-        mode: SourceFilesMode = SourceFilesMode.default
-    ) -> List[str]:
-        ${py_doc('libadalang.source_files_for_project', 8)}
-
-        # Turn arguments into C API values
-        c_project_file = UnitProvider._coerce_bytes(
-            'project_file', project_file
-        )
-        c_target = UnitProvider._coerce_bytes('target', target, or_none=True)
-        c_runtime = UnitProvider._coerce_bytes(
-            'runtime', runtime, or_none=True
-        )
-
-        if scenario_vars:
-            items = scenario_vars.items()
-            scn_vars_array_type = _project_scenario_variable * (len(items) + 1)
-            c_scenario_vars = scn_vars_array_type()
-            for i, (name, value) in enumerate(items):
-                what = 'a dict mapping bytes strings to bytes strings'
-                name = UnitProvider._coerce_bytes('scenario_vars', name, what)
-                value = UnitProvider._coerce_bytes('scenario_vars', value,
-                                                   what)
-                c_scenario_vars[i] = _project_scenario_variable(name, value)
-            c_scenario_vars[-1] = _project_scenario_variable(None, None)
-        else:
-            c_scenario_vars = None
-
-        assert isinstance(mode, SourceFilesMode)
-        c_mode = mode.value
-
-        # Compute the list of source files, extract it (no error expected there
-        # unless we have a bug) and free the resources.
-        c_value = cls._c_project_source_files(
-            c_project_file, c_scenario_vars, c_target, c_runtime, c_mode
-        )
-        assert c_value
-        c_data = c_value.contents
-        result = [c_data.c_ptr[i] for i in range(c_data.length)]
-        cls._c_free_source_file_array(c_value)
-
-        # Now convert filenames to Unicode strings using the system default
-        # encoding, to be more consistent with other Python APIs.
-        return [f.decode() for f in result]
+    _c_source_files = staticmethod(_import_func(
+        "ada_gpr_project_source_files",
+        [_c_type, ctypes.c_int],
+        _c_source_file_array_ptr,
+    ))
+    _c_free_source_files = staticmethod(_import_func(
+        "ada_gpr_project_free_source_files", [_c_source_file_array_ptr], None,
+    ))

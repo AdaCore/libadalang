@@ -8,7 +8,6 @@ with Interfaces.C.Strings; use Interfaces.C.Strings;
 with GNAT.Task_Lock;
 
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
-with GNATCOLL.Projects;   use GNATCOLL.Projects;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
 
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
@@ -37,8 +36,19 @@ package body Libadalang.Implementation.C.Extensions is
       Tree            : out Project_Tree_Access;
       Env             : out Project_Environment_Access);
    --  Helper to load a project file from C arguments. May propagate a
-   --  GNATCOLL.Projects.Invalid_Project exception if the project cannot be
+   --  ``GNATCOLL.Projects.Invalid_Project`` exception if the project cannot be
    --  loaded.
+
+   function Create_Unit_Provider
+     (Tree             : Project_Tree_Access;
+      Env              : Project_Environment_Access;
+      Project          : chars_ptr;
+      Is_Project_Owner : Boolean) return ada_unit_provider;
+   --  Helper to create a unit provider from a loaded project file.  May
+   --  propagate a ``GNATCOLL.Projects.Invalid_Project`` exception if a
+   --  specific sub-project is requested but does not exist, or an
+   --  ``Unsupported_View_Error`` exception if the requested project contains
+   --  conflicting source files.
 
    -------------------------
    -- Scenario_Vars_Count --
@@ -118,78 +128,93 @@ package body Libadalang.Implementation.C.Extensions is
          raise;
    end Load_Project;
 
-   --------------------------------------
-   -- ada_create_project_unit_provider --
-   --------------------------------------
+   --------------------------
+   -- Create_Unit_Provider --
+   --------------------------
 
-   function ada_create_project_unit_provider
-     (Project_File, Project : chars_ptr;
-      Scenario_Vars         : System.Address;
-      Target, Runtime       : chars_ptr) return ada_unit_provider
+   function Create_Unit_Provider
+     (Tree             : Project_Tree_Access;
+      Env              : Project_Environment_Access;
+      Project          : chars_ptr;
+      Is_Project_Owner : Boolean) return ada_unit_provider
    is
-      Null_Result : constant ada_unit_provider :=
-        ada_unit_provider (System.Null_Address);
+      Prj : Project_Type := No_Project;
+      P   : constant String :=
+        (if Project = Null_Ptr then "" else Value (Project));
+   begin
+      if P /= "" then
+         --  A specific project was requested: try to build one unit
+         --  provider just for it. Lookup the project by name, and then if
+         --  not found, by path.
+         Prj := Tree.Project_From_Name (P);
+         if Prj = No_Project then
+            Prj := Tree.Project_From_Path (Create (+P));
+         end if;
+         if Prj = No_Project then
+            raise GNATCOLL.Projects.Invalid_Project
+               with "no such project: " & P;
+         end if;
+      end if;
 
-      --  The following locals contain dynamically allocated resources. If
-      --  project loading is successful, the result will own them, but in case
-      --  of error, they should be free'd using the Error function below.
+      return To_C_Provider
+        (Create_Project_Unit_Provider (Tree, Prj, Env, Is_Project_Owner));
+   end Create_Unit_Provider;
 
-      Tree : Project_Tree_Access;
-      Env  : Project_Environment_Access;
-      Prj  : Project_Type := No_Project;
+   --------------------------
+   -- ada_gpr_project_load --
+   --------------------------
 
-      procedure Free;
-      --  Helper for error handling: free allocated resources
-
-      ----------
-      -- Free --
-      ----------
-
-      procedure Free is
-      begin
-         Free (Env);
-         Free (Tree);
-      end Free;
-
+   function ada_gpr_project_load
+     (Project_File    : chars_ptr;
+      Scenario_Vars   : System.Address;
+      Target, Runtime : chars_ptr) return ada_gpr_project_ptr
+   is
+      Project : Project_Tree_Access;
+      Env     : Project_Environment_Access;
    begin
       Clear_Last_Exception;
 
-      Load_Project (Project_File, Scenario_Vars, Target, Runtime, Tree, Env);
-
-      declare
-         P : constant String :=
-           (if Project = Null_Ptr then "" else Value (Project));
-      begin
-         if P /= "" then
-            --  A specific project was requested: try to build one unit
-            --  provider just for it. Lookup the project by name, and then if
-            --  not found, by path.
-            Prj := Tree.Project_From_Name (P);
-            if Prj = No_Project then
-               Prj := Tree.Project_From_Path (Create (+P));
-            end if;
-            if Prj = No_Project then
-               Free;
-               raise GNATCOLL.Projects.Invalid_Project
-                  with "no such project: " & P;
-            end if;
-         end if;
-      end;
-
-      return To_C_Provider
-        (Create_Project_Unit_Provider (Tree, Prj, Env, True));
+      Load_Project
+        (Project_File, Scenario_Vars, Target, Runtime, Project, Env);
+      return new ada_gpr_project'(Project, Env);
 
    exception
       when Exc : GNATCOLL.Projects.Invalid_Project =>
-         Free;
          Set_Last_Exception (Exc);
-         return Null_Result;
+         return null;
+   end ada_gpr_project_load;
 
-      when Exc : Unsupported_View_Error =>
-         Free;
+   --------------------------
+   -- ada_gpr_project_free --
+   --------------------------
+
+   procedure ada_gpr_project_free (Self : ada_gpr_project_ptr) is
+      Var_Self : ada_gpr_project_ptr := Self;
+   begin
+      Clear_Last_Exception;
+
+      Self.Tree.Unload;
+      Free (Self.Tree);
+      Free (Self.Env);
+      Free (Var_Self);
+   end ada_gpr_project_free;
+
+   ------------------------------------------
+   -- ada_gpr_project_create_unit_provider --
+   ------------------------------------------
+
+   function ada_gpr_project_create_unit_provider
+     (Self    : ada_gpr_project_ptr;
+      Project : chars_ptr) return ada_unit_provider
+   is
+   begin
+      Clear_Last_Exception;
+      return Create_Unit_Provider (Self.Tree, Self.Env, Project, False);
+   exception
+      when Exc : Unsupported_View_Error | GNATCOLL.Projects.Invalid_Project =>
          Set_Last_Exception (Exc);
-         return Null_Result;
-   end ada_create_project_unit_provider;
+         return ada_unit_provider (System.Null_Address);
+   end ada_gpr_project_create_unit_provider;
 
    ------------------------------
    -- ada_create_auto_provider --
@@ -233,18 +258,14 @@ package body Libadalang.Implementation.C.Extensions is
       end;
    end ada_create_auto_provider;
 
-   ------------------------------
-   -- ada_project_source_files --
-   ------------------------------
+   ----------------------------------
+   -- ada_gpr_project_source_files --
+   ----------------------------------
 
-   function ada_project_source_files
-     (Project_File    : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr;
-      Mode            : int) return Source_File_Array_Ref_Access
+   function ada_gpr_project_source_files
+     (Self : ada_gpr_project_ptr;
+      Mode : int) return Source_File_Array_Ref_Access
    is
-      Tree   : Project_Tree_Access;
-      Env    : Project_Environment_Access;
       M      : Source_Files_Mode;
       Result : Filename_Vectors.Vector;
    begin
@@ -260,20 +281,9 @@ package body Libadalang.Implementation.C.Extensions is
             return null;
       end;
 
-      --  Load the project file and compute the list of source files
+      --  Compute the list of source files
 
-      begin
-         Load_Project
-           (Project_File, Scenario_Vars, Target, Runtime, Tree, Env);
-      exception
-         when Exc : Invalid_Project =>
-            Set_Last_Exception (Exc);
-            return null;
-      end;
-
-      Result := Source_Files (Tree.all, M);
-      Free (Tree);
-      Free (Env);
+      Result := Source_Files (Self.Tree.all, M);
 
       --  Convert the vector to the C API result
 
@@ -290,13 +300,13 @@ package body Libadalang.Implementation.C.Extensions is
 
          return Ref;
       end;
-   end ada_project_source_files;
+   end ada_gpr_project_source_files;
 
-   --------------------------------
-   -- ada_free_source_file_array --
-   --------------------------------
+   ---------------------------------------
+   -- ada_gpr_project_free_source_files --
+   ---------------------------------------
 
-   procedure ada_free_source_file_array
+   procedure ada_gpr_project_free_source_files
      (Source_Files : Source_File_Array_Ref_Access)
    is
       S : Source_File_Array_Ref_Access;
@@ -306,7 +316,35 @@ package body Libadalang.Implementation.C.Extensions is
       end loop;
       S := Source_Files;
       Free (S);
-   end ada_free_source_file_array;
+   end ada_gpr_project_free_source_files;
+
+   --------------------------------------
+   -- ada_create_project_unit_provider --
+   --------------------------------------
+
+   function ada_create_project_unit_provider
+     (Project_File, Project : chars_ptr;
+      Scenario_Vars         : System.Address;
+      Target, Runtime       : chars_ptr) return ada_unit_provider
+   is
+      Tree : Project_Tree_Access;
+      Env  : Project_Environment_Access;
+   begin
+      Clear_Last_Exception;
+
+      Load_Project (Project_File, Scenario_Vars, Target, Runtime, Tree, Env);
+      return Create_Unit_Provider (Tree, Env, Project, True);
+
+   exception
+      when Exc : Unsupported_View_Error | GNATCOLL.Projects.Invalid_Project =>
+         Set_Last_Exception (Exc);
+         if Tree /= null then
+            Tree.Unload;
+            Free (Tree);
+            Free (Env);
+         end if;
+         return ada_unit_provider (System.Null_Address);
+   end ada_create_project_unit_provider;
 
    ---------------------------------------
    -- ada_create_preprocessor_from_file --

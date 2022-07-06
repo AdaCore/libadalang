@@ -151,7 +151,8 @@ currently in Python:
   your source files.
 
 * You can use features from the project provider, provided by
-  :meth:`libadalang.UnitProvider.for_project` to use a GNAT project file.
+  :meth:`libadalang.GPRProject.create_unit_provider` to use a GNAT project
+  file.
 
 Be aware though, that because of lack of access to proper Python API to process
 GNAT project files, the corresponding facilities in Python are limited for the
@@ -166,8 +167,7 @@ capabilities: when we find an object declaration, we'll print the entity
 representing the type of the object declaration.
 
 .. code-block:: python
-    :linenos:
-    :emphasize-lines: 26
+    :emphasize-lines: 27
 
     import libadalang as lal
     import argparse
@@ -179,7 +179,8 @@ representing the type of the object declaration.
 
     provider = None
     if args.project:
-        provider = lal.UnitProvider.for_project(args.project)
+        project = lal.GPRProject(args.project)
+        provider = project.create_project_provider()
 
     context = lal.AnalysisContext(unit_provider=provider)
 
@@ -291,7 +292,7 @@ List of sources in a project
 
 Even though there is no dedicated Python API to analyze GNAT project files,
 Libadalang provides a convenience function to compute such a list:
-``libadalang.SourceFiles.for_project``. This is especially useful to compute
+``libadalang.GPRProject.source_files``. This is especially useful to compute
 the analysis units to pass to the ``p_find_all_*`` properties (described in the
 previous section).
 
@@ -304,10 +305,14 @@ runtime, ...) and just returns the list of source files:
 
    import libadalang as lal
 
-   context: lal.AnalysisContext = ...
+   project = lal.GPRProject(...)
+   context: lal.AnalysisContext = lal.AnalysisContext(
+       unit_provider=project.create_unit_provider(...),
+       ...
+   )
    id: lal.DefiningName = ...
 
-   source_files = lal.SourceFiles.for_project("foo.gpr")
+   source_files = project.source_files()
    units = [context.get_from_file(f) for f in source_files]
 
    print(f"Looking for references to {id}:")

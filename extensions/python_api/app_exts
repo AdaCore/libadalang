@@ -18,6 +18,7 @@
             for var in self.args.X:
                 k, v = var.split("=")
                 self.scenario_vars[k] = v
-
-        return UnitProvider.for_project(self.args.project,
-                                        scenario_vars=self.scenario_vars)
+        project = GPRProject(
+            self.args.project, scenario_vars=self.scenario_vars
+        )
+        return project.create_unit_provider()

@@ -1,19 +1,5 @@
 ## vim: filetype=makopython
 
-class _project_scenario_variable(ctypes.Structure):
-    _fields_ = [('name', ctypes.c_char_p),
-                ('value', ctypes.c_char_p)]
-
-_create_project_unit_provider = _import_func(
-    '${capi.get_name("create_project_unit_provider")}',
-    [ctypes.c_char_p,
-     ctypes.c_char_p,
-     ctypes.POINTER(_project_scenario_variable),
-     ctypes.c_char_p,
-     ctypes.c_char_p],
-    _unit_provider
-)
-
 _create_auto_provider = _import_func(
     '${capi.get_name("create_auto_provider")}',
     [ctypes.POINTER(ctypes.c_char_p), ctypes.c_char_p],

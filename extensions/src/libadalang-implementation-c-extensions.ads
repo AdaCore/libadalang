@@ -27,13 +27,13 @@ package Libadalang.Implementation.C.Extensions is
    procedure Free is new Ada.Unchecked_Deallocation
      (ada_gpr_project, ada_gpr_project_ptr);
 
-   type Project_Scenario_Variable is record
+   type ada_gpr_project_scenario_variable is record
       Name, Value : chars_ptr;
    end record
       with Convention => C_Pass_By_Copy;
 
-   type Project_Scenario_Variable_Array is
-      array (Positive range <>) of Project_Scenario_Variable
+   type ada_gpr_project_scenario_variable_array is
+      array (Positive range <>) of ada_gpr_project_scenario_variable
       with Convention => C;
    --  Array of name/value definitions for scenario variables. The last entry
    --  in such arrays must be a null/null association.

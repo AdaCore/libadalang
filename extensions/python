@@ -105,17 +105,17 @@ class GPRProject:
         if scenario_vars:
             items = scenario_vars.items()
             scn_vars_array_type = (
-                self._c_project_scenario_variable * (len(items) + 1)
+                self._c_scenario_variable * (len(items) + 1)
             )
             c_scenario_vars = scn_vars_array_type()
             for i, (name, value) in enumerate(items):
                 what = 'a dict mapping bytes strings to bytes strings'
                 name = self._coerce_bytes('scenario_vars', name, what)
                 value = self._coerce_bytes('scenario_vars', value, what)
-                c_scenario_vars[i] = self._c_project_scenario_variable(
+                c_scenario_vars[i] = self._c_scenario_variable(
                     name, value
                 )
-            c_scenario_vars[-1] = self._c_project_scenario_variable(None, None)
+            c_scenario_vars[-1] = self._c_scenario_variable(None, None)
         else:
             c_scenario_vars = None
 
@@ -195,14 +195,14 @@ class GPRProject:
 
     _c_type = _hashable_c_pointer()
 
-    class _c_project_scenario_variable(ctypes.Structure):
+    class _c_scenario_variable(ctypes.Structure):
         _fields_ = [('name', ctypes.c_char_p),
                     ('value', ctypes.c_char_p)]
 
     _c_load = staticmethod(_import_func(
         "ada_gpr_project_load",
         [ctypes.c_char_p,
-         ctypes.POINTER(_c_project_scenario_variable),
+         ctypes.POINTER(_c_scenario_variable),
          ctypes.c_char_p,
          ctypes.c_char_p],
         _c_type,

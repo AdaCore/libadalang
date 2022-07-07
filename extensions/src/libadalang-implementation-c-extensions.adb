@@ -57,7 +57,7 @@ package body Libadalang.Implementation.C.Extensions is
    function Scenario_Vars_Count (Scenario_Vars : System.Address) return Natural
    is
       Result : Natural := 1;
-      SV     : Project_Scenario_Variable_Array (Positive)
+      SV     : ada_gpr_project_scenario_variable_array (Positive)
          with Import  => True,
               Address => Scenario_Vars;
    begin
@@ -95,7 +95,7 @@ package body Libadalang.Implementation.C.Extensions is
       Env.Set_Target_And_Runtime (Target_Value, Runtime_Value);
       if Scenario_Vars /= System.Null_Address then
          declare
-            Vars : Project_Scenario_Variable_Array
+            Vars : ada_gpr_project_scenario_variable_array
                      (1 .. Scenario_Vars_Count (Scenario_Vars))
                with Import  => True,
                     Address => Scenario_Vars;

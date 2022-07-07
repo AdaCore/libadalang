@@ -754,18 +754,24 @@ package body Libadalang.Expr_Eval is
                   end;
 
                when String_Lit =>
-                  --  Handle concatenation on string
-                  case Op.Kind is
-                  when Ada_Op_Concat =>
-                     return (String_Lit,
-                             E.P_Expression_Type,
-                             L.String_Result & R.String_Result);
-
-                  when others =>
-                     raise Property_Error with
-                        "Wrong operator for string: " & Op.Kind'Image;
-                  end case;
+                  raise Property_Error with
+                     "Wrong operator for string: " & Op.Kind'Image;
                end case;
+            end;
+
+         when Ada_Concat_Op =>
+            declare
+               CO            : constant LAL.Concat_Op := E.As_Concat_Op;
+               Concat_Result : Unbounded_Text_Type;
+            begin
+               for I of CO.P_Operands loop
+                  declare
+                     ER : constant Eval_Result := Expr_Eval (I);
+                  begin
+                     Concat_Result := Concat_Result & ER.String_Result;
+                  end;
+               end loop;
+               return (String_Lit, E.P_Expression_Type, Concat_Result);
             end;
 
          when Ada_Un_Op =>

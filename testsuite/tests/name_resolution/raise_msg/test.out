@@ -8,7 +8,7 @@ Expr: <Id "Failure" test.adb:7:10-7:17>
   references:    <DefiningName test.adb:5:4-5:11>
   type:          None
   expected type: None
-Expr: <BinOp test.adb:7:23-7:40>
+Expr: <ConcatOp test.adb:7:23-7:40>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <CallExpr test.adb:7:23-7:30>
@@ -23,6 +23,9 @@ Expr: <Int test.adb:7:28-7:29>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <ConcatOperand test.adb:7:31-7:40>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <OpConcat "&" test.adb:7:31-7:32>
   references:    None
   type:          None
@@ -57,7 +60,7 @@ Expr: <Id "Failure" test.adb:11:33-11:40>
   references:    <DefiningName test.adb:5:4-5:11>
   type:          None
   expected type: None
-Expr: <BinOp test.adb:11:46-11:63>
+Expr: <ConcatOp test.adb:11:46-11:63>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <CallExpr test.adb:11:46-11:53>
@@ -72,6 +75,9 @@ Expr: <Int test.adb:11:51-11:52>
   references:    None
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <ConcatOperand test.adb:11:54-11:63>
+  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
 Expr: <OpConcat "&" test.adb:11:54-11:55>
   references:    None
   type:          None

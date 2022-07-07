@@ -21,3 +21,21 @@ Working on node <ObjectDecl ["S4"] valid.ads:12:4-12:42>
 
 Eval 'node.f_default_expr.p_eval_as_string'
 Result: 'Hello World!'
+
+Working on node <ObjectDecl ["S5"] valid.ads:15:4-15:56>
+========================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: 'ABCDE'
+
+Working on node <ObjectDecl ["S6"] valid.ads:18:4-18:62>
+========================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: 'ABCDE'
+
+Working on node <ObjectDecl ["S7"] valid.ads:21:4-21:62>
+========================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: 'ABCDE'

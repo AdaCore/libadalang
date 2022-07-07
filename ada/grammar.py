@@ -1363,9 +1363,13 @@ A.add_rules(
     simple_expr=Or(
         BinOp(
             A.simple_expr,
-            Or(Op.alt_plus("+"), Op.alt_minus("-"), Op.alt_concat("&")),
+            Or(Op.alt_plus("+"), Op.alt_minus("-")),
             Cut(),
             A.term
+        ),
+        ConcatOp(
+            A.unop_term,
+            List(ConcatOperand(Op.alt_concat("&"), A.unop_term))
         ),
         A.unop_term
     ),

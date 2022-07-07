@@ -8,11 +8,14 @@ Expr: <Id "X" test.adb:6:4-6:5>
   references:    test().x
   type:          ada.strings.unbounded.unbounded_string
   expected type: None
-Expr: <BinOp test.adb:6:9-6:24>
+Expr: <ConcatOp test.adb:6:9-6:24>
   type:          ada.strings.unbounded.unbounded_string
   expected type: ada.strings.unbounded.unbounded_string
 Expr: <Id "X" test.adb:6:9-6:10>
   references:    test().x
+  type:          ada.strings.unbounded.unbounded_string
+  expected type: ada.strings.unbounded.unbounded_string
+Expr: <ConcatOperand test.adb:6:11-6:24>
   type:          ada.strings.unbounded.unbounded_string
   expected type: ada.strings.unbounded.unbounded_string
 Expr: <OpConcat "&" test.adb:6:11-6:12>

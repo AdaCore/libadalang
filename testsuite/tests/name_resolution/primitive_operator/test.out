@@ -8,11 +8,14 @@ Expr: <Id "X" test.adb:19:4-19:5>
   references:    <DefiningName test.adb:16:4-16:5>
   type:          <TypeDecl ["T"] test.adb:3:7-3:36>
   expected type: None
-Expr: <BinOp test.adb:19:9-19:14>
+Expr: <ConcatOp test.adb:19:9-19:14>
   type:          <TypeDecl ["T"] test.adb:3:7-3:36>
   expected type: <TypeDecl ["T"] test.adb:3:7-3:36>
 Expr: <Id "X" test.adb:19:9-19:10>
   references:    <DefiningName test.adb:16:4-16:5>
+  type:          <TypeDecl ["T"] test.adb:3:7-3:36>
+  expected type: <TypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <ConcatOperand test.adb:19:11-19:14>
   type:          <TypeDecl ["T"] test.adb:3:7-3:36>
   expected type: <TypeDecl ["T"] test.adb:3:7-3:36>
 Expr: <OpConcat "&" test.adb:19:11-19:12>
@@ -31,11 +34,14 @@ Expr: <Id "Y" test.adb:21:4-21:5>
   references:    <DefiningName test.adb:17:4-17:5>
   type:          <TypeDecl ["My_T"] test.adb:11:7-11:47>
   expected type: None
-Expr: <BinOp test.adb:21:9-21:14>
+Expr: <ConcatOp test.adb:21:9-21:14>
   type:          <TypeDecl ["My_T"] test.adb:11:7-11:47>
   expected type: <TypeDecl ["My_T"] test.adb:11:7-11:47>
 Expr: <Id "Y" test.adb:21:9-21:10>
   references:    <DefiningName test.adb:17:4-17:5>
+  type:          <TypeDecl ["My_T"] test.adb:11:7-11:47>
+  expected type: <TypeDecl ["My_T"] test.adb:11:7-11:47>
+Expr: <ConcatOperand test.adb:21:11-21:14>
   type:          <TypeDecl ["My_T"] test.adb:11:7-11:47>
   expected type: <TypeDecl ["My_T"] test.adb:11:7-11:47>
 Expr: <OpConcat "&" test.adb:21:11-21:12>

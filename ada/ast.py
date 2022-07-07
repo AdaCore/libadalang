@@ -11776,213 +11776,62 @@ class BinOp(Expr):
         When no subprogram is found for this node's operator, use this property
         to construct the xref equation for this node.
         """
-        return Self.op.match(
-            lambda _=Op.alt_concat:
-            Predicate(BaseTypeDecl.is_array_def_with_deref_or_null,
-                      Self.expected_type_var)
-            & Predicate(BaseTypeDecl.is_array_def_with_deref, Self.type_var)
-            & Or(
-                # If the expected is not null, use it to infer self's type
-                # and the type of the operands.
-                Predicate(BaseTypeDecl.is_not_null, Self.expected_type_var)
-                & Entity.array_concat_expected_type_equation,
-
-                # If the expected type is null (e.g. we are in a type
-                # conversion), we must infer Self's type from the operands.
-                # Since we assume Ada code, either the LHS or the RHS will
-                # have a context-free type which we can use to infer the rest.
-                Bind(Self.expected_type_var, No(BaseTypeDecl))
-                & Bind(Self.left.type_var, Self.left.expected_type_var)
-                & Bind(Self.right.type_var, Self.right.expected_type_var)
-                & Or(
-                    Bind(Self.left.type_var, Self.type_var),
-                    Self.comp_bind(Self.type_var, Self.left.type_var)
-                )
-                & Or(
-                    Bind(Self.right.type_var, Self.type_var),
-                    Self.comp_bind(Self.type_var, Self.right.type_var)
-                ),
+        return Or(
+            # Use the type we are about to infer for Self as the expected types
+            # for the left and right operands. This is to handle the general
+            # shape: `function "op" (X, Y : T) return T`.
+            And(
+                Bind(Self.type_var, Self.left.expected_type_var),
+                Bind(Self.type_var, Self.right.expected_type_var)
             ),
 
-            lambda _:
-            Or(
-                # Use the type we are about to infer for Self as the expected
-                # types for the left and right operands. This is to handle
-                # the general shape: `function "op" (X, Y : T) return T`.
-                And(
-                    Bind(Self.type_var, Self.left.expected_type_var),
-                    Bind(Self.type_var, Self.right.expected_type_var)
-                ),
+            # But there are some other cases to handle:
+            Cond(
+                # For multiplication operators, we must also handle the shape
+                # `function "op" (X : Integer, Y : T) return T` as well as
+                # `function "op" (X : T, Y : Integer) return T`.
+                Self.op.is_a(Op.alt_mult, Op.alt_div),
+                Or(
+                    Bind(Self.left.expected_type_var, Self.int_type)
+                    & Bind(Self.right.expected_type_var, Self.type_var),
 
-                # But there are some other cases to handle:
-                Cond(
-                    # For multiplication operators, we must also handle the
-                    # shape `function "op" (X : Integer, Y : T) return T` as
-                    # well as `function "op" (X : T, Y : Integer) return T`.
-                    Self.op.is_a(Op.alt_mult, Op.alt_div),
-                    Or(
-                        Bind(Self.left.expected_type_var, Self.int_type)
-                        & Bind(Self.right.expected_type_var, Self.type_var),
-
-                        Bind(Self.right.expected_type_var, Self.int_type)
-                        & Bind(Self.left.expected_type_var, Self.type_var)
-                    ),
-
-                    # For power operators, we must also handle the
-                    # shape `function "op" (X : T, Y : Integer) return T`.
-                    Self.op.is_a(Op.alt_pow),
                     Bind(Self.right.expected_type_var, Self.int_type)
-                    & Bind(Self.left.expected_type_var, Self.type_var),
+                    & Bind(Self.left.expected_type_var, Self.type_var)
+                ),
 
-                    LogicFalse()
-                )
+                # For power operators, we must also handle the shape
+                # `function "op" (X : T, Y : Integer) return T`.
+                Self.op.is_a(Op.alt_pow),
+                Bind(Self.right.expected_type_var, Self.int_type)
+                & Bind(Self.left.expected_type_var, Self.type_var),
+
+                LogicFalse()
             )
-            & Or(
-                # If the expected type is known, use it to infer the type of
-                # Self. This will allow Self's type to be used in the next
-                # disjunction to infer the type of the operands if necessary.
-                Predicate(AdaNode.is_not_null, Self.expected_type_var)
-                & Bind(Self.expected_type_var, Self.type_var,
-                       conv_prop=BaseTypeDecl.derefed_base_subtype),
+        ) & Or(
+            # If the expected type is known, use it to infer the type of Self.
+            # This will allow Self's type to be used in the next disjunction to
+            # infer the type of the operands if necessary.
+            Predicate(AdaNode.is_not_null, Self.expected_type_var)
+            & Bind(Self.expected_type_var, Self.type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype),
 
-                # Otherwise, we cannot infer the type of Self from its expected
-                # type, so we will infer it from one of the operands, since at
-                # least one of them necessarily has a context-free type
-                # (otherwise this wouldn't be valid Ada code).
-                Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
-            )
-            & Or(
-                # If the expected is known, it was assigned to the type of
-                # Self, there might be nothing more to do.
-                Predicate(AdaNode.is_not_null, Self.expected_type_var)
-                & Self.left.matches_expected_formal_type
-                & Self.right.matches_expected_formal_type,
+            # Otherwise, we cannot infer the type of Self from its expected
+            # type, so we will infer it from one of the operands, since at
+            # least one of them necessarily has a context-free type (otherwise
+            # this wouldn't be valid Ada code).
+            Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
+        ) & Or(
+            # If the expected is known, it was assigned to the type of Self,
+            # there might be nothing more to do.
+            Predicate(AdaNode.is_not_null, Self.expected_type_var)
+            & Self.left.matches_expected_formal_type
+            & Self.right.matches_expected_formal_type,
 
-                # If we're trying the following option, it means we must infer
-                # Self's type from one of the operands. We assign it to the
-                # first one that is *not* a universal type (the result of a
-                # binary operation cannot be a universal type).
-                Entity.numeric_type_from_operands_equation(Self.type_var)
-            )
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[origin])
-    def array_concat_expected_type_equation():
-        """
-        Assume this BinOp represents a predefined array concatenation operator,
-        construct the xref equation that must bind Self's type to the type of
-        the result of the concatenation, using the type of the operands or the
-        type from the context.
-        """
-        left_ctx_free = Var(Self.left.has_context_free_type)
-        right_ctx_free = Var(Self.right.has_context_free_type)
-
-        # Generate different xref equations depending on which operands have
-        # a context-free type. This helps reduce the final number of
-        # disjunction compared to handling all the cases in a single equation.
-        return Cond(
-            left_ctx_free & right_ctx_free,
-
-            Or(
-                # Both operands have a context-free type, so use their
-                # types to find the type of the result. This equation
-                # handles the following operators:
-                #  - "&" (Array_Of_T, T) -> Array_Of_T
-                #  - "&" (T, Array_Of_T) -> Array_Of_T
-                #  - "&" (Array_Of_T, Array_Of_T) -> Array_Of_T.
-                NPropagate(Self.type_var,
-                           BaseTypeDecl.array_concat_result_type,
-                           Self.left.type_var, Self.right.type_var)
-                & NPropagate(Self.left.expected_type_var,
-                             BaseTypeDecl.expected_array_concat_operand_type,
-                             Self.type_var, Self.left.type_var)
-                & NPropagate(Self.right.expected_type_var,
-                             BaseTypeDecl.expected_array_concat_operand_type,
-                             Self.type_var, Self.right.type_var),
-
-                # But we need another disjunction to handle the case:
-                #  - "&" (T, T) -> Array_Of_T
-                # For this case, we necessarily need to use the type
-                # of the context even though both operands have a
-                # context-free type.
-                Bind(Self.expected_type_var, Self.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.comp_bind(Self.type_var, Self.left.expected_type_var)
-                & Self.comp_bind(Self.type_var, Self.right.expected_type_var)
-                & Entity.left.matches_expected_formal_type
-                & Entity.right.matches_expected_formal_type
-            ),
-
-            left_ctx_free,
-            Or(
-                # Left operand has a context free, use to infer the
-                # type of the result. This can handle the cases:
-                #  - "&" (Array_Of_T, *) -> Array_Of_T.
-                Bind(Self.left.type_var, Self.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Bind(Self.type_var, Self.left.expected_type_var),
-
-                # We need another disjunction to handle the remaining
-                # cases:
-                #  - "&" (T, *) -> Array_Of_T
-                # For both these cases, we need to use the type of the
-                # context even though LHS has a context-free type.
-                Bind(Self.expected_type_var, Self.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.comp_bind(Self.type_var, Self.left.expected_type_var)
-                & Entity.left.matches_expected_formal_type
-            )
-            # The type of Self has been inferred from the LHS, use it
-            # to determine the type of the RHS.
-            & Or(
-                Bind(Self.type_var, Self.right.expected_type_var),
-                Self.comp_bind(Self.type_var, Self.right.expected_type_var)
-            )
-            & Entity.right.matches_expected_formal_type,
-
-            right_ctx_free,
-            Or(
-                # Right operand has a context free, use to infer the
-                # type of the result. This can handle the cases:
-                #  - "&" (*, Array_Of_T) -> Array_Of_T.
-                Bind(Self.right.type_var, Self.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Bind(Self.type_var, Self.right.expected_type_var),
-
-                # We need another disjunction to handle the remaining
-                # cases:
-                #  - "&" (*, T) -> Array_Of_T
-                # For both these cases, we need to use the type of the
-                # context even though RHS has a context-free type.
-                Bind(Self.expected_type_var, Self.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.comp_bind(Self.type_var, Self.right.expected_type_var)
-                & Entity.right.matches_expected_formal_type
-            )
-            # The type of Self has been inferred from the RHS, use it
-            # to determine the type of the LHS.
-            & Or(
-                Bind(Self.type_var, Self.left.expected_type_var),
-                Self.comp_bind(Self.type_var, Self.left.expected_type_var)
-            )
-            & Entity.left.matches_expected_formal_type,
-
-            # None of the operands have a context-free type, so we
-            # necessarily have an expected type (otherwise it wouldn't
-            # be valid Ada code). Use it to determine the type of the
-            # operands.
-            Bind(Self.expected_type_var, Self.type_var,
-                 conv_prop=BaseTypeDecl.derefed_base_subtype)
-            & Or(
-                Bind(Self.type_var, Self.left.expected_type_var),
-                Self.comp_bind(Self.type_var, Self.left.expected_type_var)
-            )
-            & Or(
-                Bind(Self.type_var, Self.right.expected_type_var),
-                Self.comp_bind(Self.type_var, Self.right.expected_type_var)
-            )
-            & Entity.left.matches_expected_formal_type
-            & Entity.right.matches_expected_formal_type
+            # If we're trying the following option, it means we must infer
+            # Self's type from one of the operands. We assign it to the first
+            # one that is *not* a universal type (the result of a binary
+            # operation cannot be a universal type).
+            Entity.numeric_type_from_operands_equation(Self.type_var)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[origin])
@@ -12048,6 +11897,297 @@ class BinOp(Expr):
         return Entity.op.referenced_decl.then(
             lambda decl: Entity.is_dispatching_call_impl(decl)
         )
+
+
+class ConcatOp(Expr):
+    """
+    Concatenation expression.
+
+    Since concatenation expression can be huge in practice, this node handles
+    them as a list of operands rather than a deep tree of binary operators, in
+    order to avoid crashes while parsing of running name resolution on such
+    huge expression.
+
+    The purpose of this node is to replace the arbitraty too deep tree of
+    binary operators (which can lead to a stack overflow), as for example with
+    ``"A & B & C & D & E"``:
+
+    .. code::
+
+        BinOp(
+          Binop(
+            BinOp(
+              BinOp(A, &, B), & , C), &, D), &, E)
+
+    by a single operator, handling a list of operands that can be processed
+    without having to perform deep recursions:
+
+    .. code::
+
+        ConcatOp(A,
+          ConcatOperand(&, B),
+          ConcatOperand(&, C),
+          ConcatOperand(&, D),
+          ConcatOperand(&, E))
+
+    """
+    first_operand = Field(type=T.Expr)
+    other_operands = Field(type=T.ConcatOperand.list)
+
+    operands = Property(
+        Entity.first_operand.singleton.concat(
+            Entity.other_operands.map(lambda oo: oo.operand)
+        ),
+        public=True,
+        doc="Return the operands of this concatenation expression"
+    )
+
+    @langkit_property()
+    def has_context_free_type():
+        return False
+
+    @langkit_property()
+    def xref_equation():
+        last_operand = Var(
+            Self.other_operands.at(Self.other_operands.length - 1))
+        concat_subprograms = Var(
+            Entity.other_operands.at(0).operator.subprograms)
+
+        # Perform expression resolution from left to right
+        return (
+            Entity.first_operand.sub_equation
+            & Entity.other_operands.logic_all(
+                lambda pos, concat_operand: Let(
+                    # left operand expression is first_operand to begin with,
+                    # then, left operands are the result of the previous
+                    # operator resolution.
+                    lambda left=If(
+                        pos > 0,
+                        Entity.other_operands.at(pos - 1),
+                        Entity.first_operand
+                    ),
+                    right=concat_operand.operand:
+
+                    right.sub_equation &
+                    Or(
+                        # Find the subprogram corresponding to:
+                        # "&" (left, right).
+                        concat_subprograms.logic_any(
+                            lambda subp: Let(
+                                lambda spec=subp.subp_spec_or_null:
+
+                                And(
+                                    Entity.arguments_eq(spec, left,
+                                                        concat_operand, right),
+                                    Bind(concat_operand.operator.ref_var,
+                                         subp),
+                                    Bind(concat_operand.operator.subp_spec_var,
+                                         spec)
+                                )
+                            )
+                        ),
+                        # When no subprogram is found for this concat operator,
+                        # use this equation to infer it's type depending on the
+                        # context.
+                        Entity.operator_no_subprogram_equation(left,
+                                                               concat_operand,
+                                                               right)
+                    )
+                )
+            )
+            # Just propagate last operand's type/expected_type to Self
+            & Bind(Self.type_var, last_operand.type_var)
+            & Bind(Self.expected_type_var, last_operand.expected_type_var)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    def arguments_eq(spec=T.BaseSubpSpec.entity,
+                     left=T.Expr.entity,
+                     op=T.ConcatOperand.entity,
+                     right=T.Expr.entity):
+
+        ps = Var(spec.unpacked_formal_params)
+        return If(
+            ps.length == 2,
+
+            # The subprogram's first argument must match left operand
+            spec.call_argument_equation(ps.at(0).formal_decl, left)
+
+            # The subprogram's second argument must match right operand
+            & spec.call_argument_equation(ps.at(1).formal_decl, right)
+
+            # The subprogram's return type is the type of op
+            & Bind(op.type_var, spec.return_type),
+
+            LogicFalse()
+        )
+
+    @langkit_property(dynamic_vars=[origin])
+    def operator_no_subprogram_equation(left=T.Expr.entity,
+                                        op=T.ConcatOperand.entity,
+                                        right=T.Expr.entity):
+        """
+        When no subprogram is found for this operator, use this property to
+        construct the xref equation for this node.
+        """
+        return (
+            Predicate(BaseTypeDecl.is_array_def_with_deref_or_null,
+                      op.expected_type_var)
+            & Predicate(BaseTypeDecl.is_array_def_with_deref, op.type_var)
+            & Or(
+                # If the expected is not null, use it to infer self's type
+                # and the type of the operands.
+                Predicate(BaseTypeDecl.is_not_null, op.expected_type_var)
+                & Entity.array_concat_expected_type_equation(left, op, right),
+
+                # If the expected type is null (e.g. we are in a type
+                # conversion), we must infer Self's type from the operands.
+                # Since we assume Ada code, either the LHS or the RHS will have
+                # a context-free type which we can use to infer the rest.
+                Bind(op.expected_type_var, No(BaseTypeDecl))
+                & Bind(left.type_var, left.expected_type_var)
+                & Bind(right.type_var, right.expected_type_var)
+                & Or(
+                    Bind(left.type_var, op.type_var),
+                    Self.comp_bind(op.type_var, left.type_var)
+                )
+                & Or(
+                    Bind(right.type_var, op.type_var),
+                    Self.comp_bind(op.type_var, right.type_var)
+                )
+            )
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    def array_concat_expected_type_equation(left=T.Expr.entity,
+                                            op=T.ConcatOperand.entity,
+                                            right=T.Expr.entity):
+        """
+        Assume this operator represents a predefined array concatenation
+        operator, construct the xref equation that must bind the operator's
+        type to the type of the result of the concatenation, using the type of
+        the operands or the type from the context.
+        """
+        left_ctx_free = Var(left.has_context_free_type)
+        right_ctx_free = Var(right.has_context_free_type)
+
+        # Generate different xref equations depending on which operands have a
+        # context-free type. This helps reduce the final number of disjunction
+        # compared to handling all the cases in a single equation.
+        return Cond(
+            left_ctx_free & right_ctx_free,
+            Or(
+                # Both operands have a context-free type, so use their types to
+                # find the type of the result. This equation handles the
+                # following operators:
+                #  - "&" (Array_Of_T, T) -> Array_Of_T
+                #  - "&" (T, Array_Of_T) -> Array_Of_T
+                #  - "&" (Array_Of_T, Array_Of_T) -> Array_Of_T.
+                NPropagate(op.type_var,
+                           BaseTypeDecl.array_concat_result_type,
+                           left.type_var, right.type_var)
+                & NPropagate(left.expected_type_var,
+                             BaseTypeDecl.expected_array_concat_operand_type,
+                             op.type_var, left.type_var)
+                & NPropagate(right.expected_type_var,
+                             BaseTypeDecl.expected_array_concat_operand_type,
+                             op.type_var, right.type_var),
+
+                # But we need another disjunction to handle the case:
+                #  - "&" (T, T) -> Array_Of_T
+                # For this case, we necessarily need to use the type of the
+                # context even though both operands have a context-free type.
+                Bind(op.expected_type_var, op.type_var,
+                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                & Self.comp_bind(op.type_var, left.expected_type_var)
+                & Self.comp_bind(op.type_var, right.expected_type_var)
+                & left.matches_expected_formal_type
+                & right.matches_expected_formal_type
+            ),
+
+            left_ctx_free,
+            Or(
+                # Left operand has a context free, use to infer the type of the
+                # result. This can handle the cases:
+                #  - "&" (Array_Of_T, *) -> Array_Of_T.
+                Bind(left.type_var, op.type_var,
+                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                & Bind(op.type_var, left.expected_type_var),
+
+                # We need another disjunction to handle the remaining cases:
+                #  - "&" (T, *) -> Array_Of_T
+                # For both these cases, we need to use the type of the context
+                # even though LHS has a context-free type.
+                Bind(op.expected_type_var, op.type_var,
+                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                & Self.comp_bind(op.type_var, left.expected_type_var)
+                & left.matches_expected_formal_type
+            )
+            # The type of op has been inferred from the LHS, use it to
+            # determine the type of the RHS.
+            & Or(
+                Bind(op.type_var, right.expected_type_var),
+                Self.comp_bind(op.type_var, right.expected_type_var)
+            )
+            & right.matches_expected_formal_type,
+
+            right_ctx_free,
+            Or(
+                # Right operand has a context free, use to infer the type of
+                # the result. This can handle the cases:
+                #  - "&" (*, Array_Of_T) -> Array_Of_T.
+                Bind(right.type_var, op.type_var,
+                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                & Bind(op.type_var, right.expected_type_var),
+
+                # We need another disjunction to handle the remaining cases:
+                #  - "&" (*, T) -> Array_Of_T
+                # For both these cases, we need to use the type of the context
+                # even though RHS has a context-free type.
+                Bind(op.expected_type_var, op.type_var,
+                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                & Self.comp_bind(op.type_var, right.expected_type_var)
+                & right.matches_expected_formal_type
+            )
+            # The type of op has been inferred from the RHS, use it to
+            # determine the type of the LHS.
+            & Or(
+                Bind(op.type_var, left.expected_type_var),
+                Self.comp_bind(op.type_var, left.expected_type_var)
+            )
+            & left.matches_expected_formal_type,
+
+            # None of the operands have a context-free type, so we necessarily
+            # have an expected type (otherwise it wouldn't be valid Ada code).
+            # Use it to determine the type of the operands.
+            Bind(op.expected_type_var, op.type_var,
+                 conv_prop=BaseTypeDecl.derefed_base_subtype)
+            & Or(
+                Bind(op.type_var, left.expected_type_var),
+                Self.comp_bind(op.type_var, left.expected_type_var)
+            )
+            & Or(
+                Bind(op.type_var, right.expected_type_var),
+                Self.comp_bind(op.type_var, right.expected_type_var)
+            )
+            & left.matches_expected_formal_type
+            & right.matches_expected_formal_type
+        )
+
+
+class ConcatOperand(Expr):
+    """
+    A concatenation operator and its RHS operand.
+
+    This node is used to represent the tuple ("&", operand) used by the
+    ``ConcatOp`` node to store its ``other_operands`` list.
+    """
+    operator = Field(type=T.Op.Concat)
+    operand = Field(type=T.Expr)
+
+    @langkit_property()
+    def has_context_free_type():
+        return False
 
 
 class RelationOp(BinOp):
@@ -16020,7 +16160,8 @@ class Op(BaseId):
                 # Note: we do not use synthesized operators for BinOp/UnOp
                 # resolution for now as it introduces a significant performance
                 # regression.
-                # TODO: retry when new solver is available.
+
+                # TODO: retry when new solver is available
                 Not(e.is_a(SyntheticSubpDecl))
             )
         ))

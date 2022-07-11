@@ -310,14 +310,18 @@ class AdaNode(ASTNode):
         """
         Return possible completions at this point in the file.
         """
-        return Entity.complete_items.filter(
-            # This property filters out `SyntheticSubpDecl` items
-            # because they are of no use for completion. Additional
-            # filtering can be done in `complete_items`.
-            lambda n: n.decl.cast(T.SyntheticSubpDecl).is_null
-        ).to_iterator
+        return origin.bind(
+            Self.origin_node,
+            Entity.complete_items.filter(
+                # This property filters out `SyntheticSubpDecl` items
+                # because they are of no use for completion. Additional
+                # filtering can be done in `complete_items`.
+                lambda n: n.decl.cast(T.SyntheticSubpDecl).is_null
+            ).to_iterator
+        )
 
-    @langkit_property(return_type=T.CompletionItem.array)
+    @langkit_property(return_type=T.CompletionItem.array,
+                      dynamic_vars=[origin])
     def complete_items():
         """
         Internal method used by ``complete`` to get the array of possible
@@ -331,9 +335,19 @@ class AdaNode(ASTNode):
             lambda n: CompletionItem.new(
                 decl=n.cast(T.BasicDecl),
                 is_dot_call=n.info.md.dottable_subp,
-                is_visible=Self.has_with_visibility(n.unit)
+                is_visible=Self.has_with_visibility(n.unit),
+                weight=Self.complete_item_weight(n.cast(T.BasicDecl))
             )
         )
+
+    @langkit_property(return_type=Int, dynamic_vars=[origin])
+    def complete_item_weight(item=T.BasicDecl.entity):
+        """
+        Internal method used by ``complete_items`` that can be used to
+        specialize the completion weight field only.
+        """
+        ignore(item)
+        return 0
 
     @langkit_property(public=True, return_type=T.Symbol.array)
     def valid_keywords():
@@ -19170,6 +19184,14 @@ class AssignStmt(SimpleStmt):
 
     dest = Field(type=T.Name)
     expr = Field(type=T.Expr)
+
+    @langkit_property(return_type=Int, dynamic_vars=[origin])
+    def complete_item_weight(item=T.BasicDecl.entity):
+        # Promote declarations that returns a value
+        return item.expr_type.then(
+            lambda _: 100,
+            default_val=0
+        )
 
     @langkit_property()
     def xref_equation():

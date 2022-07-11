@@ -1,0 +1,6 @@
+type: new-feature
+title: Improve ``AssignStmt`` expression completion
+description: |
+  The ``p_complete`` property now promotes expressions that return a value when
+  called on an ``AssignStmt`` expression.
+date: 2022-07-11

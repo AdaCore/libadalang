@@ -127,6 +127,7 @@ with Ada.Strings.Unbounded.Hash;
 with GNAT.Strings; use GNAT.Strings;
 
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
+with GNATCOLL.Projects;
 
 with Langkit_Support.Diagnostics;  use Langkit_Support.Diagnostics;
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
@@ -282,6 +283,24 @@ package Libadalang.Preprocessing is
    --
    --  See GNATprep's documentation for a description of the preprocessor data
    --  file format.
+
+   function Extract_Preprocessor_Data_From_Project
+     (Project : GNATCOLL.Projects.Project_Tree'Class) return Preprocessor_Data;
+   --  Create preprocessor data from compiler arguments found in the given GPR
+   --  project (``-gnateP`` and ``-gnateD`` arguments).
+   --
+   --  Note that this function collects all arguments and returns an
+   --  approximation from them: it does not replicates exactly gprbuild's
+   --  behavior.
+
+   procedure Extract_Preprocessor_Data_From_Project
+     (Project        : GNATCOLL.Projects.Project_Tree'Class;
+      Default_Config : out File_Config;
+      File_Configs   : out File_Config_Maps.Map);
+   --  Like the ``Extract_Preprocessor_Data_From_Project`` function, but
+   --  instead fill out the ``Default_Config`` and ``File_Configs`` arguments.
+   --  This procedure is useful in order to modify the parsed configuration
+   --  before creating the ``Preprocessor_Data`` object.
 
    function Create_Preprocessor_Data
      (Default_Config : in out File_Config;

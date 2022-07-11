@@ -1,0 +1,9 @@
+project P is
+
+   for Source_Dirs use ("p");
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnateDBAR=1");
+   end Compiler;
+
+end P;

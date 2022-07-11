@@ -1,0 +1,33 @@
+== simple/p.gpr ==
+
+# default
+  foo -> Symbol(1)
+  foobar -> Symbol(2)
+
+== with/q.gpr ==
+
+# default
+  bar -> Symbol(1)
+  foo -> Symbol(1)
+
+== extends/q.gpr ==
+
+# default
+  bar -> Symbol(1)
+  foo -> Symbol(1)
+
+== aggr/aggr.gpr ==
+
+# default
+  bar -> Symbol(1)
+  foo -> Symbol(1)
+
+== file_read_error/p.gpr ==
+
+LANGKIT_SUPPORT.ERRORS.FILE_READ_ERROR: no such file: foo.prep
+
+== syntax_error/p.gpr ==
+
+LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: foo.prep:1:2: invalid token
+
+Done.

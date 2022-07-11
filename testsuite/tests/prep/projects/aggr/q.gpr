@@ -1,0 +1,10 @@
+project Q is
+
+   for Source_Dirs use ("q");
+   for Object_Dir use "q/obj";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnateDFOO=1");
+   end Compiler;
+
+end Q;

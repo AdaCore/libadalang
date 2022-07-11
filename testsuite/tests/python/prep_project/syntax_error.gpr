@@ -1,0 +1,10 @@
+project Syntax_Error is
+
+   for Source_Dirs use ("src");
+   for Object_Dir use "obj/syntax_error";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnatep=foo.prep");
+   end Compiler;
+
+end Syntax_Error;

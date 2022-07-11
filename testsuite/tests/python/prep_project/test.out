@@ -1,0 +1,21 @@
+== Normal ==
+
+Preprocessor output on foo.adb:
+   1 | procedure Foo is
+   2 |    I : constant Integer := 1;
+   3 | begin
+   4 |    null;
+   5 | end Foo;
+   6 |
+
+== No such file ==
+
+Error while creating the preprocessor:
+  FileReadError: no such file: foo.prep
+
+== Syntax error ==
+
+Error while creating the preprocessor:
+  SyntaxError: foo.prep:1:2: invalid token
+
+Done

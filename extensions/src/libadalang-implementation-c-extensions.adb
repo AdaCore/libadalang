@@ -405,4 +405,36 @@ package body Libadalang.Implementation.C.Extensions is
       end;
    end ada_create_preprocessor_from_file;
 
+   -----------------------------------------
+   -- ada_gpr_project_create_preprocessor --
+   -----------------------------------------
+
+   function ada_gpr_project_create_preprocessor
+     (Self : ada_gpr_project_ptr) return ada_file_reader
+   is
+      Default_Config : File_Config;
+      File_Configs   : File_Config_Maps.Map;
+   begin
+      Clear_Last_Exception;
+
+      --  Load preprocessor data from the given project, then create the file
+      --  reader from that data.
+
+      Extract_Preprocessor_Data_From_Project
+        (Self.Tree.all, Default_Config, File_Configs);
+      declare
+         FR_Ref : constant File_Reader_Reference :=
+           Create_Preprocessor (Default_Config, File_Configs);
+         FR_Int : constant Internal_File_Reader_Access :=
+           Wrap_Public_File_Reader (FR_Ref);
+      begin
+         return Wrap_Private_File_Reader (FR_Int);
+      end;
+
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+         return ada_file_reader (System.Null_Address);
+   end ada_gpr_project_create_preprocessor;
+
 end Libadalang.Implementation.C.Extensions;

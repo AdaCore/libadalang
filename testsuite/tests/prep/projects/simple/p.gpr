@@ -1,0 +1,15 @@
+project P is
+
+   for Source_Dirs use ("p");
+   for Object_Dir use "p/obj";
+
+   package Compiler is
+
+      --  Purposefully use lower-case language name, to check that the casing
+      --  of the index does not matter (the implementation looks up for "Ada").
+
+      for Default_Switches ("ada") use ("-gnatep=foo.prep", "-gnateDFOO=1");
+      for Switches ("pkg.adb") use ("-gnateDBAR=1");
+   end Compiler;
+
+end P;

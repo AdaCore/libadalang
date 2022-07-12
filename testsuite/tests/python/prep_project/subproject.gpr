@@ -1,0 +1,10 @@
+project Subproject is
+
+   for Source_Dirs use ("src/subproject");
+   for Object_Dir use "obj/subproject";
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnateDFOO=1", "-gnateDBAR=2");
+   end Compiler;
+
+end Subproject;

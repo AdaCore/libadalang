@@ -39,6 +39,13 @@ package body Libadalang.Implementation.C.Extensions is
    --  ``GNATCOLL.Projects.Invalid_Project`` exception if the project cannot be
    --  loaded.
 
+   function Fetch_Project
+     (Tree : Project_Tree'Class; Project_Name : chars_ptr) return Project_Type;
+   --  Helper to fetch the sub-project in ``Tree`` that is called
+   --  ``Project_Name``. If that project is unknown, raise a
+   --  `GNATCOLL.Projects.Invalid_Project`` exception. If ``Project_Name`` is
+   --  null or an empty string, return ``No_Project``.
+
    function Create_Unit_Provider
      (Tree             : Project_Tree_Access;
       Env              : Project_Environment_Access;
@@ -128,6 +135,30 @@ package body Libadalang.Implementation.C.Extensions is
          raise;
    end Load_Project;
 
+   -------------------
+   -- Fetch_Project --
+   -------------------
+
+   function Fetch_Project
+     (Tree : Project_Tree'Class; Project_Name : chars_ptr) return Project_Type
+   is
+      Name : constant String :=
+        (if Project_Name = Null_Ptr then "" else Value (Project_Name));
+   begin
+      return Result : Project_Type := No_Project do
+         if Name /= "" then
+            Result := Tree.Project_From_Name (Name);
+            if Result = No_Project then
+               Result := Tree.Project_From_Path (Create (+Name));
+            end if;
+            if Result = No_Project then
+               raise GNATCOLL.Projects.Invalid_Project
+                  with "no such project: " & Name;
+            end if;
+         end if;
+      end return;
+   end Fetch_Project;
+
    --------------------------
    -- Create_Unit_Provider --
    --------------------------
@@ -138,24 +169,8 @@ package body Libadalang.Implementation.C.Extensions is
       Project          : chars_ptr;
       Is_Project_Owner : Boolean) return ada_unit_provider
    is
-      Prj : Project_Type := No_Project;
-      P   : constant String :=
-        (if Project = Null_Ptr then "" else Value (Project));
+      Prj : constant Project_Type := Fetch_Project (Tree.all, Project);
    begin
-      if P /= "" then
-         --  A specific project was requested: try to build one unit
-         --  provider just for it. Lookup the project by name, and then if
-         --  not found, by path.
-         Prj := Tree.Project_From_Name (P);
-         if Prj = No_Project then
-            Prj := Tree.Project_From_Path (Create (+P));
-         end if;
-         if Prj = No_Project then
-            raise GNATCOLL.Projects.Invalid_Project
-               with "no such project: " & P;
-         end if;
-      end if;
-
       return To_C_Provider
         (Create_Project_Unit_Provider (Tree, Prj, Env, Is_Project_Owner));
    end Create_Unit_Provider;
@@ -410,18 +425,22 @@ package body Libadalang.Implementation.C.Extensions is
    -----------------------------------------
 
    function ada_gpr_project_create_preprocessor
-     (Self : ada_gpr_project_ptr) return ada_file_reader
+     (Self    : ada_gpr_project_ptr;
+      Project : chars_ptr) return ada_file_reader
    is
+      P              : Project_Type;
       Default_Config : File_Config;
       File_Configs   : File_Config_Maps.Map;
    begin
       Clear_Last_Exception;
 
+      P := Fetch_Project (Self.Tree.all, Project);
+
       --  Load preprocessor data from the given project, then create the file
       --  reader from that data.
 
       Extract_Preprocessor_Data_From_Project
-        (Self.Tree.all, Default_Config, File_Configs);
+        (Self.Tree.all, P, Default_Config, File_Configs);
       declare
          FR_Ref : constant File_Reader_Reference :=
            Create_Preprocessor (Default_Config, File_Configs);

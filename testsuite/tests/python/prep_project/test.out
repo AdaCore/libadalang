@@ -1,12 +1,31 @@
 == Normal ==
 
 Preprocessor output on foo.adb:
-   1 | procedure Foo is
-   2 |    I : constant Integer := 1;
-   3 | begin
-   4 |    null;
-   5 | end Foo;
-   6 |
+   1 | with Bar;
+   2 |
+   3 | procedure Foo is
+   4 |    I : constant Integer := 1;
+   5 |    S : constant String :=
+   6 |    "FOOBAR is defined"
+   7 | end Foo;
+   8 |
+
+== Normal (subproject) ==
+
+Preprocessor output on foo.adb:
+   1 | with Bar;
+   2 |
+   3 | procedure Foo is
+   4 |    I : constant Integer := 1;
+   5 |    S : constant String :=
+   6 |    "FOOBAR is *not* defined"
+   7 | end Foo;
+   8 |
+
+== Normal (no_such_project) ==
+
+Error while creating the preprocessor:
+  InvalidProject: no such project: no_such_project
 
 == No such file ==
 

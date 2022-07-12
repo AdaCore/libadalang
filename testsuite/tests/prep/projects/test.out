@@ -22,6 +22,16 @@
   bar -> Symbol(1)
   foo -> Symbol(1)
 
+Focusing on the p sub-project
+
+# default
+  bar -> Symbol(1)
+
+Focusing on the q sub-project
+
+# default
+  foo -> Symbol(1)
+
 == file_read_error/p.gpr ==
 
 LANGKIT_SUPPORT.ERRORS.FILE_READ_ERROR: no such file: foo.prep

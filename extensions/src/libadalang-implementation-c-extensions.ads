@@ -119,10 +119,12 @@ package Libadalang.Implementation.C.Extensions is
    --  sources accordingly.
 
    function ada_gpr_project_create_preprocessor
-     (Self : ada_gpr_project_ptr) return ada_file_reader
+     (Self    : ada_gpr_project_ptr;
+      Project : chars_ptr) return ada_file_reader
    with Export, Convention => C;
    --  Create preprocessor data from compiler arguments found in the given GPR
-   --  project (``-gnateP`` and ``-gnateD`` arguments).
+   --  project (``-gnateP`` and ``-gnateD`` arguments), or from the ``Project``
+   --  sub-project (if the argument is passed).
    --
    --  Note that this function collects all arguments and returns an
    --  approximation from them: it does not replicates exactly gprbuild's

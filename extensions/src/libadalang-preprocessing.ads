@@ -137,6 +137,7 @@ private with Libadalang.Analysis;
 package Libadalang.Preprocessing is
 
    package US renames Ada.Strings.Unbounded;
+   package Prj renames GNATCOLL.Projects;
 
    --  All parsing functions below may raise two kinds of exceptions from
    --  ``Langkit_Support.Errors``:
@@ -285,16 +286,22 @@ package Libadalang.Preprocessing is
    --  file format.
 
    function Extract_Preprocessor_Data_From_Project
-     (Project : GNATCOLL.Projects.Project_Tree'Class) return Preprocessor_Data;
+     (Tree    : Prj.Project_Tree'Class;
+      Project : Prj.Project_Type := Prj.No_Project) return Preprocessor_Data;
    --  Create preprocessor data from compiler arguments found in the given GPR
    --  project (``-gnateP`` and ``-gnateD`` arguments).
+   --
+   --  If a non-null ``Project`` is given, look for compiler arguments it it
+   --  and the other projects in its closure.  If ``Project`` is left to
+   --  ``No_Project``, try to use the whole project tree.
    --
    --  Note that this function collects all arguments and returns an
    --  approximation from them: it does not replicates exactly gprbuild's
    --  behavior.
 
    procedure Extract_Preprocessor_Data_From_Project
-     (Project        : GNATCOLL.Projects.Project_Tree'Class;
+     (Tree           : Prj.Project_Tree'Class;
+      Project        : Prj.Project_Type := Prj.No_Project;
       Default_Config : out File_Config;
       File_Configs   : out File_Config_Maps.Map);
    --  Like the ``Extract_Preprocessor_Data_From_Project`` function, but

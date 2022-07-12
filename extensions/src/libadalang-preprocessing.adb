@@ -538,13 +538,14 @@ package body Libadalang.Preprocessing is
    --------------------------------------------
 
    function Extract_Preprocessor_Data_From_Project
-     (Project : GNATCOLL.Projects.Project_Tree'Class) return Preprocessor_Data
+     (Tree    : Prj.Project_Tree'Class;
+      Project : Prj.Project_Type := Prj.No_Project) return Preprocessor_Data
    is
       Default_Config : File_Config;
       File_Configs   : File_Config_Maps.Map;
    begin
       Extract_Preprocessor_Data_From_Project
-        (Project, Default_Config, File_Configs);
+        (Tree, Project, Default_Config, File_Configs);
       return Create_Preprocessor_Data (Default_Config, File_Configs);
    end Extract_Preprocessor_Data_From_Project;
 
@@ -553,10 +554,17 @@ package body Libadalang.Preprocessing is
    --------------------------------------------
 
    procedure Extract_Preprocessor_Data_From_Project
-     (Project        : GNATCOLL.Projects.Project_Tree'Class;
+     (Tree           : Prj.Project_Tree'Class;
+      Project        : Prj.Project_Type := Prj.No_Project;
       Default_Config : out File_Config;
       File_Configs   : out File_Config_Maps.Map)
    is
+      Root_Project : constant Prj.Project_Type :=
+        (if Project = No_Project
+         then Tree.Root_Project
+         else Project);
+      --  Subproject from which to start probing compilation options
+
       function Starts_With (Str, Substr : String) return Boolean is
         (Str'Length >= Substr'Length
          and then Str (Str'First .. Str'First + Substr'Length - 1) = Substr);
@@ -649,7 +657,7 @@ package body Libadalang.Preprocessing is
             raise;
       end Process_Switches;
 
-      It : Project_Iterator := Project.Root_Project.Start;
+      It : Project_Iterator := Root_Project.Start;
       P  : Project_Type;
    begin
       Default_Config := Disabled_File_Config;
@@ -672,7 +680,7 @@ package body Libadalang.Preprocessing is
                declare
                   File  : constant GNATCOLL.VFS.Virtual_File :=
                     Create (+S.all);
-                  Infos : constant File_Info_Set := Project.Info_Set (File);
+                  Infos : constant File_Info_Set := Tree.Info_Set (File);
                begin
                   if (for some Info of Infos =>
                       File_Info (Info).Project (Root_If_Not_Found => False) = P

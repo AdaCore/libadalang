@@ -1,1 +1,1 @@
-* -DFOO=1
+* -DFOO=1 -DBAR=2 -DFOOBAR=3

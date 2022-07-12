@@ -177,10 +177,11 @@ class GPRProject:
         # encoding, to be more consistent with other Python APIs.
         return [f.decode() for f in result]
 
-    def create_preprocessor(self) -> FileReader:
+    def create_preprocessor(self, project: Opt[str] = None) -> FileReader:
         """
         Create preprocessor data from compiler arguments found in the given GPR
-        project (``-gnateP`` and ``-gnateD`` arguments).
+        project (``-gnateP`` and ``-gnateD`` arguments), or from the
+        ``project`` sub-project (if the argument is passed).
 
         Note that this function collects all arguments and returns an
         approximation from them: it does not replicates exactly gprbuild's
@@ -188,7 +189,10 @@ class GPRProject:
         to read a preprocessor data file and a ``Syntax_Error`` exception if
         one such file has invalid syntax.
         """
-        return FileReader(self._c_create_preprocessor(self._c_value))
+        c_project = self._coerce_bytes('project', project, or_none=True)
+        return FileReader(
+            self._c_create_preprocessor(self._c_value, c_project)
+        )
 
     @staticmethod
     def _coerce_bytes(label, value, what='a bytes string', or_none=False):
@@ -251,5 +255,7 @@ class GPRProject:
     ))
 
     _c_create_preprocessor = staticmethod(_import_func(
-        "ada_gpr_project_create_preprocessor", [_c_type], _file_reader
+        "ada_gpr_project_create_preprocessor",
+        [_c_type, ctypes.c_char_p],
+        _file_reader,
     ))

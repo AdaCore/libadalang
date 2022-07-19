@@ -14,6 +14,6 @@ package A is
    pragma Find_All_References (Any);
 
 private
-   X : Integer;
+   X, Dummy : Integer;
    pragma Find_All_References (Any);
 end A;

@@ -2426,18 +2426,13 @@ class BasicDecl(AdaNode):
             )
         )
 
-    @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True,
-                      public=True, dynamic_vars=[default_imprecise_fallback()])
-    def base_subp_declarations():
+    @langkit_property(return_type=T.BasicDecl.entity.array,
+                      dynamic_vars=[imprecise_fallback])
+    def base_subp_declarations_impl():
         """
-        If Self declares a primitive subprogram of some tagged type T, return
-        the set of all subprogram declarations that it overrides (including
-        itself).
-
-        .. note:: for the moment this only works for tagged types. Remains to
-            be seen if we need to extend it.
+        Actual implementation of ``base_subp_declarations`` that already
+        assumes Entity is a subprogram.
         """
-        is_subp = Var(Entity.is_subprogram)
         parent = Var(Entity.canonical_part.parent_basic_decl)
         task_or_protected = Var(parent.is_a(ProtectedTypeDecl, TaskTypeDecl))
 
@@ -2448,22 +2443,19 @@ class BasicDecl(AdaNode):
 
         # Retrieve an environment that contains all the candidate subprograms
         # that can be base declarations of this one.
-        prims_env = Var(Cond(
+        prims_env = Var(If(
             # If we are in a task or protected type, accumulate the primitives
             # of the parent interfaces, and add the subprogram defined in the
             # scope of the protected or task type.
-            is_subp & task_or_protected,
+            task_or_protected,
             parent.cast(BaseTypeDecl).base_types.map(
                 lambda bt: bt.full_view.primitives_env
             ).concat(parent.children_env.singleton).env_group(),
 
             # For classical types, we can simply fetch the primitives_env
-            is_subp,
             spec.candidate_primitive_subp_tagged_type(canonicalize=False).then(
                 lambda t: t.full_view.primitives_env
-            ),
-
-            No(LexicalEnv)
+            )
         ))
 
         # We don't want the canonicalized primitive type, but the most
@@ -2496,22 +2488,29 @@ class BasicDecl(AdaNode):
             )
         ).unique
 
-    @langkit_property(return_type=T.BasicDecl.entity.array, public=True,
-                      dynamic_vars=[default_origin(),
-                                    default_imprecise_fallback()])
-    def root_subp_declarations():
+    @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True,
+                      public=True, dynamic_vars=[default_imprecise_fallback()])
+    def base_subp_declarations():
         """
         If Self declares a primitive subprogram of some tagged type T, return
-        the root subprogram declarations that it overrides. There can be
-        several, as in the following scenario:
+        the set of all subprogram declarations that it overrides (including
+        itself).
 
-        - package Root defines the root tagged type T and subprogram Foo.
-        - package Itf defines interface I and abstract subprogram Foo.
-        - package D defines "type U is new Root.T and Itf.I" and an overriding
-          subprogram Foo.
+        .. note:: for the moment this only works for tagged types. Remains to
+            be seen if we need to extend it.
+        """
+        return If(
+            Entity.is_subprogram,
+            Entity.base_subp_declarations_impl,
+            No(BasicDecl.entity.array)
+        )
 
-        Here, root_subp_declarations of Foo defined in package D will return
-        both Foo from package Root and Foo from package Itf.
+    @langkit_property(return_type=T.BasicDecl.entity.array,
+                      dynamic_vars=[origin, imprecise_fallback])
+    def root_subp_declarations_impl():
+        """
+        Actual implementation of ``root_subp_declarations`` that already
+        assumes Entity is a subprogram.
         """
         # Get all the parent overrides defined for this subprogram. That is,
         # if this subprogram is a primitive of some type T and overrides some
@@ -2554,6 +2553,29 @@ class BasicDecl(AdaNode):
             lambda root_type: base_decls.find(
                 lambda d: d.info.md.primitive == root_type.node
             )
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity.array, public=True,
+                      dynamic_vars=[default_origin(),
+                                    default_imprecise_fallback()])
+    def root_subp_declarations():
+        """
+        If Self declares a primitive subprogram of some tagged type T, return
+        the root subprogram declarations that it overrides. There can be
+        several, as in the following scenario:
+
+        - package Root defines the root tagged type T and subprogram Foo.
+        - package Itf defines interface I and abstract subprogram Foo.
+        - package D defines "type U is new Root.T and Itf.I" and an overriding
+          subprogram Foo.
+
+        Here, root_subp_declarations of Foo defined in package D will return
+        both Foo from package Root and Foo from package Itf.
+        """
+        return If(
+            Entity.is_subprogram,
+            Entity.root_subp_declarations_impl,
+            No(BasicDecl.entity.array)
         )
 
     @langkit_property(public=True, return_type=T.BasicDecl.entity.array,

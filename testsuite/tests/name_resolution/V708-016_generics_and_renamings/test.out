@@ -1,0 +1,8 @@
+Working on node <CallStmt test.adb:34:4-34:34>
+==============================================
+
+Set 'renaming' to 'node.f_call.f_name.p_referenced_decl()'
+Result: <SubpRenamingDecl ["Append"] test.adb:26:7-27:41>
+
+Eval 'renaming.f_renames.f_renamed_object.p_referenced_decl()'
+Result: <NullSubpDecl ["Append"] test.adb:11:13-11:68>

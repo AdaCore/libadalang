@@ -1148,7 +1148,7 @@ A.add_rules(
     iterated_assoc=IteratedAssoc(
         "for", Cut(),
         A.for_loop_param_spec, "=>",
-        A.expr | A.discrete_range
+        A.expr
     ),
 
     aggregate_assoc=Or(

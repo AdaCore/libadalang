@@ -11860,7 +11860,7 @@ class Expr(AdaNode):
                 & ar.attribute.name_symbol.any_of(
                     'First', 'Last', 'Length', 'Range'
                 )
-            ) & ar.args_list.then(
+            ) & ar.args.then(
                 # No matter the attribute, if it has arguments they must all be
                 # static for the whole thing to be considered static.
                 lambda args: args.all(lambda arg: arg.expr.is_static_expr),
@@ -18019,7 +18019,7 @@ class AttributeRef(Name):
 
     prefix = Field(type=T.Name)
     attribute = Field(type=T.Identifier)
-    args = Field(type=T.AdaNode)
+    args = Field(type=T.AssocList)
 
     ref_var = Property(Self.r_ref_var)
     r_ref_var = UserField(type=LogicVar, public=False)
@@ -18037,15 +18037,6 @@ class AttributeRef(Name):
 
         No(BaseTypeDecl.entity)
     ))
-
-    @langkit_property()
-    def args_list():
-        assoc_list = Var(Entity.args._.cast_or_raise(T.AssocList))
-        return If(
-            assoc_list.length > 0,
-            assoc_list,
-            No(T.AssocList.entity)
-        )
 
     has_context_free_type = Property(Not(Self.is_access_attr))
 
@@ -18433,7 +18424,7 @@ class AttributeRef(Name):
         return (
             Entity.prefix.sub_equation
             & Self.universal_int_bind(Self.type_var)
-            & Entity.args_list.logic_all(
+            & Entity.args.logic_all(
                 lambda arg:
                 Bind(arg.expr.expected_type_var, typ)
                 & arg.expr.sub_equation
@@ -18444,7 +18435,6 @@ class AttributeRef(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
-
         return If(
             typ.is_null,
 
@@ -18556,12 +18546,11 @@ class AttributeRef(Name):
 
         # If the range attribute has an argument, then it's a static expression
         # representing an int that we will use as a dimension.
-        dim = Var(Entity.args_list.then(lambda a: a.at(0).expr.then(
+        dim = Var(Entity.args.at(0)._.expr.then(
             lambda expr: Let(
                 lambda _=expr.resolve_names_internal:
                 expr.eval_as_int.as_int
-            ), default_val=1), default_val=1
-        ) - 1)
+            ), default_val=1) - 1)
 
         return If(
             Not(typ.is_null),
@@ -18669,12 +18658,10 @@ class ReduceAttributeRef(Name):
     """
     prefix = Field(type=T.AdaNode)
     attribute = Field(type=T.Identifier)
-    args = Field(type=T.BasicAssoc.list)
+    args = Field(type=T.AssocList)
 
     ref_var = Property(Self.r_ref_var)
     r_ref_var = UserField(type=LogicVar, public=False)
-
-    args_list = Property(Entity.args._.cast_or_raise(T.AssocList))
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def xref_equation():
@@ -18686,7 +18673,7 @@ class ReduceAttributeRef(Name):
         the reduction and ``InitVal`` is the initial value to be used by the
         reducer.
         """
-        reducer = Var(Entity.args_list.at(0).expr)
+        reducer = Var(Entity.args.at(0).expr)
 
         return Self.env_get(
             env=env,
@@ -18707,8 +18694,8 @@ class ReduceAttributeRef(Name):
         """
         Build the equation for a reducer candidate.
         """
-        reducer = Var(Entity.args_list.at(0).expr.cast(BaseId))
-        initial_value_expression = Var(Entity.args_list.at(1).expr)
+        reducer = Var(Entity.args.at(0).expr.cast(BaseId))
+        initial_value_expression = Var(Entity.args.at(1).expr)
 
         # We don't need to take too many precautions here since we are sure the
         # subp parameter is a valid reducer candidate, its supb_spec isn't null
@@ -18736,21 +18723,29 @@ class ReduceAttributeRef(Name):
         )
 
 
-class UpdateAttributeRef(AttributeRef):
+class UpdateAttributeRef(Name):
     """
     Reference to the ``Update`` attribute, which is a non standard GNAT
     attribute.
     """
+
+    prefix = Field(type=T.Name)
+    attribute = Field(type=T.Identifier)
+    values = Field(type=T.BaseAggregate)
+
+    ref_var = Property(Self.r_ref_var)
+    r_ref_var = UserField(type=LogicVar, public=False)
+
     @langkit_property()
     def xref_equation():
-        # Assign the type of the inner aggregate (Self's ``args`` field) to
+        # Assign the type of the inner aggregate (Self's ``values`` field) to
         # the type of the updated value. This allows the aggregate associations
         # inside of it to be resolved independently.
         # (see AggregateAssoc.xref_equation).
         ignore(Var(Entity.prefix.resolve_names_internal))
         prefix_type = Var(Entity.prefix.type_val.cast(BaseTypeDecl))
         return And(
-            Bind(Entity.args.cast_or_raise(Aggregate).type_var, prefix_type),
+            Bind(Entity.values.cast_or_raise(Aggregate).type_var, prefix_type),
             Bind(Self.type_var, prefix_type)
         )
 

@@ -799,7 +799,7 @@ A.add_rules(
             Or(
                 # Enables parsing ``Post'Class => Ignore``, for example
                 AttributeRef(A.identifier, "'", A.identifier,
-                             Null(A.attr_suffix)),
+                             Null(AssocList)),
 
                 A.identifier
             ),
@@ -1279,7 +1279,7 @@ A.add_rules(
         DottedName(A.qual_name_internal, ".", Cut(), A.direct_name),
         # Attributes, needed because of 'Class: A'Class'(...)
         AttributeRef(
-            A.qual_name_internal, "'", A.identifier, Null(AdaNode)
+            A.qual_name_internal, "'", A.identifier, Null(A.attr_suffix)
         ),
         A.direct_name
     ),
@@ -1316,7 +1316,7 @@ A.add_rules(
                      Opt("(", A.attr_suffix, ")")),
 
         # Class attribute
-        AttributeRef(A.name, "'", A.identifier, Null(A.attr_suffix)),
+        AttributeRef(A.name, "'", A.identifier, Null(AssocList)),
 
         QualExpr(A.name, "'", Or(A.paren_expr, A.aggregate)),
 
@@ -1481,7 +1481,7 @@ A.add_rules(
                  Op.alt_lt("<"), Op.alt_lte("<="),
                  Op.alt_gt(">"), Op.alt_gte(">=")),
               Or(A.string_literal, A.int_literal, A.identifier)),
-        AttributeRef(A.identifier, "'", A.identifier, Null(AdaNode)),
+        AttributeRef(A.identifier, "'", A.identifier, Null(AssocList)),
         A.identifier,
     ),
 )

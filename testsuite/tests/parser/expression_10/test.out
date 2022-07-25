@@ -8,7 +8,8 @@ Allocator[1:1-1:21]
 |  |  |  Id[1:5-1:6]: A
 |  |  |f_attribute:
 |  |  |  Id[1:7-1:12]: Class
-|  |  |f_args: <null>
+|  |  |f_args:
+|  |  |  AssocList[1:12-1:12]: <empty list>
 |  |f_suffix:
 |  |  Aggregate[1:13-1:21]
 |  |  |f_ancestor_expr: <null>

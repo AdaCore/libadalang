@@ -7469,7 +7469,7 @@ class CompositeConstraint(Constraint):
                 # type or not).
                 ex.cast(T.Expr).then(
                     lambda e:
-                    Bind(e.expected_type_var, typ.index_type(i)),
+                    Bind(e.expected_type_var, typ.index_type(i).base_subtype),
                     default_val=LogicTrue()
                 ) & ex.sub_equation
             )),

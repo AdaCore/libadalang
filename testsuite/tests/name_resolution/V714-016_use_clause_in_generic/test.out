@@ -1,0 +1,5 @@
+Working on node <GenericPackageInstantiation ["My_Inst"] test.adb:14:4-14:44>
+=============================================================================
+
+Eval 'node.p_designated_generic_decl[1][2][0][0].p_renamed_package'
+Result: <GenericPackageInstantiation ["My_Config"] test.adb:13:4-13:36>

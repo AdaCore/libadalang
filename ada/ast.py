@@ -2719,7 +2719,7 @@ class BasicDecl(AdaNode):
     )
 
     @langkit_property(return_type=T.BaseSubpSpec.entity, public=True)
-    def subp_spec_or_null(follow_generic=(Bool, False)):
+    def subp_spec_or_null(follow_generic=(Bool, True)):
         """
         If Self is a Subp, returns the specification of this subprogram.
 
@@ -2734,7 +2734,11 @@ class BasicDecl(AdaNode):
             If(follow_generic, gsp.subp_decl.subp_spec, No(SubpSpec.entity)),
             lambda gsi=GenericSubpInstantiation:
             If(follow_generic,
-               gsi.designated_generic_decl.subp_spec_or_null(True),
+               gsi.designated_subp._.subp_spec_or_null,
+               No(SubpSpec.entity)),
+            lambda gsr=GenericSubpRenamingDecl:
+            If(follow_generic,
+               gsr.resolve._.subp_spec_or_null,
                No(SubpSpec.entity)),
             lambda _:                   No(SubpSpec.entity),
         )
@@ -2744,7 +2748,7 @@ class BasicDecl(AdaNode):
         return Entity.match(
             lambda t=T.TypeDecl: t.discriminants,
             lambda e=T.EntryBody: e.params,
-            lambda _: Entity.subp_spec_or_null(True)
+            lambda _: Entity.subp_spec_or_null
         )
 
     @langkit_property(return_type=Bool, public=True)
@@ -2758,7 +2762,9 @@ class BasicDecl(AdaNode):
             subprogram in some contexts, even generic formal subprograms for
             example.
         """
-        return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl)
+        return Self.is_a(BasicSubpDecl, BaseSubpBody, SubpBodyStub, EntryDecl,
+                         GenericSubpDecl, GenericSubpInstantiation,
+                         GenericSubpRenamingDecl)
 
     @langkit_property(return_type=T.Bool)
     def is_valid_reducer_candidate():
@@ -5628,7 +5634,7 @@ class BaseTypeDecl(BasicDecl):
         call if Self represents an access-to-subprogram.
         """
         return If(
-            Entity.access_def.is_a(AccessToSubpDef),
+            Entity.is_null | Entity.access_def.is_a(AccessToSubpDef),
             No(BaseTypeDecl.entity),
             Entity.accessed_type
         )
@@ -10230,6 +10236,12 @@ class GenericSubpInstantiation(GenericInstantiation):
     generic_entity_name = Property(Entity.generic_subp_name)
     generic_inst_params = Property(Entity.params)
 
+    @langkit_property()
+    def expr_type():
+        return Entity.subp_spec_or_null._.return_type
+
+    defining_env = Property(Entity.subp_spec_or_null._.defining_env)
+
     @langkit_property(public=True)
     def designated_subp():
         """
@@ -10248,7 +10260,7 @@ class GenericSubpInstantiation(GenericInstantiation):
                     ),
                     from_rebound=p.info.from_rebound
                 )
-            ).cast(T.entity)
+            )
         )
 
     designated_generic_decl = Property(
@@ -10262,8 +10274,7 @@ class GenericSubpInstantiation(GenericInstantiation):
 
         add_to_env_kv(
             key=Entity.name_symbol,
-            value=Self,
-            resolver=T.GenericSubpInstantiation.designated_subp
+            value=Self
         ),
 
         add_env(),
@@ -10461,8 +10472,17 @@ class PackageRenamingDecl(BasicDecl):
         """
         Return the declaration of the package that is renamed by Self.
         """
+        # Workaround for V714-016. We perform an initial "dummy" env get query
+        # to prepare the referenced envs that will be traversed by the next
+        # query by allowing `Name.use_package_name_designated_env` to get
+        # memoized.
+        node_env = Var(Entity.node_env)
+        ignore(Var(node_env.get("__dummy", lookup=LK.recursive)))
+
+        # We can then safely perform the actual query which will not trigger
+        # the infinite recursion.
         return env.bind(
-            Entity.node_env,
+            node_env,
             Entity.renames.renamed_object.env_elements.at(0)._.cast(BasicDecl)
         )
 
@@ -10520,16 +10540,20 @@ class GenericRenamingDecl(BasicDecl):
     """
     renaming_name = AbstractProperty(type=T.Name.entity)
 
-    resolve = Property(env.bind(
-        Entity.node_env,
-        Entity.renaming_name.env_elements.at(0)._.match(
+    resolve = Property(
+        # We must use `all_env_elements_internal` here and not `env_elements`,
+        # as the latter assumes the Name is used in an expression context,
+        # which is not the case here.
+        Entity.renaming_name.all_env_elements_internal(
+            seq=True, seq_from=Self, categories=no_prims
+        ).at(0)._.match(
             lambda gd=T.GenericDecl: gd,
             lambda grd=T.GenericRenamingDecl: grd.resolve,
             lambda _: No(T.GenericDecl.entity)
-        )
-    ), type=T.GenericDecl.entity, doc="""
-    Resolve the GenericDecl this renaming decl is pointing at
-    """)
+        ),
+        type=T.GenericDecl.entity,
+        doc="Resolve the GenericDecl this renaming decl is pointing at"
+    )
 
     xref_entry_point = Property(True)
     xref_equation = Property(Entity.renaming_name.xref_no_overloading)
@@ -13008,7 +13032,7 @@ class Name(Expr):
         """
         return Self.matches(n.node)
 
-    @langkit_property()
+    @langkit_property(memoized=True)
     def use_package_name_designated_env():
         """
         Assuming Self is a name that is the direct child of a

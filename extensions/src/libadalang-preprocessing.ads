@@ -373,6 +373,10 @@ package Libadalang.Preprocessing is
    --  Preprocess the ``Input`` source buffer according to the corresponding
    --  source filename ``Filename`` and the given preprocesor data.
    --
+   --  Note that ``Filename`` is used here only to look in ``Data`` for the
+   --  ``File_Config`` value to use in order to preprocess the ``Input`` source
+   --  buffer.
+   --
    --  On success, leave ``Diagnostics`` empty and return in ``Contents`` a
    --  newly allocated string containing the preprocessed source.
    --

@@ -10147,12 +10147,14 @@ class GenericInstantiation(BasicDecl):
                     lambda _=T.TypeDecl: actual_name.xref_no_overloading,
 
                     lambda subp_decl=T.FormalSubpDecl.entity:
-                    Or(
+                    If(
+                        actual_name.is_a(AttributeRef),
+                        actual_name.sub_equation,
                         actual_name.xref_no_overloading(all_els=True)
                         & Predicate(BasicDecl.subp_decl_match_signature,
                                     actual_name.ref_var,
-                                    subp_decl.cast(T.BasicDecl)),
-                        LogicTrue()
+                                    subp_decl.cast(T.BasicDecl))
+                        | LogicTrue()
                     ),
 
                     lambda obj_decl=T.ObjectDecl:

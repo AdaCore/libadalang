@@ -13900,8 +13900,18 @@ class CallExpr(Name):
             # solve the rest of the expression.
             Entity.name.is_a(AttributeRef),
             Entity.name.resolve_names_internal.then(
-                lambda _: Entity.parent_name_equation(
-                    Entity.name.type_val.cast(BaseTypeDecl), root
+                lambda _: Entity.name.type_val.cast(BaseTypeDecl).then(
+                    lambda typ: Entity.parent_name_equation(typ, root),
+
+                    # If the attribute has no type, it must necessarily
+                    # reference a subprogram. Therefore, handle the rest as
+                    # if it was an entity call.
+                    default_val=
+                    Entity.params.logic_all(lambda pa: pa.expr.sub_equation)
+                    & Entity.entity_equation(
+                        Entity.name.ref_var.get_value.cast_or_raise(BasicDecl),
+                        root
+                    )
                 ),
                 default_val=LogicFalse()
             ),
@@ -16209,7 +16219,7 @@ class Identifier(BaseId):
             'Pos', 'Val', 'Enum_Rep', 'Enum_Val',
             'First', 'Last', 'Range', 'Length',
             'Image', 'Wide_Image', 'Wide_Wide_Image', 'Put_Image',
-            'Asm_Input', 'Asm_Output', 'To_Address',
+            'Asm_Input', 'Asm_Output',
 
             # Those attributes return functions but were never implemented. We
             # still parse them in the old "wrong" fashion, in order not to
@@ -18248,18 +18258,9 @@ class AttributeRef(Name):
                 'To_Address', lookup=LK.minimal
             ).cast(BasicSubpDecl)
         )
-        spec = Var(to_address_subp.subp_decl_spec)
         return And(
             Entity.prefix.sub_equation,
-            Bind(Entity.attribute.ref_var, to_address_subp),
-
-            Entity.args_list.at(0).expr.sub_equation,
-            spec.call_argument_equation(
-                spec.abstract_formal_params.at(0),
-                Entity.args_list.at(0).expr
-            ),
-
-            Bind(Entity.type_var, to_address_subp.expr_type)
+            Bind(Self.ref_var, to_address_subp)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

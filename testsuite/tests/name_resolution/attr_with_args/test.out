@@ -8,13 +8,17 @@ Expr: <Id "X" main.adb:13:4-13:5>
   references:    <DefiningName main.adb:11:4-11:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
-Expr: <AttributeRef main.adb:13:9-13:28>
-  references:    None
+Expr: <CallExpr main.adb:13:9-13:28>
+  references:    <SyntheticDefiningName main.adb:2:4-2:27>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <AttributeRef main.adb:13:9-13:22>
+  references:    <SyntheticDefiningName main.adb:2:4-2:27>
+  type:          None
+  expected type: None
 Expr: <Id "Enum" main.adb:13:9-13:13>
   references:    <DefiningName main.adb:2:9-2:13>
-  type:          <TypeDecl ["Enum"] main.adb:2:4-2:27>
+  type:          None
   expected type: None
 Expr: <Id "Enum_Rep" main.adb:13:14-13:22>
   references:    None
@@ -32,13 +36,17 @@ Expr: <Id "X" main.adb:15:4-15:5>
   references:    <DefiningName main.adb:11:4-11:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
-Expr: <AttributeRef main.adb:15:9-15:27>
-  references:    None
+Expr: <CallExpr main.adb:15:9-15:27>
+  references:    <SyntheticDefiningName main.adb:5:4-5:28>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <AttributeRef main.adb:15:9-15:23>
+  references:    <SyntheticDefiningName main.adb:5:4-5:28>
+  type:          None
+  expected type: None
 Expr: <Id "Enum2" main.adb:15:9-15:14>
   references:    <DefiningName main.adb:5:9-5:14>
-  type:          <TypeDecl ["Enum2"] main.adb:5:4-5:28>
+  type:          None
   expected type: None
 Expr: <Id "Enum_Rep" main.adb:15:15-15:23>
   references:    None
@@ -56,13 +64,17 @@ Expr: <Id "X" main.adb:17:4-17:5>
   references:    <DefiningName main.adb:11:4-11:5>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
-Expr: <AttributeRef main.adb:17:9-17:27>
-  references:    None
+Expr: <CallExpr main.adb:17:9-17:27>
+  references:    <SyntheticDefiningName main.adb:7:4-7:28>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <AttributeRef main.adb:17:9-17:23>
+  references:    <SyntheticDefiningName main.adb:7:4-7:28>
+  type:          None
+  expected type: None
 Expr: <Id "Enum3" main.adb:17:9-17:14>
   references:    <DefiningName main.adb:7:9-7:14>
-  type:          <TypeDecl ["Enum3"] main.adb:7:4-7:28>
+  type:          None
   expected type: None
 Expr: <Id "Enum_Rep" main.adb:17:15-17:23>
   references:    None
@@ -80,10 +92,14 @@ Expr: <Id "Var" main.adb:19:4-19:7>
   references:    <DefiningName main.adb:10:4-10:7>
   type:          <TypeDecl ["Enum"] main.adb:2:4-2:27>
   expected type: None
-Expr: <AttributeRef main.adb:19:11-19:28>
-  references:    None
+Expr: <CallExpr main.adb:19:11-19:28>
+  references:    <SyntheticDefiningName main.adb:2:4-2:27>
   type:          <TypeDecl ["Enum"] main.adb:2:4-2:27>
   expected type: <TypeDecl ["Enum"] main.adb:2:4-2:27>
+Expr: <AttributeRef main.adb:19:11-19:24>
+  references:    <SyntheticDefiningName main.adb:2:4-2:27>
+  type:          None
+  expected type: None
 Expr: <Id "Enum" main.adb:19:11-19:15>
   references:    <DefiningName main.adb:2:9-2:13>
   type:          None

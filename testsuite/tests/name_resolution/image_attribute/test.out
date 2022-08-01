@@ -8,10 +8,14 @@ Expr: <Id "String" test.adb:2:14-2:20>
   references:    <DefiningName __standard:105:8-105:14>
   type:          None
   expected type: None
-Expr: <AttributeRef test.adb:2:24-2:41>
-  references:    None
+Expr: <CallExpr test.adb:2:24-2:41>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <AttributeRef test.adb:2:24-2:35>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test.adb:2:24-2:29>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
@@ -83,10 +87,14 @@ Expr: <Id "Wide_String" test.adb:12:17-12:28>
   references:    <DefiningName __standard:107:8-107:19>
   type:          None
   expected type: None
-Expr: <AttributeRef test.adb:12:32-12:54>
-  references:    None
+Expr: <CallExpr test.adb:12:32-12:54>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Wide_String"] __standard:107:3-108:39>
   expected type: <TypeDecl ["Wide_String"] __standard:107:3-108:39>
+Expr: <AttributeRef test.adb:12:32-12:48>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test.adb:12:32-12:37>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
@@ -108,12 +116,16 @@ Expr: <Id "String" test.adb:15:21-15:27>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:15:31-15:57>
-  references:    None
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
-Expr: <AttributeRef test.adb:15:31-15:48>
-  references:    None
+Expr: <CallExpr test.adb:15:31-15:48>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <AttributeRef test.adb:15:31-15:42>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Float" test.adb:15:31-15:36>
   references:    <DefiningName __standard:14:8-14:13>

@@ -4,8 +4,12 @@ Analyzing test.adb
 Resolving xrefs for node <CallStmt test.adb:36:7-36:45>
 *******************************************************
 
-Expr: <AttributeRef test.adb:36:7-36:44>
-  references:    None
+Expr: <CallExpr test.adb:36:7-36:44>
+  references:    <DefiningName test.adb:10:17-10:20>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:36:7-36:37>
+  references:    <DefiningName test.adb:10:17-10:20>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:36:7-36:27>
@@ -21,7 +25,7 @@ Expr: <Id "T" test.adb:36:26-36:27>
   type:          None
   expected type: None
 Expr: <Id "Put_Image" test.adb:36:28-36:37>
-  references:    <DefiningName test.adb:10:17-10:20>
+  references:    None
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:36:39-36:40>
@@ -36,8 +40,12 @@ Expr: <Id "X" test.adb:36:42-36:43>
 Resolving xrefs for node <CallStmt test.adb:39:7-39:38>
 *******************************************************
 
-Expr: <AttributeRef test.adb:39:7-39:37>
-  references:    None
+Expr: <CallExpr test.adb:39:7-39:37>
+  references:    <DefiningName test.adb:23:17-23:20>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:39:7-39:30>
+  references:    <DefiningName test.adb:23:17-23:20>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:39:7-39:20>
@@ -53,7 +61,7 @@ Expr: <Id "T" test.adb:39:19-39:20>
   type:          None
   expected type: None
 Expr: <Id "Put_Image" test.adb:39:21-39:30>
-  references:    <DefiningName test.adb:23:17-23:20>
+  references:    None
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:39:32-39:33>
@@ -68,8 +76,12 @@ Expr: <Id "Y" test.adb:39:35-39:36>
 Resolving xrefs for node <CallStmt test.adb:42:7-42:34>
 *******************************************************
 
-Expr: <AttributeRef test.adb:42:7-42:33>
-  references:    None
+Expr: <CallExpr test.adb:42:7-42:33>
+  references:    <SyntheticDefiningName test.adb:28:7-28:29>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:42:7-42:26>
+  references:    <SyntheticDefiningName test.adb:28:7-28:29>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:42:7-42:16>

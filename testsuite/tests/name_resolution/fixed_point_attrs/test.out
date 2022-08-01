@@ -24,13 +24,17 @@ Expr: <Id "T" test.adb:7:17-7:18>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          None
   expected type: None
-Expr: <AttributeRef test.adb:7:22-7:39>
-  references:    None
+Expr: <CallExpr test.adb:7:22-7:39>
+  references:    <SyntheticDefiningName test.adb:2:4-2:42>
   type:          <TypeDecl ["T"] test.adb:2:4-2:42>
   expected type: <TypeDecl ["T"] test.adb:2:4-2:42>
+Expr: <AttributeRef test.adb:7:22-7:35>
+  references:    <SyntheticDefiningName test.adb:2:4-2:42>
+  type:          None
+  expected type: None
 Expr: <Id "T" test.adb:7:22-7:23>
   references:    <DefiningName test.adb:2:9-2:10>
-  type:          <TypeDecl ["T"] test.adb:2:4-2:42>
+  type:          None
   expected type: None
 Expr: <Id "Fixed_Value" test.adb:7:24-7:35>
   references:    None
@@ -48,13 +52,17 @@ Expr: <Id "Integer" test.adb:10:17-10:24>
   references:    <DefiningName __standard:4:8-4:15>
   type:          None
   expected type: None
-Expr: <AttributeRef test.adb:10:28-10:53>
-  references:    None
+Expr: <CallExpr test.adb:10:28-10:53>
+  references:    <SyntheticDefiningName __standard:4:3-4:54>
   type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <AttributeRef test.adb:10:28-10:49>
+  references:    <SyntheticDefiningName __standard:4:3-4:54>
+  type:          None
+  expected type: None
 Expr: <Id "Integer" test.adb:10:28-10:35>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          None
   expected type: None
 Expr: <Id "Integer_Value" test.adb:10:36-10:49>
   references:    None

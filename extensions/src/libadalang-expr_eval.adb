@@ -219,6 +219,10 @@ package body Libadalang.Expr_Eval is
         (D : LAL.Ada_Node; A : Range_Attr) return Eval_Result;
       --  Helper to evaluate a 'First or 'Last attribute reference
 
+      function Eval_Function_Attr
+        (AR : LAL.Attribute_Ref; Args : LAL.Assoc_List) return Eval_Result;
+      --  Helper to evaluate function attribute references
+
       function Expr_Eval (E : LAL.Expr) return Eval_Result;
       --  Helper to evaluate the given expr in the current environment. Note
       --  that this is a regular function (instead of an expression function)
@@ -432,6 +436,160 @@ package body Libadalang.Expr_Eval is
                "Cannot eval " & A'Image & " attribute of " & D.Kind'Image;
          end case;
       end Eval_Range_Attr;
+
+      ------------------------
+      -- Eval_Function_Attr --
+      ------------------------
+
+      function Eval_Function_Attr
+        (AR : LAL.Attribute_Ref; Args : LAL.Assoc_List) return Eval_Result
+      is
+         Attr : constant LAL.Identifier := AR.F_Attribute;
+         Name : constant Wide_Wide_String :=
+            Canonicalize (Attr.Text).Symbol;
+      begin
+         if Name in "min" | "max" then
+            if Args.Is_Null or else Args.Children_Count /= 2 then
+               raise Property_Error with
+                  "'Min/'Max require exactly two arguments";
+            end if;
+
+            declare
+               Typ   : constant Base_Type_Decl :=
+                 AR.F_Prefix.P_Name_Designated_Type;
+               Val_1 : constant Eval_Result :=
+                 Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr);
+               Val_2 : constant Eval_Result :=
+                 Expr_Eval (Args.Child (2).As_Param_Assoc.F_R_Expr);
+            begin
+               if Val_1.Kind /= Val_2.Kind then
+                  raise Property_Error with
+                     "Inconsistent inputs for 'Min/'Max";
+               end if;
+
+               case Val_1.Kind is
+                  when Int =>
+                     if Name = "min" then
+                        return Create_Int_Result
+                          (Typ,
+                           Eval_Result'
+                             (if Val_1.Int_Result < Val_2.Int_Result
+                              then Val_1 else Val_2).Int_Result);
+                     else
+                        return Create_Int_Result
+                          (Typ,
+                           Eval_Result'
+                             (if Val_1.Int_Result > Val_2.Int_Result
+                              then Val_1 else Val_2).Int_Result);
+                     end if;
+                  when Real =>
+                     if Name = "min" then
+                        return Create_Real_Result
+                          (Typ,
+                           Eval_Result'
+                             (if Val_1.Real_Result < Val_2.Real_Result
+                              then Val_1 else Val_2).Real_Result);
+                     else
+                        return Create_Real_Result
+                          (Typ,
+                           Eval_Result'
+                             (if Val_1.Real_Result > Val_2.Real_Result
+                              then Val_1 else Val_2).Real_Result);
+                     end if;
+                  when others =>
+                     raise Property_Error with
+                        "'Min/'Max not applicable on enum types";
+               end case;
+            end;
+         elsif Name in "succ" | "pred" then
+            if Args.Is_Null or else Args.Children_Count /= 1 then
+               raise Property_Error with
+                  "'Pred/'Succ require exactly one argument";
+            end if;
+
+            declare
+               Typ      : constant Base_Type_Decl :=
+                 AR.F_Prefix.P_Name_Designated_Type;
+               Val      : constant Eval_Result :=
+                 Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr);
+               Enum_Val : Enum_Literal_Decl;
+            begin
+               case Val.Kind is
+               when Int =>
+                  --  TODO??? Properly handle modular types
+                  return Create_Int_Result
+                    (Typ,
+                     (if Name = "succ"
+                      then Val.Int_Result + 1
+                      else Val.Int_Result - 1));
+               when Real =>
+                  raise Property_Error with
+                     "'Pred/'Succ not applicable to reals";
+               when others =>
+                  Enum_Val := Ada_Node'
+                    (if Name = "succ"
+                     then Val.Enum_Result.Next_Sibling
+                     else Val.Enum_Result.Previous_Sibling)
+                    .As_Enum_Literal_Decl;
+
+                  if Enum_Val.Is_Null then
+                     raise Property_Error with
+                       "out of bounds 'Pred/'Succ on enum";
+                  end if;
+                  return Create_Enum_Result (Typ, Enum_Val);
+               end case;
+            end;
+         elsif Name in "val" then
+            if Args.Is_Null or Args.Children_Count /= 1 then
+               raise Property_Error with
+                  "'Val require exactly one argument";
+            end if;
+
+            declare
+               Typ      : constant Base_Type_Decl :=
+                 AR.F_Prefix.P_Name_Designated_Type;
+               Val      : constant Eval_Result :=
+                 Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr);
+            begin
+               if Val.Kind /= Int then
+                  raise Property_Error with
+                     "'Val expects an integer argument";
+               end if;
+
+               if Typ.P_Is_Int_Type then
+                  return Create_Int_Result (Typ, Val.Int_Result);
+               elsif Typ.P_Is_Enum_Type then
+                  declare
+                     Index : constant Integer :=
+                        To_Integer (Val.Int_Result) + 1;
+
+                     Enum_Val : Enum_Literal_Decl :=
+                        No_Enum_Literal_Decl;
+                  begin
+                     if Index > 0 then
+                        Enum_Val := Child
+                          (Typ.P_Root_Type.As_Type_Decl.F_Type_Def
+                           .As_Enum_Type_Def.F_Enum_Literals,
+                           Index).As_Enum_Literal_Decl;
+                     end if;
+
+                     if Enum_Val.Is_Null then
+                        raise Property_Error with
+                          "out of bounds 'Val on enum";
+                     end if;
+
+                     return Create_Enum_Result (Typ, Enum_Val);
+                  end;
+               else
+                  raise Property_Error with
+                     "'Val only applicable to scalar types";
+               end if;
+            end;
+         else
+            raise Property_Error
+              with "Unhandled attribute ref: " & Image (Attr.Text);
+         end if;
+      end Eval_Function_Attr;
 
       ---------------
       -- Expr_Eval --
@@ -867,151 +1025,11 @@ package body Libadalang.Expr_Eval is
                elsif Name = "last" then
                   return Eval_Range_Attr
                     (As_Ada_Node (AR.F_Prefix), Range_Last);
-               elsif Name in "min" | "max" then
-                  if AR.F_Args.Is_Null or else AR.F_Args.Children_Count /= 2
-                  then
-                     raise Property_Error with
-                        "'Min/'Max require exactly two arguments";
-                  end if;
-
-                  declare
-                     Typ   : constant Base_Type_Decl :=
-                       AR.F_Prefix.P_Name_Designated_Type;
-                     Val_1 : constant Eval_Result :=
-                       Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
-                     Val_2 : constant Eval_Result :=
-                       Expr_Eval (AR.F_Args.Child (2).As_Param_Assoc.F_R_Expr);
-                  begin
-                     if Val_1.Kind /= Val_2.Kind then
-                        raise Property_Error with
-                           "Inconsistent inputs for 'Min/'Max";
-                     end if;
-
-                     case Val_1.Kind is
-                        when Int =>
-                           if Name = "min" then
-                              return Create_Int_Result
-                                (Typ,
-                                 Eval_Result'
-                                   (if Val_1.Int_Result < Val_2.Int_Result
-                                    then Val_1 else Val_2).Int_Result);
-                           else
-                              return Create_Int_Result
-                                (Typ,
-                                 Eval_Result'
-                                   (if Val_1.Int_Result > Val_2.Int_Result
-                                    then Val_1 else Val_2).Int_Result);
-                           end if;
-                        when Real =>
-                           if Name = "min" then
-                              return Create_Real_Result
-                                (Typ,
-                                 Eval_Result'
-                                   (if Val_1.Real_Result < Val_2.Real_Result
-                                    then Val_1 else Val_2).Real_Result);
-                           else
-                              return Create_Real_Result
-                                (Typ,
-                                 Eval_Result'
-                                   (if Val_1.Real_Result > Val_2.Real_Result
-                                    then Val_1 else Val_2).Real_Result);
-                           end if;
-                        when others =>
-                           raise Property_Error with
-                              "'Min/'Max not applicable on enum types";
-                     end case;
-                  end;
-               elsif Name in "succ" | "pred" then
-                  if AR.F_Args.Is_Null or else AR.F_Args.Children_Count /= 1
-                  then
-                     raise Property_Error with
-                        "'Pred/'Succ require exactly one argument";
-                  end if;
-
-                  declare
-                     Typ      : constant Base_Type_Decl :=
-                       AR.F_Prefix.P_Name_Designated_Type;
-                     Val      : constant Eval_Result :=
-                       Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
-                     Enum_Val : Enum_Literal_Decl;
-                  begin
-                     case Val.Kind is
-                     when Int =>
-                        --  TODO??? Properly handle modular types
-                        return Create_Int_Result
-                          (Typ,
-                           (if Name = "succ"
-                            then Val.Int_Result + 1
-                            else Val.Int_Result - 1));
-                     when Real =>
-                        raise Property_Error with
-                           "'Pred/'Succ not applicable to reals";
-                     when others =>
-                        Enum_Val := Ada_Node'
-                          (if Name = "succ"
-                           then Val.Enum_Result.Next_Sibling
-                           else Val.Enum_Result.Previous_Sibling)
-                          .As_Enum_Literal_Decl;
-
-                        if Enum_Val.Is_Null then
-                           raise Property_Error with
-                             "out of bounds 'Pred/'Succ on enum";
-                        end if;
-                        return Create_Enum_Result (Typ, Enum_Val);
-                     end case;
-                  end;
-               elsif Name in "val" then
-                  if AR.F_Args.Is_Null or else AR.F_Args.Children_Count /= 1
-                  then
-                     raise Property_Error with
-                        "'Val require exactly one argument";
-                  end if;
-
-                  declare
-                     Typ      : constant Base_Type_Decl :=
-                       AR.F_Prefix.P_Name_Designated_Type;
-                     Val      : constant Eval_Result :=
-                       Expr_Eval (AR.F_Args.Child (1).As_Param_Assoc.F_R_Expr);
-                  begin
-                     if Val.Kind /= Int then
-                        raise Property_Error with
-                           "'Val expects an integer argument";
-                     end if;
-
-                     if Typ.P_Is_Int_Type then
-                        return Create_Int_Result (Typ, Val.Int_Result);
-                     elsif Typ.P_Is_Enum_Type then
-                        declare
-                           Index : constant Integer :=
-                              To_Integer (Val.Int_Result) + 1;
-
-                           Enum_Val : Enum_Literal_Decl :=
-                              No_Enum_Literal_Decl;
-                        begin
-                           if Index > 0 then
-                              Enum_Val := Child
-                                (Typ.P_Root_Type.As_Type_Decl.F_Type_Def
-                                 .As_Enum_Type_Def.F_Enum_Literals,
-                                 Index).As_Enum_Literal_Decl;
-                           end if;
-
-                           if Enum_Val.Is_Null then
-                              raise Property_Error with
-                                "out of bounds 'Val on enum";
-                           end if;
-
-                           return Create_Enum_Result (Typ, Enum_Val);
-                        end;
-                     else
-                        raise Property_Error with
-                           "'Val only applicable to scalar types";
-                     end if;
-                  end;
                else
-                  raise Property_Error
-                    with "Unhandled attribute ref: " & Image (Attr.Text);
+                  return Eval_Function_Attr (AR, LAL.No_Assoc_List);
                end if;
             end;
+
          when Ada_Paren_Expr =>
             return Expr_Eval (E.As_Paren_Expr.F_Expr);
 
@@ -1025,7 +1043,10 @@ package body Libadalang.Expr_Eval is
             begin
                --  Make sure that C's name designates a type and that C has
                --  exactly one argument.
-               if Designated_Type.Is_Null
+               if C.F_Name.Kind in Ada_Attribute_Ref then
+                  return Eval_Function_Attr
+                    (C.F_Name.As_Attribute_Ref, S.As_Assoc_List);
+               elsif Designated_Type.Is_Null
                   or else S.Is_Null
                   or else S.Children_Count /= 1
                then

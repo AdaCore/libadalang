@@ -28,10 +28,14 @@ Expr: <Id "Enum" testsucc.adb:5:13-5:17>
   references:    <DefiningName testsucc.adb:2:9-2:13>
   type:          None
   expected type: None
-Expr: <AttributeRef testsucc.adb:5:21-5:36>
-  references:    None
+Expr: <CallExpr testsucc.adb:5:21-5:36>
+  references:    <SyntheticDefiningName testsucc.adb:2:4-2:30>
   type:          <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
   expected type: <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
+Expr: <AttributeRef testsucc.adb:5:21-5:30>
+  references:    <SyntheticDefiningName testsucc.adb:2:4-2:30>
+  type:          None
+  expected type: None
 Expr: <Id "Enum" testsucc.adb:5:21-5:25>
   references:    <DefiningName testsucc.adb:2:9-2:13>
   type:          None
@@ -52,10 +56,14 @@ Expr: <Id "Enum" testsucc.adb:6:13-6:17>
   references:    <DefiningName testsucc.adb:2:9-2:13>
   type:          None
   expected type: None
-Expr: <AttributeRef testsucc.adb:6:21-6:33>
-  references:    None
+Expr: <CallExpr testsucc.adb:6:21-6:33>
+  references:    <SyntheticDefiningName testsucc.adb:2:4-2:30>
   type:          <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
   expected type: <TypeDecl ["Enum"] testsucc.adb:2:4-2:30>
+Expr: <AttributeRef testsucc.adb:6:21-6:30>
+  references:    <SyntheticDefiningName testsucc.adb:2:4-2:30>
+  type:          None
+  expected type: None
 Expr: <Id "Enum" testsucc.adb:6:21-6:25>
   references:    <DefiningName testsucc.adb:2:9-2:13>
   type:          None

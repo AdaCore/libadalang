@@ -974,6 +974,14 @@ class AdaNode(ASTNode):
         """
     )
 
+    root_stream_type = Property(
+        Self.get_unit_root_decl(['Ada', 'Streams'], UnitSpecification)
+        ._.children_env.get_first('Root_Stream_Type', lookup=LK.flat)
+        .cast(T.BaseTypeDecl).classwide_type.cast(T.BaseTypeDecl), doc="""
+        Return the type Ada.Streams.Root_Stream_Type
+        """
+    )
+
     @langkit_property(return_type=Bool)
     def has_with_visibility(refd_unit=AnalysisUnit):
         """
@@ -1045,13 +1053,18 @@ class AdaNode(ASTNode):
         return Entity.match(
             lambda aod=T.AnonymousExprDecl.entity: aod,
 
-            # TODO: depending on the formal that matches this actual, this name
-            # can be both an object or a type. For now, we assume it's a type
-            # but we should handle objects too.
-            lambda n=T.Name.entity: n.name_designated_type.cast(T.entity)._or(
-                # If we don't find a type, find something else
-                n.all_env_elements.at(0)
-            ),
+            # Depending on the formal that matches this actual, this name
+            # can be either an object, a type or a subprogram.
+            # TODO: the code below should execute a specific logic
+            # depending on the corresponding kind of the formal (type, object,
+            # subprogram, etc.), so we should find a way to make it available.
+            lambda n=T.Name.entity:
+            # We first try to find a type
+            n.name_designated_type.cast(T.entity)
+            # If it's an attribute, it might be a reference to a function
+            ._or(n.cast(AttributeRef)._.attribute_subprogram)
+            # If all that didn't work, find something else
+            ._or(n.all_env_elements.at(0)),
 
             lambda _: No(T.entity),
         )
@@ -1564,8 +1577,8 @@ class AdaNode(ASTNode):
         """
         return new_env_assoc(
             key=op,
-            value=SyntheticSubpDecl.new(spec=PredefinedUnOpSpec.new(
-                op_symbol=op,
+            value=SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+                subp_symbol=op,
                 right_param=SyntheticFormalParamDecl.new(
                     param_name='right',
                     param_type=SyntheticTypeExpr.new(target_type=rhs)
@@ -1584,8 +1597,8 @@ class AdaNode(ASTNode):
         """
         return new_env_assoc(
             key=op,
-            value=SyntheticSubpDecl.new(spec=PredefinedBinOpSpec.new(
-                op_symbol=op,
+            value=SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+                subp_symbol=op,
                 left_param=SyntheticFormalParamDecl.new(
                     param_name='left',
                     param_type=lhs
@@ -5114,6 +5127,427 @@ class LogicValResult(Struct):
     value = UserField(type=T.AdaNode.entity)
 
 
+@synthetic
+class TypeAttributesRepository(AdaNode):
+    """
+    Synthetic node that contains the lazy fields for the attribute subprograms
+    of a given type. The lazy fields are not directly on the BaseTypeDecl node
+    itself to minimize its size in memory: with this indirection, a type for
+    which no function attribute is ever synthesized will not waste any memory.
+    """
+    base_type = UserField(type=T.BaseTypeDecl, public=False)
+
+    @lazy_field(return_type=T.SyntheticTypeExpr, ignore_warn_on_node=True)
+    def base_type_expr():
+        return SyntheticTypeExpr.new(target_type=Self.base_type)
+
+    @lazy_field(return_type=T.SyntheticTypeExpr, ignore_warn_on_node=True)
+    def universal_int_type_expr():
+        return SyntheticTypeExpr.new(
+            target_type=Self.universal_int_type.cast(BaseTypeDecl).node
+        )
+
+    @lazy_field(return_type=T.SyntheticFormalParamDecl,
+                ignore_warn_on_node=True)
+    def base_type_param():
+        return SyntheticFormalParamDecl.new(
+            param_name='Value',
+            param_type=Self.base_type_expr
+        )
+
+    @lazy_field(return_type=T.SyntheticFormalParamDecl,
+                ignore_warn_on_node=True)
+    def universal_int_param():
+        return SyntheticFormalParamDecl.new(
+            param_name='Value',
+            param_type=Self.universal_int_type_expr
+        )
+
+    @lazy_field(return_type=T.SyntheticFormalParamDecl,
+                ignore_warn_on_node=True)
+    def universal_real_param():
+        return SyntheticFormalParamDecl.new(
+            param_name='Value',
+            param_type=SyntheticTypeExpr.new(
+                target_type=Self.universal_real_type.cast(BaseTypeDecl).node
+            )
+        )
+
+    @lazy_field(return_type=T.SyntheticFormalParamDecl,
+                ignore_warn_on_node=True)
+    def root_stream_param():
+        return SyntheticFormalParamDecl.new(
+            param_name='S',
+            param_type=SyntheticTypeExpr.new(
+                target_type=Self.root_stream_type.anonymous_access_type.node
+            )
+        )
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def succ():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Succ",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def pred():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Pred",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def min():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Min",
+            left_param=Self.base_type_param,
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def max():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Max",
+            left_param=Self.base_type_param,
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def rounding():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Rounding",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def ceiling():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Ceiling",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def floor():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Floor",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def truncation():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Truncation",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def machine():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Machine",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def machine_rounding():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Machine_Rounding",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def fraction():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Fraction",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def exponent():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Exponent",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.universal_int_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def copy_sign():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Copy_Sign",
+            left_param=Self.base_type_param,
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def remainder():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Remainder",
+            left_param=Self.base_type_param,
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def adjacent():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Adjacent",
+            left_param=Self.base_type_param,
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def scaling():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Scaling",
+            left_param=Self.base_type_param,
+            right_param=Self.universal_int_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def compose():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Compose",
+            left_param=Self.base_type_param,
+            right_param=Self.universal_int_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def mod():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Mod",
+            right_param=Self.universal_int_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def value():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Value",
+            right_param=SyntheticFormalParamDecl.new(
+                param_name="Val",
+                param_type=SyntheticTypeExpr.new(
+                    target_type=Self.std_entity("String")
+                    .cast(BaseTypeDecl).node
+                )
+            ),
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def wide_value():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Wide_Value",
+            right_param=SyntheticFormalParamDecl.new(
+                param_name="Val",
+                param_type=SyntheticTypeExpr.new(
+                    target_type=Self.std_entity("Wide_String")
+                    .cast(BaseTypeDecl).node
+                )
+            ),
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def wide_wide_value():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Wide_Wide_Value",
+            right_param=SyntheticFormalParamDecl.new(
+                param_name="Val",
+                param_type=SyntheticTypeExpr.new(
+                    target_type=Self.std_entity("Wide_Wide_String")
+                    .cast(BaseTypeDecl).node
+                )
+            ),
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def fixed_value():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Fixed_Value",
+            right_param=Self.universal_int_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def integer_value():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Integer_Value",
+            right_param=Self.universal_real_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def pos():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Pos",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.universal_int_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def val():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Val",
+            right_param=Self.universal_int_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def enum_rep():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Enum_Rep",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.universal_int_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def enum_val():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Enum_Val",
+            right_param=Self.universal_int_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def read():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Read",
+            left_param=Self.root_stream_param,
+            right_param=Self.base_type_param,
+            return_type_expr=No(TypeExpr)
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def write():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Write",
+            left_param=Self.root_stream_param,
+            right_param=Self.base_type_param,
+            return_type_expr=No(TypeExpr)
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def input():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Input",
+            right_param=Self.root_stream_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def output():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Output",
+            left_param=Self.root_stream_param,
+            right_param=Self.base_type_param,
+            return_type_expr=No(TypeExpr)
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def image():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Image",
+            right_param=Self.base_type_param,
+            return_type_expr=SyntheticTypeExpr.new(
+                target_type=Self.std_entity("String").cast(BaseTypeDecl).node
+            )
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def wide_image():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Wide_Image",
+            right_param=Self.base_type_param,
+            return_type_expr=SyntheticTypeExpr.new(
+                target_type=Self.std_entity("Wide_String")
+                .cast(BaseTypeDecl).node
+            )
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def wide_wide_image():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Wide_Wide_Image",
+            right_param=Self.base_type_param,
+            return_type_expr=SyntheticTypeExpr.new(
+                target_type=Self.std_entity("Wide_Wide_String")
+                .cast(BaseTypeDecl).node
+            )
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def put_image():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Put_Image",
+            left_param=SyntheticFormalParamDecl.new(
+                param_name="Buffer",
+                param_type=SyntheticTypeExpr.new(
+                    target_type=Self.root_buffer_type.classwide_type.node
+                )
+            ),
+            right_param=Self.base_type_param,
+            return_type_expr=No(TypeExpr)
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def asm_input():
+        input_type = Var(
+            Self.get_unit_root_decl(['System', 'Machine_Code'],
+                                    UnitSpecification)
+            ._.children_env.get_first('Asm_Input_Operand', lookup=LK.flat)
+            .node.cast(T.BaseTypeDecl)
+        )
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Asm_Input",
+            left_param=SyntheticFormalParamDecl.new(
+                param_name="S",
+                param_type=SyntheticTypeExpr.new(
+                    target_type=Self.std_entity("String")
+                    .cast(BaseTypeDecl).node
+                )
+            ),
+            right_param=Self.base_type_param,
+            return_type_expr=SyntheticTypeExpr.new(target_type=input_type)
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def asm_output():
+        output_type = Var(
+            Self.get_unit_root_decl(['System', 'Machine_Code'],
+                                    UnitSpecification)
+            ._.children_env.get_first('Asm_Output_Operand', lookup=LK.flat)
+            .node.cast(T.BaseTypeDecl)
+        )
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Asm_Output",
+            left_param=SyntheticFormalParamDecl.new(
+                param_name="S",
+                param_type=SyntheticTypeExpr.new(
+                    target_type=Self.std_entity("String")
+                    .cast(BaseTypeDecl).node
+                )
+            ),
+            right_param=Self.base_type_param,
+            return_type_expr=SyntheticTypeExpr.new(target_type=output_type)
+        ))
+
+
 @abstract
 class BaseTypeDecl(BasicDecl):
     """
@@ -5155,6 +5589,11 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=T.BaseTypeDecl.entity)
     def anonymous_access_type_or_null():
         return Entity._.anonymous_access_type
+
+    @lazy_field(return_type=T.TypeAttributesRepository,
+                ignore_warn_on_node=True)
+    def attributes_repo():
+        return TypeAttributesRepository.new(base_type=Self)
 
     @langkit_property(
         return_type=T.BaseTypeDecl.entity, public=True, memoized=True
@@ -13200,14 +13639,6 @@ class Name(Expr):
 
     name_symbol = Property(Self.as_bare_entity.relative_name.symbol)
 
-    base_name = Property(
-        No(T.Name.entity),
-        doc="""
-        Returns the base name of this instance. For example,
-        for a prefix A.B.C, this will return A.B.
-        """
-    )
-
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def xref_no_overloading(sequential=(Bool, True),
                             all_els=(Bool, False)):
@@ -16212,24 +16643,7 @@ class Identifier(BaseId):
     # For other args, we deactivate this parsing, so that they're correctly
     # parsed as ``CallExpr (AttrRef (pfx, attr), args)``.
     is_attr_with_args = Property(
-        Self.symbol.any_of(
-            # Attributes that return functions and are - wrongly - handled (see
-            # S910-057 for more details).
-            'Write', 'Read', 'Input', 'Output', 'Succ', 'Pred', 'Min', 'Max',
-            'Value', 'Wide_Value', 'Wide_Wide_Value',
-            'Fixed_Value', 'Integer_Value',
-            'Pos', 'Val', 'Enum_Rep', 'Enum_Val',
-            'First', 'Last', 'Range', 'Length',
-            'Image', 'Wide_Image', 'Wide_Wide_Image', 'Put_Image',
-            'Asm_Input', 'Asm_Output',
-
-            # Those attributes return functions but were never implemented. We
-            # still parse them in the old "wrong" fashion, in order not to
-            # trigger a resolution failure.
-            'Rounding', 'Round', 'Ceiling', 'Floor', 'Truncation', 'Copy_Sign',
-            'Remainder', 'Adjacent', 'Mod', 'Machine', 'Machine_Rounding',
-            'Exponent', 'Scaling', 'Compose', 'Fraction'
-        )
+        Self.symbol.any_of('First', 'Last', 'Range', 'Length')
     )
 
     @langkit_property(return_type=T.CompletionItem.array)
@@ -16960,15 +17374,15 @@ class SyntheticFormalParamDecl(BaseFormalParamDecl):
 
 
 @synthetic
-class PredefinedUnOpSpec(BaseSubpSpec):
+class SyntheticUnarySpec(BaseSubpSpec):
     """
     Synthetic subprogram specification for unary operators.
     """
-    op_symbol = UserField(type=T.Symbol, public=False)
+    subp_symbol = UserField(type=T.Symbol, public=False)
     right_param = Field(type=T.SyntheticFormalParamDecl)
     return_type_expr = Field(type=T.SyntheticTypeExpr)
 
-    name = Property(Self.synthesize_defining_name(Self.op_symbol).as_entity)
+    name = Property(Self.synthesize_defining_name(Self.subp_symbol).as_entity)
     returns = Property(Entity.return_type_expr)
 
     @langkit_property()
@@ -16977,16 +17391,16 @@ class PredefinedUnOpSpec(BaseSubpSpec):
 
 
 @synthetic
-class PredefinedBinOpSpec(BaseSubpSpec):
+class SyntheticBinarySpec(BaseSubpSpec):
     """
     Synthetic subprogram specification for binary operators.
     """
-    op_symbol = UserField(type=T.Symbol, public=False)
+    subp_symbol = UserField(type=T.Symbol, public=False)
     left_param = Field(type=T.SyntheticFormalParamDecl)
     right_param = Field(type=T.SyntheticFormalParamDecl)
     return_type_expr = Field(type=T.TypeExpr)
 
-    name = Property(Self.synthesize_defining_name(Self.op_symbol).as_entity)
+    name = Property(Self.synthesize_defining_name(Self.subp_symbol).as_entity)
     returns = Property(Entity.return_type_expr)
 
     @langkit_property()
@@ -17543,19 +17957,113 @@ class AttributeRef(Name):
             EmptyEnv
         )
 
+    @langkit_property(return_type=BasicSubpDecl.entity)
+    def synthesize_attribute_subprogram(typ=BaseTypeDecl.entity):
+        rel_name = Var(Entity.attribute.name_symbol)
+        repo = Var(typ._.attributes_repo)
+        subp = Var(Cond(
+            rel_name == "succ", repo.succ,
+            rel_name == "pred", repo.pred,
+            rel_name == "min", repo.min,
+            rel_name == "max", repo.max,
+
+            rel_name == "rounding", repo.rounding,
+            rel_name == "ceiling", repo.ceiling,
+            rel_name == "floor", repo.floor,
+            rel_name == "truncation", repo.truncation,
+            rel_name == "machine", repo.machine,
+            rel_name == "machine_rounding", repo.machine_rounding,
+            rel_name == "fraction", repo.fraction,
+            rel_name == "exponent", repo.exponent,
+
+            rel_name == "copy_sign", repo.copy_sign,
+            rel_name == "remainder", repo.remainder,
+            rel_name == "adjacent", repo.adjacent,
+            rel_name == "scaling", repo.scaling,
+            rel_name == "compose", repo.compose,
+
+            rel_name == "mod", repo.mod,
+
+            rel_name == "image", repo.image,
+            rel_name == "wide_image", repo.wide_image,
+            rel_name == "wide_wide_image", repo.wide_wide_image,
+            rel_name == "put_image", repo.put_image,
+
+            rel_name == "value", repo.value,
+            rel_name == "wide_value", repo.wide_value,
+            rel_name == "wide_wide_value", repo.wide_wide_value,
+
+            rel_name == "fixed_value", repo.fixed_value,
+            rel_name == "integer_value", repo.integer_value,
+
+            rel_name == "pos", repo.pos,
+            rel_name == "val", repo.val,
+            rel_name == "enum_rep", repo.enum_rep,
+            rel_name == "enum_val", repo.enum_val,
+
+            rel_name == "read", repo.read,
+            rel_name == "write", repo.write,
+            rel_name == "input", repo.input,
+            rel_name == "output", repo.output,
+
+            rel_name == "asm_input", repo.asm_input,
+            rel_name == "asm_output", repo.asm_output,
+
+            No(BasicSubpDecl)
+        ))
+        return BasicSubpDecl.entity.new(
+            node=subp,
+            info=T.entity_info.new(
+                rebindings=typ.info.rebindings,
+                md=No(Metadata),
+                from_rebound=typ.info.from_rebound
+            )
+        )
+
+    @langkit_property(return_type=BasicDecl.entity)
+    def attribute_subprogram():
+        rel_name = Var(Entity.attribute.name_symbol)
+        typ = Var(Entity.prefix.name_designated_type)
+        return Cond(
+            typ.is_null,
+            No(BasicDecl.entity),
+
+            rel_name.any_of("read", "write", "input", "output"),
+            typ.get_representation_clause(Entity.attribute.name_symbol).then(
+                lambda x: x.expr.cast_or_raise(T.Name).referenced_decl,
+                default_val=Entity.synthesize_attribute_subprogram(typ)
+            ),
+
+            rel_name == "put_image",
+            typ._.get_aspect("put_image").value.cast(Name).then(
+                lambda n: n.referenced_decl,
+                default_val=Entity.synthesize_attribute_subprogram(typ)
+            ),
+
+            Entity.synthesize_attribute_subprogram(typ)
+        )
+
     @langkit_property()
     def xref_equation():
         rel_name = Var(Entity.attribute.name_symbol)
         return Cond(
-            rel_name.any_of('Succ', 'Pred'), Entity.succpred_xref_equation,
-            rel_name.any_of('Min', 'Max'), Entity.minmax_equation,
-
+            # Attributes that have arguments
             rel_name.any_of('First', 'Last', 'Range', 'Length'),
             Entity.array_attr_equation,
 
+            # Attributes that simply return subprograms
+            rel_name.any_of('Succ', 'Pred', 'Min', 'Max', 'Ceiling', 'Floor',
+                            'Rounding', 'Truncation', 'Exponent', 'Fraction',
+                            'Copy_Sign', 'Remainder', 'Adjacent', 'Machine',
+                            'Machine_Rounding', 'Scaling', 'Compose', 'Mod',
+                            'Value', 'Wide_Value', 'Wide_Wide_Value',
+                            'Fixed_Value', 'Integer_Value',
+                            'Pos', 'Val', 'Enum_Val',
+                            'Write', 'Read', 'Output', 'Input', 'Put_Image',
+                            'Asm_Input', 'Asm_Output'),
+            Entity.attribute_subprogram_equation,
+
             rel_name.any_of('Size', 'VADS_Size'), Entity.size_equation,
-            rel_name == 'Pos', Entity.pos_equation,
-            rel_name.any_of('Val', 'Enum_Val'), Entity.val_equation,
 
             rel_name.any_of('Max_Size_In_Storage_Elements', 'Aft',
                             'Object_Size', 'Value_Size', 'Storage_Size'),
@@ -17574,20 +18082,8 @@ class AttributeRef(Name):
             rel_name == 'Wide_Wide_Image',
             Entity.image_equation(Self.std_entity('Wide_Wide_String')),
 
-            rel_name == 'Value',
-            Entity.value_equation(Self.std_entity('String')),
-
-            rel_name == 'Wide_Value',
-            Entity.value_equation(Self.std_entity('Wide_String')),
-
-            rel_name == 'Wide_Wide_Value',
-            Entity.value_equation(Self.std_entity('Wide_Wide_String')),
-
-            rel_name == 'Fixed_Value',
-            Entity.fixed_value_equation(Self.universal_int_type),
-
-            rel_name == 'Integer_Value',
-            Entity.fixed_value_equation(Self.universal_real_type),
+            rel_name == 'Enum_Rep',
+            Entity.enum_rep_equation,
 
             rel_name == 'Invalid_Value',
             Entity.invalid_value_equation,
@@ -17603,11 +18099,6 @@ class AttributeRef(Name):
 
             rel_name == 'Img',
             Entity.img_equation(Self.std_entity('String')),
-
-            rel_name.any_of('Write', 'Read', 'Output'),
-            Entity.stream_attrs_equation(False),
-
-            rel_name == 'Input', Entity.stream_attrs_equation(True),
 
             rel_name == 'Tag', Entity.tag_attr_equation,
 
@@ -17663,30 +18154,11 @@ class AttributeRef(Name):
             Entity.prefix.xref_no_overloading
             & Bind(Self.type_var, Self.task_id_type),
 
-            # Floating point attributes
-
-            rel_name.any_of('Ceiling', 'Floor', 'Rounding', 'Truncation',
-                            'Copy_Sign', 'Remainder', 'Adjacent',
-                            'Machine', 'Machine_Rounding', 'Fraction'),
-            Entity.float_funcs_equation,
-
-            rel_name.any_of('Exponent', 'Machine_Radix', 'Enum_Rep'),
+            rel_name == 'Machine_Radix',
             Entity.universal_int_equation,
-
-            rel_name.any_of('Scaling', 'Compose'),
-            Entity.float_universal_int_equation,
-
-            rel_name == 'Mod',
-            Entity.mod_equation,
-
-            rel_name.any_of('Asm_Input', 'Asm_Output'),
-            Entity.inline_asm_equation,
 
             rel_name == 'To_Address',
             Entity.to_address_equation,
-
-            rel_name == 'Put_Image',
-            Entity.put_image_equation,
 
             rel_name == 'Index',
             Entity.index_equation,
@@ -17699,61 +18171,13 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def float_funcs_equation():
+    def attribute_subprogram_equation():
         """
-        Equation for float function attributes with profile (T*) -> T with T
-        being any float type.
+        Equation for type attributes that denote functions.
         """
-        typ = Var(Entity.prefix.name_designated_type)
-
         return (
-            Entity.prefix.sub_equation
-            & Bind(Self.type_var, typ)
-            & Entity.args_list.logic_all(
-                lambda arg:
-                Bind(arg.expr.expected_type_var, typ)
-                & arg.expr.sub_equation
-                & arg.expr.matches_expected_type
-            )
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def float_universal_int_equation():
-        """
-        Return the nameres equation for the float attribute T'Attr (X, I)
-        where T is a float type, X a value of type T and I an integer value.
-        """
-        typ = Var(Entity.prefix.name_designated_type)
-        float_expr = Var(Entity.args_list.at(0).expr)
-        int_expr = Var(Entity.args_list.at(1).expr)
-
-        return And(
-            Entity.prefix.sub_equation,
-
-            Bind(float_expr.expected_type_var, typ),
-            float_expr.sub_equation,
-            float_expr.matches_expected_type,
-
-            Self.universal_int_bind(int_expr.expected_type_var),
-            int_expr.sub_equation,
-            int_expr.matches_expected_type,
-
-            Bind(Self.type_var, typ)
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def mod_equation():
-        """
-        Return the nameres equation for the Mod attribute (T'Mod (X) where
-        T is a mod type and X an integer value).
-        """
-        typ = Var(Entity.prefix.name_designated_type)
-        return And(
-            Entity.prefix.sub_equation,
-            Bind(Self.type_var, typ),
-            Entity.args_list.logic_all(
-                lambda arg: arg.expr.sub_equation
-            )
+            Entity.prefix.xref_no_overloading
+            & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -17843,52 +18267,6 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def stream_attrs_equation(return_obj=(Bool, False)):
-        typ = Var(Entity.prefix.name_designated_type)
-
-        root_stream_type = Var(
-            Entity
-            .get_unit_root_decl(['Ada', 'Streams'], UnitSpecification)
-            ._.children_env.get_first('Root_Stream_Type', lookup=LK.flat)
-            .cast(T.BaseTypeDecl).classwide_type.cast(T.BaseTypeDecl)
-        )
-
-        stream_arg = Var(Entity.args_list.at(0).expr)
-        obj_arg = Var(Entity.args_list.at(1)._.expr)
-
-        return (
-            Entity.prefix.sub_equation
-            & Bind(stream_arg.expected_type_var,
-                   root_stream_type.anonymous_access_type)
-            & stream_arg.sub_equation
-            & stream_arg.matches_expected_type
-
-            & If(
-                return_obj,
-                Bind(Self.type_var, typ),
-                Bind(obj_arg.expected_type_var, typ)
-                & obj_arg.sub_equation
-                & obj_arg.matches_expected_type
-            )
-
-            # In case the attribute has been overridden manually by the user
-            # using an AttributeDefClause, bind the ref_var of the attribute
-            # to the subprogram used by resolving the expression in the clause.
-            & imprecise_fallback.bind(
-                False,
-                typ.get_representation_clause(
-                    Entity.attribute.name_symbol
-                ).then(
-                    lambda x: Bind(
-                        Entity.attribute.ref_var,
-                        x.expr.cast_or_raise(T.Name).referenced_decl
-                    ),
-                    default_val=LogicTrue()
-                )
-            )
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def address_equation():
         address_type = Var(
             Entity
@@ -17939,80 +18317,8 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def succpred_xref_equation():
-        typ = Var(Entity.prefix.name_designated_type)
-        arg = Var(Entity.args_list.at(0).expr)
-
-        return (
-            Bind(Self.prefix.ref_var, typ)
-            & Bind(arg.expected_type_var, typ)
-            & arg.sub_equation
-            & arg.matches_expected_type
-            & Bind(Self.type_var, typ)
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def minmax_equation():
-        typ = Var(Entity.prefix.name_designated_type)
-        left = Var(Entity.args_list.at(0).expr)
-        right = Var(Entity.args_list.at(1).expr)
-
-        return (
-            Entity.prefix.sub_equation
-            & Bind(left.expected_type_var, typ)
-            & left.sub_equation
-            & left.matches_expected_type
-
-            & Bind(right.expected_type_var, typ)
-            & right.sub_equation
-            & right.matches_expected_type
-
-            & Bind(Self.type_var, typ)
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def value_equation(str_type=T.AdaNode.entity):
-        typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Entity.args_list.at(0).expr)
-
-        return (
-            # Prefix is a type, bind prefix's ref var to it
-            Entity.prefix.sub_equation
-
-            # Type of expression is str_type
-            & Bind(expr.expected_type_var, str_type)
-            & expr.sub_equation
-            & expr.matches_expected_type
-
-            # Type of self is designated type
-            & Bind(Self.type_var, typ)
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def fixed_value_equation(universal_type=T.AdaNode.entity):
-        """
-        Return the xref equation for the ``Fixed_Value`` and ``Integer_Value``
-        attributes, depending on whether ``universal_int`` or
-        ``universal_real`` is passed.
-        """
-        typ = Var(Entity.prefix.name_designated_type)
-        return And(
-            Entity.prefix.sub_equation,
-            Bind(Self.type_var, typ),
-            Entity.args_list.at(0).expr.then(
-                lambda e: And(
-                    Bind(e.expected_type_var, universal_type),
-                    e.sub_equation,
-                    e.matches_expected_type
-                ),
-                default_val=LogicFalse()
-            )
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Entity.args_list.then(lambda al: al.at(0).expr))
 
         return If(
             typ.is_null,
@@ -18021,14 +18327,8 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
             & Bind(Self.type_var, str_type),
 
-            expr.sub_equation
-            # Prefix is a type, bind prefix's ref var to it
-            & Bind(Self.prefix.ref_var, typ)
-            # Type of expression is designated type
-            & Bind(expr.expected_type_var, typ)
-            & expr.matches_expected_type
-            # Type of self is String
-            & Bind(Self.type_var, str_type)
+            Entity.prefix.xref_no_overloading
+            & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -18042,34 +18342,18 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def pos_equation():
+    def enum_rep_equation():
         typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Entity.args_list.at(0).expr)
 
-        return (
-            # Prefix is a type, bind prefix's ref var to it
-            Bind(Self.prefix.ref_var, typ)
+        return If(
+            typ.is_null,
 
-            & Bind(expr.expected_type_var, typ)
-            & expr.sub_equation
-            & expr.matches_expected_type
+            # If prefix is not a type, then it is an expression
+            Entity.prefix.sub_equation
+            & Bind(Self.type_var, Self.universal_int_type),
 
-            & Self.universal_int_bind(Self.type_var)
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def val_equation():
-        typ = Var(Entity.prefix.name_designated_type)
-        expr = Var(Entity.args_list.at(0).expr)
-        return (
-            # Prefix is a type, bind prefix's ref var to it
-            Bind(Self.prefix.ref_var, typ)
-
-            & Self.universal_int_bind(expr.expected_type_var)
-            & expr.sub_equation
-            & expr.matches_expected_type
-
-            & Bind(Self.type_var, typ)
+            Entity.prefix.xref_no_overloading
+            & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -18207,46 +18491,6 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def inline_asm_equation():
-        """
-        Return the xref equation for the 'Asm_Input' and 'Asm_Output'
-        attributes.
-        """
-        return_type_name = Var(If(
-            Self.attribute.name_is('Asm_Input'),
-            'Asm_Input_Operand',
-            'Asm_Output_Operand'
-        ))
-
-        # The return type must be `Asm_Input_Operand` for the `Asm_Input`
-        # attribute, and `Asm_Output_Operand` for the `Asm_Output` attribute.
-        return_type = Var(
-            Entity
-            .get_unit_root_decl(['System', 'Machine_Code'], UnitSpecification)
-            ._.children_env.get_first(return_type_name, lookup=LK.flat)
-            .cast(T.BaseTypeDecl)
-        )
-
-        first_arg = Var(Entity.args_list.at(0).expr)
-        second_arg = Var(Entity.args_list.at(1).expr)
-
-        return And(
-            Entity.prefix.xref_no_overloading,
-            Bind(Self.type_var, return_type),
-
-            # The first argument is a string
-            Bind(first_arg.expected_type_var, Self.std_entity('String')),
-            first_arg.sub_equation,
-            first_arg.matches_expected_type,
-
-            # The second argument is of the type designated by the prefix
-            Bind(second_arg.expected_type_var,
-                 Entity.prefix.name_designated_type),
-            second_arg.sub_equation,
-            second_arg.matches_expected_type
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def to_address_equation():
         """
         Return the xref equation for the ``To_Address`` attribute.
@@ -18263,37 +18507,6 @@ class AttributeRef(Name):
         return And(
             Entity.prefix.sub_equation,
             Bind(Self.ref_var, to_address_subp)
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def put_image_equation():
-        """
-        Return the xref equation for the ``Put_Image`` attribute.
-        """
-        root_buffer_type = Var(Self.root_buffer_type.classwide_type)
-        typ = Var(Entity.prefix.name_designated_type)
-        put_image_aspect = Var(typ._.get_aspect('put_image'))
-        put_image_subp = Var(
-            put_image_aspect.value.cast(Name)._.referenced_decl
-        )
-
-        first_arg = Var(Entity.args_list.at(0).expr)
-        second_arg = Var(Entity.args_list.at(1).expr)
-
-        return And(
-            Entity.prefix.xref_no_overloading,
-            put_image_subp.then(
-                lambda subp: Bind(Entity.attribute.ref_var, subp),
-                default_val=LogicTrue()
-            ),
-
-            Bind(first_arg.expected_type_var, root_buffer_type),
-            first_arg.sub_equation,
-            first_arg.matches_expected_formal_type,
-
-            Bind(second_arg.expected_type_var, typ),
-            second_arg.sub_equation,
-            second_arg.matches_expected_formal_type
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -18533,7 +18746,6 @@ class DottedName(Name):
     parent_scope = Property(Self.prefix.scope)
 
     relative_name = Property(Entity.suffix.relative_name)
-    base_name = Property(Entity.prefix)
 
     @langkit_property()
     def env_elements_impl():
@@ -19133,30 +19345,24 @@ class SubpRenamingDecl(BaseSubpBody):
 
     xref_entry_point = Property(True)
     xref_equation = Property(Or(
-        And(
-            If(
-                Entity.renames.renamed_object.is_a(CharLiteral),
+        Cond(
+            Entity.renames.renamed_object.is_a(CharLiteral),
 
-                # If the renamed object is a char literal, simply resolves its
-                # equation.
-                Bind(Entity.renames.renamed_object.expected_type_var,
-                     Entity.subp_spec.return_type)
-                & Entity.renames.renamed_object.sub_equation,
+            # If the renamed object is a char literal, simply resolves its
+            # equation.
+            Bind(Entity.renames.renamed_object.expected_type_var,
+                 Entity.subp_spec.return_type)
+            & Entity.renames.renamed_object.sub_equation,
 
-                Entity.renames.renamed_object.xref_no_overloading(all_els=True)
-                & Predicate(BasicDecl.subp_decl_match_signature,
-                            Entity.renames.renamed_object.ref_var,
-                            Entity.cast(T.BasicDecl))
-            ),
+            Entity.renames.renamed_object.is_a(AttributeRef),
+            # If the renamed object is an attribute ref, do normal
+            # resolution to synthesize its corresponding function.
+            Entity.renames.renamed_object.sub_equation,
 
-            # TODO: since we don't yet represent function attributes ('Image,
-            # etc.) as proper functions, the xref_equation as written so far
-            # would always fail with a PropertyError because the ref_var for
-            # the attribute is never bound. In order to fail a bit more
-            # gracefully, we force the equation to be unsatisfiable using a
-            # LogicFalse, which prevents the crash.
-            If(Entity.renames.renamed_object.is_a(AttributeRef),
-               LogicFalse(), LogicTrue())
+            Entity.renames.renamed_object.xref_no_overloading(all_els=True)
+            & Predicate(BasicDecl.subp_decl_match_signature,
+                        Entity.renames.renamed_object.ref_var,
+                        Entity.cast(T.BasicDecl))
         ),
         # Operators might be built-in, so if we cannot find a reference, we'll
         # just abandon resolution...

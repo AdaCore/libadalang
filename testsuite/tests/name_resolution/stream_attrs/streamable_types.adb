@@ -9,5 +9,11 @@ package body Streamable_Types is
    begin
       Int'Output (S, X);
       pragma Test_Statement;
+
+      Int'Write (S, X);
+      pragma Test_Statement;
+
+      X := Int'Input (S);
+      pragma Test_Statement;
    end Main;
 end Streamable_Types;

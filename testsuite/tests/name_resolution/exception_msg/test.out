@@ -22,10 +22,14 @@ Expr: <OpConcat "&" testexcmsg.adb:3:40-3:41>
   references:    None
   type:          None
   expected type: None
-Expr: <AttributeRef testexcmsg.adb:3:42-3:60>
-  references:    None
+Expr: <CallExpr testexcmsg.adb:3:42-3:60>
+  references:    <SyntheticDefiningName __standard:4:3-4:54>
   type:          <TypeDecl ["String"] __standard:105:3-105:57>
   expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+Expr: <AttributeRef testexcmsg.adb:3:42-3:55>
+  references:    <SyntheticDefiningName __standard:4:3-4:54>
+  type:          None
+  expected type: None
 Expr: <Id "Integer" testexcmsg.adb:3:42-3:49>
   references:    <DefiningName __standard:4:8-4:15>
   type:          None

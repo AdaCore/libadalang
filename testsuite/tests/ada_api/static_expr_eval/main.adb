@@ -95,12 +95,14 @@ begin
       begin
          declare
             Default_Expr : constant Expr := E.As_Object_Decl.F_Default_Expr;
-            Is_Call      : constant Boolean :=
+            Is_User_Call : constant Boolean :=
                (Default_Expr.Kind = Ada_Call_Expr
-                and then Default_Expr.As_Call_Expr.P_Is_Call);
+                and then Default_Expr.As_Call_Expr.P_Is_Call
+                and then Default_Expr.As_Call_Expr.F_Name.Kind
+                   not in Ada_Attribute_Ref);
 
             Res : constant Eval_Result :=
-               (if Is_Call then Eval_Call (Default_Expr.As_Call_Expr)
+               (if Is_User_Call then Eval_Call (Default_Expr.As_Call_Expr)
                 else Expr_Eval (Default_Expr));
          begin
             Put_Line

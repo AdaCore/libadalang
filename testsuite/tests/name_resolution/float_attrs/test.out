@@ -8,13 +8,17 @@ Expr: <Id "Float" test_float_attrs.adb:2:8-2:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:2:17-2:35>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:2:17-2:35>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:2:17-2:28>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:2:17-2:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Floor" test_float_attrs.adb:2:23-2:28>
   references:    None
@@ -32,13 +36,17 @@ Expr: <Id "Float" test_float_attrs.adb:5:8-5:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:5:17-5:35>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:5:17-5:35>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:5:17-5:31>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:5:17-5:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Rounding" test_float_attrs.adb:5:23-5:31>
   references:    None
@@ -56,13 +64,17 @@ Expr: <Id "Float" test_float_attrs.adb:8:8-8:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:8:17-8:41>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:8:17-8:41>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:8:17-8:30>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:8:17-8:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Ceiling" test_float_attrs.adb:8:23-8:30>
   references:    None
@@ -91,13 +103,17 @@ Expr: <Id "Float" test_float_attrs.adb:11:8-11:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:11:17-11:48>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:11:17-11:48>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:11:17-11:33>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:11:17-11:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Truncation" test_float_attrs.adb:11:23-11:33>
   references:    None
@@ -126,13 +142,17 @@ Expr: <Id "Float" test_float_attrs.adb:14:8-14:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:14:17-14:39>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:14:17-14:39>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:14:17-14:32>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:14:17-14:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Copy_Sign" test_float_attrs.adb:14:23-14:32>
   references:    None
@@ -154,13 +174,17 @@ Expr: <Id "Float" test_float_attrs.adb:17:8-17:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:17:17-17:39>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:17:17-17:39>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:17:17-17:32>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:17:17-17:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Remainder" test_float_attrs.adb:17:23-17:32>
   references:    None
@@ -182,13 +206,17 @@ Expr: <Id "Float" test_float_attrs.adb:20:8-20:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:20:17-20:38>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:20:17-20:38>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:20:17-20:31>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:20:17-20:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Adjacent" test_float_attrs.adb:20:23-20:31>
   references:    None
@@ -270,13 +298,17 @@ Expr: <Id "Float" test_float_attrs.adb:32:8-32:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:32:17-32:43>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:32:17-32:43>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:32:17-32:39>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:32:17-32:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Machine_Rounding" test_float_attrs.adb:32:23-32:39>
   references:    None
@@ -294,13 +326,17 @@ Expr: <Id "Integer" test_float_attrs.adb:35:8-35:15>
   references:    <DefiningName __standard:4:8-4:15>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:35:19-35:37>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:35:19-35:37>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <AttributeRef test_float_attrs.adb:35:19-35:33>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:35:19-35:24>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Exponent" test_float_attrs.adb:35:25-35:33>
   references:    None
@@ -398,13 +434,17 @@ Expr: <Id "Float" test_float_attrs.adb:50:8-50:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:50:17-50:37>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:50:17-50:37>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:50:17-50:30>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:50:17-50:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Scaling" test_float_attrs.adb:50:23-50:30>
   references:    None
@@ -446,13 +486,17 @@ Expr: <Id "Float" test_float_attrs.adb:56:8-56:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:56:17-56:40>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:56:17-56:40>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:56:17-56:30>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:56:17-56:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Machine" test_float_attrs.adb:56:23-56:30>
   references:    None
@@ -470,13 +514,17 @@ Expr: <Id "Float" test_float_attrs.adb:59:8-59:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:59:17-59:36>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:59:17-59:36>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:59:17-59:30>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:59:17-59:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Compose" test_float_attrs.adb:59:23-59:30>
   references:    None
@@ -498,13 +546,17 @@ Expr: <Id "Float" test_float_attrs.adb:62:8-62:13>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
-Expr: <AttributeRef test_float_attrs.adb:62:17-62:35>
-  references:    None
+Expr: <CallExpr test_float_attrs.adb:62:17-62:35>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
   type:          <TypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:62:17-62:31>
+  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  type:          None
+  expected type: None
 Expr: <Id "Float" test_float_attrs.adb:62:17-62:22>
   references:    <DefiningName __standard:14:8-14:13>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          None
   expected type: None
 Expr: <Id "Fraction" test_float_attrs.adb:62:23-62:31>
   references:    None

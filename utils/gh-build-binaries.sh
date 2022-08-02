@@ -27,7 +27,8 @@ build_archive()
   rm -rf $prefix
   cd xmlada*
   ./configure --prefix=$prefix ${DEBUG:+--enable-build=Debug}
-  make $LIBRARY_TYPE install-$LIBRARY_TYPE
+  make $LIBRARY_TYPE install-$LIBRARY_TYPE \
+	  GPRBUILD_OPTIONS="-cargs -gnatwn -gargs"
   cd ..
 
   make -C gprbuild prefix=$prefix BUILD=${DEBUG:-production} \

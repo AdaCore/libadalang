@@ -13222,7 +13222,7 @@ class Name(Expr):
                 lambda pa: pa.expr.sub_equation
             ),
             default_val=LogicTrue()
-        ) & Entity.parent_name(root).as_entity.then(
+        ) & Entity.parent_name(root).then(
             lambda name: name.all_args_xref_equation(root),
             default_val=LogicTrue()
         )
@@ -13297,7 +13297,7 @@ class Name(Expr):
                 & Bind(Self.subp_spec_var, as_subp_access._.subp_spec),
 
                 lambda _: Bind(Self.type_var, No(T.AdaNode.entity).node),
-            ) & Self.parent_name(root).as_entity.then(
+            ) & Entity.parent_name(root).then(
                 lambda pn: Cond(
                     Self.is_a(T.ExplicitDeref) & Not(as_subp_access.is_null),
 
@@ -13359,14 +13359,14 @@ class Name(Expr):
             lambda _: True
         )
 
-    @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
+    @langkit_property(return_type=T.Name.entity)
     def parent_name(stop_at=T.Name):
         """
         Will return the parent name until the stop point.
         """
         return If(stop_at.is_null | (Self == stop_at),
-                  No(T.Name),
-                  Self.parent.cast(T.Name))
+                  No(T.Name.entity),
+                  Entity.parent.cast(T.Name))
 
     @langkit_property(return_type=T.CallExpr.entity)
     def parent_callexpr():
@@ -14246,7 +14246,7 @@ class CallExpr(Name):
                 # in which case we don't need to constrain it further.
                 default_val=LogicTrue()
             )
-            & Self.parent_name(root).cast(T.CallExpr).as_entity.then(
+            & Entity.parent_name(root).cast(T.CallExpr).then(
                 lambda c:
                 c.params.logic_all(lambda pa: pa.expr.sub_equation)
                 & c.entity_equation(e, root),
@@ -14285,7 +14285,7 @@ class CallExpr(Name):
                         s.subp_spec_or_null,
                         s.info.md.dottable_subp
                     ),
-                    Entity.parent_name(root).as_entity.then(
+                    Entity.parent_name(root).then(
                         lambda pn:
                         pn.parent_name_equation(s.expr_type, root),
                         default_val=LogicTrue()
@@ -14298,7 +14298,7 @@ class CallExpr(Name):
                     s.subp_spec_or_null,
                     s.info.md.dottable_subp
                 ),
-                Entity.parent_name(root).as_entity.then(
+                Entity.parent_name(root).then(
                     lambda pn:
                     pn.parent_name_equation(s.expr_type, root),
                     default_val=LogicTrue()
@@ -14340,7 +14340,7 @@ class CallExpr(Name):
             & Bind(Entity.params.at(0).expr.expected_type_var,
                    No(BaseTypeDecl.entity))
             & Entity.params.at(0).expr.sub_equation
-            & Entity.parent_name(root).as_entity.then(
+            & Entity.parent_name(root).then(
                 lambda pn: pn.parent_name_equation(
                     Entity.name.name_designated_type,
                     root
@@ -17864,7 +17864,7 @@ class QualExpr(Name):
         return And(
             Entity.xref_equation,
             Entity.all_args_xref_equation(root),
-            Self.parent_name(root).as_entity.then(
+            Entity.parent_name(root).then(
                 lambda pn:
                 pn.parent_name_equation(
                     Entity.prefix.designated_type_impl,

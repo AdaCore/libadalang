@@ -12,5 +12,6 @@
 <ObjectDecl ["E"] test.adb:17:4-17:41> is a static expr
 <ObjectDecl ["F"] test.adb:19:4-19:54> is not a static expr
 <ObjectDecl ["G"] test.adb:21:4-21:34> is a static expr
+<ObjectDecl ["H"] test.adb:23:4-23:48> is a static expr
 
 Done

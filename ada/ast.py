@@ -11334,8 +11334,8 @@ class Expr(AdaNode):
             ),
 
             lambda ce=CallExpr:
-            ce.name.name_designated_type._.is_static_decl
-            & ce.params.at(0).expr.is_static_expr,
+            ce.name.is_static_expr
+            & ce.params.all(lambda pa: pa.expr.is_static_expr),
 
             lambda qe=QualExpr:
             qe.prefix.name_designated_type._.is_static_decl

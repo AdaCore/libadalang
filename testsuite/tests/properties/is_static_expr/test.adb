@@ -19,6 +19,8 @@ procedure Test_It (Param : Integer; Param_2 : String) is
    F : constant Boolean := D'Length < Param_2'Length;
 
    G : constant Character := 'X';
+
+   H : constant Integer := Standard."+" (A, B);
 begin
    null;
 end Test_It;

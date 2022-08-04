@@ -13208,6 +13208,26 @@ class Name(Expr):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def all_args_xref_equation(root=T.Name):
+        """
+        Constructs the xref equations for all the argument lists of CallExprs
+        appearing between ``Entity`` and ``root``. This is done in a single
+        distinct pass instead of directly inside the ``parent_name_equation``
+        & co. properties as we were accidentally duplicating the construction
+        of xref equations for some arguments lists and fixing this inside these
+        properties proved to be difficult.
+        """
+        return Entity.cast(CallExpr).then(
+            lambda ce: ce.params._.logic_all(
+                lambda pa: pa.expr.sub_equation
+            ),
+            default_val=LogicTrue()
+        ) & Entity.parent_name(root).as_entity.then(
+            lambda name: name.all_args_xref_equation(root),
+            default_val=LogicTrue()
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def bottom_up_name_equation():
         return Self.innermost_name.as_entity.match(
             lambda ce=T.CallExpr: ce.general_xref_equation(Self),
@@ -14332,25 +14352,24 @@ class CallExpr(Name):
             # without ambiguity. This allows us to use its type in order to
             # solve the rest of the expression.
             Entity.name.is_a(AttributeRef),
-            Entity.name.resolve_names_internal.then(
-                lambda _: Entity.name.type_val.cast(BaseTypeDecl).then(
+            Entity.name.resolve_names_internal.then(lambda _: And(
+                Entity.all_args_xref_equation(root),
+                Entity.name.type_val.cast(BaseTypeDecl).then(
                     lambda typ: Entity.parent_name_equation(typ, root),
 
                     # If the attribute has no type, it must necessarily
                     # reference a subprogram. Therefore, handle the rest as
                     # if it was an entity call.
-                    default_val=
-                    Entity.params.logic_all(lambda pa: pa.expr.sub_equation)
-                    & Entity.entity_equation(
+                    default_val=Entity.entity_equation(
                         Entity.name.ref_var.get_value.cast_or_raise(BasicDecl),
                         root
                     )
-                ),
+                )),
                 default_val=LogicFalse()
             ),
 
             And(
-                Entity.params.logic_all(lambda pa: pa.expr.sub_equation),
+                Entity.all_args_xref_equation(root),
 
                 # For each potential entity match, we want to express the
                 # following constraints:
@@ -14387,10 +14406,7 @@ class CallExpr(Name):
             typ.access_def.is_a(AccessToSubpDef),
             typ.access_def.cast(AccessToSubpDef).then(
                 lambda asd:
-                Entity.subprogram_equation(asd.subp_spec, False)
-                & Entity.params.logic_all(
-                    lambda pa: pa.expr.sub_equation
-                ),
+                Entity.subprogram_equation(asd.subp_spec, False),
                 default_val=LogicFalse(),
             ),
 
@@ -14410,8 +14426,7 @@ class CallExpr(Name):
                     # Or a regular array access
                     Entity.params._.logic_all(
                         lambda i, pa:
-                        pa.expr.sub_equation
-                        & atd.indices.constrain_index_expr(pa.expr, i)
+                        atd.indices.constrain_index_expr(pa.expr, i)
                     )
                     & Bind(Self.type_var, atd.comp_type)
                 ),
@@ -14450,7 +14465,6 @@ class CallExpr(Name):
 
                 Bind(Self.type_var, ret_type)
                 & Bind(param.expected_type_var, formal.formal_decl.formal_type)
-                & param.sub_equation
                 & param.matches_expected_type
             )),
 
@@ -15168,20 +15182,22 @@ class ExplicitDeref(Name):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def general_xref_equation(root=(T.Name, No(T.Name))):
-        env_els = Var(Entity.env_elements)
-
-        return Entity.prefix.sub_equation & env_els.logic_any(
-            lambda el: el.cast(T.BasicDecl).expr_type.then(
-                lambda typ:
-                Bind(Self.ref_var, el)
-                & Bind(Self.ref_var, Self.prefix.ref_var)
-                & Entity.parent_name_equation(
-                    If(Entity.prefix.cast(AttributeRef)._.is_access_attr,
-                       typ.anonymous_access_type,
-                       typ),
-                    root
-                ),
-                default_val=LogicFalse()
+        return And(
+            Entity.all_args_xref_equation(root),
+            Entity.prefix.sub_equation,
+            Entity.env_elements.logic_any(
+                lambda el: el.cast(T.BasicDecl).expr_type.then(
+                    lambda typ:
+                    Bind(Self.ref_var, el)
+                    & Bind(Self.ref_var, Self.prefix.ref_var)
+                    & Entity.parent_name_equation(
+                        If(Entity.prefix.cast(AttributeRef)._.is_access_attr,
+                           typ.anonymous_access_type,
+                           typ),
+                        root
+                    ),
+                    default_val=LogicFalse()
+                )
             )
         )
 
@@ -17847,6 +17863,7 @@ class QualExpr(Name):
     def general_xref_equation(root=(T.Name, No(T.Name))):
         return And(
             Entity.xref_equation,
+            Entity.all_args_xref_equation(root),
             Self.parent_name(root).as_entity.then(
                 lambda pn:
                 pn.parent_name_equation(

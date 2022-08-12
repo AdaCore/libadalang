@@ -8878,10 +8878,6 @@ class TypeExpr(AdaNode):
         public=True
     )
 
-    @langkit_property(dynamic_vars=[origin])
-    def accessed_type():
-        return Entity.designated_type._.accessed_type
-
     @langkit_property(dynamic_vars=[origin, include_ud_indexing])
     def defining_env():
         return Entity.designated_type.defining_env
@@ -8917,11 +8913,11 @@ class TypeExpr(AdaNode):
         If self is an anonymous access, return the accessed type. Otherwise,
         return the designated type.
         """
-        d = Entity.designated_type
+        d = Var(Entity.designated_type)
         return If(
             d.cast(AnonymousTypeDecl)._.type_def.cast(AccessDef).is_null,
             d,
-            Entity.accessed_type,
+            d.accessed_type,
         )
 
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin],

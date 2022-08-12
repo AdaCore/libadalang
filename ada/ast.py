@@ -29,6 +29,16 @@ defining env of a type. Typically, this is set to True when the defining env
 is needed by a CallExpr, but is False in other contexts.
 """
 
+dottable_type = DynamicVariable('dottable_type', T.AdaNode)
+"""
+The ``dottable_type`` dynamic var is used to propagate the type on which
+the dot call is done from the TypeDef's ``defining_env`` property up to the
+``dottable_subps_env`` property, traversing the base types hierarchy. That
+property then uses it to fill in the ``primitive_real_type`` metadata on the
+dottable subprograms so that later user-queries such as
+``primitive_subp_tagged_type`` are computed correctly.
+"""
+
 imprecise_fallback = DynamicVariable('imprecise_fallback', Bool)
 
 UnitSpecification = AnalysisUnitKind.unit_specification
@@ -68,6 +78,14 @@ def default_include_ud_indexing():
     to False.
     """
     return (include_ud_indexing, False)
+
+
+def default_dottable_type():
+    """
+    Helper to return an dottable_type dynamic param spec which defaults
+    to the null node.
+    """
+    return (dottable_type, No(T.AdaNode))
 
 
 @env_metadata
@@ -2672,7 +2690,8 @@ class BasicDecl(AdaNode):
 
     defining_env = Property(
         EmptyEnv,
-        dynamic_vars=[origin, default_include_ud_indexing()],
+        dynamic_vars=[origin, default_include_ud_indexing(),
+                      default_dottable_type()],
         doc="""
         Return a lexical environment that contains entities that are accessible
         as suffixes when Self is a prefix.
@@ -4285,37 +4304,48 @@ class BaseFormalParamHolder(AdaNode):
         call expressions in order to match the right parameter and return
         types.
         """
-        base_rebindings = Var(
-            Entity.info.md.primitive_real_type.cast(BaseTypeDecl)
-            .as_bare_entity._.find_base_type_rebindings(
-                Entity.info.md.primitive.cast(BaseTypeDecl)
-            )
-        )
+        md = Var(Entity.info.md)
 
         return typ.designated_type._.without_md.cast(BaseTypeDecl).then(
-            lambda t: Let(
-                lambda rt=Entity.real_type(t):
-                If(
-                    t == rt,
-                    If(
-                        base_rebindings.is_null,
-                        t,
-                        TypeExpr.entity.new(
-                            node=typ.node,
-                            info=T.entity_info.new(
-                                md=typ.info.md,
-                                rebindings=typ.info.rebindings
-                                .concat_rebindings(base_rebindings),
-                                from_rebound=typ.info.from_rebound
-                            )
-                        ).designated_type
-                    ),
-                    rt
+            lambda t: If(
+                # Subprograms retrieved through ``dottable_subps_env``
+                # already have their base type rebindings set, so we don't
+                # need to adjust it.
+                # TODO: we should however compute the real_type just like we
+                # do for regular primitives, but this can't be done yet because
+                # their ``primitive_real_type`` metadata is not precise enough
+                # as it is set on all dottable subprograms, even those which
+                # are not actual primitives.
+                md.dottable_subp,
+                t,
+                Let(
+                    lambda
+                    rt=Entity.real_type(t),
+                    base_rebindings=md.primitive_real_type.cast(BaseTypeDecl)
+                    .as_bare_entity._.find_base_type_rebindings(
+                        md.primitive.cast(BaseTypeDecl)
+                    ): If(
+                        t == rt,
+                        If(
+                            base_rebindings.is_null,
+                            t,
+                            TypeExpr.entity.new(
+                                node=typ.node,
+                                info=T.entity_info.new(
+                                    md=No(Metadata),
+                                    rebindings=typ.info.rebindings
+                                    .concat_rebindings(base_rebindings),
+                                    from_rebound=typ.info.from_rebound
+                                )
+                            ).designated_type
+                        ),
+                        rt
+                    )
                 )
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
     def call_argument_equation(param=T.BaseFormalParamDecl.entity,
                                arg=T.Expr.entity):
         """
@@ -4518,7 +4548,8 @@ class TypeDef(AdaNode):
         """
     )
 
-    @langkit_property(dynamic_vars=[origin, include_ud_indexing])
+    @langkit_property(dynamic_vars=[origin, include_ud_indexing,
+                                    default_dottable_type()])
     def defining_env():
         # Regroup implementations for subclasses here instead of overriding to
         # avoid code duplication (multiple cases have the same implementation).
@@ -4543,9 +4574,12 @@ class TypeDef(AdaNode):
                 Entity.children_env,
                 Entity.dottable_subps_env,
                 Entity.previous_part_env
-            ]).concat(
+            ]).concat(dottable_type.bind(
+                # Continue propagating the original `dottable_type`, or start
+                # propagating self if it's not set yet.
+                dottable_type._or(Self.parent),
                 Entity.base_types.map(lambda bt: bt._.defining_env)
-            ).env_group(),
+            )).env_group(),
 
             Entity.match(
                 lambda ar=T.ArrayTypeDef: ar.comp_type.defining_env,
@@ -4568,7 +4602,7 @@ class TypeDef(AdaNode):
 
     previous_part_env = Property(
         Entity.previous_part._.defining_env,
-        dynamic_vars=[origin]
+        dynamic_vars=[origin, dottable_type]
     )
 
     dottable_subps_env = Property(
@@ -4577,10 +4611,20 @@ class TypeDef(AdaNode):
         # It is important to rebind the env with our current rebindings,
         # so that subsequent calls to env.get on this env return those
         # subprograms with the adequate rebindings.
+        # Note that we also set the ``primitive`` and ``primitive_real_type``
+        # metadata field (without checking that they are actual primitives)
+        # so that user queries such as ``primitive_subp_tagged_type`` return a
+        # precise type. This is OK because those fields are not used for
+        # name resolution in any case. (see TODO in ``real_designated_type``).
         Entity.containing_type.dottable_subps_env.rebind_env(
             Entity.info.rebindings
+        ).singleton.env_group(
+            with_md=dottable_type.then(lambda t: T.Metadata.new(
+                primitive=Self.parent,
+                primitive_real_type=t
+            ))
         ),
-        dynamic_vars=[origin]
+        dynamic_vars=[origin, dottable_type]
     )
 
     is_static = Property(False, dynamic_vars=[default_imprecise_fallback()])
@@ -8878,7 +8922,8 @@ class TypeExpr(AdaNode):
         public=True
     )
 
-    @langkit_property(dynamic_vars=[origin, include_ud_indexing])
+    @langkit_property(dynamic_vars=[origin, include_ud_indexing,
+                                    default_dottable_type()])
     def defining_env():
         return Entity.designated_type.defining_env
 

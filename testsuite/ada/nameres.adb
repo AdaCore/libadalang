@@ -1146,7 +1146,7 @@ procedure Nameres is
       is (case Kind is
           when Any                         => True,
           when Subp_Call | Subp_Overriding => Decl.P_Is_Subprogram,
-          when Type_Derivation             => Decl.Kind = Ada_Type_Decl);
+          when Type_Derivation             => Decl.Kind in Ada_Type_Decl);
       --  Return whether Decl is a valid target for the given Kind request
 
       procedure Process_Refs

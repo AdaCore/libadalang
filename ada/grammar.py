@@ -332,12 +332,21 @@ A.add_rules(
 
     anonymous_type_decl=AnonymousTypeDecl(
         Null(A.defining_id), Null(A.discriminant_part),
-        Or(A.array_type_def, A.access_def),
-        Null(A.aspect_spec)
+        Or(A.array_type_def, A.access_def)
+    ),
+
+    incomplete_type_decl=Or(
+        IncompleteTaggedTypeDecl(
+            "type", A.defining_id, Opt(A.discriminant_part),
+            "is", Abstract(res("abstract")), res("tagged"), ";"
+        ),
+        IncompleteTypeDecl(
+            "type", A.defining_id, Opt(A.discriminant_part), ";"
+        ),
     ),
 
     type_decl=Or(
-        TypeDecl(
+        ConcreteTypeDecl(
             "type", A.defining_id, Opt(A.discriminant_part),
             "is",
             Or(
@@ -352,13 +361,7 @@ A.add_rules(
             ),
             A.aspect_spec, sc()
         ),
-        IncompleteTaggedTypeDecl(
-            "type", A.defining_id, Opt(A.discriminant_part),
-            "is", Abstract(res("abstract")), res("tagged"), ";"
-        ),
-        IncompleteTypeDecl(
-            "type", A.defining_id, Opt(A.discriminant_part), ";"
-        ),
+        A.incomplete_type_decl
     ),
 
     variant_part=VariantPart(
@@ -408,9 +411,30 @@ A.add_rules(
     generic_formal_decl=Or(
         A.pragma,
         GenericFormalObjDecl(A.object_decl),
-        GenericFormalTypeDecl(A.type_decl),
+        GenericFormalTypeDecl(A.formal_type_decl),
         GenericFormalSubpDecl(A.formal_subp_decl),
         GenericFormalPackage("with", A.generic_instantiation)
+    ),
+
+    formal_type_decl=Or(
+        FormalTypeDecl(
+            "type", A.defining_id, Opt(A.discriminant_part),
+            "is",
+            Or(
+                A.type_def,
+
+                PrivateTypeDef(
+                    Abstract(res("abstract")),
+                    Tagged(res("tagged")),
+                    Limited("limited"),
+                    "private"
+                ),
+            ),
+            Opt("or", "use", A.name),
+            A.aspect_spec,
+            sc()
+        ),
+        A.incomplete_type_decl
     ),
 
     formal_subp_decl=Or(

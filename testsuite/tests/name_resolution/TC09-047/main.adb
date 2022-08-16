@@ -31,7 +31,7 @@ procedure Main is
          return Over;
       end if;
 
-      if Kind (Node) /= Ada_Type_Decl then
+      if Kind (Node) not in Ada_Type_Decl then
          return Into;
       end if;
 

@@ -5627,8 +5627,7 @@ class BaseTypeDecl(BasicDecl):
             type_def=T.AnonymousTypeAccessDef.new(
                 has_not_null=T.NotNullAbsent.new(),
                 type_decl=Self
-            ),
-            aspects=No(T.AspectSpec)
+            )
         ).cast(T.BaseTypeDecl).as_entity
 
     @langkit_property(return_type=T.BaseTypeDecl.entity)
@@ -6970,6 +6969,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     ))
 
 
+@abstract
 class TypeDecl(BaseTypeDecl):
     """
     Type declarations that embed a type definition node. Corresponds to the
@@ -6977,7 +6977,6 @@ class TypeDecl(BaseTypeDecl):
     """
     discriminants = Field(type=T.DiscriminantPart)
     type_def = Field(type=T.TypeDef)
-    aspects = Field(type=T.AspectSpec)
 
     is_iterable_type = Property(
         # TODO: Need to implement on:
@@ -7534,12 +7533,28 @@ class TypeDecl(BaseTypeDecl):
         )
 
 
+class ConcreteTypeDecl(TypeDecl):
+    """
+    A concrete type declaration.
+    """
+    aspects = Field(type=T.AspectSpec)
+
+
+class FormalTypeDecl(TypeDecl):
+    """
+    A formal type declaration.
+    """
+    default_type = Field(type=T.Name)
+    aspects = Field(type=T.AspectSpec)
+
+
 class AnonymousTypeDecl(TypeDecl):
     """
     Anonymous type declaration (for anonymous array or access types). This
     class has no RM existence, and anonymous (sub)types are refered to
     implicitly in the RM.
     """
+    aspects = NullField()
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def access_def_matches(other=BaseTypeDecl.entity, for_assignment=Bool):
@@ -11283,7 +11298,6 @@ class GenericFormalTypeDecl(GenericFormal):
     """
     Formal declaration for a type (:rmlink:`12.1`).
     """
-
     pass
 
 

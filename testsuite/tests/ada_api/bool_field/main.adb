@@ -11,7 +11,8 @@ procedure Main is
    Ctx       : constant Analysis_Context := Create_Context;
    Unit      : constant Analysis_Unit := Get_From_File (Ctx, "pkg.ads");
    Type_Defs : constant Ada_Node_Array :=
-      Find (Unit.Root, Kind_Is (Ada_Type_Decl)).Consume;
+      Find (Unit.Root, Kind_In (Ada_Concrete_Type_Decl,
+                                Ada_Formal_Type_Decl)).Consume;
 begin
    for T of Type_Defs loop
       declare

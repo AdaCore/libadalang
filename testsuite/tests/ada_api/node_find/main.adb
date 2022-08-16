@@ -67,13 +67,14 @@ begin
 
    Run_Find ("pkg-foo.ads",
              "All declarations of Foo that are types or components",
-             Decl_Defines ("Foo") and (Kind_Is (Ada_Type_Decl)
-                                       or Kind_Is (Ada_Component_Decl)));
+             Decl_Defines ("Foo") and (Kind_In (Ada_Concrete_Type_Decl,
+                                                Ada_Formal_Type_Decl)
+                                         or Kind_Is (Ada_Component_Decl)));
 
    declare
       Foo_Type : constant Type_Decl := Find_First
         (Ctx.Get_From_File ("pkg.ads").Root,
-         Kind_Is (Ada_Type_Decl)).As_Type_Decl;
+         Kind_In (Ada_Concrete_Type_Decl, Ada_Formal_Type_Decl)).As_Type_Decl;
    begin
       Run_Find ("pkg.ads", "All references to the Foo type",
                 Xref_Is (Foo_Type.F_Name));

@@ -10103,6 +10103,18 @@ class AspectAssoc(AdaNode):
             Entity.id.name_is('Stable_Properties'),
             Entity.stable_properties_assoc_equation,
 
+            # Constant_Indexing and Variable_Indexing aspects name expression
+            # can denotes one or more functions. Since name resolution can set
+            # only one reference for a name, only keep the first function
+            # returned by constant_indexing_fns and variable_indexing_fns.
+            Entity.id.name_is('Constant_Indexing'),
+            Bind(Entity.expr.cast_or_raise(T.Identifier).ref_var,
+                 target.cast(TypeDecl).as_entity.constant_indexing_fns.at(0)),
+
+            Entity.id.name_is('Variable_Indexing'),
+            Bind(Entity.expr.cast_or_raise(T.Identifier).ref_var,
+                 target.cast(TypeDecl).as_entity.variable_indexing_fns.at(0)),
+
             # Default resolution: For the moment we didn't encode specific
             # resolution rules for every aspect, so by default at least try to
             # name resolve the expression.

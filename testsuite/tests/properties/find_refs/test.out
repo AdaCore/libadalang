@@ -1,0 +1,5 @@
+== test.adb ==
+[<RefResult ref=<Id "X" test.adb:4:22-4:23> kind=precise>]
+[<RefResult ref=<Id "X" test.adb:10:22-10:23> kind=precise>]
+
+Done

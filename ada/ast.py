@@ -14976,17 +14976,28 @@ class DefiningName(Name):
     )
 
     @langkit_property(public=True, return_type=T.RefResult.array,
-                      dynamic_vars=[default_origin(),
-                                    default_imprecise_fallback()])
+                      dynamic_vars=[default_imprecise_fallback()])
     def find_refs(root=T.AdaNode.entity):
         """
         Find all references to this defining name in the given ``root`` and its
         children.
         """
+        return Entity.canonical_part.find_refs_impl(root, Self)
+
+    @langkit_property(return_type=T.RefResult.array,
+                      dynamic_vars=[imprecise_fallback])
+    def find_refs_impl(root=T.AdaNode.entity, skip_name=T.DefiningName):
+        """
+        Internal implementation for find_refs. Find all references to Self in
+        the given ``root``. The ``skip_name`` is used to filter out a
+        DefiningName from the result (typically, the name of Self in order to
+        avoid to report a reference to itself).
+        """
         # TODO: Factor the traversal between this and `find_derived_types`
         return root.children.then(
-            lambda c: c.filter(lambda n: Not(n.is_null | (n.node == origin)))
-            .mapcat(lambda n: Entity.find_refs(n))
+            lambda c: c.filter(
+                lambda n: Not(n.is_null | (n.node == skip_name))
+            ).mapcat(lambda n: Entity.find_refs_impl(n, skip_name))
         ).concat(
             root.cast(BaseId).then(
                 lambda id: Entity.is_referenced_by(id)
@@ -15107,9 +15118,9 @@ class DefiningName(Name):
             lambda base: base.filter_is_imported_by(units, True)
         ).unique)
 
-        refs = Var(origin.bind(Self, all_units.mapcat(lambda u: u.root.then(
-            lambda r: dn.find_refs(r.as_bare_entity)
-        ))))
+        refs = Var(all_units.mapcat(lambda u: u.root.then(
+            lambda r: dn.find_refs_impl(r.as_bare_entity, Self)
+        )))
 
         return If(
             follow_renamings,

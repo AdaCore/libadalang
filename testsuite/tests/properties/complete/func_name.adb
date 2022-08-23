@@ -7,7 +7,7 @@ PROCEDURE Func_Name IS
 
    procedure Do_Some is null;
 BEGIN
-   Do_Something (A => 1, B => 2, C => 3);
+   Int := Do_Something (A => 1, B => 2, C => 3);
    Int := Do_S
    --% list(node.p_complete)
 END Func_Name;

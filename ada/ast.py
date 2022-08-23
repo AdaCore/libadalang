@@ -377,6 +377,42 @@ class AdaNode(ASTNode):
         ignore(item)
         return 0
 
+    @langkit_property(return_type=Int, dynamic_vars=[origin])
+    def complete_item_weight_matching_type(item=T.BasicDecl.entity,
+                                           name=T.Name.entity):
+        """
+        Specialization of ``complete_item_weight``.
+
+        Set the weight according to the type of the ``item``'s return value in
+        comparison to the type of the declaration designated by ``name``.
+        """
+        te_not_null = Var(Not(item.type_expression.is_null))
+        td = Var(item.type_expression._.designated_type_decl)
+
+        # Promote declarations that returns a value
+        return item.expr_type.then(
+            lambda _: Cond(
+                # Return value type of item matches name's type
+                (name.referenced_decl._.type_expression
+                 ._.designated_type_decl.matching_assign_type(td))
+                & te_not_null,
+                100,
+
+                # Re-try with best-effort resolution (for incomplete code)
+                imprecise_fallback.bind(
+                    True,
+                    (name.referenced_decl._.type_expression
+                     ._.designated_type_decl.matching_assign_type(td))
+                    & te_not_null
+                ),
+                70,
+
+                # Types don't match but item returns a value
+                50
+            ),
+            default_val=0
+        )
+
     @langkit_property(public=True, return_type=T.Symbol.array)
     def valid_keywords():
         """
@@ -2451,6 +2487,7 @@ class BasicDecl(AdaNode):
         the given ``origin`` node.
 
         .. ATTENTION::
+
             Only package-level (public or private) declarations are supported
             for now.
         """
@@ -19916,11 +19953,7 @@ class AssignStmt(SimpleStmt):
 
     @langkit_property(return_type=Int, dynamic_vars=[origin])
     def complete_item_weight(item=T.BasicDecl.entity):
-        # Promote declarations that returns a value
-        return item.expr_type.then(
-            lambda _: 100,
-            default_val=0
-        )
+        return Self.complete_item_weight_matching_type(item, Entity.dest)
 
     @langkit_property()
     def xref_equation():

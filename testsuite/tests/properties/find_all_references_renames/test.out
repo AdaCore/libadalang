@@ -1,9 +1,21 @@
 Analyzing test.adb
 ##################
 
+Analyzing test_gen.adb
+######################
+
 References to Foo (test.adb, 2:14-2:17)
    procedure Bar renames Foo; (test.adb, 5:4-5:30)
    procedure Baz renames Test.Bar; (test.adb, 7:4-7:35)
    Bar; (test.adb, 9:4-9:8)
    Baz; (test.adb, 10:4-10:8)
+References to P (test_gen.adb, 5:16-5:17)
+   function P (X : Integer) return Integer (test_gen.adb, 10:7-10:46)
+   P (test_gen.adb, 14:11-14:12)
+   function P_42 (X : Integer) return Integer renames Pkg.P; (test_gen.adb, 20:4-20:61)
+   Ip : Integer := P_42 (34); (test_gen.adb, 22:4-22:30)
+References to P (test_gen.adb, 10:16-10:17)
+   function P (X : Integer) return Integer (test_gen.adb, 5:7-5:46)
+   P (test_gen.adb, 14:11-14:12)
+   function P_42 (X : Integer) return Integer renames Pkg.P; (test_gen.adb, 20:4-20:61)
 Done.

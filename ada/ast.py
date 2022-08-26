@@ -15124,7 +15124,8 @@ class DefiningName(Name):
                         lambda p: p.is_a(RenamingClause)
                     ).cast(RenamingClause).then(
                         lambda r:
-                        r.renamed_object.referenced_defining_name.node == Self
+                        r.renamed_object.referenced_defining_name.node
+                        == dn.node
                     )
                 ).mapcat(
                     # Since a renaming clause is always part of a BasicDecl,

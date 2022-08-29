@@ -1,0 +1,5 @@
+Working on node <CallStmt test.adb:11:7-11:17>
+==============================================
+
+Eval 'node.f_call.p_is_dispatching_call()'
+Result: False

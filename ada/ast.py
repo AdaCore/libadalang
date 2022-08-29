@@ -11622,10 +11622,16 @@ class Expr(AdaNode):
         # primitive subprogram ``decl``, and ``actual`` is a dynamically
         # tagged expression used for this parameter.
         return Entity.potential_actuals_for_dispatch(spec).any(
-            lambda c: And(
-                Not(spec.get_candidate_type_for_primitive(
-                    c.expected_type).is_null),
-                c.expr.is_dynamically_tagged
+            lambda c:
+            spec.get_candidate_type_for_primitive(c.expected_type).then(
+                lambda typ: And(
+                    # We don't need accurate tagged-visibility information on
+                    # `typ` at the callsite, we just want to abort early here
+                    # to avoid having to handle nonsensical types in the
+                    # `is_dynamically_tagged` property.
+                    typ.full_view.is_tagged_type,
+                    c.expr.is_dynamically_tagged
+                )
             )
         )
 

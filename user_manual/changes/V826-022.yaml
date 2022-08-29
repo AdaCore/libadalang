@@ -1,0 +1,8 @@
+type: bugfix
+title: Fix ``P_Is_Dispatching_Call`` on non-tagged types
+description: |
+    This change fixes a bug where LAL could incorrectly flag some calls as
+    dispatching when the callee was a primitive of a non-tagged type. It
+    now makes sure a tagged type is involved before processing the call
+    further.
+date: 2022-08-29

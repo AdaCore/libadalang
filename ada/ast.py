@@ -13325,9 +13325,14 @@ class Name(Expr):
             dottable_subp=False,
             can_be=True
         ))
-        comp_type = Var(
+        comp_type = Var(If(
+            # TODO: Try to perform this test directly in comp_type. We can't do
+            # it at the moment since iterable_comp_type can call comp_type,
+            # leading to an infinite recursion.
+            typ._.is_iterable_type,
+            typ._.iterable_comp_type,
             typ._.comp_type(is_subscript=Not(Self.is_a(ExplicitDeref)))
-        )
+        ))
         return If(
             typ.is_null,
             LogicFalse(),
@@ -14612,7 +14617,12 @@ class CallExpr(Name):
                 lambda ce: ce.check_for_type(If(
                     Entity.check_array_slice(typ),
                     typ,
-                    typ.comp_type(is_subscript=True)
+                    If(
+                        # TODO: see comment in Name.parent_name_equation
+                        typ.is_iterable_type,
+                        typ.iterable_comp_type,
+                        typ.comp_type(is_subscript=True)
+                    )
                 )),
 
                 # We are done if the parent is not a CallExpr. We could

@@ -1,0 +1,6 @@
+type: bugfix
+title: Fix ``CallExpr`` name resolution
+description: |
+  This change fixes a bug in the name resolution process where types referencing
+  iterable ones were not correctly resolved.
+date: 2022-08-30

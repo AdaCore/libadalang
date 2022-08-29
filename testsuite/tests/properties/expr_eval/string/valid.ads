@@ -11,14 +11,4 @@ package Valid is
 
    S4 : constant String := S2 & " " & S3;
    --% node.f_default_expr.p_eval_as_string
-
-   S5 : constant String := "A" & "B" & "C" & "D" & "E";
-   --% node.f_default_expr.p_eval_as_string
-
-   S6 : constant String := "A" & ("B" & ("C" & ("D" & "E")));
-   --% node.f_default_expr.p_eval_as_string
-
-   S7 : constant String := ("A" & "B") & ("C" & ("D" & "E"));
-   --% node.f_default_expr.p_eval_as_string
-
 end Valid;

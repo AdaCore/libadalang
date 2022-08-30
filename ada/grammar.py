@@ -434,7 +434,11 @@ A.add_rules(
             A.aspect_spec,
             sc()
         ),
-        A.incomplete_type_decl
+        IncompleteFormalTypeDecl(
+            "type", A.defining_id, Opt(A.discriminant_part),
+            Opt("is", Tagged(res(text="tagged"))),
+            Opt("or", "use", A.name), ";"
+        )
     ),
 
     formal_subp_decl=Or(

@@ -1,0 +1,9 @@
+IncompleteFormalTypeDecl[1:1-1:17]
+|f_name:
+|  DefiningName[1:6-1:7]
+|  |f_name:
+|  |  Id[1:6-1:7]: T
+|f_discriminants: <null>
+|f_is_tagged: <null>
+|f_default_type:
+|  Id[1:15-1:16]: D

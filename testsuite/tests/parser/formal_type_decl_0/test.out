@@ -1,0 +1,11 @@
+FormalTypeDecl[1:1-1:25]
+|f_name:
+|  DefiningName[1:6-1:7]
+|  |f_name:
+|  |  Id[1:6-1:7]: T
+|f_discriminants: <null>
+|f_type_def:
+|  FormalDiscreteTypeDef[1:11-1:15]
+|f_default_type:
+|  Id[1:23-1:24]: D
+|f_aspects: <null>

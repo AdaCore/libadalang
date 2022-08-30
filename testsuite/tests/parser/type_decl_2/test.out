@@ -1,6 +1,6 @@
 input:1:11: Cannot parse <record_def>
 input:3:4: Expected 'record', got ';'
-TypeDecl[1:1-4:1] <<INCOMPLETE>>
+ConcreteTypeDecl[1:1-4:1] <<INCOMPLETE>>
 |f_name:
 |  DefiningName[1:6-1:7]
 |  |f_name:

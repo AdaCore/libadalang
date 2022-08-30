@@ -1,11 +1,11 @@
-Working on node <TypeDecl ["R"] test.adb:2:4-2:26>
-==================================================
+Working on node <ConcreteTypeDecl ["R"] test.adb:2:4-2:26>
+==========================================================
 
 Eval 'node.p_is_interface_type()'
 Result: False
 
-Working on node <TypeDecl ["I"] test.adb:5:4-5:24>
-==================================================
+Working on node <ConcreteTypeDecl ["I"] test.adb:5:4-5:24>
+==========================================================
 
 Eval 'node.p_is_interface_type()'
 Result: True
@@ -22,20 +22,20 @@ Working on node <SubtypeDecl ["K"] test.adb:11:4-11:19>
 Eval 'node.p_is_interface_type()'
 Result: False
 
-Working on node <TypeDecl ["JJ"] test.adb:14:4-14:31>
-=====================================================
+Working on node <ConcreteTypeDecl ["JJ"] test.adb:14:4-14:31>
+=============================================================
 
 Eval 'node.p_is_interface_type()'
 Result: True
 
-Working on node <TypeDecl ["T"] test.adb:17:4-17:33>
-====================================================
+Working on node <ConcreteTypeDecl ["T"] test.adb:17:4-17:33>
+============================================================
 
 Eval 'node.p_is_interface_type()'
 Result: False
 
-Working on node <TypeDecl ["TT"] test.adb:20:4-20:44>
-=====================================================
+Working on node <ConcreteTypeDecl ["TT"] test.adb:20:4-20:44>
+=============================================================
 
 Eval 'node.p_is_interface_type()'
 Result: False

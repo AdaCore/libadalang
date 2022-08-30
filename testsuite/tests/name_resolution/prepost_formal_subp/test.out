@@ -25,31 +25,31 @@ Expr: <Id "Pre" pp_formal.ads:3:12-3:15>
   type:          None
   expected type: None
 Expr: <RelationOp pp_formal.ads:3:19-3:30>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp pp_formal.ads:3:19-3:26>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" pp_formal.ads:3:19-3:20>
   references:    <DefiningName pp_formal.ads:2:21-2:22>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" pp_formal.ads:3:21-3:24>
   references:    None
   type:          None
   expected type: None
 Expr: <Int pp_formal.ads:3:25-3:26>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" pp_formal.ads:3:27-3:28>
   references:    None
   type:          None
   expected type: None
 Expr: <Int pp_formal.ads:3:29-3:30>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AspectAssoc pp_formal.ads:3:32-3:45>
 **************************************************************
@@ -59,20 +59,20 @@ Expr: <Id "Post" pp_formal.ads:3:32-3:36>
   type:          None
   expected type: None
 Expr: <RelationOp pp_formal.ads:3:40-3:45>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" pp_formal.ads:3:40-3:41>
   references:    <DefiningName pp_formal.ads:2:21-2:22>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpGt ">" pp_formal.ads:3:42-3:43>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Y" pp_formal.ads:3:44-3:45>
   references:    <DefiningName pp_formal.ads:2:24-2:25>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

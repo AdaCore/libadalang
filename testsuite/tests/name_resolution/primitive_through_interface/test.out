@@ -17,8 +17,8 @@ Expr: <Id "Foo" test.adb:5:31-5:34>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["Foo"] test.adb:7:7-7:29>
-*************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Foo"] test.adb:7:7-7:29>
+*********************************************************************
 
 
 Resolving xrefs for node <EndName test.adb:8:8-8:13>
@@ -58,7 +58,7 @@ Expr: <DottedName test.adb:12:4-12:14>
   expected type: None
 Expr: <Id "X" test.adb:12:4-12:5>
   references:    <DefiningName test.adb:10:4-10:5>
-  type:          <TypeDecl ["Foo"] test.adb:7:7-7:29>
+  type:          <ConcreteTypeDecl ["Foo"] test.adb:7:7-7:29>
   expected type: None
 Expr: <Id "Do_Stuff" test.adb:12:6-12:14>
   references:    <DefiningName test.adb:5:17-5:25>

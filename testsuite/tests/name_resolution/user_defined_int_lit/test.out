@@ -18,8 +18,8 @@ Expr: <Id "Big_Int" test.adb:21:17-21:24>
   expected type: None
 Expr: <Int test.adb:21:28-21:29>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Big_Int"] test.adb:3:7-4:45>
 
 Resolving xrefs for node <ObjectDecl ["Y"] test.adb:25:4-25:30>
 ***************************************************************
@@ -38,8 +38,8 @@ Expr: <Id "Big_Int" test.adb:25:17-25:24>
   expected type: None
 Expr: <Id "N" test.adb:25:28-25:29>
   references:    <DefiningName test.adb:24:4-24:5>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Big_Int"] test.adb:3:7-4:45>
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:29:4-29:21>
 ***************************************************************
@@ -50,7 +50,7 @@ Expr: <Id "Big_Pos" test.adb:29:8-29:15>
   expected type: None
 Expr: <Int test.adb:29:19-29:20>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Big_Pos"] test.adb:28:4-28:40>
 
 Resolving xrefs for node <ObjectDecl ["XX"] test.adb:32:4-32:31>
@@ -70,8 +70,8 @@ Expr: <Id "Big_Int" test.adb:32:18-32:25>
   expected type: None
 Expr: <Id "X" test.adb:32:29-32:30>
   references:    <DefiningName test.adb:21:4-21:5>
-  type:          <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
-  expected type: <TypeDecl ["Big_Int"] test.adb:3:7-4:45>
+  type:          <ConcreteTypeDecl ["Big_Int"] test.adb:3:7-4:45>
+  expected type: <ConcreteTypeDecl ["Big_Int"] test.adb:3:7-4:45>
 
 
 Done.

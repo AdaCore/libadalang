@@ -10,16 +10,16 @@ Expr: <Id "Default_Initial_Condition" dic.ads:3:12-3:37>
   expected type: None
 Expr: <CallExpr dic.ads:3:41-3:56>
   references:    <DefiningName dic.ads:6:13-6:21>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Is_Empty" dic.ads:3:41-3:49>
   references:    <DefiningName dic.ads:6:13-6:21>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Set1" dic.ads:3:51-3:55>
   references:    <DefiningName dic.ads:2:9-2:13>
-  type:          <TypeDecl ["Set1"] dic.ads:2:4-3:57>
-  expected type: <TypeDecl ["Set1"] dic.ads:2:4-3:57>
+  type:          <ConcreteTypeDecl ["Set1"] dic.ads:2:4-3:57>
+  expected type: <ConcreteTypeDecl ["Set1"] dic.ads:2:4-3:57>
 
 Resolving xrefs for node <PragmaNode dic.ads:9:4-9:55>
 ******************************************************
@@ -30,16 +30,16 @@ Expr: <Id "Default_Initial_Condition" dic.ads:9:11-9:36>
   expected type: None
 Expr: <CallExpr dic.ads:9:38-9:53>
   references:    <DefiningName dic.ads:12:13-12:21>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Is_Empty" dic.ads:9:38-9:46>
   references:    <DefiningName dic.ads:12:13-12:21>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Set2" dic.ads:9:48-9:52>
   references:    <DefiningName dic.ads:8:9-8:13>
-  type:          <TypeDecl ["Set2"] dic.ads:8:4-8:25>
-  expected type: <TypeDecl ["Set2"] dic.ads:8:4-8:25>
+  type:          <ConcreteTypeDecl ["Set2"] dic.ads:8:4-8:25>
+  expected type: <ConcreteTypeDecl ["Set2"] dic.ads:8:4-8:25>
 
 
 Done.

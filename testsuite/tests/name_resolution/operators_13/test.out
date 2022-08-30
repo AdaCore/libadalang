@@ -6,55 +6,55 @@ Resolving xrefs for node <AssignStmt test.adb:12:4-12:34>
 
 Expr: <Id "B" test.adb:12:4-12:5>
   references:    <DefiningName test.adb:7:4-7:5>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:12:9-12:33>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp test.adb:12:9-12:19>
-  type:          <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
   expected type: None
 Expr: <Real test.adb:12:9-12:12>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpMult "*" test.adb:12:13-12:14>
   references:    <SyntheticDefiningName __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:12:15-12:19>
-  type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <UnOp test.adb:12:16-12:18>
-  type:          <TypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpPlus "+" test.adb:12:16-12:17>
   references:    <SyntheticDefiningName __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:17-12:18>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpIn "in" test.adb:12:20-12:22>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp test.adb:12:23-12:33>
-  type:          <TypeDecl ["root_real"] __standard:120:3-120:31>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <Real test.adb:12:23-12:26>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpDoubleDot ".." test.adb:12:27-12:29>
   references:    None
   type:          None
   expected type: None
 Expr: <Real test.adb:12:30-12:33>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 
 
 Done.

@@ -6,27 +6,27 @@ Resolving xrefs for node <AssignStmt testunop.adb:10:4-10:11>
 
 Expr: <Id "B" testunop.adb:10:4-10:5>
   references:    <DefiningName testunop.adb:8:7-8:8>
-  type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
+  type:          <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: None
 Expr: <Int testunop.adb:10:9-10:10>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["T"] testunop.adb:4:10-4:35>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
 
 Resolving xrefs for node <AssignStmt testunop.adb:13:4-13:21>
 *************************************************************
 
 Expr: <Id "A" testunop.adb:13:4-13:5>
   references:    <DefiningName testunop.adb:8:4-8:5>
-  type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
+  type:          <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: None
 Expr: <CallExpr testunop.adb:13:9-13:20>
   references:    <SyntheticDefiningName testunop.adb:4:20-4:34>
-  type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
-  expected type: <TypeDecl ["T"] testunop.adb:4:10-4:35>
+  type:          <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
+  expected type: <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
 Expr: <DottedName testunop.adb:13:9-13:16>
   references:    <SyntheticDefiningName testunop.adb:4:20-4:34>
-  type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
+  type:          <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: None
 Expr: <DottedName testunop.adb:13:9-13:12>
   references:    <DefiningName testunop.adb:3:15-3:16>
@@ -42,12 +42,12 @@ Expr: <Id "E" testunop.adb:13:11-13:12>
   expected type: None
 Expr: <Str ""+"" testunop.adb:13:13-13:16>
   references:    <SyntheticDefiningName testunop.adb:4:20-4:34>
-  type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
+  type:          <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
   expected type: None
 Expr: <Id "B" testunop.adb:13:18-13:19>
   references:    <DefiningName testunop.adb:8:7-8:8>
-  type:          <TypeDecl ["T"] testunop.adb:4:10-4:35>
-  expected type: <TypeDecl ["T"] testunop.adb:4:10-4:35>
+  type:          <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
+  expected type: <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
 
 
 Done.

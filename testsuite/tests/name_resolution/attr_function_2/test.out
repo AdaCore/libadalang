@@ -10,8 +10,8 @@ Expr: <Id "String" test.adb:2:8-2:14>
   expected type: None
 Expr: <CallExpr test.adb:2:18-2:35>
   references:    <SyntheticDefiningName __standard:4:3-4:54>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <AttributeRef test.adb:2:18-2:31>
   references:    <SyntheticDefiningName __standard:4:3-4:54>
   type:          None
@@ -26,8 +26,8 @@ Expr: <Id "Image" test.adb:2:26-2:31>
   expected type: None
 Expr: <Int test.adb:2:33-2:34>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg_Image"] test.adb:12:4-15:22>
 *******************************************************************************************

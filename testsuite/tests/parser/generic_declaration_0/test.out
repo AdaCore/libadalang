@@ -5,7 +5,7 @@ GenericSubpDecl[1:1-1:77]
 |  |  AdaNodeList[1:9-1:35]
 |  |  |  GenericFormalTypeDecl[1:9-1:35]
 |  |  |  |f_decl:
-|  |  |  |  TypeDecl[1:9-1:35]
+|  |  |  |  FormalTypeDecl[1:9-1:35]
 |  |  |  |  |f_name:
 |  |  |  |  |  DefiningName[1:14-1:23]
 |  |  |  |  |  |f_name:
@@ -19,6 +19,7 @@ GenericSubpDecl[1:1-1:77]
 |  |  |  |  |  |  TaggedAbsent[1:26-1:26]
 |  |  |  |  |  |f_has_limited:
 |  |  |  |  |  |  LimitedAbsent[1:26-1:26]
+|  |  |  |  |f_default_type: <null>
 |  |  |  |  |f_aspects: <null>
 |f_subp_decl:
 |  GenericSubpInternal[1:36-1:76]

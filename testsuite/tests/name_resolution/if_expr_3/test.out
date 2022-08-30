@@ -5,56 +5,56 @@ Resolving xrefs for node <CaseStmt test.adb:9:4-16:13>
 ******************************************************
 
 Expr: <ParenExpr test.adb:9:9-11:19>
-  type:          <TypeDecl ["Month"] test.adb:2:4-2:79>
+  type:          <ConcreteTypeDecl ["Month"] test.adb:2:4-2:79>
   expected type: None
 Expr: <IfExpr test.adb:9:10-11:18>
-  type:          <TypeDecl ["Month"] test.adb:2:4-2:79>
+  type:          <ConcreteTypeDecl ["Month"] test.adb:2:4-2:79>
   expected type: None
 Expr: <RelationOp test.adb:9:13-9:25>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Selector" test.adb:9:13-9:21>
   references:    <DefiningName test.adb:7:4-7:12>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpLt "<" test.adb:9:22-9:23>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:9:24-9:25>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Jan" test.adb:9:31-9:34>
   references:    <DefiningName test.adb:2:19-2:22>
-  type:          <TypeDecl ["Month"] test.adb:2:4-2:79>
+  type:          <ConcreteTypeDecl ["Month"] test.adb:2:4-2:79>
   expected type: None
 Expr: <MembershipExpr test.adb:10:16-10:32>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Selector" test.adb:10:16-10:24>
   references:    <DefiningName test.adb:7:4-7:12>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <OpIn "in" test.adb:10:25-10:27>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp test.adb:10:28-10:32>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:10:28-10:29>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." test.adb:10:29-10:31>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:10:31-10:32>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <QualExpr test.adb:10:38-10:54>
   references:    <DefiningName test.adb:3:12-3:22>
   type:          <SubtypeDecl ["Warm_Month"] test.adb:3:4-3:49>
@@ -64,15 +64,15 @@ Expr: <Id "Warm_Month" test.adb:10:38-10:48>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:10:49-10:54>
-  type:          <TypeDecl ["Month"] test.adb:2:4-2:79>
+  type:          <ConcreteTypeDecl ["Month"] test.adb:2:4-2:79>
   expected type: <SubtypeDecl ["Warm_Month"] test.adb:3:4-3:49>
 Expr: <Id "Jun" test.adb:10:50-10:53>
   references:    <DefiningName test.adb:2:44-2:47>
-  type:          <TypeDecl ["Month"] test.adb:2:4-2:79>
+  type:          <ConcreteTypeDecl ["Month"] test.adb:2:4-2:79>
   expected type: <SubtypeDecl ["Warm_Month"] test.adb:3:4-3:49>
 Expr: <Id "Dec" test.adb:11:15-11:18>
   references:    <DefiningName test.adb:2:74-2:77>
-  type:          <TypeDecl ["Month"] test.adb:2:4-2:79>
+  type:          <ConcreteTypeDecl ["Month"] test.adb:2:4-2:79>
   expected type: None
 
 Resolving xrefs for node <AssignStmt test.adb:19:4-19:55>
@@ -80,30 +80,30 @@ Resolving xrefs for node <AssignStmt test.adb:19:4-19:55>
 
 Expr: <Id "Selector" test.adb:19:4-19:12>
   references:    <DefiningName test.adb:7:4-7:12>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <CallExpr test.adb:19:16-19:54>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:19:16-19:23>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <IfExpr test.adb:19:25-19:53>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "True" test.adb:19:28-19:32>
   references:    <DefiningName __standard:3:27-3:31>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int test.adb:19:38-19:39>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 Expr: <Id "Selector" test.adb:19:45-19:53>
   references:    <DefiningName test.adb:7:4-7:12>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 
 

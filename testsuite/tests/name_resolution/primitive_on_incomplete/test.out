@@ -14,8 +14,8 @@ Expr: <Id "Do_Stuff" test.adb:20:10-20:18>
   expected type: None
 Expr: <Id "X" test.adb:20:20-20:21>
   references:    <DefiningName test.adb:18:10-18:11>
-  type:          <TypeDecl ["Foo"] test.adb:11:7-11:50>
-  expected type: <TypeDecl ["Foo"] test.adb:11:7-11:50>
+  type:          <ConcreteTypeDecl ["Foo"] test.adb:11:7-11:50>
+  expected type: <ConcreteTypeDecl ["Foo"] test.adb:11:7-11:50>
 
 Resolving xrefs for node <CallStmt test.adb:27:4-27:15>
 *******************************************************
@@ -26,7 +26,7 @@ Expr: <DottedName test.adb:27:4-27:14>
   expected type: None
 Expr: <Id "X" test.adb:27:4-27:5>
   references:    <DefiningName test.adb:25:4-25:5>
-  type:          <TypeDecl ["Foo"] test.adb:7:7-7:38>
+  type:          <ConcreteTypeDecl ["Foo"] test.adb:7:7-7:38>
   expected type: None
 Expr: <Id "Do_Stuff" test.adb:27:6-27:14>
   references:    <DefiningName test.adb:5:17-5:25>

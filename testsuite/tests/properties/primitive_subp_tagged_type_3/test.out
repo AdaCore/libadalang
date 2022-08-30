@@ -2,4 +2,4 @@ Working on node <CallStmt test.adb:14:4-14:10>
 ==============================================
 
 Eval 'node.f_call.p_called_subp_spec.p_primitive_subp_tagged_type()'
-Result: <TypeDecl ["U"] test.adb:9:7-9:44>
+Result: <ConcreteTypeDecl ["U"] test.adb:9:7-9:44>

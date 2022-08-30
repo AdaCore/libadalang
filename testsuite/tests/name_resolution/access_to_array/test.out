@@ -5,8 +5,8 @@ Resolving xrefs for node <SubpSpec testarraccess.adb:1:1-1:24>
 **************************************************************
 
 
-Resolving xrefs for node <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
-*****************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+*************************************************************************************
 
 Expr: <Id "String" testarraccess.adb:2:34-2:40>
   references:    <DefiningName __standard:105:8-105:14>
@@ -33,23 +33,23 @@ Resolving xrefs for node <ReturnStmt testarraccess.adb:5:7-5:29>
 ****************************************************************
 
 Expr: <Allocator testarraccess.adb:5:14-5:28>
-  type:          <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
-  expected type: <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <QualExpr testarraccess.adb:5:18-5:28>
   references:    <DefiningName __standard:105:8-105:14>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "String" testarraccess.adb:5:18-5:24>
   references:    <DefiningName __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <ParenExpr testarraccess.adb:5:25-5:28>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "S" testarraccess.adb:5:26-5:27>
   references:    <DefiningName testarraccess.adb:3:20-3:21>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <EndName testarraccess.adb:6:8-6:13>
 *************************************************************
@@ -79,54 +79,54 @@ Expr: <Id "Str_Access" testarraccess.adb:10:8-10:18>
   type:          None
   expected type: None
 Expr: <Allocator testarraccess.adb:10:22-10:43>
-  type:          <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
-  expected type: <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <QualExpr testarraccess.adb:10:26-10:43>
   references:    <DefiningName __standard:105:8-105:14>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "String" testarraccess.adb:10:26-10:32>
   references:    <DefiningName __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <ParenExpr testarraccess.adb:10:33-10:43>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Str ""lolwat"" testarraccess.adb:10:34-10:42>
   references:    None
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <AssignStmt testarraccess.adb:13:4-13:31>
 ******************************************************************
 
 Expr: <Id "A" testarraccess.adb:13:4-13:5>
   references:    <DefiningName testarraccess.adb:8:4-8:5>
-  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: None
 Expr: <CallExpr testarraccess.adb:13:9-13:30>
   references:    <DefiningName testarraccess.adb:3:13-3:18>
-  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ExplicitDeref testarraccess.adb:13:9-13:26>
   references:    <DefiningName testarraccess.adb:3:13-3:18>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <CallExpr testarraccess.adb:13:9-13:22>
   references:    <DefiningName testarraccess.adb:3:13-3:18>
-  type:          <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
-  expected type: <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <Id "Prout" testarraccess.adb:13:9-13:14>
   references:    <DefiningName testarraccess.adb:3:13-3:18>
-  type:          <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
   expected type: None
 Expr: <Str ""lol"" testarraccess.adb:13:16-13:21>
   references:    None
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Int testarraccess.adb:13:28-13:29>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 
 Resolving xrefs for node <AssignStmt testarraccess.adb:15:4-15:19>
@@ -134,23 +134,23 @@ Resolving xrefs for node <AssignStmt testarraccess.adb:15:4-15:19>
 
 Expr: <Id "A" testarraccess.adb:15:4-15:5>
   references:    <DefiningName testarraccess.adb:8:4-8:5>
-  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: None
 Expr: <CallExpr testarraccess.adb:15:9-15:18>
   references:    <DefiningName testarraccess.adb:10:4-10:5>
-  type:          <TypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <TypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ExplicitDeref testarraccess.adb:15:9-15:14>
   references:    <DefiningName testarraccess.adb:10:4-10:5>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "S" testarraccess.adb:15:9-15:10>
   references:    <DefiningName testarraccess.adb:10:4-10:5>
-  type:          <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
-  expected type: <TypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
+  expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <Int testarraccess.adb:15:16-15:17>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 
 Resolving xrefs for node <EndName testarraccess.adb:16:5-16:18>

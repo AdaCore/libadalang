@@ -18,16 +18,16 @@ Expr: <Id "A" proc_call_named.adb:7:11-7:12>
   expected type: None
 Expr: <Id "E" proc_call_named.adb:7:16-7:17>
   references:    <DefiningName proc_call_named.adb:4:4-4:5>
-  type:          <TypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
-  expected type: <TypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
+  type:          <ConcreteTypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
+  expected type: <ConcreteTypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
 Expr: <Id "D" proc_call_named.adb:7:19-7:20>
   references:    <DefiningName proc_call_named.adb:5:58-5:59>
   type:          None
   expected type: None
 Expr: <Id "E" proc_call_named.adb:7:24-7:25>
   references:    <DefiningName proc_call_named.adb:4:4-4:5>
-  type:          <TypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
-  expected type: <TypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
+  type:          <ConcreteTypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
+  expected type: <ConcreteTypeDecl ["My_Int"] proc_call_named.adb:2:4-2:33>
 
 
 Done.

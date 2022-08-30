@@ -1,8 +1,8 @@
-Working on node <TypeDecl ["T"] test-pkg.ads:5:4-5:47>
-======================================================
+Working on node <ConcreteTypeDecl ["T"] test-pkg.ads:5:4-5:47>
+==============================================================
 
 Eval 'node.p_previous_part()'
 Result: None
 
 Eval 'node.p_base_type()'
-Result: <TypeDecl ["T"] test-impl.ads:2:4-2:38>
+Result: <ConcreteTypeDecl ["T"] test-impl.ads:2:4-2:38>

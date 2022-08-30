@@ -6,7 +6,7 @@ Resolving xrefs for node <ProtectedTypeDecl ["T"] test.adb:4:4-6:10>
 
 Expr: <Id "I" test.adb:4:28-4:29>
   references:    <DefiningName test.adb:2:9-2:10>
-  type:          <TypeDecl ["I"] test.adb:2:4-2:32>
+  type:          <ConcreteTypeDecl ["I"] test.adb:2:4-2:32>
   expected type: None
 Expr: <EndName test.adb:6:8-6:9>
   references:    <DefiningName test.adb:4:19-4:20>
@@ -18,7 +18,7 @@ Resolving xrefs for node <SingleProtectedDecl ["O"] test.adb:13:4-15:10>
 
 Expr: <Id "I" test.adb:13:23-13:24>
   references:    <DefiningName test.adb:2:9-2:10>
-  type:          <TypeDecl ["I"] test.adb:2:4-2:32>
+  type:          <ConcreteTypeDecl ["I"] test.adb:2:4-2:32>
   expected type: None
 Expr: <EndName test.adb:15:8-15:9>
   references:    <DefiningName test.adb:13:14-13:15>

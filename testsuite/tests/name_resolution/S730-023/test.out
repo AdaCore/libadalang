@@ -18,8 +18,8 @@ Expr: <AttributeRef test.adb:10:9-10:17>
   expected type: <AnonymousTypeDecl ["None"] test.adb:5:23-5:40>
 Expr: <Id "X" test.adb:10:9-10:10>
   references:    <DefiningName test.adb:8:4-8:5>
-  type:          <TypeDecl ["Int_Access"] test.adb:3:4-3:38>
-  expected type: <TypeDecl ["Int_Access"] test.adb:3:4-3:38>
+  type:          <ConcreteTypeDecl ["Int_Access"] test.adb:3:4-3:38>
+  expected type: <ConcreteTypeDecl ["Int_Access"] test.adb:3:4-3:38>
 Expr: <Id "Access" test.adb:10:11-10:17>
   references:    None
   type:          None

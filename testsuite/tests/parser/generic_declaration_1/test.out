@@ -29,7 +29,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |f_aspects: <null>
 |  |  |  GenericFormalTypeDecl[3:5-3:31]
 |  |  |  |f_decl:
-|  |  |  |  TypeDecl[3:5-3:31]
+|  |  |  |  FormalTypeDecl[3:5-3:31]
 |  |  |  |  |f_name:
 |  |  |  |  |  DefiningName[3:10-3:19]
 |  |  |  |  |  |f_name:
@@ -43,6 +43,7 @@ GenericPackageDecl[1:1-7:19]
 |  |  |  |  |  |  TaggedAbsent[3:22-3:22]
 |  |  |  |  |  |f_has_limited:
 |  |  |  |  |  |  LimitedAbsent[3:22-3:22]
+|  |  |  |  |f_default_type: <null>
 |  |  |  |  |f_aspects: <null>
 |f_package_decl:
 |  GenericPackageInternal[4:1-7:19]

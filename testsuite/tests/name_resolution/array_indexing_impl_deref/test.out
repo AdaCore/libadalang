@@ -12,15 +12,15 @@ Expr: <CallExpr testimplderef.adb:25:4-25:14>
   expected type: None
 Expr: <Id "Inst_2" testimplderef.adb:25:4-25:10>
   references:    <DefiningName testimplderef.adb:15:4-15:10>
-  type:          <TypeDecl ["Ptr_Arr"] testimplderef.adb:11:4-11:35>
+  type:          <ConcreteTypeDecl ["Ptr_Arr"] testimplderef.adb:11:4-11:35>
   expected type: None
 Expr: <Int testimplderef.adb:25:12-25:13>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testimplderef.adb:25:18-25:20>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 

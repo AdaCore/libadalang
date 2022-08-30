@@ -6,23 +6,23 @@ Resolving xrefs for node <AssignStmt test.adb:26:13-27:26>
 
 Expr: <CallExpr test.adb:26:13-26:74>
   references:    <DefiningName test.adb:14:7-14:13>
-  type:          <TypeDecl ["Stream_Element"] a-stream.ads:42:4-42:58>
+  type:          <ConcreteTypeDecl ["Stream_Element"] a-stream.ads:42:4-42:58>
   expected type: None
 Expr: <CallExpr test.adb:26:13-26:49>
   references:    <DefiningName test.adb:14:7-14:13>
-  type:          <| TypeDecl ["Constant_Reference_Type"] a-convec.ads:293:4-297:39 [test.adb:10:4] |>
+  type:          <| ConcreteTypeDecl ["Constant_Reference_Type"] a-convec.ads:293:4-297:39 [test.adb:10:4] |>
   expected type: None
 Expr: <DottedName test.adb:26:13-26:26>
   references:    <DefiningName test.adb:14:7-14:13>
-  type:          <| TypeDecl ["Vector"] a-convec.ads:91:4-100:64 [test.adb:10:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] a-convec.ads:91:4-100:64 [test.adb:10:4] |>
   expected type: None
 Expr: <Id "Stream" test.adb:26:13-26:19>
   references:    <DefiningName test.adb:19:7-19:13>
-  type:          <TypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
-  expected type: <TypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
+  type:          <ConcreteTypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
+  expected type: <ConcreteTypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
 Expr: <Id "Blocks" test.adb:26:20-26:26>
   references:    <DefiningName test.adb:14:7-14:13>
-  type:          <| TypeDecl ["Vector"] a-convec.ads:91:4-100:64 [test.adb:10:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] a-convec.ads:91:4-100:64 [test.adb:10:4] |>
   expected type: None
 Expr: <DottedName test.adb:26:28-26:48>
   references:    <DefiningName test.adb:15:7-15:20>
@@ -30,41 +30,41 @@ Expr: <DottedName test.adb:26:28-26:48>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <Id "Stream" test.adb:26:28-26:34>
   references:    <DefiningName test.adb:19:7-19:13>
-  type:          <TypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
-  expected type: <TypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
+  type:          <ConcreteTypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
+  expected type: <ConcreteTypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
 Expr: <Id "Current_Block" test.adb:26:35-26:48>
   references:    <DefiningName test.adb:15:7-15:20>
   type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <BinOp test.adb:26:51-26:73>
-  type:          <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
-  expected type: <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  type:          <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  expected type: <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
 Expr: <BinOp test.adb:26:51-26:61>
-  type:          <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
-  expected type: <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  type:          <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  expected type: <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
 Expr: <Id "Offset" test.adb:26:51-26:57>
   references:    <DefiningName test.adb:22:29-22:35>
-  type:          <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
-  expected type: <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  type:          <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  expected type: <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
 Expr: <OpPlus "+" test.adb:26:58-26:59>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "I" test.adb:26:60-26:61>
   references:    <DefiningName test.adb:25:14-25:15>
-  type:          <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
-  expected type: <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  type:          <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  expected type: <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
 Expr: <OpMinus "-" test.adb:26:62-26:63>
   references:    None
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:26:64-26:73>
   references:    None
-  type:          <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
-  expected type: <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  type:          <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  expected type: <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
 Expr: <Id "SEA" test.adb:26:64-26:67>
   references:    <DefiningName test.adb:23:29-23:32>
-  type:          <TypeDecl ["Stream_Element_Array"] a-stream.ads:54:4-55:72>
+  type:          <ConcreteTypeDecl ["Stream_Element_Array"] a-stream.ads:54:4-55:72>
   expected type: None
 Expr: <Id "First" test.adb:26:68-26:73>
   references:    None
@@ -72,16 +72,16 @@ Expr: <Id "First" test.adb:26:68-26:73>
   expected type: None
 Expr: <CallExpr test.adb:27:18-27:25>
   references:    <DefiningName test.adb:23:29-23:32>
-  type:          <TypeDecl ["Stream_Element"] a-stream.ads:42:4-42:58>
-  expected type: <TypeDecl ["Stream_Element"] a-stream.ads:42:4-42:58>
+  type:          <ConcreteTypeDecl ["Stream_Element"] a-stream.ads:42:4-42:58>
+  expected type: <ConcreteTypeDecl ["Stream_Element"] a-stream.ads:42:4-42:58>
 Expr: <Id "SEA" test.adb:27:18-27:21>
   references:    <DefiningName test.adb:23:29-23:32>
-  type:          <TypeDecl ["Stream_Element_Array"] a-stream.ads:54:4-55:72>
+  type:          <ConcreteTypeDecl ["Stream_Element_Array"] a-stream.ads:54:4-55:72>
   expected type: None
 Expr: <Id "I" test.adb:27:23-27:24>
   references:    <DefiningName test.adb:25:14-25:15>
-  type:          <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
-  expected type: <TypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  type:          <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
+  expected type: <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
 
 
 Done.

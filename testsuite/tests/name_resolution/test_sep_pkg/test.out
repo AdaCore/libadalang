@@ -30,8 +30,8 @@ Expr: <Id "Pouet" test_sep-bar.adb:8:13-8:18>
   expected type: None
 Expr: <Id "B" test_sep-bar.adb:8:20-8:21>
   references:    <DefiningName test_sep-bar.adb:6:4-6:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

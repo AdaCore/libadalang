@@ -6,20 +6,20 @@ Resolving xrefs for node <AssignStmt foo.adb:5:7-5:32>
 
 Expr: <DottedName foo.adb:5:7-5:14>
   references:    <DefiningName foo.ads:8:7-8:12>
-  type:          <TypeDecl ["T"] foo.ads:2:4-2:22>
+  type:          <FormalTypeDecl ["T"] foo.ads:2:4-2:22>
   expected type: None
 Expr: <Id "V" foo.adb:5:7-5:8>
   references:    <DefiningName foo.adb:3:7-3:8>
   type:          <ClasswideTypeDecl ["Object_Type"] foo.ads:7:4-9:15>
-  expected type: <TypeDecl ["Object_Type"] foo.ads:7:4-9:15>
+  expected type: <ConcreteTypeDecl ["Object_Type"] foo.ads:7:4-9:15>
 Expr: <Id "Value" foo.adb:5:9-5:14>
   references:    <DefiningName foo.ads:8:7-8:12>
-  type:          <TypeDecl ["T"] foo.ads:2:4-2:22>
+  type:          <FormalTypeDecl ["T"] foo.ads:2:4-2:22>
   expected type: None
 Expr: <Id "Default_Value" foo.adb:5:18-5:31>
   references:    <DefiningName foo.ads:3:4-3:17>
-  type:          <TypeDecl ["T"] foo.ads:2:4-2:22>
-  expected type: <TypeDecl ["T"] foo.ads:2:4-2:22>
+  type:          <FormalTypeDecl ["T"] foo.ads:2:4-2:22>
+  expected type: <FormalTypeDecl ["T"] foo.ads:2:4-2:22>
 
 
 Done.

@@ -2,4 +2,4 @@ Working on node <SubtypeDecl ["ST"] foo.ads:3:4-3:33>
 =====================================================
 
 Eval 'node.p_get_type()'
-Result: <TypeDecl ["T"] foo.ads:2:4-2:24>
+Result: <ConcreteTypeDecl ["T"] foo.ads:2:4-2:24>

@@ -6,15 +6,15 @@ Resolving xrefs for node <AssignStmt test.adb:16:4-16:19>
 
 Expr: <Id "B" test.adb:16:4-16:5>
   references:    <DefiningName test.adb:14:4-14:5>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:16:9-16:18>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Chr "'Q'" test.adb:16:9-16:12>
   references:    <DefiningName test.adb:2:21-2:24>
-  type:          <TypeDecl ["T"] test.adb:2:4-2:44>
-  expected type: <TypeDecl ["T"] test.adb:2:4-2:44>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
 Expr: <OpIn "in" test.adb:16:13-16:15>
   references:    None
   type:          None
@@ -29,11 +29,11 @@ Resolving xrefs for node <AssignStmt test.adb:19:4-19:24>
 
 Expr: <Id "B" test.adb:19:4-19:5>
   references:    <DefiningName test.adb:14:4-14:5>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:19:9-19:23>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:19:9-19:12>
   references:    <DefiningName test.adb:9:13-9:16>
   type:          <ClasswideTypeDecl ["V"] test.adb:6:4-6:37>
@@ -60,11 +60,11 @@ Resolving xrefs for node <AssignStmt test.adb:22:4-22:24>
 
 Expr: <Id "B" test.adb:22:4-22:5>
   references:    <DefiningName test.adb:14:4-14:5>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:22:9-22:23>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:22:9-22:12>
   references:    <DefiningName test.adb:9:13-9:16>
   type:          <ClasswideTypeDecl ["V"] test.adb:6:4-6:37>

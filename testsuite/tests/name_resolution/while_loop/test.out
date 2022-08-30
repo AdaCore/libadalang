@@ -6,28 +6,28 @@ Resolving xrefs for node <AssignStmt testwhile.adb:8:7-8:16>
 
 Expr: <Id "I" testwhile.adb:8:7-8:8>
   references:    <DefiningName testwhile.adb:5:4-5:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Foo" testwhile.adb:8:12-8:15>
   references:    <DefiningName testwhile.adb:2:13-2:16>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ExitStmt testwhile.adb:10:7-10:21>
 ************************************************************
 
 Expr: <Id "Foo" testwhile.adb:10:17-10:20>
   references:    <DefiningName testwhile.adb:3:13-3:16>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <WhileLoopStmt testwhile.adb:7:4-12:13>
 ****************************************************************
 
 Expr: <Id "Foo" testwhile.adb:7:10-7:13>
   references:    <DefiningName testwhile.adb:3:13-3:16>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 
 Done.

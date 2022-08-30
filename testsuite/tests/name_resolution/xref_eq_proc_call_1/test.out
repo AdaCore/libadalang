@@ -14,8 +14,8 @@ Expr: <Id "A" test.adb:7:4-7:5>
   expected type: None
 Expr: <Id "B" test.adb:7:7-7:8>
   references:    <DefiningName test.adb:5:4-5:5>
-  type:          <TypeDecl ["Int"] test.adb:2:4-2:31>
-  expected type: <TypeDecl ["Int"] test.adb:2:4-2:31>
+  type:          <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
+  expected type: <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
 
 
 Done.

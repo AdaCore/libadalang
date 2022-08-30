@@ -10,8 +10,8 @@ Expr: <Id "B" test_derived_discrete.adb:3:8-3:9>
   expected type: None
 Expr: <AttributeRef test_derived_discrete.adb:3:13-3:20>
   references:    None
-  type:          <TypeDecl ["B"] test_derived_discrete.adb:2:4-2:26>
-  expected type: <TypeDecl ["B"] test_derived_discrete.adb:2:4-2:26>
+  type:          <ConcreteTypeDecl ["B"] test_derived_discrete.adb:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["B"] test_derived_discrete.adb:2:4-2:26>
 Expr: <Id "B" test_derived_discrete.adb:3:13-3:14>
   references:    <DefiningName test_derived_discrete.adb:2:9-2:10>
   type:          None

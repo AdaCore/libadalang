@@ -14,23 +14,23 @@ Resolving xrefs for node <AssignStmt pouet.adb:7:7-7:18>
 
 Expr: <Id "S" pouet.adb:7:7-7:8>
   references:    <DefiningName pouet.adb:4:4-4:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <BinOp pouet.adb:7:12-7:17>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "S" pouet.adb:7:12-7:13>
   references:    <DefiningName pouet.adb:4:4-4:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpPlus "+" pouet.adb:7:14-7:15>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "I" pouet.adb:7:16-7:17>
   references:    <DefiningName pouet.adb:6:8-6:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

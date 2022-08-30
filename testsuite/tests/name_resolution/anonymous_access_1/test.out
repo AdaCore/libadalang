@@ -14,7 +14,7 @@ Expr: <Id "Foo" test.adb:11:4-11:7>
   expected type: None
 Expr: <Id "IA" test.adb:11:9-11:11>
   references:    <DefiningName test.adb:8:4-8:6>
-  type:          <TypeDecl ["Int_Access"] test.adb:3:4-3:42>
+  type:          <ConcreteTypeDecl ["Int_Access"] test.adb:3:4-3:42>
   expected type: <AnonymousTypeDecl ["None"] test.adb:5:23-5:37>
 
 Resolving xrefs for node <CallStmt test.adb:14:4-14:13>
@@ -31,7 +31,7 @@ Expr: <Id "Bar" test.adb:14:4-14:7>
 Expr: <Id "AI" test.adb:14:9-14:11>
   references:    <DefiningName test.adb:9:4-9:6>
   type:          <AnonymousTypeDecl ["None"] test.adb:9:9-9:23>
-  expected type: <TypeDecl ["Int_Access"] test.adb:3:4-3:42>
+  expected type: <ConcreteTypeDecl ["Int_Access"] test.adb:3:4-3:42>
 
 
 Done.

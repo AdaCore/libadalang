@@ -20,5 +20,5 @@ Loading supported_chained_aggr.gpr...
    Success
 Loading p.gpr...
 <SubtypeIndication p2.ada_specification:4:8-4:22> resolves to:
-  <TypeDecl ["Record_Type"] p1.ada_specification:2:4-2:36>
+  <ConcreteTypeDecl ["Record_Type"] p1.ada_specification:2:4-2:36>
 Done.

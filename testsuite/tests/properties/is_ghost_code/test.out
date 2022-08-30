@@ -5,7 +5,7 @@
 <AssignStmt ghost_code.adb:31:4-31:36> is ghost: True
 <SubpBody ["Ghost_Code"] ghost_code.adb:3:1-32:16> is ghost: False
 <ExprFunction ["Foo"] ghost_code.adb:5:4-5:51> is ghost: True
-<TypeDecl ["Rec"] ghost_code.adb:7:4-10:26> is ghost: True
+<ConcreteTypeDecl ["Rec"] ghost_code.adb:7:4-10:26> is ghost: True
 <ComponentDecl ["A"] ghost_code.adb:8:7-8:19> is ghost: True
 <ComponentDecl ["B"] ghost_code.adb:9:7-9:19> is ghost: True
 <ObjectDecl ["R"] ghost_code.adb:12:4-12:36> is ghost: True

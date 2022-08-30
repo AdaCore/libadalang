@@ -26,7 +26,7 @@ Expr: <Id "Z" main.adb:6:22-6:23>
   expected type: None
 Expr: <Int main.adb:6:27-6:28>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 Resolving xrefs for node <AssignStmt main.adb:9:4-9:37>
@@ -54,7 +54,7 @@ Expr: <Id "Count" main.adb:9:26-9:31>
   expected type: None
 Expr: <Int main.adb:9:35-9:36>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 

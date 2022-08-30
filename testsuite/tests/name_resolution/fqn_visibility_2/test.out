@@ -9,36 +9,36 @@ Expr: <Id "Integer" b-c.ads:3:18-3:25>
   type:          None
   expected type: None
 Expr: <BinOp b-c.ads:3:29-3:57>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName b-c.ads:3:29-3:41>
   references:    <DefiningName b.ads:3:4-3:14>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" b-c.ads:3:29-3:30>
   references:    <DefiningName b.ads:1:9-1:10>
   type:          None
   expected type: None
 Expr: <Id "Public_Int" b-c.ads:3:31-3:41>
   references:    <DefiningName b.ads:3:4-3:14>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpPlus "+" b-c.ads:3:42-3:43>
   references:    None
   type:          None
   expected type: None
 Expr: <DottedName b-c.ads:3:44-3:57>
   references:    <DefiningName b.ads:5:4-5:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" b-c.ads:3:44-3:45>
   references:    <DefiningName b.ads:1:9-1:10>
   type:          None
   expected type: None
 Expr: <Id "Private_Int" b-c.ads:3:46-3:57>
   references:    <DefiningName b.ads:5:4-5:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

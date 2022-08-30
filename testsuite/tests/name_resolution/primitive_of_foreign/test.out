@@ -10,8 +10,8 @@ Expr: <DottedName pkg.adb:13:7-13:13>
   expected type: None
 Expr: <Id "V" pkg.adb:13:7-13:8>
   references:    <DefiningName pkg.adb:11:7-11:8>
-  type:          <TypeDecl ["T"] pkg.ads:2:4-2:33>
-  expected type: <TypeDecl ["T"] pkg.ads:2:4-2:33>
+  type:          <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:33>
+  expected type: <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:33>
 Expr: <Id "Prim" pkg.adb:13:9-13:13>
   references:    <DefiningName pkg.adb:3:14-3:18>
   type:          None

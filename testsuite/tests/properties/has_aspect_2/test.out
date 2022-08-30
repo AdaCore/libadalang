@@ -34,8 +34,8 @@ Working on node <NullSubpDecl ["Pouet3"] test.adb:33:4-33:29>
 Eval 'node.p_has_aspect('inline')'
 Result: True
 
-Working on node <TypeDecl ["Vector"] test.adb:40:7-40:34>
-=========================================================
+Working on node <ConcreteTypeDecl ["Vector"] test.adb:40:7-40:34>
+=================================================================
 
 Eval 'node.p_has_aspect("default_initial_condition")'
 Result: True

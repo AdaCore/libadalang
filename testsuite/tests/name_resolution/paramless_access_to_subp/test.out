@@ -6,16 +6,16 @@ Resolving xrefs for node <AssignStmt testaccsubp.adb:11:4-11:19>
 
 Expr: <Id "I" testaccsubp.adb:11:4-11:5>
   references:    <DefiningName testaccsubp.adb:8:4-8:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ExplicitDeref testaccsubp.adb:11:9-11:18>
   references:    <DefiningName testaccsubp.adb:6:4-6:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A_Ptr" testaccsubp.adb:11:9-11:14>
   references:    <DefiningName testaccsubp.adb:6:4-6:9>
-  type:          <TypeDecl ["Fn_Ptr"] testaccsubp.adb:2:4-2:50>
-  expected type: <TypeDecl ["Fn_Ptr"] testaccsubp.adb:2:4-2:50>
+  type:          <ConcreteTypeDecl ["Fn_Ptr"] testaccsubp.adb:2:4-2:50>
+  expected type: <ConcreteTypeDecl ["Fn_Ptr"] testaccsubp.adb:2:4-2:50>
 
 A_Ptr resolves to:
     A_Ptr : Fn_Ptr := A'Access;

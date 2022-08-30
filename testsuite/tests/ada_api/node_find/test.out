@@ -76,17 +76,17 @@
 
 [pkg-foo.ads] All declarations of Foo:
   <PackageDecl ["Pkg.Foo"] pkg-foo.ads:1:1-20:13>
-  <TypeDecl ["Foo"] pkg-foo.ads:3:4-3:24>
+  <ConcreteTypeDecl ["Foo"] pkg-foo.ads:3:4-3:24>
   <ObjectDecl ["Bar", "Foo"] pkg-foo.ads:8:7-8:26>
-  <TypeDecl ["Foo"] pkg-foo.ads:16:4-18:15>
+  <ConcreteTypeDecl ["Foo"] pkg-foo.ads:16:4-18:15>
   <ComponentDecl ["Foo"] pkg-foo.ads:17:7-17:21>
 
 [pkg-foo.ads] All declarations of "+":
   <SubpDecl [""+""] pkg-foo.ads:5:4-5:48>
 
 [pkg-foo.ads] All declarations of Foo that are types or components:
-  <TypeDecl ["Foo"] pkg-foo.ads:3:4-3:24>
-  <TypeDecl ["Foo"] pkg-foo.ads:16:4-18:15>
+  <ConcreteTypeDecl ["Foo"] pkg-foo.ads:3:4-3:24>
+  <ConcreteTypeDecl ["Foo"] pkg-foo.ads:16:4-18:15>
   <ComponentDecl ["Foo"] pkg-foo.ads:17:7-17:21>
 
 [pkg.ads] All references to the Foo type:

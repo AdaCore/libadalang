@@ -1,8 +1,8 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <TypeDecl ["R"] test.adb:2:4-5:15>
-***********************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["R"] test.adb:2:4-5:15>
+*******************************************************************
 
 
 Resolving xrefs for node <ComponentDecl ["A"] test.adb:3:7-3:19>
@@ -34,54 +34,54 @@ Resolving xrefs for node <ComponentClause test.adb:8:7-8:28>
 
 Expr: <Id "A" test.adb:8:7-8:8>
   references:    <DefiningName test.adb:3:7-3:8>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Int test.adb:8:12-8:13>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 Expr: <BinOp test.adb:8:20-8:27>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test.adb:8:20-8:21>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpDoubleDot ".." test.adb:8:22-8:24>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:8:25-8:27>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ComponentClause test.adb:9:7-9:29>
 ************************************************************
 
 Expr: <Id "B" test.adb:9:7-9:8>
   references:    <DefiningName test.adb:4:7-4:8>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.adb:9:12-9:13>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 Expr: <BinOp test.adb:9:20-9:28>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Int test.adb:9:20-9:22>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpDoubleDot ".." test.adb:9:23-9:25>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:9:26-9:28>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <EndName test.adb:11:5-11:9>
 *****************************************************

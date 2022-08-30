@@ -14,8 +14,8 @@ Expr: <Id "A" genform.adb:19:30-19:31>
   expected type: None
 Expr: <Id "I" genform.adb:19:35-19:36>
   references:    <DefiningName genform.adb:6:4-6:5>
-  type:          <TypeDecl ["R"] genform.adb:2:4-4:15>
-  expected type: <TypeDecl ["R"] genform.adb:2:4-4:15>
+  type:          <ConcreteTypeDecl ["R"] genform.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["R"] genform.adb:2:4-4:15>
 
 Resolving xrefs for node <GenericPackageInstantiation ["Inst2"] genform.adb:22:4-22:54>
 ***************************************************************************************
@@ -37,16 +37,16 @@ Expr: <Id "A" genform.adb:22:38-22:39>
   type:          None
   expected type: None
 Expr: <Aggregate genform.adb:22:43-22:52>
-  type:          <TypeDecl ["R"] genform.adb:2:4-4:15>
-  expected type: <TypeDecl ["R"] genform.adb:2:4-4:15>
+  type:          <ConcreteTypeDecl ["R"] genform.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["R"] genform.adb:2:4-4:15>
 Expr: <Id "B" genform.adb:22:44-22:45>
   references:    <DefiningName genform.adb:3:7-3:8>
   type:          None
   expected type: None
 Expr: <Int genform.adb:22:49-22:51>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

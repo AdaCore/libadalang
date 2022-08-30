@@ -21,8 +21,8 @@ Expr: <Id "Pack" test.ads:4:8-4:12>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["T"] test.ads:6:4-6:33>
-***********************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+*******************************************************************
 
 
 Resolving xrefs for node <SubpSpec test.ads:8:4-8:59>
@@ -81,36 +81,36 @@ Expr: <Id "Pre" test.ads:11:11-11:14>
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:11:16-11:32>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.ads:11:16-11:24>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:11:16-11:19>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:11:16-11:17>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:11:18-11:19>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:11:21-11:23>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" test.ads:11:25-11:26>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "False" test.ads:11:27-11:32>
   references:    <DefiningName __standard:3:20-3:25>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <PragmaNode test.ads:12:4-15:48>
 *********************************************************
@@ -120,41 +120,41 @@ Expr: <Id "Post" test.ads:12:11-12:15>
   type:          None
   expected type: None
 Expr: <BinOp test.ads:12:17-15:46>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp test.ads:12:17-14:35>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp test.ads:12:17-13:51>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <RelationOp test.ads:12:17-12:40>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:12:17-12:29>
   references:    None
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.ads:12:17-12:25>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:12:17-12:20>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:12:17-12:18>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:12:19-12:20>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:12:22-12:24>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:12:26-12:29>
   references:    None
   type:          None
@@ -165,39 +165,39 @@ Expr: <OpEq "=" test.ads:12:30-12:31>
   expected type: None
 Expr: <CallExpr test.ads:12:32-12:40>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:12:32-12:35>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:12:32-12:33>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:12:34-12:35>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:12:37-12:39>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpAndThen "and then" test.ads:13:17-13:25>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:13:26-13:51>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:13:26-13:47>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.ads:13:26-13:43>
   references:    <DefiningName test.ads:3:7-3:14>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.ads:13:26-13:35>
   references:    <DefiningName test.ads:2:12-2:16>
   type:          None
@@ -212,8 +212,8 @@ Expr: <Id "Pack" test.ads:13:31-13:35>
   expected type: None
 Expr: <Id "G_count" test.ads:13:36-13:43>
   references:    <DefiningName test.ads:3:7-3:14>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:13:44-13:47>
   references:    None
   type:          None
@@ -224,23 +224,23 @@ Expr: <OpGt ">" test.ads:13:48-13:49>
   expected type: None
 Expr: <Int test.ads:13:50-13:51>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpAndThen "and then" test.ads:14:17-14:25>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:14:26-14:35>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:14:26-14:31>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Y" test.ads:14:26-14:27>
   references:    <DefiningName test.ads:10:32-10:33>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:14:28-14:31>
   references:    None
   type:          None
@@ -251,19 +251,19 @@ Expr: <OpGt ">" test.ads:14:32-14:33>
   expected type: None
 Expr: <Id "Y" test.ads:14:34-14:35>
   references:    <DefiningName test.ads:10:32-10:33>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpAndThen "and then" test.ads:15:17-15:25>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:15:26-15:46>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:15:26-15:36>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Pr1" test.ads:15:26-15:29>
   references:    <DefiningName test.ads:10:13-10:16>
   type:          None
@@ -278,16 +278,16 @@ Expr: <OpEq "=" test.ads:15:37-15:38>
   expected type: None
 Expr: <CallExpr test.ads:15:39-15:46>
   references:    <DefiningName test.ads:29:13-29:16>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Bar" test.ads:15:39-15:42>
   references:    <DefiningName test.ads:29:13-29:16>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Y" test.ads:15:44-15:45>
   references:    <DefiningName test.ads:10:32-10:33>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <PragmaNode test.ads:16:4-23:49>
 *********************************************************
@@ -317,76 +317,76 @@ Expr: <Id "Requires" test.ads:19:7-19:15>
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:19:19-19:35>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.ads:19:19-19:27>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:19:19-19:22>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:19:19-19:20>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:19:21-19:22>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:19:24-19:26>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" test.ads:19:28-19:29>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "False" test.ads:19:30-19:35>
   references:    <DefiningName __standard:3:20-3:25>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Ensures" test.ads:20:7-20:14>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp test.ads:20:18-23:47>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp test.ads:20:18-22:36>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp test.ads:20:18-21:52>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <RelationOp test.ads:20:18-20:41>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:20:18-20:30>
   references:    None
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.ads:20:18-20:26>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:20:18-20:21>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:20:18-20:19>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:20:20-20:21>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:20:23-20:25>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:20:27-20:30>
   references:    None
   type:          None
@@ -397,39 +397,39 @@ Expr: <OpEq "=" test.ads:20:31-20:32>
   expected type: None
 Expr: <CallExpr test.ads:20:33-20:41>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:20:33-20:36>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:20:33-20:34>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:20:35-20:36>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:20:38-20:40>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpAndThen "and then" test.ads:21:18-21:26>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:21:27-21:52>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:21:27-21:48>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.ads:21:27-21:44>
   references:    <DefiningName test.ads:3:7-3:14>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.ads:21:27-21:36>
   references:    <DefiningName test.ads:2:12-2:16>
   type:          None
@@ -444,8 +444,8 @@ Expr: <Id "Pack" test.ads:21:32-21:36>
   expected type: None
 Expr: <Id "G_count" test.ads:21:37-21:44>
   references:    <DefiningName test.ads:3:7-3:14>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:21:45-21:48>
   references:    None
   type:          None
@@ -456,23 +456,23 @@ Expr: <OpGt ">" test.ads:21:49-21:50>
   expected type: None
 Expr: <Int test.ads:21:51-21:52>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpAndThen "and then" test.ads:22:18-22:26>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:22:27-22:36>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:22:27-22:32>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Y" test.ads:22:27-22:28>
   references:    <DefiningName test.ads:10:32-10:33>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:22:29-22:32>
   references:    None
   type:          None
@@ -483,19 +483,19 @@ Expr: <OpGt ">" test.ads:22:33-22:34>
   expected type: None
 Expr: <Id "Y" test.ads:22:35-22:36>
   references:    <DefiningName test.ads:10:32-10:33>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpAndThen "and then" test.ads:23:18-23:26>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:23:27-23:47>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:23:27-23:37>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Pr1" test.ads:23:27-23:30>
   references:    <DefiningName test.ads:10:13-10:16>
   type:          None
@@ -510,16 +510,16 @@ Expr: <OpEq "=" test.ads:23:38-23:39>
   expected type: None
 Expr: <CallExpr test.ads:23:40-23:47>
   references:    <DefiningName test.ads:29:13-29:16>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Bar" test.ads:23:40-23:43>
   references:    <DefiningName test.ads:29:13-29:16>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Y" test.ads:23:45-23:46>
   references:    <DefiningName test.ads:10:32-10:33>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <PragmaNode test.ads:24:4-25:25>
 *********************************************************
@@ -529,36 +529,36 @@ Expr: <Id "Precondition" test.ads:24:11-24:23>
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:25:7-25:23>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.ads:25:7-25:15>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:25:7-25:10>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:25:7-25:8>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:25:9-25:10>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:25:12-25:14>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" test.ads:25:16-25:17>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "False" test.ads:25:18-25:23>
   references:    <DefiningName __standard:3:20-3:25>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <PragmaNode test.ads:26:4-27:62>
 *********************************************************
@@ -568,35 +568,35 @@ Expr: <Id "Postcondition" test.ads:26:11-26:24>
   type:          None
   expected type: None
 Expr: <BinOp test.ads:27:7-27:60>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <RelationOp test.ads:27:7-27:30>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:27:7-27:19>
   references:    None
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.ads:27:7-27:15>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:27:7-27:10>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:27:7-27:8>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:27:9-27:10>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:27:12-27:14>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:27:16-27:19>
   references:    None
   type:          None
@@ -607,35 +607,35 @@ Expr: <OpEq "=" test.ads:27:20-27:21>
   expected type: None
 Expr: <CallExpr test.ads:27:22-27:30>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:27:22-27:25>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:27:22-27:23>
   references:    <DefiningName test.ads:10:18-10:19>
-  type:          <TypeDecl ["T"] test.ads:6:4-6:33>
-  expected type: <TypeDecl ["T"] test.ads:6:4-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
+  expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:27:24-27:25>
   references:    <DefiningName test.ads:8:13-8:14>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:27:27-27:29>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpAndThen "and then" test.ads:27:31-27:39>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp test.ads:27:40-27:60>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <AttributeRef test.ads:27:40-27:50>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Pr1" test.ads:27:40-27:43>
   references:    <DefiningName test.ads:10:13-10:16>
   type:          None
@@ -650,27 +650,27 @@ Expr: <OpEq "=" test.ads:27:51-27:52>
   expected type: None
 Expr: <CallExpr test.ads:27:53-27:60>
   references:    <DefiningName test.ads:29:13-29:16>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Bar" test.ads:27:53-27:56>
   references:    <DefiningName test.ads:29:13-29:16>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Y" test.ads:27:58-27:59>
   references:    <DefiningName test.ads:10:32-10:33>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ExprFunction ["Bar"] test.ads:29:4-29:53>
 *******************************************************************
 
 Expr: <ParenExpr test.ads:29:49-29:52>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.ads:29:50-29:51>
   references:    <DefiningName test.ads:29:18-29:19>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <SubpSpec test.ads:29:4-29:45>
 *******************************************************

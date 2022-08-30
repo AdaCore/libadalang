@@ -22,15 +22,15 @@ Expr: <Id "Foo" test.adb:18:10-18:13>
   expected type: None
 Expr: <Int test.adb:18:15-18:16>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AssignStmt test.adb:20:4-20:17>
 *********************************************************
 
 Expr: <DottedName test.adb:20:4-20:11>
   references:    <| DefiningName test.adb:11:7-11:8 [test.adb:16:4] |>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Lol_I" test.adb:20:4-20:9>
   references:    <DefiningName test.adb:16:12-16:17>
@@ -38,12 +38,12 @@ Expr: <Id "Lol_I" test.adb:20:4-20:9>
   expected type: None
 Expr: <Id "X" test.adb:20:10-20:11>
   references:    <| DefiningName test.adb:11:7-11:8 [test.adb:16:4] |>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Int test.adb:20:15-20:16>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

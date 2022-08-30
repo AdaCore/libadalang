@@ -1,5 +1,5 @@
-Working on node <TypeDecl ["T"] foo.ads:2:4-2:24>
-=================================================
+Working on node <ConcreteTypeDecl ["T"] foo.ads:2:4-2:24>
+=========================================================
 
 Eval 'node.p_get_enum_representation_clause()'
 Result: <EnumRepClause foo.ads:7:4-7:42>

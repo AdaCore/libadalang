@@ -6,7 +6,7 @@ Resolving xrefs for node <CaseStmt test.adb:7:7-11:16>
 
 Expr: <Id "X" test.adb:7:12-7:13>
   references:    <DefiningName test.adb:4:4-4:5>
-  type:          <TypeDecl ["Enum"] types.ads:2:4-2:24>
+  type:          <ConcreteTypeDecl ["Enum"] types.ads:2:4-2:24>
   expected type: None
 
 Resolving xrefs for node <CaseStmtAlternative test.adb:8:10-8:25>
@@ -14,8 +14,8 @@ Resolving xrefs for node <CaseStmtAlternative test.adb:8:10-8:25>
 
 Expr: <Id "A" test.adb:8:15-8:16>
   references:    <DefiningName types.ads:2:18-2:19>
-  type:          <TypeDecl ["Enum"] types.ads:2:4-2:24>
-  expected type: <TypeDecl ["Enum"] types.ads:2:4-2:24>
+  type:          <ConcreteTypeDecl ["Enum"] types.ads:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["Enum"] types.ads:2:4-2:24>
 
 Resolving xrefs for node <NullStmt test.adb:8:20-8:25>
 ******************************************************
@@ -26,8 +26,8 @@ Resolving xrefs for node <CaseStmtAlternative test.adb:9:10-9:25>
 
 Expr: <Id "B" test.adb:9:15-9:16>
   references:    <DefiningName types.ads:2:21-2:22>
-  type:          <TypeDecl ["Enum"] types.ads:2:4-2:24>
-  expected type: <TypeDecl ["Enum"] types.ads:2:4-2:24>
+  type:          <ConcreteTypeDecl ["Enum"] types.ads:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["Enum"] types.ads:2:4-2:24>
 
 Resolving xrefs for node <NullStmt test.adb:9:20-9:25>
 ******************************************************

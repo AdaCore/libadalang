@@ -1,5 +1,5 @@
-Working on node <TypeDecl ["Child"] test.adb:16:7-16:52>
-========================================================
+Working on node <ConcreteTypeDecl ["Child"] test.adb:16:7-16:52>
+================================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<SubpDecl ["Get2"] test.adb:6:7-6:49>, <SubpDecl ["Get1"] test.adb:19:7-19:59>]

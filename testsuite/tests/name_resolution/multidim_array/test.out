@@ -9,34 +9,34 @@ Expr: <Id "A" test_array_indices.adb:6:11-6:12>
   type:          None
   expected type: None
 Expr: <Aggregate test_array_indices.adb:6:16-7:54>
-  type:          <TypeDecl ["A"] test_array_indices.adb:4:4-4:46>
-  expected type: <TypeDecl ["A"] test_array_indices.adb:4:4-4:46>
+  type:          <ConcreteTypeDecl ["A"] test_array_indices.adb:4:4-4:46>
+  expected type: <ConcreteTypeDecl ["A"] test_array_indices.adb:4:4-4:46>
 Expr: <Id "Yellow" test_array_indices.adb:6:17-6:23>
   references:    <DefiningName test_array_indices.adb:2:19-2:25>
-  type:          <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
-  expected type: <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
+  type:          <ConcreteTypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
+  expected type: <ConcreteTypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
 Expr: <Aggregate test_array_indices.adb:6:27-6:41>
   type:          None
   expected type: None
 Expr: <Int test_array_indices.adb:6:38-6:40>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Aggregate test_array_indices.adb:7:27-7:53>
   type:          None
   expected type: None
 Expr: <Id "Dark" test_array_indices.adb:7:28-7:32>
   references:    <DefiningName test_array_indices.adb:3:19-3:23>
-  type:          <TypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
-  expected type: <TypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
+  type:          <ConcreteTypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
+  expected type: <ConcreteTypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
 Expr: <Int test_array_indices.adb:7:36-7:38>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test_array_indices.adb:7:50-7:52>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

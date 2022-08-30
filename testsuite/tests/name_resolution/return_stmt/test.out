@@ -6,8 +6,8 @@ Resolving xrefs for node <ReturnStmt return_stmt.adb:6:7-6:18>
 
 Expr: <Id "Bar" return_stmt.adb:6:14-6:17>
   references:    <DefiningName return_stmt.adb:3:16-3:19>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

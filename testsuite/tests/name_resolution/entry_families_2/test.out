@@ -10,7 +10,7 @@ Expr: <Id "E" test.adb:12:14-12:15>
   expected type: None
 Expr: <Int test.adb:12:17-12:18>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
 Resolving xrefs for node <AcceptStmt test.adb:15:7-15:20>
@@ -22,7 +22,7 @@ Expr: <Id "F" test.adb:15:14-15:15>
   expected type: None
 Expr: <Id "A" test.adb:15:17-15:18>
   references:    <DefiningName test.adb:3:19-3:20>
-  type:          <TypeDecl ["Enum2"] test.adb:3:4-3:25>
+  type:          <ConcreteTypeDecl ["Enum2"] test.adb:3:4-3:25>
   expected type: None
 
 Resolving xrefs for node <CallStmt test.adb:19:4-19:12>
@@ -46,7 +46,7 @@ Expr: <Id "E" test.adb:19:6-19:7>
   expected type: None
 Expr: <Int test.adb:19:9-19:10>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
 Resolving xrefs for node <CallStmt test.adb:22:4-22:12>
@@ -70,8 +70,8 @@ Expr: <Id "F" test.adb:22:6-22:7>
   expected type: None
 Expr: <Id "B" test.adb:22:9-22:10>
   references:    <DefiningName test.adb:3:22-3:23>
-  type:          <TypeDecl ["Enum2"] test.adb:3:4-3:25>
-  expected type: <TypeDecl ["Enum2"] test.adb:3:4-3:25>
+  type:          <ConcreteTypeDecl ["Enum2"] test.adb:3:4-3:25>
+  expected type: <ConcreteTypeDecl ["Enum2"] test.adb:3:4-3:25>
 
 
 Done.

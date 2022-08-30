@@ -1,7 +1,7 @@
 == test.adb ==
-<TypeDecl ["Type_T"] test.adb:2:4-2:38> [<Shape components=[] discriminants_values=[]>]
-<TypeDecl ["Private_T"] test.adb:4:4-4:46> not a record
-<TypeDecl ["Public_From_Private_T"] test.adb:6:4-6:65> [<Shape components=[] discriminants_values=[]>]
-<TypeDecl ["Private_T"] test.adb:10:4-12:15> [<Shape components=[] discriminants_values=[]>]
+<ConcreteTypeDecl ["Type_T"] test.adb:2:4-2:38> [<Shape components=[] discriminants_values=[]>]
+<ConcreteTypeDecl ["Private_T"] test.adb:4:4-4:46> not a record
+<ConcreteTypeDecl ["Public_From_Private_T"] test.adb:6:4-6:65> [<Shape components=[] discriminants_values=[]>]
+<ConcreteTypeDecl ["Private_T"] test.adb:10:4-12:15> [<Shape components=[] discriminants_values=[]>]
 
 Done

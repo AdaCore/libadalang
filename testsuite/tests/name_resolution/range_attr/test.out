@@ -29,8 +29,8 @@ Expr: <Id "Float" testrange.adb:3:23-3:28>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["Oops"] testrange.adb:5:4-5:56>
-*******************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Oops"] testrange.adb:5:4-5:56>
+***************************************************************************
 
 
 Resolving xrefs for node <ArrayTypeDef testrange.adb:5:17-5:55>
@@ -41,27 +41,27 @@ Expr: <Id "Integer" testrange.adb:5:24-5:31>
   type:          None
   expected type: None
 Expr: <BinOp testrange.adb:5:38-5:45>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testrange.adb:5:38-5:39>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." testrange.adb:5:40-5:42>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testrange.adb:5:43-5:45>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Float" testrange.adb:5:50-5:55>
   references:    <DefiningName __standard:14:8-14:13>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
-************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
+********************************************************************************
 
 
 Resolving xrefs for node <ArrayTypeDef testrange.adb:7:22-8:49>
@@ -72,20 +72,20 @@ Expr: <Id "Integer" testrange.adb:8:7-8:14>
   type:          None
   expected type: None
 Expr: <BinOp testrange.adb:8:21-8:28>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int testrange.adb:8:21-8:22>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." testrange.adb:8:23-8:25>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testrange.adb:8:26-8:28>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Boolean" testrange.adb:8:30-8:37>
   references:    <DefiningName __standard:3:8-3:15>
   type:          None
@@ -100,7 +100,7 @@ Resolving xrefs for node <NumberDecl ["One"] testrange.adb:10:4-10:24>
 
 Expr: <Int testrange.adb:10:22-10:23>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
 Resolving xrefs for node <NumberDecl ["Two"] testrange.adb:11:4-11:24>
@@ -108,7 +108,7 @@ Resolving xrefs for node <NumberDecl ["Two"] testrange.adb:11:4-11:24>
 
 Expr: <Int testrange.adb:11:22-11:23>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
 Resolving xrefs for node <ObjectDecl ["Arr"] testrange.adb:13:4-13:15>
@@ -136,7 +136,7 @@ Resolving xrefs for node <ForLoopSpec testrange.adb:16:8-16:26>
 
 Expr: <AttributeRef testrange.adb:16:13-16:26>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Integer" testrange.adb:16:13-16:20>
   references:    <DefiningName __standard:4:8-4:15>
@@ -160,8 +160,8 @@ Expr: <Id "Foo" testrange.adb:17:7-17:10>
   expected type: None
 Expr: <Id "I" testrange.adb:17:12-17:13>
   references:    <DefiningName testrange.adb:16:8-16:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ForLoopStmt testrange.adb:20:4-23:13>
 ***************************************************************
@@ -172,7 +172,7 @@ Resolving xrefs for node <ForLoopSpec testrange.adb:20:8-20:23>
 
 Expr: <AttributeRef testrange.adb:20:13-20:23>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Oops" testrange.adb:20:13-20:17>
   references:    <DefiningName testrange.adb:5:9-5:13>
@@ -196,8 +196,8 @@ Expr: <Id "Foo" testrange.adb:21:7-21:10>
   expected type: None
 Expr: <Id "J" testrange.adb:21:12-21:13>
   references:    <DefiningName testrange.adb:20:8-20:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <CallStmt testrange.adb:22:7-22:21>
 ************************************************************
@@ -212,16 +212,16 @@ Expr: <Id "Foo" testrange.adb:22:7-22:10>
   expected type: None
 Expr: <CallExpr testrange.adb:22:12-22:19>
   references:    <DefiningName testrange.adb:13:4-13:7>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Arr" testrange.adb:22:12-22:15>
   references:    <DefiningName testrange.adb:13:4-13:7>
-  type:          <TypeDecl ["Oops"] testrange.adb:5:4-5:56>
+  type:          <ConcreteTypeDecl ["Oops"] testrange.adb:5:4-5:56>
   expected type: None
 Expr: <Id "J" testrange.adb:22:17-22:18>
   references:    <DefiningName testrange.adb:20:8-20:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ForLoopStmt testrange.adb:25:4-28:13>
 ***************************************************************
@@ -232,11 +232,11 @@ Resolving xrefs for node <ForLoopSpec testrange.adb:25:8-25:22>
 
 Expr: <AttributeRef testrange.adb:25:13-25:22>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Arr" testrange.adb:25:13-25:16>
   references:    <DefiningName testrange.adb:13:4-13:7>
-  type:          <TypeDecl ["Oops"] testrange.adb:5:4-5:56>
+  type:          <ConcreteTypeDecl ["Oops"] testrange.adb:5:4-5:56>
   expected type: None
 Expr: <Id "Range" testrange.adb:25:17-25:22>
   references:    None
@@ -256,8 +256,8 @@ Expr: <Id "Foo" testrange.adb:26:7-26:10>
   expected type: None
 Expr: <Id "J" testrange.adb:26:12-26:13>
   references:    <DefiningName testrange.adb:25:8-25:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <CallStmt testrange.adb:27:7-27:21>
 ************************************************************
@@ -272,16 +272,16 @@ Expr: <Id "Foo" testrange.adb:27:7-27:10>
   expected type: None
 Expr: <CallExpr testrange.adb:27:12-27:19>
   references:    <DefiningName testrange.adb:13:4-13:7>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Id "Arr" testrange.adb:27:12-27:15>
   references:    <DefiningName testrange.adb:13:4-13:7>
-  type:          <TypeDecl ["Oops"] testrange.adb:5:4-5:56>
+  type:          <ConcreteTypeDecl ["Oops"] testrange.adb:5:4-5:56>
   expected type: None
 Expr: <Id "J" testrange.adb:27:17-27:18>
   references:    <DefiningName testrange.adb:25:8-25:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ForLoopStmt testrange.adb:30:4-32:13>
 ***************************************************************
@@ -292,11 +292,11 @@ Resolving xrefs for node <ForLoopSpec testrange.adb:30:8-30:32>
 
 Expr: <AttributeRef testrange.adb:30:13-30:32>
   references:    None
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Arr_Arr" testrange.adb:30:13-30:20>
   references:    <DefiningName testrange.adb:14:4-14:11>
-  type:          <TypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
+  type:          <ConcreteTypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
   expected type: None
 Expr: <Id "Range" testrange.adb:30:21-30:26>
   references:    None
@@ -308,7 +308,7 @@ Resolving xrefs for node <ParamAssoc testrange.adb:30:28-30:31>
 
 Expr: <Id "One" testrange.adb:30:28-30:31>
   references:    <DefiningName testrange.adb:10:4-10:7>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
 Resolving xrefs for node <CallStmt testrange.adb:31:7-31:31>
@@ -324,20 +324,20 @@ Expr: <Id "Foo" testrange.adb:31:7-31:10>
   expected type: None
 Expr: <CallExpr testrange.adb:31:12-31:29>
   references:    <DefiningName testrange.adb:14:4-14:11>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Arr_Arr" testrange.adb:31:12-31:19>
   references:    <DefiningName testrange.adb:14:4-14:11>
-  type:          <TypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
+  type:          <ConcreteTypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
   expected type: None
 Expr: <Id "J" testrange.adb:31:21-31:22>
   references:    <DefiningName testrange.adb:30:8-30:9>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "True" testrange.adb:31:24-31:28>
   references:    <DefiningName __standard:3:27-3:31>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <ForLoopStmt testrange.adb:34:4-36:13>
 ***************************************************************
@@ -348,11 +348,11 @@ Resolving xrefs for node <ForLoopSpec testrange.adb:34:8-34:32>
 
 Expr: <AttributeRef testrange.adb:34:13-34:32>
   references:    None
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Arr_Arr" testrange.adb:34:13-34:20>
   references:    <DefiningName testrange.adb:14:4-14:11>
-  type:          <TypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
+  type:          <ConcreteTypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
   expected type: None
 Expr: <Id "Range" testrange.adb:34:21-34:26>
   references:    None
@@ -364,7 +364,7 @@ Resolving xrefs for node <ParamAssoc testrange.adb:34:28-34:31>
 
 Expr: <Id "Two" testrange.adb:34:28-34:31>
   references:    <DefiningName testrange.adb:11:4-11:7>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
 Resolving xrefs for node <CallStmt testrange.adb:35:7-35:28>
@@ -380,20 +380,20 @@ Expr: <Id "Foo" testrange.adb:35:7-35:10>
   expected type: None
 Expr: <CallExpr testrange.adb:35:12-35:26>
   references:    <DefiningName testrange.adb:14:4-14:11>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Arr_Arr" testrange.adb:35:12-35:19>
   references:    <DefiningName testrange.adb:14:4-14:11>
-  type:          <TypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
+  type:          <ConcreteTypeDecl ["Oops_Oops"] testrange.adb:7:4-8:50>
   expected type: None
 Expr: <Int testrange.adb:35:21-35:22>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "J" testrange.adb:35:24-35:25>
   references:    <DefiningName testrange.adb:34:8-34:9>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Resolving xrefs for node <EndName testrange.adb:38:5-38:14>
 ***********************************************************

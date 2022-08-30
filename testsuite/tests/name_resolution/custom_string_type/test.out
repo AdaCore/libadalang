@@ -14,8 +14,8 @@ Expr: <Id "Proc" test.adb:10:4-10:8>
   expected type: None
 Expr: <Str ""STRING"" test.adb:10:10-10:18>
   references:    None
-  type:          <TypeDecl ["Str"] test.adb:4:4-4:38>
-  expected type: <TypeDecl ["Str"] test.adb:4:4-4:38>
+  type:          <ConcreteTypeDecl ["Str"] test.adb:4:4-4:38>
+  expected type: <ConcreteTypeDecl ["Str"] test.adb:4:4-4:38>
 
 
 Done.

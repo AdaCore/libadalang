@@ -1,5 +1,5 @@
-Working on node <TypeDecl ["B"] testpredsucc.adb:3:4-3:56>
-==========================================================
+Working on node <ConcreteTypeDecl ["B"] testpredsucc.adb:3:4-3:56>
+==================================================================
 
 Eval 'node.find(lal.BinOp).f_left.p_eval_as_int'
 Result: 2

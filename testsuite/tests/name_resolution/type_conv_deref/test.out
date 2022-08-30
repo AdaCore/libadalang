@@ -6,32 +6,32 @@ Resolving xrefs for node <AssignStmt test.adb:10:4-10:32>
 
 Expr: <Id "X" test.adb:10:4-10:5>
   references:    <DefiningName test.adb:8:4-8:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <CallExpr test.adb:10:9-10:31>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:10:9-10:16>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ExplicitDeref test.adb:10:18-10:30>
   references:    <DefiningName test.adb:5:13-5:16>
-  type:          <TypeDecl ["T"] test.adb:2:4-2:26>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:26>
   expected type: None
 Expr: <CallExpr test.adb:10:18-10:26>
   references:    <DefiningName test.adb:5:13-5:16>
-  type:          <TypeDecl ["T_Access"] test.adb:3:4-3:34>
-  expected type: <TypeDecl ["T_Access"] test.adb:3:4-3:34>
+  type:          <ConcreteTypeDecl ["T_Access"] test.adb:3:4-3:34>
+  expected type: <ConcreteTypeDecl ["T_Access"] test.adb:3:4-3:34>
 Expr: <Id "Foo" test.adb:10:18-10:21>
   references:    <DefiningName test.adb:5:13-5:16>
-  type:          <TypeDecl ["T_Access"] test.adb:3:4-3:34>
+  type:          <ConcreteTypeDecl ["T_Access"] test.adb:3:4-3:34>
   expected type: None
 Expr: <Int test.adb:10:23-10:25>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

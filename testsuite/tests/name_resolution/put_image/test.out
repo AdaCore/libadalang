@@ -34,8 +34,8 @@ Expr: <Id "B" test.adb:36:39-36:40>
   expected type: <ClasswideTypeDecl ["Root_Buffer_Type"] a-sttebu.ads:26:4-27:74>
 Expr: <Id "X" test.adb:36:42-36:43>
   references:    <DefiningName test.adb:32:7-32:8>
-  type:          <TypeDecl ["T"] test.adb:5:7-5:29>
-  expected type: <TypeDecl ["T"] test.adb:5:7-5:29>
+  type:          <ConcreteTypeDecl ["T"] test.adb:5:7-5:29>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:5:7-5:29>
 
 Resolving xrefs for node <CallStmt test.adb:39:7-39:38>
 *******************************************************
@@ -70,8 +70,8 @@ Expr: <Id "B" test.adb:39:32-39:33>
   expected type: <ClasswideTypeDecl ["Root_Buffer_Type"] a-sttebu.ads:26:4-27:74>
 Expr: <Id "Y" test.adb:39:35-39:36>
   references:    <DefiningName test.adb:33:7-33:8>
-  type:          <TypeDecl ["T"] test.adb:17:7-18:32>
-  expected type: <TypeDecl ["T"] test.adb:17:7-18:32>
+  type:          <ConcreteTypeDecl ["T"] test.adb:17:7-18:32>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:17:7-18:32>
 
 Resolving xrefs for node <CallStmt test.adb:42:7-42:34>
 *******************************************************
@@ -106,8 +106,8 @@ Expr: <Id "B" test.adb:42:28-42:29>
   expected type: <ClasswideTypeDecl ["Root_Buffer_Type"] a-sttebu.ads:26:4-27:74>
 Expr: <Id "Z" test.adb:42:31-42:32>
   references:    <DefiningName test.adb:34:7-34:8>
-  type:          <TypeDecl ["T"] test.adb:28:7-28:29>
-  expected type: <TypeDecl ["T"] test.adb:28:7-28:29>
+  type:          <ConcreteTypeDecl ["T"] test.adb:28:7-28:29>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:28:7-28:29>
 
 
 Done.

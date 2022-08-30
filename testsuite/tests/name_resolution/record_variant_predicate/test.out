@@ -9,16 +9,16 @@ Expr: <Id "R" test.adb:26:8-26:9>
   type:          None
   expected type: None
 Expr: <Aggregate test.adb:26:13-26:20>
-  type:          <TypeDecl ["R"] test.adb:8:4-15:15>
-  expected type: <TypeDecl ["R"] test.adb:8:4-15:15>
+  type:          <ConcreteTypeDecl ["R"] test.adb:8:4-15:15>
+  expected type: <ConcreteTypeDecl ["R"] test.adb:8:4-15:15>
 Expr: <Id "A" test.adb:26:14-26:15>
   references:    <DefiningName test.adb:2:18-2:19>
-  type:          <TypeDecl ["Enum"] test.adb:2:4-2:27>
-  expected type: <TypeDecl ["Enum"] test.adb:2:4-2:27>
+  type:          <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
 Expr: <Int test.adb:26:17-26:19>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <ObjectDecl ["Y"] test.adb:29:4-29:21>
 ***************************************************************
@@ -28,16 +28,16 @@ Expr: <Id "S" test.adb:29:8-29:9>
   type:          None
   expected type: None
 Expr: <Aggregate test.adb:29:13-29:20>
-  type:          <TypeDecl ["S"] test.adb:17:4-24:15>
-  expected type: <TypeDecl ["S"] test.adb:17:4-24:15>
+  type:          <ConcreteTypeDecl ["S"] test.adb:17:4-24:15>
+  expected type: <ConcreteTypeDecl ["S"] test.adb:17:4-24:15>
 Expr: <Id "C" test.adb:29:14-29:15>
   references:    <DefiningName test.adb:2:24-2:25>
-  type:          <TypeDecl ["Enum"] test.adb:2:4-2:27>
-  expected type: <TypeDecl ["Enum"] test.adb:2:4-2:27>
+  type:          <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
 Expr: <Int test.adb:29:17-29:19>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

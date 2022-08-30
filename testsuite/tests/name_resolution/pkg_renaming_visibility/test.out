@@ -10,11 +10,11 @@ Expr: <Id "Integer" test.adb:8:8-8:15>
   expected type: None
 Expr: <CallExpr test.adb:8:19-8:35>
   references:    <| DefiningName p.ads:6:13-6:16 [test.adb:6:4] |>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.adb:8:19-8:26>
   references:    <| DefiningName p.ads:6:13-6:16 [test.adb:6:4] |>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "P_I" test.adb:8:19-8:22>
   references:    <DefiningName test.adb:6:12-6:15>
@@ -22,7 +22,7 @@ Expr: <Id "P_I" test.adb:8:19-8:22>
   expected type: None
 Expr: <Id "Foo" test.adb:8:23-8:26>
   references:    <| DefiningName p.ads:6:13-6:16 [test.adb:6:4] |>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "X" test.adb:8:28-8:29>
   references:    <| DefiningName p.ads:6:18-6:19 [test.adb:6:4] |>
@@ -30,8 +30,8 @@ Expr: <Id "X" test.adb:8:28-8:29>
   expected type: None
 Expr: <Int test.adb:8:33-8:34>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

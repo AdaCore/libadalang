@@ -6,29 +6,29 @@ Resolving xrefs for node <AssignStmt test.adb:14:4-14:48>
 
 Expr: <Id "V_A" test.adb:14:4-14:7>
   references:    <DefiningName test.adb:11:4-11:7>
-  type:          <TypeDecl ["A"] test.adb:4:4-4:50>
+  type:          <ConcreteTypeDecl ["A"] test.adb:4:4-4:50>
   expected type: None
 Expr: <UpdateAttributeRef test.adb:14:11-14:47>
   references:    None
-  type:          <TypeDecl ["A"] test.adb:4:4-4:50>
-  expected type: <TypeDecl ["A"] test.adb:4:4-4:50>
+  type:          <ConcreteTypeDecl ["A"] test.adb:4:4-4:50>
+  expected type: <ConcreteTypeDecl ["A"] test.adb:4:4-4:50>
 Expr: <Id "V_A" test.adb:14:11-14:14>
   references:    <DefiningName test.adb:11:4-11:7>
-  type:          <TypeDecl ["A"] test.adb:4:4-4:50>
+  type:          <ConcreteTypeDecl ["A"] test.adb:4:4-4:50>
   expected type: None
 Expr: <Id "Update" test.adb:14:15-14:21>
   references:    None
   type:          None
   expected type: None
 Expr: <Aggregate test.adb:14:22-14:47>
-  type:          <TypeDecl ["A"] test.adb:4:4-4:50>
+  type:          <ConcreteTypeDecl ["A"] test.adb:4:4-4:50>
   expected type: None
 Expr: <BinOp test.adb:14:23-14:29>
   type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <Int test.adb:14:23-14:24>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <OpDoubleDot ".." test.adb:14:25-14:27>
   references:    None
@@ -36,42 +36,42 @@ Expr: <OpDoubleDot ".." test.adb:14:25-14:27>
   expected type: None
 Expr: <Int test.adb:14:28-14:29>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <Id "E_A" test.adb:14:33-14:36>
   references:    <DefiningName test.adb:2:15-2:18>
-  type:          <TypeDecl ["E"] test.adb:2:4-2:30>
-  expected type: <TypeDecl ["E"] test.adb:2:4-2:30>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:30>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:30>
 Expr: <Int test.adb:14:38-14:39>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
 Expr: <Id "E_C" test.adb:14:43-14:46>
   references:    <DefiningName test.adb:2:25-2:28>
-  type:          <TypeDecl ["E"] test.adb:2:4-2:30>
-  expected type: <TypeDecl ["E"] test.adb:2:4-2:30>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:30>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:30>
 
 Resolving xrefs for node <AssignStmt test.adb:16:4-16:42>
 *********************************************************
 
 Expr: <Id "V_B" test.adb:16:4-16:7>
   references:    <DefiningName test.adb:12:4-12:7>
-  type:          <TypeDecl ["B"] test.adb:6:4-9:15>
+  type:          <ConcreteTypeDecl ["B"] test.adb:6:4-9:15>
   expected type: None
 Expr: <UpdateAttributeRef test.adb:16:11-16:41>
   references:    None
-  type:          <TypeDecl ["B"] test.adb:6:4-9:15>
-  expected type: <TypeDecl ["B"] test.adb:6:4-9:15>
+  type:          <ConcreteTypeDecl ["B"] test.adb:6:4-9:15>
+  expected type: <ConcreteTypeDecl ["B"] test.adb:6:4-9:15>
 Expr: <Id "V_B" test.adb:16:11-16:14>
   references:    <DefiningName test.adb:12:4-12:7>
-  type:          <TypeDecl ["B"] test.adb:6:4-9:15>
+  type:          <ConcreteTypeDecl ["B"] test.adb:6:4-9:15>
   expected type: None
 Expr: <Id "Update" test.adb:16:15-16:21>
   references:    None
   type:          None
   expected type: None
 Expr: <Aggregate test.adb:16:22-16:41>
-  type:          <TypeDecl ["B"] test.adb:6:4-9:15>
+  type:          <ConcreteTypeDecl ["B"] test.adb:6:4-9:15>
   expected type: None
 Expr: <Id "X" test.adb:16:23-16:24>
   references:    <DefiningName test.adb:7:7-7:8>
@@ -79,7 +79,7 @@ Expr: <Id "X" test.adb:16:23-16:24>
   expected type: None
 Expr: <Int test.adb:16:28-16:29>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Y" test.adb:16:31-16:32>
   references:    <DefiningName test.adb:8:7-8:8>
@@ -87,8 +87,8 @@ Expr: <Id "Y" test.adb:16:31-16:32>
   expected type: None
 Expr: <Id "True" test.adb:16:36-16:40>
   references:    <DefiningName __standard:3:27-3:31>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 
 Done.

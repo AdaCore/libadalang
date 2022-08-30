@@ -10,20 +10,20 @@ Expr: <Id "U" test.adb:10:12-10:13>
   expected type: None
 Expr: <CallExpr test.adb:10:17-10:29>
   references:    <SyntheticDefiningName test.adb:3:17-3:25>
-  type:          <TypeDecl ["U"] test.adb:7:7-7:42>
-  expected type: <TypeDecl ["U"] test.adb:7:7-7:42>
+  type:          <ConcreteTypeDecl ["U"] test.adb:7:7-7:42>
+  expected type: <ConcreteTypeDecl ["U"] test.adb:7:7-7:42>
 Expr: <Str ""+"" test.adb:10:17-10:20>
   references:    <SyntheticDefiningName test.adb:3:17-3:25>
-  type:          <TypeDecl ["U"] test.adb:7:7-7:42>
+  type:          <ConcreteTypeDecl ["U"] test.adb:7:7-7:42>
   expected type: None
 Expr: <Id "UX" test.adb:10:22-10:24>
   references:    <DefiningName test.adb:9:7-9:9>
-  type:          <TypeDecl ["U"] test.adb:7:7-7:42>
-  expected type: <TypeDecl ["U"] test.adb:7:7-7:42>
+  type:          <ConcreteTypeDecl ["U"] test.adb:7:7-7:42>
+  expected type: <ConcreteTypeDecl ["U"] test.adb:7:7-7:42>
 Expr: <Id "UY" test.adb:10:26-10:28>
   references:    <DefiningName test.adb:9:11-9:13>
-  type:          <TypeDecl ["U"] test.adb:7:7-7:42>
-  expected type: <TypeDecl ["U"] test.adb:7:7-7:42>
+  type:          <ConcreteTypeDecl ["U"] test.adb:7:7-7:42>
+  expected type: <ConcreteTypeDecl ["U"] test.adb:7:7-7:42>
 
 
 Done.

@@ -109,8 +109,8 @@ Working on node <GenericSubpDecl ["P"] constant.ads:1:1-11:21>
 Eval '[x.p_is_constant_object for x in node.f_subp_decl.f_subp_spec.p_params]'
 Result: [True, True, False, False]
 
-Working on node <TypeDecl ["Person"] discr.adb:3:4-11:15>
-=========================================================
+Working on node <ConcreteTypeDecl ["Person"] discr.adb:3:4-11:15>
+=================================================================
 
 Eval 'node.find(lal.DiscriminantSpec).p_is_constant_object'
 Result: True

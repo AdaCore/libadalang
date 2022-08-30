@@ -5,8 +5,8 @@ Resolving xrefs for node <SubpSpec test.adb:1:1-1:15>
 *****************************************************
 
 
-Resolving xrefs for node <TypeDecl ["Foo_List"] test.adb:5:7-6:45>
-******************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Foo_List"] test.adb:5:7-6:45>
+**************************************************************************
 
 
 Resolving xrefs for node <AspectAssoc test.adb:6:15-6:44>
@@ -29,8 +29,8 @@ Expr: <Id "Class" test.adb:6:39-6:44>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["Foo"] test.adb:8:7-8:38>
-*************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Foo"] test.adb:8:7-8:38>
+*********************************************************************
 
 
 Resolving xrefs for node <SubpSpec test.adb:10:7-10:39>
@@ -90,7 +90,7 @@ Resolving xrefs for node <ForLoopSpec test.adb:15:8-15:14>
 
 Expr: <Id "X" test.adb:15:13-15:14>
   references:    <DefiningName test.adb:13:4-13:5>
-  type:          <TypeDecl ["Foo_List"] test.adb:5:7-6:45>
+  type:          <ConcreteTypeDecl ["Foo_List"] test.adb:5:7-6:45>
   expected type: None
 
 Resolving xrefs for node <CallStmt test.adb:16:7-16:13>

@@ -10,11 +10,11 @@ Expr: <Id "String" foo.adb:4:17-4:23>
   expected type: None
 Expr: <AttributeRef foo.adb:4:27-4:32>
   references:    None
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "I" foo.adb:4:27-4:28>
   references:    <DefiningName foo.adb:2:4-2:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Img" foo.adb:4:29-4:32>
   references:    None

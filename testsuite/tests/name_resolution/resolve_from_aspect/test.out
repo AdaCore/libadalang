@@ -2,4 +2,4 @@ Working on node <Id "X" test.adb:7:27-7:28>
 ===========================================
 
 Eval 'node.p_expression_type'
-Result: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+Result: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>

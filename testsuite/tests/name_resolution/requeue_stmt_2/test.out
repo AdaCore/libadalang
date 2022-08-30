@@ -22,8 +22,8 @@ Expr: <Id "B" test_requeue.adb:37:21-37:22>
   expected type: None
 Expr: <Id "Foo" test_requeue.adb:37:24-37:27>
   references:    <DefiningName test_requeue.adb:33:19-33:22>
-  type:          <TypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
-  expected type: <TypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
+  type:          <ConcreteTypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
+  expected type: <ConcreteTypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
 
 Resolving xrefs for node <RequeueStmt test_requeue.adb:42:13-42:29>
 *******************************************************************
@@ -38,7 +38,7 @@ Expr: <Id "C" test_requeue.adb:42:21-42:22>
   expected type: None
 Expr: <Id "Foo" test_requeue.adb:42:24-42:27>
   references:    <DefiningName test_requeue.adb:33:19-33:22>
-  type:          <TypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
+  type:          <ConcreteTypeDecl ["B_Range"] test_requeue.adb:23:4-23:34>
   expected type: None
 
 Resolving xrefs for node <RequeueStmt test_requeue.adb:46:13-46:38>
@@ -94,7 +94,7 @@ Expr: <Id "C" test_requeue.adb:51:36-51:37>
   expected type: None
 Expr: <Int test_requeue.adb:51:39-51:40>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
 

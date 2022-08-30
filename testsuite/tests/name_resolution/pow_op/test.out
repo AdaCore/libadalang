@@ -9,20 +9,20 @@ Expr: <Id "Float" testexp.adb:2:8-2:13>
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:2:17-2:36>
-  type:          <TypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <Real testexp.adb:2:17-2:31>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <OpPow "**" testexp.adb:2:32-2:34>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testexp.adb:2:35-2:36>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

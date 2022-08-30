@@ -1,11 +1,11 @@
-Working on node <TypeDecl ["R"] test.adb:2:4-9:15>
-==================================================
+Working on node <ConcreteTypeDecl ["R"] test.adb:2:4-9:15>
+==========================================================
 
 Eval 'node.p_get_aspect("unchecked_union")'
 Result: <Aspect exists=True node=<PragmaNode test.adb:11:4-11:31> value=None>
 
-Working on node <TypeDecl ["Arr"] test.adb:13:4-13:43>
-======================================================
+Working on node <ConcreteTypeDecl ["Arr"] test.adb:13:4-13:43>
+==============================================================
 
 Eval 'node.p_get_aspect("volatile_components")'
 Result: <Aspect exists=True node=<PragmaNode test.adb:16:4-16:37> value=None>
@@ -13,8 +13,8 @@ Result: <Aspect exists=True node=<PragmaNode test.adb:16:4-16:37> value=None>
 Eval 'node.p_get_aspect("independent_components")'
 Result: <Aspect exists=True node=<PragmaNode test.adb:17:4-17:40> value=None>
 
-Working on node <TypeDecl ["Enum"] test.adb:19:4-19:27>
-=======================================================
+Working on node <ConcreteTypeDecl ["Enum"] test.adb:19:4-19:27>
+===============================================================
 
 Eval 'node.p_get_aspect("discard_names")'
 Result: <Aspect exists=True node=<PragmaNode test.adb:21:4-21:32> value=None>

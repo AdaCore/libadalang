@@ -4,7 +4,7 @@
 
 == pkg.ads ==
 <PackageDecl ["Pkg"] pkg.ads:1:1-10:9> -> Pkg
-<TypeDecl ["T"] pkg.ads:2:4-2:26> -> Pkg.T
+<ConcreteTypeDecl ["T"] pkg.ads:2:4-2:26> -> Pkg.T
 <GenericPackageDecl ["Nested"] pkg.ads:4:4-7:15> -> Pkg.Nested
 <GenericPackageInternal ["Nested"] pkg.ads:5:4-7:15> -> Pkg.Nested
 <SubpDecl ["Proc"] pkg.ads:6:7-6:22> -> Pkg.Nested.Proc

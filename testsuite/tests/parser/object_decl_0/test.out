@@ -34,7 +34,6 @@ ObjectDecl[1:1-1:49]
 |  |  |  |  |f_name:
 |  |  |  |  |  Id[1:33-1:40]: Integer
 |  |  |  |  |f_constraint: <null>
-|  |  |f_aspects: <null>
 |f_default_expr:
 |  Null[1:44-1:48]: null
 |f_renaming_clause: <null>

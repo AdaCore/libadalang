@@ -37,7 +37,7 @@ Expr: <Id "Base" test.adb:5:20-5:24>
   expected type: None
 Expr: <Int test.adb:5:26-5:28>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 Expr: <OpPlus "+" test.adb:5:30-5:31>
   references:    None
@@ -45,7 +45,7 @@ Expr: <OpPlus "+" test.adb:5:30-5:31>
   expected type: None
 Expr: <Int test.adb:5:32-5:33>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <DiscreteBaseSubtypeDecl ["T"] test.adb:2:4-2:40>
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:8:4-8:36>
@@ -57,15 +57,15 @@ Expr: <Id "Integer" test.adb:8:8-8:15>
   expected type: None
 Expr: <AttributeRef test.adb:8:19-8:35>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <AttributeRef test.adb:8:19-8:25>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "T" test.adb:8:19-8:20>
   references:    <DefiningName test.adb:2:9-2:10>
-  type:          <TypeDecl ["T"] test.adb:2:4-2:40>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:40>
   expected type: None
 Expr: <Id "Base" test.adb:8:21-8:25>
   references:    None

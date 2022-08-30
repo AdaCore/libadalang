@@ -2,10 +2,10 @@ Working on node <IncompleteTypeDecl ["Rec"] test.adb:7:7-7:16>
 ==============================================================
 
 Eval 'node.p_next_part'
-Result: <TypeDecl ["Rec"] test.adb:10:7-12:18>
+Result: <ConcreteTypeDecl ["Rec"] test.adb:10:7-12:18>
 
-Working on node <TypeDecl ["Rec"] test.adb:10:7-12:18>
-======================================================
+Working on node <ConcreteTypeDecl ["Rec"] test.adb:10:7-12:18>
+==============================================================
 
 Eval 'node.p_previous_part()'
 Result: <IncompleteTypeDecl ["Rec"] test.adb:7:7-7:16>

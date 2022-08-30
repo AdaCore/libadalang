@@ -1,3 +1,3 @@
-<TypeDecl ["T"] foo.ads:5:4-5:26> get_aspect('pack') -> <Aspect exists=True node=<PragmaNode foo.ads:6:4-6:20> value=None>
+<ConcreteTypeDecl ["T"] foo.ads:5:4-5:26> get_aspect('pack') -> <Aspect exists=True node=<PragmaNode foo.ads:6:4-6:20> value=None>
 
 Done

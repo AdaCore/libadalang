@@ -44,7 +44,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  DeclarativePart[3:18-22:1]
 |  |  |  |f_decls:
 |  |  |  |  AdaNodeList[4:4-20:26]
-|  |  |  |  |  TypeDecl[4:4-4:29]
+|  |  |  |  |  ConcreteTypeDecl[4:4-4:29]
 |  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[4:9-4:13]
 |  |  |  |  |  |  |f_name:

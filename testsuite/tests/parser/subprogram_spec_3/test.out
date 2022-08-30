@@ -60,7 +60,6 @@ SubpSpec[1:1-1:69]
 |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |f_subp_returns: <null>
-|  |  |  |  |  |f_aspects: <null>
 |  |  |  |f_default_expr: <null>
 |  |  |  |f_aspects: <null>
 |  |  |  ParamSpec[1:57-1:68]

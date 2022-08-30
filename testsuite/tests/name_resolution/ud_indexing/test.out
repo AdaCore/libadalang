@@ -10,36 +10,36 @@ Expr: <Id "Integer" testindexing.adb:27:8-27:15>
   expected type: None
 Expr: <CallExpr testindexing.adb:27:19-27:28>
   references:    <DefiningName testindexing.adb:21:4-21:8>
-  type:          <TypeDecl ["Ref"] testindexing.adb:6:7-7:41>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Ref"] testindexing.adb:6:7-7:41>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Inst" testindexing.adb:27:19-27:23>
   references:    <DefiningName testindexing.adb:21:4-21:8>
-  type:          <TypeDecl ["T"] testindexing.adb:3:7-4:42>
+  type:          <ConcreteTypeDecl ["T"] testindexing.adb:3:7-4:42>
   expected type: None
 Expr: <Int testindexing.adb:27:25-27:27>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AssignStmt testindexing.adb:30:4-30:19>
 *****************************************************************
 
 Expr: <CallExpr testindexing.adb:30:4-30:13>
   references:    <DefiningName testindexing.adb:21:4-21:8>
-  type:          <TypeDecl ["Ref"] testindexing.adb:6:7-7:41>
+  type:          <ConcreteTypeDecl ["Ref"] testindexing.adb:6:7-7:41>
   expected type: None
 Expr: <Id "Inst" testindexing.adb:30:4-30:8>
   references:    <DefiningName testindexing.adb:21:4-21:8>
-  type:          <TypeDecl ["T"] testindexing.adb:3:7-4:42>
+  type:          <ConcreteTypeDecl ["T"] testindexing.adb:3:7-4:42>
   expected type: None
 Expr: <Int testindexing.adb:30:10-30:12>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" testindexing.adb:30:17-30:18>
   references:    <DefiningName testindexing.adb:27:4-27:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

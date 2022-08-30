@@ -15,7 +15,7 @@ Expr: <DottedName tagged_prims.adb:30:4-30:14>
   expected type: None
 Expr: <Id "T_Inst" tagged_prims.adb:30:4-30:10>
   references:    <DefiningName tagged_prims.adb:21:4-21:10>
-  type:          <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  type:          <ConcreteTypeDecl ["T"] tagged_prims.adb:6:7-8:18>
   expected type: None
 Expr: <Id "Baz" tagged_prims.adb:30:11-30:14>
   references:    <DefiningName tagged_prims.adb:13:17-13:20>
@@ -35,12 +35,12 @@ Expr: <Id "Baz" tagged_prims.adb:33:4-33:7>
   expected type: None
 Expr: <Id "T_Inst" tagged_prims.adb:33:9-33:15>
   references:    <DefiningName tagged_prims.adb:21:4-21:10>
-  type:          <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  type:          <ConcreteTypeDecl ["T"] tagged_prims.adb:6:7-8:18>
   expected type: <ClasswideTypeDecl ["T"] tagged_prims.adb:6:7-8:18>
 Expr: <Id "A" tagged_prims.adb:33:17-33:18>
   references:    <DefiningName tagged_prims.adb:23:4-23:5>
-  type:          <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
-  expected type: <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  type:          <ConcreteTypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  expected type: <ConcreteTypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
 
 Resolving xrefs for node <CallStmt tagged_prims.adb:36:4-36:19>
 ***************************************************************
@@ -55,7 +55,7 @@ Expr: <DottedName tagged_prims.adb:36:4-36:14>
   expected type: None
 Expr: <Id "T_Inst" tagged_prims.adb:36:4-36:10>
   references:    <DefiningName tagged_prims.adb:21:4-21:10>
-  type:          <TypeDecl ["T"] tagged_prims.adb:6:7-8:18>
+  type:          <ConcreteTypeDecl ["T"] tagged_prims.adb:6:7-8:18>
   expected type: None
 Expr: <Id "Baz" tagged_prims.adb:36:11-36:14>
   references:    <DefiningName tagged_prims.adb:16:17-16:20>
@@ -63,8 +63,8 @@ Expr: <Id "Baz" tagged_prims.adb:36:11-36:14>
   expected type: None
 Expr: <Id "A" tagged_prims.adb:36:16-36:17>
   references:    <DefiningName tagged_prims.adb:23:4-23:5>
-  type:          <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
-  expected type: <TypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  type:          <ConcreteTypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
+  expected type: <ConcreteTypeDecl ["Int"] tagged_prims.adb:3:4-3:31>
 
 
 Done.

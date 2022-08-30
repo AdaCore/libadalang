@@ -16,7 +16,7 @@ CompilationUnit[1:1-4:14]
 |  |  |  PublicPart[1:20-4:1]
 |  |  |  |f_decls:
 |  |  |  |  AdaNodeList[2:4-3:28]
-|  |  |  |  |  TypeDecl[2:4-2:23]
+|  |  |  |  |  ConcreteTypeDecl[2:4-2:23]
 |  |  |  |  |  |f_name:
 |  |  |  |  |  |  DefiningName[2:9-2:13]
 |  |  |  |  |  |  |f_name:

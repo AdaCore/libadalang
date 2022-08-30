@@ -1,139 +1,139 @@
 Analyzing testexp.adb
 #####################
 
-Resolving xrefs for node <TypeDecl ["Floating_Point_Def"] testexp.adb:5:4-5:69>
-*******************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Floating_Point_Def"] testexp.adb:5:4-5:69>
+***************************************************************************************
 
 Expr: <Id "Cst_I" testexp.adb:5:38-5:43>
   references:    <DefiningName testexp.adb:3:4-3:9>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <BinOp testexp.adb:5:50-5:68>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:5:50-5:53>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <OpDoubleDot ".." testexp.adb:5:54-5:56>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:5:57-5:68>
-  type:          <TypeDecl ["root_real"] __standard:120:3-120:31>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:5:57-5:60>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpMult "*" testexp.adb:5:61-5:62>
   references:    <SyntheticDefiningName __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <Id "Cst_R" testexp.adb:5:63-5:68>
   references:    <DefiningName testexp.adb:2:4-2:9>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 
-Resolving xrefs for node <TypeDecl ["Floating_Point_Def_2"] testexp.adb:8:4-8:46>
-*********************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Floating_Point_Def_2"] testexp.adb:8:4-8:46>
+*****************************************************************************************
 
 Expr: <Id "Cst_I" testexp.adb:8:40-8:45>
   references:    <DefiningName testexp.adb:3:4-3:9>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
-Resolving xrefs for node <TypeDecl ["Ordinary_Fixed_Point_Def"] testexp.adb:11:4-11:74>
-***************************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Ordinary_Fixed_Point_Def"] testexp.adb:11:4-11:74>
+***********************************************************************************************
 
 Expr: <Id "Cst_R" testexp.adb:11:43-11:48>
   references:    <DefiningName testexp.adb:2:4-2:9>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <BinOp testexp.adb:11:55-11:73>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:11:55-11:58>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <OpDoubleDot ".." testexp.adb:11:59-11:61>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:11:62-11:73>
-  type:          <TypeDecl ["root_real"] __standard:120:3-120:31>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:11:62-11:65>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpMult "*" testexp.adb:11:66-11:67>
   references:    <SyntheticDefiningName __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <Id "Cst_R" testexp.adb:11:68-11:73>
   references:    <DefiningName testexp.adb:2:4-2:9>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 
-Resolving xrefs for node <TypeDecl ["Ordinary_Fixed_Point_Def_2"] testexp.adb:14:4-14:51>
-*****************************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Ordinary_Fixed_Point_Def_2"] testexp.adb:14:4-14:51>
+*************************************************************************************************
 
 Expr: <Id "Cst_R" testexp.adb:14:45-14:50>
   references:    <DefiningName testexp.adb:2:4-2:9>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 
-Resolving xrefs for node <TypeDecl ["Decimal_Fixed_Point_Def"] testexp.adb:17:4-17:86>
-**************************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Decimal_Fixed_Point_Def"] testexp.adb:17:4-17:86>
+**********************************************************************************************
 
 Expr: <Id "Cst_R" testexp.adb:17:42-17:47>
   references:    <DefiningName testexp.adb:2:4-2:9>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Id "Cst_I" testexp.adb:17:55-17:60>
   references:    <DefiningName testexp.adb:3:4-3:9>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <BinOp testexp.adb:17:67-17:85>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:17:67-17:70>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <OpDoubleDot ".." testexp.adb:17:71-17:73>
   references:    None
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:17:74-17:85>
-  type:          <TypeDecl ["root_real"] __standard:120:3-120:31>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:17:74-17:77>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpMult "*" testexp.adb:17:78-17:79>
   references:    <SyntheticDefiningName __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <Id "Cst_R" testexp.adb:17:80-17:85>
   references:    <DefiningName testexp.adb:2:4-2:9>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 
-Resolving xrefs for node <TypeDecl ["Decimal_Fixed_Point_Def_2"] testexp.adb:20:4-20:63>
-****************************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Decimal_Fixed_Point_Def_2"] testexp.adb:20:4-20:63>
+************************************************************************************************
 
 Expr: <Id "Cst_R" testexp.adb:20:44-20:49>
   references:    <DefiningName testexp.adb:2:4-2:9>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Id "Cst_I" testexp.adb:20:57-20:62>
   references:    <DefiningName testexp.adb:3:4-3:9>
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

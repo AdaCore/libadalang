@@ -9,8 +9,8 @@ Expr: <Id "Natural" pack.ads:2:22-2:29>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["Ints"] pack.ads:4:4-4:53>
-**************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Ints"] pack.ads:4:4-4:53>
+**********************************************************************
 
 
 Resolving xrefs for node <ArrayTypeDef pack.ads:4:17-4:52>
@@ -25,8 +25,8 @@ Expr: <Id "Integer" pack.ads:4:45-4:52>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["Bounded_Ints"] pack.ads:5:4-8:15>
-**********************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Bounded_Ints"] pack.ads:5:4-8:15>
+******************************************************************************
 
 
 Resolving xrefs for node <DiscriminantSpec ["Max_Size"] pack.ads:5:23-5:41>
@@ -46,7 +46,7 @@ Expr: <Id "Natural" pack.ads:6:16-6:23>
   expected type: None
 Expr: <Int pack.ads:6:27-6:28>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 Resolving xrefs for node <ComponentDecl ["Objs"] pack.ads:7:7-7:37>
@@ -57,12 +57,12 @@ Expr: <Id "Ints" pack.ads:7:16-7:20>
   type:          None
   expected type: None
 Expr: <BinOp pack.ads:7:22-7:35>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int pack.ads:7:22-7:23>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." pack.ads:7:24-7:26>
   references:    None
   type:          None
@@ -70,30 +70,30 @@ Expr: <OpDoubleDot ".." pack.ads:7:24-7:26>
 Expr: <Id "Max_Size" pack.ads:7:27-7:35>
   references:    <DefiningName pack.ads:5:23-5:31>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
-Resolving xrefs for node <TypeDecl ["Ints_Doubled"] pack.ads:10:4-10:60>
-************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Ints_Doubled"] pack.ads:10:4-10:60>
+********************************************************************************
 
 
 Resolving xrefs for node <ArrayTypeDef pack.ads:10:25-10:59>
 ************************************************************
 
 Expr: <BinOp pack.ads:10:32-10:38>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int pack.ads:10:32-10:33>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpDoubleDot ".." pack.ads:10:34-10:36>
   references:    None
   type:          None
   expected type: None
 Expr: <Int pack.ads:10:37-10:38>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Bounded_Ints" pack.ads:10:43-10:55>
   references:    <DefiningName pack.ads:5:9-5:21>
   type:          None

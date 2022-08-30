@@ -10,8 +10,8 @@ Expr: <Id "E" test.adb:4:8-4:9>
   expected type: None
 Expr: <CallExpr test.adb:4:13-4:27>
   references:    <SyntheticDefiningName test.adb:2:4-2:24>
-  type:          <TypeDecl ["E"] test.adb:2:4-2:24>
-  expected type: <TypeDecl ["E"] test.adb:2:4-2:24>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:24>
 Expr: <AttributeRef test.adb:4:13-4:23>
   references:    <SyntheticDefiningName test.adb:2:4-2:24>
   type:          None
@@ -26,8 +26,8 @@ Expr: <Id "Enum_Val" test.adb:4:15-4:23>
   expected type: None
 Expr: <Int test.adb:4:25-4:26>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

@@ -6,37 +6,37 @@ Resolving xrefs for node <AssignStmt testop.adb:5:5-5:22>
 
 Expr: <Id "Z" testop.adb:5:5-5:6>
   references:    <DefiningName testop.adb:3:5-3:6>
-  type:          <TypeDecl ["T"] testop.adb:2:5-2:25>
+  type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
   expected type: None
 Expr: <BinOp testop.adb:5:10-5:21>
-  type:          <TypeDecl ["T"] testop.adb:2:5-2:25>
-  expected type: <TypeDecl ["T"] testop.adb:2:5-2:25>
+  type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
+  expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
 Expr: <ParenExpr testop.adb:5:10-5:17>
-  type:          <TypeDecl ["T"] testop.adb:2:5-2:25>
-  expected type: <TypeDecl ["T"] testop.adb:2:5-2:25>
+  type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
+  expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
 Expr: <BinOp testop.adb:5:11-5:16>
-  type:          <TypeDecl ["T"] testop.adb:2:5-2:25>
-  expected type: <TypeDecl ["T"] testop.adb:2:5-2:25>
+  type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
+  expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
 Expr: <Int testop.adb:5:11-5:12>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["T"] testop.adb:2:5-2:25>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
 Expr: <OpMult "*" testop.adb:5:13-5:14>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Z" testop.adb:5:15-5:16>
   references:    <DefiningName testop.adb:3:5-3:6>
-  type:          <TypeDecl ["T"] testop.adb:2:5-2:25>
-  expected type: <TypeDecl ["T"] testop.adb:2:5-2:25>
+  type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
+  expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
 Expr: <OpMinus "-" testop.adb:5:18-5:19>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testop.adb:5:20-5:21>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["T"] testop.adb:2:5-2:25>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
 
 
 Done.

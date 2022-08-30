@@ -17,8 +17,8 @@ Expr: <Id "P" test.adb:17:4-17:5>
   expected type: None
 Expr: <Id "X" test.adb:17:7-17:8>
   references:    <DefiningName test.adb:2:4-2:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

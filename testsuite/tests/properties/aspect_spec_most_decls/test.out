@@ -1,5 +1,5 @@
-Working on node <TypeDecl ["R"] aspec.adb:4:4-7:15>
-===================================================
+Working on node <ConcreteTypeDecl ["R"] aspec.adb:4:4-7:15>
+===========================================================
 
 Eval 'node.find(lal.DiscriminantSpec).p_has_aspect('XXX')'
 Result: True

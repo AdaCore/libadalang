@@ -14,28 +14,28 @@ Expr: <Id "A" test.adb:8:4-8:5>
   expected type: None
 Expr: <Int test.adb:8:7-8:9>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Int"] test.adb:2:4-2:31>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
 
 Resolving xrefs for node <AssignStmt test.adb:11:4-11:16>
 *********************************************************
 
 Expr: <Id "B" test.adb:11:4-11:5>
   references:    <DefiningName test.adb:6:4-6:5>
-  type:          <TypeDecl ["Int"] test.adb:2:4-2:31>
+  type:          <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
   expected type: None
 Expr: <CallExpr test.adb:11:9-11:15>
   references:    <DefiningName test.adb:4:13-4:14>
-  type:          <TypeDecl ["Int"] test.adb:2:4-2:31>
-  expected type: <TypeDecl ["Int"] test.adb:2:4-2:31>
+  type:          <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
+  expected type: <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
 Expr: <Id "C" test.adb:11:9-11:10>
   references:    <DefiningName test.adb:4:13-4:14>
-  type:          <TypeDecl ["Int"] test.adb:2:4-2:31>
+  type:          <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
   expected type: None
 Expr: <Int test.adb:11:12-11:14>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Int"] test.adb:2:4-2:31>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
 
 Resolving xrefs for node <CallStmt test.adb:14:4-14:11>
 *******************************************************

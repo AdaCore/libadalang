@@ -18,8 +18,8 @@ Expr: <Id "Big_Real" test.adb:26:18-26:26>
   expected type: None
 Expr: <Real test.adb:26:30-26:33>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Big_Real"] test.adb:3:7-4:43>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Big_Real"] test.adb:3:7-4:43>
 
 Resolving xrefs for node <ObjectDecl ["Y"] test.adb:30:4-30:32>
 ***************************************************************
@@ -38,8 +38,8 @@ Expr: <Id "Big_Real" test.adb:30:18-30:26>
   expected type: None
 Expr: <Id "N" test.adb:30:30-30:31>
   references:    <DefiningName test.adb:29:4-29:5>
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Big_Real"] test.adb:3:7-4:43>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Big_Real"] test.adb:3:7-4:43>
 
 Resolving xrefs for node <ObjectDecl ["Z"] test.adb:34:4-34:18>
 ***************************************************************
@@ -50,7 +50,7 @@ Expr: <Id "ST" test.adb:34:8-34:10>
   expected type: None
 Expr: <Real test.adb:34:14-34:17>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <SubtypeDecl ["ST"] test.adb:33:4-33:37>
 
 

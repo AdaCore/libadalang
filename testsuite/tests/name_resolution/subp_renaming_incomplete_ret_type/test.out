@@ -1,12 +1,12 @@
 Analyzing foo.ads
 #################
 
-Resolving xrefs for node <TypeDecl ["List"] foo.ads:2:4-2:36>
-*************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["List"] foo.ads:2:4-2:36>
+*********************************************************************
 
 
-Resolving xrefs for node <TypeDecl ["A_Access"] foo.ads:6:4-6:40>
-*****************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["A_Access"] foo.ads:6:4-6:40>
+*************************************************************************
 
 Expr: <AttributeRef foo.ads:6:32-6:39>
   references:    <DefiningName foo.ads:4:9-4:10>
@@ -21,8 +21,8 @@ Expr: <Id "Class" foo.ads:6:34-6:39>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["A_List"] foo.ads:8:4-8:45>
-***************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["A_List"] foo.ads:8:4-8:45>
+***********************************************************************
 
 Expr: <Id "List" foo.ads:8:23-8:27>
   references:    <DefiningName foo.ads:2:9-2:13>
@@ -101,8 +101,8 @@ Expr: <Id "Positive" foo.ads:13:35-13:43>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["A"] foo.ads:15:4-15:33>
-************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["A"] foo.ads:15:4-15:33>
+********************************************************************
 
 
 Resolving xrefs for node <EndName foo.ads:16:5-16:8>

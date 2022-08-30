@@ -1,41 +1,41 @@
-Working on node <TypeDecl ["I"] test.adb:4:7-4:27>
-==================================================
+Working on node <ConcreteTypeDecl ["I"] test.adb:4:7-4:27>
+==========================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<AbstractSubpDecl ["Foo"] test.adb:7:7-7:41>]
 
-Working on node <TypeDecl ["I2"] test.adb:9:7-9:28>
-===================================================
+Working on node <ConcreteTypeDecl ["I2"] test.adb:9:7-9:28>
+===========================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<NullSubpDecl ["Foo"] test.adb:12:7-12:38>]
 
-Working on node <TypeDecl ["I3"] test.adb:14:7-14:41>
-=====================================================
+Working on node <ConcreteTypeDecl ["I3"] test.adb:14:7-14:41>
+=============================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<AbstractSubpDecl ["Foo"] test.adb:7:7-7:41>]
 
-Working on node <TypeDecl ["U"] test.adb:31:7-31:69>
-====================================================
+Working on node <ConcreteTypeDecl ["U"] test.adb:31:7-31:69>
+============================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<NullSubpDecl ["Foo"] test.adb:21:7-21:37>]
 
-Working on node <TypeDecl ["V"] test.adb:34:7-34:58>
-====================================================
+Working on node <ConcreteTypeDecl ["V"] test.adb:34:7-34:58>
+============================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<NullSubpDecl ["Foo"] test.adb:21:7-21:37>]
 
-Working on node <TypeDecl ["W"] test.adb:37:7-37:46>
-====================================================
+Working on node <ConcreteTypeDecl ["W"] test.adb:37:7-37:46>
+============================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<NullSubpDecl ["Foo"] test.adb:12:7-12:38>]
 
-Working on node <TypeDecl ["J"] test.adb:42:7-42:38>
-====================================================
+Working on node <ConcreteTypeDecl ["J"] test.adb:42:7-42:38>
+============================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<AbstractSubpDecl ["Foo"] test.adb:45:7-45:41>]

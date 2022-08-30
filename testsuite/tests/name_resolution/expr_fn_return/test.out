@@ -1,16 +1,16 @@
 Analyzing testcw.ads
 ####################
 
-Resolving xrefs for node <TypeDecl ["A"] testcw.ads:2:4-2:24>
-*************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["A"] testcw.ads:2:4-2:24>
+*********************************************************************
 
 
-Resolving xrefs for node <TypeDecl ["Root"] testcw.ads:4:4-4:36>
-****************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Root"] testcw.ads:4:4-4:36>
+************************************************************************
 
 
-Resolving xrefs for node <TypeDecl ["B"] testcw.ads:6:4-6:46>
-*************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
+*********************************************************************
 
 Expr: <Id "Root" testcw.ads:6:18-6:22>
   references:    <DefiningName testcw.ads:4:9-4:13>
@@ -18,7 +18,7 @@ Expr: <Id "Root" testcw.ads:6:18-6:22>
   expected type: None
 Expr: <Id "A" testcw.ads:6:27-6:28>
   references:    <DefiningName testcw.ads:2:9-2:10>
-  type:          <TypeDecl ["A"] testcw.ads:2:4-2:24>
+  type:          <ConcreteTypeDecl ["A"] testcw.ads:2:4-2:24>
   expected type: None
 
 Resolving xrefs for node <ObjectDecl ["C"] testcw.ads:8:4-8:36>
@@ -29,18 +29,18 @@ Expr: <Id "B" testcw.ads:8:17-8:18>
   type:          None
   expected type: None
 Expr: <NullRecordAggregate testcw.ads:8:22-8:35>
-  type:          <TypeDecl ["B"] testcw.ads:6:4-6:46>
-  expected type: <TypeDecl ["B"] testcw.ads:6:4-6:46>
+  type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
+  expected type: <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
 
 Resolving xrefs for node <ExprFunction ["None"] testcw.ads:10:4-10:40>
 **********************************************************************
 
 Expr: <ParenExpr testcw.ads:10:36-10:39>
-  type:          <TypeDecl ["B"] testcw.ads:6:4-6:46>
+  type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["A"] testcw.ads:2:4-2:24>
 Expr: <Id "C" testcw.ads:10:37-10:38>
   references:    <DefiningName testcw.ads:8:4-8:5>
-  type:          <TypeDecl ["B"] testcw.ads:6:4-6:46>
+  type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["A"] testcw.ads:2:4-2:24>
 
 Resolving xrefs for node <SubpSpec testcw.ads:10:4-10:32>
@@ -63,11 +63,11 @@ Resolving xrefs for node <ExprFunction ["Foo"] testcw.ads:12:4-12:42>
 *********************************************************************
 
 Expr: <ParenExpr testcw.ads:12:38-12:41>
-  type:          <TypeDecl ["B"] testcw.ads:6:4-6:46>
+  type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["Root"] testcw.ads:4:4-4:36>
 Expr: <Id "C" testcw.ads:12:39-12:40>
   references:    <DefiningName testcw.ads:8:4-8:5>
-  type:          <TypeDecl ["B"] testcw.ads:6:4-6:46>
+  type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["Root"] testcw.ads:4:4-4:36>
 
 Resolving xrefs for node <SubpSpec testcw.ads:12:4-12:34>

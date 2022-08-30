@@ -18,23 +18,23 @@ Expr: <Id "Class" testcw.adb:15:14-15:19>
   expected type: None
 Expr: <QualExpr testcw.adb:15:23-15:34>
   references:    <DefiningName testcw.adb:3:12-3:13>
-  type:          <TypeDecl ["A"] testcw.adb:3:7-5:18>
+  type:          <ConcreteTypeDecl ["A"] testcw.adb:3:7-5:18>
   expected type: <ClasswideTypeDecl ["A"] testcw.adb:3:7-5:18>
 Expr: <Id "A" testcw.adb:15:23-15:24>
   references:    <DefiningName testcw.adb:3:12-3:13>
   type:          None
   expected type: None
 Expr: <Aggregate testcw.adb:15:25-15:34>
-  type:          <TypeDecl ["A"] testcw.adb:3:7-5:18>
-  expected type: <TypeDecl ["A"] testcw.adb:3:7-5:18>
+  type:          <ConcreteTypeDecl ["A"] testcw.adb:3:7-5:18>
+  expected type: <ConcreteTypeDecl ["A"] testcw.adb:3:7-5:18>
 Expr: <Id "A" testcw.adb:15:26-15:27>
   references:    <DefiningName testcw.adb:4:10-4:11>
   type:          None
   expected type: None
 Expr: <Int testcw.adb:15:31-15:33>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <CallStmt testcw.adb:17:7-17:14>
 *********************************************************

@@ -9,8 +9,8 @@ Resolving xrefs for node <ExitStmt exit_stmt.adb:9:7-9:21>
 
 Expr: <Id "Foo" exit_stmt.adb:9:17-9:20>
   references:    <DefiningName exit_stmt.adb:2:13-2:16>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
 Incorrect case
 --------------

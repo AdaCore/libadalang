@@ -22,12 +22,12 @@ Expr: <Id "Append" main.adb:10:15-10:21>
   expected type: None
 Expr: <Id "V" main.adb:10:23-10:24>
   references:    <DefiningName main.adb:7:4-7:5>
-  type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
-  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
+  expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
 Expr: <Id "B" main.adb:10:26-10:27>
   references:    <DefiningName main.adb:8:4-8:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

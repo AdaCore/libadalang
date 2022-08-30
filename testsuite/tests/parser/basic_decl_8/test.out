@@ -1,4 +1,4 @@
-TypeDecl[1:1-1:20]
+ConcreteTypeDecl[1:1-1:20]
 |f_name:
 |  DefiningName[1:6-1:7]
 |  |f_name:

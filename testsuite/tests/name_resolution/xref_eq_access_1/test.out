@@ -6,16 +6,16 @@ Resolving xrefs for node <AssignStmt test_access.adb:13:4-13:17>
 
 Expr: <ExplicitDeref test_access.adb:13:4-13:11>
   references:    <DefiningName test_access.adb:11:4-11:7>
-  type:          <TypeDecl ["Rec"] test_access.adb:4:4-6:15>
+  type:          <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
   expected type: None
 Expr: <Id "R_A" test_access.adb:13:4-13:7>
   references:    <DefiningName test_access.adb:11:4-11:7>
-  type:          <TypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
-  expected type: <TypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
+  type:          <ConcreteTypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
+  expected type: <ConcreteTypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
 Expr: <Id "R" test_access.adb:13:15-13:16>
   references:    <DefiningName test_access.adb:10:4-10:5>
-  type:          <TypeDecl ["Rec"] test_access.adb:4:4-6:15>
-  expected type: <TypeDecl ["Rec"] test_access.adb:4:4-6:15>
+  type:          <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
+  expected type: <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
 
 
 Done.

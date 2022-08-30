@@ -16,8 +16,8 @@ Result: [<DefiningName pkg.ads:2:18-2:19>,
          <DefiningName pkg.ads:2:24-2:25>,
          <DefiningName pkg.ads:2:37-2:38>]
 
-Working on node <TypeDecl ["R"] pkg.ads:7:5-12:20>
-==================================================
+Working on node <ConcreteTypeDecl ["R"] pkg.ads:7:5-12:20>
+==========================================================
 
 Eval 'node.f_discriminants.p_formal_params'
 Result: [<DefiningName pkg.ads:7:13-7:16>]
@@ -40,8 +40,8 @@ Working on node <ComponentDecl ["D"] pkg.ads:25:21-25:33>
 Eval 'node.parent.parent.parent.f_components.p_formal_params'
 Result: [<DefiningName pkg.ads:24:21-24:22>, <DefiningName pkg.ads:25:21-25:22>]
 
-Working on node <TypeDecl ["S"] pkg.ads:16:5-28:20>
-===================================================
+Working on node <ConcreteTypeDecl ["S"] pkg.ads:16:5-28:20>
+===========================================================
 
 Eval 'node.f_discriminants.p_formal_params'
 Result: [<DefiningName pkg.ads:16:13-16:16>]

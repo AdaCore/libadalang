@@ -30,7 +30,7 @@ Expr: <Id "Class" testcwconv.adb:8:11-8:16>
   expected type: None
 Expr: <Id "Foo" testcwconv.adb:8:18-8:21>
   references:    <DefiningName testcwconv.adb:6:13-6:16>
-  type:          <TypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  type:          <ConcreteTypeDecl ["T"] testcwconv.adb:2:4-2:33>
   expected type: None
 
 

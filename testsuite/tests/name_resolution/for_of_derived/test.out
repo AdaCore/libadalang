@@ -21,8 +21,8 @@ Expr: <Id "Integer" for_of_derived.adb:4:45-4:52>
   type:          None
   expected type: None
 
-Resolving xrefs for node <TypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
-***************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
+***********************************************************************************
 
 Expr: <DottedName for_of_derived.adb:6:24-6:38>
   references:    <| DefiningName vectors.ads:59:9-59:15 [for_of_derived.adb:4:4] |>
@@ -54,7 +54,7 @@ Resolving xrefs for node <ForLoopSpec for_of_derived.adb:10:8-10:15>
 
 Expr: <Id "V" for_of_derived.adb:10:14-10:15>
   references:    <DefiningName for_of_derived.adb:8:4-8:5>
-  type:          <TypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
+  type:          <ConcreteTypeDecl ["The_Vec"] for_of_derived.adb:6:4-6:56>
   expected type: None
 
 Resolving xrefs for node <NullStmt for_of_derived.adb:11:7-11:12>

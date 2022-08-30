@@ -6,11 +6,12 @@ Result: [<SubpDecl ["Foo"] pkg.ads:2:4-2:18>,
          <SubpBodyStub ["Foo"] pkg.adb:4:4-4:30>,
          <SubpBody ["Foo"] pkg-foo.adb:2:1-5:9>]
 
-Working on node <TypeDecl ["U"] pkg.ads:4:4-4:22>
-=================================================
+Working on node <ConcreteTypeDecl ["U"] pkg.ads:4:4-4:22>
+=========================================================
 
 Eval 'node.p_all_parts()'
-Result: [<TypeDecl ["U"] pkg.ads:4:4-4:22>, <TypeDecl ["U"] pkg.ads:15:4-15:26>]
+Result: [<ConcreteTypeDecl ["U"] pkg.ads:4:4-4:22>,
+         <ConcreteTypeDecl ["U"] pkg.ads:15:4-15:26>]
 
 Working on node <Id "Integer" pkg.ads:8:11-8:18>
 ================================================
@@ -23,4 +24,4 @@ Working on node <IncompleteTypeDecl ["T"] pkg.ads:12:4-12:11>
 
 Eval 'node.p_all_parts()'
 Result: [<IncompleteTypeDecl ["T"] pkg.ads:12:4-12:11>,
-         <TypeDecl ["T"] pkg.adb:2:4-2:26>]
+         <ConcreteTypeDecl ["T"] pkg.adb:2:4-2:26>]

@@ -10,8 +10,8 @@ Expr: <Id "String" test.adb:10:8-10:14>
   expected type: None
 Expr: <CallExpr test.adb:10:18-10:36>
   references:    <| SyntheticDefiningName test.adb:4:7-4:31 [test.adb:7:4] |>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <AttributeRef test.adb:10:18-10:32>
   references:    <| SyntheticDefiningName test.adb:4:7-4:31 [test.adb:7:4] |>
   type:          None
@@ -34,8 +34,8 @@ Expr: <Id "Image" test.adb:10:27-10:32>
   expected type: None
 Expr: <Id "X" test.adb:10:34-10:35>
   references:    <DefiningName test.adb:9:4-9:5>
-  type:          <| TypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
-  expected type: <| TypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
+  type:          <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
+  expected type: <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
 
 Resolving xrefs for node <ObjectDecl ["I"] test.adb:13:4-13:48>
 ***************************************************************
@@ -46,15 +46,15 @@ Expr: <Id "Integer" test.adb:13:8-13:15>
   expected type: None
 Expr: <CallExpr test.adb:13:19-13:47>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:13:19-13:26>
   references:    <DefiningName __standard:4:8-4:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <CallExpr test.adb:13:28-13:46>
   references:    <| SyntheticDefiningName test.adb:4:7-4:31 [test.adb:7:4] |>
-  type:          <| TypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
+  type:          <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
   expected type: None
 Expr: <AttributeRef test.adb:13:28-13:42>
   references:    <| SyntheticDefiningName test.adb:4:7-4:31 [test.adb:7:4] |>
@@ -78,8 +78,8 @@ Expr: <Id "Value" test.adb:13:37-13:42>
   expected type: None
 Expr: <Id "R" test.adb:13:44-13:45>
   references:    <DefiningName test.adb:10:4-10:5>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 
 Resolving xrefs for node <ObjectDecl ["J"] test.adb:18:4-18:42>
 ***************************************************************
@@ -90,16 +90,16 @@ Expr: <Id "Integer" test.adb:18:8-18:15>
   expected type: None
 Expr: <CallExpr test.adb:18:19-18:41>
   references:    <DefiningName test.adb:17:4-17:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" test.adb:18:19-18:20>
   references:    <DefiningName test.adb:17:4-17:5>
-  type:          <TypeDecl ["Arr_T"] test.adb:16:4-16:46>
+  type:          <ConcreteTypeDecl ["Arr_T"] test.adb:16:4-16:46>
   expected type: None
 Expr: <CallExpr test.adb:18:22-18:40>
   references:    <| SyntheticDefiningName test.adb:4:7-4:31 [test.adb:7:4] |>
-  type:          <| TypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
-  expected type: <| TypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
+  type:          <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
+  expected type: <| ConcreteTypeDecl ["T"] test.adb:4:7-4:31 [test.adb:7:4] |>
 Expr: <AttributeRef test.adb:18:22-18:36>
   references:    <| SyntheticDefiningName test.adb:4:7-4:31 [test.adb:7:4] |>
   type:          None
@@ -122,8 +122,8 @@ Expr: <Id "Value" test.adb:18:31-18:36>
   expected type: None
 Expr: <Id "R" test.adb:18:38-18:39>
   references:    <DefiningName test.adb:10:4-10:5>
-  type:          <TypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <TypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 
 
 Done.

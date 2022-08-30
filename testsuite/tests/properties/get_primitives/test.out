@@ -1,5 +1,5 @@
-Working on node <TypeDecl ["I_5_7"] test.adb:19:4-19:42>
-========================================================
+Working on node <ConcreteTypeDecl ["I_5_7"] test.adb:19:4-19:42>
+================================================================
 
 Eval 'node.p_get_primitives()'
 Result: [<AbstractSubpDecl ["Proc_1"] test.adb:4:4-4:42>,

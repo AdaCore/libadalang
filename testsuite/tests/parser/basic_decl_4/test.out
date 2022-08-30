@@ -69,7 +69,6 @@ SubpRenamingDecl[1:1-1:65]
 |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:48-1:53]: Pouet
 |  |  |  |  |  |  |  |  |f_constraint: <null>
-|  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |f_aspects: <null>
 |  |f_subp_returns: <null>

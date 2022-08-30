@@ -1,12 +1,12 @@
 == test.adb ==
-<TypeDecl ["T"] test.adb:2:4-2:29> is a static decl
-<TypeDecl ["NT"] test.adb:3:4-3:34> is a static decl
-<TypeDecl ["Arr"] test.adb:4:4-4:43> is a static decl
-<TypeDecl ["Arr_2"] test.adb:5:4-5:54> is a static decl
-<TypeDecl ["Arr_3"] test.adb:6:4-6:59> is a static decl
-<TypeDecl ["Arr_4"] test.adb:9:4-9:60> is not a static decl
-<TypeDecl ["Fixed_T"] test.adb:11:4-11:48> is a static decl
-<TypeDecl ["Float_T"] test.adb:12:4-12:49> is a static decl
+<ConcreteTypeDecl ["T"] test.adb:2:4-2:29> is a static decl
+<ConcreteTypeDecl ["NT"] test.adb:3:4-3:34> is a static decl
+<ConcreteTypeDecl ["Arr"] test.adb:4:4-4:43> is a static decl
+<ConcreteTypeDecl ["Arr_2"] test.adb:5:4-5:54> is a static decl
+<ConcreteTypeDecl ["Arr_3"] test.adb:6:4-6:59> is a static decl
+<ConcreteTypeDecl ["Arr_4"] test.adb:9:4-9:60> is not a static decl
+<ConcreteTypeDecl ["Fixed_T"] test.adb:11:4-11:48> is a static decl
+<ConcreteTypeDecl ["Float_T"] test.adb:12:4-12:49> is a static decl
 <SubtypeDecl ["Fixed_ST_1"] test.adb:17:4-17:52> is a static decl
 <SubtypeDecl ["Fixed_ST_2"] test.adb:18:4-18:44> is a static decl
 <SubtypeDecl ["Fixed_ST_3"] test.adb:19:4-19:62> is a static decl

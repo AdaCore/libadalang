@@ -14,12 +14,12 @@ Expr: <Id "Append" main.adb:13:4-13:10>
   expected type: None
 Expr: <Id "V2" main.adb:13:12-13:14>
   references:    <DefiningName main.adb:8:4-8:6>
-  type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
-  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
+  expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
 Expr: <Real main.adb:13:16-13:20>
   references:    None
-  type:          <TypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <TypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
 
 Resolving xrefs for node <CallStmt main.adb:16:4-16:19>
 *******************************************************
@@ -34,12 +34,12 @@ Expr: <Id "Append" main.adb:16:4-16:10>
   expected type: None
 Expr: <Id "V" main.adb:16:12-16:13>
   references:    <DefiningName main.adb:7:4-7:5>
-  type:          <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
-  expected type: <| TypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
+  type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
+  expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
 Expr: <Int main.adb:16:15-16:17>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

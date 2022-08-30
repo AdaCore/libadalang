@@ -26,8 +26,8 @@ Expr: <AttributeRef test.adb:14:12-14:22>
   expected type: <SynthAnonymousTypeDecl ["U"] test.adb:9:7-9:42>
 Expr: <Id "Obj" test.adb:14:12-14:15>
   references:    <DefiningName test.adb:12:4-12:7>
-  type:          <TypeDecl ["U"] test.adb:9:7-9:42>
-  expected type: <TypeDecl ["U"] test.adb:9:7-9:42>
+  type:          <ConcreteTypeDecl ["U"] test.adb:9:7-9:42>
+  expected type: <ConcreteTypeDecl ["U"] test.adb:9:7-9:42>
 Expr: <Id "Access" test.adb:14:16-14:22>
   references:    None
   type:          None

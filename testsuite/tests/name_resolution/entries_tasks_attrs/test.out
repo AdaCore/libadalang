@@ -14,8 +14,8 @@ Expr: <Id "Foo" test.adb:12:7-12:10>
   expected type: None
 Expr: <AttributeRef test.adb:12:12-12:19>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "E" test.adb:12:12-12:13>
   references:    <DefiningName test.adb:7:13-7:14>
   type:          None
@@ -50,8 +50,8 @@ Expr: <Id "Task_Id" test.adb:17:41-17:48>
   expected type: None
 Expr: <AttributeRef test.adb:18:16-18:24>
   references:    None
-  type:          <TypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
-  expected type: <TypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
+  type:          <ConcreteTypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
+  expected type: <ConcreteTypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
 Expr: <Id "E" test.adb:18:16-18:17>
   references:    <DefiningName test.adb:7:13-7:14>
   type:          None
@@ -74,8 +74,8 @@ Expr: <Id "Foo" test.adb:28:4-28:7>
   expected type: None
 Expr: <AttributeRef test.adb:28:9-28:22>
   references:    None
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Inst" test.adb:28:9-28:13>
   references:    <DefiningName test.adb:26:4-26:8>
   type:          <TaskTypeDecl ["T"] test.adb:6:4-8:10>
@@ -98,8 +98,8 @@ Expr: <Id "Foo" test.adb:30:4-30:7>
   expected type: None
 Expr: <AttributeRef test.adb:30:9-30:24>
   references:    None
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Inst" test.adb:30:9-30:13>
   references:    <DefiningName test.adb:26:4-26:8>
   type:          <TaskTypeDecl ["T"] test.adb:6:4-8:10>

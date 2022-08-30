@@ -14,31 +14,31 @@ Resolving xrefs for node <VariantPart test.adb:5:7-10:16>
 
 Expr: <Id "C" test.adb:5:12-5:13>
   references:    <DefiningName test.adb:4:25-4:26>
-  type:          <TypeDecl ["Color"] test.adb:2:4-2:37>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
   expected type: None
 Expr: <Id "Red" test.adb:6:15-6:18>
   references:    <DefiningName test.adb:2:19-2:22>
-  type:          <TypeDecl ["Color"] test.adb:2:4-2:37>
-  expected type: <TypeDecl ["Color"] test.adb:2:4-2:37>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
 Expr: <Id "Color" test.adb:8:15-8:20>
   references:    <DefiningName test.adb:2:9-2:14>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:8:27-8:40>
-  type:          <TypeDecl ["Color"] test.adb:2:4-2:37>
-  expected type: <TypeDecl ["Color"] test.adb:2:4-2:37>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
 Expr: <Id "Green" test.adb:8:27-8:32>
   references:    <DefiningName test.adb:2:24-2:29>
-  type:          <TypeDecl ["Color"] test.adb:2:4-2:37>
-  expected type: <TypeDecl ["Color"] test.adb:2:4-2:37>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
 Expr: <OpDoubleDot ".." test.adb:8:33-8:35>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Blue" test.adb:8:36-8:40>
   references:    <DefiningName test.adb:2:31-2:35>
-  type:          <TypeDecl ["Color"] test.adb:2:4-2:37>
-  expected type: <TypeDecl ["Color"] test.adb:2:4-2:37>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:2:4-2:37>
 
 Resolving xrefs for node <ComponentDecl ["A"] test.adb:7:13-7:25>
 *****************************************************************

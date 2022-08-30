@@ -15,10 +15,10 @@ Expr: <Id "Foo" testifc.adb:17:4-17:7>
 Expr: <Id "Inst" testifc.adb:17:9-17:13>
   references:    <DefiningName testifc.adb:15:4-15:8>
   type:          <ClasswideTypeDecl ["B"] testifc.adb:6:7-6:33>
-  expected type: <TypeDecl ["A"] testifc.adb:3:7-3:27>
+  expected type: <ConcreteTypeDecl ["A"] testifc.adb:3:7-3:27>
 Expr: <Int testifc.adb:17:15-17:17>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
 

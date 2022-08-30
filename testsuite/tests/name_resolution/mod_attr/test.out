@@ -6,15 +6,15 @@ Resolving xrefs for node <AssignStmt test.adb:8:4-8:56>
 
 Expr: <Id "Time_Dif" test.adb:8:4-8:12>
   references:    <DefiningName test.adb:4:4-4:12>
-  type:          <TypeDecl ["Mod24"] test.adb:2:4-2:30>
+  type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
   expected type: None
 Expr: <BinOp test.adb:8:16-8:55>
-  type:          <TypeDecl ["Mod24"] test.adb:2:4-2:30>
-  expected type: <TypeDecl ["Mod24"] test.adb:2:4-2:30>
+  type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
+  expected type: <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
 Expr: <CallExpr test.adb:8:16-8:39>
   references:    <SyntheticDefiningName test.adb:2:4-2:30>
-  type:          <TypeDecl ["Mod24"] test.adb:2:4-2:30>
-  expected type: <TypeDecl ["Mod24"] test.adb:2:4-2:30>
+  type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
+  expected type: <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
 Expr: <AttributeRef test.adb:8:16-8:25>
   references:    <SyntheticDefiningName test.adb:2:4-2:30>
   type:          None
@@ -29,16 +29,16 @@ Expr: <Id "Mod" test.adb:8:22-8:25>
   expected type: None
 Expr: <Id "Seconds_Now" test.adb:8:27-8:38>
   references:    <DefiningName test.adb:5:4-5:15>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpMinus "-" test.adb:8:40-8:41>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Seconds_Nonce" test.adb:8:42-8:55>
   references:    <DefiningName test.adb:6:4-6:17>
-  type:          <TypeDecl ["Mod24"] test.adb:2:4-2:30>
-  expected type: <TypeDecl ["Mod24"] test.adb:2:4-2:30>
+  type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
+  expected type: <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
 
 
 Done.

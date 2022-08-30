@@ -6,69 +6,69 @@ Resolving xrefs for node <AssignStmt testop.adb:14:4-14:15>
 
 Expr: <Id "A" testop.adb:14:4-14:5>
   references:    <DefiningName testop.adb:8:4-8:5>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <BinOp testop.adb:14:9-14:14>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" testop.adb:14:9-14:10>
   references:    <DefiningName testop.adb:8:7-8:8>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpPlus "+" testop.adb:14:11-14:12>
   references:    <DefiningName testop.adb:5:13-5:16>
   type:          None
   expected type: None
 Expr: <Id "C" testop.adb:14:13-14:14>
   references:    <DefiningName testop.adb:8:10-8:11>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AssignStmt testop.adb:17:4-17:17>
 ***********************************************************
 
 Expr: <Id "Foo" testop.adb:17:4-17:7>
   references:    <DefiningName testop.adb:12:4-12:7>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <RelationOp testop.adb:17:11-17:16>
-  type:          <TypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <TypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "B" testop.adb:17:11-17:12>
   references:    <DefiningName testop.adb:8:7-8:8>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpLt "<" testop.adb:17:13-17:14>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "C" testop.adb:17:15-17:16>
   references:    <DefiningName testop.adb:8:10-8:11>
-  type:          <TypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <AssignStmt testop.adb:20:4-20:15>
 ***********************************************************
 
 Expr: <Id "O" testop.adb:20:4-20:5>
   references:    <DefiningName testop.adb:10:4-10:5>
-  type:          <TypeDecl ["My_Int"] testop.adb:2:4-2:38>
+  type:          <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
   expected type: None
 Expr: <BinOp testop.adb:20:9-20:14>
-  type:          <TypeDecl ["My_Int"] testop.adb:2:4-2:38>
-  expected type: <TypeDecl ["My_Int"] testop.adb:2:4-2:38>
+  type:          <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
+  expected type: <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
 Expr: <Id "P" testop.adb:20:9-20:10>
   references:    <DefiningName testop.adb:10:7-10:8>
-  type:          <TypeDecl ["My_Int"] testop.adb:2:4-2:38>
-  expected type: <TypeDecl ["My_Int"] testop.adb:2:4-2:38>
+  type:          <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
+  expected type: <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
 Expr: <OpPlus "+" testop.adb:20:11-20:12>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Q" testop.adb:20:13-20:14>
   references:    <DefiningName testop.adb:10:10-10:11>
-  type:          <TypeDecl ["My_Int"] testop.adb:2:4-2:38>
-  expected type: <TypeDecl ["My_Int"] testop.adb:2:4-2:38>
+  type:          <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
+  expected type: <ConcreteTypeDecl ["My_Int"] testop.adb:2:4-2:38>
 
 
 Done.

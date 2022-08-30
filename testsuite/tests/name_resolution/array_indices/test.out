@@ -5,12 +5,12 @@ Resolving xrefs for node <SubpSpec test_array_indices.adb:1:1-1:29>
 *******************************************************************
 
 
-Resolving xrefs for node <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
-*****************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
+*************************************************************************************
 
 
-Resolving xrefs for node <TypeDecl ["A"] test_array_indices.adb:3:4-3:39>
-*************************************************************************
+Resolving xrefs for node <ConcreteTypeDecl ["A"] test_array_indices.adb:3:4-3:39>
+*********************************************************************************
 
 
 Resolving xrefs for node <ArrayTypeDef test_array_indices.adb:3:14-3:38>
@@ -33,20 +33,20 @@ Expr: <Id "A" test_array_indices.adb:5:11-5:12>
   type:          None
   expected type: None
 Expr: <Aggregate test_array_indices.adb:5:16-5:44>
-  type:          <TypeDecl ["A"] test_array_indices.adb:3:4-3:39>
-  expected type: <TypeDecl ["A"] test_array_indices.adb:3:4-3:39>
+  type:          <ConcreteTypeDecl ["A"] test_array_indices.adb:3:4-3:39>
+  expected type: <ConcreteTypeDecl ["A"] test_array_indices.adb:3:4-3:39>
 Expr: <Id "Yellow" test_array_indices.adb:5:17-5:23>
   references:    <DefiningName test_array_indices.adb:2:19-2:25>
-  type:          <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
-  expected type: <TypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
+  type:          <ConcreteTypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
+  expected type: <ConcreteTypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
 Expr: <Int test_array_indices.adb:5:27-5:29>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test_array_indices.adb:5:41-5:43>
   references:    None
-  type:          <TypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <TypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 Resolving xrefs for node <NullStmt test_array_indices.adb:7:4-7:9>
 ******************************************************************

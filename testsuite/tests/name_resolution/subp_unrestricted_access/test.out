@@ -10,8 +10,8 @@ Expr: <Id "W_Char" test.adb:8:8-8:14>
   expected type: None
 Expr: <AttributeRef test.adb:8:18-8:48>
   references:    None
-  type:          <TypeDecl ["W_Char"] test.adb:2:4-2:52>
-  expected type: <TypeDecl ["W_Char"] test.adb:2:4-2:52>
+  type:          <ConcreteTypeDecl ["W_Char"] test.adb:2:4-2:52>
+  expected type: <ConcreteTypeDecl ["W_Char"] test.adb:2:4-2:52>
 Expr: <Id "Print_Char" test.adb:8:18-8:28>
   references:    <DefiningName test.adb:5:14-5:24>
   type:          None
@@ -30,8 +30,8 @@ Expr: <Id "W_Eol" test.adb:10:8-10:13>
   expected type: None
 Expr: <AttributeRef test.adb:10:18-10:47>
   references:    None
-  type:          <TypeDecl ["W_Eol"] test.adb:3:4-3:35>
-  expected type: <TypeDecl ["W_Eol"] test.adb:3:4-3:35>
+  type:          <ConcreteTypeDecl ["W_Eol"] test.adb:3:4-3:35>
+  expected type: <ConcreteTypeDecl ["W_Eol"] test.adb:3:4-3:35>
 Expr: <Id "Print_Eol" test.adb:10:18-10:27>
   references:    <DefiningName test.adb:6:14-6:23>
   type:          None

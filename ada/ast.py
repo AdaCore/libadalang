@@ -19081,7 +19081,7 @@ class CompilationUnit(AdaNode):
             )
         )
 
-    @langkit_property(return_type=T.CompilationUnit.entity)
+    @langkit_property(return_type=T.CompilationUnit.entity, public=True)
     def other_part():
         """
         If this compilation unit is of kind UnitSpecification, return its

@@ -1,0 +1,11 @@
+Working on node <NullSubpDecl ["P"] test.adb:2:4-2:24>
+======================================================
+
+Eval 'node.unit.root.p_other_part'
+Result: <CompilationUnit test.ads:1:1-4:10>
+
+Working on node <SubpDecl ["P"] test.ads:2:4-2:16>
+==================================================
+
+Eval 'node.unit.root.p_other_part'
+Result: <CompilationUnit test.adb:1:1-4:10>

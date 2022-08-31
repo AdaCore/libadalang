@@ -180,7 +180,7 @@ representing the type of the object declaration.
     provider = None
     if args.project:
         project = lal.GPRProject(args.project)
-        provider = project.create_project_provider()
+        provider = project.create_unit_provider()
 
     context = lal.AnalysisContext(unit_provider=provider)
 

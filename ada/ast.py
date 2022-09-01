@@ -11305,7 +11305,13 @@ class GenericFormalTypeDecl(GenericFormal):
     """
     Formal declaration for a type (:rmlink:`12.1`).
     """
-    pass
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def default_type():
+        return Entity.decl.match(
+            lambda ft=FormalTypeDecl: ft.default_type,
+            lambda ift=IncompleteFormalTypeDecl: ift.default_type,
+            lambda _: No(Name.entity)
+        )._.name_designated_type
 
 
 class GenericFormalSubpDecl(GenericFormal):
@@ -16427,25 +16433,15 @@ class BaseId(SingleTokNode):
             & des_type.then(lambda d: d.is_view_of_type(n.cast(BaseTypeDecl)))
         ).at(0))
 
-        return Cond(
-            # If des_type is a formal type declaration (i.e. a type declaration
+        # If completer_view is a more complete view of the type we're
+        # looking up, then return completer_view. Else return des_type.
+        return completer_view._or(des_type).then(
+            lambda precise:
+            # If we got a formal type declaration (i.e. a type declaration
             # of a generic formal parameter), always returns its default type
-            # value if any. If an instantiation defines a type for this formal,
-            # the expected type will be derived from the corresponding
-            # instantiation actual parameter.
-            Not(des_type.cast(T.FormalTypeDecl)._.default_type.is_null),
-            des_type.cast(T.FormalTypeDecl).default_type.designated_type_impl,
-            Not(des_type.cast(T.IncompleteFormalTypeDecl)
-                ._.default_type.is_null),
-            des_type.cast(T.IncompleteFormalTypeDecl)
-            .default_type.designated_type_impl,
-
-            # If completer_view is a more complete view of the type we're
-            # looking up, then return completer_view. Else return des_type.
-            Not(completer_view.is_null),
-            completer_view,
-
-            des_type
+            # value if any.
+            precise.parent.cast(GenericFormalTypeDecl)._.default_type
+            ._or(precise)
         )
 
     @langkit_property(dynamic_vars=[env])

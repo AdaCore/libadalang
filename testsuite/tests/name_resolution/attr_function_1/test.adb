@@ -2,7 +2,7 @@ with System.Storage_Elements;
 
 procedure Test is
    X : System.Address := System'To_Address (2);
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 
    generic
       type Param_Type is private;
@@ -15,7 +15,7 @@ procedure Test is
      (System.Storage_Elements.Integer_Address,
       System.Address,
       System'To_Address);
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 begin
    null;
 end Test;

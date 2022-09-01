@@ -1,4 +1,0 @@
-driver: parser
-rule: subp_body
-control:
-    - [XFAIL, "True", "Pending resolution of O525-031"]

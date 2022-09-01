@@ -1,4 +1,0 @@
-driver: parser
-rule: compilation_unit
-control:
-    - [XFAIL, "True", "Pending resolution of O525-031"]

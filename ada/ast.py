@@ -5400,8 +5400,9 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.universal_int_type_expr
         ))
 
+    # We can't name it just `val` as this is a keyword in LKT.
     @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
-    def val():
+    def val_attr():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Val",
             right_param=Self.universal_int_param,
@@ -18020,7 +18021,7 @@ class AttributeRef(Name):
             rel_name == "integer_value", repo.integer_value,
 
             rel_name == "pos", repo.pos,
-            rel_name == "val", repo.val,
+            rel_name == "val", repo.val_attr,
             rel_name == "enum_rep", repo.enum_rep,
             rel_name == "enum_val", repo.enum_val,
 

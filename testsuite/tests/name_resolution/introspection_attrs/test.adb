@@ -17,6 +17,14 @@ procedure Test is
       E : Boolean := T'Constrained;
       pragma Test_Statement;
    end Pkg;
+
+   type My_Record is record
+      A, B : Integer;
+   end record;
+
+   Rec   : My_Record := (1, 2);
+   Rec_V : Boolean := Rec'Valid_Scalars;
+   pragma Test_Statement;
 begin
    null;
 end Test;

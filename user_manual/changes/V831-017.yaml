@@ -1,0 +1,7 @@
+type: new-feature
+title: Add name resolution support for ``Valid_Scalars``
+description: |
+    This change fixes a bug where name resolution would raise an exception
+    when trying to resolve an expression making use of the ``Valid_Scalars``
+    attribute.
+date: 2022-09-05

@@ -18229,7 +18229,7 @@ class AttributeRef(Name):
             rel_name.any_of('Valid', 'Machine_Overflows', 'Machine_Rounds',
                             'Has_Access_Values', 'Has_Discriminants',
                             'Has_Tagged_Values', 'Definite', 'Constrained',
-                            'Initialized'),
+                            'Initialized', 'Valid_Scalars'),
             Entity.prefix.sub_equation
             & Bind(Self.type_var, Self.bool_type),
 

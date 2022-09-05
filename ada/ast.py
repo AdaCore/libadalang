@@ -5803,6 +5803,24 @@ class BaseTypeDecl(BasicDecl):
         doc="If self has an Implicit_Dereference aspect, return its expression"
     )
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def specific_type():
+        """
+        Return the specific type under a class-wide type. Consider for example:
+        ```
+        subtype S1 is T'Class
+        subtype S2 is S1'Class
+        ```
+        Calling this property on ``S2`` will return ``T``.
+        """
+        return Entity.match(
+            # recurse on the class-widen type because it could be a subtype
+            # renaming a class-wide type itself.
+            lambda cw=T.ClasswideTypeDecl: cw.typedecl.specific_type,
+            lambda bt=T.BaseSubtypeDecl: bt.base_subtype.specific_type,
+            lambda _: Entity
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()])
     def derefed_type():
@@ -6404,7 +6422,7 @@ class BaseTypeDecl(BasicDecl):
                 actual_type.is_derived_type(formal_type)),
 
             And(actual_type.is_classwide,
-                actual_type.is_derived_type(formal_type)),
+                actual_type.specific_type.matching_type(formal_type)),
 
             # Matching of access types parameters
             actual_type.accessed_type.then(
@@ -6413,8 +6431,10 @@ class BaseTypeDecl(BasicDecl):
                     lambda formal_access: Or(
                         And(formal_access.is_classwide | accept_derived,
                             actual_access.is_derived_type(formal_access)),
+
                         And(actual_access.is_classwide,
-                            actual_access.is_derived_type(formal_access))
+                            actual_access.specific_type.matching_type(
+                                formal_access)),
                     )
                 )
             ),

@@ -1,49 +1,23 @@
-Argument parsing failed: for option kinds - invalid kind name: Ada_Type_Decl
-usage: navigate [--help|-h] [--charset|-C CHARSET] [--project|-P PROJECT] 
-               [--recursive|-U] [--process-runtime] [--scenario-variable|-X 
-               SCENARIO-VARIABLE [SCENARIO-VARIABLE...]] [--target TARGET] 
-               [--RTS RTS] [--config CONFIG] [--auto-dir|-A AUTO-DIR 
-               [AUTO-DIR...]] [--preprocessor-data-file PREPROCESSOR-DATA-FILE] 
-               [--preprocessor-path PREPROCESSOR-PATH [PREPROCESSOR-PATH...]] 
-               [--no-traceback] [--symbolic-traceback] 
-               [--exit-on-missing-file|-E] files [files ...] [--kinds|-k KINDS] 
+test.ads
+########
 
-Navigate between AST nodes (spec/body/...).
+<IncompleteTypeDecl ["A"] test.ads:2:4-2:11> has no type previous part
+Type next part of <IncompleteTypeDecl ["A"] test.ads:2:4-2:11> is <ConcreteTypeDecl ["A"] test.ads:4:4-4:22> [test.ads]
+Type previous part of <ConcreteTypeDecl ["A"] test.ads:4:4-4:22> is <IncompleteTypeDecl ["A"] test.ads:2:4-2:11> [test.ads]
+Type next part of <ConcreteTypeDecl ["A"] test.ads:4:4-4:22> is <ConcreteTypeDecl ["A"] test.ads:7:4-9:15> [test.ads]
+Type previous part of <ConcreteTypeDecl ["A"] test.ads:7:4-9:15> is <ConcreteTypeDecl ["A"] test.ads:4:4-4:22> [test.ads]
+<ConcreteTypeDecl ["A"] test.ads:7:4-9:15> has no type next part
+<IncompleteTypeDecl ["B"] test.ads:11:4-11:11> has no type previous part
+Type next part of <IncompleteTypeDecl ["B"] test.ads:11:4-11:11> is <ConcreteTypeDecl ["B"] test.adb:2:4-4:15> [test.adb]
+<IncompleteTypeDecl ["C"] test.ads:13:4-13:11> has no type previous part
+Type next part of <IncompleteTypeDecl ["C"] test.ads:13:4-13:11> is <ConcreteTypeDecl ["C"] test.ads:15:4-17:15> [test.ads]
+Type previous part of <ConcreteTypeDecl ["C"] test.ads:15:4-17:15> is <IncompleteTypeDecl ["C"] test.ads:13:4-13:11> [test.ads]
+<ConcreteTypeDecl ["C"] test.ads:15:4-17:15> has no type next part
 
-positional arguments:
-   files  Files to analyze
-   
-optional arguments:
-   --help, -h                  Show this help message
-   --charset, -C               Charset to use for source decoding
-   --project, -P               Project file to use
-   --recursive, -U             Process all units in the project tree, excluding 
-                               externally built projects
-   --process-runtime           Process the runtime files, and any other 
-                               predefined sources
-   --scenario-variable, -X     Scenario variables to pass to the project file
-   --target                    Name of the target to use when loading the 
-                               project
-   --RTS                       Name of the runtime (RTS) to use when loading the
-                                project
-   --config                    Name of the configuration project file. If 
-                               passed, this file must exist and neither --target
-                                nor --RTS must be passed.
-   --auto-dir, -A              Directories to use for the auto provider. If at 
-                               least one is passed, the auto provider will be 
-                               used, and project options ignored
-   --preprocessor-data-file    Filename for the preprocessor data file (enables 
-                               preprocessing).
-   --preprocessor-path         Directory name to consider when looking for 
-                               preprocessor definition files.
-   --no-traceback              Do not display traceback for exceptions
-   --symbolic-traceback        Show symbolic tracebacks for exceptions
-   --exit-on-missing-file, -E  Behavior when encountering missing files. By 
-                               default, continue despite missing dependencies. 
-                               If passed, exit on first missing file.
-   --kinds, -k                 Comma-separated list of AST node kind names, like
-                                "Ada_Subp_Body,Ada_Package_Decl". This will 
-                               filter the nodes on which we navigate.
-   
+test.adb
+########
+
+Type previous part of <ConcreteTypeDecl ["B"] test.adb:2:4-4:15> is <IncompleteTypeDecl ["B"] test.ads:11:4-11:11> [test.ads]
+<ConcreteTypeDecl ["B"] test.adb:2:4-4:15> has no type next part
 
 Done.

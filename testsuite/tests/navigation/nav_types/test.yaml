@@ -1,5 +1,5 @@
 driver: navigation
 input_sources: [test.ads, test.adb]
 kinds:
-  - Ada_Type_Decl
+  - Ada_Concrete_Type_Decl
   - Ada_Incomplete_Type_Decl

@@ -4572,14 +4572,13 @@ class TypeDef(AdaNode):
             # considered first during name resolution.
             Array([
                 Entity.children_env,
-                Entity.dottable_subps_env,
-                Entity.previous_part_env
+                Entity.dottable_subps_env
             ]).concat(dottable_type.bind(
                 # Continue propagating the original `dottable_type`, or start
                 # propagating self if it's not set yet.
                 dottable_type._or(Self.parent),
                 Entity.base_types.map(lambda bt: bt._.defining_env)
-            )).env_group(),
+            )).concat(Entity.previous_part_env.singleton).env_group(),
 
             Entity.match(
                 lambda ar=T.ArrayTypeDef: ar.comp_type.defining_env,

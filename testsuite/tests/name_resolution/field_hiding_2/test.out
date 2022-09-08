@@ -1,0 +1,57 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:23:10-23:23>
+**********************************************************
+
+Expr: <DottedName test.adb:23:10-23:16>
+  references:    <DefiningName test.adb:13:10-13:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "X" test.adb:23:10-23:11>
+  references:    <DefiningName test.adb:21:10-21:11>
+  type:          <ConcreteTypeDecl ["Sub_Object"] test.adb:16:7-16:54>
+  expected type: <ConcreteTypeDecl ["Object"] test.adb:12:7-14:18>
+Expr: <Id "Kind" test.adb:23:12-23:16>
+  references:    <DefiningName test.adb:13:10-13:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int test.adb:23:20-23:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <CallStmt test.adb:25:10-25:34>
+********************************************************
+
+Expr: <CallExpr test.adb:25:10-25:33>
+  references:    <DefiningName a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test.adb:25:10-25:18>
+  references:    <DefiningName a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:25:20-25:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <DottedName test.adb:25:20-25:26>
+  references:    <DefiningName test.adb:13:10-13:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "X" test.adb:25:20-25:21>
+  references:    <DefiningName test.adb:21:10-21:11>
+  type:          <ConcreteTypeDecl ["Sub_Object"] test.adb:16:7-16:54>
+  expected type: <ConcreteTypeDecl ["Object"] test.adb:12:7-14:18>
+Expr: <Id "Kind" test.adb:25:22-25:26>
+  references:    <DefiningName test.adb:13:10-13:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Image" test.adb:25:27-25:32>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

@@ -1,8 +1,8 @@
 from langkit.dsl import (
     ASTNode, AbstractField, AnalysisUnit, AnalysisUnitKind, Annotations, Bool,
     Enum, EnumValue, Equation, Field, Int, LexicalEnv, LogicVar,
-    LookupKind as LK, NullField, Struct, Symbol, T, UserField, abstract,
-    env_metadata, has_abstract_list, synthetic
+    LookupKind as LK, MetadataField, NullField, Struct, Symbol, T, UserField,
+    abstract, env_metadata, has_abstract_list, synthetic
 )
 from langkit.envs import (
     EnvSpec, RefKind, add_env, add_to_env, add_to_env_kv, do, handle_children,
@@ -90,18 +90,19 @@ def default_dottable_type():
 
 @env_metadata
 class Metadata(Struct):
-    dottable_subp = UserField(
-        Bool, doc="Whether the stored element is a subprogram accessed through"
-                  " the dot notation",
+    dottable_subp = MetadataField(
+        Bool, use_in_eq=False,
+        doc="Whether the stored element is a subprogram accessed through"
+            " the dot notation",
         default_value=False
     )
-    primitive = UserField(
-        T.AdaNode,
+    primitive = MetadataField(
+        T.AdaNode, use_in_eq=True,
         doc="The type for which this subprogram is a primitive, if any",
         default_value=No(T.AdaNode)
     )
-    primitive_real_type = UserField(
-        T.AdaNode,
+    primitive_real_type = MetadataField(
+        T.AdaNode, use_in_eq=True,
         doc="The type for which this subprogram is a primitive, if any",
         default_value=No(T.AdaNode)
     )

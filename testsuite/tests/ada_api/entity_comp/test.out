@@ -1,0 +1,5 @@
+Prim_T.Primitive = Der_T.Primitive: FALSE
+<DottedName pkg.ads:11:7-11:21>
+<ExprFunction ["Primitive"] pkg.ads:5:4-6:22>
+Der_T.Primitive = Der_T.Primitive (different internal metadata): TRUE
+Done.

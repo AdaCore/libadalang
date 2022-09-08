@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix inherited primitives equality and hashing
+description: |
+  Primitive subprograms inherited from a root primitive would not have correct
+  computation of identity functions such as equality and hashing, and instead,
+  derived primitives would be considered equivalent to the root primitive they
+  were derived from. This is now fixed.
+
+date: 2022-09-08

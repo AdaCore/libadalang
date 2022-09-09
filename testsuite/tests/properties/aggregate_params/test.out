@@ -132,3 +132,28 @@ Working on node <AssignStmt recagg.adb:90:4-90:16>
 Eval 'node.f_expr.p_aggregate_params'
 Result: [<ParamActual param=<DefiningName recagg.adb:41:10-41:11> actual=<Int recagg.adb:90:10-90:11>>,
          <ParamActual param=<DefiningName recagg.adb:46:10-46:11> actual=<Int recagg.adb:90:13-90:14>>]
+
+Working on node <ObjectDecl ["C"] test.adb:10:4-10:42>
+======================================================
+
+Eval 'node.f_default_expr.p_aggregate_params'
+Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:10:38-10:40>>]
+
+Working on node <ObjectDecl ["D"] test.adb:12:4-12:51>
+======================================================
+
+Eval 'node.f_default_expr.p_aggregate_params'
+Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:12:47-12:49>>]
+
+Working on node <ObjectDecl ["E"] test.adb:14:4-14:45>
+======================================================
+
+Eval 'node.f_default_expr.p_aggregate_params'
+Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<Int test.adb:14:42-14:43>>]
+
+Working on node <ObjectDecl ["F"] test.adb:16:4-16:32>
+======================================================
+
+Eval 'node.f_default_expr.p_aggregate_params'
+Result: [<ParamActual param=<DefiningName test.adb:3:7-3:8> actual=<BoxExpr test.adb:16:28-16:30>>,
+         <ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:16:28-16:30>>]

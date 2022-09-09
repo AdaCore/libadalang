@@ -1,2 +1,2 @@
 driver: inline-playground
-input_sources: [recagg.adb]
+input_sources: [recagg.adb, test.adb]

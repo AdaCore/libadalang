@@ -4817,7 +4817,8 @@ class ComponentList(BaseFormalParamHolder):
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
                       dynamic_vars=[env, default_origin()])
-    def abstract_formal_params_for_assocs(assocs=T.AssocList.entity):
+    def abstract_formal_params_for_assocs(assocs=T.AssocList.entity,
+                                          recurse=(Bool, True)):
 
         td = Var(Entity.type_decl)
         discriminants = Var(td.discriminants_list)
@@ -4838,7 +4839,8 @@ class ComponentList(BaseFormalParamHolder):
         # able to calculate the list of components belonging to variant parts,
         # depending on the static value of discriminants.
         return td.record_def.comps.abstract_formal_params_impl(
-            discriminants=discriminants_matches
+            discriminants=discriminants_matches,
+            recurse=recurse
         )
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
@@ -15147,7 +15149,12 @@ class AssocList(BasicAssoc.list):
             lambda a=T.BaseAggregate: origin.bind(Self, env.bind(
                 Self.node_env,
                 a.expression_type.record_def
-                ._.components.abstract_formal_params_for_assocs(Entity),
+                ._.components.abstract_formal_params_for_assocs(
+                    Entity,
+                    # Do not get parent components if `a` is an extended
+                    # aggregate.
+                    recurse=a.ancestor_expr.is_null
+                ),
             )),
 
             lambda _: No(T.BaseFormalParamDecl.entity.array)

@@ -1,0 +1,6 @@
+Working on node <AssignStmt test.adb:6:4-6:20>
+==============================================
+
+Eval 'node.f_expr.p_call_params'
+Result: [<ParamActual param=<SyntheticDefiningName test.adb:2:14-2:26> actual=<Id "X" test.adb:6:14-6:15>>,
+         <ParamActual param=<SyntheticDefiningName test.adb:2:14-2:26> actual=<Id "X" test.adb:6:17-6:18>>]

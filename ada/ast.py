@@ -10155,15 +10155,7 @@ class NumberDecl(BasicDecl):
 
     @langkit_property(call_memoizable=True)
     def expr_type():
-        p = Var(If(Self.expr.type_val.is_null,
-                   Entity.expr.resolve_names,
-                   True))
-
-        typ = Var(If(p,
-                     Self.expr.type_val.cast_or_raise(BaseTypeDecl.entity),
-                     No(BaseTypeDecl.entity)))
-
-        return If(typ.is_int_type,
+        return If(Entity.expr.expression_type.is_int_type,
                   Self.universal_int_type,
                   Self.universal_real_type).cast(BaseTypeDecl.entity)
 

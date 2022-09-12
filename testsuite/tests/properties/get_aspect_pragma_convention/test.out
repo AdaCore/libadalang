@@ -1,0 +1,11 @@
+Working on node <ObjectDecl ["X"] test.adb:2:4-3:28>
+====================================================
+
+Eval 'node.p_get_aspect("Convention").value'
+Result: <Id "C" test.adb:3:26-3:27>
+
+Working on node <ObjectDecl ["Y"] test.adb:6:4-6:21>
+====================================================
+
+Eval 'node.p_get_aspect("Convention").value'
+Result: <Id "C" test.adb:8:23-8:24>

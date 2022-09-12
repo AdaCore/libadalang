@@ -9645,6 +9645,26 @@ class Pragma(AdaNode):
             )
         )
 
+    @langkit_property(return_type=T.Expr.entity)
+    def value_expr():
+        """
+        Return the expression representing the "value" of this pragma, which
+        will be used to fill the ``value`` field of the ``Aspect`` struct
+        returned by calls to ``get_aspect``. This property doesn't make sense
+        for all pragmas but tries to give the most reasonable answer, and in
+        particular tries to match what ``get_aspect`` would return if the
+        pragma was replaced by its equivalent aspect.
+        For example, on ``pragma Convention (C, X)``, the returned value is
+        ``C`` because one would write ``X : Integer with Convention => C``.
+        """
+        return If(
+            Entity.id.name_symbol.any_of(
+                'Import', 'Export', 'Interface', 'Convention'
+            ),
+            Entity.args.at(0).assoc_expr,
+            Entity.args._.at(1)._.assoc_expr
+        )
+
     @langkit_property(return_type=T.Name.entity.array)
     def associated_entity_names():
         return Cond(
@@ -15967,7 +15987,7 @@ class DefiningName(Name):
         """
         return Entity.get_pragma(name).then(
             lambda p: Aspect.new(
-                exists=True, node=p, value=p.args._.at(1)._.assoc_expr
+                exists=True, node=p, value=p.value_expr
             )
         )._or(Entity.basic_decl.get_aspect_assoc(name).then(
             lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)

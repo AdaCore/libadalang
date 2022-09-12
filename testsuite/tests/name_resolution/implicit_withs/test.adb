@@ -16,7 +16,7 @@ procedure Test is
    type Tagged_T is tagged null record;
 
    Y : Tagged_T'Class := Tagged_T'(null record);
-   B : constant := (Y'Tag = Y'Tag);
+   B : constant Boolean := (Y'Tag = Y'Tag);
    pragma Test_Statement_UID;
 begin
    raise Constraint_Error;

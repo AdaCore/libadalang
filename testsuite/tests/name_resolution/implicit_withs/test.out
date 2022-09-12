@@ -43,31 +43,19 @@ Expr: <Id "Identity" test.adb:12:35-12:43>
   type:          None
   expected type: None
 
-Resolving xrefs for node <NumberDecl ["B"] test.adb:19:4-19:36>
+Resolving xrefs for node <ObjectDecl ["B"] test.adb:19:4-19:44>
 ***************************************************************
 
-Expr: <ParenExpr test.adb:19:20-19:35>
-  type:          standard.boolean
-  expected type: None
-Expr: <RelationOp test.adb:19:21-19:34>
-  type:          standard.boolean
-  expected type: None
-Expr: <AttributeRef test.adb:19:21-19:26>
-  references:    None
-  type:          ada.tags.tag
-  expected type: ada.tags.tag
-Expr: <Id "Y" test.adb:19:21-19:22>
-  references:    test().y
-  type:          test().tagged_t'class
-  expected type: None
-Expr: <Id "Tag" test.adb:19:23-19:26>
-  references:    None
+Expr: <Id "Boolean" test.adb:19:17-19:24>
+  references:    standard.boolean
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:19:27-19:28>
-  references:    None
-  type:          None
-  expected type: None
+Expr: <ParenExpr test.adb:19:28-19:43>
+  type:          standard.boolean
+  expected type: standard.boolean
+Expr: <RelationOp test.adb:19:29-19:42>
+  type:          standard.boolean
+  expected type: standard.boolean
 Expr: <AttributeRef test.adb:19:29-19:34>
   references:    None
   type:          ada.tags.tag
@@ -77,6 +65,22 @@ Expr: <Id "Y" test.adb:19:29-19:30>
   type:          test().tagged_t'class
   expected type: None
 Expr: <Id "Tag" test.adb:19:31-19:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq "=" test.adb:19:35-19:36>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:19:37-19:42>
+  references:    None
+  type:          ada.tags.tag
+  expected type: ada.tags.tag
+Expr: <Id "Y" test.adb:19:37-19:38>
+  references:    test().y
+  type:          test().tagged_t'class
+  expected type: None
+Expr: <Id "Tag" test.adb:19:39-19:42>
   references:    None
   type:          None
   expected type: None

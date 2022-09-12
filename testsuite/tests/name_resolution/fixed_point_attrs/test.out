@@ -7,7 +7,7 @@ Resolving xrefs for node <NumberDecl ["A"] test.adb:4:4-4:28>
 Expr: <AttributeRef test.adb:4:20-4:27>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Id "T" test.adb:4:20-4:21>
   references:    <DefiningName test.adb:2:9-2:10>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>

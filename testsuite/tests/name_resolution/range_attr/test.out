@@ -101,7 +101,7 @@ Resolving xrefs for node <NumberDecl ["One"] testrange.adb:10:4-10:24>
 Expr: <Int testrange.adb:10:22-10:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <NumberDecl ["Two"] testrange.adb:11:4-11:24>
 **********************************************************************
@@ -109,7 +109,7 @@ Resolving xrefs for node <NumberDecl ["Two"] testrange.adb:11:4-11:24>
 Expr: <Int testrange.adb:11:22-11:23>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 Resolving xrefs for node <ObjectDecl ["Arr"] testrange.adb:13:4-13:15>
 **********************************************************************

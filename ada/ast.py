@@ -10172,8 +10172,12 @@ class NumberDecl(BasicDecl):
     is_static_decl = Property(True)
 
     xref_equation = Property(
-        Bind(Self.expr.expected_type_var, No(AdaNode))
+        Or(
+            Bind(Self.expr.expected_type_var, Self.universal_int_type),
+            Bind(Self.expr.expected_type_var, Self.universal_real_type)
+        )
         & Entity.expr.sub_equation
+        & Entity.expr.matches_expected_type
     )
 
     is_constant_object = Property(True)

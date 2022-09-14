@@ -133,27 +133,35 @@ Eval 'node.f_expr.p_aggregate_params'
 Result: [<ParamActual param=<DefiningName recagg.adb:41:10-41:11> actual=<Int recagg.adb:90:10-90:11>>,
          <ParamActual param=<DefiningName recagg.adb:46:10-46:11> actual=<Int recagg.adb:90:13-90:14>>]
 
-Working on node <ObjectDecl ["C"] test.adb:10:4-10:42>
+Working on node <ObjectDecl ["C"] test.adb:18:4-18:42>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:10:38-10:40>>]
+Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:18:38-18:40>>]
 
-Working on node <ObjectDecl ["D"] test.adb:12:4-12:51>
+Working on node <ObjectDecl ["D"] test.adb:20:4-20:51>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:12:47-12:49>>]
+Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:20:47-20:49>>]
 
-Working on node <ObjectDecl ["E"] test.adb:14:4-14:45>
+Working on node <ObjectDecl ["E"] test.adb:22:4-22:45>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<Int test.adb:14:42-14:43>>]
+Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<Int test.adb:22:42-22:43>>]
 
-Working on node <ObjectDecl ["F"] test.adb:16:4-16:32>
+Working on node <ObjectDecl ["F"] test.adb:24:4-24:32>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:3:7-3:8> actual=<BoxExpr test.adb:16:28-16:30>>,
-         <ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:16:28-16:30>>]
+Result: [<ParamActual param=<DefiningName test.adb:3:7-3:8> actual=<BoxExpr test.adb:24:28-24:30>>,
+         <ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:24:28-24:30>>]
+
+Working on node <ObjectDecl ["G"] test.adb:27:4-27:57>
+======================================================
+
+Eval 'node.f_default_expr.p_aggregate_params'
+Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:27:35-27:37>>,
+         <ParamActual param=<DefiningName test.adb:11:7-11:8> actual=<BoxExpr test.adb:27:44-27:46>>,
+         <ParamActual param=<DefiningName test.adb:15:7-15:8> actual=<BoxExpr test.adb:27:53-27:55>>]

@@ -4817,8 +4817,10 @@ class ComponentList(BaseFormalParamHolder):
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
                       dynamic_vars=[env, default_origin()])
-    def abstract_formal_params_for_assocs(assocs=T.AssocList.entity,
-                                          recurse=(Bool, True)):
+    def abstract_formal_params_for_assocs(
+            assocs=T.AssocList.entity,
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
 
         td = Var(Entity.type_decl)
         discriminants = Var(td.discriminants_list)
@@ -4840,7 +4842,7 @@ class ComponentList(BaseFormalParamHolder):
         # depending on the static value of discriminants.
         return td.record_def.comps.abstract_formal_params_impl(
             discriminants=discriminants_matches,
-            recurse=recurse
+            stop_recurse_at=stop_recurse_at
         )
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
@@ -4864,7 +4866,8 @@ class ComponentList(BaseFormalParamHolder):
     def abstract_formal_params_impl(
         discriminants=T.ParamMatch.array,
         include_discriminants=(Bool, True),
-        recurse=(Bool, True)
+        recurse=(Bool, True),
+        stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
 
         # Get self's components. We pass along discriminants, to get variant
@@ -4880,16 +4883,20 @@ class ComponentList(BaseFormalParamHolder):
         ret = Var(If(
             recurse,
             Entity.parent_component_list.then(
-                lambda pcl: pcl.abstract_formal_params_impl(
-                    pcl.match_formals(
-                        pcl.type_decl.discriminants_list,
-                        Entity.type_def.cast(DerivedTypeDef)
-                        .subtype_indication.constraint
-                        .cast(CompositeConstraint)._.constraints,
-                        is_dottable_subp=False
-                    ),
-                    include_discriminants=False
-                ).concat(self_comps),
+                lambda pcl: If(
+                    pcl.type_decl.matching_type(stop_recurse_at),
+                    self_comps,
+                    pcl.abstract_formal_params_impl(
+                        pcl.match_formals(
+                            pcl.type_decl.discriminants_list,
+                            Entity.type_def.cast(DerivedTypeDef)
+                            .subtype_indication.constraint
+                            .cast(CompositeConstraint)._.constraints,
+                            is_dottable_subp=False
+                        ),
+                        include_discriminants=False
+                    ).concat(self_comps)
+                ),
                 default_val=self_comps
             ),
             self_comps
@@ -15166,9 +15173,9 @@ class AssocList(BasicAssoc.list):
                 a.expression_type.record_def
                 ._.components.abstract_formal_params_for_assocs(
                     Entity,
-                    # Do not get parent components if `a` is an extended
-                    # aggregate.
-                    recurse=a.ancestor_expr.is_null
+                    # Do not get ancestor_expr's components if `a` is an
+                    # extended aggregate.
+                    stop_recurse_at=a.ancestor_expr._.expression_type
                 ),
             )),
 

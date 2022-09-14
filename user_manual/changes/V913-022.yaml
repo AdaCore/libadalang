@@ -1,0 +1,7 @@
+type: new-feature
+short_title: Real exponentiation static evaluation
+title: Support static evaluation of real exponentiation expression
+description: |
+  This change adds real exponentiation support to the static expression
+  evaluator - for example: ``1.2 ** 3``.
+date: 2022-09-14

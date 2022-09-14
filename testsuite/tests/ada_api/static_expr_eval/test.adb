@@ -228,6 +228,7 @@ begin
       Times_IR : Float := 3 * 2.5;
       Div_RI   : Float := 3.5 / 2;
       Div_IR   : Float := 3 / 2.5;
+      Pow      : Float := 2.5 ** 4;
    begin
       null;
    end;

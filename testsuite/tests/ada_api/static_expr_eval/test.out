@@ -266,4 +266,6 @@ Expr <ObjectDecl ["Div_RI"] test.adb:229:7-229:35> evaluated to Real 7/4
 
 Property_Error: Unsupported type discrepancy
 
+Expr <ObjectDecl ["Pow"] test.adb:231:7-231:36> evaluated to Real 625/16
+
 Done.

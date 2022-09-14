@@ -830,6 +830,15 @@ package body Libadalang.Expr_Eval is
                         Result.Set (L.Real_Result / Right);
                         return Create_Real_Result (L.Expr_Type, Result);
                      end;
+                  elsif L.Kind = Real and then R.Kind = Int
+                    and then Op.Kind = Ada_Op_Pow
+                  then
+                     declare
+                        Result : Rational;
+                     begin
+                        Result.Set (L.Real_Result ** R.Int_Result);
+                        return Create_Real_Result (L.Expr_Type, Result);
+                     end;
                   else
                      raise Property_Error with "Unsupported type discrepancy";
                   end if;

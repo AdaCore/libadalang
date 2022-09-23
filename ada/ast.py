@@ -19826,9 +19826,7 @@ class RequeueStmt(SimpleStmt):
                 lambda fam_type=e.cast(EntryDecl)._.spec.family_type
                 .cast(SubtypeIndication)._.designated_type,
 
-                # TODO: waiting for a fix to T603-061, we put `as_array` here
-                # because _.at(0) does not unparse in a way that LKT can parse.
-                first_param=ce._.params.as_array.at(0)._.expr:
+                first_param=ce._.params.at(0)._.expr:
 
                 first_param.then(
                     lambda p: p.sub_equation & fam_type.then(

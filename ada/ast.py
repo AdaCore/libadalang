@@ -597,6 +597,10 @@ class AdaNode(ASTNode):
                 lambda c: c.syntactic_fully_qualified_name == name
             ),
 
+            # If the root is a PragmaNodeList (`pragma No_Body` case), there is
+            # no compilation unit for `name`.
+            lambda _=Pragma.list: No(T.CompilationUnit),
+
             lambda _: PropertyError(CompilationUnit,
                                     "Unexpected analysis unit root")
         )

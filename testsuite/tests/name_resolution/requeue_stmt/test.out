@@ -10,4 +10,16 @@ Expr: <Id "Wait_For_Get" test_requeue.adb:34:21-34:33>
   expected type: None
 
 
+Analyzing reque.adb
+###################
+
+Resolving xrefs for node <RequeueStmt reque.adb:12:13-12:24>
+************************************************************
+
+Expr: <Id "E1" reque.adb:12:21-12:23>
+  references:    <DefiningName reque.adb:5:13-5:15>
+  type:          None
+  expected type: None
+
+
 Done.

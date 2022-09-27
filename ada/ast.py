@@ -20431,7 +20431,12 @@ class TaskBody(Body):
                   kind=RefKind.prioritary),
     )
 
-    task_type_decl_scope = Property(Entity.task_type.children_env)
+    task_type_decl_scope = Property(
+        Entity.task_type._.definition._.private_part.then(
+            lambda pp: pp.children_env,
+            default_val=Entity.task_type.children_env
+        )
+    )
 
     @langkit_property()
     def task_type():

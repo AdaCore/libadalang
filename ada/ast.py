@@ -11250,10 +11250,7 @@ class FormalSubpDecl(ClassicSubpDecl):
                     Predicate(BasicDecl.subp_decl_match_signature,
                               n.ref_var, Entity.cast(T.BasicDecl))),
 
-                # TODO: change this once we synthesize function attributes
-                # Do not crash on attributes which denotes functions. Ssee
-                # equivalent logic in SubpRenamingDecl's xref_equation.
-                If(n.is_a(AttributeRef), LogicFalse(), LogicTrue())
+                If(n.is_a(AttributeRef), n.sub_equation, LogicTrue())
             ),
 
             lambda _: PropertyError(Equation, "Should not happen")

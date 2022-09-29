@@ -4765,13 +4765,25 @@ class VariantPart(AdaNode):
         # Get the specific discriminant this variant part depends upon
         discr = Var(discriminants.find(
             lambda d: d.formal.name.name_is(Self.discr_name.symbol)
+        ).then(
+            # If the discriminant is found in aggregate params we are looking
+            # for, then take its actual's expression.
+            lambda d: d.actual.assoc.expr,
+            # Else, take the default expression of the this variant's related
+            # discriminant specification.
+            default_val=Entity.parents.find(
+                lambda n: n.is_a(T.ConcreteTypeDecl)
+            ).cast(T.ConcreteTypeDecl).discriminants.abstract_formal_params
+            .find(
+                lambda d: Not(d.cast(DiscriminantSpec).defining_names.filter(
+                    lambda n: n.name.name_is(Self.discr_name.symbol)
+                ).is_null)
+            ).cast(DiscriminantSpec).default_expr
         ))
 
         # Get the variant branch with a choice that matches the discriminant's
         # value.
-        variant = Var(Entity.variant.find(
-            lambda v: v.matches(discr.actual.assoc.expr)
-        ))
+        variant = Var(Entity.variant.find(lambda v: v.matches(discr)))
 
         # Get the components for this variant branch. We're passing down
         # discriminants, because there might be a nested variant part in this

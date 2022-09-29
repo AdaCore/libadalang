@@ -1,0 +1,309 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["O"] test.adb:39:4-39:48>
+***************************************************************
+
+Expr: <Id "T2" test.adb:39:17-39:19>
+  references:    <DefiningName test.adb:4:9-4:11>
+  type:          None
+  expected type: None
+Expr: <Id "D" test.adb:39:21-39:22>
+  references:    <DefiningName test.adb:4:13-4:14>
+  type:          None
+  expected type: None
+Expr: <Id "E2" test.adb:39:26-39:28>
+  references:    <DefiningName test.adb:2:20-2:22>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:39:33-39:47>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+  expected type: <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+Expr: <BoxExpr test.adb:39:44-39:46>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+
+Resolving xrefs for node <ObjectDecl ["P"] test.adb:41:4-41:52>
+***************************************************************
+
+Expr: <Id "T2" test.adb:41:17-41:19>
+  references:    <DefiningName test.adb:4:9-4:11>
+  type:          None
+  expected type: None
+Expr: <Id "D" test.adb:41:21-41:22>
+  references:    <DefiningName test.adb:4:13-4:14>
+  type:          None
+  expected type: None
+Expr: <Id "E1" test.adb:41:26-41:28>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:41:33-41:51>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+  expected type: <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+Expr: <Id "E1" test.adb:41:34-41:36>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <BoxExpr test.adb:41:48-41:50>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Q"] test.adb:43:4-43:43>
+***************************************************************
+
+Expr: <Id "T2" test.adb:43:17-43:19>
+  references:    <DefiningName test.adb:4:9-4:11>
+  type:          None
+  expected type: None
+Expr: <Id "D" test.adb:43:21-43:22>
+  references:    <DefiningName test.adb:4:13-4:14>
+  type:          None
+  expected type: None
+Expr: <Id "E2" test.adb:43:26-43:28>
+  references:    <DefiningName test.adb:2:20-2:22>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:43:33-43:42>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+  expected type: <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+Expr: <Id "D" test.adb:43:34-43:35>
+  references:    <DefiningName test.adb:4:13-4:14>
+  type:          None
+  expected type: None
+Expr: <Id "E2" test.adb:43:39-43:41>
+  references:    <DefiningName test.adb:2:20-2:22>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+
+Resolving xrefs for node <ObjectDecl ["F"] test.adb:45:4-45:64>
+***************************************************************
+
+Expr: <Id "T2" test.adb:45:17-45:19>
+  references:    <DefiningName test.adb:4:9-4:11>
+  type:          None
+  expected type: None
+Expr: <Id "D" test.adb:45:21-45:22>
+  references:    <DefiningName test.adb:4:13-4:14>
+  type:          None
+  expected type: None
+Expr: <Id "E1" test.adb:45:26-45:28>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:45:33-45:63>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+  expected type: <ConcreteTypeDecl ["T2"] test.adb:4:4-12:15>
+Expr: <Id "D" test.adb:45:34-45:35>
+  references:    <DefiningName test.adb:4:13-4:14>
+  type:          None
+  expected type: None
+Expr: <Id "E1" test.adb:45:39-45:41>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Id "C1" test.adb:45:43-45:45>
+  references:    <DefiningName test.adb:7:13-7:15>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:45:49-45:50>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C2" test.adb:45:52-45:54>
+  references:    <DefiningName test.adb:8:13-8:15>
+  type:          None
+  expected type: None
+Expr: <Id "True" test.adb:45:58-45:62>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+
+Resolving xrefs for node <ObjectDecl ["G"] test.adb:48:4-48:47>
+***************************************************************
+
+Expr: <Id "T3" test.adb:48:17-48:19>
+  references:    <DefiningName test.adb:14:9-14:11>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:48:23-48:46>
+  type:          <ConcreteTypeDecl ["T3"] test.adb:14:4-17:15>
+  expected type: <ConcreteTypeDecl ["T3"] test.adb:14:4-17:15>
+Expr: <Id "C1" test.adb:48:24-48:26>
+  references:    <DefiningName test.adb:15:7-15:9>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:48:30-48:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <BoxExpr test.adb:48:43-48:45>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+
+Resolving xrefs for node <ObjectDecl ["H"] test.adb:50:4-50:45>
+***************************************************************
+
+Expr: <Id "T3" test.adb:50:17-50:19>
+  references:    <DefiningName test.adb:14:9-14:11>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:50:23-50:44>
+  type:          <ConcreteTypeDecl ["T3"] test.adb:14:4-17:15>
+  expected type: <ConcreteTypeDecl ["T3"] test.adb:14:4-17:15>
+Expr: <Id "C1" test.adb:50:24-50:26>
+  references:    <DefiningName test.adb:15:7-15:9>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:50:30-50:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C2" test.adb:50:33-50:35>
+  references:    <DefiningName test.adb:16:7-16:9>
+  type:          None
+  expected type: None
+Expr: <Id "True" test.adb:50:39-50:43>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+
+Resolving xrefs for node <ObjectDecl ["OO"] test.adb:53:4-53:60>
+****************************************************************
+
+Expr: <Id "T4" test.adb:53:18-53:20>
+  references:    <DefiningName test.adb:19:9-19:11>
+  type:          None
+  expected type: None
+Expr: <Id "D" test.adb:53:22-53:23>
+  references:    <DefiningName test.adb:19:13-19:14>
+  type:          None
+  expected type: None
+Expr: <Id "E1" test.adb:53:27-53:29>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:53:34-53:59>
+  type:          <ConcreteTypeDecl ["T4"] test.adb:19:4-27:15>
+  expected type: <ConcreteTypeDecl ["T4"] test.adb:19:4-27:15>
+Expr: <Id "E1" test.adb:53:35-53:37>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Id "C1" test.adb:53:39-53:41>
+  references:    <DefiningName test.adb:22:13-22:15>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:53:45-53:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C2" test.adb:53:48-53:50>
+  references:    <DefiningName test.adb:23:13-23:15>
+  type:          None
+  expected type: None
+Expr: <Id "True" test.adb:53:54-53:58>
+  references:    <DefiningName __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+
+Resolving xrefs for node <ObjectDecl ["PP"] test.adb:55:4-55:53>
+****************************************************************
+
+Expr: <Id "T4" test.adb:55:18-55:20>
+  references:    <DefiningName test.adb:19:9-19:11>
+  type:          None
+  expected type: None
+Expr: <Id "D" test.adb:55:22-55:23>
+  references:    <DefiningName test.adb:19:13-19:14>
+  type:          None
+  expected type: None
+Expr: <Id "E2" test.adb:55:27-55:29>
+  references:    <DefiningName test.adb:2:20-2:22>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:55:34-55:52>
+  type:          <ConcreteTypeDecl ["T4"] test.adb:19:4-27:15>
+  expected type: <ConcreteTypeDecl ["T4"] test.adb:19:4-27:15>
+Expr: <Id "E2" test.adb:55:35-55:37>
+  references:    <DefiningName test.adb:2:20-2:22>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <BoxExpr test.adb:55:49-55:51>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["QQ"] test.adb:57:4-57:56>
+****************************************************************
+
+Expr: <Id "T4" test.adb:57:18-57:20>
+  references:    <DefiningName test.adb:19:9-19:11>
+  type:          None
+  expected type: None
+Expr: <Id "D" test.adb:57:22-57:23>
+  references:    <DefiningName test.adb:19:13-19:14>
+  type:          None
+  expected type: None
+Expr: <Id "E1" test.adb:57:27-57:29>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:57:34-57:55>
+  type:          <ConcreteTypeDecl ["T4"] test.adb:19:4-27:15>
+  expected type: <ConcreteTypeDecl ["T4"] test.adb:19:4-27:15>
+Expr: <Id "E1" test.adb:57:35-57:37>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Int test.adb:57:39-57:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <BoxExpr test.adb:57:52-57:54>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+
+Resolving xrefs for node <ObjectDecl ["Z"] test.adb:60:4-60:72>
+***************************************************************
+
+Expr: <Id "T5" test.adb:60:17-60:19>
+  references:    <DefiningName test.adb:29:9-29:11>
+  type:          None
+  expected type: None
+Expr: <Id "D1" test.adb:60:21-60:23>
+  references:    <DefiningName test.adb:29:13-29:15>
+  type:          None
+  expected type: None
+Expr: <Id "D2" test.adb:60:24-60:26>
+  references:    <DefiningName test.adb:29:17-29:19>
+  type:          None
+  expected type: None
+Expr: <Id "E1" test.adb:60:30-60:32>
+  references:    <DefiningName test.adb:2:16-2:18>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Id "D3" test.adb:60:34-60:36>
+  references:    <DefiningName test.adb:29:32-29:34>
+  type:          None
+  expected type: None
+Expr: <Id "E2" test.adb:60:40-60:42>
+  references:    <DefiningName test.adb:2:20-2:22>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <Aggregate test.adb:60:47-60:71>
+  type:          <ConcreteTypeDecl ["T5"] test.adb:29:4-37:15>
+  expected type: <ConcreteTypeDecl ["T5"] test.adb:29:4-37:15>
+Expr: <Id "D3" test.adb:60:48-60:50>
+  references:    <DefiningName test.adb:29:32-29:34>
+  type:          None
+  expected type: None
+Expr: <Id "E2" test.adb:60:54-60:56>
+  references:    <DefiningName test.adb:2:20-2:22>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+Expr: <BoxExpr test.adb:60:68-60:70>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
+
+
+Done.

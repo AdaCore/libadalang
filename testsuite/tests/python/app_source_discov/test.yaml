@@ -1,0 +1,3 @@
+driver: python
+input_sources: []
+project_file: "prj.gpr"

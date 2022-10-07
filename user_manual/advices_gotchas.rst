@@ -7,6 +7,23 @@ that will be useful to new developers as well as experienced Libadalang
 developers. We advise people using Libadalang to come back to this section from
 time to time to see if there are new advices & gotchas.
 
+Ada parsing: Identifiers starting with a ``$``
+----------------------------------------------
+
+Historically, Libadalang has parsed identifiers starting with a dollar (``$``)
+as regular identifiers, even though it is not valid Ada. The aim for that was
+to provide minimal support for GNATprep style preprocessing.
+
+However, nowadays, full support for preprocessing has been implemented in
+Libadalang, via the :ada:ref:`Langkit_Support.File_Readers` and
+:ada:ref:`Libadalang.Preprocessing` APIs. If you use those,
+identifiers starting with ``$`` will be interpreted as preprocessor
+identifiers. Else, they will just be parsed normally.
+
+Despite Libadalang having a real preprocessor, this behavior has been kept for
+backward compatibility with some LAL projects, notably `Ada-Renaissance
+<https://github.com/TNO/Renaissance-Ada>`_, and will be preserved onwards.
+
 Ada API: Up & down casting ``Ada_Node`` instances
 -------------------------------------------------
 

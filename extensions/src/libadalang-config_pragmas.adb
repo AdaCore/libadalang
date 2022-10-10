@@ -85,7 +85,7 @@ package body Libadalang.Config_Pragmas is
 
    function Import_From_Project
      (Context    : Analysis_Context;
-      Project    : Project_Tree;
+      Project    : Project_Tree'Class;
       Subproject : Project_Type := No_Project) return Config_Pragmas_Mapping
    is
 
@@ -185,7 +185,7 @@ package body Libadalang.Config_Pragmas is
 
    procedure Import_From_Project
      (Context    : Analysis_Context;
-      Project    : Project_Tree;
+      Project    : Project_Tree'Class;
       Subproject : Project_Type := No_Project) is
    begin
       Set_Mapping

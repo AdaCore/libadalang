@@ -1,0 +1,81 @@
+module GPRProject = struct
+  type t = unit ptr ptr
+
+  let gpr_project_free =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_free")}"
+      (ptr void @-> raisable void)
+
+  let read c_value =
+    let finalise arg =
+      gpr_project_free (!@ arg)
+    in
+    allocate ~finalise (ptr void) c_value
+
+  let write value = (!@ value)
+
+  let c_type = view (ptr void) ~read ~write
+
+  let gpr_project_load =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_load")}"
+    (string @-> UnitProvider.project_scenario_variable @-> string
+     @-> string @-> raisable c_type)
+
+  let gpr_project_create_unit_provider =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"
+      (c_type @-> string @-> raisable UnitProvider.c_type)
+
+  let load
+      ?(scenario_vars = [])
+      ?(target = "")
+      ?(runtime = "")
+      project_file : t =
+    gpr_project_load project_file scenario_vars target runtime
+
+  let create_unit_provider ?(project = "") gpr_project =
+    let result = gpr_project_create_unit_provider gpr_project project in
+    (* The unit provider keeps an internal reference to the project. Use
+       the keep argument to simulate the same behaviour and avoid freeing
+       the project file too early. *)
+    UnitProvider.wrap ~keep:gpr_project result
+
+  type source_file_array
+
+  let c_source_file_array : source_file_array structure typ =
+    structure "source_file_array"
+
+  let array_length = field c_source_file_array "length" int
+
+  let array_c_ptr = field c_source_file_array "c_ptr" (ptr string)
+
+  let () = seal c_source_file_array
+
+  let c_source_files =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_source_files")}"
+      (c_type @-> int @-> raisable (ptr c_source_file_array))
+
+  let c_free_source_files =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_free_source_files")}"
+      (ptr c_source_file_array @-> raisable void)
+
+  type source_file_mode =
+    | Default
+    | RootProject
+    | WholeProject
+    | WholeProjectWithRuntime
+
+  let write_source_file_mode = function
+    | Default -> 0
+    | RootProject -> 1
+    | WholeProject -> 2
+    | WholeProjectWithRuntime -> 3
+
+  let source_files ?(mode = Default) gpr_project =
+    let c_result = c_source_files gpr_project (write_source_file_mode mode) in
+    let result =
+      List.init
+        (!@ (c_result |-> array_length))
+        (fun i -> (!@ ((!@ (c_result |-> array_c_ptr)) +@ i)))
+    in
+    c_free_source_files c_result ;
+    result
+end

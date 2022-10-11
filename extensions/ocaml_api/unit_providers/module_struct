@@ -9,9 +9,33 @@
 
   let () = seal c_project_scenario_variable
 
+  let create_scenario_variable scenario_vars =
+    (* One more to store (null, null) *)
+    let scenario_vars_len = List.length scenario_vars + 1 in
+    let c_scenario_vars =
+      (* Allocates a fresh array with given size, fill with zeros. Thus,
+         the last cell is already (null, null) *)
+      allocate_n c_project_scenario_variable ~count:scenario_vars_len
+    in
+    let fill_scenario_vars i (name, value) =
+      let c_struct = make c_project_scenario_variable in
+      setf c_struct scenario_var_name name ;
+      setf c_struct scenario_var_value value ;
+      c_scenario_vars +@ i <-@ c_struct
+    in
+    List.iteri fill_scenario_vars scenario_vars ;
+    c_scenario_vars
+
+  (* project_scenario_variable is never wrapped *)
+  let project_scenario_variable =
+    view
+      (ptr c_project_scenario_variable)
+      ~read:(fun _ -> assert false)
+      ~write:create_scenario_variable
+
   let create_project_unit_provider =
     foreign ~from:c_lib "${capi.get_name("create_project_unit_provider")}"
-    (string @-> string @-> ptr c_project_scenario_variable @-> string
+    (string @-> string @-> project_scenario_variable @-> string
      @-> string @-> raisable c_type)
 
   let dec_ref =
@@ -39,24 +63,10 @@
       ?(target = "")
       ?(runtime = "")
       project_file =
-    (* One more to store (null, null)*)
-    let scenario_vars_len = List.length scenario_vars + 1 in
-    let c_scenario_vars =
-      (* Allocates a fresh array with given size, fill with zeros. Thus,
-       the last cell is already (null, null) *)
-      allocate_n c_project_scenario_variable ~count:scenario_vars_len
-    in
-    let fill_scenario_vars i (name, value) =
-      let c_struct = make c_project_scenario_variable in
-      setf c_struct scenario_var_name name ;
-      setf c_struct scenario_var_value value ;
-      c_scenario_vars +@ i <-@ c_struct
-    in
-    List.iteri fill_scenario_vars scenario_vars ;
     let result = create_project_unit_provider
-                 project_file project
-                 c_scenario_vars
-                 target runtime
+                   project_file project
+                   scenario_vars
+                   target runtime
     in
     wrap result
 

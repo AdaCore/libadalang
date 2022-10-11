@@ -1,0 +1,26 @@
+module GPRProject : sig
+  type t
+
+  type source_file_mode =
+    | Default
+      (** sources in the root project and its non-externally built
+          dependencies *)
+    | RootProject
+      (** sources in the root project only *)
+    | WholeProject
+      (** ``whole_project``: sources in the whole project tree (i.e. including
+          externally built dependencies) *)
+    | WholeProjectWithRuntime
+      (** sources in the whole project tree plus runtime sources *)
+
+  val load :
+    ?scenario_vars:(string * string) list
+    -> ?target:string
+    -> ?runtime:string
+    -> string
+    -> t
+
+  val create_unit_provider : ?project:string -> t -> UnitProvider.t
+
+  val source_files : ?mode:source_file_mode -> t -> string list
+end

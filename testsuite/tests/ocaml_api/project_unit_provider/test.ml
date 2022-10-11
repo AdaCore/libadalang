@@ -19,7 +19,13 @@ let () =
                   ~scenario_vars:scenario_vars
                   ~target:target
                   ~runtime:runtime
-                  project_file : UnitProvider.t)
+                  project_file : UnitProvider.t) ;
+        ignore (GPRProject.load
+                  ~scenario_vars
+                  ~target
+                  ~runtime
+                  project_file |>
+                GPRProject.create_unit_provider : UnitProvider.t)
     (* These exceptions come from GNATCOLL and contain no message but a
      *  reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
     with InvalidProject s ->

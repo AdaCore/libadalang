@@ -23,4 +23,11 @@ module GPRProject : sig
   val create_unit_provider : ?project:string -> t -> UnitProvider.t
 
   val source_files : ?mode:source_file_mode -> t -> string list
+
+  type line_mode =
+    | DeleteLines
+    | BlankLines
+    | CommentLines
+
+  val create_preprocessor : ?project:string -> ?line_mode:line_mode -> t -> FileReader.t
 end

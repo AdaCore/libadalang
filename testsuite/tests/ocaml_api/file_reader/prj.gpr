@@ -1,0 +1,13 @@
+project Prj is
+   type Mode_Type is ("debug", "prod");
+   Mode : Mode_Type := external ("mode", "debug");
+
+   package Compiler is
+      case Mode is
+         when "debug" ->
+            for Default_Switches ("Ada") use ("-gnateDX=False");
+         when "prod" ->
+            for Default_Switches ("Ada") use ("-gnateDX=True");
+      end case;
+   end Compiler;
+end Prj;

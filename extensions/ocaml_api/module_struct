@@ -24,6 +24,10 @@ module GPRProject = struct
     foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"
       (c_type @-> string @-> raisable UnitProvider.c_type)
 
+  let gpr_project_create_preprocessor =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_create_preprocessor")}"
+      (c_type @-> string @-> ptr int @-> raisable FileReader.c_type)
+
   let load
       ?(scenario_vars = [])
       ?(target = "")
@@ -78,4 +82,23 @@ module GPRProject = struct
     in
     c_free_source_files c_result ;
     result
+
+  type line_mode =
+    | DeleteLines
+    | BlankLines
+    | CommentLines
+
+  let create_preprocessor ?(project = "") ?line_mode gpr_project =
+    let line_mode_c =
+      match line_mode with
+      | Some DeleteLines ->
+          allocate int 0
+      | Some BlankLines ->
+          allocate int 1
+      | Some CommentLines ->
+          allocate int 2
+      | None ->
+         from_voidp int null
+    in
+    gpr_project_create_preprocessor gpr_project project line_mode_c
 end

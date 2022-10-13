@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [aaa-aaa.adb, aaa-aaa-aaa.adb, aaa-aaa-aaa-aaa.adb,
+aaa-aaa-aaa.ads, aaa-aaa-aaa-aaa.ads]

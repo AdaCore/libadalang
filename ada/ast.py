@@ -16199,7 +16199,11 @@ class DefiningName(Name):
         # DottedName. So we can special case the construction of the xref
         # equation here.
         return Entity.name.cast(T.DottedName).then(
-            lambda dn: dn.prefix.xref_equation,
+            lambda dn:
+            # In case this name denotes a package/library level task/procedure
+            # name, it must be resolved as seen from the standard package (same
+            # logic as for EndName).
+            env.bind(Entity.std_env, dn.prefix.xref_equation),
             default_val=LogicTrue()
         )
 

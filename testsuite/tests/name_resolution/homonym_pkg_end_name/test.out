@@ -4,7 +4,18 @@ Analyzing pkg-foo-pkg.adb
 Resolving xrefs for node <DefiningName pkg-foo-pkg.adb:1:14-1:25>
 *****************************************************************
 
-Resolution failed for node <DefiningName pkg-foo-pkg.adb:1:14-1:25>
+Expr: <DottedName pkg-foo-pkg.adb:1:14-1:21>
+  references:    <DefiningName pkg-foo.ads:1:9-1:16>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" pkg-foo-pkg.adb:1:14-1:17>
+  references:    <DefiningName pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" pkg-foo-pkg.adb:1:18-1:21>
+  references:    <DefiningName pkg-foo.ads:1:9-1:16>
+  type:          None
+  expected type: None
 
 Resolving xrefs for node <SubpSpec pkg-foo-pkg.adb:2:4-2:18>
 ************************************************************

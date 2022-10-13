@@ -16585,18 +16585,28 @@ class BaseId(SingleTokNode):
             # a subprogram that accepts no explicit argument. So filter out
             # other subprograms.
             items.filter(lambda e: (
-
                 # If there is a subp_spec, check that it corresponds to
                 # a parameterless subprogram.
-                Or(
-                    e.cast_or_raise(BasicDecl).can_be_paramless,
-
-                    # This name can refer to the enclosing subprogram to
-                    # create a qualified name to a local variable. This is only
-                    # possible if this name is the prefix of a dotted name.
-                    is_prefix & e.cast(T.BaseSubpBody)._.in_scope
+                e.cast_or_raise(BasicDecl).can_be_paramless
+            )).concat(
+                # Make sure that the enclosing body is in the list of items in
+                # case this name is the prefix of a qualified name refering to
+                # local variables.
+                If(
+                    is_prefix,
+                    Entity.parents.find(
+                        lambda n: n.is_a(T.TaskBody, T.BaseSubpBody).then(
+                            lambda _:
+                            n.cast(T.BasicDecl).defining_name
+                            .name.name_is(Self.symbol)
+                        )
+                    ).then(
+                        lambda b: [b],
+                        default_val=No(T.AdaNode.entity.array)
+                    ),
+                    No(T.AdaNode.entity.array)
                 )
-            )),
+            ),
 
             # This identifier is the name for a called subprogram or an array.
             # So only keep:
@@ -20435,6 +20445,7 @@ class TaskBody(Body):
     end_name = Field(type=T.EndName)
 
     defining_names = Property(Entity.name.singleton)
+    defining_env = Property(Entity.children_env)
 
     declarative_parts = Property(Entity.decls.singleton)
 

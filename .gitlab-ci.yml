@@ -1,233 +1,172 @@
+# This bit is used to make sure we don't run too many pipelines:
+# run on a triggered pipeline, on a merge request, or on a push to a branch,
+# but do not run in reaction to a push to a branch if there is also
+# a merge request for it.
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+
+
 variables:
-  # The Python virtualenv directory
-  VENV_DIR: $CI_PROJECT_DIR/venv
+  UPSTREAM_PROJECT : eng/libadalang/langkit
+  UPSTREAM_PACKAGE_NAME: langkit.tar.gz
+  UPSTREAM_PACKAGE: $CI_PROJECT_DIR/$UPSTREAM_PACKAGE_NAME
 
-  # Where we store alire, the alire config, and the toolchain packages pulled
-  # by Alire (gnat, gprbuild).
-  ALIRE_DIR: $CI_PROJECT_DIR/alire
+  PACKAGE: $CI_PROJECT_DIR/libadalang.tar.gz
+  PACKAGE_REPOSITORY_PROJECT: eng/libadalang/ci-packages
 
-  # Where the dependencies are installed (all but Langkit: libgpr, xmlada,
-  # gnatcoll).
-  DEPS_DIR: $CI_PROJECT_DIR/deps
-
-  # Where Libadalang is installed
-  PREFIX: $CI_PROJECT_DIR/prefix
-
-  # Give GPR tools access to all installed projects
-  GPR_PROJECT_PATH: $CI_PROJECT_DIR/deps/share/gpr:$CI_PROJECT_DIR/prefix/share/gpr
+  CI_FRAGMENTS: ci_fragments
+  CI_FRAGMENTS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/setton/$CI_FRAGMENTS
+  CI_FRAGMENTS_PATH: /tmp/$CI_FRAGMENTS
 
 stages:
-  - setup
-  - build-deps
-  - build-lalkit
+  - build
   - test
 
-##########
-# Macros #
-##########
 
-# Environment variables
+# There are two ways to test this project: either
+#   - triggered as part of a multi-project pipeline, with langkit as
+#     the upstream project, in which case the langkit package is
+#     passed as an artefact, or
+#   - standalone, in which case we use the latest langkit package
 
-.use_python_env: &python_env
-  - source $VENV_DIR/bin/activate
-  - export PYTHONPATH=$CI_PROJECT_DIR/langkit
+####################
+# STANDALONE BUILD #
+####################
 
-.use_gnat_env: &gnat_env
-  - |
-    for dep in `ls $ALIRE_DIR/cache/dependencies/` ; do
-      export PATH=$ALIRE_DIR/cache/dependencies/$dep/bin/:$PATH
-      export LD_LIBRARY_PATH=$ALIRE_DIR/cache/dependencies/$dep/lib/:$LD_LIBRARY_PATH
-      export LD_LIBRARY_PATH=$ALIRE_DIR/cache/dependencies/$dep/lib64/:$LD_LIBRARY_PATH
-    done
 
-    # GNAT stores libgnat and libgnarl deep in its tree: try to make them
-    # available.
-    for so in $(find "$ALIRE_DIR/cache/dependencies/gnat_native"* -name "libgnat*.so")
-    do
-      dir="$(dirname "$so")"
-      export LD_LIBRARY_PATH="$dir:$LD_LIBRARY_PATH"
-    done
-
-.use_langkit_env: &langkit_env
-  - *python_env
-  - *gnat_env
-
-# Caches
-
-.venv_cache: &venv_cache
-  key: lal_venv
-  paths:
-    - $VENV_DIR
-
-.alire_cache: &alire_cache
-  key: lal_alire
-  paths:
-     - alire
-
-.deps_checkouts_cache: &deps_checkouts_cache
-  key: lal_deps_checkouts
-  paths:
-    - xmlada
-    - gprbuild
-    - gnatcoll-core
-    - gnatcoll-bindings
-
-.lal_caches: &lal_caches
-  - *venv_cache
-  - *alire_cache
-  - *deps_checkouts_cache
-  - key: lal_build_artifacts
-    paths:
-      - $DEPS_DIR
-      - build
-      - langkit/langkit/support/obj
-
-#########
-# setup #
-#########
-
-# Setup Python and the Python virtualenv
-setup-python:
-  stage: setup
+build_standalone:
+  # This job works with the latest package containing
+  # the upstream project.
+  rules:
+    # We not trigger it from branches that start
+    # with "sync/": these will be triggered by a pipeline only.
+    - if: $CI_COMMIT_BRANCH =~ /^sync\//
+      when: never
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//
+      when: never
+    # This shouldn't trigger from the upstream
+    - if: $CI_PIPELINE_SOURCE != "pipeline"
+  services:
+     - image:libadalang
+     - cpu:8
+     - mem:16
+  stage: build
   script:
-   - |
-     if [ ! -e $VENV_DIR ]; then
-        echo "setting up a virtual env in $VENV_DIR"
-        mkdir $VENV_DIR
-        python3 -m venv $VENV_DIR
-        source $VENV_DIR/bin/activate
-        pip3 install -r REQUIREMENTS.dev
-        pip3 install jsonschema
-     fi
-  cache: *venv_cache
+    - export PATH=/it/e3/bin:$PATH
 
-# Setup the gnat toolchain, and gprbuild, using alire
-setup-gnat:
-  stage: setup
-  script:
-    - |
-      if [ ! -e alire ]; then
-         mkdir alire
-         cd alire
-         wget -q https://github.com/alire-project/alire/releases/download/v1.1.2/alr-1.1.2-bin-x86_64-linux.zip
-         unzip alr-1.1.2-bin-x86_64-linux.zip
-         ./bin/alr -c $ALIRE_DIR toolchain --install gnat_native=11.2.3
-         ./bin/alr -c $ALIRE_DIR toolchain --install gprbuild=22.0.1
-      fi
-  cache: *alire_cache
+    # Download the langkit package.
+    - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
+    - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
+    - (cd / ; tar zxf $UPSTREAM_PACKAGE)
+    - rm $UPSTREAM_PACKAGE
 
-# Grab source dependencies from GitLab and GitHub
-setup-dependency-checkouts:
-  stage: setup
-  script: |
-    for dep in xmlada gprbuild gnatcoll-core gnatcoll-bindings ; do
-       if [ -e $dep ]; then
-          (cd $dep ; git pull --rebase)
-       else
-          git clone https://github.com/AdaCore/$dep
-       fi
-    done
+    # Build
+    - cd /it/wave
+    - anod vcs --add-repo libadalang $CI_PROJECT_DIR
+    - anod build --minimal --disable-cathod libadalang
 
-  cache: *deps_checkouts_cache
-
-setup-langkit-checkout:
-  stage: setup
-  script: |
-    # Pick the Langkit branch that corresponds to the tested Libadalang branch,
-    # if it exists.
-    langkit_url="https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/libadalang/langkit"
-    rm -rf langkit
-    git clone "$langkit_url"
-    (cd langkit; git checkout "origin/$CI_COMMIT_REF_NAME" || git checkout "origin/master")
+    # Create the package.
+    - (cd / ; tar czf $PACKAGE it/wave/x86_64-linux/libadalang/install)
 
   artifacts:
     paths:
-      - langkit
-    expire_in: 1 day
+      - $PACKAGE
 
-##############
-# build-deps #
-##############
 
-build-deps-job:
-  stage: build-deps
-  before_script:
-    - *langkit_env
-  dependencies:
-    - setup-python
-    - setup-gnat
-  script: |
-    # Uninstall dependencies, so that gprinstall does not complain when we
-    # try to install updates.
-    for project in xmlada gnatcoll gnatcoll_iconv gnatcoll_gmp
-    do
-      gprinstall --uninstall $project --prefix=$DEPS_DIR || true
-    done
+###################
+# STANDALONE TEST #
+###################
 
-    # Build and install Langkit's dependencies
 
-    (cd xmlada ; ./configure --prefix=$DEPS_DIR && make && make install)
-    make -C gprbuild prefix=$DEPS_DIR libgpr.build libgpr.install
-    make -C gnatcoll-core prefix=$DEPS_DIR ENABLE_SHARED=yes build install
-    python gnatcoll-bindings/iconv/setup.py build -j0 \
-        --prefix=$DEPS_DIR --library-types=static,relocatable
-    python gnatcoll-bindings/iconv/setup.py install
-    python gnatcoll-bindings/gmp/setup.py build -j0 \
-        --prefix=$DEPS_DIR --library-types=static,relocatable
-    python gnatcoll-bindings/gmp/setup.py install
-
-  cache: *lal_caches
-
-################
-# build-lalkit #
-################
-
-build-lalkit-job:
-  stage: build-lalkit
-  before_script:
-    - *langkit_env
-  dependencies:
-    - setup-python
-    - setup-gnat
-    - setup-langkit-checkout
-  script: |
-    # Build Langkit and install Langkit_Support
-    langkit/manage.py make --no-mypy
-    langkit/manage.py install-langkit-support "$PREFIX"
-
-    # Build and install Libadalang
-    eval `langkit/manage.py setenv`
-    ./manage.py make
-    ./manage.py install "$PREFIX"
-
-  cache: *lal_caches
-  artifacts:
-    paths:
-      - langkit
-      - $PREFIX
-    expire_in: 1 day
-
-########
-# test #
-########
-
-test:
+test_standalone:
+  # This job works with the latest package containing
+  # the upstream project.
+  rules:
+    # We not trigger it from branches that start
+    # with "sync/": these will be triggered by a pipeline only.
+    - if: $CI_COMMIT_BRANCH =~ /^sync\//
+      when: never
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//
+      when: never
+    # This shouldn't trigger from the upstream
+    - if: $CI_PIPELINE_SOURCE != "pipeline"
+  services:
+     - image:libadalang
+     - cpu:8
+     - mem:16
   stage: test
-  before_script: *langkit_env
-  dependencies:
-    - setup-python
-    - setup-gnat
-    - build-lalkit-job
-  script: |
-    eval `langkit/manage.py setenv`
-    export C_INCLUDE_PATH="$PREFIX/include:$C_INCLUDE_PATH"
-    export LD_LIBRARY_PATH="$DEPS_DIR/lib:$LD_LIBRARY_PATH"
-    export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
-    export PATH="$PREFIX/bin:$PATH"
-    export PYTHONPATH="$PREFIX/python:$PYTHONPATH"
-    testsuite/testsuite.py \
-      -E \
-      --failure-exit-code=1 \
-      --no-has-put-image
+  script:
+    - export PATH=/it/e3/bin:$PATH
 
-  cache: *lal_caches
+    # Download the langkit package.
+    - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
+    - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
+    - (cd / ; tar zxf $UPSTREAM_PACKAGE)
+    - rm $UPSTREAM_PACKAGE
+
+    # Get the libadalang that we built in the previous step
+    - (cd / ; tar zxf $PACKAGE)
+    - rm $PACKAGE
+
+    # Run the testsuite
+    - cd /it/wave
+    - anod vcs --add-repo libadalang $CI_PROJECT_DIR
+    - touch fingerprints/x86_64-linux.libadalang.build.json.assume-unchanged
+    - anod test --minimal --disable-cathod libadalang
+
+    # Report the results
+    - e3-testsuite-report --failure-exit-code 1 --xunit-output xunit_output.xml x86_64-linux/libadalang-test/results/new/
+    - cp xunit_output.xml $CI_PROJECT_DIR
+
+  artifacts:
+    paths:
+      - xunit_output.xml
+    reports:
+      junit: xunit_output.xml
+
+##########################
+# BUILD AND TEST TRIGGER #
+##########################
+
+build_and_test_trigger:
+  # This job is triggered from an upstream pipeline
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+  services:
+     - image:libadalang
+     - cpu:8
+     - mem:16
+  stage: test
+  script:
+    - export PATH=/it/e3/bin:$PATH
+
+    # If the upstream is on a "sync" branch, checkout the same
+    # "sync" branch on this repo.
+    - if [ `echo $ARTIFACTS_DOWNLOAD_REF | grep -e "^sync/"` ]; then
+          git fetch;
+          git checkout $ARTIFACTS_DOWNLOAD_REF;
+      fi
+
+    # The upstream package is the artifact for this pipeline.
+    - (cd / ; tar zxf $PACKAGE)
+    - rm $PACKAGE
+
+    # Build and test
+    - cd /it/wave
+    - anod vcs --add-repo libadalang $CI_PROJECT_DIR
+    - anod build --minimal --disable-cathod libadalang
+    - anod test --minimal --disable-cathod libadalang
+    - e3-testsuite-report --failure-exit-code 1 --xunit-output xunit_output.xml x86_64-linux/libadalang-test/results/new/
+    - cp xunit_output.xml $CI_PROJECT_DIR
+
+  needs:
+    # The upstream project
+    - project: $UPSTREAM_PROJECT
+      job: build
+      ref: $ARTIFACTS_DOWNLOAD_REF
+      artifacts: true

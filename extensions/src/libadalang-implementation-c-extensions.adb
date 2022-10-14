@@ -425,8 +425,9 @@ package body Libadalang.Implementation.C.Extensions is
    -----------------------------------------
 
    function ada_gpr_project_create_preprocessor
-     (Self    : ada_gpr_project_ptr;
-      Project : chars_ptr) return ada_file_reader
+     (Self      : ada_gpr_project_ptr;
+      Project   : chars_ptr;
+      Line_Mode : access int) return ada_file_reader
    is
       P              : Project_Type;
       Default_Config : File_Config;
@@ -441,6 +442,35 @@ package body Libadalang.Implementation.C.Extensions is
 
       Extract_Preprocessor_Data_From_Project
         (Self.Tree.all, P, Default_Config, File_Configs);
+
+      --  If requested, force the line mode
+
+      if Line_Mode /= null then
+         declare
+            LM : constant Any_Line_Mode := Any_Line_Mode'Val (Line_Mode.all);
+
+            procedure Force_Line_Mode (Config : in out File_Config);
+            --  Callback for Iterate: force the line mode on Config to LM if
+            --  preprocessing is enabled for it.
+
+            ---------------------
+            -- Force_Line_Mode --
+            ---------------------
+
+            procedure Force_Line_Mode (Config : in out File_Config) is
+            begin
+               if Config.Enabled then
+                  Config.Line_Mode := LM;
+               end if;
+            end Force_Line_Mode;
+
+         begin
+            Iterate (Default_Config, File_Configs, Force_Line_Mode'Access);
+         end;
+      end if;
+
+      --  Create the file reader from that data
+
       declare
          FR_Ref : constant File_Reader_Reference :=
            Create_Preprocessor (Default_Config, File_Configs);

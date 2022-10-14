@@ -8,18 +8,38 @@
 
 const ada_internal_entity_info no_entity_info = { { false, NULL, NULL }, NULL, false };
 
+/* Print the exception that was raised by the last Libadalang API call.  When
+   there was no such exception, print nothing if OR_SILENT, and print "Got no
+   exception" otherwise.  Return if there was an exception.  */
+
+static bool
+print_exception (bool or_silent)
+{
+  const ada_exception *exc = ada_get_last_exception ();
+  if (exc != NULL)
+    {
+      printf ("Got an exception (%i):\n  %s\n",
+	      exc->kind,
+	      exc->information);
+      return true;
+    }
+  else if (! or_silent)
+    puts ("Got no exception\n");
+  return false;
+}
+
+static void
+abort_on_exception (void)
+{
+  if (print_exception (true))
+    exit (1);
+}
 
 static void
 error(const char *msg)
 {
-    const ada_exception *exc = ada_get_last_exception();
-
-    fprintf(stderr, "%s\n", msg);
-    if (exc != NULL) {
-        puts("Last Ada exception:");
-        puts(exc->information);
-    }
-
+    printf("%s\n", msg);
+    print_exception (true);
     exit(1);
 }
 

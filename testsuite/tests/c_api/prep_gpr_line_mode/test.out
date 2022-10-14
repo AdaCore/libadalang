@@ -1,0 +1,17 @@
+== line_mode=0 ==
+
+with Ada.Text_IO; use Ada.Text_IO;\x0a\x0aprocedure Foo is\x0abegin\x0a   Put_Line ("Hello, world!");\x0aend Foo;\x0a
+
+== line_mode=1 ==
+
+with Ada.Text_IO; use Ada.Text_IO;\x0a\x0aprocedure Foo is\x0abegin\x0a\x0a   Put_Line ("Hello, world!");\x0a\x0a\x0a\x0aend Foo;\x0a
+
+== line_mode=2 ==
+
+with Ada.Text_IO; use Ada.Text_IO;\x0a\x0aprocedure Foo is\x0abegin\x0a--! # if Foo = "bar" then\x0a   Put_Line ("Hello, world!");\x0a--! # else\x0a--!    null;\x0a--! # end if;\x0aend Foo;\x0a
+
+== line_mode=NULL ==
+
+with Ada.Text_IO; use Ada.Text_IO;\x0a\x0aprocedure Foo is\x0abegin\x0a   Put_Line ("Hello, world!");\x0aend Foo;\x0a
+
+Done.

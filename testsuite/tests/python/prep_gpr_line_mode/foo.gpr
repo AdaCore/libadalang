@@ -1,0 +1,6 @@
+project Foo is
+   for Object_Dir use "obj";
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnateDFOO=bar");
+   end Compiler;
+end Foo;

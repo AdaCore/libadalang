@@ -80,5 +80,6 @@ ${c_doc('libadalang.gpr_project_create_preprocessor')}
 extern ${file_reader_type}
 ${capi.get_name('gpr_project_create_preprocessor')}(
    ${project_type} self,
-   const char *project
+   const char *project,
+   const int *line_mode
 );

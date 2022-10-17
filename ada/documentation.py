@@ -16,6 +16,12 @@ libadalang_docs = {
     'libadalang.gpr_scenario_variable': """
         Couple name/value to define a scenario variable for a project.
     """,
+    'libadalang.string_array': """
+        List of strings.
+    """,
+    'libadalang.free_string_array': """
+        Free the given list of strings.
+    """,
     'libadalang.gpr_project_load': """
         Load a project file with the given parameter. On success, allocate and
         return an ``ada_gpr_project`` record. Raise an ``Invalid_Project``
@@ -30,16 +36,10 @@ libadalang_docs = {
         project contains conflicting sources, raise an ``Inavlid_Project``
         exception.
     """,
-    'libadalang.gpr_source_file_array': """
-        List of source files.
-    """,
     'libadalang.gpr_project_source_files': """
         Compute the list of source files in the given GPR project according to
         ``Mode`` (whose value maps to positions in the
         ``Libadalang.Project_Provider.Source_Files_Mode`` enum) and return it.
-    """,
-    'libadalang.gpr_project_free_source_files': """
-        Free the given list of source files.
     """,
     'libadalang.create_project_unit_provider': """
         Load the project file at ``Project_File`` and return a unit provider
@@ -114,6 +114,9 @@ libadalang_docs = {
         Create preprocessor data from compiler arguments found in the given GPR
         project (``-gnateP`` and ``-gnateD`` arguments), or from the
         ``Project`` sub-project (if the argument is passed).
+
+        If ``Line_Mode`` is not null, use it to force the line mode in each
+        preprocessed source file.
 
         Note that this function collects all arguments and returns an
         approximation from them: it does not replicates exactly gprbuild's

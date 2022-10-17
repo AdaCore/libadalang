@@ -3,8 +3,22 @@
 <%
    project_type = capi.get_name('gpr_project')
    scn_var_type = capi.get_name('gpr_project_scenario_variable')
-   src_file_array_type = capi.get_name('gpr_source_file_array')
+   str_array_type = capi.get_name('string_array_ptr')
 %>
+
+/* Handling of string arrays */
+
+${c_doc('libadalang.string_array')}
+typedef struct {
+   int length;
+   const char**c_ptr;
+} *${str_array_type};
+
+${c_doc('libadalang.free_string_array')}
+extern void
+${capi.get_name('free_string_array')} (
+   ${str_array_type} source_files
+);
 
 /* Project handling */
 
@@ -30,21 +44,9 @@ ${c_doc('libadalang.gpr_project_free')}
 extern void
 ${capi.get_name('gpr_project_free')} (${project_type} self);
 
-${c_doc('libadalang.gpr_source_file_array')}
-typedef struct {
-   int length;
-   const char**c_ptr;
-} *${src_file_array_type};
-
 ${c_doc('libadalang.gpr_project_source_files')}
-extern ${src_file_array_type}
+extern ${str_array_type}
 ${capi.get_name('gpr_project_source_files')} (${project_type} self, int mode);
-
-${c_doc('libadalang.gpr_project_free_source_files')}
-extern void
-${capi.get_name('gpr_project_free_source_files')} (
-   ${src_file_array_type} source_files
-);
 
 ${c_doc('libadalang.create_project_unit_provider')}
 extern ${unit_provider_type}

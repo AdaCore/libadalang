@@ -11,6 +11,23 @@ with GNATCOLL.Projects; use GNATCOLL.Projects;
 
 package Libadalang.Implementation.C.Extensions is
 
+   type C_String_Array is array (int range <>) of chars_ptr;
+   type ada_string_array (Length : int) is record
+      C_Ptr : System.Address;
+      --  Pointer to the first string (i.e. pointer on the array), to access
+      --  elements from the C API.
+
+      Items : C_String_Array (1 .. Length);
+   end record;
+   type ada_string_array_ptr is access all ada_string_array;
+
+   procedure Free is new Ada.Unchecked_Deallocation
+     (ada_string_array, ada_string_array_ptr);
+
+   procedure ada_free_string_array (Strings : ada_string_array_ptr)
+     with Export, Convention => C;
+   --  Free the given list of source files
+
    ----------------------
    -- Project handling --
    ----------------------
@@ -59,31 +76,12 @@ package Libadalang.Implementation.C.Extensions is
    --  passed, it must be the name of a sub-project. If the selected project
    --  contains conflicting sources, raise an ``Inavlid_Project`` exception.
 
-   type Source_File_Array is array (int range <>) of chars_ptr;
-   type Source_File_Array_Ref (Length : int) is record
-      C_Ptr : System.Address;
-      --  Pointer to the first source file (i.e. pointer on the file array), to
-      --  access elements from the C API.
-
-      Items : Source_File_Array (1 .. Length);
-   end record;
-   type Source_File_Array_Ref_Access is access all Source_File_Array_Ref;
-
-   procedure Free is new Ada.Unchecked_Deallocation
-     (Source_File_Array_Ref, Source_File_Array_Ref_Access);
-
    function ada_gpr_project_source_files
-     (Self : ada_gpr_project_ptr;
-      Mode : int) return Source_File_Array_Ref_Access
+     (Self : ada_gpr_project_ptr; Mode : int) return ada_string_array_ptr
      with Export, Convention => C;
    --  Compute the list of source files in the given GPR project according to
    --  ``Mode`` (whose value maps to positions in the
    --  ``Libadalang.Project_Provider.Source_Files_Mode`` enum) and return it.
-
-   procedure ada_gpr_project_free_source_files
-     (Source_Files : Source_File_Array_Ref_Access)
-     with Export, Convention => C;
-   --  Free the given list of source files
 
    function ada_create_project_unit_provider
      (Project_File, Project : chars_ptr;

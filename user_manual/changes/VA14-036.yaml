@@ -1,0 +1,9 @@
+type: new-feature
+title: Error messages from GPR project files
+description: |
+   In the Python API, when using the ``GPRProject`` class, non-critical error
+   messages emitted by LibGPR system when loading a project file are now by
+   default printed on the standard error stream and are available with the
+   ``GPRProject.errors`` property.
+apis: [python]
+date: 2022-10-17

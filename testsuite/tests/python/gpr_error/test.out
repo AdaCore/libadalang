@@ -1,0 +1,41 @@
+== nosuchgpr.gpr:  ==
+
+--- BEFORE loading
+Got an exception: InvalidProject: gnatcoll-projects.adb:7668
+nosuchgpr.gpr is not a regular file
+
+== nosuchtarget.gpr:  ==
+
+--- BEFORE loading
+Errors while loading nosuchtarget.gpr:
+Could not locate exec nosuchtarget-gnatls
+--- AFTER loading
+
+Errors:
+Could not locate exec nosuchtarget-gnatls
+
+== nosuchtarget.gpr: print_errors=False ==
+
+--- BEFORE loading
+--- AFTER loading
+
+Errors:
+Could not locate exec nosuchtarget-gnatls
+
+== nosuchtarget.gpr: print_errors=True ==
+
+--- BEFORE loading
+Errors while loading nosuchtarget.gpr:
+Could not locate exec nosuchtarget-gnatls
+--- AFTER loading
+
+Errors:
+Could not locate exec nosuchtarget-gnatls
+
+== missingdep.gpr:  ==
+
+--- BEFORE loading
+Got an exception: InvalidProject: gnatcoll-projects.adb:7714
+missingdep.gpr:1:06: imported project file "foo" not found
+
+Done

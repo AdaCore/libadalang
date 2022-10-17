@@ -12,6 +12,7 @@ static void
 run_test (int *line_mode)
 {
   ada_gpr_project_scenario_variable scn_var_trail = {NULL, NULL};
+  ada_string_array_ptr errors;
   ada_gpr_project gpr;
   ada_file_reader fr;
   ada_analysis_context ctx;
@@ -26,8 +27,9 @@ run_test (int *line_mode)
     printf ("%i", *line_mode);
   printf(" ==\n\n");
 
-  gpr = ada_gpr_project_load ("foo.gpr", &scn_var_trail, NULL, NULL);
+  ada_gpr_project_load ("foo.gpr", &scn_var_trail, NULL, NULL, &gpr, &errors);
   abort_on_exception ();
+  ada_free_string_array (errors);
 
   fr = ada_gpr_project_create_preprocessor(gpr, NULL, line_mode);
   abort_on_exception ();

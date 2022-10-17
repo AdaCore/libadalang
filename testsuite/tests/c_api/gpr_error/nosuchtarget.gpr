@@ -1,0 +1,3 @@
+project Nosuchtarget is
+   for Target use "nosuchtarget";
+end Nosuchtarget;

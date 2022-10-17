@@ -1,4 +1,3 @@
-invalid.gpr:1:27: ":=" expected
 got InvalidProject gnatcoll-projects.adb:XXX
 
 got InvalidProject gnatcoll-projects.adb:XXX

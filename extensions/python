@@ -8,6 +8,27 @@ def token_match(self, other):
     return self == other or self.text == other
 
 
+## Handling of string arrays
+
+class _c_string_array(ctypes.Structure):
+    _fields_ = [
+        ("length", ctypes.c_int),
+        ("c_ptr", ctypes.POINTER(ctypes.c_char_p)),
+        # Omit the "items" field: it has variable size and is not necessary
+        # to just read the items.
+    ]
+
+    @property
+    def wrap(self) -> List[str]:
+        return [self.c_ptr[i] for i in range(self.length)]
+
+_c_string_array_ptr = ctypes.POINTER(_c_string_array)
+
+_c_free_string_array = _import_func(
+    "ada_free_string_array", [_c_string_array_ptr], None,
+)
+
+
 @property
 def doc_name(n):
     """
@@ -169,9 +190,8 @@ class GPRProject:
         # unless we have a bug) and free the resources.
         c_value = self._c_source_files(self._c_value, c_mode)
         assert c_value
-        c_data = c_value.contents
-        result = [c_data.c_ptr[i] for i in range(c_data.length)]
-        self._c_free_source_files(c_value)
+        result = c_value.contents.wrap
+        _c_free_string_array(c_value)
 
         # Now convert filenames to Unicode strings using the system default
         # encoding, to be more consistent with other Python APIs.
@@ -248,23 +268,10 @@ class GPRProject:
         _unit_provider,
     ))
 
-    class _c_source_file_array(ctypes.Structure):
-        _fields_ = [
-            ("length", ctypes.c_int),
-            ("c_ptr", ctypes.POINTER(ctypes.c_char_p)),
-            # Omit the "items" field: it has variable size and is not necessary
-            # to just read the items.
-        ]
-
-    _c_source_file_array_ptr = ctypes.POINTER(_c_source_file_array)
-
     _c_source_files = staticmethod(_import_func(
         "ada_gpr_project_source_files",
         [_c_type, ctypes.c_int],
-        _c_source_file_array_ptr,
-    ))
-    _c_free_source_files = staticmethod(_import_func(
-        "ada_gpr_project_free_source_files", [_c_source_file_array_ptr], None,
+        _c_string_array_ptr,
     ))
 
     _c_create_preprocessor = staticmethod(_import_func(

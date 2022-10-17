@@ -175,6 +175,19 @@ package body Libadalang.Implementation.C.Extensions is
         (Create_Project_Unit_Provider (Tree, Prj, Env, Is_Project_Owner));
    end Create_Unit_Provider;
 
+   ---------------------------
+   -- ada_free_string_array --
+   ---------------------------
+
+   procedure ada_free_string_array (Strings : ada_string_array_ptr) is
+      Value : ada_string_array_ptr := Strings;
+   begin
+      for F of Value.Items loop
+         Free (F);
+      end loop;
+      Free (Value);
+   end ada_free_string_array;
+
    --------------------------
    -- ada_gpr_project_load --
    --------------------------
@@ -278,8 +291,7 @@ package body Libadalang.Implementation.C.Extensions is
    ----------------------------------
 
    function ada_gpr_project_source_files
-     (Self : ada_gpr_project_ptr;
-      Mode : int) return Source_File_Array_Ref_Access
+     (Self : ada_gpr_project_ptr; Mode : int) return ada_string_array_ptr
    is
       M      : Source_Files_Mode;
       Result : Filename_Vectors.Vector;
@@ -303,8 +315,8 @@ package body Libadalang.Implementation.C.Extensions is
       --  Convert the vector to the C API result
 
       declare
-         Ref : constant Source_File_Array_Ref_Access :=
-           new Source_File_Array_Ref (int (Result.Length));
+         Ref : constant ada_string_array_ptr :=
+           new ada_string_array (int (Result.Length));
          I   : int := 1;
       begin
          Ref.C_Ptr := Ref.Items'Address;
@@ -316,22 +328,6 @@ package body Libadalang.Implementation.C.Extensions is
          return Ref;
       end;
    end ada_gpr_project_source_files;
-
-   ---------------------------------------
-   -- ada_gpr_project_free_source_files --
-   ---------------------------------------
-
-   procedure ada_gpr_project_free_source_files
-     (Source_Files : Source_File_Array_Ref_Access)
-   is
-      S : Source_File_Array_Ref_Access;
-   begin
-      for F of Source_Files.Items loop
-         Free (F);
-      end loop;
-      S := Source_Files;
-      Free (S);
-   end ada_gpr_project_free_source_files;
 
    --------------------------------------
    -- ada_create_project_unit_provider --

@@ -3,6 +3,10 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
+with Ada.Containers.Vectors;
+with Ada.Exceptions;        use Ada.Exceptions;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
 with GNAT.Task_Lock;
@@ -29,15 +33,30 @@ package body Libadalang.Implementation.C.Extensions is
    --  Return the number of scenario variables in the Scenario_Vars C-style
    --  array. This counts the number of entries before the first NULL entry.
 
+   package String_Vectors is new Ada.Containers.Vectors
+     (Positive, Unbounded_String);
+
+   function To_C (Self : String_Vectors.Vector) return ada_string_array_ptr;
+   --  Convert a list of strings to the corresponding C value
+
+   GPR_Errors : String_Vectors.Vector;
+   --  List of error messages emitted when loading a GPR file (used only in
+   --  Load_Project's critical section).
+
+   procedure Add_GPR_Error (Message : String);
+   --  Add an error message to GPR_Errors
+
    procedure Load_Project
      (Project_File    : chars_ptr;
       Scenario_Vars   : System.Address;
       Target, Runtime : chars_ptr;
       Tree            : out Project_Tree_Access;
-      Env             : out Project_Environment_Access);
-   --  Helper to load a project file from C arguments. May propagate a
+      Env             : out Project_Environment_Access;
+      Errors          : out String_Vectors.Vector;
+      Exc             : out Exception_Occurrence);
+   --  Helper to load a project file from C arguments. May set Exc to a
    --  ``GNATCOLL.Projects.Invalid_Project`` exception if the project cannot be
-   --  loaded.
+   --  loaded: in this case it is up to the caller to re-raise it.
 
    function Fetch_Project
      (Tree : Project_Tree'Class; Project_Name : chars_ptr) return Project_Type;
@@ -75,6 +94,46 @@ package body Libadalang.Implementation.C.Extensions is
       return Result - 1;
    end Scenario_Vars_Count;
 
+   ----------
+   -- To_C --
+   ----------
+
+   function To_C (Self : String_Vectors.Vector) return ada_string_array_ptr is
+      I   : int := 1;
+   begin
+      return Result : constant ada_string_array_ptr :=
+        new ada_string_array (int (Self.Length))
+      do
+         Result.C_Ptr := Result.Items'Address;
+         for F of Self loop
+            Result.Items (I) :=
+              New_String (Ada.Strings.Unbounded.To_String (F));
+            I := I + 1;
+         end loop;
+      end return;
+   end To_C;
+
+   -------------------
+   -- Add_GPR_Error --
+   -------------------
+
+   procedure Add_GPR_Error (Message : String) is
+      Last : Natural := Message'Last;
+   begin
+      if Message = "" then
+         return;
+      end if;
+
+      --  Strip the potential trailing newline that GNATCOLL.Projects sometimes
+      --  add.
+
+      if Message (Last) = ASCII.LF then
+         Last := Last - 1;
+      end if;
+      GPR_Errors.Append
+        (To_Unbounded_String (Message (Message'First .. Last)));
+   end Add_GPR_Error;
+
    ------------------
    -- Load_Project --
    ------------------
@@ -84,7 +143,9 @@ package body Libadalang.Implementation.C.Extensions is
       Scenario_Vars   : System.Address;
       Target, Runtime : chars_ptr;
       Tree            : out Project_Tree_Access;
-      Env             : out Project_Environment_Access)
+      Env             : out Project_Environment_Access;
+      Errors          : out String_Vectors.Vector;
+      Exc             : out Exception_Occurrence)
    is
       PF            : constant String := Value (Project_File);
       Target_Value  : constant String :=
@@ -113,19 +174,23 @@ package body Libadalang.Implementation.C.Extensions is
          end;
       end if;
 
-      --  Try to load the project
+      --  Try to load the project and propagate exceptions/error messages to
+      --  Exc/Errors.
 
+      Save_Occurrence (Exc, Null_Occurrence);
       begin
          Load (Self                => Tree.all,
                Root_Project_Path   => Create (+PF),
                Env                 => Env,
+               Errors              => Add_GPR_Error'Access,
                Report_Missing_Dirs => False);
       exception
-         when Invalid_Project =>
+         when E : Invalid_Project =>
+            Save_Occurrence (Exc, E);
             Free (Tree);
             Free (Env);
-            raise;
       end;
+      Errors.Move (GPR_Errors);
 
       GNAT.Task_Lock.Unlock;
 
@@ -192,24 +257,56 @@ package body Libadalang.Implementation.C.Extensions is
    -- ada_gpr_project_load --
    --------------------------
 
-   function ada_gpr_project_load
+   procedure ada_gpr_project_load
      (Project_File    : chars_ptr;
       Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr) return ada_gpr_project_ptr
+      Target, Runtime : chars_ptr;
+      Project         : access ada_gpr_project_ptr;
+      Errors          : access ada_string_array_ptr)
    is
-      Project : Project_Tree_Access;
-      Env     : Project_Environment_Access;
+      Prj : Project_Tree_Access;
+      Env : Project_Environment_Access;
+      Err : String_Vectors.Vector;
+      Exc : Exception_Occurrence;
    begin
       Clear_Last_Exception;
 
       Load_Project
-        (Project_File, Scenario_Vars, Target, Runtime, Project, Env);
-      return new ada_gpr_project'(Project, Env);
+        (Project_File,
+         Scenario_Vars,
+         Target,
+         Runtime,
+         Prj,
+         Env,
+         Err,
+         Exc);
+      if Exception_Identity (Exc) /= Null_Id then
 
-   exception
-      when Exc : GNATCOLL.Projects.Invalid_Project =>
-         Set_Last_Exception (Exc);
-         return null;
+         --  If we have error messages in addition to the exception, extend the
+         --  exception message to include them.
+
+         if not Err.Is_Empty then
+            declare
+               Message : Unbounded_String :=
+                 To_Unbounded_String (Exception_Message (Exc));
+            begin
+               for Error_Message of Err loop
+                  Append (Message, ASCII.LF);
+                  Append (Message, Error_Message);
+               end loop;
+               Raise_Exception (Exception_Identity (Exc), To_String (Message));
+            exception
+               when E : others =>
+                  Set_Last_Exception (E);
+            end;
+         else
+            Set_Last_Exception (Exc);
+         end if;
+         return;
+      end if;
+
+      Project.all := new ada_gpr_project'(Prj, Env);
+      Errors.all := To_C (Err);
    end ada_gpr_project_load;
 
    --------------------------
@@ -315,17 +412,12 @@ package body Libadalang.Implementation.C.Extensions is
       --  Convert the vector to the C API result
 
       declare
-         Ref : constant ada_string_array_ptr :=
-           new ada_string_array (int (Result.Length));
-         I   : int := 1;
+         Sources : String_Vectors.Vector;
       begin
-         Ref.C_Ptr := Ref.Items'Address;
          for F of Result loop
-            Ref.Items (I) := New_String (Ada.Strings.Unbounded.To_String (F));
-            I := I + 1;
+            Sources.Append (F);
          end loop;
-
-         return Ref;
+         return To_C (Sources);
       end;
    end ada_gpr_project_source_files;
 
@@ -338,12 +430,26 @@ package body Libadalang.Implementation.C.Extensions is
       Scenario_Vars         : System.Address;
       Target, Runtime       : chars_ptr) return ada_unit_provider
    is
-      Tree : Project_Tree_Access;
-      Env  : Project_Environment_Access;
+      Tree         : Project_Tree_Access;
+      Env          : Project_Environment_Access;
+      Dummy_Errors : String_Vectors.Vector;
+      Exc          : Exception_Occurrence;
    begin
       Clear_Last_Exception;
 
-      Load_Project (Project_File, Scenario_Vars, Target, Runtime, Tree, Env);
+      Load_Project
+        (Project_File,
+         Scenario_Vars,
+         Target,
+         Runtime,
+         Tree,
+         Env,
+         Dummy_Errors,
+         Exc);
+      if Exception_Identity (Exc) /= Null_Id then
+         Reraise_Occurrence (Exc);
+      end if;
+
       return Create_Unit_Provider (Tree, Env, Project, True);
 
    exception

@@ -5,7 +5,8 @@
                     target=None, runtime=None):
         ${py_doc('libadalang.create_project_unit_provider', 8)}
 
-        prj = GPRProject(project_file, scenario_vars, target, runtime)
+        prj = GPRProject(project_file, scenario_vars, target, runtime,
+                         print_errors=False)
         return prj.create_unit_provider(project)
 
     @classmethod

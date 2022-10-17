@@ -100,7 +100,8 @@ class GPRProject:
                  project_file: str,
                  scenario_vars: Dict[str, str] = {},
                  target: Opt[str] = None,
-                 runtime: Opt[str] = None):
+                 runtime: Opt[str] = None,
+                 print_errors: bool = True):
         """
         Load a GPR project file.
 
@@ -113,6 +114,10 @@ class GPRProject:
             native platform if left to None.
         :param runtime: Name of the runtime for the project to load. Use the
             default runtime for the selected target if left to None.
+        :param print_errors: Whether to print non-critical error messages
+            emitted during project loading on the standard error stream. See
+            the ``errors`` method to have programmatic access to the list of
+            errors.
         """
         # First, define this attribute so that __del__ work even if the
         # constructor aborts later on because of an exception.
@@ -140,15 +145,42 @@ class GPRProject:
         else:
             c_scenario_vars = None
 
-        # Compute the list of source files, extract it (no error expected there
-        # unless we have a bug) and free the resources.
-        self._c_value = self._c_load(
-            c_project_file, c_scenario_vars, c_target, c_runtime
+        # Load the project
+        c_errors = _c_string_array_ptr()
+        c_project = self._c_type()
+        self._c_load(
+            c_project_file,
+            c_scenario_vars,
+            c_target,
+            c_runtime,
+            ctypes.byref(c_project),
+            ctypes.byref(c_errors),
         )
+        self._c_value = c_project
+
+        # Extract the possibly empty list of error messages and print it if
+        # requested. For user convenience, convert error messages to unicode
+        # strings and discard decoding errors.
+        self._errors = [
+            msg.decode("utf-8", "replace") for msg in c_errors.contents.wrap
+        ]
+        _c_free_string_array(c_errors)
+        if print_errors and self.errors:
+            print(f"Errors while loading {project_file}:", file=sys.stderr)
+            for e in self.errors:
+                print(e, file=sys.stderr)
 
     def __del__(self):
         if self._c_value is not None:
             self._c_free(self._c_value)
+
+    @property
+    def errors(self) -> List[str]:
+        """
+        Possibly empty list of non-critical error messages emitted during
+        project loading.
+        """
+        return list(self._errors)
 
     def create_unit_provider(self, project: Opt[str] = None) -> UnitProvider:
         """
@@ -254,8 +286,10 @@ class GPRProject:
         [ctypes.c_char_p,
          ctypes.POINTER(_c_scenario_variable),
          ctypes.c_char_p,
-         ctypes.c_char_p],
-        _c_type,
+         ctypes.c_char_p,
+         ctypes.POINTER(_c_type),
+         ctypes.POINTER(_c_string_array_ptr)],
+        None,
     ))
 
     _c_free = staticmethod(

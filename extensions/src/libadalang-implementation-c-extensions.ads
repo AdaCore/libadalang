@@ -55,14 +55,17 @@ package Libadalang.Implementation.C.Extensions is
    --  Array of name/value definitions for scenario variables. The last entry
    --  in such arrays must be a null/null association.
 
-   function ada_gpr_project_load
+   procedure ada_gpr_project_load
      (Project_File    : chars_ptr;
       Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr) return ada_gpr_project_ptr
+      Target, Runtime : chars_ptr;
+      Project         : access ada_gpr_project_ptr;
+      Errors          : access ada_string_array_ptr)
      with Export, Convention => C;
-   --  Load a project file with the given parameter. On success, allocate and
-   --  return an ``ada_gpr_project`` record. Raise an ``Invalid_Project``
-   --  exception on failure.
+   --  Load a project file with the given parameter. On success, set
+   --  ``Project`` to a newly allocated ``ada_gpr_project`` record, as well as
+   --  a possibly empty list of error messages in ``Errors``.  Raise an
+   --  ``Invalid_Project`` exception on failure.
 
    procedure ada_gpr_project_free (Self : ada_gpr_project_ptr)
      with Export, Convention => C;

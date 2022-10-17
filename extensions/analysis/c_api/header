@@ -32,12 +32,14 @@ typedef struct {
 } ${scn_var_type};
 
 ${c_doc('libadalang.gpr_project_load')}
-extern ${project_type}
+extern void
 ${capi.get_name('gpr_project_load')}(
    const char *project_file,
    const ${scn_var_type} *scenario_vars,
    const char *target,
-   const char *runtime
+   const char *runtime,
+   ${project_type} *project,
+   ${str_array_type} *errors
 );
 
 ${c_doc('libadalang.gpr_project_free')}

@@ -23,9 +23,10 @@ libadalang_docs = {
         Free the given list of strings.
     """,
     'libadalang.gpr_project_load': """
-        Load a project file with the given parameter. On success, allocate and
-        return an ``ada_gpr_project`` record. Raise an ``Invalid_Project``
-        exception on failure.
+        Load a project file with the given parameter. On success, set
+        ``Project`` to a newly allocated ``ada_gpr_project`` record, as well as
+        a possibly empty list of error messages in ``Errors``.  Raise an
+        ``Invalid_Project`` exception on failure.
     """,
     'libadalang.gpr_project_free': """
         Free resources allocated for ``Self``.

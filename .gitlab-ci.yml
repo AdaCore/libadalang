@@ -153,8 +153,8 @@ build_and_test_trigger:
       fi
 
     # The upstream package is the artifact for this pipeline.
-    - (cd / ; tar zxf $PACKAGE)
-    - rm $PACKAGE
+    - (cd / ; tar zxf $UPSTREAM_PACKAGE)
+    - rm $UPSTREAM_PACKAGE
 
     # Build and test
     - cd /it/wave

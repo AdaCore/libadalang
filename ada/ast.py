@@ -112,7 +112,11 @@ class CompletionItem(Struct):
     decl = UserField(T.BasicDecl.entity)
     is_dot_call = UserField(T.Bool, default_value=False)
     is_visible = UserField(T.Bool, default_value=True)
-    weight = UserField(T.Int, default_value=0)
+    weight = UserField(
+        T.Int, default_value=0,
+        doc="The higher the weight, the more relevant the completion item is."
+        # See `AdaNode.complete_item_weight` for implementation details.
+    )
 
 
 @abstract
@@ -364,6 +368,11 @@ class AdaNode(ASTNode):
         """
         Internal method used by ``complete_items`` that can be used to
         specialize the completion weight field only.
+
+        Weight is an integer, the higher it is, the more relevant it is in the
+        given context. In practice, the weight varies from 0 to 100, so that
+        one has just to sort the completion items by their weight, in
+        decreasing order, to get the more relevant items first.
         """
         ignore(item)
         return 0

@@ -167,6 +167,6 @@ build_and_test_trigger:
   needs:
     # The upstream project
     - project: $UPSTREAM_PROJECT
-      job: build
+      job: langkit_build
       ref: $ARTIFACTS_DOWNLOAD_REF
       artifacts: true

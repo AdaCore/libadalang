@@ -25,26 +25,24 @@ variables:
 
 stages:
   - build
-  - test
 
 
 # There are two ways to test this project: either
-#   - triggered as part of a multi-project pipeline, with langkit as
-#     the upstream project, in which case the langkit package is
-#     passed as an artefact, or
-#   - standalone, in which case we use the latest langkit package
+#   - [build_and_test_trigger] triggered as part of a multi-project pipeline,
+#     with langkit as the upstream project, in which case the langkit package
+#     is passed as an artefact, or
+#   - [build_standalone] standalone, in which case we use the latest langkit
+#     package.
 
-####################
-# STANDALONE BUILD #
-####################
-
+#############################
+# STANDALONE BUILD AND TEST #
+#############################
 
 build_standalone:
-  # This job works with the latest package containing
-  # the upstream project.
+  # This job works with the latest package containing the upstream project
   rules:
-    # We not trigger it from branches that start
-    # with "sync/": these will be triggered by a pipeline only.
+    # We not trigger it from branches that start with "sync/": these will be
+    # triggered by a pipeline only.
     - if: $CI_COMMIT_BRANCH =~ /^sync\//
       when: never
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//
@@ -59,7 +57,7 @@ build_standalone:
   script:
     - export PATH=/it/e3/bin:$PATH
 
-    # Download the langkit package.
+    # Download the langkit package
     - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
     - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
     - tar zxf $UPSTREAM_PACKAGE -C /
@@ -69,54 +67,12 @@ build_standalone:
     - cd /it/wave
     - anod vcs --add-repo libadalang $CI_PROJECT_DIR
     - anod build --minimal --disable-cathod libadalang
+    - anod build --minimal --disable-cathod libadalang_for_customers
 
-    # Create the package.
+    # Create the package
     - tar czf $PACKAGE -C / it/wave/x86_64-linux/libadalang/install
 
-  artifacts:
-    paths:
-      - $PACKAGE
-
-
-###################
-# STANDALONE TEST #
-###################
-
-
-test_standalone:
-  # This job works with the latest package containing
-  # the upstream project.
-  rules:
-    # We not trigger it from branches that start
-    # with "sync/": these will be triggered by a pipeline only.
-    - if: $CI_COMMIT_BRANCH =~ /^sync\//
-      when: never
-    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//
-      when: never
-    # This shouldn't trigger from the upstream
-    - if: $CI_PIPELINE_SOURCE != "pipeline"
-  services:
-     - image:libadalang
-     - cpu:8
-     - mem:16
-  stage: test
-  script:
-    - export PATH=/it/e3/bin:$PATH
-
-    # Download the langkit package.
-    - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
-    - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
-    - tar zxf $UPSTREAM_PACKAGE -C /
-    - rm $UPSTREAM_PACKAGE
-
-    # Get the libadalang that we built in the previous step
-    - tar zxf $PACKAGE -C /
-    - rm $PACKAGE
-
     # Run the testsuite
-    - cd /it/wave
-    - anod vcs --add-repo libadalang $CI_PROJECT_DIR
-    - touch fingerprints/x86_64-linux.libadalang.build.json.assume-unchanged
     - anod test --minimal --disable-cathod libadalang
 
     # Produce a XUnit report for GitLab
@@ -128,9 +84,11 @@ test_standalone:
   artifacts:
     when: always
     paths:
+      - $PACKAGE
       - xunit_output.xml
     reports:
       junit: xunit_output.xml
+
 
 ##########################
 # BUILD AND TEST TRIGGER #
@@ -144,7 +102,7 @@ build_and_test_trigger:
      - image:libadalang
      - cpu:8
      - mem:16
-  stage: test
+  stage: build
   script:
     - export PATH=/it/e3/bin:$PATH
 

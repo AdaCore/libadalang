@@ -62,7 +62,7 @@ build_standalone:
     # Download the langkit package.
     - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
     - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
-    - (cd / ; tar zxf $UPSTREAM_PACKAGE)
+    - tar zxf $UPSTREAM_PACKAGE -C /
     - rm $UPSTREAM_PACKAGE
 
     # Build
@@ -71,7 +71,7 @@ build_standalone:
     - anod build --minimal --disable-cathod libadalang
 
     # Create the package.
-    - (cd / ; tar czf $PACKAGE it/wave/x86_64-linux/libadalang/install)
+    - tar czf $PACKAGE -C / it/wave/x86_64-linux/libadalang/install
 
   artifacts:
     paths:
@@ -106,11 +106,11 @@ test_standalone:
     # Download the langkit package.
     - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
     - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
-    - (cd / ; tar zxf $UPSTREAM_PACKAGE)
+    - tar zxf $UPSTREAM_PACKAGE -C /
     - rm $UPSTREAM_PACKAGE
 
     # Get the libadalang that we built in the previous step
-    - (cd / ; tar zxf $PACKAGE)
+    - tar zxf $PACKAGE -C /
     - rm $PACKAGE
 
     # Run the testsuite
@@ -153,7 +153,7 @@ build_and_test_trigger:
       fi
 
     # The upstream package is the artifact for this pipeline.
-    - (cd / ; tar zxf $UPSTREAM_PACKAGE)
+    - tar zxf $UPSTREAM_PACKAGE -C /
     - rm $UPSTREAM_PACKAGE
 
     # Build and test

@@ -18,9 +18,11 @@ print_exception (bool or_silent)
   const ada_exception *exc = ada_get_last_exception ();
   if (exc != NULL)
     {
-      printf ("Got an exception (%i):\n  %s\n",
-	      exc->kind,
+      char *exc_name = ada_exception_name (exc->kind);
+      printf ("Got an exception (%s):\n  %s\n",
+	      exc_name,
 	      exc->information);
+      free (exc_name);
       return true;
     }
   else if (! or_silent)

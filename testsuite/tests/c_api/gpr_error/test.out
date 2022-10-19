@@ -1,5 +1,5 @@
 == nosuchgpr.gpr ==
-Got an exception (16):
+Got an exception (EXCEPTION_INVALID_PROJECT):
   gnatcoll-projects.adb:7668
 nosuchgpr.gpr is not a regular file
 
@@ -9,7 +9,7 @@ Got no exception
 error: Could not locate exec nosuchtarget-gnatls
 
 == missingdep.gpr ==
-Got an exception (16):
+Got an exception (EXCEPTION_INVALID_PROJECT):
   gnatcoll-projects.adb:7714
 missingdep.gpr:1:06: imported project file "foo" not found
 

@@ -1,0 +1,26 @@
+== agg.gpr - <none> ==
+
+Got an exception (EXCEPTION_UNSUPPORTED_VIEW_ERROR):
+  inconsistent units found
+
+== agg.gpr - p1 ==
+
+Source buffer for pkg(spec):
+--  This is from p1.gpr\x0a
+
+== agg.gpr - p2 ==
+
+Source buffer for pkg(spec):
+--  This is from p2.gpr\x0a
+
+== agg.gpr - nosuchproject ==
+
+Got an exception (EXCEPTION_INVALID_PROJECT):
+  no such project: nosuchproject
+
+== p1.gpr - <none> ==
+
+Source buffer for pkg(spec):
+--  This is from p1.gpr\x0a
+
+Done.

@@ -31,11 +31,16 @@ libadalang_docs = {
     'libadalang.gpr_project_free': """
         Free resources allocated for ``Self``.
     """,
-    'ada_gpr_project_create_unit_provider': """
-        Create a project provider using the given GPR project. If ``Project``
-        is passed, it must be the name of a sub-project. If the selected
-        project contains conflicting sources, raise an ``Inavlid_Project``
-        exception.
+    'libadalang.gpr_project_create_unit_provider': """
+        Create a project provider using the given GPR project ``Self``.
+
+        If ``Project`` is passed, it must be the name of a sub-project. If the
+        selected project contains conflicting sources, raise an
+        ``Inavlid_Project`` exception.
+
+        The returned unit provider assumes that resources allocated by ``Self``
+        are kept live: it is the responsibility of the caller to make ``Self``
+        live at least as long as the returned unit provider.
     """,
     'libadalang.gpr_project_source_files': """
         Compute the list of source files in the given GPR project according to
@@ -113,8 +118,8 @@ libadalang_docs = {
     """,
     'libadalang.gpr_project_create_preprocessor': """
         Create preprocessor data from compiler arguments found in the given GPR
-        project (``-gnateP`` and ``-gnateD`` arguments), or from the
-        ``Project`` sub-project (if the argument is passed).
+        project ``Self`` (``-gnateP`` and ``-gnateD`` compiler switches), or
+        from the ``Project`` sub-project (if the argument is passed).
 
         If ``Line_Mode`` is not null, use it to force the line mode in each
         preprocessed source file.
@@ -124,6 +129,10 @@ libadalang_docs = {
         behavior. This may raise a ``File_Read_Error`` exception if this fails
         to read a preprocessor data file and a ``Syntax_Error`` exception if
         one such file has invalid syntax.
+
+        The returned file reader assumes that resources allocated by ``Self``
+        are kept live: it is the responsibility of the caller to make ``Self``
+        live at least as long as the returned file reader.
     """,
     'libadalang.project_provider.invalid_project': """
         Raised when an error occurs while loading a project file.

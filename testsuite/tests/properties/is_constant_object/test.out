@@ -277,6 +277,24 @@ Working on node <NoTypeObjectRenamingDecl ["Tab2"] renam.ads:28:4-28:25>
 Eval 'node.p_is_constant_object'
 Result: True
 
+Working on node <AssignStmt test.adb:6:7-6:21>
+==============================================
+
+Eval 'node.f_dest.p_is_constant'
+Result: False
+
+Eval 'node.f_expr.p_is_constant'
+Result: True
+
+Working on node <AssignStmt test.adb:9:7-9:21>
+==============================================
+
+Eval 'node.f_dest.p_is_constant'
+Result: False
+
+Eval 'node.f_expr.p_is_constant'
+Result: False
+
 Working on node <AssignStmt view.adb:15:4-15:31>
 ================================================
 

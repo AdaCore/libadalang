@@ -14268,8 +14268,12 @@ class CallExpr(Name):
                 lambda _: True
             ),
 
-            # General case that handles subprogram call, array
-            # subcomponent access expression, and array slice.
+            # A call is always constant
+            Entity.kind == CallExprKind.call,
+            True,
+
+            # General case that handles, array subcomponent access expression
+            # and array slice.
             Entity.referenced_decl.is_constant_object
         )
 
@@ -16858,11 +16862,11 @@ class Identifier(BaseId):
     def is_constant():
         rd = Var(Entity.referenced_decl)
         return Or(
-            # Check if the referenced declaration is constant (filter out
-            # subprograms as it makes no sense to call is_constant_object
-            # on them, except for EnumLiteralDecls).
+            # Filter out declarations that are not objects, as it makes no
+            # sense to call is_constant_object on them.
             If(
-                Or(Not(rd.is_subprogram), rd.is_a(EnumLiteralDecl)),
+                rd.is_a(T.ObjectDecl, T.ComponentDecl, T.EnumLiteralDecl,
+                        T.ParamSpec, T.NumberDecl),
                 rd.is_constant_object,
                 False
             ),
@@ -19391,8 +19395,6 @@ class BaseSubpBody(Body):
     subp_spec = Field(type=T.SubpSpec)
 
     defining_names = Property(Entity.subp_spec.name.singleton)
-
-    is_constant_object = Property(True)
 
     @langkit_property()
     def defining_env():

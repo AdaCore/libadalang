@@ -119,9 +119,11 @@ test_standalone:
     - touch fingerprints/x86_64-linux.libadalang.build.json.assume-unchanged
     - anod test --minimal --disable-cathod libadalang
 
-    # Report the results
-    - e3-testsuite-report --failure-exit-code 1 --xunit-output xunit_output.xml x86_64-linux/libadalang-test/results/new/
-    - cp xunit_output.xml $CI_PROJECT_DIR
+    # Produce a XUnit report for GitLab
+    - e3-testsuite-report
+        --failure-exit-code 1
+        --xunit-output $CI_PROJECT_DIR/xunit_output.xml
+        x86_64-linux/libadalang-test/results/new/;
 
   artifacts:
     when: always

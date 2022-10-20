@@ -124,6 +124,7 @@ test_standalone:
     - cp xunit_output.xml $CI_PROJECT_DIR
 
   artifacts:
+    when: always
     paths:
       - xunit_output.xml
     reports:

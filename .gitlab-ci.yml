@@ -29,8 +29,8 @@ stages:
 build_and_test:
   # This job works with the latest package containing the upstream project
   rules:
-    # We not trigger it from branches that start with "sync/": these will be
-    # triggered by a pipeline only.
+    # Do not trigger it from branches that start with "sync/": these are tested
+    # from the Langkit CI.
     - if: $CI_COMMIT_BRANCH =~ /^sync\//
       when: never
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//

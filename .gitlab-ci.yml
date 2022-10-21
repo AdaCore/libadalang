@@ -16,7 +16,6 @@ variables:
   UPSTREAM_PACKAGE_NAME: langkit.tar.gz
   UPSTREAM_PACKAGE: $CI_PROJECT_DIR/$UPSTREAM_PACKAGE_NAME
 
-  PACKAGE: $CI_PROJECT_DIR/libadalang.tar.gz
   PACKAGE_REPOSITORY_PROJECT: eng/libadalang/ci-packages
 
   CI_FRAGMENTS: ci_fragments
@@ -24,21 +23,10 @@ variables:
   CI_FRAGMENTS_PATH: /tmp/$CI_FRAGMENTS
 
 stages:
-  - build
+  - build_and_test
 
 
-# There are two ways to test this project: either
-#   - [build_and_test_trigger] triggered as part of a multi-project pipeline,
-#     with langkit as the upstream project, in which case the langkit package
-#     is passed as an artefact, or
-#   - [build_standalone] standalone, in which case we use the latest langkit
-#     package.
-
-#############################
-# STANDALONE BUILD AND TEST #
-#############################
-
-build_standalone:
+build_and_test:
   # This job works with the latest package containing the upstream project
   rules:
     # We not trigger it from branches that start with "sync/": these will be
@@ -53,7 +41,7 @@ build_standalone:
      - image:libadalang
      - cpu:8
      - mem:16
-  stage: build
+  stage: build_and_test
   script:
     - export PATH=/it/e3/bin:$PATH
 
@@ -69,9 +57,6 @@ build_standalone:
     - anod build --minimal --disable-cathod libadalang
     - anod build --minimal --disable-cathod libadalang_for_customers
 
-    # Create the package
-    - tar czf $PACKAGE -C / it/wave/x86_64-linux/libadalang/install
-
     # Run the testsuite
     - anod test --minimal --disable-cathod libadalang
 
@@ -84,50 +69,6 @@ build_standalone:
   artifacts:
     when: always
     paths:
-      - $PACKAGE
       - xunit_output.xml
     reports:
       junit: xunit_output.xml
-
-
-##########################
-# BUILD AND TEST TRIGGER #
-##########################
-
-build_and_test_trigger:
-  # This job is triggered from an upstream pipeline
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "pipeline"
-  services:
-     - image:libadalang
-     - cpu:8
-     - mem:16
-  stage: build
-  script:
-    - export PATH=/it/e3/bin:$PATH
-
-    # If the upstream is on a "sync" branch, checkout the same
-    # "sync" branch on this repo.
-    - if [ `echo $ARTIFACTS_DOWNLOAD_REF | grep -e "^sync/"` ]; then
-          git fetch;
-          git checkout $ARTIFACTS_DOWNLOAD_REF;
-      fi
-
-    # The upstream package is the artifact for this pipeline.
-    - tar zxf $UPSTREAM_PACKAGE -C /
-    - rm $UPSTREAM_PACKAGE
-
-    # Build and test
-    - cd /it/wave
-    - anod vcs --add-repo libadalang $CI_PROJECT_DIR
-    - anod build --minimal --disable-cathod libadalang
-    - anod test --minimal --disable-cathod libadalang
-    - e3-testsuite-report --failure-exit-code 1 --xunit-output xunit_output.xml x86_64-linux/libadalang-test/results/new/
-    - cp xunit_output.xml $CI_PROJECT_DIR
-
-  needs:
-    # The upstream project
-    - project: $UPSTREAM_PROJECT
-      job: langkit_build
-      ref: $ARTIFACTS_DOWNLOAD_REF
-      artifacts: true

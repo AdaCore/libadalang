@@ -156,7 +156,7 @@ package body Libadalang.Project_Provider is
       declare
          Set : constant Prj.File_Info_Set := Tree.Info_Set (File);
          FI  : constant Prj.File_Info := Prj.File_Info (Set.First_Element);
-         --  For some reason, File_Info_Set contains File_Info_Astract'Class
+         --  For some reason, File_Info_Set contains File_Info_Abstract'Class
          --  objects, while the only instance of this type is File_Info. So the
          --  above conversion should always succeed.
       begin
@@ -416,10 +416,10 @@ package body Libadalang.Project_Provider is
 
       Trace.Decrease_Indent;
 
-      --  For debuggability, log how the Tree was partitionned
+      --  For debuggability, log how the Tree was partitioned
 
       if Trace.Is_Active then
-         Trace.Increase_Indent ("Input project partitionned into:");
+         Trace.Increase_Indent ("Input project partitioned into:");
          for Cur in Partition.Iterate loop
             declare
                N    : constant Positive :=
@@ -471,7 +471,7 @@ package body Libadalang.Project_Provider is
 
       Actual_Project : Prj.Project_Type := Project;
    begin
-      --  If no project was given, try to run the partitionner
+      --  If no project was given, try to run the partitioner
 
       if Actual_Project = Prj.No_Project then
          declare

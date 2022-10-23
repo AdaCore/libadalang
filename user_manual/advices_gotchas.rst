@@ -1,5 +1,5 @@
-Advices & gotchas
-=================
+Advice & gotchas
+================
 
 This section of the manual regroups together guidance that we consider vital to
 develop with Libadalang, but unlike the tutorial, this is meant as a grab bag
@@ -51,8 +51,8 @@ conversion functions to up/down cast node types:
 
 .. _standard-unit:
 
-Standard unit pecularities
---------------------------
+Standard unit peculiarities
+---------------------------
 
 In Ada, the ``Standard`` package is special: is acting such as a built-in
 compilation unit and is the root of all other units: these are technically

@@ -586,8 +586,8 @@ package body Libadalang.Preprocessing is
         (P : Project_Type; Attribute : Attribute_Pkg_List; Index : String);
       --  Add the command-line arguments in the ``Attribute (Index)`` project
       --  attribute in ``P`` to our knowledge base: the ``Default_Config`` and
-      --  ``File_Configs`` arguments (for preprocesor data files) and ``Defs``
-      --  (for symbol definitions).
+      --  ``File_Configs`` arguments (for preprocessor data files) and
+      --  ``Defs`` (for symbol definitions).
 
       ----------------------
       -- Process_Switches --
@@ -640,7 +640,7 @@ package body Libadalang.Preprocessing is
                     (Directories => (1 => To_XString
                                             (+P.Object_Dir.Full_Name)),
                      CWD         => If_Empty);
-                  --  If the proprocesor data file is not absolute, it is
+                  --  If the preprocessor data file is not absolute, it is
                   --  relative to the object directory.
                begin
                   Parse_Preprocessor_Data_File

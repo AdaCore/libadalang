@@ -25,7 +25,7 @@ implement a partial preprocessing pass: taking the content of ``#if`` blocks,
 removing the content of ``#elsif`` and ``#else`` blocks, also not expanding
 symbols.
 
-CodePeer developpers need a GNATprep-conformant preprocessing pass, however, so
+CodePeer developers need a GNATprep-conformant preprocessing pass, however, so
 this document describes how to provide a file reader to achieve this.
 
 
@@ -124,7 +124,7 @@ this independent preprocessor API).
         (Data            : Preprocessor_Data;
          Filename, Input : String) return String_Access;
       --  Preprocess the ``Input`` source buffer according to the corresponding
-      --  source filename ``Filename`` and the given preprocesor data. Return a
+      --  source filename ``Filename`` and the given preprocessor data. Return a
       --  newly allocated string containing the preprocessed source.
 
       function Create_Preprocessor
@@ -183,7 +183,7 @@ the lexer one more time) looks reasonable.
 
 The preprocessing logic to build on top of this looks trivial: replace
 ``#if``-disabled lines of code with blank lines (or remove them altogether
-depending on the corresponding otions), replace references to defined symbols
+depending on the corresponding options), replace references to defined symbols
 with associated values and return back the resulting source buffer.
 
 To summarize:

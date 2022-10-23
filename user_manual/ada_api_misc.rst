@@ -1,5 +1,5 @@
-Miscellanous
-============
+Miscellaneous
+=============
 
 .. include:: generated/libadalang-lexer.rst
 .. include:: generated/libadalang-iterators.rst

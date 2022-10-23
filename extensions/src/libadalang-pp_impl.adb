@@ -235,7 +235,7 @@ package body Libadalang.PP_Impl is
       --  ``Size`` extra bytes.
 
       procedure Append (Text : Text_Type);
-      --  Append the given source exceprt to ``Contents``, converting
+      --  Append the given source excerpt to ``Contents``, converting
       --  each ``Character_Type`` item to ``Character`` (ranges are compatible
       --  by construction of the original source buffer).
       --
@@ -245,7 +245,7 @@ package body Libadalang.PP_Impl is
       --  adding bytes to ``Contents``.
 
       procedure Append (Text : String);
-      --  Append the given source exceprt to ``Contents``
+      --  Append the given source excerpt to ``Contents``
 
       function Next_Is_Disabled (Index : Positive) return Boolean
       is (Index < Tokens'Last and not Tokens (Index + 1));
@@ -412,7 +412,7 @@ package body Libadalang.PP_Impl is
 
                   --  The only possible transition from an enabled token to a
                   --  disabled one is: from a whitespace token (at least one
-                  --  line line codepoint, followed by optional identation) to
+                  --  line line codepoint, followed by optional indentation) to
                   --  a directive (which are always disabled). We know at this
                   --  point that the current token is an enabled whitespace, so
                   --  if the next token is disabled, we know it is a directive.
@@ -465,7 +465,7 @@ package body Libadalang.PP_Impl is
             declare
                Had_Newline : Boolean := not Previous_Enabled;
                --  In ``Delete_Lines`` mode, determine whether we have output
-               --  a line feed since the last enabled token. Unued in other
+               --  a line feed since the last enabled token. Unused in other
                --  line modes.
 
                Next : Positive := Tok.Source_First;
@@ -570,7 +570,7 @@ package body Libadalang.PP_Impl is
       --  Value for the evaluation of a preprocessing directive sub-expression
 
       Eval_Error : exception;
-      --  Exception used to abort evalutaion recursion when an evalution error
+      --  Exception used to abort evaluation recursion when an evaluation error
       --  happens. The only handler for this exception is in the ``Eval``
       --  function overload returning ``Eval_State``, which is the entry point
       --  for preprocessing directive condition evaluation (i.e. always at the
@@ -620,7 +620,7 @@ package body Libadalang.PP_Impl is
       --  ``Id`` is the identifier that designates the symbol to fetch, and
       --  ``Kind`` designates the expected value kind for that symbol.
       --
-      --  When returnig ``V`` is set to the decoded symbol value.
+      --  When returning ``V`` is set to the decoded symbol value.
       --
       --  If ``Or_False`` is true *and* the undefined-is-false configuration is
       --  enabled, set ``V`` to the ``false`` string when the symbol is

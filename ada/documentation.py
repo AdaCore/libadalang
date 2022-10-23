@@ -36,7 +36,7 @@ libadalang_docs = {
 
         If ``Project`` is passed, it must be the name of a sub-project. If the
         selected project contains conflicting sources, raise an
-        ``Inavlid_Project`` exception.
+        ``Invalid_Project`` exception.
 
         The returned unit provider assumes that resources allocated by ``Self``
         are kept live: it is the responsibility of the caller to make ``Self``
@@ -110,9 +110,9 @@ libadalang_docs = {
         use it to force the line mode for source files on which the
         preprocessor is enabled.  Forcing the line mode is often needed as the
         default is to remove lines that contain preprocessor directives and
-        disabled code, which breaks the line number correspondance between
+        disabled code, which breaks the line number correspondence between
         original source code and preprocessed one.  Forcing to ``blank_lines``
-        or ``comment_lines`` preserves this correspondance.
+        or ``comment_lines`` preserves this correspondence.
 
         Return a file reader that preprocesses sources accordingly.
     """,

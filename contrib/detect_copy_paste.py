@@ -479,7 +479,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                     Node(Glob.root, pos, Glob.leafEnd)
 
                 # A new leaf edge is created in above line starting from an
-                # existng node (the current activeNode), and if there is any
+                # existing node (the current activeNode), and if there is any
                 # internal node waiting for it's suffix link get reset, point
                 # the suffix link from that last internal node to current
                 # activeNode. Then set lastNewNode to NULL indicating no more
@@ -502,7 +502,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
                 if text[nxt.start + Glob.activeLength] == text[pos]:
                     # If a newly created node waiting for it's suffix link to
                     # be set, then set suffix link of that waiting node to
-                    # curent active node.
+                    # current active node.
                     if Glob.lastNewNode and Glob.activeNode != Glob.root:
                         Glob.lastNewNode.suffixLink = Glob.activeNode
                         Glob.lastNewNode = None
@@ -619,7 +619,7 @@ def find_copy_pastes(codes, num_hash_limit, num_line_limit):
         if curNode.suffixIndex == -1:  # If it is internal node
             ignore = False
 
-            # Only consider node if none of its childen is internal
+            # Only consider node if none of its children is internal
             if any([curNode.children[i].suffixIndex == -1
                     for i in curNode.children.keys()]):
                 ignore = True

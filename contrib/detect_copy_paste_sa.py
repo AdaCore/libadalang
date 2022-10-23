@@ -21,8 +21,8 @@ import libadalang as lal
 # Original paper can be found at:
 # <https://pdfs.semanticscholar.org/8dfc/1a49894632a27a88490db18441180a215fe2.pdf>.
 #
-# For note this algorithm was to first to propose linear time SA
-# construction. A faster one has been discoveed since:
+# For note this algorithm was the first to propose linear time SA
+# construction. A faster one has been discovered since:
 # Nong, Ge; Zhang, Sen; Chan, Wai Hong (2009). Linear Suffix Array Construction
 # by Almost Pure Induced-Sorting. 2009 Data Compression Conference.
 #
@@ -224,8 +224,8 @@ class Encoder(object):
         elif node.text in self.local_names:
             yield Code(Encoder.JOKER, node, filename)
         else:
-            # Finaly take care of other entities. Include kind of the entities
-            # in the name to avoid collisions.
+            # Finally take care of other entities. Include kind of the
+            # entities in the name to avoid collisions.
             s = str(node.kind_name) + ':' + node.text
             if s not in self.rank_dict:
                 self.rank_dict[s] = self.rank
@@ -353,8 +353,8 @@ def do_files(files, args):
             stats['no_prefix'] += 1
             continue
 
-        # Check if a longuer prefix exist in the suffix array. Analyse
-        # only the longuest prefixes.
+        # Check if a longer prefix exists in the suffix array. Analyse
+        # only the longest prefixes.
         if suffix[0] > 0 and suffix[1] > 0 and \
                 codes[suffix[0] - 1].h == codes[suffix[1] - 1].h:
             stats['skipped'] += 1
@@ -387,7 +387,7 @@ def do_files(files, args):
             if code[0].path > code[1].path or \
                     (code[0].path == code[1].path and
                      code[0].begin > code[1].begin):
-                # By ordering in lexicograhic order the paths we avoid
+                # By ordering in lexicographic order the paths we avoid
                 # duplicates.
                 code = (code[1], code[0])
 

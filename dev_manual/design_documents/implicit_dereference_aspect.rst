@@ -19,7 +19,7 @@ wrong to use the equality property to handle type/subtype coercion:
    a given variable might have either of the expected or real (sub)type.
 
 2. In the new solver, those equations will just be impossible to use, so we
-   must get rid of those unsoundesses before we make the switch.
+   must get rid of those unsoundnesses before we make the switch.
 
 High level solution for expected subtype (TODO: fill out)
 ---------------------------------------------------------
@@ -40,6 +40,6 @@ original type.
 
 The high level solution for the implicit dereference aspect would be to encode
 that disjunction in the name resolution of the ``Name`` node. This does not
-appear to be very difficult, appart from the necessary plumbing.
+appear to be very difficult, apart from the necessary plumbing.
 
 TODO: fill out when we start implementing.

@@ -36,7 +36,7 @@ package Libadalang.Sources is
    --  literal.
 
    function Decode_String_Literal (Text : Text_Type) return Text_Type;
-   --  Turn Text, a valid Ada tsring literal, into the signified string.  Raise
+   --  Turn Text, a valid Ada string literal, into the signified string. Raise
    --  a Libadalang.Common.Property_Error if Text is not a valid literal.
 
    -------------------------------

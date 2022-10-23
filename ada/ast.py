@@ -50,7 +50,7 @@ no_prims = RefCategories(inherited_primitives=False, default=True)
 
 def default_origin():
     """
-    Helper to return an origin dynamic param spec wich defaults to
+    Helper to return an origin dynamic param spec which defaults to
     No(AdaNode).
     """
     return (origin, No(T.AdaNode))
@@ -609,7 +609,7 @@ class AdaNode(ASTNode):
                            process_parents=(Bool, True)):
         """
         If the corresponding analysis unit is loaded, return the root decl
-        node for the given analysis unit ``kind`` and correpsonding to the
+        node for the given analysis unit ``kind`` and corresponding to the
         name ``name``. If it's not loaded, return none.
         """
         cu = Var(Self.designated_compilation_unit(
@@ -3041,9 +3041,9 @@ class BasicDecl(AdaNode):
         """
         Internal method for computing the next part of a basic decl according
         to one of its defining names. By default, this property behaves just
-        like ``next_part_for_decl``. However it can be overriden for node types
-        for which the next part depends on the defining name to consider. One
-        example of that are constant declarations:
+        like ``next_part_for_decl``. However it can be overridden for node
+        types for which the next part depends on the defining name to consider.
+        One example of that are constant declarations:
 
         .. code:: ada
 
@@ -3054,7 +3054,7 @@ class BasicDecl(AdaNode):
                 Y : constant Integer := 2;
             end Pkg;
 
-        So, ``next_part_for_name`` is overriden in ``ObjectDecl``.
+        So, ``next_part_for_name`` is overridden in ``ObjectDecl``.
         """
         ignore(sym)
         return Entity.next_part_for_decl
@@ -3065,7 +3065,7 @@ class BasicDecl(AdaNode):
         """
         Internal method for computing the previous part of a basic decl
         according to one of its defining names. By default, this property
-        behaves just like ``next_part_for_decl``. However it can be overriden
+        behaves just like ``next_part_for_decl``. However it can be overridden
         for node types for which the previous part depends on the defining name
         to consider. One example of that are subprogram parameters:
 
@@ -3078,7 +3078,7 @@ class BasicDecl(AdaNode):
                 X, Y : constant Integer := 1;
             end Pkg;
 
-        So, ``previous_part_for_name`` is overriden in ``ObjectDecl``.
+        So, ``previous_part_for_name`` is overridden in ``ObjectDecl``.
         """
         ignore(sym)
         return Entity.previous_part_for_decl
@@ -3576,7 +3576,7 @@ class Body(BasicDecl):
                 )
             ),
 
-            # If this subprogam's parent is a BodyStub, this subprogram is
+            # If this subprogram's parent is a BodyStub, this subprogram is
             # necessarily a Subunit and the stub is thus its previous part.
             parent.is_a(BodyStub),
             parent.singleton,
@@ -3822,7 +3822,7 @@ class Body(BasicDecl):
     def next_part_for_decl():
         """
         By default, bodies don't have a next part. This is not true for body
-        stubs, hence this property is overriden there.
+        stubs, hence this property is overridden there.
         """
         return No(BasicDecl.entity)
 
@@ -4569,7 +4569,7 @@ class TypeDef(AdaNode):
             # need to include the defining environments of their base types.
             Self.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             # Make sure to put own defining env before base types' defining
-            # envs in the result, so that most-overriden subprograms will be
+            # envs in the result, so that most-overridden subprograms will be
             # considered first during name resolution.
             Array([
                 Entity.children_env,
@@ -6247,7 +6247,7 @@ class BaseTypeDecl(BasicDecl):
                       dynamic_vars=[default_imprecise_fallback()])
     def find_all_derived_types(units=T.AnalysisUnit.array):
         """
-        Return the list of all types that inherit (directly or inderictly) from
+        Return the list of all types that inherit (directly or indirectly) from
         Self among the given units.
         """
         return origin.bind(
@@ -7352,7 +7352,7 @@ class TypeDecl(BaseTypeDecl):
         Return the environments containing the primitives for Self (if
         ``include_self`` is True) and all its base types up to ``stop_at``:
         upon rewinding the base type chain, if we stumble on one of the types
-        included in the ``stop_at`` set, we stop the recusion of that branch.
+        included in the ``stop_at`` set, we stop the recursion of that branch.
         All returned environments are rebound using the given rebindings.
         """
         # TODO: Not clear if the below origin.bind is correct, investigate
@@ -7412,13 +7412,13 @@ class TypeDecl(BaseTypeDecl):
            on this part, it necessarily has view on its previous part).
 
          - But most importantly, to fix a visibility issue arising when
-           resolving a reference to a subprogram overriden in the public part
+           resolving a reference to a subprogram overridden in the public part
            of a package if the type has a refined declaration in its private
            part, in which case the inherited subprogram would take precedence
-           over the overriden one (see testcase precise_override_2, U817-024).
+           over the overridden one (see testcase precise_override_2, U817-024).
 
            This change fixes this issue because, by construction, if the
-           overriden subprogram lies in the public part, it means the public
+           overridden subprogram lies in the public part, it means the public
            type declaration already has a view on the inherited subprogram,
            which means we won't include it in the environment computed here
            for the private view.
@@ -7587,7 +7587,7 @@ class FormalTypeDecl(TypeDecl):
 class AnonymousTypeDecl(TypeDecl):
     """
     Anonymous type declaration (for anonymous array or access types). This
-    class has no RM existence, and anonymous (sub)types are refered to
+    class has no RM existence, and anonymous (sub)types are referred to
     implicitly in the RM.
     """
     aspects = NullField()
@@ -9099,7 +9099,7 @@ class SubtypeIndication(TypeExpr):
         """
         Return possible completions for a type indication at this point in the
         file. Completions for a type indication are more likely coming from a
-        type declaration. PackageDecls have a medium weigth in order to provide
+        type declaration. PackageDecls have a medium weight in order to provide
         completion of fully qualified names.
         """
         return Entity.children_env.get(No(Symbol)).map(
@@ -9806,7 +9806,7 @@ class Pragma(AdaNode):
 
 class PragmaArgumentAssoc(BaseAssoc):
     """
-    Argument assocation in a pragma.
+    Argument association in a pragma.
     """
     name = Field(type=T.Name)
     expr = Field(type=T.Expr)
@@ -11222,7 +11222,7 @@ class FormalSubpDecl(ClassicSubpDecl):
                               n.ref_var, Entity.cast(T.BasicDecl))),
 
                 # TODO: change this once we synthesize function attributes
-                # Do not crash on attributes which denotes functions. Ssee
+                # Do not crash on attributes which denote functions. See
                 # equivalent logic in SubpRenamingDecl's xref_equation.
                 If(n.is_a(AttributeRef), LogicFalse(), LogicTrue())
             ),
@@ -12459,7 +12459,7 @@ class ConcatOp(Expr):
     order to avoid crashes while parsing of running name resolution on such
     huge expression.
 
-    The purpose of this node is to replace the arbitraty too deep tree of
+    The purpose of this node is to replace the arbitrarily too deep tree of
     binary operators (which can lead to a stack overflow), as for example with
     ``"A & B & C & D & E"``:
 
@@ -13568,7 +13568,7 @@ class Name(Expr):
         # property to indicate that an AST node does not define subp_spec_var.
         # Unfortunately, No(LogicVar) is not a valid dsl expression. Therefore,
         # we provide a default implementation for this property, which is then
-        # overriden in relevant child classes to indicate that one can call
+        # overridden in relevant child classes to indicate that one can call
         # p_subp_spec_var.
         return False
 
@@ -13593,7 +13593,7 @@ class Name(Expr):
         """
         Return the declaration this node references after name resolution.
         If imprecise_fallback is True, errors raised during resolution of the
-        xref equation are catched and a fallback mechanism is triggered, which
+        xref equation are caught and a fallback mechanism is triggered, which
         tries to find the referenced declaration in an ad-hoc way.
         """
         return Entity.referenced_decl_internal.decl
@@ -14010,7 +14010,7 @@ class Name(Expr):
         """
         Return the array of SingleTokNode nodes that compose this name.
 
-        Only simple name kinds are allowed: Identifer, DottedName and
+        Only simple name kinds are allowed: Identifier, DottedName and
         DefiningName. Any other kind will trigger a PropertyError.
         """
         return Self.match(
@@ -14031,7 +14031,7 @@ class Name(Expr):
         For instance, a node with name ``A.B.C`` is turned into
         ``['A', 'B', 'C']``.
 
-        Only simple name kinds are allowed: Identifer, DottedName and
+        Only simple name kinds are allowed: Identifier, DottedName and
         DefiningName. Any other kind will trigger a PropertyError.
         """
         return Self.as_single_tok_node_array.map(lambda t: t.symbol)
@@ -14041,7 +14041,7 @@ class Name(Expr):
         """
         Return a canonicalized version of this name's text.
 
-        Only simple name kinds are allowed: Identifer, DottedName and
+        Only simple name kinds are allowed: Identifier, DottedName and
         DefiningName. Any other kind will trigger a PropertyError.
         """
         return Self.sym_join(Self.as_symbol_array, String(".")).to_symbol
@@ -14708,7 +14708,7 @@ class CallExpr(Name):
 
 class ParamAssoc(BasicAssoc):
     """
-    Assocation (X => Y) used for parameter associations (:rmlink:`6.4`).
+    Association (X => Y) used for parameter associations (:rmlink:`6.4`).
     """
     designator = Field(type=T.AdaNode)
     r_expr = Field(type=T.Expr)
@@ -14735,7 +14735,7 @@ class ParamAssoc(BasicAssoc):
 
 class AggregateAssoc(BasicAssoc):
     """
-    Assocation (X => Y) used for aggregates associations (:rmlink:`4.3`).
+    Association (X => Y) used for aggregates associations (:rmlink:`4.3`).
     """
     designators = Field(type=T.AlternativesList)
     r_expr = Field(type=T.Expr)
@@ -16355,7 +16355,7 @@ class BaseId(SingleTokNode):
             # If pkg is a generic package (non instantiated) and it is
             # rebound somewhere in the context of Self's rebindings, then
             # we want to put back those rebindings on it, because it means
-            # we are inside a generic instantiation, so refering to the
+            # we are inside a generic instantiation, so referring to the
             # generic package actually means referring to the
             # instantiation.
             pkg.unshed_rebindings(Entity.info.rebindings)
@@ -16622,7 +16622,7 @@ class BaseId(SingleTokNode):
     @langkit_property(return_type=Bool)
     def denotes_the_property_function(subp_spec=T.BaseSubpSpec.entity):
         # Return true whether this node can refer to a property function
-        # detoned by `subp_spec`. (see RM 7.3.4 about stable properties of a
+        # denoted by `subp_spec`. (see RM 7.3.4 about stable properties of a
         # type). This equation has to be called in the scope of the
         # `Stable_Properties` aspect name resolution.
 
@@ -18673,7 +18673,7 @@ class ValueSequence(AdaNode):
     The value sequence of a reduction expression (see ``ReduceAttributeRef``).
     Ada 2022, RM 4.5.10.
     """
-    # NOTE: add chunck and aspect specification fields when parallel keyword is
+    # NOTE: add chunk and aspect specification fields when parallel keyword is
     # supported.
     iter_assoc = Field(type=T.IteratedAssoc)
 
@@ -19303,7 +19303,7 @@ class CompilationUnit(AdaNode):
     @langkit_property(return_type=T.Pragma.entity.array, public=True)
     def config_pragmas(name=T.Symbol):
         """
-        Return the list of configuration pragmas wih the given name that apply
+        Return the list of configuration pragmas with the given name that apply
         to the current unit.
 
         .. note:: Using this property before creating the configuration pragmas

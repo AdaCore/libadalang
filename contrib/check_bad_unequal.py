@@ -99,7 +99,7 @@ def same_as_parent(binop):
 def interesting_oper(op):
     """
     Check that op is a relational operator, which are the operators that
-    interrest us in the context of this script.
+    interest us in the context of this script.
 
     :rtype: bool
     """

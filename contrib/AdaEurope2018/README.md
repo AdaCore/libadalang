@@ -1,7 +1,7 @@
 Material for the Ada Europe 2018 tutorial on Libadalang
 =======================================================
 
-This directory holds solutions and input sources for the Libdalang tutorial
+This directory holds solutions and input sources for the Libadalang tutorial
 that was held in Lisbon for Ada Europe 2018
 (http://ae2018.di.fc.ul.pt/tutorials.html#T8).
 

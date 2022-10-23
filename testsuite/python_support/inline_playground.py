@@ -150,7 +150,7 @@ class InlinePlayground(lal.App):
                     )
                     print(value_prefix + col(value_repr, YELLOW))
 
-                # If this was an assigment, do it now for the next expressions
+                # If this was an assignment, do it now for the next expressions
                 if target:
                     local_env[target] = value
 

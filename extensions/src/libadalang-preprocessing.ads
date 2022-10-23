@@ -57,9 +57,9 @@
 --
 --  One can either create these data structures by hand, or parsing GNATprep's
 --  "preprocessor data file". In the latter case, the
---  ``Parse_Preprocesor_Data_File`` and ``Create_Preprocessor_Data`` functions
---  will cover each case to create the final "aggregated" configuration: a
---  ``Preprocessor_Data`` value.
+--  ``Parse_Preprocessor_Data_File`` and ``Create_Preprocessor_Data``
+--  functions will cover each case to create the final "aggregated"
+--  configuration: a ``Preprocessor_Data`` value.
 --
 --  .. code-block:: ada
 --
@@ -145,8 +145,8 @@ package Libadalang.Preprocessing is
    --  * ``File_Read_Error`` when reading a preprocessor data file or a
    --    definition file failed.
    --
-   --  * ``Syntax_Error`` when parsing a preprocesor data file or a definition
-   --    file failed.
+   --  * ``Syntax_Error`` when parsing a preprocessor data file or a
+   --    definition file failed.
 
    ---------------------------------
    --  Preprocessor configuration --
@@ -371,7 +371,7 @@ package Libadalang.Preprocessing is
       Contents        : out Preprocessed_Source;
       Diagnostics     : in out Diagnostics_Vectors.Vector);
    --  Preprocess the ``Input`` source buffer according to the corresponding
-   --  source filename ``Filename`` and the given preprocesor data.
+   --  source filename ``Filename`` and the given preprocessor data.
    --
    --  Note that ``Filename`` is used here only to look in ``Data`` for the
    --  ``File_Config`` value to use in order to preprocess the ``Input`` source

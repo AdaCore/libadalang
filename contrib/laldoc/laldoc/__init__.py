@@ -364,7 +364,7 @@ class AutoPackage(Directive):
         # List of top-level declarations to document
         toplevel_decls = []
 
-        # Set mirorring toplevel_decls, used to check whether a decl is part of
+        # Set mirroring toplevel_decls, used to check whether a decl is part of
         # it already.
         toplevel_decls_set = set()
 

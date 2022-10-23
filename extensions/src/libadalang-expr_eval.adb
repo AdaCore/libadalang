@@ -39,7 +39,7 @@ package body Libadalang.Expr_Eval is
    function Create_Bool_Result
      (Value : Boolean; N : LAL.Ada_Node'Class) return Eval_Result;
    --  Helper to create an Eval_Result with Enum_Lit_Kind which denotes
-   --  the standard True or False literal decls from the standart Boolean
+   --  the standard True or False literal decls from the standard Boolean
    --  type.
    --  todo: N is only used to access the fake free function P_Std_Entity.
 
@@ -151,7 +151,7 @@ package body Libadalang.Expr_Eval is
       Bool_Type : constant LAL.Base_Type_Decl :=
          N.P_Std_Entity (+"Boolean").As_Base_Type_Decl;
    begin
-      --  Get the enumerator value declaration correspnoding to
+      --  Get the enumerator value declaration corresponding to
       --  Result in Standard's Boolean.
       return Create_Enum_Result
         (Bool_Type,
@@ -603,7 +603,7 @@ package body Libadalang.Expr_Eval is
    begin
       --  Processings on invalid Ada sources may lead to calling Expr_Eval on a
       --  null node. In this case, regular Ada runtime checks in code below
-      --  will trigger a Constaint_Error, while we want here to propagate
+      --  will trigger a Constraint_Error, while we want here to propagate
       --  Property_Error exceptions on invalid code. So do the check ourselves.
 
       if E.Is_Null then
@@ -634,7 +634,7 @@ package body Libadalang.Expr_Eval is
             begin
                --  A character literal is an enum value like any other and so
                --  its value should be its position in the enum. However, due
-               --  to how we define our artifical __standard unit, this
+               --  to how we define our artificial __standard unit, this
                --  assumption does not hold for the Character type and its
                --  variants (Wide_Character, etc.) as they are not defined in
                --  their exact shape. We must therefore implement a specific

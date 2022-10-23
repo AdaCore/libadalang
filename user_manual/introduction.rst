@@ -63,7 +63,7 @@ In the following examples, we will show how to accomplish the same thing with
 Libadalang, with the Ada API, and with the Python API.
 
 The Ada API is great for integration in existing Ada programs, and for
-situations where you need some speed and static safety guaranties.
+situations where you need some speed and static safety guarantees.
 
 The Python API is a good fit for rapid prototyping of programs using
 Libadalang. We greatly encourage even Ada die-hard to try out the Python API

@@ -446,10 +446,10 @@ package body Libadalang.Project_Provider is
 
       Trace.Decrease_Indent;
 
-      --  For debuggability, log how the Tree was partitionned
+      --  For debuggability, log how the Tree was partitioned
 
       if Trace.Is_Active then
-         Trace.Increase_Indent ("Input project partitionned into:");
+         Trace.Increase_Indent ("Input project partitioned into:");
          for Cur in Partition.Iterate loop
             declare
                N    : constant Positive :=

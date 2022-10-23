@@ -1,6 +1,6 @@
 """
 Test that IntLiteral.p_denoted_value properly decodes all valid Ada integer
-literals. Also exercize several erroneous cases that are still accepted by
+literals. Also exercise several erroneous cases that are still accepted by
 Libadalang's lexer.
 """
 

@@ -68,7 +68,7 @@ Regarding the version of these dependencies: Libadalang's development branch
 (``master`` branch on the Git repository) is built and tested using the
 development version of Langkit, of GNATcoll, and of GNATcoll's own
 dependencies, and their release cycles are synchronized. This means that in
-order to build Libdalang's branch ``X``, you need to install Langkit using the
+order to build Libadalang's branch ``X``, you need to install Langkit using the
 branch of the same name, and likewise for GNATcoll and its dependencies.
 
 
@@ -90,7 +90,7 @@ directory. In order to build this source code into a shared library, run:
     $ python manage.py build --library-types=static,static-pic,relocatable
 
 Assuming you satisfied all the above dependencies, both commands should
-successfuly run to completion.
+successfully run to completion.
 
 While developing Libadalang you might be happy to use the following command:
 

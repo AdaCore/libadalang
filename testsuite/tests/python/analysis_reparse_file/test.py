@@ -60,7 +60,7 @@ print('3. Parsing source 2 (reparse=true)')
 unit = ctx.get_from_file('foo.adb', reparse=True)
 check(unit)
 
-# Now restore the "limited" keyword in the soruce:
+# Now restore the "limited" keyword in the source:
 #  5. reparsing the unit should work and set is_limited;
 #  6. reparsing the unit with a deleted file should wipe the AST and emit the
 #     corresponding diagnostics.

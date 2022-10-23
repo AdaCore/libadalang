@@ -22,7 +22,7 @@ def location(node):
 
 def is_equality_operator(op):
     """
-    Check that op is an equality or disequality operator.
+    Check that op is an equality or inequality operator.
 
     :rtype: bool
     """

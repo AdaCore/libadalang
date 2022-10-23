@@ -73,7 +73,7 @@ class AdaAPIDriver(BaseDriver):
         for i, (m, tp) in enumerate(zip(mains, test_programs)):
 
             # If there are multiple test programs to run, print a separator to
-            # distringuish their outputs in the baseline.
+            # distinguish their outputs in the baseline.
             if i > 0:
                 self.output += "\n\n"
             if len(test_programs) > 1:

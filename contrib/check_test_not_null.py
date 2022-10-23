@@ -22,7 +22,7 @@ def location(node):
 
 def is_equality_operator(op, polarity):
     """
-    Check that op is an equality or disequality operator.
+    Check that op is an equality or inequality operator.
 
     :param polarity: Boolean which is True for OpEq and False for OpNeq.
     :rtype: bool
@@ -41,7 +41,7 @@ def get_nullity_test(expr, polarity):
     We make no attempt to detect if this is really an object or an expression.
 
     :param polarity: Boolean which is True to indicate equality to null should
-                     be detected, and False to indicate disequality to null
+                     be detected, and False to indicate inequality to null
                      should be detected.
     :rtype: lal.Expr
     """

@@ -146,7 +146,7 @@ class LALTestsuite(Testsuite):
                  ' to get feedback quickly during development.'
         )
 
-        # Convenience options for developpers
+        # Convenience options for developers
         parser.add_argument(
             '--rewrite', '-r', action='store_true',
             help='Rewrite test baselines according to current output.'

@@ -4,7 +4,7 @@ Proper handling of function attributes
 Current problem
 ---------------
 
-In Ada, a lot of attributes are defined as refering to built-in functions
+In Ada, a lot of attributes are defined as referring to built-in functions
 (every attribute that "takes arguments", is actually a function).
 
 Libadalang's parser is wrong in that regard. Historically,  it parses
@@ -71,8 +71,8 @@ such as in the following example:
 Proposed Solution
 -----------------
 
-To solve this, we need to synthetize the subprogram nodes corresponding to each
-attribute. If we have a unified mechanism to easily synthetise subprograms with
+To solve this, we need to synthesize the subprogram nodes corresponding to each
+attribute. If we have a unified mechanism to easily synthesize subprograms with
 given profiles, we can potentially also dramatically simplify the name
 resolution of said attributes, because for the moment resolution of those is
 hard-coded.

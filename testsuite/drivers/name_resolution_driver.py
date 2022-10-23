@@ -50,7 +50,7 @@ class NameResolutionDriver(BaseDriver):
         check on a big codebase that there are no (new) name resolution
         failures.
 
-    ``preprocesor_data_file``
+    ``preprocessor_data_file``
 
         Filename for the preprocessor data file.
 

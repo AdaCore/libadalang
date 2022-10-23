@@ -1,5 +1,5 @@
 # The following sources do not contain the same string literals so that
-# testcases can check the the reparsing actually worked.
+# testcases can check the reparsing actually worked.
 
 src_buffer_iso_8859_1 = b"""with Ada.Text_IO; use Ada.Text_IO;
 

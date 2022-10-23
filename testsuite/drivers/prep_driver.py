@@ -5,7 +5,7 @@ from drivers.base_driver import BaseDriver
 
 class PrepDriver(BaseDriver):
     """
-    Test driver to exercize Libadalang's preprocessor.
+    Test driver to exercise Libadalang's preprocessor.
 
     It runs the "lal_prep" test program one or several times with various
     arguments, determined by the "configs" key in "test.yaml."

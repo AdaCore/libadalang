@@ -747,9 +747,9 @@ A.add_rules(
     discrete_subtype_indication=DiscreteSubtypeIndication(
         # In our efforts to improve incomplete parsing for better parsing
         # recovery, we added `Cut` parsers in all the `DottedName` that were
-        # not using it already. Unfortunatly, one of these `DottedName` didn't
-        # behave correctly with a `Cut` parser because of the rules used in
-        # `call_suffix`.
+        # not using it already. Unfortunately, one of these `DottedName` did
+        # not behave correctly with a `Cut` parser because of the rules used
+        # in `call_suffix`.
         #
         # Indeed, this rule parses slices and call params making the following
         # code impossible to parse with a `Cut` in the `subtype_name`` rule,

@@ -93,7 +93,7 @@ package body Libadalang.Config_Pragmas is
         (Subproject : Project_Type;
          Attr       : Attribute_Pkg_String) return Analysis_Unit;
       --  Return the analysis unit corresponding to the configuration pragmas
-      --  file mentionned in the given project attribute, or
+      --  file mentioned in the given project attribute, or
       --  ``No_Analysis_Unit`` if there is no such attribute.
 
       -----------

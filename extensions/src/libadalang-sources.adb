@@ -115,7 +115,7 @@ package body Libadalang.Sources is
                I := J;
 
             else
-               --  Otherwise, just copy the chararcters
+               --  Otherwise, just copy the characters
 
                Result (Result_Last) := C;
             end if;
@@ -682,8 +682,8 @@ package body Libadalang.Sources is
          --    numeral.numeral [exponent]
          --
          --  The Parsed record represents this literal, Parsed.Numeral
-         --  reprensents the integer part of the real while Parsed.Fraction
-         --  reprensents its fractional part. Parsed.Exponent is set to 0 if no
+         --  represents the integer part of the real while Parsed.Fraction
+         --  represents its fractional part. Parsed.Exponent is set to 0 if no
          --  exponent is given.
          Numeral  : constant String := Slice (Parsed.Numeral);
          Fraction : constant String := Slice (Parsed.Fraction);

@@ -1,12 +1,12 @@
 ************************
-Developper documentation
+Developer documentation
 ************************
 
 Libadalang is powered by `Langkit <https://github.com/AdaCore/langkit/>`_, so
 it consists only of a language description and several helpers that Langkit
 compiles into an Ada library with its various language bindings.
 
-So for developpers, the gist of Libadalang lies in three files in this
+So for developers, the gist of Libadalang lies in three files in this
 repository:
 
 * ``ada/language/lexer.py`` contains the lexer description for Ada. It will let
@@ -44,7 +44,7 @@ special class from Langkit). These subclasses contain various members:
   :langkit_doc:`Langkit's documentation <properties_dsl.html>`.
 
 Name resolution is implemented with both environment specifications and the
-properties DSL. Libadalang developpers first define how lexical environments
+properties DSL. Libadalang developers first define how lexical environments
 are built, and then use the properties DSL to query them, build equations and
 then solve equations: their solutions are the results of name resolution.
 

@@ -34,7 +34,7 @@ regular Libadalang users, the testcases need to have regular access to the
 generated libraries, binaries, and so on:
 
 * ``PATH`` must point to the ``bin`` subdirectory in your build prefix;
-* ``LD_LIBRARY_PATH`` must point the the ``lib`` subdirectory
+* ``LD_LIBRARY_PATH`` must point to the ``lib`` subdirectory
 * etc.
 
 Note that ``manage.py`` provides a helper to ease the setup. Assuming you have

@@ -1,4 +1,34 @@
 module GPRProject = struct
+  type string_array
+
+  let c_string_array : string_array structure typ =
+    structure "string_array"
+
+  let array_length = field c_string_array "length" int
+
+  let array_c_ptr = field c_string_array "c_ptr" (ptr string)
+
+  let () = seal c_string_array
+
+  let c_free_string_array =
+    foreign ~from:c_lib "${capi.get_name("free_string_array")}"
+      (ptr c_string_array @-> raisable void)
+
+  let read_string_array c_value =
+    let result =
+      List.init
+        (!@ (c_value |-> array_length))
+        (fun i -> (!@ ((!@ (c_value |-> array_c_ptr)) +@ i)))
+    in
+    c_free_string_array c_value ;
+    result
+
+  let write_string_array _value =
+    (* Not used for now *)
+    assert false
+
+  let string_array = view (ptr c_string_array) ~read:read_string_array ~write:write_string_array
+
   type t = unit ptr ptr
 
   let gpr_project_free =
@@ -18,7 +48,7 @@ module GPRProject = struct
   let gpr_project_load =
     foreign ~from:c_lib "${capi.get_name("gpr_project_load")}"
     (string @-> UnitProvider.project_scenario_variable @-> string
-     @-> string @-> raisable c_type)
+     @-> string @-> ptr c_type @-> ptr string_array @-> returning void)
 
   let gpr_project_create_unit_provider =
     foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"
@@ -33,7 +63,12 @@ module GPRProject = struct
       ?(target = "")
       ?(runtime = "")
       project_file : t =
-    gpr_project_load project_file scenario_vars target runtime
+    (* Use allocate_n to avoid having to give it an initial value *)
+    let result = allocate_n ~count:1 c_type in
+    let errors = allocate_n ~count:1 string_array in
+    gpr_project_load project_file scenario_vars target runtime result errors ;
+    (* Not sure what to do with errors here as we already have an exception *)
+    !@ result
 
   let create_unit_provider ?(project = "") gpr_project =
     let result = gpr_project_create_unit_provider gpr_project project in
@@ -42,24 +77,9 @@ module GPRProject = struct
        the project file too early. *)
     UnitProvider.wrap ~keep:gpr_project result
 
-  type source_file_array
-
-  let c_source_file_array : source_file_array structure typ =
-    structure "source_file_array"
-
-  let array_length = field c_source_file_array "length" int
-
-  let array_c_ptr = field c_source_file_array "c_ptr" (ptr string)
-
-  let () = seal c_source_file_array
-
   let c_source_files =
     foreign ~from:c_lib "${capi.get_name("gpr_project_source_files")}"
-      (c_type @-> int @-> raisable (ptr c_source_file_array))
-
-  let c_free_source_files =
-    foreign ~from:c_lib "${capi.get_name("gpr_project_free_source_files")}"
-      (ptr c_source_file_array @-> raisable void)
+      (c_type @-> int @-> raisable string_array)
 
   type source_file_mode =
     | Default
@@ -74,14 +94,7 @@ module GPRProject = struct
     | WholeProjectWithRuntime -> 3
 
   let source_files ?(mode = Default) gpr_project =
-    let c_result = c_source_files gpr_project (write_source_file_mode mode) in
-    let result =
-      List.init
-        (!@ (c_result |-> array_length))
-        (fun i -> (!@ ((!@ (c_result |-> array_c_ptr)) +@ i)))
-    in
-    c_free_source_files c_result ;
-    result
+    c_source_files gpr_project (write_source_file_mode mode)
 
   type line_mode =
     | DeleteLines

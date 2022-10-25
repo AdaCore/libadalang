@@ -67,6 +67,12 @@ procedure Test_Float_Attrs is
 
    W : Integer := Float'Machine_Emax;
    pragma Test_Statement;
+
+   X : Float := Float'Safe_First;
+   pragma Test_Statement;
+
+   Y : Float := Float'Safe_Last;
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

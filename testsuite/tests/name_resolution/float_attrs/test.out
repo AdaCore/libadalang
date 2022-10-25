@@ -607,5 +607,45 @@ Expr: <Id "Machine_Emax" test_float_attrs.adb:68:25-68:37>
   type:          None
   expected type: None
 
+Resolving xrefs for node <ObjectDecl ["X"] test_float_attrs.adb:71:4-71:34>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:71:8-71:13>
+  references:    <DefiningName __standard:14:8-14:13>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test_float_attrs.adb:71:17-71:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Float" test_float_attrs.adb:71:17-71:22>
+  references:    <DefiningName __standard:14:8-14:13>
+  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: None
+Expr: <Id "Safe_First" test_float_attrs.adb:71:23-71:33>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Y"] test_float_attrs.adb:74:4-74:33>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:74:8-74:13>
+  references:    <DefiningName __standard:14:8-14:13>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test_float_attrs.adb:74:17-74:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Float" test_float_attrs.adb:74:17-74:22>
+  references:    <DefiningName __standard:14:8-14:13>
+  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: None
+Expr: <Id "Safe_Last" test_float_attrs.adb:74:23-74:32>
+  references:    None
+  type:          None
+  expected type: None
+
 
 Done.

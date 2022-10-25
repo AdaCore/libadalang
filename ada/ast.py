@@ -14763,7 +14763,8 @@ class ParamAssoc(BasicAssoc):
     def is_static_attribute_assoc():
         return Self.parent.parent.cast(AttributeRef).then(
             lambda ar: ar.attribute.name_symbol.any_of(
-                'First', 'Last', 'Range', 'Length'
+                'First', 'Last', 'Range', 'Length',
+                'Has_Same_Storage', 'Overlaps_Storage',
             )
         )
 
@@ -16835,7 +16836,8 @@ class Identifier(BaseId):
     # For other args, we deactivate this parsing, so that they're correctly
     # parsed as ``CallExpr (AttrRef (pfx, attr), args)``.
     is_attr_with_args = Property(
-        Self.symbol.any_of('First', 'Last', 'Range', 'Length')
+        Self.symbol.any_of('First', 'Last', 'Range', 'Length',
+                           'Has_Same_Storage', 'Overlaps_Storage')
     )
 
     @langkit_property(return_type=T.CompletionItem.array)
@@ -18352,6 +18354,9 @@ class AttributeRef(Name):
             Bind(Self.ref_var, Self.std_entity('abort_signal_'))
             & Bind(Self.type_var, No(BaseTypeDecl.entity)),
 
+            rel_name.any_of('Has_Same_Storage', 'Overlaps_Storage'),
+            Entity.storage_equation,
+
             PropertyError(Equation, "Unhandled attribute")
         )
 
@@ -18702,6 +18707,21 @@ class AttributeRef(Name):
             .cast_or_raise(T.EntryDecl).family_type
         )
         return Entity.prefix.sub_equation & Bind(Self.type_var, typ)
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def storage_equation():
+        """
+        Return the xref equation for the ``Has_Same_Storage`` and
+        ``Overlaps_Storage`` attributes.
+        """
+        return (
+            # Prefix denotes an object
+            Entity.prefix.sub_equation
+            # The attribute return a boolean value
+            & Bind(Self.type_var, Self.bool_type)
+            # The only one argument of the attribute can be of any type
+            & Entity.args.at(0).sub_equation
+        )
 
 
 class ValueSequence(AdaNode):

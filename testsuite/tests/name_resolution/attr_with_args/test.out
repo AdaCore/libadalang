@@ -114,4 +114,87 @@ Expr: <Int main.adb:19:26-19:27>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
+Analyzing storage.adb
+#####################
+
+Resolving xrefs for node <SubpSpec storage.adb:1:1-1:48>
+********************************************************
+
+Expr: <Id "Boolean" storage.adb:1:41-1:48>
+  references:    <DefiningName __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["A", "B"] storage.adb:1:19-1:32>
+*********************************************************************
+
+Expr: <Id "String" storage.adb:1:26-1:32>
+  references:    <DefiningName __standard:105:8-105:14>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ReturnStmt storage.adb:3:4-3:61>
+**********************************************************
+
+Expr: <BinOp storage.adb:3:11-3:60>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef storage.adb:3:11-3:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "A" storage.adb:3:11-3:12>
+  references:    <DefiningName storage.adb:1:19-1:20>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "Overlaps_Storage" storage.adb:3:13-3:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpAnd "and" storage.adb:3:34-3:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef storage.adb:3:38-3:60>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "A" storage.adb:3:38-3:39>
+  references:    <DefiningName storage.adb:1:19-1:20>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "Has_Same_Storage" storage.adb:3:40-3:56>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamAssoc storage.adb:3:31-3:32>
+***********************************************************
+
+Expr: <Id "B" storage.adb:3:31-3:32>
+  references:    <DefiningName storage.adb:1:22-1:23>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+
+Resolving xrefs for node <ParamAssoc storage.adb:3:58-3:59>
+***********************************************************
+
+Expr: <Id "B" storage.adb:3:58-3:59>
+  references:    <DefiningName storage.adb:1:22-1:23>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+
+Resolving xrefs for node <EndName storage.adb:4:5-4:12>
+*******************************************************
+
+Expr: <EndName storage.adb:4:5-4:12>
+  references:    <DefiningName storage.adb:1:10-1:17>
+  type:          None
+  expected type: None
+Expr: <Id "Storage" storage.adb:4:5-4:12>
+  references:    <DefiningName storage.adb:1:10-1:17>
+  type:          None
+  expected type: None
+
+
 Done.

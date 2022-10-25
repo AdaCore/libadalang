@@ -1,0 +1,7 @@
+type: new-feature
+title: "``Has_Same_Storage`` and ``Overlaps_Storage`` attributes support"
+short_title: "``Has_Same_Storage``/``Overlaps_Storage`` attributes"
+description: |
+  This change adds support for the ``Has_Same_Storage`` and ``Overlaps_Storage``
+  attributes.
+date: 2022-10-25

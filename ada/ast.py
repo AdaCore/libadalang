@@ -4811,7 +4811,11 @@ class ComponentDecl(BaseFormalParamDecl):
             # If the prefix is `X'Unrestricted_Access`, we have an implicit
             # dereference. Do not constrain the equation further here and let
             # the AttributeRef's xref_equation handle this case.
-            prefix.cast(AttributeRef)._.is_access_attr,
+            prefix.cast(AttributeRef)._.is_access_attr
+            # If Self is a component of a SingleProtectedDecl or
+            # ProtectedTypeDecl, do not constrain the equation further since
+            # they do not have a type.
+            | Self.parents.any(lambda p: p.is_a(ProtectedDef)),
 
             LogicTrue(),
 
@@ -8855,7 +8859,16 @@ class ProtectedTypeDecl(BaseTypeDecl):
         ignore(stop_recurse_at)
         return Entity.discriminants.abstract_formal_params
 
-    defining_env = Property(Entity.children_env)
+    defining_env = Property(
+        Entity.definition.private_part.then(
+            lambda pp:
+            # Include private_part's env unconditionally. This is safe since
+            # ProtectedTypeDecl can't be overloaded, thus wrong name resolution
+            # can only occur on invalid Ada code.
+            Array([Entity.children_env, pp.children_env]).env_group(),
+            default_val=Entity.children_env
+        )
+    )
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)
@@ -10162,7 +10175,16 @@ class SingleProtectedDecl(BasicDecl):
 
     defining_names = Property(Entity.name.singleton)
 
-    defining_env = Property(Entity.children_env)
+    defining_env = Property(
+        Entity.definition.private_part.then(
+            lambda pp:
+            # Include private_part's env unconditionally. This is safe since
+            # SingleProtectedDecl can't be overloaded, thus wrong name
+            # resolution can only occur on invalid Ada code.
+            Array([Entity.children_env, pp.children_env]).env_group(),
+            default_val=Entity.children_env
+        )
+    )
 
     xref_entry_point = Property(True)
 

@@ -1,2 +1,2 @@
 driver: python
-input_sources: [foo.ads, foo.adb, test_foo.adb, foo-do_stuff.adb]
+input_sources: [foo.ads, foo.adb, test_foo.adb, foo-do_stuff.adb, pkg.ads]

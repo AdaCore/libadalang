@@ -1,0 +1,117 @@
+module GPRProject = struct
+  type string_array
+
+  let c_string_array : string_array structure typ =
+    structure "string_array"
+
+  let array_length = field c_string_array "length" int
+
+  let array_c_ptr = field c_string_array "c_ptr" (ptr string)
+
+  let () = seal c_string_array
+
+  let c_free_string_array =
+    foreign ~from:c_lib "${capi.get_name("free_string_array")}"
+      (ptr c_string_array @-> raisable void)
+
+  let read_string_array c_value =
+    let result =
+      List.init
+        (!@ (c_value |-> array_length))
+        (fun i -> (!@ ((!@ (c_value |-> array_c_ptr)) +@ i)))
+    in
+    c_free_string_array c_value ;
+    result
+
+  let write_string_array _value =
+    (* Not used for now *)
+    assert false
+
+  let string_array = view (ptr c_string_array) ~read:read_string_array ~write:write_string_array
+
+  type t = unit ptr ptr
+
+  let gpr_project_free =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_free")}"
+      (ptr void @-> raisable void)
+
+  let read c_value =
+    let finalise arg =
+      gpr_project_free (!@ arg)
+    in
+    allocate ~finalise (ptr void) c_value
+
+  let write value = (!@ value)
+
+  let c_type = view (ptr void) ~read ~write
+
+  let gpr_project_load =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_load")}"
+    (string @-> UnitProvider.project_scenario_variable @-> string
+     @-> string @-> ptr c_type @-> ptr string_array @-> returning void)
+
+  let gpr_project_create_unit_provider =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"
+      (c_type @-> string @-> raisable UnitProvider.c_type)
+
+  let gpr_project_create_preprocessor =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_create_preprocessor")}"
+      (c_type @-> string @-> ptr int @-> raisable FileReader.c_type)
+
+  let load
+      ?(scenario_vars = [])
+      ?(target = "")
+      ?(runtime = "")
+      project_file : t =
+    (* Use allocate_n to avoid having to give it an initial value *)
+    let result = allocate_n ~count:1 c_type in
+    let errors = allocate_n ~count:1 string_array in
+    gpr_project_load project_file scenario_vars target runtime result errors ;
+    (* Not sure what to do with errors here as we already have an exception *)
+    !@ result
+
+  let create_unit_provider ?(project = "") gpr_project =
+    let result = gpr_project_create_unit_provider gpr_project project in
+    (* The unit provider keeps an internal reference to the project. Use
+       the keep argument to simulate the same behaviour and avoid freeing
+       the project file too early. *)
+    UnitProvider.wrap ~keep:gpr_project result
+
+  let c_source_files =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_source_files")}"
+      (c_type @-> int @-> raisable string_array)
+
+  type source_file_mode =
+    | Default
+    | RootProject
+    | WholeProject
+    | WholeProjectWithRuntime
+
+  let write_source_file_mode = function
+    | Default -> 0
+    | RootProject -> 1
+    | WholeProject -> 2
+    | WholeProjectWithRuntime -> 3
+
+  let source_files ?(mode = Default) gpr_project =
+    c_source_files gpr_project (write_source_file_mode mode)
+
+  type line_mode =
+    | DeleteLines
+    | BlankLines
+    | CommentLines
+
+  let create_preprocessor ?(project = "") ?line_mode gpr_project =
+    let line_mode_c =
+      match line_mode with
+      | Some DeleteLines ->
+          allocate int 0
+      | Some BlankLines ->
+          allocate int 1
+      | Some CommentLines ->
+          allocate int 2
+      | None ->
+         from_voidp int null
+    in
+    gpr_project_create_preprocessor gpr_project project line_mode_c
+end

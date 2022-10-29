@@ -112,7 +112,11 @@ class CompletionItem(Struct):
     decl = UserField(T.BasicDecl.entity)
     is_dot_call = UserField(T.Bool, default_value=False)
     is_visible = UserField(T.Bool, default_value=True)
-    weight = UserField(T.Int, default_value=0)
+    weight = UserField(
+        T.Int, default_value=0,
+        doc="The higher the weight, the more relevant the completion item is."
+        # See `AdaNode.complete_item_weight` for implementation details.
+    )
 
 
 @abstract
@@ -355,7 +359,7 @@ class AdaNode(ASTNode):
                 decl=n.cast(T.BasicDecl),
                 is_dot_call=n.info.md.dottable_subp,
                 is_visible=Self.has_with_visibility(n.unit),
-                weight=Self.complete_item_weight(n.cast(T.BasicDecl))
+                weight=Entity.complete_item_weight(n.cast(T.BasicDecl))
             )
         )
 
@@ -364,6 +368,11 @@ class AdaNode(ASTNode):
         """
         Internal method used by ``complete_items`` that can be used to
         specialize the completion weight field only.
+
+        Weight is an integer, the higher it is, the more relevant it is in the
+        given context. In practice, the weight varies from 0 to 100, so that
+        one has just to sort the completion items by their weight, in
+        decreasing order, to get the more relevant items first.
         """
         ignore(item)
         return 0
@@ -596,6 +605,10 @@ class AdaNode(ASTNode):
             lambda multi=CompilationUnit.list: multi.find(
                 lambda c: c.syntactic_fully_qualified_name == name
             ),
+
+            # If the root is a PragmaNodeList (`pragma No_Body` case), there is
+            # no compilation unit for `name`.
+            lambda _=Pragma.list: No(T.CompilationUnit),
 
             lambda _: PropertyError(CompilationUnit,
                                     "Unexpected analysis unit root")
@@ -7989,6 +8002,19 @@ class CompositeConstraint(Constraint):
             & Entity.subtype.accessed_type.is_array_type
         )
 
+    @langkit_property()
+    def complete_item_weight(item=T.BasicDecl.entity):
+        # If the constraint's type is an enum, promote EnumLiteralDecl nodes
+        # that match that type.
+        return If(
+            Entity.subtype.discriminants_list.any(
+                lambda td:
+                td.formal_type == item.cast(T.EnumLiteralDecl)._.enum_type
+            ),
+            100,
+            Entity.super(item)
+        )
+
     @langkit_property(public=True)
     def is_discriminant_constraint():
         """
@@ -10090,6 +10116,18 @@ class AspectAssoc(AdaNode):
             Entity.id.name_is('Stable_Properties'),
             Entity.stable_properties_assoc_equation,
 
+            # Constant_Indexing and Variable_Indexing aspects name expression
+            # can denotes one or more functions. Since name resolution can set
+            # only one reference for a name, only keep the first function
+            # returned by constant_indexing_fns and variable_indexing_fns.
+            Entity.id.name_is('Constant_Indexing'),
+            Bind(Entity.expr.cast_or_raise(T.Identifier).ref_var,
+                 target.cast(TypeDecl).as_entity.constant_indexing_fns.at(0)),
+
+            Entity.id.name_is('Variable_Indexing'),
+            Bind(Entity.expr.cast_or_raise(T.Identifier).ref_var,
+                 target.cast(TypeDecl).as_entity.variable_indexing_fns.at(0)),
+
             # Default resolution: For the moment we didn't encode specific
             # resolution rules for every aspect, so by default at least try to
             # name resolve the expression.
@@ -11221,10 +11259,7 @@ class FormalSubpDecl(ClassicSubpDecl):
                     Predicate(BasicDecl.subp_decl_match_signature,
                               n.ref_var, Entity.cast(T.BasicDecl))),
 
-                # TODO: change this once we synthesize function attributes
-                # Do not crash on attributes which denote functions. See
-                # equivalent logic in SubpRenamingDecl's xref_equation.
-                If(n.is_a(AttributeRef), LogicFalse(), LogicTrue())
+                If(n.is_a(AttributeRef), n.sub_equation, LogicTrue())
             ),
 
             lambda _: PropertyError(Equation, "Should not happen")
@@ -14728,7 +14763,8 @@ class ParamAssoc(BasicAssoc):
     def is_static_attribute_assoc():
         return Self.parent.parent.cast(AttributeRef).then(
             lambda ar: ar.attribute.name_symbol.any_of(
-                'First', 'Last', 'Range', 'Length'
+                'First', 'Last', 'Range', 'Length',
+                'Has_Same_Storage', 'Overlaps_Storage',
             )
         )
 
@@ -16800,7 +16836,8 @@ class Identifier(BaseId):
     # For other args, we deactivate this parsing, so that they're correctly
     # parsed as ``CallExpr (AttrRef (pfx, attr), args)``.
     is_attr_with_args = Property(
-        Self.symbol.any_of('First', 'Last', 'Range', 'Length')
+        Self.symbol.any_of('First', 'Last', 'Range', 'Length',
+                           'Has_Same_Storage', 'Overlaps_Storage')
     )
 
     @langkit_property(return_type=T.CompletionItem.array)
@@ -18243,7 +18280,8 @@ class AttributeRef(Name):
             rel_name.any_of('Small', 'Model_Small', 'Safe_Small',
                             'Epsilon', 'Model_Epsilon',
                             'Large', 'Safe_Large',
-                            'Delta'),
+                            'Delta',
+                            'Safe_First', 'Safe_Last'),
             Entity.universal_real_equation,
 
             rel_name == 'Img',
@@ -18315,6 +18353,9 @@ class AttributeRef(Name):
             rel_name == "Abort_Signal",
             Bind(Self.ref_var, Self.std_entity('abort_signal_'))
             & Bind(Self.type_var, No(BaseTypeDecl.entity)),
+
+            rel_name.any_of('Has_Same_Storage', 'Overlaps_Storage'),
+            Entity.storage_equation,
 
             PropertyError(Equation, "Unhandled attribute")
         )
@@ -18666,6 +18707,21 @@ class AttributeRef(Name):
             .cast_or_raise(T.EntryDecl).family_type
         )
         return Entity.prefix.sub_equation & Bind(Self.type_var, typ)
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def storage_equation():
+        """
+        Return the xref equation for the ``Has_Same_Storage`` and
+        ``Overlaps_Storage`` attributes.
+        """
+        return (
+            # Prefix denotes an object
+            Entity.prefix.sub_equation
+            # The attribute return a boolean value
+            & Bind(Self.type_var, Self.bool_type)
+            # The only one argument of the attribute can be of any type
+            & Entity.args.at(0).sub_equation
+        )
 
 
 class ValueSequence(AdaNode):
@@ -19826,9 +19882,7 @@ class RequeueStmt(SimpleStmt):
                 lambda fam_type=e.cast(EntryDecl)._.spec.family_type
                 .cast(SubtypeIndication)._.designated_type,
 
-                # TODO: waiting for a fix to T603-061, we put `as_array` here
-                # because _.at(0) does not unparse in a way that LKT can parse.
-                first_param=ce._.params.as_array.at(0)._.expr:
+                first_param=ce._.params.at(0)._.expr:
 
                 first_param.then(
                     lambda p: p.sub_equation & fam_type.then(

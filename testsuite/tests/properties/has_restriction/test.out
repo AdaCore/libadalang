@@ -2,3 +2,4 @@
 <CompilationUnit foo.adb:1:1-10:5> has restriction No_Elaboration_Code
 <CompilationUnit test_foo.adb:1:1-7:5> does not have restriction No_Elaboration_Code
 <CompilationUnit foo-do_stuff.adb:2:1-6:14> has restriction No_Elaboration_Code
+<CompilationUnit pkg.ads:1:1-2:9> does not have restriction No_Elaboration_Code

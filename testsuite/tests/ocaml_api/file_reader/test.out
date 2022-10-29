@@ -1,0 +1,59 @@
+==========
+with Bar;
+
+procedure Foo is
+begin
+   null;
+end Foo;
+==========
+with Bar;
+
+procedure Foo is
+begin
+   Bar;
+end Foo;
+==========
+with Bar;
+
+procedure Foo is
+begin
+
+
+
+   null;
+
+end Foo;
+==========
+with Bar;
+
+procedure Foo is
+begin
+
+   Bar;
+
+
+
+end Foo;
+==========
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+--!    Bar;
+--! #else
+   null;
+--! #end if;
+end Foo;
+==========
+with Bar;
+
+procedure Foo is
+begin
+--! #if X then
+   Bar;
+--! #else
+--!    null;
+--! #end if;
+end Foo;
+==========

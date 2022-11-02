@@ -1,0 +1,17 @@
+== default charset ==
+
+foo/body: <CompilationUnit foo-utf8.ada:1:1-4:9>
+Diagnostics for foo
+  Could not find source file for foo (specification file)
+Diagnostics for bar
+  Could not find source file for bar (body file)
+
+== utf-8 ==
+
+foo/body: <CompilationUnit foo-utf8.ada:1:1-4:9>
+
+== utf-16 ==
+
+foo/body: <CompilationUnit foo-utf16.ada:1:1-4:9>
+
+Done.

@@ -8,6 +8,22 @@ def token_match(self, other):
     return self == other or self.text == other
 
 
+def _coerce_bytes(label, value, what='a bytes string', or_none=False):
+    """
+    Take bytes (forwarded as-is to C) but also accept text (encoded using
+    the system encoding).
+    """
+    if value is None and or_none:
+        return None
+    elif isinstance(value, bytes):
+        return value
+    elif isinstance(value, str):
+        return value.encode()
+    else:
+        raise TypeError('`{}` argument must be {} (got {})'
+                        .format(label, what, _type_fullname(type(value))))
+
+
 ## Handling of string arrays
 
 class _c_string_array(ctypes.Structure):
@@ -124,9 +140,9 @@ class GPRProject:
         self._c_value = None
 
         # Turn arguments into C API values
-        c_project_file = self._coerce_bytes('project_file', project_file)
-        c_target = self._coerce_bytes('target', target, or_none=True)
-        c_runtime = self._coerce_bytes('runtime', runtime, or_none=True)
+        c_project_file = _coerce_bytes('project_file', project_file)
+        c_target = _coerce_bytes('target', target, or_none=True)
+        c_runtime = _coerce_bytes('runtime', runtime, or_none=True)
 
         if scenario_vars:
             items = scenario_vars.items()
@@ -136,8 +152,8 @@ class GPRProject:
             c_scenario_vars = scn_vars_array_type()
             for i, (name, value) in enumerate(items):
                 what = 'a dict mapping bytes strings to bytes strings'
-                name = self._coerce_bytes('scenario_vars', name, what)
-                value = self._coerce_bytes('scenario_vars', value, what)
+                name = _coerce_bytes('scenario_vars', name, what)
+                value = _coerce_bytes('scenario_vars', value, what)
                 c_scenario_vars[i] = self._c_scenario_variable(
                     name, value
                 )
@@ -195,7 +211,7 @@ class GPRProject:
             projects that contains several conflicting units are not supported:
             trying to use one will yield an ``InvalidProjectError`` exception.
         """
-        c_project = self._coerce_bytes('project', project, or_none=True)
+        c_project = _coerce_bytes('project', project, or_none=True)
         c_value = self._c_create_unit_provider(self._c_value, c_project)
         return self._UnitProvider(self, c_value)
 
@@ -245,7 +261,7 @@ class GPRProject:
         to read a preprocessor data file and a ``Syntax_Error`` exception if
         one such file has invalid syntax.
         """
-        c_project = self._coerce_bytes('project', project, or_none=True)
+        c_project = _coerce_bytes('project', project, or_none=True)
 
         if line_mode is None:
             c_line_mode_ref = None
@@ -258,22 +274,6 @@ class GPRProject:
                 self._c_value, c_project, c_line_mode_ref
             ),
         )
-
-    @staticmethod
-    def _coerce_bytes(label, value, what='a bytes string', or_none=False):
-        """
-        Take bytes (forwarded as-is to C) but also accept text (encoded using
-        the system encoding).
-        """
-        if value is None and or_none:
-            return None
-        elif isinstance(value, bytes):
-            return value
-        elif isinstance(value, str):
-            return value.encode()
-        else:
-            raise TypeError('`{}` argument must be {} (got {})'
-                            .format(label, what, _type_fullname(type(value))))
 
     _c_type = _hashable_c_pointer()
 

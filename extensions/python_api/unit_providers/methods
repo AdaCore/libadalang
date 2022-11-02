@@ -28,5 +28,8 @@
         c_array_ptr = ctypes.pointer(c_array)
         input_files_arg = ctypes.cast(c_array_ptr,
                                       ctypes.POINTER(ctypes.c_char_p))
-        c_value = _create_auto_provider(input_files_arg, charset)
+
+        c_charset = _unwrap_charset(charset)
+
+        c_value = _create_auto_provider(input_files_arg, c_charset)
         return cls(c_value)

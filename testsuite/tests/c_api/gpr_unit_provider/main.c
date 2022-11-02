@@ -84,8 +84,11 @@ run (const char *project_file, const char *subproject)
 
 	  ada_destroy_text (&unit_text);
 	}
+
+      ada_context_decref (ctx);
     }
 
+  ada_dec_ref_unit_provider (up);
   ada_gpr_project_free (gpr);
   abort_on_exception ();
 }

@@ -2182,25 +2182,33 @@ class BasicDecl(AdaNode):
             Entity,
 
             rebindings.old_env.env_node == Self,
-
-            If(
-                Or(
-                    Entity.info.rebindings == No(T.EnvRebindings),
-                    rebindings.get_parent == Entity.info.rebindings,
-                ),
-
-                BasicDecl.entity.new(
-                    node=Self,
-                    info=T.entity_info.new(
-                        rebindings=rebindings,
-                        md=Entity.info.md,
-                        from_rebound=Entity.info.from_rebound
-                    )
-                ),
-                PropertyError(BasicDecl.entity, "Incorrect rebindings")
-            ),
+            Entity.unshed_rebindings_helper(rebindings),
 
             Entity.unshed_rebindings(rebindings.get_parent)
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def unshed_rebindings_helper(rebindings=T.EnvRebindings):
+        """
+        Put ``rebindings`` on ``Entity``. Ensure coherency, e.g. that if Entity
+        already has some rebindings, the one that we add are a superset of the
+        one it already has.
+        """
+        return If(
+            Or(
+                Entity.info.rebindings == No(T.EnvRebindings),
+                rebindings.get_parent == Entity.info.rebindings,
+            ),
+
+            BasicDecl.entity.new(
+                node=Self,
+                info=T.entity_info.new(
+                    rebindings=rebindings,
+                    md=Entity.info.md,
+                    from_rebound=Entity.info.from_rebound
+                )
+            ),
+            PropertyError(BasicDecl.entity, "Incorrect rebindings")
         )
 
     @langkit_property(return_type=T.Bool)
@@ -13645,14 +13653,70 @@ class Name(Expr):
             RefdDecl.new(kind=RefResultKind.error)
         )
 
-    @langkit_property(public=True, return_type=RefdDecl,
+    @langkit_property()
+    def get_referenced_decl():
+        """
+        Wrapper to get the referenced declaration inside ``Self.ref_var``.
+
+        This wrapper will put back the generic context on generic bodies. When
+        you are inside an instantiation and you lookup the generic by name,
+        such as in this example:
+
+        .. code-block:: ada
+
+            generic procedure P2_G;
+
+            procedure P2_G is
+            begin
+                P2_G; <- Reference to the generic body
+            end;
+
+            procedure P2 is new P2_G; <- Through this instantiation
+
+        It needs to return the instantiated generic, but by default this will
+        not work.
+
+        TODO: This is kind of a special case, and we need to investigate
+        whether a rework of the rebindings mechanism can simplify this or not.
+        """
+
+        val_result = Var(Self.logic_val(Entity, Self.ref_var))
+        entity = Var(val_result.value.cast_or_raise(T.BasicDecl.entity))
+
+        generic_context_node = Var(Entity.info.rebindings._.old_env.env_node)
+
+        # Put back the generic context on entity if applicable as per the
+        # example in the docstring.
+        entity_with_generic_context = Var(If(
+            Not(generic_context_node.is_null) &
+
+            Or(
+                # The referenced node is the generic declaration inside of
+                # which we are.
+                generic_context_node == entity.node,
+
+                # The referenced node is the generic body inside of which we
+                # are.
+                generic_context_node
+                == entity.cast(T.Body)._.decl_part()._.node
+            ),
+
+            # Add back the rebindings if the conditions are satisfied
+            entity.unshed_rebindings_helper(Entity.info.rebindings),
+            entity
+        ))
+
+        return val_result.success.then(lambda s: LogicValResult.new(
+            success=s,
+            value=entity_with_generic_context
+        ))
+
+    @langkit_property(return_type=RefdDecl,
                       dynamic_vars=[default_imprecise_fallback()])
     def referenced_decl_internal():
         """
         Return the declaration this node references. Try not to run name res if
         already resolved.
-
-        .. warning:: INTERNAL USE ONLY.
         """
         return If(
             # First, check whether the name is defining, in which case it
@@ -13665,8 +13729,8 @@ class Name(Expr):
 
                 # The imprecise_fallback path cannot raise
                 Let(lambda v=Try(
-                    Self.logic_val(Entity, Self.ref_var),
-                    LogicValResult.new(success=False, value=No(AdaNode.entity))
+                    Entity.get_referenced_decl,
+                    No(LogicValResult)
                 ): If(
                     v.success,
                     # If we resolved correctly using full nameres, return a
@@ -13686,7 +13750,7 @@ class Name(Expr):
                 )),
 
                 # No fallback path
-                Let(lambda v=Self.logic_val(Entity, Self.ref_var): If(
+                Let(lambda v=Entity.get_referenced_decl: If(
                     v.success,
                     RefdDecl.new(
                         decl=v.value.cast_or_raise(T.BasicDecl.entity),

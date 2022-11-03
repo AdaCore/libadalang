@@ -1,0 +1,8 @@
+Working on node <GenericSubpInstantiation ["P2"] test.adb:12:4-12:29>
+=====================================================================
+
+Set 'gen_body' to 'node.p_designated_generic_decl.p_body_part()'
+Result: <SubpBody ["P2_G"] test.adb:7:4-10:8>
+
+Eval 'gen_body.find(lal.CallStmt)[0].p_referenced_decl().entity_repr'
+Result: '<| SubpBody ["P2_G"] test.adb:7:4-10:8 [test.adb:12:4] |>'

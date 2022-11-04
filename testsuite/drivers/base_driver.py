@@ -88,11 +88,18 @@ class BaseDriver(DiffTestDriver):
 
     @property
     def output_refiners(self):
-        return super().output_refiners + [
-            PatternSubstitute(
-                r"gnatcoll-projects\.adb:\d+", "gnatcoll-projects.adb:XXX:"
-            ),
-        ]
+        result = super().output_refiners
+
+        # Erase line numbers from exception messages referencing
+        # gnatcoll-projects.adb.
+        pattern = r"gnatcoll-projects\.adb:\d+"
+        repl = "gnatcoll-projects.adb:XXX:"
+        if self.default_encoding == "binary":
+            pattern = pattern.encode("ascii")
+            repl = repl.encode("ascii")
+        result.append(PatternSubstitute(pattern, repl))
+
+        return result
 
     @property
     def disable_shared(self):

@@ -1,0 +1,6 @@
+Including <ExprFunction ["Primitive"] pkg.ads:5:4-6:22> in set
+Including <ExprFunction ["Primitive"] pkg.ads:5:4-6:22> in set
+Set length =  2 (should be 2)
+Including <ExprFunction ["Primitive"] pkg.ads:5:4-6:22> in set
+Set length =  2 (should be 2)
+Done.

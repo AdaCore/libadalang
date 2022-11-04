@@ -261,6 +261,8 @@ package Libadalang.Preprocessing is
    No_Preprocessor_Data : constant Preprocessor_Data;
    --  No reference to preprocessor data
 
+   overriding function "=" (Left, Right : Preprocessor_Data) return Boolean;
+
    function Parse_Preprocessor_Data_File
      (Filename : String; Path : Any_Path) return Preprocessor_Data;
    --  Parse the preprocessor data file at ``Filename`` and return the

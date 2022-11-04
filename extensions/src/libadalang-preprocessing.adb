@@ -376,6 +376,21 @@ package body Libadalang.Preprocessing is
       end if;
    end Move;
 
+   ---------
+   -- "=" --
+   ---------
+
+   overriding function "=" (Left, Right : Preprocessor_Data) return Boolean is
+      use type File_Config_Maps.Map;
+   begin
+      if Left.Data = null or else Right.Data = null then
+         return Left.Data = Right.Data;
+      else
+         return Left.Default_Config = Right.Default_Config
+                and then Left.File_Configs = Right.File_Configs;
+      end if;
+   end "=";
+
    ----------------------------------
    -- Parse_Preprocessor_Data_File --
    ----------------------------------

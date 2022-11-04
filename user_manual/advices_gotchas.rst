@@ -32,6 +32,34 @@ conversion functions to up/down cast node types:
     --  This code is valid and will work as you expect
     C : Compilation_Unit := A.As_Compilation_Unit;
 
+Ada API: Equality between ``Ada_Node`` and derived types
+--------------------------------------------------------
+
+Summary
+^^^^^^^
+
+As said previously, nodes types are like fat pointers to a node, something like
+``(pointer_to_node, more_entity_info)``.
+
+For complex reasons we're exposing an ``"="`` operator on classwide nodes, and
+that's the one you'll use by default, but when instantiating generic containers
+with nodes, if you need an equivalent function, you cannot use ``"="``, because
+that will use the default equality operator. Instead, you need to use the
+``Ada_Node.Equals`` function:
+
+.. code-block:: ada
+
+   with Libadalang.Analysis; use Libadalang.Analysis;
+
+   ...
+
+   package Node_Sets is new Ada.Containers.Hashed_Sets
+     (Element_Type        => Ada_Node,
+      Hash                => Hash,
+      Equivalent_Elements => Equals,
+      "="                 => Equals);
+
+
 .. _standard-unit:
 
 Standard unit pecularities

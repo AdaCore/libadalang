@@ -4889,7 +4889,10 @@ class ComponentList(BaseFormalParamHolder):
     ):
 
         td = Var(Entity.type_decl)
-        discriminants = Var(td.discriminants_list)
+        base_aggregate = Var(assocs.parent.cast_or_raise(BaseAggregate))
+        discriminants = Var(
+            td.discriminants_list(base_aggregate.ancestor_expr_type)
+        )
 
         # Get param matches for discriminants only
         discriminants_matches = Var(Self.match_formals(
@@ -4908,7 +4911,8 @@ class ComponentList(BaseFormalParamHolder):
         # depending on the static value of discriminants.
         return td.record_def.comps.abstract_formal_params_impl(
             discriminants=discriminants_matches,
-            stop_recurse_at=stop_recurse_at
+            stop_recurse_at=stop_recurse_at,
+            assocs=assocs
         )
 
     @langkit_property(return_type=BaseFormalParamDecl.entity.array)
@@ -4933,8 +4937,28 @@ class ComponentList(BaseFormalParamHolder):
         discriminants=T.ParamMatch.array,
         include_discriminants=(Bool, True),
         recurse=(Bool, True),
-        stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+        stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity)),
+        assocs=(T.AssocList.entity, No(T.AssocList.entity))
     ):
+        """
+        Implementation for abstract_formal_params. Warning: this property
+        is for internal use.
+
+        This property returns the formal parameter declarations of a given
+        aggregate components list, regarding its ``discriminants`` values.
+
+        * If ``include_discriminants`` is True, discriminants are also returned
+          by the property.
+
+        * When ``recurse`` is set, parent's components are appended to the
+          result, recursively. In some cases, ``stop_recurse_at`` can be used
+          to stop the recursion. This is used for extended aggregates in order
+          to not consider the ancestor when looking for parents components. See
+          also ``BaseTypeDecl.all_discriminants``.
+
+        * ``assoc`` is the AssocList of the aggregate that can be used to
+          get parents components regarding their discriminants values.
+        """
 
         # Get self's components. We pass along discriminants, to get variant
         # part's components too.
@@ -4954,13 +4978,21 @@ class ComponentList(BaseFormalParamHolder):
                     self_comps,
                     pcl.abstract_formal_params_impl(
                         pcl.match_formals(
-                            pcl.type_decl.discriminants_list,
+                            pcl.type_decl.discriminants_list(stop_recurse_at),
                             Entity.type_def.cast(DerivedTypeDef)
                             .subtype_indication.constraint
-                            .cast(CompositeConstraint)._.constraints,
+                            .cast(CompositeConstraint).then(
+                                lambda cc: cc.constraints,
+                                # In case of extension aggregate, discriminants
+                                # are not constrained by any subtype
+                                # indication, then match the discriminants with
+                                # the AssocList of the aggregate.
+                                default_val=assocs
+                            ),
                             is_dottable_subp=False
                         ),
-                        include_discriminants=False
+                        include_discriminants=False,
+                        stop_recurse_at=stop_recurse_at
                     ).concat(self_comps)
                 ),
                 default_val=self_comps
@@ -4970,7 +5002,7 @@ class ComponentList(BaseFormalParamHolder):
 
         return If(
             include_discriminants,
-            Entity.type_decl._.discriminants_list.concat(ret),
+            Entity.type_decl._.discriminants_list(stop_recurse_at).concat(ret),
             ret
         )
 
@@ -6762,10 +6794,20 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
                       dynamic_vars=[default_origin()],
                       kind=AbstractKind.abstract, public=True)
-    def discriminants_list():
+    def discriminants_list(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
         """
         Return the list of all discriminants of this type. If this type has no
         discriminant or only unknown discriminants, an empty list is returned.
+
+        In order to obtain all the discriminants of an extended type, this
+        property looks on parents, recursively.
+
+        Extended aggregates can be build from any intermediate parent of an
+        extended type. In that case, this property shouldn't recurse to the
+        root type, but the one used as the aggregate's ancestor, designated by
+        ``stop_recurse_at``.
         """
         pass
 
@@ -7071,7 +7113,11 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     is_interface_type = Property(Entity.typedecl.is_interface_type)
 
-    discriminants_list = Property(Entity.typedecl.discriminants_list)
+    @langkit_property()
+    def discriminants_list(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
+        return Entity.typedecl.discriminants_list(stop_recurse_at)
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
                       memoized=True)
@@ -7149,7 +7195,9 @@ class TypeDecl(BaseTypeDecl):
         return Entity.type_def.discrete_range
 
     @langkit_property()
-    def discriminants_list():
+    def discriminants_list(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
         # TODO: investigate if below origin.bind is valid
         base_type = Var(Entity.base_type)
         self_discs = Var(Entity.discriminants.then(
@@ -7158,10 +7206,16 @@ class TypeDecl(BaseTypeDecl):
 
         return Cond(
             Entity.is_access_type,
-            Entity.accessed_type.discriminants_list,
+            Entity.accessed_type.discriminants_list(stop_recurse_at),
 
             self_discs.length > 0, self_discs,
-            Not(base_type.is_null), Entity.base_type.discriminants_list,
+
+            Not(base_type.is_null) & base_type.matching_type(stop_recurse_at),
+            self_discs,
+
+            Not(base_type.is_null),
+            Entity.base_type.discriminants_list(stop_recurse_at),
+
             No(T.BaseFormalParamDecl.entity.array)
         )
 
@@ -8632,7 +8686,6 @@ class BaseSubtypeDecl(BaseTypeDecl):
     base_types = Property(Entity.get_type.base_types)
     array_def = Property(Entity.get_type.array_def)
     is_classwide = Property(Entity.from_type_bound.is_classwide)
-    discriminants_list = Property(Entity.get_type.discriminants_list)
     is_iterable_type = Property(Entity.get_type.is_iterable_type)
     iterable_comp_type = Property(Entity.get_type.iterable_comp_type)
     is_record_type = Property(Entity.get_type.is_record_type)
@@ -8648,6 +8701,12 @@ class BaseSubtypeDecl(BaseTypeDecl):
     variable_indexing_fns = Property(
         Entity.from_type_bound.variable_indexing_fns
     )
+
+    @langkit_property()
+    def discriminants_list(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
+        return Entity.get_type.discriminants_list(stop_recurse_at)
 
 
 class SubtypeDecl(BaseSubtypeDecl):
@@ -8742,7 +8801,12 @@ class TaskTypeDecl(BaseTypeDecl):
 
     defining_env = Property(Entity.children_env)
 
-    discriminants_list = Property(Entity.discriminants.abstract_formal_params)
+    @langkit_property()
+    def discriminants_list(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
+        ignore(stop_recurse_at)
+        return Entity.discriminants.abstract_formal_params
 
     xref_entry_point = Property(True)
 
@@ -8784,7 +8848,12 @@ class ProtectedTypeDecl(BaseTypeDecl):
     interfaces = Field(type=T.ParentList)
     definition = Field(type=T.ProtectedDef)
 
-    discriminants_list = Property(Entity.discriminants.abstract_formal_params)
+    @langkit_property()
+    def discriminants_list(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
+        ignore(stop_recurse_at)
+        return Entity.discriminants.abstract_formal_params
 
     defining_env = Property(Entity.children_env)
 
@@ -13016,7 +13085,9 @@ class BaseAggregate(Expr):
     @langkit_property(return_type=T.BaseFormalParamDecl.entity.array,
                       dynamic_vars=[origin],
                       memoized=True, call_memoizable=True)
-    def all_discriminants():
+    def all_discriminants(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
         """
         Return the list of all discriminants that must be associated by this
         aggregate.
@@ -13034,15 +13105,19 @@ class BaseAggregate(Expr):
         """
         td = Var(Self.type_val.cast(BaseTypeDecl))
         record_decl = Var(td.record_def.comps.type_decl)
-        return record_decl.discriminants_list
+        return record_decl.discriminants_list(stop_recurse_at)
 
     @langkit_property(return_type=T.BaseFormalParamDecl.entity.array,
                       dynamic_vars=[origin, env],
                       memoized=True, call_memoizable=True)
-    def all_components():
+    def all_components(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
         """
         Return the list of all components that must be associated by this
         aggregate.
+
+        See ``all_discriminants`` for ``stop_recurse_at`` documentation.
 
         .. attention::
             This property is part of the name resolution algorithm for
@@ -13055,37 +13130,46 @@ class BaseAggregate(Expr):
             # For delta aggregates, get all the components regardless of the
             # discriminant values.
             comp_list.abstract_formal_params_for_delta_assocs,
-            comp_list.abstract_formal_params_for_assocs(Entity.assocs)
+            comp_list.abstract_formal_params_for_assocs(Entity.assocs,
+                                                        stop_recurse_at)
         )
 
     @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[origin],
                       memoized=True)
-    def matched_discriminants():
+    def matched_discriminants(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
         """
         Return the list of all discriminants specified by this aggregate,
         together with the actual used for it.
 
+        See ``all_discriminants`` for ``stop_recurse_at`` documentation.
+
         .. attention::
             This property is part of the name resolution algorithm for
             AggregateAssocs. More details under ``all_discriminants``.
         """
         return Self.match_formals(
-            Entity.all_discriminants, Entity.assocs, False
+            Entity.all_discriminants(stop_recurse_at), Entity.assocs, False
         )
 
     @langkit_property(return_type=T.ParamMatch.array,
                       dynamic_vars=[origin, env], memoized=True)
-    def matched_components():
+    def matched_components(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
         """
         Return the list of all components specified by this aggregate,
         together with the actual used for it.
+
+        See ``all_discriminants`` for ``stop_recurse_at`` documentation.
 
         .. attention::
             This property is part of the name resolution algorithm for
             AggregateAssocs. More details under ``all_discriminants``.
         """
         return Self.match_formals(
-            Entity.all_components, Entity.assocs, False
+            Entity.all_components(stop_recurse_at), Entity.assocs, False
         )
 
     @langkit_property(return_type=T.DefiningName.entity,
@@ -13142,6 +13226,13 @@ class BaseAggregate(Expr):
         # aggregate's type_var has been set, so run nameres beforehand.
         ignore(Var(Entity.resolve_names_from_closest_entry_point))
         return origin.bind(Self, Entity.multidim_root_aggregate.rank > 0)
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def ancestor_expr_type():
+        """
+        Return the expression type of the ancestor.
+        """
+        return Entity.ancestor_expr._.expression_type
 
 
 class Aggregate(BaseAggregate):
@@ -14982,7 +15073,9 @@ class AggregateAssoc(BasicAssoc):
         agg = Var(Entity.base_aggregate)
 
         # First, try to find all the discriminants matched by this assoc
-        discr_matches = Var(agg.matched_discriminants.filter(
+        discr_matches = Var(agg.matched_discriminants(
+            stop_recurse_at=agg.ancestor_expr_type
+        ).filter(
             lambda pm: pm.actual.assoc == Entity
         ))
 
@@ -15000,7 +15093,9 @@ class AggregateAssoc(BasicAssoc):
 
             discr_matches,
 
-            agg.matched_components.filter(
+            agg.matched_components(
+                stop_recurse_at=agg.ancestor_expr_type
+            ).filter(
                 lambda pm: pm.actual.assoc == Entity
             )
         ))
@@ -15357,7 +15452,7 @@ class AssocList(BasicAssoc.list):
                     Entity,
                     # Do not get ancestor_expr's components if `a` is an
                     # extended aggregate.
-                    stop_recurse_at=a.ancestor_expr._.expression_type
+                    stop_recurse_at=a.ancestor_expr_type
                 ),
             )),
 
@@ -21058,7 +21153,12 @@ class IncompleteTypeDecl(BaseTypeDecl):
         type=LexicalEnv
     )
 
-    discriminants_list = Property(Entity.discriminants.abstract_formal_params)
+    @langkit_property()
+    def discriminants_list(
+            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+    ):
+        ignore(stop_recurse_at)
+        return Entity.discriminants.abstract_formal_params
 
 
 class IncompleteTaggedTypeDecl(IncompleteTypeDecl):

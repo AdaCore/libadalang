@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [ea.adb]
+

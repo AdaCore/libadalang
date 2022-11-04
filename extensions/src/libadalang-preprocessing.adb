@@ -570,11 +570,51 @@ package body Libadalang.Preprocessing is
      (Tree           : Prj.Project_Tree'Class;
       Project        : Prj.Project_Type := Prj.No_Project;
       Default_Config : out File_Config;
-      File_Configs   : out File_Config_Maps.Map)
-   is
+      File_Configs   : out File_Config_Maps.Map) is
    begin
       PP_GPR.Extract_Preprocessor_Data_From_Project
+        (Tree           => (Kind       => PP_GPR.GPR1_Kind,
+                            GPR1_Value => Prj.Project_Tree (Tree)),
+         View           => (Kind       => PP_GPR.GPR1_Kind,
+                            GPR1_Value => Project),
+         Default_Config => Default_Config,
+         File_Configs   => File_Configs);
+   end Extract_Preprocessor_Data_From_Project;
+
+   --------------------------------------------
+   -- Extract_Preprocessor_Data_From_Project --
+   --------------------------------------------
+
+   function Extract_Preprocessor_Data_From_Project
+     (Tree    : GPR2.Project.Tree.Object;
+      Project : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
+      return Preprocessor_Data
+   is
+      Default_Config : File_Config;
+      File_Configs   : File_Config_Maps.Map;
+   begin
+      Extract_Preprocessor_Data_From_Project
         (Tree, Project, Default_Config, File_Configs);
+      return Create_Preprocessor_Data (Default_Config, File_Configs);
+   end Extract_Preprocessor_Data_From_Project;
+
+   --------------------------------------------
+   -- Extract_Preprocessor_Data_From_Project --
+   --------------------------------------------
+
+   procedure Extract_Preprocessor_Data_From_Project
+     (Tree           : GPR2.Project.Tree.Object;
+      Project        : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+      Default_Config : out File_Config;
+      File_Configs   : out File_Config_Maps.Map) is
+   begin
+      PP_GPR.Extract_Preprocessor_Data_From_Project
+        (Tree           => (Kind       => PP_GPR.GPR2_Kind,
+                            GPR2_Value => Tree'Unrestricted_Access),
+         View           => (Kind       => PP_GPR.GPR2_Kind,
+                            GPR2_Value => Project),
+         Default_Config => Default_Config,
+         File_Configs   => File_Configs);
    end Extract_Preprocessor_Data_From_Project;
 
    ------------------------------

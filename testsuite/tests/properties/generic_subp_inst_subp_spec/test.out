@@ -2,7 +2,7 @@ Working on node <CallStmt test.adb:9:7-9:22>
 ============================================
 
 Eval 'node[0].p_referenced_decl().p_subp_spec_or_null(follow_generic=True)'
-Result: <SubpSpec test.adb:4:4-4:23>
+Result: <| SubpSpec test.adb:4:4-4:23 [test.adb:7:7] |>
 
 Eval 'node[0].p_is_dispatching_call()'
 Result: False

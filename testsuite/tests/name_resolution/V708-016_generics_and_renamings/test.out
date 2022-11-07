@@ -2,7 +2,7 @@ Working on node <CallStmt test.adb:34:4-34:34>
 ==============================================
 
 Set 'renaming' to 'node.f_call.f_name.p_referenced_decl()'
-Result: <SubpRenamingDecl ["Append"] test.adb:26:7-27:41>
+Result: <| SubpRenamingDecl ["Append"] test.adb:26:7-27:41 [test.adb:30:4] |>
 
 Eval 'renaming.f_renames.f_renamed_object.p_referenced_decl()'
-Result: <NullSubpDecl ["Append"] test.adb:11:13-11:68>
+Result: <| NullSubpDecl ["Append"] test.adb:11:13-11:68 [test.adb:30:4, test.adb:19:7, test.adb:20:7, test.adb:22:7] |>

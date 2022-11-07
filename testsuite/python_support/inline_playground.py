@@ -109,7 +109,7 @@ class InlinePlayground(lal.App):
                 )
                 if current_node != last_node:
                     def heading(with_colors):
-                        node_repr = current_node.entity_repr
+                        node_repr = str(current_node)
                         if with_colors:
                             node_repr = col(node_repr, YELLOW)
                         return f"Working on node {node_repr}"

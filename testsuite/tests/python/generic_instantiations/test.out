@@ -1,4 +1,4 @@
-<Id "V" foo.ads:23:40-23:41> -> <ObjectDecl ["V"] foo.ads:6:7-6:13>
+<Id "V" foo.ads:23:40-23:41> -> <| ObjectDecl ["V"] foo.ads:6:7-6:13 [foo.ads:21:4, foo.ads:18:7, foo.ads:12:7] |>
 Instantiation chain:
   * <GenericPackageInstantiation ["A_Inst"] foo.ads:12:7-12:35>
   * <GenericPackageInstantiation ["B_Inst"] foo.ads:18:7-18:35>

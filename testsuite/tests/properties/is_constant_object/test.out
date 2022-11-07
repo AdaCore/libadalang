@@ -109,6 +109,18 @@ Working on node <GenericSubpDecl ["P"] constant.ads:1:1-11:21>
 Eval '[x.p_is_constant_object for x in node.f_subp_decl.f_subp_spec.p_params]'
 Result: [True, True, False, False]
 
+Working on node <NumberDecl ["A"] defining.adb:2:4-2:22>
+========================================================
+
+Eval 'node.p_defining_names[0].f_name.p_is_constant'
+Result: True
+
+Working on node <ObjectDecl ["B"] defining.adb:4:4-4:25>
+========================================================
+
+Eval 'node.p_defining_names[0].f_name.p_is_constant'
+Result: False
+
 Working on node <ConcreteTypeDecl ["Person"] discr.adb:3:4-11:15>
 =================================================================
 

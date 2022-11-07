@@ -17134,9 +17134,15 @@ class Identifier(BaseId):
     def is_constant():
         rd = Var(Entity.referenced_decl)
         return Or(
-            # Filter out declarations that are not objects, as it makes no
-            # sense to call is_constant_object on them.
-            If(
+            Cond(
+                # If this identifier is defining, call is_constant_object on
+                # the object it defines.
+                Entity.is_defining,
+                Entity.enclosing_defining_name.basic_decl.is_constant_object,
+
+                # Check if the referenced declaration is constant (filter out
+                # declarations that are not objects, as it makes no sense to
+                # call is_constant_object on them).
                 rd.is_a(T.ObjectDecl, T.ComponentDecl, T.EnumLiteralDecl,
                         T.ParamSpec, T.NumberDecl),
                 rd.is_constant_object,

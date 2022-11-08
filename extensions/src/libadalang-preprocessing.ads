@@ -128,8 +128,6 @@ with GNAT.Strings; use GNAT.Strings;
 
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Projects;
-with GPR2.Project.Tree;
-with GPR2.Project.View;
 
 with Langkit_Support.Diagnostics;  use Langkit_Support.Diagnostics;
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
@@ -312,19 +310,6 @@ package Libadalang.Preprocessing is
    --  instead fill out the ``Default_Config`` and ``File_Configs`` arguments.
    --  This procedure is useful in order to modify the parsed configuration
    --  before creating the ``Preprocessor_Data`` object.
-
-   function Extract_Preprocessor_Data_From_Project
-     (Tree    : GPR2.Project.Tree.Object;
-      Project : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
-      return Preprocessor_Data;
-   --  Likewise, but with GPR2 projects
-
-   procedure Extract_Preprocessor_Data_From_Project
-     (Tree           : GPR2.Project.Tree.Object;
-      Project        : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
-      Default_Config : out File_Config;
-      File_Configs   : out File_Config_Maps.Map);
-   --  Likewise, but with GPR2 projects
 
    function Create_Preprocessor_Data
      (Default_Config : in out File_Config;

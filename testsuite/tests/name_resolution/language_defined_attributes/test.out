@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["External_Tag"] test.adb:4:4-4:44>
+************************************************************************
+
+Expr: <Id "String" test.adb:4:19-4:25>
+  references:    <DefiningName __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:4:29-4:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "T" test.adb:4:29-4:30>
+  references:    <DefiningName test.adb:2:9-2:10>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:33>
+  expected type: None
+Expr: <Id "External_Tag" test.adb:4:31-4:43>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

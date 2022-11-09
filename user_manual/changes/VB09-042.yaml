@@ -1,0 +1,5 @@
+type: new-feature
+title: "Add missing ``External_Tag`` attribute"
+description: |
+  This change adds support for ``External_Tag`` attribute.
+date: 2022-11-09

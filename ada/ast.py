@@ -5307,6 +5307,14 @@ class TypeAttributesRepository(AdaNode):
         ))
 
     @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def unbiased_rounding():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Unbiased_Rounding",
+            right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
     def ceiling():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Ceiling",
@@ -5402,6 +5410,15 @@ class TypeAttributesRepository(AdaNode):
     def compose():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Compose",
+            left_param=Self.base_type_param,
+            right_param=Self.universal_int_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def leading_part():
+        return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
+            subp_symbol="Leading_Part",
             left_param=Self.base_type_param,
             right_param=Self.universal_int_param,
             return_type_expr=Self.base_type_expr
@@ -5627,6 +5644,14 @@ class TypeAttributesRepository(AdaNode):
             ),
             right_param=Self.base_type_param,
             return_type_expr=SyntheticTypeExpr.new(target_type=output_type)
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def model():
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Model",
+            right_param=Self.universal_real_param,
+            return_type_expr=Self.base_type_expr
         ))
 
 
@@ -18279,6 +18304,7 @@ class AttributeRef(Name):
             rel_name == "max", repo.max,
 
             rel_name == "rounding", repo.rounding,
+            rel_name == "unbiased_rounding", repo.unbiased_rounding,
             rel_name == "ceiling", repo.ceiling,
             rel_name == "floor", repo.floor,
             rel_name == "truncation", repo.truncation,
@@ -18292,6 +18318,7 @@ class AttributeRef(Name):
             rel_name == "adjacent", repo.adjacent,
             rel_name == "scaling", repo.scaling,
             rel_name == "compose", repo.compose,
+            rel_name == "leading_part", repo.leading_part,
 
             rel_name == "mod", repo.mod,
 
@@ -18319,6 +18346,8 @@ class AttributeRef(Name):
 
             rel_name == "asm_input", repo.asm_input,
             rel_name == "asm_output", repo.asm_output,
+
+            rel_name == 'model', repo.model,
 
             No(BasicSubpDecl)
         ))
@@ -18364,14 +18393,15 @@ class AttributeRef(Name):
 
             # Attributes that simply return subprograms
             rel_name.any_of('Succ', 'Pred', 'Min', 'Max', 'Ceiling', 'Floor',
-                            'Rounding', 'Truncation', 'Exponent', 'Fraction',
+                            'Rounding', 'Unbiased_Rounding', 'Leading_Part',
+                            'Truncation', 'Exponent', 'Fraction',
                             'Copy_Sign', 'Remainder', 'Adjacent', 'Machine',
                             'Machine_Rounding', 'Scaling', 'Compose', 'Mod',
                             'Value', 'Wide_Value', 'Wide_Wide_Value',
                             'Fixed_Value', 'Integer_Value',
                             'Pos', 'Val', 'Enum_Val',
                             'Write', 'Read', 'Output', 'Input', 'Put_Image',
-                            'Asm_Input', 'Asm_Output'),
+                            'Asm_Input', 'Asm_Output', 'Model'),
             Entity.attribute_subprogram_equation,
 
             rel_name.any_of('Size', 'VADS_Size'), Entity.size_equation,
@@ -18426,7 +18456,8 @@ class AttributeRef(Name):
                             'Has_Access_Values', 'Has_Discriminants',
                             'Has_Tagged_Values', 'Definite', 'Constrained',
                             'Initialized', 'Valid_Scalars',
-                            'Unconstrained_Array'),
+                            'Unconstrained_Array',
+                            'Denorm', 'Signed_Zeros'),
             Entity.prefix.sub_equation
             & Bind(Self.type_var, Self.bool_type),
 
@@ -18447,7 +18478,7 @@ class AttributeRef(Name):
                             'Default_Bit_Order', 'Range_Length',
                             'Storage_Unit',
                             'Small_Numerator', 'Small_Denominator',
-                            'Machine_Emin', 'Machine_Emax'),
+                            'Machine_Emin', 'Machine_Emax', 'Model_Emin'),
             Entity.prefix.sub_equation
             & Self.universal_int_bind(Self.type_var),
 

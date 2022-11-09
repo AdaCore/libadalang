@@ -1,0 +1,8 @@
+type: new-feature
+title: Add missing attributes of floating point types
+description: |
+  This change adds support for ``Denorm``, ``Signed_Zeros``, ``Model``,
+  ``Model_Emin``, ``Unbiased_Rounding``, and, ``Leading_Part`` missing
+  attributes, as defined in the ARM, Section A.5.3, about the attributes of
+  floating point types.
+date: 2022-11-09

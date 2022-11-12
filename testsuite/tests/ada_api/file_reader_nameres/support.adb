@@ -31,6 +31,7 @@ package body Support is
    begin
       if Ada.Directories.Simple_Name (Filename) /= "foo.adb" then
          Append (Diagnostics, Message => "no such source file");
+         Contents := Create_Decoded_File_Contents ("");
          return;
       end if;
 

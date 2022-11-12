@@ -2,7 +2,7 @@
 
 set -e
 
-RELEASE=22.0.0
+RELEASE=23.0.0
 SRC_PKG=/tmp/libadalang-$RELEASE.tar.gz
 
 # Make sure the appropriate Langkit sources are checked out in

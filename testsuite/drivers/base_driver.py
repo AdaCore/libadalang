@@ -6,7 +6,7 @@ from typing import Dict, List, Optional, Tuple, Union
 from e3.testsuite.control import YAMLTestControlCreator
 from e3.testsuite.driver.classic import (TestAbortWithError,
                                          TestAbortWithFailure, TestSkip)
-from e3.testsuite.driver.diff import DiffTestDriver
+from e3.testsuite.driver.diff import DiffTestDriver, PatternSubstitute
 
 from drivers.valgrind import Valgrind
 
@@ -85,6 +85,21 @@ class BaseDriver(DiffTestDriver):
         # In perf mode, our purpose is to measure performance, not to check
         # results.
         return (None, "", False) if self.perf_mode else super().baseline
+
+    @property
+    def output_refiners(self):
+        result = super().output_refiners
+
+        # Erase line numbers from exception messages referencing
+        # gnatcoll-projects.adb.
+        pattern = r"gnatcoll-projects\.adb:\d+"
+        repl = "gnatcoll-projects.adb:XXX:"
+        if self.default_encoding == "binary":
+            pattern = pattern.encode("ascii")
+            repl = repl.encode("ascii")
+        result.append(PatternSubstitute(pattern, repl))
+
+        return result
 
     @property
     def disable_shared(self):

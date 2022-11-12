@@ -21,11 +21,18 @@ class PythonDriver(BaseDriver):
             raise TestSkip('Python API testing disabled')
 
         input_sources = self.test_env.get('input_sources', [])
-
+        project_file = self.test_env.get('project_file', None)
         self.check_file(self.py_file)
         self.check_file_list('"input_sources"', input_sources)
 
-        runner.run(self.py_file, input_sources)
+        args = list(input_sources)
+
+        # If there is a project file specified, add it to the arguments
+        if project_file:
+            self.check_file(project_file)
+            args.append(f"-P{project_file}")
+
+        runner.run(self.py_file, args)
 
 
 class PythonRunner(object):

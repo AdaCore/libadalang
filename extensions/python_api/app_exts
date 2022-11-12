@@ -1,5 +1,8 @@
 ## vim: filetype=makopython
 
+## This file contains extensions to the ``App`` class that allows the specific
+## ``libadalang.App`` class to handle project files.
+
     def add_arguments(self):
         self.parser.add_argument(
             '-X', action='append',
@@ -18,7 +21,10 @@
             for var in self.args.X:
                 k, v = var.split("=")
                 self.scenario_vars[k] = v
-        project = GPRProject(
+        self.project = GPRProject(
             self.args.project, scenario_vars=self.scenario_vars
         )
-        return project.create_unit_provider()
+        return self.project.create_unit_provider()
+
+    def default_get_files(self):
+        return self.project.source_files()

@@ -261,6 +261,8 @@ package Libadalang.Preprocessing is
    No_Preprocessor_Data : constant Preprocessor_Data;
    --  No reference to preprocessor data
 
+   overriding function "=" (Left, Right : Preprocessor_Data) return Boolean;
+
    function Parse_Preprocessor_Data_File
      (Filename : String; Path : Any_Path) return Preprocessor_Data;
    --  Parse the preprocessor data file at ``Filename`` and return the
@@ -291,7 +293,7 @@ package Libadalang.Preprocessing is
    --  Create preprocessor data from compiler arguments found in the given GPR
    --  project (``-gnateP`` and ``-gnateD`` arguments).
    --
-   --  If a non-null ``Project`` is given, look for compiler arguments it it
+   --  If a non-null ``Project`` is given, look for compiler arguments in it
    --  and the other projects in its closure.  If ``Project`` is left to
    --  ``No_Project``, try to use the whole project tree.
    --

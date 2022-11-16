@@ -54,9 +54,11 @@ main(void)
     const size_t src_buffer_1_length = strlen(src_buffer_1);
     const size_t src_buffer_2_length = strlen(src_buffer_2);
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
-    if (ctx == NULL)
-        error("Could not create the analysis context");
+    ctx = ada_allocate_analysis_context ();
+    abort_on_exception ();
+
+    ada_initialize_analysis_context (ctx, NULL, NULL, NULL, NULL, 1, 8);
+    abort_on_exception ();
 
     /* Make sure the first parsing (with the "limited" keyword) works properly
        and check is_limited.  */

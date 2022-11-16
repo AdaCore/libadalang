@@ -17,9 +17,11 @@ main(void)
     ada_token tok;
     char *tk_name;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
-    if (ctx == NULL)
-        error("Could not create the analysis context");
+    ctx = ada_allocate_analysis_context ();
+    abort_on_exception ();
+
+    ada_initialize_analysis_context (ctx, NULL, NULL, NULL, NULL, 1, 8);
+    abort_on_exception ();
 
     unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0,
                                            ada_default_grammar_rule);

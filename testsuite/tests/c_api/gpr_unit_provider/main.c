@@ -47,7 +47,11 @@ run (const char *project_file, const char *subproject)
       ada_token tok_first, tok_last;
       ada_text unit_text;
 
-      ctx = ada_create_analysis_context(
+      ctx = ada_allocate_analysis_context ();
+      abort_on_exception ();
+
+      ada_initialize_analysis_context (
+        /* context= */ ctx,
         /* charset= */ NULL,
         /* file_reader= */ NULL,
         /* unit_provider= */ up,

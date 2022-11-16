@@ -5,6 +5,7 @@
 
 #include "langkit_dump.h"
 #include "langkit_text.h"
+#include "utils.h"
 
 static void
 println_token(ada_token *token)
@@ -22,9 +23,11 @@ main(void)
     ada_token first, last, empty_first, empty_last, other_unit;
     ada_text text;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 0, 8);
-    if (ctx == NULL)
-        error("Could not create the analysis context\n");
+    ctx = ada_allocate_analysis_context ();
+    abort_on_exception ();
+
+    ada_initialize_analysis_context (ctx, NULL, NULL, NULL, NULL, 0, 8);
+    abort_on_exception ();
 
     unit = ada_get_analysis_unit_from_file(ctx, "test.adb", NULL, 0,
                                            ada_default_grammar_rule);

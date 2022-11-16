@@ -45,7 +45,11 @@ check (const char *label, const struct unit_ref *refs,
   up = ada_create_auto_provider (input_files, charset);
   abort_on_exception ();
 
-  ctx = ada_create_analysis_context(
+  ctx = ada_allocate_analysis_context ();
+  abort_on_exception ();
+
+  ada_initialize_analysis_context (
+    /* context= */ ctx,
     /* charset= */ NULL,
     /* file_reader= */ NULL,
     /* unit_provider= */ up,

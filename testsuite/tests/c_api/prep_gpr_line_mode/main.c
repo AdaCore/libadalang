@@ -34,7 +34,11 @@ run_test (int *line_mode)
   fr = ada_gpr_project_create_preprocessor(gpr, NULL, line_mode);
   abort_on_exception ();
 
-  ctx = ada_create_analysis_context (
+  ctx = ada_allocate_analysis_context ();
+  abort_on_exception ();
+
+   ada_initialize_analysis_context (
+    /* context= */ ctx,
     /* charset= */ NULL,
     /* file_reader= */ fr,
     /* unit_provider= */ NULL,

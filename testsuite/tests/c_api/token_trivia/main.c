@@ -6,20 +6,6 @@
 #include "utils.h"
 
 
-static void
-handle_exception(const char *msg)
-{
-    const ada_exception *exc = ada_get_last_exception();
-
-    fputs(msg, stderr);
-    if (exc != NULL) {
-        puts("Last Ada exception:");
-        puts(exc->information);
-    }
-
-    exit(1);
-}
-
 int
 main(void)
 {
@@ -27,14 +13,15 @@ main(void)
     ada_analysis_unit unit;
     ada_token tok, prev_tok;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
-    if (ctx == NULL)
-        handle_exception("Could not create the analysis context");
+    ctx = ada_allocate_analysis_context ();
+    abort_on_exception ();
+
+    ada_initialize_analysis_context (ctx, NULL, NULL, NULL, NULL, 1, 8);
+    abort_on_exception ();
 
     unit = ada_get_analysis_unit_from_file(ctx, "foo.adb", NULL, 0,
                                            ada_default_grammar_rule);
-    if (unit == NULL)
-        handle_exception("Could not create the analysis unit from foo.adb");
+    abort_on_exception ();
 
     prev_tok.token_data = NULL;
     prev_tok.token_index = -1;

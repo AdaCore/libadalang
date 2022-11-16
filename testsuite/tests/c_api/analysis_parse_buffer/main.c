@@ -3,6 +3,8 @@
 #include <string.h>
 #include "libadalang.h"
 
+#include "utils.h"
+
 
 const char *src_buffer = (
   "limited with Ada.Text_IO;\n"
@@ -14,31 +16,25 @@ const char *src_buffer = (
   "end Foo;\n"
 );
 
-
-static void
-error(const char *msg)
-{
-    fputs(msg, stderr);
-    exit(1);
-}
-
 int
 main(void)
 {
     ada_analysis_context ctx;
-    ada_analysis_unit unit;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
-    if (ctx == NULL)
-        error("Could not create the analysis context");
+    ctx = ada_allocate_analysis_context ();
+    abort_on_exception ();
 
-    unit = ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL,
-                                             src_buffer, strlen(src_buffer),
-                                             ada_default_grammar_rule);
-    if (unit == NULL)
-        error("Could not create the analysis unit for foo.adb from a buffer");
+    ada_initialize_analysis_context (ctx, NULL, NULL, NULL, NULL, 1, 8);
+    abort_on_exception ();
+
+    ada_get_analysis_unit_from_buffer(ctx, "foo.adb", NULL, src_buffer,
+				      strlen(src_buffer),
+				      ada_default_grammar_rule);
+    abort_on_exception ();
 
     ada_context_decref(ctx);
+    abort_on_exception ();
+
     puts("Done.");
     return 0;
 }

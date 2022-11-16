@@ -6,6 +6,7 @@
 #include "langkit_dump.h"
 #include "langkit_find.h"
 #include "langkit_text.h"
+#include "utils.h"
 
 int
 main(void)
@@ -21,9 +22,11 @@ main(void)
     ada_text text;
     int i;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
-    if (ctx == NULL)
-        error("Could not create the analysis context");
+    ctx = ada_allocate_analysis_context ();
+    abort_on_exception ();
+
+    ada_initialize_analysis_context (ctx, NULL, NULL, NULL, NULL, 1, 8);
+    abort_on_exception ();
 
     unit = ada_get_analysis_unit_from_provider(
         ctx, &unit_name, ADA_ANALYSIS_UNIT_KIND_UNIT_SPECIFICATION, NULL, 0

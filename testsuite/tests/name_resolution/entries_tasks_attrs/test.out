@@ -53,7 +53,7 @@ Expr: <AttributeRef test.adb:18:16-18:24>
   type:          <ConcreteTypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
   expected type: <ConcreteTypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
 Expr: <Id "E" test.adb:18:16-18:17>
-  references:    <DefiningName test.adb:7:13-7:14>
+  references:    <DefiningName test.adb:15:14-15:15>
   type:          None
   expected type: None
 Expr: <Id "Caller" test.adb:18:18-18:24>

@@ -3,40 +3,61 @@ procedure Test is
 
    task Tsk is
       entry Foo;
+      --% node.p_next_part_for_decl()
+      --% node.p_body_part_for_decl()
+
       entry Foo (X : Integer);
+      --% node.p_next_part_for_decl()
+      --% node.p_body_part_for_decl()
+
       entry Bar (My_Range);
+      --% node.p_next_part_for_decl()
+      --% node.p_body_part_for_decl()
+
    end Tsk;
 
    task body Tsk is
       X : My_Range := 2;
    begin
       accept Foo;
-      pragma Test_Statement;
+      --% node.f_body_decl.p_previous_part()
+
       accept Foo (X : Integer) do
          null;
       end Foo;
-      pragma Test_Statement;
+      --% node.f_body_decl.p_previous_part()
+
       accept Bar (X);
-      pragma Test_Statement;
+      --% node.f_body_decl.p_previous_part()
+
    end Tsk;
 
    task type Tsk_T is
       entry Foo;
+      --% node.p_next_part_for_decl()
+
       entry Foo (X : Integer);
+      --% node.p_next_part_for_decl()
+
       entry Bar (My_Range);
+      --% node.p_next_part_for_decl()
+
    end Tsk_T;
 
    task body Tsk_T is
       X : My_Range := 2;
    begin
       accept Foo;
-      pragma Test_Statement;
+      --% node.f_body_decl.p_previous_part()
+
       accept Foo (X : Integer) do
          null;
       end Foo;
-      pragma Test_Statement;
+      --% node.f_body_decl.p_previous_part()
+
       accept Bar (X);
-      pragma Test_Statement;
+      --% node.f_body_decl.p_previous_part()
+ 
    end Tsk_T;
 
    task Tsk_2 is
@@ -46,16 +67,19 @@ procedure Test is
    task body Tsk_2 is
       task Nested is
          entry Foo;
+         --% node.p_next_part_for_decl()
       end Nested;
 
       task body Nested is
       begin
          accept Foo;
-         pragma Test_Statement;
+         --% node.f_body_decl.p_previous_part()
+ 
       end Nested;
    begin
       accept Foo;
-      pragma Test_Statement;
+      --% node.f_body_decl.p_previous_part()
+ 
    end Tsk_2;
 begin
    null;

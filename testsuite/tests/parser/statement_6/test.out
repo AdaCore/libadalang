@@ -7,7 +7,9 @@ SelectStmt[1:1-1:155]
 |  |  |  StmtList[1:10-1:74]
 |  |  |  |  AcceptStmtWithStmts[1:10-1:74]
 |  |  |  |  |f_name:
-|  |  |  |  |  Id[1:17-1:22]: Store
+|  |  |  |  |  DefiningName[1:17-1:22]
+|  |  |  |  |  |f_name:
+|  |  |  |  |  |  Id[1:17-1:22]: Store
 |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |f_params:
 |  |  |  |  |  EntryCompletionFormalParams[1:23-1:42]
@@ -34,6 +36,8 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |f_body_decl:
+|  |  |  |  |  AcceptStmtBody[1:42-1:42]
 |  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:45-1:64]
 |  |  |  |  |  |f_stmts:
@@ -55,7 +59,9 @@ SelectStmt[1:1-1:155]
 |  |  |  StmtList[1:78-1:143]
 |  |  |  |  AcceptStmtWithStmts[1:78-1:143]
 |  |  |  |  |f_name:
-|  |  |  |  |  Id[1:85-1:90]: Fetch
+|  |  |  |  |  DefiningName[1:85-1:90]
+|  |  |  |  |  |f_name:
+|  |  |  |  |  |  Id[1:85-1:90]: Fetch
 |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |f_params:
 |  |  |  |  |  EntryCompletionFormalParams[1:91-1:111]
@@ -82,6 +88,8 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |f_aspects: <null>
+|  |  |  |  |f_body_decl:
+|  |  |  |  |  AcceptStmtBody[1:111-1:111]
 |  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:114-1:133]
 |  |  |  |  |  |f_stmts:

@@ -3723,7 +3723,8 @@ class Body(BasicDecl):
             lambda _=T.ProtectedBody: Entity.protected_previous_part,
             lambda _=T.ProtectedBodyStub: Entity.protected_previous_part,
             lambda _=T.TaskBody: Entity.task_previous_part,
-            lambda _=T.TaskBodyStub: Entity.task_previous_part
+            lambda _=T.TaskBodyStub: Entity.task_previous_part,
+            lambda a=T.AcceptStmtBody: a.accept_stmt_previous_part
         ))
 
         # TODO: It would be cleaner if the previous_part implems returned
@@ -17617,13 +17618,13 @@ class EntryDecl(BasicSubpDecl):
 
     defining_names = Property(Entity.spec.name.singleton)
 
-    @langkit_property(public=True, return_type=T.EntryBody.entity,
+    @langkit_property(public=True, return_type=T.Body.entity,
                       dynamic_vars=[default_imprecise_fallback()])
     def body_part():
         """
         Return the entry body associated to this entry declaration.
         """
-        return Entity.body_part_for_decl.cast_or_raise(EntryBody)
+        return Entity.body_part_for_decl
 
     @langkit_property(return_type=Bool)
     def has_family():
@@ -17675,6 +17676,23 @@ class EntryDecl(BasicSubpDecl):
                     No(AcceptStmt.entity.array)
                 )
             )
+        )
+
+    @langkit_property(public=True)
+    def next_part_for_decl():
+        """
+        ``next_part_for_decl implementation``, specific to entry declarations:
+        Will try both the regular case with an ``EntryBody`` (for protected
+        objects), and the fallback case with an ``AceptStmtBody``.
+        """
+        return If(
+            # For tasks, get the corresponding accept statement's body
+            Entity.parent_basic_decl.is_a(T.SingleTaskTypeDecl,
+                                          T.TaskTypeDecl),
+            Entity.accept_stmts().at(0)._.body_decl,
+
+            # For protected entries, call the superclass ``next_part_for_decl``
+            Entity.super()
         )
 
     env_spec = EnvSpec(
@@ -20172,16 +20190,39 @@ class EntryCompletionFormalParams(BaseFormalParamHolder):
     )
 
 
+class AcceptStmtBody(Body):
+    """
+    BasicDecl that is always the declaration of an AcceptStmt. This is nested
+    *inside* of the accept statement.
+    """
+    aspects = NullField()
+
+    defining_names = Property(
+        Entity.parent.cast_or_raise(T.AcceptStmt).name.singleton
+    )
+    defining_env = Property(Self.parent.cast(T.AcceptStmt).children_env)
+
+    accept_stmt_previous_part = Property(
+        Entity.parent.cast_or_raise(T.AcceptStmt).corresponding_entry
+    )
+
+
 class AcceptStmt(CompositeStmt):
     """
     ``accept`` statement (:rmlink:`9.5.2`).
     """
 
-    name = Field(type=T.Identifier)
+    name = Field(type=T.DefiningName)
     entry_index_expr = Field(type=T.Expr)
     params = Field(type=T.EntryCompletionFormalParams)
+    body_decl = Field(type=T.AcceptStmtBody)
 
-    env_spec = EnvSpec(add_env())
+    env_spec = EnvSpec(
+        add_to_env(new_env_assoc(
+            Entity.name.relative_name.symbol, Self.body_decl
+        ).singleton),
+        add_env(),
+    )
 
     @langkit_property(return_type=T.EntryDecl.entity,
                       dynamic_vars=[origin, env])

@@ -16,6 +16,7 @@ Working on node <SubpBody ["Foo"] foo.adb:1:1-4:9>
 Eval 'node.p_enclosing_compilation_unit.p_imported_units'
 Result: [<CompilationUnit foo.ads:1:1-1:29>]
 
+WARNING: File missing.ads not found
 Working on node <SubpBody ["Missing.Subp"] missing-subp.adb:1:1-4:18>
 =====================================================================
 

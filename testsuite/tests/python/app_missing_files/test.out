@@ -1,0 +1,23 @@
+test.py: Starting...
+
+== no_missing ==
+
+Processing: no_missing.adb
+Processing: no_such_file.adb
+Return code: 0
+
+== missing_warn ==
+
+Processing: missing.adb
+WARNING: File missing_unit.ads not found
+Processing: no_missing.adb
+Processing: no_such_file.adb
+Return code: 0
+
+== missing_error ==
+
+Processing: missing.adb
+ERROR: File missing_unit.ads not found
+Return code: 1
+
+test.py: Done.

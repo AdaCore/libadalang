@@ -10,15 +10,15 @@ procedure Test is
    task body T is
    begin
       accept E (1);
-      pragma Test_Statement;
+      --% node.p_corresponding_entry()
 
       accept F (A);
-      pragma Test_Statement;
+      --% node.p_corresponding_entry()
    end T;
 begin
    T.E (1);
-   pragma Test_Statement;
+   --% node.f_call.p_referenced_decl()
 
    T.F (B);
-   pragma Test_Statement;
+   --% node.f_call.p_referenced_decl()
 end Test;

@@ -1,77 +1,23 @@
-Analyzing test.adb
-##################
+Working on node <AcceptStmt test.adb:12:7-12:20>
+================================================
 
-Resolving xrefs for node <AcceptStmt test.adb:12:7-12:20>
-*********************************************************
+Eval 'node.p_corresponding_entry()'
+Result: <EntryDecl ["E"] test.adb:6:7-6:24>
 
-Expr: <Id "E" test.adb:12:14-12:15>
-  references:    <DefiningName test.adb:6:13-6:14>
-  type:          None
-  expected type: None
-Expr: <Int test.adb:12:17-12:18>
-  references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+Working on node <AcceptStmt test.adb:15:7-15:20>
+================================================
 
-Resolving xrefs for node <AcceptStmt test.adb:15:7-15:20>
-*********************************************************
+Eval 'node.p_corresponding_entry()'
+Result: <EntryDecl ["F"] test.adb:7:7-7:23>
 
-Expr: <Id "F" test.adb:15:14-15:15>
-  references:    <DefiningName test.adb:7:13-7:14>
-  type:          None
-  expected type: None
-Expr: <Id "A" test.adb:15:17-15:18>
-  references:    <DefiningName test.adb:3:19-3:20>
-  type:          <ConcreteTypeDecl ["Enum2"] test.adb:3:4-3:25>
-  expected type: None
+Working on node <CallStmt test.adb:19:4-19:12>
+==============================================
 
-Resolving xrefs for node <CallStmt test.adb:19:4-19:12>
-*******************************************************
+Eval 'node.f_call.p_referenced_decl()'
+Result: <EntryDecl ["E"] test.adb:6:7-6:24>
 
-Expr: <CallExpr test.adb:19:4-19:11>
-  references:    <DefiningName test.adb:6:13-6:14>
-  type:          None
-  expected type: None
-Expr: <DottedName test.adb:19:4-19:7>
-  references:    <DefiningName test.adb:6:13-6:14>
-  type:          None
-  expected type: None
-Expr: <Id "T" test.adb:19:4-19:5>
-  references:    <DefiningName test.adb:5:9-5:10>
-  type:          <SingleTaskTypeDecl ["T"] test.adb:5:9-8:9>
-  expected type: None
-Expr: <Id "E" test.adb:19:6-19:7>
-  references:    <DefiningName test.adb:6:13-6:14>
-  type:          None
-  expected type: None
-Expr: <Int test.adb:19:9-19:10>
-  references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+Working on node <CallStmt test.adb:22:4-22:12>
+==============================================
 
-Resolving xrefs for node <CallStmt test.adb:22:4-22:12>
-*******************************************************
-
-Expr: <CallExpr test.adb:22:4-22:11>
-  references:    <DefiningName test.adb:7:13-7:14>
-  type:          None
-  expected type: None
-Expr: <DottedName test.adb:22:4-22:7>
-  references:    <DefiningName test.adb:7:13-7:14>
-  type:          None
-  expected type: None
-Expr: <Id "T" test.adb:22:4-22:5>
-  references:    <DefiningName test.adb:5:9-5:10>
-  type:          <SingleTaskTypeDecl ["T"] test.adb:5:9-8:9>
-  expected type: None
-Expr: <Id "F" test.adb:22:6-22:7>
-  references:    <DefiningName test.adb:7:13-7:14>
-  type:          None
-  expected type: None
-Expr: <Id "B" test.adb:22:9-22:10>
-  references:    <DefiningName test.adb:3:22-3:23>
-  type:          <ConcreteTypeDecl ["Enum2"] test.adb:3:4-3:25>
-  expected type: <ConcreteTypeDecl ["Enum2"] test.adb:3:4-3:25>
-
-
-Done.
+Eval 'node.f_call.p_referenced_decl()'
+Result: <EntryDecl ["F"] test.adb:7:7-7:23>

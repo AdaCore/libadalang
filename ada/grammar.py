@@ -943,12 +943,15 @@ A.add_rules(
 
     accept_stmt=Or(
         AcceptStmt(
-            "accept", A.identifier, Opt("(", A.expr, ")"),
-            EntryCompletionFormalParams(Opt(A.param_specs)), ";"
+            "accept", DefiningName(A.identifier), Opt("(", A.expr, ")"),
+            EntryCompletionFormalParams(Opt(A.param_specs)),
+            AcceptStmtBody(),
+            ";"
         ),
         AcceptStmtWithStmts(
-            "accept", A.identifier, Opt("(", A.expr, ")"),
+            "accept", DefiningName(A.identifier), Opt("(", A.expr, ")"),
             EntryCompletionFormalParams(Opt(A.param_specs)),
+            AcceptStmtBody(),
             "do", A.handled_stmts, end_named_block(), sc()
         ),
     ),

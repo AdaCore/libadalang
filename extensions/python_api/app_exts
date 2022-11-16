@@ -11,6 +11,12 @@
         self.parser.add_argument(
             '-P', '--project', type=str, default='', help="GPR project file"
         )
+        self.parser.add_argument(
+            '-E', '--exit-on-missing-file',
+            help="Behavior when encountering missing files. By default,"
+            " continue despite missing dependencies. If passed, exit on first"
+            " missing file."
+        )
 
     def create_unit_provider(self):
         if not self.args.project:
@@ -28,3 +34,50 @@
 
     def default_get_files(self):
         return self.project.source_files()
+
+    def create_event_handler(self) -> Opt[EventHandler]:
+        return self.CommandLineEventHandler(self.args.exit_on_missing_file)
+
+    class CommandLineEventHandler(EventHandler):
+        """
+        Event handler to warn for each missing file.
+        """
+
+        def __init__(self, exit_on_missing_file: bool):
+            self.exit_on_missing_file = exit_on_missing_file
+            self.already_seen_missing_files: Set[str] = set()
+
+        def unit_requested_callback(self,
+                                    context: AnalysisContext,
+                                    name: str,
+                                    from_unit: AnalysisUnit,
+                                    found: bool,
+                                    is_not_found_error: bool) -> None:
+            # Warn only about missing files that are needed according to Ada
+            # legality rules.
+            if (
+                found
+                or not is_not_found_error
+                or name in self.already_seen_missing_files
+            ):
+                return
+
+            self.already_seen_missing_files.add(name)
+            self.report_missing_file(name)
+
+        def report_missing_file(self, filename: str) -> None:
+            basename = os.path.basename(filename)
+            prefix = "ERROR" if self.exit_on_missing_file else "WARNING"
+            print(f"{prefix}: File {basename} not found")
+            if self.exit_on_missing_file:
+                # This is a callback from the C world, so propagating a
+                # SystemExit exception like ``sys.exit`` does is not going to
+                # work. Use the OS-level exit system call instead to avoid
+                # relying on exception propagation.
+                #
+                # Since we use the system call to exit, standard streams need
+                # to be manually flushed so that buffered content is written
+                # before the exit.
+                sys.stdout.flush()
+                sys.stderr.flush()
+                os._exit(1)

@@ -645,14 +645,26 @@ package body Libadalang.Helpers is
       end return;
    end Project_To_Provider;
 
+   ----------------------------
+   -- Cmd_Line_Event_Handler --
+   ----------------------------
+
    package Cmd_Line_Event_Handler is
+
+      --  This package implements an event handler that warns about missing
+      --  file. Each file that is missing is reported only once.
+
       package Files_Sets is new Ada.Containers.Hashed_Sets
         (Unbounded_Text_Type, Hash, "=");
 
-      type Cmd_Line_Event_Handler_Type
-      is new Event_Handler_Interface with record
+      type Cmd_Line_Event_Handler_Type is new Event_Handler_Interface
+      with record
          Exit_On_Missing_File : Boolean;
+         --  Whether a missing file should make the App exit
+
          Already_Seen_Missing_Files : Files_Sets.Set;
+         --  Set of source files for which we already warned that they are
+         --  missing.
       end record;
 
       overriding procedure Unit_Requested_Callback
@@ -672,6 +684,7 @@ package body Libadalang.Helpers is
 
       overriding procedure Release (Self : in out Cmd_Line_Event_Handler_Type)
       is null;
+
    end Cmd_Line_Event_Handler;
 
    package body Cmd_Line_Event_Handler is
@@ -688,14 +701,22 @@ package body Libadalang.Helpers is
          Found              : Boolean;
          Is_Not_Found_Error : Boolean) is
       begin
-         if not Found and Is_Not_Found_Error then
-            if Self.Already_Seen_Missing_Files.Contains
-              (To_Unbounded_Text (Name))
-            then
+         --  Warn only about missing files that are needed according to Ada
+         --  legality rules.
+
+         if Found or else not Is_Not_Found_Error then
+            return;
+         end if;
+
+         declare
+            Filename : constant Unbounded_Text_Type :=
+              To_Unbounded_Text (Name);
+         begin
+            if Self.Already_Seen_Missing_Files.Contains (Filename) then
                return;
             end if;
 
-            Self.Already_Seen_Missing_Files.Include (To_Unbounded_Text (Name));
+            Self.Already_Seen_Missing_Files.Include (Filename);
 
             Print_Error
               ((if Self.Exit_On_Missing_File then "ERROR: " else "WARNING: ")
@@ -706,7 +727,7 @@ package body Libadalang.Helpers is
             if Self.Exit_On_Missing_File then
                GNAT.OS_Lib.OS_Exit (1);
             end if;
-         end if;
+         end;
       end Unit_Requested_Callback;
    end Cmd_Line_Event_Handler;
 
@@ -715,15 +736,12 @@ package body Libadalang.Helpers is
    --------------------------------
 
    function Command_Line_Event_Handler
-     (Exit_On_Missing_File : Boolean) return Event_Handler_Reference
-   is
-      Ret : Event_Handler_Reference;
+     (Exit_On_Missing_File : Boolean) return Event_Handler_Reference is
    begin
-      Ret.Set
+      return Create_Event_Handler_Reference
         (Cmd_Line_Event_Handler.Cmd_Line_Event_Handler_Type'
           (Exit_On_Missing_File       => Exit_On_Missing_File,
            Already_Seen_Missing_Files => <>));
-      return Ret;
    end Command_Line_Event_Handler;
 
 end Libadalang.Helpers;

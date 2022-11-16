@@ -5,6 +5,7 @@
 
 #include "langkit_dump.h"
 #include "langkit_text.h"
+#include "utils.h"
 
 static uint32_t filename_1[] = {233};
 static uint32_t filename_2[] = {'u', 'n', 'k', 'n', 'o', 'w', 'n', '_',
@@ -20,9 +21,11 @@ main(void)
     ada_analysis_unit unit;
     int i;
 
-    ctx = ada_create_analysis_context(NULL, NULL, NULL, NULL, 1, 8);
-    if (ctx == NULL)
-        error("Could not create the analysis context");
+    ctx = ada_allocate_analysis_context ();
+    abort_on_exception ();
+
+    ada_initialize_analysis_context (ctx, NULL, NULL, NULL, NULL, 1, 8);
+    abort_on_exception ();
 
     for (i = 0; i < 2; ++i) {
         ada_text unit_name = { filenames[i], filename_sizes[i], true };

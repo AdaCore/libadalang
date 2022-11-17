@@ -2177,11 +2177,16 @@ class BasicDecl(AdaNode):
     @langkit_property(return_type=T.BasicDecl.entity)
     def unshed_rebindings_helper(rebindings=T.EnvRebindings):
         """
-        Put ``rebindings`` on ``Entity``. Ensure coherency, e.g. that if Entity
-        already has some rebindings, the one that we add are a superset of the
-        one it already has.
+        Put ``rebindings`` on ``Entity`` if needed. Ensure coherency, e.g. that
+        if Entity already has some rebindings, the one that we add are a
+        superset of the one it already has.
         """
-        return If(
+        return Cond(
+            # If the rebindings are already the same, just return the entity as
+            # is.
+            Entity.info.rebindings == rebindings,
+            Entity,
+
             Or(
                 Entity.info.rebindings == No(T.EnvRebindings),
                 rebindings.get_parent == Entity.info.rebindings,
@@ -2195,6 +2200,7 @@ class BasicDecl(AdaNode):
                     from_rebound=Entity.info.from_rebound
                 )
             ),
+
             PropertyError(BasicDecl.entity, "Incorrect rebindings")
         )
 

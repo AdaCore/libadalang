@@ -11,7 +11,7 @@ procedure Test is
 
    procedure P2 is new P2_G;
    --% gen_body = node.p_designated_generic_decl.p_body_part()
-   --% gen_body.find(lal.CallStmt)[0].p_referenced_decl().entity_repr
+   --% gen_body.find(lal.CallStmt)[0].p_referenced_decl()
 begin
    null;
 end Test;

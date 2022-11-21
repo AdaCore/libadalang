@@ -3,9 +3,9 @@
   let c_project_scenario_variable : project_scenario_variable structure typ =
     structure "project_scenario_variable"
 
-  let scenario_var_name = field c_project_scenario_variable "name" string
+  let scenario_var_name = field c_project_scenario_variable "name" (ptr char)
 
-  let scenario_var_value = field c_project_scenario_variable "value" string
+  let scenario_var_value = field c_project_scenario_variable "value" (ptr char)
 
   let () = seal c_project_scenario_variable
 
@@ -19,8 +19,12 @@
     in
     let fill_scenario_vars i (name, value) =
       let c_struct = make c_project_scenario_variable in
+      let name = char_ptr_of_string name in
+      let value = char_ptr_of_string value in
       setf c_struct scenario_var_name name ;
+      add_gc_link ~from:c_scenario_vars ~to_:name ;
       setf c_struct scenario_var_value value ;
+      add_gc_link ~from:c_scenario_vars ~to_:value ;
       c_scenario_vars +@ i <-@ c_struct
     in
     List.iteri fill_scenario_vars scenario_vars ;

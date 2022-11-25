@@ -1,0 +1,33 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["I"] test.adb:27:7-27:42>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:27:18-27:25>
+  references:    <DefiningName __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:27:29-27:41>
+  references:    <| DefiningName test.adb:8:16-8:19 [test.adb:24:4] |>
+  type:          <| ConcreteTypeDecl ["Cursor"] test.adb:14:7-14:38 [test.adb:24:4] |>
+  expected type: <AnonymousTypeDecl ["None"] test.adb:27:11-27:25>
+Expr: <DottedName test.adb:27:29-27:37>
+  references:    <| DefiningName test.adb:8:16-8:19 [test.adb:24:4] |>
+  type:          <| ConcreteTypeDecl ["Cursor"] test.adb:14:7-14:38 [test.adb:24:4] |>
+  expected type: None
+Expr: <Id "Inst" test.adb:27:29-27:33>
+  references:    <DefiningName test.adb:24:12-24:16>
+  type:          None
+  expected type: None
+Expr: <Id "Get" test.adb:27:34-27:37>
+  references:    <| DefiningName test.adb:8:16-8:19 [test.adb:24:4] |>
+  type:          <| ConcreteTypeDecl ["Cursor"] test.adb:14:7-14:38 [test.adb:24:4] |>
+  expected type: None
+Expr: <Id "X" test.adb:27:39-27:40>
+  references:    <DefiningName test.adb:26:19-26:20>
+  type:          <| ClasswideTypeDecl ["My_Iterator"] test.adb:18:7-21:27 [test.adb:24:4] |>
+  expected type: <| ConcreteTypeDecl ["My_Iterator"] test.adb:18:7-21:27 [test.adb:24:4] |>
+
+
+Done.

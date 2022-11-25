@@ -7042,6 +7042,25 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
+    @langkit_property(return_type=T.EnvRebindings, dynamic_vars=[origin])
+    def find_base_type_rebindings_among(target=T.BaseTypeDecl,
+                                        base_types=T.BaseTypeDecl.entity.array,
+                                        index=T.Int):
+        """
+        Helper function for ``find_base_type_rebindings``, which returns the
+        first occurrence of the ``target`` type among the super types of the
+        given array of types using a depth-first search.
+        """
+        return If(
+            index >= base_types.length,
+            No(T.EnvRebindings),
+            base_types.at(index).find_base_type_rebindings(target)._or(
+                Entity.find_base_type_rebindings_among(
+                    target, base_types, index + 1
+                )
+            )
+        )
+
     @langkit_property(return_type=T.EnvRebindings, memoized=True,
                       dynamic_vars=[origin])
     def find_base_type_rebindings(target=T.BaseTypeDecl):
@@ -7064,8 +7083,10 @@ class BaseTypeDecl(BasicDecl):
         return If(
             Self == target,
             Entity.info.rebindings,
-            Entity.base_type.then(
-                lambda bt: bt.find_base_type_rebindings(target)
+            Entity.find_base_type_rebindings_among(
+                target=target,
+                base_types=Entity.base_types,
+                index=0
             )
         )
 

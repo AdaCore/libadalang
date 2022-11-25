@@ -14757,7 +14757,7 @@ class CallExpr(Name):
             Entity.type_conv_self_xref_equation
             & Bind(Entity.params.at(0).expr.expected_type_var,
                    No(BaseTypeDecl.entity))
-            & Entity.params.at(0).expr.sub_equation
+            & Entity.all_args_xref_equation(root)
             & Entity.parent_name(root).then(
                 lambda pn: pn.parent_name_equation(
                     Entity.name.name_designated_type,

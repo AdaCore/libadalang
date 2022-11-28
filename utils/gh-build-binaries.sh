@@ -28,7 +28,7 @@ build_archive()
   cd xmlada*
   ./configure --prefix=$prefix ${DEBUG:+--enable-build=Debug}
   make $LIBRARY_TYPE install-$LIBRARY_TYPE \
-	  GPRBUILD_OPTIONS="-cargs -gnatwn -gargs"
+    GPRBUILD_OPTIONS="-cargs -gnatwn -gargs"
   cd ..
 
   make -C gprbuild prefix=$prefix BUILD=${DEBUG:-production} \
@@ -46,6 +46,7 @@ build_archive()
   langkit/manage.py build-langkit-support --library-types=$LIBRARY_TYPE
   langkit/manage.py install-langkit-support $prefix --library-types=$LIBRARY_TYPE
 
+  make -C gpr2 setup prefix=$prefix GPR2_BUILD=${DEBUG:-release} GPR2KBDIR=./gprconfig_kb/db build-lib-$LIBRARY_TYPE install-lib-$LIBRARY_TYPE
   BUILD=${DEBUG:+dev}  # Convert debug to dev
 
   # Build libadalang static library
@@ -66,8 +67,3 @@ build_archive()
 sed -i -e '/for .*Interface.* use/,/;/d' langkit/langkit/support/langkit_support.gpr
 
 build_archive "static" "static"
-
-if [ $RUNNER_OS = Linux ]; then
-   git -C langkit checkout langkit/support/langkit_support.gpr
-   build_archive "relocatable" "shared"
-fi

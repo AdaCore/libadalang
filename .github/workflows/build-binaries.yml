@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - master
-      - stable
 name: Build binaries
 jobs:
   build:
@@ -54,6 +53,17 @@ jobs:
           repository: AdaCore/langkit
           path: langkit
           fetch-depth: 0  # all branches
+      - name: Get gpr
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gpr
+          path: gpr2
+          ref: edge
+      - name: Get gprconfig kb
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/gprconfig_kb
+          path: gpr2/gprconfig_kb
       - name: Try to checkout langkit's branch
         shell: bash
         run: (cd langkit; git checkout ${{ github.ref }} || true)

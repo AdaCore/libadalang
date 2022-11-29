@@ -5819,7 +5819,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(dynamic_vars=[origin], return_type=Bool)
     def is_array_or_rec():
-        return Entity.is_array | Entity.is_record_type
+        return Not(Self.is_null) & (Entity.is_array | Entity.is_record_type)
 
     @langkit_property(public=True, return_type=Bool)
     def is_inherited_primitive(p=T.BasicDecl.entity):
@@ -12571,36 +12571,34 @@ class BinOp(Expr):
         When no subprogram is found for this node's operator, use this property
         to construct the xref equation for this node.
         """
-        return Or(
-            # Use the type we are about to infer for Self as the expected types
-            # for the left and right operands. This is to handle the general
-            # shape: `function "op" (X, Y : T) return T`.
+        return Cond(
+            # For multiplication operators, we must handle the general shape
+            # `function "op" (X, Y : T) return T`, but also the shape
+            # `function "op" (X : Integer, Y : T) return T` as well as
+            # `function "op" (X : T, Y : Integer) return T`.
+            Self.op.is_a(Op.alt_mult, Op.alt_div),
+            Or(
+                Bind(Self.type_var, Self.left.expected_type_var)
+                & Bind(Self.type_var, Self.right.expected_type_var),
+
+                Bind(Self.left.expected_type_var, Self.int_type)
+                & Bind(Self.right.expected_type_var, Self.type_var),
+
+                Bind(Self.right.expected_type_var, Self.int_type)
+                & Bind(Self.left.expected_type_var, Self.type_var),
+            ),
+
+            # For power operators, we must only handle the shape
+            # `function "op" (X : T, Y : Integer) return T`.
+            Self.op.is_a(Op.alt_pow),
+            Bind(Self.right.expected_type_var, Self.int_type)
+            & Bind(Self.left.expected_type_var, Self.type_var),
+
+            # For other operators, we only need to handle the shape
+            # `function "op" (X, Y : T) return T`.
             And(
                 Bind(Self.type_var, Self.left.expected_type_var),
                 Bind(Self.type_var, Self.right.expected_type_var)
-            ),
-
-            # But there are some other cases to handle:
-            Cond(
-                # For multiplication operators, we must also handle the shape
-                # `function "op" (X : Integer, Y : T) return T` as well as
-                # `function "op" (X : T, Y : Integer) return T`.
-                Self.op.is_a(Op.alt_mult, Op.alt_div),
-                Or(
-                    Bind(Self.left.expected_type_var, Self.int_type)
-                    & Bind(Self.right.expected_type_var, Self.type_var),
-
-                    Bind(Self.right.expected_type_var, Self.int_type)
-                    & Bind(Self.left.expected_type_var, Self.type_var)
-                ),
-
-                # For power operators, we must also handle the shape
-                # `function "op" (X : T, Y : Integer) return T`.
-                Self.op.is_a(Op.alt_pow),
-                Bind(Self.right.expected_type_var, Self.int_type)
-                & Bind(Self.left.expected_type_var, Self.type_var),
-
-                LogicFalse()
             )
         ) & Or(
             # If the expected type is known, use it to infer the type of Self.
@@ -12659,12 +12657,14 @@ class BinOp(Expr):
                                      Self.left.type_var)
                 & Bind(Self.left.type_var, dest_var,
                        conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.left.matches_expected_formal_type,
+                & Self.left.matches_expected_formal_type
+                & Self.right.matches_expected_formal_type,
 
                 infer_right=Predicate(BaseTypeDecl.is_not_universal_type,
                                       Self.right.type_var)
                 & Bind(Self.right.type_var, dest_var,
                        conv_prop=BaseTypeDecl.derefed_base_subtype)
+                & Self.left.matches_expected_formal_type
                 & Self.right.matches_expected_formal_type:
 
                 If(left_ctx_free,
@@ -14747,7 +14747,7 @@ class CallExpr(Name):
                 )
             ),
 
-            And(
+            Not(Entity.params.is_null), And(
                 Entity.subprogram_equation(
                     s.subp_spec_or_null,
                     s.info.md.dottable_subp
@@ -14757,7 +14757,9 @@ class CallExpr(Name):
                     pn.parent_name_equation(s.expr_type, root),
                     default_val=LogicTrue()
                 )
-            )
+            ),
+
+            LogicFalse()
         )
 
     @langkit_property(return_type=Bool)
@@ -17934,6 +17936,7 @@ class SyntheticFormalParamDecl(BaseFormalParamDecl):
         [Self.synthesize_defining_name(Self.param_name).as_entity]
     )
 
+    is_mandatory = Property(True)
     type_expression = Property(Entity.param_type)
 
 

@@ -128,28 +128,28 @@ Expr: <RelationOp ats_types.adb:13:33-13:51>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <BinOp ats_types.adb:13:33-13:47>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "My_Size" ats_types.adb:13:33-13:40>
-  references:    <DefiningName "My_Size" ats_types.adb:11:4-11:11>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  references:    <DefiningName "My_Size" ats_types.adb:12:41-12:48>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" ats_types.adb:13:41-13:44>
-  references:    <SyntheticDefiningName ""mod"" __standard:119:24-119:37>
+  references:    None
   type:          None
   expected type: None
 Expr: <Int ats_types.adb:13:45-13:47>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" ats_types.adb:13:48-13:49>
-  references:    <SyntheticDefiningName ""="" __standard:119:24-119:37>
+  references:    None
   type:          None
   expected type: None
 Expr: <Int ats_types.adb:13:50-13:51>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

@@ -19,11 +19,12 @@ class Valgrind(object):
 
     @property
     def report_file(self):
-        return os.path.join(self.tmp_dir, 'valgrind-report.xml')
+        return os.path.join(self.tmp_dir, 'valgrind-report.txt')
 
     def wrap_argv(self, argv):
-        result = ['valgrind', '--xml=yes',
-                  '--xml-file={}'.format(self.report_file),
+        result = ['valgrind',
+                  '-q',
+                  '--log-file={}'.format(self.report_file),
                   '--suppressions={}'.format(os.path.join(
                       self.testsuite_dir, 'valgrind-suppressions.txt',
                   )),
@@ -36,41 +37,12 @@ class Valgrind(object):
         return result
 
     def parse_report(self):
-        errors = []
-        with open(self.report_file, 'r') as f:
-            xml_root = etree.parse(f).getroot()
-
-        for elt in xml_root:
-            if elt.tag == 'error':
-                what_elt = get_child(elt, 'xwhat')
-                if what_elt is None:
-                    what_elt = get_child(elt, 'what')
-                message = ('Unknown reason'
-                           if what_elt is None else
-                           get_text_in_child(what_elt, 'text'))
-                stack = []
-                for frame in get_child(elt, 'stack'):
-                    assert frame.tag == 'frame'
-                    stack.append(StackFrame(
-                        get_text_in_child(frame, 'ip'),
-                        get_text_in_child(frame, 'obj'),
-                        get_text_in_child(frame, 'fn'),
-                        get_text_in_child(frame, 'dir'),
-                        get_text_in_child(frame, 'file'),
-                        get_text_in_child(frame, 'line'),
-                    ))
-                errors.append(Error(message, tuple(stack)))
-        return errors
+        with open(self.report_file) as f:
+            return [line.rstrip() for line in f.readlines()]
 
     @classmethod
     def format_report(cls, errors):
-        result = []
-        for error in errors:
-            for frame in error.stack:
-                result.append('  {}'.format(format_stack_frame(frame)))
-            result.append(str(error.message))
-            result.append('')
-        return '\n'.join(result)
+        return "\n".join(errors)
 
 
 def format_stack_frame(frame):

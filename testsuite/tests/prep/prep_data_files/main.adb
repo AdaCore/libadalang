@@ -2,7 +2,6 @@ with Ada.Exceptions; use Ada.Exceptions;
 with Ada.Text_IO;    use Ada.Text_IO;
 
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
-with GNATCOLL.VFS;        use GNATCOLL.VFS;
 
 with Langkit_Support.Errors; use Langkit_Support.Errors;
 
@@ -29,25 +28,21 @@ procedure Main is
       exception
          when Exc : Syntax_Error | File_Read_Error =>
             Put_Line (Exception_Name (Exc) & ": " & Exception_Message (Exc));
+            New_Line;
             return;
       end;
 
       Dump (Data);
+      New_Line;
    end Parse;
 
-   Files : File_Array_Access :=
-     Create (+".").Read_Dir_Recursive (+".txt", Files_Only);
 begin
-   Sort (Files.all);
-   for F of Files.all loop
-      declare
-         Filename : constant String := +F.Base_Name;
-      begin
-         Parse (Filename);
-         New_Line;
-      end;
-   end loop;
-   Unchecked_Free (Files);
+   Parse ("cannot-read-def-file.txt");
+   Parse ("invalid-def-1.txt");
+   Parse ("invalid-def-2.txt");
+   Parse ("invalid-def-3.txt");
+   Parse ("standard.txt");
+   Parse ("unknown-switch.txt");
    Parse ("no-such-file.txt");
    Put_Line ("Done.");
 end Main;

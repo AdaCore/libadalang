@@ -84,4 +84,5 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: unknown-switch.txt:1:11: invalid switch: -x
 == no-such-file.txt ==
 
 LANGKIT_SUPPORT.ERRORS.FILE_READ_ERROR: no such file: no-such-file.txt
+
 Done.

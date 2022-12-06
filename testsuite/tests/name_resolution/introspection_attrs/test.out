@@ -101,22 +101,42 @@ Expr: <Id "Constrained" test.adb:17:24-17:35>
   type:          None
   expected type: None
 
-Resolving xrefs for node <ObjectDecl ["Rec_V"] test.adb:26:4-26:41>
-*******************************************************************
+Resolving xrefs for node <ObjectDecl ["F"] test.adb:20:7-20:44>
+***************************************************************
 
-Expr: <Id "Boolean" test.adb:26:12-26:19>
+Expr: <Id "Boolean" test.adb:20:11-20:18>
   references:    <DefiningName __standard:3:8-3:15>
   type:          None
   expected type: None
-Expr: <AttributeRef test.adb:26:23-26:40>
+Expr: <AttributeRef test.adb:20:22-20:43>
   references:    None
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <Id "Rec" test.adb:26:23-26:26>
-  references:    <DefiningName test.adb:25:4-25:7>
-  type:          <ConcreteTypeDecl ["My_Record"] test.adb:21:4-23:15>
+Expr: <Id "T" test.adb:20:22-20:23>
+  references:    <DefiningName test.adb:3:12-3:13>
+  type:          <FormalTypeDecl ["T"] test.adb:3:7-3:30>
   expected type: None
-Expr: <Id "Valid_Scalars" test.adb:26:27-26:40>
+Expr: <Id "Unconstrained_Array" test.adb:20:24-20:43>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Rec_V"] test.adb:29:4-29:41>
+*******************************************************************
+
+Expr: <Id "Boolean" test.adb:29:12-29:19>
+  references:    <DefiningName __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:29:23-29:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Rec" test.adb:29:23-29:26>
+  references:    <DefiningName test.adb:28:4-28:7>
+  type:          <ConcreteTypeDecl ["My_Record"] test.adb:24:4-26:15>
+  expected type: None
+Expr: <Id "Valid_Scalars" test.adb:29:27-29:40>
   references:    None
   type:          None
   expected type: None

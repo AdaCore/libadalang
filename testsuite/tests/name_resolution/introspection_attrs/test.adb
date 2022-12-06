@@ -16,6 +16,9 @@ procedure Test is
 
       E : Boolean := T'Constrained;
       pragma Test_Statement;
+
+      F : Boolean := T'Unconstrained_Array;
+      pragma Test_Statement;
    end Pkg;
 
    type My_Record is record

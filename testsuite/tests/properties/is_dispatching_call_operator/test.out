@@ -1,59 +1,65 @@
-Working on node <ObjectDecl ["Un_Op_Dispatching"] test.adb:22:4-22:47>
+Working on node <ObjectDecl ["Un_Op_Dispatching"] test.adb:23:4-23:47>
 ======================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: True
 
-Working on node <ObjectDecl ["Un_Op_Not_Dispatching"] test.adb:25:4-25:51>
+Working on node <ObjectDecl ["Un_Op_Not_Dispatching"] test.adb:26:4-26:51>
 ==========================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: False
 
-Working on node <ObjectDecl ["Un_Op_Dispatching_2"] test.adb:28:4-28:40>
+Working on node <ObjectDecl ["Un_Op_Dispatching_2"] test.adb:29:4-29:40>
 ========================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: True
 
-Working on node <ObjectDecl ["Un_Op_Not_Dispatching_2"] test.adb:31:4-31:44>
+Working on node <ObjectDecl ["Un_Op_Not_Dispatching_2"] test.adb:32:4-32:44>
 ============================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: False
 
-Working on node <ObjectDecl ["Bin_Op_Dispatching"] test.adb:34:4-34:51>
+Working on node <ObjectDecl ["Bin_Op_Dispatching"] test.adb:35:4-35:51>
 =======================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: True
 
-Working on node <ObjectDecl ["Bin_Op_Not_Dispatching"] test.adb:37:4-37:55>
+Working on node <ObjectDecl ["Bin_Op_Not_Dispatching"] test.adb:38:4-38:55>
 ===========================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: False
 
-Working on node <ObjectDecl ["Bin_Op_Dispatching_2"] test.adb:40:4-40:44>
+Working on node <ObjectDecl ["Bin_Op_Dispatching_2"] test.adb:41:4-41:44>
 =========================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: True
 
-Working on node <ObjectDecl ["Bin_Op_Not_Dispatching_2"] test.adb:43:4-43:48>
+Working on node <ObjectDecl ["Bin_Op_Not_Dispatching_2"] test.adb:44:4-44:48>
 =============================================================================
 
 Eval 'node.f_default_expr.p_is_dispatching_call()'
 Result: False
 
-Working on node <ObjectDecl ["Test_Op_Node_1"] test.adb:50:4-50:38>
+Working on node <ObjectDecl ["Test_Op_Node_1"] test.adb:51:4-51:38>
 ===================================================================
 
 Eval 'node.f_default_expr.f_op.p_is_dispatching_call()'
 Result: True
 
-Working on node <ObjectDecl ["Test_Op_Node_2"] test.adb:53:4-53:38>
+Working on node <ObjectDecl ["Test_Op_Node_2"] test.adb:54:4-54:38>
 ===================================================================
 
 Eval 'node.f_default_expr.f_op.p_is_dispatching_call()'
+Result: False
+
+Working on node <ObjectDecl ["Bin_Op_Dispatching_3"] test.adb:60:4-60:44>
+=========================================================================
+
+Eval 'node.f_default_expr[1][0].f_operator.p_is_dispatching_call()'
 Result: False

@@ -11907,6 +11907,11 @@ class Expr(AdaNode):
 
         .. note:: This should only be called on a ``Name`` and ``UnOp``
             or a ``BinOp``.
+
+        .. attention:: There is a known bug, where the ConcatOp node is not
+           supported, so calling is_dispatching_call on operators nested inside
+           of a concat operator will always return false. (Internal TN:
+           VC08-029)
         """
         return PropertyError(
             T.Bool,
@@ -12265,9 +12270,7 @@ class UnOp(Expr):
 
     @langkit_property()
     def is_dispatching_call():
-        return Entity.op.referenced_decl.then(
-            lambda decl: Entity.is_dispatching_call_impl(decl)
-        )
+        return Entity.op.is_dispatching_call
 
 
 class BinOp(Expr):
@@ -12498,9 +12501,7 @@ class BinOp(Expr):
 
     @langkit_property()
     def is_dispatching_call():
-        return Entity.op.referenced_decl.then(
-            lambda decl: Entity.is_dispatching_call_impl(decl)
-        )
+        return Entity.op.is_dispatching_call
 
 
 class ConcatOp(Expr):
@@ -12512,7 +12513,7 @@ class ConcatOp(Expr):
     order to avoid crashes while parsing of running name resolution on such
     huge expression.
 
-    The purpose of this node is to replace the arbitraty too deep tree of
+    The purpose of this node is to replace the arbitrarily too deep tree of
     binary operators (which can lead to a stack overflow), as for example with
     ``"A & B & C & D & E"``:
 
@@ -16898,9 +16899,20 @@ class Op(BaseId):
 
     @langkit_property()
     def is_dispatching_call():
-        # The "is dispatching call" logic is implemented on the BinOp/UnOp
-        # itself.
-        return Entity.parent.cast(Expr).is_dispatching_call
+        return Entity.referenced_decl.then(
+            lambda decl:
+            # TODO: It's a bit of a shame to not have a base class for
+            # operators?
+            Entity.parents.find(lambda n: n.is_a(T.BinOp, T.ConcatOp, T.UnOp))
+            .cast_or_raise(T.Expr).match(
+
+                # TODO: Not supported on ConcatOps yet. It would return false
+                # anyway but this way it is obvious. See VC08-029.
+                lambda _=T.ConcatOp: False,
+
+                lambda e: e.is_dispatching_call_impl(decl)
+            )
+        )
 
 
 @has_abstract_list

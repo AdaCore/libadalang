@@ -11,6 +11,7 @@ procedure Test is
 
       overriding function "+" (Self : U) return Boolean is (True);
       overriding function "-" (Self, Other : U) return Boolean is (True);
+      overriding function "&" (Self, Other : U) return Boolean is (True);
    end Der;
 
    use Pkg;
@@ -52,6 +53,12 @@ procedure Test is
 
    Test_Op_Node_2 : Boolean := V - V;
    --% node.f_default_expr.f_op.p_is_dispatching_call()
+
+   --  Verify that this returns False, and does not raise an exception. See
+   --  VC08-029.
+
+   Bin_Op_Dispatching_3 : Boolean := X & X;
+   --% node.f_default_expr[1][0].f_operator.p_is_dispatching_call()
 begin
    null;
 end Test;

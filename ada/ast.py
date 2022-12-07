@@ -10814,7 +10814,11 @@ class GenericInstantiation(BasicDecl):
                         )
                     )
                 ).singleton,
-                lambda _: No(ParamActual).singleton
+                lambda _=UseClause: No(ParamActual.array),
+                lambda _: PropertyError(
+                    ParamActual.array,
+                    "unpexected declaration in generic formal part"
+                )
             )
         ).map(
             # Update actuals from instantiation params

@@ -16,6 +16,12 @@ Result: [<ParamActual param=<DefiningName gen_cmp.adb:4:12-4:24> actual=<Id "Int
          <ParamActual param=<DefiningName gen_cmp.adb:6:12-6:22> actual=<Id "My_Array" gen_cmp.adb:32:48-32:56>>,
          <ParamActual param=<DefiningName gen_cmp.adb:7:21-7:24> actual=<Id "Less_Than" gen_cmp.adb:32:58-32:67>>]
 
+Working on node <GenericPackageInstantiation ["My_Pkg"] gen_use.adb:8:4-8:40>
+=============================================================================
+
+Eval 'node.p_inst_params'
+Result: [<ParamActual param=<DefiningName gen_use.adb:3:12-3:13> actual=<Id "Integer" gen_use.adb:8:31-8:38>>]
+
 Working on node <GenericSubpInstantiation ["I1P1"] geni.adb:35:4-35:39>
 =======================================================================
 

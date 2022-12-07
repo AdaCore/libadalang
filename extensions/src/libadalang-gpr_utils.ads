@@ -3,8 +3,8 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
---  Helper for ``Libadalang.Preprocessing``, implementing preprocessor data
---  extraction from GPR files.
+--  Helpers to do projects processing on project files regardless of whether
+--  they were loaded from GPR1 or GPR2 libraries.
 
 with GNATCOLL.Projects;
 with GNATCOLL.Strings; use GNATCOLL.Strings;
@@ -12,9 +12,7 @@ with GPR2.Project.Registry.Attribute;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 
-with Libadalang.Preprocessing; use Libadalang.Preprocessing;
-
-private package Libadalang.PP_GPR is
+private package Libadalang.GPR_Utils is
 
    package GPR1 renames GNATCOLL.Projects;
 
@@ -107,25 +105,4 @@ private package Libadalang.PP_GPR is
 
    end Attributes;
 
-   ------------------------
-   -- GPR data extractor --
-   ------------------------
-
-   procedure Extract_Preprocessor_Data_From_Project
-     (Tree           : Any_Tree;
-      View           : Any_View;
-      Default_Config : out File_Config;
-      File_Configs   : out File_Config_Maps.Map)
-      with Pre => Tree.Kind = View.Kind;
-   --  Create preprocessor data from compiler arguments found in the given GPR
-   --  project (``-gnateP`` and ``-gnateD`` arguments).
-   --
-   --  If a non-null ``View`` is given, look for compiler arguments in it and
-   --  the other projects in its closure.  If ``View`` is left to
-   --  ``No_View``, try to use the whole project tree.
-   --
-   --  Note that this function collects all arguments and returns an
-   --  approximation from them: it does not replicates exactly gprbuild's
-   --  behavior.
-
-end Libadalang.PP_GPR;
+end Libadalang.GPR_Utils;

@@ -7,7 +7,6 @@ with Ada.Characters.Handling; use Ada.Characters.Handling;
 
 with GNAT.Strings; use GNAT.Strings;
 
-with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Utils;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
 with GPR2.Containers;
@@ -17,7 +16,7 @@ with GPR2.Project.Attribute.Set;
 with GPR2.Project.Attribute_Index;
 with GPR2.Project.Source;
 
-package body Libadalang.PP_GPR is
+package body Libadalang.GPR_Utils is
 
    -------------
    -- No_View --
@@ -242,161 +241,4 @@ package body Libadalang.PP_GPR is
       end case;
    end Is_Ada_Source;
 
-   --------------------------------------------
-   -- Extract_Preprocessor_Data_From_Project --
-   --------------------------------------------
-
-   procedure Extract_Preprocessor_Data_From_Project
-     (Tree           : Any_Tree;
-      View           : Any_View;
-      Default_Config : out File_Config;
-      File_Configs   : out File_Config_Maps.Map)
-   is
-      Root_Project : constant Any_View :=
-        (if View = No_View (Tree)
-         then Root (Tree)
-         else View);
-      --  Subproject from which to start probing compilation options
-
-      Defs : Definition_Maps.Map;
-      --  Keep track of the definitions
-
-      Prep_Data_File_Found : Boolean := False;
-      --  Whether we have found a preprocessor data file
-
-      --  Loading preprocessor data is done in two steps: first load the
-      --  preprocessor data file (if any), then use the symbol definitions
-      --  found as compilation options. This matches what GNAT implements:
-      --  ``-gnateDX=Y -gnatep=foo.txt`` sets the ``X`` symbol to ``Y`` even if
-      --  ``foo.txt`` contains another symbol definition for ``X``.
-
-      procedure Process_Switches
-        (P : Any_View; Attribute : Any_Attribute; Index : String);
-      --  Add the command-line arguments in the ``Attribute (Index)`` project
-      --  attribute in ``P`` to our knowledge base: the ``Default_Config`` and
-      --  ``File_Configs`` arguments (for preprocesor data files) and ``Defs``
-      --  (for symbol definitions).
-
-      procedure Process_View (Self : Any_View);
-      --  Process both default switches for all Ada sources, then unit-specific
-      --  switches in the ``Self`` project.
-
-      ----------------------
-      -- Process_Switches --
-      ----------------------
-
-      procedure Process_Switches
-        (P : Any_View; Attribute : Any_Attribute; Index : String)
-      is
-         --  Prefixes for the command-line options to match
-
-         Def_Prefix  : constant String := "-gnateD";
-         File_Prefix : constant String := "-gnatep=";
-      begin
-         for Arg of Values (P, Attribute, Index) loop
-
-            --  If this option defines a symbol, add it to our list of symbols
-
-            if Arg.Starts_With (Def_Prefix) then
-               declare
-                  Option : constant XString :=
-                    Arg.Slice (Def_Prefix'Length + 1, Arg.Length);
-                  Name   : US.Unbounded_String;
-                  Value  : Value_Type;
-               begin
-                  Parse_Definition_Option (Option.To_String, Name, Value);
-                  Defs.Include (Name, Value);
-               end;
-
-            --  If this is the first option we see that uses a preprocessor
-            --  data file, load it.
-
-            elsif Arg.Starts_With (File_Prefix)
-                  and then not Prep_Data_File_Found
-            then
-               declare
-                  File : constant XString :=
-                    Arg.Slice (File_Prefix'Length + 1, Arg.Length);
-                  --  Name of the preprocessor data file. It may appear
-                  --  absolute or relative in the project file.
-
-                  Path : constant Any_Path := Create_Path
-                    (Directories => (1 => To_XString (Object_Dir (P))),
-                     CWD         => If_Empty);
-                  --  If the proprocesor data file is not absolute, it is
-                  --  relative to the object directory.
-               begin
-                  Parse_Preprocessor_Data_File
-                    (File.To_String, Path, Default_Config, File_Configs);
-               end;
-               Prep_Data_File_Found := True;
-            end if;
-         end loop;
-      end Process_Switches;
-
-      ------------------
-      -- Process_View --
-      ------------------
-
-      procedure Process_View (Self : Any_View) is
-         Kind             : Project_Kind renames Self.Kind;
-         Default_Switches : Any_Attribute renames
-           Attributes.Default_Switches (Kind);
-         Switches         : Any_Attribute renames Attributes.Switches (Kind);
-      begin
-         --  Process default compiler switches for the Ada language
-
-         Process_Switches (Self, Default_Switches, "Ada");
-
-         --  Also process compiler switches for all Ada sources
-
-         for Source of Indexes (Self, Switches) loop
-            declare
-               Filename : constant String := Source.To_String;
-            begin
-               if Is_Ada_Source (Tree, Self, Filename) then
-                  Process_Switches (Self, Switches, Filename);
-               end if;
-            end;
-         end loop;
-      end Process_View;
-
-   begin
-      Default_Config := Disabled_File_Config;
-      File_Configs := File_Config_Maps.Empty_Map;
-
-      --  Go through all subprojects and extract preprocessor data from their
-      --  compiler switches.
-
-      Iterate (Root_Project, Process_View'Access);
-
-      --  Now that we have potentially found a preprocessor data file, complete
-      --  preprocessor data with the symbol definitions we have found.
-
-      if not Defs.Is_Empty then
-         declare
-            procedure Process (Config : in out File_Config);
-            --  Make sure preprocessing is enabled for ``Config`` and add
-            --  symbol definitions from ``Defs`` to it.
-
-            -------------
-            -- Process --
-            -------------
-
-            procedure Process (Config : in out File_Config) is
-               use Definition_Maps;
-            begin
-               if not Config.Enabled then
-                  Config := (Enabled => True, others => <>);
-               end if;
-               for Cur in Defs.Iterate loop
-                  Config.Definitions.Include (Key (Cur), Element (Cur));
-               end loop;
-            end Process;
-         begin
-            Iterate (Default_Config, File_Configs, Process'Access);
-         end;
-      end if;
-   end Extract_Preprocessor_Data_From_Project;
-
-end Libadalang.PP_GPR;
+end Libadalang.GPR_Utils;

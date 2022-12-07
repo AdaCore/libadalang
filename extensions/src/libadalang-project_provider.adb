@@ -166,7 +166,7 @@ package body Libadalang.Project_Provider is
             return;
          end if;
 
-         --  Info_Set returns a project-less file info when called of files
+         --  Info_Set returns a project-less file info when called on files
          --  that are not part of the project tree. Here, all our source files
          --  belong to Tree, so the following assertion should hold.
 

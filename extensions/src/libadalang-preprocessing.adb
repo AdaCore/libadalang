@@ -741,7 +741,7 @@ package body Libadalang.Preprocessing is
    begin
       Extract_Preprocessor_Data_From_Project
         (Tree           => (Kind       => GPR1_Kind,
-                            GPR1_Value => Prj.Project_Tree (Tree)),
+                            GPR1_Value => Tree'Unrestricted_Access),
          View           => (Kind       => GPR1_Kind,
                             GPR1_Value => Project),
          Default_Config => Default_Config,

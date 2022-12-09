@@ -89,6 +89,23 @@ file. Here is how you can parse the resulting file with Libadalang.
        Put_Line ("Done.");
     end Main;
 
+.. attention::
+
+   You will need to make Libadalang visible to ``gprbuild``, which implies that
+   the project file for the above main needs to start with
+
+   .. code-block:: ada
+
+      with "libadalang";
+
+   And Libadalang needs to be in your ``GPR_PROJECT_PATH``.
+
+.. attention::
+
+   You need to have a valid GNAT toolchain in your ``PATH``, and it also needs
+   to be the same GNAT toolchain that you use to compile the Ada project you're
+   analyzing.
+
 This snippet will create an analysis context, which usually corresponds to the
 context of your whole analysis - be it just one file, a whole project, or
 several projects - and parse our Ada file and return the resulting analysis

@@ -18405,6 +18405,13 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
             & Bind(Self.type_var, Self.bool_type),
 
+            # In the case of the ``Enabled`` attribute, the prefix is supposed
+            # to be a check name, so it's not even an entity that has source
+            # existence. In that case, we just bind the type of the expr to
+            # bool.
+            rel_name == 'Enabled',
+            Bind(Self.type_var, Self.bool_type),
+
             rel_name.any_of('Width', 'Component_Size', 'Position',
                             'Mantissa', 'Model_Mantissa', 'Machine_Mantissa',
                             'Fore', 'Aft', 'Digits', 'Modulus',

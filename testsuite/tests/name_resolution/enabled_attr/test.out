@@ -1,0 +1,37 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <IfStmt test.adb:7:4-9:11>
+***************************************************
+
+Expr: <AttributeRef test.adb:7:7-7:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Container_Checks" test.adb:7:7-7:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Enabled" test.adb:7:24-7:31>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <IfStmt test.adb:12:4-14:11>
+*****************************************************
+
+Expr: <AttributeRef test.adb:12:7-12:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Non_Existing_Check" test.adb:12:7-12:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Enabled" test.adb:12:26-12:33>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

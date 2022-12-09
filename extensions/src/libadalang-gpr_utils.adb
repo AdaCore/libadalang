@@ -48,6 +48,18 @@ package body Libadalang.GPR_Utils is
       end case;
    end Root;
 
+   ----------
+   -- Name --
+   ----------
+
+   function Name (Self : Any_View) return String is
+   begin
+      case Self.Kind is
+      when GPR1_Kind => return Self.GPR1_Value.Name;
+      when GPR2_Kind => return String (Self.GPR2_Value.Name);
+      end case;
+   end Name;
+
    -------------
    -- Iterate --
    -------------
@@ -105,6 +117,66 @@ package body Libadalang.GPR_Utils is
          end loop;
       end case;
    end Iterate;
+
+   --------------------------
+   -- Is_Aggregate_Project --
+   --------------------------
+
+   function Is_Aggregate_Project (Self : Any_View) return Boolean is
+      use type GPR2.Project_Kind;
+   begin
+      case Self.Kind is
+      when GPR1_Kind =>
+         return Self.GPR1_Value.Is_Aggregate_Project;
+      when GPR2_Kind =>
+         return Self.GPR2_Value.Kind = GPR2.K_Aggregate;
+      end case;
+   end Is_Aggregate_Project;
+
+   -------------------------
+   -- Aggregated_Projects --
+   -------------------------
+
+   function Aggregated_Projects (Self : Any_View) return View_Vectors.Vector is
+      Result : View_Vectors.Vector;
+
+      procedure Process (Self : Any_View);
+      --  If ``Self`` is an aggregate proejct, add it to ``Result`` and recurse
+      --  on its aggregated projects.
+
+      -------------
+      -- Process --
+      -------------
+
+      procedure Process (Self : Any_View) is
+      begin
+         if Is_Aggregate_Project (Self) then
+            case Self.Kind is
+            when GPR1_Kind =>
+               declare
+                  Subprojects : GPR1.Project_Array_Access :=
+                    Self.GPR1_Value.Aggregated_Projects;
+               begin
+                  for P of Subprojects.all loop
+                     Process ((Kind => GPR1_Kind, GPR1_Value => P));
+                  end loop;
+                  GPR1.Unchecked_Free (Subprojects);
+               end;
+
+            when GPR2_Kind =>
+               for P of Self.GPR2_Value.Aggregated loop
+                  Process ((Kind => GPR2_Kind, GPR2_Value => P));
+               end loop;
+            end case;
+         else
+            Result.Append (Self);
+         end if;
+      end Process;
+
+   begin
+      Process (Self);
+      return Result;
+   end Aggregated_Projects;
 
    ----------------
    -- Object_Dir --
@@ -240,5 +312,79 @@ package body Libadalang.GPR_Utils is
          end;
       end case;
    end Is_Ada_Source;
+
+   -----------------------
+   -- Iterate_Ada_Units --
+   -----------------------
+
+   procedure Iterate_Ada_Units
+     (Tree    : Any_Tree;
+      View    : Any_View;
+      Process : access procedure (Unit_Name : String;
+                                  Unit_Part : Any_Unit_Part;
+                                  Filename  : String)) is
+   begin
+      case Tree.Kind is
+      when GPR1_Kind =>
+         declare
+            use type GPR1.Project_Type;
+
+            Sources : File_Array_Access :=
+              View.GPR1_Value.Source_Files (Recursive => True);
+            Set     : GPR1.File_Info_Set;
+            FI      : GPR1.File_Info;
+         begin
+            for File of Sources.all loop
+
+               --  Look for the file info that corresponds to File.
+               --
+               --  TODO??? Due to how GNATCOLL.Projects exposes aggregate
+               --  projects, we have no way to get the unit name and unit part
+               --  from ``File`` without performing a project tree wide search:
+               --  we would like instead to search on ``View`` only, but this
+               --  is not possible.  For now, just do the global search and
+               --  hope that ``File`` always corresponds to the same unit file
+               --  and unit part in the aggregate project. While this sounds a
+               --  reasonable assumption, we know it's possible to build a
+               --  project with unlikely Name package attribute that break this
+               --  assumption.
+
+               Set := Tree.GPR1_Value.Info_Set (File);
+
+               --  For some reason, File_Info_Set contains
+               --  File_Info_Astract'Class objects, while the only instance of
+               --  this type is File_Info. So the above conversion should
+               --  always succeed.
+
+               FI := GPR1.File_Info (Set.First_Element);
+
+               --  Info_Set returns a project-less file info when called on
+               --  files that are not part of the project tree. Here, all our
+               --  source files belong to Tree, so the following assertion
+               --  should hold.
+
+               pragma Assert (FI.Project /= GPR1.No_Project);
+
+               if Ada.Characters.Handling.To_Lower (FI.Language) = "ada" then
+                  Process.all
+                    (Unit_Name => FI.Unit_Name,
+                     Unit_Part => (case FI.Unit_Part is
+                                   when GPR1.Unit_Spec => Unit_Spec,
+                                   when others         => Unit_Body),
+                     Filename  => +File.Full_Name);
+               end if;
+            end loop;
+            Unchecked_Free (Sources);
+         end;
+
+      when GPR2_Kind =>
+
+         --  TODO??? Implement in order to add GPR2 project unit provider
+         --  handling.
+
+         raise Program_Error;
+
+      end case;
+   end Iterate_Ada_Units;
 
 end Libadalang.GPR_Utils;

@@ -3,8 +3,6 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
-with Ada.Characters.Handling;
-with Ada.Containers.Generic_Array_Sort;
 with Ada.Containers.Hashed_Maps;
 with Ada.Strings.Unbounded.Hash;
 with Ada.Unchecked_Deallocation;
@@ -12,21 +10,40 @@ with Ada.Unchecked_Deallocation;
 with GNAT.Task_Lock;
 
 with GNATCOLL.VFS; use GNATCOLL.VFS;
+with GPR2.Project.Tree;
 
+with Libadalang.GPR_Utils; use Libadalang.GPR_Utils;
 with Libadalang.Unit_Files;
 
 package body Libadalang.Project_Provider is
 
+   use type Ada.Containers.Count_Type;
+
    package US renames Ada.Strings.Unbounded;
    use type US.Unbounded_String;
 
+   ------------------------
+   -- GPR1 unit provider --
+   ------------------------
+
+   type Project_Data (Kind : Project_Kind := GPR1_Kind) is record
+      case Kind is
+         when GPR1_Kind =>
+            GPR1_Tree             : Prj.Project_Tree_Access;
+            GPR1_Env              : Prj.Project_Environment_Access;
+            GPR1_Is_Project_Owner : Boolean;
+         when GPR2_Kind =>
+            GPR2_Tree : access GPR2.Project.Tree.Object;
+      end case;
+   end record;
+
    type Project_Unit_Provider is new LAL.Unit_Provider_Interface with record
-      Tree             : Prj.Project_Tree_Access;
-      Projects         : Prj.Project_Array_Access;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean;
+      Data     : Project_Data;
+      Projects : View_Vectors.Vector;
    end record;
    --  Unit provider backed up by a project file
+
+   type Project_Unit_Provider_Access is access all Project_Unit_Provider;
 
    overriding function Get_Unit_Filename
      (Provider : Project_Unit_Provider;
@@ -47,6 +64,19 @@ package body Libadalang.Project_Provider is
    -- Helpers to create project partitions --
    ------------------------------------------
 
+   type Any_Provider_And_Projects is record
+      Provider : LAL.Unit_Provider_Reference;
+      Projects : View_Vectors.Vector;
+   end record;
+   --  Provider_And_Projects equivalent that is GPR library agnostic
+
+   type Any_Provider_And_Projects_Array is
+     array (Positive range <>) of Any_Provider_And_Projects;
+   type Any_Provider_And_Projects_Array_Access is
+      access all Any_Provider_And_Projects_Array;
+   procedure Free is new Ada.Unchecked_Deallocation
+     (Any_Provider_And_Projects_Array, Any_Provider_And_Projects_Array_Access);
+
    type Files_For_Unit is record
       Spec_File, Body_File : aliased US.Unbounded_String;
    end record;
@@ -55,8 +85,8 @@ package body Libadalang.Project_Provider is
 
    procedure Set_Unit_File
      (FFU  : in out Files_For_Unit;
-      File : Virtual_File;
-      Part : Prj.Unit_Parts);
+      File : String;
+      Part : Any_Unit_Part);
    --  Register the couple File/Part in FFU
 
    package Unit_Files_Maps is new Ada.Containers.Hashed_Maps
@@ -68,21 +98,14 @@ package body Libadalang.Project_Provider is
 
    procedure Set_Unit_File
      (Unit_Files : in out Unit_Files_Maps.Map;
-      Tree       : Prj.Project_Tree_Access;
-      File       : Virtual_File);
-   --  Wrapper around Set_Unit_File to register the couple File/Part in the
-   --  appropriate Unit_Files' entry. Create such an entry if needed.
-
-   package Project_Vectors is new Ada.Containers.Vectors
-     (Index_Type   => Positive,
-      Element_Type => Prj.Project_Type,
-      "="          => Prj."=");
-
-   function To_Project_Array
-     (Projects : Project_Vectors.Vector) return Prj.Project_Array_Access;
+      Unit_Name  : String;
+      Unit_Part  : Any_Unit_Part;
+      Filename   : String);
+   --  Wrapper around Set_Unit_File to register the couple Filename/Unit_Part
+   --  in the appropriate Unit_Files' entry. Create such an entry if needed.
 
    type Aggregate_Part is record
-      Projects   : Project_Vectors.Vector;
+      Projects   : View_Vectors.Vector;
       Unit_Files : Unit_Files_Maps.Map;
    end record;
    --  Group of projects that make up one part in the aggregated projects
@@ -98,16 +121,38 @@ package body Libadalang.Project_Provider is
 
    function Try_Merge
      (Part       : in out Aggregate_Part;
-      Project    : Prj.Project_Type;
+      Project    : Any_View;
       Unit_Files : in out Unit_Files_Maps.Map) return Boolean;
-   --  If all common unit names in Part.Unit_Files and Unit_Files are
-   --  associated with the same source files, update Part so that Project is
-   --  part of it, clear Unit_Files and return True. Do nothing and return
-   --  False otherwise.
+   --  If all common unit names in ``Part.Unit_Files`` and ``Unit_Files`` are
+   --  associated with the same source files, update ``Part`` so that
+   --  ``Project`` is part of it, clear ``Unit_Files`` and return True. Do
+   --  nothing and return False otherwise.
 
    package Aggregate_Part_Vectors is new Ada.Containers.Vectors
      (Positive, Aggregate_Part_Access);
    procedure Free (Partition : in out Aggregate_Part_Vectors.Vector);
+
+   function Create_Project_Unit_Provider
+     (Tree  : Any_Tree;
+      Views : View_Vectors.Vector) return LAL.Unit_Provider_Reference;
+   --  Helper to create a ``Project_Unit_Provider`` reference based on the
+   --  given ``Tree`` and ``Views``.
+
+   function Create_Project_Unit_Providers
+     (Tree : Any_Tree) return Any_Provider_And_Projects_Array_Access;
+   --  Common implementation for the homonym public functions
+
+   procedure Create_Project_Unit_Provider
+     (Tree         : Any_Tree;
+      View         : Any_View;
+      Provider     : out Project_Unit_Provider_Access;
+      Provider_Ref : out LAL.Unit_Provider_Reference);
+   --  Common implementation for the homonym public functions.
+   --
+   --  Try to create a single unit provider for the given ``Tree``/``View``
+   --  (``View`` being ``No_View`` means: use the root project). On success,
+   --  set ``Provider`` and ``Provider_Ref`` to the created unit provider. On
+   --  failure, raise an ``Unsupported_View_Error`` exception.
 
    -------------------
    -- Set_Unit_File --
@@ -115,19 +160,20 @@ package body Libadalang.Project_Provider is
 
    procedure Set_Unit_File
      (FFU  : in out Files_For_Unit;
-      File : Virtual_File;
-      Part : Prj.Unit_Parts)
+      File : String;
+      Part : Any_Unit_Part)
    is
       Unit_File : constant access US.Unbounded_String :=
         (case Part is
-         when Prj.Unit_Spec => FFU.Spec_File'Access,
-         when others        => FFU.Body_File'Access);
+         when Unit_Spec => FFU.Spec_File'Access,
+         when Unit_Body     => FFU.Body_File'Access);
    begin
       pragma Assert (Unit_File.all = US.Null_Unbounded_String);
       Unit_File.all :=
-        (if File = No_File
+        (if File = ""
          then US.Null_Unbounded_String
-         else US.To_Unbounded_String (+File.Full_Name (Normalize => True)));
+         else US.To_Unbounded_String
+                (+Create (+File).Full_Name (Normalize => True)));
    end Set_Unit_File;
 
    -------------------
@@ -136,78 +182,24 @@ package body Libadalang.Project_Provider is
 
    procedure Set_Unit_File
      (Unit_Files : in out Unit_Files_Maps.Map;
-      Tree       : Prj.Project_Tree_Access;
-      File       : Virtual_File)
+      Unit_Name  : String;
+      Unit_Part  : Any_Unit_Part;
+      Filename   : String)
    is
-      use type Prj.Project_Type;
       use Unit_Files_Maps;
+
+      UN       : constant US.Unbounded_String :=
+        US.To_Unbounded_String (Unit_Name);
+      Pos      : Cursor := Unit_Files.Find (UN);
+      Inserted : Boolean;
    begin
-      --  Look for the file info that corresponds to File.
-      --
-      --  TODO??? Due to how GNATCOLL.Projects exposes aggregate projects, we
-      --  have no way to get the unit name and unit part from File without
-      --  performing a project tree wide search: we would like instead to
-      --  search on Project only, but this is not possible. For now, just do
-      --  the global search and hope that File always corresponds to the same
-      --  unit file and unit part in the aggregate project. While this sounds a
-      --  reasonable assumption, we know it's possible to build a project with
-      --  unlikely Name package attribute that break this assumption.
+      if not Has_Element (Pos) then
+         Unit_Files.Insert (UN, Pos, Inserted);
+         pragma Assert (Inserted);
+      end if;
 
-      declare
-         Set : constant Prj.File_Info_Set := Tree.Info_Set (File);
-         FI  : constant Prj.File_Info := Prj.File_Info (Set.First_Element);
-         --  For some reason, File_Info_Set contains File_Info_Astract'Class
-         --  objects, while the only instance of this type is File_Info. So the
-         --  above conversion should always succeed.
-      begin
-         --  Consider only Ada source files
-
-         if Ada.Characters.Handling.To_Lower (FI.Language) /= "ada" then
-            return;
-         end if;
-
-         --  Info_Set returns a project-less file info when called on files
-         --  that are not part of the project tree. Here, all our source files
-         --  belong to Tree, so the following assertion should hold.
-
-         pragma Assert (FI.Project /= Prj.No_Project);
-
-         --  Now look for the Files_For_Unit entry in Unit_Files corresponding
-         --  to this file and register it there.
-
-         declare
-            Unit_Name : constant US.Unbounded_String :=
-               US.To_Unbounded_String (FI.Unit_Name);
-            Unit_Part : constant Prj.Unit_Parts := FI.Unit_Part;
-
-            Pos      : Cursor := Unit_Files.Find (Unit_Name);
-            Inserted : Boolean;
-         begin
-            if not Has_Element (Pos) then
-               Unit_Files.Insert (Unit_Name, Pos, Inserted);
-               pragma Assert (Inserted);
-            end if;
-
-            Set_Unit_File (Unit_Files.Reference (Pos), File, Unit_Part);
-         end;
-      end;
+      Set_Unit_File (Unit_Files.Reference (Pos), Filename, Unit_Part);
    end Set_Unit_File;
-
-   ----------------------
-   -- To_Project_Array --
-   ----------------------
-
-   function To_Project_Array
-     (Projects : Project_Vectors.Vector) return Prj.Project_Array_Access is
-   begin
-      return Result : constant Prj.Project_Array_Access :=
-         new Prj.Project_Array (1 .. Natural (Projects.Length))
-      do
-         for I in Result.all'Range loop
-            Result (I) := Projects.Element (I);
-         end loop;
-      end return;
-   end To_Project_Array;
 
    ----------------
    -- Part_Image --
@@ -219,13 +211,13 @@ package body Libadalang.Project_Provider is
       First   : Boolean := True;
    begin
       Append (Image, "<");
-      for Project of Part.Projects loop
+      for View of Part.Projects loop
          if First then
             First := False;
          else
             Append (Image, ", ");
          end if;
-         Append (Image, Project.Name);
+         Append (Image, Name (View));
       end loop;
       Append (Image, ">");
       return To_String (Image);
@@ -237,7 +229,7 @@ package body Libadalang.Project_Provider is
 
    function Try_Merge
      (Part       : in out Aggregate_Part;
-      Project    : Prj.Project_Type;
+      Project    : Any_View;
       Unit_Files : in out Unit_Files_Maps.Map) return Boolean
    is
       use Unit_Files_Maps;
@@ -267,8 +259,8 @@ package body Libadalang.Project_Provider is
                if Trace.Is_Active then
                   Trace.Trace
                     ("Found conflicting source files for unit "
-                     & To_String (Unit_Name) & " in " & Project.Name & " and "
-                     & Part_Image (Part));
+                     & To_String (Unit_Name) & " in " & Name (Project)
+                     & " and " & Part_Image (Part));
                end if;
                return False;
             end if;
@@ -317,62 +309,100 @@ package body Libadalang.Project_Provider is
       Deallocate (PAP_Array);
    end Free;
 
+   ----------------------------------
+   -- Create_Project_Unit_Provider --
+   ----------------------------------
+
+   function Create_Project_Unit_Provider
+     (Tree  : Any_Tree;
+      Views : View_Vectors.Vector) return LAL.Unit_Provider_Reference
+   is
+      Provider : Project_Unit_Provider;
+      Data     : Project_Data renames Provider.Data;
+   begin
+      case Tree.Kind is
+         when GPR1_Kind =>
+            Data :=
+              (Kind                  => GPR1_Kind,
+               GPR1_Tree             => Tree.GPR1_Value,
+               GPR1_Env              => null,
+               GPR1_Is_Project_Owner => False);
+
+         when GPR2_Kind =>
+            Data :=
+              (Kind => GPR2_Kind, GPR2_Tree => Tree.GPR2_Value.Reference);
+      end case;
+      Provider.Projects := Views;
+      return LAL.Create_Unit_Provider_Reference (Provider);
+   end Create_Project_Unit_Provider;
+
    -----------------------------------
    -- Create_Project_Unit_Providers --
    -----------------------------------
 
    function Create_Project_Unit_Providers
-     (Tree : Prj.Project_Tree_Access)
-      return Provider_And_Projects_Array_Access
+     (Tree : Any_Tree) return Any_Provider_And_Projects_Array_Access
    is
       Partition : Aggregate_Part_Vectors.Vector;
    begin
-      Trace.Increase_Indent ("Trying to partition " & Tree.Root_Project.Name);
+      Trace.Increase_Indent ("Trying to partition " & Name (Root (Tree)));
 
-      if Tree.Root_Project.Is_Aggregate_Project then
+      if Is_Aggregate_Project (Root (Tree)) then
 
          --  We have an aggregate project: partition aggregated projects so
          --  that each unit providers (associated to one exclusive set of
          --  projects) has visibility on only one version of a unit.
 
          declare
-            Projects : Prj.Project_Array_Access :=
-               Tree.Root_Project.Aggregated_Projects;
+            Views : View_Vectors.Vector := Aggregated_Projects (Root (Tree));
 
-            function "<" (Left, Right : Prj.Project_Type) return Boolean is
-              (Left.Name < Right.Name);
+            function "<" (Left, Right : Any_View) return Boolean is
+              (Name (Left) < Name (Right));
 
-            procedure Sort is new Ada.Containers.Generic_Array_Sort
-              (Positive, Prj.Project_Type, Prj.Project_Array);
+            package Sorting is new View_Vectors.Generic_Sorting;
          begin
-            --  Sort projects by name so that our output is deterministic:
-            --  GNATCOLL.Projects.Aggregated_Project does not specify the order
-            --  of projects in its result.
+            --  Sort views by name so that our output is deterministic:
+            --  Aggregated_Project does not specify the order of projects in
+            --  its result.
 
-            Sort (Projects.all);
+            Sorting.Sort (Views);
 
             --  For each aggregated project...
 
-            Aggregate_Iteration : for P of Projects.all loop
+            Aggregate_Iteration : for View of Views loop
                declare
-                  Unit_Files      : Unit_Files_Maps.Map;
-                  Sources         : File_Array_Access :=
-                     P.Source_Files (Recursive => True);
-                  New_Part_Needed : Boolean := True;
-               begin
                   --  List all units defined and keep track of which source
                   --  files implement them.
 
-                  for S of Sources.all loop
-                     Set_Unit_File (Unit_Files, Tree, S);
-                  end loop;
-                  Unchecked_Free (Sources);
+                  Unit_Files : Unit_Files_Maps.Map;
+
+                  procedure Process
+                    (Unit_Name : String;
+                     Unit_Part : Any_Unit_Part;
+                     Filename  : String);
+
+                  -------------
+                  -- Process --
+                  -------------
+
+                  procedure Process
+                    (Unit_Name : String;
+                     Unit_Part : Any_Unit_Part;
+                     Filename  : String) is
+                  begin
+                     Set_Unit_File
+                       (Unit_Files, Unit_Name, Unit_Part, Filename);
+                  end Process;
+
+                  New_Part_Needed : Boolean := True;
+               begin
+                  Iterate_Ada_Units (Tree, View, Process'Access);
 
                   --  Then look for a part whose units do not conflict with
                   --  Unit_Files. Create a new one if there is no such part.
 
                   Part_Lookup : for Part of Partition loop
-                     if Try_Merge (Part.all, P, Unit_Files) then
+                     if Try_Merge (Part.all, View, Unit_Files) then
                         New_Part_Needed := False;
                         exit Part_Lookup;
                      end if;
@@ -381,9 +411,9 @@ package body Libadalang.Project_Provider is
                   if New_Part_Needed then
                      declare
                         Part : constant Aggregate_Part_Access :=
-                           new Aggregate_Part;
+                          new Aggregate_Part;
                         Success : constant Boolean :=
-                           Try_Merge (Part.all, P, Unit_Files);
+                          Try_Merge (Part.all, View, Unit_Files);
                      begin
                         pragma Assert (Success);
                         Partition.Append (Part);
@@ -391,7 +421,6 @@ package body Libadalang.Project_Provider is
                   end if;
                end;
             end loop Aggregate_Iteration;
-            Prj.Unchecked_Free (Projects);
          end;
 
          --  If the partition is empty (there was no aggregated project),
@@ -409,7 +438,7 @@ package body Libadalang.Project_Provider is
          declare
             Part : constant Aggregate_Part_Access := new Aggregate_Part;
          begin
-            Part.Projects.Append (Tree.Root_Project);
+            Part.Projects.Append (Root (Tree));
             Partition.Append (Part);
          end;
       end if;
@@ -435,24 +464,115 @@ package body Libadalang.Project_Provider is
       --  The partition is ready: turn each part into a unit provider and
       --  return the list.
 
-      return Result : constant Provider_And_Projects_Array_Access :=
-         new Provider_And_Projects_Array (1 .. Natural (Partition.Length))
+      return Result : constant Any_Provider_And_Projects_Array_Access :=
+         new Any_Provider_And_Projects_Array (1 .. Natural (Partition.Length))
       do
          for I in Result.all'Range loop
             declare
-               Part : Aggregate_Part_Access renames Partition (I);
-               PUP  : constant Project_Unit_Provider :=
-                  (Tree             => Tree,
-                   Projects         => To_Project_Array (Part.Projects),
-                   Env              => null,
-                   Is_Project_Owner => False);
+               Views : View_Vectors.Vector renames Partition (I).Projects;
             begin
-               Result (I).Projects := To_Project_Array (Part.Projects);
                Result (I).Provider :=
-                  LAL.Create_Unit_Provider_Reference (PUP);
+                 Create_Project_Unit_Provider (Tree, Views);
+               Result (I).Projects := Views;
             end;
          end loop;
          Free (Partition);
+      end return;
+   end Create_Project_Unit_Providers;
+
+   ----------------------------------
+   -- Create_Project_Unit_Provider --
+   ----------------------------------
+
+   procedure Create_Project_Unit_Provider
+     (Tree         : Any_Tree;
+      View         : Any_View;
+      Provider     : out Project_Unit_Provider_Access;
+      Provider_Ref : out LAL.Unit_Provider_Reference)
+   is
+      Actual_View : Any_View := View;
+   begin
+      --  If no project was given, try to run the partitionner
+
+      if Actual_View = No_View (Tree) then
+         declare
+            PAPs : Any_Provider_And_Projects_Array_Access :=
+              Create_Project_Unit_Providers (Tree);
+         begin
+            if PAPs.all'Length > 1 then
+               Free (PAPs);
+               raise Unsupported_View_Error with "inconsistent units found";
+            end if;
+
+            --  We only have one provider: return it
+
+            Provider_Ref := PAPs.all (PAPs.all'First).Provider;
+            Provider :=
+              Project_Unit_Provider_Access (Provider_Ref.Unchecked_Get);
+            Free (PAPs);
+            return;
+         end;
+      end if;
+
+      --  Peel the aggregate project layers (if any) around Actual_View. If we
+      --  find an aggregate project with more than one aggregated project, this
+      --  is an unsupported case.
+
+      while Is_Aggregate_Project (Actual_View) loop
+         declare
+            Subprojects : constant View_Vectors.Vector :=
+              Aggregated_Projects (Actual_View);
+         begin
+            exit when Subprojects.Length /= 1;
+            Actual_View := Subprojects.First_Element;
+         end;
+      end loop;
+
+      if Is_Aggregate_Project (Actual_View) then
+         raise Unsupported_View_Error with
+            "selected project is aggregate and has more than one sub-project";
+      end if;
+
+      declare
+         Views : View_Vectors.Vector;
+      begin
+         Views.Append (Actual_View);
+         Provider_Ref := Create_Project_Unit_Provider (Tree, Views);
+         Provider :=
+           Project_Unit_Provider_Access (Provider_Ref.Unchecked_Get);
+      end;
+   end Create_Project_Unit_Provider;
+
+   -----------------------------------
+   -- Create_Project_Unit_Providers --
+   -----------------------------------
+
+   function Create_Project_Unit_Providers
+     (Tree : Prj.Project_Tree_Access) return Provider_And_Projects_Array_Access
+   is
+      Result : Any_Provider_And_Projects_Array_Access :=
+        Create_Project_Unit_Providers
+          ((Kind => GPR1_Kind, GPR1_Value => Tree));
+   begin
+      --  Convert Result (GPR library agnostic data structure) into the return
+      --  type (GPR1-specific data structure).
+
+      return R : constant Provider_And_Projects_Array_Access :=
+        new Provider_And_Projects_Array (Result.all'Range)
+      do
+         for I in R.all'Range loop
+            R (I).Provider := Result (I).Provider;
+            declare
+               Projects : View_Vectors.Vector renames Result (I).Projects;
+               P        : Prj.Project_Array_Access renames R (I).Projects;
+            begin
+               P := new Prj.Project_Array (1 .. Natural (Projects.Length));
+               for I in P.all'Range loop
+                  P (I) := Projects (I).GPR1_Value;
+               end loop;
+            end;
+         end loop;
+         Free (Result);
       end return;
    end Create_Project_Unit_Providers;
 
@@ -467,72 +587,17 @@ package body Libadalang.Project_Provider is
       Is_Project_Owner : Boolean := True)
       return LAL.Unit_Provider_Reference
    is
-      use type Prj.Project_Type;
-
-      Actual_Project : Prj.Project_Type := Project;
+      Provider : Project_Unit_Provider_Access;
    begin
-      --  If no project was given, try to run the partitionner
-
-      if Actual_Project = Prj.No_Project then
-         declare
-            Result   : LAL.Unit_Provider_Reference;
-            Provider : LAL.Unit_Provider_References.Element_Access;
-            PAPs     : Provider_And_Projects_Array_Access :=
-               Create_Project_Unit_Providers (Tree);
-         begin
-            if PAPs.all'Length > 1 then
-               Free (PAPs);
-               raise Unsupported_View_Error with
-                  "inconsistent units found";
-            end if;
-
-            --  We only have one provider. Grant ownership to Result if
-            --  requested and we are done.
-
-            Result := PAPs.all (PAPs.all'First).Provider;
-            Free (PAPs);
-            if Is_Project_Owner then
-               Provider := Result.Unchecked_Get;
-               Project_Unit_Provider (Provider.all).Env := Env;
-               Project_Unit_Provider (Provider.all).Is_Project_Owner := True;
-            end if;
-            return Result;
-         end;
-      end if;
-
-      --  Peel the aggregate project layers (if any) around Actual_Project. If
-      --  we find an aggregate project with more than one aggregated project,
-      --  this is an unsupported case.
-
-      while Actual_Project.Is_Aggregate_Project loop
-         declare
-            Subprojects : Prj.Project_Array_Access :=
-               Actual_Project.Aggregated_Projects;
-            Leave_Loop  : constant Boolean :=
-               Subprojects.all'Length /= 1;
-         begin
-            if not Leave_Loop then
-               Actual_Project := Subprojects.all (Subprojects.all'First);
-            end if;
-            Prj.Unchecked_Free (Subprojects);
-            exit when Leave_Loop;
-         end;
-      end loop;
-
-      if Actual_Project.Is_Aggregate_Project then
-         raise Unsupported_View_Error with
-            "selected project is aggregate and has more than one sub-project";
-      end if;
-
-      declare
-         Provider : constant Project_Unit_Provider :=
-           (Tree             => Tree,
-            Projects         => new Prj.Project_Array'(1 => Actual_Project),
-            Env              => Env,
-            Is_Project_Owner => Is_Project_Owner);
-      begin
-         return LAL.Create_Unit_Provider_Reference (Provider);
-      end;
+      return Result : LAL.Unit_Provider_Reference do
+         Create_Project_Unit_Provider
+           (Tree         => (Kind => GPR1_Kind, GPR1_Value => Tree),
+            View         => (Kind => GPR1_Kind, GPR1_Value => Project),
+            Provider     => Provider,
+            Provider_Ref => Result);
+         Provider.Data.GPR1_Env := Env;
+         Provider.Data.GPR1_Is_Project_Owner := Is_Project_Owner;
+      end return;
    end Create_Project_Unit_Provider;
 
    -----------------------
@@ -547,44 +612,61 @@ package body Libadalang.Project_Provider is
       Str_Name : constant String :=
         Libadalang.Unit_Files.Unit_String_Name (Name);
    begin
-      GNAT.Task_Lock.Lock;
-
       --  Look for a source file corresponding to Name/Kind in all projects
-      --  associated to this Provider. Note that unlike what is documented,
-      --  it's not because File_From_Unit returns an non-empty string that the
-      --  unit does belong to the project, so we must also check
-      --  Create_From_Project's result.
+      --  associated to this Provider.
 
-      for P of Provider.Projects.all loop
-         declare
-            File : constant Filesystem_String := Prj.File_From_Unit
-              (Project   => P,
-               Unit_Name => Str_Name,
-               Part      => Convert (Kind),
-               Language  => "Ada");
+      case Provider.Data.Kind is
+      when GPR1_Kind =>
          begin
-            if File'Length /= 0 then
+            GNAT.Task_Lock.Lock;
+
+            --  Unlike what is documented, it's not because File_From_Unit
+            --  returns an non-empty string that the unit does belong to the
+            --  project, so we must also check Create_From_Project's result.
+
+            for View of Provider.Projects loop
                declare
-                  Path : constant GNATCOLL.VFS.Virtual_File :=
-                    Prj.Create_From_Project (P, File).File;
-                  Fullname : constant String := +Path.Full_Name;
+                  P    : constant Prj.Project_Type := View.GPR1_Value;
+                  File : constant Filesystem_String := Prj.File_From_Unit
+                    (Project   => P,
+                     Unit_Name => Str_Name,
+                     Part      => Convert (Kind),
+                     Language  => "Ada");
                begin
-                  if Fullname'Length /= 0 then
-                     GNAT.Task_Lock.Unlock;
-                     return Fullname;
+                  if File'Length /= 0 then
+                     declare
+                        Path     : constant GNATCOLL.VFS.Virtual_File :=
+                          Prj.Create_From_Project (P, File).File;
+                        Fullname : constant String := +Path.Full_Name;
+                     begin
+                        if Fullname'Length /= 0 then
+                           GNAT.Task_Lock.Unlock;
+                           return Fullname;
+                        end if;
+                     end;
                   end if;
                end;
-            end if;
+            end loop;
+
+            GNAT.Task_Lock.Unlock;
+         exception
+            when others =>
+               GNAT.Task_Lock.Unlock;
+               raise;
          end;
-      end loop;
 
-      GNAT.Task_Lock.Unlock;
+      when GPR2_Kind =>
+
+         --  TODO??? Implement in order to add GPR2 project unit provider
+         --  handling.
+
+         raise Program_Error;
+      end case;
+
+      --  If we reach this point, we have not found a unit handled by this
+      --  provider that matches the requested name/kind.
+
       return "";
-
-   exception
-      when others =>
-         GNAT.Task_Lock.Unlock;
-         raise;
    end Get_Unit_Filename;
 
    --------------
@@ -626,24 +708,33 @@ package body Libadalang.Project_Provider is
 
    overriding procedure Release (Provider : in out Project_Unit_Provider) is
    begin
-      GNAT.Task_Lock.Lock;
+      case Provider.Data.Kind is
+         when GPR1_Kind =>
+            declare
+               Data : Project_Data renames Provider.Data;
+            begin
+               GNAT.Task_Lock.Lock;
 
-      Prj.Unchecked_Free (Provider.Projects);
-      if Provider.Is_Project_Owner then
-         Prj.Unload (Provider.Tree.all);
-         Prj.Free (Provider.Tree);
-         Prj.Free (Provider.Env);
-      end if;
-      Provider.Tree := null;
-      Provider.Env := null;
-      Provider.Is_Project_Owner := False;
+               if Data.GPR1_Is_Project_Owner then
+                  Prj.Unload (Data.GPR1_Tree.all);
+                  Prj.Free (Data.GPR1_Tree);
+                  Prj.Free (Data.GPR1_Env);
+               end if;
+               Data.GPR1_Tree := null;
+               Data.GPR1_Env := null;
+               Data.GPR1_Is_Project_Owner := False;
 
-      GNAT.Task_Lock.Unlock;
+               GNAT.Task_Lock.Unlock;
 
-   exception
-      when others =>
-         GNAT.Task_Lock.Unlock;
-         raise;
+            exception
+               when others =>
+                  GNAT.Task_Lock.Unlock;
+                  raise;
+            end;
+
+         when GPR2_Kind =>
+            null;
+      end case;
    end Release;
 
    ------------------

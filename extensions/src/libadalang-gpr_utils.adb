@@ -15,6 +15,8 @@ with GPR2.Project.Attribute;
 with GPR2.Project.Attribute.Set;
 with GPR2.Project.Attribute_Index;
 with GPR2.Project.Source;
+with GPR2.Project.View.Set;
+with GPR2.Unit;
 
 package body Libadalang.GPR_Utils is
 
@@ -379,12 +381,91 @@ package body Libadalang.GPR_Utils is
 
       when GPR2_Kind =>
 
-         --  TODO??? Implement in order to add GPR2 project unit provider
-         --  handling.
+         --  Go through all Ada sources in all projects in ``View``'s closure.
+         --
+         --  TODO??? (VC07-012) Use the upcoming GPR2.Build high level API
+         --  instead of using this internal API.
 
-         raise Program_Error;
+         declare
+            procedure Process_Wrapper (Source : GPR2.Project.Source.Object);
+            --  Call ``Process`` on all units in ``Source``
 
+            ---------------------
+            -- Process_Wrapper --
+            ---------------------
+
+            procedure Process_Wrapper (Source : GPR2.Project.Source.Object) is
+               Filename : constant String := String (Source.Path_Name.Value);
+            begin
+               for U of Source.Units loop
+                  Process.all
+                    (Unit_Name => String (U.Name),
+                     Unit_Part => (if U.Kind in GPR2.Unit.Spec_Kind
+                                   then Unit_Spec
+                                   else Unit_Body),
+                     Filename  => Filename);
+               end loop;
+            end Process_Wrapper;
+         begin
+            Tree.GPR2_Value.For_Each_Source
+              (View             => View.GPR2_Value,
+               Action           => Process_Wrapper'Access,
+               Language         => GPR2.Ada_Language,
+               Externally_Built => True);
+         end;
       end case;
    end Iterate_Ada_Units;
+
+   -------------
+   -- Closure --
+   -------------
+
+   function Closure
+     (Self : GPR2.Project.View.Object) return GPR2.Project.View.Vector.Object
+   is
+      Result  : GPR2.Project.View.Vector.Object;
+      Visited : GPR2.Project.View.Set.Object;
+
+      procedure Visit (Self : GPR2.Project.View.Object);
+      --  If ``Self`` was already visited, do nothing. Otherwise add it to
+      --  ``Visited`` and ``Result`` and visit its dependencies.
+
+      -----------
+      -- Visit --
+      -----------
+
+      procedure Visit (Self : GPR2.Project.View.Object) is
+         use type GPR2.Project_Kind;
+      begin
+         if Visited.Contains (Self) then
+            return;
+         end if;
+
+         Visited.Include (Self);
+         Result.Append (Self);
+
+         if Self.Kind = GPR2.K_Aggregate_Library then
+            for P of Self.Aggregated loop
+               Visit (P);
+            end loop;
+         end if;
+
+         for P of Self.Imports loop
+            Visit (P);
+         end loop;
+
+         for P of Self.Limited_Imports loop
+            Visit (P);
+         end loop;
+
+         --  TODO??? (VC07-012) What about extended projects? We should
+         --  probably use a robust implementation provided by GPR2.
+
+      end Visit;
+
+   begin
+      Visit (Self);
+      return Result;
+   end Closure;
 
 end Libadalang.GPR_Utils;

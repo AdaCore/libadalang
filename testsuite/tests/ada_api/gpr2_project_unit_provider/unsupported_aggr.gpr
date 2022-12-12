@@ -1,0 +1,3 @@
+aggregate project Unsupported_Aggr is
+   for Project_Files use ("p.gpr", "q.gpr", "q2.gpr");
+end Unsupported_Aggr;

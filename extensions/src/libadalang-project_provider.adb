@@ -5,12 +5,11 @@
 
 with Ada.Containers.Hashed_Maps;
 with Ada.Strings.Unbounded.Hash;
-with Ada.Unchecked_Deallocation;
 
 with GNAT.Task_Lock;
 
 with GNATCOLL.VFS; use GNATCOLL.VFS;
-with GPR2.Project.Tree;
+with GPR2.Project.Unit_Info;
 
 with Libadalang.GPR_Utils; use Libadalang.GPR_Utils;
 with Libadalang.Unit_Files;
@@ -187,6 +186,8 @@ package body Libadalang.Project_Provider is
       Filename   : String)
    is
       use Unit_Files_Maps;
+
+      --  TODO??? Refactor to make a single lookup/insertion
 
       UN       : constant US.Unbounded_String :=
         US.To_Unbounded_String (Unit_Name);
@@ -656,11 +657,69 @@ package body Libadalang.Project_Provider is
          end;
 
       when GPR2_Kind =>
+         declare
+            function Lookup
+              (View   : GPR2.Project.View.Object;
+               Result : out US.Unbounded_String) return Boolean;
+            --  TODO???
 
-         --  TODO??? Implement in order to add GPR2 project unit provider
-         --  handling.
+            Unit_Name : constant GPR2.Name_Type := GPR2.Name_Type (Str_Name);
 
-         raise Program_Error;
+            ------------
+            -- Lookup --
+            ------------
+
+            function Lookup
+              (View   : GPR2.Project.View.Object;
+               Result : out US.Unbounded_String) return Boolean
+            is
+               Unit : constant GPR2.Project.Unit_Info.Object :=
+                 View.Unit (Unit_Name);
+            begin
+               if Unit.Is_Defined then
+                  case Kind is
+                     when Unit_Specification =>
+                        if Unit.Has_Spec then
+                           Result :=
+                             US.To_Unbounded_String (Unit.Spec.Source.Value);
+                           return True;
+                        end if;
+                     when Unit_Body =>
+                        if Unit.Has_Body then
+                           Result :=
+                             US.To_Unbounded_String
+                               (Unit.Main_Body.Source.Value);
+                           return True;
+                        end if;
+                  end case;
+               end if;
+
+               return False;
+            end Lookup;
+
+            Tree   : GPR2.Project.Tree.Object renames
+              Provider.Data.GPR2_Tree.all;
+            Result : US.Unbounded_String;
+         begin
+            --  Look for all the requested unit in the closure of all the
+            --  projects that this provider handles.
+
+            for View of Provider.Projects loop
+               for V of Closure (View.GPR2_Value) loop
+                  if Lookup (V, Result) then
+                     return US.To_String (Result);
+                  end if;
+               end loop;
+            end loop;
+
+            --  Also look in the runtime project, if any
+
+            if Tree.Has_Runtime_Project
+               and then Lookup (Tree.Runtime_Project, Result)
+            then
+               return US.To_String (Result);
+            end if;
+         end;
       end case;
 
       --  If we reach this point, we have not found a unit handled by this
@@ -805,5 +864,60 @@ package body Libadalang.Project_Provider is
       Sorting.Sort (Result);
       return Result;
    end Source_Files;
+
+   -----------------------------------
+   -- Create_Project_Unit_Providers --
+   -----------------------------------
+
+   function Create_Project_Unit_Providers
+     (Tree : GPR2.Project.Tree.Object)
+      return GPR2_Provider_And_Projects_Array_Access
+   is
+      Result : Any_Provider_And_Projects_Array_Access :=
+        Create_Project_Unit_Providers
+          ((Kind => GPR2_Kind, GPR2_Value => Tree.Reference));
+   begin
+      --  Convert Result (GPR library agnostic data structure) into the return
+      --  type (GPR2-specific data structure).
+
+      return R : constant GPR2_Provider_And_Projects_Array_Access :=
+        new GPR2_Provider_And_Projects_Array (Result.all'Range)
+      do
+         for I in R.all'Range loop
+            R (I).Provider := Result (I).Provider;
+            declare
+               Projects : View_Vectors.Vector renames Result (I).Projects;
+               P        : GPR2.Project.View.Vector.Object renames
+                 R (I).Projects;
+            begin
+               for V of Projects loop
+                  P.Append (V.GPR2_Value);
+               end loop;
+            end;
+         end loop;
+         Free (Result);
+      end return;
+   end Create_Project_Unit_Providers;
+
+   ----------------------------------
+   -- Create_Project_Unit_Provider --
+   ----------------------------------
+
+   function Create_Project_Unit_Provider
+     (Tree             : GPR2.Project.Tree.Object;
+      Project          : GPR2.Project.View.Object :=
+                           GPR2.Project.View.Undefined)
+      return LAL.Unit_Provider_Reference
+   is
+      Dummy : Project_Unit_Provider_Access;
+   begin
+      return Result : LAL.Unit_Provider_Reference do
+         Create_Project_Unit_Provider
+           (Tree         => (Kind => GPR2_Kind, GPR2_Value => Tree.Reference),
+            View         => (Kind => GPR2_Kind, GPR2_Value => Project),
+            Provider     => Dummy,
+            Provider_Ref => Result);
+      end return;
+   end Create_Project_Unit_Provider;
 
 end Libadalang.Project_Provider;

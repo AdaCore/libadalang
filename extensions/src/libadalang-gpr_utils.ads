@@ -13,6 +13,7 @@ with GNATCOLL.Strings; use GNATCOLL.Strings;
 with GPR2.Project.Registry.Attribute;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
+with GPR2.Project.View.Vector;
 
 private package Libadalang.GPR_Utils is
 
@@ -129,5 +130,13 @@ private package Libadalang.GPR_Utils is
             GPR2_Value => GPR2.Project.Registry.Attribute.Compiler.Switches));
 
    end Attributes;
+
+   ------------------
+   -- GPR2 helpers --
+   ------------------
+
+   function Closure
+     (Self : GPR2.Project.View.Object) return GPR2.Project.View.Vector.Object;
+   --  Return the list of all views reachable from ``Self``, self included
 
 end Libadalang.GPR_Utils;

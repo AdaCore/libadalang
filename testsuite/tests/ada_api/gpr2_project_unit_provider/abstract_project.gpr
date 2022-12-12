@@ -1,0 +1,2 @@
+abstract project Abstract_Project is
+end Abstract_Project;

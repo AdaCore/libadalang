@@ -1,0 +1,3 @@
+aggregate project Supported_Chained_Aggr is
+   for Project_Files use ("supported_simple_aggr.gpr");
+end Supported_Chained_Aggr ;

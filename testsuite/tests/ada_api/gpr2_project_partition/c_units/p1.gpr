@@ -1,0 +1,4 @@
+project P1 is
+   for Languages use ("Ada", "C");
+   for Source_Dirs use ("src1");
+end P1;

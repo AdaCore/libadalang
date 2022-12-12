@@ -5,9 +5,13 @@
 
 with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded;
+with Ada.Unchecked_Deallocation;
 
 with GNATCOLL.Projects;
 with GNATCOLL.Traces; use GNATCOLL.Traces;
+with GPR2.Project.Tree;
+with GPR2.Project.View;
+with GPR2.Project.View.Vector;
 
 with Libadalang.Analysis;
 with Libadalang.Common; use Libadalang.Common;
@@ -24,6 +28,13 @@ package Libadalang.Project_Provider is
 
    Trace : constant GNATCOLL.Traces.Trace_Handle := GNATCOLL.Traces.Create
      ("LIBADALANG.PROJECT_PROVIDER", GNATCOLL.Traces.From_Config);
+
+   Unsupported_View_Error : exception;
+   --  See the ``Create_Project_Unit_Provider`` functions below
+
+   ---------------------------------
+   -- GNATCOLL.Projects based API --
+   ---------------------------------
 
    type Provider_And_Projects is record
       Provider : LAL.Unit_Provider_Reference;
@@ -50,9 +61,6 @@ package Libadalang.Project_Provider is
    --
    --  The project pointed to by ``Tree`` must outlive the returned unit file
    --  providers, and it is up to callers to deallocate ``Tree`` itself.
-
-   Unsupported_View_Error : exception;
-   --  See the ``Create_Project_Unit_Provider`` function
 
    function Create_Project_Unit_Provider
      (Tree             : Prj.Project_Tree_Access;
@@ -108,5 +116,56 @@ package Libadalang.Project_Provider is
    --
    --  * ``Whole_Project_With_Runtime``: sources in the whole project tree plus
    --    runtime sources.
+
+   --------------------
+   -- GPR2 based API --
+   --------------------
+
+   --  .. ATTENTION:: This is an experimental feature, so even if it is exposed
+   --  to allow experiments, it is totally unsupported and the API is very
+   --  likely to change in the future.
+
+   type GPR2_Provider_And_Projects is record
+      Provider : LAL.Unit_Provider_Reference;
+      Projects : GPR2.Project.View.Vector.Object;
+   end record;
+   --  Associates one project unit provider with all the projects on which it
+   --  has visibility.
+
+   type GPR2_Provider_And_Projects_Array is
+      array (Positive range <>) of GPR2_Provider_And_Projects;
+   type GPR2_Provider_And_Projects_Array_Access is
+      access all GPR2_Provider_And_Projects_Array;
+   procedure Free is new Ada.Unchecked_Deallocation
+     (GPR2_Provider_And_Projects_Array,
+      GPR2_Provider_And_Projects_Array_Access);
+
+   function Create_Project_Unit_Providers
+     (Tree : GPR2.Project.Tree.Object)
+      return GPR2_Provider_And_Projects_Array_Access;
+   --  Create unit providers for consistent sets of projects in ``Tree``.
+   --
+   --  As unit providers must guarantee that there exists at most one source
+   --  file for each couple (unit name, unit kind), this creates more than one
+   --  unit providers when Project is an aggregate project that contains
+   --  multiple definitions for the same unit.
+   --
+   --  The project pointed to by ``Tree`` must outlive the returned unit file
+   --  providers, and it is up to callers to deallocate ``Tree`` itself.
+
+   function Create_Project_Unit_Provider
+     (Tree             : GPR2.Project.Tree.Object;
+      Project          : GPR2.Project.View.Object :=
+                           GPR2.Project.View.Undefined)
+      return LAL.Unit_Provider_Reference;
+   --  Likewise, but create only one unit provider.
+   --
+   --  If a non-null ``Project`` is given, use it to provide units. Raise an
+   --  ``Unsupported_View_Error`` exception if that project aggregates more
+   --  than one project in its closure.
+   --
+   --  If Project is not provided, run ``Create_Project_Unit_Providers``: if it
+   --  returns only one provider, return it, otherwise raise an
+   --  ``Unsupported_View_Error`` exception.
 
 end Libadalang.Project_Provider;

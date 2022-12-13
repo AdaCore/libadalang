@@ -2957,12 +2957,12 @@ class BasicDecl(AdaNode):
     )
 
     relative_name_text = Property(
-        Entity.relative_name._.symbol, doc="""
+        Entity.relative_name._.name_symbol, doc="""
         Return the relative name for Self, as text.
         """, public=True
     )
 
-    name_symbol = Property(Self.as_bare_entity.relative_name.symbol)
+    name_symbol = Property(Self.as_bare_entity.relative_name.name_symbol)
 
     @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def basic_decl_next_part_for_decl():
@@ -13776,14 +13776,17 @@ class Name(Expr):
                 .designated_env(Self.child_index))
 
     relative_name = AbstractProperty(
-        type=T.SingleTokNode.entity, runtime_check=True, public=True,
+        type=T.Name.entity, runtime_check=True, public=True,
         doc="""
         Returns the relative name of this instance. For example,
         for a prefix ``A.B.C``, this will return ``C``.
         """
     )
 
-    name_symbol = Property(Self.as_bare_entity.relative_name.symbol)
+    name_symbol = Property(
+        Self.as_bare_entity.relative_name.name_symbol,
+        type=T.Symbol,
+    )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def xref_no_overloading(sequential=(Bool, True),
@@ -15586,6 +15589,8 @@ class SingleTokNode(Name):
         very used inside of the internal properties
         """
     )
+
+    name_symbol = Property(Self.symbol)
 
     @langkit_property()
     def canonical_text():
@@ -17456,6 +17461,8 @@ class SyntheticIdentifier(Name):
     """
     sym = UserField(public=False, type=T.Symbol)
     name_symbol = Property(Self.sym)
+
+    relative_name = Property(Entity)
 
 
 @synthetic
@@ -20219,7 +20226,7 @@ class AcceptStmt(CompositeStmt):
 
     env_spec = EnvSpec(
         add_to_env(new_env_assoc(
-            Entity.name.relative_name.symbol, Self.body_decl
+            Entity.name.relative_name.name_symbol, Self.body_decl
         ).singleton),
         add_env(),
     )

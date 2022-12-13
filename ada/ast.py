@@ -10968,10 +10968,11 @@ class GenericInstantiation(BasicDecl):
                         )
                     )
                 ).singleton,
+                lambda _=Pragma: No(ParamActual.array),
                 lambda _=UseClause: No(ParamActual.array),
                 lambda _: PropertyError(
                     ParamActual.array,
-                    "unpexected declaration in generic formal part"
+                    "unexpected declaration in generic formal part"
                 )
             )
         ).map(

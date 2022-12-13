@@ -1,2 +1,8 @@
 driver: inline-playground
-input_sources: [geni.adb, gen_cmp.adb, gen_use.adb, test.adb, what.adb]
+input_sources:
+    - geni.adb
+    - gen_cmp.adb
+    - gen_use.adb
+    - gen_pragma.adb
+    - test.adb
+    - what.adb

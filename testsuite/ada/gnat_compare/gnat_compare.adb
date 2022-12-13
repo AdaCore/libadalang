@@ -372,7 +372,7 @@ procedure GNAT_Compare is
 
       function Traverse (Node : Ada_Node'Class) return Visit_Status is
          Ref  : Defining_Name;
-         Rel  : Single_Tok_Node;
+         Rel  : Libadalang.Analysis.Name;
          Xref : Xref_Type;
       begin
          --  GNAT only considers leaf items for xrefs, so skip for instance

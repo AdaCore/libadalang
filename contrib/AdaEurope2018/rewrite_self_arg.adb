@@ -87,21 +87,28 @@ begin
    --  Write results
 
    declare
-      Units : constant LAL_RW.Unit_Rewriting_Handle_Array
-        := LAL_RW.Unit_Handles (Handle);
-      --  Remember which analysis units are to be rewritten
-
-      Result : constant LAL_RW.Apply_Result := LAL_RW.Apply (Handle);
+      Units  : Helpers.Unit_Vectors.Vector;
+      Result : LAL_RW.Apply_Result;
    begin
+      --  Remember which analysis units are to be rewritten. Keep track of them
+      --  using Analysis_Unit values, since the call to LAL_RW.Apply will make
+      --  all rewriting handles invalid.
+
+      for Unit_Handle of LAL_RW.Unit_Handles (Handle) loop
+         Units.Append (LAL_RW.Unit (Unit_Handle));
+      end loop;
+
+      Result := LAL_RW.Apply (Handle);
+
       if not Result.Success then
          TIO.Put_Line ("Error during rewriting...");
       end if;
 
       --  Go through all rewritten units and generate a ".new" source file to
       --  contain the rewritten sources.
-      for Unit_Handle of Units loop
+
+      for U of Units loop
          declare
-            U        : constant LAL.Analysis_Unit := LAL_RW.Unit (Unit_Handle);
             Filename : constant String := LAL.Get_Filename (U) & ".new";
             Charset  : constant String := LAL.Get_Charset (U);
 

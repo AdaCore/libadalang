@@ -25,11 +25,11 @@ Resolving xrefs for node <CallStmt test.adb:25:10-25:34>
 ********************************************************
 
 Expr: <CallExpr test.adb:25:10-25:33>
-  references:    <DefiningName a-textio.ads:566:14-566:22>
+  references:    <DefiningName test.adb:2:14-2:22>
   type:          None
   expected type: None
 Expr: <Id "Put_Line" test.adb:25:10-25:18>
-  references:    <DefiningName a-textio.ads:566:14-566:22>
+  references:    <DefiningName test.adb:2:14-2:22>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:25:20-25:32>

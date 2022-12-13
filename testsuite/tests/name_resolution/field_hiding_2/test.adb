@@ -1,5 +1,5 @@
-with Ada.Text_IO; use Ada.Text_IO;
 procedure Test is
+   procedure Put_Line (S : String) is null;
    package P is
       type Object is tagged private;
 

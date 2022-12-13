@@ -14051,7 +14051,10 @@ class Name(Expr):
         """
         return Self.matches(n.node)
 
-    @langkit_property(memoized=True)
+    # ATTENTION: this property must not be memoized because of an unsoundness
+    # issue between infinite recursion guards in lexical envs and memoized
+    # properties. See VC13-023.
+    @langkit_property(memoized=False)
     def use_package_name_designated_env():
         """
         Assuming Self is a name that is the direct child of a

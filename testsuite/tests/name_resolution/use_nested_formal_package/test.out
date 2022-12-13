@@ -1,0 +1,11 @@
+Working on node <GenericPackageInstantiation ["Solver"] g_support.ads:9:4-9:41>
+===============================================================================
+
+Set 'solver' to 'node.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["G_Solver"] g_solver.ads:3:1-10:14 [g_support.ads:9:4] |>
+
+Set 'obj' to 'solver.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] g_solver.ads:9:4-9:18 [g_support.ads:9:4] |>
+
+Eval 'obj.f_type_expr.p_designated_type_decl'
+Result: <| ConcreteTypeDecl ["Logic_Var"] g_vars.ads:3:4-3:34 [g_support.ads:7:4] |>

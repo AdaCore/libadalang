@@ -20272,10 +20272,11 @@ class AcceptStmtBody(Body):
     BasicDecl that is always the declaration of an AcceptStmt. This is nested
     *inside* of the accept statement.
     """
+    name = Field(type=T.DefiningName)
     aspects = NullField()
 
     defining_names = Property(
-        Entity.parent.cast_or_raise(T.AcceptStmt).name.singleton
+        Entity.name.singleton
     )
     defining_env = Property(Self.parent.cast(T.AcceptStmt).children_env)
 
@@ -20289,14 +20290,13 @@ class AcceptStmt(CompositeStmt):
     ``accept`` statement (:rmlink:`9.5.2`).
     """
 
-    name = Field(type=T.DefiningName)
+    body_decl = Field(type=T.AcceptStmtBody)
     entry_index_expr = Field(type=T.Expr)
     params = Field(type=T.EntryCompletionFormalParams)
-    body_decl = Field(type=T.AcceptStmtBody)
 
     env_spec = EnvSpec(
         add_to_env(new_env_assoc(
-            Entity.name.relative_name.name_symbol, Self.body_decl
+            Entity.body_decl.name.relative_name.name_symbol, Self.body_decl
         ).singleton),
         add_env(),
     )
@@ -20304,7 +20304,7 @@ class AcceptStmt(CompositeStmt):
     @langkit_property(return_type=T.EntryDecl.entity,
                       dynamic_vars=[origin, env])
     def designated_entry():
-        return Entity.name.all_env_els_impl.find(
+        return Entity.body_decl.name.all_env_els_impl.find(
             lambda e: e.cast(EntryDecl).then(
                 lambda d: d.spec.match_formal_params(Entity.params)
             )
@@ -20321,7 +20321,7 @@ class AcceptStmt(CompositeStmt):
     @langkit_property()
     def xref_equation():
         return And(
-            Bind(Self.name.ref_var, Entity.designated_entry),
+            Bind(Self.body_decl.name.ref_var, Entity.designated_entry),
             Entity.entry_index_expr.then(
                 lambda e: e.sub_equation,
                 default_val=LogicTrue()

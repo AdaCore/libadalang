@@ -169,10 +169,12 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  StmtList[11:13-15:34]
 |  |  |  |  |  |  |  |  |  AcceptStmtWithStmts[11:13-13:24]
-|  |  |  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  |  |  DefiningName[11:20-11:26]
+|  |  |  |  |  |  |  |  |  |f_body_decl:
+|  |  |  |  |  |  |  |  |  |  AcceptStmtBody[11:20-11:26]
 |  |  |  |  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[11:20-11:26]: Insert
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[11:20-11:26]
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[11:20-11:26]: Insert
 |  |  |  |  |  |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  EntryCompletionFormalParams[11:27-11:47]
@@ -199,8 +201,6 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
-|  |  |  |  |  |  |  |  |  |f_body_decl:
-|  |  |  |  |  |  |  |  |  |  AcceptStmtBody[11:47-11:47]
 |  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[11:50-13:13]
 |  |  |  |  |  |  |  |  |  |  |f_stmts:
@@ -264,10 +264,12 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  StmtList[17:13-21:34]
 |  |  |  |  |  |  |  |  |  AcceptStmtWithStmts[17:13-19:24]
-|  |  |  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  |  |  DefiningName[17:20-17:26]
+|  |  |  |  |  |  |  |  |  |f_body_decl:
+|  |  |  |  |  |  |  |  |  |  AcceptStmtBody[17:20-17:26]
 |  |  |  |  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  |  |  |  Id[17:20-17:26]: Remove
+|  |  |  |  |  |  |  |  |  |  |  DefiningName[17:20-17:26]
+|  |  |  |  |  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  |  |  |  |  Id[17:20-17:26]: Remove
 |  |  |  |  |  |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  |  |  EntryCompletionFormalParams[17:27-17:47]
@@ -294,8 +296,6 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
-|  |  |  |  |  |  |  |  |  |f_body_decl:
-|  |  |  |  |  |  |  |  |  |  AcceptStmtBody[17:47-17:47]
 |  |  |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  |  |  HandledStmts[17:50-19:13]
 |  |  |  |  |  |  |  |  |  |  |f_stmts:

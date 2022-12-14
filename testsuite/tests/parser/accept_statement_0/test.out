@@ -1,8 +1,10 @@
 AcceptStmtWithStmts[1:1-1:68]
-|f_name:
-|  DefiningName[1:8-1:14]
+|f_body_decl:
+|  AcceptStmtBody[1:8-1:14]
 |  |f_name:
-|  |  Id[1:8-1:14]: Insert
+|  |  DefiningName[1:8-1:14]
+|  |  |f_name:
+|  |  |  Id[1:8-1:14]: Insert
 |f_entry_index_expr: <null>
 |f_params:
 |  EntryCompletionFormalParams[1:15-1:35]
@@ -29,8 +31,6 @@ AcceptStmtWithStmts[1:1-1:68]
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |f_aspects: <null>
-|f_body_decl:
-|  AcceptStmtBody[1:35-1:35]
 |f_stmts:
 |  HandledStmts[1:38-1:57]
 |  |f_stmts:

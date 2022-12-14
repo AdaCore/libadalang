@@ -11,16 +11,16 @@ SelectStmt[1:1-1:126]
 |  |  |f_stmts:
 |  |  |  StmtList[1:25-1:59]
 |  |  |  |  AcceptStmtWithStmts[1:25-1:59]
-|  |  |  |  |f_name:
-|  |  |  |  |  DefiningName[1:32-1:37]
+|  |  |  |  |f_body_decl:
+|  |  |  |  |  AcceptStmtBody[1:32-1:37]
 |  |  |  |  |  |f_name:
-|  |  |  |  |  |  Id[1:32-1:37]: SEIZE
+|  |  |  |  |  |  DefiningName[1:32-1:37]
+|  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  Id[1:32-1:37]: SEIZE
 |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |f_params:
 |  |  |  |  |  EntryCompletionFormalParams[1:37-1:37]
 |  |  |  |  |  |f_params: <null>
-|  |  |  |  |f_body_decl:
-|  |  |  |  |  AcceptStmtBody[1:37-1:37]
 |  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:40-1:55]
 |  |  |  |  |  |f_stmts:
@@ -38,16 +38,16 @@ SelectStmt[1:1-1:126]
 |  |  |f_stmts:
 |  |  |  StmtList[1:63-1:100]
 |  |  |  |  AcceptStmtWithStmts[1:63-1:100]
-|  |  |  |  |f_name:
-|  |  |  |  |  DefiningName[1:70-1:77]
+|  |  |  |  |f_body_decl:
+|  |  |  |  |  AcceptStmtBody[1:70-1:77]
 |  |  |  |  |  |f_name:
-|  |  |  |  |  |  Id[1:70-1:77]: RELEASE
+|  |  |  |  |  |  DefiningName[1:70-1:77]
+|  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  Id[1:70-1:77]: RELEASE
 |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |f_params:
 |  |  |  |  |  EntryCompletionFormalParams[1:77-1:77]
 |  |  |  |  |  |f_params: <null>
-|  |  |  |  |f_body_decl:
-|  |  |  |  |  AcceptStmtBody[1:77-1:77]
 |  |  |  |  |f_stmts:
 |  |  |  |  |  HandledStmts[1:80-1:96]
 |  |  |  |  |  |f_stmts:

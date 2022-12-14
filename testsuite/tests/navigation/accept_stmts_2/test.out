@@ -2,28 +2,28 @@ Working on node <EntryDecl ["Foo"] test.adb:5:7-5:17>
 =====================================================
 
 Eval 'node.p_next_part_for_decl()'
-Result: <AcceptStmtBody ["Foo"] test.adb:22:17-22:17>
+Result: <AcceptStmtBody ["Foo"] test.adb:22:14-22:17>
 
 Eval 'node.p_body_part_for_decl()'
-Result: <AcceptStmtBody ["Foo"] test.adb:22:17-22:17>
+Result: <AcceptStmtBody ["Foo"] test.adb:22:14-22:17>
 
 Working on node <EntryDecl ["Foo"] test.adb:9:7-9:31>
 =====================================================
 
 Eval 'node.p_next_part_for_decl()'
-Result: <AcceptStmtBody ["Foo"] test.adb:25:31-25:31>
+Result: <AcceptStmtBody ["Foo"] test.adb:25:14-25:17>
 
 Eval 'node.p_body_part_for_decl()'
-Result: <AcceptStmtBody ["Foo"] test.adb:25:31-25:31>
+Result: <AcceptStmtBody ["Foo"] test.adb:25:14-25:17>
 
 Working on node <EntryDecl ["Bar"] test.adb:13:7-13:28>
 =======================================================
 
 Eval 'node.p_next_part_for_decl()'
-Result: <AcceptStmtBody ["Bar"] test.adb:30:21-30:21>
+Result: <AcceptStmtBody ["Bar"] test.adb:30:14-30:17>
 
 Eval 'node.p_body_part_for_decl()'
-Result: <AcceptStmtBody ["Bar"] test.adb:30:21-30:21>
+Result: <AcceptStmtBody ["Bar"] test.adb:30:14-30:17>
 
 Working on node <AcceptStmt test.adb:22:7-22:18>
 ================================================
@@ -47,19 +47,19 @@ Working on node <EntryDecl ["Foo"] test.adb:36:7-36:17>
 =======================================================
 
 Eval 'node.p_next_part_for_decl()'
-Result: <AcceptStmtBody ["Foo"] test.adb:50:17-50:17>
+Result: <AcceptStmtBody ["Foo"] test.adb:50:14-50:17>
 
 Working on node <EntryDecl ["Foo"] test.adb:39:7-39:31>
 =======================================================
 
 Eval 'node.p_next_part_for_decl()'
-Result: <AcceptStmtBody ["Foo"] test.adb:53:31-53:31>
+Result: <AcceptStmtBody ["Foo"] test.adb:53:14-53:17>
 
 Working on node <EntryDecl ["Bar"] test.adb:42:7-42:28>
 =======================================================
 
 Eval 'node.p_next_part_for_decl()'
-Result: <AcceptStmtBody ["Bar"] test.adb:58:21-58:21>
+Result: <AcceptStmtBody ["Bar"] test.adb:58:14-58:17>
 
 Working on node <AcceptStmt test.adb:50:7-50:18>
 ================================================
@@ -83,7 +83,7 @@ Working on node <EntryDecl ["Foo"] test.adb:69:10-69:20>
 ========================================================
 
 Eval 'node.p_next_part_for_decl()'
-Result: <AcceptStmtBody ["Foo"] test.adb:75:20-75:20>
+Result: <AcceptStmtBody ["Foo"] test.adb:75:17-75:20>
 
 Working on node <AcceptStmt test.adb:75:10-75:21>
 =================================================

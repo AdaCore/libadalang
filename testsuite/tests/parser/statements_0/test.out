@@ -1,9 +1,11 @@
 StmtList[1:1-1:235]
 |  AcceptStmtWithStmts[1:1-1:65]
-|  |f_name:
-|  |  DefiningName[1:8-1:13]
+|  |f_body_decl:
+|  |  AcceptStmtBody[1:8-1:13]
 |  |  |f_name:
-|  |  |  Id[1:8-1:13]: Store
+|  |  |  DefiningName[1:8-1:13]
+|  |  |  |f_name:
+|  |  |  |  Id[1:8-1:13]: Store
 |  |f_entry_index_expr: <null>
 |  |f_params:
 |  |  EntryCompletionFormalParams[1:14-1:33]
@@ -30,8 +32,6 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |f_aspects: <null>
-|  |f_body_decl:
-|  |  AcceptStmtBody[1:33-1:33]
 |  |f_stmts:
 |  |  HandledStmts[1:36-1:55]
 |  |  |f_stmts:
@@ -59,10 +59,12 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  StmtList[1:80-1:144]
 |  |  |  |  |  |  |  AcceptStmtWithStmts[1:80-1:144]
-|  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  DefiningName[1:87-1:92]
+|  |  |  |  |  |  |  |f_body_decl:
+|  |  |  |  |  |  |  |  AcceptStmtBody[1:87-1:92]
 |  |  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  |  Id[1:87-1:92]: Store
+|  |  |  |  |  |  |  |  |  DefiningName[1:87-1:92]
+|  |  |  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  |  |  Id[1:87-1:92]: Store
 |  |  |  |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  EntryCompletionFormalParams[1:93-1:112]
@@ -89,8 +91,6 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
-|  |  |  |  |  |  |  |f_body_decl:
-|  |  |  |  |  |  |  |  AcceptStmtBody[1:112-1:112]
 |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  HandledStmts[1:115-1:134]
 |  |  |  |  |  |  |  |  |f_stmts:
@@ -111,10 +111,12 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  StmtList[1:148-1:213]
 |  |  |  |  |  |  |  AcceptStmtWithStmts[1:148-1:213]
-|  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  DefiningName[1:155-1:160]
+|  |  |  |  |  |  |  |f_body_decl:
+|  |  |  |  |  |  |  |  AcceptStmtBody[1:155-1:160]
 |  |  |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  |  |  Id[1:155-1:160]: Fetch
+|  |  |  |  |  |  |  |  |  DefiningName[1:155-1:160]
+|  |  |  |  |  |  |  |  |  |f_name:
+|  |  |  |  |  |  |  |  |  |  Id[1:155-1:160]: Fetch
 |  |  |  |  |  |  |  |f_entry_index_expr: <null>
 |  |  |  |  |  |  |  |f_params:
 |  |  |  |  |  |  |  |  EntryCompletionFormalParams[1:161-1:181]
@@ -141,8 +143,6 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |  |  |  |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |  |  |  |  |  |  |  |f_aspects: <null>
-|  |  |  |  |  |  |  |f_body_decl:
-|  |  |  |  |  |  |  |  AcceptStmtBody[1:181-1:181]
 |  |  |  |  |  |  |  |f_stmts:
 |  |  |  |  |  |  |  |  HandledStmts[1:184-1:203]
 |  |  |  |  |  |  |  |  |f_stmts:

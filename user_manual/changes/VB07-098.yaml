@@ -22,16 +22,17 @@ description: |
     .. code-block::
 
         AcceptStmt
-        |name:
-        |  DefiningName
-        |  |name:
-        |  |  Id "Foo"
-        |entry_index_expr: None
-        |params:
+        |f_body_decl:
+        |  AcceptStmtBody
+        |  |f_name:
+        |  |  DefiningName
+        |  |  |f_name:
+        |  |  |  Id: Foo
+        |f_entry_index_expr: <null>
+        |f_params:
         |  EntryCompletionFormalParams
-        |  |params: None
-        |body_decl:
-        |  AcceptStmtBody ["Foo"]
+        |  |f_params: <null>
+
 
     This in turns allow both fully qualifying entities declared in them, as
     well as navigating to the first accept statement corresponding to an entry

@@ -1,0 +1,11 @@
+Working on node <GenericPackageInstantiation ["My_Pkg"] test.adb:12:4-12:30>
+============================================================================
+
+Set 'obj' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["Obj"] test.adb:7:7-7:30 [test.adb:12:4] |>
+
+Set 'completion' to 'obj.p_next_part_for_decl()'
+Result: <| ObjectDecl ["Obj"] test.adb:9:7-9:35 [test.adb:12:4] |>
+
+Eval 'completion.p_previous_part_for_decl()'
+Result: <| ObjectDecl ["Obj"] test.adb:7:7-7:30 [test.adb:12:4] |>

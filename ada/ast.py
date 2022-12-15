@@ -10484,7 +10484,7 @@ class ObjectDecl(BasicDecl):
     def next_part_for_name(sym=T.Symbol):
         return If(
             Entity.is_in_public_part & Self.has_constant.as_bool,
-            Self.declarative_scope.parent
+            Self.declarative_scope.parent.as_entity
             .cast(T.BasePackageDecl).private_part._.children_env
             .get_first(sym, LK.minimal, categories=no_prims)
             .cast(T.BasicDecl),
@@ -10495,7 +10495,7 @@ class ObjectDecl(BasicDecl):
     def previous_part_for_name(sym=T.Symbol):
         return If(
             Entity.is_in_private_part & Self.has_constant.as_bool,
-            Self.declarative_scope.parent
+            Self.declarative_scope.parent.as_entity
             .cast(T.BasePackageDecl).public_part.children_env
             .get_first(sym, LK.minimal, categories=no_prims)
             .cast(T.BasicDecl),

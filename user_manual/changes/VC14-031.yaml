@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix object decl navigation in instantiated packages
+description: |
+    This change fixes a bug where calling ``P_Next_Part_For_Decl`` or
+    ``P_Previous_Part_For_Decl`` on an ``ObjectDecl`` inside an instantiated
+    generic package would return the correct node but would lose the
+    information about the current instantiation. Thus, further queries on
+    the package would not return the expected results.
+date: 2022-12-15

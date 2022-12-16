@@ -1,0 +1,18 @@
+Analyzing pkg.ads
+#################
+
+Representation information for <ConcreteTypeDecl ["Bool_Array"] pkg.ads:9:4-9:73>:
+Kind: ARRAY_TYPE
+Alignment: 1
+Object_Size | Value_Size: <unsupported> | <unsupported>
+Scalar_Storage_Order: LOW_ORDER_FIRST
+Component_Size: 8
+
+Representation information for <ConcreteTypeDecl ["Rec_Type"] pkg.ads:10:4-12:15>:
+Kind: RECORD_TYPE
+Alignment: 1
+Object_Size | Value_Size: <unsupported> | <unsupported>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "BA" pkg.ads:11:7-11:9> at 0, size: <unsupported>
+
+Done.

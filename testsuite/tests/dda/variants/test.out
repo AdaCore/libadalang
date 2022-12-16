@@ -1,0 +1,258 @@
+Analyzing pkg.ads
+#################
+
+Representation information for <ConcreteTypeDecl ["Enum_Type"] pkg.ads:5:4-5:35>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 2
+
+Representation information for <ConcreteTypeDecl ["Rec_1"] pkg.ads:7:4-30:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 96 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "Disc" pkg.ads:7:16-7:20> (discriminant 1) at 0, size: 8
+* <DefiningName "X1" pkg.ads:8:7-8:9> at 1, size: 8
+* Variant part
+  | * <DefiningName "X2" pkg.ads:12:13-12:15> at 4, size: 32
+  | * <DefiningName "X3" pkg.ads:13:13-13:15> at 8, size: 8
+
+  | * <DefiningName "X4" pkg.ads:16:13-16:15> at 4, size: 8
+  | * Variant part
+  |   | * <DefiningName "X5" pkg.ads:20:19-20:21> at 8, size: 32
+  |
+  |   | * <DefiningName "X6" pkg.ads:22:19-22:21> at 8, size: 8
+  |
+  |   | * <DefiningName "X7" pkg.ads:24:19-24:21> at 8, size: 8
+
+  | * <DefiningName "X8" pkg.ads:28:13-28:15> at 4, size: 32
+
+Resolved record for discriminants (0):
+  Alignment: 4
+  Object_Size: 96
+  Value_Size: 72
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "Disc" pkg.ads:7:16-7:20> at 0, size: 8
+  * <DefiningName "X1" pkg.ads:8:7-8:9> at 1, size: 8
+  * <DefiningName "X2" pkg.ads:12:13-12:15> at 4, size: 32
+  * <DefiningName "X3" pkg.ads:13:13-13:15> at 8, size: 8
+
+Resolved record for discriminants (1):
+  Alignment: 4
+  Object_Size: 96
+  Value_Size: 72
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "Disc" pkg.ads:7:16-7:20> at 0, size: 8
+  * <DefiningName "X1" pkg.ads:8:7-8:9> at 1, size: 8
+  * <DefiningName "X4" pkg.ads:16:13-16:15> at 4, size: 8
+  * <DefiningName "X6" pkg.ads:22:19-22:21> at 8, size: 8
+
+Resolved record for discriminants (2):
+  Alignment: 4
+  Object_Size: 96
+  Value_Size: 72
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "Disc" pkg.ads:7:16-7:20> at 0, size: 8
+  * <DefiningName "X1" pkg.ads:8:7-8:9> at 1, size: 8
+  * <DefiningName "X4" pkg.ads:16:13-16:15> at 4, size: 8
+  * <DefiningName "X7" pkg.ads:24:19-24:21> at 8, size: 8
+
+Resolved record for discriminants (3):
+  Alignment: 4
+  Object_Size: 96
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "Disc" pkg.ads:7:16-7:20> at 0, size: 8
+  * <DefiningName "X1" pkg.ads:8:7-8:9> at 1, size: 8
+  * <DefiningName "X8" pkg.ads:28:13-28:15> at 4, size: 32
+
+Representation information for <ConcreteTypeDecl ["Rec_2"] pkg.ads:36:4-39:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 34359738432 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N1" pkg.ads:36:16-36:18> (discriminant 1) at 0, size: 32
+* <DefiningName "N2" pkg.ads:36:20-36:22> (discriminant 2) at 4, size: 32
+* <DefiningName "S1" pkg.ads:37:7-37:9> at 8, size: <dynamic>
+* <DefiningName "S2" pkg.ads:38:7-38:9> at <dynamic>, size: <dynamic>
+
+Resolved record for discriminants (0, 0):
+  Alignment: 4
+  Object_Size: 34359738432
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N1" pkg.ads:36:16-36:18> at 0, size: 32
+  * <DefiningName "N2" pkg.ads:36:20-36:22> at 4, size: 32
+  * <DefiningName "S1" pkg.ads:37:7-37:9> at 8, size: 0
+  * <DefiningName "S2" pkg.ads:38:7-38:9> at 8, size: 0
+
+Resolved record for discriminants (10, 20):
+  Alignment: 4
+  Object_Size: 34359738432
+  Value_Size: 304
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N1" pkg.ads:36:16-36:18> at 0, size: 32
+  * <DefiningName "N2" pkg.ads:36:20-36:22> at 4, size: 32
+  * <DefiningName "S1" pkg.ads:37:7-37:9> at 8, size: 80
+  * <DefiningName "S2" pkg.ads:38:7-38:9> at 18, size: 160
+
+Resolved record for discriminants (-10, -20):
+  <Resolution_Error>
+
+Representation information for <ConcreteTypeDecl ["Rec_3"] pkg.ads:44:4-53:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" pkg.ads:44:16-44:17> (discriminant 1) at 0, size: 32
+* Variant part
+  | * <DefiningName "X1" pkg.ads:47:13-47:15> at 4, size: 32
+
+  | * <DefiningName "X2" pkg.ads:49:13-49:15> at 4, size: 32
+
+
+Resolved record for discriminants (0):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X1" pkg.ads:47:13-47:15> at 4, size: 32
+
+Resolved record for discriminants (9):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X1" pkg.ads:47:13-47:15> at 4, size: 32
+
+Resolved record for discriminants (10):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 32
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+
+Resolved record for discriminants (89):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 32
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+
+Resolved record for discriminants (90):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X1" pkg.ads:47:13-47:15> at 4, size: 32
+
+Resolved record for discriminants (91):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X1" pkg.ads:47:13-47:15> at 4, size: 32
+
+Resolved record for discriminants (99):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X1" pkg.ads:47:13-47:15> at 4, size: 32
+
+Resolved record for discriminants (100):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 32
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+
+Resolved record for discriminants (899):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 32
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+
+Resolved record for discriminants (900):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X2" pkg.ads:49:13-49:15> at 4, size: 32
+
+Resolved record for discriminants (901):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 32
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+
+Resolved record for discriminants (902):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X2" pkg.ads:49:13-49:15> at 4, size: 32
+
+Resolved record for discriminants (903):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X2" pkg.ads:49:13-49:15> at 4, size: 32
+
+Resolved record for discriminants (998):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X2" pkg.ads:49:13-49:15> at 4, size: 32
+
+Resolved record for discriminants (999):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 64
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+  * <DefiningName "X2" pkg.ads:49:13-49:15> at 4, size: 32
+
+Resolved record for discriminants (1000):
+  Alignment: 4
+  Object_Size: 64
+  Value_Size: 32
+  Bit_Order: LOW_ORDER_FIRST
+  Scalar_Storage_Order: LOW_ORDER_FIRST
+  * <DefiningName "N" pkg.ads:44:16-44:17> at 0, size: 32
+
+Done.

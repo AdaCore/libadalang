@@ -124,7 +124,7 @@ class Manage(ManageScript):
     @property
     def main_programs(self):
         return super(Manage, self).main_programs | {
-            'nameres', 'navigate', 'gnat_compare', 'lal_prep',
+            'nameres', 'navigate', 'gnat_compare', 'lal_dda', 'lal_prep',
         }
 
     def do_generate(self, args):

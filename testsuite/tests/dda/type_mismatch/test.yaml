@@ -1,0 +1,11 @@
+driver: dda
+input_sources:
+   - absent_base_type.ads
+   - missing_component.ads
+   - type_kind_mismatch.ads
+   - variant_mismatch.ads
+compiled_sources:
+   - obsolete/absent_base_type.ads
+   - obsolete/missing_component.ads
+   - obsolete/type_kind_mismatch.ads
+   - obsolete/variant_mismatch.ads

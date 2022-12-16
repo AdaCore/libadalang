@@ -1,0 +1,83 @@
+[
+{
+  "name": "Pkg.U3",
+  "location": "pkg.ads:7:9",
+  "Object_Size": 8,
+  "Value_Size": 3,
+  "Alignment": 1
+}
+,
+{
+  "name": "Pkg.U6",
+  "location": "pkg.ads:8:9",
+  "Object_Size": 8,
+  "Value_Size": 6,
+  "Alignment": 1
+}
+,
+{
+  "name": "Pkg.U7",
+  "location": "pkg.ads:9:9",
+  "Object_Size": 8,
+  "Value_Size": 7,
+  "Alignment": 1
+}
+,
+{
+  "name": "Pkg.R1",
+  "location": "pkg.ads:11:9",
+  "Size": 16,
+  "Alignment": 2,
+  "record": [
+    {
+      "name": "X1",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 7
+    },
+    {
+      "name": "X2",
+      "Position": 0,
+      "First_Bit": 7,
+      "Size": 3
+    },
+    {
+      "name": "X3",
+      "Position": 1,
+      "First_Bit": 2,
+      "Size": 6
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.R2",
+  "location": "pkg.ads:25:9",
+  "Size": 16,
+  "Alignment": 2,
+  "record": [
+    {
+      "name": "X1",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 7
+    },
+    {
+      "name": "X2",
+      "Position": 0,
+      "First_Bit": 7,
+      "Size": 3
+    },
+    {
+      "name": "X3",
+      "Position": 1,
+      "First_Bit": 2,
+      "Size": 6
+    }
+  ],
+  "Bit_Order": "System.High_Order_First",
+  "Scalar_Storage_Order": "System.High_Order_First"
+}
+]

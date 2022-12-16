@@ -1,0 +1,154 @@
+[
+{
+  "name": "P1.R1_Parent",
+  "location": "p1.ads:3:9",
+  "Size": 64,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "_Tag",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "P1.R2_Parent",
+  "location": "p1.ads:5:9",
+  "Size": 128,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "_Tag",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "X1",
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "X2",
+      "Position": 12,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "P1.R3_Parent",
+  "location": "p1.ads:10:9",
+  "Object_Size": 17179869312,
+  "Value_Size": { "code": "&", "operands": [ { "code": "+", "operands": [ { "code": "*", "operands": [ { "code": "+", "operands": [ { "code": "#", "operands": [ 1 ] }, 12 ] }, 8 ] }, 63 ] }, { "code": "-", "operands": [ 64 ] } ] },
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "_Tag",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "X1",
+      "Position": 12,
+      "First_Bit": 0,
+      "Size": { "code": "*", "operands": [ { "code": "#", "operands": [ 1 ] }, 8 ] }
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "P1.R3_Parent.T2s",
+  "location": "p1.ads:11:7",
+  "Object_Size": 17179869176,
+  "Value_Size": { "code": "*", "operands": [ { "code": "#", "operands": [ 1 ] }, 8 ] },
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "P1.R4_Parent",
+  "location": "p1.ads:14:9",
+  "Object_Size": 128,
+  "Value_Size": { "code": "&", "operands": [ { "code": "+", "operands": [ { "code": "*", "operands": [ { "code": "+", "operands": [ { "code": "?<>", "operands": [ { "code": "not", "operands": [ { "code": "#", "operands": [ 1 ] } ] }, 0, 4 ] }, 12 ] }, 8 ] }, 63 ] }, { "code": "-", "operands": [ 64 ] } ] },
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "_Tag",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "X1",
+          "Position": 12,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "P1.R5_Parent",
+  "location": "p1.ads:27:9",
+  "Size": 128,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "_Tag",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "X1",
+      "Position": 8,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

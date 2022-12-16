@@ -1,0 +1,35 @@
+[
+{
+  "name": "Pkg.Upper_Bound",
+  "location": "pkg.ads:7:4",
+  "Size": 32,
+  "Alignment": 4
+}
+,
+{
+  "name": "Pkg.Bool_Array",
+  "location": "pkg.ads:9:9",
+  "Size": { "code": "*", "operands": [ { "code": "max", "operands": [ { "code": "var", "operands": [ 1 ] }, 0 ] }, 8 ] },
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.Rec_Type",
+  "location": "pkg.ads:10:9",
+  "Object_Size": { "code": "*", "operands": [ { "code": "max", "operands": [ { "code": "var", "operands": [ 1 ] }, 0 ] }, 8 ] },
+  "Value_Size": { "code": "*", "operands": [ { "code": "max", "operands": [ { "code": "var", "operands": [ 1 ] }, 0 ] }, 8 ] },
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Ba",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": { "code": "*", "operands": [ { "code": "max", "operands": [ { "code": "var", "operands": [ 1 ] }, 0 ] }, 8 ] }
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

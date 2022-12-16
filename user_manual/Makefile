@@ -58,6 +58,7 @@ newhtml:
 		   ../extensions/src/libadalang-auto_provider.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-common.ads \
 		   ../extensions/src/libadalang-config_pragmas.ads \
+		   ../extensions/src/libadalang-data_decomposition.ads \
 		   ../extensions/src/libadalang-expr_eval.ads \
 		   ../extensions/src/libadalang-helpers.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-introspection.ads \

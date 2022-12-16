@@ -1,0 +1,22 @@
+Analyzing pkg.ads
+#################
+
+No representation information for <FormalTypeDecl ["T"] pkg.ads:6:7-6:25>
+
+No representation information for <ConcreteTypeDecl ["R"] pkg.ads:8:7-10:18>
+
+Representation information for <| ConcreteTypeDecl ["R"] pkg.ads:8:7-10:18 [pkg.ads:13:4] |>:
+Kind: RECORD_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 8
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <| DefiningName "Value" pkg.ads:9:10-9:15 [pkg.ads:13:4] |> at 0, size: 8
+
+Representation information for <| ConcreteTypeDecl ["R"] pkg.ads:8:7-10:18 [pkg.ads:17:4] |>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 32 | 32
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <| DefiningName "Value" pkg.ads:9:10-9:15 [pkg.ads:17:4] |> at 0, size: 32
+
+Done.

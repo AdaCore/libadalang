@@ -1,0 +1,22 @@
+Analyzing pkg.ads
+#################
+
+Representation information for <ConcreteTypeDecl ["Bit_Field"] pkg.ads:5:4-5:69>:
+Kind: ARRAY_TYPE
+Alignment: 1
+Object_Size | Value_Size: <unsupported> | <unsupported>
+Scalar_Storage_Order: LOW_ORDER_FIRST
+Component_Size: 1
+
+Representation information for <ConcreteTypeDecl ["R"] pkg.ads:7:4-13:25>:
+Kind: RECORD_TYPE
+Alignment: 2
+Object_Size | Value_Size: 16 | 16
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "X1" pkg.ads:8:7-8:9> at 0, size: 2
+* <DefiningName "X2" pkg.ads:9:7-9:9> at 0, bit 2, size: 2
+* <DefiningName "X3" pkg.ads:10:7-10:9> at 0, bit 4, size: 1
+* <DefiningName "X4" pkg.ads:11:7-11:9> at 0, bit 5, size: 7
+* <DefiningName "X5" pkg.ads:12:7-12:9> at 1, bit 4, size: 4
+
+Done.

@@ -1,0 +1,2 @@
+driver: dda
+input_sources: [pkg.ads]

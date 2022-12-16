@@ -1,0 +1,234 @@
+[
+{
+  "name": "Variant_Mismatch.T1",
+  "location": "variant_mismatch.ads:3:9",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 8, 64 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Variant_Mismatch.T2",
+  "location": "variant_mismatch.ads:10:9",
+  "Size": 32,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "I",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Variant_Mismatch.T3_Parent",
+  "location": "variant_mismatch.ads:14:9",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 8, 64 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Variant_Mismatch.T3_Child",
+  "location": "variant_mismatch.ads:20:9",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 8, 64 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Variant_Mismatch.T4",
+  "location": "variant_mismatch.ads:27:9",
+  "Object_Size": 64,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, 8, 64 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Variant_Mismatch.T5",
+  "location": "variant_mismatch.ads:34:9",
+  "Object_Size": 96,
+  "Value_Size": { "code": "?<>", "operands": [ { "code": "!=", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] }, { "code": "?<>", "operands": [ { "code": "!=", "operands": [ { "code": "#", "operands": [ 2 ] }, 0 ] }, { "code": "?<>", "operands": [ { "code": "#", "operands": [ 2 ] }, 96, 64 ] }, 64 ] }, 64 ] },
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "B1",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "B2",
+      "discriminant": 2,
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+        {
+          "name": "I1",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I2",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ],
+      "variant" : [
+        {
+          "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 2 ] }, 0 ] },
+          "record": [
+          ]
+        },
+        {
+          "present": { "code": "#", "operands": [ 2 ] },
+          "record": [
+            {
+              "name": "I3",
+              "Position": 8,
+              "First_Bit": 0,
+              "Size": 32
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

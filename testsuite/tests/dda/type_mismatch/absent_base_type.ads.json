@@ -1,0 +1,96 @@
+[
+{
+  "name": "Absent_Base_Type.T1_Parent",
+  "location": "absent_base_type.ads:3:9",
+  "Size": { "code": "&", "operands": [ { "code": "+", "operands": [ { "code": "*", "operands": [ { "code": "+", "operands": [ { "code": "?<>", "operands": [ { "code": "not", "operands": [ { "code": "#", "operands": [ 1 ] } ] }, 0, 4 ] }, 12 ] }, 8 ] }, 63 ] }, { "code": "-", "operands": [ 64 ] } ] },
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "_Tag",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ],
+  "variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I",
+          "Position": 12,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Absent_Base_Type.T1_Child",
+  "location": "absent_base_type.ads:10:9",
+  "Size": { "code": "*", "operands": [ { "code": "&", "operands": [ { "code": "+", "operands": [ { "code": "?<>", "operands": [ { "code": "not", "operands": [ { "code": "!=", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] } ] }, 0, 4 ] }, 19 ] }, { "code": "-", "operands": [ 8 ] } ] }, 8 ] },
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "_Tag",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ],
+  "parent_variant" : [
+    {
+      "present": { "code": "==", "operands": [ { "code": "#", "operands": [ 1 ] }, 0 ] },
+      "record": [
+      ]
+    },
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I",
+          "Position": 12,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Absent_Base_Type.T2_Child",
+  "location": "absent_base_type.ads:12:9",
+  "Size": 0,
+  "Alignment": 1,
+  "record": [
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

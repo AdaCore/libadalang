@@ -1,0 +1,96 @@
+Analyzing pkg.ads
+#################
+
+Representation information for <ConcreteTypeDecl ["E1"] pkg.ads:5:4-5:28>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 2
+
+Representation information for <ConcreteTypeDecl ["I1"] pkg.ads:7:4-7:33>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 2
+Object_Size | Value_Size: 16 | 9
+
+Representation information for <ConcreteTypeDecl ["M1"] pkg.ads:9:4-9:27>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 2
+Object_Size | Value_Size: 16 | 15
+
+Representation information for <ConcreteTypeDecl ["M2"] pkg.ads:10:4-10:27>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 4
+Object_Size | Value_Size: 32 | 32
+
+Representation information for <ConcreteTypeDecl ["R1"] pkg.ads:12:4-12:24>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 8
+Object_Size | Value_Size: 64 | 64
+
+Representation information for <ConcreteTypeDecl ["R2"] pkg.ads:13:4-13:41>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 8
+Object_Size | Value_Size: 64 | 64
+
+Representation information for <ConcreteTypeDecl ["R3"] pkg.ads:14:4-14:25>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 4
+Object_Size | Value_Size: 32 | 32
+
+Representation information for <ConcreteTypeDecl ["F1"] pkg.ads:16:4-16:43>:
+Kind: FIXED_POINT_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 6
+Small: 1/4
+Range: -4 .. 4
+
+Representation information for <ConcreteTypeDecl ["F2"] pkg.ads:17:4-17:68>:
+Kind: FIXED_POINT_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 6
+Small: 4803839122144569/144115188075855872
+Range: -4653719149577551/4503599627370496 .. 4653719149577551/4503599627370496
+
+Representation information for <ConcreteTypeDecl ["F3"] pkg.ads:18:4-18:68>:
+Kind: FIXED_POINT_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 6
+Small: 1/30
+Range: -1 .. 1
+
+Representation information for <ConcreteTypeDecl ["F4"] pkg.ads:19:4-19:35>:
+Kind: FIXED_POINT_TYPE
+Alignment: 8
+Object_Size | Value_Size: 64 | 48
+Small: 3602879701896397/36028797018963968
+Range: -5119999999999949/512 .. 5119999999999949/512
+
+Representation information for <ConcreteTypeDecl ["Rec1"] pkg.ads:21:4-25:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 64
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "B" pkg.ads:22:7-22:8> at 0, size: 8
+* <DefiningName "C" pkg.ads:23:7-23:8> at 1, size: 8
+* <DefiningName "I" pkg.ads:24:7-24:8> at 4, size: 32
+
+Representation information for <ConcreteTypeDecl ["Rec2"] pkg.ads:27:4-27:29>:
+Kind: RECORD_TYPE
+Alignment: 1
+Object_Size | Value_Size: 0 | 0
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+
+Representation information for <ConcreteTypeDecl ["Bool_Array"] pkg.ads:29:4-29:60>:
+Kind: ARRAY_TYPE
+Alignment: 1
+Object_Size | Value_Size: <unsupported> | <unsupported>
+Scalar_Storage_Order: LOW_ORDER_FIRST
+Component_Size: 8
+
+Representation information for <SubtypeDecl ["Bool_Couple"] pkg.ads:30:4-30:47>:
+Kind: ARRAY_TYPE
+Alignment: 1
+Object_Size | Value_Size: 16 | 16
+Scalar_Storage_Order: LOW_ORDER_FIRST
+Component_Size: 8
+
+Done.

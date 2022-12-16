@@ -1,0 +1,80 @@
+[
+{
+  "name": "Missing_Component.T1",
+  "location": "missing_component.ads:3:9",
+  "Size": 64,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "X1",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "X3",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Missing_Component.T2",
+  "location": "missing_component.ads:8:9",
+  "Size": 8,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "variant" : [
+    {
+      "present": 1,
+      "record": [
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Missing_Component.T3",
+  "location": "missing_component.ads:14:9",
+  "Size": 64,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "B",
+      "discriminant": 1,
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "variant" : [
+    {
+      "present": 1,
+      "record": [
+        {
+          "name": "I",
+          "Position": 4,
+          "First_Bit": 0,
+          "Size": 32
+        }
+      ]
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

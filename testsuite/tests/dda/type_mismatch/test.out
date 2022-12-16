@@ -1,0 +1,114 @@
+Analyzing absent_base_type.ads
+##############################
+
+Cannot fetch representation information for <ConcreteTypeDecl ["T1_Child"] absent_base_type.ads:3:4-3:52>:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  cannot resolve <SubtypeIndication absent_base_type.ads:3:25-3:34>
+
+No representation information for <ConcreteTypeDecl ["T2_Parent"] absent_base_type.ads:5:4-5:41>
+
+Cannot fetch representation information for <ConcreteTypeDecl ["T2_Child"] absent_base_type.ads:6:4-6:52>:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  cannot find repinfo for <ConcreteTypeDecl ["T2_Parent"] absent_base_type.ads:5:4-5:41>
+
+Analyzing missing_component.ads
+###############################
+
+Representation information for <ConcreteTypeDecl ["T1"] missing_component.ads:3:4-7:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 64
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+Cannot get components:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  cannot find repinfo for <DefiningName "X2" missing_component.ads:5:7-5:9>
+
+Representation information for <ConcreteTypeDecl ["T2"] missing_component.ads:9:4-13:15>:
+Kind: RECORD_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 8
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "B" missing_component.ads:9:13-9:14> (discriminant 1) at 0, size: 8
+* Variant part
+Cannot get variants:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  <Variant missing_component.ads:11:10-11:37> has 1 components, but 0 expected
+
+Representation information for <ConcreteTypeDecl ["T3"] missing_component.ads:15:4-19:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | 64
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "B" missing_component.ads:15:13-15:14> (discriminant 1) at 0, size: 8
+* Variant part
+Cannot get variants:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  <Variant missing_component.ads:17:10-17:30> has 0 components, but 1 expected
+
+Analyzing type_kind_mismatch.ads
+################################
+
+Cannot fetch representation information for <ConcreteTypeDecl ["T1"] type_kind_mismatch.ads:3:4-3:26>:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  record type expected, got <ConcreteTypeDecl ["T1"] type_kind_mismatch.ads:3:4-3:26>
+
+Representation information for <ConcreteTypeDecl ["T2_Parent"] type_kind_mismatch.ads:5:4-5:41>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 8
+
+Cannot fetch representation information for <ConcreteTypeDecl ["T2_Child"] type_kind_mismatch.ads:6:4-6:52>:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  record type repinfo expected, got OTHER_NUMBER_TYPE
+
+Analyzing variant_mismatch.ads
+##############################
+
+Cannot fetch representation information for <ConcreteTypeDecl ["T1"] variant_mismatch.ads:3:4-5:15>:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  <ConcreteTypeDecl ["T1"] variant_mismatch.ads:3:4-5:15> has no variant, repinfo inconsistent
+
+Cannot fetch representation information for <ConcreteTypeDecl ["T2"] variant_mismatch.ads:7:4-12:15>:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  <ConcreteTypeDecl ["T2"] variant_mismatch.ads:7:4-12:15> has a variant, repinfo inconsistent
+
+Representation information for <ConcreteTypeDecl ["T3_Parent"] variant_mismatch.ads:14:4-19:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "B" variant_mismatch.ads:14:20-14:21> (discriminant 1) at 0, size: 8
+* Variant part
+
+  | * <DefiningName "I" variant_mismatch.ads:17:24-17:25> at 4, size: 32
+
+Cannot fetch representation information for <ConcreteTypeDecl ["T3_Child"] variant_mismatch.ads:20:4-25:15>:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  <VariantPart variant_mismatch.ads:21:7-24:16> conflicts with <VariantPart variant_mismatch.ads:15:7-18:16>
+
+Representation information for <ConcreteTypeDecl ["T4"] variant_mismatch.ads:27:4-31:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 64 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "B" variant_mismatch.ads:27:13-27:14> (discriminant 1) at 0, size: 8
+Cannot get variants:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  <ConcreteTypeDecl ["T4"] variant_mismatch.ads:27:4-31:15> has 1 variants, but 2 expected
+
+Representation information for <ConcreteTypeDecl ["T5"] variant_mismatch.ads:33:4-40:15>:
+Kind: RECORD_TYPE
+Alignment: 4
+Object_Size | Value_Size: 96 | <dynamic>
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "B1" variant_mismatch.ads:33:13-33:15> (discriminant 1) at 0, size: 8
+* <DefiningName "B2" variant_mismatch.ads:33:17-33:19> (discriminant 2) at 1, size: 8
+* Variant part
+  | * <DefiningName "I1" variant_mismatch.ads:36:13-36:15> at 4, size: 32
+
+  | * <DefiningName "I2" variant_mismatch.ads:38:13-38:15> at 4, size: 32
+Cannot get variants:
+  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
+  cannot find variant part in <Variant variant_mismatch.ads:37:10-38:26>
+
+Done.

@@ -1,0 +1,100 @@
+[
+{
+  "name": "Pkg.Bit_Field",
+  "location": "pkg.ads:5:9",
+  "Alignment": 1,
+  "Component_Size": 1,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.R",
+  "location": "pkg.ads:7:9",
+  "Size": 16,
+  "Alignment": 2,
+  "record": [
+    {
+      "name": "X1",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 2
+    },
+    {
+      "name": "X2",
+      "Position": 0,
+      "First_Bit": 2,
+      "Size": 2
+    },
+    {
+      "name": "X3",
+      "Position": 0,
+      "First_Bit": 4,
+      "Size": 1
+    },
+    {
+      "name": "X4",
+      "Position": 0,
+      "First_Bit": 5,
+      "Size": 7
+    },
+    {
+      "name": "X5",
+      "Position": 1,
+      "First_Bit": 4,
+      "Size": 4
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.R.T4s",
+  "location": "pkg.ads:8:7",
+  "Object_Size": 8,
+  "Value_Size": 2,
+  "Alignment": 1,
+  "Component_Size": 1,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.R.T6s",
+  "location": "pkg.ads:9:7",
+  "Object_Size": 8,
+  "Value_Size": 2,
+  "Alignment": 1,
+  "Component_Size": 1,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.R.T8s",
+  "location": "pkg.ads:10:7",
+  "Object_Size": 8,
+  "Value_Size": 1,
+  "Alignment": 1,
+  "Component_Size": 1,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.R.T10s",
+  "location": "pkg.ads:11:7",
+  "Object_Size": 8,
+  "Value_Size": 7,
+  "Alignment": 1,
+  "Component_Size": 1,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.R.T12s",
+  "location": "pkg.ads:12:7",
+  "Object_Size": 8,
+  "Value_Size": 4,
+  "Alignment": 1,
+  "Component_Size": 1,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

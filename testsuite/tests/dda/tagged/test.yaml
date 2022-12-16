@@ -1,0 +1,2 @@
+driver: dda
+input_sources: [p1.ads, p2.ads]

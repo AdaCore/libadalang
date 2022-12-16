@@ -1,0 +1,36 @@
+[
+{
+  "name": "Type_Kind_Mismatch.T1",
+  "location": "type_kind_mismatch.ads:3:9",
+  "Size": 32,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "I",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Type_Kind_Mismatch.T2_Parent",
+  "location": "type_kind_mismatch.ads:7:9",
+  "Size": 8,
+  "Alignment": 1
+}
+,
+{
+  "name": "Type_Kind_Mismatch.T2_Child",
+  "location": "type_kind_mismatch.ads:8:9",
+  "Size": 0,
+  "Alignment": 1,
+  "record": [
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

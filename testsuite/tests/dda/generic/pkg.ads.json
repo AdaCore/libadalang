@@ -1,0 +1,64 @@
+[
+{
+  "name": "Pkg.Boolean_G.T",
+  "location": "pkg.ads:6:12 [pkg.ads:13:4]",
+  "Object_Size": 8,
+  "Value_Size": 1,
+  "Alignment": 1
+}
+,
+{
+  "name": "Pkg.Boolean_G.R",
+  "location": "pkg.ads:8:12 [pkg.ads:13:4]",
+  "Size": 8,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "Value",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.B",
+  "location": "pkg.ads:14:4",
+  "Size": 8,
+  "Alignment": 1
+}
+,
+{
+  "name": "Pkg.Integer_G.T",
+  "location": "pkg.ads:6:12 [pkg.ads:17:4]",
+  "Size": 32,
+  "Alignment": 4
+}
+,
+{
+  "name": "Pkg.Integer_G.R",
+  "location": "pkg.ads:8:12 [pkg.ads:17:4]",
+  "Size": 32,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "Value",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Pkg.I",
+  "location": "pkg.ads:18:4",
+  "Size": 32,
+  "Alignment": 4
+}
+]

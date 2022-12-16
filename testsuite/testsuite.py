@@ -22,9 +22,9 @@ from e3.testsuite.testcase_finder import ProbingError, YAMLTestFinder
 from langkit.coverage import GNATcov
 
 from drivers import (
-    adaapi_driver, capi_driver, gnat_compare_driver, inline_pg_driver,
-    name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
-    prep_driver, python_driver
+    adaapi_driver, capi_driver, dda_driver, gnat_compare_driver,
+    inline_pg_driver, name_resolution_driver, navigation_driver, ocaml_driver,
+    parser_driver, prep_driver, python_driver
 )
 
 
@@ -61,6 +61,7 @@ class LALTestsuite(Testsuite):
     test_driver_map = {
         'ada-api': adaapi_driver.AdaAPIDriver,
         'c-api': capi_driver.CAPIDriver,
+        'dda': dda_driver.DDADriver,
         'gnat_compare': gnat_compare_driver.GNATCompareDriver,
         'inline-playground': inline_pg_driver.InlinePlaygroundDriver,
         'name-resolution': name_resolution_driver.NameResolutionDriver,
@@ -150,6 +151,10 @@ class LALTestsuite(Testsuite):
         parser.add_argument(
             '--rewrite', '-r', action='store_true',
             help='Rewrite test baselines according to current output.'
+        )
+        parser.add_argument(
+            '--dda-compile', action='store_true',
+            help='For DDA tests, compile sources to regenerate the JSON files.'
         )
 
         # Temporary discriminant while we support compilers that do not have

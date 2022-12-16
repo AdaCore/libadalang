@@ -1,0 +1,37 @@
+Analyzing pkg.ads
+#################
+
+Representation information for <ConcreteTypeDecl ["U3"] pkg.ads:7:4-7:26>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 3
+
+Representation information for <ConcreteTypeDecl ["U6"] pkg.ads:8:4-8:26>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 6
+
+Representation information for <ConcreteTypeDecl ["U7"] pkg.ads:9:4-9:26>:
+Kind: OTHER_NUMBER_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 7
+
+Representation information for <ConcreteTypeDecl ["R1"] pkg.ads:11:4-17:59>:
+Kind: RECORD_TYPE
+Alignment: 2
+Object_Size | Value_Size: 16 | 16
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "X1" pkg.ads:12:7-12:9> at 0, size: 7
+* <DefiningName "X2" pkg.ads:13:7-13:9> at 0, bit 7, size: 3
+* <DefiningName "X3" pkg.ads:14:7-14:9> at 1, bit 2, size: 6
+
+Representation information for <ConcreteTypeDecl ["R2"] pkg.ads:25:4-31:60>:
+Kind: RECORD_TYPE
+Alignment: 2
+Object_Size | Value_Size: 16 | 16
+Bit_Order | Scalar_Storage_Order: HIGH_ORDER_FIRST | HIGH_ORDER_FIRST
+* <DefiningName "X1" pkg.ads:26:7-26:9> at 0, size: 7
+* <DefiningName "X2" pkg.ads:27:7-27:9> at 0, bit 7, size: 3
+* <DefiningName "X3" pkg.ads:28:7-28:9> at 1, bit 2, size: 6
+
+Done.

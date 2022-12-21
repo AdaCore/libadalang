@@ -5,7 +5,7 @@ RUNNER_OS=$2  #  ${{ runner.os }} is Linux, Windiws, maxOS
 export prefix=/tmp/ADALIB_DIR
 if [ $RUNNER_OS = Windows ]; then
    export prefix=/opt/ADALIB_DIR
-   mount `cmd /c cd | cut -d\: -f1`:/opt /opt
+   mount `cygpath -w $RUNNER_TEMP|cut -d: -f1`:/opt /opt
 fi
 export PROCESSORS=0
 export GPR_PROJECT_PATH=$prefix/share/gpr

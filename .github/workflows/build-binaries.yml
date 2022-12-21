@@ -14,8 +14,8 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: # Build debug and production
-        debug: ['', 'debug']      # '' if production, 'debug' for debug
+      matrix: # Build debug and/or production
+        debug: ['']      # '' if production, 'debug' for debug
         os: [macos-11, ubuntu-20.04, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:

@@ -1,2 +1,4 @@
 driver: ada-api
 main: main.adb
+control:
+    - [XFAIL, "valgrind", "Pending resolution of VC22-015"]

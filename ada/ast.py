@@ -17215,6 +17215,34 @@ class EnumLiteralDecl(BasicSubpDecl):
             lambda p: p.is_a(TypeDecl)
         ).as_entity.cast(TypeDecl)
 
+    @langkit_property(public=True, return_type=T.BigInt)
+    def enum_rep():
+        """
+        Return the integer used to encode this enum literal.
+
+        .. note::
+            This property is equivalent to GNAT's ``Enum_Rep`` attribute.
+        """
+        enum_type = Var(Entity.enum_type)
+        rep_clause = Var(enum_type.get_enum_representation_clause)
+
+        # Equivalent of 'Pos: the 0-based position of this enum literal in the
+        # type declaration.
+        pos = Var(Self.child_index)
+        return If(
+            rep_clause.is_null,
+
+            # If there is no representation clause for this enum, so 'Enum_Rep
+            # is equivalent to 'Pos.
+            BigIntLiteral(pos),
+
+            # Ada mandates that elements in the aggregate for the
+            # representation clause are in the same order as the enum literals
+            # in the type declaration, so we can just use 'Pos to find the
+            # correct value.
+            rep_clause.aggregate.assocs.at(pos).expr.eval_as_int
+        )
+
     defining_names = Property(Entity.name.singleton)
 
     @langkit_property(memoized=True)

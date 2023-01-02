@@ -1,0 +1,25 @@
+Working on node <ConcreteTypeDecl ["Enum_1"] pkg.ads:2:4-2:29>
+==============================================================
+
+Eval '[l.p_enum_rep for l in node.findall(lal.EnumLiteralDecl)]'
+Result: [0, 1, 2]
+
+Working on node <ConcreteTypeDecl ["Enum_2"] pkg.ads:5:4-5:29>
+==============================================================
+
+Eval '[l.p_enum_rep for l in node.findall(lal.EnumLiteralDecl)]'
+Result: [10, 20, 30]
+
+Working on node <ConcreteTypeDecl ["Enum_3"] pkg.ads:9:4-9:29>
+==============================================================
+
+Eval '[l.p_enum_rep for l in node.findall(lal.EnumLiteralDecl)]'
+Result: [-30, -20, -10]
+
+Working on node <ConcreteTypeDecl ["Enum_4"] pkg.ads:13:4-13:29>
+================================================================
+
+Eval '[l.p_enum_rep for l in node.findall(lal.EnumLiteralDecl)]'
+Result: [10000000000000000000000000000000000000000,
+         10000000000000000000000000000000000000001,
+         10000000000000000000000000000000000000002]

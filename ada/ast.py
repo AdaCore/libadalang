@@ -16893,7 +16893,8 @@ class BaseId(SingleTokNode):
         # so look for every entity named like the type, to see if any is a
         # completer view of the type.
         completer_view = Var(origin.then(lambda o: Self.env_get(
-            o.children_env, Self.symbol, from_node=origin, categories=no_prims
+            o.as_entity.children_env, Self.symbol,
+            from_node=origin, categories=no_prims
         )).filtermap(
             lambda n: n.cast(BaseTypeDecl),
             lambda n:

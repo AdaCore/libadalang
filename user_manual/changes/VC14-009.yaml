@@ -1,0 +1,11 @@
+type: bugfix
+title: Nameres taft amendment types in generic contexts
+description: |
+    This change fixes a bug where a Taft-amendment type could in certain cases
+    not be resolved to its completion but to its incomplete view. In turn,
+    an expression involving a taft-amendment type (for example ``X.Field``
+    where ``X``'s type is a taft-amendment record type with a component
+    ``Field``) might not be resolved properly because of the incomplete
+    knowledge about that type (in the example, because Libadalang might not
+    see the component ``Field``).
+date: 2023-01-09

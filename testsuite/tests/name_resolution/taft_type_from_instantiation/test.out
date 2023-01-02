@@ -1,0 +1,14 @@
+Working on node <GenericPackageInstantiation ["My_Pkg"] test.adb:4:4-4:30>
+==========================================================================
+
+Set 'gen_decl' to 'node.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["Pkg"] pkg.ads:1:1-6:9 [test.adb:4:4] |>
+
+Set 'gen_body' to 'gen_decl.p_next_part_for_decl()'
+Result: <| PackageBody ["Pkg"] pkg.adb:1:1-10:9 [test.adb:4:4] |>
+
+Set 'usage' to 'gen_body.find(lal.DottedName)'
+Result: <| DottedName pkg.adb:8:14-8:23 [test.adb:4:4] |>
+
+Eval 'usage.p_referenced_decl()'
+Result: <| ComponentDecl ["Foo"] pkg.adb:3:7-3:21 [test.adb:4:4] |>

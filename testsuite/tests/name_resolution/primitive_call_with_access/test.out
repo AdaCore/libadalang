@@ -5,19 +5,19 @@ Resolving xrefs for node <CallStmt test.adb:14:4-14:24>
 *******************************************************
 
 Expr: <CallExpr test.adb:14:4-14:23>
-  references:    <DefiningName test.adb:5:17-5:21>
+  references:    <DefiningName "Proc" test.adb:5:17-5:21>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:14:4-14:10>
-  references:    <DefiningName test.adb:5:17-5:21>
+  references:    <DefiningName "Proc" test.adb:5:17-5:21>
   type:          None
   expected type: None
 Expr: <Id "Q" test.adb:14:4-14:5>
-  references:    <DefiningName test.adb:8:12-8:13>
+  references:    <DefiningName "Q" test.adb:8:12-8:13>
   type:          None
   expected type: None
 Expr: <Id "Proc" test.adb:14:6-14:10>
-  references:    <DefiningName test.adb:5:17-5:21>
+  references:    <DefiningName "Proc" test.adb:5:17-5:21>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:14:12-14:22>
@@ -25,7 +25,7 @@ Expr: <AttributeRef test.adb:14:12-14:22>
   type:          <SynthAnonymousTypeDecl ["U"] test.adb:9:7-9:42>
   expected type: <SynthAnonymousTypeDecl ["U"] test.adb:9:7-9:42>
 Expr: <Id "Obj" test.adb:14:12-14:15>
-  references:    <DefiningName test.adb:12:4-12:7>
+  references:    <DefiningName "Obj" test.adb:12:4-12:7>
   type:          <ConcreteTypeDecl ["U"] test.adb:9:7-9:42>
   expected type: <ConcreteTypeDecl ["U"] test.adb:9:7-9:42>
 Expr: <Id "Access" test.adb:14:16-14:22>

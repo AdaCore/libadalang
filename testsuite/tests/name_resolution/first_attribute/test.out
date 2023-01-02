@@ -13,11 +13,11 @@ Resolving xrefs for node <ArrayTypeDef testfirst.adb:2:14-2:49>
 ***************************************************************
 
 Expr: <Id "Integer" testfirst.adb:2:21-2:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "Integer" testfirst.adb:2:42-2:49>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -25,7 +25,7 @@ Resolving xrefs for node <ConcreteTypeDecl ["B"] testfirst.adb:3:4-3:45>
 ************************************************************************
 
 Expr: <Id "Integer" testfirst.adb:3:18-3:25>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <BinOp testfirst.adb:3:32-3:44>
@@ -48,7 +48,7 @@ Resolving xrefs for node <ObjectDecl ["C"] testfirst.adb:5:4-5:12>
 ******************************************************************
 
 Expr: <Id "B" testfirst.adb:5:10-5:11>
-  references:    <DefiningName testfirst.adb:3:9-3:10>
+  references:    <DefiningName "B" testfirst.adb:3:9-3:10>
   type:          None
   expected type: None
 
@@ -56,7 +56,7 @@ Resolving xrefs for node <ObjectDecl ["D"] testfirst.adb:6:4-6:31>
 ******************************************************************
 
 Expr: <Id "A" testfirst.adb:6:10-6:11>
-  references:    <DefiningName testfirst.adb:2:9-2:10>
+  references:    <DefiningName "A" testfirst.adb:2:9-2:10>
   type:          None
   expected type: None
 Expr: <Aggregate testfirst.adb:6:15-6:30>
@@ -87,7 +87,7 @@ Resolving xrefs for node <ObjectDecl ["Idx"] testfirst.adb:7:4-7:18>
 ********************************************************************
 
 Expr: <Id "Integer" testfirst.adb:7:10-7:17>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -99,7 +99,7 @@ Resolving xrefs for node <ComponentDecl ["Pouet"] testfirst.adb:10:7-10:27>
 ***************************************************************************
 
 Expr: <Id "A" testfirst.adb:10:15-10:16>
-  references:    <DefiningName testfirst.adb:2:9-2:10>
+  references:    <DefiningName "A" testfirst.adb:2:9-2:10>
   type:          None
   expected type: None
 Expr: <BinOp testfirst.adb:10:18-10:25>
@@ -132,7 +132,7 @@ Resolving xrefs for node <SubpSpec testfirst.adb:13:4-13:27>
 ************************************************************
 
 Expr: <Id "Lol" testfirst.adb:13:24-13:27>
-  references:    <DefiningName testfirst.adb:9:9-9:12>
+  references:    <DefiningName "Lol" testfirst.adb:9:9-9:12>
   type:          None
   expected type: None
 
@@ -151,7 +151,7 @@ Resolving xrefs for node <SubpSpec testfirst.adb:14:4-14:31>
 ************************************************************
 
 Expr: <Id "Integer" testfirst.adb:14:24-14:31>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -159,7 +159,7 @@ Resolving xrefs for node <AssignStmt testfirst.adb:16:4-16:17>
 **************************************************************
 
 Expr: <Id "C" testfirst.adb:16:4-16:5>
-  references:    <DefiningName testfirst.adb:5:4-5:5>
+  references:    <DefiningName "C" testfirst.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["B"] testfirst.adb:3:4-3:45>
   expected type: None
 Expr: <AttributeRef testfirst.adb:16:9-16:16>
@@ -167,7 +167,7 @@ Expr: <AttributeRef testfirst.adb:16:9-16:16>
   type:          <ConcreteTypeDecl ["B"] testfirst.adb:3:4-3:45>
   expected type: <ConcreteTypeDecl ["B"] testfirst.adb:3:4-3:45>
 Expr: <Id "B" testfirst.adb:16:9-16:10>
-  references:    <DefiningName testfirst.adb:3:9-3:10>
+  references:    <DefiningName "B" testfirst.adb:3:9-3:10>
   type:          None
   expected type: None
 Expr: <Id "First" testfirst.adb:16:11-16:16>
@@ -179,7 +179,7 @@ Resolving xrefs for node <AssignStmt testfirst.adb:17:4-17:19>
 **************************************************************
 
 Expr: <Id "Idx" testfirst.adb:17:4-17:7>
-  references:    <DefiningName testfirst.adb:7:4-7:7>
+  references:    <DefiningName "Idx" testfirst.adb:7:4-7:7>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <AttributeRef testfirst.adb:17:11-17:18>
@@ -187,7 +187,7 @@ Expr: <AttributeRef testfirst.adb:17:11-17:18>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "D" testfirst.adb:17:11-17:12>
-  references:    <DefiningName testfirst.adb:6:4-6:5>
+  references:    <DefiningName "D" testfirst.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
   expected type: None
 Expr: <Id "First" testfirst.adb:17:13-17:18>
@@ -199,7 +199,7 @@ Resolving xrefs for node <AssignStmt testfirst.adb:19:4-19:27>
 **************************************************************
 
 Expr: <Id "Idx" testfirst.adb:19:4-19:7>
-  references:    <DefiningName testfirst.adb:7:4-7:7>
+  references:    <DefiningName "Idx" testfirst.adb:7:4-7:7>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <AttributeRef testfirst.adb:19:11-19:26>
@@ -207,15 +207,15 @@ Expr: <AttributeRef testfirst.adb:19:11-19:26>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName testfirst.adb:19:11-19:20>
-  references:    <DefiningName testfirst.adb:10:7-10:12>
+  references:    <DefiningName "Pouet" testfirst.adb:10:7-10:12>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
   expected type: None
 Expr: <Id "Foo" testfirst.adb:19:11-19:14>
-  references:    <DefiningName testfirst.adb:13:13-13:16>
+  references:    <DefiningName "Foo" testfirst.adb:13:13-13:16>
   type:          <ConcreteTypeDecl ["Lol"] testfirst.adb:9:4-11:15>
   expected type: <ConcreteTypeDecl ["Lol"] testfirst.adb:9:4-11:15>
 Expr: <Id "Pouet" testfirst.adb:19:15-19:20>
-  references:    <DefiningName testfirst.adb:10:7-10:12>
+  references:    <DefiningName "Pouet" testfirst.adb:10:7-10:12>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
   expected type: None
 Expr: <Id "First" testfirst.adb:19:21-19:26>
@@ -227,11 +227,11 @@ Resolving xrefs for node <AssignStmt testfirst.adb:20:4-20:21>
 **************************************************************
 
 Expr: <CallExpr testfirst.adb:20:4-20:15>
-  references:    <DefiningName testfirst.adb:6:4-6:5>
+  references:    <DefiningName "D" testfirst.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "D" testfirst.adb:20:4-20:5>
-  references:    <DefiningName testfirst.adb:6:4-6:5>
+  references:    <DefiningName "D" testfirst.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
   expected type: None
 Expr: <AttributeRef testfirst.adb:20:7-20:14>
@@ -239,7 +239,7 @@ Expr: <AttributeRef testfirst.adb:20:7-20:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "D" testfirst.adb:20:7-20:8>
-  references:    <DefiningName testfirst.adb:6:4-6:5>
+  references:    <DefiningName "D" testfirst.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
   expected type: None
 Expr: <Id "First" testfirst.adb:20:9-20:14>
@@ -255,11 +255,11 @@ Resolving xrefs for node <EndName testfirst.adb:21:5-21:14>
 ***********************************************************
 
 Expr: <EndName testfirst.adb:21:5-21:14>
-  references:    <DefiningName testfirst.adb:1:11-1:20>
+  references:    <DefiningName "Testfirst" testfirst.adb:1:11-1:20>
   type:          None
   expected type: None
 Expr: <Id "Testfirst" testfirst.adb:21:5-21:14>
-  references:    <DefiningName testfirst.adb:1:11-1:20>
+  references:    <DefiningName "Testfirst" testfirst.adb:1:11-1:20>
   type:          None
   expected type: None
 

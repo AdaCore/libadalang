@@ -25,7 +25,7 @@ Expr: <Id "C" test.adb:6:23-6:24>
   type:          None
   expected type: None
 Expr: <Id "T" test.adb:6:26-6:27>
-  references:    <DefiningName test.adb:2:9-2:10>
+  references:    <DefiningName "T" test.adb:2:9-2:10>
   type:          None
   expected type: None
 

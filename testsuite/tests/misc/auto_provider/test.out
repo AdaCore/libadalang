@@ -6,31 +6,31 @@ Resolving xrefs for node <ObjectDecl ["I"] foo.adb:5:4-5:47>
 ************************************************************
 
 Expr: <Id "Integer" foo.adb:5:17-5:24>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <CallExpr foo.adb:5:28-5:46>
-  references:    <DefiningName src2.ada:2:13-2:17>
+  references:    <DefiningName "Fact" src2.ada:2:13-2:17>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName foo.adb:5:28-5:42>
-  references:    <DefiningName src2.ada:2:13-2:17>
+  references:    <DefiningName "Fact" src2.ada:2:13-2:17>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <DottedName foo.adb:5:28-5:37>
-  references:    <DefiningName src2.ada:1:9-1:18>
+  references:    <DefiningName "Pkg.Child" src2.ada:1:9-1:18>
   type:          None
   expected type: None
 Expr: <Id "Pkg" foo.adb:5:28-5:31>
-  references:    <DefiningName src1.ada:1:9-1:12>
+  references:    <DefiningName "Pkg" src1.ada:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Child" foo.adb:5:32-5:37>
-  references:    <DefiningName src2.ada:1:9-1:18>
+  references:    <DefiningName "Pkg.Child" src2.ada:1:9-1:18>
   type:          None
   expected type: None
 Expr: <Id "Fact" foo.adb:5:38-5:42>
-  references:    <DefiningName src2.ada:2:13-2:17>
+  references:    <DefiningName "Fact" src2.ada:2:13-2:17>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Int foo.adb:5:44-5:45>

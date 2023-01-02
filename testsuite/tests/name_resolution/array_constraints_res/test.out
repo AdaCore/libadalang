@@ -20,7 +20,7 @@ Resolving xrefs for node <SubpSpec test.adb:2:4-2:31>
 *****************************************************
 
 Expr: <Id "Integer" test.adb:2:24-2:31>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -39,7 +39,7 @@ Resolving xrefs for node <SubpSpec test.adb:3:4-3:29>
 *****************************************************
 
 Expr: <Id "Float" test.adb:3:24-3:29>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 
@@ -62,11 +62,11 @@ Expr: <OpDoubleDot ".." test.adb:4:23-4:25>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:4:26-4:29>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Foo" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:4:34-4:41>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -78,11 +78,11 @@ Resolving xrefs for node <EndName test.adb:7:5-7:9>
 ***************************************************
 
 Expr: <EndName test.adb:7:5-7:9>
-  references:    <DefiningName test.adb:1:11-1:15>
+  references:    <DefiningName "Test" test.adb:1:11-1:15>
   type:          None
   expected type: None
 Expr: <Id "Test" test.adb:7:5-7:9>
-  references:    <DefiningName test.adb:1:11-1:15>
+  references:    <DefiningName "Test" test.adb:1:11-1:15>
   type:          None
   expected type: None
 

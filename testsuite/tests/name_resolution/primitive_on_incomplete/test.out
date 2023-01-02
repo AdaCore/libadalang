@@ -5,15 +5,15 @@ Resolving xrefs for node <CallStmt test.adb:20:10-20:23>
 ********************************************************
 
 Expr: <CallExpr test.adb:20:10-20:22>
-  references:    <DefiningName test.adb:5:17-5:25>
+  references:    <DefiningName "Do_Stuff" test.adb:5:17-5:25>
   type:          None
   expected type: None
 Expr: <Id "Do_Stuff" test.adb:20:10-20:18>
-  references:    <DefiningName test.adb:5:17-5:25>
+  references:    <DefiningName "Do_Stuff" test.adb:5:17-5:25>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:20:20-20:21>
-  references:    <DefiningName test.adb:18:10-18:11>
+  references:    <DefiningName "X" test.adb:18:10-18:11>
   type:          <ConcreteTypeDecl ["Foo"] test.adb:11:7-11:50>
   expected type: <ConcreteTypeDecl ["Foo"] test.adb:11:7-11:50>
 
@@ -21,15 +21,15 @@ Resolving xrefs for node <CallStmt test.adb:27:4-27:15>
 *******************************************************
 
 Expr: <DottedName test.adb:27:4-27:14>
-  references:    <DefiningName test.adb:5:17-5:25>
+  references:    <DefiningName "Do_Stuff" test.adb:5:17-5:25>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:27:4-27:5>
-  references:    <DefiningName test.adb:25:4-25:5>
+  references:    <DefiningName "X" test.adb:25:4-25:5>
   type:          <ConcreteTypeDecl ["Foo"] test.adb:7:7-7:38>
   expected type: None
 Expr: <Id "Do_Stuff" test.adb:27:6-27:14>
-  references:    <DefiningName test.adb:5:17-5:25>
+  references:    <DefiningName "Do_Stuff" test.adb:5:17-5:25>
   type:          None
   expected type: None
 

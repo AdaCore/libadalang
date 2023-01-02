@@ -11,15 +11,15 @@ Resolving xrefs for node <AssignStmt test.adb:20:4-20:15>
 *********************************************************
 
 Expr: <Id "B" test.adb:20:4-20:5>
-  references:    <DefiningName test.adb:14:4-14:5>
+  references:    <DefiningName "B" test.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
   expected type: None
 Expr: <CallExpr test.adb:20:9-20:14>
-  references:    <DefiningName test.adb:12:4-12:5>
+  references:    <DefiningName "C" test.adb:12:4-12:5>
   type:          <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
   expected type: <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
 Expr: <Id "C" test.adb:20:9-20:10>
-  references:    <DefiningName test.adb:12:4-12:5>
+  references:    <DefiningName "C" test.adb:12:4-12:5>
   type:          <ConcreteTypeDecl ["Int_Array"] test.adb:5:4-5:63>
   expected type: None
 Expr: <Int test.adb:20:12-20:13>
@@ -31,19 +31,19 @@ Resolving xrefs for node <AssignStmt test.adb:23:4-23:19>
 *********************************************************
 
 Expr: <Id "B" test.adb:23:4-23:5>
-  references:    <DefiningName test.adb:14:4-14:5>
+  references:    <DefiningName "B" test.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
   expected type: None
 Expr: <CallExpr test.adb:23:9-23:18>
-  references:    <DefiningName test.adb:8:4-8:5>
+  references:    <DefiningName "A" test.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
   expected type: <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
 Expr: <CallExpr test.adb:23:9-23:14>
-  references:    <DefiningName test.adb:8:4-8:5>
+  references:    <DefiningName "A" test.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Int_Array"] test.adb:5:4-5:63>
   expected type: None
 Expr: <Id "A" test.adb:23:9-23:10>
-  references:    <DefiningName test.adb:8:4-8:5>
+  references:    <DefiningName "A" test.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Int_Array_Array"] test.adb:6:4-6:71>
   expected type: None
 Expr: <Int test.adb:23:12-23:13>
@@ -59,19 +59,19 @@ Resolving xrefs for node <AssignStmt test.adb:26:4-26:23>
 *********************************************************
 
 Expr: <Id "B" test.adb:26:4-26:5>
-  references:    <DefiningName test.adb:14:4-14:5>
+  references:    <DefiningName "B" test.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
   expected type: None
 Expr: <CallExpr test.adb:26:9-26:22>
-  references:    <DefiningName test.adb:10:13-10:18>
+  references:    <DefiningName "Pouet" test.adb:10:13-10:18>
   type:          <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
   expected type: <ConcreteTypeDecl ["Integer"] test.adb:4:4-4:37>
 Expr: <CallExpr test.adb:26:9-26:18>
-  references:    <DefiningName test.adb:10:13-10:18>
+  references:    <DefiningName "Pouet" test.adb:10:13-10:18>
   type:          <ConcreteTypeDecl ["Int_Array"] test.adb:5:4-5:63>
   expected type: None
 Expr: <Id "Pouet" test.adb:26:9-26:14>
-  references:    <DefiningName test.adb:10:13-10:18>
+  references:    <DefiningName "Pouet" test.adb:10:13-10:18>
   type:          <ConcreteTypeDecl ["Int_Array_Array"] test.adb:6:4-6:71>
   expected type: None
 Expr: <Int test.adb:26:16-26:17>

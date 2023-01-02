@@ -1,13 +1,13 @@
 In instantiation of <GenericSubpInstantiation ["P_1"] test.adb:15:4-15:52>:
   - X.p_referenced_decl() => <AnonymousExprDecl Integer = Var>
-    - p_get_formal() => <DefiningName test.adb:6:7-6:8>
+    - p_get_formal() => <DefiningName "X" test.adb:6:7-6:8>
   - Y.p_referenced_decl() => <AnonymousExprDecl Integer = Value>
-    - p_get_formal() => <DefiningName test.adb:7:7-7:8>
+    - p_get_formal() => <DefiningName "Y" test.adb:7:7-7:8>
 
 In instantiation of <GenericSubpInstantiation ["P_2"] test.adb:16:4-16:49>:
   - X.p_referenced_decl() => <AnonymousExprDecl Integer = Var>
-    - p_get_formal() => <DefiningName test.adb:6:7-6:8>
+    - p_get_formal() => <DefiningName "X" test.adb:6:7-6:8>
   - Y.p_referenced_decl() => <AnonymousExprDecl Integer = 13>
-    - p_get_formal() => <DefiningName test.adb:7:7-7:8>
+    - p_get_formal() => <DefiningName "Y" test.adb:7:7-7:8>
 
 Done

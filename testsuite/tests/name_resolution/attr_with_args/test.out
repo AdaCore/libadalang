@@ -5,19 +5,19 @@ Resolving xrefs for node <AssignStmt main.adb:13:4-13:29>
 *********************************************************
 
 Expr: <Id "X" main.adb:13:4-13:5>
-  references:    <DefiningName main.adb:11:4-11:5>
+  references:    <DefiningName "X" main.adb:11:4-11:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <CallExpr main.adb:13:9-13:28>
-  references:    <SyntheticDefiningName main.adb:2:4-2:27>
+  references:    <SyntheticDefiningName "enum_rep" main.adb:2:4-2:27>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <AttributeRef main.adb:13:9-13:22>
-  references:    <SyntheticDefiningName main.adb:2:4-2:27>
+  references:    <SyntheticDefiningName "enum_rep" main.adb:2:4-2:27>
   type:          None
   expected type: None
 Expr: <Id "Enum" main.adb:13:9-13:13>
-  references:    <DefiningName main.adb:2:9-2:13>
+  references:    <DefiningName "Enum" main.adb:2:9-2:13>
   type:          None
   expected type: None
 Expr: <Id "Enum_Rep" main.adb:13:14-13:22>
@@ -25,7 +25,7 @@ Expr: <Id "Enum_Rep" main.adb:13:14-13:22>
   type:          None
   expected type: None
 Expr: <Id "Var" main.adb:13:24-13:27>
-  references:    <DefiningName main.adb:10:4-10:7>
+  references:    <DefiningName "Var" main.adb:10:4-10:7>
   type:          <ConcreteTypeDecl ["Enum"] main.adb:2:4-2:27>
   expected type: <ConcreteTypeDecl ["Enum"] main.adb:2:4-2:27>
 
@@ -33,19 +33,19 @@ Resolving xrefs for node <AssignStmt main.adb:15:4-15:28>
 *********************************************************
 
 Expr: <Id "X" main.adb:15:4-15:5>
-  references:    <DefiningName main.adb:11:4-11:5>
+  references:    <DefiningName "X" main.adb:11:4-11:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <CallExpr main.adb:15:9-15:27>
-  references:    <SyntheticDefiningName main.adb:5:4-5:28>
+  references:    <SyntheticDefiningName "enum_rep" main.adb:5:4-5:28>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <AttributeRef main.adb:15:9-15:23>
-  references:    <SyntheticDefiningName main.adb:5:4-5:28>
+  references:    <SyntheticDefiningName "enum_rep" main.adb:5:4-5:28>
   type:          None
   expected type: None
 Expr: <Id "Enum2" main.adb:15:9-15:14>
-  references:    <DefiningName main.adb:5:9-5:14>
+  references:    <DefiningName "Enum2" main.adb:5:9-5:14>
   type:          None
   expected type: None
 Expr: <Id "Enum_Rep" main.adb:15:15-15:23>
@@ -53,7 +53,7 @@ Expr: <Id "Enum_Rep" main.adb:15:15-15:23>
   type:          None
   expected type: None
 Expr: <Id "E" main.adb:15:25-15:26>
-  references:    <DefiningName main.adb:5:19-5:20>
+  references:    <DefiningName "E" main.adb:5:19-5:20>
   type:          <ConcreteTypeDecl ["Enum2"] main.adb:5:4-5:28>
   expected type: <ConcreteTypeDecl ["Enum2"] main.adb:5:4-5:28>
 
@@ -61,19 +61,19 @@ Resolving xrefs for node <AssignStmt main.adb:17:4-17:28>
 *********************************************************
 
 Expr: <Id "X" main.adb:17:4-17:5>
-  references:    <DefiningName main.adb:11:4-11:5>
+  references:    <DefiningName "X" main.adb:11:4-11:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <CallExpr main.adb:17:9-17:27>
-  references:    <SyntheticDefiningName main.adb:7:4-7:28>
+  references:    <SyntheticDefiningName "enum_rep" main.adb:7:4-7:28>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <AttributeRef main.adb:17:9-17:23>
-  references:    <SyntheticDefiningName main.adb:7:4-7:28>
+  references:    <SyntheticDefiningName "enum_rep" main.adb:7:4-7:28>
   type:          None
   expected type: None
 Expr: <Id "Enum3" main.adb:17:9-17:14>
-  references:    <DefiningName main.adb:7:9-7:14>
+  references:    <DefiningName "Enum3" main.adb:7:9-7:14>
   type:          None
   expected type: None
 Expr: <Id "Enum_Rep" main.adb:17:15-17:23>
@@ -81,7 +81,7 @@ Expr: <Id "Enum_Rep" main.adb:17:15-17:23>
   type:          None
   expected type: None
 Expr: <Id "H" main.adb:17:25-17:26>
-  references:    <DefiningName main.adb:7:19-7:20>
+  references:    <DefiningName "H" main.adb:7:19-7:20>
   type:          <ConcreteTypeDecl ["Enum3"] main.adb:7:4-7:28>
   expected type: <ConcreteTypeDecl ["Enum3"] main.adb:7:4-7:28>
 
@@ -89,19 +89,19 @@ Resolving xrefs for node <AssignStmt main.adb:19:4-19:29>
 *********************************************************
 
 Expr: <Id "Var" main.adb:19:4-19:7>
-  references:    <DefiningName main.adb:10:4-10:7>
+  references:    <DefiningName "Var" main.adb:10:4-10:7>
   type:          <ConcreteTypeDecl ["Enum"] main.adb:2:4-2:27>
   expected type: None
 Expr: <CallExpr main.adb:19:11-19:28>
-  references:    <SyntheticDefiningName main.adb:2:4-2:27>
+  references:    <SyntheticDefiningName "enum_val" main.adb:2:4-2:27>
   type:          <ConcreteTypeDecl ["Enum"] main.adb:2:4-2:27>
   expected type: <ConcreteTypeDecl ["Enum"] main.adb:2:4-2:27>
 Expr: <AttributeRef main.adb:19:11-19:24>
-  references:    <SyntheticDefiningName main.adb:2:4-2:27>
+  references:    <SyntheticDefiningName "enum_val" main.adb:2:4-2:27>
   type:          None
   expected type: None
 Expr: <Id "Enum" main.adb:19:11-19:15>
-  references:    <DefiningName main.adb:2:9-2:13>
+  references:    <DefiningName "Enum" main.adb:2:9-2:13>
   type:          None
   expected type: None
 Expr: <Id "Enum_Val" main.adb:19:16-19:24>
@@ -121,7 +121,7 @@ Resolving xrefs for node <SubpSpec storage.adb:1:1-1:48>
 ********************************************************
 
 Expr: <Id "Boolean" storage.adb:1:41-1:48>
-  references:    <DefiningName __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
   type:          None
   expected type: None
 
@@ -129,7 +129,7 @@ Resolving xrefs for node <ParamSpec ["A", "B"] storage.adb:1:19-1:32>
 *********************************************************************
 
 Expr: <Id "String" storage.adb:1:26-1:32>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 
@@ -144,7 +144,7 @@ Expr: <AttributeRef storage.adb:3:11-3:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "A" storage.adb:3:11-3:12>
-  references:    <DefiningName storage.adb:1:19-1:20>
+  references:    <DefiningName "A" storage.adb:1:19-1:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "Overlaps_Storage" storage.adb:3:13-3:29>
@@ -160,7 +160,7 @@ Expr: <AttributeRef storage.adb:3:38-3:60>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "A" storage.adb:3:38-3:39>
-  references:    <DefiningName storage.adb:1:19-1:20>
+  references:    <DefiningName "A" storage.adb:1:19-1:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "Has_Same_Storage" storage.adb:3:40-3:56>
@@ -172,7 +172,7 @@ Resolving xrefs for node <ParamAssoc storage.adb:3:31-3:32>
 ***********************************************************
 
 Expr: <Id "B" storage.adb:3:31-3:32>
-  references:    <DefiningName storage.adb:1:22-1:23>
+  references:    <DefiningName "B" storage.adb:1:22-1:23>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 
@@ -180,7 +180,7 @@ Resolving xrefs for node <ParamAssoc storage.adb:3:58-3:59>
 ***********************************************************
 
 Expr: <Id "B" storage.adb:3:58-3:59>
-  references:    <DefiningName storage.adb:1:22-1:23>
+  references:    <DefiningName "B" storage.adb:1:22-1:23>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 
@@ -188,11 +188,11 @@ Resolving xrefs for node <EndName storage.adb:4:5-4:12>
 *******************************************************
 
 Expr: <EndName storage.adb:4:5-4:12>
-  references:    <DefiningName storage.adb:1:10-1:17>
+  references:    <DefiningName "Storage" storage.adb:1:10-1:17>
   type:          None
   expected type: None
 Expr: <Id "Storage" storage.adb:4:5-4:12>
-  references:    <DefiningName storage.adb:1:10-1:17>
+  references:    <DefiningName "Storage" storage.adb:1:10-1:17>
   type:          None
   expected type: None
 

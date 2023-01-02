@@ -5,11 +5,11 @@ Resolving xrefs for node <CallStmt test.adb:9:7-9:36>
 *****************************************************
 
 Expr: <CallExpr test.adb:9:7-9:35>
-  references:    <DefiningName x.ads:5:14-5:18>
+  references:    <DefiningName "Load" x.ads:5:14-5:18>
   type:          None
   expected type: None
 Expr: <Id "Load" test.adb:9:7-9:11>
-  references:    <DefiningName x.ads:5:14-5:18>
+  references:    <DefiningName "Load" x.ads:5:14-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:9:12-9:34>
@@ -17,7 +17,7 @@ Expr: <AttributeRef test.adb:9:12-9:34>
   type:          <ConcreteTypeDecl ["Read_Bytes_Proc"] x.ads:3:4-3:62>
   expected type: <ConcreteTypeDecl ["Read_Bytes_Proc"] x.ads:3:4-3:62>
 Expr: <Id "Read_Bytes_Proc" test.adb:9:12-9:27>
-  references:    <DefiningName test.adb:5:14-5:29>
+  references:    <DefiningName "Read_Bytes_Proc" test.adb:5:14-5:29>
   type:          None
   expected type: None
 Expr: <Id "Access" test.adb:9:28-9:34>

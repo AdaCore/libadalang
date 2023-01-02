@@ -2,13 +2,13 @@ Working on node <Id "Foo" test.adb:6:6-6:9>
 ===========================================
 
 Eval 'node.p_failsafe_referenced_def_name(True)'
-Result: <RefdDef def_name=<DefiningName test.adb:2:13-2:16> kind=precise>
+Result: <RefdDef def_name=<DefiningName "Foo" test.adb:2:13-2:16> kind=precise>
 
 Working on node <Id "Foo" test.adb:10:6-10:9>
 =============================================
 
 Eval 'node.p_failsafe_referenced_def_name(True)'
-Result: <RefdDef def_name=<DefiningName test.adb:2:13-2:16> kind=imprecise>
+Result: <RefdDef def_name=<DefiningName "Foo" test.adb:2:13-2:16> kind=imprecise>
 
 Working on node <Id "Barz" test.adb:14:6-14:10>
 ===============================================

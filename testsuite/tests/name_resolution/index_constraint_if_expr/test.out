@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["Bnd_Args"] test.adb:8:4-8:57>
 ********************************************************************
 
 Expr: <Id "Arr" test.adb:8:15-8:18>
-  references:    <DefiningName test.adb:2:9-2:12>
+  references:    <DefiningName "Arr" test.adb:2:9-2:12>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:8:20-8:55>
@@ -26,11 +26,11 @@ Expr: <IfExpr test.adb:8:26-8:54>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Need_Bounds" test.adb:8:29-8:40>
-  references:    <DefiningName test.adb:4:4-4:15>
+  references:    <DefiningName "Need_Bounds" test.adb:4:4-4:15>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" test.adb:8:46-8:47>
-  references:    <DefiningName test.adb:6:4-6:5>
+  references:    <DefiningName "X" test.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int test.adb:8:53-8:54>

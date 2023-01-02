@@ -5,19 +5,19 @@ Resolving xrefs for node <ObjectDecl ["On_Type"] test.adb:2:4-2:42>
 *******************************************************************
 
 Expr: <Id "String" test.adb:2:14-2:20>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:2:24-2:41>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "image" __standard:14:3-15:51>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <AttributeRef test.adb:2:24-2:35>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "image" __standard:14:3-15:51>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:2:24-2:29>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:2:30-2:35>
@@ -33,7 +33,7 @@ Resolving xrefs for node <ObjectDecl ["On_Expr"] test.adb:6:4-6:39>
 *******************************************************************
 
 Expr: <Id "String" test.adb:6:14-6:20>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:6:24-6:38>
@@ -41,7 +41,7 @@ Expr: <AttributeRef test.adb:6:24-6:38>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "My_Float" test.adb:6:24-6:32>
-  references:    <DefiningName test.adb:5:4-5:12>
+  references:    <DefiningName "My_Float" test.adb:5:4-5:12>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Image" test.adb:6:33-6:38>
@@ -53,7 +53,7 @@ Resolving xrefs for node <ObjectDecl ["On_Qualified_Expr"] test.adb:9:4-9:52>
 *****************************************************************************
 
 Expr: <Id "String" test.adb:9:24-9:30>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:9:34-9:51>
@@ -61,11 +61,11 @@ Expr: <AttributeRef test.adb:9:34-9:51>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <QualExpr test.adb:9:34-9:45>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Float" test.adb:9:34-9:39>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:9:40-9:45>
@@ -84,19 +84,19 @@ Resolving xrefs for node <ObjectDecl ["Wide_Image"] test.adb:12:4-12:55>
 ************************************************************************
 
 Expr: <Id "Wide_String" test.adb:12:17-12:28>
-  references:    <DefiningName __standard:107:8-107:19>
+  references:    <DefiningName "Wide_String" __standard:107:8-107:19>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:12:32-12:54>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "wide_image" __standard:14:3-15:51>
   type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
   expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
 Expr: <AttributeRef test.adb:12:32-12:48>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "wide_image" __standard:14:3-15:51>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:12:32-12:37>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 Expr: <Id "Wide_Image" test.adb:12:38-12:48>
@@ -112,23 +112,23 @@ Resolving xrefs for node <ObjectDecl ["With_Subscript"] test.adb:15:4-15:58>
 ****************************************************************************
 
 Expr: <Id "String" test.adb:15:21-15:27>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:15:31-15:57>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "image" __standard:14:3-15:51>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <CallExpr test.adb:15:31-15:48>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "image" __standard:14:3-15:51>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <AttributeRef test.adb:15:31-15:42>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "image" __standard:14:3-15:51>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:15:31-15:36>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:15:37-15:42>
@@ -159,7 +159,7 @@ Resolving xrefs for node <ObjectDecl ["Slice"] test.adb:18:4-18:46>
 *******************************************************************
 
 Expr: <Id "String" test.adb:18:12-18:18>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:18:22-18:45>
@@ -171,7 +171,7 @@ Expr: <AttributeRef test.adb:18:22-18:36>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "My_Float" test.adb:18:22-18:30>
-  references:    <DefiningName test.adb:5:4-5:12>
+  references:    <DefiningName "My_Float" test.adb:5:4-5:12>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Image" test.adb:18:31-18:36>

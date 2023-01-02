@@ -5,14 +5,14 @@ Resolving xrefs for node <AssignStmt test.adb:11:13-11:24>
 **********************************************************
 
 Expr: <Id "B" test.adb:11:13-11:14>
-  references:    <DefiningName test.adb:7:7-7:8>
+  references:    <DefiningName "B" test.adb:7:7-7:8>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <RelationOp test.adb:11:18-11:23>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "I" test.adb:11:18-11:19>
-  references:    <DefiningName test.adb:10:20-10:21>
+  references:    <DefiningName "I" test.adb:10:20-10:21>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" test.adb:11:20-11:21>
@@ -28,22 +28,22 @@ Resolving xrefs for node <AssignStmt test.adb:13:13-13:26>
 **********************************************************
 
 Expr: <Id "B" test.adb:13:13-13:14>
-  references:    <DefiningName test.adb:7:7-7:8>
+  references:    <DefiningName "B" test.adb:7:7-7:8>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <RelationOp test.adb:13:18-13:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.adb:13:18-13:21>
-  references:    <DefiningName test.adb:10:20-10:21>
+  references:    <DefiningName "I" test.adb:10:20-10:21>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "E" test.adb:13:18-13:19>
-  references:    <DefiningName test.adb:10:17-10:18>
+  references:    <DefiningName "E" test.adb:10:17-10:18>
   type:          None
   expected type: None
 Expr: <Id "I" test.adb:13:20-13:21>
-  references:    <DefiningName test.adb:10:20-10:21>
+  references:    <DefiningName "I" test.adb:10:20-10:21>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" test.adb:13:22-13:23>

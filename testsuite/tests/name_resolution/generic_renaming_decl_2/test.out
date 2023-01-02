@@ -5,23 +5,23 @@ Resolving xrefs for node <GenericPackageRenamingDecl ["Test.Gen2"] test-gen2.ads
 ******************************************************************************************
 
 Expr: <DottedName test-gen2.ads:3:35-3:43>
-  references:    <DefiningName test-gen.ads:3:9-3:17>
+  references:    <DefiningName "Test.Gen" test-gen.ads:3:9-3:17>
   type:          None
   expected type: None
 Expr: <Id "Test" test-gen2.ads:3:35-3:39>
-  references:    <DefiningName test.ads:1:9-1:13>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
   type:          None
   expected type: None
 Expr: <Id "Gen" test-gen2.ads:3:40-3:43>
-  references:    <DefiningName test-gen.ads:3:9-3:17>
+  references:    <DefiningName "Test.Gen" test-gen.ads:3:9-3:17>
   type:          None
   expected type: None
 
-Resolving xrefs for node <DefiningName test-gen2.ads:3:17-3:26>
-***************************************************************
+Resolving xrefs for node <DefiningName "Test.Gen2" test-gen2.ads:3:17-3:26>
+***************************************************************************
 
 Expr: <Id "Test" test-gen2.ads:3:17-3:21>
-  references:    <DefiningName test.ads:1:9-1:13>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
   type:          None
   expected type: None
 

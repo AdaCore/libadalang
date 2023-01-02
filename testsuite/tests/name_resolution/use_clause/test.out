@@ -5,11 +5,11 @@ Resolving xrefs for node <AssignStmt testuse.adb:16:4-16:13>
 ************************************************************
 
 Expr: <Id "C" testuse.adb:16:4-16:5>
-  references:    <DefiningName testuse.adb:14:4-14:5>
+  references:    <DefiningName "C" testuse.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["Float"] testuse.adb:3:4-3:45>
   expected type: None
 Expr: <Id "Foo" testuse.adb:16:9-16:12>
-  references:    <DefiningName testuse.adb:9:16-9:19>
+  references:    <DefiningName "Foo" testuse.adb:9:16-9:19>
   type:          <ConcreteTypeDecl ["Float"] testuse.adb:3:4-3:45>
   expected type: <ConcreteTypeDecl ["Float"] testuse.adb:3:4-3:45>
 

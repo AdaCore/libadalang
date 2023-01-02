@@ -9,7 +9,7 @@ Resolving xrefs for node <SubpSpec test_result_attr.adb:2:4-2:34>
 *****************************************************************
 
 Expr: <Id "Integer" test_result_attr.adb:2:27-2:34>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -28,7 +28,7 @@ Expr: <AttributeRef test_result_attr.adb:3:20-3:33>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Barize" test_result_attr.adb:3:20-3:26>
-  references:    <DefiningName test_result_attr.adb:2:13-2:19>
+  references:    <DefiningName "Barize" test_result_attr.adb:2:13-2:19>
   type:          None
   expected type: None
 Expr: <Id "Result" test_result_attr.adb:3:27-3:33>
@@ -48,7 +48,7 @@ Resolving xrefs for node <SubpSpec test_result_attr.adb:5:4-5:34>
 *****************************************************************
 
 Expr: <Id "Integer" test_result_attr.adb:5:27-5:34>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -64,11 +64,11 @@ Resolving xrefs for node <EndName test_result_attr.adb:8:8-8:14>
 ****************************************************************
 
 Expr: <EndName test_result_attr.adb:8:8-8:14>
-  references:    <DefiningName test_result_attr.adb:5:13-5:19>
+  references:    <DefiningName "Barize" test_result_attr.adb:5:13-5:19>
   type:          None
   expected type: None
 Expr: <Id "Barize" test_result_attr.adb:8:8-8:14>
-  references:    <DefiningName test_result_attr.adb:5:13-5:19>
+  references:    <DefiningName "Barize" test_result_attr.adb:5:13-5:19>
   type:          None
   expected type: None
 
@@ -76,11 +76,11 @@ Resolving xrefs for node <EndName test_result_attr.adb:10:5-10:21>
 ******************************************************************
 
 Expr: <EndName test_result_attr.adb:10:5-10:21>
-  references:    <DefiningName test_result_attr.adb:1:11-1:27>
+  references:    <DefiningName "Test_Result_Attr" test_result_attr.adb:1:11-1:27>
   type:          None
   expected type: None
 Expr: <Id "Test_Result_Attr" test_result_attr.adb:10:5-10:21>
-  references:    <DefiningName test_result_attr.adb:1:11-1:27>
+  references:    <DefiningName "Test_Result_Attr" test_result_attr.adb:1:11-1:27>
   type:          None
   expected type: None
 

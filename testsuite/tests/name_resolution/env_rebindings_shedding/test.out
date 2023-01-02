@@ -5,23 +5,23 @@ Resolving xrefs for node <AssignStmt main.adb:6:4-6:37>
 *******************************************************
 
 Expr: <DottedName main.adb:6:4-6:31>
-  references:    <| DefiningName bar.ads:8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
+  references:    <| DefiningName "Count" bar.ads:8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <DottedName main.adb:6:4-6:25>
-  references:    <| DefiningName foo.ads:8:12-8:24 [main.adb:4:4] |>
+  references:    <| DefiningName "Bar_Gen_Inst" foo.ads:8:12-8:24 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "Foo_Inst" main.adb:6:4-6:12>
-  references:    <DefiningName main.adb:4:12-4:20>
+  references:    <DefiningName "Foo_Inst" main.adb:4:12-4:20>
   type:          None
   expected type: None
 Expr: <Id "Bar_Gen_Inst" main.adb:6:13-6:25>
-  references:    <| DefiningName foo.ads:8:12-8:24 [main.adb:4:4] |>
+  references:    <| DefiningName "Bar_Gen_Inst" foo.ads:8:12-8:24 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "Count" main.adb:6:26-6:31>
-  references:    <| DefiningName bar.ads:8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
+  references:    <| DefiningName "Count" bar.ads:8:7-8:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Int main.adb:6:35-6:36>

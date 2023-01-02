@@ -5,7 +5,7 @@ Resolving xrefs for node <CallStmt test.adb:6:7-6:16>
 *****************************************************
 
 Expr: <Id "New_Line" test.adb:6:7-6:15>
-  references:    <DefiningName test.adb:2:14-2:22>
+  references:    <DefiningName "New_Line" test.adb:2:14-2:22>
   type:          None
   expected type: None
 
@@ -13,23 +13,23 @@ Resolving xrefs for node <IfStmt test.adb:9:7-11:14>
 ****************************************************
 
 Expr: <DottedName test.adb:9:10-9:25>
-  references:    <DefiningName test.adb:4:24-4:25>
+  references:    <DefiningName "B" test.adb:4:24-4:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.adb:9:10-9:23>
-  references:    <DefiningName test.adb:4:14-4:22>
+  references:    <DefiningName "New_Line" test.adb:4:14-4:22>
   type:          None
   expected type: None
 Expr: <Id "Test" test.adb:9:10-9:14>
-  references:    <DefiningName test.adb:1:11-1:15>
+  references:    <DefiningName "Test" test.adb:1:11-1:15>
   type:          None
   expected type: None
 Expr: <Id "New_Line" test.adb:9:15-9:23>
-  references:    <DefiningName test.adb:4:14-4:22>
+  references:    <DefiningName "New_Line" test.adb:4:14-4:22>
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:9:24-9:25>
-  references:    <DefiningName test.adb:4:24-4:25>
+  references:    <DefiningName "B" test.adb:4:24-4:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 

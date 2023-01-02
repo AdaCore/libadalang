@@ -5,19 +5,19 @@ Resolving xrefs for node <CallStmt test.adb:26:4-26:21>
 *******************************************************
 
 Expr: <CallExpr test.adb:26:4-26:20>
-  references:    <| DefiningName test.adb:21:17-21:20 [test.adb:24:4] |>
+  references:    <| DefiningName "Foo" test.adb:21:17-21:20 [test.adb:24:4] |>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:26:4-26:15>
-  references:    <| DefiningName test.adb:21:17-21:20 [test.adb:24:4] |>
+  references:    <| DefiningName "Foo" test.adb:21:17-21:20 [test.adb:24:4] |>
   type:          None
   expected type: None
 Expr: <Id "Pkg_B_I" test.adb:26:4-26:11>
-  references:    <DefiningName test.adb:24:12-24:19>
+  references:    <DefiningName "Pkg_B_I" test.adb:24:12-24:19>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:26:12-26:15>
-  references:    <| DefiningName test.adb:21:17-21:20 [test.adb:24:4] |>
+  references:    <| DefiningName "Foo" test.adb:21:17-21:20 [test.adb:24:4] |>
   type:          None
   expected type: None
 Expr: <Int test.adb:26:17-26:19>

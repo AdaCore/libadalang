@@ -5,7 +5,7 @@ Resolving xrefs for node <RaiseStmt testexcmsg.adb:3:4-3:61>
 ************************************************************
 
 Expr: <Id "Constraint_Error" testexcmsg.adb:3:10-3:26>
-  references:    <DefiningName __standard:123:3-123:19>
+  references:    <DefiningName "Constraint_Error" __standard:123:3-123:19>
   type:          None
   expected type: None
 Expr: <ConcatOp testexcmsg.adb:3:32-3:60>
@@ -23,15 +23,15 @@ Expr: <OpConcat "&" testexcmsg.adb:3:40-3:41>
   type:          None
   expected type: None
 Expr: <CallExpr testexcmsg.adb:3:42-3:60>
-  references:    <SyntheticDefiningName __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <AttributeRef testexcmsg.adb:3:42-3:55>
-  references:    <SyntheticDefiningName __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
   type:          None
   expected type: None
 Expr: <Id "Integer" testexcmsg.adb:3:42-3:49>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "Image" testexcmsg.adb:3:50-3:55>

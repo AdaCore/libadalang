@@ -9,11 +9,11 @@ Resolving xrefs for node <GenericPackageInstantiation ["P_Inst"] test.adb:9:12-9
 ************************************************************************************
 
 Expr: <Id "Pkg" test.adb:9:34-9:37>
-  references:    <DefiningName test.adb:5:12-5:15>
+  references:    <DefiningName "Pkg" test.adb:5:12-5:15>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:9:39-9:46>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <BoxExpr test.adb:9:48-9:50>
@@ -24,11 +24,11 @@ Resolving xrefs for node <EndName test.adb:11:8-11:11>
 ******************************************************
 
 Expr: <EndName test.adb:11:8-11:11>
-  references:    <DefiningName test.adb:10:12-10:15>
+  references:    <DefiningName "Foo" test.adb:10:12-10:15>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:11:8-11:11>
-  references:    <DefiningName test.adb:10:12-10:15>
+  references:    <DefiningName "Foo" test.adb:10:12-10:15>
   type:          None
   expected type: None
 

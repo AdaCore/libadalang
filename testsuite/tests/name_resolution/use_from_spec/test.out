@@ -5,19 +5,19 @@ Resolving xrefs for node <ObjectDecl ["C_I"] foo.adb:5:7-5:28>
 **************************************************************
 
 Expr: <Id "Integer" foo.adb:5:13-5:20>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <DottedName foo.adb:5:24-5:27>
-  references:    <DefiningName types.ads:3:7-3:8>
+  references:    <DefiningName "I" types.ads:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "C" foo.adb:5:24-5:25>
-  references:    <DefiningName foo.adb:4:22-4:23>
+  references:    <DefiningName "C" foo.adb:4:22-4:23>
   type:          <ConcreteTypeDecl ["Content"] types.ads:2:4-4:15>
   expected type: <ConcreteTypeDecl ["Content"] types.ads:2:4-4:15>
 Expr: <Id "I" foo.adb:5:26-5:27>
-  references:    <DefiningName types.ads:3:7-3:8>
+  references:    <DefiningName "I" types.ads:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

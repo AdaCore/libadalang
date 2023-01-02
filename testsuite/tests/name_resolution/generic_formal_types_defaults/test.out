@@ -8,7 +8,7 @@ Expr: <BoxExpr set.adb:4:32-4:34>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "Natural" set.adb:4:42-4:49>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 
@@ -16,19 +16,19 @@ Resolving xrefs for node <GenericPackageInstantiation ["New_Pck1"] set.adb:10:4-
 **************************************************************************************
 
 Expr: <Id "Pck" set.adb:10:28-10:31>
-  references:    <DefiningName set.adb:7:12-7:15>
+  references:    <DefiningName "Pck" set.adb:7:12-7:15>
   type:          None
   expected type: None
 Expr: <Id "Item_Type" set.adb:10:33-10:42>
-  references:    <DefiningName set.adb:3:12-3:21>
+  references:    <DefiningName "Item_Type" set.adb:3:12-3:21>
   type:          None
   expected type: None
 Expr: <Id "Integer" set.adb:10:46-10:53>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "I" set.adb:10:55-10:56>
-  references:    <DefiningName set.adb:6:7-6:8>
+  references:    <DefiningName "I" set.adb:6:7-6:8>
   type:          None
   expected type: None
 Expr: <Int set.adb:10:60-10:61>
@@ -40,15 +40,15 @@ Resolving xrefs for node <GenericPackageInstantiation ["New_Pck2"] set.adb:13:4-
 **************************************************************************************
 
 Expr: <Id "Pck" set.adb:13:28-13:31>
-  references:    <DefiningName set.adb:7:12-7:15>
+  references:    <DefiningName "Pck" set.adb:7:12-7:15>
   type:          None
   expected type: None
 Expr: <Id "Integer" set.adb:13:33-13:40>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "Integer" set.adb:13:42-13:49>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <UnOp set.adb:13:51-13:53>
@@ -71,19 +71,19 @@ Resolving xrefs for node <GenericPackageInstantiation ["Int_Lists"] test1.adb:64
 *****************************************************************************************
 
 Expr: <Id "Lists" test1.adb:64:29-64:34>
-  references:    <DefiningName test1.adb:10:12-10:17>
+  references:    <DefiningName "Lists" test1.adb:10:12-10:17>
   type:          None
   expected type: None
 Expr: <Id "Integer" test1.adb:64:36-64:43>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "Positive" test1.adb:64:45-64:53>
-  references:    <DefiningName __standard:6:11-6:19>
+  references:    <DefiningName "Positive" __standard:6:11-6:19>
   type:          None
   expected type: None
 Expr: <Str ""="" test1.adb:64:55-64:58>
-  references:    <SyntheticDefiningName __standard:4:19-4:53>
+  references:    <SyntheticDefiningName ""="" __standard:4:19-4:53>
   type:          None
   expected type: None
 Expr: <Int test1.adb:64:60-64:62>
@@ -95,23 +95,23 @@ Resolving xrefs for node <GenericPackageInstantiation ["Int_Lists2"] test1.adb:6
 ******************************************************************************************
 
 Expr: <Id "Lists" test1.adb:66:30-66:35>
-  references:    <DefiningName test1.adb:10:12-10:17>
+  references:    <DefiningName "Lists" test1.adb:10:12-10:17>
   type:          None
   expected type: None
 Expr: <Id "Integer" test1.adb:66:37-66:44>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Str ""="" test1.adb:66:46-66:49>
-  references:    <DefiningName test1.adb:8:21-8:24>
+  references:    <DefiningName ""="" test1.adb:8:21-8:24>
   type:          None
   expected type: None
 Expr: <Str ""="" test1.adb:66:53-66:56>
-  references:    <SyntheticDefiningName __standard:4:19-4:53>
+  references:    <SyntheticDefiningName ""="" __standard:4:19-4:53>
   type:          None
   expected type: None
 Expr: <Id "I" test1.adb:66:58-66:59>
-  references:    <DefiningName test1.adb:9:7-9:8>
+  references:    <DefiningName "I" test1.adb:9:7-9:8>
   type:          None
   expected type: None
 Expr: <Int test1.adb:66:63-66:65>
@@ -127,15 +127,15 @@ Resolving xrefs for node <GenericSubpInstantiation ["Inst1"] test4.adb:14:4-14:4
 **********************************************************************************
 
 Expr: <Id "Check" test4.adb:14:27-14:32>
-  references:    <DefiningName test4.adb:8:14-8:19>
+  references:    <DefiningName "Check" test4.adb:8:14-8:19>
   type:          None
   expected type: None
 Expr: <Id "D" test4.adb:14:34-14:35>
-  references:    <DefiningName test4.adb:7:7-7:8>
+  references:    <DefiningName "D" test4.adb:7:7-7:8>
   type:          None
   expected type: None
 Expr: <Id "Monday" test4.adb:14:39-14:45>
-  references:    <DefiningName test4.adb:4:17-4:23>
+  references:    <DefiningName "Monday" test4.adb:4:17-4:23>
   type:          <ConcreteTypeDecl ["Day"] test4.adb:4:4-4:50>
   expected type: <ConcreteTypeDecl ["Day"] test4.adb:4:4-4:50>
 
@@ -143,11 +143,11 @@ Resolving xrefs for node <GenericSubpInstantiation ["Inst2"] test4.adb:16:4-16:4
 **********************************************************************************
 
 Expr: <Id "Check" test4.adb:16:27-16:32>
-  references:    <DefiningName test4.adb:8:14-8:19>
+  references:    <DefiningName "Check" test4.adb:8:14-8:19>
   type:          None
   expected type: None
 Expr: <Id "Positive" test4.adb:16:34-16:42>
-  references:    <DefiningName __standard:6:11-6:19>
+  references:    <DefiningName "Positive" __standard:6:11-6:19>
   type:          None
   expected type: None
 Expr: <Int test4.adb:16:44-16:45>

@@ -8,7 +8,7 @@ Resolving xrefs for node <AssignStmt test.adb:9:4-9:52>
 *******************************************************
 
 Expr: <Id "A" test.adb:9:4-9:5>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "A" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ParenExpr test.adb:9:9-9:51>
@@ -18,23 +18,23 @@ Expr: <IfExpr test.adb:9:10-9:50>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Foo" test.adb:9:13-9:16>
-  references:    <DefiningName test.adb:5:13-5:16>
+  references:    <DefiningName "Foo" test.adb:5:13-5:16>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:9:22-9:25>
-  references:    <DefiningName test.adb:4:13-4:16>
+  references:    <DefiningName "Foo" test.adb:4:13-4:16>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "True" test.adb:9:32-9:36>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "B" test.adb:9:42-9:43>
-  references:    <DefiningName test.adb:2:7-2:8>
+  references:    <DefiningName "B" test.adb:2:7-2:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "C" test.adb:9:49-9:50>
-  references:    <DefiningName test.adb:2:10-2:11>
+  references:    <DefiningName "C" test.adb:2:10-2:11>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -45,7 +45,7 @@ Resolving xrefs for node <AssignStmt test.adb:13:4-13:48>
 *********************************************************
 
 Expr: <Id "A" test.adb:13:4-13:5>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "A" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ParenExpr test.adb:13:9-13:47>
@@ -61,19 +61,19 @@ Expr: <IfExpr test.adb:13:14-13:29>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:13:17-13:20>
-  references:    <DefiningName test.adb:5:13-5:16>
+  references:    <DefiningName "Foo" test.adb:5:13-5:16>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:13:26-13:29>
-  references:    <DefiningName test.adb:5:13-5:16>
+  references:    <DefiningName "Foo" test.adb:5:13-5:16>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:13:36-13:39>
-  references:    <DefiningName test.adb:4:13-4:16>
+  references:    <DefiningName "Foo" test.adb:4:13-4:16>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" test.adb:13:45-13:46>
-  references:    <DefiningName test.adb:2:7-2:8>
+  references:    <DefiningName "B" test.adb:2:7-2:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

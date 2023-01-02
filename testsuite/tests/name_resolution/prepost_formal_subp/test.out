@@ -5,7 +5,7 @@ Resolving xrefs for node <SubpSpec pp_formal.ads:2:9-2:58>
 **********************************************************
 
 Expr: <Id "Integer" pp_formal.ads:2:51-2:58>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -13,7 +13,7 @@ Resolving xrefs for node <ParamSpec ["X", "Y"] pp_formal.ads:2:21-2:42>
 ***********************************************************************
 
 Expr: <Id "Integer" pp_formal.ads:2:35-2:42>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -31,7 +31,7 @@ Expr: <BinOp pp_formal.ads:3:19-3:26>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" pp_formal.ads:3:19-3:20>
-  references:    <DefiningName pp_formal.ads:2:21-2:22>
+  references:    <DefiningName "X" pp_formal.ads:2:21-2:22>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" pp_formal.ads:3:21-3:24>
@@ -62,7 +62,7 @@ Expr: <RelationOp pp_formal.ads:3:40-3:45>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" pp_formal.ads:3:40-3:41>
-  references:    <DefiningName pp_formal.ads:2:21-2:22>
+  references:    <DefiningName "X" pp_formal.ads:2:21-2:22>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpGt ">" pp_formal.ads:3:42-3:43>
@@ -70,7 +70,7 @@ Expr: <OpGt ">" pp_formal.ads:3:42-3:43>
   type:          None
   expected type: None
 Expr: <Id "Y" pp_formal.ads:3:44-3:45>
-  references:    <DefiningName pp_formal.ads:2:24-2:25>
+  references:    <DefiningName "Y" pp_formal.ads:2:24-2:25>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

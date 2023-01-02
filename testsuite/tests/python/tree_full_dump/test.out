@@ -28,7 +28,7 @@ CompilationUnit foo.adb:1:1-6:9
 |  |  |  |subp_kind:
 |  |  |  |  SubpKindProcedure foo.adb:3:1-3:10
 |  |  |  |subp_name:
-|  |  |  |  DefiningName foo.adb:3:11-3:14
+|  |  |  |  DefiningName "Foo" foo.adb:3:11-3:14
 |  |  |  |  |name:
 |  |  |  |  |  Id "Foo" foo.adb:3:11-3:14: Foo
 |  |  |  |subp_params: None

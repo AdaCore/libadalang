@@ -5,27 +5,27 @@ Resolving xrefs for node <CallStmt main.adb:10:4-10:29>
 *******************************************************
 
 Expr: <CallExpr main.adb:10:4-10:28>
-  references:    <| DefiningName vector.ads:7:14-7:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:7:14-7:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <DottedName main.adb:10:4-10:21>
-  references:    <| DefiningName vector.ads:7:14-7:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:7:14-7:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "Int_Vector" main.adb:10:4-10:14>
-  references:    <DefiningName main.adb:4:12-4:22>
+  references:    <DefiningName "Int_Vector" main.adb:4:12-4:22>
   type:          None
   expected type: None
 Expr: <Id "Append" main.adb:10:15-10:21>
-  references:    <| DefiningName vector.ads:7:14-7:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:7:14-7:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "V" main.adb:10:23-10:24>
-  references:    <DefiningName main.adb:7:4-7:5>
+  references:    <DefiningName "V" main.adb:7:4-7:5>
   type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
 Expr: <Id "B" main.adb:10:26-10:27>
-  references:    <DefiningName main.adb:8:4-8:5>
+  references:    <DefiningName "B" main.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

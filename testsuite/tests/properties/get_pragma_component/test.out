@@ -8,4 +8,4 @@ Working on node <PragmaNode test.adb:5:7-5:25>
 ==============================================
 
 Eval 'node.p_associated_entities'
-Result: [<DefiningName test.adb:3:7-3:8>]
+Result: [<DefiningName "X" test.adb:3:7-3:8>]

@@ -5,11 +5,11 @@ Resolving xrefs for node <AssignStmt main.adb:10:4-10:12>
 *********************************************************
 
 Expr: <Id "V" main.adb:10:4-10:5>
-  references:    <DefiningName main.adb:7:4-7:5>
+  references:    <DefiningName "V" main.adb:7:4-7:5>
   type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:4:4] |>
   expected type: None
 Expr: <Id "V2" main.adb:10:9-10:11>
-  references:    <DefiningName main.adb:7:7-7:9>
+  references:    <DefiningName "V2" main.adb:7:7-7:9>
   type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:4:4] |>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:4:4] |>
 
@@ -17,11 +17,11 @@ Resolving xrefs for node <AssignStmt main.adb:13:4-13:13>
 *********************************************************
 
 Expr: <Id "V3" main.adb:13:4-13:6>
-  references:    <DefiningName main.adb:8:4-8:6>
+  references:    <DefiningName "V3" main.adb:8:4-8:6>
   type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:5:4] |>
   expected type: None
 Expr: <Id "V4" main.adb:13:10-13:12>
-  references:    <DefiningName main.adb:8:8-8:10>
+  references:    <DefiningName "V4" main.adb:8:8-8:10>
   type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:5:4] |>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:27 [main.adb:5:4] |>
 

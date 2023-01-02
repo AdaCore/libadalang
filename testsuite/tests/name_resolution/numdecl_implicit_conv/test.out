@@ -8,11 +8,11 @@ Expr: <RelationOp testcst.adb:5:7-5:15>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "B" testcst.adb:5:7-5:8>
-  references:    <DefiningName testcst.adb:3:4-3:5>
+  references:    <DefiningName "B" testcst.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpEq "=" testcst.adb:5:9-5:10>
-  references:    <SyntheticDefiningName __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""="" __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <Real testcst.adb:5:11-5:15>

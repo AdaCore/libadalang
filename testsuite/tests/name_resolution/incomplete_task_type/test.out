@@ -5,11 +5,11 @@ Resolving xrefs for node <ObjectDecl ["TS"] test.adb:8:10-8:22>
 ***************************************************************
 
 Expr: <Id "P" test.adb:8:15-8:16>
-  references:    <DefiningName test.adb:4:12-4:13>
+  references:    <DefiningName "P" test.adb:4:12-4:13>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:8:20-8:21>
-  references:    <DefiningName test.adb:7:20-7:21>
+  references:    <DefiningName "X" test.adb:7:20-7:21>
   type:          <ConcreteTypeDecl ["P"] test.adb:4:7-4:26>
   expected type: <ConcreteTypeDecl ["P"] test.adb:4:7-4:26>
 

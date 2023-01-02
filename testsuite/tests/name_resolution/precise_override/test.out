@@ -5,15 +5,15 @@ Resolving xrefs for node <CallStmt test.adb:14:4-14:10>
 *******************************************************
 
 Expr: <DottedName test.adb:14:4-14:9>
-  references:    <DefiningName test.adb:9:28-9:31>
+  references:    <DefiningName "Foo" test.adb:9:28-9:31>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:14:4-14:5>
-  references:    <DefiningName test.adb:12:4-12:5>
+  references:    <DefiningName "X" test.adb:12:4-12:5>
   type:          <ConcreteTypeDecl ["U"] test.adb:8:7-8:42>
   expected type: None
 Expr: <Id "Foo" test.adb:14:6-14:9>
-  references:    <DefiningName test.adb:9:28-9:31>
+  references:    <DefiningName "Foo" test.adb:9:28-9:31>
   type:          None
   expected type: None
 

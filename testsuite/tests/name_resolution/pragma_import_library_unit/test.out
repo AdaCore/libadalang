@@ -13,15 +13,15 @@ Expr: <Id "Java" foo-bar.ads:3:20-3:24>
   type:          None
   expected type: None
 Expr: <DottedName foo-bar.ads:3:26-3:33>
-  references:    <DefiningName foo-bar.ads:1:9-1:16>
+  references:    <DefiningName "Foo.Bar" foo-bar.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Foo" foo-bar.ads:3:26-3:29>
-  references:    <DefiningName foo.ads:1:9-1:12>
+  references:    <DefiningName "Foo" foo.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Bar" foo-bar.ads:3:30-3:33>
-  references:    <DefiningName foo-bar.ads:1:9-1:16>
+  references:    <DefiningName "Foo.Bar" foo-bar.ads:1:9-1:16>
   type:          None
   expected type: None
 

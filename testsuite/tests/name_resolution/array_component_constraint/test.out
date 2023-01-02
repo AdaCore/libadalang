@@ -5,7 +5,7 @@ Resolving xrefs for node <SubpSpec pack.ads:2:4-2:29>
 *****************************************************
 
 Expr: <Id "Natural" pack.ads:2:22-2:29>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 
@@ -17,11 +17,11 @@ Resolving xrefs for node <ArrayTypeDef pack.ads:4:17-4:52>
 **********************************************************
 
 Expr: <Id "Natural" pack.ads:4:24-4:31>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <Id "Integer" pack.ads:4:45-4:52>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -33,7 +33,7 @@ Resolving xrefs for node <DiscriminantSpec ["Max_Size"] pack.ads:5:23-5:41>
 ***************************************************************************
 
 Expr: <Id "Natural" pack.ads:5:34-5:41>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 
@@ -41,7 +41,7 @@ Resolving xrefs for node <ComponentDecl ["Length"] pack.ads:6:7-6:29>
 *********************************************************************
 
 Expr: <Id "Natural" pack.ads:6:16-6:23>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <Int pack.ads:6:27-6:28>
@@ -53,7 +53,7 @@ Resolving xrefs for node <ComponentDecl ["Objs"] pack.ads:7:7-7:37>
 *******************************************************************
 
 Expr: <Id "Ints" pack.ads:7:16-7:20>
-  references:    <DefiningName pack.ads:4:9-4:13>
+  references:    <DefiningName "Ints" pack.ads:4:9-4:13>
   type:          None
   expected type: None
 Expr: <BinOp pack.ads:7:22-7:35>
@@ -68,7 +68,7 @@ Expr: <OpDoubleDot ".." pack.ads:7:24-7:26>
   type:          None
   expected type: None
 Expr: <Id "Max_Size" pack.ads:7:27-7:35>
-  references:    <DefiningName pack.ads:5:23-5:31>
+  references:    <DefiningName "Max_Size" pack.ads:5:23-5:31>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -95,11 +95,11 @@ Expr: <Int pack.ads:10:37-10:38>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Bounded_Ints" pack.ads:10:43-10:55>
-  references:    <DefiningName pack.ads:5:9-5:21>
+  references:    <DefiningName "Bounded_Ints" pack.ads:5:9-5:21>
   type:          None
   expected type: None
 Expr: <Id "F" pack.ads:10:57-10:58>
-  references:    <DefiningName pack.ads:2:13-2:14>
+  references:    <DefiningName "F" pack.ads:2:13-2:14>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 
@@ -107,11 +107,11 @@ Resolving xrefs for node <EndName pack.ads:11:5-11:9>
 *****************************************************
 
 Expr: <EndName pack.ads:11:5-11:9>
-  references:    <DefiningName pack.ads:1:9-1:13>
+  references:    <DefiningName "Pack" pack.ads:1:9-1:13>
   type:          None
   expected type: None
 Expr: <Id "Pack" pack.ads:11:5-11:9>
-  references:    <DefiningName pack.ads:1:9-1:13>
+  references:    <DefiningName "Pack" pack.ads:1:9-1:13>
   type:          None
   expected type: None
 

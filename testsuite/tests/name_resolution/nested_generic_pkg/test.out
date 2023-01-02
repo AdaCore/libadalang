@@ -5,23 +5,23 @@ Resolving xrefs for node <AssignStmt main.adb:9:4-9:29>
 *******************************************************
 
 Expr: <Id "F" main.adb:9:4-9:5>
-  references:    <DefiningName main.adb:7:4-7:5>
+  references:    <DefiningName "F" main.adb:7:4-7:5>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <CallExpr main.adb:9:9-9:28>
-  references:    <| DefiningName a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
+  references:    <| DefiningName "Convert" a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
 Expr: <DottedName main.adb:9:9-9:23>
-  references:    <| DefiningName a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
+  references:    <| DefiningName "Convert" a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "B_Inst" main.adb:9:9-9:15>
-  references:    <DefiningName main.adb:5:12-5:18>
+  references:    <DefiningName "B_Inst" main.adb:5:12-5:18>
   type:          None
   expected type: None
 Expr: <Id "Convert" main.adb:9:16-9:23>
-  references:    <| DefiningName a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
+  references:    <| DefiningName "Convert" a.ads:7:16-7:23 [main.adb:4:4, main.adb:5:4] |>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Int main.adb:9:25-9:27>

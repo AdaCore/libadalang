@@ -12,7 +12,7 @@ Resolving xrefs for node <ParamSpec ["X"] test.adb:8:19-8:25>
 *************************************************************
 
 Expr: <Id "Foo" test.adb:8:22-8:25>
-  references:    <DefiningName test.adb:3:12-3:15>
+  references:    <DefiningName "Foo" test.adb:3:12-3:15>
   type:          None
   expected type: None
 

@@ -10,7 +10,7 @@ Resolving xrefs for node <UsePackageClause testuse.adb:15:7-15:13>
 ******************************************************************
 
 Expr: <Id "B" testuse.adb:15:11-15:12>
-  references:    <DefiningName testuse.adb:8:12-8:13>
+  references:    <DefiningName "B" testuse.adb:8:12-8:13>
   type:          None
   expected type: None
 

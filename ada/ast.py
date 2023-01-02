@@ -15948,6 +15948,8 @@ class DefiningName(Name):
     """
     Name that defines an entity (:rmlink:`3.1`).
     """
+    annotations = Annotations(custom_short_image=True)
+
     name = Field(type=T.Name)
 
     parent_scope = Property(Self.name.parent_scope)

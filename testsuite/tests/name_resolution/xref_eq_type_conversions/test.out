@@ -5,19 +5,19 @@ Resolving xrefs for node <AssignStmt type_conv.adb:6:4-6:19>
 ************************************************************
 
 Expr: <Id "P" type_conv.adb:6:4-6:5>
-  references:    <DefiningName type_conv.adb:3:4-3:5>
+  references:    <DefiningName "P" type_conv.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["Pouet"] type_conv.adb:2:4-2:33>
   expected type: None
 Expr: <CallExpr type_conv.adb:6:9-6:18>
-  references:    <DefiningName type_conv.adb:2:9-2:14>
+  references:    <DefiningName "Pouet" type_conv.adb:2:9-2:14>
   type:          <ConcreteTypeDecl ["Pouet"] type_conv.adb:2:4-2:33>
   expected type: <ConcreteTypeDecl ["Pouet"] type_conv.adb:2:4-2:33>
 Expr: <Id "Pouet" type_conv.adb:6:9-6:14>
-  references:    <DefiningName type_conv.adb:2:9-2:14>
+  references:    <DefiningName "Pouet" type_conv.adb:2:9-2:14>
   type:          <ConcreteTypeDecl ["Pouet"] type_conv.adb:2:4-2:33>
   expected type: None
 Expr: <Id "Q" type_conv.adb:6:16-6:17>
-  references:    <DefiningName type_conv.adb:4:4-4:5>
+  references:    <DefiningName "Q" type_conv.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 

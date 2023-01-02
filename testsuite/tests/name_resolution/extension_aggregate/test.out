@@ -5,14 +5,14 @@ Resolving xrefs for node <ObjectDecl ["I1"] ea.adb:27:4-27:44>
 **************************************************************
 
 Expr: <Id "T1" ea.adb:27:9-27:11>
-  references:    <DefiningName ea.adb:2:9-2:11>
+  references:    <DefiningName "T1" ea.adb:2:9-2:11>
   type:          None
   expected type: None
 Expr: <Aggregate ea.adb:27:15-27:43>
   type:          <ConcreteTypeDecl ["T1"] ea.adb:2:4-13:18>
   expected type: <ConcreteTypeDecl ["T1"] ea.adb:2:4-13:18>
 Expr: <Id "True" ea.adb:27:16-27:20>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int ea.adb:27:22-27:23>
@@ -40,14 +40,14 @@ Resolving xrefs for node <ObjectDecl ["I2"] ea.adb:30:4-30:30>
 **************************************************************
 
 Expr: <Id "T2" ea.adb:30:9-30:11>
-  references:    <DefiningName ea.adb:15:9-15:11>
+  references:    <DefiningName "T2" ea.adb:15:9-15:11>
   type:          None
   expected type: None
 Expr: <Aggregate ea.adb:30:15-30:29>
   type:          <ConcreteTypeDecl ["T2"] ea.adb:15:4-17:15>
   expected type: <ConcreteTypeDecl ["T2"] ea.adb:15:4-17:15>
 Expr: <Id "I1" ea.adb:30:16-30:18>
-  references:    <DefiningName ea.adb:27:4-27:6>
+  references:    <DefiningName "I1" ea.adb:27:4-27:6>
   type:          <ConcreteTypeDecl ["T1"] ea.adb:2:4-13:18>
   expected type: None
 Expr: <Real ea.adb:30:24-30:28>
@@ -59,14 +59,14 @@ Resolving xrefs for node <ObjectDecl ["I2_2"] ea.adb:33:4-33:52>
 ****************************************************************
 
 Expr: <Id "T2" ea.adb:33:11-33:13>
-  references:    <DefiningName ea.adb:15:9-15:11>
+  references:    <DefiningName "T2" ea.adb:15:9-15:11>
   type:          None
   expected type: None
 Expr: <Aggregate ea.adb:33:17-33:51>
   type:          <ConcreteTypeDecl ["T2"] ea.adb:15:4-17:15>
   expected type: <ConcreteTypeDecl ["T2"] ea.adb:15:4-17:15>
 Expr: <Id "True" ea.adb:33:18-33:22>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Int ea.adb:33:24-33:25>
@@ -98,14 +98,14 @@ Resolving xrefs for node <ObjectDecl ["I3"] ea.adb:36:4-36:38>
 **************************************************************
 
 Expr: <Id "T3" ea.adb:36:9-36:11>
-  references:    <DefiningName ea.adb:19:9-19:11>
+  references:    <DefiningName "T3" ea.adb:19:9-19:11>
   type:          None
   expected type: None
 Expr: <Aggregate ea.adb:36:15-36:37>
   type:          <ConcreteTypeDecl ["T3"] ea.adb:19:4-21:15>
   expected type: <ConcreteTypeDecl ["T3"] ea.adb:19:4-21:15>
 Expr: <Id "I1" ea.adb:36:16-36:18>
-  references:    <DefiningName ea.adb:27:4-27:6>
+  references:    <DefiningName "I1" ea.adb:27:4-27:6>
   type:          <ConcreteTypeDecl ["T1"] ea.adb:2:4-13:18>
   expected type: None
 Expr: <Real ea.adb:36:24-36:28>
@@ -121,18 +121,18 @@ Resolving xrefs for node <ObjectDecl ["I4"] ea.adb:39:4-39:50>
 **************************************************************
 
 Expr: <Id "T3" ea.adb:39:9-39:11>
-  references:    <DefiningName ea.adb:19:9-19:11>
+  references:    <DefiningName "T3" ea.adb:19:9-19:11>
   type:          None
   expected type: None
 Expr: <Aggregate ea.adb:39:15-39:49>
   type:          <ConcreteTypeDecl ["T3"] ea.adb:19:4-21:15>
   expected type: <ConcreteTypeDecl ["T3"] ea.adb:19:4-21:15>
 Expr: <Id "I1" ea.adb:39:16-39:18>
-  references:    <DefiningName ea.adb:27:4-27:6>
+  references:    <DefiningName "I1" ea.adb:27:4-27:6>
   type:          <ConcreteTypeDecl ["T1"] ea.adb:2:4-13:18>
   expected type: None
 Expr: <Id "C6" ea.adb:39:24-39:26>
-  references:    <DefiningName ea.adb:20:7-20:9>
+  references:    <DefiningName "C6" ea.adb:20:7-20:9>
   type:          None
   expected type: None
 Expr: <Real ea.adb:39:30-39:34>
@@ -140,7 +140,7 @@ Expr: <Real ea.adb:39:30-39:34>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Long_Float"] __standard:16:3-17:73>
 Expr: <Id "C5" ea.adb:39:36-39:38>
-  references:    <DefiningName ea.adb:16:7-16:9>
+  references:    <DefiningName "C5" ea.adb:16:7-16:9>
   type:          None
   expected type: None
 Expr: <Real ea.adb:39:42-39:48>
@@ -152,14 +152,14 @@ Resolving xrefs for node <ObjectDecl ["I5"] ea.adb:42:4-42:44>
 **************************************************************
 
 Expr: <Id "T4" ea.adb:42:9-42:11>
-  references:    <DefiningName ea.adb:23:9-23:11>
+  references:    <DefiningName "T4" ea.adb:23:9-23:11>
   type:          None
   expected type: None
 Expr: <Aggregate ea.adb:42:15-42:43>
   type:          <ConcreteTypeDecl ["T4"] ea.adb:23:4-25:15>
   expected type: <ConcreteTypeDecl ["T4"] ea.adb:23:4-25:15>
 Expr: <Id "I1" ea.adb:42:16-42:18>
-  references:    <DefiningName ea.adb:27:4-27:6>
+  references:    <DefiningName "I1" ea.adb:27:4-27:6>
   type:          <ConcreteTypeDecl ["T1"] ea.adb:2:4-13:18>
   expected type: None
 Expr: <Real ea.adb:42:24-42:28>
@@ -171,7 +171,7 @@ Expr: <Real ea.adb:42:30-42:36>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Long_Float"] __standard:16:3-17:73>
 Expr: <Id "True" ea.adb:42:38-42:42>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 

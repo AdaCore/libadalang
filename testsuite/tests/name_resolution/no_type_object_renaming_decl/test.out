@@ -5,7 +5,7 @@ Resolving xrefs for node <NoTypeObjectRenamingDecl ["Un"] proc.adb:3:4-3:19>
 ****************************************************************************
 
 Expr: <Id "One" proc.adb:3:15-3:18>
-  references:    <DefiningName proc.adb:2:4-2:7>
+  references:    <DefiningName "One" proc.adb:2:4-2:7>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 

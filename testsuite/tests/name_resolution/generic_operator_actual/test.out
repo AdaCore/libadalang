@@ -5,23 +5,23 @@ Resolving xrefs for node <GenericSubpInstantiation ["Bar"] test.adb:12:4-12:42>
 *******************************************************************************
 
 Expr: <Id "Foo" test.adb:12:25-12:28>
-  references:    <DefiningName test.adb:8:14-8:17>
+  references:    <DefiningName "Foo" test.adb:8:14-8:17>
   type:          None
   expected type: None
 Expr: <Id "F" test.adb:12:30-12:31>
-  references:    <DefiningName test.adb:7:21-7:22>
+  references:    <DefiningName "F" test.adb:7:21-7:22>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:12:35-12:40>
-  references:    <SyntheticDefiningName test.adb:3:17-3:30>
+  references:    <SyntheticDefiningName ""+"" test.adb:3:17-3:30>
   type:          None
   expected type: None
 Expr: <Id "P" test.adb:12:35-12:36>
-  references:    <DefiningName test.adb:2:12-2:13>
+  references:    <DefiningName "P" test.adb:2:12-2:13>
   type:          None
   expected type: None
 Expr: <Str ""+"" test.adb:12:37-12:40>
-  references:    <SyntheticDefiningName test.adb:3:17-3:30>
+  references:    <SyntheticDefiningName ""+"" test.adb:3:17-3:30>
   type:          None
   expected type: None
 

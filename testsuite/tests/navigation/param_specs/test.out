@@ -5,10 +5,10 @@ Set 'ids' to 'node.f_subp_spec.f_subp_params.f_params[0].f_ids'
 Result: <DefiningNameList test.ads:2:19-2:23>
 
 Eval 'ids[0].p_next_part()'
-Result: <DefiningName test.ads:12:19-12:20>
+Result: <DefiningName "X" test.ads:12:19-12:20>
 
 Eval 'ids[1].p_next_part()'
-Result: <DefiningName test.ads:12:32-12:33>
+Result: <DefiningName "Y" test.ads:12:32-12:33>
 
 Working on node <SubpDecl ["Bar"] test.ads:7:4-7:45>
 ====================================================
@@ -17,10 +17,10 @@ Set 'params' to 'node.f_subp_spec.f_subp_params.f_params'
 Result: <ParamSpecList test.ads:7:19-7:43>
 
 Eval 'params[0].f_ids[0].p_next_part()'
-Result: <DefiningName test.ads:17:19-17:20>
+Result: <DefiningName "X" test.ads:17:19-17:20>
 
 Eval 'params[1].f_ids[0].p_next_part()'
-Result: <DefiningName test.ads:17:22-17:23>
+Result: <DefiningName "Y" test.ads:17:22-17:23>
 
 Working on node <NullSubpDecl ["Foo"] test.ads:12:4-12:53>
 ==========================================================
@@ -29,10 +29,10 @@ Set 'params' to 'node.f_subp_spec.f_subp_params.f_params'
 Result: <ParamSpecList test.ads:12:19-12:43>
 
 Eval 'params[0].f_ids[0].p_previous_part()'
-Result: <DefiningName test.ads:2:19-2:20>
+Result: <DefiningName "X" test.ads:2:19-2:20>
 
 Eval 'params[1].f_ids[0].p_previous_part()'
-Result: <DefiningName test.ads:2:22-2:23>
+Result: <DefiningName "Y" test.ads:2:22-2:23>
 
 Working on node <NullSubpDecl ["Bar"] test.ads:17:4-17:43>
 ==========================================================
@@ -41,13 +41,13 @@ Set 'ids' to 'node.f_subp_spec.f_subp_params.f_params[0].f_ids'
 Result: <DefiningNameList test.ads:17:19-17:23>
 
 Eval 'ids[0].p_previous_part()'
-Result: <DefiningName test.ads:7:19-7:20>
+Result: <DefiningName "X" test.ads:7:19-7:20>
 
 Eval 'ids[1].p_previous_part()'
-Result: <DefiningName test.ads:7:32-7:33>
+Result: <DefiningName "Y" test.ads:7:32-7:33>
 
 Eval 'ids[0].p_canonical_part()'
-Result: <DefiningName test.ads:7:19-7:20>
+Result: <DefiningName "X" test.ads:7:19-7:20>
 
 Eval 'ids[1].p_canonical_part()'
-Result: <DefiningName test.ads:7:32-7:33>
+Result: <DefiningName "Y" test.ads:7:32-7:33>

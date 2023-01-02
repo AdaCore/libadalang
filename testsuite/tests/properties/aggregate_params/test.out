@@ -2,166 +2,166 @@ Working on node <AssignStmt recagg.adb:56:4-56:25>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:7:10-7:13> actual=<Int recagg.adb:56:10-56:11>>,
-         <ParamActual param=<DefiningName recagg.adb:8:10-8:15> actual=<Id "July" recagg.adb:56:13-56:17>>,
-         <ParamActual param=<DefiningName recagg.adb:9:10-9:14> actual=<Int recagg.adb:56:19-56:23>>]
+Result: [<ParamActual param=<DefiningName "Day" recagg.adb:7:10-7:13> actual=<Int recagg.adb:56:10-56:11>>,
+         <ParamActual param=<DefiningName "Month" recagg.adb:8:10-8:15> actual=<Id "July" recagg.adb:56:13-56:17>>,
+         <ParamActual param=<DefiningName "Year" recagg.adb:9:10-9:14> actual=<Int recagg.adb:56:19-56:23>>]
 
 Working on node <AssignStmt recagg.adb:58:4-58:49>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:7:10-7:13> actual=<Int recagg.adb:58:17-58:18>>,
-         <ParamActual param=<DefiningName recagg.adb:8:10-8:15> actual=<Id "July" recagg.adb:58:29-58:33>>,
-         <ParamActual param=<DefiningName recagg.adb:9:10-9:14> actual=<Int recagg.adb:58:43-58:47>>]
+Result: [<ParamActual param=<DefiningName "Day" recagg.adb:7:10-7:13> actual=<Int recagg.adb:58:17-58:18>>,
+         <ParamActual param=<DefiningName "Month" recagg.adb:8:10-8:15> actual=<Id "July" recagg.adb:58:29-58:33>>,
+         <ParamActual param=<DefiningName "Year" recagg.adb:9:10-9:14> actual=<Int recagg.adb:58:43-58:47>>]
 
 Working on node <AssignStmt recagg.adb:60:4-60:49>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:8:10-8:15> actual=<Id "July" recagg.adb:60:19-60:23>>,
-         <ParamActual param=<DefiningName recagg.adb:7:10-7:13> actual=<Int recagg.adb:60:32-60:33>>,
-         <ParamActual param=<DefiningName recagg.adb:9:10-9:14> actual=<Int recagg.adb:60:43-60:47>>]
+Result: [<ParamActual param=<DefiningName "Month" recagg.adb:8:10-8:15> actual=<Id "July" recagg.adb:60:19-60:23>>,
+         <ParamActual param=<DefiningName "Day" recagg.adb:7:10-7:13> actual=<Int recagg.adb:60:32-60:33>>,
+         <ParamActual param=<DefiningName "Year" recagg.adb:9:10-9:14> actual=<Int recagg.adb:60:43-60:47>>]
 
 Working on node <AssignStmt recagg.adb:63:4-63:52>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:63:10-63:14>>,
-         <ParamActual param=<DefiningName recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:63:16-63:22>>,
-         <ParamActual param=<DefiningName recagg.adb:25:16-25:21> actual=<Int recagg.adb:63:33-63:34>>,
-         <ParamActual param=<DefiningName recagg.adb:24:16-24:24> actual=<Int recagg.adb:63:48-63:50>>]
+Result: [<ParamActual param=<DefiningName "Unit" recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:63:10-63:14>>,
+         <ParamActual param=<DefiningName "Status" recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:63:16-63:22>>,
+         <ParamActual param=<DefiningName "Track" recagg.adb:25:16-25:21> actual=<Int recagg.adb:63:33-63:34>>,
+         <ParamActual param=<DefiningName "Cylinder" recagg.adb:24:16-24:24> actual=<Int recagg.adb:63:48-63:50>>]
 
 Working on node <AssignStmt recagg.adb:65:4-65:69>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:65:18-65:22>>,
-         <ParamActual param=<DefiningName recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:65:34-65:40>>,
-         <ParamActual param=<DefiningName recagg.adb:24:16-24:24> actual=<Int recagg.adb:65:54-65:55>>,
-         <ParamActual param=<DefiningName recagg.adb:25:16-25:21> actual=<Int recagg.adb:65:66-65:67>>]
+Result: [<ParamActual param=<DefiningName "Unit" recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:65:18-65:22>>,
+         <ParamActual param=<DefiningName "Status" recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:65:34-65:40>>,
+         <ParamActual param=<DefiningName "Cylinder" recagg.adb:24:16-24:24> actual=<Int recagg.adb:65:54-65:55>>,
+         <ParamActual param=<DefiningName "Track" recagg.adb:25:16-25:21> actual=<Int recagg.adb:65:66-65:67>>]
 
 Working on node <AssignStmt recagg.adb:67:4-67:62>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:67:10-67:14>>,
-         <ParamActual param=<DefiningName recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:67:26-67:32>>,
-         <ParamActual param=<DefiningName recagg.adb:24:16-24:24> actual=<Int recagg.adb:67:46-67:48>>,
-         <ParamActual param=<DefiningName recagg.adb:25:16-25:21> actual=<Int recagg.adb:67:59-67:60>>]
+Result: [<ParamActual param=<DefiningName "Unit" recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:67:10-67:14>>,
+         <ParamActual param=<DefiningName "Status" recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:67:26-67:32>>,
+         <ParamActual param=<DefiningName "Cylinder" recagg.adb:24:16-24:24> actual=<Int recagg.adb:67:46-67:48>>,
+         <ParamActual param=<DefiningName "Track" recagg.adb:25:16-25:21> actual=<Int recagg.adb:67:59-67:60>>]
 
 Working on node <AssignStmt recagg.adb:69:4-69:30>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:69:10-69:14>>,
-         <ParamActual param=<DefiningName recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:69:16-69:22>>,
-         <ParamActual param=<DefiningName recagg.adb:24:16-24:24> actual=<Int recagg.adb:69:24-69:25>>,
-         <ParamActual param=<DefiningName recagg.adb:25:16-25:21> actual=<Int recagg.adb:69:27-69:28>>]
+Result: [<ParamActual param=<DefiningName "Unit" recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:69:10-69:14>>,
+         <ParamActual param=<DefiningName "Status" recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:69:16-69:22>>,
+         <ParamActual param=<DefiningName "Cylinder" recagg.adb:24:16-24:24> actual=<Int recagg.adb:69:24-69:25>>,
+         <ParamActual param=<DefiningName "Track" recagg.adb:25:16-25:21> actual=<Int recagg.adb:69:27-69:28>>]
 
 Working on node <AssignStmt recagg.adb:71:4-71:37>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:71:10-71:14>>,
-         <ParamActual param=<DefiningName recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:71:16-71:22>>,
-         <ParamActual param=<DefiningName recagg.adb:24:16-24:24> actual=<Int recagg.adb:71:34-71:35>>,
-         <ParamActual param=<DefiningName recagg.adb:25:16-25:21> actual=<Int recagg.adb:71:34-71:35>>]
+Result: [<ParamActual param=<DefiningName "Unit" recagg.adb:17:20-17:24> actual=<Id "Disk" recagg.adb:71:10-71:14>>,
+         <ParamActual param=<DefiningName "Status" recagg.adb:19:10-19:16> actual=<Id "Closed" recagg.adb:71:16-71:22>>,
+         <ParamActual param=<DefiningName "Cylinder" recagg.adb:24:16-24:24> actual=<Int recagg.adb:71:34-71:35>>,
+         <ParamActual param=<DefiningName "Track" recagg.adb:25:16-25:21> actual=<Int recagg.adb:71:34-71:35>>]
 
 Working on node <AssignStmt recagg.adb:74:4-74:61>
 ==================================================
 
 Eval '[x.p_aggregate_params for x in node.findall(lal.Aggregate)]'
-Result: [[<ParamActual param=<DefiningName recagg.adb:34:10-34:15> actual=<Int recagg.adb:74:19-74:20>>,
-          <ParamActual param=<DefiningName recagg.adb:35:10-35:14> actual=<Allocator recagg.adb:74:35-74:59>>,
-          <ParamActual param=<DefiningName recagg.adb:36:10-36:14> actual=<Allocator recagg.adb:74:35-74:59>>],
-         [<ParamActual param=<DefiningName recagg.adb:34:10-34:15> actual=<Int recagg.adb:74:45-74:46>>,
-          <ParamActual param=<DefiningName recagg.adb:35:10-35:14> actual=<Null recagg.adb:74:48-74:52>>,
-          <ParamActual param=<DefiningName recagg.adb:36:10-36:14> actual=<Null recagg.adb:74:54-74:58>>]]
+Result: [[<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:74:19-74:20>>,
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Allocator recagg.adb:74:35-74:59>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Allocator recagg.adb:74:35-74:59>>],
+         [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:74:45-74:46>>,
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:74:48-74:52>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:74:54-74:58>>]]
 
 Working on node <AssignStmt recagg.adb:76:4-76:90>
 ==================================================
 
 Eval '[x.p_aggregate_params for x in node.findall(lal.Aggregate)]'
-Result: [[<ParamActual param=<DefiningName recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:19-76:20>>,
-          <ParamActual param=<DefiningName recagg.adb:35:10-35:14> actual=<Allocator recagg.adb:76:30-76:54>>,
-          <ParamActual param=<DefiningName recagg.adb:36:10-36:14> actual=<Allocator recagg.adb:76:64-76:88>>],
-         [<ParamActual param=<DefiningName recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:40-76:41>>,
-          <ParamActual param=<DefiningName recagg.adb:35:10-35:14> actual=<Null recagg.adb:76:43-76:47>>,
-          <ParamActual param=<DefiningName recagg.adb:36:10-36:14> actual=<Null recagg.adb:76:49-76:53>>],
-         [<ParamActual param=<DefiningName recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:74-76:75>>,
-          <ParamActual param=<DefiningName recagg.adb:35:10-35:14> actual=<Null recagg.adb:76:77-76:81>>,
-          <ParamActual param=<DefiningName recagg.adb:36:10-36:14> actual=<Null recagg.adb:76:83-76:87>>]]
+Result: [[<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:19-76:20>>,
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Allocator recagg.adb:76:30-76:54>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Allocator recagg.adb:76:64-76:88>>],
+         [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:40-76:41>>,
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:76:43-76:47>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:76:49-76:53>>],
+         [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:74-76:75>>,
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:76:77-76:81>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:76:83-76:87>>]]
 
 Working on node <AssignStmt recagg.adb:78:4-78:39>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:34:10-34:15> actual=<Int recagg.adb:78:19-78:20>>,
-         <ParamActual param=<DefiningName recagg.adb:35:10-35:14> actual=<BoxExpr recagg.adb:78:35-78:37>>,
-         <ParamActual param=<DefiningName recagg.adb:36:10-36:14> actual=<BoxExpr recagg.adb:78:35-78:37>>]
+Result: [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:78:19-78:20>>,
+         <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<BoxExpr recagg.adb:78:35-78:37>>,
+         <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<BoxExpr recagg.adb:78:35-78:37>>]
 
 Working on node <AssignStmt recagg.adb:81:4-81:18>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:41:10-41:11> actual=<Int recagg.adb:81:15-81:16>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:81:15-81:16>>]
 
 Working on node <AssignStmt recagg.adb:83:4-83:23>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:41:10-41:11> actual=<Int recagg.adb:83:20-83:21>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:83:20-83:21>>]
 
 Working on node <AssignStmt recagg.adb:86:4-86:20>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:41:10-41:11> actual=<Int recagg.adb:86:17-86:18>>,
-         <ParamActual param=<DefiningName recagg.adb:46:10-46:11> actual=<Int recagg.adb:86:17-86:18>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:86:17-86:18>>,
+         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:86:17-86:18>>]
 
 Working on node <AssignStmt recagg.adb:88:4-88:26>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:41:10-41:11> actual=<Int recagg.adb:88:15-88:16>>,
-         <ParamActual param=<DefiningName recagg.adb:46:10-46:11> actual=<Int recagg.adb:88:23-88:24>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:88:15-88:16>>,
+         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:88:23-88:24>>]
 
 Working on node <AssignStmt recagg.adb:90:4-90:16>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName recagg.adb:41:10-41:11> actual=<Int recagg.adb:90:10-90:11>>,
-         <ParamActual param=<DefiningName recagg.adb:46:10-46:11> actual=<Int recagg.adb:90:13-90:14>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:90:10-90:11>>,
+         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:90:13-90:14>>]
 
 Working on node <ObjectDecl ["C"] test.adb:18:4-18:42>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:18:38-18:40>>]
+Result: [<ParamActual param=<DefiningName "Y" test.adb:7:7-7:8> actual=<BoxExpr test.adb:18:38-18:40>>]
 
 Working on node <ObjectDecl ["D"] test.adb:20:4-20:51>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:20:47-20:49>>]
+Result: [<ParamActual param=<DefiningName "Y" test.adb:7:7-7:8> actual=<BoxExpr test.adb:20:47-20:49>>]
 
 Working on node <ObjectDecl ["E"] test.adb:22:4-22:45>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<Int test.adb:22:42-22:43>>]
+Result: [<ParamActual param=<DefiningName "Y" test.adb:7:7-7:8> actual=<Int test.adb:22:42-22:43>>]
 
 Working on node <ObjectDecl ["F"] test.adb:24:4-24:32>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:3:7-3:8> actual=<BoxExpr test.adb:24:28-24:30>>,
-         <ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:24:28-24:30>>]
+Result: [<ParamActual param=<DefiningName "X" test.adb:3:7-3:8> actual=<BoxExpr test.adb:24:28-24:30>>,
+         <ParamActual param=<DefiningName "Y" test.adb:7:7-7:8> actual=<BoxExpr test.adb:24:28-24:30>>]
 
 Working on node <ObjectDecl ["G"] test.adb:27:4-27:57>
 ======================================================
 
 Eval 'node.f_default_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName test.adb:7:7-7:8> actual=<BoxExpr test.adb:27:35-27:37>>,
-         <ParamActual param=<DefiningName test.adb:11:7-11:8> actual=<BoxExpr test.adb:27:44-27:46>>,
-         <ParamActual param=<DefiningName test.adb:15:7-15:8> actual=<BoxExpr test.adb:27:53-27:55>>]
+Result: [<ParamActual param=<DefiningName "Y" test.adb:7:7-7:8> actual=<BoxExpr test.adb:27:35-27:37>>,
+         <ParamActual param=<DefiningName "Z" test.adb:11:7-11:8> actual=<BoxExpr test.adb:27:44-27:46>>,
+         <ParamActual param=<DefiningName "T" test.adb:15:7-15:8> actual=<BoxExpr test.adb:27:53-27:55>>]

@@ -5,15 +5,15 @@ Resolving xrefs for node <CallStmt test.adb:8:7-8:13>
 *****************************************************
 
 Expr: <CallExpr test.adb:8:7-8:12>
-  references:    <DefiningName test.adb:6:17-6:18>
+  references:    <DefiningName "T" test.adb:6:17-6:18>
   type:          None
   expected type: None
 Expr: <Id "T" test.adb:8:7-8:8>
-  references:    <DefiningName test.adb:6:17-6:18>
+  references:    <DefiningName "T" test.adb:6:17-6:18>
   type:          None
   expected type: None
 Expr: <Id "A" test.adb:8:10-8:11>
-  references:    <DefiningName test.adb:2:15-2:16>
+  references:    <DefiningName "A" test.adb:2:15-2:16>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:21>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:21>
 
@@ -21,19 +21,19 @@ Resolving xrefs for node <ObjectDecl ["Y"] test.adb:15:7-15:22>
 ***************************************************************
 
 Expr: <Id "U" test.adb:15:11-15:12>
-  references:    <DefiningName test.adb:3:12-3:13>
+  references:    <DefiningName "U" test.adb:3:12-3:13>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:15:16-15:21>
-  references:    <DefiningName test.adb:13:16-13:17>
+  references:    <DefiningName "T" test.adb:13:16-13:17>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:21>
   expected type: <SubtypeDecl ["U"] test.adb:3:4-3:19>
 Expr: <Id "T" test.adb:15:16-15:17>
-  references:    <DefiningName test.adb:13:16-13:17>
+  references:    <DefiningName "T" test.adb:13:16-13:17>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:21>
   expected type: None
 Expr: <Id "A" test.adb:15:19-15:20>
-  references:    <DefiningName test.adb:2:15-2:16>
+  references:    <DefiningName "A" test.adb:2:15-2:16>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:21>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:21>
 

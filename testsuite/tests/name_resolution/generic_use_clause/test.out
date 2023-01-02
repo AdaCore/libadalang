@@ -5,7 +5,7 @@ Resolving xrefs for node <UsePackageClause test.adb:7:7-7:15>
 *************************************************************
 
 Expr: <Id "Pkg" test.adb:7:11-7:14>
-  references:    <DefiningName test.adb:2:12-2:15>
+  references:    <DefiningName "Pkg" test.adb:2:12-2:15>
   type:          None
   expected type: None
 
@@ -17,7 +17,7 @@ Resolving xrefs for node <ParamSpec ["X"] test.adb:8:19-8:24>
 *************************************************************
 
 Expr: <Id "T" test.adb:8:23-8:24>
-  references:    <DefiningName test.adb:3:12-3:13>
+  references:    <DefiningName "T" test.adb:3:12-3:13>
   type:          None
   expected type: None
 
@@ -29,7 +29,7 @@ Resolving xrefs for node <ParamSpec ["X"] test.adb:11:19-11:24>
 ***************************************************************
 
 Expr: <Id "T" test.adb:11:23-11:24>
-  references:    <DefiningName test.adb:3:12-3:13>
+  references:    <DefiningName "T" test.adb:3:12-3:13>
   type:          None
   expected type: None
 
@@ -41,11 +41,11 @@ Resolving xrefs for node <EndName test.adb:14:8-14:11>
 ******************************************************
 
 Expr: <EndName test.adb:14:8-14:11>
-  references:    <DefiningName test.adb:11:14-11:17>
+  references:    <DefiningName "Foo" test.adb:11:14-11:17>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:14:8-14:11>
-  references:    <DefiningName test.adb:11:14-11:17>
+  references:    <DefiningName "Foo" test.adb:11:14-11:17>
   type:          None
   expected type: None
 

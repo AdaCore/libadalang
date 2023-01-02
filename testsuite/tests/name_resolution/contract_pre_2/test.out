@@ -5,7 +5,7 @@ Resolving xrefs for node <SubpSpec test.adb:2:4-2:45>
 *****************************************************
 
 Expr: <Id "Integer" test.adb:2:38-2:45>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -13,7 +13,7 @@ Resolving xrefs for node <ParamSpec ["X"] test.adb:2:18-2:29>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:2:22-2:29>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -28,7 +28,7 @@ Expr: <RelationOp test.adb:3:19-3:24>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" test.adb:3:19-3:20>
-  references:    <DefiningName test.adb:2:18-2:19>
+  references:    <DefiningName "X" test.adb:2:18-2:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpGt ">" test.adb:3:21-3:22>
@@ -51,7 +51,7 @@ Expr: <RelationOp test.adb:4:28-4:34>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" test.adb:4:28-4:29>
-  references:    <DefiningName test.adb:2:18-2:19>
+  references:    <DefiningName "X" test.adb:2:18-2:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpLt "<" test.adb:4:30-4:31>
@@ -78,7 +78,7 @@ Expr: <AttributeRef test.adb:5:20-5:30>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Foo" test.adb:5:20-5:23>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Foo" test.adb:2:13-2:16>
   type:          None
   expected type: None
 Expr: <Id "Result" test.adb:5:24-5:30>
@@ -109,7 +109,7 @@ Expr: <AttributeRef test.adb:6:29-6:39>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Foo" test.adb:6:29-6:32>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Foo" test.adb:2:13-2:16>
   type:          None
   expected type: None
 Expr: <Id "Result" test.adb:6:33-6:39>
@@ -121,7 +121,7 @@ Expr: <OpLt "<" test.adb:6:40-6:41>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:6:42-6:43>
-  references:    <DefiningName test.adb:2:18-2:19>
+  references:    <DefiningName "X" test.adb:2:18-2:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -132,7 +132,7 @@ Expr: <BinOp test.adb:8:14-8:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" test.adb:8:14-8:15>
-  references:    <DefiningName test.adb:2:18-2:19>
+  references:    <DefiningName "X" test.adb:2:18-2:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMinus "-" test.adb:8:16-8:17>
@@ -148,11 +148,11 @@ Resolving xrefs for node <EndName test.adb:9:8-9:11>
 ****************************************************
 
 Expr: <EndName test.adb:9:8-9:11>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Foo" test.adb:2:13-2:16>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:9:8-9:11>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Foo" test.adb:2:13-2:16>
   type:          None
   expected type: None
 

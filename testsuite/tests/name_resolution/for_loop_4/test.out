@@ -5,7 +5,7 @@ Resolving xrefs for node <ForLoopSpec testloop.adb:10:8-10:17>
 **************************************************************
 
 Expr: <Id "Foo" testloop.adb:10:14-10:17>
-  references:    <DefiningName testloop.adb:7:13-7:16>
+  references:    <DefiningName "Foo" testloop.adb:7:13-7:16>
   type:          <ConcreteTypeDecl ["My_Array"] testloop.adb:5:4-5:57>
   expected type: None
 
@@ -13,7 +13,7 @@ Resolving xrefs for node <AssignStmt testloop.adb:11:7-11:16>
 *************************************************************
 
 Expr: <Id "El" testloop.adb:11:7-11:9>
-  references:    <DefiningName testloop.adb:10:8-10:10>
+  references:    <DefiningName "El" testloop.adb:10:8-10:10>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Int testloop.adb:11:13-11:15>

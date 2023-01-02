@@ -20,7 +20,7 @@ Expr: <Id "Initializes" state_xrefs.ads:3:8-3:19>
   type:          None
   expected type: None
 Expr: <Id "State" state_xrefs.ads:3:26-3:31>
-  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  references:    <DefiningName "State" state_xrefs.ads:2:26-2:31>
   type:          None
   expected type: None
 
@@ -32,7 +32,7 @@ Resolving xrefs for node <ParamSpec ["Param_1"] state_xrefs.ads:5:20-5:37>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.ads:5:30-5:37>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -40,7 +40,7 @@ Resolving xrefs for node <ParamSpec ["Param_2"] state_xrefs.ads:5:39-5:60>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.ads:5:53-5:60>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -59,7 +59,7 @@ Expr: <Id "In_Out" state_xrefs.ads:6:23-6:29>
   type:          None
   expected type: None
 Expr: <Id "State" state_xrefs.ads:6:33-6:38>
-  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  references:    <DefiningName "State" state_xrefs.ads:2:26-2:31>
   type:          None
   expected type: None
 
@@ -77,22 +77,22 @@ Expr: <Aggregate state_xrefs.ads:7:23-7:39>
   type:          None
   expected type: None
 Expr: <Id "Param_2" state_xrefs.ads:7:24-7:31>
-  references:    <DefiningName state_xrefs.ads:5:39-5:46>
+  references:    <DefiningName "Param_2" state_xrefs.ads:5:39-5:46>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "State" state_xrefs.ads:7:33-7:38>
-  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  references:    <DefiningName "State" state_xrefs.ads:2:26-2:31>
   type:          None
   expected type: None
 Expr: <Aggregate state_xrefs.ads:7:43-7:59>
   type:          None
   expected type: None
 Expr: <Id "Param_1" state_xrefs.ads:7:44-7:51>
-  references:    <DefiningName state_xrefs.ads:5:20-5:27>
+  references:    <DefiningName "Param_1" state_xrefs.ads:5:20-5:27>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "State" state_xrefs.ads:7:53-7:58>
-  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  references:    <DefiningName "State" state_xrefs.ads:2:26-2:31>
   type:          None
   expected type: None
 
@@ -115,7 +115,7 @@ Expr: <Id "Part_Of" state_xrefs.ads:11:48-11:55>
   type:          None
   expected type: None
 Expr: <Id "State" state_xrefs.ads:11:59-11:64>
-  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  references:    <DefiningName "State" state_xrefs.ads:2:26-2:31>
   type:          None
   expected type: None
 
@@ -123,7 +123,7 @@ Resolving xrefs for node <ObjectDecl ["Var"] state_xrefs.ads:13:7-13:29>
 ************************************************************************
 
 Expr: <Id "Integer" state_xrefs.ads:13:13-13:20>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Int state_xrefs.ads:13:24-13:28>
@@ -135,11 +135,11 @@ Resolving xrefs for node <EndName state_xrefs.ads:14:8-14:22>
 *************************************************************
 
 Expr: <EndName state_xrefs.ads:14:8-14:22>
-  references:    <DefiningName state_xrefs.ads:10:12-10:26>
+  references:    <DefiningName "Nested_Private" state_xrefs.ads:10:12-10:26>
   type:          None
   expected type: None
 Expr: <Id "Nested_Private" state_xrefs.ads:14:8-14:22>
-  references:    <DefiningName state_xrefs.ads:10:12-10:26>
+  references:    <DefiningName "Nested_Private" state_xrefs.ads:10:12-10:26>
   type:          None
   expected type: None
 
@@ -147,11 +147,11 @@ Resolving xrefs for node <EndName state_xrefs.ads:15:5-15:16>
 *************************************************************
 
 Expr: <EndName state_xrefs.ads:15:5-15:16>
-  references:    <DefiningName state_xrefs.ads:1:9-1:20>
+  references:    <DefiningName "State_Xrefs" state_xrefs.ads:1:9-1:20>
   type:          None
   expected type: None
 Expr: <Id "State_Xrefs" state_xrefs.ads:15:5-15:16>
-  references:    <DefiningName state_xrefs.ads:1:9-1:20>
+  references:    <DefiningName "State_Xrefs" state_xrefs.ads:1:9-1:20>
   type:          None
   expected type: None
 
@@ -170,30 +170,30 @@ Expr: <Aggregate state_xrefs.adb:2:25-2:73>
   type:          None
   expected type: None
 Expr: <Id "State" state_xrefs.adb:2:26-2:31>
-  references:    <DefiningName state_xrefs.ads:2:26-2:31>
+  references:    <DefiningName "State" state_xrefs.ads:2:26-2:31>
   type:          None
   expected type: None
 Expr: <Aggregate state_xrefs.adb:2:35-2:72>
   type:          None
   expected type: None
 Expr: <Id "C1" state_xrefs.adb:2:36-2:38>
-  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  references:    <DefiningName "C1" state_xrefs.adb:4:4-4:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "C2" state_xrefs.adb:2:40-2:42>
-  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  references:    <DefiningName "C2" state_xrefs.adb:5:4-5:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <DottedName state_xrefs.adb:2:44-2:71>
-  references:    <DefiningName state_xrefs.ads:11:30-11:42>
+  references:    <DefiningName "Nested_State" state_xrefs.ads:11:30-11:42>
   type:          None
   expected type: None
 Expr: <Id "Nested_Private" state_xrefs.adb:2:44-2:58>
-  references:    <DefiningName state_xrefs.ads:10:12-10:26>
+  references:    <DefiningName "Nested_Private" state_xrefs.ads:10:12-10:26>
   type:          None
   expected type: None
 Expr: <Id "Nested_State" state_xrefs.adb:2:59-2:71>
-  references:    <DefiningName state_xrefs.ads:11:30-11:42>
+  references:    <DefiningName "Nested_State" state_xrefs.ads:11:30-11:42>
   type:          None
   expected type: None
 
@@ -201,7 +201,7 @@ Resolving xrefs for node <ObjectDecl ["C1"] state_xrefs.adb:4:4-4:22>
 *********************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:4:9-4:16>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Int state_xrefs.adb:4:20-4:21>
@@ -213,7 +213,7 @@ Resolving xrefs for node <ObjectDecl ["C2"] state_xrefs.adb:5:4-5:22>
 *********************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:5:9-5:16>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Int state_xrefs.adb:5:20-5:21>
@@ -229,7 +229,7 @@ Resolving xrefs for node <ParamSpec ["Param_1"] state_xrefs.adb:7:20-7:37>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:7:30-7:37>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -237,7 +237,7 @@ Resolving xrefs for node <ParamSpec ["Param_2"] state_xrefs.adb:7:39-7:60>
 **************************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:7:53-7:60>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -259,11 +259,11 @@ Expr: <Aggregate state_xrefs.adb:8:52-8:60>
   type:          None
   expected type: None
 Expr: <Id "C1" state_xrefs.adb:8:53-8:55>
-  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  references:    <DefiningName "C1" state_xrefs.adb:4:4-4:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "C2" state_xrefs.adb:8:57-8:59>
-  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  references:    <DefiningName "C2" state_xrefs.adb:5:4-5:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 
@@ -281,26 +281,26 @@ Expr: <Aggregate state_xrefs.adb:9:31-9:48>
   type:          None
   expected type: None
 Expr: <Id "Param_2" state_xrefs.adb:9:32-9:39>
-  references:    <DefiningName state_xrefs.adb:7:39-7:46>
+  references:    <DefiningName "Param_2" state_xrefs.adb:7:39-7:46>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "C1" state_xrefs.adb:9:41-9:43>
-  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  references:    <DefiningName "C1" state_xrefs.adb:4:4-4:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "C2" state_xrefs.adb:9:45-9:47>
-  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  references:    <DefiningName "C2" state_xrefs.adb:5:4-5:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Aggregate state_xrefs.adb:9:52-9:65>
   type:          None
   expected type: None
 Expr: <Id "Param_1" state_xrefs.adb:9:53-9:60>
-  references:    <DefiningName state_xrefs.adb:7:20-7:27>
+  references:    <DefiningName "Param_1" state_xrefs.adb:7:20-7:27>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "C2" state_xrefs.adb:9:62-9:64>
-  references:    <DefiningName state_xrefs.adb:5:4-5:6>
+  references:    <DefiningName "C2" state_xrefs.adb:5:4-5:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Null state_xrefs.adb:10:32-10:36>
@@ -308,7 +308,7 @@ Expr: <Null state_xrefs.adb:10:32-10:36>
   type:          None
   expected type: None
 Expr: <Id "C1" state_xrefs.adb:10:53-10:55>
-  references:    <DefiningName state_xrefs.adb:4:4-4:6>
+  references:    <DefiningName "C1" state_xrefs.adb:4:4-4:6>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 
@@ -320,11 +320,11 @@ Resolving xrefs for node <EndName state_xrefs.adb:11:23-11:27>
 **************************************************************
 
 Expr: <EndName state_xrefs.adb:11:23-11:27>
-  references:    <DefiningName state_xrefs.adb:7:14-7:18>
+  references:    <DefiningName "Proc" state_xrefs.adb:7:14-7:18>
   type:          None
   expected type: None
 Expr: <Id "Proc" state_xrefs.adb:11:23-11:27>
-  references:    <DefiningName state_xrefs.adb:7:14-7:18>
+  references:    <DefiningName "Proc" state_xrefs.adb:7:14-7:18>
   type:          None
   expected type: None
 
@@ -339,11 +339,11 @@ Expr: <Aggregate state_xrefs.adb:14:28-14:48>
   type:          None
   expected type: None
 Expr: <Id "Nested_State" state_xrefs.adb:14:29-14:41>
-  references:    <DefiningName state_xrefs.ads:11:30-11:42>
+  references:    <DefiningName "Nested_State" state_xrefs.ads:11:30-11:42>
   type:          None
   expected type: None
 Expr: <Id "C3" state_xrefs.adb:14:45-14:47>
-  references:    <DefiningName state_xrefs.adb:16:7-16:9>
+  references:    <DefiningName "C3" state_xrefs.adb:16:7-16:9>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 
@@ -351,7 +351,7 @@ Resolving xrefs for node <ObjectDecl ["C3"] state_xrefs.adb:16:7-16:25>
 ***********************************************************************
 
 Expr: <Id "Integer" state_xrefs.adb:16:12-16:19>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Int state_xrefs.adb:16:23-16:24>
@@ -363,11 +363,11 @@ Resolving xrefs for node <EndName state_xrefs.adb:17:8-17:22>
 *************************************************************
 
 Expr: <EndName state_xrefs.adb:17:8-17:22>
-  references:    <DefiningName state_xrefs.adb:13:17-13:31>
+  references:    <DefiningName "Nested_Private" state_xrefs.adb:13:17-13:31>
   type:          None
   expected type: None
 Expr: <Id "Nested_Private" state_xrefs.adb:17:8-17:22>
-  references:    <DefiningName state_xrefs.adb:13:17-13:31>
+  references:    <DefiningName "Nested_Private" state_xrefs.adb:13:17-13:31>
   type:          None
   expected type: None
 
@@ -375,11 +375,11 @@ Resolving xrefs for node <EndName state_xrefs.adb:18:5-18:16>
 *************************************************************
 
 Expr: <EndName state_xrefs.adb:18:5-18:16>
-  references:    <DefiningName state_xrefs.adb:1:14-1:25>
+  references:    <DefiningName "State_Xrefs" state_xrefs.adb:1:14-1:25>
   type:          None
   expected type: None
 Expr: <Id "State_Xrefs" state_xrefs.adb:18:5-18:16>
-  references:    <DefiningName state_xrefs.adb:1:14-1:25>
+  references:    <DefiningName "State_Xrefs" state_xrefs.adb:1:14-1:25>
   type:          None
   expected type: None
 

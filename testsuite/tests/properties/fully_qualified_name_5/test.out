@@ -5,10 +5,10 @@ Eval 'node.p_fully_qualified_name'
 Exception: Can't call on a declaration with several names
 
 Set 'a' to 'node.p_defining_names[0]'
-Result: <DefiningName test.adb:4:4-4:5>
+Result: <DefiningName "A" test.adb:4:4-4:5>
 
 Set 'b' to 'node.p_defining_names[1]'
-Result: <DefiningName test.adb:4:7-4:8>
+Result: <DefiningName "B" test.adb:4:7-4:8>
 
 Eval 'a.p_fully_qualified_name'
 Result: 'Test.A'

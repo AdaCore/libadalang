@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["B"] test_binop_res.adb:10:7-10:23>
 *************************************************************************
 
 Expr: <Id "A" test_binop_res.adb:10:11-10:12>
-  references:    <DefiningName test_binop_res.adb:5:12-5:13>
+  references:    <DefiningName "A" test_binop_res.adb:5:12-5:13>
   type:          None
   expected type: None
 Expr: <BinOp test_binop_res.adb:10:16-10:22>
@@ -20,7 +20,7 @@ Expr: <OpMult "*" test_binop_res.adb:10:19-10:20>
   type:          None
   expected type: None
 Expr: <Id "C" test_binop_res.adb:10:21-10:22>
-  references:    <DefiningName test_binop_res.adb:9:7-9:8>
+  references:    <DefiningName "C" test_binop_res.adb:9:7-9:8>
   type:          <ConcreteTypeDecl ["A"] test_binop_res.adb:5:7-5:31>
   expected type: <ConcreteTypeDecl ["A"] test_binop_res.adb:5:7-5:31>
 

@@ -5,15 +5,15 @@ Resolving xrefs for node <CallStmt test.adb:11:4-11:13>
 *******************************************************
 
 Expr: <CallExpr test.adb:11:4-11:12>
-  references:    <DefiningName test.adb:5:14-5:17>
+  references:    <DefiningName "Foo" test.adb:5:14-5:17>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:11:4-11:7>
-  references:    <DefiningName test.adb:5:14-5:17>
+  references:    <DefiningName "Foo" test.adb:5:14-5:17>
   type:          None
   expected type: None
 Expr: <Id "IA" test.adb:11:9-11:11>
-  references:    <DefiningName test.adb:8:4-8:6>
+  references:    <DefiningName "IA" test.adb:8:4-8:6>
   type:          <ConcreteTypeDecl ["Int_Access"] test.adb:3:4-3:42>
   expected type: <AnonymousTypeDecl ["None"] test.adb:5:23-5:37>
 
@@ -21,15 +21,15 @@ Resolving xrefs for node <CallStmt test.adb:14:4-14:13>
 *******************************************************
 
 Expr: <CallExpr test.adb:14:4-14:12>
-  references:    <DefiningName test.adb:6:14-6:17>
+  references:    <DefiningName "Bar" test.adb:6:14-6:17>
   type:          None
   expected type: None
 Expr: <Id "Bar" test.adb:14:4-14:7>
-  references:    <DefiningName test.adb:6:14-6:17>
+  references:    <DefiningName "Bar" test.adb:6:14-6:17>
   type:          None
   expected type: None
 Expr: <Id "AI" test.adb:14:9-14:11>
-  references:    <DefiningName test.adb:9:4-9:6>
+  references:    <DefiningName "AI" test.adb:9:4-9:6>
   type:          <AnonymousTypeDecl ["None"] test.adb:9:9-9:23>
   expected type: <ConcreteTypeDecl ["Int_Access"] test.adb:3:4-3:42>
 

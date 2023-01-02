@@ -5,7 +5,7 @@ Resolving xrefs for node <AssignStmt test.adb:12:4-12:18>
 *********************************************************
 
 Expr: <Id "X" test.adb:12:4-12:5>
-  references:    <DefiningName test.adb:10:4-10:5>
+  references:    <DefiningName "X" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <RelationOp test.adb:12:9-12:17>
@@ -18,7 +18,7 @@ Expr: <UnOp test.adb:12:10-12:12>
   type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpPlus "+" test.adb:12:10-12:11>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""+"" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:11-12:12>
@@ -26,7 +26,7 @@ Expr: <Int test.adb:12:11-12:12>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpGt ">" test.adb:12:14-12:15>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName "">"" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:16-12:17>

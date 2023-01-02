@@ -5,11 +5,11 @@ Resolving xrefs for node <GenericFormalSubpDecl ["FI"] test.adb:4:7-4:56>
 *************************************************************************
 
 Expr: <AttributeRef test.adb:4:48-4:55>
-  references:    <SyntheticDefiningName test.adb:3:7-3:22>
+  references:    <SyntheticDefiningName "image" test.adb:3:7-3:22>
   type:          None
   expected type: None
 Expr: <Id "T" test.adb:4:48-4:49>
-  references:    <DefiningName test.adb:3:12-3:13>
+  references:    <DefiningName "T" test.adb:3:12-3:13>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:4:50-4:55>
@@ -21,11 +21,11 @@ Resolving xrefs for node <GenericFormalSubpDecl ["FV"] test.adb:6:7-6:56>
 *************************************************************************
 
 Expr: <AttributeRef test.adb:6:48-6:55>
-  references:    <SyntheticDefiningName test.adb:3:7-3:22>
+  references:    <SyntheticDefiningName "value" test.adb:3:7-3:22>
   type:          None
   expected type: None
 Expr: <Id "T" test.adb:6:48-6:49>
-  references:    <DefiningName test.adb:3:12-3:13>
+  references:    <DefiningName "T" test.adb:3:12-3:13>
   type:          None
   expected type: None
 Expr: <Id "Value" test.adb:6:50-6:55>

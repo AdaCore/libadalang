@@ -5,19 +5,19 @@ Resolving xrefs for node <AssignStmt b.adb:6:4-6:15>
 ****************************************************
 
 Expr: <Id "I" b.adb:6:4-6:5>
-  references:    <DefiningName b.adb:4:4-4:5>
+  references:    <DefiningName "I" b.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <DottedName b.adb:6:9-6:14>
-  references:    <DefiningName a.ads:2:13-2:16>
+  references:    <DefiningName "Foo" a.ads:2:13-2:16>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" b.adb:6:9-6:10>
-  references:    <DefiningName a.ads:1:9-1:10>
+  references:    <DefiningName "A" a.ads:1:9-1:10>
   type:          None
   expected type: None
 Expr: <Id "Foo" b.adb:6:11-6:14>
-  references:    <DefiningName a.ads:2:13-2:16>
+  references:    <DefiningName "Foo" a.ads:2:13-2:16>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -25,19 +25,19 @@ Resolving xrefs for node <AssignStmt b.adb:9:4-9:17>
 ****************************************************
 
 Expr: <Id "I2" b.adb:9:4-9:6>
-  references:    <DefiningName b.adb:4:7-4:9>
+  references:    <DefiningName "I2" b.adb:4:7-4:9>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <DottedName b.adb:9:10-9:16>
-  references:    <DefiningName a.ads:4:4-4:8>
+  references:    <DefiningName "Foo2" a.ads:4:4-4:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" b.adb:9:10-9:11>
-  references:    <DefiningName a.ads:1:9-1:10>
+  references:    <DefiningName "A" a.ads:1:9-1:10>
   type:          None
   expected type: None
 Expr: <Id "Foo2" b.adb:9:12-9:16>
-  references:    <DefiningName a.ads:4:4-4:8>
+  references:    <DefiningName "Foo2" a.ads:4:4-4:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

@@ -1,13 +1,13 @@
 In instantiation of <GenericPackageInstantiation ["P_1"] test.adb:19:4-19:48>:
   - X.p_referenced_decl() => <AnonymousExprDecl Integer = Var>
-    - p_get_formal() => <DefiningName test.adb:6:7-6:8>
+    - p_get_formal() => <DefiningName "X" test.adb:6:7-6:8>
   - Y.p_referenced_decl() => <AnonymousExprDecl Integer = Value>
-    - p_get_formal() => <DefiningName test.adb:7:7-7:8>
+    - p_get_formal() => <DefiningName "Y" test.adb:7:7-7:8>
 
 In instantiation of <GenericPackageInstantiation ["P_2"] test.adb:20:4-20:45>:
   - X.p_referenced_decl() => <AnonymousExprDecl Integer = Var>
-    - p_get_formal() => <DefiningName test.adb:6:7-6:8>
+    - p_get_formal() => <DefiningName "X" test.adb:6:7-6:8>
   - Y.p_referenced_decl() => <AnonymousExprDecl Integer = 13>
-    - p_get_formal() => <DefiningName test.adb:7:7-7:8>
+    - p_get_formal() => <DefiningName "Y" test.adb:7:7-7:8>
 
 Done

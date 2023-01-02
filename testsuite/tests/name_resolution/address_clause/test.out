@@ -9,7 +9,7 @@ Expr: <AttributeRef test.adb:3:8-3:17>
   type:          None
   expected type: None
 Expr: <Id "Y" test.adb:3:8-3:9>
-  references:    <DefiningName test.adb:2:7-2:8>
+  references:    <DefiningName "Y" test.adb:2:7-2:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Address" test.adb:3:10-3:17>
@@ -21,7 +21,7 @@ Expr: <AttributeRef test.adb:3:22-3:31>
   type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
   expected type: None
 Expr: <Id "X" test.adb:3:22-3:23>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Address" test.adb:3:24-3:31>

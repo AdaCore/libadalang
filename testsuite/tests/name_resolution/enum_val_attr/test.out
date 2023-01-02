@@ -5,19 +5,19 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:4:4-4:28>
 *************************************************************
 
 Expr: <Id "E" test.adb:4:8-4:9>
-  references:    <DefiningName test.adb:2:9-2:10>
+  references:    <DefiningName "E" test.adb:2:9-2:10>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:4:13-4:27>
-  references:    <SyntheticDefiningName test.adb:2:4-2:24>
+  references:    <SyntheticDefiningName "enum_val" test.adb:2:4-2:24>
   type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:24>
   expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:24>
 Expr: <AttributeRef test.adb:4:13-4:23>
-  references:    <SyntheticDefiningName test.adb:2:4-2:24>
+  references:    <SyntheticDefiningName "enum_val" test.adb:2:4-2:24>
   type:          None
   expected type: None
 Expr: <Id "E" test.adb:4:13-4:14>
-  references:    <DefiningName test.adb:2:9-2:10>
+  references:    <DefiningName "E" test.adb:2:9-2:10>
   type:          None
   expected type: None
 Expr: <Id "Enum_Val" test.adb:4:15-4:23>

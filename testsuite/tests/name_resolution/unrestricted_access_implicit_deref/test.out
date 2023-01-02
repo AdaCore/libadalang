@@ -5,7 +5,7 @@ Resolving xrefs for node <AssignStmt test.adb:8:4-8:33>
 *******************************************************
 
 Expr: <DottedName test.adb:8:4-8:27>
-  references:    <DefiningName test.adb:3:7-3:8>
+  references:    <DefiningName "Y" test.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <AttributeRef test.adb:8:4-8:25>
@@ -13,7 +13,7 @@ Expr: <AttributeRef test.adb:8:4-8:25>
   type:          <SynthAnonymousTypeDecl ["R"] test.adb:2:4-4:15>
   expected type: None
 Expr: <Id "X" test.adb:8:4-8:5>
-  references:    <DefiningName test.adb:6:4-6:5>
+  references:    <DefiningName "X" test.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["R"] test.adb:2:4-4:15>
   expected type: None
 Expr: <Id "Unrestricted_Access" test.adb:8:6-8:25>
@@ -21,7 +21,7 @@ Expr: <Id "Unrestricted_Access" test.adb:8:6-8:25>
   type:          None
   expected type: None
 Expr: <Id "Y" test.adb:8:26-8:27>
-  references:    <DefiningName test.adb:3:7-3:8>
+  references:    <DefiningName "Y" test.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Int test.adb:8:31-8:32>

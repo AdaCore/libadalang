@@ -5,19 +5,19 @@ Resolving xrefs for node <CallStmt main.adb:8:4-8:25>
 *****************************************************
 
 Expr: <CallExpr main.adb:8:4-8:24>
-  references:    <DefiningName main.adb:5:17-5:26>
+  references:    <DefiningName "Print_Int" main.adb:5:17-5:26>
   type:          None
   expected type: None
 Expr: <DottedName main.adb:8:4-8:19>
-  references:    <DefiningName main.adb:5:17-5:26>
+  references:    <DefiningName "Print_Int" main.adb:5:17-5:26>
   type:          None
   expected type: None
 Expr: <Id "Pouet" main.adb:8:4-8:9>
-  references:    <DefiningName main.adb:4:12-4:17>
+  references:    <DefiningName "Pouet" main.adb:4:12-4:17>
   type:          None
   expected type: None
 Expr: <Id "Print_Int" main.adb:8:10-8:19>
-  references:    <DefiningName main.adb:5:17-5:26>
+  references:    <DefiningName "Print_Int" main.adb:5:17-5:26>
   type:          None
   expected type: None
 Expr: <Int main.adb:8:21-8:23>

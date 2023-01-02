@@ -5,14 +5,14 @@ Resolving xrefs for node <ObjectDecl ["I"] p.adb:4:7-4:34>
 **********************************************************
 
 Expr: <Id "Integer" p.adb:4:20-4:27>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <UnOp p.adb:4:31-4:33>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMinus "-" p.adb:4:31-4:32>
-  references:    <DefiningName p.adb:2:16-2:19>
+  references:    <DefiningName ""-"" p.adb:2:16-2:19>
   type:          None
   expected type: None
 Expr: <Int p.adb:4:32-4:33>

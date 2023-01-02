@@ -5,18 +5,18 @@ Resolving xrefs for node <ObjectDecl ["Inst3"] b-c.adb:4:4-4:33>
 ****************************************************************
 
 Expr: <Id "Typ" b-c.adb:4:12-4:15>
-  references:    <DefiningName b-c.ads:4:9-4:12>
+  references:    <DefiningName "Typ" b-c.ads:4:9-4:12>
   type:          None
   expected type: None
 Expr: <BinOp b-c.adb:4:19-4:32>
   type:          <ConcreteTypeDecl ["Typ"] b-c.ads:4:4-4:26>
   expected type: <ConcreteTypeDecl ["Typ"] b-c.ads:4:4-4:26>
 Expr: <Id "I2" b-c.adb:4:19-4:21>
-  references:    <DefiningName b-c.adb:2:4-2:6>
+  references:    <DefiningName "I2" b-c.adb:2:4-2:6>
   type:          <ConcreteTypeDecl ["Typ"] b-c.ads:4:4-4:26>
   expected type: <ConcreteTypeDecl ["Typ"] b-c.ads:4:4-4:26>
 Expr: <OpAnd "and" b-c.adb:4:22-4:25>
-  references:    <DefiningName b.ads:5:13-5:18>
+  references:    <DefiningName ""and"" b.ads:5:13-5:18>
   type:          None
   expected type: None
 Expr: <Aggregate b-c.adb:4:26-4:32>

@@ -5,19 +5,19 @@ Resolving xrefs for node <ObjectDecl ["V"] main.adb:12:7-12:44>
 ***************************************************************
 
 Expr: <AttributeRef main.adb:12:11-12:33>
-  references:    <| DefiningName vector.ads:4:9-4:15 [main.adb:4:4] |>
+  references:    <| DefiningName "Vector" vector.ads:4:9-4:15 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <DottedName main.adb:12:11-12:27>
-  references:    <| DefiningName vector.ads:4:9-4:15 [main.adb:4:4] |>
+  references:    <| DefiningName "Vector" vector.ads:4:9-4:15 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "My_Vector" main.adb:12:11-12:20>
-  references:    <DefiningName main.adb:4:12-4:21>
+  references:    <DefiningName "My_Vector" main.adb:4:12-4:21>
   type:          None
   expected type: None
 Expr: <Id "Vector" main.adb:12:21-12:27>
-  references:    <| DefiningName vector.ads:4:9-4:15 [main.adb:4:4] |>
+  references:    <| DefiningName "Vector" vector.ads:4:9-4:15 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "Class" main.adb:12:28-12:33>
@@ -25,7 +25,7 @@ Expr: <Id "Class" main.adb:12:28-12:33>
   type:          None
   expected type: None
 Expr: <Id "Create" main.adb:12:37-12:43>
-  references:    <| DefiningName vector.ads:6:13-6:19 [main.adb:4:4] |>
+  references:    <| DefiningName "Create" vector.ads:6:13-6:19 [main.adb:4:4] |>
   type:          <| ClasswideTypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
   expected type: <| ClasswideTypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
 
@@ -33,19 +33,19 @@ Resolving xrefs for node <CallStmt main.adb:14:7-14:21>
 *******************************************************
 
 Expr: <CallExpr main.adb:14:7-14:20>
-  references:    <| DefiningName vector.ads:8:14-8:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:8:14-8:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <DottedName main.adb:14:7-14:15>
-  references:    <| DefiningName vector.ads:8:14-8:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:8:14-8:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "V" main.adb:14:7-14:8>
-  references:    <DefiningName main.adb:12:7-12:8>
+  references:    <DefiningName "V" main.adb:12:7-12:8>
   type:          <| ClasswideTypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:38 [main.adb:4:4] |>
 Expr: <Id "Append" main.adb:14:9-14:15>
-  references:    <| DefiningName vector.ads:8:14-8:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:8:14-8:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Int main.adb:14:17-14:19>

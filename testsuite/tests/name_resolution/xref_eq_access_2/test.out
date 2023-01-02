@@ -5,15 +5,15 @@ Resolving xrefs for node <AssignStmt test_access.adb:14:4-14:17>
 ****************************************************************
 
 Expr: <ExplicitDeref test_access.adb:14:4-14:11>
-  references:    <DefiningName test_access.adb:11:4-11:7>
+  references:    <DefiningName "R_A" test_access.adb:11:4-11:7>
   type:          <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
   expected type: None
 Expr: <Id "R_A" test_access.adb:14:4-14:7>
-  references:    <DefiningName test_access.adb:11:4-11:7>
+  references:    <DefiningName "R_A" test_access.adb:11:4-11:7>
   type:          <ConcreteTypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
   expected type: <ConcreteTypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
 Expr: <Id "R" test_access.adb:14:15-14:16>
-  references:    <DefiningName test_access.adb:10:4-10:5>
+  references:    <DefiningName "R" test_access.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
   expected type: <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
 
@@ -21,23 +21,23 @@ Resolving xrefs for node <AssignStmt test_access.adb:17:4-17:19>
 ****************************************************************
 
 Expr: <DottedName test_access.adb:17:4-17:13>
-  references:    <DefiningName test_access.adb:5:10-5:11>
+  references:    <DefiningName "B" test_access.adb:5:10-5:11>
   type:          <ConcreteTypeDecl ["Int"] test_access.adb:2:4-2:38>
   expected type: None
 Expr: <ExplicitDeref test_access.adb:17:4-17:11>
-  references:    <DefiningName test_access.adb:11:4-11:7>
+  references:    <DefiningName "R_A" test_access.adb:11:4-11:7>
   type:          <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
   expected type: <ConcreteTypeDecl ["Rec"] test_access.adb:4:4-6:15>
 Expr: <Id "R_A" test_access.adb:17:4-17:7>
-  references:    <DefiningName test_access.adb:11:4-11:7>
+  references:    <DefiningName "R_A" test_access.adb:11:4-11:7>
   type:          <ConcreteTypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
   expected type: <ConcreteTypeDecl ["Rec_Access"] test_access.adb:8:4-8:38>
 Expr: <Id "B" test_access.adb:17:12-17:13>
-  references:    <DefiningName test_access.adb:5:10-5:11>
+  references:    <DefiningName "B" test_access.adb:5:10-5:11>
   type:          <ConcreteTypeDecl ["Int"] test_access.adb:2:4-2:38>
   expected type: None
 Expr: <Id "I" test_access.adb:17:17-17:18>
-  references:    <DefiningName test_access.adb:12:4-12:5>
+  references:    <DefiningName "I" test_access.adb:12:4-12:5>
   type:          <ConcreteTypeDecl ["Int"] test_access.adb:2:4-2:38>
   expected type: <ConcreteTypeDecl ["Int"] test_access.adb:2:4-2:38>
 

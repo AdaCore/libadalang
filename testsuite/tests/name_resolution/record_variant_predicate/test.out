@@ -5,14 +5,14 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:26:4-26:21>
 ***************************************************************
 
 Expr: <Id "R" test.adb:26:8-26:9>
-  references:    <DefiningName test.adb:8:9-8:10>
+  references:    <DefiningName "R" test.adb:8:9-8:10>
   type:          None
   expected type: None
 Expr: <Aggregate test.adb:26:13-26:20>
   type:          <ConcreteTypeDecl ["R"] test.adb:8:4-15:15>
   expected type: <ConcreteTypeDecl ["R"] test.adb:8:4-15:15>
 Expr: <Id "A" test.adb:26:14-26:15>
-  references:    <DefiningName test.adb:2:18-2:19>
+  references:    <DefiningName "A" test.adb:2:18-2:19>
   type:          <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
   expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
 Expr: <Int test.adb:26:17-26:19>
@@ -24,14 +24,14 @@ Resolving xrefs for node <ObjectDecl ["Y"] test.adb:29:4-29:21>
 ***************************************************************
 
 Expr: <Id "S" test.adb:29:8-29:9>
-  references:    <DefiningName test.adb:17:9-17:10>
+  references:    <DefiningName "S" test.adb:17:9-17:10>
   type:          None
   expected type: None
 Expr: <Aggregate test.adb:29:13-29:20>
   type:          <ConcreteTypeDecl ["S"] test.adb:17:4-24:15>
   expected type: <ConcreteTypeDecl ["S"] test.adb:17:4-24:15>
 Expr: <Id "C" test.adb:29:14-29:15>
-  references:    <DefiningName test.adb:2:24-2:25>
+  references:    <DefiningName "C" test.adb:2:24-2:25>
   type:          <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
   expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
 Expr: <Int test.adb:29:17-29:19>

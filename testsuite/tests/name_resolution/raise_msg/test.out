@@ -5,18 +5,18 @@ Resolving xrefs for node <RaiseStmt test.adb:7:4-7:41>
 ******************************************************
 
 Expr: <Id "Failure" test.adb:7:10-7:17>
-  references:    <DefiningName test.adb:5:4-5:11>
+  references:    <DefiningName "Failure" test.adb:5:4-5:11>
   type:          None
   expected type: None
 Expr: <ConcatOp test.adb:7:23-7:40>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <CallExpr test.adb:7:23-7:30>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Get" test.adb:7:23-7:26>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Int test.adb:7:28-7:29>
@@ -31,11 +31,11 @@ Expr: <OpConcat "&" test.adb:7:31-7:32>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:7:33-7:40>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Get" test.adb:7:33-7:36>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Int test.adb:7:38-7:39>
@@ -47,7 +47,7 @@ Resolving xrefs for node <ObjectDecl ["Dummy"] test.adb:11:7-11:65>
 *******************************************************************
 
 Expr: <Id "Integer" test.adb:11:15-11:22>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:11:26-11:64>
@@ -57,18 +57,18 @@ Expr: <RaiseExpr test.adb:11:27-11:63>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Failure" test.adb:11:33-11:40>
-  references:    <DefiningName test.adb:5:4-5:11>
+  references:    <DefiningName "Failure" test.adb:5:4-5:11>
   type:          None
   expected type: None
 Expr: <ConcatOp test.adb:11:46-11:63>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <CallExpr test.adb:11:46-11:53>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Get" test.adb:11:46-11:49>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Int test.adb:11:51-11:52>
@@ -83,11 +83,11 @@ Expr: <OpConcat "&" test.adb:11:54-11:55>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:11:56-11:63>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Get" test.adb:11:56-11:59>
-  references:    <DefiningName test.adb:2:13-2:16>
+  references:    <DefiningName "Get" test.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Int test.adb:11:61-11:62>

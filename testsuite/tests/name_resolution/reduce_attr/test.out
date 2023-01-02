@@ -23,11 +23,11 @@ Expr: <OpDoubleDot ".." reduce.adb:19:19-19:21>
   type:          None
   expected type: None
 Expr: <Id "N" reduce.adb:19:22-19:23>
-  references:    <DefiningName reduce.adb:18:23-18:24>
+  references:    <DefiningName "N" reduce.adb:18:23-18:24>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "J" reduce.adb:19:27-19:28>
-  references:    <DefiningName reduce.adb:19:12-19:13>
+  references:    <DefiningName "J" reduce.adb:19:12-19:13>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Reduce" reduce.adb:19:30-19:36>
@@ -35,7 +35,7 @@ Expr: <Id "Reduce" reduce.adb:19:30-19:36>
   type:          None
   expected type: None
 Expr: <Str ""*"" reduce.adb:19:37-19:40>
-  references:    <SyntheticDefiningName __standard:4:19-4:53>
+  references:    <SyntheticDefiningName ""*"" __standard:4:19-4:53>
   type:          None
   expected type: None
 Expr: <Int reduce.adb:19:42-19:43>
@@ -47,7 +47,7 @@ Resolving xrefs for node <AssignStmt reduce.adb:37:7-37:34>
 ***********************************************************
 
 Expr: <Id "B" reduce.adb:37:7-37:8>
-  references:    <DefiningName reduce.adb:35:32-35:33>
+  references:    <DefiningName "B" reduce.adb:35:32-35:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <ReduceAttributeRef reduce.adb:37:12-37:33>
@@ -55,7 +55,7 @@ Expr: <ReduceAttributeRef reduce.adb:37:12-37:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "G" reduce.adb:37:12-37:13>
-  references:    <DefiningName reduce.adb:35:22-35:23>
+  references:    <DefiningName "G" reduce.adb:35:22-35:23>
   type:          <ConcreteTypeDecl ["Grid"] reduce.adb:2:4-2:53>
   expected type: None
 Expr: <Id "Reduce" reduce.adb:37:14-37:20>
@@ -63,11 +63,11 @@ Expr: <Id "Reduce" reduce.adb:37:14-37:20>
   type:          None
   expected type: None
 Expr: <Str ""and"" reduce.adb:37:21-37:26>
-  references:    <SyntheticDefiningName __standard:3:19-3:32>
+  references:    <SyntheticDefiningName ""and"" __standard:3:19-3:32>
   type:          None
   expected type: None
 Expr: <Id "True" reduce.adb:37:28-37:32>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
@@ -75,7 +75,7 @@ Resolving xrefs for node <AssignStmt reduce.adb:40:7-40:37>
 ***********************************************************
 
 Expr: <Id "B" reduce.adb:40:7-40:8>
-  references:    <DefiningName reduce.adb:35:32-35:33>
+  references:    <DefiningName "B" reduce.adb:35:32-35:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <ReduceAttributeRef reduce.adb:40:12-40:36>
@@ -83,7 +83,7 @@ Expr: <ReduceAttributeRef reduce.adb:40:12-40:36>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "G" reduce.adb:40:12-40:13>
-  references:    <DefiningName reduce.adb:35:22-35:23>
+  references:    <DefiningName "G" reduce.adb:35:22-35:23>
   type:          <ConcreteTypeDecl ["Grid"] reduce.adb:2:4-2:53>
   expected type: None
 Expr: <Id "Reduce" reduce.adb:40:14-40:20>
@@ -91,11 +91,11 @@ Expr: <Id "Reduce" reduce.adb:40:14-40:20>
   type:          None
   expected type: None
 Expr: <Id "Red_Func" reduce.adb:40:21-40:29>
-  references:    <DefiningName reduce.adb:22:13-22:21>
+  references:    <DefiningName "Red_Func" reduce.adb:22:13-22:21>
   type:          None
   expected type: None
 Expr: <Id "True" reduce.adb:40:31-40:35>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
@@ -103,7 +103,7 @@ Resolving xrefs for node <AssignStmt reduce.adb:43:7-43:34>
 ***********************************************************
 
 Expr: <Id "B" reduce.adb:43:7-43:8>
-  references:    <DefiningName reduce.adb:35:32-35:33>
+  references:    <DefiningName "B" reduce.adb:35:32-35:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <ReduceAttributeRef reduce.adb:43:12-43:33>
@@ -111,7 +111,7 @@ Expr: <ReduceAttributeRef reduce.adb:43:12-43:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "G" reduce.adb:43:12-43:13>
-  references:    <DefiningName reduce.adb:35:22-35:23>
+  references:    <DefiningName "G" reduce.adb:35:22-35:23>
   type:          <ConcreteTypeDecl ["Grid"] reduce.adb:2:4-2:53>
   expected type: None
 Expr: <Id "Reduce" reduce.adb:43:14-43:20>
@@ -119,11 +119,11 @@ Expr: <Id "Reduce" reduce.adb:43:14-43:20>
   type:          None
   expected type: None
 Expr: <Id "Red_Proc" reduce.adb:43:21-43:29>
-  references:    <DefiningName reduce.adb:8:14-8:22>
+  references:    <DefiningName "Red_Proc" reduce.adb:8:14-8:22>
   type:          None
   expected type: None
 Expr: <Id "B" reduce.adb:43:31-43:32>
-  references:    <DefiningName reduce.adb:35:32-35:33>
+  references:    <DefiningName "B" reduce.adb:35:32-35:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
@@ -131,7 +131,7 @@ Resolving xrefs for node <AssignStmt reduce.adb:49:4-49:59>
 ***********************************************************
 
 Expr: <Id "Reduced" reduce.adb:49:4-49:11>
-  references:    <DefiningName reduce.adb:47:4-47:11>
+  references:    <DefiningName "Reduced" reduce.adb:47:4-47:11>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ReduceAttributeRef reduce.adb:49:15-49:58>
@@ -154,7 +154,7 @@ Expr: <Int reduce.adb:49:30-49:32>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "J" reduce.adb:49:36-49:37>
-  references:    <DefiningName reduce.adb:49:20-49:21>
+  references:    <DefiningName "J" reduce.adb:49:20-49:21>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Reduce" reduce.adb:49:39-49:45>
@@ -162,7 +162,7 @@ Expr: <Id "Reduce" reduce.adb:49:39-49:45>
   type:          None
   expected type: None
 Expr: <Id "Red_Proc" reduce.adb:49:46-49:54>
-  references:    <DefiningName reduce.adb:13:14-13:22>
+  references:    <DefiningName "Red_Proc" reduce.adb:13:14-13:22>
   type:          None
   expected type: None
 Expr: <Int reduce.adb:49:56-49:57>
@@ -174,7 +174,7 @@ Resolving xrefs for node <AssignStmt reduce.adb:52:4-52:65>
 ***********************************************************
 
 Expr: <Id "Reduced" reduce.adb:52:4-52:11>
-  references:    <DefiningName reduce.adb:47:4-47:11>
+  references:    <DefiningName "Reduced" reduce.adb:47:4-47:11>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ReduceAttributeRef reduce.adb:52:15-52:64>
@@ -197,7 +197,7 @@ Expr: <Int reduce.adb:52:30-52:32>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "J" reduce.adb:52:36-52:37>
-  references:    <DefiningName reduce.adb:52:20-52:21>
+  references:    <DefiningName "J" reduce.adb:52:20-52:21>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Reduce" reduce.adb:52:39-52:45>
@@ -205,11 +205,11 @@ Expr: <Id "Reduce" reduce.adb:52:39-52:45>
   type:          None
   expected type: None
 Expr: <Id "Red_Func" reduce.adb:52:46-52:54>
-  references:    <DefiningName reduce.adb:25:13-25:21>
+  references:    <DefiningName "Red_Func" reduce.adb:25:13-25:21>
   type:          None
   expected type: None
 Expr: <Id "Reduced" reduce.adb:52:56-52:63>
-  references:    <DefiningName reduce.adb:47:4-47:11>
+  references:    <DefiningName "Reduced" reduce.adb:47:4-47:11>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -217,7 +217,7 @@ Resolving xrefs for node <AssignStmt reduce.adb:55:4-55:70>
 ***********************************************************
 
 Expr: <Id "Reduced" reduce.adb:55:4-55:11>
-  references:    <DefiningName reduce.adb:47:4-47:11>
+  references:    <DefiningName "Reduced" reduce.adb:47:4-47:11>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ReduceAttributeRef reduce.adb:55:15-55:69>
@@ -240,7 +240,7 @@ Expr: <Int reduce.adb:55:30-55:32>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "J" reduce.adb:55:36-55:37>
-  references:    <DefiningName reduce.adb:55:20-55:21>
+  references:    <DefiningName "J" reduce.adb:55:20-55:21>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Reduce" reduce.adb:55:39-55:45>
@@ -248,11 +248,11 @@ Expr: <Id "Reduce" reduce.adb:55:39-55:45>
   type:          None
   expected type: None
 Expr: <Id "Red_Func_Body" reduce.adb:55:46-55:59>
-  references:    <DefiningName reduce.adb:30:13-30:26>
+  references:    <DefiningName "Red_Func_Body" reduce.adb:30:13-30:26>
   type:          None
   expected type: None
 Expr: <Id "Reduced" reduce.adb:55:61-55:68>
-  references:    <DefiningName reduce.adb:47:4-47:11>
+  references:    <DefiningName "Reduced" reduce.adb:47:4-47:11>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -264,7 +264,7 @@ Resolving xrefs for node <ObjectDecl ["Acc"] acc.adb:16:7-18:58>
 ****************************************************************
 
 Expr: <Id "Accumulator" acc.adb:16:22-16:33>
-  references:    <DefiningName acc.adb:6:9-6:20>
+  references:    <DefiningName "Accumulator" acc.adb:6:9-6:20>
   type:          None
   expected type: None
 Expr: <ReduceAttributeRef acc.adb:17:9-18:57>
@@ -272,14 +272,14 @@ Expr: <ReduceAttributeRef acc.adb:17:9-18:57>
   type:          <ConcreteTypeDecl ["Accumulator"] acc.adb:6:4-9:15>
   expected type: <ConcreteTypeDecl ["Accumulator"] acc.adb:6:4-9:15>
 Expr: <Id "M" acc.adb:17:21-17:22>
-  references:    <DefiningName acc.adb:15:49-15:50>
+  references:    <DefiningName "M" acc.adb:15:49-15:50>
   type:          <ConcreteTypeDecl ["Matrix"] acc.adb:4:4-4:69>
   expected type: None
 Expr: <RelationOp acc.adb:17:28-17:39>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Val" acc.adb:17:28-17:31>
-  references:    <DefiningName acc.adb:17:14-17:17>
+  references:    <DefiningName "Val" acc.adb:17:14-17:17>
   type:          <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
   expected type: <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
 Expr: <OpGt ">" acc.adb:17:32-17:33>
@@ -294,7 +294,7 @@ Expr: <Aggregate acc.adb:17:43-17:51>
   type:          <ConcreteTypeDecl ["Accumulator"] acc.adb:6:4-9:15>
   expected type: <ConcreteTypeDecl ["Accumulator"] acc.adb:6:4-9:15>
 Expr: <Id "Val" acc.adb:17:44-17:47>
-  references:    <DefiningName acc.adb:17:14-17:17>
+  references:    <DefiningName "Val" acc.adb:17:14-17:17>
   type:          <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
   expected type: <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
 Expr: <Int acc.adb:17:49-17:50>
@@ -306,14 +306,14 @@ Expr: <Id "Reduce" acc.adb:18:13-18:19>
   type:          None
   expected type: None
 Expr: <Id "Accumulate" acc.adb:18:20-18:30>
-  references:    <DefiningName acc.adb:11:13-11:23>
+  references:    <DefiningName "Accumulate" acc.adb:11:13-11:23>
   type:          None
   expected type: None
 Expr: <Aggregate acc.adb:18:32-18:56>
   type:          <ConcreteTypeDecl ["Accumulator"] acc.adb:6:4-9:15>
   expected type: <ConcreteTypeDecl ["Accumulator"] acc.adb:6:4-9:15>
 Expr: <Id "Sum" acc.adb:18:33-18:36>
-  references:    <DefiningName acc.adb:7:7-7:10>
+  references:    <DefiningName "Sum" acc.adb:7:7-7:10>
   type:          None
   expected type: None
 Expr: <Real acc.adb:18:40-18:43>
@@ -321,7 +321,7 @@ Expr: <Real acc.adb:18:40-18:43>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
 Expr: <Id "Count" acc.adb:18:45-18:50>
-  references:    <DefiningName acc.adb:8:7-8:12>
+  references:    <DefiningName "Count" acc.adb:8:7-8:12>
   type:          None
   expected type: None
 Expr: <Int acc.adb:18:54-18:55>
@@ -337,7 +337,7 @@ Resolving xrefs for node <AssignStmt countc.adb:9:4-9:41>
 *********************************************************
 
 Expr: <Id "Count1" countc.adb:9:4-9:10>
-  references:    <DefiningName countc.adb:7:4-7:10>
+  references:    <DefiningName "Count1" countc.adb:7:4-7:10>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ReduceAttributeRef countc.adb:9:14-9:40>
@@ -345,7 +345,7 @@ Expr: <ReduceAttributeRef countc.adb:9:14-9:40>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Buffer" countc.adb:9:14-9:20>
-  references:    <DefiningName countc.adb:6:4-6:10>
+  references:    <DefiningName "Buffer" countc.adb:6:4-6:10>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "Reduce" countc.adb:9:21-9:27>
@@ -353,11 +353,11 @@ Expr: <Id "Reduce" countc.adb:9:21-9:27>
   type:          None
   expected type: None
 Expr: <Id "Acc" countc.adb:9:28-9:31>
-  references:    <DefiningName countc.adb:3:13-3:16>
+  references:    <DefiningName "Acc" countc.adb:3:13-3:16>
   type:          None
   expected type: None
 Expr: <Id "Count1" countc.adb:9:33-9:39>
-  references:    <DefiningName countc.adb:7:4-7:10>
+  references:    <DefiningName "Count1" countc.adb:7:4-7:10>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -365,7 +365,7 @@ Resolving xrefs for node <AssignStmt countc.adb:12:4-12:57>
 ***********************************************************
 
 Expr: <Id "Count2" countc.adb:12:4-12:10>
-  references:    <DefiningName countc.adb:7:12-7:18>
+  references:    <DefiningName "Count2" countc.adb:7:12-7:18>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <ReduceAttributeRef countc.adb:12:14-12:56>
@@ -373,11 +373,11 @@ Expr: <ReduceAttributeRef countc.adb:12:14-12:56>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Buffer" countc.adb:12:24-12:30>
-  references:    <DefiningName countc.adb:6:4-6:10>
+  references:    <DefiningName "Buffer" countc.adb:6:4-6:10>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "C" countc.adb:12:34-12:35>
-  references:    <DefiningName countc.adb:12:19-12:20>
+  references:    <DefiningName "C" countc.adb:12:19-12:20>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <Id "Reduce" countc.adb:12:37-12:43>
@@ -385,11 +385,11 @@ Expr: <Id "Reduce" countc.adb:12:37-12:43>
   type:          None
   expected type: None
 Expr: <Id "Acc" countc.adb:12:44-12:47>
-  references:    <DefiningName countc.adb:3:13-3:16>
+  references:    <DefiningName "Acc" countc.adb:3:13-3:16>
   type:          None
   expected type: None
 Expr: <Id "Count2" countc.adb:12:49-12:55>
-  references:    <DefiningName countc.adb:7:12-7:18>
+  references:    <DefiningName "Count2" countc.adb:7:12-7:18>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

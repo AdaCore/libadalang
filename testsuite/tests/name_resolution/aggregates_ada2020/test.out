@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["A"] test_brack_aggr.adb:3:4-3:28>
 ************************************************************************
 
 Expr: <Id "Arr" test_brack_aggr.adb:3:8-3:11>
-  references:    <DefiningName test_brack_aggr.adb:2:9-2:12>
+  references:    <DefiningName "Arr" test_brack_aggr.adb:2:9-2:12>
   type:          None
   expected type: None
 Expr: <BracketAggregate test_brack_aggr.adb:3:15-3:27>
@@ -32,14 +32,14 @@ Resolving xrefs for node <ObjectDecl ["B"] test_brack_aggr.adb:6:4-6:39>
 ************************************************************************
 
 Expr: <Id "Arr" test_brack_aggr.adb:6:8-6:11>
-  references:    <DefiningName test_brack_aggr.adb:2:9-2:12>
+  references:    <DefiningName "Arr" test_brack_aggr.adb:2:9-2:12>
   type:          None
   expected type: None
 Expr: <BracketAggregate test_brack_aggr.adb:6:15-6:38>
   type:          <ConcreteTypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
   expected type: <ConcreteTypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
 Expr: <Id "A" test_brack_aggr.adb:6:16-6:17>
-  references:    <DefiningName test_brack_aggr.adb:3:4-3:5>
+  references:    <DefiningName "A" test_brack_aggr.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
   expected type: None
 Expr: <Int test_brack_aggr.adb:6:23-6:24>
@@ -63,18 +63,18 @@ Resolving xrefs for node <ObjectDecl ["P2"] test_brack_aggr.adb:15:4-15:41>
 ***************************************************************************
 
 Expr: <Id "Point" test_brack_aggr.adb:15:9-15:14>
-  references:    <DefiningName test_brack_aggr.adb:9:9-9:14>
+  references:    <DefiningName "Point" test_brack_aggr.adb:9:9-9:14>
   type:          None
   expected type: None
 Expr: <DeltaAggregate test_brack_aggr.adb:15:18-15:40>
   type:          <ConcreteTypeDecl ["Point"] test_brack_aggr.adb:9:4-11:15>
   expected type: <ConcreteTypeDecl ["Point"] test_brack_aggr.adb:9:4-11:15>
 Expr: <Id "P" test_brack_aggr.adb:15:19-15:20>
-  references:    <DefiningName test_brack_aggr.adb:13:4-13:5>
+  references:    <DefiningName "P" test_brack_aggr.adb:13:4-13:5>
   type:          <ConcreteTypeDecl ["Point"] test_brack_aggr.adb:9:4-11:15>
   expected type: None
 Expr: <Id "Y" test_brack_aggr.adb:15:32-15:33>
-  references:    <DefiningName test_brack_aggr.adb:10:10-10:11>
+  references:    <DefiningName "Y" test_brack_aggr.adb:10:10-10:11>
   type:          None
   expected type: None
 Expr: <Int test_brack_aggr.adb:15:37-15:39>
@@ -86,18 +86,18 @@ Resolving xrefs for node <ObjectDecl ["P2"] test_brack_aggr.adb:18:4-18:41>
 ***************************************************************************
 
 Expr: <Id "Point" test_brack_aggr.adb:18:9-18:14>
-  references:    <DefiningName test_brack_aggr.adb:9:9-9:14>
+  references:    <DefiningName "Point" test_brack_aggr.adb:9:9-9:14>
   type:          None
   expected type: None
 Expr: <BracketDeltaAggregate test_brack_aggr.adb:18:18-18:40>
   type:          <ConcreteTypeDecl ["Point"] test_brack_aggr.adb:9:4-11:15>
   expected type: <ConcreteTypeDecl ["Point"] test_brack_aggr.adb:9:4-11:15>
 Expr: <Id "P" test_brack_aggr.adb:18:19-18:20>
-  references:    <DefiningName test_brack_aggr.adb:13:4-13:5>
+  references:    <DefiningName "P" test_brack_aggr.adb:13:4-13:5>
   type:          <ConcreteTypeDecl ["Point"] test_brack_aggr.adb:9:4-11:15>
   expected type: None
 Expr: <Id "Y" test_brack_aggr.adb:18:32-18:33>
-  references:    <DefiningName test_brack_aggr.adb:10:10-10:11>
+  references:    <DefiningName "Y" test_brack_aggr.adb:10:10-10:11>
   type:          None
   expected type: None
 Expr: <Int test_brack_aggr.adb:18:37-18:39>
@@ -109,7 +109,7 @@ Resolving xrefs for node <ObjectDecl ["It"] test_brack_aggr.adb:21:4-21:45>
 ***************************************************************************
 
 Expr: <Id "Arr" test_brack_aggr.adb:21:9-21:12>
-  references:    <DefiningName test_brack_aggr.adb:2:9-2:12>
+  references:    <DefiningName "Arr" test_brack_aggr.adb:2:9-2:12>
   type:          None
   expected type: None
 Expr: <Aggregate test_brack_aggr.adb:21:16-21:44>
@@ -134,7 +134,7 @@ Expr: <BinOp test_brack_aggr.adb:21:38-21:43>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "I" test_brack_aggr.adb:21:38-21:39>
-  references:    <DefiningName test_brack_aggr.adb:21:21-21:22>
+  references:    <DefiningName "I" test_brack_aggr.adb:21:21-21:22>
   type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMult "*" test_brack_aggr.adb:21:40-21:41>

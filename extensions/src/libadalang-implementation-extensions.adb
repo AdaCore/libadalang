@@ -368,6 +368,30 @@ package body Libadalang.Implementation.Extensions is
       return To_Wide_Wide_String (Ret);
    end Basic_Decl_Short_Image;
 
+   -------------------------------
+   -- Defining_Name_Short_Image --
+   -------------------------------
+
+   function Defining_Name_Short_Image
+     (Node : Bare_Defining_Name) return Text_Type
+   is
+      F_Name     : constant Bare_Name := Node.Defining_Name_F_Name;
+      Name_Image : constant Text_Type :=
+        (if F_Name.Kind = Ada_Synthetic_Identifier
+         then F_Name.Synthetic_Identifier_Sym.all
+         else Text (Node));
+      Name_Part  : constant Text_Type :=
+        (if Name_Image = ""
+         then " ??? "
+         else " """ & Name_Image & """ ");
+   begin
+      return
+        "<" & To_Text (Kind_Name (Node))
+        & Name_Part
+        & To_Text (Ada.Directories.Simple_Name (Get_Filename (Unit (Node))))
+        & ":" & To_Text (Image (Sloc_Range (Node))) & ">";
+   end Defining_Name_Short_Image;
+
    ----------------------
    -- Basic_Decl_P_Doc --
    ----------------------

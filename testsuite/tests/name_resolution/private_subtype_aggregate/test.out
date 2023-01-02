@@ -5,14 +5,14 @@ Resolving xrefs for node <ObjectDecl ["A"] test.adb:12:7-12:36>
 ***************************************************************
 
 Expr: <Id "TT" test.adb:12:11-12:13>
-  references:    <DefiningName test.adb:4:15-4:17>
+  references:    <DefiningName "TT" test.adb:4:15-4:17>
   type:          None
   expected type: None
 Expr: <Aggregate test.adb:12:17-12:35>
   type:          <SubtypeDecl ["TT"] test.adb:4:7-4:23>
   expected type: <SubtypeDecl ["TT"] test.adb:4:7-4:23>
 Expr: <Id "A" test.adb:12:18-12:19>
-  references:    <DefiningName test.adb:7:10-7:11>
+  references:    <DefiningName "A" test.adb:7:10-7:11>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:23-12:25>
@@ -20,7 +20,7 @@ Expr: <Int test.adb:12:23-12:25>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" test.adb:12:27-12:28>
-  references:    <DefiningName test.adb:7:13-7:14>
+  references:    <DefiningName "B" test.adb:7:13-7:14>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:32-12:34>

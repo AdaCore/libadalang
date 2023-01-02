@@ -5,14 +5,14 @@ Resolving xrefs for node <ObjectDecl ["Inst"] test_array_indices.adb:6:4-7:55>
 ******************************************************************************
 
 Expr: <Id "A" test_array_indices.adb:6:11-6:12>
-  references:    <DefiningName test_array_indices.adb:4:9-4:10>
+  references:    <DefiningName "A" test_array_indices.adb:4:9-4:10>
   type:          None
   expected type: None
 Expr: <Aggregate test_array_indices.adb:6:16-7:54>
   type:          <ConcreteTypeDecl ["A"] test_array_indices.adb:4:4-4:46>
   expected type: <ConcreteTypeDecl ["A"] test_array_indices.adb:4:4-4:46>
 Expr: <Id "Yellow" test_array_indices.adb:6:17-6:23>
-  references:    <DefiningName test_array_indices.adb:2:19-2:25>
+  references:    <DefiningName "Yellow" test_array_indices.adb:2:19-2:25>
   type:          <ConcreteTypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
   expected type: <ConcreteTypeDecl ["Color"] test_array_indices.adb:2:4-2:54>
 Expr: <Aggregate test_array_indices.adb:6:27-6:41>
@@ -26,7 +26,7 @@ Expr: <Aggregate test_array_indices.adb:7:27-7:53>
   type:          None
   expected type: None
 Expr: <Id "Dark" test_array_indices.adb:7:28-7:32>
-  references:    <DefiningName test_array_indices.adb:3:19-3:23>
+  references:    <DefiningName "Dark" test_array_indices.adb:3:19-3:23>
   type:          <ConcreteTypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
   expected type: <ConcreteTypeDecl ["Shade"] test_array_indices.adb:3:4-3:32>
 Expr: <Int test_array_indices.adb:7:36-7:38>

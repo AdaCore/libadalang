@@ -5,15 +5,15 @@ Resolving xrefs for node <CallStmt test.adb:7:4-7:12>
 *****************************************************
 
 Expr: <CallExpr test.adb:7:4-7:11>
-  references:    <DefiningName pkg-der.ads:4:25-4:28>
+  references:    <DefiningName "Foo" pkg-der.ads:4:25-4:28>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:7:4-7:7>
-  references:    <DefiningName pkg-der.ads:4:25-4:28>
+  references:    <DefiningName "Foo" pkg-der.ads:4:25-4:28>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:7:9-7:10>
-  references:    <DefiningName test.adb:5:4-5:5>
+  references:    <DefiningName "X" test.adb:5:4-5:5>
   type:          <ClasswideTypeDecl ["U"] pkg-der.ads:2:4-2:37>
   expected type: <ConcreteTypeDecl ["U"] pkg-der.ads:2:4-2:37>
 
@@ -21,15 +21,15 @@ Resolving xrefs for node <CallStmt test.adb:12:4-12:10>
 *******************************************************
 
 Expr: <DottedName test.adb:12:4-12:9>
-  references:    <DefiningName pkg-der.ads:4:25-4:28>
+  references:    <DefiningName "Foo" pkg-der.ads:4:25-4:28>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:12:4-12:5>
-  references:    <DefiningName test.adb:5:4-5:5>
+  references:    <DefiningName "X" test.adb:5:4-5:5>
   type:          <ClasswideTypeDecl ["U"] pkg-der.ads:2:4-2:37>
   expected type: None
 Expr: <Id "Foo" test.adb:12:6-12:9>
-  references:    <DefiningName pkg-der.ads:4:25-4:28>
+  references:    <DefiningName "Foo" pkg-der.ads:4:25-4:28>
   type:          None
   expected type: None
 

@@ -2,37 +2,37 @@ Working on node <GenericSubpInstantiation ["My_Foo"] test.adb:23:7-23:43>
 =========================================================================
 
 Eval 'node.f_params.p_zip_with_params()'
-Result: [<ParamActual param=<DefiningName test.adb:4:24-4:25> actual=<DefiningName test.adb:20:16-20:17>>]
+Result: [<ParamActual param=<DefiningName "F" test.adb:4:24-4:25> actual=<DefiningName "F" test.adb:20:16-20:17>>]
 
 Working on node <GenericSubpInstantiation ["My_Int_Bar"] test.adb:26:7-26:62>
 =============================================================================
 
 Eval 'node.f_params.p_zip_with_params()'
-Result: [<ParamActual param=<DefiningName test.adb:12:15-12:16> actual=<Id "Integer" test.adb:26:53-26:60>>,
-         <ParamActual param=<DefiningName test.adb:13:24-13:25> actual=<DefiningName test.adb:20:16-20:17>>]
+Result: [<ParamActual param=<DefiningName "T" test.adb:12:15-12:16> actual=<Id "Integer" test.adb:26:53-26:60>>,
+         <ParamActual param=<DefiningName "F" test.adb:13:24-13:25> actual=<DefiningName "F" test.adb:20:16-20:17>>]
 
 Working on node <GenericSubpInstantiation ["My_Float_Bar"] test.adb:29:7-29:62>
 ===============================================================================
 
 Eval 'node.f_params.p_zip_with_params()'
-Result: [<ParamActual param=<DefiningName test.adb:12:15-12:16> actual=<Id "Float" test.adb:29:55-29:60>>,
-         <ParamActual param=<DefiningName test.adb:13:24-13:25> actual=<DefiningName test.adb:21:16-21:17>>]
+Result: [<ParamActual param=<DefiningName "T" test.adb:12:15-12:16> actual=<Id "Float" test.adb:29:55-29:60>>,
+         <ParamActual param=<DefiningName "F" test.adb:13:24-13:25> actual=<DefiningName "F" test.adb:21:16-21:17>>]
 
 Working on node <GenericSubpInstantiation ["My_Float_Bar"] test.adb:42:7-42:62>
 ===============================================================================
 
 Eval 'node.f_params.p_zip_with_params()'
-Result: [<ParamActual param=<DefiningName test.adb:12:15-12:16> actual=<Id "Float" test.adb:42:55-42:60>>,
-         <ParamActual param=<DefiningName test.adb:13:24-13:25> actual=<DefiningName test.adb:40:16-40:17>>]
+Result: [<ParamActual param=<DefiningName "T" test.adb:12:15-12:16> actual=<Id "Float" test.adb:42:55-42:60>>,
+         <ParamActual param=<DefiningName "F" test.adb:13:24-13:25> actual=<DefiningName "F" test.adb:40:16-40:17>>]
 
 Working on node <GenericSubpInstantiation ["My_Foo"] test.adb:49:7-49:52>
 =========================================================================
 
 Eval 'node.f_params.p_zip_with_params()'
-Result: [<ParamActual param=<DefiningName test.adb:4:24-4:25> actual=<Id "G" test.adb:49:49-49:50>>]
+Result: [<ParamActual param=<DefiningName "F" test.adb:4:24-4:25> actual=<Id "G" test.adb:49:49-49:50>>]
 
 Working on node <GenericPackageInstantiation ["My_Foo"] test.adb:59:7-59:33>
 ============================================================================
 
 Eval 'node.f_params.p_zip_with_params()'
-Result: [<ParamActual param=<DefiningName test.adb:55:24-55:27> actual=<SyntheticDefiningName __standard:4:19-4:53>>]
+Result: [<ParamActual param=<DefiningName ""+"" test.adb:55:24-55:27> actual=<SyntheticDefiningName ""+"" __standard:4:19-4:53>>]

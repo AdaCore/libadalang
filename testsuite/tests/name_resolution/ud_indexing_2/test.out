@@ -5,11 +5,11 @@ Resolving xrefs for node <ForLoopSpec test.adb:8:11-8:29>
 *********************************************************
 
 Expr: <CallExpr test.adb:8:16-8:29>
-  references:    <DefiningName test.adb:5:7-5:11>
+  references:    <DefiningName "List" test.adb:5:7-5:11>
   type:          <AnonymousTypeDecl ["None"] test.adb:5:14-5:39>
   expected type: None
 Expr: <Id "List" test.adb:8:16-8:20>
-  references:    <DefiningName test.adb:5:7-5:11>
+  references:    <DefiningName "List" test.adb:5:7-5:11>
   type:          <AnonymousTypeDecl ["None"] test.adb:5:14-5:39>
   expected type: None
 Expr: <BinOp test.adb:8:22-8:28>

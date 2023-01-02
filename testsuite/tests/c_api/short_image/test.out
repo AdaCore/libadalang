@@ -13,7 +13,7 @@
 | | | <OverridingUnspecified foo.adb:1:18-1:18>
 | | | <SubpSpec foo.adb:3:1-3:14>
 | | | | <SubpKindProcedure foo.adb:3:1-3:10>
-| | | | <DefiningName foo.adb:3:11-3:14>
+| | | | <DefiningName "Foo" foo.adb:3:11-3:14>
 | | | | | <Id "Foo" foo.adb:3:11-3:14>
 | | | | <null node>
 | | | | <null node>

@@ -5,11 +5,11 @@ Resolving xrefs for node <ObjectDecl ["C"] entryfam.adb:12:10-12:30>
 ********************************************************************
 
 Expr: <Id "Integer" entryfam.adb:12:14-12:21>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "Spec" entryfam.adb:12:25-12:29>
-  references:    <DefiningName entryfam.adb:10:20-10:24>
+  references:    <DefiningName "Spec" entryfam.adb:10:20-10:24>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -17,23 +17,23 @@ Resolving xrefs for node <CallStmt entryfam.adb:23:4-23:16>
 ***********************************************************
 
 Expr: <CallExpr entryfam.adb:23:4-23:15>
-  references:    <DefiningName entryfam.adb:5:13-5:14>
+  references:    <DefiningName "A" entryfam.adb:5:13-5:14>
   type:          None
   expected type: None
 Expr: <CallExpr entryfam.adb:23:4-23:11>
-  references:    <DefiningName entryfam.adb:5:13-5:14>
+  references:    <DefiningName "A" entryfam.adb:5:13-5:14>
   type:          None
   expected type: None
 Expr: <DottedName entryfam.adb:23:4-23:7>
-  references:    <DefiningName entryfam.adb:5:13-5:14>
+  references:    <DefiningName "A" entryfam.adb:5:13-5:14>
   type:          None
   expected type: None
 Expr: <Id "F" entryfam.adb:23:4-23:5>
-  references:    <DefiningName entryfam.adb:21:4-21:5>
+  references:    <DefiningName "F" entryfam.adb:21:4-21:5>
   type:          <ProtectedTypeDecl ["Pouet"] entryfam.adb:4:4-7:14>
   expected type: None
 Expr: <Id "A" entryfam.adb:23:6-23:7>
-  references:    <DefiningName entryfam.adb:5:13-5:14>
+  references:    <DefiningName "A" entryfam.adb:5:13-5:14>
   type:          None
   expected type: None
 Expr: <Int entryfam.adb:23:9-23:10>

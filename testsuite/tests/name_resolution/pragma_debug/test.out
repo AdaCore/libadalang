@@ -15,19 +15,19 @@ Expr: <IfExpr test.adb:5:19-5:47>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "True" test.adb:5:22-5:26>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "True" test.adb:5:32-5:36>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "False" test.adb:5:42-5:47>
-  references:    <DefiningName __standard:3:20-3:25>
+  references:    <DefiningName "False" __standard:3:20-3:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:5:50-5:53>
-  references:    <DefiningName test.adb:2:14-2:17>
+  references:    <DefiningName "Foo" test.adb:2:14-2:17>
   type:          None
   expected type: None
 

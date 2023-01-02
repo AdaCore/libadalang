@@ -5,7 +5,7 @@ Resolving xrefs for node <ForLoopSpec test.adb:57:14-57:20>
 ***********************************************************
 
 Expr: <Id "A" test.adb:57:19-57:20>
-  references:    <DefiningName test.adb:55:19-55:20>
+  references:    <DefiningName "A" test.adb:55:19-55:20>
   type:          <ConcreteTypeDecl ["JSON_Array"] test.adb:26:7-28:18>
   expected type: None
 

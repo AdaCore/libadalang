@@ -5,15 +5,15 @@ Resolving xrefs for node <ObjectDecl ["A"] test_subp_address.adb:6:4-6:38>
 **************************************************************************
 
 Expr: <DottedName test_subp_address.adb:6:8-6:22>
-  references:    <DefiningName system.ads:67:9-67:16>
+  references:    <DefiningName "Address" system.ads:67:9-67:16>
   type:          None
   expected type: None
 Expr: <Id "System" test_subp_address.adb:6:8-6:14>
-  references:    <DefiningName system.ads:37:9-37:15>
+  references:    <DefiningName "System" system.ads:37:9-37:15>
   type:          None
   expected type: None
 Expr: <Id "Address" test_subp_address.adb:6:15-6:22>
-  references:    <DefiningName system.ads:67:9-67:16>
+  references:    <DefiningName "Address" system.ads:67:9-67:16>
   type:          None
   expected type: None
 Expr: <AttributeRef test_subp_address.adb:6:26-6:37>
@@ -21,7 +21,7 @@ Expr: <AttributeRef test_subp_address.adb:6:26-6:37>
   type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
   expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
 Expr: <Id "Foo" test_subp_address.adb:6:26-6:29>
-  references:    <DefiningName test_subp_address.adb:4:13-4:16>
+  references:    <DefiningName "Foo" test_subp_address.adb:4:13-4:16>
   type:          None
   expected type: None
 Expr: <Id "Address" test_subp_address.adb:6:30-6:37>

@@ -5,31 +5,31 @@ Resolving xrefs for node <ObjectDecl ["B"] test.adb:3:4-3:48>
 *************************************************************
 
 Expr: <Id "Boolean" test.adb:3:8-3:15>
-  references:    <DefiningName __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:3:19-3:47>
-  references:    <SyntheticDefiningName __standard:4:19-4:53>
+  references:    <SyntheticDefiningName "">="" __standard:4:19-4:53>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Str "">="" test.adb:3:19-3:23>
-  references:    <SyntheticDefiningName __standard:4:19-4:53>
+  references:    <SyntheticDefiningName "">="" __standard:4:19-4:53>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "Left" test.adb:3:25-3:29>
-  references:    <SyntheticDefiningName __standard:4:19-4:53>
+  references:    <SyntheticDefiningName "left" __standard:4:19-4:53>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:3:33-3:34>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Right" test.adb:3:36-3:41>
-  references:    <SyntheticDefiningName __standard:4:19-4:53>
+  references:    <SyntheticDefiningName "right" __standard:4:19-4:53>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:3:45-3:46>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["S"] test.adb:2:4-35:64>
 **************************************************************
 
 Expr: <Id "String" test.adb:2:8-2:14>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <ConcatOp test.adb:3:6-35:63>
@@ -3643,7 +3643,7 @@ Resolving xrefs for node <ObjectDecl ["S"] test2.adb:4:4-4:55>
 **************************************************************
 
 Expr: <Id "String" test2.adb:4:8-4:14>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <ConcatOp test2.adb:4:18-4:54>
@@ -3661,7 +3661,7 @@ Expr: <OpConcat "&" test2.adb:4:26-4:27>
   type:          None
   expected type: None
 Expr: <Chr "'.'" test2.adb:4:28-4:31>
-  references:    <SyntheticDefiningName __standard:21:3-21:27>
+  references:    <SyntheticDefiningName "'.'" __standard:21:3-21:27>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ConcatOperand test2.adb:4:32-4:37>
@@ -3683,7 +3683,7 @@ Expr: <OpConcat "&" test2.adb:4:38-4:39>
   type:          None
   expected type: None
 Expr: <Chr "'.'" test2.adb:4:40-4:43>
-  references:    <SyntheticDefiningName __standard:21:3-21:27>
+  references:    <SyntheticDefiningName "'.'" __standard:21:3-21:27>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ConcatOperand test2.adb:4:44-4:54>
@@ -3702,7 +3702,7 @@ Resolving xrefs for node <ObjectDecl ["U"] test2.adb:7:4-7:48>
 **************************************************************
 
 Expr: <Id "String" test2.adb:7:8-7:14>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <ConcatOp test2.adb:7:18-7:47>
@@ -3726,7 +3726,7 @@ Expr: <ConcatOp test2.adb:7:28-7:37>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Chr "'/'" test2.adb:7:28-7:31>
-  references:    <SyntheticDefiningName __standard:21:3-21:27>
+  references:    <SyntheticDefiningName "'/'" __standard:21:3-21:27>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ConcatOperand test2.adb:7:32-7:37>
@@ -3737,7 +3737,7 @@ Expr: <OpConcat "&" test2.adb:7:32-7:33>
   type:          None
   expected type: None
 Expr: <Chr "'\\'" test2.adb:7:34-7:37>
-  references:    <SyntheticDefiningName __standard:21:3-21:27>
+  references:    <SyntheticDefiningName "'\\'" __standard:21:3-21:27>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ConcatOperand test2.adb:7:39-7:47>
@@ -3756,7 +3756,7 @@ Resolving xrefs for node <ObjectDecl ["X"] test2.adb:12:4-12:23>
 ****************************************************************
 
 Expr: <Id "T" test2.adb:12:8-12:9>
-  references:    <DefiningName test2.adb:10:9-10:10>
+  references:    <DefiningName "T" test2.adb:10:9-10:10>
   type:          None
   expected type: None
 Expr: <Aggregate test2.adb:12:13-12:22>
@@ -3779,14 +3779,14 @@ Resolving xrefs for node <ObjectDecl ["Y"] test2.adb:14:4-14:27>
 ****************************************************************
 
 Expr: <Id "T" test2.adb:14:8-14:9>
-  references:    <DefiningName test2.adb:10:9-10:10>
+  references:    <DefiningName "T" test2.adb:10:9-10:10>
   type:          None
   expected type: None
 Expr: <ConcatOp test2.adb:14:13-14:26>
   type:          <ConcreteTypeDecl ["T"] test2.adb:10:4-10:51>
   expected type: <ConcreteTypeDecl ["T"] test2.adb:10:4-10:51>
 Expr: <Id "X" test2.adb:14:13-14:14>
-  references:    <DefiningName test2.adb:12:4-12:5>
+  references:    <DefiningName "X" test2.adb:12:4-12:5>
   type:          <ConcreteTypeDecl ["T"] test2.adb:10:4-10:51>
   expected type: <ConcreteTypeDecl ["T"] test2.adb:10:4-10:51>
 Expr: <ConcatOperand test2.adb:14:15-14:26>
@@ -3816,7 +3816,7 @@ Resolving xrefs for node <ObjectDecl ["Z"] test2.adb:16:4-16:23>
 ****************************************************************
 
 Expr: <Id "T" test2.adb:16:8-16:9>
-  references:    <DefiningName test2.adb:10:9-10:10>
+  references:    <DefiningName "T" test2.adb:10:9-10:10>
   type:          None
   expected type: None
 Expr: <ConcatOp test2.adb:16:13-16:22>
@@ -3834,7 +3834,7 @@ Expr: <OpConcat "&" test2.adb:16:15-16:16>
   type:          None
   expected type: None
 Expr: <Id "Y" test2.adb:16:17-16:18>
-  references:    <DefiningName test2.adb:14:4-14:5>
+  references:    <DefiningName "Y" test2.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["T"] test2.adb:10:4-10:51>
   expected type: <ConcreteTypeDecl ["T"] test2.adb:10:4-10:51>
 Expr: <ConcatOperand test2.adb:16:19-16:22>

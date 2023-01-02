@@ -5,14 +5,14 @@ Resolving xrefs for node <AssignStmt derived_aggregate.adb:20:4-20:63>
 **********************************************************************
 
 Expr: <Id "R" derived_aggregate.adb:20:4-20:5>
-  references:    <DefiningName derived_aggregate.adb:16:4-16:5>
+  references:    <DefiningName "R" derived_aggregate.adb:16:4-16:5>
   type:          <ConcreteTypeDecl ["Rec_2"] derived_aggregate.adb:11:4-14:15>
   expected type: None
 Expr: <Aggregate derived_aggregate.adb:20:9-20:62>
   type:          <ConcreteTypeDecl ["Rec_2"] derived_aggregate.adb:11:4-14:15>
   expected type: <ConcreteTypeDecl ["Rec_2"] derived_aggregate.adb:11:4-14:15>
 Expr: <Id "A" derived_aggregate.adb:20:10-20:11>
-  references:    <DefiningName derived_aggregate.adb:8:7-8:8>
+  references:    <DefiningName "A" derived_aggregate.adb:8:7-8:8>
   type:          None
   expected type: None
 Expr: <Real derived_aggregate.adb:20:15-20:18>
@@ -20,7 +20,7 @@ Expr: <Real derived_aggregate.adb:20:15-20:18>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
 Expr: <Id "B" derived_aggregate.adb:20:20-20:21>
-  references:    <DefiningName derived_aggregate.adb:8:10-8:11>
+  references:    <DefiningName "B" derived_aggregate.adb:8:10-8:11>
   type:          None
   expected type: None
 Expr: <Real derived_aggregate.adb:20:25-20:28>
@@ -28,7 +28,7 @@ Expr: <Real derived_aggregate.adb:20:25-20:28>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
 Expr: <Id "C" derived_aggregate.adb:20:30-20:31>
-  references:    <DefiningName derived_aggregate.adb:12:7-12:8>
+  references:    <DefiningName "C" derived_aggregate.adb:12:7-12:8>
   type:          None
   expected type: None
 Expr: <Int derived_aggregate.adb:20:35-20:36>
@@ -36,7 +36,7 @@ Expr: <Int derived_aggregate.adb:20:35-20:36>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] derived_aggregate.adb:5:4-5:34>
 Expr: <Id "D" derived_aggregate.adb:20:38-20:39>
-  references:    <DefiningName derived_aggregate.adb:12:10-12:11>
+  references:    <DefiningName "D" derived_aggregate.adb:12:10-12:11>
   type:          None
   expected type: None
 Expr: <Int derived_aggregate.adb:20:43-20:44>
@@ -44,7 +44,7 @@ Expr: <Int derived_aggregate.adb:20:43-20:44>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] derived_aggregate.adb:5:4-5:34>
 Expr: <Id "R" derived_aggregate.adb:20:46-20:47>
-  references:    <DefiningName derived_aggregate.adb:13:7-13:8>
+  references:    <DefiningName "R" derived_aggregate.adb:13:7-13:8>
   type:          None
   expected type: None
 Expr: <Aggregate derived_aggregate.adb:20:51-20:61>
@@ -55,7 +55,7 @@ Expr: <Real derived_aggregate.adb:20:52-20:55>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
 Expr: <Id "Foo" derived_aggregate.adb:20:57-20:60>
-  references:    <DefiningName derived_aggregate.adb:18:13-18:16>
+  references:    <DefiningName "Foo" derived_aggregate.adb:18:13-18:16>
   type:          <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
   expected type: <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
 

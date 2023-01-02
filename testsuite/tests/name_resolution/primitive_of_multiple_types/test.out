@@ -5,27 +5,27 @@ Resolving xrefs for node <AssignStmt test.adb:8:4-8:22>
 *******************************************************
 
 Expr: <Id "X" test.adb:8:4-8:5>
-  references:    <DefiningName test.adb:5:4-5:5>
+  references:    <DefiningName "X" test.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["T"] pkg2.ads:4:4-4:24>
   expected type: None
 Expr: <CallExpr test.adb:8:9-8:21>
-  references:    <DefiningName pkg.ads:5:13-5:16>
+  references:    <DefiningName "Foo" pkg.ads:5:13-5:16>
   type:          <ConcreteTypeDecl ["T"] pkg2.ads:4:4-4:24>
   expected type: <ConcreteTypeDecl ["T"] pkg2.ads:4:4-4:24>
 Expr: <DottedName test.adb:8:9-8:17>
-  references:    <DefiningName pkg.ads:5:13-5:16>
+  references:    <DefiningName "Foo" pkg.ads:5:13-5:16>
   type:          <ConcreteTypeDecl ["T"] pkg2.ads:4:4-4:24>
   expected type: None
 Expr: <Id "Pkg2" test.adb:8:9-8:13>
-  references:    <DefiningName pkg2.ads:3:9-3:13>
+  references:    <DefiningName "Pkg2" pkg2.ads:3:9-3:13>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:8:14-8:17>
-  references:    <DefiningName pkg.ads:5:13-5:16>
+  references:    <DefiningName "Foo" pkg.ads:5:13-5:16>
   type:          <ConcreteTypeDecl ["T"] pkg2.ads:4:4-4:24>
   expected type: None
 Expr: <Id "Y" test.adb:8:19-8:20>
-  references:    <DefiningName test.adb:6:4-6:5>
+  references:    <DefiningName "Y" test.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["A"] pkg.ads:2:4-2:26>
   expected type: <ConcreteTypeDecl ["A"] pkg.ads:2:4-2:26>
 

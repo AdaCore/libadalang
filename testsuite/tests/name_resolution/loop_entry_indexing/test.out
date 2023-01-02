@@ -20,7 +20,7 @@ Expr: <AttributeRef increment_array.adb:6:33-6:45>
   type:          <ConcreteTypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
   expected type: None
 Expr: <Id "X" increment_array.adb:6:33-6:34>
-  references:    <DefiningName increment_array.adb:3:24-3:25>
+  references:    <DefiningName "X" increment_array.adb:3:24-3:25>
   type:          <ConcreteTypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
   expected type: None
 Expr: <Id "Loop_Entry" increment_array.adb:6:35-6:45>

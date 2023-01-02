@@ -1,12 +1,12 @@
 == testpr.ads ==
-<PragmaNode testpr.ads:4:1-4:30> -> [<DefiningName testpr.ads:1:9-1:15>] ->> <PragmaNode testpr.ads:4:1-4:30>
+<PragmaNode testpr.ads:4:1-4:30> -> [<DefiningName "Testpr" testpr.ads:1:9-1:15>] ->> <PragmaNode testpr.ads:4:1-4:30>
 
 == testpr2.ads ==
-<PragmaNode testpr2.ads:2:4-2:26> -> [<DefiningName testpr2.ads:1:9-1:16>] ->> <PragmaNode testpr2.ads:2:4-2:26>
+<PragmaNode testpr2.ads:2:4-2:26> -> [<DefiningName "Testpr2" testpr2.ads:1:9-1:16>] ->> <PragmaNode testpr2.ads:2:4-2:26>
 
 == testinline.adb ==
-<PragmaNode testinline.adb:3:7-3:27> -> [<DefiningName testinline.adb:2:14-2:17>] ->> <PragmaNode testinline.adb:3:7-3:27>
-<PragmaNode testinline.adb:11:7-11:27> -> [<DefiningName testinline.adb:9:17-9:20>] ->> <PragmaNode testinline.adb:11:7-11:27>
-<PragmaNode testinline.adb:19:7-19:27> -> [<DefiningName testinline.adb:17:17-17:20>] ->> <PragmaNode testinline.adb:19:7-19:27>
+<PragmaNode testinline.adb:3:7-3:27> -> [<DefiningName "Foo" testinline.adb:2:14-2:17>] ->> <PragmaNode testinline.adb:3:7-3:27>
+<PragmaNode testinline.adb:11:7-11:27> -> [<DefiningName "Bar" testinline.adb:9:17-9:20>] ->> <PragmaNode testinline.adb:11:7-11:27>
+<PragmaNode testinline.adb:19:7-19:27> -> [<DefiningName "Bar" testinline.adb:17:17-17:20>] ->> <PragmaNode testinline.adb:19:7-19:27>
 
 Done

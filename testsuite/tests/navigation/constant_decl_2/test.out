@@ -2,46 +2,46 @@ Working on node <ObjectDecl ["I", "J"] test.ads:2:4-2:28>
 =========================================================
 
 Eval 'node.f_ids[0].p_next_part()'
-Result: <DefiningName test.ads:11:4-11:5>
+Result: <DefiningName "I" test.ads:11:4-11:5>
 
 Eval 'node.f_ids[1].p_next_part()'
-Result: <DefiningName test.ads:13:4-13:5>
+Result: <DefiningName "J" test.ads:13:4-13:5>
 
 Working on node <ObjectDecl ["X"] test.ads:6:4-6:25>
 ====================================================
 
 Eval 'node.f_ids[0].p_next_part()'
-Result: <DefiningName test.ads:16:4-16:5>
+Result: <DefiningName "X" test.ads:16:4-16:5>
 
 Working on node <ObjectDecl ["Y"] test.ads:8:4-8:25>
 ====================================================
 
 Eval 'node.f_ids[0].p_next_part()'
-Result: <DefiningName test.ads:16:7-16:8>
+Result: <DefiningName "Y" test.ads:16:7-16:8>
 
 Working on node <ObjectDecl ["I"] test.ads:11:4-11:31>
 ======================================================
 
 Eval 'node.f_ids[0].p_previous_part()'
-Result: <DefiningName test.ads:2:4-2:5>
+Result: <DefiningName "I" test.ads:2:4-2:5>
 
 Working on node <ObjectDecl ["J"] test.ads:13:4-13:31>
 ======================================================
 
 Eval 'node.f_ids[0].p_previous_part()'
-Result: <DefiningName test.ads:2:7-2:8>
+Result: <DefiningName "J" test.ads:2:7-2:8>
 
 Working on node <ObjectDecl ["X", "Y"] test.ads:16:4-16:34>
 ===========================================================
 
 Eval 'node.f_ids[0].p_previous_part()'
-Result: <DefiningName test.ads:6:4-6:5>
+Result: <DefiningName "X" test.ads:6:4-6:5>
 
 Eval 'node.f_ids[1].p_previous_part()'
-Result: <DefiningName test.ads:8:4-8:5>
+Result: <DefiningName "Y" test.ads:8:4-8:5>
 
 Eval 'node.f_ids[0].p_canonical_part()'
-Result: <DefiningName test.ads:6:4-6:5>
+Result: <DefiningName "X" test.ads:6:4-6:5>
 
 Eval 'node.f_ids[1].p_canonical_part()'
-Result: <DefiningName test.ads:8:4-8:5>
+Result: <DefiningName "Y" test.ads:8:4-8:5>

@@ -8,7 +8,7 @@ Expr: <RelationOp test.adb:9:20-9:26>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "F" test.adb:9:20-9:21>
-  references:    <DefiningName test.adb:6:13-6:14>
+  references:    <DefiningName "F" test.adb:6:13-6:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" test.adb:9:22-9:23>
@@ -20,7 +20,7 @@ Expr: <Int test.adb:9:24-9:26>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <EndName test.adb:12:11-12:12>
-  references:    <DefiningName test.adb:9:13-9:14>
+  references:    <DefiningName "E" test.adb:9:13-9:14>
   type:          None
   expected type: None
 

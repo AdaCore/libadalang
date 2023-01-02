@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["Q_Size"] selectwhen.adb:10:6-10:39>
 **************************************************************************
 
 Expr: <Id "Integer" selectwhen.adb:10:24-10:31>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:10:35-10:38>
@@ -17,7 +17,7 @@ Resolving xrefs for node <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 ****************************************************************************
 
 Expr: <Id "Positive" selectwhen.adb:11:25-11:33>
-  references:    <DefiningName __standard:6:11-6:19>
+  references:    <DefiningName "Positive" __standard:6:11-6:19>
   type:          None
   expected type: None
 Expr: <BinOp selectwhen.adb:11:40-11:51>
@@ -32,7 +32,7 @@ Expr: <OpDoubleDot ".." selectwhen.adb:11:42-11:44>
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:11:45-11:51>
-  references:    <DefiningName selectwhen.adb:10:6-10:12>
+  references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -40,7 +40,7 @@ Resolving xrefs for node <ObjectDecl ["Length"] selectwhen.adb:12:6-12:46>
 **************************************************************************
 
 Expr: <Id "Natural" selectwhen.adb:12:15-12:22>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <BinOp selectwhen.adb:12:29-12:40>
@@ -55,7 +55,7 @@ Expr: <OpDoubleDot ".." selectwhen.adb:12:31-12:33>
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:12:34-12:40>
-  references:    <DefiningName selectwhen.adb:10:6-10:12>
+  references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Int selectwhen.adb:12:44-12:45>
@@ -67,7 +67,7 @@ Resolving xrefs for node <ObjectDecl ["Head", "Tail"] selectwhen.adb:13:6-13:32>
 ********************************************************************************
 
 Expr: <Id "Q_Range" selectwhen.adb:13:19-13:26>
-  references:    <DefiningName selectwhen.adb:11:14-11:21>
+  references:    <DefiningName "Q_Range" selectwhen.adb:11:14-11:21>
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:13:30-13:31>
@@ -83,11 +83,11 @@ Resolving xrefs for node <ArrayTypeDef selectwhen.adb:14:13-14:36>
 ******************************************************************
 
 Expr: <Id "Q_Range" selectwhen.adb:14:20-14:27>
-  references:    <DefiningName selectwhen.adb:11:14-11:21>
+  references:    <DefiningName "Q_Range" selectwhen.adb:11:14-11:21>
   type:          None
   expected type: None
 Expr: <Id "Item" selectwhen.adb:14:32-14:36>
-  references:    <DefiningName selectwhen.adb:2:9-2:13>
+  references:    <DefiningName "Item" selectwhen.adb:2:9-2:13>
   type:          None
   expected type: None
 
@@ -102,7 +102,7 @@ Expr: <RelationOp selectwhen.adb:18:17-18:32>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Length" selectwhen.adb:18:17-18:23>
-  references:    <DefiningName selectwhen.adb:12:6-12:12>
+  references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpLt "<" selectwhen.adb:18:24-18:25>
@@ -110,14 +110,14 @@ Expr: <OpLt "<" selectwhen.adb:18:24-18:25>
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:18:26-18:32>
-  references:    <DefiningName selectwhen.adb:10:6-10:12>
+  references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <RelationOp selectwhen.adb:25:17-25:27>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Length" selectwhen.adb:25:17-25:23>
-  references:    <DefiningName selectwhen.adb:12:6-12:12>
+  references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpGt ">" selectwhen.adb:25:24-25:25>
@@ -133,7 +133,7 @@ Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:19:15-21:26>
 *************************************************************************
 
 Expr: <EndName selectwhen.adb:21:19-21:25>
-  references:    <DefiningName selectwhen.adb:5:12-5:18>
+  references:    <DefiningName "Insert" selectwhen.adb:5:12-5:18>
   type:          None
   expected type: None
 
@@ -141,7 +141,7 @@ Resolving xrefs for node <ParamSpec ["An_Item"] selectwhen.adb:19:30-19:48>
 ***************************************************************************
 
 Expr: <Id "Item" selectwhen.adb:19:44-19:48>
-  references:    <DefiningName selectwhen.adb:2:9-2:13>
+  references:    <DefiningName "Item" selectwhen.adb:2:9-2:13>
   type:          None
   expected type: None
 
@@ -149,19 +149,19 @@ Resolving xrefs for node <AssignStmt selectwhen.adb:20:18-20:40>
 ****************************************************************
 
 Expr: <CallExpr selectwhen.adb:20:18-20:28>
-  references:    <DefiningName selectwhen.adb:14:6-14:10>
+  references:    <DefiningName "Data" selectwhen.adb:14:6-14:10>
   type:          <ConcreteTypeDecl ["Item"] selectwhen.adb:2:4-2:29>
   expected type: None
 Expr: <Id "Data" selectwhen.adb:20:18-20:22>
-  references:    <DefiningName selectwhen.adb:14:6-14:10>
+  references:    <DefiningName "Data" selectwhen.adb:14:6-14:10>
   type:          <AnonymousTypeDecl ["None"] selectwhen.adb:14:13-14:36>
   expected type: None
 Expr: <Id "Tail" selectwhen.adb:20:23-20:27>
-  references:    <DefiningName selectwhen.adb:13:12-13:16>
+  references:    <DefiningName "Tail" selectwhen.adb:13:12-13:16>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 Expr: <Id "An_Item" selectwhen.adb:20:32-20:39>
-  references:    <DefiningName selectwhen.adb:19:30-19:37>
+  references:    <DefiningName "An_Item" selectwhen.adb:19:30-19:37>
   type:          <ConcreteTypeDecl ["Item"] selectwhen.adb:2:4-2:29>
   expected type: <ConcreteTypeDecl ["Item"] selectwhen.adb:2:4-2:29>
 
@@ -169,11 +169,11 @@ Resolving xrefs for node <EndName selectwhen.adb:21:19-21:25>
 *************************************************************
 
 Expr: <EndName selectwhen.adb:21:19-21:25>
-  references:    <DefiningName selectwhen.adb:5:12-5:18>
+  references:    <DefiningName "Insert" selectwhen.adb:5:12-5:18>
   type:          None
   expected type: None
 Expr: <Id "Insert" selectwhen.adb:21:19-21:25>
-  references:    <DefiningName selectwhen.adb:5:12-5:18>
+  references:    <DefiningName "Insert" selectwhen.adb:5:12-5:18>
   type:          None
   expected type: None
 
@@ -181,7 +181,7 @@ Resolving xrefs for node <AssignStmt selectwhen.adb:22:15-22:43>
 ****************************************************************
 
 Expr: <Id "Tail" selectwhen.adb:22:15-22:19>
-  references:    <DefiningName selectwhen.adb:13:12-13:16>
+  references:    <DefiningName "Tail" selectwhen.adb:13:12-13:16>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: None
 Expr: <BinOp selectwhen.adb:22:23-22:42>
@@ -191,7 +191,7 @@ Expr: <BinOp selectwhen.adb:22:23-22:38>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Tail" selectwhen.adb:22:23-22:27>
-  references:    <DefiningName selectwhen.adb:13:12-13:16>
+  references:    <DefiningName "Tail" selectwhen.adb:13:12-13:16>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" selectwhen.adb:22:28-22:31>
@@ -199,7 +199,7 @@ Expr: <OpMod "mod" selectwhen.adb:22:28-22:31>
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:22:32-22:38>
-  references:    <DefiningName selectwhen.adb:10:6-10:12>
+  references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpPlus "+" selectwhen.adb:22:39-22:40>
@@ -215,14 +215,14 @@ Resolving xrefs for node <AssignStmt selectwhen.adb:23:15-23:36>
 ****************************************************************
 
 Expr: <Id "Length" selectwhen.adb:23:15-23:21>
-  references:    <DefiningName selectwhen.adb:12:6-12:12>
+  references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <BinOp selectwhen.adb:23:25-23:35>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Length" selectwhen.adb:23:25-23:31>
-  references:    <DefiningName selectwhen.adb:12:6-12:12>
+  references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpPlus "+" selectwhen.adb:23:32-23:33>
@@ -238,7 +238,7 @@ Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:26:15-28:26>
 *************************************************************************
 
 Expr: <EndName selectwhen.adb:28:19-28:25>
-  references:    <DefiningName selectwhen.adb:6:12-6:18>
+  references:    <DefiningName "Remove" selectwhen.adb:6:12-6:18>
   type:          None
   expected type: None
 
@@ -246,7 +246,7 @@ Resolving xrefs for node <ParamSpec ["An_Item"] selectwhen.adb:26:30-26:48>
 ***************************************************************************
 
 Expr: <Id "Item" selectwhen.adb:26:44-26:48>
-  references:    <DefiningName selectwhen.adb:2:9-2:13>
+  references:    <DefiningName "Item" selectwhen.adb:2:9-2:13>
   type:          None
   expected type: None
 
@@ -254,19 +254,19 @@ Resolving xrefs for node <AssignStmt selectwhen.adb:27:18-27:40>
 ****************************************************************
 
 Expr: <Id "An_Item" selectwhen.adb:27:18-27:25>
-  references:    <DefiningName selectwhen.adb:26:30-26:37>
+  references:    <DefiningName "An_Item" selectwhen.adb:26:30-26:37>
   type:          <ConcreteTypeDecl ["Item"] selectwhen.adb:2:4-2:29>
   expected type: None
 Expr: <CallExpr selectwhen.adb:27:29-27:39>
-  references:    <DefiningName selectwhen.adb:14:6-14:10>
+  references:    <DefiningName "Data" selectwhen.adb:14:6-14:10>
   type:          <ConcreteTypeDecl ["Item"] selectwhen.adb:2:4-2:29>
   expected type: <ConcreteTypeDecl ["Item"] selectwhen.adb:2:4-2:29>
 Expr: <Id "Data" selectwhen.adb:27:29-27:33>
-  references:    <DefiningName selectwhen.adb:14:6-14:10>
+  references:    <DefiningName "Data" selectwhen.adb:14:6-14:10>
   type:          <AnonymousTypeDecl ["None"] selectwhen.adb:14:13-14:36>
   expected type: None
 Expr: <Id "Head" selectwhen.adb:27:34-27:38>
-  references:    <DefiningName selectwhen.adb:13:6-13:10>
+  references:    <DefiningName "Head" selectwhen.adb:13:6-13:10>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 
@@ -274,11 +274,11 @@ Resolving xrefs for node <EndName selectwhen.adb:28:19-28:25>
 *************************************************************
 
 Expr: <EndName selectwhen.adb:28:19-28:25>
-  references:    <DefiningName selectwhen.adb:6:12-6:18>
+  references:    <DefiningName "Remove" selectwhen.adb:6:12-6:18>
   type:          None
   expected type: None
 Expr: <Id "Remove" selectwhen.adb:28:19-28:25>
-  references:    <DefiningName selectwhen.adb:6:12-6:18>
+  references:    <DefiningName "Remove" selectwhen.adb:6:12-6:18>
   type:          None
   expected type: None
 
@@ -286,7 +286,7 @@ Resolving xrefs for node <AssignStmt selectwhen.adb:29:15-29:43>
 ****************************************************************
 
 Expr: <Id "Head" selectwhen.adb:29:15-29:19>
-  references:    <DefiningName selectwhen.adb:13:6-13:10>
+  references:    <DefiningName "Head" selectwhen.adb:13:6-13:10>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: None
 Expr: <BinOp selectwhen.adb:29:23-29:42>
@@ -296,7 +296,7 @@ Expr: <BinOp selectwhen.adb:29:23-29:38>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Head" selectwhen.adb:29:23-29:27>
-  references:    <DefiningName selectwhen.adb:13:6-13:10>
+  references:    <DefiningName "Head" selectwhen.adb:13:6-13:10>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" selectwhen.adb:29:28-29:31>
@@ -304,7 +304,7 @@ Expr: <OpMod "mod" selectwhen.adb:29:28-29:31>
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:29:32-29:38>
-  references:    <DefiningName selectwhen.adb:10:6-10:12>
+  references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpPlus "+" selectwhen.adb:29:39-29:40>
@@ -320,14 +320,14 @@ Resolving xrefs for node <AssignStmt selectwhen.adb:30:15-30:36>
 ****************************************************************
 
 Expr: <Id "Length" selectwhen.adb:30:15-30:21>
-  references:    <DefiningName selectwhen.adb:12:6-12:12>
+  references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <BinOp selectwhen.adb:30:25-30:35>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Length" selectwhen.adb:30:25-30:31>
-  references:    <DefiningName selectwhen.adb:12:6-12:12>
+  references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMinus "-" selectwhen.adb:30:32-30:33>
@@ -343,11 +343,11 @@ Resolving xrefs for node <EndName selectwhen.adb:33:7-33:30>
 ************************************************************
 
 Expr: <EndName selectwhen.adb:33:7-33:30>
-  references:    <DefiningName selectwhen.adb:9:13-9:36>
+  references:    <DefiningName "Cyclic_Buffer_Task_Type" selectwhen.adb:9:13-9:36>
   type:          None
   expected type: None
 Expr: <Id "Cyclic_Buffer_Task_Type" selectwhen.adb:33:7-33:30>
-  references:    <DefiningName selectwhen.adb:9:13-9:36>
+  references:    <DefiningName "Cyclic_Buffer_Task_Type" selectwhen.adb:9:13-9:36>
   type:          None
   expected type: None
 

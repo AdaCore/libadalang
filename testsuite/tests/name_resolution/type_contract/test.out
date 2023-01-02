@@ -9,15 +9,15 @@ Expr: <Id "Type_Invariant" test.ads:3:12-3:26>
   type:          None
   expected type: None
 Expr: <CallExpr test.ads:3:30-3:35>
-  references:    <DefiningName test.ads:22:13-22:14>
+  references:    <DefiningName "F" test.ads:22:13-22:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "F" test.ads:3:30-3:31>
-  references:    <DefiningName test.ads:22:13-22:14>
+  references:    <DefiningName "F" test.ads:22:13-22:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "A" test.ads:3:33-3:34>
-  references:    <DefiningName test.ads:2:9-2:10>
+  references:    <DefiningName "A" test.ads:2:9-2:10>
   type:          <ConcreteTypeDecl ["A"] test.ads:2:4-3:36>
   expected type: <ConcreteTypeDecl ["A"] test.ads:2:4-3:36>
 
@@ -25,7 +25,7 @@ Resolving xrefs for node <ComponentDecl ["X"] test.ads:7:7-7:19>
 ****************************************************************
 
 Expr: <Id "Integer" test.ads:7:11-7:18>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -37,23 +37,23 @@ Expr: <Id "Predicate" test.ads:9:12-9:21>
   type:          None
   expected type: None
 Expr: <CallExpr test.ads:9:25-9:32>
-  references:    <DefiningName test.ads:23:13-23:14>
+  references:    <DefiningName "G" test.ads:23:13-23:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "G" test.ads:9:25-9:26>
-  references:    <DefiningName test.ads:23:13-23:14>
+  references:    <DefiningName "G" test.ads:23:13-23:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <DottedName test.ads:9:28-9:31>
-  references:    <DefiningName test.ads:7:7-7:8>
+  references:    <DefiningName "X" test.ads:7:7-7:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" test.ads:9:28-9:29>
-  references:    <DefiningName test.ads:6:9-6:10>
+  references:    <DefiningName "B" test.ads:6:9-6:10>
   type:          <ConcreteTypeDecl ["B"] test.ads:6:4-9:33>
   expected type: <ConcreteTypeDecl ["B"] test.ads:6:4-9:33>
 Expr: <Id "X" test.ads:9:30-9:31>
-  references:    <DefiningName test.ads:7:7-7:8>
+  references:    <DefiningName "X" test.ads:7:7-7:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -68,7 +68,7 @@ Expr: <RelationOp test.ads:13:32-13:37>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "C" test.ads:13:32-13:33>
-  references:    <DefiningName test.ads:12:9-12:10>
+  references:    <DefiningName "C" test.ads:12:9-12:10>
   type:          <ConcreteTypeDecl ["C"] test.ads:12:4-13:38>
   expected type: <ConcreteTypeDecl ["C"] test.ads:12:4-13:38>
 Expr: <OpEq "=" test.ads:13:34-13:35>
@@ -84,7 +84,7 @@ Resolving xrefs for node <ComponentDecl ["X"] test.ads:17:7-17:19>
 ******************************************************************
 
 Expr: <Id "Integer" test.ads:17:11-17:18>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -96,23 +96,23 @@ Expr: <Id "Dynamic_Predicate" test.ads:19:12-19:29>
   type:          None
   expected type: None
 Expr: <CallExpr test.ads:19:33-19:40>
-  references:    <DefiningName test.ads:23:13-23:14>
+  references:    <DefiningName "G" test.ads:23:13-23:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "G" test.ads:19:33-19:34>
-  references:    <DefiningName test.ads:23:13-23:14>
+  references:    <DefiningName "G" test.ads:23:13-23:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <DottedName test.ads:19:36-19:39>
-  references:    <DefiningName test.ads:17:7-17:8>
+  references:    <DefiningName "X" test.ads:17:7-17:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "D" test.ads:19:36-19:37>
-  references:    <DefiningName test.ads:16:9-16:10>
+  references:    <DefiningName "D" test.ads:16:9-16:10>
   type:          <ConcreteTypeDecl ["D"] test.ads:16:4-19:41>
   expected type: <ConcreteTypeDecl ["D"] test.ads:16:4-19:41>
 Expr: <Id "X" test.ads:19:38-19:39>
-  references:    <DefiningName test.ads:17:7-17:8>
+  references:    <DefiningName "X" test.ads:17:7-17:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

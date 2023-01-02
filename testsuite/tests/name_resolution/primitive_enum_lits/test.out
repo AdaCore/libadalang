@@ -13,14 +13,14 @@ Resolving xrefs for node <ConcreteTypeDecl ["En2"] testderenum.adb:4:4-4:36>
 ****************************************************************************
 
 Expr: <Id "En" testderenum.adb:4:20-4:22>
-  references:    <DefiningName testderenum.adb:2:9-2:11>
+  references:    <DefiningName "En" testderenum.adb:2:9-2:11>
   type:          None
   expected type: None
 Expr: <BinOp testderenum.adb:4:29-4:35>
   type:          <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
   expected type: <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
 Expr: <Id "B" testderenum.adb:4:29-4:30>
-  references:    <DefiningName testderenum.adb:2:19-2:20>
+  references:    <DefiningName "B" testderenum.adb:2:19-2:20>
   type:          <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
   expected type: <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
 Expr: <OpDoubleDot ".." testderenum.adb:4:31-4:33>
@@ -28,7 +28,7 @@ Expr: <OpDoubleDot ".." testderenum.adb:4:31-4:33>
   type:          None
   expected type: None
 Expr: <Id "C" testderenum.adb:4:34-4:35>
-  references:    <DefiningName testderenum.adb:2:22-2:23>
+  references:    <DefiningName "C" testderenum.adb:2:22-2:23>
   type:          <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
   expected type: <ConcreteTypeDecl ["En"] testderenum.adb:2:4-2:25>
 
@@ -36,11 +36,11 @@ Resolving xrefs for node <ObjectDecl ["E"] testderenum.adb:6:4-6:17>
 ********************************************************************
 
 Expr: <Id "En2" testderenum.adb:6:8-6:11>
-  references:    <DefiningName testderenum.adb:4:9-4:12>
+  references:    <DefiningName "En2" testderenum.adb:4:9-4:12>
   type:          None
   expected type: None
 Expr: <Id "B" testderenum.adb:6:15-6:16>
-  references:    <DefiningName testderenum.adb:2:19-2:20>
+  references:    <DefiningName "B" testderenum.adb:2:19-2:20>
   type:          <ConcreteTypeDecl ["En2"] testderenum.adb:4:4-4:36>
   expected type: <ConcreteTypeDecl ["En2"] testderenum.adb:4:4-4:36>
 
@@ -52,11 +52,11 @@ Resolving xrefs for node <EndName testderenum.adb:9:5-9:16>
 ***********************************************************
 
 Expr: <EndName testderenum.adb:9:5-9:16>
-  references:    <DefiningName testderenum.adb:1:11-1:22>
+  references:    <DefiningName "Testderenum" testderenum.adb:1:11-1:22>
   type:          None
   expected type: None
 Expr: <Id "Testderenum" testderenum.adb:9:5-9:16>
-  references:    <DefiningName testderenum.adb:1:11-1:22>
+  references:    <DefiningName "Testderenum" testderenum.adb:1:11-1:22>
   type:          None
   expected type: None
 

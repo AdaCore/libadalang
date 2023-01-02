@@ -1,4 +1,4 @@
-Analyzing references of Foo_1 (<DefiningName test.adb:6:17-6:22>)
+Analyzing references of Foo_1 (<DefiningName "Foo_1" test.adb:6:17-6:22>)
   Reference <RefResult ref=<Id "Foo_1" test.adb:43:4-43:9> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_1" test.adb:49:6-49:11> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_1" test.adb:53:4-53:9> kind=precise> is not a dispatching call.
@@ -9,28 +9,28 @@ Analyzing references of Foo_1 (<DefiningName test.adb:6:17-6:22>)
   Reference <RefResult ref=<Id "Foo_1" test.adb:82:47-82:52> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_1" test.adb:86:47-86:52> kind=precise> is not a dispatching call.
   Reference <RefResult ref=<Id "Foo_1" test.adb:94:43-94:48> kind=precise> is a dispatching call.
-Analyzing references of Foo_2 (<DefiningName test.adb:7:17-7:22>)
+Analyzing references of Foo_2 (<DefiningName "Foo_2" test.adb:7:17-7:22>)
   Reference <RefResult ref=<Id "Foo_2" test.adb:44:4-44:9> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_2" test.adb:54:4-54:9> kind=precise> is not a dispatching call.
-Analyzing references of Foo_3 (<DefiningName test.adb:8:17-8:22>)
+Analyzing references of Foo_3 (<DefiningName "Foo_3" test.adb:8:17-8:22>)
   Reference <RefResult ref=<Id "Foo_3" test.adb:63:4-63:9> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_3" test.adb:64:4-64:9> kind=precise> is not a dispatching call.
   Reference <RefResult ref=<Id "Foo_3" test.adb:65:6-65:11> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_3" test.adb:66:6-66:11> kind=precise> is not a dispatching call.
-Analyzing references of Bar_1 (<DefiningName test.adb:10:16-10:21>)
+Analyzing references of Bar_1 (<DefiningName "Bar_1" test.adb:10:16-10:21>)
   Reference <RefResult ref=<Id "Bar_1" test.adb:45:9-45:14> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Bar_1" test.adb:50:11-50:16> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Bar_1" test.adb:55:9-55:14> kind=precise> is not a dispatching call.
   Reference <RefResult ref=<Id "Bar_1" test.adb:60:11-60:16> kind=precise> is not a dispatching call.
-Analyzing references of Bar_2 (<DefiningName test.adb:11:16-11:21>)
+Analyzing references of Bar_2 (<DefiningName "Bar_2" test.adb:11:16-11:21>)
   Reference <RefResult ref=<Id "Bar_2" test.adb:46:9-46:14> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Bar_2" test.adb:51:11-51:16> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Bar_2" test.adb:56:9-56:14> kind=precise> is not a dispatching call.
   Reference <RefResult ref=<Id "Bar_2" test.adb:61:11-61:16> kind=precise> is not a dispatching call.
-Analyzing references of Foo_Bar (<DefiningName test.adb:13:16-13:23>)
+Analyzing references of Foo_Bar (<DefiningName "Foo_Bar" test.adb:13:16-13:23>)
   Reference <RefResult ref=<Id "Foo_Bar" test.adb:47:9-47:16> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Foo_Bar" test.adb:57:9-57:16> kind=precise> is not a dispatching call.
-Analyzing references of Dyn_Tag (<DefiningName test.adb:15:16-15:23>)
+Analyzing references of Dyn_Tag (<DefiningName "Dyn_Tag" test.adb:15:16-15:23>)
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:72:6-72:13> kind=precise> is a dispatching call.
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:76:6-76:13> kind=precise> is not a dispatching call.
   Reference <RefResult ref=<Id "Dyn_Tag" test.adb:79:9-79:16> kind=precise> is a dispatching call.

@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["A"] test_unint_attrs.adb:16:7-16:55>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:16:21-16:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:16:32-16:54>
@@ -13,7 +13,7 @@ Expr: <AttributeRef test_unint_attrs.adb:16:32-16:54>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Float" test_unint_attrs.adb:16:32-16:37>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Machine_Mantissa" test_unint_attrs.adb:16:38-16:54>
@@ -25,7 +25,7 @@ Resolving xrefs for node <ObjectDecl ["B"] test_unint_attrs.adb:17:7-17:47>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:17:21-17:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:17:32-17:46>
@@ -33,7 +33,7 @@ Expr: <AttributeRef test_unint_attrs.adb:17:32-17:46>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Float" test_unint_attrs.adb:17:32-17:37>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Mantissa" test_unint_attrs.adb:17:38-17:46>
@@ -45,7 +45,7 @@ Resolving xrefs for node <ObjectDecl ["C"] test_unint_attrs.adb:18:7-18:53>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:18:21-18:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:18:32-18:52>
@@ -53,7 +53,7 @@ Expr: <AttributeRef test_unint_attrs.adb:18:32-18:52>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Float" test_unint_attrs.adb:18:32-18:37>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Model_Mantissa" test_unint_attrs.adb:18:38-18:52>
@@ -65,7 +65,7 @@ Resolving xrefs for node <ObjectDecl ["D"] test_unint_attrs.adb:19:7-19:48>
 ***************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:19:21-19:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:19:32-19:47>
@@ -73,15 +73,15 @@ Expr: <AttributeRef test_unint_attrs.adb:19:32-19:47>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test_unint_attrs.adb:19:32-19:38>
-  references:    <DefiningName test_unint_attrs.adb:3:13-3:14>
+  references:    <DefiningName "C" test_unint_attrs.adb:3:13-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Inst" test_unint_attrs.adb:19:32-19:36>
-  references:    <DefiningName test_unint_attrs.adb:5:4-5:8>
+  references:    <DefiningName "Inst" test_unint_attrs.adb:5:4-5:8>
   type:          <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
   expected type: <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
 Expr: <Id "C" test_unint_attrs.adb:19:37-19:38>
-  references:    <DefiningName test_unint_attrs.adb:3:13-3:14>
+  references:    <DefiningName "C" test_unint_attrs.adb:3:13-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Position" test_unint_attrs.adb:19:39-19:47>
@@ -93,7 +93,7 @@ Resolving xrefs for node <ObjectDecl ["D1"] test_unint_attrs.adb:20:7-20:49>
 ****************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:20:21-20:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:20:32-20:48>
@@ -101,15 +101,15 @@ Expr: <AttributeRef test_unint_attrs.adb:20:32-20:48>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test_unint_attrs.adb:20:32-20:38>
-  references:    <DefiningName test_unint_attrs.adb:3:13-3:14>
+  references:    <DefiningName "C" test_unint_attrs.adb:3:13-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Inst" test_unint_attrs.adb:20:32-20:36>
-  references:    <DefiningName test_unint_attrs.adb:5:4-5:8>
+  references:    <DefiningName "Inst" test_unint_attrs.adb:5:4-5:8>
   type:          <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
   expected type: <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
 Expr: <Id "C" test_unint_attrs.adb:20:37-20:38>
-  references:    <DefiningName test_unint_attrs.adb:3:13-3:14>
+  references:    <DefiningName "C" test_unint_attrs.adb:3:13-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "First_Bit" test_unint_attrs.adb:20:39-20:48>
@@ -121,7 +121,7 @@ Resolving xrefs for node <ObjectDecl ["D2"] test_unint_attrs.adb:21:7-21:48>
 ****************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:21:21-21:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:21:32-21:47>
@@ -129,15 +129,15 @@ Expr: <AttributeRef test_unint_attrs.adb:21:32-21:47>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test_unint_attrs.adb:21:32-21:38>
-  references:    <DefiningName test_unint_attrs.adb:3:13-3:14>
+  references:    <DefiningName "C" test_unint_attrs.adb:3:13-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Inst" test_unint_attrs.adb:21:32-21:36>
-  references:    <DefiningName test_unint_attrs.adb:5:4-5:8>
+  references:    <DefiningName "Inst" test_unint_attrs.adb:5:4-5:8>
   type:          <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
   expected type: <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
 Expr: <Id "C" test_unint_attrs.adb:21:37-21:38>
-  references:    <DefiningName test_unint_attrs.adb:3:13-3:14>
+  references:    <DefiningName "C" test_unint_attrs.adb:3:13-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Last_Bit" test_unint_attrs.adb:21:39-21:47>
@@ -149,7 +149,7 @@ Resolving xrefs for node <ObjectDecl ["E"] test_unint_attrs.adb:22:7-22:51>
 ***************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:22:21-22:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:22:32-22:50>
@@ -157,7 +157,7 @@ Expr: <AttributeRef test_unint_attrs.adb:22:32-22:50>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Arr" test_unint_attrs.adb:22:32-22:35>
-  references:    <DefiningName test_unint_attrs.adb:7:9-7:12>
+  references:    <DefiningName "Arr" test_unint_attrs.adb:7:9-7:12>
   type:          <ConcreteTypeDecl ["Arr"] test_unint_attrs.adb:7:4-7:54>
   expected type: None
 Expr: <Id "Component_Size" test_unint_attrs.adb:22:36-22:50>
@@ -169,7 +169,7 @@ Resolving xrefs for node <ObjectDecl ["F"] test_unint_attrs.adb:23:7-23:46>
 ***************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:23:21-23:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:23:32-23:45>
@@ -177,7 +177,7 @@ Expr: <AttributeRef test_unint_attrs.adb:23:32-23:45>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test_unint_attrs.adb:23:32-23:39>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Width" test_unint_attrs.adb:23:40-23:45>
@@ -189,7 +189,7 @@ Resolving xrefs for node <ObjectDecl ["G"] test_unint_attrs.adb:24:7-24:45>
 ***************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:24:21-24:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:24:32-24:44>
@@ -197,7 +197,7 @@ Expr: <AttributeRef test_unint_attrs.adb:24:32-24:44>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Float" test_unint_attrs.adb:24:32-24:37>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Digits" test_unint_attrs.adb:24:38-24:44>
@@ -209,7 +209,7 @@ Resolving xrefs for node <ObjectDecl ["H"] test_unint_attrs.adb:25:7-25:41>
 ***************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:25:21-25:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:25:32-25:40>
@@ -217,7 +217,7 @@ Expr: <AttributeRef test_unint_attrs.adb:25:32-25:40>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Volt" test_unint_attrs.adb:25:32-25:36>
-  references:    <DefiningName test_unint_attrs.adb:9:9-9:13>
+  references:    <DefiningName "Volt" test_unint_attrs.adb:9:9-9:13>
   type:          None
   expected type: None
 Expr: <Id "Aft" test_unint_attrs.adb:25:37-25:40>
@@ -229,7 +229,7 @@ Resolving xrefs for node <ObjectDecl ["I"] test_unint_attrs.adb:26:7-26:42>
 ***************************************************************************
 
 Expr: <Id "Integer" test_unint_attrs.adb:26:21-26:28>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:26:32-26:41>
@@ -237,7 +237,7 @@ Expr: <AttributeRef test_unint_attrs.adb:26:32-26:41>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Volt" test_unint_attrs.adb:26:32-26:36>
-  references:    <DefiningName test_unint_attrs.adb:9:9-9:13>
+  references:    <DefiningName "Volt" test_unint_attrs.adb:9:9-9:13>
   type:          <ConcreteTypeDecl ["Volt"] test_unint_attrs.adb:9:4-9:48>
   expected type: None
 Expr: <Id "Fore" test_unint_attrs.adb:26:37-26:41>
@@ -249,7 +249,7 @@ Resolving xrefs for node <ObjectDecl ["J"] test_unint_attrs.adb:27:7-27:42>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:27:21-27:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:27:32-27:41>
@@ -257,7 +257,7 @@ Expr: <AttributeRef test_unint_attrs.adb:27:32-27:41>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "M" test_unint_attrs.adb:27:32-27:33>
-  references:    <DefiningName test_unint_attrs.adb:11:9-11:10>
+  references:    <DefiningName "M" test_unint_attrs.adb:11:9-11:10>
   type:          <ConcreteTypeDecl ["M"] test_unint_attrs.adb:11:4-11:26>
   expected type: None
 Expr: <Id "Modulus" test_unint_attrs.adb:27:34-27:41>
@@ -269,7 +269,7 @@ Resolving xrefs for node <ObjectDecl ["K"] test_unint_attrs.adb:28:7-28:54>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:28:21-28:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:28:32-28:53>
@@ -277,7 +277,7 @@ Expr: <AttributeRef test_unint_attrs.adb:28:32-28:53>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Standard" test_unint_attrs.adb:28:32-28:40>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Address_Size" test_unint_attrs.adb:28:41-28:53>
@@ -289,7 +289,7 @@ Resolving xrefs for node <ObjectDecl ["L"] test_unint_attrs.adb:29:7-29:68>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:29:21-29:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:29:32-29:67>
@@ -297,7 +297,7 @@ Expr: <AttributeRef test_unint_attrs.adb:29:32-29:67>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Standard" test_unint_attrs.adb:29:32-29:40>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "System_Allocator_Alignment" test_unint_attrs.adb:29:41-29:67>
@@ -309,7 +309,7 @@ Resolving xrefs for node <ObjectDecl ["M"] test_unint_attrs.adb:30:7-30:55>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:30:21-30:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:30:32-30:54>
@@ -317,7 +317,7 @@ Expr: <AttributeRef test_unint_attrs.adb:30:32-30:54>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Inst" test_unint_attrs.adb:30:32-30:36>
-  references:    <DefiningName test_unint_attrs.adb:5:4-5:8>
+  references:    <DefiningName "Inst" test_unint_attrs.adb:5:4-5:8>
   type:          <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
   expected type: None
 Expr: <Id "Finalization_Size" test_unint_attrs.adb:30:37-30:54>
@@ -329,7 +329,7 @@ Resolving xrefs for node <ObjectDecl ["N"] test_unint_attrs.adb:31:7-31:50>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:31:21-31:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:31:32-31:49>
@@ -337,7 +337,7 @@ Expr: <AttributeRef test_unint_attrs.adb:31:32-31:49>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "R" test_unint_attrs.adb:31:32-31:33>
-  references:    <DefiningName test_unint_attrs.adb:2:9-2:10>
+  references:    <DefiningName "R" test_unint_attrs.adb:2:9-2:10>
   type:          <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
   expected type: None
 Expr: <Id "Descriptor_Size" test_unint_attrs.adb:31:34-31:49>
@@ -349,7 +349,7 @@ Resolving xrefs for node <ObjectDecl ["O"] test_unint_attrs.adb:32:7-32:47>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:32:21-32:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:32:32-32:46>
@@ -357,7 +357,7 @@ Expr: <AttributeRef test_unint_attrs.adb:32:32-32:46>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Inst" test_unint_attrs.adb:32:32-32:36>
-  references:    <DefiningName test_unint_attrs.adb:5:4-5:8>
+  references:    <DefiningName "Inst" test_unint_attrs.adb:5:4-5:8>
   type:          <ConcreteTypeDecl ["R"] test_unint_attrs.adb:2:4-4:15>
   expected type: None
 Expr: <Id "Alignment" test_unint_attrs.adb:32:37-32:46>
@@ -369,7 +369,7 @@ Resolving xrefs for node <ObjectDecl ["P"] test_unint_attrs.adb:33:7-33:51>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:33:21-33:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:33:32-33:50>
@@ -377,7 +377,7 @@ Expr: <AttributeRef test_unint_attrs.adb:33:32-33:50>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Standard" test_unint_attrs.adb:33:32-33:40>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Word_Size" test_unint_attrs.adb:33:41-33:50>
@@ -389,7 +389,7 @@ Resolving xrefs for node <ObjectDecl ["Q"] test_unint_attrs.adb:34:7-34:58>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:34:21-34:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:34:32-34:57>
@@ -397,7 +397,7 @@ Expr: <AttributeRef test_unint_attrs.adb:34:32-34:57>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Standard" test_unint_attrs.adb:34:32-34:40>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Max_Integer_Size" test_unint_attrs.adb:34:41-34:57>
@@ -409,7 +409,7 @@ Resolving xrefs for node <ObjectDecl ["R"] test_unint_attrs.adb:35:7-35:59>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:35:21-35:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:35:32-35:58>
@@ -417,7 +417,7 @@ Expr: <AttributeRef test_unint_attrs.adb:35:32-35:58>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Standard" test_unint_attrs.adb:35:32-35:40>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Maximum_Alignment" test_unint_attrs.adb:35:41-35:58>
@@ -429,7 +429,7 @@ Resolving xrefs for node <ObjectDecl ["S"] test_unint_attrs.adb:36:7-36:59>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:36:21-36:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:36:32-36:58>
@@ -437,7 +437,7 @@ Expr: <AttributeRef test_unint_attrs.adb:36:32-36:58>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Standard" test_unint_attrs.adb:36:32-36:40>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Default_Bit_Order" test_unint_attrs.adb:36:41-36:58>
@@ -449,7 +449,7 @@ Resolving xrefs for node <ObjectDecl ["T"] test_unint_attrs.adb:37:7-37:45>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:37:21-37:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:37:32-37:44>
@@ -457,7 +457,7 @@ Expr: <AttributeRef test_unint_attrs.adb:37:32-37:44>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "E_X" test_unint_attrs.adb:37:32-37:35>
-  references:    <DefiningName test_unint_attrs.adb:13:20-13:23>
+  references:    <DefiningName "E_X" test_unint_attrs.adb:13:20-13:23>
   type:          <ConcreteTypeDecl ["E_Type"] test_unint_attrs.adb:13:4-13:35>
   expected type: None
 Expr: <Id "Enum_Rep" test_unint_attrs.adb:37:36-37:44>
@@ -469,7 +469,7 @@ Resolving xrefs for node <ObjectDecl ["U"] test_unint_attrs.adb:38:7-38:54>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:38:21-38:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:38:32-38:53>
@@ -477,7 +477,7 @@ Expr: <AttributeRef test_unint_attrs.adb:38:32-38:53>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Positive" test_unint_attrs.adb:38:32-38:40>
-  references:    <DefiningName __standard:6:11-6:19>
+  references:    <DefiningName "Positive" __standard:6:11-6:19>
   type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
   expected type: None
 Expr: <Id "Range_Length" test_unint_attrs.adb:38:41-38:53>
@@ -489,7 +489,7 @@ Resolving xrefs for node <ObjectDecl ["V"] test_unint_attrs.adb:39:7-39:54>
 ***************************************************************************
 
 Expr: <Id "Natural" test_unint_attrs.adb:39:21-39:28>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 Expr: <AttributeRef test_unint_attrs.adb:39:32-39:53>
@@ -497,7 +497,7 @@ Expr: <AttributeRef test_unint_attrs.adb:39:32-39:53>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <Id "Standard" test_unint_attrs.adb:39:32-39:40>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Storage_Unit" test_unint_attrs.adb:39:41-39:53>

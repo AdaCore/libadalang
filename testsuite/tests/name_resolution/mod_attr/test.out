@@ -5,22 +5,22 @@ Resolving xrefs for node <AssignStmt test.adb:8:4-8:56>
 *******************************************************
 
 Expr: <Id "Time_Dif" test.adb:8:4-8:12>
-  references:    <DefiningName test.adb:4:4-4:12>
+  references:    <DefiningName "Time_Dif" test.adb:4:4-4:12>
   type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
   expected type: None
 Expr: <BinOp test.adb:8:16-8:55>
   type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
   expected type: <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
 Expr: <CallExpr test.adb:8:16-8:39>
-  references:    <SyntheticDefiningName test.adb:2:4-2:30>
+  references:    <SyntheticDefiningName "mod" test.adb:2:4-2:30>
   type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
   expected type: <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
 Expr: <AttributeRef test.adb:8:16-8:25>
-  references:    <SyntheticDefiningName test.adb:2:4-2:30>
+  references:    <SyntheticDefiningName "mod" test.adb:2:4-2:30>
   type:          None
   expected type: None
 Expr: <Id "Mod24" test.adb:8:16-8:21>
-  references:    <DefiningName test.adb:2:9-2:14>
+  references:    <DefiningName "Mod24" test.adb:2:9-2:14>
   type:          None
   expected type: None
 Expr: <Id "Mod" test.adb:8:22-8:25>
@@ -28,7 +28,7 @@ Expr: <Id "Mod" test.adb:8:22-8:25>
   type:          None
   expected type: None
 Expr: <Id "Seconds_Now" test.adb:8:27-8:38>
-  references:    <DefiningName test.adb:5:4-5:15>
+  references:    <DefiningName "Seconds_Now" test.adb:5:4-5:15>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpMinus "-" test.adb:8:40-8:41>
@@ -36,7 +36,7 @@ Expr: <OpMinus "-" test.adb:8:40-8:41>
   type:          None
   expected type: None
 Expr: <Id "Seconds_Nonce" test.adb:8:42-8:55>
-  references:    <DefiningName test.adb:6:4-6:17>
+  references:    <DefiningName "Seconds_Nonce" test.adb:6:4-6:17>
   type:          <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
   expected type: <ConcreteTypeDecl ["Mod24"] test.adb:2:4-2:30>
 

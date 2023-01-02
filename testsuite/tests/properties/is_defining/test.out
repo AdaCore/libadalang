@@ -1,12 +1,12 @@
-in defining name <DefiningName pkg.ads:1:9-1:12>
+in defining name <DefiningName "Pkg" pkg.ads:1:9-1:12>
 Pkg                            is     defining
 
-in defining name <DefiningName pkg-child.ads:1:9-1:18>
+in defining name <DefiningName "Pkg.Child" pkg-child.ads:1:9-1:18>
 Pkg.Child                      is     defining
 Pkg                            is not defining
 Child                          is     defining
 
-in defining name <DefiningName pkg-child-grand_child.ads:1:9-1:30>
+in defining name <DefiningName "Pkg.Child.Grand_Child" pkg-child-grand_child.ads:1:9-1:30>
 Pkg.Child.Grand_Child          is     defining
 Pkg.Child                      is not defining
 Pkg                            is not defining

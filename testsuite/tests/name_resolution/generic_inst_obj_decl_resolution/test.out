@@ -5,15 +5,15 @@ Resolving xrefs for node <ObjectDecl ["A"] test2.adb:10:4-10:42>
 ****************************************************************
 
 Expr: <DottedName test2.adb:10:8-10:15>
-  references:    <| DefiningName test2.adb:5:12-5:15 [test2.adb:8:4] |>
+  references:    <| DefiningName "Arr" test2.adb:5:12-5:15 [test2.adb:8:4] |>
   type:          None
   expected type: None
 Expr: <Id "Bar" test2.adb:10:8-10:11>
-  references:    <DefiningName test2.adb:8:12-8:15>
+  references:    <DefiningName "Bar" test2.adb:8:12-8:15>
   type:          None
   expected type: None
 Expr: <Id "Arr" test2.adb:10:12-10:15>
-  references:    <| DefiningName test2.adb:5:12-5:15 [test2.adb:8:4] |>
+  references:    <| DefiningName "Arr" test2.adb:5:12-5:15 [test2.adb:8:4] |>
   type:          None
   expected type: None
 Expr: <Aggregate test2.adb:10:19-10:41>

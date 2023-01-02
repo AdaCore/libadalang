@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["X"] a.adb:5:4-5:28>
 **********************************************************
 
 Expr: <Id "Arr_Access" a.adb:5:8-5:18>
-  references:    <DefiningName a.adb:3:9-3:19>
+  references:    <DefiningName "Arr_Access" a.adb:3:9-3:19>
   type:          None
   expected type: None
 Expr: <BinOp a.adb:5:20-5:26>

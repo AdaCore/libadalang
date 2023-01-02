@@ -7,11 +7,11 @@ Resolving xrefs for node <AssignStmt testimplderef.adb:25:4-25:21>
 ******************************************************************
 
 Expr: <CallExpr testimplderef.adb:25:4-25:14>
-  references:    <DefiningName testimplderef.adb:15:4-15:10>
+  references:    <DefiningName "Inst_2" testimplderef.adb:15:4-15:10>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Id "Inst_2" testimplderef.adb:25:4-25:10>
-  references:    <DefiningName testimplderef.adb:15:4-15:10>
+  references:    <DefiningName "Inst_2" testimplderef.adb:15:4-15:10>
   type:          <ConcreteTypeDecl ["Ptr_Arr"] testimplderef.adb:11:4-11:35>
   expected type: None
 Expr: <Int testimplderef.adb:25:12-25:13>

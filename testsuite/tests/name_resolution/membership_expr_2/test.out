@@ -5,14 +5,14 @@ Resolving xrefs for node <AssignStmt test.adb:16:4-16:19>
 *********************************************************
 
 Expr: <Id "B" test.adb:16:4-16:5>
-  references:    <DefiningName test.adb:14:4-14:5>
+  references:    <DefiningName "B" test.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:16:9-16:18>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Chr "'Q'" test.adb:16:9-16:12>
-  references:    <DefiningName test.adb:2:21-2:24>
+  references:    <DefiningName "'Q'" test.adb:2:21-2:24>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
 Expr: <OpIn "in" test.adb:16:13-16:15>
@@ -20,7 +20,7 @@ Expr: <OpIn "in" test.adb:16:13-16:15>
   type:          None
   expected type: None
 Expr: <Id "ST" test.adb:16:16-16:18>
-  references:    <DefiningName test.adb:3:12-3:14>
+  references:    <DefiningName "ST" test.adb:3:12-3:14>
   type:          None
   expected type: None
 
@@ -28,14 +28,14 @@ Resolving xrefs for node <AssignStmt test.adb:19:4-19:24>
 *********************************************************
 
 Expr: <Id "B" test.adb:19:4-19:5>
-  references:    <DefiningName test.adb:14:4-14:5>
+  references:    <DefiningName "B" test.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:19:9-19:23>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:19:9-19:12>
-  references:    <DefiningName test.adb:9:13-9:16>
+  references:    <DefiningName "Foo" test.adb:9:13-9:16>
   type:          <ClasswideTypeDecl ["V"] test.adb:6:4-6:37>
   expected type: None
 Expr: <OpIn "in" test.adb:19:13-19:15>
@@ -43,11 +43,11 @@ Expr: <OpIn "in" test.adb:19:13-19:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:19:16-19:23>
-  references:    <DefiningName test.adb:7:9-7:10>
+  references:    <DefiningName "W" test.adb:7:9-7:10>
   type:          None
   expected type: None
 Expr: <Id "W" test.adb:19:16-19:17>
-  references:    <DefiningName test.adb:7:9-7:10>
+  references:    <DefiningName "W" test.adb:7:9-7:10>
   type:          None
   expected type: None
 Expr: <Id "Class" test.adb:19:18-19:23>
@@ -59,14 +59,14 @@ Resolving xrefs for node <AssignStmt test.adb:22:4-22:24>
 *********************************************************
 
 Expr: <Id "B" test.adb:22:4-22:5>
-  references:    <DefiningName test.adb:14:4-14:5>
+  references:    <DefiningName "B" test.adb:14:4-14:5>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:22:9-22:23>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Foo" test.adb:22:9-22:12>
-  references:    <DefiningName test.adb:9:13-9:16>
+  references:    <DefiningName "Foo" test.adb:9:13-9:16>
   type:          <ClasswideTypeDecl ["V"] test.adb:6:4-6:37>
   expected type: None
 Expr: <OpIn "in" test.adb:22:13-22:15>
@@ -74,11 +74,11 @@ Expr: <OpIn "in" test.adb:22:13-22:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:22:16-22:23>
-  references:    <DefiningName test.adb:12:9-12:10>
+  references:    <DefiningName "I" test.adb:12:9-12:10>
   type:          None
   expected type: None
 Expr: <Id "I" test.adb:22:16-22:17>
-  references:    <DefiningName test.adb:12:9-12:10>
+  references:    <DefiningName "I" test.adb:12:9-12:10>
   type:          None
   expected type: None
 Expr: <Id "Class" test.adb:22:18-22:23>

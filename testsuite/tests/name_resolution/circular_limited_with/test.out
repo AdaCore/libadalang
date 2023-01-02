@@ -5,27 +5,27 @@ Resolving xrefs for node <CallStmt d.adb:4:7-4:25>
 **************************************************
 
 Expr: <CallExpr d.adb:4:7-4:24>
-  references:    <DefiningName c.ads:6:14-6:19>
+  references:    <DefiningName "Visit" c.ads:6:14-6:19>
   type:          None
   expected type: None
 Expr: <DottedName d.adb:4:7-4:14>
-  references:    <DefiningName c.ads:6:14-6:19>
+  references:    <DefiningName "Visit" c.ads:6:14-6:19>
   type:          None
   expected type: None
 Expr: <Id "C" d.adb:4:7-4:8>
-  references:    <DefiningName c.ads:3:9-3:10>
+  references:    <DefiningName "C" c.ads:3:9-3:10>
   type:          None
   expected type: None
 Expr: <Id "Visit" d.adb:4:9-4:14>
-  references:    <DefiningName c.ads:6:14-6:19>
+  references:    <DefiningName "Visit" c.ads:6:14-6:19>
   type:          None
   expected type: None
 Expr: <Id "R" d.adb:4:16-4:17>
-  references:    <DefiningName d.adb:2:40-2:41>
+  references:    <DefiningName "R" d.adb:2:40-2:41>
   type:          <ConcreteTypeDecl ["Root_Type"] c.ads:4:4-4:34>
   expected type: <ConcreteTypeDecl ["Root_Type"] c.ads:4:4-4:34>
 Expr: <Id "Self" d.adb:4:19-4:23>
-  references:    <DefiningName d.adb:2:21-2:25>
+  references:    <DefiningName "Self" d.adb:2:21-2:25>
   type:          <ConcreteTypeDecl ["Foo"] d.ads:4:4-4:28>
   expected type: <ConcreteTypeDecl ["Foo"] d.ads:4:4-4:28>
 

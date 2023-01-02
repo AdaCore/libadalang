@@ -5,7 +5,7 @@ Resolving xrefs for node <ReturnStmt foo.adb:4:3-4:12>
 ******************************************************
 
 Expr: <Id "Y" foo.adb:4:10-4:11>
-  references:    <DefiningName foo.adb:2:3-2:4>
+  references:    <DefiningName "Y" foo.adb:2:3-2:4>
   type:          None
   expected type: None
 

@@ -9,7 +9,7 @@ Resolving xrefs for node <ObjectDecl ["A", "B"] testmembership.adb:2:4-2:25>
 ****************************************************************************
 
 Expr: <Id "Integer" testmembership.adb:2:11-2:18>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Int testmembership.adb:2:22-2:24>
@@ -24,7 +24,7 @@ Expr: <MembershipExpr testmembership.adb:4:7-4:26>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "A" testmembership.adb:4:7-4:8>
-  references:    <DefiningName testmembership.adb:2:4-2:5>
+  references:    <DefiningName "A" testmembership.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <OpIn "in" testmembership.adb:4:9-4:11>
@@ -51,7 +51,7 @@ Expr: <OpDoubleDot ".." testmembership.adb:4:22-4:24>
   type:          None
   expected type: None
 Expr: <Id "B" testmembership.adb:4:25-4:26>
-  references:    <DefiningName testmembership.adb:2:7-2:8>
+  references:    <DefiningName "B" testmembership.adb:2:7-2:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -63,11 +63,11 @@ Resolving xrefs for node <EndName testmembership.adb:7:5-7:19>
 **************************************************************
 
 Expr: <EndName testmembership.adb:7:5-7:19>
-  references:    <DefiningName testmembership.adb:1:11-1:25>
+  references:    <DefiningName "Testmembership" testmembership.adb:1:11-1:25>
   type:          None
   expected type: None
 Expr: <Id "Testmembership" testmembership.adb:7:5-7:19>
-  references:    <DefiningName testmembership.adb:1:11-1:25>
+  references:    <DefiningName "Testmembership" testmembership.adb:1:11-1:25>
   type:          None
   expected type: None
 

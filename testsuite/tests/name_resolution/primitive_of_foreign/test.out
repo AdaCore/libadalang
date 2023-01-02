@@ -5,15 +5,15 @@ Resolving xrefs for node <CallStmt pkg.adb:13:7-13:14>
 ******************************************************
 
 Expr: <DottedName pkg.adb:13:7-13:13>
-  references:    <DefiningName pkg.adb:3:14-3:18>
+  references:    <DefiningName "Prim" pkg.adb:3:14-3:18>
   type:          None
   expected type: None
 Expr: <Id "V" pkg.adb:13:7-13:8>
-  references:    <DefiningName pkg.adb:11:7-11:8>
+  references:    <DefiningName "V" pkg.adb:11:7-11:8>
   type:          <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:33>
   expected type: <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:33>
 Expr: <Id "Prim" pkg.adb:13:9-13:13>
-  references:    <DefiningName pkg.adb:3:14-3:18>
+  references:    <DefiningName "Prim" pkg.adb:3:14-3:18>
   type:          None
   expected type: None
 

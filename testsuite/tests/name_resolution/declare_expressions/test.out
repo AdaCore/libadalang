@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["A"] test_decl_expr.adb:2:4-2:56>
 ***********************************************************************
 
 Expr: <Id "Integer" test_decl_expr.adb:2:8-2:15>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <ParenExpr test_decl_expr.adb:2:19-2:55>
@@ -15,7 +15,7 @@ Expr: <DeclExpr test_decl_expr.adb:2:20-2:54>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "B" test_decl_expr.adb:2:53-2:54>
-  references:    <DefiningName test_decl_expr.adb:2:28-2:29>
+  references:    <DefiningName "B" test_decl_expr.adb:2:28-2:29>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["B"] test.adb:3:4-3:33>
 *************************************************************
 
 Expr: <Id "Boolean" test.adb:3:8-3:15>
-  references:    <DefiningName __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:3:19-3:32>
@@ -13,7 +13,7 @@ Expr: <AttributeRef test.adb:3:19-3:32>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "X" test.adb:3:19-3:20>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Initialized" test.adb:3:21-3:32>

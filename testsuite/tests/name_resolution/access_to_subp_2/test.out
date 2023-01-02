@@ -5,15 +5,15 @@ Resolving xrefs for node <AssignStmt testaccesstosubp.adb:10:4-10:16>
 *********************************************************************
 
 Expr: <Id "N" testaccesstosubp.adb:10:4-10:5>
-  references:    <DefiningName testaccesstosubp.adb:8:4-8:5>
+  references:    <DefiningName "N" testaccesstosubp.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <CallExpr testaccesstosubp.adb:10:9-10:15>
-  references:    <DefiningName testaccesstosubp.adb:6:4-6:5>
+  references:    <DefiningName "A" testaccesstosubp.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "A" testaccesstosubp.adb:10:9-10:10>
-  references:    <DefiningName testaccesstosubp.adb:6:4-6:5>
+  references:    <DefiningName "A" testaccesstosubp.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["Pouet"] testaccesstosubp.adb:2:4-2:63>
   expected type: None
 Expr: <Int testaccesstosubp.adb:10:12-10:14>

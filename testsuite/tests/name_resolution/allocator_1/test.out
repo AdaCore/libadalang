@@ -5,14 +5,14 @@ Resolving xrefs for node <AssignStmt pouet.adb:13:4-13:15>
 **********************************************************
 
 Expr: <Id "I" pouet.adb:13:4-13:5>
-  references:    <DefiningName pouet.adb:10:4-10:5>
+  references:    <DefiningName "I" pouet.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["T_Ptr"] pouet.adb:8:4-8:31>
   expected type: None
 Expr: <Allocator pouet.adb:13:9-13:14>
   type:          <ConcreteTypeDecl ["T_Ptr"] pouet.adb:8:4-8:31>
   expected type: <ConcreteTypeDecl ["T_Ptr"] pouet.adb:8:4-8:31>
 Expr: <Id "T" pouet.adb:13:13-13:14>
-  references:    <DefiningName pouet.adb:4:9-4:10>
+  references:    <DefiningName "T" pouet.adb:4:9-4:10>
   type:          None
   expected type: None
 
@@ -20,18 +20,18 @@ Resolving xrefs for node <AssignStmt pouet.adb:16:4-16:24>
 **********************************************************
 
 Expr: <Id "J" pouet.adb:16:4-16:5>
-  references:    <DefiningName pouet.adb:11:4-11:5>
+  references:    <DefiningName "J" pouet.adb:11:4-11:5>
   type:          <AnonymousTypeDecl ["None"] pouet.adb:11:8-11:16>
   expected type: None
 Expr: <Allocator pouet.adb:16:9-16:23>
   type:          <AnonymousTypeDecl ["None"] pouet.adb:11:8-11:16>
   expected type: <AnonymousTypeDecl ["None"] pouet.adb:11:8-11:16>
 Expr: <QualExpr pouet.adb:16:13-16:23>
-  references:    <DefiningName pouet.adb:4:9-4:10>
+  references:    <DefiningName "T" pouet.adb:4:9-4:10>
   type:          <ConcreteTypeDecl ["T"] pouet.adb:4:4-6:15>
   expected type: None
 Expr: <Id "T" pouet.adb:16:13-16:14>
-  references:    <DefiningName pouet.adb:4:9-4:10>
+  references:    <DefiningName "T" pouet.adb:4:9-4:10>
   type:          None
   expected type: None
 Expr: <Aggregate pouet.adb:16:15-16:23>

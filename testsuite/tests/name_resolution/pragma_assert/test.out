@@ -12,7 +12,7 @@ Expr: <RelationOp p.adb:7:19-7:24>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "I" p.adb:7:19-7:20>
-  references:    <DefiningName p.adb:4:4-4:5>
+  references:    <DefiningName "I" p.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" p.adb:7:21-7:22>
@@ -35,11 +35,11 @@ Expr: <RelationOp p.adb:10:33-10:39>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "J" p.adb:10:33-10:34>
-  references:    <DefiningName p.adb:5:4-5:5>
+  references:    <DefiningName "J" p.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpLt "<" p.adb:10:35-10:36>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""<"" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int p.adb:10:37-10:39>
@@ -62,11 +62,11 @@ Expr: <RelationOp p.adb:13:31-13:37>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "J" p.adb:13:31-13:32>
-  references:    <DefiningName p.adb:5:4-5:5>
+  references:    <DefiningName "J" p.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpLt "<" p.adb:13:33-13:34>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""<"" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int p.adb:13:35-13:37>
@@ -89,7 +89,7 @@ Expr: <RelationOp p.adb:16:19-16:24>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "I" p.adb:16:19-16:20>
-  references:    <DefiningName p.adb:4:4-4:5>
+  references:    <DefiningName "I" p.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpEq "=" p.adb:16:21-16:22>
@@ -110,7 +110,7 @@ Expr: <RelationOp p.adb:16:30-16:35>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "I" p.adb:16:30-16:31>
-  references:    <DefiningName p.adb:4:4-4:5>
+  references:    <DefiningName "I" p.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpLt "<" p.adb:16:32-16:33>

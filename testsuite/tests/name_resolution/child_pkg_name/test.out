@@ -4,11 +4,11 @@ Analyzing foo.ads
 Analyzing foo-bar.ads
 #####################
 
-Resolving xrefs for node <DefiningName foo-bar.ads:3:9-3:16>
-************************************************************
+Resolving xrefs for node <DefiningName "Foo.Bar" foo-bar.ads:3:9-3:16>
+**********************************************************************
 
 Expr: <Id "Foo" foo-bar.ads:3:9-3:12>
-  references:    <DefiningName foo.ads:1:9-1:12>
+  references:    <DefiningName "Foo" foo.ads:1:9-1:12>
   type:          None
   expected type: None
 
@@ -16,19 +16,19 @@ Resolving xrefs for node <EndName foo-bar.ads:4:5-4:12>
 *******************************************************
 
 Expr: <EndName foo-bar.ads:4:5-4:12>
-  references:    <DefiningName foo-bar.ads:3:9-3:16>
+  references:    <DefiningName "Foo.Bar" foo-bar.ads:3:9-3:16>
   type:          None
   expected type: None
 Expr: <DottedName foo-bar.ads:4:5-4:12>
-  references:    <DefiningName foo-bar.ads:3:9-3:16>
+  references:    <DefiningName "Foo.Bar" foo-bar.ads:3:9-3:16>
   type:          None
   expected type: None
 Expr: <Id "Foo" foo-bar.ads:4:5-4:8>
-  references:    <DefiningName foo.ads:1:9-1:12>
+  references:    <DefiningName "Foo" foo.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Bar" foo-bar.ads:4:9-4:12>
-  references:    <DefiningName foo-bar.ads:3:9-3:16>
+  references:    <DefiningName "Foo.Bar" foo-bar.ads:3:9-3:16>
   type:          None
   expected type: None
 

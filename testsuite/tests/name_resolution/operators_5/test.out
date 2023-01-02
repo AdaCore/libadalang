@@ -5,7 +5,7 @@ Resolving xrefs for node <AssignStmt testop.adb:5:5-5:22>
 *********************************************************
 
 Expr: <Id "Z" testop.adb:5:5-5:6>
-  references:    <DefiningName testop.adb:3:5-3:6>
+  references:    <DefiningName "Z" testop.adb:3:5-3:6>
   type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
   expected type: None
 Expr: <BinOp testop.adb:5:10-5:21>
@@ -26,7 +26,7 @@ Expr: <OpMult "*" testop.adb:5:13-5:14>
   type:          None
   expected type: None
 Expr: <Id "Z" testop.adb:5:15-5:16>
-  references:    <DefiningName testop.adb:3:5-3:6>
+  references:    <DefiningName "Z" testop.adb:3:5-3:6>
   type:          <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
   expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:25>
 Expr: <OpMinus "-" testop.adb:5:18-5:19>

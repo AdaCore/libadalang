@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["A"] test_object_decl.adb:6:7-6:22>
 *************************************************************************
 
 Expr: <Id "Int" test_object_decl.adb:6:11-6:14>
-  references:    <DefiningName test_object_decl.adb:2:9-2:12>
+  references:    <DefiningName "Int" test_object_decl.adb:2:9-2:12>
   type:          None
   expected type: None
 Expr: <Int test_object_decl.adb:6:18-6:21>

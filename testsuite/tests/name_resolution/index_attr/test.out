@@ -5,7 +5,7 @@ Resolving xrefs for node <EntrySpec index.ads:10:9-10:31>
 *********************************************************
 
 Expr: <Id "Entry_Id_Mod" index.ads:10:18-10:30>
-  references:    <DefiningName index.ads:4:10-4:22>
+  references:    <DefiningName "Entry_Id_Mod" index.ads:4:10-4:22>
   type:          None
   expected type: None
 
@@ -24,7 +24,7 @@ Expr: <AttributeRef index.ads:11:18-11:25>
   type:          <ConcreteTypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
   expected type: <ConcreteTypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
 Expr: <Id "E" index.ads:11:18-11:19>
-  references:    <DefiningName index.ads:10:15-10:16>
+  references:    <DefiningName "E" index.ads:10:15-10:16>
   type:          None
   expected type: None
 Expr: <Id "Index" index.ads:11:20-11:25>
@@ -55,7 +55,7 @@ Expr: <AttributeRef index.ads:12:31-12:38>
   type:          <ConcreteTypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
   expected type: <ConcreteTypeDecl ["Entry_Id_Mod"] index.ads:4:5-4:32>
 Expr: <Id "E" index.ads:12:31-12:32>
-  references:    <DefiningName index.ads:10:15-10:16>
+  references:    <DefiningName "E" index.ads:10:15-10:16>
   type:          None
   expected type: None
 Expr: <Id "Index" index.ads:12:33-12:38>
@@ -75,7 +75,7 @@ Resolving xrefs for node <EntrySpec index.ads:13:9-13:31>
 *********************************************************
 
 Expr: <Id "Entry_Id_Sub" index.ads:13:18-13:30>
-  references:    <DefiningName index.ads:5:13-5:25>
+  references:    <DefiningName "Entry_Id_Sub" index.ads:5:13-5:25>
   type:          None
   expected type: None
 
@@ -94,7 +94,7 @@ Expr: <AttributeRef index.ads:14:19-14:26>
   type:          <SubtypeDecl ["Entry_Id_Sub"] index.ads:5:5-5:50>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "F" index.ads:14:19-14:20>
-  references:    <DefiningName index.ads:13:15-13:16>
+  references:    <DefiningName "F" index.ads:13:15-13:16>
   type:          None
   expected type: None
 Expr: <Id "Index" index.ads:14:21-14:26>
@@ -125,7 +125,7 @@ Expr: <AttributeRef index.ads:15:30-15:37>
   type:          <SubtypeDecl ["Entry_Id_Sub"] index.ads:5:5-5:50>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "F" index.ads:15:30-15:31>
-  references:    <DefiningName index.ads:13:15-13:16>
+  references:    <DefiningName "F" index.ads:13:15-13:16>
   type:          None
   expected type: None
 Expr: <Id "Index" index.ads:15:32-15:37>
@@ -145,11 +145,11 @@ Resolving xrefs for node <EndName index.ads:16:9-16:10>
 *******************************************************
 
 Expr: <EndName index.ads:16:9-16:10>
-  references:    <DefiningName index.ads:9:20-9:21>
+  references:    <DefiningName "T" index.ads:9:20-9:21>
   type:          None
   expected type: None
 Expr: <Id "T" index.ads:16:9-16:10>
-  references:    <DefiningName index.ads:9:20-9:21>
+  references:    <DefiningName "T" index.ads:9:20-9:21>
   type:          None
   expected type: None
 

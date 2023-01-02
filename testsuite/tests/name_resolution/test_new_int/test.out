@@ -12,7 +12,7 @@ Expr: <AttributeRef test_new_int.adb:2:26-2:39>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "Integer" test_new_int.adb:2:26-2:33>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "First" test_new_int.adb:2:34-2:39>
@@ -28,7 +28,7 @@ Expr: <AttributeRef test_new_int.adb:2:43-2:55>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "Integer" test_new_int.adb:2:43-2:50>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "Last" test_new_int.adb:2:51-2:55>

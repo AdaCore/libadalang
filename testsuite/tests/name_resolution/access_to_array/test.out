@@ -9,7 +9,7 @@ Resolving xrefs for node <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-
 *************************************************************************************
 
 Expr: <Id "String" testarraccess.adb:2:34-2:40>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 
@@ -17,7 +17,7 @@ Resolving xrefs for node <SubpSpec testarraccess.adb:3:4-3:49>
 **************************************************************
 
 Expr: <Id "Str_Access" testarraccess.adb:3:39-3:49>
-  references:    <DefiningName testarraccess.adb:2:9-2:19>
+  references:    <DefiningName "Str_Access" testarraccess.adb:2:9-2:19>
   type:          None
   expected type: None
 
@@ -25,7 +25,7 @@ Resolving xrefs for node <ParamSpec ["S"] testarraccess.adb:3:20-3:30>
 **********************************************************************
 
 Expr: <Id "String" testarraccess.adb:3:24-3:30>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 
@@ -36,18 +36,18 @@ Expr: <Allocator testarraccess.adb:5:14-5:28>
   type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
   expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <QualExpr testarraccess.adb:5:18-5:28>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "String" testarraccess.adb:5:18-5:24>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <ParenExpr testarraccess.adb:5:25-5:28>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "S" testarraccess.adb:5:26-5:27>
-  references:    <DefiningName testarraccess.adb:3:20-3:21>
+  references:    <DefiningName "S" testarraccess.adb:3:20-3:21>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 
@@ -55,11 +55,11 @@ Resolving xrefs for node <EndName testarraccess.adb:6:8-6:13>
 *************************************************************
 
 Expr: <EndName testarraccess.adb:6:8-6:13>
-  references:    <DefiningName testarraccess.adb:3:13-3:18>
+  references:    <DefiningName "Prout" testarraccess.adb:3:13-3:18>
   type:          None
   expected type: None
 Expr: <Id "Prout" testarraccess.adb:6:8-6:13>
-  references:    <DefiningName testarraccess.adb:3:13-3:18>
+  references:    <DefiningName "Prout" testarraccess.adb:3:13-3:18>
   type:          None
   expected type: None
 
@@ -67,7 +67,7 @@ Resolving xrefs for node <ObjectDecl ["A"] testarraccess.adb:8:4-8:18>
 **********************************************************************
 
 Expr: <Id "Character" testarraccess.adb:8:8-8:17>
-  references:    <DefiningName __standard:21:8-21:17>
+  references:    <DefiningName "Character" __standard:21:8-21:17>
   type:          None
   expected type: None
 
@@ -75,18 +75,18 @@ Resolving xrefs for node <ObjectDecl ["S"] testarraccess.adb:10:4-10:44>
 ************************************************************************
 
 Expr: <Id "Str_Access" testarraccess.adb:10:8-10:18>
-  references:    <DefiningName testarraccess.adb:2:9-2:19>
+  references:    <DefiningName "Str_Access" testarraccess.adb:2:9-2:19>
   type:          None
   expected type: None
 Expr: <Allocator testarraccess.adb:10:22-10:43>
   type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
   expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <QualExpr testarraccess.adb:10:26-10:43>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "String" testarraccess.adb:10:26-10:32>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 Expr: <ParenExpr testarraccess.adb:10:33-10:43>
@@ -101,23 +101,23 @@ Resolving xrefs for node <AssignStmt testarraccess.adb:13:4-13:31>
 ******************************************************************
 
 Expr: <Id "A" testarraccess.adb:13:4-13:5>
-  references:    <DefiningName testarraccess.adb:8:4-8:5>
+  references:    <DefiningName "A" testarraccess.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: None
 Expr: <CallExpr testarraccess.adb:13:9-13:30>
-  references:    <DefiningName testarraccess.adb:3:13-3:18>
+  references:    <DefiningName "Prout" testarraccess.adb:3:13-3:18>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ExplicitDeref testarraccess.adb:13:9-13:26>
-  references:    <DefiningName testarraccess.adb:3:13-3:18>
+  references:    <DefiningName "Prout" testarraccess.adb:3:13-3:18>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <CallExpr testarraccess.adb:13:9-13:22>
-  references:    <DefiningName testarraccess.adb:3:13-3:18>
+  references:    <DefiningName "Prout" testarraccess.adb:3:13-3:18>
   type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
   expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <Id "Prout" testarraccess.adb:13:9-13:14>
-  references:    <DefiningName testarraccess.adb:3:13-3:18>
+  references:    <DefiningName "Prout" testarraccess.adb:3:13-3:18>
   type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
   expected type: None
 Expr: <Str ""lol"" testarraccess.adb:13:16-13:21>
@@ -133,19 +133,19 @@ Resolving xrefs for node <AssignStmt testarraccess.adb:15:4-15:19>
 ******************************************************************
 
 Expr: <Id "A" testarraccess.adb:15:4-15:5>
-  references:    <DefiningName testarraccess.adb:8:4-8:5>
+  references:    <DefiningName "A" testarraccess.adb:8:4-8:5>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: None
 Expr: <CallExpr testarraccess.adb:15:9-15:18>
-  references:    <DefiningName testarraccess.adb:10:4-10:5>
+  references:    <DefiningName "S" testarraccess.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 Expr: <ExplicitDeref testarraccess.adb:15:9-15:14>
-  references:    <DefiningName testarraccess.adb:10:4-10:5>
+  references:    <DefiningName "S" testarraccess.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: None
 Expr: <Id "S" testarraccess.adb:15:9-15:10>
-  references:    <DefiningName testarraccess.adb:10:4-10:5>
+  references:    <DefiningName "S" testarraccess.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
   expected type: <ConcreteTypeDecl ["Str_Access"] testarraccess.adb:2:4-2:41>
 Expr: <Int testarraccess.adb:15:16-15:17>
@@ -157,11 +157,11 @@ Resolving xrefs for node <EndName testarraccess.adb:16:5-16:18>
 ***************************************************************
 
 Expr: <EndName testarraccess.adb:16:5-16:18>
-  references:    <DefiningName testarraccess.adb:1:11-1:24>
+  references:    <DefiningName "TestArrAccess" testarraccess.adb:1:11-1:24>
   type:          None
   expected type: None
 Expr: <Id "TestArrAccess" testarraccess.adb:16:5-16:18>
-  references:    <DefiningName testarraccess.adb:1:11-1:24>
+  references:    <DefiningName "TestArrAccess" testarraccess.adb:1:11-1:24>
   type:          None
   expected type: None
 

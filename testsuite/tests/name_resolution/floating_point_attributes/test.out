@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["Denorm"] test.adb:2:4-2:52>
 ******************************************************************
 
 Expr: <Id "Boolean" test.adb:2:28-2:35>
-  references:    <DefiningName __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:2:39-2:51>
@@ -13,7 +13,7 @@ Expr: <AttributeRef test.adb:2:39-2:51>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Float" test.adb:2:39-2:44>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Denorm" test.adb:2:45-2:51>
@@ -25,7 +25,7 @@ Resolving xrefs for node <ObjectDecl ["Signed_Zeros"] test.adb:4:4-4:58>
 ************************************************************************
 
 Expr: <Id "Boolean" test.adb:4:28-4:35>
-  references:    <DefiningName __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:4:39-4:57>
@@ -33,7 +33,7 @@ Expr: <AttributeRef test.adb:4:39-4:57>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Float" test.adb:4:39-4:44>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Signed_Zeros" test.adb:4:45-4:57>
@@ -45,15 +45,15 @@ Resolving xrefs for node <NumberDecl ["Model"] test.adb:7:4-7:48>
 *****************************************************************
 
 Expr: <CallExpr test.adb:7:30-7:47>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "model" __standard:14:3-15:51>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <AttributeRef test.adb:7:30-7:41>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "model" __standard:14:3-15:51>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:7:30-7:35>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 Expr: <Id "Model" test.adb:7:36-7:41>
@@ -73,7 +73,7 @@ Expr: <AttributeRef test.adb:9:30-9:46>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "Float" test.adb:9:30-9:35>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: None
 Expr: <Id "Model_Emin" test.adb:9:36-9:46>
@@ -85,15 +85,15 @@ Resolving xrefs for node <NumberDecl ["Unbiased_Rounding"] test.adb:12:4-12:66>
 *******************************************************************************
 
 Expr: <CallExpr test.adb:12:36-12:65>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "unbiased_rounding" __standard:14:3-15:51>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <AttributeRef test.adb:12:36-12:59>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "unbiased_rounding" __standard:14:3-15:51>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:12:36-12:41>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 Expr: <Id "Unbiased_Rounding" test.adb:12:42-12:59>
@@ -109,15 +109,15 @@ Resolving xrefs for node <NumberDecl ["Leading_Part"] test.adb:14:4-14:61>
 **************************************************************************
 
 Expr: <CallExpr test.adb:14:36-14:60>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "leading_part" __standard:14:3-15:51>
   type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <AttributeRef test.adb:14:36-14:54>
-  references:    <SyntheticDefiningName __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "leading_part" __standard:14:3-15:51>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:14:36-14:41>
-  references:    <DefiningName __standard:14:8-14:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
   type:          None
   expected type: None
 Expr: <Id "Leading_Part" test.adb:14:42-14:54>

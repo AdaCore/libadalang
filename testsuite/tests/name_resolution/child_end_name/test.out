@@ -4,11 +4,11 @@ Analyzing pkg.ads
 Analyzing pkg-foo.ads
 #####################
 
-Resolving xrefs for node <DefiningName pkg-foo.ads:1:9-1:16>
-************************************************************
+Resolving xrefs for node <DefiningName "Pkg.Foo" pkg-foo.ads:1:9-1:16>
+**********************************************************************
 
 Expr: <Id "Pkg" pkg-foo.ads:1:9-1:12>
-  references:    <DefiningName pkg.ads:1:9-1:12>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
   type:          None
   expected type: None
 
@@ -20,19 +20,19 @@ Resolving xrefs for node <EndName pkg-foo.ads:3:5-3:12>
 *******************************************************
 
 Expr: <EndName pkg-foo.ads:3:5-3:12>
-  references:    <DefiningName pkg-foo.ads:1:9-1:16>
+  references:    <DefiningName "Pkg.Foo" pkg-foo.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <DottedName pkg-foo.ads:3:5-3:12>
-  references:    <DefiningName pkg-foo.ads:1:9-1:16>
+  references:    <DefiningName "Pkg.Foo" pkg-foo.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Pkg" pkg-foo.ads:3:5-3:8>
-  references:    <DefiningName pkg.ads:1:9-1:12>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Foo" pkg-foo.ads:3:9-3:12>
-  references:    <DefiningName pkg-foo.ads:1:9-1:16>
+  references:    <DefiningName "Pkg.Foo" pkg-foo.ads:1:9-1:16>
   type:          None
   expected type: None
 
@@ -40,11 +40,11 @@ Expr: <Id "Foo" pkg-foo.ads:3:9-3:12>
 Analyzing pkg-foo.adb
 #####################
 
-Resolving xrefs for node <DefiningName pkg-foo.adb:1:14-1:21>
-*************************************************************
+Resolving xrefs for node <DefiningName "Pkg.Foo" pkg-foo.adb:1:14-1:21>
+***********************************************************************
 
 Expr: <Id "Pkg" pkg-foo.adb:1:14-1:17>
-  references:    <DefiningName pkg.ads:1:9-1:12>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
   type:          None
   expected type: None
 
@@ -56,19 +56,19 @@ Resolving xrefs for node <EndName pkg-foo.adb:3:5-3:12>
 *******************************************************
 
 Expr: <EndName pkg-foo.adb:3:5-3:12>
-  references:    <DefiningName pkg-foo.adb:1:14-1:21>
+  references:    <DefiningName "Pkg.Foo" pkg-foo.adb:1:14-1:21>
   type:          None
   expected type: None
 Expr: <DottedName pkg-foo.adb:3:5-3:12>
-  references:    <DefiningName pkg-foo.adb:1:14-1:21>
+  references:    <DefiningName "Pkg.Foo" pkg-foo.adb:1:14-1:21>
   type:          None
   expected type: None
 Expr: <Id "Pkg" pkg-foo.adb:3:5-3:8>
-  references:    <DefiningName pkg.ads:1:9-1:12>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Foo" pkg-foo.adb:3:9-3:12>
-  references:    <DefiningName pkg-foo.adb:1:14-1:21>
+  references:    <DefiningName "Pkg.Foo" pkg-foo.adb:1:14-1:21>
   type:          None
   expected type: None
 
@@ -80,11 +80,11 @@ Resolving xrefs for node <SubpSpec pkg-baz.adb:1:1-1:18>
 ********************************************************
 
 
-Resolving xrefs for node <DefiningName pkg-baz.adb:1:11-1:18>
-*************************************************************
+Resolving xrefs for node <DefiningName "Pkg.Baz" pkg-baz.adb:1:11-1:18>
+***********************************************************************
 
 Expr: <Id "Pkg" pkg-baz.adb:1:11-1:14>
-  references:    <DefiningName pkg.ads:1:9-1:12>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
   type:          None
   expected type: None
 
@@ -96,19 +96,19 @@ Resolving xrefs for node <EndName pkg-baz.adb:4:5-4:12>
 *******************************************************
 
 Expr: <EndName pkg-baz.adb:4:5-4:12>
-  references:    <DefiningName pkg-baz.adb:1:11-1:18>
+  references:    <DefiningName "Pkg.Baz" pkg-baz.adb:1:11-1:18>
   type:          None
   expected type: None
 Expr: <DottedName pkg-baz.adb:4:5-4:12>
-  references:    <DefiningName pkg-baz.adb:1:11-1:18>
+  references:    <DefiningName "Pkg.Baz" pkg-baz.adb:1:11-1:18>
   type:          None
   expected type: None
 Expr: <Id "Pkg" pkg-baz.adb:4:5-4:8>
-  references:    <DefiningName pkg.ads:1:9-1:12>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Baz" pkg-baz.adb:4:9-4:12>
-  references:    <DefiningName pkg-baz.adb:1:11-1:18>
+  references:    <DefiningName "Pkg.Baz" pkg-baz.adb:1:11-1:18>
   type:          None
   expected type: None
 

@@ -13,11 +13,11 @@ Resolving xrefs for node <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
 *********************************************************************
 
 Expr: <Id "Root" testcw.ads:6:18-6:22>
-  references:    <DefiningName testcw.ads:4:9-4:13>
+  references:    <DefiningName "Root" testcw.ads:4:9-4:13>
   type:          None
   expected type: None
 Expr: <Id "A" testcw.ads:6:27-6:28>
-  references:    <DefiningName testcw.ads:2:9-2:10>
+  references:    <DefiningName "A" testcw.ads:2:9-2:10>
   type:          <ConcreteTypeDecl ["A"] testcw.ads:2:4-2:24>
   expected type: None
 
@@ -25,7 +25,7 @@ Resolving xrefs for node <ObjectDecl ["C"] testcw.ads:8:4-8:36>
 ***************************************************************
 
 Expr: <Id "B" testcw.ads:8:17-8:18>
-  references:    <DefiningName testcw.ads:6:9-6:10>
+  references:    <DefiningName "B" testcw.ads:6:9-6:10>
   type:          None
   expected type: None
 Expr: <NullRecordAggregate testcw.ads:8:22-8:35>
@@ -39,7 +39,7 @@ Expr: <ParenExpr testcw.ads:10:36-10:39>
   type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["A"] testcw.ads:2:4-2:24>
 Expr: <Id "C" testcw.ads:10:37-10:38>
-  references:    <DefiningName testcw.ads:8:4-8:5>
+  references:    <DefiningName "C" testcw.ads:8:4-8:5>
   type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["A"] testcw.ads:2:4-2:24>
 
@@ -47,11 +47,11 @@ Resolving xrefs for node <SubpSpec testcw.ads:10:4-10:32>
 *********************************************************
 
 Expr: <AttributeRef testcw.ads:10:25-10:32>
-  references:    <DefiningName testcw.ads:2:9-2:10>
+  references:    <DefiningName "A" testcw.ads:2:9-2:10>
   type:          None
   expected type: None
 Expr: <Id "A" testcw.ads:10:25-10:26>
-  references:    <DefiningName testcw.ads:2:9-2:10>
+  references:    <DefiningName "A" testcw.ads:2:9-2:10>
   type:          None
   expected type: None
 Expr: <Id "Class" testcw.ads:10:27-10:32>
@@ -66,7 +66,7 @@ Expr: <ParenExpr testcw.ads:12:38-12:41>
   type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["Root"] testcw.ads:4:4-4:36>
 Expr: <Id "C" testcw.ads:12:39-12:40>
-  references:    <DefiningName testcw.ads:8:4-8:5>
+  references:    <DefiningName "C" testcw.ads:8:4-8:5>
   type:          <ConcreteTypeDecl ["B"] testcw.ads:6:4-6:46>
   expected type: <ClasswideTypeDecl ["Root"] testcw.ads:4:4-4:36>
 
@@ -74,11 +74,11 @@ Resolving xrefs for node <SubpSpec testcw.ads:12:4-12:34>
 *********************************************************
 
 Expr: <AttributeRef testcw.ads:12:24-12:34>
-  references:    <DefiningName testcw.ads:4:9-4:13>
+  references:    <DefiningName "Root" testcw.ads:4:9-4:13>
   type:          None
   expected type: None
 Expr: <Id "Root" testcw.ads:12:24-12:28>
-  references:    <DefiningName testcw.ads:4:9-4:13>
+  references:    <DefiningName "Root" testcw.ads:4:9-4:13>
   type:          None
   expected type: None
 Expr: <Id "Class" testcw.ads:12:29-12:34>
@@ -90,11 +90,11 @@ Resolving xrefs for node <EndName testcw.ads:13:5-13:11>
 ********************************************************
 
 Expr: <EndName testcw.ads:13:5-13:11>
-  references:    <DefiningName testcw.ads:1:9-1:15>
+  references:    <DefiningName "TestCW" testcw.ads:1:9-1:15>
   type:          None
   expected type: None
 Expr: <Id "TestCW" testcw.ads:13:5-13:11>
-  references:    <DefiningName testcw.ads:1:9-1:15>
+  references:    <DefiningName "TestCW" testcw.ads:1:9-1:15>
   type:          None
   expected type: None
 

@@ -17,15 +17,15 @@ Expr: <RelationOp test.adb:7:35-7:44>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.adb:7:35-7:40>
-  references:    <DefiningName test.adb:4:18-4:20>
+  references:    <DefiningName "S1" test.adb:4:18-4:20>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "S1" test.adb:7:35-7:37>
-  references:    <DefiningName test.adb:4:18-4:20>
+  references:    <DefiningName "S1" test.adb:4:18-4:20>
   type:          <ConcreteTypeDecl ["Sequence"] test.adb:2:4-2:57>
   expected type: None
 Expr: <Id "K" test.adb:7:38-7:39>
-  references:    <DefiningName test.adb:7:18-7:19>
+  references:    <DefiningName "K" test.adb:7:18-7:19>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <OpGt ">" test.adb:7:41-7:42>
@@ -50,7 +50,7 @@ Expr: <RelationOp test.adb:8:30-8:35>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "E" test.adb:8:30-8:31>
-  references:    <DefiningName test.adb:8:19-8:20>
+  references:    <DefiningName "E" test.adb:8:19-8:20>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpLt "<" test.adb:8:32-8:33>

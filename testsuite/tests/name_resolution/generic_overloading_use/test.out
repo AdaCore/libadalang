@@ -5,15 +5,15 @@ Resolving xrefs for node <CallStmt main.adb:13:4-13:22>
 *******************************************************
 
 Expr: <CallExpr main.adb:13:4-13:21>
-  references:    <| DefiningName vector.ads:7:14-7:20 [main.adb:5:4] |>
+  references:    <| DefiningName "Append" vector.ads:7:14-7:20 [main.adb:5:4] |>
   type:          None
   expected type: None
 Expr: <Id "Append" main.adb:13:4-13:10>
-  references:    <| DefiningName vector.ads:7:14-7:20 [main.adb:5:4] |>
+  references:    <| DefiningName "Append" vector.ads:7:14-7:20 [main.adb:5:4] |>
   type:          None
   expected type: None
 Expr: <Id "V2" main.adb:13:12-13:14>
-  references:    <DefiningName main.adb:8:4-8:6>
+  references:    <DefiningName "V2" main.adb:8:4-8:6>
   type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
 Expr: <Real main.adb:13:16-13:20>
@@ -25,15 +25,15 @@ Resolving xrefs for node <CallStmt main.adb:16:4-16:19>
 *******************************************************
 
 Expr: <CallExpr main.adb:16:4-16:18>
-  references:    <| DefiningName vector.ads:7:14-7:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:7:14-7:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "Append" main.adb:16:4-16:10>
-  references:    <| DefiningName vector.ads:7:14-7:20 [main.adb:4:4] |>
+  references:    <| DefiningName "Append" vector.ads:7:14-7:20 [main.adb:4:4] |>
   type:          None
   expected type: None
 Expr: <Id "V" main.adb:16:12-16:13>
-  references:    <DefiningName main.adb:7:4-7:5>
+  references:    <DefiningName "V" main.adb:7:4-7:5>
   type:          <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
 Expr: <Int main.adb:16:15-16:17>

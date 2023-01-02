@@ -5,7 +5,7 @@ Resolving xrefs for node <CaseStmt test.adb:10:7-17:16>
 *******************************************************
 
 Expr: <Id "X" test.adb:10:12-10:13>
-  references:    <DefiningName test.adb:6:4-6:5>
+  references:    <DefiningName "X" test.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["Kind"] test.adb:2:4-2:24>
   expected type: None
 
@@ -13,7 +13,7 @@ Resolving xrefs for node <CaseStmtAlternative test.adb:11:10-12:21>
 *******************************************************************
 
 Expr: <Id "A" test.adb:11:15-11:16>
-  references:    <DefiningName test.adb:2:18-2:19>
+  references:    <DefiningName "A" test.adb:2:18-2:19>
   type:          <ConcreteTypeDecl ["Kind"] test.adb:2:4-2:24>
   expected type: <ConcreteTypeDecl ["Kind"] test.adb:2:4-2:24>
 
@@ -21,7 +21,7 @@ Resolving xrefs for node <CallStmt test.adb:12:13-12:21>
 ********************************************************
 
 Expr: <Id "Process" test.adb:12:13-12:20>
-  references:    <DefiningName test.adb:4:14-4:21>
+  references:    <DefiningName "Process" test.adb:4:14-4:21>
   type:          None
   expected type: None
 
@@ -34,7 +34,7 @@ Resolving xrefs for node <CallStmt test.adb:14:13-14:21>
 ********************************************************
 
 Expr: <Id "Process" test.adb:14:13-14:20>
-  references:    <DefiningName test.adb:4:14-4:21>
+  references:    <DefiningName "Process" test.adb:4:14-4:21>
   type:          None
   expected type: None
 
@@ -42,7 +42,7 @@ Resolving xrefs for node <CaseStmtAlternative test.adb:15:10-16:21>
 *******************************************************************
 
 Expr: <Id "C" test.adb:15:15-15:16>
-  references:    <DefiningName test.adb:2:21-2:22>
+  references:    <DefiningName "C" test.adb:2:21-2:22>
   type:          <ConcreteTypeDecl ["Kind"] test.adb:2:4-2:24>
   expected type: <ConcreteTypeDecl ["Kind"] test.adb:2:4-2:24>
 
@@ -50,7 +50,7 @@ Resolving xrefs for node <CallStmt test.adb:16:13-16:21>
 ********************************************************
 
 Expr: <Id "Process" test.adb:16:13-16:20>
-  references:    <DefiningName test.adb:4:14-4:21>
+  references:    <DefiningName "Process" test.adb:4:14-4:21>
   type:          None
   expected type: None
 

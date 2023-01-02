@@ -5,11 +5,11 @@ Resolving xrefs for node <CallStmt test.adb:6:4-6:11>
 *****************************************************
 
 Expr: <CallExpr test.adb:6:4-6:10>
-  references:    <DefiningName test.adb:4:14-4:15>
+  references:    <DefiningName "A" test.adb:4:14-4:15>
   type:          None
   expected type: None
 Expr: <Id "A" test.adb:6:4-6:5>
-  references:    <DefiningName test.adb:4:14-4:15>
+  references:    <DefiningName "A" test.adb:4:14-4:15>
   type:          None
   expected type: None
 Expr: <Int test.adb:6:7-6:9>

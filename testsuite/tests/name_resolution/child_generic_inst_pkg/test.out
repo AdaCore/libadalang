@@ -5,27 +5,27 @@ Resolving xrefs for node <ObjectDecl ["B"] main.adb:5:4-5:25>
 *************************************************************
 
 Expr: <Id "Integer" main.adb:5:8-5:15>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <DottedName main.adb:5:19-5:24>
-  references:    <| DefiningName d.ads:3:4-3:5 [b-c.ads:3:1] |>
+  references:    <| DefiningName "A" d.ads:3:4-3:5 [b-c.ads:3:1] |>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName main.adb:5:19-5:22>
-  references:    <DefiningName b-c.ads:3:9-3:12>
+  references:    <DefiningName "B.C" b-c.ads:3:9-3:12>
   type:          None
   expected type: None
 Expr: <Id "B" main.adb:5:19-5:20>
-  references:    <DefiningName main.adb:5:4-5:5>
+  references:    <DefiningName "B" main.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "C" main.adb:5:21-5:22>
-  references:    <DefiningName b-c.ads:3:9-3:12>
+  references:    <DefiningName "B.C" b-c.ads:3:9-3:12>
   type:          None
   expected type: None
 Expr: <Id "A" main.adb:5:23-5:24>
-  references:    <| DefiningName d.ads:3:4-3:5 [b-c.ads:3:1] |>
+  references:    <| DefiningName "A" d.ads:3:4-3:5 [b-c.ads:3:1] |>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

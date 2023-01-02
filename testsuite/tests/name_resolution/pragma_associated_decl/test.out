@@ -9,7 +9,7 @@ Expr: <Id "Pack" foo.ads:6:11-6:15>
   type:          None
   expected type: None
 Expr: <Id "T" foo.ads:6:17-6:18>
-  references:    <DefiningName foo.ads:5:9-5:10>
+  references:    <DefiningName "T" foo.ads:5:9-5:10>
   type:          None
   expected type: None
 

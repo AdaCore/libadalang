@@ -8,15 +8,15 @@ Expr: <RelationOp test.adb:7:7-7:18>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.adb:7:7-7:14>
-  references:    <DefiningName test.adb:3:18-3:21>
+  references:    <DefiningName "'A'" test.adb:3:18-3:21>
   type:          <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
   expected type: <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
 Expr: <Id "Pkg" test.adb:7:7-7:10>
-  references:    <DefiningName test.adb:2:12-2:15>
+  references:    <DefiningName "Pkg" test.adb:2:12-2:15>
   type:          None
   expected type: None
 Expr: <Chr "'A'" test.adb:7:11-7:14>
-  references:    <DefiningName test.adb:3:18-3:21>
+  references:    <DefiningName "'A'" test.adb:3:18-3:21>
   type:          <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
   expected type: <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
 Expr: <OpEq "=" test.adb:7:15-7:16>
@@ -24,7 +24,7 @@ Expr: <OpEq "=" test.adb:7:15-7:16>
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:7:17-7:18>
-  references:    <DefiningName test.adb:3:23-3:24>
+  references:    <DefiningName "B" test.adb:3:23-3:24>
   type:          <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
   expected type: <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>
 

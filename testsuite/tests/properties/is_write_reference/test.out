@@ -1,18 +1,18 @@
 == test.adb ==
-Analyzing references of Main (<DefiningName test.adb:1:11-1:15>)
+Analyzing references of Main (<DefiningName "Main" test.adb:1:11-1:15>)
   Reference <RefResult ref=<Id "Main" test.adb:39:5-39:9> kind=precise> is not a write reference.
 
-Analyzing references of Arr (<DefiningName test.adb:2:9-2:12>)
+Analyzing references of Arr (<DefiningName "Arr" test.adb:2:9-2:12>)
   Reference <RefResult ref=<Id "Arr" test.adb:4:11-4:14> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Arr" test.adb:8:26-8:29> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Arr" test.adb:8:39-8:42> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Arr" test.adb:21:8-21:11> kind=precise> is not a write reference.
 
-Analyzing references of Rec (<DefiningName test.adb:3:9-3:12>)
+Analyzing references of Rec (<DefiningName "Rec" test.adb:3:9-3:12>)
   Reference <RefResult ref=<Id "Rec" test.adb:6:52-6:55> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Rec" test.adb:24:8-24:11> kind=precise> is not a write reference.
 
-Analyzing references of A (<DefiningName test.adb:4:7-4:8>)
+Analyzing references of A (<DefiningName "A" test.adb:4:7-4:8>)
   Reference <RefResult ref=<Id "A" test.adb:32:6-32:7> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "A" test.adb:33:10-33:11> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "A" test.adb:33:25-33:26> kind=precise> is not a write reference.
@@ -20,39 +20,39 @@ Analyzing references of A (<DefiningName test.adb:4:7-4:8>)
   Reference <RefResult ref=<Id "A" test.adb:34:24-34:25> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "A" test.adb:38:10-38:11> kind=precise> is a write reference.
 
-Analyzing references of Rec_Arr (<DefiningName test.adb:6:9-6:16>)
+Analyzing references of Rec_Arr (<DefiningName "Rec_Arr" test.adb:6:9-6:16>)
   Reference <RefResult ref=<Id "Rec_Arr" test.adb:25:8-25:15> kind=precise> is not a write reference.
 
-Analyzing references of Foo (<DefiningName test.adb:8:14-8:17>)
+Analyzing references of Foo (<DefiningName "Foo" test.adb:8:14-8:17>)
   Reference <RefResult ref=<Id "Foo" test.adb:11:8-11:11> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Foo" test.adb:30:4-30:7> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Foo" test.adb:34:4-34:7> kind=precise> is not a write reference.
 
-Analyzing references of A (<DefiningName test.adb:8:19-8:20>)
+Analyzing references of A (<DefiningName "A" test.adb:8:19-8:20>)
 
-Analyzing references of B (<DefiningName test.adb:8:31-8:32>)
+Analyzing references of B (<DefiningName "B" test.adb:8:31-8:32>)
 
-Analyzing references of Pkg (<DefiningName test.adb:13:12-13:15>)
+Analyzing references of Pkg (<DefiningName "Pkg" test.adb:13:12-13:15>)
   Reference <RefResult ref=<Id "Pkg" test.adb:19:8-19:11> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Pkg" test.adb:26:8-26:11> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Pkg" test.adb:37:4-37:7> kind=precise> is not a write reference.
 
-Analyzing references of T (<DefiningName test.adb:14:12-14:13>)
+Analyzing references of T (<DefiningName "T" test.adb:14:12-14:13>)
   Reference <RefResult ref=<Id "T" test.adb:18:33-18:34> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "T" test.adb:26:12-26:13> kind=precise> is not a write reference.
 
-Analyzing references of Bar (<DefiningName test.adb:15:10-15:13>)
+Analyzing references of Bar (<DefiningName "Bar" test.adb:15:10-15:13>)
   Reference <RefResult ref=<Id "Bar" test.adb:36:6-36:9> kind=precise> is not a write reference.
 
-Analyzing references of X (<DefiningName test.adb:15:34-15:35>)
+Analyzing references of X (<DefiningName "X" test.adb:15:34-15:35>)
 
-Analyzing references of Foo (<DefiningName test.adb:18:17-18:20>)
+Analyzing references of Foo (<DefiningName "Foo" test.adb:18:17-18:20>)
   Reference <RefResult ref=<Id "Foo" test.adb:35:6-35:9> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Foo" test.adb:37:8-37:11> kind=precise> is not a write reference.
 
-Analyzing references of X (<DefiningName test.adb:18:22-18:23>)
+Analyzing references of X (<DefiningName "X" test.adb:18:22-18:23>)
 
-Analyzing references of X (<DefiningName test.adb:21:4-21:5>)
+Analyzing references of X (<DefiningName "X" test.adb:21:4-21:5>)
   Reference <RefResult ref=<Id "X" test.adb:28:4-28:5> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "X" test.adb:29:4-29:5> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "X" test.adb:30:9-30:10> kind=precise> is not a write reference.
@@ -60,7 +60,7 @@ Analyzing references of X (<DefiningName test.adb:21:4-21:5>)
   Reference <RefResult ref=<Id "X" test.adb:32:11-32:12> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "X" test.adb:38:15-38:16> kind=precise> is not a write reference.
 
-Analyzing references of Y (<DefiningName test.adb:22:4-22:5>)
+Analyzing references of Y (<DefiningName "Y" test.adb:22:4-22:5>)
   Reference <RefResult ref=<Id "Y" test.adb:23:26-23:27> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "Y" test.adb:28:20-28:21> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Y" test.adb:29:13-29:14> kind=precise> is not a write reference.
@@ -68,20 +68,20 @@ Analyzing references of Y (<DefiningName test.adb:22:4-22:5>)
   Reference <RefResult ref=<Id "Y" test.adb:34:21-34:22> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "Y" test.adb:36:11-36:12> kind=precise> is a write reference.
 
-Analyzing references of Z (<DefiningName test.adb:23:4-23:5>)
+Analyzing references of Z (<DefiningName "Z" test.adb:23:4-23:5>)
   Reference <RefResult ref=<Id "Z" test.adb:31:4-31:5> kind=precise> is not a write reference.
 
-Analyzing references of V (<DefiningName test.adb:24:4-24:5>)
+Analyzing references of V (<DefiningName "V" test.adb:24:4-24:5>)
   Reference <RefResult ref=<Id "V" test.adb:32:4-32:5> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "V" test.adb:38:4-38:5> kind=precise> is a write reference.
 
-Analyzing references of W (<DefiningName test.adb:25:4-25:5>)
+Analyzing references of W (<DefiningName "W" test.adb:25:4-25:5>)
   Reference <RefResult ref=<Id "W" test.adb:33:4-33:5> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "W" test.adb:33:19-33:20> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "W" test.adb:34:9-34:10> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "W" test.adb:34:18-34:19> kind=precise> is a write reference.
 
-Analyzing references of R (<DefiningName test.adb:26:4-26:5>)
+Analyzing references of R (<DefiningName "R" test.adb:26:4-26:5>)
   Reference <RefResult ref=<Id "R" test.adb:35:4-35:5> kind=precise> is a write reference.
   Reference <RefResult ref=<Id "R" test.adb:36:4-36:5> kind=precise> is not a write reference.
   Reference <RefResult ref=<Id "R" test.adb:37:13-37:14> kind=precise> is a write reference.

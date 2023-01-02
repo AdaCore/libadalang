@@ -1,11 +1,11 @@
 Analyzing aaa-aaa.adb
 #####################
 
-Resolving xrefs for node <DefiningName aaa-aaa.adb:1:14-1:21>
-*************************************************************
+Resolving xrefs for node <DefiningName "Aaa.Aaa" aaa-aaa.adb:1:14-1:21>
+***********************************************************************
 
 Expr: <Id "Aaa" aaa-aaa.adb:1:14-1:17>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 
@@ -17,7 +17,7 @@ Resolving xrefs for node <ObjectDecl ["B"] aaa-aaa.adb:3:7-3:19>
 ****************************************************************
 
 Expr: <Id "Integer" aaa-aaa.adb:3:11-3:18>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -25,19 +25,19 @@ Resolving xrefs for node <AssignStmt aaa-aaa.adb:5:7-5:18>
 **********************************************************
 
 Expr: <Id "B" aaa-aaa.adb:5:7-5:8>
-  references:    <DefiningName aaa-aaa.adb:3:7-3:8>
+  references:    <DefiningName "B" aaa-aaa.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <DottedName aaa-aaa.adb:5:12-5:17>
-  references:    <DefiningName aaa-aaa.ads:2:4-2:5>
+  references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Aaa" aaa-aaa.adb:5:12-5:15>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "B" aaa-aaa.adb:5:16-5:17>
-  references:    <DefiningName aaa-aaa.ads:2:4-2:5>
+  references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -45,27 +45,27 @@ Resolving xrefs for node <AssignStmt aaa-aaa.adb:6:7-6:27>
 **********************************************************
 
 Expr: <Id "B" aaa-aaa.adb:6:7-6:8>
-  references:    <DefiningName aaa-aaa.adb:3:7-3:8>
+  references:    <DefiningName "B" aaa-aaa.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <DottedName aaa-aaa.adb:6:12-6:26>
-  references:    <DefiningName aaa.ads:2:4-2:5>
+  references:    <DefiningName "B" aaa.ads:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName aaa-aaa.adb:6:12-6:24>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Standard" aaa-aaa.adb:6:12-6:20>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa.adb:6:21-6:24>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "B" aaa-aaa.adb:6:25-6:26>
-  references:    <DefiningName aaa.ads:2:4-2:5>
+  references:    <DefiningName "B" aaa.ads:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -73,35 +73,35 @@ Resolving xrefs for node <AssignStmt aaa-aaa.adb:7:7-7:31>
 **********************************************************
 
 Expr: <Id "B" aaa-aaa.adb:7:7-7:8>
-  references:    <DefiningName aaa-aaa.adb:3:7-3:8>
+  references:    <DefiningName "B" aaa-aaa.adb:3:7-3:8>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <DottedName aaa-aaa.adb:7:12-7:30>
-  references:    <DefiningName aaa-aaa.ads:2:4-2:5>
+  references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName aaa-aaa.adb:7:12-7:28>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa.adb:7:12-7:24>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Standard" aaa-aaa.adb:7:12-7:20>
-  references:    <DefiningName __standard:1:9-1:17>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa.adb:7:21-7:24>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa.adb:7:25-7:28>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "B" aaa-aaa.adb:7:29-7:30>
-  references:    <DefiningName aaa-aaa.ads:2:4-2:5>
+  references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -109,11 +109,11 @@ Resolving xrefs for node <EndName aaa-aaa.adb:8:8-8:9>
 ******************************************************
 
 Expr: <EndName aaa-aaa.adb:8:8-8:9>
-  references:    <DefiningName aaa-aaa.adb:2:14-2:15>
+  references:    <DefiningName "P" aaa-aaa.adb:2:14-2:15>
   type:          None
   expected type: None
 Expr: <Id "P" aaa-aaa.adb:8:8-8:9>
-  references:    <DefiningName aaa-aaa.adb:2:14-2:15>
+  references:    <DefiningName "P" aaa-aaa.adb:2:14-2:15>
   type:          None
   expected type: None
 
@@ -121,19 +121,19 @@ Resolving xrefs for node <EndName aaa-aaa.adb:9:5-9:12>
 *******************************************************
 
 Expr: <EndName aaa-aaa.adb:9:5-9:12>
-  references:    <DefiningName aaa-aaa.adb:1:14-1:21>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.adb:1:14-1:21>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa.adb:9:5-9:12>
-  references:    <DefiningName aaa-aaa.adb:1:14-1:21>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.adb:1:14-1:21>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa.adb:9:5-9:8>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa.adb:9:9-9:12>
-  references:    <DefiningName aaa-aaa.adb:1:14-1:21>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.adb:1:14-1:21>
   type:          None
   expected type: None
 
@@ -141,19 +141,19 @@ Expr: <Id "Aaa" aaa-aaa.adb:9:9-9:12>
 Analyzing aaa-aaa-aaa.adb
 #########################
 
-Resolving xrefs for node <DefiningName aaa-aaa-aaa.adb:1:14-1:25>
-*****************************************************************
+Resolving xrefs for node <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.adb:1:14-1:25>
+*******************************************************************************
 
 Expr: <DottedName aaa-aaa-aaa.adb:1:14-1:21>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.adb:1:14-1:17>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.adb:1:18-1:21>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 
@@ -165,27 +165,27 @@ Resolving xrefs for node <EndName aaa-aaa-aaa.adb:3:5-3:16>
 ***********************************************************
 
 Expr: <EndName aaa-aaa-aaa.adb:3:5-3:16>
-  references:    <DefiningName aaa-aaa-aaa.adb:1:14-1:25>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.adb:1:14-1:25>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa.adb:3:5-3:16>
-  references:    <DefiningName aaa-aaa-aaa.adb:1:14-1:25>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.adb:1:14-1:25>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa.adb:3:5-3:12>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.adb:3:5-3:8>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.adb:3:9-3:12>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.adb:3:13-3:16>
-  references:    <DefiningName aaa-aaa-aaa.adb:1:14-1:25>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.adb:1:14-1:25>
   type:          None
   expected type: None
 
@@ -197,27 +197,27 @@ Resolving xrefs for node <SubpSpec aaa-aaa-aaa-aaa.adb:1:1-1:26>
 ****************************************************************
 
 
-Resolving xrefs for node <DefiningName aaa-aaa-aaa-aaa.adb:1:11-1:26>
-*********************************************************************
+Resolving xrefs for node <DefiningName "Aaa.Aaa.Aaa.Aaa" aaa-aaa-aaa-aaa.adb:1:11-1:26>
+***************************************************************************************
 
 Expr: <DottedName aaa-aaa-aaa-aaa.adb:1:11-1:22>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa-aaa.adb:1:11-1:18>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:1:11-1:14>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:1:15-1:18>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:1:19-1:22>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 
@@ -229,35 +229,35 @@ Resolving xrefs for node <EndName aaa-aaa-aaa-aaa.adb:4:5-4:20>
 ***************************************************************
 
 Expr: <EndName aaa-aaa-aaa-aaa.adb:4:5-4:20>
-  references:    <DefiningName aaa-aaa-aaa-aaa.adb:1:11-1:26>
+  references:    <DefiningName "Aaa.Aaa.Aaa.Aaa" aaa-aaa-aaa-aaa.adb:1:11-1:26>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa-aaa.adb:4:5-4:20>
-  references:    <DefiningName aaa-aaa-aaa-aaa.adb:1:11-1:26>
+  references:    <DefiningName "Aaa.Aaa.Aaa.Aaa" aaa-aaa-aaa-aaa.adb:1:11-1:26>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa-aaa.adb:4:5-4:16>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa-aaa.adb:4:5-4:12>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:4:5-4:8>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:4:9-4:12>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:4:13-4:16>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:4:17-4:20>
-  references:    <DefiningName aaa-aaa-aaa-aaa.adb:1:11-1:26>
+  references:    <DefiningName "Aaa.Aaa.Aaa.Aaa" aaa-aaa-aaa-aaa.adb:1:11-1:26>
   type:          None
   expected type: None
 
@@ -265,19 +265,19 @@ Expr: <Id "Aaa" aaa-aaa-aaa-aaa.adb:4:17-4:20>
 Analyzing aaa-aaa-aaa.ads
 #########################
 
-Resolving xrefs for node <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
-****************************************************************
+Resolving xrefs for node <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
+******************************************************************************
 
 Expr: <DottedName aaa-aaa-aaa.ads:1:9-1:16>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.ads:1:9-1:12>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.ads:1:13-1:16>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 
@@ -289,27 +289,27 @@ Resolving xrefs for node <EndName aaa-aaa-aaa.ads:3:5-3:16>
 ***********************************************************
 
 Expr: <EndName aaa-aaa-aaa.ads:3:5-3:16>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa.ads:3:5-3:16>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa.ads:3:5-3:12>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.ads:3:5-3:8>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.ads:3:9-3:12>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa.ads:3:13-3:16>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 
@@ -321,27 +321,27 @@ Resolving xrefs for node <SubpSpec aaa-aaa-aaa-aaa.ads:1:1-1:26>
 ****************************************************************
 
 
-Resolving xrefs for node <DefiningName aaa-aaa-aaa-aaa.ads:1:11-1:26>
-*********************************************************************
+Resolving xrefs for node <DefiningName "Aaa.Aaa.Aaa.Aaa" aaa-aaa-aaa-aaa.ads:1:11-1:26>
+***************************************************************************************
 
 Expr: <DottedName aaa-aaa-aaa-aaa.ads:1:11-1:22>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 Expr: <DottedName aaa-aaa-aaa-aaa.ads:1:11-1:18>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.ads:1:11-1:14>
-  references:    <DefiningName aaa.ads:1:9-1:12>
+  references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.ads:1:15-1:18>
-  references:    <DefiningName aaa-aaa.ads:1:9-1:16>
+  references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa-aaa-aaa.ads:1:19-1:22>
-  references:    <DefiningName aaa-aaa-aaa.ads:1:9-1:20>
+  references:    <DefiningName "Aaa.Aaa.Aaa" aaa-aaa-aaa.ads:1:9-1:20>
   type:          None
   expected type: None
 

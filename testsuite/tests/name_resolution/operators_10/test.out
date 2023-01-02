@@ -5,11 +5,11 @@ Resolving xrefs for node <CallStmt test.adb:11:4-11:16>
 *******************************************************
 
 Expr: <CallExpr test.adb:11:4-11:15>
-  references:    <DefiningName test.adb:6:14-6:17>
+  references:    <DefiningName "Foo" test.adb:6:14-6:17>
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:11:4-11:7>
-  references:    <DefiningName test.adb:6:14-6:17>
+  references:    <DefiningName "Foo" test.adb:6:14-6:17>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:11:9-11:14>
@@ -32,15 +32,15 @@ Resolving xrefs for node <AssignStmt test.adb:14:4-14:21>
 *********************************************************
 
 Expr: <Id "S" test.adb:14:4-14:5>
-  references:    <DefiningName test.adb:9:4-9:5>
+  references:    <DefiningName "S" test.adb:9:4-9:5>
   type:          <ConcreteTypeDecl ["F"] test.adb:4:4-4:23>
   expected type: None
 Expr: <CallExpr test.adb:14:9-14:20>
-  references:    <DefiningName test.adb:4:9-4:10>
+  references:    <DefiningName "F" test.adb:4:9-4:10>
   type:          <ConcreteTypeDecl ["F"] test.adb:4:4-4:23>
   expected type: <ConcreteTypeDecl ["F"] test.adb:4:4-4:23>
 Expr: <Id "F" test.adb:14:9-14:10>
-  references:    <DefiningName test.adb:4:9-4:10>
+  references:    <DefiningName "F" test.adb:4:9-4:10>
   type:          <ConcreteTypeDecl ["F"] test.adb:4:4-4:23>
   expected type: None
 Expr: <BinOp test.adb:14:12-14:19>
@@ -51,7 +51,7 @@ Expr: <Int test.adb:14:12-14:13>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpMult "*" test.adb:14:14-14:15>
-  references:    <SyntheticDefiningName __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""*"" __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <Real test.adb:14:16-14:19>

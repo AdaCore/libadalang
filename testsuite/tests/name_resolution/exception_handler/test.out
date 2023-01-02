@@ -9,15 +9,15 @@ Resolving xrefs for node <ExceptionHandler [] test.adb:9:7-10:15>
 *****************************************************************
 
 Expr: <DottedName test.adb:9:12-9:21>
-  references:    <DefiningName test.adb:3:7-3:12>
+  references:    <DefiningName "Error" test.adb:3:7-3:12>
   type:          None
   expected type: None
 Expr: <Id "Pkg" test.adb:9:12-9:15>
-  references:    <DefiningName test.adb:2:12-2:15>
+  references:    <DefiningName "Pkg" test.adb:2:12-2:15>
   type:          None
   expected type: None
 Expr: <Id "Error" test.adb:9:16-9:21>
-  references:    <DefiningName test.adb:3:7-3:12>
+  references:    <DefiningName "Error" test.adb:3:7-3:12>
   type:          None
   expected type: None
 
@@ -29,11 +29,11 @@ Resolving xrefs for node <EndName test.adb:11:8-11:12>
 ******************************************************
 
 Expr: <EndName test.adb:11:8-11:12>
-  references:    <DefiningName test.adb:6:14-6:17>
+  references:    <DefiningName "Foo" test.adb:6:14-6:17>
   type:          None
   expected type: None
 Expr: <Id "Test" test.adb:11:8-11:12>
-  references:    <DefiningName test.adb:6:14-6:17>
+  references:    <DefiningName "Foo" test.adb:6:14-6:17>
   type:          None
   expected type: None
 

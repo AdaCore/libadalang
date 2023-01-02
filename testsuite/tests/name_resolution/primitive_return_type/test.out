@@ -5,27 +5,27 @@ Resolving xrefs for node <AssignStmt test.adb:29:4-29:25>
 *********************************************************
 
 Expr: <Id "X" test.adb:29:4-29:5>
-  references:    <DefiningName test.adb:27:4-27:5>
+  references:    <DefiningName "X" test.adb:27:4-27:5>
   type:          <| ConcreteTypeDecl ["V"] test.adb:21:7-21:33 [test.adb:24:4] |>
   expected type: None
 Expr: <CallExpr test.adb:29:9-29:24>
-  references:    <| DefiningName test.adb:6:19-6:20 [test.adb:24:4] |>
+  references:    <| DefiningName "F" test.adb:6:19-6:20 [test.adb:24:4] |>
   type:          <| ConcreteTypeDecl ["V"] test.adb:21:7-21:33 [test.adb:24:4] |>
   expected type: <| ConcreteTypeDecl ["V"] test.adb:21:7-21:33 [test.adb:24:4] |>
 Expr: <DottedName test.adb:29:9-29:20>
-  references:    <| DefiningName test.adb:6:19-6:20 [test.adb:24:4] |>
+  references:    <| DefiningName "F" test.adb:6:19-6:20 [test.adb:24:4] |>
   type:          <| ConcreteTypeDecl ["V"] test.adb:21:7-21:33 [test.adb:24:4] |>
   expected type: None
 Expr: <Id "Pkg3_Inst" test.adb:29:9-29:18>
-  references:    <DefiningName test.adb:24:12-24:21>
+  references:    <DefiningName "Pkg3_Inst" test.adb:24:12-24:21>
   type:          None
   expected type: None
 Expr: <Id "F" test.adb:29:19-29:20>
-  references:    <| DefiningName test.adb:6:19-6:20 [test.adb:24:4] |>
+  references:    <| DefiningName "F" test.adb:6:19-6:20 [test.adb:24:4] |>
   type:          <| ConcreteTypeDecl ["V"] test.adb:21:7-21:33 [test.adb:24:4] |>
   expected type: None
 Expr: <Id "X" test.adb:29:22-29:23>
-  references:    <DefiningName test.adb:27:4-27:5>
+  references:    <DefiningName "X" test.adb:27:4-27:5>
   type:          <| ConcreteTypeDecl ["V"] test.adb:21:7-21:33 [test.adb:24:4] |>
   expected type: <| ConcreteTypeDecl ["V"] test.adb:21:7-21:33 [test.adb:24:4] |>
 

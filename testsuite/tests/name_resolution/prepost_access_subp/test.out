@@ -9,7 +9,7 @@ Resolving xrefs for node <ParamSpec ["X"] ats_types.adb:2:33-2:44>
 ******************************************************************
 
 Expr: <Id "Integer" ats_types.adb:2:37-2:44>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -27,7 +27,7 @@ Expr: <BinOp ats_types.adb:2:58-2:65>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" ats_types.adb:2:58-2:59>
-  references:    <DefiningName ats_types.adb:2:33-2:34>
+  references:    <DefiningName "X" ats_types.adb:2:33-2:34>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" ats_types.adb:2:60-2:63>
@@ -55,7 +55,7 @@ Resolving xrefs for node <ParamSpec ["X"] ats_types.adb:4:33-4:44>
 ******************************************************************
 
 Expr: <Id "Integer" ats_types.adb:4:37-4:44>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -73,7 +73,7 @@ Expr: <BinOp ats_types.adb:4:59-4:66>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "X" ats_types.adb:4:59-4:60>
-  references:    <DefiningName ats_types.adb:4:33-4:34>
+  references:    <DefiningName "X" ats_types.adb:4:33-4:34>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMod "mod" ats_types.adb:4:61-4:64>
@@ -101,7 +101,7 @@ Resolving xrefs for node <ParamSpec ["My_Size"] ats_types.adb:12:41-12:58>
 **************************************************************************
 
 Expr: <Id "Natural" ats_types.adb:12:51-12:58>
-  references:    <DefiningName __standard:5:11-5:18>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
   type:          None
   expected type: None
 
@@ -113,7 +113,7 @@ Expr: <Id "Size" ats_types.adb:13:9-13:13>
   type:          None
   expected type: None
 Expr: <Id "My_Size" ats_types.adb:13:17-13:24>
-  references:    <DefiningName ats_types.adb:11:4-11:11>
+  references:    <DefiningName "My_Size" ats_types.adb:11:4-11:11>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: None
 
@@ -131,11 +131,11 @@ Expr: <BinOp ats_types.adb:13:33-13:47>
   type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <Id "My_Size" ats_types.adb:13:33-13:40>
-  references:    <DefiningName ats_types.adb:11:4-11:11>
+  references:    <DefiningName "My_Size" ats_types.adb:11:4-11:11>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpMod "mod" ats_types.adb:13:41-13:44>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""mod"" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int ats_types.adb:13:45-13:47>
@@ -143,7 +143,7 @@ Expr: <Int ats_types.adb:13:45-13:47>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpEq "=" ats_types.adb:13:48-13:49>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""="" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int ats_types.adb:13:50-13:51>

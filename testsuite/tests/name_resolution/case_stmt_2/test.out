@@ -5,7 +5,7 @@ Resolving xrefs for node <CaseStmt test.adb:7:7-12:16>
 ******************************************************
 
 Expr: <Id "X" test.adb:7:12-7:13>
-  references:    <DefiningName test.adb:4:4-4:5>
+  references:    <DefiningName "X" test.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
   expected type: None
 
@@ -13,14 +13,14 @@ Resolving xrefs for node <CaseStmtAlternative test.adb:8:10-9:18>
 *****************************************************************
 
 Expr: <Id "T" test.adb:8:15-8:16>
-  references:    <DefiningName test.adb:2:9-2:10>
+  references:    <DefiningName "T" test.adb:2:9-2:10>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:8:23-8:29>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <Id "A" test.adb:8:23-8:24>
-  references:    <DefiningName test.adb:2:15-2:16>
+  references:    <DefiningName "A" test.adb:2:15-2:16>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
 Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
@@ -28,7 +28,7 @@ Expr: <OpDoubleDot ".." test.adb:8:25-8:27>
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:8:28-8:29>
-  references:    <DefiningName test.adb:2:18-2:19>
+  references:    <DefiningName "B" test.adb:2:18-2:19>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:24>
 

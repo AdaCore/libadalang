@@ -5,7 +5,7 @@ Resolving xrefs for node <CaseStmt test_case.adb:7:7-10:16>
 ***********************************************************
 
 Expr: <Id "Foo" test_case.adb:7:12-7:15>
-  references:    <DefiningName test_case.adb:2:13-2:16>
+  references:    <DefiningName "Foo" test_case.adb:2:13-2:16>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 

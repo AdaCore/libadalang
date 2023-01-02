@@ -5,7 +5,7 @@ Resolving xrefs for node <SubpSpec base_types.ads:4:4-4:55>
 ***********************************************************
 
 Expr: <Id "integer" base_types.ads:4:48-4:55>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -13,7 +13,7 @@ Resolving xrefs for node <ParamSpec ["Index"] base_types.ads:4:24-4:39>
 ***********************************************************************
 
 Expr: <Id "integer" base_types.ads:4:32-4:39>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -34,7 +34,7 @@ Expr: <RelationOp base_types.ads:6:11-6:32>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Index" base_types.ads:6:11-6:16>
-  references:    <DefiningName base_types.ads:4:24-4:29>
+  references:    <DefiningName "Index" base_types.ads:4:24-4:29>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpGt ">" base_types.ads:6:17-6:18>
@@ -46,7 +46,7 @@ Expr: <AttributeRef base_types.ads:6:19-6:32>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "integer" base_types.ads:6:19-6:26>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "First" base_types.ads:6:27-6:32>
@@ -61,7 +61,7 @@ Expr: <AttributeRef base_types.ads:6:38-6:54>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Safe_Pred" base_types.ads:6:38-6:47>
-  references:    <DefiningName base_types.ads:4:13-4:22>
+  references:    <DefiningName "Safe_Pred" base_types.ads:4:13-4:22>
   type:          None
   expected type: None
 Expr: <Id "Result" base_types.ads:6:48-6:54>
@@ -76,7 +76,7 @@ Expr: <BinOp base_types.ads:6:57-6:66>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Index" base_types.ads:6:57-6:62>
-  references:    <DefiningName base_types.ads:4:24-4:29>
+  references:    <DefiningName "Index" base_types.ads:4:24-4:29>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMinus "-" base_types.ads:6:63-6:64>
@@ -95,7 +95,7 @@ Expr: <AttributeRef base_types.ads:7:13-7:29>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Safe_Pred" base_types.ads:7:13-7:22>
-  references:    <DefiningName base_types.ads:4:13-4:22>
+  references:    <DefiningName "Safe_Pred" base_types.ads:4:13-4:22>
   type:          None
   expected type: None
 Expr: <Id "Result" base_types.ads:7:23-7:29>
@@ -111,7 +111,7 @@ Expr: <AttributeRef base_types.ads:7:32-7:45>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "integer" base_types.ads:7:32-7:39>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 Expr: <Id "First" base_types.ads:7:40-7:45>

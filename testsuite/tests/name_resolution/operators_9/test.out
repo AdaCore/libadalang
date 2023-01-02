@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["Arr"] test.adb:7:4-7:34>
 ***************************************************************
 
 Expr: <Id "Array_Type" test.adb:7:10-7:20>
-  references:    <DefiningName test.adb:6:9-6:19>
+  references:    <DefiningName "Array_Type" test.adb:6:9-6:19>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:7:22-7:32>

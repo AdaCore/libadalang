@@ -8,15 +8,15 @@ Resolving xrefs for node <CallStmt test.adb:17:4-17:10>
 *******************************************************
 
 Expr: <CallExpr test.adb:17:4-17:9>
-  references:    <DefiningName test.adb:9:4-9:5>
+  references:    <DefiningName "P" test.adb:9:4-9:5>
   type:          None
   expected type: None
 Expr: <Id "P" test.adb:17:4-17:5>
-  references:    <DefiningName test.adb:9:4-9:5>
+  references:    <DefiningName "P" test.adb:9:4-9:5>
   type:          <AnonymousTypeDecl ["None"] test.adb:9:8-9:42>
   expected type: None
 Expr: <Id "X" test.adb:17:7-17:8>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "X" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 

@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["G_count"] test.ads:3:7-3:25>
 *******************************************************************
 
 Expr: <Id "Integer" test.ads:3:17-3:24>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -13,11 +13,11 @@ Resolving xrefs for node <EndName test.ads:4:8-4:12>
 ****************************************************
 
 Expr: <EndName test.ads:4:8-4:12>
-  references:    <DefiningName test.ads:2:12-2:16>
+  references:    <DefiningName "Pack" test.ads:2:12-2:16>
   type:          None
   expected type: None
 Expr: <Id "Pack" test.ads:4:8-4:12>
-  references:    <DefiningName test.ads:2:12-2:16>
+  references:    <DefiningName "Pack" test.ads:2:12-2:16>
   type:          None
   expected type: None
 
@@ -29,7 +29,7 @@ Resolving xrefs for node <SubpSpec test.ads:8:4-8:59>
 *****************************************************
 
 Expr: <Id "Boolean" test.ads:8:52-8:59>
-  references:    <DefiningName __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
   type:          None
   expected type: None
 
@@ -37,7 +37,7 @@ Resolving xrefs for node <ParamSpec ["Dummy"] test.ads:8:16-8:25>
 *****************************************************************
 
 Expr: <Id "T" test.ads:8:24-8:25>
-  references:    <DefiningName test.ads:6:9-6:10>
+  references:    <DefiningName "T" test.ads:6:9-6:10>
   type:          None
   expected type: None
 
@@ -45,7 +45,7 @@ Resolving xrefs for node <ParamSpec ["Unused"] test.ads:8:27-8:43>
 ******************************************************************
 
 Expr: <Id "Integer" test.ads:8:36-8:43>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -57,7 +57,7 @@ Resolving xrefs for node <ParamSpec ["X"] test.ads:10:19-10:31>
 ***************************************************************
 
 Expr: <Id "T" test.ads:10:30-10:31>
-  references:    <DefiningName test.ads:6:9-6:10>
+  references:    <DefiningName "T" test.ads:6:9-6:10>
   type:          None
   expected type: None
 
@@ -65,7 +65,7 @@ Resolving xrefs for node <ParamSpec ["Y"] test.ads:10:33-10:44>
 ***************************************************************
 
 Expr: <Id "Integer" test.ads:10:37-10:44>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -103,19 +103,19 @@ Expr: <RelationOp test.ads:13:32-13:48>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <CallExpr test.ads:13:32-13:40>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:13:32-13:35>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:13:32-13:33>
-  references:    <DefiningName test.ads:10:19-10:20>
+  references:    <DefiningName "X" test.ads:10:19-10:20>
   type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
   expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:13:34-13:35>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:13:37-13:39>
@@ -127,7 +127,7 @@ Expr: <OpEq "=" test.ads:13:41-13:42>
   type:          None
   expected type: None
 Expr: <Id "False" test.ads:13:43-13:48>
-  references:    <DefiningName __standard:3:20-3:25>
+  references:    <DefiningName "False" __standard:3:20-3:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Id "Ensures" test.ads:14:20-14:27>
@@ -148,19 +148,19 @@ Expr: <AttributeRef test.ads:14:32-14:44>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <CallExpr test.ads:14:32-14:40>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:14:32-14:35>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:14:32-14:33>
-  references:    <DefiningName test.ads:10:19-10:20>
+  references:    <DefiningName "X" test.ads:10:19-10:20>
   type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
   expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:14:34-14:35>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:14:37-14:39>
@@ -176,19 +176,19 @@ Expr: <OpEq "=" test.ads:14:45-14:46>
   type:          None
   expected type: None
 Expr: <CallExpr test.ads:14:47-14:55>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.ads:14:47-14:50>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Id "X" test.ads:14:47-14:48>
-  references:    <DefiningName test.ads:10:19-10:20>
+  references:    <DefiningName "X" test.ads:10:19-10:20>
   type:          <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
   expected type: <ConcreteTypeDecl ["T"] test.ads:6:4-6:33>
 Expr: <Id "F" test.ads:14:49-14:50>
-  references:    <DefiningName test.ads:8:13-8:14>
+  references:    <DefiningName "F" test.ads:8:13-8:14>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <Int test.ads:14:52-14:54>
@@ -207,23 +207,23 @@ Expr: <AttributeRef test.ads:15:41-15:62>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.ads:15:41-15:58>
-  references:    <DefiningName test.ads:3:7-3:14>
+  references:    <DefiningName "G_count" test.ads:3:7-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <DottedName test.ads:15:41-15:50>
-  references:    <DefiningName test.ads:2:12-2:16>
+  references:    <DefiningName "Pack" test.ads:2:12-2:16>
   type:          None
   expected type: None
 Expr: <Id "Test" test.ads:15:41-15:45>
-  references:    <DefiningName test.ads:1:9-1:13>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
   type:          None
   expected type: None
 Expr: <Id "Pack" test.ads:15:46-15:50>
-  references:    <DefiningName test.ads:2:12-2:16>
+  references:    <DefiningName "Pack" test.ads:2:12-2:16>
   type:          None
   expected type: None
 Expr: <Id "G_count" test.ads:15:51-15:58>
-  references:    <DefiningName test.ads:3:7-3:14>
+  references:    <DefiningName "G_count" test.ads:3:7-3:14>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:15:59-15:62>
@@ -250,7 +250,7 @@ Expr: <AttributeRef test.ads:16:41-16:46>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Y" test.ads:16:41-16:42>
-  references:    <DefiningName test.ads:10:33-10:34>
+  references:    <DefiningName "Y" test.ads:10:33-10:34>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Old" test.ads:16:43-16:46>
@@ -262,7 +262,7 @@ Expr: <OpGt ">" test.ads:16:47-16:48>
   type:          None
   expected type: None
 Expr: <Id "Y" test.ads:16:49-16:50>
-  references:    <DefiningName test.ads:10:33-10:34>
+  references:    <DefiningName "Y" test.ads:10:33-10:34>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
@@ -270,7 +270,7 @@ Resolving xrefs for node <SubpSpec test.ads:18:4-18:43>
 *******************************************************
 
 Expr: <Id "String" test.ads:18:37-18:43>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 
@@ -278,7 +278,7 @@ Resolving xrefs for node <ParamSpec ["X"] test.ads:18:18-18:28>
 ***************************************************************
 
 Expr: <Id "String" test.ads:18:22-18:28>
-  references:    <DefiningName __standard:105:8-105:14>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 
@@ -305,11 +305,11 @@ Resolving xrefs for node <EndName test.ads:20:5-20:9>
 *****************************************************
 
 Expr: <EndName test.ads:20:5-20:9>
-  references:    <DefiningName test.ads:1:9-1:13>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
   type:          None
   expected type: None
 Expr: <Id "Test" test.ads:20:5-20:9>
-  references:    <DefiningName test.ads:1:9-1:13>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
   type:          None
   expected type: None
 

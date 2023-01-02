@@ -5,11 +5,11 @@ Resolving xrefs for node <AssignStmt test1.adb:8:4-8:11>
 ********************************************************
 
 Expr: <Id "A" test1.adb:8:4-8:5>
-  references:    <DefiningName test1.adb:4:4-4:5>
+  references:    <DefiningName "A" test1.adb:4:4-4:5>
   type:          <ConcreteTypeDecl ["Int"] test1.adb:2:4-2:30>
   expected type: None
 Expr: <Id "B" test1.adb:8:9-8:10>
-  references:    <DefiningName test1.adb:6:13-6:14>
+  references:    <DefiningName "B" test1.adb:6:13-6:14>
   type:          <ConcreteTypeDecl ["Int"] test1.adb:2:4-2:30>
   expected type: <ConcreteTypeDecl ["Int"] test1.adb:2:4-2:30>
 

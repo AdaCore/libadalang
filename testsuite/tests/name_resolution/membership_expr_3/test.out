@@ -5,22 +5,22 @@ Resolving xrefs for node <AssignStmt test.adb:21:4-21:26>
 *********************************************************
 
 Expr: <Id "B" test.adb:21:4-21:5>
-  references:    <DefiningName test.adb:19:4-19:5>
+  references:    <DefiningName "B" test.adb:19:4-19:5>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: None
 Expr: <MembershipExpr test.adb:21:9-21:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <DottedName test.adb:21:9-21:16>
-  references:    <DefiningName test.adb:15:16-15:19>
+  references:    <DefiningName "Get" test.adb:15:16-15:19>
   type:          <| ConcreteTypeDecl ["Reference_Type"] test.adb:5:7-7:47 [test.adb:13:7] |>
   expected type: None
 Expr: <Id "Pkg" test.adb:21:9-21:12>
-  references:    <DefiningName test.adb:10:12-10:15>
+  references:    <DefiningName "Pkg" test.adb:10:12-10:15>
   type:          None
   expected type: None
 Expr: <Id "Get" test.adb:21:13-21:16>
-  references:    <DefiningName test.adb:15:16-15:19>
+  references:    <DefiningName "Get" test.adb:15:16-15:19>
   type:          <| ConcreteTypeDecl ["Reference_Type"] test.adb:5:7-7:47 [test.adb:13:7] |>
   expected type: None
 Expr: <OpIn "in" test.adb:21:17-21:19>
@@ -28,15 +28,15 @@ Expr: <OpIn "in" test.adb:21:17-21:19>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:21:20-21:25>
-  references:    <DefiningName test.adb:11:12-11:13>
+  references:    <DefiningName "T" test.adb:11:12-11:13>
   type:          None
   expected type: None
 Expr: <Id "Pkg" test.adb:21:20-21:23>
-  references:    <DefiningName test.adb:10:12-10:15>
+  references:    <DefiningName "Pkg" test.adb:10:12-10:15>
   type:          None
   expected type: None
 Expr: <Id "T" test.adb:21:24-21:25>
-  references:    <DefiningName test.adb:11:12-11:13>
+  references:    <DefiningName "T" test.adb:11:12-11:13>
   type:          None
   expected type: None
 

@@ -9,7 +9,7 @@ Expr: <Id "Inline" generic_stack.ads:4:11-4:17>
   type:          None
   expected type: None
 Expr: <Id "Pop" generic_stack.ads:4:19-4:22>
-  references:    <DefiningName generic_stack.ads:2:14-2:17>
+  references:    <DefiningName "Pop" generic_stack.ads:2:14-2:17>
   type:          None
   expected type: None
 

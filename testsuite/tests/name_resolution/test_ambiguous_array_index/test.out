@@ -5,15 +5,15 @@ Resolving xrefs for node <ObjectDecl ["C"] testar.adb:12:4-12:35>
 *****************************************************************
 
 Expr: <Id "Array_Type" testar.adb:12:8-12:18>
-  references:    <DefiningName testar.adb:7:9-7:19>
+  references:    <DefiningName "Array_Type" testar.adb:7:9-7:19>
   type:          None
   expected type: None
 Expr: <CallExpr testar.adb:12:22-12:34>
-  references:    <DefiningName testar.adb:9:13-9:16>
+  references:    <DefiningName "Arr" testar.adb:9:13-9:16>
   type:          <ConcreteTypeDecl ["Array_Type"] testar.adb:7:4-7:60>
   expected type: <ConcreteTypeDecl ["Array_Type"] testar.adb:7:4-7:60>
 Expr: <Id "Arr" testar.adb:12:22-12:25>
-  references:    <DefiningName testar.adb:9:13-9:16>
+  references:    <DefiningName "Arr" testar.adb:9:13-9:16>
   type:          <ConcreteTypeDecl ["Array_Type"] testar.adb:7:4-7:60>
   expected type: None
 Expr: <Int testar.adb:12:27-12:29>

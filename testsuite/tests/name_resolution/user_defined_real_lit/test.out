@@ -5,15 +5,15 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:26:4-26:34>
 ***************************************************************
 
 Expr: <DottedName test.adb:26:8-26:26>
-  references:    <DefiningName test.adb:3:12-3:20>
+  references:    <DefiningName "Big_Real" test.adb:3:12-3:20>
   type:          None
   expected type: None
 Expr: <Id "Big_Reals" test.adb:26:8-26:17>
-  references:    <DefiningName test.adb:2:12-2:21>
+  references:    <DefiningName "Big_Reals" test.adb:2:12-2:21>
   type:          None
   expected type: None
 Expr: <Id "Big_Real" test.adb:26:18-26:26>
-  references:    <DefiningName test.adb:3:12-3:20>
+  references:    <DefiningName "Big_Real" test.adb:3:12-3:20>
   type:          None
   expected type: None
 Expr: <Real test.adb:26:30-26:33>
@@ -25,19 +25,19 @@ Resolving xrefs for node <ObjectDecl ["Y"] test.adb:30:4-30:32>
 ***************************************************************
 
 Expr: <DottedName test.adb:30:8-30:26>
-  references:    <DefiningName test.adb:3:12-3:20>
+  references:    <DefiningName "Big_Real" test.adb:3:12-3:20>
   type:          None
   expected type: None
 Expr: <Id "Big_Reals" test.adb:30:8-30:17>
-  references:    <DefiningName test.adb:2:12-2:21>
+  references:    <DefiningName "Big_Reals" test.adb:2:12-2:21>
   type:          None
   expected type: None
 Expr: <Id "Big_Real" test.adb:30:18-30:26>
-  references:    <DefiningName test.adb:3:12-3:20>
+  references:    <DefiningName "Big_Real" test.adb:3:12-3:20>
   type:          None
   expected type: None
 Expr: <Id "N" test.adb:30:30-30:31>
-  references:    <DefiningName test.adb:29:4-29:5>
+  references:    <DefiningName "N" test.adb:29:4-29:5>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Big_Real"] test.adb:3:7-4:43>
 
@@ -45,7 +45,7 @@ Resolving xrefs for node <ObjectDecl ["Z"] test.adb:34:4-34:18>
 ***************************************************************
 
 Expr: <Id "ST" test.adb:34:8-34:10>
-  references:    <DefiningName test.adb:33:12-33:14>
+  references:    <DefiningName "ST" test.adb:33:12-33:14>
   type:          None
   expected type: None
 Expr: <Real test.adb:34:14-34:17>

@@ -18,7 +18,7 @@ Expr: <AttributeRef test.adb:2:24-2:56>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <Id "Long_Long_Float" test.adb:2:24-2:39>
-  references:    <DefiningName __standard:18:8-18:23>
+  references:    <DefiningName "Long_Long_Float" __standard:18:8-18:23>
   type:          <ConcreteTypeDecl ["Long_Long_Float"] __standard:18:3-20:33>
   expected type: None
 Expr: <Id "Machine_Mantissa" test.adb:2:40-2:56>
@@ -26,7 +26,7 @@ Expr: <Id "Machine_Mantissa" test.adb:2:40-2:56>
   type:          None
   expected type: None
 Expr: <OpEq "=" test.adb:2:57-2:58>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""="" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:2:59-2:60>
@@ -49,11 +49,11 @@ Expr: <BinOp test.adb:4:20-4:25>
   type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "N" test.adb:4:20-4:21>
-  references:    <DefiningName test.adb:2:4-2:5>
+  references:    <DefiningName "N" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <OpMult "*" test.adb:4:22-4:23>
-  references:    <SyntheticDefiningName __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""*"" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:4:24-4:25>
@@ -71,7 +71,7 @@ Expr: <IfExpr test.adb:7:21-7:46>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Id "True" test.adb:7:24-7:28>
-  references:    <DefiningName __standard:3:27-3:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 Expr: <Real test.adb:7:34-7:37>
@@ -90,11 +90,11 @@ Expr: <BinOp test.adb:9:20-9:25>
   type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Id "F" test.adb:9:20-9:21>
-  references:    <DefiningName test.adb:7:4-7:5>
+  references:    <DefiningName "F" test.adb:7:4-7:5>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
   expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
 Expr: <OpMult "*" test.adb:9:22-9:23>
-  references:    <SyntheticDefiningName __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""*"" __standard:120:21-120:30>
   type:          None
   expected type: None
 Expr: <Int test.adb:9:24-9:25>

@@ -5,7 +5,7 @@ Resolving xrefs for node <AssignStmt test.adb:13:10-13:17>
 **********************************************************
 
 Expr: <Id "N" test.adb:13:10-13:11>
-  references:    <DefiningName test.adb:7:7-7:8>
+  references:    <DefiningName "N" test.adb:7:7-7:8>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Int test.adb:13:15-13:16>
@@ -17,15 +17,15 @@ Resolving xrefs for node <AssignStmt test.adb:15:10-15:19>
 **********************************************************
 
 Expr: <DottedName test.adb:15:10-15:13>
-  references:    <DefiningName test.adb:7:7-7:8>
+  references:    <DefiningName "N" test.adb:7:7-7:8>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Id "T" test.adb:15:10-15:11>
-  references:    <DefiningName test.adb:4:19-4:20>
+  references:    <DefiningName "T" test.adb:4:19-4:20>
   type:          <ProtectedTypeDecl ["T"] test.adb:4:4-8:10>
   expected type: None
 Expr: <Id "N" test.adb:15:12-15:13>
-  references:    <DefiningName test.adb:7:7-7:8>
+  references:    <DefiningName "N" test.adb:7:7-7:8>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Int test.adb:15:17-15:18>
@@ -37,7 +37,7 @@ Resolving xrefs for node <AssignStmt test.adb:31:10-31:17>
 **********************************************************
 
 Expr: <Id "N" test.adb:31:10-31:11>
-  references:    <DefiningName test.adb:25:7-25:8>
+  references:    <DefiningName "N" test.adb:25:7-25:8>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Int test.adb:31:15-31:16>
@@ -49,15 +49,15 @@ Resolving xrefs for node <AssignStmt test.adb:33:10-33:19>
 **********************************************************
 
 Expr: <DottedName test.adb:33:10-33:13>
-  references:    <DefiningName test.adb:25:7-25:8>
+  references:    <DefiningName "N" test.adb:25:7-25:8>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Id "P" test.adb:33:10-33:11>
-  references:    <DefiningName test.adb:22:14-22:15>
+  references:    <DefiningName "P" test.adb:22:14-22:15>
   type:          None
   expected type: None
 Expr: <Id "N" test.adb:33:12-33:13>
-  references:    <DefiningName test.adb:25:7-25:8>
+  references:    <DefiningName "N" test.adb:25:7-25:8>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <Int test.adb:33:17-33:18>

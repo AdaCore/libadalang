@@ -5,11 +5,11 @@ Resolving xrefs for node <AssignStmt test.adb:12:4-12:11>
 *********************************************************
 
 Expr: <Id "I" test.adb:12:4-12:5>
-  references:    <DefiningName test.adb:9:4-9:5>
+  references:    <DefiningName "I" test.adb:9:4-9:5>
   type:          <ConcreteTypeDecl ["Data"] test.adb:2:4-4:15>
   expected type: None
 Expr: <Id "X" test.adb:12:9-12:10>
-  references:    <DefiningName test.adb:10:4-10:5>
+  references:    <DefiningName "X" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Rec"] test.adb:6:4-7:35>
   expected type: <ConcreteTypeDecl ["Data"] test.adb:2:4-4:15>
 
@@ -17,11 +17,11 @@ Resolving xrefs for node <AssignStmt test.adb:14:4-14:11>
 *********************************************************
 
 Expr: <Id "X" test.adb:14:4-14:5>
-  references:    <DefiningName test.adb:10:4-10:5>
+  references:    <DefiningName "X" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Rec"] test.adb:6:4-7:35>
   expected type: None
 Expr: <Id "I" test.adb:14:9-14:10>
-  references:    <DefiningName test.adb:9:4-9:5>
+  references:    <DefiningName "I" test.adb:9:4-9:5>
   type:          <ConcreteTypeDecl ["Data"] test.adb:2:4-4:15>
   expected type: <ConcreteTypeDecl ["Data"] test.adb:2:4-4:15>
 
@@ -29,11 +29,11 @@ Resolving xrefs for node <AssignStmt test.adb:16:4-16:11>
 *********************************************************
 
 Expr: <Id "X" test.adb:16:4-16:5>
-  references:    <DefiningName test.adb:10:4-10:5>
+  references:    <DefiningName "X" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Rec"] test.adb:6:4-7:35>
   expected type: None
 Expr: <Id "X" test.adb:16:9-16:10>
-  references:    <DefiningName test.adb:10:4-10:5>
+  references:    <DefiningName "X" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Rec"] test.adb:6:4-7:35>
   expected type: <ConcreteTypeDecl ["Data"] test.adb:2:4-4:15>
 
@@ -41,14 +41,14 @@ Resolving xrefs for node <AssignStmt test.adb:18:4-18:18>
 *********************************************************
 
 Expr: <Id "X" test.adb:18:4-18:5>
-  references:    <DefiningName test.adb:10:4-10:5>
+  references:    <DefiningName "X" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Rec"] test.adb:6:4-7:35>
   expected type: None
 Expr: <Aggregate test.adb:18:9-18:17>
   type:          <ConcreteTypeDecl ["Data"] test.adb:2:4-4:15>
   expected type: <ConcreteTypeDecl ["Data"] test.adb:2:4-4:15>
 Expr: <Id "E" test.adb:18:10-18:11>
-  references:    <DefiningName test.adb:3:7-3:8>
+  references:    <DefiningName "E" test.adb:3:7-3:8>
   type:          None
   expected type: None
 Expr: <Int test.adb:18:15-18:16>

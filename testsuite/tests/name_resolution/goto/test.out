@@ -5,7 +5,7 @@ Resolving xrefs for node <GotoStmt testloop.adb:6:10-6:17>
 **********************************************************
 
 Expr: <Id "C" testloop.adb:6:15-6:16>
-  references:    <DefiningName testloop.adb:5:12-5:13>
+  references:    <DefiningName "C" testloop.adb:5:12-5:13>
   type:          None
   expected type: None
 
@@ -13,23 +13,23 @@ Resolving xrefs for node <GotoStmt testloop.adb:9:10-9:21>
 **********************************************************
 
 Expr: <DottedName testloop.adb:9:15-9:20>
-  references:    <DefiningName testloop.adb:5:12-5:13>
+  references:    <DefiningName "C" testloop.adb:5:12-5:13>
   type:          None
   expected type: None
 Expr: <DottedName testloop.adb:9:15-9:18>
-  references:    <DefiningName testloop.adb:4:7-4:8>
+  references:    <DefiningName "B" testloop.adb:4:7-4:8>
   type:          None
   expected type: None
 Expr: <Id "A" testloop.adb:9:15-9:16>
-  references:    <DefiningName testloop.adb:3:4-3:5>
+  references:    <DefiningName "A" testloop.adb:3:4-3:5>
   type:          None
   expected type: None
 Expr: <Id "B" testloop.adb:9:17-9:18>
-  references:    <DefiningName testloop.adb:4:7-4:8>
+  references:    <DefiningName "B" testloop.adb:4:7-4:8>
   type:          None
   expected type: None
 Expr: <Id "C" testloop.adb:9:19-9:20>
-  references:    <DefiningName testloop.adb:5:12-5:13>
+  references:    <DefiningName "C" testloop.adb:5:12-5:13>
   type:          None
   expected type: None
 

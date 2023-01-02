@@ -5,15 +5,15 @@ Resolving xrefs for node <CaseStmt test.adb:30:7-33:16>
 *******************************************************
 
 Expr: <CallExpr test.adb:30:12-30:19>
-  references:    <DefiningName test.adb:15:16-15:19>
+  references:    <DefiningName "Foo" test.adb:15:16-15:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "Foo" test.adb:30:12-30:15>
-  references:    <DefiningName test.adb:15:16-15:19>
+  references:    <DefiningName "Foo" test.adb:15:16-15:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Id "X" test.adb:30:17-30:18>
-  references:    <DefiningName test.adb:27:4-27:5>
+  references:    <DefiningName "X" test.adb:27:4-27:5>
   type:          <AnonymousTypeDecl ["None"] test.adb:27:8-27:16>
   expected type: <SynthAnonymousTypeDecl ["U"] test.adb:22:7-22:42>
 

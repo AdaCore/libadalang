@@ -7,13 +7,13 @@
   <OverridingUnspecified foo.adb:1:1-1:1>
   <SubpSpec foo.adb:1:1-1:68>
   <SubpKindFunction foo.adb:1:1-1:9>
-  <DefiningName foo.adb:1:10-1:13>
+  <DefiningName "Sum" foo.adb:1:10-1:13>
   <Id "Sum" foo.adb:1:10-1:13>
   <Params foo.adb:1:14-1:53>
   <ParamSpecList foo.adb:1:15-1:52>
   <ParamSpec ["A"] foo.adb:1:15-1:26>
   <DefiningNameList foo.adb:1:15-1:16>
-  <DefiningName foo.adb:1:15-1:16>
+  <DefiningName "A" foo.adb:1:15-1:16>
   <Id "A" foo.adb:1:15-1:16>
   <AliasedAbsent foo.adb:1:18-1:18>
   <ModeDefault foo.adb:1:18-1:18>
@@ -22,7 +22,7 @@
   <Id "Integer" foo.adb:1:19-1:26>
   <ParamSpec ["B"] foo.adb:1:28-1:39>
   <DefiningNameList foo.adb:1:28-1:29>
-  <DefiningName foo.adb:1:28-1:29>
+  <DefiningName "B" foo.adb:1:28-1:29>
   <Id "B" foo.adb:1:28-1:29>
   <AliasedAbsent foo.adb:1:31-1:31>
   <ModeDefault foo.adb:1:31-1:31>
@@ -31,7 +31,7 @@
   <Id "Integer" foo.adb:1:32-1:39>
   <ParamSpec ["C"] foo.adb:1:41-1:52>
   <DefiningNameList foo.adb:1:41-1:42>
-  <DefiningName foo.adb:1:41-1:42>
+  <DefiningName "C" foo.adb:1:41-1:42>
   <Id "C" foo.adb:1:41-1:42>
   <AliasedAbsent foo.adb:1:44-1:44>
   <ModeDefault foo.adb:1:44-1:44>
@@ -90,7 +90,7 @@
   <ComponentDecl ["Foo"] pkg-foo.ads:17:7-17:21>
 
 [pkg.ads] All references to the Foo type:
-  <DefiningName pkg.ads:3:9-3:12>
+  <DefiningName "Foo" pkg.ads:3:9-3:12>
   <Id "Foo" pkg.ads:3:9-3:12>
   <Id "Foo" pkg.ads:5:22-5:25>
   <DottedName pkg.ads:6:15-6:22>

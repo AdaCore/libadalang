@@ -12,15 +12,15 @@ Expr: <Aggregate stable.ads:3:33-3:55>
   type:          None
   expected type: None
 Expr: <Id "Is_Open" stable.ads:3:34-3:41>
-  references:    <DefiningName stable.ads:8:13-8:20>
+  references:    <DefiningName "Is_Open" stable.ads:8:13-8:20>
   type:          None
   expected type: None
 Expr: <Id "Mode" stable.ads:3:43-3:47>
-  references:    <DefiningName stable.ads:9:13-9:17>
+  references:    <DefiningName "Mode" stable.ads:9:13-9:17>
   type:          None
   expected type: None
 Expr: <Id "ExprF" stable.ads:3:49-3:54>
-  references:    <DefiningName stable.ads:11:13-11:18>
+  references:    <DefiningName "ExprF" stable.ads:11:13-11:18>
   type:          None
   expected type: None
 
@@ -35,11 +35,11 @@ Expr: <Aggregate stable.ads:14:33-14:48>
   type:          None
   expected type: None
 Expr: <Id "Is_Open" stable.ads:14:34-14:41>
-  references:    <DefiningName stable.ads:17:13-17:20>
+  references:    <DefiningName "Is_Open" stable.ads:17:13-17:20>
   type:          None
   expected type: None
 Expr: <Id "Mode" stable.ads:14:43-14:47>
-  references:    <DefiningName stable.ads:18:13-18:17>
+  references:    <DefiningName "Mode" stable.ads:18:13-18:17>
   type:          None
   expected type: None
 
@@ -47,7 +47,7 @@ Resolving xrefs for node <SubpSpec stable.ads:22:4-22:59>
 *********************************************************
 
 Expr: <Id "Boolean" stable.ads:22:52-22:59>
-  references:    <DefiningName __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
   type:          None
   expected type: None
 
@@ -55,7 +55,7 @@ Resolving xrefs for node <ParamSpec ["File"] stable.ads:22:23-22:43>
 ********************************************************************
 
 Expr: <Id "File_Type1" stable.ads:22:33-22:43>
-  references:    <DefiningName stable.ads:13:9-13:19>
+  references:    <DefiningName "File_Type1" stable.ads:13:9-13:19>
   type:          None
   expected type: None
 
@@ -70,7 +70,7 @@ Expr: <ParenExpr stable.ads:23:33-23:39>
   type:          None
   expected type: None
 Expr: <Id "Mode" stable.ads:23:34-23:38>
-  references:    <DefiningName stable.ads:18:13-18:17>
+  references:    <DefiningName "Mode" stable.ads:18:13-18:17>
   type:          None
   expected type: None
 
@@ -78,7 +78,7 @@ Resolving xrefs for node <SubpSpec stable.ads:29:4-29:57>
 *********************************************************
 
 Expr: <Id "Mode_Type" stable.ads:29:48-29:57>
-  references:    <DefiningName stable.ads:6:9-6:18>
+  references:    <DefiningName "Mode_Type" stable.ads:6:9-6:18>
   type:          None
   expected type: None
 
@@ -86,7 +86,7 @@ Resolving xrefs for node <ParamSpec ["File"] stable.ads:29:19-29:39>
 ********************************************************************
 
 Expr: <Id "File_Type2" stable.ads:29:29-29:39>
-  references:    <DefiningName stable.ads:26:9-26:19>
+  references:    <DefiningName "File_Type2" stable.ads:26:9-26:19>
   type:          None
   expected type: None
 
@@ -108,7 +108,7 @@ Expr: <OpNot "not" stable.ads:30:34-30:37>
   type:          None
   expected type: None
 Expr: <Id "Is_Open" stable.ads:30:38-30:45>
-  references:    <DefiningName stable.ads:28:13-28:20>
+  references:    <DefiningName "Is_Open" stable.ads:28:13-28:20>
   type:          None
   expected type: None
 
@@ -120,7 +120,7 @@ Resolving xrefs for node <ComponentDecl ["A"] tag.ads:5:7-5:19>
 ***************************************************************
 
 Expr: <Id "Integer" tag.ads:5:11-5:18>
-  references:    <DefiningName __standard:4:8-4:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 
@@ -143,11 +143,11 @@ Expr: <Aggregate tag.ads:6:47-6:62>
   type:          None
   expected type: None
 Expr: <Id "Is_Open" tag.ads:6:48-6:55>
-  references:    <DefiningName tag.ads:11:13-11:20>
+  references:    <DefiningName "Is_Open" tag.ads:11:13-11:20>
   type:          None
   expected type: None
 Expr: <Id "Mode" tag.ads:6:57-6:61>
-  references:    <DefiningName tag.ads:12:13-12:17>
+  references:    <DefiningName "Mode" tag.ads:12:13-12:17>
   type:          None
   expected type: None
 
@@ -155,7 +155,7 @@ Resolving xrefs for node <SubpSpec tag.ads:12:4-12:54>
 ******************************************************
 
 Expr: <Id "Mode_Type" tag.ads:12:45-12:54>
-  references:    <DefiningName tag.ads:9:9-9:18>
+  references:    <DefiningName "Mode_Type" tag.ads:9:9-9:18>
   type:          None
   expected type: None
 
@@ -163,7 +163,7 @@ Resolving xrefs for node <ParamSpec ["File"] tag.ads:12:19-12:36>
 *****************************************************************
 
 Expr: <Id "Derived" tag.ads:12:29-12:36>
-  references:    <DefiningName tag.ads:4:9-4:16>
+  references:    <DefiningName "Derived" tag.ads:4:9-4:16>
   type:          None
   expected type: None
 
@@ -193,7 +193,7 @@ Expr: <OpNot "not" tag.ads:13:40-13:43>
   type:          None
   expected type: None
 Expr: <Id "Is_Open" tag.ads:13:44-13:51>
-  references:    <DefiningName tag.ads:11:13-11:20>
+  references:    <DefiningName "Is_Open" tag.ads:11:13-11:20>
   type:          None
   expected type: None
 

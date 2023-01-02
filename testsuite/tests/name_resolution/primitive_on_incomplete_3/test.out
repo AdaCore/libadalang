@@ -5,11 +5,11 @@ Resolving xrefs for node <ObjectDecl ["X"] pkg-bar.ads:4:4-4:26>
 ****************************************************************
 
 Expr: <Id "U" pkg-bar.ads:4:17-4:18>
-  references:    <DefiningName pkg-bar.ads:3:9-3:10>
+  references:    <DefiningName "U" pkg-bar.ads:3:9-3:10>
   type:          None
   expected type: None
 Expr: <Id "Foo" pkg-bar.ads:4:22-4:25>
-  references:    <DefiningName pkg.ads:4:13-4:16>
+  references:    <DefiningName "Foo" pkg.ads:4:13-4:16>
   type:          <ConcreteTypeDecl ["U"] pkg-bar.ads:3:4-3:24>
   expected type: <ConcreteTypeDecl ["U"] pkg-bar.ads:3:4-3:24>
 

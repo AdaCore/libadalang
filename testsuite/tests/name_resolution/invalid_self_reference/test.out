@@ -1,0 +1,5 @@
+Working on node <ObjectDecl ["Foo"] test.adb:6:4-6:16>
+======================================================
+
+Eval 'node.f_type_expr.p_designated_type_decl'
+Result: None

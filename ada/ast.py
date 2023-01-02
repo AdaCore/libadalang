@@ -16593,11 +16593,21 @@ class BaseId(SingleTokNode):
             env,
             lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
             from_node=Self.origin_node
-        ).cast(T.BasicDecl).then(
-            lambda bd: If(
-                bd._.is_package, Entity.pkg_env(bd), bd.defining_env
-            )
-        )
+        ).cast(T.BasicDecl).then(lambda bd: Cond(
+            # Getting back an ObjectDecl necessarily means we are dealing with
+            # incorrect Ada code, because `designated_env_no_overloading` is
+            # always called in context where we expect a package/type
+            # declaration. In that case we now directly return an empty result,
+            # in order to avoid cases of invalid code that trigger infinite
+            # recursions (e.g. `Foo : Foo.T;`).
+            bd.is_a(ObjectDecl),
+            Self.empty_env,
+
+            bd._.is_package,
+            Entity.pkg_env(bd),
+
+            bd.defining_env
+        ))
 
     @langkit_property()
     def designated_env():

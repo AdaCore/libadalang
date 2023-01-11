@@ -19389,7 +19389,9 @@ class DottedName(Name):
 
                             # Else check visibility on the unit containing n
                             Self.has_with_visibility(n.unit),
-                        )
+                        ),
+
+                        weight=Entity.complete_item_weight(n.cast(T.BasicDecl))
                     ),
                     # Filter elements that are coming from a body that is not
                     # visible. This can happen with dottable subprograms
@@ -19408,6 +19410,21 @@ class DottedName(Name):
                 )
             )
         ))
+
+    @langkit_property(return_type=Int, dynamic_vars=[origin])
+    def complete_item_weight(item=T.BasicDecl.entity):
+        return Cond(
+            # Give components and discriminants the highest weigth
+            item.is_a(T.ComponentDecl, T.DiscriminantSpec),
+            100,
+
+            # Then, promote primitives
+            item.is_a(T.BasicSubpDecl, T.BaseSubpBody),
+            75,
+
+            # Treat everything else the default way
+            Entity.super(item)
+        )
 
     @langkit_property()
     def designated_env_no_overloading():

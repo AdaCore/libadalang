@@ -1,4 +1,4 @@
 driver: inline-playground
 input_sources: [testcomp.adb, test_pkg-foo.adb, private.adb,
                 subtype_indication.adb, case.adb, func_name.adb,
-                disass.adb]
+                disass.adb, dotted_name.adb]

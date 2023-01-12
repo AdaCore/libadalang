@@ -43,12 +43,16 @@ build_archive()
   python gnatcoll-bindings/gmp/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=$LIBRARY_TYPE
   python gnatcoll-bindings/gmp/setup.py install
 
+  BUILD=${DEBUG:+dev}  # Convert debug to dev
+
+  sed -i -e 's/, "-flto"//' langkit/langkit/adasat/adasat.gpr # LTO fails on GNAT from Alire
+  gprbuild -p -P langkit/langkit/adasat/adasat.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod}
+  gprinstall -p -P langkit/langkit/adasat/adasat.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod} --prefix=$prefix
+
   langkit/manage.py build-langkit-support --library-types=$LIBRARY_TYPE
   langkit/manage.py install-langkit-support $prefix --library-types=$LIBRARY_TYPE
 
   make -C gpr2 setup prefix=$prefix GPR2_BUILD=${DEBUG:-release} GPR2KBDIR=./gprconfig_kb/db build-lib-$LIBRARY_TYPE install-lib-$LIBRARY_TYPE
-  BUILD=${DEBUG:+dev}  # Convert debug to dev
-
   # Build libadalang static library
   ./manage.py generate
 

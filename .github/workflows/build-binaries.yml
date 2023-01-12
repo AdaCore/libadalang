@@ -64,6 +64,11 @@ jobs:
         with:
           repository: AdaCore/gprconfig_kb
           path: gpr2/gprconfig_kb
+      - name: Get AdaSAT
+        uses: actions/checkout@v2
+        with:
+          repository: AdaCore/AdaSAT
+          path: langkit/langkit/adasat
       - name: Try to checkout langkit's branch
         shell: bash
         run: (cd langkit; git checkout ${{ github.ref }} || true)

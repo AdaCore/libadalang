@@ -17238,6 +17238,19 @@ class StringLiteral(BaseId):
 
     has_context_free_type = Property(False)
 
+    @langkit_property(dynamic_vars=[env])
+    def env_elements_impl():
+        """
+        Override of env_elements_impl for string literals, i.e. operators. We
+        need to explicitly include operators on root types first, because those
+        have precedence over the rest (see :rmlink:`8.6` - 29).
+        """
+        return Self.root_type_ops(Self.symbol).map(
+            lambda bd: bd.cast(AdaNode.entity)
+        ).concat(
+            Entity.env_elements_baseid
+        )
+
     @langkit_property()
     def xref_equation():
         return If(

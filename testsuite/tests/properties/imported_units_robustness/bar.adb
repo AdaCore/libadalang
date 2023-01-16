@@ -3,4 +3,4 @@ procedure Bar (X : Sub) is
 begin
    null;
 end Bar;
---% node.p_enclosing_compilation_unit.p_imported_units
+--% node.p_enclosing_compilation_unit.p_imported_units()

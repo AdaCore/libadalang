@@ -1051,6 +1051,33 @@ class AdaNode(ASTNode):
     )
 
     @langkit_property(return_type=Bool)
+    def has_private_with_visibility(self_cu=T.CompilationUnit,
+                                    refd_unit=AnalysisUnit):
+        """
+        Here we assume that ``refd_unit.is_referenced_from(Self.unit)`` is
+        already True, but we now want to check if the clause that made
+        ``refd_unit`` visible is private and if it is, whether we are in the
+        private part.
+        """
+        return self_cu.decl.cast(BasePackageDecl).then(
+            # This only makes sense if we are in a package declaration
+            lambda pkg: Or(
+                # If we are in its private part, we necessarily have
+                # visibility on a with clause, be it private or not.
+                Self.parents.any(lambda n: n.is_a(PrivatePart)),
+
+                # If we can find a non-private with clause on `refd_unit`
+                # we can return True, otherwise it necessarily means the
+                # with clause was private, therefore we must return False
+                # as we are not in a private part.
+                self_cu.imported_units(include_privates=False).any(
+                    lambda cu: cu.unit == refd_unit
+                )
+            ),
+            default_val=True
+        )
+
+    @langkit_property(return_type=Bool)
     def has_with_visibility(refd_unit=AnalysisUnit):
         """
         Return whether Self's unit has ``with visibility`` on ``refd_unit``.
@@ -1058,24 +1085,26 @@ class AdaNode(ASTNode):
         In other words, whether Self's unit has a WITH clause on ``refd_unit``,
         or if its spec, or one of its parent specs has one.
         """
+        cu = Var(Self.enclosing_compilation_unit)
         return Or(
-            refd_unit.is_referenced_from(Self.unit),
+            Self.unit == refd_unit,
+
+            refd_unit.is_referenced_from(Self.unit)
+            & Self.has_private_with_visibility(cu, refd_unit),
+
             Self.parent_unit_env(
                 # Here we go and explicitly grab the top level item, rather
                 # than use Self's children env, because of use clauses, that
                 # can be at the top level but semantically belong to the env of
                 # the top level item.
-                Self.top_level_decl(Self.unit).children_env
-            )
-            .env_node._.has_with_visibility(refd_unit),
+                cu.decl.children_env
+            ).env_node._.has_with_visibility(refd_unit),
 
             # With clauses from a library level subprogram declaration are
             # visible by its corresponding body. Since the decl is not the
             # parent of the body, we must specifically take this case into
             # account.
-            Self.top_level_decl(
-                Self.unit
-            ).as_bare_entity.cast(BaseSubpBody).then(
+            cu.decl.as_bare_entity.cast(BaseSubpBody).then(
                 lambda b: If(
                     b.is_library_item,
                     b.defining_name.referenced_unit(
@@ -1186,15 +1215,20 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property(return_type=T.Name.array)
-    def top_level_with_package_clauses():
+    def top_level_with_package_clauses(include_privates=(T.Bool, True)):
         """
         Return a flat list of all package names that are with'ed by top-level
         WithClause nodes of the compilation unit this node lies in.
+        Omit "private with" clauses if ``include_privates`` is False.
         """
-        return (
-            Self.enclosing_compilation_unit
-            .prelude
-            .mapcat(lambda p: p.cast(WithClause)._.packages.as_array)
+        return Self.enclosing_compilation_unit.prelude.mapcat(
+            lambda clause: clause.cast(WithClause).then(
+                lambda with_clause: If(
+                    with_clause.has_private.as_bool & Not(include_privates),
+                    No(T.Name.array),
+                    with_clause.packages.as_array
+                )
+            )
         )
 
     @langkit_property()
@@ -19470,30 +19504,45 @@ class CompilationUnit(AdaNode):
             ),
         )
 
+    @langkit_property(return_type=T.CompilationUnit.entity.array)
+    def referenced_units_in(name=T.Name.entity):
+        """
+        Return all units referenced in this name. For example in the name
+        ``A.B.C``, this returns units ``A``,  ``A.B`` and ``A.B.C``.
+        """
+        self_refd = Var(name.referenced_decl._.enclosing_compilation_unit)
+        return name.cast(DottedName).then(
+            lambda dn: Self.referenced_units_in(dn.prefix),
+            default_val=No(CompilationUnit.entity.array)
+        ).concat(self_refd.as_bare_entity._.singleton)
+
     @langkit_property(return_type=T.CompilationUnit.entity.array,
                       memoized=True, public=True)
-    def withed_units():
+    def withed_units(include_privates=(T.Bool, True)):
         """
         Look for all "with" clauses at the top of this compilation unit and
         return all the compilation units designated by them. For the complete
         dependencies list of compilation units, see the ``unit_dependencies``
-        property.
+        property. Units imported with a "private with" are included in this
+        list only if ``include_privates`` is True.
         """
-        return Self.top_level_with_package_clauses.map(
+        return Self.top_level_with_package_clauses(include_privates).mapcat(
             # Try to fetch the compilation unit in a spec file first. If this
             # fails, the "with" must designate a body without spec (e.g. a
             # library-level procedure).
-            lambda p: Self.withed_unit_helper(p).as_bare_entity
-        )
+            lambda p: Self.referenced_units_in(p.as_bare_entity)
+        ).unique
 
     @langkit_property(return_type=T.CompilationUnit.entity.array,
                       memoized=True, public=True)
-    def imported_units():
+    def imported_units(include_privates=(T.Bool, True)):
         """
         Return all the compilation units that are directly imported by this
         one. This includes "with"ed units as well as the direct parent unit.
+        Units imported with a "private with" are included in this list only if
+        ``include_privates`` is True.
         """
-        return Self.withed_units.concat(
+        return Self.withed_units(include_privates).concat(
             # Library-level subprogram bodies are handled specially here,
             # as their parent environment is *not* their corresponding spec in
             # our implementation (unlike for the rest of the library-level

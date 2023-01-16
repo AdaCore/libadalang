@@ -41,9 +41,9 @@ Unit dependencies of pkg.foo (from subunits.adb):
   - pkg.foo (from subunits.ads)
   - types (from types.ads)
   - pkg (from pkg.ads)
+  - conversions (from conversions.ads)
   - conversions.ranges (from conversions-ranges.ads)
   - standard (from __standard)
-  - conversions (from conversions.ads)
 Unit dependencies of pkg.bar (from subunits.adb):
   - pkg.bar (from subunits.ads)
   - pkg (from pkg.ads)
@@ -52,22 +52,22 @@ Unit dependencies of pkg.bar (from subunits.adb):
 Unit dependencies of pkg.foo (from subunits.ads):
   - types (from types.ads)
   - pkg (from pkg.ads)
+  - conversions (from conversions.ads)
   - conversions.ranges (from conversions-ranges.ads)
   - standard (from __standard)
-  - conversions (from conversions.ads)
 Unit dependencies of pkg.bar (from subunits.ads):
   - pkg (from pkg.ads)
   - standard (from __standard)
 
 Unit dependencies of types (from types.adb):
   - types (from types.ads)
+  - conversions (from conversions.ads)
   - conversions.ranges (from conversions-ranges.ads)
   - standard (from __standard)
-  - conversions (from conversions.ads)
 
 Unit dependencies of types (from types.ads):
+  - conversions (from conversions.ads)
   - conversions.ranges (from conversions-ranges.ads)
   - standard (from __standard)
-  - conversions (from conversions.ads)
 
 Done

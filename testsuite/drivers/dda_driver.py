@@ -47,18 +47,21 @@ class DDADriver(BaseDriver):
         # otherwise input_sources) to regenerate the JSON files.  Do the
         # compilation in the working directory (for use in this testsuite run),
         # and copy the JSON files back to the test directory.
-        compiled_sources = self.test_env.get("compiled_sources", input_sources)
-        for f in compiled_sources:
-            self.run_and_check(
-                argv=["gcc", "-c", f, "-gnatR4js"], append_output=False,
+        if self.env.options.dda_compile:
+            compiled_sources = self.test_env.get(
+                "compiled_sources", input_sources
             )
+            for f in compiled_sources:
+                self.run_and_check(
+                    argv=["gcc", "-c", f, "-gnatR4js"], append_output=False,
+                )
 
-            # Even though sources may belong to subdirectories, GCC is run in
-            # the working directory, so this is where the JSON files are
-            # created.
-            json_file = f"{os.path.basename(f)}.json"
+                # Even though sources may belong to subdirectories, GCC is run in
+                # the working directory, so this is where the JSON files are
+                # created.
+                json_file = f"{os.path.basename(f)}.json"
 
-            cp(self.working_dir(json_file), self.test_dir(json_file))
+                cp(self.working_dir(json_file), self.test_dir(json_file))
 
         # Command line arguments to run the "lal_dda" program
         args: List[str] = ["lal_dda"]

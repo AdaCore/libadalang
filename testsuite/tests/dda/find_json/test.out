@@ -1,6 +1,6 @@
 == Dirs: Defaults ==
 
-Kind: OTHER_NUMBER_TYPE
+Kind: ENUMERATION_TYPE
 
 == Dirs: No directory ==
 
@@ -16,7 +16,7 @@ Loading_Error: subdir1/pkg.json: duplicate entry for Pkg.T (from subdir1/pkg.ads
 
 == Dir: Defaults ==
 
-Kind: OTHER_NUMBER_TYPE
+Kind: ENUMERATION_TYPE
 
 == Dir: Custom regexp ==
 

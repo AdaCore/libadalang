@@ -2,7 +2,7 @@ Analyzing pkg.ads
 #################
 
 Representation information for <ConcreteTypeDecl ["Enum_Type"] pkg.ads:5:4-5:35>:
-Kind: OTHER_NUMBER_TYPE
+Kind: ENUMERATION_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 2
 

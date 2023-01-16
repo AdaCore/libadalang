@@ -255,14 +255,14 @@ procedure LAL_DDA is
             end;
             New_Line;
 
-         when Fixed_Point_Type =>
+         when Fixed_Type =>
             Put_Line ("Small: " & Small (R).Image);
             Put_Line ("Range: "
                       & Range_First (R).Image
                       & " .. "
                       & Range_Last (R).Image);
 
-         when Other_Number_Type =>
+         when others =>
             null;
       end case;
 

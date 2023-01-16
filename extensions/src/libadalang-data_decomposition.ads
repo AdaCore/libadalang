@@ -154,14 +154,27 @@ package Libadalang.Data_Decomposition is
    --  expression depends on dynamic variables that are not discriminants.
 
    type Type_Kind is
-     (Record_Type, Array_Type, Fixed_Point_Type, Other_Number_Type);
+     (Access_Type,
+      Enumeration_Type,
+      Signed_Type,
+      Modular_Type,
+      Floating_Type,
+      Decimal_Type,
+      Ordinary_Type,
+      Array_Type,
+      Interface_Type,
+      Record_Type,
+      Protected_Type,
+      Task_Type);
 
-   subtype Compound_Type_Kind is Type_Kind range Record_Type .. Array_Type;
-   --  Composite types, which can be decomposed into more elementary types
-
-   subtype Scalar_Type_Kind is
-     Type_Kind range Fixed_Point_Type .. Other_Number_Type;
-   --  Atomic types, that can be converted to numbers
+   subtype Elementary_Type is Type_Kind range Access_Type .. Ordinary_Type;
+   subtype Scalar_Type is
+    Elementary_Type range Enumeration_Type .. Ordinary_Type;
+   subtype Discrete_Type is Scalar_Type range Enumeration_Type .. Modular_Type;
+   subtype Integer_Type is Discrete_Type range Signed_Type .. Modular_Type;
+   subtype Real_Type is Scalar_Type range Floating_Type .. Ordinary_Type;
+   subtype Fixed_Type is Real_Type range Decimal_Type .. Ordinary_Type;
+   subtype Composite_Type is Type_Kind range Array_Type .. Task_Type;
 
    --  All the types below have shared pointer semantics
 
@@ -221,7 +234,7 @@ package Libadalang.Data_Decomposition is
 
    function Scalar_Storage_Order
      (Self : Type_Representation) return System.Bit_Order
-   with Pre => Kind (Self) in Compound_Type_Kind;
+   with Pre => Kind (Self) in Composite_Type;
    --  Byte order for scalars stored in this compound type
 
    ----------------------------
@@ -331,17 +344,17 @@ package Libadalang.Data_Decomposition is
    ---------------------------------
 
    function Small (Self : Type_Representation) return GMP_RN.Rational
-   with Pre => Kind (Self) = Fixed_Point_Type;
+   with Pre => Kind (Self) in Fixed_Type;
    --  Return the "small" number for a fixed point type. This is a positive
    --  real number, and all values for this fixed point type are multiples of
    --  this "small" number.
 
    function Range_First (Self : Type_Representation) return GMP_RN.Rational
-   with Pre => Kind (Self) = Fixed_Point_Type;
+   with Pre => Kind (Self) in Fixed_Type;
    --  Lower bound for the mandatory range of a fixed point type
 
    function Range_Last (Self : Type_Representation) return GMP_RN.Rational
-   with Pre => Kind (Self) = Fixed_Point_Type;
+   with Pre => Kind (Self) in Fixed_Type;
    --  Upper bound for the mandatory range of a fixed point type
 
    -------------------------------------
@@ -680,17 +693,22 @@ private
       --  Root expression node to evaluate
    end record;
 
+   type Internal_Type_Kind is
+     (Record_Type, Array_Type, Internal_Fixed_Type, Other_Type);
+   subtype Internal_Composite_Type is
+     Internal_Type_Kind range Record_Type ..  Array_Type;
+
    --  For all components in the record types below, please refer to the
    --  corresponding primitive functions for the documentation of their
    --  semantics.
 
-   type Type_Representation_Data (Kind : Type_Kind) is record
+   type Type_Representation_Data (Kind : Internal_Type_Kind) is record
       Alignment   : Positive;
       Object_Size : Numerical_Expression_Access;
       Value_Size  : Numerical_Expression_Access;
 
       case Kind is
-         when Compound_Type_Kind =>
+         when Internal_Composite_Type =>
             Scalar_Storage_Order : System.Bit_Order;
 
             case Kind is
@@ -708,7 +726,7 @@ private
                when others => null;
             end case;
 
-         when Fixed_Point_Type =>
+         when Internal_Fixed_Type =>
             Small                   : Rational_Access;
             Range_First, Range_Last : Rational_Access;
 
@@ -777,6 +795,9 @@ private
       Declaration : Base_Type_Decl;
       --  Declaration for this type
 
+      Kind : Type_Kind;
+      --  Kind for this type, according to ``Declaration``
+
       --  Because of record extensions, the variant may belong to a base type.
       --  To avoid redundant computations in ``Has_Variant_Part`` and
       --  ``Variants``, pre-fetch variant part info from both the parse tree
@@ -822,7 +843,12 @@ private
      (No_Repinfo_Collection, null);
 
    No_Type_Representation : constant Type_Representation :=
-     (No_Repinfo_Collection, null, No_Base_Type_Decl, No_Variant_Part, null);
+     (No_Repinfo_Collection,
+      null,
+      No_Base_Type_Decl,
+      Type_Kind'First,
+      No_Variant_Part,
+      null);
 
    No_Variant_Representation : constant Variant_Representation :=
      (No_Repinfo_Collection, null, No_Variant);

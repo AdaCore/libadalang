@@ -2,17 +2,17 @@ Analyzing pkg.ads
 #################
 
 Representation information for <ConcreteTypeDecl ["U3"] pkg.ads:7:4-7:26>:
-Kind: OTHER_NUMBER_TYPE
+Kind: MODULAR_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 3
 
 Representation information for <ConcreteTypeDecl ["U6"] pkg.ads:8:4-8:26>:
-Kind: OTHER_NUMBER_TYPE
+Kind: MODULAR_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 6
 
 Representation information for <ConcreteTypeDecl ["U7"] pkg.ads:9:4-9:26>:
-Kind: OTHER_NUMBER_TYPE
+Kind: MODULAR_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 7
 

@@ -23,6 +23,11 @@ package body Libadalang.Data_Decomposition is
    Size_Last : constant GMP_Int.Big_Integer :=
      GMP_Int.Make (Size_Type'Last'Image);
 
+   function Type_Kind_For (Decl : Base_Type_Decl'Class) return Type_Kind;
+   --  Return the type kind for the given type declaration parse tree. Raise a
+   --  ``Type_Mimatch_Error`` exception if it is not possible to determine this
+   --  type kind.
+
    function Wrap
      (Self       : Numerical_Expression_Access;
       Collection : Repinfo_Collection)
@@ -185,20 +190,19 @@ package body Libadalang.Data_Decomposition is
    function Allocate_Array_Type
      (Pool : Bump_Ptr_Pool) return Type_Representation_Access;
 
-   subtype Fixed_Point_Type_Subtype is
-     Type_Representation_Data (Fixed_Point_Type);
-   type Fixed_Point_Type_Access is access all Fixed_Point_Type_Subtype;
-   package Fixed_Point_Type_Allocator is new Alloc
-     (Fixed_Point_Type_Subtype, Fixed_Point_Type_Access);
-   function Allocate_Fixed_Point_Type
+   subtype Fixed_Type_Subtype is
+     Type_Representation_Data (Internal_Fixed_Type);
+   type Fixed_Type_Access is access all Fixed_Type_Subtype;
+   package Fixed_Type_Allocator is new Alloc
+     (Fixed_Type_Subtype, Fixed_Type_Access);
+   function Allocate_Fixed_Type
      (Pool : Bump_Ptr_Pool) return Type_Representation_Access;
 
-   subtype Other_Number_Type_Subtype is
-     Type_Representation_Data (Other_Number_Type);
-   type Other_Number_Type_Access is access all Other_Number_Type_Subtype;
-   package Other_Number_Type_Allocator is new Alloc
-     (Other_Number_Type_Subtype, Other_Number_Type_Access);
-   function Allocate_Other_Number_Type
+   subtype Other_Type_Subtype is Type_Representation_Data (Other_Type);
+   type Other_Type_Access is access all Other_Type_Subtype;
+   package Other_Type_Allocator is new Alloc
+     (Other_Type_Subtype, Other_Type_Access);
+   function Allocate_Other_Type
      (Pool : Bump_Ptr_Pool) return Type_Representation_Access;
 
    package Numerical_Expression_Allocator is new Alloc
@@ -235,6 +239,90 @@ package body Libadalang.Data_Decomposition is
    Key_Object_Size : constant String := "Object_Size";
    Key_Size        : constant String := "Size";
    Key_Value_Size  : constant String := "Value_Size";
+
+   -------------------
+   -- Type_Kind_For --
+   -------------------
+
+   function Type_Kind_For (Decl : Base_Type_Decl'Class) return Type_Kind is
+      Full : Base_Type_Decl := Decl.P_Full_View;
+      Def  : Type_Def := No_Type_Def;
+   begin
+      --  Loop in order to traverse derived types until we can find the type
+      --  kind.
+
+      Def_Loop : loop
+         if Full.Is_Null then
+            raise Type_Mismatch_Error with
+              "cannot find full view for " & Decl.Image;
+         end if;
+
+         --  First analyze the "type decl" layer
+
+         Full_Loop : loop
+            case Ada_Base_Type_Decl (Full.Kind) is
+               when Ada_Type_Decl =>
+                  Def := Full.As_Type_Decl.F_Type_Def;
+                  if Full.Is_Null then
+                     raise Type_Mismatch_Error with
+                       "incomplete parse tree for " & Full.Image;
+                  end if;
+                  exit Full_Loop;
+
+               when Ada_Subtype_Decl =>
+                  Full :=
+                    (Full.As_Subtype_Decl
+                     .F_Subtype
+                     .P_Designated_Type_Decl
+                     .P_Full_View);
+
+               when Ada_Task_Type_Decl_Range =>
+                  return Task_Type;
+
+               when Ada_Protected_Type_Decl =>
+                  return Protected_Type;
+
+               when Ada_Incomplete_Type_Decl_Range =>
+                  raise Type_Mismatch_Error with
+                    "cannot find full view for " & Full.Image;
+
+               when Ada_Discrete_Base_Subtype_Decl
+                  | Ada_Classwide_Type_Decl =>
+                  Full := Full.Parent.As_Base_Type_Decl.P_Full_View;
+            end case;
+         end loop Full_Loop;
+
+         --  Then analyze the "type def" layer, if any
+
+         case Ada_Type_Def (Def.Kind) is
+            when Ada_Access_Def               => return Access_Type;
+            when Ada_Enum_Type_Def            => return Enumeration_Type;
+            when Ada_Signed_Int_Type_Def      => return Signed_Type;
+            when Ada_Mod_Int_Type_Def         => return Modular_Type;
+            when Ada_Floating_Point_Def       => return Floating_Type;
+            when Ada_Decimal_Fixed_Point_Def  => return Decimal_Type;
+            when Ada_Ordinary_Fixed_Point_Def => return Ordinary_Type;
+            when Ada_Array_Type_Def           => return Array_Type;
+            when Ada_Interface_Type_Def       => return Interface_Type;
+            when Ada_Record_Type_Def          => return Record_Type;
+
+            when Ada_Private_Type_Def =>
+               raise Type_Mismatch_Error with
+                 "cannot find full view for " & Full.Image;
+
+            when Ada_Formal_Discrete_Type_Def =>
+               raise Type_Mismatch_Error with
+                 "cannot resolve type in uninstantiated generic " & Full.Image;
+
+            when Ada_Derived_Type_Def =>
+               Full :=
+                 (Def.As_Derived_Type_Def
+                  .F_Subtype_Indication
+                  .P_Designated_Type_Decl
+                  .P_Full_View);
+         end case;
+      end loop Def_Loop;
+   end Type_Kind_For;
 
    ----------
    -- Wrap --
@@ -314,6 +402,8 @@ package body Libadalang.Data_Decomposition is
          end if;
       end Process;
 
+      Kind : Type_Kind;
+
    begin
       if Self = null then
          return No_Type_Representation;
@@ -323,9 +413,21 @@ package body Libadalang.Data_Decomposition is
               (Collection, Declaration, Self, Process'Access);
          end if;
 
+         Kind := Type_Kind_For (Declaration);
+         if (case Kind is
+             when Record_Type => Self.Kind /= Record_Type,
+             when Array_Type  => Self.Kind /= Array_Type,
+             when Fixed_Type => Self.Kind /= Internal_Fixed_Type,
+             when others => Self.Kind /= Other_Type)
+         then
+            raise Type_Mismatch_Error with
+              Declaration.Image & " has unexpected type kind " & Kind'Image;
+         end if;
+
          return (Collection,
                  Self,
                  Declaration.As_Base_Type_Decl,
+                 Kind,
                  Variant_Part_Node,
                  Variants);
       end if;
@@ -874,7 +976,7 @@ package body Libadalang.Data_Decomposition is
          --  This looks like a fixed point type
 
          return Result : constant Type_Representation_Access :=
-           Allocate_Fixed_Point_Type (Self.Pool)
+           Allocate_Fixed_Type (Self.Pool)
          do
             Result.Alignment := Alignment;
             Result.Object_Size := Object_Size;
@@ -910,7 +1012,7 @@ package body Libadalang.Data_Decomposition is
          --  point type.
 
          return Result : constant Type_Representation_Access :=
-           Allocate_Other_Number_Type (Self.Pool)
+           Allocate_Other_Type (Self.Pool)
          do
             Result.Alignment := Alignment;
             Result.Object_Size := Object_Size;
@@ -1418,7 +1520,7 @@ package body Libadalang.Data_Decomposition is
    is
       Result : constant Record_Type_Access :=
         Record_Type_Allocator.Alloc (Pool);
-      Kind   : Type_Kind with Import, Address => Result.Kind'Address;
+      Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
       Kind := Record_Type;
       return Type_Representation_Access (Result);
@@ -1432,41 +1534,39 @@ package body Libadalang.Data_Decomposition is
      (Pool : Bump_Ptr_Pool) return Type_Representation_Access
    is
       Result : constant Array_Type_Access := Array_Type_Allocator.Alloc (Pool);
-      Kind   : Type_Kind with Import, Address => Result.Kind'Address;
+      Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
       Kind := Array_Type;
       return Type_Representation_Access (Result);
    end Allocate_Array_Type;
 
-   -------------------------------
-   -- Allocate_Fixed_Point_Type --
-   -------------------------------
+   -------------------------
+   -- Allocate_Fixed_Type --
+   -------------------------
 
-   function Allocate_Fixed_Point_Type
+   function Allocate_Fixed_Type
      (Pool : Bump_Ptr_Pool) return Type_Representation_Access
    is
-      Result : constant Fixed_Point_Type_Access :=
-        Fixed_Point_Type_Allocator.Alloc (Pool);
-      Kind   : Type_Kind with Import, Address => Result.Kind'Address;
+      Result : constant Fixed_Type_Access := Fixed_Type_Allocator.Alloc (Pool);
+      Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
-      Kind := Fixed_Point_Type;
+      Kind := Internal_Fixed_Type;
       return Type_Representation_Access (Result);
-   end Allocate_Fixed_Point_Type;
+   end Allocate_Fixed_Type;
 
-   --------------------------------
-   -- Allocate_Other_Number_Type --
-   --------------------------------
+   -------------------------
+   -- Allocate_Other_Type --
+   -------------------------
 
-   function Allocate_Other_Number_Type
+   function Allocate_Other_Type
      (Pool : Bump_Ptr_Pool) return Type_Representation_Access
    is
-      Result : constant Other_Number_Type_Access :=
-        Other_Number_Type_Allocator.Alloc (Pool);
-      Kind   : Type_Kind with Import, Address => Result.Kind'Address;
+      Result : constant Other_Type_Access := Other_Type_Allocator.Alloc (Pool);
+      Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
-      Kind := Other_Number_Type;
+      Kind := Other_Type;
       return Type_Representation_Access (Result);
-   end Allocate_Other_Number_Type;
+   end Allocate_Other_Type;
 
    ------------------------
    -- Allocate_Expr_Node --
@@ -1522,7 +1622,7 @@ package body Libadalang.Data_Decomposition is
 
    function Kind (Self : Type_Representation) return Type_Kind is
    begin
-      return Self.Data.Kind;
+      return Self.Kind;
    end Kind;
 
    ---------------

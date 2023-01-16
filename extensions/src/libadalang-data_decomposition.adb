@@ -1121,7 +1121,13 @@ package body Libadalang.Data_Decomposition is
                begin
                   Result :=
                     (Code => Literal, Value => Allocate_Integer (Self));
-                  Result.Value.Set (GNATCOLL.GMP.Long (Value));
+
+                  --  The largest value for Value (``Value'Last``) may be too
+                  --  large to be passed as a scalar to any of the
+                  --  ``GNATCOLL.GMP.Integers.Set`` overloads. Go through its
+                  --  image to avoid range check failures.
+
+                  Result.Value.Set (Value'Image);
                end;
 
             when JSON_Object_Type =>

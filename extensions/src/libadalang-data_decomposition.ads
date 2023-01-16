@@ -496,6 +496,12 @@ package Libadalang.Data_Decomposition is
    --  Like ``Load``, but using automatically loading all files in any of the
    --  given ``Directories`` whose file name matches ``Name_Pattern``.
 
+   function Load_From_Directory
+     (Name_Pattern : GNAT.Regexp.Regexp := Default_JSON_Filename_Regexp;
+      Directory    : String) return Repinfo_Collection;
+   --  Like ``Load``, but using automatically loading all files whose name
+   --  matches ``Name_Pattern`` in the given ``Directory`.
+
 private
 
    use Langkit_Support.Symbols;

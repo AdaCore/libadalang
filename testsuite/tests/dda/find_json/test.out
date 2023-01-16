@@ -1,16 +1,24 @@
-== Defaults ==
+== Dirs: Defaults ==
 
 Kind: OTHER_NUMBER_TYPE
 
-== No directory ==
+== Dirs: No directory ==
 
 Cannot find type representation of <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:26>
 
-== Two dirs ==
+== Dirs: Two dirs ==
 
 Loading_Error: subdir2/pkg.ads.json: duplicate entry for Pkg.T (from subdir1/pkg.ads.json)
 
-== Custom regexp ==
+== Dirs: Custom regexp ==
+
+Loading_Error: subdir1/pkg.json: duplicate entry for Pkg.T (from subdir1/pkg.ads.json)
+
+== Dir: Defaults ==
+
+Kind: OTHER_NUMBER_TYPE
+
+== Dir: Custom regexp ==
 
 Loading_Error: subdir1/pkg.json: duplicate entry for Pkg.T (from subdir1/pkg.ads.json)
 

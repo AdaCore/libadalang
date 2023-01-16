@@ -2538,6 +2538,18 @@ package body Libadalang.Data_Decomposition is
       end;
    end Load_From_Directories;
 
+   -------------------------
+   -- Load_From_Directory --
+   -------------------------
+
+   function Load_From_Directory
+     (Name_Pattern : GNAT.Regexp.Regexp := Default_JSON_Filename_Regexp;
+      Directory    : String) return Repinfo_Collection is
+   begin
+      return Load_From_Directories
+        (Name_Pattern, (1 => To_Unbounded_String (Directory)));
+   end Load_From_Directory;
+
    -------------
    -- Release --
    -------------

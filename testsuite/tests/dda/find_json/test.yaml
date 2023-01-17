@@ -1,2 +1,3 @@
 driver: ada-api
 main: main.adb
+canonicalize_directory_separators: true

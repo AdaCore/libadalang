@@ -6,7 +6,11 @@ from typing import Dict, List, Optional, Tuple, Union
 from e3.testsuite.control import YAMLTestControlCreator
 from e3.testsuite.driver.classic import (TestAbortWithError,
                                          TestAbortWithFailure, TestSkip)
-from e3.testsuite.driver.diff import DiffTestDriver, PatternSubstitute
+from e3.testsuite.driver.diff import (
+    DiffTestDriver,
+    PatternSubstitute,
+    Substitute,
+)
 
 from drivers.valgrind import Valgrind
 
@@ -98,6 +102,11 @@ class BaseDriver(DiffTestDriver):
             pattern = pattern.encode("ascii")
             repl = repl.encode("ascii")
         result.append(PatternSubstitute(pattern, repl))
+
+        # If requested, canonicalize Windows-style directory separators to
+        # Unix-style.
+        if self.test_env.get("canonicalize_directory_separators", False):
+            result.append(Substitute("\\", "/"))
 
         return result
 

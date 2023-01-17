@@ -1,0 +1,10 @@
+project With_Var is
+   My_Var := external ("MY_VAR", "");
+
+   case My_Var is
+      when ""     => for Source_Dirs use ();
+      when others => for Source_Dirs use ("src/with_var");
+   end case;
+
+   for Object_Dir use "obj/with_var";
+end With_Var;

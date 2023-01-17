@@ -11,10 +11,17 @@ with Ada.Text_IO;    use Ada.Text_IO;
 
 with GNATCOLL.JSON; use GNATCOLL.JSON;
 with GNATCOLL.Mmap;
+with GNATCOLL.OS.FS;
+with GNATCOLL.OS.Process;
 with GNATCOLL.VFS;
+with GPR2.Containers;
+with GPR2.Context;
+with GPR2.Path_Name;
+with GPR2.Path_Name.Set;
 
 with Libadalang.Auto_Provider; use Libadalang.Auto_Provider;
 with Libadalang.Common;        use Libadalang.Common;
+with Libadalang.GPR_Utils;     use Libadalang.GPR_Utils;
 
 package body Libadalang.Data_Decomposition is
 
@@ -2649,6 +2656,187 @@ package body Libadalang.Data_Decomposition is
       return Load_From_Directories
         (Name_Pattern, (1 => To_Unbounded_String (Directory)));
    end Load_From_Directory;
+
+   -----------------------
+   -- Load_From_Project --
+   -----------------------
+
+   function Load_From_Project
+     (Tree    : GPR2.Project.Tree.Object;
+      View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+      Subdirs : String := "repinfo";
+      Force   : Boolean := False) return Repinfo_Collection
+   is
+      use GNATCOLL.OS.FS;
+      use GNATCOLL.OS.Process;
+      use type GPR2.Filename_Optional;
+
+      Filenames : GPR2.Path_Name.Set.Object;
+
+      --  Build the command line for gprbuild
+
+      Args : Argument_List;
+   begin
+      Args.Append ("gprbuild");
+      Args.Append ("-c");
+      Args.Append ("-P" & String (Tree.Root_Project.Path_Name.Value));
+
+      --  Add "-X" arguments for external variables
+
+      if Tree.Has_Context then
+         for Cur in Tree.Context.Iterate loop
+            declare
+               use GPR2.Context.Key_Value;
+
+               Name  : constant GPR2.Name_Type := Key (Cur);
+               Value : constant GPR2.Value_Type := Element (Cur);
+            begin
+               Args.Append ("-X" & String (Name) & "=" & String (Value));
+            end;
+         end loop;
+      end if;
+
+      --  If there is a configuration project, pass "--config". Otherwise pass
+      --  "--target" and "--RTS" arguments according to project settings.
+
+      declare
+         Config_Prj_File : constant GPR2.Path_Name.Object :=
+           (if Tree.Has_Configuration
+            then Tree.Configuration.Corresponding_View.Path_Name
+            else GPR2.Path_Name.Undefined);
+      begin
+         if Config_Prj_File.Is_Defined and then Config_Prj_File.Exists then
+            Args.Append ("--config=" & String (Config_Prj_File.Value));
+         else
+            Args.Append ("--target=" & String (Tree.Target));
+
+            --  Determine the list of languages used in the project tree and
+            --  emit one "--RTS:<lang>" argument for each that has a runtime.
+
+            declare
+               Langs : GPR2.Containers.Language_Set;
+            begin
+               for V of Tree.Root_Project.Closure loop
+                  for L of V.Language_Ids loop
+                     Langs.Include (L);
+                  end loop;
+               end loop;
+               for L of Langs loop
+                  declare
+                     Runtime : constant String := String (Tree.Runtime (L));
+                  begin
+                     if Runtime'Length > 0 then
+                        Args.Append
+                          ("--RTS:" & String (GPR2.Name (L)) & "=" & Runtime);
+                     end if;
+                  end;
+               end loop;
+            end;
+         end if;
+      end;
+
+      if Subdirs'Length > 0 then
+         Args.Append ("--subdirs=" & Subdirs);
+      end if;
+
+      if Force then
+         Args.Append ("-f");
+      end if;
+
+      --  Build all Ada sources with the -gnatR4js flag, to generate JSON
+      --  repinfo in object directories.
+
+      Args.Append ("-cargs:Ada");
+      Args.Append ("-gnatR4js");
+
+      --  If requested, print gprbuild arguments on the standard output
+
+      if Trace.Is_Active then
+         declare
+            Msg : Unbounded_String :=
+              To_Unbounded_String ("gprbuild arguments:");
+         begin
+            for A of Args loop
+               Append (Msg, " " & A);
+            end loop;
+            Trace.Trace (To_String (Msg));
+         end;
+      end if;
+
+      declare
+         Exit_Code : constant Integer := Run
+           (Args   => Args,
+            Cwd    => "",
+            Stdin  => Null_FD,
+            Stdout => (if Trace.Is_Active then Standout else Null_FD),
+            Stderr => (if Trace.Is_Active then Standerr else Null_FD));
+      begin
+         if Exit_Code /= 0 then
+            raise Gprbuild_Error with
+              "gprbuild exited with status code " & Exit_Code'Image;
+         end if;
+      end;
+
+      --  Look for JSON files for all Ada sources
+
+      declare
+         Actual_View   : constant GPR2.Project.View.Object :=
+           (if View.Is_Defined then View else Tree.Root_Project);
+         Loaded_Subdir : constant GPR2.Filename_Optional := Tree.Subdirs;
+         Obj_Dir       : GPR2.Path_Name.Object;
+         Repinfo_File  : GPR2.Path_Name.Object;
+      begin
+         for V of Closure (Actual_View) loop
+            Trace.Increase_Indent ("Processing subproject " & String (V.Name));
+
+            --  If Tree was loaded with subdirs, remove it from Obj_Dir, then
+            --  add our own, if requested. This should get us the object
+            --  directory that gprbuild used.
+
+            Obj_Dir := V.Object_Directory;
+            if Loaded_Subdir'Length > 0 then
+               pragma Assert (Obj_Dir.Simple_Name = Loaded_Subdir);
+               Obj_Dir := Obj_Dir.Containing_Directory;
+            end if;
+            if Subdirs'Length > 0 then
+               Obj_Dir := Obj_Dir.Compose
+                 (GPR2.Filename_Type (Subdirs), Directory => True);
+            end if;
+            Trace.Trace ("Object directory: " & String (Obj_Dir.Value));
+
+            for S of V.Sources loop
+               if S.Is_Ada then
+                  Trace.Trace
+                    ("Processing Ada source: " & String (S.Path_Name.Value));
+                  Repinfo_File :=
+                    Obj_Dir.Compose (S.Path_Name.Simple_Name & ".json");
+                  if Repinfo_File.Exists then
+                     Trace.Trace ("Found: " & String (Repinfo_File.Value));
+                     Filenames.Append (Repinfo_File);
+                  else
+                     Trace.Trace ("Not found: " & String (Repinfo_File.Value));
+                  end if;
+               end if;
+            end loop;
+
+            Trace.Decrease_Indent;
+         end loop;
+      end;
+
+      --  Now that we have the list of JSON files to load, just build the
+      --  result.
+
+      declare
+         F_List : Filename_Array (1 .. Natural (Filenames.Length));
+         Next   : Positive := F_List'First;
+      begin
+         for F of Filenames loop
+            F_List (Next) := To_Unbounded_String (String (F.Value));
+            Next := Next + 1;
+         end loop;
+         return Load (F_List);
+      end;
+   end Load_From_Project;
 
    -------------
    -- Release --

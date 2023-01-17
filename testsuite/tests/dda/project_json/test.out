@@ -1,0 +1,18 @@
+== Simple ==
+
+<ConcreteTypeDecl ["T"] simple.ads:2:4-2:26> is a SIGNED_TYPE
+
+== Tree ==
+
+Cannot find type representation of <ConcreteTypeDecl ["T"] tree_root.ads:4:4-4:26>
+<ConcreteTypeDecl ["T"] tree_child.ads:2:4-2:26> is a SIGNED_TYPE
+
+== Subdirs ==
+
+<ConcreteTypeDecl ["T"] simple.ads:2:4-2:26> is a SIGNED_TYPE
+
+== With vars ==
+
+<ConcreteTypeDecl ["T"] with_var.ads:2:4-2:26> is a SIGNED_TYPE
+
+Done.

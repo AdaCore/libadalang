@@ -1,0 +1,4 @@
+project Tree_Child is
+   for Source_Dirs use ("src/tree_child");
+   for Object_Dir use "obj/tree_child";
+end Tree_Child;

@@ -34,63 +34,85 @@
 --        end record;
 --     end Pkg;
 --
---     --  Program using the ``Libadalang.Data_Decomposition`` API to analyzes
+--     --  Corresponding project file
+--
+--     project P is
+--     end P;
+--
+--     --  Program using the ``Libadalang.Data_Decomposition`` API to analyze
 --     --  representation information.
 --
 --     with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 --     with Ada.Text_IO;           use Ada.Text_IO;
 --
 --     with GNATCOLL.GMP.Integers; use GNATCOLL.GMP.Integers;
+--     with GPR2.Context;
+--     with GPR2.Path_Name;
+--     with GPR2.Project.Tree;
 --
 --     with Libadalang.Analysis;           use Libadalang.Analysis;
 --     with Libadalang.Common;             use Libadalang.Common;
 --     with Libadalang.Data_Decomposition;
 --     with Libadalang.Iterators;          use Libadalang.Iterators;
+--     with Libadalang.Project_Provider;   use Libadalang.Project_Provider;
 --
 --     procedure Main is
 --        package DDA renames Libadalang.Data_Decomposition;
 --
---        --  Load the "pkg.ads" source file
+--        --  Load the "p.gpr" project file, then create the unit provider (to
+--        --  make Libadalang's name resolution work) and the representation
+--        --  information collection for it.
 --
---        Ctx : constant Analysis_Context := Create_Context;
---        U   : constant Analysis_Unit :=
---          Ctx.Get_From_File ("pkg.ads");
---
---        --  Load the corresponding "pkg.ads.json" representation
---        --  information.
---
---        Collection : constant DDA.Repinfo_Collection :=
---          DDA.Load ((1 => To_Unbounded_String ("pkg.ads.json")));
---
---        --  Look for the first type declaration in "pkg.ads"
---
---        function Filter (Node : Ada_Node) return Boolean
---        is (Node.Kind in Ada_Base_Type_Decl);
---
---        Decl : constant Base_Type_Decl :=
---          Find_First (U.Root, Filter'Access).As_Base_Type_Decl;
---
---        --  Fetch type representation information
---
---        TR : constant DDA.Type_Representation :=
---          Collection.Lookup (Decl);
---
---        --  Resolve the layout for this record type for a specific
---        --  set of discriminants (N = 950).
---
---        Discs : constant DDA.Discriminant_Values :=
---          (1 => Make ("950"));
---        RR    : constant DDA.Resolved_Record_Type :=
---          DDA.Resolved_Record (TR, Discs);
+--        Tree       : GPR2.Project.Tree.Object;
+--        Provider   : Unit_Provider_Reference;
+--        Collection : DDA.Repinfo_Collection;
 --     begin
---        --  Display the size of this record (in bits) as well as the name and
---        --  position (in bytes) for each component.
+--        Tree.Load_Autoconf
+--          (Filename => GPR2.Path_Name.Create_File
+--                         (Name      => "p.gpr",
+--                          Directory => GPR2.Path_Name.No_Resolution),
+--           Context  => GPR2.Context.Empty);
 --
---        Put_Line ("Record size:" & RR.Value_Size'Image);
---        for C of RR.Components loop
---           Put_Line ("Component " & C.Declaration.Image
---                     & " at position" & C.Position'Image);
---        end loop;
+--        Provider := Create_Project_Unit_Provider (Tree);
+--
+--        Collection := DDA.Load_From_Project (Tree);
+--
+--        declare
+--           --  Analyze the "pkg.ads" source file
+--
+--           Ctx : constant Analysis_Context := Create_Context;
+--           U   : constant Analysis_Unit := Ctx.Get_From_File ("pkg.ads");
+--
+--           --  Look for the first type declaration in "pkg.ads"
+--
+--           function Filter (Node : Ada_Node) return Boolean
+--           is (Node.Kind in Ada_Base_Type_Decl);
+--
+--           Decl : constant Base_Type_Decl :=
+--             Find_First (U.Root, Filter'Access).As_Base_Type_Decl;
+--
+--           --  Fetch type representation information
+--
+--           TR : constant DDA.Type_Representation :=
+--             Collection.Lookup (Decl);
+--
+--           --  Resolve the layout for this record type for a specific
+--           --  set of discriminants (N = 950).
+--
+--           Discs : constant DDA.Discriminant_Values :=
+--             (1 => Make ("950"));
+--           RR    : constant DDA.Resolved_Record_Type :=
+--             DDA.Resolved_Record (TR, Discs);
+--        begin
+--           --  Display the size of this record (in bits) as well as the name
+--           --  and position (in bytes) for each component.
+--
+--           Put_Line ("Record size:" & RR.Value_Size'Image);
+--           for C of RR.Components loop
+--              Put_Line ("Component " & C.Declaration.Image
+--                        & " at position" & C.Position'Image);
+--           end loop;
+--        end;
 --     end Main;
 --
 --  Expected output:
@@ -112,6 +134,8 @@ with GNATCOLL.GMP.Integers;
 with GNATCOLL.GMP.Rational_Numbers;
 private with GNATCOLL.Refcount;
 private with GNATCOLL.Traces;
+with GPR2.Project.Tree;
+with GPR2.Project.View;
 
 private with Langkit_Support.Bump_Ptr;
 private with Langkit_Support.Symbols;
@@ -514,6 +538,30 @@ package Libadalang.Data_Decomposition is
       Directory    : String) return Repinfo_Collection;
    --  Like ``Load``, but using automatically loading all files whose name
    --  matches ``Name_Pattern`` in the given ``Directory`.
+
+   Gprbuild_Error : exception;
+   --  See ``Load_From_Project``
+
+   function Load_From_Project
+     (Tree    : GPR2.Project.Tree.Object;
+      View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+      Subdirs : String := "repinfo";
+      Force   : Boolean := False) return Repinfo_Collection;
+   --  Run GPRbuild on the given project ``Tree`` to compile all of its Ada
+   --  units with the ``-gnatR4js`` compiler switch, then load all generated
+   --  JSON files for units under the ``View`` sub-project.
+   --
+   --  Unless left to empty strings, the following formals are passed to
+   --  ``gprbuild``'s command line:
+   --
+   --  * ``Subdirs`` is passed as ``--subdirs``.
+   --
+   --  If ``Force`` is ``True``, pass ``-f`` to gprbuild to force the build of
+   --  compilation units.
+   --
+   --  Raise a ``Gprbuild_Error`` exception if ``gprbuild`` exits with a
+   --  non-zero status code. Raise a ``Loading_Error`` exception if the loading
+   --  of JSON files fails.
 
 private
 

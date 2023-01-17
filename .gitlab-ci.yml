@@ -38,12 +38,13 @@ build_and_test:
     # This shouldn't trigger from the upstream
     - if: $CI_PIPELINE_SOURCE != "pipeline"
   services:
-     - image:libadalang
+     - image:sandbox
      - cpu:8
      - mem:16
   stage: build_and_test
   script:
     - export PATH=/it/e3/bin:$PATH
+    - . ~/.aws_container_credentials
 
     # Download the langkit package
     - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
@@ -54,11 +55,11 @@ build_and_test:
     # Build
     - cd /it/wave
     - anod vcs --add-repo libadalang $CI_PROJECT_DIR
-    - anod build --minimal --disable-cathod libadalang
-    - anod build --minimal --disable-cathod libadalang_for_customers
+    - anod build --minimal libadalang
+    - anod build --minimal libadalang_for_customers
 
     # Run the testsuite
-    - anod test --minimal --disable-cathod libadalang
+    - anod test --minimal libadalang
 
     # Produce a XUnit report for GitLab
     - e3-testsuite-report

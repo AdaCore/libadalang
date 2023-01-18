@@ -185,6 +185,7 @@ package body Libadalang.Data_Decomposition is
 
    subtype Record_Type_Subtype is Type_Representation_Data (Record_Type);
    type Record_Type_Access is access all Record_Type_Subtype;
+   pragma No_Strict_Aliasing (Record_Type_Access);
    package Record_Type_Allocator is new Alloc
      (Record_Type_Subtype, Record_Type_Access);
    function Allocate_Record_Type
@@ -192,6 +193,7 @@ package body Libadalang.Data_Decomposition is
 
    subtype Array_Type_Subtype is Type_Representation_Data (Array_Type);
    type Array_Type_Access is access all Array_Type_Subtype;
+   pragma No_Strict_Aliasing (Array_Type_Access);
    package Array_Type_Allocator is new Alloc
      (Array_Type_Subtype, Array_Type_Access);
    function Allocate_Array_Type
@@ -200,6 +202,7 @@ package body Libadalang.Data_Decomposition is
    subtype Fixed_Type_Subtype is
      Type_Representation_Data (Internal_Fixed_Type);
    type Fixed_Type_Access is access all Fixed_Type_Subtype;
+   pragma No_Strict_Aliasing (Fixed_Type_Access);
    package Fixed_Type_Allocator is new Alloc
      (Fixed_Type_Subtype, Fixed_Type_Access);
    function Allocate_Fixed_Type
@@ -207,6 +210,7 @@ package body Libadalang.Data_Decomposition is
 
    subtype Other_Type_Subtype is Type_Representation_Data (Other_Type);
    type Other_Type_Access is access all Other_Type_Subtype;
+   pragma No_Strict_Aliasing (Other_Type_Access);
    package Other_Type_Allocator is new Alloc
      (Other_Type_Subtype, Other_Type_Access);
    function Allocate_Other_Type
@@ -222,6 +226,7 @@ package body Libadalang.Data_Decomposition is
       Data : aliased Expr_Node_Data;
    end record;
    type Expr_Node_Wrapper_Access is access all Expr_Node_Wrapper;
+   pragma No_Strict_Aliasing (Expr_Node_Wrapper_Access);
    package Expr_Node_Allocator is new Alloc
      (Expr_Node_Wrapper, Expr_Node_Wrapper_Access);
    function Allocate_Expr_Node (Pool : Bump_Ptr_Pool) return Expr_Node_Access;

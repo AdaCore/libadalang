@@ -1,6 +1,6 @@
-************************
+***********************
 Developer documentation
-************************
+***********************
 
 Libadalang is powered by `Langkit <https://github.com/AdaCore/langkit/>`_, so
 it consists only of a language description and several helpers that Langkit

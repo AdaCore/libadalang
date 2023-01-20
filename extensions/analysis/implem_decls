@@ -1,3 +1,5 @@
+## vim: filetype=makoada
+
 type Resolution_Val is record
     Cache_Version : Version_Number;
     Rebindings    : Env_Rebindings;

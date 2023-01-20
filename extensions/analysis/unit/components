@@ -1,3 +1,5 @@
 ## vim: filetype=makoada
 
 Nodes_Nameres : Nameres_Maps.Map;
+--  Memoization table for the ``AdaNode.resolve_own_names`` property. That
+--  property implements memoization manually.

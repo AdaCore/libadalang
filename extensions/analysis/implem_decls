@@ -1,10 +1,22 @@
 ## vim: filetype=makoada
 
+--  The following record implements a cache entry for the ``Nameres_Maps``,
+--  used to implement manual memoization for the ``AdaNode.resolve_own_names``
+--  property. Each node gets its own entry.
+
 type Resolution_Val is record
     Cache_Version : Version_Number;
-    Rebindings    : Env_Rebindings;
-    Return_Value  : Boolean;
-    Raised_Exc    : Boolean;
+    --  Analysis context-wide cache version when this memoization entry was
+    --  created.
+
+    Rebindings : Env_Rebindings;
+    --  Rebindings used when creating this cache entry
+
+    Return_Value : Boolean;
+    --  Cached result for the ``Solve_Wrapper`` function
+
+    Raised_Exc : Boolean;
+    --  Whether ``Solve_Wrapper`` raised a ``Property_Error`` exception
 end record;
 
 package Nameres_Maps is new Ada.Containers.Hashed_Maps

@@ -791,49 +791,60 @@ package body Libadalang.Implementation.Extensions is
       use Nameres_Maps;
       use Libadalang.Implementation.Solver;
 
-      R : Relation;
-      C : constant Cursor := Node.Unit.Nodes_Nameres.Find (Node);
+      Cache : Nameres_Maps.Map renames Node.Unit.Nodes_Nameres;
+      R     : Relation;
+      C     : constant Cursor := Cache.Find (Node);
    begin
       --  There was already resolution for this node, and it's the same
-      --  rebindings, and the cache key is still fresh: just return
-      --  existing result.
+      --  rebindings, and the cache key is still fresh: just return existing
+      --  result.
 
-      if Nameres_Maps.Has_Element (C)
-        and then Element (C).Cache_Version >= Node.Unit.Context.Cache_Version
-        and then Nameres_Maps.Element (C).Rebindings = E_Info.Rebindings
-      then
+      if Has_Element (C) then
          declare
-            Res_Val : constant Resolution_Val := Nameres_Maps.Element (C);
+            Cached : Resolution_Val renames
+              Cache.Reference (C);
          begin
-            if Res_Val.Raised_Exc then
-               raise Property_Error with "Memoized Error";
+            if Cached.Cache_Version >= Node.Unit.Context.Cache_Version
+               and then Cached.Rebindings = E_Info.Rebindings
+            then
+               if Cached.Raised_Exc then
+                  raise Property_Error with "Memoized Error";
+               else
+                  return Cached.Return_Value;
+               end if;
             end if;
-
-            return Nameres_Maps.Element (C).Return_Value;
          end;
       end if;
-
-      R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
 
       --  There was no resolution, or if there was it was for different
       --  rebindings. In that case, solve and include the result in the
       --  mmz map.
-      return Res : constant Boolean := Solve_Wrapper (R,  Node) do
+
+      R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
+
+      return Res : constant Boolean := Solve_Wrapper (R, Node) do
          Dec_Ref (R);
-         Node.Unit.Nodes_Nameres.Include
+         Cache.Include
            (Node,
-            (Node.Unit.Context.Cache_Version, E_Info.Rebindings, Res, False));
+            (Cache_Version => Node.Unit.Context.Cache_Version,
+             Rebindings    => E_Info.Rebindings,
+             Return_Value  => Res,
+             Raised_Exc    => False));
       end return;
 
    exception
       when Precondition_Failure | Property_Error =>
          Dec_Ref (R);
+
          --  Memoize the exception result, to be able to re-raise a
-         --  property_error if this is called again with the same params.
-         Node.Unit.Nodes_Nameres.Include
+         --  Property_Error if this is called again with the same params.
+
+         Cache.Include
            (Node,
-            (Node.Unit.Context.Cache_Version,
-             E_Info.Rebindings, False, Raised_Exc => True));
+            (Cache_Version => Node.Unit.Context.Cache_Version,
+             Rebindings    => E_Info.Rebindings,
+             Return_Value  => False,
+             Raised_Exc    => True));
          raise;
    end Ada_Node_P_Resolve_Own_Names;
 

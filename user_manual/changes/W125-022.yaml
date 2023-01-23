@@ -1,0 +1,7 @@
+type: bugfix
+title: Handle ``for Switches ("Ada")`` in preprocessing
+description: |
+    Libadalang was not considering preprocessing directives put inside
+    ``for Switches ("Ada")`` attributes of the project file.
+    Those directives are now read.
+date: 202-01-25

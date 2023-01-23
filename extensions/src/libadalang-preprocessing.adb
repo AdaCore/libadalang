@@ -662,6 +662,10 @@ package body Libadalang.Preprocessing is
 
          Process_Switches (Self, Default_Switches, "Ada");
 
+         --  Same for Switches attribute
+
+         Process_Switches (Self, Switches, "Ada");
+
          --  Also process compiler switches for all Ada sources
 
          for Source of Indexes (Self, Switches) loop

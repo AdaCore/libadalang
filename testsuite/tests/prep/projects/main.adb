@@ -114,6 +114,7 @@ procedure Main is
 
 begin
    Process ("simple/p.gpr");
+   Process ("switches/p.gpr");
    Process ("with/q.gpr");
    Process ("extends/q.gpr");
    Process

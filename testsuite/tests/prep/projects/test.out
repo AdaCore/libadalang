@@ -4,6 +4,11 @@
   foo -> Symbol(1)
   foobar -> Symbol(2)
 
+== switches/p.gpr ==
+
+# default
+  bar -> Symbol(2)
+
 == with/q.gpr ==
 
 # default

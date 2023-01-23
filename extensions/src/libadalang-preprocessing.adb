@@ -657,6 +657,9 @@ package body Libadalang.Preprocessing is
             raise;
       end Process_Switches;
 
+      Compiler_Switches_Attribute : constant Attribute_Pkg_List :=
+        Build ("Compiler", "Switches");
+
       It : Project_Iterator := Root_Project.Start;
       P  : Project_Type;
    begin
@@ -667,10 +670,16 @@ package body Libadalang.Preprocessing is
          P := Current (It);
          exit when P = No_Project;
 
-         --  Process both default switches for all Ada sources, then
-         --  unit-specific switches.
+         --  Process default compiler switches for the Ada language
 
          Process_Switches (P, Compiler_Default_Switches_Attribute, "Ada");
+
+         --  Same for Switches attribute
+
+         Process_Switches (P, Compiler_Switches_Attribute, "Ada");
+
+         --  Also process compiler switches for all Ada sources
+
          declare
             Attr    : constant Attribute_Pkg_List :=
               Build ("Compiler", "Switches");
@@ -686,7 +695,7 @@ package body Libadalang.Preprocessing is
                       File_Info (Info).Project (Root_If_Not_Found => False) = P
                       and then To_Lower (File_Info (Info).Language) = "ada")
                   then
-                     Process_Switches (P, Attr, S.all);
+                     Process_Switches (P, Compiler_Switches_Attribute, S.all);
                   end if;
                end;
             end loop;

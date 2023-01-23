@@ -1,0 +1,8 @@
+Working on node <ObjectDecl ["Object"] foo.ads:5:4-8:1>
+=======================================================
+
+Eval 'node.p_resolve_names'
+Exception: foo.ads:5:13-5:23: dereferencing a null access
+
+Eval 'node.p_resolve_names'
+Exception: foo.ads:5:13-5:23: dereferencing a null access (memoized)

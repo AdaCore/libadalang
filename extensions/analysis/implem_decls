@@ -15,8 +15,10 @@ type Resolution_Val is record
    Return_Value : Boolean;
    --  Cached result for the ``Solve_Wrapper`` function
 
-   Raised_Exc : Boolean;
-   --  Whether ``Solve_Wrapper`` raised a ``Property_Error`` exception
+   Exc_Id  : Ada.Exceptions.Exception_Id;
+   Exc_Msg : String_Access;
+   --  If ``Solve_Wrapper`` raised an exception, ID and message for the
+   --  corresponding exception occurrence.
 end record;
 
 package Nameres_Maps is new Ada.Containers.Hashed_Maps

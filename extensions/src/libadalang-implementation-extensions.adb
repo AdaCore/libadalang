@@ -792,60 +792,55 @@ package body Libadalang.Implementation.Extensions is
       use Libadalang.Implementation.Solver;
 
       Cache : Nameres_Maps.Map renames Node.Unit.Nodes_Nameres;
-      R     : Relation;
       C     : constant Cursor := Cache.Find (Node);
    begin
-      --  There was already resolution for this node, and it's the same
-      --  rebindings, and the cache key is still fresh: just return existing
-      --  result.
+      --  If we already resolved this node with the same rebindings and if the
+      --  cache is still fresh, return the memoized result.
 
       if Has_Element (C) then
          declare
-            Cached : Resolution_Val renames
-              Cache.Reference (C);
+            use type Ada.Exceptions.Exception_Id;
+            Cached : Resolution_Val renames Cache.Reference (C);
          begin
             if Cached.Cache_Version >= Node.Unit.Context.Cache_Version
                and then Cached.Rebindings = E_Info.Rebindings
             then
-               if Cached.Raised_Exc then
-                  raise Property_Error with "Memoized Error";
-               else
+               if Cached.Exc_Id = Ada.Exceptions.Null_Id then
                   return Cached.Return_Value;
+               else
+                  Reraise_Memoized_Error (Cached.Exc_Id, Cached.Exc_Msg);
                end if;
             end if;
          end;
       end if;
 
-      --  There was no resolution, or if there was it was for different
-      --  rebindings. In that case, solve and include the result in the
-      --  mmz map.
+      --  Past this point, we know we cannot rely on the cache: perform the
+      --  resolution and memoize the result or the exception.
 
-      R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
-
-      return Res : constant Boolean := Solve_Wrapper (R, Node) do
-         Dec_Ref (R);
-         Cache.Include
-           (Node,
-            (Cache_Version => Node.Unit.Context.Cache_Version,
-             Rebindings    => E_Info.Rebindings,
-             Return_Value  => Res,
-             Raised_Exc    => False));
-      end return;
-
-   exception
-      when Precondition_Failure | Property_Error =>
+      declare
+         R : Relation;
+         V : Resolution_Val :=
+           (Cache_Version => Node.Unit.Context.Cache_Version,
+            Rebindings    => E_Info.Rebindings,
+            Return_Value  => False,
+            Exc_Id        => Ada.Exceptions.Null_Id,
+            Exc_Msg       => null);
+      begin
+         R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
+         V.Return_Value := Solve_Wrapper (R, Node);
          Dec_Ref (R);
 
-         --  Memoize the exception result, to be able to re-raise a
-         --  Property_Error if this is called again with the same params.
-
-         Cache.Include
-           (Node,
-            (Cache_Version => Node.Unit.Context.Cache_Version,
-             Rebindings    => E_Info.Rebindings,
-             Return_Value  => False,
-             Raised_Exc    => True));
-         raise;
+         Cache.Include (Node, V);
+         return V.Return_Value;
+      exception
+         when Exc : others =>
+            if Properties_May_Raise (Exc) then
+               Dec_Ref (R);
+               Store_Memoized_Error (Exc, V.Exc_Id, V.Exc_Msg);
+               Cache.Include (Node, V);
+            end if;
+            raise;
+      end;
    end Ada_Node_P_Resolve_Own_Names;
 
 end Libadalang.Implementation.Extensions;

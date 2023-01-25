@@ -54,7 +54,10 @@ build_and_test:
 
     # Build
     - cd /it/wave
+    - mkdir -p fingerprints
     - anod vcs --add-repo libadalang $CI_PROJECT_DIR
+    - touch fingerprints/x86_64-linux.langkit_support.install.json.assume-unchanged
+    - touch fingerprints/x86_64-linux.langkit.install.json.assume-unchanged
     - anod build --minimal libadalang
     - anod build --minimal libadalang_for_customers
 

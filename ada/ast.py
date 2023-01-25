@@ -11330,9 +11330,16 @@ class PackageRenamingDecl(BasicDecl):
         # Workaround for V714-016. We perform an initial "dummy" env get query
         # to prepare the referenced envs that will be traversed by the next
         # query by allowing `Name.use_package_name_designated_env` to get
-        # memoized.
+        # memoized. It is important to use the `no_prims` category to avoid
+        # traversing primitive environments, as those can trigger name
+        # resolution queries (when checking signatures of subprograms in order
+        # to determine the primitives of a type), which in turn can cause
+        # infinite recursions if those queries need to resolve this package
+        # renaming as well.
         node_env = Var(Entity.node_env)
-        ignore(Var(node_env.get("__dummy", lookup=LK.recursive)))
+        ignore(Var(node_env.get(
+            "__dummy", lookup=LK.recursive, categories=no_prims
+        )))
 
         # We can then safely perform the actual query which will not trigger
         # the infinite recursion.

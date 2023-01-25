@@ -1,0 +1,5 @@
+Working on node <SubpBody ["Test"] foo.adb:2:4-5:13>
+====================================================
+
+Eval 'node.p_previous_part_for_decl()'
+Result: <SubpDecl ["Test"] foo.ads:16:4-16:34>

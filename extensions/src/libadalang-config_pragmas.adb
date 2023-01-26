@@ -3,18 +3,25 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
-with GNATCOLL.VFS; use GNATCOLL.VFS;
+with Ada.Text_IO; use Ada.Text_IO;
 
 with GNAT.OS_Lib; use GNAT.OS_Lib;
 
 with Libadalang.Common;            use Libadalang.Common;
 with Libadalang.Config_Pragmas_Impl;
+with Libadalang.GPR_Utils;         use Libadalang.GPR_Utils;
 with Libadalang.Implementation;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 
 package body Libadalang.Config_Pragmas is
 
    package Impl renames Libadalang.Config_Pragmas_Impl;
+
+   function Import_From_Project
+     (Context : Analysis_Context;
+      Tree    : Any_Tree;
+      View    : Any_View) return Config_Pragmas_Mapping;
+   --  Common implementation for the homonym public functions
 
    -----------------
    -- Set_Mapping --
@@ -84,14 +91,12 @@ package body Libadalang.Config_Pragmas is
    -------------------------
 
    function Import_From_Project
-     (Context    : Analysis_Context;
-      Project    : Project_Tree'Class;
-      Subproject : Project_Type := No_Project) return Config_Pragmas_Mapping
+     (Context : Analysis_Context;
+      Tree    : Any_Tree;
+      View    : Any_View) return Config_Pragmas_Mapping
    is
-
       function Fetch
-        (Subproject : Project_Type;
-         Attr       : Attribute_Pkg_String) return Analysis_Unit;
+        (View : Any_View; Attr : GPR_Utils.Any_Attribute) return Analysis_Unit;
       --  Return the analysis unit corresponding to the configuration pragmas
       --  file mentioned in the given project attribute, or
       --  ``No_Analysis_Unit`` if there is no such attribute.
@@ -101,14 +106,12 @@ package body Libadalang.Config_Pragmas is
       -----------
 
       function Fetch
-        (Subproject : Project_Type;
-         Attr       : Attribute_Pkg_String) return Analysis_Unit
+        (View : Any_View; Attr : GPR_Utils.Any_Attribute) return Analysis_Unit
       is
          --  First fetch the attribute: if absent, there is no configuration
          --  pragmas file to read.
 
-         Filename : constant String :=
-           Subproject.Attribute_Value (Attr, Use_Extended => False);
+         Filename : constant String := Value (View, Attr);
       begin
          if Filename = "" then
             return No_Analysis_Unit;
@@ -122,61 +125,105 @@ package body Libadalang.Config_Pragmas is
             Full_Name : constant String :=
               (if Is_Absolute_Path (Filename)
                then Filename
-               else (+Subproject.Project_Path.Dir_Name) & "/" & Filename);
+               else Dir_Name (View) & "/" & Filename);
          begin
             return Context.Get_From_File (Full_Name);
          end;
       end Fetch;
 
-      It      : Project_Iterator;
-      P       : Project_Type;
-      Pragmas : Analysis_Unit;
-      Files   : File_Array_Access;
-
    begin
       return Result : Config_Pragmas_Mapping do
 
-         --  Use the global configuration pragmas file in ``Project``, if
-         --  present, to apply to all source files we'll find.
+         --  Use the global configuration pragmas file in ``Tree``, if present,
+         --  to apply to all source files we'll find.
 
          Result.Global_Pragmas :=
-           Fetch (Project.Root_Project, Global_Pragmas_Attribute);
+           Fetch (Root (Tree),
+                  Attributes.Global_Pragmas_Attribute (Tree.Kind));
 
-         --  Iterate on all projects available from ``Project`` to locate all
+         --  Iterate on all projects available from ``Tree`` to locate all
          --  local configuration pragmas files.
 
-         It :=
-           (if Subproject = No_Project
-            then Project.Root_Project.Start
-            else Subproject.Start);
-         loop
-            P := Current (It);
-            exit when P = No_Project;
+         declare
+            Pragmas : Analysis_Unit;
+            --  Local configuration pragmas file for the view processed in
+            --  ``Process_View``.
 
-            --  Do not process extended projects, as for each visited project
-            --  we analyze all its source files (i.e. including the sources of
-            --  the project it extends).
+            procedure Process_View (View : Any_View);
+            --  Extract local configuration pragmas information from ``Self``
+            --  into ``Result.Local_Pragmas``.
 
-            if Extending_Project (P) = No_Project then
+            procedure Associate
+              (Unit_Name : String;
+               Unit_Part : Any_Unit_Part;
+               Filename  : String);
+            --  Callback for ``Iterate_Ada_Units``. Add a ``Unit -> Pragmas``
+            --  mapping to ``Result.Local_Pragmas``, with ``Unit`` being the
+            --  analysis unit corresponding to ``Filename``.
+
+            ------------------
+            -- Process_View --
+            ------------------
+
+            procedure Process_View (View : Any_View) is
+            begin
+               --  Do not process extended projects, as for each visited
+               --  project we analyze all its source files (i.e. including the
+               --  sources of the project it extends).
+
+               if Is_Extended (View) then
+                  return;
+               end if;
 
                --  Add source files to ``Result.Local_Pragmas`` iff we have
                --  local pragmas for them.
 
-               Pragmas := Fetch (P, Local_Pragmas_Attribute);
+               Pragmas := Fetch
+                 (View, Attributes.Local_Pragmas_Attribute (Tree.Kind));
                if Pragmas /= No_Analysis_Unit then
-                  Files := P.Extended_Projects_Source_Files;
-                  for F of Files.all loop
-                     Result.Local_Pragmas.Include
-                       (Context.Get_From_File (+F.Full_Name), Pragmas);
-                  end loop;
-                  Unchecked_Free (Files);
+                  Iterate_Ada_Units
+                    (Tree, View, Associate'Access, Recursive => False);
                end if;
-            end if;
+            end Process_View;
 
-            Next (It);
-         end loop;
+            ---------------
+            -- Associate --
+            ---------------
 
+            procedure Associate
+              (Unit_Name : String;
+               Unit_Part : Any_Unit_Part;
+               Filename  : String)
+            is
+               pragma Unreferenced (Unit_Name, Unit_Part);
+            begin
+               Result.Local_Pragmas.Include
+                 (Context.Get_From_File (Filename), Pragmas);
+            end Associate;
+
+         begin
+            Iterate
+              (Self    => (if View = No_View (Tree)
+                           then Root (Tree)
+                           else View),
+               Process => Process_View'Access);
+         end;
       end return;
+   end Import_From_Project;
+
+   -------------------------
+   -- Import_From_Project --
+   -------------------------
+
+   function Import_From_Project
+     (Context    : Analysis_Context;
+      Project    : Project_Tree'Class;
+      Subproject : Project_Type := No_Project) return Config_Pragmas_Mapping is
+   begin
+      return Import_From_Project
+        (Context,
+         (Kind => GPR1_Kind, GPR1_Value => Project'Unrestricted_Access),
+         (Kind => GPR1_Kind, GPR1_Value => Subproject));
    end Import_From_Project;
 
    -------------------------
@@ -191,5 +238,48 @@ package body Libadalang.Config_Pragmas is
       Set_Mapping
         (Context, Import_From_Project (Context, Project, Subproject));
    end Import_From_Project;
+
+   -------------------------
+   -- Import_From_Project --
+   -------------------------
+
+   function Import_From_Project
+     (Context : Analysis_Context;
+      Tree    : GPR2.Project.Tree.Object;
+      View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
+      return Config_Pragmas_Mapping is
+   begin
+      return Import_From_Project
+        (Context,
+         (Kind => GPR2_Kind, GPR2_Value => Tree.Reference),
+         (Kind => GPR2_Kind, GPR2_Value => View));
+   end Import_From_Project;
+
+   -------------------------
+   -- Import_From_Project --
+   -------------------------
+
+   procedure Import_From_Project
+     (Context : Analysis_Context;
+      Tree    : GPR2.Project.Tree.Object;
+      View    : GPR2.Project.View.Object := GPR2.Project.View.Undefined) is
+   begin
+      Set_Mapping (Context, Import_From_Project (Context, Tree, View));
+   end Import_From_Project;
+
+   ----------
+   -- Dump --
+   ----------
+
+   procedure Dump (Mapping : Config_Pragmas_Mapping) is
+      use Unit_Maps;
+   begin
+      Put_Line ("Global pragmas at: " & Mapping.Global_Pragmas.Get_Filename);
+      Put_Line ("Local pragmas:");
+      for Cur in Mapping.Local_Pragmas.Iterate loop
+         Put_Line ("  " & Key (Cur).Get_Filename);
+         Put_Line ("    -> " & Element (Cur).Get_Filename);
+      end loop;
+   end Dump;
 
 end Libadalang.Config_Pragmas;

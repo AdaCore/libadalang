@@ -62,6 +62,18 @@ package body Libadalang.GPR_Utils is
       end case;
    end Name;
 
+   --------------
+   -- Dir_Name --
+   --------------
+
+   function Dir_Name (Self : Any_View) return String is
+   begin
+      case Self.Kind is
+      when GPR1_Kind => return +Self.GPR1_Value.Project_Path.Dir_Name;
+      when GPR2_Kind => return String (Self.GPR2_Value.Dir_Name.Value);
+      end case;
+   end Dir_Name;
+
    -------------
    -- Iterate --
    -------------
@@ -180,6 +192,21 @@ package body Libadalang.GPR_Utils is
       return Result;
    end Aggregated_Projects;
 
+   -----------------
+   -- Is_Extended --
+   -----------------
+
+   function Is_Extended (Self : Any_View) return Boolean is
+      use type GPR1.Project_Type;
+   begin
+      case Self.Kind is
+      when GPR1_Kind =>
+         return Self.GPR1_Value.Extending_Project /= GPR1.No_Project;
+      when GPR2_Kind =>
+         return Self.GPR2_Value.Is_Extended;
+      end case;
+   end Is_Extended;
+
    ----------------
    -- Object_Dir --
    ----------------
@@ -194,6 +221,27 @@ package body Libadalang.GPR_Utils is
       end case;
    end Object_Dir;
 
+   -----------
+   -- Value --
+   -----------
+
+   function Value (Self : Any_View; Attribute : Any_Attribute) return String is
+   begin
+      case Self.Kind is
+      when GPR1_Kind =>
+         return Self.GPR1_Value.Attribute_Value
+                  (Attribute.GPR1_String_Value.all);
+
+      when GPR2_Kind =>
+         declare
+            Attr : constant GPR2.Project.Attribute.Object :=
+              Self.GPR2_Value.Attribute (Attribute.GPR2_Value);
+         begin
+            return (if Attr.Is_Defined then Attr.Value.Text else "");
+         end;
+      end case;
+   end Value;
+
    -------------
    -- Indexes --
    -------------
@@ -205,7 +253,8 @@ package body Libadalang.GPR_Utils is
       when GPR1_Kind =>
          declare
             Indexes : String_List :=
-              Self.GPR1_Value.Attribute_Indexes (Attribute.GPR1_Value.all);
+              Self.GPR1_Value.Attribute_Indexes
+                (Attribute.GPR1_List_Value.all);
          begin
             return Result : XString_Array (Indexes'Range) do
                for I in Result'Range loop
@@ -245,7 +294,7 @@ package body Libadalang.GPR_Utils is
          declare
             Values : String_List_Access :=
               Self.GPR1_Value.Attribute_Value
-                (Attribute.GPR1_Value.all, Index);
+                (Attribute.GPR1_List_Value.all, Index);
          begin
             if Values = null then
                return (1 .. 0 => <>);
@@ -320,11 +369,12 @@ package body Libadalang.GPR_Utils is
    -----------------------
 
    procedure Iterate_Ada_Units
-     (Tree    : Any_Tree;
-      View    : Any_View;
-      Process : access procedure (Unit_Name : String;
-                                  Unit_Part : Any_Unit_Part;
-                                  Filename  : String)) is
+     (Tree      : Any_Tree;
+      View      : Any_View;
+      Process   : access procedure (Unit_Name : String;
+                                    Unit_Part : Any_Unit_Part;
+                                    Filename  : String);
+      Recursive : Boolean := True) is
    begin
       case Tree.Kind is
       when GPR1_Kind =>
@@ -332,7 +382,9 @@ package body Libadalang.GPR_Utils is
             use type GPR1.Project_Type;
 
             Sources : File_Array_Access :=
-              View.GPR1_Value.Source_Files (Recursive => True);
+              (if Recursive
+               then View.GPR1_Value.Source_Files (Recursive => True)
+               else View.GPR1_Value.Extended_Projects_Source_Files);
             Set     : GPR1.File_Info_Set;
             FI      : GPR1.File_Info;
          begin
@@ -407,11 +459,17 @@ package body Libadalang.GPR_Utils is
                end loop;
             end Process_Wrapper;
          begin
-            Tree.GPR2_Value.For_Each_Source
-              (View             => View.GPR2_Value,
-               Action           => Process_Wrapper'Access,
-               Language         => GPR2.Ada_Language,
-               Externally_Built => True);
+            if Recursive then
+               Tree.GPR2_Value.For_Each_Source
+                 (View             => View.GPR2_Value,
+                  Action           => Process_Wrapper'Access,
+                  Language         => GPR2.Ada_Language,
+                  Externally_Built => True);
+            else
+               for S of View.GPR2_Value.Sources loop
+                  Process_Wrapper (S);
+               end loop;
+            end if;
          end;
       end case;
    end Iterate_Ada_Units;

@@ -1,10 +1,15 @@
 --  Check that ``Libadalang.Config_Pragmas.Import_From_Project`` works as
 --  expected on various project setups.
 
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Text_IO;             use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
+with GPR2.Context;
+with GPR2.Path_Name;
+with GPR2.Project.Tree;
+with GPR2.Project.View;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
@@ -50,6 +55,8 @@ procedure Projects is
       Prj : Project_Tree;
       P   : Project_Type;
       It  : Project_Iterator;
+
+      Mapping : Config_Pragmas_Mapping;
    begin
       Put_Line ("## " & Root_Project);
       if Project /= "" then
@@ -65,7 +72,36 @@ procedure Projects is
       P := (if Project = ""
             then No_Project
             else Prj.Project_From_Name (Project));
-      Import_From_Project (Ctx, Prj, P);
+      Mapping := Import_From_Project (Ctx, Prj, P);
+      Set_Mapping (Ctx, Mapping);
+
+      --  Make sure we get the same mapping when loading from a GPR2 project
+
+      declare
+         Tree         : GPR2.Project.Tree.Object;
+         View         : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+         GPR2_Mapping : Config_Pragmas_Mapping;
+      begin
+         Tree.Load_Autoconf
+           (Filename => GPR2.Path_Name.Create_File
+                          (GPR2.Filename_Type (Root_Project),
+                           GPR2.Path_Name.No_Resolution),
+            Context  => GPR2.Context.Empty);
+         if Project /= "" then
+            for V of Tree.Ordered_Views loop
+               if To_Lower (String (V.Name)) = To_Lower (Project) then
+                  View := V;
+               end if;
+            end loop;
+            pragma Assert (View.Is_Defined);
+         end if;
+
+         GPR2_Mapping := Import_From_Project (Ctx, Tree, View);
+         if Mapping /= GPR2_Mapping then
+            Dump (GPR2_Mapping);
+            raise Program_Error with "inconsistent results from GPR2";
+         end if;
+      end;
 
       --  Now check the configuration pragmas for all sources in the project
       --  tree.

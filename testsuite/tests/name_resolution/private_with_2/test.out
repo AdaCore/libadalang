@@ -1,0 +1,53 @@
+Analyzing pkg.adb
+#################
+
+Resolving xrefs for node <ObjectDecl ["Y"] pkg.adb:3:7-3:28>
+************************************************************
+
+Expr: <DottedName pkg.adb:3:11-3:16>
+  references:    <DefiningName "T" foo.ads:2:9-2:10>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" pkg.adb:3:11-3:14>
+  references:    <DefiningName "Foo" foo.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "T" pkg.adb:3:15-3:16>
+  references:    <DefiningName "T" foo.ads:2:9-2:10>
+  type:          None
+  expected type: None
+Expr: <DottedName pkg.adb:3:20-3:27>
+  references:    <DefiningName "Get" foo.ads:4:13-4:16>
+  type:          <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+Expr: <Id "Foo" pkg.adb:3:20-3:23>
+  references:    <DefiningName "Foo" foo.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Get" pkg.adb:3:24-3:27>
+  references:    <DefiningName "Get" foo.ads:4:13-4:16>
+  type:          <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+
+Resolving xrefs for node <AssignStmt pkg.adb:12:10-12:23>
+*********************************************************
+
+Expr: <Id "X" pkg.adb:12:10-12:11>
+  references:    <DefiningName "X" pkg.ads:9:7-9:8>
+  type:          <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+  expected type: None
+Expr: <DottedName pkg.adb:12:15-12:22>
+  references:    <DefiningName "Get" foo.ads:4:13-4:16>
+  type:          <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+Expr: <Id "Foo" pkg.adb:12:15-12:18>
+  references:    <DefiningName "Foo" foo.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Get" pkg.adb:12:19-12:22>
+  references:    <DefiningName "Get" foo.ads:4:13-4:16>
+  type:          <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+  expected type: <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+
+
+Done.

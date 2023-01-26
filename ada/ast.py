@@ -1061,7 +1061,7 @@ class AdaNode(ASTNode):
         """
         return self_cu.decl.cast(BasePackageDecl).then(
             # This only makes sense if we are in a package declaration
-            lambda pkg: Or(
+            lambda _: Or(
                 # If we are in its private part, we necessarily have
                 # visibility on a with clause, be it private or not.
                 Self.parents.any(lambda n: n.is_a(PrivatePart)),
@@ -1078,7 +1078,8 @@ class AdaNode(ASTNode):
         )
 
     @langkit_property(return_type=Bool)
-    def has_with_visibility(refd_unit=AnalysisUnit):
+    def has_with_visibility(refd_unit=AnalysisUnit,
+                            omit_privacy_check=(T.Bool, False)):
         """
         Return whether Self's unit has ``with visibility`` on ``refd_unit``.
 
@@ -1090,7 +1091,8 @@ class AdaNode(ASTNode):
             Self.unit == refd_unit,
 
             refd_unit.is_referenced_from(Self.unit)
-            & Self.has_private_with_visibility(cu, refd_unit),
+            & (omit_privacy_check
+               | Self.has_private_with_visibility(cu, refd_unit)),
 
             Self.parent_unit_env(
                 # Here we go and explicitly grab the top level item, rather
@@ -1098,7 +1100,13 @@ class AdaNode(ASTNode):
                 # can be at the top level but semantically belong to the env of
                 # the top level item.
                 cu.decl.children_env
-            ).env_node._.has_with_visibility(refd_unit),
+            ).env_node._.has_with_visibility(
+                refd_unit,
+
+                # A child unit necessarily has view on the private part of its
+                # parent unit, so we should not discard "private with"s.
+                omit_privacy_check=True
+            ),
 
             # With clauses from a library level subprogram declaration are
             # visible by its corresponding body. Since the decl is not the
@@ -1110,7 +1118,10 @@ class AdaNode(ASTNode):
                     b.defining_name.referenced_unit(
                         UnitSpecification, not_found_is_error=False
                     ).then(
-                        lambda u: u.root._.has_with_visibility(refd_unit)
+                        lambda u: u.root._.has_with_visibility(
+                            refd_unit,
+                            omit_privacy_check=True
+                        )
                     ),
                     False
                 )

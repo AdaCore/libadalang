@@ -1508,14 +1508,15 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True)
     def env_get_real_from_node(from_node=T.AdaNode):
         """
-        Static property. Finds the closest BasicSubpDecl / BaseSubpBody /
-        GenericInstantiation. Is used by env_get and env_get_first wrappers to
-        implement correct visibility rules for those. See documentation on
-        those properties.
+        Static property. Finds the closest parent which is a ``BaseSubpSpec`` /
+        ``GenericInstantiation`` / ``ComponentDecl``. Is used by ``env_get``
+        to implement correct visibility rules for those. See documentation on
+        that property.
         """
         return If(from_node.is_null, from_node, Let(
             lambda c=from_node.parents.find(
-                lambda n: n.is_a(T.GenericInstantiation, T.BaseSubpSpec)
+                lambda n: n.is_a(T.GenericInstantiation, T.BaseSubpSpec,
+                                 T.ComponentDecl)
             ): Cond(
                 c.is_null,
                 from_node,
@@ -1612,10 +1613,10 @@ class AdaNode(ASTNode):
     ):
         """
         Wrapper for ``env.get``. Refines the results so that Ada visibility
-        rules for subprogram specifications and generic instantiations are
-        correctly handled: names inside the two aforementioned constructs do
-        not have visibility on their enclosing declaration, such that the
-        following is legal:
+        rules for subprogram specifications, generic instantiations and
+        component declarations are correctly handled: names inside the three
+        aforementioned constructs do not have visibility on their enclosing
+        declaration, such that the following is legal:
 
         .. code:: ada
 
@@ -1625,6 +1626,17 @@ class AdaNode(ASTNode):
         Here, calling ``env_get("T")`` in the subp spec of subprogram ``T``
         must not return the subprogram ``T`` itself, because according to Ada
         the subprogram is not yet visible.
+
+        Likewise, in the following snippet:
+
+        .. code:: ada
+
+            type Rec is record
+                Set : access Set.T;
+            end record;
+
+        Calling ``env_get("Set")`` inside the type expression of the component
+        should not include the ``ComponentDecl`` itself in the result.
         """
         real_from_node = Var(Self.env_get_real_from_node(from_node))
         results = Var(env.get(symbol, lookup, real_from_node, categories))

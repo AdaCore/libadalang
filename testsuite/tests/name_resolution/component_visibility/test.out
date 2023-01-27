@@ -1,0 +1,33 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:14:4-14:17>
+*********************************************************
+
+Expr: <DottedName test.adb:14:4-14:11>
+  references:    <DefiningName "X" test.adb:4:10-4:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName test.adb:14:4-14:9>
+  references:    <DefiningName "Set" test.adb:9:7-9:10>
+  type:          <AnonymousTypeDecl ["None"] test.adb:9:13-9:25>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:3:7-5:18>
+Expr: <Id "X" test.adb:14:4-14:5>
+  references:    <DefiningName "X" test.adb:12:4-12:5>
+  type:          <ConcreteTypeDecl ["Rec"] test.adb:8:4-10:15>
+  expected type: <ConcreteTypeDecl ["Rec"] test.adb:8:4-10:15>
+Expr: <Id "Set" test.adb:14:6-14:9>
+  references:    <DefiningName "Set" test.adb:9:7-9:10>
+  type:          <AnonymousTypeDecl ["None"] test.adb:9:13-9:25>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:3:7-5:18>
+Expr: <Id "X" test.adb:14:10-14:11>
+  references:    <DefiningName "X" test.adb:4:10-4:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int test.adb:14:15-14:16>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

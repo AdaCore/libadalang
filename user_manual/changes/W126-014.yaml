@@ -1,0 +1,18 @@
+type: bugfix
+title: Fix visibility rules inside component decls
+description: |
+    This change fixes an issue caused by the previous visibility rules inside
+    component decls being too permissive. For example in the snippet below:
+
+    .. code:: ada
+
+        type Rec is record
+            Set : access Set.T;
+        end record;
+
+    Libadalang used to be confused when resolving the reference to ``Set``
+    because of the enclosing component having the same name, causing infinite
+    recursions leading to stack overflows. This change fixes that issue by
+    discarding the enclosing component when looking up names from one of its
+    child nodes.
+date: 2023-01-27

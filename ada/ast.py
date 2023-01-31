@@ -2584,13 +2584,11 @@ class BasicDecl(AdaNode):
                                 " visibility checks for now.")
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def subp_decl_match_signature(other=T.BasicDecl.entity):
-        return (
-            Entity.subp_spec_or_null.match_signature(
-                other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
-                False
-            )
+        return Entity.subp_spec_or_null.match_signature(
+            other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
+            False
         )
 
     @langkit_property(return_type=T.BasicDecl.entity.array,
@@ -2646,12 +2644,12 @@ class BasicDecl(AdaNode):
                 # `primitive_real_type` are set and therefore
                 # the following `match_signature` call will return
                 # true if `s` is overridable by `spec`.
-                s.match_signature(
+                origin.bind(s.origin_node, s.match_signature(
                     spec,
                     match_name=False,
                     use_entity_info=True,
                     ignore_first_param=task_or_protected
-                )
+                ))
             )
         ).unique
 
@@ -2780,9 +2778,12 @@ class BasicDecl(AdaNode):
                             p.info.md.primitive == t.node,
 
                             # overrides Self
-                            base_p.subp_spec_or_null.match_signature(
-                                p.subp_spec_or_null,
-                                match_name=False, use_entity_info=True
+                            origin.bind(
+                                base_p.origin_node,
+                                base_p.subp_spec_or_null.match_signature(
+                                    p.subp_spec_or_null,
+                                    match_name=False, use_entity_info=True
+                                )
                             )
                         )
                     ).map(
@@ -3729,20 +3730,24 @@ class Body(BasicDecl):
                     # subprogram.
                     lambda _=T.FormalSubpDecl: False,
 
-                    lambda subp_decl=T.BasicSubpDecl:
-                    subp_decl.subp_decl_spec.match_signature(
-                        Entity.subp_spec_or_null.cast(T.SubpSpec), True,
-                        # We set use_entity_info to False so as to not match
-                        # base subprograms.
-                        use_entity_info=False
+                    lambda subp_decl=T.BasicSubpDecl: origin.bind(
+                        Self.origin_node,
+                        subp_decl.subp_decl_spec.match_signature(
+                            Entity.subp_spec_or_null.cast(T.SubpSpec), True,
+                            # We set use_entity_info to False so as to not
+                            # match base subprograms.
+                            use_entity_info=False
+                        )
                     ),
 
-                    lambda subp_stub=T.SubpBodyStub:
-                    subp_stub.subp_spec.match_signature(
-                        Entity.subp_spec_or_null.cast(T.SubpSpec), True,
-                        # We set use_entity_info to False so as to not match
-                        # base subprograms.
-                        use_entity_info=False
+                    lambda subp_stub=T.SubpBodyStub: origin.bind(
+                        Self.origin_node,
+                        subp_stub.subp_spec.match_signature(
+                            Entity.subp_spec_or_null.cast(T.SubpSpec), True,
+                            # We set use_entity_info to False so as to not
+                            # match base subprograms.
+                            use_entity_info=False
+                        )
                     ),
 
                     lambda _: False
@@ -3773,9 +3778,10 @@ class Body(BasicDecl):
                 Not(sp.is_null),
                 Not(sp.node == Self),
                 sp.match(
-                    lambda entry_decl=T.EntryDecl:
-                    entry_decl.spec.match_formal_params(spec),
-
+                    lambda entry_decl=T.EntryDecl: origin.bind(
+                        Self.origin_node,
+                        entry_decl.spec.match_formal_params(spec)
+                    ),
                     lambda _: False
                 )
             )
@@ -4483,7 +4489,7 @@ class BaseFormalParamHolder(AdaNode):
             arg.matches_expected_formal_type
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def match_formal_params(other=T.BaseFormalParamHolder.entity,
                             match_names=(Bool, True),
                             ignore_first_param=(Bool, False)):
@@ -4501,20 +4507,18 @@ class BaseFormalParamHolder(AdaNode):
         ))
         other_params = Var(other.unpacked_formal_params)
 
-        self_types = Var(origin.bind(Self.origin_node, Entity.param_types))
-        other_types = Var(origin.bind(other.node.origin_node,
-                                      other.param_types))
+        self_types = Var(Entity.param_types)
+        other_types = Var(other.param_types)
         return And(
             self_params.length == other_params.length,
-            origin.bind(Self.origin_node, self_params.all(
-                lambda i, p:
+            self_params.all(lambda i, p: And(
                 Or(Not(match_names),
-                   p.name.matches(other_params.at(i).name.node))
-                & self_types.at(i)._.matching_type(other_types.at(i))
+                   p.name.matches(other_params.at(i).name.node)),
+                self_types.at(i)._.matching_type(other_types.at(i))
             ))
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def match_other(other=T.BaseFormalParamHolder.entity,
                     match_names=(Bool, True)):
         """
@@ -7373,12 +7377,15 @@ class TypeDecl(BaseTypeDecl):
                     # because it may cause infinite recursions if the parent
                     # type is declared in the same scope as Self.
                     Not(scope.parent.is_a(BasePackageDecl)),
-                    Self.as_bare_entity.parent_primitives_env.get(
-                        spec.name.name_symbol
-                    ).any(
-                        lambda x:
-                        x.cast(BasicDecl).subp_spec_or_null.match_signature(
-                            spec, match_name=False, use_entity_info=True
+                    origin.bind(
+                        spec.origin_node,
+                        Self.as_bare_entity.parent_primitives_env.get(
+                            spec.name.name_symbol
+                        ).any(
+                            lambda x: x.cast(BasicDecl).subp_spec_or_null
+                            .match_signature(spec,
+                                             match_name=False,
+                                             use_entity_info=True)
                         )
                     ),
                     True
@@ -7714,10 +7721,10 @@ class TypeDecl(BaseTypeDecl):
                     Not(a.defining_name.node.matches(b.defining_name.node)),
 
                     # If two primitives have the same signature...
-                    Not(a_spec.match_signature(
+                    origin.bind(b.origin_node, Not(a_spec.match_signature(
                         b.subp_spec_or_null,
                         match_name=False, use_entity_info=True
-                    )),
+                    ))),
 
                     Let(lambda b_prim_ent=b_prim.as_bare_entity: If(
                         # Test if the type of the first primitive (a) derives
@@ -9605,15 +9612,14 @@ class BasicSubpDecl(BasicDecl):
         elements = Var(
             env.get(Entity.name_symbol, LK.flat, categories=no_prims)
         )
-        precise = Var(elements.find(
+        self_spec = Var(Entity.subp_decl_spec.node.as_bare_entity)
+        precise = Var(origin.bind(self_spec.origin_node, elements.find(
             lambda ent:
             # Discard the rebindings of Entity before trying to match
             # against the tentative body, as those do not carry that info.
             ent.node.as_bare_entity.cast(T.Body)
-            ._.formal_param_holder_or_null.match_other(
-                Entity.subp_decl_spec.node.as_bare_entity, True
-            )
-        ).cast(T.Body))
+            ._.formal_param_holder_or_null.match_other(self_spec, True)
+        ).cast(T.Body)))
 
         result = Var(If(
             precise.is_null & imprecise_fallback,
@@ -11576,7 +11582,7 @@ class FormalSubpDecl(ClassicSubpDecl):
         ))
 
         # Search for the first subprogram that matches the instantiated profile
-        found = Var(subps.find(
+        found = Var(origin.bind(inst.origin_node, subps.find(
             lambda subp: subp.cast(BasicDecl).subp_spec_or_null.then(
                 lambda spec: actual_spec.match_signature(
                     other=spec,
@@ -11585,7 +11591,7 @@ class FormalSubpDecl(ClassicSubpDecl):
                     match_name=False
                 )
             )
-        ).cast(BasicDecl))
+        ).cast(BasicDecl)))
 
         # ``found`` can be null, for example when it is supposed to designate
         # a builtin operator.
@@ -17565,15 +17571,15 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Entity.params.map(lambda p: p.cast(BaseFormalParamDecl))
     )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def match_return_type(other=T.BaseSubpSpec.entity):
         # Check that the return type is the same. Caveat: it's not because
         # we could not find the canonical type that it is null!
         #
         # TODO: simplify this code when SubpSpec provides a kind to
         # distinguish functions and procedures.
-        self_ret = Var(origin.bind(Self.origin_node, Entity.return_type))
-        other_ret = Var(origin.bind(other.node.origin_node, other.return_type))
+        self_ret = Var(Entity.return_type)
+        other_ret = Var(other.return_type)
         return Or(
             And(Entity.returns.is_null, other.returns.is_null),
             And(
@@ -17583,7 +17589,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             )
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def match_signature(other=T.BaseSubpSpec.entity, match_name=Bool,
                         use_entity_info=(Bool, True),
                         ignore_first_param=(Bool, False)):
@@ -17615,15 +17621,14 @@ class BaseSubpSpec(BaseFormalParamHolder):
             ent.match_formal_params(other, match_name, ignore_first_param),
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def match_other(other=T.BaseFormalParamHolder.entity,
                     match_names=(Bool, True)):
         return Entity.match_signature(
             other.cast_or_raise(BaseSubpSpec), match_names
         )
 
-    @langkit_property(return_type=LexicalEnv,
-                      dynamic_vars=[origin])
+    @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
     def defining_env():
         """
         Helper for BasicDecl.defining_env.

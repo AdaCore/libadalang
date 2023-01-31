@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpRenamingDecl ["X"] test.adb:27:7-27:40>
+*********************************************************************
+
+Expr: <DottedName test.adb:27:36-27:39>
+  references:    <| DefiningName "X" test.adb:6:17-6:18 [test.adb:25:7] |>
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:27:36-27:37>
+  references:    <DefiningName "I" test.adb:25:15-25:16>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:27:38-27:39>
+  references:    <| DefiningName "X" test.adb:6:17-6:18 [test.adb:25:7] |>
+  type:          None
+  expected type: None
+
+
+Done.

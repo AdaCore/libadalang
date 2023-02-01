@@ -1,0 +1,107 @@
+Working on node <ObjectDecl ["NUL"] test.adb:2:4-2:33>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["SOH"] test.adb:4:4-4:33>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["US"] test.adb:6:4-6:31>
+=====================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 31
+
+Working on node <ObjectDecl ["DEL"] test.adb:8:4-8:33>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 127
+
+Working on node <ObjectDecl ["DEL_V"] test.adb:11:4-11:47>
+==========================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 127
+
+Working on node <ObjectDecl ["Hex_0000BEEF"] test.adb:13:4-13:70>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 48879
+
+Working on node <ObjectDecl ["Hex_1EEEBEEF"] test.adb:15:4-15:80>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 518962927
+
+Working on node <ObjectDecl ["Hex_7FFFFFFE"] test.adb:17:4-17:80>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2147483646
+
+Working on node <ObjectDecl ["Hex_7FFFFFFF"] test.adb:19:4-19:80>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2147483647
+
+Working on node <ObjectDecl ["Hex_7FFFFFFF"] test.adb:21:4-21:81>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2147483647
+
+Working on node <ObjectDecl ["First"] test.adb:24:4-24:41>
+==========================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["W_First"] test.adb:26:4-26:53>
+============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["W_W_First"] test.adb:28:4-28:65>
+==============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Last"] test.adb:30:4-30:39>
+=========================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 255
+
+Working on node <ObjectDecl ["W_Last"] test.adb:32:4-32:51>
+===========================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 65535
+
+Working on node <ObjectDecl ["W_W_Last"] test.adb:34:4-34:63>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2147483647
+
+Working on node <ObjectDecl ["Hex_80000000"] test.adb:37:4-37:81>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2147483648
+
+Working on node <ObjectDecl ["B"] test.adb:40:4-40:47>
+======================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1

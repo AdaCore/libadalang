@@ -63,6 +63,29 @@ package body Libadalang.Expr_Eval is
    --  Return ``Self`` as a Boolean, if it is indeed of type
    --  ``Standard.Boolean``.
 
+   function Is_Std_Char_Type (Node : LAL.Base_Type_Decl) return Boolean;
+   --  Return whether ``Node`` is a standard character type
+
+   ----------------------
+   -- Is_Std_Char_Type --
+   ----------------------
+
+   function Is_Std_Char_Type (Node : LAL.Base_Type_Decl) return Boolean is
+   begin
+      --  Note: The condition below was previously implemented with
+      --  a membership expression ``Node_Type in Std_Char_Type | ...``
+      --  but Ada specifies that the predefined `"="` operator must be
+      --  used in that case even if user-defined operator hides it.
+      --  However, the predefined operator is too strict for us in
+      --  this case: we want the comparison to discard irrelevant
+      --  metadata (like how the node was retrieved) and so need to
+      --  make sure the custom equality operators are called instead.
+
+      return (Node = Node.P_Std_Char_Type
+              or else Node = Node.P_Std_Wide_Char_Type
+              or else Node = Node.P_Std_Wide_Wide_Char_Type);
+   end Is_Std_Char_Type;
+
    ------------------------
    -- Create_Enum_Result --
    ------------------------
@@ -365,8 +388,41 @@ package body Libadalang.Expr_Eval is
                     (case A is
                      when Range_First => Lits.First_Child_Index,
                      when Range_Last  => Lits.Last_Child_Index);
+                  Char_Pos  : Natural;
                begin
-                  return Eval_Decl (Lits.Child (Lit_Index).As_Basic_Decl);
+                  if Is_Std_Char_Type (D.Parent.As_Base_Type_Decl) then
+                     --  Due to how we define the Character type in our
+                     --  artifical __standard unit (and its
+                     --  Wide_Character and Wide_Wide_Character
+                     --  variants), the 'First and 'Last attributes cannot
+                     --  return an Enum_Literal_Decl since they are not
+                     --  defined. In order to not fail the Eval_As_Int
+                     --  function, we return the corresponding Integer
+                     --  value instead.
+                     Char_Pos :=
+                       (case A is
+                        when Range_First =>
+                           Support.Text.Character_Type'Pos
+                           (Support.Text.Character_Type'First),
+                        when Range_Last  =>
+                          (if D.P_Std_Char_Type
+                              .As_Base_Type_Decl = D.Parent.As_Base_Type_Decl
+                           then
+                              Character'Pos (Character'Last)
+                           elsif D.P_Std_Wide_Char_Type
+                                 .As_Base_Type_Decl =
+                                 D.Parent.As_Base_Type_Decl
+                           then
+                              Wide_Character'Pos (Wide_Character'Last)
+                           else
+                              Support.Text.Character_Type'Pos
+                              (Support.Text.Character_Type'Last)));
+
+                     return Create_Int_Result (D.Parent.As_Base_Type_Decl,
+                                               Char_Pos);
+                  else
+                     return Eval_Decl (Lits.Child (Lit_Index).As_Basic_Decl);
+                  end if;
                end;
             when Ada_Decimal_Fixed_Point_Def =>
                declare
@@ -561,16 +617,39 @@ package body Libadalang.Expr_Eval is
                elsif Typ.P_Is_Enum_Type then
                   declare
                      Index : constant Integer :=
-                        To_Integer (Val.Int_Result) + 1;
+                        To_Integer (Val.Int_Result);
 
                      Enum_Val : Enum_Literal_Decl :=
                         No_Enum_Literal_Decl;
+
+                     Root_Type : constant LAL.Base_Type_Decl :=
+                        Typ.P_Root_Type;
                   begin
-                     if Index > 0 then
+                     if Index > -1 then
+                        if (Index <= Character'Pos (Character'Last)
+                            and then Root_Type = Typ.P_Std_Char_Type)
+                          or else (Index <= Wide_Character'Pos
+                                            (Wide_Character'Last)
+                                   and then Root_Type =
+                                            Typ.P_Std_Wide_Char_Type)
+                          or else Root_Type = Typ.P_Std_Wide_Wide_Char_Type
+                          --  Do not need to check for Wide_Wide_Character'Last
+                          --  here, a runtime exception will be raised if Index
+                          --  is out of range.
+                        then
+                           --  Due to how we define the Character type in our
+                           --  artifical __standard unit (and its
+                           --  Wide_Character and Wide_Wide_Character
+                           --  variants), the 'Val attribute cannot return an
+                           --  Enum_Literal_Decl since they are not defined. In
+                           --  order to not fail the Eval_As_Int function, we
+                           --  return the corresponding Integer value instead.
+                           return Create_Int_Result (Typ, Val.Int_Result);
+                        end if;
+
                         Enum_Val := Child
-                          (Typ.P_Root_Type.As_Type_Decl.F_Type_Def
-                           .As_Enum_Type_Def.F_Enum_Literals,
-                           Index).As_Enum_Literal_Decl;
+                           (Root_Type.As_Type_Decl.F_Type_Def.As_Enum_Type_Def
+                            .F_Enum_Literals, Index + 1).As_Enum_Literal_Decl;
                      end if;
 
                      if Enum_Val.Is_Null then
@@ -619,18 +698,6 @@ package body Libadalang.Expr_Eval is
                Char      : constant LAL.Char_Literal := E.As_Char_Literal;
                Node_Type : constant LAL.Base_Type_Decl :=
                   Char.P_Expression_Type.P_Root_Type;
-
-               --  Fetch the standard character types
-
-               Std_Char_Type : constant LAL.Base_Type_Decl :=
-                  Char.P_Std_Entity (+"Character").As_Base_Type_Decl;
-
-               Std_Wide_Char_Type : constant LAL.Base_Type_Decl :=
-                  Char.P_Std_Entity (+"Wide_Character").As_Base_Type_Decl;
-
-               Std_Wide_Wide_Char_Type : constant LAL.Base_Type_Decl :=
-                  Char.P_Std_Entity
-                    (+"Wide_Wide_Character").As_Base_Type_Decl;
             begin
                --  A character literal is an enum value like any other and so
                --  its value should be its position in the enum. However, due
@@ -639,18 +706,7 @@ package body Libadalang.Expr_Eval is
                --  variants (Wide_Character, etc.) as they are not defined in
                --  their exact shape. We must therefore implement a specific
                --  path to handle them here.
-               --  Note: The condition below was previously implemented with
-               --  a membership expression ``Node_Type in Std_Char_Type | ...``
-               --  but Ada specifies that the predefined `"="` operator must be
-               --  used in that case even if user-defined operator hides it.
-               --  However, the predefined operator is too strict for us in
-               --  this case: we want the comparison to discard irrelevant
-               --  metadata (like how the node was retrieved) and so need to
-               --  make sure the custom equality operators are called instead.
-               if Node_Type = Std_Char_Type
-                  or else Node_Type = Std_Wide_Char_Type
-                  or else Node_Type = Std_Wide_Wide_Char_Type
-               then
+               if Is_Std_Char_Type (Node_Type) then
                   --  Note that Langkit_Support's Character_Type is a
                   --  Wide_Wide_Character which can therefore also be used to
                   --  handle the Character and Wide_Character types.

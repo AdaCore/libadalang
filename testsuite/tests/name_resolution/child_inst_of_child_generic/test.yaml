@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [my_pkg-my_child_pkg.ads, my_pkg-my_child_subp.ads]

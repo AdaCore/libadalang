@@ -1531,6 +1531,13 @@ class AdaNode(ASTNode):
                 c.is_null,
                 from_node,
 
+                # A generic instantiation may have referenced environments,
+                # therefore we don't want the lookup origin to be done on
+                # the instantiation node directly, otherwise these references
+                # will not be visited, as they won't be considered reachable.
+                c.is_a(GenericInstantiation),
+                c.cast(GenericInstantiation).as_bare_entity.defining_name.node,
+
                 c.is_a(BaseSubpSpec),
                 c.cast(BaseSubpSpec).as_bare_entity.name.node,
 
@@ -1652,20 +1659,27 @@ class AdaNode(ASTNode):
         results = Var(env.get(symbol, lookup, real_from_node, categories))
 
         # Fetch the BasicDecl corresponding to ``real_from_node``, so that
-        # we can filter it out from ``results``.
-        enclosing_bd = Var(real_from_node.cast(BasicDecl)._or(
-            real_from_node.cast(DefiningName).then(
-                lambda name: name.parent.parent.cast(BasicDecl)
-            )
-        ))
-
-        return If(
-            # If ``symbol`` corresponds to the name of the enclosing
-            # subprogram or instantiation, then filter it out, as we
-            # should not have visibility on it yet.
-            enclosing_bd.as_bare_entity._.defining_name._.name_is(symbol),
+        # we can filter it out from ``results`` if its name matches the symbol
+        # on which we want to perform an env lookup.
+        return real_from_node._.match(
+            lambda bd=BasicDecl: If(
+                bd.as_bare_entity.defining_name._.name_is(symbol),
+                bd,
+                No(BasicDecl)
+            ),
+            lambda dn=DefiningName: If(
+                dn.name_is(symbol),
+                dn.as_bare_entity.basic_decl.node,
+                No(BasicDecl)
+            ),
+            lambda _: No(BasicDecl)
+        ).then(
+            lambda enclosing_bd:
+            # We found that our enclosing basic decl's defining name matches
+            # the symbol on which we are doing an env lookup: filter it out
+            # of the `results` array since it cannot be legal Ada.
             results.filter(lambda r: r.node != enclosing_bd),
-            results
+            default_val=results
         )
 
     @langkit_property()
@@ -10984,6 +10998,47 @@ class GenericInstantiation(BasicDecl):
             )
         )
 
+    @langkit_property(return_type=T.LexicalEnv)
+    def parent_instantiation_env():
+        """
+        Return the defining environment of the parent of this generic package
+        instantiation , if it has one. This is used by child package
+        instantiation to create a reference env to their parent. To see why
+        this is needed, consider the following snippet:
+
+        .. code::
+
+            -- pkg_g.ads
+            generic package Pkg_G is end Pkg_G;
+
+            -- pkg_g-child_g.ads
+            generic package Pkg_G.Child_G is end Pkg_G.Child_G;
+
+            -- my_pkg.ads
+            package My_Pkg is new Pkg_G;
+
+            -- my_pkg-my_child.ads
+            package My_Pkg.My_Child is new Child_G;
+
+        In the env spec of the last instantiation, we have to set the parent
+        env of ``My_Child`` to be the ``My_Pkg`` instantiation node. However,
+        this does not give us visibility on the instantiat*ed* package
+        ``Pkg_G [My_Pkg]``, which we need in order to resolve the following
+        non-prefixed reference to ``Child_G``. Therefore, we must explicitly
+        create a reference from ``My_Pkg.My_Child`` to ``Pkg_G [My_Pkg]`` in
+        order to gain visibility on ``Child_G [My_Pkg]``.
+        """
+        return Entity.defining_name.name.cast(DottedName)._.prefix.then(
+            lambda parent_name: origin.bind(
+                Self,
+                env.bind(
+                    Entity.children_env,
+                    parent_name.designated_env_no_overloading
+                )
+            ),
+            default_val=Self.empty_env
+        )
+
     xref_entry_point = Property(True)
 
     xref_equation = Property(
@@ -11071,6 +11126,11 @@ class GenericInstantiation(BasicDecl):
         reference(
             Self.top_level_use_type_clauses,
             through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.cast(AdaNode).singleton,
+            through=T.GenericInstantiation.parent_instantiation_env,
             cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
         )
     )

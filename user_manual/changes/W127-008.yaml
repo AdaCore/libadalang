@@ -1,0 +1,25 @@
+type: bugfix
+title: Visibility of child instantiations on their parent
+description: |
+    This change fixes a bug where child package or subprogram instantiations
+    would not have correct visibility on their parent if their parent was a
+    package instantiation itself. Consider the following package declarations:
+
+    .. code::
+
+        -- pkg_g.ads
+        generic package Pkg_G is end Pkg_G;
+
+        -- pkg_g-child_g.ads
+        generic package Pkg_G.Child_G is end Pkg_G.Child_G;
+
+        -- my_pkg.ads
+        package My_Pkg is new Pkg_G;
+
+        -- my_pkg-my_child.ads
+        package My_Pkg.My_Child is new Child_G;
+
+    Libadalang previously failed to resolve the last instantiation because
+    it did not have visibility on ``Child_G``. (Note however that it correctly
+    resolved it if ``Child_G`` was qualified with ``My_Pkg.Child_G``).
+date: 2023-02-03

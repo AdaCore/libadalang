@@ -4,5 +4,6 @@ input_sources:
     - gen_cmp.adb
     - gen_use.adb
     - gen_pragma.adb
+    - gen_incomplete.adb
     - test.adb
     - what.adb

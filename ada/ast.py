@@ -11040,7 +11040,7 @@ class GenericInstantiation(BasicDecl):
                     actual=No(Expr.entity)
                 ).singleton,
                 lambda t=GenericFormalTypeDecl: ParamActual.new(
-                    param=t.decl.cast(TypeDecl).name,
+                    param=t.decl.cast(BaseTypeDecl).name,
                     actual=No(Expr.entity)
                 ).singleton,
                 lambda o=GenericFormalObjDecl:

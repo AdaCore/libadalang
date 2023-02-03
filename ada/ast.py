@@ -11034,6 +11034,47 @@ class GenericInstantiation(BasicDecl):
         )
     )
 
+    @langkit_property(return_type=T.Symbol)
+    def initial_env_name():
+        return If(
+            Self.is_library_item,
+            Self.child_decl_initial_env_name,
+            No(T.Symbol)
+        )
+
+    @langkit_property(return_type=T.Symbol.array)
+    def env_names():
+        return Self.top_level_env_name.then(
+            lambda fqn: fqn.to_symbol.singleton
+        )
+
+    env_spec = EnvSpec(
+        do(Self.env_hook),
+
+        set_initial_env(
+            named_env(
+                Self.initial_env_name,
+                or_current=True
+            )
+        ),
+
+        add_to_env_kv(Entity.name_symbol, Self),
+
+        add_env(names=Self.env_names),
+
+        do(Self.populate_dependent_units),
+        reference(
+            Self.top_level_use_package_clauses,
+            through=T.Name.use_package_name_designated_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        ),
+        reference(
+            Self.top_level_use_type_clauses,
+            through=T.Name.name_designated_type_env,
+            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
+        )
+    )
+
     @langkit_property(public=True, return_type=ParamActual.array)
     def inst_params():
         """
@@ -11136,32 +11177,6 @@ class GenericSubpInstantiation(GenericInstantiation):
 
     designated_generic_decl = Property(
         Entity.designated_subp.parent.cast(T.BasicDecl)
-    )
-
-    env_spec = EnvSpec(
-        do(Self.env_hook),
-
-        set_initial_env(Self.child_decl_initial_env),
-
-        add_to_env_kv(
-            key=Entity.name_symbol,
-            value=Self
-        ),
-
-        add_env(),
-
-        do(Self.populate_dependent_units),
-
-        reference(
-            Self.top_level_use_package_clauses,
-            through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.top_level_use_type_clauses,
-            through=T.Name.name_designated_type_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        )
     )
 
 
@@ -11269,48 +11284,7 @@ class GenericPackageInstantiation(GenericInstantiation):
     def defining_env():
         return Entity.defining_env_impl
 
-    @langkit_property(return_type=T.Symbol)
-    def initial_env_name():
-        return If(
-            Self.is_library_item,
-            Self.child_decl_initial_env_name,
-            No(T.Symbol)
-        )
-
-    @langkit_property(return_type=T.Symbol.array)
-    def env_names():
-        return Self.top_level_env_name.then(
-            lambda fqn: fqn.to_symbol.singleton
-        )
-
     defining_names = Property(Entity.name.singleton)
-
-    env_spec = EnvSpec(
-        do(Self.env_hook),
-
-        set_initial_env(
-            named_env(
-                Self.initial_env_name,
-                or_current=True
-            )
-        ),
-
-        add_to_env_kv(Entity.name_symbol, Self),
-
-        add_env(names=Self.env_names),
-
-        do(Self.populate_dependent_units),
-        reference(
-            Self.top_level_use_package_clauses,
-            through=T.Name.use_package_name_designated_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        ),
-        reference(
-            Self.top_level_use_type_clauses,
-            through=T.Name.name_designated_type_env,
-            cond=Self.parent.is_a(T.LibraryItem, T.Subunit)
-        )
-    )
 
 
 class RenamingClause(AdaNode):

@@ -369,9 +369,10 @@ package body Libadalang.Helpers is
          end if;
 
          --  Use the default command line event handler. Forward the value of
-         --  the Exit_On_Missing_File command line option.
+         --  the Keep_Going_On_Missing_File command line option.
 
-         EH := Command_Line_Event_Handler (Args.Exit_On_Missing_File.Get);
+         EH := Command_Line_Event_Handler
+           (Args.Keep_Going_On_Missing_File.Get);
 
          Trace.Increase_Indent ("Setting up the unit provider");
          if Length (Args.Project_File.Get) > 0 then
@@ -659,8 +660,8 @@ package body Libadalang.Helpers is
 
       type Cmd_Line_Event_Handler_Type is new Event_Handler_Interface
       with record
-         Exit_On_Missing_File : Boolean;
-         --  Whether a missing file should make the App exit
+         Keep_Going_On_Missing_File : Boolean;
+         --  False if a missing file should make the App exit, True otherwise
 
          Already_Seen_Missing_Files : Files_Sets.Set;
          --  Set of source files for which we already warned that they are
@@ -719,12 +720,14 @@ package body Libadalang.Helpers is
             Self.Already_Seen_Missing_Files.Include (Filename);
 
             Print_Error
-              ((if Self.Exit_On_Missing_File then "ERROR: " else "WARNING: ")
+              ((if Self.Keep_Going_On_Missing_File
+                then "WARNING: "
+                else "ERROR: ")
                & "File "
                & Ada.Directories.Simple_Name (Image (Name))
                & " not found");
 
-            if Self.Exit_On_Missing_File then
+            if not Self.Keep_Going_On_Missing_File then
                GNAT.OS_Lib.OS_Exit (1);
             end if;
          end;
@@ -736,11 +739,11 @@ package body Libadalang.Helpers is
    --------------------------------
 
    function Command_Line_Event_Handler
-     (Exit_On_Missing_File : Boolean) return Event_Handler_Reference is
+     (Keep_Going_On_Missing_File : Boolean) return Event_Handler_Reference is
    begin
       return Create_Event_Handler_Reference
         (Cmd_Line_Event_Handler.Cmd_Line_Event_Handler_Type'
-          (Exit_On_Missing_File       => Exit_On_Missing_File,
+          (Keep_Going_On_Missing_File => Keep_Going_On_Missing_File,
            Already_Seen_Missing_Files => <>));
    end Command_Line_Event_Handler;
 

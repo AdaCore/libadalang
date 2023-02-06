@@ -31,11 +31,11 @@ tests = [
     Testcase("no_missing", ["no_missing.adb", "no_such_file.adb"]),
     Testcase(
         "missing_warn",
-        ["no_missing.adb", "missing.adb", "no_such_file.adb"],
+        ["-k", "no_missing.adb", "missing.adb", "no_such_file.adb"],
     ),
     Testcase(
         "missing_error",
-        ["-E", "no_missing.adb", "missing.adb", "no_such_file.adb"],
+        ["no_missing.adb", "missing.adb", "no_such_file.adb"],
     ),
 ]
 

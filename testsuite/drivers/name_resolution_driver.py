@@ -83,6 +83,10 @@ class NameResolutionDriver(BaseDriver):
             + os.environ.get("GPR_PROJECT_PATH", "").split(os.path.pathsep)
         )
 
+        # Some tests intentionally exercize cases with missing source files:
+        # let "navigate" warn about them, but keep it going (-k).
+        args.append("-k")
+
         # List of source files to process and unit provider
         input_sources = self.test_env.get("input_sources", [])
 

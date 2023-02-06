@@ -20,7 +20,7 @@ class InlinePlaygroundDriver(BaseDriver):
             )
         input_sources = self.test_env['input_sources']
 
-        args = list(input_sources)
+        args = ["-k"] + list(input_sources)
         if charset:
             args.insert(0, '--charset={}'.format(charset))
         if project_file:

@@ -38,7 +38,7 @@ procedure Navigate is
       use GNATCOLL.Opt_Parse;
 
       package Kinds is new Parse_Option
-        (App.Args.Parser, "-k", "--kinds",
+        (App.Args.Parser, "-K", "--kinds",
          "Comma-separated list of AST node kind names, like"
          & " ""Ada_Subp_Body,Ada_Package_Decl"". This will filter the"
          & " nodes on which we navigate.",

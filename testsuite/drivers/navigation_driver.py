@@ -28,5 +28,10 @@ class NavigationDriver(BaseDriver):
         ):
             raise TestAbortWithError('"kinds" must contain a list of strings')
 
-        self.run_and_check(['navigate', '-k', ','.join(kinds)] + input_sources,
-                           memcheck=True)
+        # Some tests intentionally exercize cases with missing source files:
+        # let "navigate" warn about them, but keep it going (-k).
+        self.run_and_check(
+            ['navigate', '-k', '-K', ','.join(kinds)]
+            + input_sources,
+            memcheck=True,
+        )

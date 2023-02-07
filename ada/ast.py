@@ -1051,6 +1051,21 @@ class AdaNode(ASTNode):
     )
 
     @langkit_property(return_type=Bool)
+    def has_private_part_parent(barrier=T.AdaNode):
+        """
+        Return whether this node has a private part amongst its parent. This
+        implementation uses environments instead of syntactic parents in order
+        to jump over irrelevant nodes (since we know that a private part has a
+        lexical environment). Don't go further than ``barrier``.
+        """
+        parent = Var(Self.node_env.env_node)
+        return Or(
+            parent.is_a(PrivatePart),
+            And(parent != barrier,
+                parent.has_private_part_parent(barrier))
+        )
+
+    @langkit_property(return_type=Bool)
     def has_private_with_visibility(self_cu=T.CompilationUnit,
                                     refd_unit=AnalysisUnit):
         """
@@ -1059,22 +1074,19 @@ class AdaNode(ASTNode):
         ``refd_unit`` visible is private and if it is, whether we are in the
         private part.
         """
-        return self_cu.decl.cast(BasePackageDecl).then(
-            # This only makes sense if we are in a package declaration
-            lambda _: Or(
-                # If we are in its private part, we necessarily have
-                # visibility on a with clause, be it private or not.
-                Self.parents.any(lambda n: n.is_a(PrivatePart)),
-
-                # If we can find a non-private with clause on `refd_unit`
-                # we can return True, otherwise it necessarily means the
-                # with clause was private, therefore we must return False
-                # as we are not in a private part.
-                self_cu.imported_units(include_privates=False).any(
-                    lambda cu: cu.unit == refd_unit
-                )
-            ),
-            default_val=True
+        return Or(
+            Self.unit == refd_unit,
+            Let(lambda decl=self_cu.decl: If(
+                # Private visibility only makes sense when we are in a package
+                # declaration, so check that we are in this case first.
+                decl.is_a(BasePackageDecl, GenericPackageDecl)
+                # If we are, check whether the referenced unit is only visible
+                # in private parts.
+                & self_cu.privately_imported_units.contains(refd_unit),
+                # If it's the case, check that we are in a private part
+                Self.has_private_part_parent(decl.children_env.env_node),
+                True
+            ))
         )
 
     @langkit_property(return_type=Bool)
@@ -1088,8 +1100,6 @@ class AdaNode(ASTNode):
         """
         cu = Var(Self.enclosing_compilation_unit)
         return Or(
-            Self.unit == refd_unit,
-
             refd_unit.is_referenced_from(Self.unit)
             & (omit_privacy_check
                | Self.has_private_with_visibility(cu, refd_unit)),
@@ -19612,6 +19622,36 @@ class CompilationUnit(AdaNode):
                 lambda n:
                 n.enclosing_compilation_unit.as_bare_entity.singleton
             ))
+        )
+
+    @langkit_property(return_type=T.AnalysisUnit.array,
+                      memoized=True)
+    def privately_imported_units():
+        """
+        Return the list of units that are only visible in private parts of this
+        compilation units. Note that this is not equivalent to the list of
+        units that are private-withed, as Ada allows the same unit to be both
+        "with"ed and "private with"ed, in which case it will also be visible in
+        public parts. So, in order to compute that list, we must subtract the
+        list of units that are (non-private-)"with"ed from the list of all
+        "with"ed and "private with"ed units.
+        """
+        return If(
+            # Shortcut: if there are no "private with" clauses, the subtraction
+            # will be empty.
+            Self.prelude.any(
+                lambda clause: clause.cast(WithClause)._.has_private.as_bool
+            ),
+            Let(
+                lambda
+                all_imports=Self.imported_units(include_privates=True),
+                public_imports=Self.imported_units(include_privates=False):
+                all_imports.filtermap(
+                    lambda cu: cu.unit,
+                    lambda cu: Not(public_imports.contains(cu))
+                )
+            ),
+            No(T.AnalysisUnit.array)
         )
 
     @langkit_property(return_type=T.CompilationUnit.entity.array)

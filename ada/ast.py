@@ -4994,10 +4994,7 @@ class ComponentList(BaseFormalParamHolder):
     ):
 
         td = Var(Entity.type_decl)
-        base_aggregate = Var(assocs.parent.cast_or_raise(BaseAggregate))
-        discriminants = Var(
-            td.discriminants_list(base_aggregate.ancestor_expr_type)
-        )
+        discriminants = Var(td.discriminants_list(stop_recurse_at))
 
         # Get param matches for discriminants only
         discriminants_matches = Var(Self.match_formals(
@@ -13278,9 +13275,7 @@ class BaseAggregate(Expr):
     @langkit_property(return_type=T.BaseFormalParamDecl.entity.array,
                       dynamic_vars=[origin],
                       memoized=True, call_memoizable=True)
-    def all_discriminants(
-            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
-    ):
+    def all_discriminants():
         """
         Return the list of all discriminants that must be associated by this
         aggregate.
@@ -13297,26 +13292,24 @@ class BaseAggregate(Expr):
             resolution routine.
         """
         td = Var(Self.type_val.cast(BaseTypeDecl))
+        stop_recurse_at = Var(Entity.ancestor_expr_type(resolve_type=False))
         record_decl = Var(td.record_def.comps.type_decl)
         return record_decl.discriminants_list(stop_recurse_at)
 
     @langkit_property(return_type=T.BaseFormalParamDecl.entity.array,
                       dynamic_vars=[origin, env],
                       memoized=True, call_memoizable=True)
-    def all_components(
-            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
-    ):
+    def all_components():
         """
         Return the list of all components that must be associated by this
         aggregate.
-
-        See ``all_discriminants`` for ``stop_recurse_at`` documentation.
 
         .. attention::
             This property is part of the name resolution algorithm for
             AggregateAssocs. More details under ``all_discriminants``.
         """
         td = Var(Self.type_val.cast(BaseTypeDecl))
+        stop_recurse_at = Var(Entity.ancestor_expr_type(resolve_type=False))
         comp_list = Var(td.record_def.comps)
         return If(
             Entity.is_a(T.DeltaAggregate),
@@ -13329,40 +13322,32 @@ class BaseAggregate(Expr):
 
     @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[origin],
                       memoized=True)
-    def matched_discriminants(
-            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
-    ):
+    def matched_discriminants():
         """
         Return the list of all discriminants specified by this aggregate,
         together with the actual used for it.
 
-        See ``all_discriminants`` for ``stop_recurse_at`` documentation.
-
         .. attention::
             This property is part of the name resolution algorithm for
             AggregateAssocs. More details under ``all_discriminants``.
         """
         return Self.match_formals(
-            Entity.all_discriminants(stop_recurse_at), Entity.assocs, False
+            Entity.all_discriminants, Entity.assocs, False
         )
 
     @langkit_property(return_type=T.ParamMatch.array,
                       dynamic_vars=[origin, env], memoized=True)
-    def matched_components(
-            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
-    ):
+    def matched_components():
         """
         Return the list of all components specified by this aggregate,
         together with the actual used for it.
-
-        See ``all_discriminants`` for ``stop_recurse_at`` documentation.
 
         .. attention::
             This property is part of the name resolution algorithm for
             AggregateAssocs. More details under ``all_discriminants``.
         """
         return Self.match_formals(
-            Entity.all_components(stop_recurse_at), Entity.assocs, False
+            Entity.all_components, Entity.assocs, False
         )
 
     @langkit_property(return_type=T.DefiningName.entity,
@@ -13420,17 +13405,21 @@ class BaseAggregate(Expr):
         ignore(Var(Entity.resolve_names_from_closest_entry_point))
         return origin.bind(Self, Entity.multidim_root_aggregate.rank > 0)
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity)
-    def ancestor_expr_type():
+    @langkit_property(return_type=T.BaseTypeDecl.entity, call_memoizable=True)
+    def ancestor_expr_type(resolve_type=(T.Bool, True)):
         """
         The ancestor part of an aggregate can either be a subtype mark or an
         arbitrary expression. In the first case, this property returns the
         type designated by the subtype mark. In the other case, it returns the
-        type of the expression after resolution.
+        type of the expression, after running name resolution if
+        ``resolve_type`` is True, and otherwise by looking into the ancestor
+        part's already populated type variable.
         """
         return Entity.ancestor_expr.then(
             lambda ae: ae.cast(Name)._.name_designated_type._or(
-                ae.expression_type
+                If(resolve_type,
+                   ae.expression_type,
+                   ae.type_val.cast(BaseTypeDecl))
             )
         )
 
@@ -15278,9 +15267,7 @@ class AggregateAssoc(BasicAssoc):
         agg = Var(Entity.base_aggregate)
 
         # First, try to find all the discriminants matched by this assoc
-        discr_matches = Var(agg.matched_discriminants(
-            stop_recurse_at=agg.ancestor_expr_type
-        ).filter(
+        discr_matches = Var(agg.matched_discriminants.filter(
             lambda pm: pm.actual.assoc == Entity
         ))
 
@@ -15295,12 +15282,8 @@ class AggregateAssoc(BasicAssoc):
         # involves doing name resolution on them, thus introducing a cycle.
         matches = Var(If(
             Not(discr_matches.is_null),
-
             discr_matches,
-
-            agg.matched_components(
-                stop_recurse_at=agg.ancestor_expr_type
-            ).filter(
+            agg.matched_components.filter(
                 lambda pm: pm.actual.assoc == Entity
             )
         ))

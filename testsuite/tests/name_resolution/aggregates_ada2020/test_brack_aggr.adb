@@ -3,7 +3,7 @@ procedure Test_Brack_Aggr is
    A : Arr := [1, 2, 3, 4];
    pragma Test_Statement;
 
-   B : Arr := [A with 1 => 2, 3 => 4];
+   B : Arr := [A with delta 1 => 2, 3 => 4];
    pragma Test_Statement;
 
    type Point is record
@@ -15,7 +15,7 @@ procedure Test_Brack_Aggr is
    P2 : Point := (P with delta Y => 18);
    pragma Test_Statement;
 
-   P2 : Point := [P with delta Y => 18];
+   P3 : Point := [P with delta Y => 18];
    pragma Test_Statement;
 
    It : Arr := (for I in 1 .. 200 => I * 2);

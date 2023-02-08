@@ -28,33 +28,33 @@ Expr: <Int test_brack_aggr.adb:3:25-3:26>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
-Resolving xrefs for node <ObjectDecl ["B"] test_brack_aggr.adb:6:4-6:39>
+Resolving xrefs for node <ObjectDecl ["B"] test_brack_aggr.adb:6:4-6:45>
 ************************************************************************
 
 Expr: <Id "Arr" test_brack_aggr.adb:6:8-6:11>
   references:    <DefiningName "Arr" test_brack_aggr.adb:2:9-2:12>
   type:          None
   expected type: None
-Expr: <BracketAggregate test_brack_aggr.adb:6:15-6:38>
+Expr: <BracketDeltaAggregate test_brack_aggr.adb:6:15-6:44>
   type:          <ConcreteTypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
   expected type: <ConcreteTypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
 Expr: <Id "A" test_brack_aggr.adb:6:16-6:17>
   references:    <DefiningName "A" test_brack_aggr.adb:3:4-3:5>
   type:          <ConcreteTypeDecl ["Arr"] test_brack_aggr.adb:2:4-2:53>
   expected type: None
-Expr: <Int test_brack_aggr.adb:6:23-6:24>
+Expr: <Int test_brack_aggr.adb:6:29-6:30>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-Expr: <Int test_brack_aggr.adb:6:28-6:29>
+Expr: <Int test_brack_aggr.adb:6:34-6:35>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <Int test_brack_aggr.adb:6:31-6:32>
+Expr: <Int test_brack_aggr.adb:6:37-6:38>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-Expr: <Int test_brack_aggr.adb:6:36-6:37>
+Expr: <Int test_brack_aggr.adb:6:42-6:43>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
@@ -82,7 +82,7 @@ Expr: <Int test_brack_aggr.adb:15:37-15:39>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
-Resolving xrefs for node <ObjectDecl ["P2"] test_brack_aggr.adb:18:4-18:41>
+Resolving xrefs for node <ObjectDecl ["P3"] test_brack_aggr.adb:18:4-18:41>
 ***************************************************************************
 
 Expr: <Id "Point" test_brack_aggr.adb:18:9-18:14>

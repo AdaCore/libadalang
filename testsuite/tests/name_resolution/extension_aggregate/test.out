@@ -175,5 +175,44 @@ Expr: <Id "True" ea.adb:42:38-42:42>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
+Resolving xrefs for node <ObjectDecl ["F1"] ea.adb:52:4-52:38>
+**************************************************************
+
+Expr: <DottedName ea.adb:52:9-52:14>
+  references:    <DefiningName "W" ea.adb:47:12-47:13>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" ea.adb:52:9-52:12>
+  references:    <DefiningName "Foo" ea.adb:45:12-45:15>
+  type:          None
+  expected type: None
+Expr: <Id "W" ea.adb:52:13-52:14>
+  references:    <DefiningName "W" ea.adb:47:12-47:13>
+  type:          None
+  expected type: None
+Expr: <Aggregate ea.adb:52:18-52:37>
+  type:          <ConcreteTypeDecl ["W"] ea.adb:47:7-49:18>
+  expected type: <ConcreteTypeDecl ["W"] ea.adb:47:7-49:18>
+Expr: <DottedName ea.adb:52:19-52:24>
+  references:    <DefiningName "V" ea.adb:46:12-46:13>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" ea.adb:52:19-52:22>
+  references:    <DefiningName "Foo" ea.adb:45:12-45:15>
+  type:          None
+  expected type: None
+Expr: <Id "V" ea.adb:52:23-52:24>
+  references:    <DefiningName "V" ea.adb:46:12-46:13>
+  type:          None
+  expected type: None
+Expr: <Id "X" ea.adb:52:30-52:31>
+  references:    <DefiningName "X" ea.adb:48:10-48:11>
+  type:          None
+  expected type: None
+Expr: <Int ea.adb:52:35-52:36>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
 
 Done.

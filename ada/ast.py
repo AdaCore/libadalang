@@ -13215,7 +13215,26 @@ class BaseAggregate(Expr):
         ))
 
         return type_constraint & Entity.ancestor_expr.then(
-            lambda ae: ae.sub_equation, default_val=LogicTrue()
+            # We have an ancestor part, which can be either a subtype mark
+            # designating a type as in `(Controlled with X => 2)`, or an
+            # arbitrary expression as in `(Foo(1) with X => 2)`.
+            lambda ae: Cond(
+                Not(ae.cast(Name)._.name_designated_type.is_null),
+                ae.cast(Name).xref_no_overloading,
+
+                Self.is_a(DeltaAggregate),
+                ae.sub_equation,
+
+                # If Self is not a delta aggregate but has an ancestor part,
+                # it means it is an extension aggregate. In that case, ARM
+                # 4.3.2 - 4/2 specifies "If the ancestor_part is an expression,
+                # it is expected to be of any tagged type", hence we also add
+                # the following predicate.
+                ae.sub_equation
+                & Predicate(BaseTypeDecl.is_tagged_type_with_deref,
+                            ae.type_var)
+            ),
+            default_val=LogicTrue()
         ) & Entity.assocs.logic_all(
             lambda assoc: assoc.sub_equation
         )
@@ -13404,9 +13423,16 @@ class BaseAggregate(Expr):
     @langkit_property(return_type=T.BaseTypeDecl.entity)
     def ancestor_expr_type():
         """
-        Return the expression type of the ancestor.
+        The ancestor part of an aggregate can either be a subtype mark or an
+        arbitrary expression. In the first case, this property returns the
+        type designated by the subtype mark. In the other case, it returns the
+        type of the expression after resolution.
         """
-        return Entity.ancestor_expr._.expression_type
+        return Entity.ancestor_expr.then(
+            lambda ae: ae.cast(Name)._.name_designated_type._or(
+                ae.expression_type
+            )
+        )
 
 
 class Aggregate(BaseAggregate):

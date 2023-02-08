@@ -41,6 +41,16 @@ procedure Ea is
 
    I5 : T4 := (I1 with 3.14, 3.1416, True);
    pragma Test_Statement;
+
+   package Foo is
+      type V is tagged null record;
+      type W is new V with record
+         X : Integer;
+      end record;
+   end Foo;
+
+   F1 : Foo.W := (Foo.V with X => 1);
+   pragma Test_Statement;
 begin
    null;
 end Ea;

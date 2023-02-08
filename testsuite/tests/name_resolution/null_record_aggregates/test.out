@@ -13,7 +13,7 @@ Expr: <NullRecordAggregate test.adb:8:39-8:62>
   expected type: <ConcreteTypeDecl ["Derived"] test.adb:4:4-4:46>
 Expr: <Id "Base" test.adb:8:40-8:44>
   references:    <DefiningName "Base" test.adb:2:9-2:13>
-  type:          <ConcreteTypeDecl ["Base"] test.adb:2:4-2:36>
+  type:          None
   expected type: None
 
 Resolving xrefs for node <ObjectDecl ["No_Derived_2"] test.adb:11:4-11:66>

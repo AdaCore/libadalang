@@ -1,0 +1,28 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["Value"] test.adb:12:4-12:35>
+*******************************************************************
+
+Expr: <Id "B" test.adb:12:12-12:13>
+  references:    <DefiningName "B" test.adb:4:9-4:10>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:12:17-12:34>
+  type:          <ConcreteTypeDecl ["B"] test.adb:4:4-6:15>
+  expected type: <ConcreteTypeDecl ["B"] test.adb:4:4-6:15>
+Expr: <Id "Foo" test.adb:12:18-12:21>
+  references:    <DefiningName "Foo" test.adb:9:13-9:16>
+  type:          <ConcreteTypeDecl ["A"] test.adb:2:4-2:33>
+  expected type: None
+Expr: <Id "X" test.adb:12:27-12:28>
+  references:    <DefiningName "X" test.adb:5:7-5:8>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:12:32-12:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

@@ -8,4 +8,3 @@ package G_Solver is
 
    X : Logic_Var;
 end G_Solver;
-

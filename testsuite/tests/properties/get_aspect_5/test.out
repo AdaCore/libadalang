@@ -1,0 +1,182 @@
+Working on node <ConcreteTypeDecl ["T"] test.adb:2:4-2:48>
+==========================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:2:31-2:47> value=<Int test.adb:2:45-2:47>>
+
+Eval 'node.p_has_aspect("Value_Size")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["New_T_1"] test.adb:6:4-6:47>
+================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:6:31-6:46> value=<Int test.adb:6:45-6:46>>
+
+Eval 'node.p_has_aspect("Value_Size")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["New_T_2"] test.adb:10:4-10:26>
+==================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:2:31-2:47> value=<Int test.adb:2:45-2:47>>
+
+Eval 'node.p_has_aspect("Value_Size")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["New_T_3"] test.adb:14:4-14:26>
+==================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AttributeDefClause test.adb:17:4-17:33> value=<Int test.adb:17:31-17:32>>
+
+Eval 'node.p_has_aspect("Value_Size")'
+Result: True
+
+Working on node <SubtypeDecl ["Sub_T_1"] test.adb:19:4-19:46>
+=============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:19:30-19:45> value=<Int test.adb:19:44-19:45>>
+
+Eval 'node.p_has_aspect("Value_Size")'
+Result: True
+
+Working on node <SubtypeDecl ["Sub_T_2"] test.adb:23:4-23:25>
+=============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:2:31-2:47> value=<Int test.adb:2:45-2:47>>
+
+Eval 'node.p_has_aspect("Value_Size")'
+Result: True
+
+Working on node <SubtypeDecl ["Sub_T_3"] test.adb:27:4-27:25>
+=============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AttributeDefClause test.adb:30:4-30:33> value=<Int test.adb:30:31-30:32>>
+
+Eval 'node.p_has_aspect("Value_Size")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["A"] test.adb:32:4-32:51>
+============================================================
+
+Eval 'node.p_get_aspect("Pack")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:32:46-32:50> value=None>
+
+Eval 'node.p_has_aspect("Pack")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["New_A"] test.adb:36:4-36:24>
+================================================================
+
+Eval 'node.p_get_aspect("Pack")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:32:46-32:50> value=None>
+
+Eval 'node.p_has_aspect("Pack")'
+Result: True
+
+Working on node <SubtypeDecl ["Sub_A"] test.adb:40:4-40:23>
+===========================================================
+
+Eval 'node.p_get_aspect("Pack")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:32:46-32:50> value=None>
+
+Eval 'node.p_has_aspect("Pack")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["New_S"] test.adb:44:4-44:29>
+================================================================
+
+Eval 'node.p_get_aspect("Pack")'
+Result: <Aspect exists=True node=<PragmaNode __standard:106:3-106:24> value=None>
+
+Eval 'node.p_has_aspect("Pack")'
+Result: True
+
+Eval 'node.p_get_pragma("Pack")'
+Result: None
+
+Eval 'node.p_root_type().p_get_aspect("Pack")'
+Result: <Aspect exists=True node=<PragmaNode __standard:106:3-106:24> value=None>
+
+Working on node <ConcreteTypeDecl ["TG"] test.adb:50:4-50:57>
+=============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:50:39-50:56> value=<Int test.adb:50:53-50:56>>
+
+Working on node <ConcreteTypeDecl ["New_TG_1"] test.adb:53:4-53:87>
+===================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:53:69-53:86> value=<Int test.adb:53:83-53:86>>
+
+Working on node <ConcreteTypeDecl ["New_TG_2"] test.adb:55:4-55:64>
+===================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AttributeDefClause test.adb:57:4-57:36> value=<Int test.adb:57:32-57:35>>
+
+Working on node <ConcreteTypeDecl ["New_TG_3"] test.adb:59:4-59:64>
+===================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:50:39-50:56> value=<Int test.adb:50:53-50:56>>
+
+Working on node <SubtypeDecl ["Sub_TG_1"] test.adb:62:4-62:50>
+==============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:62:32-62:49> value=<Int test.adb:62:46-62:49>>
+
+Working on node <SubtypeDecl ["Sub_TG_2"] test.adb:64:4-64:27>
+==============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AttributeDefClause test.adb:66:4-66:36> value=<Int test.adb:66:32-66:35>>
+
+Working on node <SubtypeDecl ["Sub_TG_3"] test.adb:67:4-67:27>
+==============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:50:39-50:56> value=<Int test.adb:50:53-50:56>>
+
+Working on node <SubtypeDecl ["Sub_T_4"] test.adb:74:4-74:25>
+=============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:70:25-70:41> value=<Int test.adb:70:39-70:41>>
+
+Working on node <SubtypeDecl ["Sub_T_5"] test.adb:76:4-76:25>
+=============================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:72:25-72:41> value=<Int test.adb:72:39-72:41>>
+
+Working on node <ConcreteTypeDecl ["New_New_T_1"] test.adb:79:4-79:36>
+======================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:6:31-6:46> value=<Int test.adb:6:45-6:46>>
+
+Working on node <ConcreteTypeDecl ["New_New_T_2"] test.adb:82:4-82:36>
+======================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:2:31-2:47> value=<Int test.adb:2:45-2:47>>
+
+Working on node <ConcreteTypeDecl ["New_New_T_3"] test.adb:85:4-85:36>
+======================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AttributeDefClause test.adb:17:4-17:33> value=<Int test.adb:17:31-17:32>>
+
+Working on node <ConcreteTypeDecl ["New_New_New_T_3"] test.adb:88:4-88:68>
+==========================================================================
+
+Eval 'node.p_get_aspect("Value_Size")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:88:49-88:67> value=<Int test.adb:88:63-88:67>>

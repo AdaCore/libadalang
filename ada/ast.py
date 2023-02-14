@@ -16492,7 +16492,22 @@ class DefiningName(Name):
                 lambda atc: Aspect.new(exists=True, node=atc, value=atc.expr)
             ),
             No(Aspect)
-        ))
+        ))._or(
+            # If nothing has been found so far, check out for any inherited
+            # aspect.
+            Entity.basic_decl_no_internal.cast(BaseTypeDecl).then(
+                lambda bd: Let(
+                    lambda typ=If(bd.is_a(T.BaseSubtypeDecl),
+                                  bd.cast(T.BaseSubtypeDecl).get_type,
+                                  bd.base_type):
+                    If(
+                        Or(typ.is_null, typ == bd),
+                        No(T.Aspect),
+                        typ.name.get_aspect_impl(name)
+                    )
+                )
+            )
+        )
 
     @langkit_property(return_type=Aspect, public=True,
                       dynamic_vars=[default_imprecise_fallback()])

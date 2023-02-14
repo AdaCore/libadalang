@@ -1056,10 +1056,14 @@ class AdaNode(ASTNode):
         Return whether this node has a private part amongst its parent. This
         implementation uses environments instead of syntactic parents in order
         to jump over irrelevant nodes (since we know that a private part has a
-        lexical environment). Don't go further than ``barrier``.
+        lexical environment). Don't go further than ``barrier``. Also return
+        True for nodes in the prelude of compilation units, as they have the
+        same visibility privileges of private parts (i.e. they can see "private
+        with"s).
         """
         parent = Var(Self.node_env.env_node)
         return Or(
+            parent.is_null,
             parent.is_a(PrivatePart),
             And(parent != barrier,
                 parent.has_private_part_parent(barrier))

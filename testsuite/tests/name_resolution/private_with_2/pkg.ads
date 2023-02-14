@@ -1,4 +1,6 @@
 private with Foo;
+pragma Elaborate (Foo);
+pragma Test_Statement;
 
 package Pkg is
    procedure Test;

@@ -33,7 +33,7 @@ Resolving xrefs for node <AssignStmt pkg.adb:12:10-12:23>
 *********************************************************
 
 Expr: <Id "X" pkg.adb:12:10-12:11>
-  references:    <DefiningName "X" pkg.ads:9:7-9:8>
+  references:    <DefiningName "X" pkg.ads:11:7-11:8>
   type:          <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
   expected type: None
 Expr: <DottedName pkg.adb:12:15-12:22>
@@ -48,6 +48,22 @@ Expr: <Id "Get" pkg.adb:12:19-12:22>
   references:    <DefiningName "Get" foo.ads:4:13-4:16>
   type:          <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
   expected type: <ConcreteTypeDecl ["T"] foo.ads:2:4-2:26>
+
+
+Analyzing pkg.ads
+#################
+
+Resolving xrefs for node <PragmaNode pkg.ads:2:1-2:24>
+******************************************************
+
+Expr: <Id "Elaborate" pkg.ads:2:8-2:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Foo" pkg.ads:2:19-2:22>
+  references:    <DefiningName "Foo" foo.ads:1:9-1:12>
+  type:          None
+  expected type: None
 
 
 Done.

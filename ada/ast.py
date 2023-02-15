@@ -7271,12 +7271,12 @@ class TypeDecl(BaseTypeDecl):
     type_def = Field(type=T.TypeDef)
 
     is_iterable_type = Property(
-        # TODO: Need to implement on:
-        #
-        #   * Spark iterable types (Iterable aspect).
         Or(
             Entity.is_array,
             Not(Entity.get_aspect_spec_expr('Iterator_Element').is_null),
+            # TODO: The optional `Element` assoc must be defined, if not, a
+            # type with the aspect `Iterable` only supports iteration over
+            # cursors through the `for .. in` loop (W303-007).
             Not(Entity.get_aspect_spec_expr('Iterable').is_null),
             Entity.type_def.match(
                 lambda dtd=T.DerivedTypeDef:
@@ -7316,6 +7316,17 @@ class TypeDecl(BaseTypeDecl):
             ),
         )._or(Entity.previous_part(False)
               .then(lambda pp: pp.iterable_comp_type)))
+
+    @langkit_property(dynamic_vars=[origin])
+    def iterable_cursor_type():
+        """
+        If Self is a type that is iterable (i.e.: it has the Iterable aspect
+        defined), return the type of the cursor in use by this iterable type.
+        """
+        return Entity.get_aspect_spec_expr('Iterable').then(
+            lambda it: it.cast(T.Aggregate).assocs.unpacked_params.find(
+                lambda sa: sa.name.name_is('First')
+            ).assoc.expr.cast_or_raise(T.Name).referenced_decl.expr_type)
 
     @langkit_property()
     def discrete_range():
@@ -18487,8 +18498,17 @@ class ForLoopSpec(LoopSpec):
                       iter_expr.type_var)
         ))
 
-        cursor_type = Var(iter_expr.type_val.children_env
-                          .get_first('Cursor').cast_or_raise(T.BaseTypeDecl))
+        cursor_type = Var(
+            Let(
+                lambda tv=iter_expr.type_val:
+                # For containers and user defined iterator types, cursor type
+                # is defined by the `Cursor` type declaration.
+                tv.children_env.get_first('Cursor')
+                .cast_or_raise(T.BaseTypeDecl)
+                # Check out cursor type for types with `Iterable` aspect
+                ._or(tv.cast(TypeDecl).iterable_cursor_type)
+            )
+        )
 
         return If(
             p,

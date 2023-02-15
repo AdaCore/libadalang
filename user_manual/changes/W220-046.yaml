@@ -1,0 +1,6 @@
+type: new-feature
+title: Handle ``Iterable`` type ``for .. in`` iteration
+description: |
+  This changes adds support to handle ``for .. in`` loop iteration scheme for
+  types defined with the `Iterable` aspect.
+date: 2023-02-20

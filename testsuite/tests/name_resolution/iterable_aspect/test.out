@@ -1,0 +1,157 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ForLoopSpec test.adb:58:8-58:20>
+**********************************************************
+
+Expr: <Id "My_List" test.adb:58:13-58:20>
+  references:    <DefiningName "My_List" test.adb:54:4-54:11>
+  type:          <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:59:6-59:25>
+*******************************************************
+
+Expr: <CallExpr test.adb:59:6-59:24>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test.adb:59:6-59:14>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:59:16-59:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "E" test.adb:59:16-59:17>
+  references:    <DefiningName "E" test.adb:58:8-58:9>
+  type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
+  expected type: None
+Expr: <Id "Image" test.adb:59:18-59:23>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ForLoopSpec test.adb:63:8-63:20>
+**********************************************************
+
+Expr: <Id "My_List" test.adb:63:13-63:20>
+  references:    <DefiningName "My_List" test.adb:54:4-54:11>
+  type:          <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:64:6-64:48>
+*******************************************************
+
+Expr: <CallExpr test.adb:64:6-64:47>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test.adb:64:6-64:14>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:64:16-64:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <CallExpr test.adb:64:16-64:40>
+  references:    <DefiningName "Get_Element" test.adb:49:13-49:24>
+  type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
+  expected type: None
+Expr: <Id "Get_Element" test.adb:64:16-64:27>
+  references:    <DefiningName "Get_Element" test.adb:49:13-49:24>
+  type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
+  expected type: None
+Expr: <Id "My_List" test.adb:64:29-64:36>
+  references:    <DefiningName "My_List" test.adb:54:4-54:11>
+  type:          <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+  expected type: <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+Expr: <Id "E" test.adb:64:38-64:39>
+  references:    <DefiningName "E" test.adb:63:8-63:9>
+  type:          <SubtypeDecl ["Kursor"] test.adb:5:4-5:30>
+  expected type: <SubtypeDecl ["Kursor"] test.adb:5:4-5:30>
+Expr: <Id "Image" test.adb:64:41-64:46>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ForLoopSpec test.adb:68:8-68:28>
+**********************************************************
+
+Expr: <Id "My_List" test.adb:68:21-68:28>
+  references:    <DefiningName "My_List" test.adb:54:4-54:11>
+  type:          <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:69:7-69:26>
+*******************************************************
+
+Expr: <CallExpr test.adb:69:7-69:25>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test.adb:69:7-69:15>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:69:17-69:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "E" test.adb:69:17-69:18>
+  references:    <DefiningName "E" test.adb:68:8-68:9>
+  type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
+  expected type: None
+Expr: <Id "Image" test.adb:69:19-69:24>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ForLoopSpec test.adb:73:8-73:28>
+**********************************************************
+
+Expr: <Id "My_List" test.adb:73:21-73:28>
+  references:    <DefiningName "My_List" test.adb:54:4-54:11>
+  type:          <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:74:7-74:49>
+*******************************************************
+
+Expr: <CallExpr test.adb:74:7-74:48>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test.adb:74:7-74:15>
+  references:    <DefiningName "Put_Line" a-textio.ads:566:14-566:22>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:74:17-74:47>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <CallExpr test.adb:74:17-74:41>
+  references:    <DefiningName "Get_Element" test.adb:49:13-49:24>
+  type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
+  expected type: None
+Expr: <Id "Get_Element" test.adb:74:17-74:28>
+  references:    <DefiningName "Get_Element" test.adb:49:13-49:24>
+  type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
+  expected type: None
+Expr: <Id "My_List" test.adb:74:30-74:37>
+  references:    <DefiningName "My_List" test.adb:54:4-54:11>
+  type:          <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+  expected type: <ConcreteTypeDecl ["List"] test.adb:9:4-15:43>
+Expr: <Id "E" test.adb:74:39-74:40>
+  references:    <DefiningName "E" test.adb:73:8-73:9>
+  type:          <SubtypeDecl ["Kursor"] test.adb:5:4-5:30>
+  expected type: <SubtypeDecl ["Kursor"] test.adb:5:4-5:30>
+Expr: <Id "Image" test.adb:74:42-74:47>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

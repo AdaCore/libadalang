@@ -31,58 +31,58 @@ jobs:
             mingw64/mingw-w64-x86_64-libiconv
             mingw64/mingw-w64-x86_64-gmp
       - name: Get libadalang
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get gprbuild for libgpr
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: AdaCore/gprbuild
           path: gprbuild
       - name: Get gnatcoll core
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: AdaCore/gnatcoll-core
           path: gnatcoll-core
       - name: Get gnatcoll iconv/gmp
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: AdaCore/gnatcoll-bindings
           path: gnatcoll-bindings
       - name: Get langkit
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: AdaCore/langkit
           path: langkit
           fetch-depth: 0  # all branches
       - name: Get gpr
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: AdaCore/gpr
           path: gpr2
           ref: edge
       - name: Get gprconfig kb
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: AdaCore/gprconfig_kb
           path: gpr2/gprconfig_kb
       - name: Get AdaSAT
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: AdaCore/AdaSAT
           path: langkit/langkit/adasat
       - name: Try to checkout langkit's branch
         shell: bash
         run: (cd langkit; git checkout ${{ github.ref }} || true)
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ./cached_gnat
           key: ${{ runner.os }}-alire-2022
       - name: Get GNAT toolchain with alire
-        uses: alire-project/setup-alire@v1
+        uses: alire-project/setup-alire@v2
         with:
           toolchain: gnat_native^12 gprbuild^22
           toolchain_dir: ./cached_gnat
       - name: Setup Python 3.8
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8'
       - name: Build Libadalang and its dependencies (Windows)
@@ -93,7 +93,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
       - name: Keep artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ runner.os }}-${{ matrix.debug }}
           path: '*.tar.gz'

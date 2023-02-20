@@ -244,3 +244,25 @@ Defining all values for each is not realistic, as for instance
 memory for all of them. Nevertheless, undefined characters are properly
 supported and synthesized on-demand, which means that any
 characters from any sets can be properly handled by Libadalang.
+
+.. _The origin parameter:
+
+The ``origin`` parameter
+------------------------
+
+In Libadalang many semantic properties, like
+:ada:ref:`Libadalang.Analysis.P_Referenced_Decl`, have an ``origin`` parameter.
+That's because for many semantic queries, the answer to your query might differ
+depending on where you come from.
+
+For example in the following code:
+
+.. code-block:: ada
+
+   package P is
+      type T is private;
+   private
+      type T is record
+         A, B: Integer;
+      end record;
+   end P;

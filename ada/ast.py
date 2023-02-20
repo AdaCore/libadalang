@@ -19,7 +19,11 @@ from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
 
 env = DynamicVariable('env', LexicalEnv)
-origin = DynamicVariable('origin', T.AdaNode)
+origin = DynamicVariable(
+    'origin', T.AdaNode,
+    doc="Origin for this property's request. "
+        "See :ref:`The origin parameter` for more details"
+)
 no_visibility = DynamicVariable('no_visibility', T.Bool)
 include_ud_indexing = DynamicVariable('include_ud_indexing', T.Bool)
 """

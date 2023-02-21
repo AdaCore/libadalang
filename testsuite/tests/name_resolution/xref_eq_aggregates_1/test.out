@@ -23,7 +23,10 @@ Expr: <Int simple_aggregate.adb:11:13-11:14>
 Resolving xrefs for node <AssignStmt simple_aggregate.adb:14:4-14:18>
 *********************************************************************
 
-Resolution failed for node <AssignStmt simple_aggregate.adb:14:4-14:18>
+simple_aggregate.adb:14:13: error: expected Integer, got universal real
+14 |    R := (1, 2.0);
+   |             ^^^
+
 
 Resolving xrefs for node <AssignStmt simple_aggregate.adb:17:4-17:18>
 *********************************************************************

@@ -73,6 +73,5 @@ def run_nameres(args):
         return
 
     for line in stdout.splitlines():
-        line = line.strip()
-        if not DIRECTORY_MISSING_RE.match(line):
+        if not DIRECTORY_MISSING_RE.match(line.strip()):
             print(line)

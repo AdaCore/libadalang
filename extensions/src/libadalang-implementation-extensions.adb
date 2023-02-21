@@ -942,10 +942,12 @@ package body Libadalang.Implementation.Extensions is
    ----------------------------------
 
    function Ada_Node_P_Resolve_Own_Names
-     (Node   : Bare_Ada_Node;
-      Env    : Lexical_Env;
-      Origin : Bare_Ada_Node;
-      E_Info : Internal_Entity_Info := No_Entity_Info) return Boolean
+     (Node                 : Bare_Ada_Node;
+      Generate_Diagnostics : Boolean;
+      Env                  : Lexical_Env;
+      Origin               : Bare_Ada_Node;
+      E_Info               : Internal_Entity_Info := No_Entity_Info)
+      return Boolean
    is
       use Nameres_Maps;
       use Libadalang.Implementation.Solver;
@@ -963,13 +965,20 @@ package body Libadalang.Implementation.Extensions is
          begin
             if Cached.Cache_Version >= Node.Unit.Context.Cache_Version
                and then Cached.Rebindings = E_Info.Rebindings
+               and then (not Generate_Diagnostics
+                         or else Cached.Has_Diagnostics)
             then
                if Cached.Exc_Id = Ada.Exceptions.Null_Id then
-                  return Cached.Return_Value;
+                  return Cached.Return_Value.Success;
                else
                   Reraise_Memoized_Error (Cached.Exc_Id, Cached.Exc_Msg);
                end if;
             end if;
+
+            --  This cache entry will be replaced in the next code section no
+            --  matter what, so decrease reference count here while we still
+            --  have a reference to the cached value.
+            Dec_Ref (Cached.Return_Value);
          end;
       end if;
 
@@ -979,18 +988,25 @@ package body Libadalang.Implementation.Extensions is
       declare
          R : Relation;
          V : Resolution_Val :=
-           (Cache_Version => Node.Unit.Context.Cache_Version,
-            Rebindings    => E_Info.Rebindings,
-            Return_Value  => False,
-            Exc_Id        => Ada.Exceptions.Null_Id,
-            Exc_Msg       => null);
+           (Cache_Version   => Node.Unit.Context.Cache_Version,
+            Rebindings      => E_Info.Rebindings,
+            Has_Diagnostics => Generate_Diagnostics,
+            Return_Value    => (False, null),
+            Exc_Id          => Ada.Exceptions.Null_Id,
+            Exc_Msg         => null);
       begin
          R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
-         V.Return_Value := Solve_Wrapper (R, Node);
+         if Generate_Diagnostics then
+            V.Return_Value := Solve_With_Diagnostics (R, Node);
+         else
+            V.Return_Value.Success := Solve_Wrapper (R, Node);
+            V.Return_Value.Diagnostics :=
+              Create_Internal_Solver_Diagnostic_Array (0);
+         end if;
          Dec_Ref (R);
 
          Cache.Include (Node, V);
-         return V.Return_Value;
+         return V.Return_Value.Success;
       exception
          when Exc : others =>
             if Properties_May_Raise (Exc) then
@@ -1001,5 +1017,41 @@ package body Libadalang.Implementation.Extensions is
             raise;
       end;
    end Ada_Node_P_Resolve_Own_Names;
+
+   ----------------------------------------
+   -- Ada_Node_P_Own_Nameres_Diagnostics --
+   ----------------------------------------
+
+   function Ada_Node_P_Own_Nameres_Diagnostics
+     (Node                 : Bare_Ada_Node;
+      E_Info               : Internal_Entity_Info := No_Entity_Info)
+      return Internal_Solver_Diagnostic_Array_Access
+   is
+      use Nameres_Maps;
+
+      Cache : Nameres_Maps.Map renames Node.Unit.Nodes_Nameres;
+      C     : constant Cursor := Cache.Find (Node);
+   begin
+      if Has_Element (C) then
+         declare
+            use type Ada.Exceptions.Exception_Id;
+            Cached : Resolution_Val renames Cache.Reference (C);
+         begin
+            if Cached.Cache_Version >= Node.Unit.Context.Cache_Version
+               and then Cached.Rebindings = E_Info.Rebindings
+               and then Cached.Has_Diagnostics
+            then
+               if Cached.Exc_Id = Ada.Exceptions.Null_Id then
+                  Inc_Ref (Cached.Return_Value.Diagnostics);
+                  return Cached.Return_Value.Diagnostics;
+               else
+                  Reraise_Memoized_Error (Cached.Exc_Id, Cached.Exc_Msg);
+               end if;
+            end if;
+         end;
+      end if;
+
+      return Create_Internal_Solver_Diagnostic_Array (0);
+   end Ada_Node_P_Own_Nameres_Diagnostics;
 
 end Libadalang.Implementation.Extensions;

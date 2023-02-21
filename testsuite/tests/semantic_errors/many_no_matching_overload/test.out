@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:24:4-24:17>
+*********************************************************
+
+test.adb:24:9: error: no matching alternative (showing 3 out of 9 candidates)
+24 |    X := Foo (0);
+   |         ^^^
+
+test.adb:22:22: info: expected T9, got universal integer
+22 |    function Foo (X : T9) return Integer is (0);
+   |                      ^^
+
+test.adb:21:22: info: expected T8, got universal integer
+21 |    function Foo (X : T8) return Integer is (0);
+   |                      ^^
+
+test.adb:20:22: info: expected T7, got universal integer
+20 |    function Foo (X : T7) return Integer is (0);
+   |                      ^^
+
+
+
+Done.

@@ -28,7 +28,10 @@ Expr: <Id "Enum_1" enum_types.adb:11:9-11:15>
 Resolving xrefs for node <AssignStmt enum_types.adb:14:4-14:16>
 ***************************************************************
 
-Resolution failed for node <AssignStmt enum_types.adb:14:4-14:16>
+enum_types.adb:14:9: error: expected A, got B
+14 |    P := Enum_3;
+   |         ^^^^^^
+
 
 
 Done.

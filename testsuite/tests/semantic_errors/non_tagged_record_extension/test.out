@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:8:4-8:25>
+*******************************************************
+
+test.adb:8:10: error: expected tagged type, got T
+8 |    X := (Y with V => 1);
+  |          ^
+
+
+
+Done.

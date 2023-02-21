@@ -1,0 +1,4 @@
+driver: name-resolution
+input_sources: [test.adb]
+control:
+  - [XFAIL, "True", "Missing diagnostics"]

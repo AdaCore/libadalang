@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:16:4-16:22>
+*********************************************************
+
+test.adb:16:9: error: no matching alternative (of 2 candidates)
+16 |    X := R.Foo (True);
+   |         ^^^^^
+
+test.adb:7:35: info: expected Integer, got Boolean
+7 |       function Foo (Self : T; X : Integer) return Integer is (0);
+  |                                   ^^^^^^^
+
+test.adb:8:35: info: expected Float, got Boolean
+8 |       function Foo (Self : T; X : Float) return Integer is (0);
+  |                                   ^^^^^
+
+
+Resolving xrefs for node <AssignStmt test.adb:19:4-19:15>
+*********************************************************
+
+test.adb:19:9: error: expected Integer, got Float
+19 |    X := R.Bar;
+   |         ^^^^^
+
+
+
+Done.

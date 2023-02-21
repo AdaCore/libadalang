@@ -12,12 +12,15 @@ type Resolution_Val is record
    Rebindings : Env_Rebindings;
    --  Rebindings used when creating this cache entry
 
-   Return_Value : Boolean;
-   --  Cached result for the ``Solve_Wrapper`` function
+   Has_Diagnostics : Boolean;
+   --  Whether resolution was done with diagnostic generation enabled
+
+   Return_Value : Internal_Solver_Result;
+   --  Cached result of the solving
 
    Exc_Id  : Ada.Exceptions.Exception_Id;
    Exc_Msg : String_Access;
-   --  If ``Solve_Wrapper`` raised an exception, ID and message for the
+   --  If an exception was raised during resolution, ID and message for the
    --  corresponding exception occurrence.
 end record;
 

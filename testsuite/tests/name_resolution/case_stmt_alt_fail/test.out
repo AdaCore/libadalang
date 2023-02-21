@@ -28,7 +28,10 @@ Expr: <Id "Process" test.adb:12:13-12:20>
 Resolving xrefs for node <CaseStmtAlternative test.adb:13:10-14:21>
 *******************************************************************
 
-Resolution failed for node <CaseStmtAlternative test.adb:13:10-14:21>
+test.adb:13:15: error: no such entity
+13 |          when B =>
+   |               ^
+
 
 Resolving xrefs for node <CallStmt test.adb:14:13-14:21>
 ********************************************************

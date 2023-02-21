@@ -1,0 +1,45 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:12:4-12:35>
+*********************************************************
+
+test.adb:12:26: error: expected Integer, got Boolean
+12 |    X := Bar (Foo (True), Foo (2));
+   |                          ^^^^^^^
+
+
+Resolving xrefs for node <AssignStmt test.adb:15:4-15:35>
+*********************************************************
+
+test.adb:15:26: error: expected Integer, got Boolean
+15 |    X := Bar (Foo (True), Baz (2));
+   |                          ^^^^^^^
+
+
+
+Analyzing test_2.adb
+####################
+
+Resolving xrefs for node <AssignStmt test_2.adb:12:4-12:35>
+***********************************************************
+
+test_2.adb:12:26: error: expected Integer, got Boolean
+12 |    X := Bar (Foo (True), Foo (2));
+   |                          ^^^^^^^
+
+
+
+Analyzing test_3.adb
+####################
+
+Resolving xrefs for node <ObjectDecl ["X"] test_3.adb:9:4-12:22>
+****************************************************************
+
+test_3.adb:11:7: error: expected Boolean, got Integer
+11 |       Bar (Foo (2), 2 + 2, True),
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+Done.

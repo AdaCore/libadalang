@@ -86,7 +86,10 @@ Expr: <Int test.adb:26:20-26:21>
 Resolving xrefs for node <AssignStmt test.adb:29:4-29:25>
 *********************************************************
 
-Resolution failed for node <AssignStmt test.adb:29:4-29:25>
+test.adb:29:20: error: expected Integer, got universal real
+29 |    B := Pouet (5) (8.0);
+   |                    ^^^
+
 
 
 Done.

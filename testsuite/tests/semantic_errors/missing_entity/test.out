@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:2:4-2:30>
+*************************************************************
+
+test.adb:2:19: error: no such entity
+2 |    X : Integer := Foo (True);
+  |                   ^^^
+
+
+
+Done.

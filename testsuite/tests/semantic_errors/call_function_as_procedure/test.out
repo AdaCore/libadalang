@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:4:4-4:12>
+*****************************************************
+
+test.adb:4:4: error: resolution failed
+4 |    Foo (2);
+  |    ^^^^^^^^
+
+
+
+Done.

@@ -18,7 +18,10 @@ Incorrect case
 Resolving xrefs for node <ExitStmt exit_stmt.adb:13:7-13:21>
 ************************************************************
 
-Resolution failed for node <ExitStmt exit_stmt.adb:13:7-13:21>
+exit_stmt.adb:13:17: error: expected boolean type, got Integer
+13 |       exit when Bar;
+   |                 ^^^
+
 
 Exit with fully qualified name
 ------------------------------

@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:7:4-7:15>
+*******************************************************
+
+test.adb:7:13: error: expected Integer, got Boolean
+7 |    A (2) := B;
+  |             ^
+
+
+Resolving xrefs for node <AssignStmt test.adb:10:4-10:15>
+*********************************************************
+
+test.adb:10:9: error: expected Boolean, got Integer
+10 |    B := A (2);
+   |         ^^^^^
+
+
+Resolving xrefs for node <AssignStmt test.adb:13:4-13:15>
+*********************************************************
+
+test.adb:13:7: error: expected Positive, got Boolean
+13 |    A (B) := 2;
+   |       ^
+
+
+
+Done.

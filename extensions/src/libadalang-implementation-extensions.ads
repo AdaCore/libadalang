@@ -36,10 +36,17 @@ package Libadalang.Implementation.Extensions is
       Transitive : Boolean) return Internal_Unit_Array_Access;
 
    function Ada_Node_P_Resolve_Own_Names
-     (Node   : Bare_Ada_Node;
-      Env    : Lexical_Env;
-      Origin : Bare_Ada_Node;
-      E_Info : Internal_Entity_Info := No_Entity_Info) return Boolean;
+     (Node                 : Bare_Ada_Node;
+      Generate_Diagnostics : Boolean;
+      Env                  : Lexical_Env;
+      Origin               : Bare_Ada_Node;
+      E_Info               : Internal_Entity_Info := No_Entity_Info)
+      return Boolean;
+
+   function Ada_Node_P_Own_Nameres_Diagnostics
+     (Node                 : Bare_Ada_Node;
+      E_Info               : Internal_Entity_Info := No_Entity_Info)
+      return Internal_Solver_Diagnostic_Array_Access;
 
    -------------
    -- Base_Id --

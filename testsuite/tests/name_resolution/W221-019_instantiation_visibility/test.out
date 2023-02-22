@@ -1,0 +1,20 @@
+Analyzing hash.ads
+##################
+
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg"] test.adb:11:4-11:37>
+*************************************************************************************
+
+Expr: <Id "Pkg" test.adb:11:26-11:29>
+  references:    <DefiningName "Pkg" test.adb:6:12-6:15>
+  type:          None
+  expected type: None
+Expr: <Id "Hash" test.adb:11:31-11:35>
+  references:    <DefiningName "Hash" foo.ads:2:13-2:17>
+  type:          None
+  expected type: None
+
+
+Done.

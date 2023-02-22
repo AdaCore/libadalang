@@ -14273,7 +14273,7 @@ class Name(Expr):
                         i.name_symbol,
                         from_node=If(sequential, Entity.node, No(T.Name)),
                         lookup=If(Self.is_prefix, LK.recursive, LK.flat),
-                    ),
+                    ).filter(lambda e: Self.has_visibility(e)),
                 ),
                 Bind(
                     i.ref_var,

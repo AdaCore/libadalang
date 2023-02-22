@@ -1,0 +1,3 @@
+driver: name-resolution
+# it's important to have hash.ads be nameres'd before test.adb
+input_sources: [hash.ads, test.adb]

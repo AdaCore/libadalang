@@ -4322,11 +4322,30 @@ class BaseFormalParamHolder(AdaNode):
         """
         bare = Var(Self.as_bare_entity)
         match_list = Var(bare.match_param_list(params, is_dottable_subp))
+        # Compute the min and max number of parameters this subprogram takes
+        # and adjust that number in case the subprogram is dottable:
+        # - Remove 1 to the maximum value if the subprogram is dottable.
+        # - Remove 1 to the minimum value iff the subprogram is dottable and
+        # its first parameter (the one used for the prefixed notation) is
+        # mandatory, because the call to ``bare.nb_min_params`` already takes
+        # care of optional parameters, so we won't count it twice.
         nb_max_params = Var(
             If(is_dottable_subp, bare.nb_max_params - 1, bare.nb_max_params)
         )
         nb_min_params = Var(
-            If(is_dottable_subp, bare.nb_min_params - 1, bare.nb_min_params)
+            If(
+                And(
+                    is_dottable_subp,
+                    # If is dottable and the first parameter is mandatory,
+                    # remove 1 to the minumum number of parameter. In the
+                    # other case, ``bare.nb_min_params`` has already counted
+                    # it.
+                    Self.as_bare_entity.unpacked_formal_params.at(0)
+                    .formal_decl.is_mandatory
+                ),
+                bare.nb_min_params - 1,
+                bare.nb_min_params
+            )
         )
 
         return And(

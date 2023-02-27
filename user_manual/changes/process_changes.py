@@ -40,7 +40,10 @@ def print_err(*args, **kwargs):
 
 @memoize
 def json_schema():
-    with open(P.join(ENTRIES_PATH, 'entry_schema.yaml')) as f:
+    with open(
+        P.join(ENTRIES_PATH, 'entry_schema.yaml'),
+        encoding="utf-8",
+    ) as f:
         schema = f.read()
     return yaml.safe_load(schema)
 
@@ -140,7 +143,7 @@ def get_entries(*args):
 
     for fname in entries_names:
         tn = P.basename(fname).split('.')[0]
-        with open(fname) as f:
+        with open(fname, encoding="utf-8") as f:
             entry = yaml.safe_load(f)
             entry['tn'] = tn
             validate_entry(tn, entry)

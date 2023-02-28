@@ -1,0 +1,87 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <PragmaNode test.adb:3:4-3:64>
+*******************************************************
+
+Expr: <Id "Compile_Time_Error" test.adb:3:11-3:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <UnOp test.adb:3:31-3:53>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <OpNot "not" test.adb:3:31-3:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:3:35-3:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Test" test.adb:3:35-3:39>
+  references:    <DefiningName "Test" test.adb:1:11-1:15>
+  type:          None
+  expected type: None
+Expr: <Id "Library_Level" test.adb:3:40-3:53>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""Error"" test.adb:3:55-3:62>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <ObjectDecl ["Library_Level"] test.adb:7:7-7:50>
+*************************************************************************
+
+Expr: <Id "Boolean" test.adb:7:23-7:30>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:7:34-7:49>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "P" test.adb:7:34-7:35>
+  references:    <DefiningName "P" test.adb:6:12-6:13>
+  type:          None
+  expected type: None
+Expr: <Id "Library_Level" test.adb:7:36-7:49>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test.adb:17:7-18:57>
+*********************************************************
+
+Expr: <Id "Compile_Time_Error" test.adb:17:14-17:32>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <UnOp test.adb:17:34-17:53>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <OpNot "not" test.adb:17:34-17:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:17:38-17:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Q" test.adb:17:38-17:39>
+  references:    <DefiningName "Q" test.adb:16:12-16:13>
+  type:          None
+  expected type: None
+Expr: <Id "Library_Level" test.adb:17:40-17:53>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""Q can only be instantiated at library level"" test.adb:18:10-18:55>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+
+Done.

@@ -1,0 +1,18 @@
+Analyzing main.adb
+##################
+
+Analyzing main_package.ads
+##########################
+
+Analyzing main_package.adb
+##########################
+
+References to Bar (main_package.ads, 2:14-2:17)
+   Bar; (main.adb, 5:4-5:8)
+   procedure Foo (A : Integer) renames Bar; (main_package.ads, 5:4-5:44)
+   procedure Bar (A : Integer := 1) (main_package.adb, 2:4-2:36)
+   procedure Baz (A : Integer) renames Bar; (main_package.adb, 3:4-3:44)
+   Foo (1); (main.adb, 7:4-7:12)
+   Baz (1); (main.adb, 6:4-6:12)
+   procedure Baz (A : Integer) (main_package.ads, 4:4-4:31)
+Done.

@@ -14727,6 +14727,16 @@ class CallExpr(Name):
         )
 
     @langkit_property()
+    def designated_env_no_overloading():
+        """
+        A call expression can never provide any dot-accessible entities in
+        a "no overloading" context. In other words, it's never valid to have
+        a ``CallExpr`` in the middle of a name that designates a type, so we
+        can return an empty environment.
+        """
+        return EmptyEnv
+
+    @langkit_property()
     def env_elements_impl():
         return Entity.name.env_elements_impl
 

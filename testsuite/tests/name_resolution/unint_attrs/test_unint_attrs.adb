@@ -37,6 +37,7 @@ begin
       T  : constant Natural := E_X'Enum_Rep;
       U  : constant Natural := Positive'Range_Length;
       V  : constant Natural := Standard'Storage_Unit;
+      W  : constant Natural := Standard'Wchar_T_Size;
    begin
       null;
    end;

@@ -4397,6 +4397,18 @@ class BaseFormalParamHolder(AdaNode):
             lambda fp: fp.formal_decl.cast(ParamSpec).mode
         )
 
+    @langkit_property(return_type=T.EnvRebindings)
+    def shed_subp_rebindings(r=T.EnvRebindings):
+        """
+        Scrap all surface-level rebindings pairs that correspond to generic
+        subprogram instantiations from the given chain of rebindings.
+        """
+        return If(
+            r._.new_env._.env_node.is_a(GenericSubpInstantiation),
+            Self.shed_subp_rebindings(r.get_parent),
+            r
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()])
     def real_type(typ=T.BaseTypeDecl.entity):
@@ -4419,7 +4431,13 @@ class BaseFormalParamHolder(AdaNode):
             prim_type._.canonical_type.node == typ._.canonical_type.node,
             Entity.entity_no_md(
                 Entity.info.md.primitive_real_type._or(typ.node),
-                Entity.info.rebindings,
+                # This primitive might come from a subprogram instantiation,
+                # in which case we don't want to plug its rebindings to the
+                # type itself. So simply remove all rebindings at the surface
+                # that correspond to subprogram instantiations. We cannot
+                # mistakenly remove relevant rebindings, since a derived type
+                # cannot come from a subprogram instantiation.
+                Self.shed_subp_rebindings(Entity.info.rebindings),
                 Entity.info.from_rebound
             ).cast(BaseTypeDecl),
 
@@ -11284,7 +11302,7 @@ class GenericSubpInstantiation(GenericInstantiation):
             lambda p: BasicSubpDecl.entity.new(
                 node=p.node.cast(GenericSubpDecl).subp_decl,
                 info=T.entity_info.new(
-                    md=p.info.md,
+                    md=Entity.info.md,
                     rebindings=Entity.info.rebindings
                     # Append the rebindings from the decl
                     .concat_rebindings(p._.decl.info.rebindings)
@@ -17817,7 +17835,15 @@ class BaseSubpSpec(BaseFormalParamHolder):
         canonicalized first. Else, the most complete part of the type will be
         returned.
         """
-        decl_scope = Var(Self.parent.parent.parent.cast(DeclarativePart))
+        decl_scope = Var(
+            If(
+                Self.parent.is_a(T.GenericSubpInternal),
+                # Get the scope of the generic instantiation (if any) when
+                # Entity comes from a generic subprogram.
+                Entity.generic_instantiations.at(0)._.parent._.parent,
+                Self.parent.parent.parent.as_entity
+            ).cast(DeclarativePart).node
+        )
 
         typ = Var(origin.bind(Self.origin_node, type_expr.match(
             lambda at=T.AnonymousType: at.element_type.then(

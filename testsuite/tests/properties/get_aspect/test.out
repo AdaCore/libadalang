@@ -1,6 +1,6 @@
 == test.adb ==
 <SubpDecl ["Bar"] test.adb:3:4-3:54>:
-  import aspect: <Aspect exists=False node=None value=None>
-  post'class aspect: <Aspect exists=True node=<AspectAssoc test.adb:3:35-3:53> value=<Id "True" test.adb:3:49-3:53>>
+  import aspect: <Aspect exists=False node=None value=None inherited=False>
+  post'class aspect: <Aspect exists=True node=<AspectAssoc test.adb:3:35-3:53> value=<Id "True" test.adb:3:49-3:53> inherited=False>
 
 Done

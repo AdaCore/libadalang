@@ -1844,6 +1844,9 @@ class Aspect(Struct):
                      doc="Syntactic node that defines the aspect")
     value = UserField(T.Expr.entity,
                       doc="Expr node defining the value of the aspect")
+    inherited = UserField(Bool, doc="""
+        Whether the aspect is inherited (it has been defined by a parent)
+    """)
 
 
 @abstract
@@ -16502,23 +16505,26 @@ class DefiningName(Name):
 
     @langkit_property(return_type=Aspect,
                       dynamic_vars=[default_imprecise_fallback()])
-    def get_aspect_impl(name=Symbol):
+    def get_aspect_impl(name=Symbol, inherited=Bool):
         """
         Return the aspect with the name ``name`` associated to this specific
         entity part.
         """
         return Entity.get_pragma(name).then(
             lambda p: Aspect.new(
-                exists=True, node=p, value=p.value_expr
+                exists=True, node=p, value=p.value_expr, inherited=inherited
             )
         )._or(Entity.basic_decl.get_aspect_assoc(name).then(
-            lambda aa: Aspect.new(exists=True, node=aa, value=aa.expr)
+            lambda aa: Aspect.new(exists=True, node=aa,
+                                  value=aa.expr, inherited=inherited)
         ))._or(Entity.get_representation_clause(name).then(
-            lambda rc: Aspect.new(exists=True, node=rc, value=rc.expr)
+            lambda rc: Aspect.new(exists=True, node=rc,
+                                  value=rc.expr, inherited=inherited)
         ))._or(If(
             name == 'Address',
             Entity.get_at_clause.then(
-                lambda atc: Aspect.new(exists=True, node=atc, value=atc.expr)
+                lambda atc: Aspect.new(exists=True, node=atc,
+                                       value=atc.expr, inherited=inherited)
             ),
             No(Aspect)
         ))._or(
@@ -16532,7 +16538,7 @@ class DefiningName(Name):
                     If(
                         Or(typ.is_null, typ == bd),
                         No(T.Aspect),
-                        typ.name.get_aspect_impl(name)
+                        typ.name.get_aspect_impl(name, inherited=True)
                     )
                 )
             )
@@ -16566,7 +16572,7 @@ class DefiningName(Name):
             Entity.singleton
         ))
         return parts_to_check.map(
-            lambda p: p.get_aspect_impl(name)
+            lambda p: p.get_aspect_impl(name, False)
         ).find(
             lambda a: a.exists
         )

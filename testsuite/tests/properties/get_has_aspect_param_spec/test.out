@@ -8,7 +8,7 @@ Eval 'node.find(lal.ParamSpecList)[1].p_has_aspect('Unreferenced')'
 Result: True
 
 Eval 'node.find(lal.ParamSpecList)[1].p_get_aspect('Fail')'
-Result: <Aspect exists=False node=None value=None>
+Result: <Aspect exists=False node=None value=None inherited=False>
 
 Eval 'node.find(lal.ParamSpecList)[1].p_get_aspect('Unreferenced')'
-Result: <Aspect exists=True node=<AspectAssoc aspec.adb:2:48-2:60> value=None>
+Result: <Aspect exists=True node=<AspectAssoc aspec.adb:2:48-2:60> value=None inherited=False>

@@ -2,7 +2,7 @@ Working on node <ObjectDecl ["A"] test.adb:2:4-2:16>
 ====================================================
 
 Eval 'node.p_get_aspect("address")'
-Result: <Aspect exists=True node=<AtClause test.adb:7:4-7:27> value=<AttributeRef test.adb:7:17-7:26>>
+Result: <Aspect exists=True node=<AtClause test.adb:7:4-7:27> value=<AttributeRef test.adb:7:17-7:26> inherited=False>
 
 Eval 'node.p_get_at_clause()'
 Result: <AtClause test.adb:7:4-7:27>

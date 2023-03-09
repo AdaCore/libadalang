@@ -5,7 +5,7 @@ Eval 'node.find(lal.DiscriminantSpec).p_has_aspect('XXX')'
 Result: True
 
 Eval 'node.find(lal.DiscriminantSpec).p_get_aspect('XXX')'
-Result: <Aspect exists=True node=<AspectAssoc aspec.adb:4:29-4:32> value=None>
+Result: <Aspect exists=True node=<AspectAssoc aspec.adb:4:29-4:32> value=None inherited=False>
 
 Working on node <SubpBody ["Func1"] aspec.adb:11:4-14:14>
 =========================================================
@@ -14,7 +14,7 @@ Eval 'node.find(lal.ExtendedReturnStmtObjectDecl).p_has_aspect('XXX')'
 Result: True
 
 Eval 'node.find(lal.ExtendedReturnStmtObjectDecl).p_get_aspect('XXX')'
-Result: <Aspect exists=True node=<AspectAssoc aspec.adb:13:44-13:47> value=None>
+Result: <Aspect exists=True node=<AspectAssoc aspec.adb:13:44-13:47> value=None inherited=False>
 
 Working on node <ProtectedBody ["P"] aspec.adb:23:4-29:10>
 ==========================================================
@@ -23,4 +23,4 @@ Eval 'node.find(lal.EntryIndexSpec).p_has_aspect('XXX')'
 Result: True
 
 Eval 'node.find(lal.EntryIndexSpec).p_get_aspect('XXX')'
-Result: <Aspect exists=True node=<AspectAssoc aspec.adb:24:39-24:42> value=None>
+Result: <Aspect exists=True node=<AspectAssoc aspec.adb:24:39-24:42> value=None inherited=False>

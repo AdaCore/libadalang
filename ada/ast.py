@@ -18882,8 +18882,8 @@ class AttributeRef(Name):
             rel_name == 'Enum_Rep',
             Entity.enum_rep_equation,
 
-            rel_name == 'Invalid_Value',
-            Entity.invalid_value_equation,
+            rel_name.any_of('Invalid_Value', 'First_Valid', 'Last_Valid'),
+            Entity.self_type_equation,
 
             rel_name == 'Identity', Entity.identity_equation,
             rel_name == 'Address', Entity.address_equation,
@@ -19171,10 +19171,14 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def invalid_value_equation():
+    def self_type_equation():
+        """
+        Assuming the prefix of this attribute designates a type T, return
+        an equation that binds the value of this attribute to that type T.
+        """
         typ = Var(Entity.prefix.name_designated_type)
         return And(
-            Bind(Self.prefix.ref_var, typ),
+            Entity.prefix.xref_no_overloading,
             Bind(Self.type_var, typ)
         )
 

@@ -1,0 +1,7 @@
+type: new-feature
+title: Add support for 'First_Valid and 'Last_Valid
+description: |
+  This change adds name resolution support for these two attributes, meaning
+  these expressions will be typed to the subtype designated by the prefix of
+  the attribute.
+date: 2023-03-13

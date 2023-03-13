@@ -1,0 +1,45 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:7:4-7:50>
+*************************************************************
+
+Expr: <Id "Sub_Enum" test.adb:7:17-7:25>
+  references:    <DefiningName "Sub_Enum" test.adb:4:12-4:20>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:7:29-7:49>
+  references:    None
+  type:          <SubtypeDecl ["Sub_Enum"] test.adb:4:4-5:45>
+  expected type: <SubtypeDecl ["Sub_Enum"] test.adb:4:4-5:45>
+Expr: <Id "Sub_Enum" test.adb:7:29-7:37>
+  references:    <DefiningName "Sub_Enum" test.adb:4:12-4:20>
+  type:          None
+  expected type: None
+Expr: <Id "First_Valid" test.adb:7:38-7:49>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Y"] test.adb:9:4-9:49>
+*************************************************************
+
+Expr: <Id "Sub_Enum" test.adb:9:17-9:25>
+  references:    <DefiningName "Sub_Enum" test.adb:4:12-4:20>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:9:29-9:48>
+  references:    None
+  type:          <SubtypeDecl ["Sub_Enum"] test.adb:4:4-5:45>
+  expected type: <SubtypeDecl ["Sub_Enum"] test.adb:4:4-5:45>
+Expr: <Id "Sub_Enum" test.adb:9:29-9:37>
+  references:    <DefiningName "Sub_Enum" test.adb:4:12-4:20>
+  type:          None
+  expected type: None
+Expr: <Id "Last_Valid" test.adb:9:38-9:48>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

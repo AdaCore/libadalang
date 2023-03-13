@@ -14704,7 +14704,7 @@ class CallExpr(Name):
 
             origin.bind(
                 Self.origin_node,
-                Not(Entity.name.expression_type.array_def_with_deref.is_null)
+                Not(Entity.name.expression_type._.array_def_with_deref.is_null)
             ),
             CallExprKind.array_index,
 
@@ -14712,7 +14712,7 @@ class CallExpr(Name):
             # argument and its name denotes a type declaration.
             And(
                 Entity.params.length == 1,
-                Entity.name.referenced_decl.is_a(T.TypeDecl)
+                Entity.name.referenced_decl.is_a(T.BaseTypeDecl)
             ),
             CallExprKind.type_conversion,
 

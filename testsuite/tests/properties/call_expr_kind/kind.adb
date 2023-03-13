@@ -29,6 +29,7 @@ procedure Kind is
    end F1;
 
    Y : Boolean;
+   N : Natural;
 begin
    P.T2 (V3).A := P.T2 (V2).A;
    --% node.f_dest.f_prefix.p_kind
@@ -44,5 +45,8 @@ begin
    --% node.f_expr.p_kind
 
    Y := F1 (1);
+   --% node.f_expr.p_kind
+
+   N := Natural (Q);
    --% node.f_expr.p_kind
 end Kind;

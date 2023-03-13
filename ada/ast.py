@@ -1084,6 +1084,10 @@ class AdaNode(ASTNode):
         """
         return Or(
             Self.unit == refd_unit,
+
+            # A private package necessarily has private-with visibility
+            self_cu.body.cast(LibraryItem)._.has_private.as_bool,
+
             Let(lambda decl=self_cu.decl: If(
                 # Private visibility only makes sense when we are in a package
                 # declaration, so check that we are in this case first.

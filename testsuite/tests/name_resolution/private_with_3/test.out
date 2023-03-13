@@ -1,0 +1,33 @@
+Analyzing pkg-priv.ads
+######################
+
+Resolving xrefs for node <ObjectDecl ["Y"] pkg-priv.ads:3:4-3:34>
+*****************************************************************
+
+Expr: <Id "Integer" pkg-priv.ads:3:8-3:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <DottedName pkg-priv.ads:3:19-3:33>
+  references:    <DefiningName "X" pkg-internal.ads:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName pkg-priv.ads:3:19-3:31>
+  references:    <DefiningName "Pkg.Internal" pkg-internal.ads:1:17-1:29>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" pkg-priv.ads:3:19-3:22>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Internal" pkg-priv.ads:3:23-3:31>
+  references:    <DefiningName "Pkg.Internal" pkg-internal.ads:1:17-1:29>
+  type:          None
+  expected type: None
+Expr: <Id "X" pkg-priv.ads:3:32-3:33>
+  references:    <DefiningName "X" pkg-internal.ads:2:4-2:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

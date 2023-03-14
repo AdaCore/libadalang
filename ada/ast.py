@@ -12995,16 +12995,28 @@ class ConcatOp(Expr):
                 # conversion), we must infer Self's type from the operands.
                 # Since we assume Ada code, either the LHS or the RHS will have
                 # a context-free type which we can use to infer the rest.
+                # Make sure to propagate the base type of the inferred type so
+                # that concatenation between compatible array subtypes works
+                # as expected.
                 Bind(op.expected_type_var, No(BaseTypeDecl))
-                & Bind(left.type_var, left.expected_type_var)
-                & Bind(right.type_var, right.expected_type_var)
                 & Or(
-                    Bind(left.type_var, op.type_var),
-                    Self.comp_bind(op.type_var, left.type_var)
-                )
-                & Or(
-                    Bind(right.type_var, op.type_var),
-                    Self.comp_bind(op.type_var, right.type_var)
+                    # Type is determined by the LHS
+                    Bind(left.type_var, op.type_var,
+                         conv_prop=T.BaseTypeDecl.derefed_base_subtype)
+                    & Bind(op.type_var, left.expected_type_var)
+                    & Or(
+                        Bind(op.type_var, right.expected_type_var),
+                        Self.comp_bind(op.type_var, right.expected_type_var)
+                    ),
+
+                    # Type is determined by the RHS
+                    Bind(right.type_var, op.type_var,
+                         conv_prop=T.BaseTypeDecl.derefed_base_subtype)
+                    & Bind(op.type_var, right.expected_type_var)
+                    & Or(
+                        Bind(op.type_var, left.expected_type_var),
+                        Self.comp_bind(op.type_var, left.expected_type_var)
+                    )
                 )
             )
         )

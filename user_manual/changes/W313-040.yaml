@@ -1,0 +1,9 @@
+type: bugfix
+title: Fix nameres of array concats without expected type
+description: |
+  This change fixes a bug where Libadalang could fail to resolve an array
+  concatenation expression in a context where no type is expected, such as the
+  expression inside a type conversion: ``X: String := String (A & 'b' & C);``.
+  The failure used to occur in particular when one of the operands of the
+  concatenation was a subtype of the other.
+date: 2023-03-14

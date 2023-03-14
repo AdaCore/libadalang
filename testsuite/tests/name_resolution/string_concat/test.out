@@ -269,18 +269,143 @@ Expr: <Str ""hihi"" test.adb:15:47-15:53>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 
-Resolving xrefs for node <NullStmt test.adb:17:4-17:9>
+Resolving xrefs for node <SubtypeDecl ["T"] test.adb:18:7-18:27>
+****************************************************************
+
+Expr: <Id "String" test.adb:18:20-18:26>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["K"] test.adb:20:7-20:35>
+***************************************************************
+
+Expr: <Id "T" test.adb:20:20-20:21>
+  references:    <DefiningName "T" test.adb:18:15-18:16>
+  type:          None
+  expected type: None
+Expr: <ConcatOp test.adb:20:25-20:34>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <SubtypeDecl ["T"] test.adb:18:7-18:27>
+Expr: <Str ""a"" test.adb:20:25-20:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test.adb:20:29-20:34>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <SubtypeDecl ["T"] test.adb:18:7-18:27>
+Expr: <OpConcat "&" test.adb:20:29-20:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""b"" test.adb:20:31-20:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <ObjectDecl ["L"] test.adb:22:7-22:41>
+***************************************************************
+
+Expr: <Id "T" test.adb:22:20-22:21>
+  references:    <DefiningName "T" test.adb:18:15-18:16>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:22:25-22:40>
+  references:    <DefiningName "T" test.adb:18:15-18:16>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: <SubtypeDecl ["T"] test.adb:18:7-18:27>
+Expr: <Id "T" test.adb:22:25-22:26>
+  references:    <DefiningName "T" test.adb:18:15-18:16>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: None
+Expr: <ConcatOp test.adb:22:28-22:39>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "K" test.adb:22:28-22:29>
+  references:    <DefiningName "K" test.adb:20:7-20:8>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test.adb:22:30-22:35>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" test.adb:22:30-22:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Chr "'c'" test.adb:22:32-22:35>
+  references:    <SyntheticDefiningName "'c'" __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+Expr: <ConcatOperand test.adb:22:36-22:39>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <OpConcat "&" test.adb:22:36-22:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "K" test.adb:22:38-22:39>
+  references:    <DefiningName "K" test.adb:20:7-20:8>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <ObjectDecl ["M"] test.adb:24:7-24:35>
+***************************************************************
+
+Expr: <Id "T" test.adb:24:20-24:21>
+  references:    <DefiningName "T" test.adb:18:15-18:16>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:24:25-24:34>
+  references:    <DefiningName "T" test.adb:18:15-18:16>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: <SubtypeDecl ["T"] test.adb:18:7-18:27>
+Expr: <Id "T" test.adb:24:25-24:26>
+  references:    <DefiningName "T" test.adb:18:15-18:16>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: None
+Expr: <ConcatOp test.adb:24:28-24:33>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "K" test.adb:24:28-24:29>
+  references:    <DefiningName "K" test.adb:20:7-20:8>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test.adb:24:30-24:33>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <OpConcat "&" test.adb:24:30-24:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "K" test.adb:24:32-24:33>
+  references:    <DefiningName "K" test.adb:20:7-20:8>
+  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <EndName test.adb:25:8-25:20>
+******************************************************
+
+Expr: <EndName test.adb:25:8-25:20>
+  references:    <DefiningName "With_Subtype" test.adb:17:12-17:24>
+  type:          None
+  expected type: None
+Expr: <Id "With_Subtype" test.adb:25:8-25:20>
+  references:    <DefiningName "With_Subtype" test.adb:17:12-17:24>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <NullStmt test.adb:27:4-27:9>
 ******************************************************
 
 
-Resolving xrefs for node <EndName test.adb:18:5-18:9>
+Resolving xrefs for node <EndName test.adb:28:5-28:9>
 *****************************************************
 
-Expr: <EndName test.adb:18:5-18:9>
+Expr: <EndName test.adb:28:5-28:9>
   references:    <DefiningName "Test" test.adb:1:11-1:15>
   type:          None
   expected type: None
-Expr: <Id "Test" test.adb:18:5-18:9>
+Expr: <Id "Test" test.adb:28:5-28:9>
   references:    <DefiningName "Test" test.adb:1:11-1:15>
   type:          None
   expected type: None

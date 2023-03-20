@@ -2,3 +2,5 @@ driver: ada-api
 main: main.adb
 argv: [-Pagg.gpr]
 status_code: 1
+control:
+    - [XFAIL, "valgrind", "See W320-022"]

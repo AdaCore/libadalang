@@ -1139,12 +1139,19 @@ class AdaNode(ASTNode):
                     b.is_library_item,
                     b.defining_name.referenced_unit(
                         UnitSpecification, not_found_is_error=False
-                    ).then(
-                        lambda u: u.root._.has_with_visibility(
+                    ).then(lambda u: If(
+                        # A subprogram renaming can appear as a top-level
+                        # library item of a unit specification, in which case
+                        # the `referenced_unit` call above will return `cu`.
+                        # In that case, we must not perform the recursive call,
+                        # otherwise we will get an infinite recursion.
+                        u == cu,
+                        False,
+                        u._.has_with_visibility(
                             refd_unit,
                             omit_privacy_check=True
                         )
-                    ),
+                    )),
                     False
                 )
             ),
@@ -3135,7 +3142,7 @@ class BasicDecl(AdaNode):
         # for this declaration.
         ignore(Var(
             Self.enclosing_compilation_unit.decl.match(
-                lambda _=Body: No(AnalysisUnit),
+                lambda _=Body: No(CompilationUnit),
                 lambda b=BasicDecl:
                 b.as_bare_entity._.defining_name._.referenced_unit(
                     UnitBody,
@@ -14217,14 +14224,14 @@ class Name(Expr):
     def name_designated_type_env():
         return Entity.name_designated_type._.primitives_env
 
-    @langkit_property()
+    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
     def referenced_unit(kind=AnalysisUnitKind,
                         not_found_is_error=(Bool, True)):
         """
         Return the compilation unit referenced by this name and for the given
         unit kind, if there is one.
         """
-        return Self.get_unit(
+        return Self.designated_compilation_unit(
             Self.as_symbol_array, kind, True, not_found_is_error
         )
 

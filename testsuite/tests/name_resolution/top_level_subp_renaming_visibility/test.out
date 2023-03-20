@@ -1,0 +1,5 @@
+Working on node <Id "Bar" foo.ads:4:12-4:15>
+============================================
+
+Eval 'node.p_referenced_decl()'
+Result: <SubpDecl ["Bar"] bar.ads:1:1-1:29>

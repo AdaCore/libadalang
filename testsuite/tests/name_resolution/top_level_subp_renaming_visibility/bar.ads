@@ -1,0 +1,2 @@
+function Bar return Boolean;
+

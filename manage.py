@@ -43,6 +43,24 @@ class Manage(ManageScript):
         )
         self.add_build_mode_arg(self.test_parser)
 
+        #########
+        # ACATS #
+        #########
+
+        self.acats_parser = self.add_subcommand(
+            self.do_acats, accept_unknown_args=False
+        )
+        self.acats_parser.add_argument(
+            '--acats-dir', default='acats',
+            help='The path to the acats repository. By default, use "acats" in'
+                 ' the current directory.'
+        )
+        self.acats_parser.add_argument(
+            'acats-args', nargs='*',
+            help='Arguments to pass to run_acats_test.py.'
+        )
+        self.add_build_mode_arg(self.acats_parser)
+
     def create_context(self, args):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
@@ -203,6 +221,31 @@ class Manage(ManageScript):
         except KeyboardInterrupt:
             # At this point, the testsuite already made it explicit we stopped
             # after a keyboard interrupt, so we just have to exit.
+            sys.exit(1)
+
+    def do_acats(self, args):
+        """
+        Run the ACATS testsuite.
+
+        This is a wrapper around run_acats_test.py of the libadalang part of
+        the ACATS testsuite.
+        """
+        self.set_context(args)
+
+        path = args.acats_dir
+
+        argv = [
+            sys.executable,
+            self.dirs.lang_source_dir(path, 'run_acats_test.py'),
+            '--acats-dir', path,
+            '--mode=libadalang'
+        ]
+
+        argv.extend(getattr(args, 'acats-args'))
+
+        try:
+            return self.check_call('ACATS', argv)
+        except KeyboardInterrupt:
             sys.exit(1)
 
     @staticmethod

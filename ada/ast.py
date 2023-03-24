@@ -6044,7 +6044,8 @@ class BaseTypeDecl(BasicDecl):
     )
 
     is_implicit_deref = Property(
-        Entity.is_access_type | Not(Entity.get_imp_deref.is_null),
+        Entity.access_def.then(lambda d: Not(d.is_a(AccessToSubpDef)))
+        | Not(Entity.get_imp_deref.is_null),
         doc="Whether Self is an implicitly dereferenceable type or not",
         dynamic_vars=[origin]
     )

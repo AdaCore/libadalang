@@ -1,0 +1,6 @@
+with "sub1", "sub2", "installed";
+
+project Root is
+   for Source_Files use ("root.adb");
+   for Main use ("root.adb");
+end Root;

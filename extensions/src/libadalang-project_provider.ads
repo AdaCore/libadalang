@@ -100,8 +100,9 @@ package Libadalang.Project_Provider is
      (Default, Root_Project, Whole_Project, Whole_Project_With_Runtime);
 
    function Source_Files
-     (Tree : Prj.Project_Tree'Class;
-      Mode : Source_Files_Mode := Default)
+     (Tree     : Prj.Project_Tree'Class;
+      Mode     : Source_Files_Mode := Default;
+      Projects : Prj.Project_Array := Prj.Empty_Project_Array)
       return Filename_Vectors.Vector;
    --  Return the list of source files in the given project ``Tree``. Which
    --  sources are considered depends on ``Mode``:
@@ -116,6 +117,10 @@ package Libadalang.Project_Provider is
    --
    --  * ``Whole_Project_With_Runtime``: sources in the whole project tree plus
    --    runtime sources.
+   --
+   --  If ``Projects`` is not empty, return instead the list for the sources in
+   --  all sub-projects in ``Projects``, still applying the given mode to the
+   --  search.
 
    --------------------
    -- GPR2 based API --

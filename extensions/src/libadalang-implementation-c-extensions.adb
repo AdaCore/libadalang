@@ -388,10 +388,18 @@ package body Libadalang.Implementation.C.Extensions is
    ----------------------------------
 
    function ada_gpr_project_source_files
-     (Self : ada_gpr_project_ptr; Mode : int) return ada_string_array_ptr
+     (Self            : ada_gpr_project_ptr;
+      Mode            : int;
+      Projects_Data   : access chars_ptr;
+      Projects_Length : int) return ada_string_array_ptr
    is
-      M      : Source_Files_Mode;
-      Result : Filename_Vectors.Vector;
+      type Project_Array_Access is access all GNATCOLL.Projects.Project_Array;
+      procedure Free is new Ada.Unchecked_Deallocation
+        (GNATCOLL.Projects.Project_Array, Project_Array_Access);
+
+      M        : Source_Files_Mode;
+      Projects : Project_Array_Access;
+      Result   : Filename_Vectors.Vector;
    begin
       Clear_Last_Exception;
 
@@ -405,9 +413,34 @@ package body Libadalang.Implementation.C.Extensions is
             return null;
       end;
 
+      --  Decode the ``Projects_Data``/``Projects_Length`` argument
+
+      if Projects_Data = null then
+         Projects := new GNATCOLL.Projects.Project_Array (1 .. 0);
+      else
+         declare
+            Projects_Array : array (1 .. Natural (Projects_Length))
+                             of chars_ptr
+            with Import, Address => Projects_Data.all'Address;
+         begin
+            Projects :=
+              new GNATCOLL.Projects.Project_Array (Projects_Array'Range);
+            for I in Projects_Array'Range loop
+               Projects.all (I) :=
+                 Fetch_Project (Self.Tree.all, Projects_Array (I));
+            end loop;
+         exception
+            when Exc : GNATCOLL.Projects.Invalid_Project =>
+               Set_Last_Exception (Exc);
+               return null;
+         end;
+      end if;
+
       --  Compute the list of source files
 
-      Result := Source_Files (Self.Tree.all, M);
+      Result := Source_Files (Self.Tree.all, M, Projects.all);
+
+      Free (Projects);
 
       --  Convert the vector to the C API result
 

@@ -142,8 +142,9 @@ def get_entries(*args):
             if P.basename(f) != 'entry_schema.yaml'
         ] + (
             # Gitlab entries live in subdirs
-            glob(P.join(ENTRIES_PATH, "libadalang", "*.yaml"))
+            glob(P.join(ENTRIES_PATH, "adasat", "*.yaml"))
             + glob(P.join(ENTRIES_PATH, "langkit", "*.yaml"))
+            + glob(P.join(ENTRIES_PATH, "libadalang", "*.yaml"))
         )
 
     for fname in entries_names:

@@ -12,6 +12,14 @@
             '-P', '--project', type=str, default='', help="GPR project file"
         )
         self.parser.add_argument(
+            "--subproject",
+            dest="subprojects",
+            default=[],
+            action="append",
+            help="If passed, list of subprojects in which to look for source"
+            " files. If not passed, start from the root project only."
+        )
+        self.parser.add_argument(
             "-U",
             "--recursive",
             dest="process_full_project_tree",
@@ -61,7 +69,7 @@
         else:
             mode = SourceFilesMode.root_project
 
-        return self.project.source_files(mode)
+        return self.project.source_files(mode, self.args.subprojects)
 
     def create_event_handler(self) -> Opt[EventHandler]:
         return self.CommandLineEventHandler(

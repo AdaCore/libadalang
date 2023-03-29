@@ -1,0 +1,3 @@
+project Common is
+   for Source_Files use ("common.adb");
+end Common;

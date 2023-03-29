@@ -401,8 +401,26 @@ package body Libadalang.Helpers is
                      else (if Args.Process_Full_Project_Tree.Get
                            then Default
                            else Root_Project));
+
+                  --  Decode the "--subproject" arguments
+
+                  Project_Names : constant Unbounded_String_Array :=
+                    Unbounded_String_Array (Args.Subprojects.Get);
+                  Projects      : Project_Array (Project_Names'Range);
                begin
-                  Files.Append_Vector (Source_Files (Project.all, Mode));
+                  for I in Project_Names'Range loop
+                     declare
+                        N : constant String := +Project_Names (I);
+                     begin
+                        Projects (I) := Project.Project_From_Name (N);
+                        if Projects (I) = No_Project then
+                           Abort_App ("--subproject: unknown project " & N);
+                        end if;
+                     end;
+                  end loop;
+
+                  Files.Append_Vector
+                    (Source_Files (Project.all, Mode, Projects));
                end;
             end if;
 

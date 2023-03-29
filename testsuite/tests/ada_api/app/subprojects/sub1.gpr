@@ -1,0 +1,5 @@
+with "common";
+
+project Sub1 is
+   for Source_Files use ("sub1.adb");
+end Sub1;

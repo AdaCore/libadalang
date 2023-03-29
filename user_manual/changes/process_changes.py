@@ -161,7 +161,6 @@ def get_entries(*args):
             yield entry
 
 
-
 types_to_header = OrderedDict((
     ('api-change', 'breaking changes'),
     ('new-feature', 'new features'),

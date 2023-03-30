@@ -53,25 +53,27 @@ procedure Test is
 
    My_List : List := (S => "Wouhou");
 
+   procedure My_Put_Line (S : String) is null;
+
 begin
 
    for E of My_List loop
-     Put_Line (E'Image);
+     My_Put_Line (E'Image);
    end loop;
    pragma Test_Block;
 
    for E in My_List loop
-     Put_Line (Get_Element (My_List, E)'Image);
+     My_Put_Line (Get_Element (My_List, E)'Image);
    end loop;
    pragma Test_Block;
 
    for E of reverse My_List loop
-      Put_Line (E'Image);
+      My_Put_Line (E'Image);
    end loop;
    pragma Test_Block;
 
    for E in reverse My_List loop
-      Put_Line (Get_Element (My_List, E)'Image);
+      My_Put_Line (Get_Element (My_List, E)'Image);
    end loop;
    pragma Test_Block;
 

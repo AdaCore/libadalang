@@ -996,6 +996,13 @@ class AdaNode(ASTNode):
         doc="Static method. Return the root_real type."
     )
 
+    system_address_type = Property(
+        Self.get_unit_root_decl(['System'], UnitSpecification)
+        ._.children_env.get_first('Address', lookup=LK.flat)
+        .cast(T.BaseTypeDecl),
+        doc="Static method. Return the System.Address type."
+    )
+
     @langkit_property(return_type=T.BasicDecl.entity.array, memoized=True,
                       memoize_in_populate=True)
     def root_type_ops_impl(sym=T.Symbol):
@@ -10230,7 +10237,8 @@ class AttributeDefClause(AspectClause):
                 Entity.expr.cast(T.Name).ref_var,
                 attr.prefix.name_designated_type,
                 rel_name == 'Input',
-            ),
+            )
+            & attr.prefix.sub_equation,
 
             rel_name.any_of('Put_Image'),
             Entity.expr.cast_or_raise(T.Name).xref_no_overloading(all_els=True)
@@ -10238,16 +10246,20 @@ class AttributeDefClause(AspectClause):
                 BasicDecl.is_put_image_subprogram_for_type,
                 Entity.expr.cast(T.Name).ref_var,
                 attr.prefix.name_designated_type
-            ),
+            )
+            & attr.prefix.sub_equation,
 
-            Entity.expr.sub_equation & Cond(
+            Entity.expr.sub_equation
+            & attr.sub_equation
+            & Cond(
                 rel_name == "External_Tag",
                 Bind(Self.expr.expected_type_var, Self.std_entity("String")),
 
+                rel_name == "Address",
+                Bind(Self.expr.expected_type_var, Entity.system_address_type),
+
                 LogicTrue()
             )
-        ) & attr.then(
-            lambda ar: ar.prefix.sub_equation, default_val=LogicTrue()
         )
 
 
@@ -19107,12 +19119,6 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def address_equation():
-        address_type = Var(
-            Entity
-            .get_unit_root_decl(['System'], UnitSpecification)
-            ._.children_env.get_first('Address', lookup=LK.flat)
-            .cast(T.BaseTypeDecl)
-        )
         # Just like in access_equation, handle subprograms first, otherwise
         # paramless subprograms could match the normal path and therefore be
         # considered called.
@@ -19121,7 +19127,7 @@ class AttributeRef(Name):
             & Predicate(BasicDecl.is_subprogram, Self.prefix.ref_var),
 
             Entity.prefix.sub_equation
-        ) & Bind(Self.type_var, address_type)
+        ) & Bind(Self.type_var, Entity.system_address_type)
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def identity_equation():

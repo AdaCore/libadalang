@@ -13549,7 +13549,7 @@ class RefResultKind(Enum):
     - ``imprecise`` is when there was an error computing the precise result,
       and a result was gotten in an imprecise fashion.
     - ``error`` is for unrecoverable errors (either there is no imprecise path
-      for the request you made, or the imprecise path errored out too.
+      for the request you made, or the imprecise path errored out too).
     """
     no_ref = EnumValue(is_default=True)
     precise = EnumValue()

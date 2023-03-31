@@ -1,0 +1,7 @@
+type: api-change
+title: Remove the ``Libadalang.Introspection`` package
+description: |
+    The ``Libadalang.Introspection`` package has been removed. Introspection
+    primitives are now available in the
+    ``Langkit_Support.Generic_API.Introspection`` package.
+date: 2023-03-30

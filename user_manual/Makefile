@@ -61,7 +61,6 @@ newhtml:
 		   ../extensions/src/libadalang-data_decomposition.ads \
 		   ../extensions/src/libadalang-expr_eval.ads \
 		   ../extensions/src/libadalang-helpers.ads \
-		$(LAL_BUILD_DIR)/src/libadalang-introspection.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-iterators.ads \
 		$(LAL_BUILD_DIR)/src/libadalang-lexer.ads \
 		   ../extensions/src/libadalang-preprocessing.ads \

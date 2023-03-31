@@ -18984,8 +18984,9 @@ class AttributeRef(Name):
 
             rel_name == 'Storage_Pool', Entity.storage_pool_equation,
 
-            rel_name == 'Scalar_Storage_Order',
-            Entity.scalar_storage_order_equation,
+            rel_name.any_of('Bit_Order', 'Scalar_Storage_Order',
+                            'Default_Scalar_Storage_Order'),
+            Entity.order_equation,
 
             rel_name == 'Type_Class', Entity.type_class_equation,
 
@@ -19061,9 +19062,9 @@ class AttributeRef(Name):
         return Entity.prefix.xref_equation & Bind(Self.type_var, typ)
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def scalar_storage_order_equation():
+    def order_equation():
         """
-        Equation for the Scalar_Storage_Order attribute.
+        Equation for the Bit_Order/[Default_]Scalar_Storage_Order attributes.
         """
         typ = Var(
             Entity

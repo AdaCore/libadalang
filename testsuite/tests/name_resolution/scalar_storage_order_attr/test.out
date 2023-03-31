@@ -31,5 +31,73 @@ Expr: <Id "Low_Order_First" test.adb:8:35-8:50>
   type:          system.bit_order
   expected type: system.bit_order
 
+Resolving xrefs for node <ExprFunction ["Bar"] test.adb:15:7-16:41>
+*******************************************************************
+
+Expr: <ParenExpr test.adb:16:9-16:40>
+  type:          standard.boolean
+  expected type: standard.boolean
+Expr: <RelationOp test.adb:16:10-16:39>
+  type:          standard.boolean
+  expected type: standard.boolean
+Expr: <AttributeRef test.adb:16:10-16:21>
+  references:    None
+  type:          system.bit_order
+  expected type: system.bit_order
+Expr: <Id "R" test.adb:16:10-16:11>
+  references:    test().pkg.r
+  type:          test().pkg.r
+  expected type: None
+Expr: <Id "Bit_Order" test.adb:16:12-16:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq "=" test.adb:16:22-16:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Low_Order_First" test.adb:16:24-16:39>
+  references:    system.bit_order.low_order_first(() -> system.bit_order.low_order_first)
+  type:          system.bit_order
+  expected type: system.bit_order
+
+Resolving xrefs for node <ExprFunction ["Baz"] test.adb:19:7-20:74>
+*******************************************************************
+
+Expr: <ParenExpr test.adb:20:9-20:73>
+  type:          standard.boolean
+  expected type: standard.boolean
+Expr: <RelationOp test.adb:20:10-20:72>
+  type:          standard.boolean
+  expected type: standard.boolean
+Expr: <AttributeRef test.adb:20:10-20:32>
+  references:    None
+  type:          system.bit_order
+  expected type: system.bit_order
+Expr: <Id "T" test.adb:20:10-20:11>
+  references:    test().pkg.t
+  type:          test().pkg.t
+  expected type: None
+Expr: <Id "Scalar_Storage_Order" test.adb:20:12-20:32>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq "=" test.adb:20:33-20:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:20:35-20:72>
+  references:    None
+  type:          system.bit_order
+  expected type: system.bit_order
+Expr: <Id "Standard" test.adb:20:35-20:43>
+  references:    standard
+  type:          None
+  expected type: None
+Expr: <Id "Default_Scalar_Storage_Order" test.adb:20:44-20:72>
+  references:    None
+  type:          None
+  expected type: None
+
 
 Done.

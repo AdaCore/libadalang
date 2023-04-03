@@ -5828,7 +5828,7 @@ class BaseTypeDecl(BasicDecl):
         doc="If self has an Implicit_Dereference aspect, return its expression"
     )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    @langkit_property(return_type=T.BaseTypeDecl.entity, public=True)
     def specific_type():
         """
         Return the specific type under a class-wide type. Consider for example:

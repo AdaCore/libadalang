@@ -18969,7 +18969,7 @@ class AttributeRef(Name):
                             'Finalization_Size', 'Descriptor_Size',
                             'Alignment', 'First_Bit', 'Last_Bit',
                             'Default_Bit_Order', 'Range_Length',
-                            'Storage_Unit',
+                            'Storage_Unit', 'Stream_Size',
                             'Small_Numerator', 'Small_Denominator',
                             'Machine_Emin', 'Machine_Emax', 'Model_Emin'),
             Entity.prefix.sub_equation

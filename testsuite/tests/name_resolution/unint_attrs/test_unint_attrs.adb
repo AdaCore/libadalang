@@ -38,6 +38,7 @@ begin
       U  : constant Natural := Positive'Range_Length;
       V  : constant Natural := Standard'Storage_Unit;
       W  : constant Natural := Standard'Wchar_T_Size;
+      X  : constant Natural := Natural'Stream_Size;
    begin
       null;
    end;

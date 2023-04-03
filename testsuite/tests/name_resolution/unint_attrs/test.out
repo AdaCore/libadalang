@@ -525,7 +525,27 @@ Expr: <Id "Wchar_T_Size" test_unint_attrs.adb:40:41-40:53>
   type:          None
   expected type: None
 
-Resolving xrefs for node <NullStmt test_unint_attrs.adb:42:7-42:12>
+Resolving xrefs for node <ObjectDecl ["X"] test_unint_attrs.adb:41:7-41:52>
+***************************************************************************
+
+Expr: <Id "Natural" test_unint_attrs.adb:41:21-41:28>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test_unint_attrs.adb:41:32-41:51>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <Id "Natural" test_unint_attrs.adb:41:32-41:39>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: None
+Expr: <Id "Stream_Size" test_unint_attrs.adb:41:40-41:51>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <NullStmt test_unint_attrs.adb:43:7-43:12>
 *******************************************************************
 
 

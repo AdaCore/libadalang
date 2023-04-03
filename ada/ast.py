@@ -5971,11 +5971,15 @@ class BaseTypeDecl(BasicDecl):
     )
 
     # TODO: Not clear if the below origin.bind is correct, investigate later
-    classwide_type = Property(origin.bind(Self, If(
-        Entity.is_tagged_type,
-        Self.classwide_type_node.as_entity,
-        No(T.ClasswideTypeDecl.entity)
-    )))
+    classwide_type = Property(
+        origin.bind(Self, If(
+            Entity.is_tagged_type,
+            Self.classwide_type_node.as_entity,
+            No(T.ClasswideTypeDecl.entity)
+        )),
+        public=True,
+        doc="Return the classwide type for this type, if applicable"
+    )
 
     scalar_base_type = Property(Self.scalar_base_subtype_node.as_entity)
 

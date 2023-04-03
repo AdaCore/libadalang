@@ -8434,11 +8434,7 @@ class DerivedTypeDef(TypeDef):
 
     array_ndims = Property(Entity.base_type.array_ndims)
 
-    # TODO: this origin bind is erroneous
-    base_type = Property(
-        origin.bind(Self.origin_node,
-                    Entity.subtype_indication.designated_type)
-    )
+    base_type = Property(Entity.subtype_indication.designated_type)
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)
@@ -8449,7 +8445,7 @@ class DerivedTypeDef(TypeDef):
     is_char_type = Property(Entity.base_type.is_char_type)
     is_float_type = Property(Entity.base_type.is_float_type)
     is_fixed_point = Property(Entity.base_type.is_fixed_point)
-    accessed_type = Property(Entity.base_type.accessed_type)
+    accessed_type = Property(Entity.base_type._.accessed_type)
     is_tagged_type = Property(
         Not(Entity.record_extension.is_null) | Entity.has_with_private.as_bool
     )

@@ -7952,8 +7952,7 @@ class AnonymousTypeDecl(TypeDecl):
                         # Forget the classwide view: GNAT always allows
                         # comparison/assignment between access-to-T and
                         # access-to-T'Class.
-                        exp=ast.cast(ClasswideTypeDecl)._.type_decl._or(ast),
-                        act=oat.cast(ClasswideTypeDecl)._.type_decl._or(oat):
+                        exp=ast.specific_type, act=oat.specific_type:
                         If(
                             for_assignment,
 

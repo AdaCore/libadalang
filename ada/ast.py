@@ -6092,7 +6092,7 @@ class BaseTypeDecl(BasicDecl):
         Calling this property on ``S2`` will return ``T``.
         """
         return Entity.match(
-            # recurse on the class-widen type because it could be a subtype
+            # Recurse on the class-wide type because it could be a subtype
             # renaming a class-wide type itself.
             lambda cw=T.ClasswideTypeDecl: cw.type_decl.specific_type,
             lambda bt=T.BaseSubtypeDecl: bt.base_subtype.specific_type,

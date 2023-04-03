@@ -30,7 +30,7 @@ Expr: <DottedName pkg.adb:16:7-16:18>
 Expr: <Id "X" pkg.adb:16:7-16:8>
   references:    <DefiningName "X" pkg.adb:14:28-14:29>
   type:          <AnonymousTypeDecl ["None"] pkg.adb:14:32-14:46>
-  expected type: None
+  expected type: <AnonymousTypeDecl ["None"] pkg.adb:3:29-3:43>
 Expr: <Id "Body_Prim" pkg.adb:16:9-16:18>
   references:    <DefiningName "Body_Prim" pkg.adb:3:14-3:23>
   type:          None

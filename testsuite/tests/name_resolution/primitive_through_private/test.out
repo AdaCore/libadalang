@@ -59,7 +59,7 @@ Expr: <DottedName test.adb:12:4-12:14>
 Expr: <Id "X" test.adb:12:4-12:5>
   references:    <DefiningName "X" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Foo"] test.adb:7:7-7:34>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Foo"] test.adb:7:7-7:34>
 Expr: <Id "Do_Stuff" test.adb:12:6-12:14>
   references:    <DefiningName "Do_Stuff" test.adb:5:17-5:25>
   type:          None

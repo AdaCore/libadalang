@@ -51,7 +51,7 @@ Expr: <DottedName test.adb:23:19-23:24>
 Expr: <Id "X" test.adb:23:19-23:20>
   references:    <DefiningName "X" test.adb:19:4-19:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:3:7-5:18>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["T"] test.adb:3:7-5:18>
 Expr: <Id "Bar" test.adb:23:21-23:24>
   references:    <DefiningName "Bar" test.adb:8:16-8:19>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>

@@ -46,7 +46,7 @@ Expr: <DottedName testcw.adb:17:7-17:13>
 Expr: <Id "CW" testcw.adb:17:7-17:9>
   references:    <DefiningName "CW" testcw.adb:15:7-15:9>
   type:          <ClasswideTypeDecl ["A"] testcw.adb:3:7-5:18>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["A"] testcw.adb:3:7-5:18>
 Expr: <Id "Foo" testcw.adb:17:10-17:13>
   references:    <DefiningName "Foo" testcw.adb:7:17-7:20>
   type:          None

@@ -6081,7 +6081,7 @@ class BaseTypeDecl(BasicDecl):
         doc="If self has an Implicit_Dereference aspect, return its expression"
     )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    @langkit_property(return_type=T.BaseTypeDecl.entity, public=True)
     def specific_type():
         """
         Return the specific type under a class-wide type. Consider for example:
@@ -6092,9 +6092,9 @@ class BaseTypeDecl(BasicDecl):
         Calling this property on ``S2`` will return ``T``.
         """
         return Entity.match(
-            # recurse on the class-widen type because it could be a subtype
+            # Recurse on the class-wide type because it could be a subtype
             # renaming a class-wide type itself.
-            lambda cw=T.ClasswideTypeDecl: cw.typedecl.specific_type,
+            lambda cw=T.ClasswideTypeDecl: cw.type_decl.specific_type,
             lambda bt=T.BaseSubtypeDecl: bt.base_subtype.specific_type,
             lambda _: Entity
         )
@@ -6224,11 +6224,15 @@ class BaseTypeDecl(BasicDecl):
     )
 
     # TODO: Not clear if the below origin.bind is correct, investigate later
-    classwide_type = Property(origin.bind(Self, If(
-        Entity.is_tagged_type,
-        Self.classwide_type_node.as_entity,
-        No(T.ClasswideTypeDecl.entity)
-    )))
+    classwide_type = Property(
+        origin.bind(Self, If(
+            Entity.is_tagged_type,
+            Self.classwide_type_node.as_entity,
+            No(T.ClasswideTypeDecl.entity)
+        )),
+        public=True,
+        doc="Return the classwide type for this type, if applicable"
+    )
 
     scalar_base_type = Property(Self.scalar_base_subtype_node.as_entity)
 
@@ -6332,7 +6336,7 @@ class BaseTypeDecl(BasicDecl):
             ['Ada', 'Iterator_Interfaces'], UnitSpecification
         ))
         typ = Var(Entity.cast(T.ClasswideTypeDecl).then(
-            lambda cw: cw.typedecl, default_val=Entity)
+            lambda cw: cw.type_decl, default_val=Entity)
         )
         return Or(
             typ.semantic_parent.semantic_parent.node == iifcs,
@@ -7260,41 +7264,41 @@ class ClasswideTypeDecl(BaseTypeDecl):
 
     aspects = NullField()
 
-    typedecl = Property(Self.parent.cast(BaseTypeDecl).as_entity)
+    type_decl = Property(Entity.parent.cast(BaseTypeDecl))
 
     is_classwide = Property(True)
 
     is_tagged_type = Property(True)
-    base_type = Property(Entity.typedecl.base_type)
-    base_interfaces = Property(Entity.typedecl.base_interfaces)
-    record_def = Property(Entity.typedecl.record_def)
+    base_type = Property(Entity.type_decl.base_type)
+    base_interfaces = Property(Entity.type_decl.base_interfaces)
+    record_def = Property(Entity.type_decl.record_def)
     classwide_type = Property(Entity)
-    is_iterable_type = Property(Entity.typedecl.is_iterable_type)
-    iterable_comp_type = Property(Entity.typedecl.iterable_comp_type)
-    defining_env = Property(Entity.typedecl.defining_env)
-    is_private = Property(Entity.typedecl.is_private)
-    is_in_private_part = Property(Entity.typedecl.is_in_private_part)
+    is_iterable_type = Property(Entity.type_decl.is_iterable_type)
+    iterable_comp_type = Property(Entity.type_decl.iterable_comp_type)
+    defining_env = Property(Entity.type_decl.defining_env)
+    is_private = Property(Entity.type_decl.is_private)
+    is_in_private_part = Property(Entity.type_decl.is_in_private_part)
 
     @langkit_property()
     def get_aspect_assoc(name=Symbol):
-        return Entity.typedecl.get_aspect_assoc(name)
+        return Entity.type_decl.get_aspect_assoc(name)
 
-    is_interface_type = Property(Entity.typedecl.is_interface_type)
+    is_interface_type = Property(Entity.type_decl.is_interface_type)
 
     @langkit_property()
     def discriminants_list(
             stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
-        return Entity.typedecl.discriminants_list(stop_recurse_at)
+        return Entity.type_decl.discriminants_list(stop_recurse_at)
 
     @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
                       memoized=True)
     def previous_part(go_to_incomplete=(Bool, True)):
-        return Entity.typedecl.previous_part(go_to_incomplete).then(
+        return Entity.type_decl.previous_part(go_to_incomplete).then(
             lambda pp: pp.classwide_type
         )
 
-    canonical_type = Property(Entity.typedecl.canonical_type.then(
+    canonical_type = Property(Entity.type_decl.canonical_type.then(
         # The canonical type should be classwide whenever it makes sense (e.g.
         # if the canonical type is a tagged record type.) Otherwise return
         # a non-classwide type.
@@ -7948,8 +7952,7 @@ class AnonymousTypeDecl(TypeDecl):
                         # Forget the classwide view: GNAT always allows
                         # comparison/assignment between access-to-T and
                         # access-to-T'Class.
-                        exp=ast.cast(ClasswideTypeDecl)._.typedecl._or(ast),
-                        act=oat.cast(ClasswideTypeDecl)._.typedecl._or(oat):
+                        exp=ast.specific_type, act=oat.specific_type:
                         If(
                             for_assignment,
 
@@ -18048,7 +18051,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
             Entity.nb_max_params > 0,
             Entity.potential_dottable_type.then(lambda t: Cond(
                 t.is_a(ClasswideTypeDecl),
-                t.cast(ClasswideTypeDecl).typedecl,
+                t.cast(ClasswideTypeDecl).type_decl,
 
                 # NOTE: We are not actually implementing the correct Ada
                 # semantics here, because you can call primitives via the dot

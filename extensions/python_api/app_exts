@@ -20,6 +20,7 @@
 
     def create_unit_provider(self):
         if not self.args.project:
+            self.project = None
             return None
 
         self.scenario_vars = {}
@@ -33,7 +34,9 @@
         return self.project.create_unit_provider()
 
     def default_get_files(self):
-        return self.project.source_files()
+        # If a project was loaded, process its source files. Otherwise, process
+        # no source file by default.
+        return self.project.source_files() if self.project else []
 
     def create_event_handler(self) -> Opt[EventHandler]:
         return self.CommandLineEventHandler(

@@ -12,6 +12,21 @@
             '-P', '--project', type=str, default='', help="GPR project file"
         )
         self.parser.add_argument(
+            "-U",
+            "--recursive",
+            dest="process_full_project_tree",
+            action="store_true",
+            help="Process all units in the project tree, excluding externally"
+            " built projects unless the --process-runtime option is also"
+            " passed.",
+        )
+        self.parser.add_argument(
+            "--process-runtime",
+            action="store_true",
+            help= "Process the runtime files, and any other predefined"
+            " sources.",
+        )
+        self.parser.add_argument(
             '-k', '--keep-going-on-missing-file', action='store_true',
             help="Behavior when encountering missing files. By default, exit"
                  " with an error on the first missing dependency. Continue"
@@ -36,7 +51,17 @@
     def default_get_files(self):
         # If a project was loaded, process its source files. Otherwise, process
         # no source file by default.
-        return self.project.source_files() if self.project else []
+        if self.project is None:
+            return []
+
+        if self.args.process_runtime:
+            mode = SourceFilesMode.whole_project_with_runtime
+        elif self.args.process_full_project_tree:
+            mode = SourceFilesMode.default
+        else:
+            mode = SourceFilesMode.root_project
+
+        return self.project.source_files(mode)
 
     def create_event_handler(self) -> Opt[EventHandler]:
         return self.CommandLineEventHandler(

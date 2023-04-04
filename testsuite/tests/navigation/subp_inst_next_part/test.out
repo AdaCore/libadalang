@@ -1,0 +1,5 @@
+Working on node <GenericSubpInstantiation ["Subp"] subp.ads:7:1-7:30>
+=====================================================================
+
+Eval 'node.p_next_part_for_decl()'
+Result: None

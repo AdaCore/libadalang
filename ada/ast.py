@@ -3179,7 +3179,7 @@ class BasicDecl(AdaNode):
                         b.is_a(
                             T.BasePackageDecl,
                             T.GenericPackageDecl,
-                            T.GenericPackageInstantiation,
+                            T.GenericInstantiation,
                             T.PackageRenamingDecl,
                             T.SubpRenamingDecl,
                             T.GenericRenamingDecl

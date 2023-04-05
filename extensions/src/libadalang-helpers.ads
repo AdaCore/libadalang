@@ -227,10 +227,21 @@ package Libadalang.Helpers is
             Default_Val => Null_Unbounded_String,
             Help        => "Project file to use");
 
+         package Subprojects is new Parse_Option_List
+           (Parser,
+            Long       => "--subproject",
+            Arg_Type   => Unbounded_String,
+            Accumulate => True,
+            Help       =>
+              "If passed, list of subprojects in which to look for source"
+              & " files. If not passed, start from the root project only.");
+
          package Process_Full_Project_Tree is new Parse_Flag
            (Parser, "-U", "--recursive",
-            Help => "Process all units in the project tree, " &
-              "excluding externally built projects");
+            Help =>
+              "Process all units in the project tree, excluding externally"
+              & " built projects unless the --process-runtime option is also"
+              & " passed.");
 
          package Process_Runtime is new Parse_Flag
            (Parser, Long => "--process-runtime",

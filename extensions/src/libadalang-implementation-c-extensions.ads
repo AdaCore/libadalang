@@ -86,11 +86,19 @@ package Libadalang.Implementation.C.Extensions is
    --  ``Self`` live at least as long as the returned unit provider.
 
    function ada_gpr_project_source_files
-     (Self : ada_gpr_project_ptr; Mode : int) return ada_string_array_ptr
+     (Self            : ada_gpr_project_ptr;
+      Mode            : int;
+      Projects_Data   : access chars_ptr;
+      Projects_Length : int) return ada_string_array_ptr
      with Export, Convention => C;
    --  Compute the list of source files in the given GPR project according to
    --  ``Mode`` (whose value maps to positions in the
    --  ``Libadalang.Project_Provider.Source_Files_Mode`` enum) and return it.
+   --
+   --  If the string array designated by ``Projects_Data``/``Projects_Length``
+   --  is not empty, return instead the list for the sources in all
+   --  sub-projects in ``Projects``, still applying the given mode to the
+   --  search.
 
    function ada_create_project_unit_provider
      (Project_File, Project : chars_ptr;

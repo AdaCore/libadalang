@@ -32,6 +32,9 @@ for prj, kwargs in [
     ("orig", {"mode": lal.SourceFilesMode.default}),
     ("orig", {"mode": lal.SourceFilesMode.root_project}),
     ("orig", {"mode": lal.SourceFilesMode.whole_project}),
+    ("orig", {"mode": lal.SourceFilesMode.root_project, "projects": ["lib"]}),
+    ("orig", {"mode": lal.SourceFilesMode.root_project,
+              "projects": ["lib", "ext"]}),
     ("alt", {}),
 ]:
     print(f"{prj} {kwargs}:")
@@ -44,6 +47,16 @@ for prj, kwargs in [
 print("invalid project:")
 try:
     lal.GPRProject("foo.gpr")
+except lal.InvalidProject:
+    print("  <InvalidProject exception>")
+else:
+    print("  Unexpected absence of exception")
+print("")
+
+
+print("invalid sub-project:")
+try:
+    prjs[prj].source_files(projects=["nosuchproject"])
 except lal.InvalidProject:
     print("  <InvalidProject exception>")
 else:

@@ -215,7 +215,11 @@ class GPRProject:
         c_value = self._c_create_unit_provider(self._c_value, c_project)
         return self._UnitProvider(self, c_value)
 
-    def source_files(self, mode: SourceFilesMode = SourceFilesMode.default):
+    def source_files(
+        self,
+        mode: SourceFilesMode = SourceFilesMode.default,
+        projects: List[str] = [],
+    ):
         """
         Return the list of source files in this project according to ``mode``:
 
@@ -229,14 +233,26 @@ class GPRProject:
 
         * ``whole_project_with_runtime``: sources in the whole project tree
           plus runtime sources.
+
+        If ``projects`` is not empty, return instead the list for the sources
+        in all the sub-projects that ``projects`` designates, still applying
+        the given mode to the search.
         """
 
         assert isinstance(mode, SourceFilesMode)
         c_mode = mode.value
 
+        projects_type = ctypes.c_char_p * len(projects)
+        projects_c_strings = [
+            ctypes.c_char_p(_coerce_bytes("projects", p)) for p in projects
+        ]
+        c_projects = projects_type(*projects_c_strings)
+
         # Compute the list of source files, extract it (no error expected there
         # unless we have a bug) and free the resources.
-        c_value = self._c_source_files(self._c_value, c_mode)
+        c_value = self._c_source_files(
+            self._c_value, c_mode, c_projects, len(projects)
+        )
         assert c_value
         result = c_value.contents.wrap
         _c_free_string_array(c_value)
@@ -304,7 +320,7 @@ class GPRProject:
 
     _c_source_files = staticmethod(_import_func(
         "ada_gpr_project_source_files",
-        [_c_type, ctypes.c_int],
+        [_c_type, ctypes.c_int, ctypes.POINTER(ctypes.c_char_p), ctypes.c_int],
         _c_string_array_ptr,
     ))
 

@@ -4,6 +4,7 @@
 --
 
 with Ada.Containers.Hashed_Maps;
+with Ada.Containers.Hashed_Sets;
 with Ada.Strings.Unbounded.Hash;
 
 with GNAT.Task_Lock;
@@ -15,6 +16,11 @@ with Libadalang.GPR_Utils; use Libadalang.GPR_Utils;
 with Libadalang.Unit_Files;
 
 package body Libadalang.Project_Provider is
+
+   package Filename_Sets is new Ada.Containers.Hashed_Sets
+     (Element_Type        => Virtual_File,
+      Hash                => Full_Name_Hash,
+      Equivalent_Elements => "=");
 
    use type Ada.Containers.Count_Type;
 
@@ -801,51 +807,89 @@ package body Libadalang.Project_Provider is
    ------------------
 
    function Source_Files
-     (Tree : Prj.Project_Tree'Class;
-      Mode : Source_Files_Mode := Default)
+     (Tree     : Prj.Project_Tree'Class;
+      Mode     : Source_Files_Mode := Default;
+      Projects : Prj.Project_Array := Prj.Empty_Project_Array)
       return Filename_Vectors.Vector
    is
       use GNATCOLL.Projects;
 
-      Result : Filename_Vectors.Vector;
+      Result : Filename_Sets.Set;
+
+      procedure Include (P : Prj.Project_Type);
+      --  Include sources that belong to ``P`` (according to ``Mode``) to
+      --  ``Result``.
 
       procedure Append (F : Virtual_File);
       --  If ``F`` is an Ada source in the project tree, append it to
       --  ``Result``.
 
-      package Sorting is new Filename_Vectors.Generic_Sorting ("<" => US."<");
+      -------------
+      -- Include --
+      -------------
+
+      procedure Include (P : Prj.Project_Type) is
+         Recursive                : Boolean;
+         Include_Externally_Built : Boolean;
+         List                     : File_Array_Access;
+      begin
+         case Mode is
+            when Default =>
+
+               --  Go through all projects except externally built ones
+
+               Recursive := True;
+               Include_Externally_Built := False;
+
+            when Root_Project =>
+
+               --  Go through ``P`` only, regardless of whether it is
+               --  externally built.
+
+               Recursive := False;
+               Include_Externally_Built := True;
+
+            when Whole_Project | Whole_Project_With_Runtime =>
+
+               --  Go through the whole project sub tree
+
+               Recursive := True;
+               Include_Externally_Built := True;
+         end case;
+         List := P.Source_Files
+           (Recursive                => Recursive,
+            Include_Externally_Built => Include_Externally_Built);
+         for F of List.all loop
+            Append (F);
+         end loop;
+         Unchecked_Free (List);
+      end Include;
 
       ------------
       -- Append --
       ------------
 
       procedure Append (F : Virtual_File) is
-         FI        : constant File_Info := Tree.Info (F);
-         Full_Name : Filesystem_String renames F.Full_Name.all;
-         Name      : constant String := +Full_Name;
+         FI : constant File_Info := Tree.Info (F);
       begin
          if FI.Language = "ada" then
-            Result.Append (US.To_Unbounded_String (Name));
+            Result.Include (F);
          end if;
       end Append;
 
    begin
-      --  First, get the requested set of sources from the project itself
+      --  Include sources from all the requested projects themselves
 
-      declare
-         List : File_Array_Access :=
-           (Tree.Root_Project.Source_Files
-              (Recursive                => Mode /= Root_Project,
-               Include_Externally_Built =>
-                 Mode in Whole_Project | Whole_Project_With_Runtime));
-      begin
-         for F of List.all loop
-            Append (F);
+      if Projects'Length = 0 then
+         Include (Tree.Root_Project);
+      else
+         for P of Projects loop
+            Include (P);
          end loop;
-         Unchecked_Free (List);
-      end;
+      end if;
 
-      --  Then, if requested, get runtime sources
+      --  Only then, if requested, get runtime sources: they are common to all
+      --  subprojects.
 
       if Mode = Whole_Project_With_Runtime then
          declare
@@ -858,11 +902,20 @@ package body Libadalang.Project_Provider is
          end;
       end if;
 
-      --  Sort the list of source files to return. Sorting gets the output
+      --  Return the sorted list of source files. Sorting gets the output
       --  deterministic and thus helps reproducibility.
 
-      Sorting.Sort (Result);
-      return Result;
+      return V : Filename_Vectors.Vector do
+         for F of Result loop
+            V.Append (US.To_Unbounded_String (+F.Full_Name));
+         end loop;
+         declare
+            package Sorting is new Filename_Vectors.Generic_Sorting
+              ("<" => US."<");
+         begin
+            Sorting.Sort (V);
+         end;
+      end return;
    end Source_Files;
 
    -----------------------------------

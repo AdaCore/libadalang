@@ -79,7 +79,7 @@ module GPRProject = struct
 
   let c_source_files =
     foreign ~from:c_lib "${capi.get_name("gpr_project_source_files")}"
-      (c_type @-> int @-> raisable string_array)
+      (c_type @-> int @-> ptr void @-> raisable string_array)
 
   type source_file_mode =
     | Default
@@ -94,7 +94,7 @@ module GPRProject = struct
     | WholeProjectWithRuntime -> 3
 
   let source_files ?(mode = Default) gpr_project =
-    c_source_files gpr_project (write_source_file_mode mode)
+    c_source_files gpr_project (write_source_file_mode mode) null
 
   type line_mode =
     | DeleteLines

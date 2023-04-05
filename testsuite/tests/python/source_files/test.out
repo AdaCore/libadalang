@@ -14,11 +14,21 @@ orig {'mode': <SourceFilesMode.whole_project: 2>}:
   src-lib/lib.ads
   src-root/root.ads
 
+orig {'mode': <SourceFilesMode.root_project: 1>, 'projects': ['lib']}:
+  src-lib/lib.ads
+
+orig {'mode': <SourceFilesMode.root_project: 1>, 'projects': ['lib', 'ext']}:
+  src-ext/ext.ads
+  src-lib/lib.ads
+
 alt {}:
   src-lib/lib__alt.ads
   src-root/root.ads
 
 invalid project:
+  <InvalidProject exception>
+
+invalid sub-project:
   <InvalidProject exception>
 
 with runtime:

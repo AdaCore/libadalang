@@ -1,0 +1,169 @@
+## []
+
+For DEFAULT
+  common.adb
+  root.adb
+  sub1.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  root.adb
+
+For WHOLE_PROJECT
+  common.adb
+  installed.adb
+  installed_dep.adb
+  root.adb
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  installed.adb
+  installed_dep.adb
+  root.adb
+  sub1.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [root]
+
+For DEFAULT
+  common.adb
+  root.adb
+  sub1.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  root.adb
+
+For WHOLE_PROJECT
+  common.adb
+  installed.adb
+  installed_dep.adb
+  root.adb
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  installed.adb
+  installed_dep.adb
+  root.adb
+  sub1.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [sub1, sub2]
+
+For DEFAULT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub1.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [sub2]
+
+For DEFAULT
+  common.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  sub2.adb
+
+For WHOLE_PROJECT
+  common.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [common]
+
+For DEFAULT
+  common.adb
+
+For ROOT_PROJECT
+  common.adb
+
+For WHOLE_PROJECT
+  common.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  ... plus runtime sources
+
+
+## [sub2, common]
+
+For DEFAULT
+  common.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  common.adb
+  sub2.adb
+
+For WHOLE_PROJECT
+  common.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [installed]
+
+For DEFAULT
+
+For ROOT_PROJECT
+  installed.adb
+
+For WHOLE_PROJECT
+  installed.adb
+  installed_dep.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  installed.adb
+  installed_dep.adb
+  ... plus runtime sources
+
+
+## [installed_dep]
+
+For DEFAULT
+
+For ROOT_PROJECT
+  installed_dep.adb
+
+For WHOLE_PROJECT
+  installed_dep.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  installed_dep.adb
+  ... plus runtime sources
+
+
+Done.

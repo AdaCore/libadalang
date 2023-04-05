@@ -31,7 +31,7 @@ Expr: <DottedName test_pre_class.ads:6:16-6:24>
 Expr: <Id "Self" test_pre_class.ads:6:16-6:20>
   references:    <DefiningName "Self" test_pre_class.ads:5:7-5:11>
   type:          <ConcreteTypeDecl ["T"] test_pre_class.ads:9:4-9:42>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["T"] test_pre_class.ads:9:4-9:42>
 Expr: <Id "Why" test_pre_class.ads:6:21-6:24>
   references:    <DefiningName "Why" test_pre_class.ads:10:13-10:16>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>

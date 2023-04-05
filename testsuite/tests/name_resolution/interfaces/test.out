@@ -103,7 +103,7 @@ Expr: <DottedName testifc.adb:17:4-17:18>
 Expr: <Id "Inst" testifc.adb:17:4-17:8>
   references:    <DefiningName "Inst" testifc.adb:12:4-12:8>
   type:          <ConcreteTypeDecl ["B"] testifc.adb:10:4-10:43>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["A"] testifc.adb:4:4-4:24>
 Expr: <Id "Frobulize" testifc.adb:17:9-17:18>
   references:    <DefiningName "Frobulize" testifc.adb:5:14-5:23>
   type:          None

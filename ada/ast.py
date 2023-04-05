@@ -1874,6 +1874,25 @@ class BasicDecl(AdaNode):
     associates a name with a language entity, for example a type or a variable.
     """
 
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    def subp_constrain_prefix(prefix=T.Expr):
+        """
+        Implementation for ``BasicDecl.constrain_prefix`` but for subprograms.
+
+        Since subprograms can't have a base class, this is shared here.
+        """
+        return If(
+            # If self is a dottable subprogram, then we want to constrain the
+            # prefix so that it's type is the type of the first parameter of
+            # self.
+            Entity.info.md.dottable_subp,
+            Bind(prefix.expected_type_var,
+                 Entity.subp_spec_or_null
+                 .unpacked_formal_params.at(0)._.formal_decl.formal_type)
+            & prefix.matches_expected_prefix_type,
+            LogicTrue()
+        )
+
     @langkit_property()
     def env_hook_basic_decl():
         """
@@ -9771,17 +9790,7 @@ class BasicSubpDecl(BasicDecl):
 
     @langkit_property()
     def constrain_prefix(prefix=T.Expr):
-        return If(
-            # If self is a dottable subprogram, then we want to constrain the
-            # prefix so that it's type is the type of the first parameter of
-            # self.
-            Entity.info.md.dottable_subp,
-            Bind(prefix.expected_type_var,
-                 Entity.subp_decl_spec
-                 .unpacked_formal_params.at(0)._.formal_decl.formal_type)
-            & prefix.matches_expected_prefix_type,
-            LogicTrue()
-        )
+        return Entity.subp_constrain_prefix(prefix)
 
     @langkit_property()
     def expr_type():
@@ -20128,6 +20137,10 @@ class BaseSubpBody(Body):
     subp_spec = Field(type=T.SubpSpec)
 
     defining_names = Property(Entity.subp_spec.name.singleton)
+
+    @langkit_property()
+    def constrain_prefix(prefix=T.Expr):
+        return Entity.subp_constrain_prefix(prefix)
 
     @langkit_property()
     def defining_env():

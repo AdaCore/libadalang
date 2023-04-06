@@ -55,7 +55,12 @@ ${capi.get_name('gpr_project_create_unit_provider')} (
 
 ${c_doc('libadalang.gpr_project_source_files')}
 extern ${str_array_type}
-${capi.get_name('gpr_project_source_files')} (${project_type} self, int mode);
+${capi.get_name('gpr_project_source_files')} (
+   ${project_type} self,
+   int mode,
+   char **projects_data,
+   int projects_length
+);
 
 ${c_doc('libadalang.create_project_unit_provider')}
 extern ${unit_provider_type}

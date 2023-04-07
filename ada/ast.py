@@ -6132,7 +6132,12 @@ class BaseTypeDecl(BasicDecl):
             # Recurse on the class-wide type because it could be a subtype
             # renaming a class-wide type itself.
             lambda cw=T.ClasswideTypeDecl: cw.type_decl.specific_type,
-            lambda bt=T.BaseSubtypeDecl: bt.base_subtype.specific_type,
+            lambda bt=T.BaseSubtypeDecl: Let(
+                lambda bt=bt.base_subtype:
+                # Check if the base subtype is Self, to not do an infinite
+                # recursion.
+                If(bt == Entity, Entity, bt.specific_type)
+            ),
             lambda _: Entity
         )
 

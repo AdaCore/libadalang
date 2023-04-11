@@ -50,6 +50,16 @@ class NameResolutionDriver(BaseDriver):
         check on a big codebase that there are no (new) name resolution
         failures.
 
+    ``recursive``
+
+        If true, run name resolution recursively on all units in the project
+        tree, excluding externally built projects.
+
+    ``subprojects``
+
+        List of subprojects in which to look for source files. If not passed,
+        start from the root project only.
+
     ``preprocessor_data_file``
 
         Filename for the preprocessor data file.
@@ -94,6 +104,10 @@ class NameResolutionDriver(BaseDriver):
         if project_file:
             args.append(f"-P{project_file}")
 
+        # List of subprojects in which to look for source files
+        subprojects = self.test_env.get("subprojects", [])
+        args.extend(f"--subproject={p}" for p in subprojects)
+
         for name, value in sorted(
             self.test_env.get("project_vars", {}).items()
         ):
@@ -131,6 +145,9 @@ class NameResolutionDriver(BaseDriver):
             # In perf mode, we need nameres not to print anything
             if not self.perf_mode:
                 args.append("--only-show-failures")
+
+        if self.test_env.get("recursive"):
+            args.append("--recursive")
 
         # Add optional explicit list of sources to process
         args += input_sources

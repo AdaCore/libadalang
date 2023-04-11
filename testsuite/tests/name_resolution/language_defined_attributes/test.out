@@ -21,5 +21,25 @@ Expr: <Id "External_Tag" test.adb:4:31-4:43>
   type:          None
   expected type: None
 
+Resolving xrefs for node <ObjectDecl ["Type_Key"] test.adb:7:4-7:36>
+********************************************************************
+
+Expr: <Id "String" test.adb:7:15-7:21>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:7:25-7:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "T" test.adb:7:25-7:26>
+  references:    <DefiningName "T" test.adb:2:9-2:10>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:33>
+  expected type: None
+Expr: <Id "Type_Key" test.adb:7:27-7:35>
+  references:    None
+  type:          None
+  expected type: None
+
 
 Done.

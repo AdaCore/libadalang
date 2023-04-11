@@ -28,6 +28,25 @@ package body Libadalang.Implementation.Extensions is
 
    procedure Alloc_Logic_Vars (Node : Bare_Expr) with Inline;
 
+   --------------------------
+   -- Ada_Node_P_Can_Reach --
+   --------------------------
+
+   function Ada_Node_P_Can_Reach
+     (Node, From_Node : Bare_Ada_Node) return Boolean is
+   begin
+      --  Consider that nodes coming from different units are always visible
+      --  for each other. When they are in the same unit, consider that the one
+      --  coming later in the token stream has visibility over the other one,
+      --  and that the one coming earlier does not have visibility over the
+      --  other one.
+
+      return
+        From_Node = null
+        or else Node.Unit /= From_Node.Unit
+        or else Node.Token_Start_Index < From_Node.Token_Start_Index;
+   end Ada_Node_P_Can_Reach;
+
    -------------------------
    -- Ada_Node_P_Get_Unit --
    -------------------------

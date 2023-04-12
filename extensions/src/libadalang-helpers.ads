@@ -218,8 +218,8 @@ package Libadalang.Helpers is
 
          package Charset is new Parse_Option
            (Parser, "-C", "--charset", "Charset to use for source decoding",
-            Unbounded_String,
-            Default_Val => To_Unbounded_String ("iso-8859-1"));
+            Arg_Type    => Unbounded_String,
+            Default_Val => Null_Unbounded_String);
 
          package Project_File is new Parse_Option
            (Parser, "-P", "--project",

@@ -1,0 +1,11 @@
+== default.gpr ==
+
+GPR1: iso-8859-1
+GPR2: iso-8859-1
+
+== utf8.gpr ==
+
+GPR1: utf-8
+GPR2: utf-8
+
+Done.

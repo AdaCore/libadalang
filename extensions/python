@@ -261,6 +261,20 @@ class GPRProject:
         # encoding, to be more consistent with other Python APIs.
         return [f.decode() for f in result]
 
+    def default_charset(self, project: Opt[str] = None) -> str:
+        """
+        Try to detect the default charset to use for the given project.
+
+        Restrict the detection to the subproject ``project``, or to ``self``'s
+        root project if ``project`` is left to ``None``.
+
+        Note that, as of today, this detection only looks for the ``-gnatW8``
+        compiler switch: other charsets are not supported.
+        """
+        c_project = _coerce_bytes('project', project, or_none=True)
+        result = self._c_default_charset(self._c_value, c_project)
+        return _unwrap_str(result)
+
     def create_preprocessor(
         self,
         project: Opt[str] = None,
@@ -322,6 +336,11 @@ class GPRProject:
         "ada_gpr_project_source_files",
         [_c_type, ctypes.c_int, ctypes.POINTER(ctypes.c_char_p), ctypes.c_int],
         _c_string_array_ptr,
+    ))
+
+    _c_default_charset = staticmethod(_import_func(
+        "ada_gpr_project_default_charset",
+        [_c_type, ctypes.c_char_p], ctypes.POINTER(ctypes.c_char),
     ))
 
     _c_create_preprocessor = staticmethod(_import_func(

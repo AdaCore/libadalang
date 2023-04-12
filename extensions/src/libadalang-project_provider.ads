@@ -122,6 +122,17 @@ package Libadalang.Project_Provider is
    --  all sub-projects in ``Projects``, still applying the given mode to the
    --  search.
 
+   function Default_Charset_From_Project
+     (Tree    : Prj.Project_Tree'Class;
+      Project : Prj.Project_Type := Prj.No_Project) return String;
+   --  Try to detect the default charset to use for the given project.
+   --
+   --  Restrict the detection to the subproject ``Project``, or to ``Tree``'s
+   --  root project if left to ``Prj.No_Project``.
+   --
+   --  Note that, as of today, this detection only looks for the ``-gnatW8``
+   --  compiler switch: other charsets are not supported.
+
    --------------------
    -- GPR2 based API --
    --------------------
@@ -172,5 +183,17 @@ package Libadalang.Project_Provider is
    --  If Project is not provided, run ``Create_Project_Unit_Providers``: if it
    --  returns only one provider, return it, otherwise raise an
    --  ``Unsupported_View_Error`` exception.
+
+   function Default_Charset_From_Project
+     (Tree    : GPR2.Project.Tree.Object;
+      Project : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
+      return String;
+   --  Try to detect the default charset to use for the given project.
+   --
+   --  Restrict the detection to the subproject ``Project``, or to ``Tree``'s
+   --  root project if left to ``Prj.No_Project``.
+   --
+   --  Note that, as of today, this detection only looks for the ``-gnatW8``
+   --  compiler switch: other charsets are not supported.
 
 end Libadalang.Project_Provider;

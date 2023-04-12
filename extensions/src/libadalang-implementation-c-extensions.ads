@@ -100,6 +100,17 @@ package Libadalang.Implementation.C.Extensions is
    --  sub-projects in ``Projects``, still applying the given mode to the
    --  search.
 
+   function ada_gpr_project_default_charset
+     (Self : ada_gpr_project_ptr; Project : chars_ptr) return chars_ptr
+   with Export, Convention => C;
+   --  Try to detect the default charset to use for the given project.
+   --
+   --  Restrict the detection to the subproject ``Project``, or to ``Self``'s
+   --  root project if left to ``Prj.No_Project``.
+   --
+   --  Note that, as of today, this detection only looks for the ``-gnatW8``
+   --  compiler switch: other charsets are not supported.
+
    function ada_create_project_unit_provider
      (Project_File, Project : chars_ptr;
       Scenario_Vars         : System.Address;

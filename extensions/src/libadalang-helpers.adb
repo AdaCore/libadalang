@@ -23,6 +23,7 @@ with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 with Langkit_Support.Text;         use Langkit_Support.Text;
 
 with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
+with Libadalang.Common;
 with Libadalang.Preprocessing;    use Libadalang.Preprocessing;
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
@@ -33,6 +34,8 @@ package body Libadalang.Helpers is
    --  the Abort_App procedure.
 
    function "+" (S : Unbounded_String) return String renames To_String;
+   function "+"
+     (S : String) return Unbounded_String renames To_Unbounded_String;
 
    procedure Print_Error (Message : String);
    --  Helper to print Message on the standard error
@@ -169,6 +172,8 @@ package body Libadalang.Helpers is
 
          EH : Event_Handler_Reference;
          --  Event handler for command line app
+
+         Default_Charset : Unbounded_String;
 
          type App_Job_Context_Array_Access is access App_Job_Context_Array;
          procedure Free is new Ada.Unchecked_Deallocation
@@ -313,6 +318,7 @@ package body Libadalang.Helpers is
          if not Args.Parser.Parse then
             return;
          end if;
+         Default_Charset := Args.Charset.Get;
 
          --  If preprocessor support is requested, create the corresponding
          --  file reader.
@@ -427,6 +433,13 @@ package body Libadalang.Helpers is
             --  Fill in the provider
             App_Ctx.Provider := (Kind => Project_File, Project => Project);
 
+            --  If no charset was specified, detect the default one from the
+            --  project file.
+
+            if Default_Charset = Null_Unbounded_String then
+               Default_Charset := +Default_Charset_From_Project (Project.all);
+            end if;
+
          elsif Args.Auto_Dirs.Get'Length > 0 then
             --  The auto provider is requested: initialize it with the given
             --  directories. Also build the list of source files to process.
@@ -489,6 +502,12 @@ package body Libadalang.Helpers is
          end if;
          Trace.Decrease_Indent;
 
+         --  If no charset was specified, use the default one
+
+         if Default_Charset = Null_Unbounded_String then
+            Default_Charset := +Libadalang.Common.Default_Charset;
+         end if;
+
          --  Initialize contexts
 
          declare
@@ -508,7 +527,7 @@ package body Libadalang.Helpers is
               (ID              => JID,
                App_Ctx         => App_Ctx'Unchecked_Access,
                Analysis_Ctx    => Create_Context
-                                    (Charset       => +Args.Charset.Get,
+                                    (Charset       => +Default_Charset,
                                      File_Reader   => FR,
                                      Unit_Provider => UFP,
                                      Event_Handler => EH),

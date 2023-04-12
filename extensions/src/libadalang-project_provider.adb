@@ -9,7 +9,8 @@ with Ada.Strings.Unbounded.Hash;
 
 with GNAT.Task_Lock;
 
-with GNATCOLL.VFS; use GNATCOLL.VFS;
+with GNATCOLL.Strings; use GNATCOLL.Strings;
+with GNATCOLL.VFS;     use GNATCOLL.VFS;
 with GPR2.Project.Unit_Info;
 
 with Libadalang.GPR_Utils; use Libadalang.GPR_Utils;
@@ -158,6 +159,10 @@ package body Libadalang.Project_Provider is
    --  (``View`` being ``No_View`` means: use the root project). On success,
    --  set ``Provider`` and ``Provider_Ref`` to the created unit provider. On
    --  failure, raise an ``Unsupported_View_Error`` exception.
+
+   function Default_Charset_From_Project
+     (Tree : Any_Tree; View : Any_View) return String;
+   --  Common implementation for the homonym public functions
 
    -------------------
    -- Set_Unit_File --
@@ -972,5 +977,61 @@ package body Libadalang.Project_Provider is
             Provider_Ref => Result);
       end return;
    end Create_Project_Unit_Provider;
+
+   ----------------------------------
+   -- Default_Charset_From_Project --
+   ----------------------------------
+
+   function Default_Charset_From_Project
+     (Tree : Any_Tree; View : Any_View) return String
+   is
+      UTF8 : Boolean := False;
+
+      procedure Process_Switch (View : Any_View; Switch : XString);
+      --  If ``Switch`` is ``-gnatW8``, set ``UTF8`` to True
+
+      --------------------
+      -- Process_Switch --
+      --------------------
+
+      procedure Process_Switch (View : Any_View; Switch : XString) is
+         pragma Unreferenced (View);
+      begin
+         if Switch = "-gnatW8" then
+            UTF8 := True;
+         end if;
+      end Process_Switch;
+
+   begin
+      Iterate_Ada_Compiler_Switches (Tree, View, Process_Switch'Access);
+      return (if UTF8 then "utf-8" else Default_Charset);
+   end Default_Charset_From_Project;
+
+   ----------------------------------
+   -- Default_Charset_From_Project --
+   ----------------------------------
+
+   function Default_Charset_From_Project
+     (Tree    : Prj.Project_Tree'Class;
+      Project : Prj.Project_Type := Prj.No_Project) return String is
+   begin
+      return Default_Charset_From_Project
+        (Tree => (Kind => GPR1_Kind, GPR1_Value => Tree'Unrestricted_Access),
+         View => (Kind => GPR1_Kind, GPR1_Value => Project));
+   end Default_Charset_From_Project;
+
+   ----------------------------------
+   -- Default_Charset_From_Project --
+   ----------------------------------
+
+   function Default_Charset_From_Project
+     (Tree    : GPR2.Project.Tree.Object;
+      Project : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
+      return String is
+   begin
+      return Default_Charset_From_Project
+        (Tree => (Kind => GPR2_Kind, GPR2_Value => Tree'Unrestricted_Access),
+         View => (Kind => GPR2_Kind, GPR2_Value => Project));
+   end Default_Charset_From_Project;
 
 end Libadalang.Project_Provider;

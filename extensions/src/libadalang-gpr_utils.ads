@@ -130,7 +130,7 @@ private package Libadalang.GPR_Utils is
    --  Iterate over all Ada source files in the ``View`` project hierarchy (or
    --  ``Tree``'s root project if ``View`` is ``No_View (Tree)``), and call
    --  ``Process`` on all Ada compiler switches that are found, passing to it
-   --  the view in which tze switch was found.
+   --  the view in which the switch was found.
 
    package Attributes is
       type Map is array (Project_Kind) of Any_Attribute;

@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+control:
+   - [XFAIL, "valgrind", "GNATCOLL.Projects leaks are not longer fixed"]

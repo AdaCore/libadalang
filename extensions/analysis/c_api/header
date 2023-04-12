@@ -65,6 +65,10 @@ ${capi.get_name('gpr_project_source_files')} (
    int projects_length
 );
 
+${c_doc('libadalang.gpr_project_default_charset')}
+extern char *
+${capi.get_name('gpr_project_default_charset')} (${project_type} self);
+
 ${c_doc('libadalang.create_project_unit_provider')}
 extern ${unit_provider_type}
 ${capi.get_name('create_project_unit_provider')}(

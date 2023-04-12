@@ -454,6 +454,22 @@ package body Libadalang.Implementation.C.Extensions is
       end;
    end ada_gpr_project_source_files;
 
+   -------------------------------------
+   -- ada_gpr_project_default_charset --
+   -------------------------------------
+
+   function ada_gpr_project_default_charset
+     (Self : ada_gpr_project_ptr; Project : chars_ptr) return chars_ptr is
+   begin
+      Clear_Last_Exception;
+      declare
+         Tree : Project_Tree'Class renames Self.Tree.all;
+         Prj  : constant Project_Type := Fetch_Project (Tree, Project);
+      begin
+         return New_String (Default_Charset_From_Project (Tree, Prj));
+      end;
+   end ada_gpr_project_default_charset;
+
    --------------------------------------
    -- ada_create_project_unit_provider --
    --------------------------------------

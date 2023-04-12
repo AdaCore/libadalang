@@ -1,0 +1,348 @@
+<%
+api = java_api
+nat = c_api.get_name
+%>
+
+    // ==========
+    // Define classes to handle project loading
+    // ==========
+
+    /**
+     * Exception to represent errors during project manipulation
+     */
+    public static final class ProjectManagerException extends RuntimeException {
+        ProjectManagerException(
+            final String message
+        ) {
+            super(message);
+        }
+    }
+
+    /**
+     * Enum to represent the source file mode for a GPR project
+     */
+    public static enum SourceFileMode {
+
+        // ----- Enum values -----
+
+        DEFAULT(0),
+        ROOT_PROJECT(1),
+        WHOLE_PROJECT(2),
+        WHOLE_PROJECT_WITH_RUNTIME(3),
+        ;
+
+        // ----- Class attributes -----
+
+        /** Singleton that represents the none source file mode */
+        public static final SourceFileMode NONE = DEFAULT;
+
+        /** The map from int to enum values */
+        private static final Map<Integer, SourceFileMode> map = new HashMap<>();
+
+        // ----- Instance attributes -----
+
+        /** The value of the instance */
+        private final int value;
+
+        // ----- Constructors -----
+
+        /**
+         * The private constructor
+         */
+        private SourceFileMode(
+            final int value
+        ) {
+            this.value = value;
+        }
+
+        static {
+            for(SourceFileMode elem : SourceFileMode.values()) {
+                map.put(elem.value, elem);
+            }
+        }
+
+        // ----- Enum methods -----
+
+        /**
+         * Get a source file mode from a native integer value.
+         *
+         * @param cValue The native value of the enum.
+         * @return The Java source file mode.
+         * @throws EnumException If the given native value doesn't correspond
+         * to an actual enum value.
+         */
+        public static SourceFileMode fromC(
+            final int cValue
+        ) throws EnumException {
+            if(!map.containsKey(cValue))
+                throw new EnumException(
+                    "Cannot get SourceFileMode from " + cValue
+                );
+            return (SourceFileMode) map.get(cValue);
+        }
+
+        /**
+         * Get the native integer value of the enum instance.
+         *
+         * @return The native C value.
+         */
+        public int toC() {
+            return this.value;
+        }
+
+    }
+
+    /**
+     * This class is used for the GPR project loading.
+     */
+    public static final class ProjectManager implements AutoCloseable {
+
+        // ----- Class attributes -----
+
+        /** Singleton that represents the none project manager. */
+        public static final ProjectManager NONE =
+            new ProjectManager(PointerWrapper.nullPointer());
+
+        // ----- Instance attributes -----
+
+        /** Reference to the native value. */
+        private final PointerWrapper reference;
+
+        /** Cache for the unit provider. */
+        private UnitProvider provider;
+
+        // ----- Constructors -----
+
+        /**
+         * Create a new project manager from its native reference.
+         *
+         * @param reference The reference to the native project manager.
+         */
+        ProjectManager(
+            final PointerWrapper reference
+        ) {
+            this.reference = reference;
+            this.provider = null;
+        }
+
+        /**
+         * Create a project manager from a project file, target and runtime.
+         *
+         * @param projectFile The GPR file to load.
+         * @param scenarioVariables The scenario variables for the GPR file.
+         * @param target The target to load.
+         * @param runtime The runtime to load.
+         * @return The newly created project manager.
+         */
+        public static ProjectManager create(
+            final String projectFile,
+            final String target,
+            final String runtime
+        ) {
+
+            if(ImageInfo.inImageCode()) {
+                // Call the native project loading function
+                final CCharPointer projectFileNative = toCString(projectFile);
+                final CCharPointer targetNative = toCString(target);
+                final CCharPointer runtimeNative = toCString(runtime);
+                final Pointer projectPointer = StackValue.get(SizeOf.get(VoidPointer.class));
+                projectPointer.writeWord(0, WordFactory.nullPointer());
+                final Pointer errorsPointer = StackValue.get(SizeOf.get(VoidPointer.class));
+                errorsPointer.writeWord(0, WordFactory.nullPointer());
+                NI_LIB.${nat("gpr_project_load")}(
+                    projectFileNative,
+                    WordFactory.nullPointer(),
+                    targetNative,
+                    runtimeNative,
+                    projectPointer,
+                    errorsPointer
+                );
+                UnmanagedMemory.free(projectFileNative);
+                UnmanagedMemory.free(targetNative);
+                UnmanagedMemory.free(runtimeNative);
+
+                // `errorsPointer` is not allocated if an exception was raised during project file loading.
+                if (((Pointer) errorsPointer.readWord(0)).isNonNull()) {
+                    // Verify the error array
+                    final String[] errors = toJStringArray(
+                        (StringArrayNative) errorsPointer.readWord(0)
+                    );
+                    for (String error : errors) {
+                        System.err.println("Error during project opening : " + error);
+                    }
+
+                    // Free the error array
+                    NI_LIB.${nat("free_string_array")}((StringArrayNative) errorsPointer.readWord(0));
+                }
+
+                // Check the langkit exception and cast it into a project manager error
+                try {
+                    checkException();
+                } catch (LangkitException e) {
+                    throw new ProjectManagerException(e.getMessage());
+                }
+
+                return wrap(
+                    (ProjectManagerNative) projectPointer.readWord(0)
+                );
+            } else {
+                final PointerWrapper reference = JNI_LIB.${nat("gpr_project_load")}(
+                    projectFile,
+                    target,
+                    runtime
+                );
+
+                // Check the langkit exceptions
+                try {
+                    checkException();
+                } catch (LangkitException e) {
+                    throw new ProjectManagerException(e.getMessage());
+                }
+
+                // Return the project manager
+                return new ProjectManager(reference);
+            }
+
+        }
+
+        // ----- Graal C API methods -----
+
+        /**
+         * Wrap a native project manager in the Java class.
+         *
+         * @param pointer The pointer to the native project manager.
+         * @return The newly wrapped project manager.
+         */
+        static ProjectManager wrap(
+            final Pointer pointer
+        ) {
+            return wrap((ProjectManagerNative) pointer.readWord(0));
+        }
+
+        /**
+         * Wrap a native project manager in the Java class.
+         *
+         * @param projectManagerNative The native project manager to wrap.
+         * @return The newly wrapped project manager.
+         */
+        static ProjectManager wrap(
+            final ProjectManagerNative projectManagerNative
+        ) {
+            return new ProjectManager(new PointerWrapper(projectManagerNative));
+        }
+
+        /**
+         * Unwrap the project manager inside the given pointer.
+         *
+         * @param pointer The pointer to write in.
+         */
+        public void unwrap(
+            final Pointer pointer
+        ) {
+            pointer.writeWord(0, this.unwrap());
+        }
+
+        /**
+         * Get the native value of the project manager.
+         *
+         * @return The native project manager.
+         */
+        public ProjectManagerNative unwrap() {
+            return (ProjectManagerNative) this.reference.ni();
+        }
+
+        // ----- Class methods -----
+
+        /**
+         * Translate a native string array structure into a Java string
+         * array.
+         *
+         * @param stringArrayNative The native string array structure.
+         * @return The Java string array.
+         */
+        private static String[] toJStringArray(
+            final StringArrayNative stringArrayNative
+        ) {
+            final String[] res = new String[stringArrayNative.get_length()];
+            final CCharPointerPointer nativeFilesPointer = stringArrayNative.get_c_ptr();
+            for(int i = 0 ; i < res.length ; i++) {
+                final CCharPointer nativeFile = nativeFilesPointer.read(i);
+                res[i] = toJString(nativeFile);
+            }
+            return res;
+        }
+
+        // -----  Instance methods -----
+
+        /**
+         * Get the unit provider of the project manager.
+         *
+         * @return The unit provider for the project manager.
+         */
+        public UnitProvider getProvider() {
+            if(this.provider == null) {
+
+                if(ImageInfo.inImageCode()) {
+                    UnitProviderNative unitProviderNative = NI_LIB.${nat('gpr_project_create_unit_provider')}(
+                        this.reference.ni(),
+                        WordFactory.nullPointer()
+                    );
+                    this.provider = UnitProvider.wrap(unitProviderNative);
+                } else {
+                    this.provider = JNI_LIB.${nat("gpr_project_create_unit_provider")}(
+                        this
+                    );
+                }
+
+            }
+
+            // Return the unit provider of the project
+            return this.provider;
+        }
+
+        /**
+         * Get the files of the project in a string array.
+         *
+         * @param mode The file getting mode.
+         * @return The array that contains the project files.
+         */
+        public String[] getFiles(
+            final SourceFileMode mode
+        ) {
+            // Verify if the project is null
+            if(this.reference.isNull())
+                return new String[0];
+
+            if(ImageInfo.inImageCode()) {
+                final StringArrayNative sourceFileArray =
+                    NI_LIB.${nat('gpr_project_source_files')}(
+                        this.reference.ni(),
+                        mode.toC(),
+                        WordFactory.nullPointer(),
+                        0
+                    );
+                final String[] res = toJStringArray(sourceFileArray);
+                NI_LIB.${nat("free_string_array")}(sourceFileArray);
+                return res;
+            } else {
+                return JNI_LIB.${nat("gpr_project_source_files")}(
+                    this,
+                    mode.toC()
+                );
+            }
+
+        }
+
+        /** @see java.lang.AutoCloseable#close() */
+        @Override
+        public void close() {
+
+            if(ImageInfo.inImageCode()) {
+                NI_LIB.${nat("gpr_project_free")}(this.reference.ni());
+            } else {
+                JNI_LIB.${nat("gpr_project_free")}(this);
+            }
+
+        }
+
+    }

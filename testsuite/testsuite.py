@@ -23,8 +23,8 @@ from langkit.coverage import GNATcov
 
 from drivers import (
     adaapi_driver, capi_driver, dda_driver, gnat_compare_driver,
-    inline_pg_driver, name_resolution_driver, navigation_driver, ocaml_driver,
-    parser_driver, prep_driver, python_driver
+    inline_pg_driver, java_driver, name_resolution_driver, navigation_driver,
+    ocaml_driver, parser_driver, prep_driver, python_driver
 )
 
 
@@ -64,6 +64,7 @@ class LALTestsuite(Testsuite):
         'dda': dda_driver.DDADriver,
         'gnat_compare': gnat_compare_driver.GNATCompareDriver,
         'inline-playground': inline_pg_driver.InlinePlaygroundDriver,
+        'java': java_driver.JavaDriver,
         'name-resolution': name_resolution_driver.NameResolutionDriver,
         'navigation': navigation_driver.NavigationDriver,
         'ocaml': ocaml_driver.OCamlDriver,
@@ -103,6 +104,13 @@ class LALTestsuite(Testsuite):
                  ' the directory in which the OCaml bindings were generated.'
                  ' This enables tests involving the OCaml API (they are'
                  ' disabled by default).'
+        )
+        parser.add_argument(
+            '--with-java-bindings', default=None,
+            help='If provided, must be a path from the current directory to'
+                 ' the directory where the Java bindings are located. If'
+                 ' passed, this enables the tests for the Java API (disabled'
+                 ' by default).'
         )
         parser.add_argument(
             '--with-python', default='python3',
@@ -216,6 +224,10 @@ class LALTestsuite(Testsuite):
                                    if ocaml_bindings else None)
         if self.env.ocaml_bindings:
             os.environ["LAL_OCAML_BINDINGS"] = self.env.ocaml_bindings
+
+        java_bindings = opts.with_java_bindings
+        self.env.java_bindings = (os.path.abspath(java_bindings)
+                                  if java_bindings else None)
 
         # Ensure the testsuite starts with an empty directory to store
         # source trace files.

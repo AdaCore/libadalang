@@ -1,0 +1,4 @@
+driver: java
+mode: graal_c_api
+java_path: tests/java_api/project_manager
+projects_path: tests/java_api/project_manager/sources

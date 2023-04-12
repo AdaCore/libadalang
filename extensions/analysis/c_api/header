@@ -4,6 +4,7 @@
    project_type = capi.get_name('gpr_project')
    scn_var_type = capi.get_name('gpr_project_scenario_variable')
    str_array_type = capi.get_name('string_array_ptr')
+   string_array_struct = capi.get_name('string_array_ptr_struct')
 %>
 
 /* Handling of string arrays */
@@ -12,7 +13,9 @@ ${c_doc('libadalang.string_array')}
 typedef struct {
    int length;
    const char**c_ptr;
-} *${str_array_type};
+} ${string_array_struct};
+
+typedef ${string_array_struct} *${str_array_type};
 
 ${c_doc('libadalang.free_string_array')}
 extern void

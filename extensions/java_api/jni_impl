@@ -1,0 +1,125 @@
+<%
+api = java_api
+nat = c_api.get_name
+
+project_type = capi.get_name('gpr_project')
+str_array_type = capi.get_name('string_array_ptr')
+
+sig_base = "com/adacore/" + ctx.lib_name.lower + "/" + ctx.lib_name.camel
+ptr_sig = sig_base + "$PointerWrapper"
+%>
+
+// Load a gpr project
+${api.jni_func_sig("gpr_project_load", "jobject")}(
+    JNIEnv *env,
+    jclass jni_lib,
+    jstring project_file,
+    jstring target,
+    jstring runtime
+) {
+    // Translate the arguments to C values
+    const char *project_file_c = to_c_string(env, project_file);
+    const char *target_c = to_c_string(env, target);
+    const char *runtime_c = to_c_string(env, runtime);
+
+    // Call the native function to create the project
+    ${project_type} res = NULL;
+    ${str_array_type} errors = NULL;
+    ${nat("gpr_project_load")}(
+        project_file_c,
+        NULL,
+        target_c,
+        runtime_c,
+        &res,
+        &errors
+    );
+
+    // The `errors` pointer is not allocated if an exception was raised during
+    // project file loading.
+    if (errors != NULL) {
+        // Handle the errors
+        for(int i = 0 ; i < errors->length ; i++) {
+            const char *error = errors->c_ptr[i];
+            fprintf(stderr, "Error during project opening : %s\n", error);
+        }
+
+        // Free the error array
+        ${nat("free_string_array")}(errors);
+    }
+
+    // Free the translated strings
+    (*env)->ReleaseStringUTFChars(env, project_file, project_file_c);
+    (*env)->ReleaseStringUTFChars(env, target, target_c);
+    (*env)->ReleaseStringUTFChars(env, runtime, runtime_c);
+
+    // Return the pointer
+    return PointerWrapper_wrap(env, (void *) res);
+}
+
+// Free a gpr project
+${api.jni_func_sig("gpr_project_free", "void")}(
+    JNIEnv *env,
+    jclass jni_lib,
+    jobject project
+) {
+    // Do the native call
+    ${nat("gpr_project_free")}((${project_type}) get_reference(env, project));
+}
+
+// Get the unit provider from a gpr project
+${api.jni_func_sig("gpr_project_create_unit_provider", "jobject")}(
+    JNIEnv *env,
+    jclass jni_lib,
+    jobject project
+) {
+    // Call the native function
+    ${unit_provider_type} res = ${nat("gpr_project_create_unit_provider")}(
+        (${project_type}) get_reference(env, project),
+        NULL
+    );
+
+    // Return the new unit provider
+    return UnitProvider_wrap(env, res);
+}
+
+// Get the list of the files of a project
+${api.jni_func_sig("gpr_project_source_files", "jobjectArray")}(
+    JNIEnv *env,
+    jclass jni_lib,
+    jobject project,
+    jint mode
+) {
+    // Get the result
+    ${str_array_type} source_files_c = ${nat("gpr_project_source_files")}(
+        (${project_type}) get_reference(env, project),
+        (int) mode,
+        NULL,
+        0
+    );
+
+    // Create the result array
+    jclass clazz = (*env)->FindClass(env, "java/lang/String");
+    jobjectArray result_array = (*env)->NewObjectArray(
+        env,
+        (jsize) source_files_c->length,
+        clazz,
+        NULL
+    );
+
+    // Fill the result array
+    for(int i = 0 ; i < source_files_c->length ; i++) {
+        jstring source_file = to_j_string(env, source_files_c->c_ptr[i]);
+        (*env)->SetObjectArrayElement(
+            env,
+            result_array,
+            (jsize) i,
+            (jobject) source_file
+        );
+    }
+
+    // Free the native string array
+    ${nat("free_string_array")}(source_files_c);
+
+    // Return the result array
+    return result_array;
+}

@@ -15,6 +15,7 @@ procedure Test is
    end TT;
 
    X : TT;
+   X_Array : array (1 .. 10) of T;
 begin
    if T'Identity = X'Identity then
       null;
@@ -25,4 +26,12 @@ begin
       null;
    end if;
    pragma Test_Statement_UID;
+
+   --  Should also work on ForLoopVarDecl
+   for I of X_Array loop
+      if I'Identity = Ada.Task_Identification.Current_Task then
+         null;
+      end if;
+      pragma Test_Statement_UID;
+   end loop;
 end Test;

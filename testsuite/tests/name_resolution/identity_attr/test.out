@@ -1,75 +1,118 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <IfStmt test.adb:19:4-21:11>
+Resolving xrefs for node <IfStmt test.adb:20:4-22:11>
 *****************************************************
 
-Expr: <RelationOp test.adb:19:7-19:30>
+Expr: <RelationOp test.adb:20:7-20:30>
   type:          standard.boolean
   expected type: standard.boolean
-Expr: <AttributeRef test.adb:19:7-19:17>
+Expr: <AttributeRef test.adb:20:7-20:17>
   references:    None
   type:          ada.task_identification.task_id
   expected type: ada.task_identification.task_id
-Expr: <Id "T" test.adb:19:7-19:8>
+Expr: <Id "T" test.adb:20:7-20:8>
   references:    test().t.t
   type:          test().t.t
   expected type: None
-Expr: <Id "Identity" test.adb:19:9-19:17>
+Expr: <Id "Identity" test.adb:20:9-20:17>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:19:18-19:19>
+Expr: <OpEq "=" test.adb:20:18-20:19>
   references:    ada.task_identification."="((ada.task_identification.task_id, ada.task_identification.task_id) -> standard.boolean)
   type:          None
   expected type: None
-Expr: <AttributeRef test.adb:19:20-19:30>
+Expr: <AttributeRef test.adb:20:20-20:30>
   references:    None
   type:          ada.task_identification.task_id
   expected type: ada.task_identification.task_id
-Expr: <Id "X" test.adb:19:20-19:21>
+Expr: <Id "X" test.adb:20:20-20:21>
   references:    test().x
   type:          test().tt
   expected type: None
-Expr: <Id "Identity" test.adb:19:22-19:30>
+Expr: <Id "Identity" test.adb:20:22-20:30>
   references:    None
   type:          None
   expected type: None
 
-Resolving xrefs for node <IfStmt test.adb:24:4-26:11>
+Resolving xrefs for node <IfStmt test.adb:25:4-27:11>
 *****************************************************
 
-Expr: <RelationOp test.adb:24:7-24:60>
+Expr: <RelationOp test.adb:25:7-25:60>
   type:          standard.boolean
   expected type: standard.boolean
-Expr: <AttributeRef test.adb:24:7-24:32>
+Expr: <AttributeRef test.adb:25:7-25:32>
   references:    None
   type:          ada.exceptions.exception_id
   expected type: ada.exceptions.exception_id
-Expr: <Id "Constraint_Error" test.adb:24:7-24:23>
+Expr: <Id "Constraint_Error" test.adb:25:7-25:23>
   references:    standard.constraint_error
   type:          None
   expected type: None
-Expr: <Id "Identity" test.adb:24:24-24:32>
+Expr: <Id "Identity" test.adb:25:24-25:32>
   references:    None
   type:          None
   expected type: None
-Expr: <OpEq "=" test.adb:24:33-24:34>
+Expr: <OpEq "=" test.adb:25:33-25:34>
   references:    None
   type:          None
   expected type: None
-Expr: <AttributeRef test.adb:24:35-24:60>
+Expr: <AttributeRef test.adb:25:35-25:60>
   references:    None
   type:          ada.exceptions.exception_id
   expected type: ada.exceptions.exception_id
-Expr: <Id "Constraint_Error" test.adb:24:35-24:51>
+Expr: <Id "Constraint_Error" test.adb:25:35-25:51>
   references:    standard.constraint_error
   type:          None
   expected type: None
-Expr: <Id "Identity" test.adb:24:52-24:60>
+Expr: <Id "Identity" test.adb:25:52-25:60>
   references:    None
   type:          None
   expected type: None
+
+Resolving xrefs for node <IfStmt test.adb:32:7-34:14>
+*****************************************************
+
+Expr: <RelationOp test.adb:32:10-32:59>
+  type:          standard.boolean
+  expected type: standard.boolean
+Expr: <AttributeRef test.adb:32:10-32:20>
+  references:    None
+  type:          ada.task_identification.task_id
+  expected type: ada.task_identification.task_id
+Expr: <Id "I" test.adb:32:10-32:11>
+  references:    test().i
+  type:          None
+  expected type: None
+Expr: <Id "Identity" test.adb:32:12-32:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq "=" test.adb:32:21-32:22>
+  references:    ada.task_identification."="((ada.task_identification.task_id, ada.task_identification.task_id) -> standard.boolean)
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:32:23-32:59>
+  references:    ada.task_identification.current_task(() -> ada.task_identification.task_id)
+  type:          ada.task_identification.task_id
+  expected type: ada.task_identification.task_id
+Expr: <DottedName test.adb:32:23-32:46>
+  references:    ada.task_identification
+  type:          None
+  expected type: None
+Expr: <Id "Ada" test.adb:32:23-32:26>
+  references:    ada
+  type:          None
+  expected type: None
+Expr: <Id "Task_Identification" test.adb:32:27-32:46>
+  references:    ada.task_identification
+  type:          None
+  expected type: None
+Expr: <Id "Current_Task" test.adb:32:47-32:59>
+  references:    ada.task_identification.current_task(() -> ada.task_identification.task_id)
+  type:          ada.task_identification.task_id
+  expected type: ada.task_identification.task_id
 
 
 Done.

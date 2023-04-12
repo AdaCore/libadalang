@@ -15453,7 +15453,7 @@ class AggregateAssoc(BasicAssoc):
                     match.formal.formal_decl.type_expression.designated_type
                 ),
                 match.actual.assoc.expr.sub_equation,
-                match.actual.assoc.expr.matches_expected_type,
+                match.actual.assoc.expr.matches_expected_assign_type,
                 match.actual.name.then(
                     lambda n: Bind(n.ref_var, match.formal.formal_decl),
                     LogicTrue()

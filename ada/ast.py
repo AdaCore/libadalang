@@ -134,6 +134,13 @@ class AdaNode(ASTNode):
         warn_on_node=True
     )
 
+    @langkit_property(
+        return_type=T.Bool, external=True, uses_entity_info=False,
+        uses_envs=False,
+    )
+    def can_reach(from_node=T.AdaNode):
+        pass
+
     declarative_scope = Property(
         Self.parents.find(
             lambda p: p.is_a(T.DeclarativePart)

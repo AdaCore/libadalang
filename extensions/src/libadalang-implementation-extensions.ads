@@ -11,6 +11,9 @@ package Libadalang.Implementation.Extensions is
    -- Ada_Node --
    --------------
 
+   function Ada_Node_P_Can_Reach
+     (Node, From_Node : Bare_Ada_Node) return Boolean;
+
    function Ada_Node_P_Get_Unit
      (Node               : Bare_Ada_Node;
       Name               : Symbol_Type_Array_Access;

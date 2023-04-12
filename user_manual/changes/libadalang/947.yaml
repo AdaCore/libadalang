@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix visibility issues with order of decls for stubs
+description: |
+    Libadalang's name resolution now considers that declarations which
+    appear after a subunit stub are not visible inside the corresponding
+    subunit body.
+date: 2023-04-25

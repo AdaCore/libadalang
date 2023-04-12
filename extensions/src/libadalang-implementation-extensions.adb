@@ -28,23 +28,113 @@ package body Libadalang.Implementation.Extensions is
 
    procedure Alloc_Logic_Vars (Node : Bare_Expr) with Inline;
 
+   function CU_Subunit (CU : Bare_Compilation_Unit) return Bare_Subunit;
+   --  If CU is a subunit, return the corresponding subunit node. Return null
+   --  otherwise.
+
+   ----------------
+   -- CU_Subunit --
+   ----------------
+
+   function CU_Subunit (CU : Bare_Compilation_Unit) return Bare_Subunit is
+      B : Bare_Ada_Node;
+   begin
+      if CU = null or else CU.Kind /= Ada_Compilation_Unit then
+         return null;
+      end if;
+      B := CU.Compilation_Unit_F_Body;
+      return (if B /= null and then B.Kind = Ada_Subunit
+              then B
+              else null);
+   end CU_Subunit;
+
    --------------------------
    -- Ada_Node_P_Can_Reach --
    --------------------------
 
    function Ada_Node_P_Can_Reach
-     (Node, From_Node : Bare_Ada_Node) return Boolean is
-   begin
-      --  Consider that nodes coming from different units are always visible
-      --  for each other. When they are in the same unit, consider that the one
-      --  coming later in the token stream has visibility over the other one,
-      --  and that the one coming earlier does not have visibility over the
-      --  other one.
+     (Node, From_Node : Bare_Ada_Node) return Boolean
+   is
+      function CU_For (Node : Bare_Ada_Node) return Bare_Compilation_Unit;
+      --  Return the ``Compilation_Unit`` node that owns ``Node``. Return null
+      --  if we cannot find it.
 
-      return
-        From_Node = null
-        or else Node.Unit /= From_Node.Unit
-        or else Node.Token_Start_Index < From_Node.Token_Start_Index;
+      function Can_Reach_In_Same_Unit
+        (Node, From_Node : Bare_Ada_Node) return Boolean
+      is (From_Node = null
+          or else Node.Token_Start_Index < From_Node.Token_Start_Index);
+      --  Assuming that ``Node`` and ``From_Node`` belong to the same unit,
+      --  return whether ``From_Node`` can reach ``Node`` according to Ada's
+      --  visibility rules: consider that From_Node has visibility over Node
+      --  iff Node appears earlier in the token stream.
+      --
+      --  For convenience, assume that ``Node`` can be reached if ``From_Node``
+      --  is null.
+
+      ------------
+      -- CU_For --
+      ------------
+
+      function CU_For (Node : Bare_Ada_Node) return Bare_Compilation_Unit is
+         Result : constant Bare_Ada_Node :=
+           (if Node = null
+            then null
+            else Node.Unit.Ast_Root);
+      begin
+         return (if Result = null or else Result.Kind /= Ada_Compilation_Unit
+                 then null
+                 else Result);
+      end CU_For;
+
+      Node_CU      : Bare_Compilation_Unit;
+      From_CU      : Bare_Compilation_Unit;
+      From_Subunit : Bare_Subunit;
+
+   begin
+      if Node = null then
+         return True;
+      end if;
+
+      Node_CU := CU_For (Node);
+      From_CU := CU_For (From_Node);
+
+      --  If Node and From_Node belong to the same unit, just check their
+      --  relative position.
+
+      if Node_CU = From_CU then
+         return Can_Reach_In_Same_Unit (Node, From_Node);
+      end if;
+
+      --  Otherwise, the only case for which From_Node *does not* have
+      --  visibility over Node is when From_Node belongs to a subunit that is
+      --  rooted in Node's unit, and the subunit stub appears before Node::
+      --
+      --    package body Foo is
+      --      procedure Bar is separate;
+      --      [Node]
+      --    end Foo;
+      --
+      --    separate (Foo)
+      --    procedure Bar is
+      --      [From_Node]
+      --    end Bar;
+      --
+      --  So first, check that From_Node belongs to a subunit.
+
+      From_Subunit := CU_Subunit (From_CU);
+      if From_Subunit = null then
+         return True;
+      end if;
+
+      --  From_CU is a subunit, so climb the subunit/stub chain up until we
+      --  find a stub in Node_CU, then apply the "same-unit" visibility rules.
+
+      declare
+         Stub : constant Bare_Body_Stub :=
+           Compilation_Unit_P_Stub_For (Node_CU, From_Subunit);
+      begin
+         return Can_Reach_In_Same_Unit (Node, Stub);
+      end;
    end Ada_Node_P_Can_Reach;
 
    -------------------------
@@ -583,6 +673,54 @@ package body Libadalang.Implementation.Extensions is
          end return;
       end;
    end Compilation_Unit_P_External_Config_Pragmas;
+
+   --------------------------------------
+   -- Compilation_Unit_P_Stub_For_Impl --
+   --------------------------------------
+
+   function Compilation_Unit_P_Stub_For_Impl
+     (Node : Bare_Compilation_Unit; Su : Bare_Subunit) return Bare_Body_Stub
+   is
+      CU      : Bare_Compilation_Unit := Su.Unit.Ast_Root;
+      Subunit : Bare_Subunit := Su;
+      --  Subunit that is currently inspected and its compilation unit
+
+      Parent_CU : Bare_Compilation_Unit;
+      --  Temporary to hold the parent compilation unit during one iteration
+   begin
+      loop
+         --  Inspect the parent unit for CU/Subunit. If we cannot find it, the
+         --  codebase is incomplete/invalid, so just return it could not be
+         --  found.
+
+         Parent_CU := Subunit_P_Root_Unit (Subunit).Node;
+         if Parent_CU = null then
+            return null;
+
+         --  If the stub for CU/Subunit is supposed to belong to the same
+         --  compilation unit as Node, fetch it and return it.
+
+         elsif Parent_CU = Node then
+            declare
+               SU : constant Bare_Subunit := CU.Compilation_Unit_F_Body;
+            begin
+               return
+                 (if SU = null
+                  then null
+                  else Subunit_P_Stub (SU));
+            end;
+         end if;
+
+         --  No luck with Parent_CU: if it is a subunit itself, continue the
+         --  search with its own parent unit.
+
+         CU := Parent_CU;
+         Subunit := CU_Subunit (CU);
+         if Subunit = null then
+            return null;
+         end if;
+      end loop;
+   end Compilation_Unit_P_Stub_For_Impl;
 
    ----------------------
    -- Expr_Eval_In_Env --

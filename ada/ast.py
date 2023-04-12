@@ -20174,6 +20174,75 @@ class CompilationUnit(AdaNode):
             lambda n: n.id.name_symbol == name
         )
 
+    @langkit_property(
+        return_type=T.BodyStub,
+        memoized=True,
+        memoize_in_populate=True,
+        # This properly works at a syntactic level only, so it does not need to
+        # deal with entities.
+        ignore_warn_on_node=True,
+        # At the time of its introduction, this property was used only by
+        # AdaNode.can_reach, which was an external property.
+        warn_on_unused=False,
+    )
+    def stub_for(su=T.Subunit):
+        """
+        Look for the stub in ``Self`` corresponding to ``su`` or one of its
+        parents. Return a null node if unsuccessful.
+
+        For instance, with the following units::
+
+           procedure A is
+              procedure B is separate;
+           begin
+              null;
+           end A;
+
+           separate (A)
+           procedure B is
+              procedure C is separate;
+           begin
+              null;
+           end B;
+
+           separate (A.B)
+           procedure C is
+           begin
+              null;
+           end C;
+
+        We have the following::
+
+           A.stub_for(B) -> "procedure B is separate"
+           A.stub_for(C) -> "procedure B is separate"
+           B.stub_for(C) -> "procedure C is separate"
+
+        This is an internal helper for ``AdaNode.can_reach``: since it is used
+        in all lexical env lookups, its implementation cannot do lookups itself
+        as it would trigger infinite recursions. Libadalang users can use
+        ``BasicDecl.previous_part_for_decl`` instead.
+
+        Note that this wrapper only takes care of memoization. The actual
+        implementation is in ``CompilationUnit.stub_for_impl``. Memoizing this
+        property is very important for performance.
+        """
+        return Self.stub_for_impl(su)
+
+    @langkit_property(
+        return_type=T.BodyStub,
+        external=True,
+        uses_entity_info=False,
+        uses_envs=False,
+        # This properly works at a syntactic level only, so it does not need to
+        # deal with entities.
+        ignore_warn_on_node=True,
+    )
+    def stub_for_impl(su=T.Subunit):
+        """
+        Ada implementation of ``CompilationUnit.stub_for``.
+        """
+        pass
+
 
 @abstract
 class BaseSubpBody(Body):
@@ -21506,6 +21575,64 @@ class Subunit(AdaNode):
         Return the body in which this subunit is rooted.
         """
         return Self.root_unit.decl.as_bare_entity
+
+    @langkit_property(
+        return_type=T.BodyStub,
+        # At the time of its introduction, this property was used only by
+        # AdaNode.can_reach, which was an external property.
+        warn_on_unused=False,
+        # This properly works at a syntactic level only, so it does not need to
+        # deal with entities.
+        ignore_warn_on_node=True,
+    )
+    def stub():
+        """
+        Return the stub corresponding to this subunit.
+
+        This is an internal helper for ``AdaNode.can_reach``: since it is used
+        in all lexical env lookups, its implementation cannot do lookups itself
+        as it would trigger infinite recursions. Libadalang users can use
+        ``BasicDecl.previous_part_for_decl`` instead.
+        """
+        # Look for the declaration list that is supposed to contain the stub
+        # for this subunit. This must be in the unit in which this subunit is
+        # rooted, and that unit can only be a package body, a subprogram body
+        # or a subunit itself.
+        root = Var(Self.root_unit.node)
+        root_body = Var(root.body.match(
+            lambda li=LibraryItem: li.item.cast(Body),
+            lambda su=Subunit: su.body,
+            lambda _: No(T.Body),
+        ))
+        decls = Var(root_body.match(
+            lambda subp=T.SubpBody: subp.decls.decls,
+            lambda pkg=T.PackageBody: pkg.decls.decls,
+            lambda _: No(AdaNode.list),
+        ))
+
+        # Look for the stub in this list: it is supposed to be the only stub
+        # whose name matches Self.body's defining name.
+        return decls.find(
+            lambda d: Let(
+                lambda
+                # d may not be a body stub, so we have to use "._" after the
+                # cast.
+                stub_name=(
+                    d.cast(BodyStub).as_bare_entity
+                    ._.defining_name_or_raise
+                    .name
+                ),
+                # By construction, Self is a subunit, so for valid code, it is
+                # supposed to have a unique defining name.
+                subunit_name=(
+                    Self.body.as_bare_entity
+                    .defining_name_or_raise
+                    .name
+                ):
+
+                stub_name._.name_is(subunit_name.name_symbol),
+            )
+        ).cast(BodyStub)
 
     xref_entry_point = Property(True)
     xref_equation = Property(Bind(Self.name.ref_var, Entity.body_root))

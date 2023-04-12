@@ -1,0 +1,12 @@
+Working on node <ConcreteTypeDecl ["U"] test.adb:9:4-9:43>
+==========================================================
+
+Eval 'node.p_base_types()'
+Result: [<ConcreteTypeDecl ["I"] test.adb:5:4-5:24>,
+         <ConcreteTypeDecl ["T"] test.adb:7:4-7:33>]
+
+Eval 'node.p_classwide_type.p_base_types()'
+Result: []
+
+Eval 'node.p_classwide_type.p_base_type()'
+Result: None

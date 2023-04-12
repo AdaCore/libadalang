@@ -1,3 +1,5 @@
 project P2 is
-   for Source_Dirs use ("src2");
+   type Src_Dir_Type is ("src2_1", "src2_2");
+   Src_Dir : Src_Dir_Type := external ("SRC_DIR");
+   for Source_Dirs use (Src_Dir);
 end P2;

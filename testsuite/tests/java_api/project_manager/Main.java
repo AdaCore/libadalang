@@ -37,10 +37,12 @@ public class Main {
      */
     private static void openProject(
         String gprFile,
+        Libadalang.ScenarioVariable[] scenarioVariables,
         boolean lookInProjectPath
     ) {
         header("Open " + gprFile);
 
+        // Resolve the project file if needed
         String projectFile = gprFile;
         if(lookInProjectPath) {
             projectFile = Paths.get(projectPath, gprFile).toString();
@@ -48,11 +50,18 @@ public class Main {
 
         try(
             Libadalang.ProjectManager project
-              = Libadalang.ProjectManager.create(projectFile, "", "")
+              = Libadalang.ProjectManager.create(
+                  projectFile,
+                  scenarioVariables,
+                  "",
+                  ""
+              )
         ) {
             String[] files = project.getFiles(
                 Libadalang.SourceFileMode.ROOT_PROJECT
             );
+
+            // Create an analysis context with the project unit provider
             Libadalang.UnitProvider unitProvider = project.getProvider();
             try(
                Libadalang.AnalysisContext context
@@ -79,32 +88,39 @@ public class Main {
         }
     }
 
-    private static void openProject(
-        String gprFile
-    ) {
-        openProject(gprFile, true);
-    }
-
     /**
      * Test opening a valid project.
      */
     private static void testValid() {
-        openProject("p1.gpr");
-        openProject("p2.gpr");
+        openProject("p1.gpr", null, true);
+        openProject(
+            "p2.gpr",
+            new Libadalang.ScenarioVariable[] {
+                Libadalang.ScenarioVariable.create("SRC_DIR", "src2_1")
+            },
+            true
+        );
+        openProject(
+            "p2.gpr",
+            new Libadalang.ScenarioVariable[] {
+                Libadalang.ScenarioVariable.create("SRC_DIR", "src2_2")
+            },
+            true
+        );
     }
 
     /**
      * Test opening an invalid project.
      */
     private static void testInvalid() {
-        openProject("invalid.gpr");
+        openProject("invalid.gpr", null, true);
     }
 
     /**
      * Test opening an inexistant project.
      */
     private static void testInexistant() {
-        openProject("idonotexist.gpr", false);
+        openProject("idonotexist.gpr", null, false);
     }
 
     /**

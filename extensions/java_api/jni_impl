@@ -4,19 +4,108 @@ nat = c_api.get_name
 
 project_type = capi.get_name('gpr_project')
 str_array_type = capi.get_name('string_array_ptr')
+scn_var_type = capi.get_name('gpr_project_scenario_variable')
 
 sig_base = "com/adacore/" + ctx.lib_name.lower + "/" + ctx.lib_name.camel
 ptr_sig = sig_base + "$PointerWrapper"
 %>
+
+// Unwrap a scenario variable in the given pointer
+void ScenarioVariable_unwrap(
+    JNIEnv *env,
+    jobject scenario_variable,
+    ${scn_var_type} *scenario_variables_native_ref
+) {
+    // Get the Java class
+    jclass clazz = (*env)->GetObjectClass(env, scenario_variable);
+
+    % for field in ('name', 'value'):
+    // Get the field ids
+    jfieldID ${field}_field = (*env)->GetFieldID(
+        env,
+        clazz,
+        "${field}",
+        "Ljava/lang/String;"
+    );
+
+    // Get the field values
+    jstring ${field} = (jstring) (*env)->GetObjectField(
+        env,
+        scenario_variable,
+        ${field}_field
+    );
+
+    // Get the native values
+    const char *${field}_native = (*env)->GetStringUTFChars(
+        env,
+        ${field},
+        NULL
+    );
+    int ${field}_native_length = (*env)->GetStringUTFLength(
+        env,
+        ${field}
+    );
+
+    // Allocate the buffer in the result structure
+    scenario_variables_native_ref->${field} = calloc(${field}_native_length, sizeof(char));
+    for(int i = 0; i < ${field}_native_length; i++) {
+        scenario_variables_native_ref->${field}[i] = ${field}_native[i];
+    }
+
+    // Release the source chararcter pointer
+    (*env)->ReleaseStringUTFChars(env, ${field}, ${field}_native);
+    % endfor
+}
+
+// Release the given native scenario variable
+void ScenarioVariable_release(
+    ${scn_var_type} scenario_variable_native
+) {
+    free(scenario_variable_native.name);
+    free(scenario_variable_native.value);
+}
 
 // Load a gpr project
 ${api.jni_func_sig("gpr_project_load", "jobject")}(
     JNIEnv *env,
     jclass jni_lib,
     jstring project_file,
+    jobjectArray scenario_variables,
     jstring target,
     jstring runtime
 ) {
+    // Create the scenario variable array
+    ${scn_var_type} *scenario_variables_native = NULL;
+    int scenario_variables_length = 0;
+    if(scenario_variables != NULL) {
+        // Get the scenario variable length
+        scenario_variables_length = (*env)->GetArrayLength(env, scenario_variables);
+        if(scenario_variables_length > 0) {
+
+            // Allocate the scenario variable array
+            int size = scenario_variables_length + 1;
+            scenario_variables_native = (${scn_var_type}*) calloc(
+                (size_t) size,
+                (size_t) sizeof(${scn_var_type})
+            );
+
+            // Unwrap all scenario variables in the native array
+            for(int i = 0; i < scenario_variables_length; i++) {
+                jobject scenario_variable = (*env)->GetObjectArrayElement(
+                    env,
+                    scenario_variables,
+                    (jsize) i
+                );
+                ScenarioVariable_unwrap(
+                    env,
+                    scenario_variable,
+                    &scenario_variables_native[i]
+                );
+            }
+
+        }
+    }
+
     // Translate the arguments to C values
     const char *project_file_c = to_c_string(env, project_file);
     const char *target_c = to_c_string(env, target);
@@ -27,12 +116,25 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
     ${str_array_type} errors = NULL;
     ${nat("gpr_project_load")}(
         project_file_c,
-        NULL,
+        scenario_variables_native,
         target_c,
         runtime_c,
         &res,
         &errors
     );
+
+    // Free the scenario variables
+    if(scenario_variables_native != NULL) {
+        for(int i = 0; i < scenario_variables_length; i++) {
+            ScenarioVariable_release(scenario_variables_native[i]);
+        }
+        free(scenario_variables_native);
+    }
+
+    // Free the translated strings
+    (*env)->ReleaseStringUTFChars(env, project_file, project_file_c);
+    (*env)->ReleaseStringUTFChars(env, target, target_c);
+    (*env)->ReleaseStringUTFChars(env, runtime, runtime_c);
 
     // The `errors` pointer is not allocated if an exception was raised during
     // project file loading.
@@ -40,17 +142,12 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
         // Handle the errors
         for(int i = 0 ; i < errors->length ; i++) {
             const char *error = errors->c_ptr[i];
-            fprintf(stderr, "Error during project opening : %s\n", error);
+            fprintf(stderr, "Error during project opening: %s\n", error);
         }
 
         // Free the error array
         ${nat("free_string_array")}(errors);
     }
-
-    // Free the translated strings
-    (*env)->ReleaseStringUTFChars(env, project_file, project_file_c);
-    (*env)->ReleaseStringUTFChars(env, target, target_c);
-    (*env)->ReleaseStringUTFChars(env, runtime, runtime_c);
 
     // Return the pointer
     return PointerWrapper_wrap(env, (void *) res);

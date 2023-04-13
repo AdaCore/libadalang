@@ -19047,7 +19047,7 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
             & Self.universal_int_bind(Self.type_var),
 
-            rel_name == 'External_Tag',
+            rel_name.any_of('External_Tag', 'Type_Key'),
             Entity.prefix.sub_equation
             & Bind(Self.type_var, Self.std_entity('String')),
 

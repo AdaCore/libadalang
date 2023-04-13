@@ -17125,7 +17125,15 @@ class BaseId(SingleTokNode):
         # so look for every entity named like the type, to see if any is a
         # completer view of the type.
         completer_view = Var(origin.then(lambda o: Self.env_get(
-            o.as_entity.children_env, Self.symbol,
+            o.as_entity.children_env,
+            # Take symbol from des_type to have a more precise view of the
+            # type, default to Self's symbol otherwise.
+            #
+            # Despite the fact we actually retrieve des_type using Self's
+            # symbol, des_type's name doesn't necessarily match with Self when
+            # resolving a generic instantiation because it's actual can return
+            # a type with a different name that the formal.
+            des_type.then(lambda dt: dt.name_symbol, default_val=Self.symbol),
             from_node=origin, categories=no_prims
         )).filtermap(
             lambda n: n.cast(BaseTypeDecl),

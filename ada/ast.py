@@ -2923,6 +2923,8 @@ class BasicDecl(AdaNode):
             # An object decl on which you can call 'Identity implies that its
             # type is a task type.
             lambda _=T.ObjectDecl: Self.task_id_type,
+            # As well as for for loop variable declarations
+            lambda _=T.ForLoopVarDecl: Self.task_id_type,
             lambda _: No(T.BaseTypeDecl.entity)
         )
 

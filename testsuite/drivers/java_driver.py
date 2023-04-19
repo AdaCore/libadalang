@@ -59,12 +59,19 @@ class JavaDriver(BaseDriver):
                 'java'
             ))
 
+            # Get the java.library.path from the LD_LIBRARY_PATH and compiled
+            # JNI stubs.
+            java_library_path = P.pathsep.join([
+                P.join(bindings_dir, 'jni'),
+                os.environ['LD_LIBRARY_PATH'],
+            ])
+
             # Prepare the command to run the Java main
             args = [
                 java_exec,
                 '-cp', class_path,
                 '-Dfile.encoding=UTF-8',
-                f"-Djava.library.path={os.environ['LD_LIBRARY_PATH']}",
+                f"-Djava.library.path={java_library_path}",
             ]
             if 'graalvm' in os.environ['JAVA_HOME']:
                 args.append((

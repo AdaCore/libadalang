@@ -30,7 +30,7 @@ run (const char *project_file)
   ada_free_string_array (errors);
   abort_on_exception ();
 
-  charset = ada_gpr_project_default_charset (gpr);
+  charset = ada_gpr_project_default_charset (gpr, NULL);
   abort_on_exception ();
 
   printf ("%s: %s\n", project_file, charset);

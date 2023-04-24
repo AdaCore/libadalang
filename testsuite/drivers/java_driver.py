@@ -30,15 +30,15 @@ class JavaDriver(BaseDriver):
 
         # Get the java main file
         main_java = P.realpath(P.join(
-            "testsuite",
-            self.test_env['java_path'],
+            self.test_env['test_dir'],
+            self.test_env.get('java_path', '.'),
             f"{self.main_java_class}.java"
         ))
 
         # Get the project path
         project_path = P.realpath(P.join(
-            'testsuite',
-            self.test_env['projects_path'] or '.'
+            self.test_env['test_dir'],
+            self.test_env.get('projects_path', '.')
         ))
 
         # Create the class path

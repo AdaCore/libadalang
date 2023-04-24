@@ -474,6 +474,80 @@ package body Libadalang.GPR_Utils is
       end case;
    end Iterate_Ada_Units;
 
+   -----------------------------------
+   -- Iterate_Ada_Compiler_Switches --
+   -----------------------------------
+
+   procedure Iterate_Ada_Compiler_Switches
+     (Tree    : Any_Tree;
+      View    : Any_View;
+      Process : access procedure (View : Any_View; Switch : XString))
+   is
+      Root_View : constant Any_View :=
+        (if View = No_View (Tree)
+         then Root (Tree)
+         else View);
+      --  Subproject from which to start probing compilation options
+
+      procedure Process_View (Self : Any_View);
+      --  Call ``Process`` on all Ada compiler switches found in ``Self``
+
+      procedure Process_Switches
+        (View : Any_View; Attribute : GPR_Utils.Any_Attribute; Index : String);
+      --  Call ``Process`` on all switches found in the ``Attribute (Index)``
+      --  GPR attribute found in ``P``.
+
+      ------------------
+      -- Process_View --
+      ------------------
+
+      procedure Process_View (Self : Any_View) is
+         Kind             : Project_Kind renames Self.Kind;
+         Default_Switches : GPR_Utils.Any_Attribute renames
+           Attributes.Default_Switches (Kind);
+         Switches         : GPR_Utils.Any_Attribute renames
+           Attributes.Switches (Kind);
+      begin
+         --  Process default compiler switches for the Ada language
+
+         Process_Switches (Self, Default_Switches, "Ada");
+
+         --  Same for Switches attribute
+
+         Process_Switches (Self, Switches, "Ada");
+
+         --  Also process compiler switches for all Ada sources
+
+         for Source of Indexes (Self, Switches) loop
+            declare
+               Filename : constant String := Source.To_String;
+            begin
+               if Is_Ada_Source (Tree, Self, Filename) then
+                  Process_Switches (Self, Switches, Filename);
+               end if;
+            end;
+         end loop;
+      end Process_View;
+
+      ----------------------
+      -- Process_Switches --
+      ----------------------
+
+      procedure Process_Switches
+        (View : Any_View; Attribute : GPR_Utils.Any_Attribute; Index : String)
+      is
+      begin
+         for Arg of Values (View, Attribute, Index) loop
+            Process.all (View, Arg);
+         end loop;
+      end Process_Switches;
+
+   begin
+      --  Go through all requested subprojects
+
+      Iterate (Root_View, Process_View'Access);
+   end Iterate_Ada_Compiler_Switches;
+
    -------------
    -- Closure --
    -------------

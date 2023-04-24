@@ -1,0 +1,5 @@
+project Default is
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnati3");
+   end Compiler;
+end Default;

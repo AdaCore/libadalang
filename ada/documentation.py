@@ -47,6 +47,15 @@ libadalang_docs = {
         ``Mode`` (whose value maps to positions in the
         ``Libadalang.Project_Provider.Source_Files_Mode`` enum) and return it.
     """,
+    'libadalang.gpr_project_default_charset': """
+        Try to detect the default charset to use for the given project.
+
+        Restrict the detection to the subproject ``Project``, or to ``Self``'s
+        root project if left to ``Prj.No_Project``.
+
+        Note that, as of today, this detection only looks for the ``-gnatW8``
+        compiler switch: other charsets are not supported.
+    """,
     'libadalang.create_project_unit_provider': """
         Load the project file at ``Project_File`` and return a unit provider
         that uses it.

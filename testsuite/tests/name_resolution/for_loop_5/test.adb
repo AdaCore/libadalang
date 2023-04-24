@@ -37,7 +37,8 @@ procedure Test is
       begin
          return 1;
       end Array_First;
-      function Array_Next (Arr : JSON_Array; Index : Positive) return Positive is
+      function Array_Next (Arr : JSON_Array; Index : Positive) return Positive
+      is
       begin
          return 1;
       end Array_Next;

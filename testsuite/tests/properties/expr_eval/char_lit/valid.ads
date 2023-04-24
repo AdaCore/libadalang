@@ -1,3 +1,5 @@
+--  style: non-ascii
+
 package Valid is
 
    type Enum is ('A', 'B');

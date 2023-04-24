@@ -1,6 +1,6 @@
 with G_Solver;
-with G_Vars;
 with G_Solver_Ifc;
+with G_Vars;
 
 generic
 package G_Support is

@@ -1,5 +1,6 @@
 import libadalang as lal
 
+
 ctx = lal.AnalysisContext()
 u = ctx.get_from_file("test.adb")
 

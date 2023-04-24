@@ -8,7 +8,7 @@ class PrepDriver(BaseDriver):
     Test driver to exercise Libadalang's preprocessor.
 
     It runs the "lal_prep" test program one or several times with various
-    arguments, determined by the "configs" key in "test.yaml."
+    arguments, determined by the "configs" key in "test.yaml".
 
     Each entry in the "configs" key must associate the name of an input file
     (entry key) with a list of command-lines to pass to "lal_prep" when running

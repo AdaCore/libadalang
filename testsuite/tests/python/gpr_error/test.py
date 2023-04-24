@@ -31,6 +31,7 @@ def run(project_file, **kwargs):
             print(e)
         print("")
 
+
 run("nosuchgpr.gpr")
 run("nosuchtarget.gpr")
 run("nosuchtarget.gpr", print_errors=False)

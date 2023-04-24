@@ -1,5 +1,3 @@
-import sys
-
 import libadalang as lal
 
 

@@ -1,88 +1,88 @@
-Working on node <ObjectDecl ["C1"] char_lit.ads:5:4-5:35>
+Working on node <ObjectDecl ["C1"] char_lit.ads:7:4-7:35>
 =========================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
 Result: <EnumLiteralDecl ["'A'"] __standard:21:22-21:25>
 
-Working on node <ObjectDecl ["C2"] char_lit.ads:8:4-8:35>
-=========================================================
+Working on node <ObjectDecl ["C2"] char_lit.ads:10:4-10:35>
+===========================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
 Result: <SyntheticCharEnumLit [""] __standard:21:3-21:27>
 
-Working on node <ObjectDecl ["C3"] char_lit.ads:11:4-11:34>
+Working on node <ObjectDecl ["C3"] char_lit.ads:13:4-13:34>
 ===========================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
-Result: <ObjectDecl ["C1"] char_lit.ads:5:4-5:35>
+Result: <ObjectDecl ["C1"] char_lit.ads:7:4-7:35>
 
-Working on node <ObjectDecl ["E1"] char_lit.ads:14:4-14:30>
+Working on node <ObjectDecl ["E1"] char_lit.ads:16:4-16:30>
 ===========================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
-Result: <EnumLiteralDecl ["'A'"] char_lit.ads:3:18-3:21>
+Result: <EnumLiteralDecl ["'A'"] char_lit.ads:5:18-5:21>
 
-Working on node <ObjectDecl ["E2"] char_lit.ads:17:4-17:30>
+Working on node <ObjectDecl ["E2"] char_lit.ads:19:4-19:30>
 ===========================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
-Result: <EnumLiteralDecl ["'B'"] char_lit.ads:3:23-3:26>
+Result: <EnumLiteralDecl ["'B'"] char_lit.ads:5:23-5:26>
 
-Working on node <SubpRenamingDecl ["F1"] char_lit.ads:20:4-20:45>
+Working on node <SubpRenamingDecl ["F1"] char_lit.ads:22:4-22:45>
 =================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
 Result: <EnumLiteralDecl ["'A'"] __standard:21:22-21:25>
 
-Working on node <SubpRenamingDecl ["F2"] char_lit.ads:23:4-23:40>
+Working on node <SubpRenamingDecl ["F2"] char_lit.ads:25:4-25:40>
 =================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
-Result: <EnumLiteralDecl ["'A'"] char_lit.ads:3:18-3:21>
+Result: <EnumLiteralDecl ["'A'"] char_lit.ads:5:18-5:21>
 
-Working on node <SubpRenamingDecl ["F3"] char_lit.ads:26:4-26:45>
+Working on node <SubpRenamingDecl ["F3"] char_lit.ads:28:4-28:45>
 =================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
 Result: <SyntheticCharEnumLit [""] __standard:21:3-21:27>
 
-Working on node <SubpRenamingDecl ["F4"] char_lit.ads:29:4-29:40>
+Working on node <SubpRenamingDecl ["F4"] char_lit.ads:31:4-31:40>
 =================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
-Result: <EnumLiteralDecl ["'B'"] char_lit.ads:3:23-3:26>
+Result: <EnumLiteralDecl ["'B'"] char_lit.ads:5:23-5:26>
 
-Working on node <ObjectDecl ["R1"] char_lit.ads:32:4-32:30>
+Working on node <ObjectDecl ["R1"] char_lit.ads:34:4-34:30>
 ===========================================================
 
 Eval 'node.f_renaming_clause.f_renamed_object.p_referenced_decl()'
-Result: <ObjectDecl ["C1"] char_lit.ads:5:4-5:35>
+Result: <ObjectDecl ["C1"] char_lit.ads:7:4-7:35>
 
-Working on node <ObjectDecl ["R2"] char_lit.ads:35:4-35:25>
+Working on node <ObjectDecl ["R2"] char_lit.ads:37:4-37:25>
 ===========================================================
 
 Eval 'node.f_renaming_clause.f_renamed_object.p_referenced_decl()'
-Result: <ObjectDecl ["E1"] char_lit.ads:14:4-14:30>
+Result: <ObjectDecl ["E1"] char_lit.ads:16:4-16:30>
 
-Working on node <ObjectDecl ["WC1"] char_lit.ads:38:4-38:41>
+Working on node <ObjectDecl ["WC1"] char_lit.ads:40:4-40:41>
 ============================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
 Result: <SyntheticCharEnumLit [""] __standard:22:3-22:32>
 
-Working on node <ObjectDecl ["WWC1"] char_lit.ads:41:4-41:47>
+Working on node <ObjectDecl ["WWC1"] char_lit.ads:43:4-43:47>
 =============================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
 Result: <SyntheticCharEnumLit [""] __standard:23:3-23:37>
 
-Working on node <SubpRenamingDecl ["Fwc1"] char_lit.ads:44:4-44:52>
+Working on node <SubpRenamingDecl ["Fwc1"] char_lit.ads:46:4-46:52>
 ===================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
 Result: <SyntheticCharEnumLit [""] __standard:22:3-22:32>
 
-Working on node <SubpRenamingDecl ["Fwwc1"] char_lit.ads:47:4-47:58>
+Working on node <SubpRenamingDecl ["Fwwc1"] char_lit.ads:49:4-49:58>
 ====================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'

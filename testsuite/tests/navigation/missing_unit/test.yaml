@@ -1,5 +1,9 @@
 driver: navigation
-input_sources: [ll_subp.ads, no_body_subp.ads, no_body_generic_subp.ads, pkg.ads]
+input_sources:
+    - ll_subp.ads
+    - no_body_subp.ads
+    - no_body_generic_subp.ads
+    - pkg.ads
 kinds:
     - Ada_Package_Decl
     - Ada_Generic_Package_Decl

@@ -1,5 +1,5 @@
 --  Check that p_base_types on classwide types returns an empty set, and that
---  p_base_type is None
+--  p_base_type is None.
 
 procedure Test is
    type I is interface;

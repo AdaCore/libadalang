@@ -15,28 +15,21 @@ class DDADriver(BaseDriver):
     The following ``test.yaml`` keys are supported. All are supposed to be
     optional unless specified mandatory.
 
-    ``input_sources``
+    * ``input_sources``: A list of filenames for the source files to process.
 
-        A list of filenames for the source files to process.
+    * ``compiled_sources``: Sources to compile with ``-gnatR4js`` when the
+      testsuite ``--dda-compile`` option is active. If omitted,
+      ``input_sources`` are compiled instead.
 
-    ``compiled_sources``
+    * ``project_file``: A filename for a project file, used to create a project
+      unit provider.
 
-        Sources to compile with ``-gnatR4js`` when the testsuite
-        ``--dda-compile`` option is active. If omitted, ``input_sources`` are
-        compiled instead.
+    * ``project_path``: List of directory names (relative to the testsuite root
+      directory) to add to the project files lookup path
+      (``GPR_PROJECT_PATH``).
 
-    ``project_file``
-
-        A filename for a project file, used to create a project unit provider.
-
-    ``project_path``
-
-        List of directory names (relative to the testsuite root directory)
-        to add to the project files lookup path (``GPR_PROJECT_PATH``).
-
-    ``project_vars``
-
-        Name/value mapping for project files external variables.
+    * ``project_vars``: Name/value mapping for project files external
+      variables.
     """
 
     def run(self):
@@ -56,8 +49,8 @@ class DDADriver(BaseDriver):
                     argv=["gcc", "-c", f, "-gnatR4js"], append_output=False,
                 )
 
-                # Even though sources may belong to subdirectories, GCC is run in
-                # the working directory, so this is where the JSON files are
+                # Even though sources may belong to subdirectories, GCC is run
+                # in the working directory, so this is where the JSON files are
                 # created.
                 json_file = f"{os.path.basename(f)}.json"
 

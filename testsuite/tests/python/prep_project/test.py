@@ -2,7 +2,7 @@
 Check that ``GPRProject.create_preprocessor`` works as expected.
 """
 
-from typing import List, Optional
+from typing import Optional
 
 import libadalang as lal
 

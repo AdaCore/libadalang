@@ -256,10 +256,10 @@ class BaseDriver(DiffTestDriver):
 
         Time and memory metrics go to the ``TestResult.info`` table:
 
-        * the "time" entry contains a space-separated list of floats for the
-          time in seconds it took to run each instance of the subprocess;
+        * The "time" entry contains a space-separated list of floats for the
+          time in seconds it took to run each instance of the subprocess.
 
-        * the "memory" entry contains a space-separated list of integers for
+        * The "memory" entry contains a space-separated list of integers for
           the approximative number of bytes each instance of the subprocess
           allocated.
 
@@ -337,7 +337,7 @@ class BaseDriver(DiffTestDriver):
                 self.result.info["memory-profile"] = f
 
             else:
-                raise TestError(f"invalid perf mode: {mode}")
+                raise TestAbortWithError(f"invalid perf mode: {mode}")
 
     @property
     def gpr_scenario_vars(self):

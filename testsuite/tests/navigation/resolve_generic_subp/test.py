@@ -1,5 +1,6 @@
 import libadalang as lal
 
+
 ctx = lal.AnalysisContext()
 u = ctx.get_from_file("test.adb")
 call = u.root.findall(lal.CallStmt)[-1]
@@ -14,4 +15,3 @@ call = body.find(lal.CallStmt).f_call
 print("In call " + call.text)
 print("The actual for generic subprogram Foo resolves to:")
 print(call.p_referenced_decl())
-

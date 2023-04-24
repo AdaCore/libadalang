@@ -34,7 +34,8 @@ procedure Test is
    W_W_Last : Wide_Wide_Character := Wide_Wide_Character'Last;
    --% node.f_default_expr.p_eval_as_int
 
-   Hex_80000000 : Wide_Wide_Character := Wide_Wide_Character'Succ(Hex_7FFFFFFF);  -- Invalid, wrong result expected
+   Hex_80000000 : Wide_Wide_Character := Wide_Wide_Character'Succ(Hex_7FFFFFFF);
+   -- Invalid, wrong result expected
    --% node.f_default_expr.p_eval_as_int
 
    B : Boolean := Hex_7FFFFFFE < Hex_7FFFFFFF;

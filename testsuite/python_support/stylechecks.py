@@ -12,7 +12,7 @@ def in_test(*args):
 python_support_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = join(python_support_dir, '..', '..')
 
-dirs = ['ada', 'contrib', 'utils']
+dirs = ['ada', 'contrib', 'testsuite', 'utils']
 excludes = ['tmp', 'doc',
             join('contrib', 'highlight', 'obj'),
             join('contrib', 'AdaEurope2018', 'obj'),

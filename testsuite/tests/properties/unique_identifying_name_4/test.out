@@ -1,53 +1,71 @@
-Working on node <ObjectDecl ["M_A"] test.adb:8:4-8:22>
-======================================================
-
-Eval 'node.f_default_expr.p_referenced_decl().p_defining_name.p_unique_identifying_name'
-Result: "test().my_c.'a'(() -> test.my_c.'a')"
-
-Eval 'node.f_default_expr.p_referenced_decl().p_subp_spec_or_null().p_returns'
-Result: <EnumLitSynthTypeExpr test.adb:3:18-3:21>
-
-Working on node <ObjectDecl ["M_E"] test.adb:12:4-12:22>
+Working on node <ObjectDecl ["M_A"] test.adb:10:4-10:22>
 ========================================================
 
-Eval 'node.f_default_expr.p_referenced_decl().p_defining_name.p_unique_identifying_name'
+Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
+Result: <EnumLiteralDecl ["'a'"] test.adb:5:18-5:21>
+
+Eval 'decl.p_defining_name.p_unique_identifying_name'
+Result: "test().my_c.'a'(() -> test.my_c.'a')"
+
+Eval 'decl.p_subp_spec_or_null().p_returns'
+Result: <EnumLitSynthTypeExpr test.adb:5:18-5:21>
+
+Working on node <ObjectDecl ["M_E"] test.adb:15:4-15:22>
+========================================================
+
+Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
+Result: <EnumLiteralDecl ["'\xe9'"] test.adb:5:23-5:26>
+
+Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "test().my_c.'\xe9'(() -> test.my_c.'\xe9')"
 
-Eval 'node.f_default_expr.p_referenced_decl().p_subp_spec_or_null().p_returns'
-Result: <EnumLitSynthTypeExpr test.adb:3:23-3:26>
+Eval 'decl.p_subp_spec_or_null().p_returns'
+Result: <EnumLitSynthTypeExpr test.adb:5:23-5:26>
 
-Working on node <ObjectDecl ["AA"] test.adb:16:4-16:31>
+Working on node <ObjectDecl ["AA"] test.adb:20:4-20:31>
 =======================================================
 
-Eval 'node.f_default_expr.p_referenced_decl().p_defining_name.p_unique_identifying_name'
+Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
+Result: <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>
+
+Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.wide_character.'A'(() -> standard.wide_character.'A')"
 
-Eval 'node.f_default_expr.p_referenced_decl().p_subp_spec_or_null().p_returns'
+Eval 'decl.p_subp_spec_or_null().p_returns'
 Result: <EnumLitSynthTypeExpr __standard:22:27-22:30>
 
-Working on node <ObjectDecl ["A"] test.adb:23:4-23:30>
+Working on node <ObjectDecl ["A"] test.adb:28:4-28:30>
 ======================================================
 
-Eval 'node.f_default_expr.p_referenced_decl().p_defining_name.p_unique_identifying_name'
+Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
+Result: <SyntheticCharEnumLit [""] __standard:22:3-22:32>
+
+Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'a'(() -> standard.wide_character.'a')"
 
-Eval 'node.f_default_expr.p_referenced_decl().p_subp_spec_or_null().p_returns'
+Eval 'decl.p_subp_spec_or_null().p_returns'
 Result: <EnumLitSynthTypeExpr __standard:22:3-22:32>
 
-Working on node <ObjectDecl ["E"] test.adb:27:4-27:25>
+Working on node <ObjectDecl ["E"] test.adb:33:4-33:25>
 ======================================================
 
-Eval 'node.f_default_expr.p_referenced_decl().p_defining_name.p_unique_identifying_name'
+Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
+Result: <SyntheticCharEnumLit [""] __standard:21:3-21:27>
+
+Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'\xe9'(() -> standard.character.'\xe9')"
 
-Eval 'node.f_default_expr.p_referenced_decl().p_subp_spec_or_null().p_returns'
+Eval 'decl.p_subp_spec_or_null().p_returns'
 Result: <EnumLitSynthTypeExpr __standard:21:3-21:27>
 
-Working on node <ObjectDecl ["EM"] test.adb:31:4-31:36>
+Working on node <ObjectDecl ["EM"] test.adb:38:4-38:36>
 =======================================================
 
-Eval 'node.f_default_expr.p_referenced_decl().p_defining_name.p_unique_identifying_name'
+Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
+Result: <SyntheticCharEnumLit [""] __standard:23:3-23:37>
+
+Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'!'(() -> standard.wide_wide_character.'!')"
 
-Eval 'node.f_default_expr.p_referenced_decl().p_subp_spec_or_null().p_returns'
+Eval 'decl.p_subp_spec_or_null().p_returns'
 Result: <EnumLitSynthTypeExpr __standard:23:3-23:37>

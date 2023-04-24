@@ -50,7 +50,8 @@ procedure Test is
    type TG is tagged null record with Value_Size => 128;
    --% node.p_get_aspect("Value_Size")
 
-   type New_TG_1 is new TG with record X : Boolean; end record with Value_Size => 192;
+   type New_TG_1 is new TG with record X : Boolean; end record
+   with Value_Size => 192;
    --% node.p_get_aspect("Value_Size")
    type New_TG_2 is new TG with record X : Boolean; end record;
    --% node.p_get_aspect("Value_Size")

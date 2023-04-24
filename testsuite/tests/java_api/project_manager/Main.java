@@ -1,8 +1,9 @@
-import java.util.Arrays;
-import com.adacore.libadalang.Libadalang;
 import java.io.File;
-import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+
+import com.adacore.libadalang.Libadalang;
 
 public class Main {
 
@@ -45,25 +46,28 @@ public class Main {
             projectFile = Paths.get(projectPath, gprFile).toString();
         }
 
-        try(Libadalang.ProjectManager project = Libadalang.ProjectManager.create(
-            projectFile,
-            "",
-            ""
-        )) {
+        try(
+            Libadalang.ProjectManager project
+              = Libadalang.ProjectManager.create(projectFile, "", "")
+        ) {
             String[] files = project.getFiles(
                 Libadalang.SourceFileMode.ROOT_PROJECT
             );
             Libadalang.UnitProvider unitProvider = project.getProvider();
-            try(Libadalang.AnalysisContext context = Libadalang.AnalysisContext.create(
-                null,
-                null,
-                unitProvider,
-                null,
-                true,
-                8
-            )) {
+            try(
+               Libadalang.AnalysisContext context
+                 = Libadalang.AnalysisContext.create(
+                       null,
+                       null,
+                       unitProvider,
+                       null,
+                       true,
+                       8
+                   )
+            ) {
                 for(String file : files) {
-                    Libadalang.AnalysisUnit unit = context.getUnitFromFile(file);
+                    Libadalang.AnalysisUnit unit
+                      = context.getUnitFromFile(file);
                     System.out.println("File " + unit.getFileName(false));
                     System.out.println("  root = " + unit.getRoot());
                 }

@@ -1,3 +1,5 @@
+--  style: non-ascii
+
 package Lit is
 
    type Enum is ('A', 'B');

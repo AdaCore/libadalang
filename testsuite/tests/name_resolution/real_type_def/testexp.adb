@@ -14,7 +14,8 @@ procedure Testexp is
    type Ordinary_Fixed_Point_Def_2 is delta Cst_R;
    pragma Test_Statement;
 
-   type Decimal_Fixed_Point_Def is delta Cst_R digits Cst_I range 0.0 .. 2.0 * Cst_R;
+   type Decimal_Fixed_Point_Def is
+     delta Cst_R digits Cst_I range 0.0 .. 2.0 * Cst_R;
    pragma Test_Statement;
 
    type Decimal_Fixed_Point_Def_2 is delta Cst_R digits Cst_I;

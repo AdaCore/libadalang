@@ -356,7 +356,7 @@ procedure LAL_DDA is
             --  We expect test pragmas to have a list of arguments without name
             --  associations. Each argument must be a static expression that
             --  resolves to a discriminant value, and the list of arguments
-            --  must correspond to the list of type discriminants:
+            --  must correspond to the list of type discriminants::
             --
             --    type R (D1 : Natural; D2 : Enum_Type) is record ...
             --    end record;

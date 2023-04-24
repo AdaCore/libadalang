@@ -78,60 +78,60 @@ Result: [[<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actua
           <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:74:48-74:52>>,
           <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:74:54-74:58>>]]
 
-Working on node <AssignStmt recagg.adb:76:4-76:90>
+Working on node <AssignStmt recagg.adb:76:4-77:78>
 ==================================================
 
 Eval '[x.p_aggregate_params for x in node.findall(lal.Aggregate)]'
 Result: [[<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:19-76:20>>,
-          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Allocator recagg.adb:76:30-76:54>>,
-          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Allocator recagg.adb:76:64-76:88>>],
-         [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:40-76:41>>,
-          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:76:43-76:47>>,
-          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:76:49-76:53>>],
-         [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:76:74-76:75>>,
-          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:76:77-76:81>>,
-          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:76:83-76:87>>]]
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Allocator recagg.adb:77:18-77:42>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Allocator recagg.adb:77:52-77:76>>],
+         [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:77:28-77:29>>,
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:77:31-77:35>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:77:37-77:41>>],
+         [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:77:62-77:63>>,
+          <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<Null recagg.adb:77:65-77:69>>,
+          <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<Null recagg.adb:77:71-77:75>>]]
 
-Working on node <AssignStmt recagg.adb:78:4-78:39>
+Working on node <AssignStmt recagg.adb:79:4-79:39>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:78:19-78:20>>,
-         <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<BoxExpr recagg.adb:78:35-78:37>>,
-         <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<BoxExpr recagg.adb:78:35-78:37>>]
+Result: [<ParamActual param=<DefiningName "Value" recagg.adb:34:10-34:15> actual=<Int recagg.adb:79:19-79:20>>,
+         <ParamActual param=<DefiningName "Succ" recagg.adb:35:10-35:14> actual=<BoxExpr recagg.adb:79:35-79:37>>,
+         <ParamActual param=<DefiningName "Pred" recagg.adb:36:10-36:14> actual=<BoxExpr recagg.adb:79:35-79:37>>]
 
-Working on node <AssignStmt recagg.adb:81:4-81:18>
+Working on node <AssignStmt recagg.adb:82:4-82:18>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:81:15-81:16>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:82:15-82:16>>]
 
-Working on node <AssignStmt recagg.adb:83:4-83:23>
+Working on node <AssignStmt recagg.adb:84:4-84:23>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:83:20-83:21>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:84:20-84:21>>]
 
-Working on node <AssignStmt recagg.adb:86:4-86:20>
+Working on node <AssignStmt recagg.adb:87:4-87:20>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:86:17-86:18>>,
-         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:86:17-86:18>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:87:17-87:18>>,
+         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:87:17-87:18>>]
 
-Working on node <AssignStmt recagg.adb:88:4-88:26>
+Working on node <AssignStmt recagg.adb:89:4-89:26>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:88:15-88:16>>,
-         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:88:23-88:24>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:89:15-89:16>>,
+         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:89:23-89:24>>]
 
-Working on node <AssignStmt recagg.adb:90:4-90:16>
+Working on node <AssignStmt recagg.adb:91:4-91:16>
 ==================================================
 
 Eval 'node.f_expr.p_aggregate_params'
-Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:90:10-90:11>>,
-         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:90:13-90:14>>]
+Result: [<ParamActual param=<DefiningName "A" recagg.adb:41:10-41:11> actual=<Int recagg.adb:91:10-91:11>>,
+         <ParamActual param=<DefiningName "B" recagg.adb:46:10-46:11> actual=<Int recagg.adb:91:13-91:14>>]
 
 Working on node <ObjectDecl ["C"] test.adb:18:4-18:42>
 ======================================================

@@ -1,8 +1,11 @@
 Working on node <ObjectDecl ["X"] test.adb:9:4-9:19>
 ====================================================
 
-Eval 'node.f_type_expr.p_designated_type_decl.p_fully_qualified_name'
+Set 'decl' to 'node.f_type_expr.p_designated_type_decl'
+Result: <| ConcreteTypeDecl ["T"] test.adb:4:7-4:29 [test.adb:7:4] |>
+
+Eval 'decl.p_fully_qualified_name'
 Result: 'Test.Pkg_Inst.T'
 
-Eval 'node.f_type_expr.p_designated_type_decl.p_get_uninstantiated_node.p_fully_qualified_name'
+Eval 'decl.p_get_uninstantiated_node.p_fully_qualified_name'
 Result: 'Test.Pkg.T'

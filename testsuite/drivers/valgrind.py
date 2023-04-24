@@ -1,6 +1,5 @@
 import collections
 import os.path
-import xml.etree.ElementTree as etree
 
 
 StackFrame = collections.namedtuple('StackFrame', 'ip obj fn dir file line')

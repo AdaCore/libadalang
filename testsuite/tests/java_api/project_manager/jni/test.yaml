@@ -1,4 +1,4 @@
 driver: java
 mode: jni
-java_path: tests/java_api/project_manager
-projects_path: tests/java_api/project_manager/sources
+java_path: ../
+projects_path: ../sources

@@ -1,4 +1,7 @@
 driver: java
 mode: graal_c_api
-java_path: tests/java_api/project_manager
-projects_path: tests/java_api/project_manager/sources
+java_path: ../
+projects_path: ../sources
+control:
+    - [SKIP, "os == 'windows'",
+       "Native images aren't supported onh Windows for now."]

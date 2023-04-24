@@ -1,3 +1,5 @@
+from e3.testsuite.driver.classic import TestAbortWithError
+
 from drivers.base_driver import BaseDriver
 
 
@@ -5,26 +7,19 @@ class AdaAPIDriver(BaseDriver):
     """
     Driver to test the Ada API building and running an Ada test program.
 
-    "test.yaml" entries:
+    ``test.yaml`` entries:
 
-    ``main``
+    * ``main``: Mandatory, name of the Ada source that is the main of the test
+      program.
 
-        Mandatory, name of the Ada source that is the main of the test program.
+    * ``args``: Optional list of command-line arguments to pass to the test
+      programs.  The default is an empty list.
 
-    ``args``
+    * ``status_code``: Optional status code (int) that is expected for the test
+      programs execution. The default is 0 (execution successful).
 
-        Optional list of command-line arguments to pass to the test programs.
-        The default is an empty list.
-
-    ``status_code``
-
-        Optional status code (int) that is expected for the test programs
-        execution. The default is 0 (execution successful).
-
-    ``check_output``
-
-        Optional boolean: whether to include the test programs output to the
-        test output (for baseline comparison). The default is True.
+    * ``check_output``: Optional boolean: whether to include the test programs
+      output to the test output (for baseline comparison). The default is True.
     """
 
     def run(self):
@@ -38,7 +33,7 @@ class AdaAPIDriver(BaseDriver):
         for m in mains:
             ext = ".adb"
             if not m.endswith(ext):
-                raise TestError(f"Invalid Ada source name: {m}")
+                raise TestAbortWithError(f"Invalid Ada source name: {m}")
             exe_name = m[:-len(ext)] + self.env.build.os.exeext
             test_programs.append(self.working_dir(exe_name))
 

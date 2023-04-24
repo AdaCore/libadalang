@@ -1,9 +1,10 @@
 import os
 import os.path as P
 
-from e3.testsuite.driver.classic import TestSkip, TestAbortWithFailure
+from e3.testsuite.driver.classic import TestAbortWithFailure, TestSkip
 
 from drivers.base_driver import BaseDriver
+
 
 class JavaDriver(BaseDriver):
     """
@@ -129,7 +130,6 @@ class JavaDriver(BaseDriver):
 
             # Run the compiled Java
             self.run_and_check([main_exec, project_path])
-
 
         # Run the test with the wanted mode
         if self.test_env['mode'] == 'graal_c_api':

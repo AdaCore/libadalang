@@ -2,17 +2,20 @@ WARNING: File test.ads not found
 Working on node <GenericPackageInstantiation ["My_Pkg"] test.adb:11:4-11:31>
 ============================================================================
 
-Eval 'node.p_designated_generic_decl.p_enclosing_compilation_unit.p_generic_instantiations'
+Set 'cu' to 'node.p_designated_generic_decl.p_enclosing_compilation_unit'
+Result: <| CompilationUnit test.adb:1:1-4:10 [test.adb:11:4] |>
+
+Eval 'cu.p_generic_instantiations'
 Result: [<GenericPackageInstantiation ["My_Pkg"] test.adb:11:4-11:31>]
 
-Working on node <NullStmt test.adb:14:4-14:9>
+Working on node <NullStmt test.adb:15:4-15:9>
 =============================================
 
 Eval 'node.p_enclosing_compilation_unit'
-Result: <CompilationUnit test.adb:6:1-16:10>
+Result: <CompilationUnit test.adb:6:1-17:10>
 
-Working on node <AssignStmt test.adb:22:7-22:14>
+Working on node <AssignStmt test.adb:23:7-23:14>
 ================================================
 
 Eval 'node.p_enclosing_compilation_unit'
-Result: <CompilationUnit test.adb:18:1-25:10>
+Result: <CompilationUnit test.adb:19:1-26:10>

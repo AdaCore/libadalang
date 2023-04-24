@@ -27,7 +27,8 @@ procedure Reduced is
         Implicit_Dereference => V;
 
       function Get_V (Object : JSON_Value; Key : String) return Json_Value_Ref;
-      function Get_C (Object : JSON_Value; Key : String) return Json_Value_Const_Ref;
+      function Get_C
+        (Object : JSON_Value; Key : String) return Json_Value_Const_Ref;
 
    private
 
@@ -57,14 +58,17 @@ procedure Reduced is
             False);
       pragma Test_Statement;
 
-      function Get_V (Object : JSON_Value; Key : String) return JSON_Value_Ref is
+      function Get_V
+        (Object : JSON_Value; Key : String) return JSON_Value_Ref is
       begin
          return R : JSON_Value_Ref := (V => Object'Unrestricted_Access);
       end Get_V;
 
-      function Get_C (Object : JSON_Value; Key : String) return JSON_Value_Const_Ref is
+      function Get_C
+        (Object : JSON_Value; Key : String) return JSON_Value_Const_Ref is
       begin
-         return R : constant JSON_Value_Const_Ref := (V => Object'Unrestricted_Access);
+         return R : constant JSON_Value_Const_Ref :=
+           (V => Object'Unrestricted_Access);
       end Get_C;
 
    end Types;

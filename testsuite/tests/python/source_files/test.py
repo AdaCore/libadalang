@@ -2,7 +2,6 @@
 Check that ``GPRProject.source_files`` works as expected.
 """
 
-from dataclasses import dataclass
 import os.path
 
 import libadalang as lal

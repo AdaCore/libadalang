@@ -7,13 +7,13 @@ Base declarations of Foo:11:7-11:37:
   - Foo:11:7-11:37
       - Foo:5:7-5:37
       - Foo:11:7-11:37
-Base declarations of Foo:18:7-18:37:
+Base declarations of Foo:17:7-17:37:
   - Foo:11:7-11:37
       - Foo:5:7-5:37
       - Foo:11:7-11:37
   - Foo:5:7-5:37
       - Foo:5:7-5:37
-  - Foo:18:7-18:37
+  - Foo:17:7-17:37
       - Foo:11:7-11:37
       - Foo:5:7-5:37
-      - Foo:18:7-18:37
+      - Foo:17:7-17:37

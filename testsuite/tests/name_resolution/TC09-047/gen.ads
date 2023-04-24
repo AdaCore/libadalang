@@ -7,6 +7,6 @@ package Gen is
    end record;
 
    function Count (Obj : Counted_Type) return Natural is (Obj.Count);
-   -- Return the count of Obj.
+   -- Return the count of Obj
 
 end Gen;

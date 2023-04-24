@@ -2,6 +2,7 @@ import sys
 
 import libadalang as lal
 
+
 ctx = lal.AnalysisContext()
 units = [ctx.get_from_file(f) for f in sys.argv[1:]]
 for u in units:

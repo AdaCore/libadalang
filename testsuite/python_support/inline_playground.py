@@ -22,11 +22,11 @@ expression in a context containing the following variables:
 YELLOW = '\033[33m'
 
 assign_expr_re = re.compile(
-    "\s*"
-    "(?P<identifier>[a-zA-Z_][a-zA-Z0-9_]*)"
-    "\s*"
-    "="
-    "(?P<expr>.*)"
+    r"\s*"
+    r"(?P<identifier>[a-zA-Z_][a-zA-Z0-9_]*)"
+    r"\s*"
+    r"="
+    r"(?P<expr>.*)"
 )
 
 

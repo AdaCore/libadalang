@@ -73,7 +73,8 @@ begin
 
    C := (Value => 0, Succ|Pred => new Cell'(0, null, null));
    --% [x.p_aggregate_params for x in node.findall(lal.Aggregate)]
-   C := (Value => 0, Succ => new Cell'(0, null, null), Pred => new Cell'(0, null, null));
+   C := (Value => 0,
+         Succ => new Cell'(0, null, null), Pred => new Cell'(0, null, null));
    --% [x.p_aggregate_params for x in node.findall(lal.Aggregate)]
    C := (Value => 0, Succ|Pred => <>);
    --% node.f_expr.p_aggregate_params

@@ -1,6 +1,6 @@
-with Libadalang.Analysis;  use Libadalang.Analysis;
-with Libadalang.Common;    use Libadalang.Common;
-with Ada.Text_IO;          use Ada.Text_IO;
+with Ada.Text_IO;         use Ada.Text_IO;
+with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Common;   use Libadalang.Common;
 
 procedure Main is
 

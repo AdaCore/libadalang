@@ -1,8 +1,6 @@
 import os.path
 from typing import Dict, List
 
-from e3.testsuite.driver.classic import TestAbortWithError
-
 from drivers.base_driver import BaseDriver
 
 
@@ -13,60 +11,41 @@ class NameResolutionDriver(BaseDriver):
     The following list documents supported keys (in ``test.yaml``). All keys
     are assumed to be optional unless told otherwise.
 
-    ``input_sources``
+    * ``input_sources``: A list of filenames for the source files to process.
 
-        A list of filenames for the source files to process.
+    * ``charset``: The name of a string encoding to use when processing files.
 
-    ``charset``
+    * ``project_file``: A filename for a project file, used to create a project
+      unit provider.
 
-        The name of a string encoding to use when processing files.
+    * ``project_path``: List of directory names (relative to the testsuite root
+      directory) to add to the project files lookup path
+      (``GPR_PROJECT_PATH``).
 
-    ``project_file``
+    * ``project_vars``: Name/value mapping for project files external
+      variables.
 
-        A filename for a project file, used to create a project unit provider.
+    * ``auto_provider_dirs``: A list of directory names, used to create an auto
+      unit provider.
 
-    ``project_path``
+    * ``imprecise_fallback``: Boolean (false by default) to trigger implicit
+      fallbacks during name resolution.
 
-        List of directory names (relative to the testsuite root directory)
-        to add to the project files lookup path (``GPR_PROJECT_PATH``).
+    * ``batch``: If true, run name resolution on the whole sources (not just
+      the nameres pragmas) and only show failures, with no traceback. This is
+      useful to check on a big codebase that there are no (new) name resolution
+      failures.
 
-    ``project_vars``
+    * ``recursive``: If true, run name resolution recursively on all units in
+      the project tree, excluding externally built projects.
 
-        Name/value mapping for project files external variables.
+    * ``subprojects``: List of subprojects in which to look for source files.
+      If not passed, start from the root project only.
 
-    ``auto_provider_dirs``
+    * ``preprocessor_data_file``: Filename for the preprocessor data file.
 
-        A list of directory names, used to create an auto unit provider.
-
-    ``imprecise_fallback``
-
-        Boolean (false by default) to trigger implicit fallbacks during name
-        resolution.
-
-    ``batch``
-
-        If true, run name resolution on the whole sources (not just the nameres
-        pragmas) and only show failures, with no traceback. This is useful to
-        check on a big codebase that there are no (new) name resolution
-        failures.
-
-    ``recursive``
-
-        If true, run name resolution recursively on all units in the project
-        tree, excluding externally built projects.
-
-    ``subprojects``
-
-        List of subprojects in which to look for source files. If not passed,
-        start from the root project only.
-
-    ``preprocessor_data_file``
-
-        Filename for the preprocessor data file.
-
-    ``preprocessor_path``
-
-        List of directories where preprocessor data files can be found.
+    * ``preprocessor_path``: List of directories where preprocessor data files
+      can be found.
     """
 
     perf_supported = True

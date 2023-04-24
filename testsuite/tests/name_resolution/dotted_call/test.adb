@@ -12,7 +12,8 @@ procedure Test is
 
       procedure P4 (X : access U'Class := null) is null;
       procedure P5 (X, Y : access U'Class := null) is null;
-      procedure P6 (X, Y : access U'Class := null; Z : Boolean := False) is null;
+      procedure P6 (X, Y : access U'Class := null; Z : Boolean := False)
+      is null;
    end P;
 
    package body P is

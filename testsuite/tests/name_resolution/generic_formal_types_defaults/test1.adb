@@ -4,7 +4,7 @@ procedure Test1 is
    subtype Narrow is integer range 10 ..20;
    generic
       type Item_Type is private;
-      type Item_Count is range <> or use Narrow; --  New syntax.
+      type Item_Count is range <> or use Narrow; --  New syntax
       with function "=" (L, R : in Item_Type) return Boolean is <>;
       I : Item_Count;
    package Lists is

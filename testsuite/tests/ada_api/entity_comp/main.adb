@@ -10,24 +10,25 @@ procedure Main is
 
    Ctx : constant Analysis_Context := Create_Context;
 
-   Unit          : constant Analysis_Unit := Ctx.Get_From_File ("pkg.ads");
-   Type_Decls    : constant Ada_Node_Array :=
+   Unit       : constant Analysis_Unit := Ctx.Get_From_File ("pkg.ads");
+   Type_Decls : constant Ada_Node_Array :=
       Find
         (Unit.Root,
          Kind_In (Ada_Base_Type_Decl'First, Ada_Type_Decl'Last)).Consume;
 
-   D1            : constant Type_Decl := Type_Decls (1).As_Type_Decl;
-   D2            : constant Type_Decl := Type_Decls (2).As_Type_Decl;
+   D1 : constant Type_Decl := Type_Decls (1).As_Type_Decl;
+   D2 : constant Type_Decl := Type_Decls (2).As_Type_Decl;
 
-   Prim_1        : constant Basic_Decl := D1.P_Get_Primitives (1);
-   Prim_2        : constant Basic_Decl := D2.P_Get_Primitives (1);
+   Prim_1 : constant Basic_Decl := D1.P_Get_Primitives (1);
+   Prim_2 : constant Basic_Decl := D2.P_Get_Primitives (1);
 
-   E        : constant Ada_Node := 
-      Find
-        (Unit.Root,
-         Kind_In (Ada_Base_Subp_Body'First, Ada_Base_Subp_Body'Last)).Consume (2);
+   E : constant Ada_Node :=
+     Find
+       (Unit.Root,
+        Kind_In (Ada_Base_Subp_Body'First, Ada_Base_Subp_Body'Last))
+     .Consume (2);
 
-   Prim_3        : constant Basic_Decl :=
+   Prim_3 : constant Basic_Decl :=
      E.As_Expr_Function.F_Expr.Child (1).As_Name.P_Referenced_Decl;
 begin
    Put_Line

@@ -33,43 +33,43 @@ Expr: <Id "Get_V" reduced.adb:18:30-18:35>
   type:          None
   expected type: None
 
-Resolving xrefs for node <ExprFunction [""=""] reduced.adb:53:7-57:20>
+Resolving xrefs for node <ExprFunction [""=""] reduced.adb:54:7-58:20>
 **********************************************************************
 
-Expr: <ParenExpr reduced.adb:54:9-57:19>
+Expr: <ParenExpr reduced.adb:55:9-58:19>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <IfExpr reduced.adb:54:10-57:18>
+Expr: <IfExpr reduced.adb:55:10-58:18>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <RelationOp reduced.adb:54:13-54:38>
+Expr: <RelationOp reduced.adb:55:13-55:38>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <DottedName reduced.adb:54:13-54:23>
-  references:    <DefiningName "Kind" reduced.adb:36:24-36:28>
+Expr: <DottedName reduced.adb:55:13-55:23>
+  references:    <DefiningName "Kind" reduced.adb:37:24-37:28>
   type:          <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
   expected type: <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
-Expr: <Id "Right" reduced.adb:54:13-54:18>
-  references:    <DefiningName "Right" reduced.adb:53:36-53:41>
-  type:          <ConcreteTypeDecl ["JSON_Value"] reduced.adb:36:7-43:18>
+Expr: <Id "Right" reduced.adb:55:13-55:18>
+  references:    <DefiningName "Right" reduced.adb:54:36-54:41>
+  type:          <ConcreteTypeDecl ["JSON_Value"] reduced.adb:37:7-44:18>
   expected type: None
-Expr: <Id "Kind" reduced.adb:54:19-54:23>
-  references:    <DefiningName "Kind" reduced.adb:36:24-36:28>
+Expr: <Id "Kind" reduced.adb:55:19-55:23>
+  references:    <DefiningName "Kind" reduced.adb:37:24-37:28>
   type:          <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
   expected type: <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
-Expr: <OpEq "=" reduced.adb:54:24-54:25>
+Expr: <OpEq "=" reduced.adb:55:24-55:25>
   references:    None
   type:          None
   expected type: None
-Expr: <Id "Integer_Kind" reduced.adb:54:26-54:38>
+Expr: <Id "Integer_Kind" reduced.adb:55:26-55:38>
   references:    <DefiningName "Integer_Kind" reduced.adb:12:10-12:22>
   type:          <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
   expected type: <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
-Expr: <Id "True" reduced.adb:55:13-55:17>
+Expr: <Id "True" reduced.adb:56:13-56:17>
   references:    <DefiningName "True" __standard:3:27-3:31>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <Id "False" reduced.adb:57:13-57:18>
+Expr: <Id "False" reduced.adb:58:13-58:18>
   references:    <DefiningName "False" __standard:3:20-3:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>

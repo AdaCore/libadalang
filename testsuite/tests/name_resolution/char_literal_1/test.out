@@ -28,158 +28,158 @@ Expr: <Int test.adb:17:30-17:31>
 Analyzing lit.ads
 #################
 
-Resolving xrefs for node <ObjectDecl ["C1"] lit.ads:5:4-5:35>
+Resolving xrefs for node <ObjectDecl ["C1"] lit.ads:7:4-7:35>
 *************************************************************
 
-Expr: <Id "Character" lit.ads:5:18-5:27>
+Expr: <Id "Character" lit.ads:7:18-7:27>
   references:    <DefiningName "Character" __standard:21:8-21:17>
   type:          None
   expected type: None
-Expr: <Chr "'A'" lit.ads:5:31-5:34>
+Expr: <Chr "'A'" lit.ads:7:31-7:34>
   references:    <DefiningName "'A'" __standard:21:22-21:25>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 
-Resolving xrefs for node <ObjectDecl ["C2"] lit.ads:8:4-8:35>
-*************************************************************
+Resolving xrefs for node <ObjectDecl ["C2"] lit.ads:10:4-10:35>
+***************************************************************
 
-Expr: <Id "Character" lit.ads:8:18-8:27>
+Expr: <Id "Character" lit.ads:10:18-10:27>
   references:    <DefiningName "Character" __standard:21:8-21:17>
   type:          None
   expected type: None
-Expr: <Chr "'Z'" lit.ads:8:31-8:34>
+Expr: <Chr "'Z'" lit.ads:10:31-10:34>
   references:    <SyntheticDefiningName "'Z'" __standard:21:3-21:27>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 
-Resolving xrefs for node <ObjectDecl ["C3"] lit.ads:11:4-11:34>
+Resolving xrefs for node <ObjectDecl ["C3"] lit.ads:13:4-13:34>
 ***************************************************************
 
-Expr: <Id "Character" lit.ads:11:18-11:27>
+Expr: <Id "Character" lit.ads:13:18-13:27>
   references:    <DefiningName "Character" __standard:21:8-21:17>
   type:          None
   expected type: None
-Expr: <Id "C1" lit.ads:11:31-11:33>
-  references:    <DefiningName "C1" lit.ads:5:4-5:6>
+Expr: <Id "C1" lit.ads:13:31-13:33>
+  references:    <DefiningName "C1" lit.ads:7:4-7:6>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 
-Resolving xrefs for node <ObjectDecl ["E1"] lit.ads:14:4-14:30>
+Resolving xrefs for node <ObjectDecl ["E1"] lit.ads:16:4-16:30>
 ***************************************************************
 
-Expr: <Id "Enum" lit.ads:14:18-14:22>
-  references:    <DefiningName "Enum" lit.ads:3:9-3:13>
+Expr: <Id "Enum" lit.ads:16:18-16:22>
+  references:    <DefiningName "Enum" lit.ads:5:9-5:13>
   type:          None
   expected type: None
-Expr: <Chr "'A'" lit.ads:14:26-14:29>
-  references:    <DefiningName "'A'" lit.ads:3:18-3:21>
-  type:          <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
-  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
+Expr: <Chr "'A'" lit.ads:16:26-16:29>
+  references:    <DefiningName "'A'" lit.ads:5:18-5:21>
+  type:          <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
+  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
 
-Resolving xrefs for node <ObjectDecl ["E2"] lit.ads:17:4-17:30>
+Resolving xrefs for node <ObjectDecl ["E2"] lit.ads:19:4-19:30>
 ***************************************************************
 
-Expr: <Id "Enum" lit.ads:17:18-17:22>
-  references:    <DefiningName "Enum" lit.ads:3:9-3:13>
+Expr: <Id "Enum" lit.ads:19:18-19:22>
+  references:    <DefiningName "Enum" lit.ads:5:9-5:13>
   type:          None
   expected type: None
-Expr: <Chr "'B'" lit.ads:17:26-17:29>
-  references:    <DefiningName "'B'" lit.ads:3:23-3:26>
-  type:          <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
-  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
+Expr: <Chr "'B'" lit.ads:19:26-19:29>
+  references:    <DefiningName "'B'" lit.ads:5:23-5:26>
+  type:          <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
+  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
 
-Resolving xrefs for node <SubpRenamingDecl ["F1"] lit.ads:20:4-20:45>
+Resolving xrefs for node <SubpRenamingDecl ["F1"] lit.ads:22:4-22:45>
 *********************************************************************
 
-Expr: <Chr "'A'" lit.ads:20:41-20:44>
+Expr: <Chr "'A'" lit.ads:22:41-22:44>
   references:    <DefiningName "'A'" __standard:21:22-21:25>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 
-Resolving xrefs for node <SubpRenamingDecl ["F2"] lit.ads:23:4-23:40>
+Resolving xrefs for node <SubpRenamingDecl ["F2"] lit.ads:25:4-25:40>
 *********************************************************************
 
-Expr: <Chr "'A'" lit.ads:23:36-23:39>
-  references:    <DefiningName "'A'" lit.ads:3:18-3:21>
-  type:          <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
-  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
+Expr: <Chr "'A'" lit.ads:25:36-25:39>
+  references:    <DefiningName "'A'" lit.ads:5:18-5:21>
+  type:          <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
+  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
 
-Resolving xrefs for node <SubpRenamingDecl ["F3"] lit.ads:26:4-26:45>
+Resolving xrefs for node <SubpRenamingDecl ["F3"] lit.ads:28:4-28:45>
 *********************************************************************
 
-Expr: <Chr "'Z'" lit.ads:26:41-26:44>
+Expr: <Chr "'Z'" lit.ads:28:41-28:44>
   references:    <SyntheticDefiningName "'Z'" __standard:21:3-21:27>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 
-Resolving xrefs for node <SubpRenamingDecl ["F4"] lit.ads:29:4-29:40>
+Resolving xrefs for node <SubpRenamingDecl ["F4"] lit.ads:31:4-31:40>
 *********************************************************************
 
-Expr: <Chr "'B'" lit.ads:29:36-29:39>
-  references:    <DefiningName "'B'" lit.ads:3:23-3:26>
-  type:          <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
-  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
+Expr: <Chr "'B'" lit.ads:31:36-31:39>
+  references:    <DefiningName "'B'" lit.ads:5:23-5:26>
+  type:          <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
+  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
 
-Resolving xrefs for node <ObjectDecl ["R1"] lit.ads:32:4-32:30>
+Resolving xrefs for node <ObjectDecl ["R1"] lit.ads:34:4-34:30>
 ***************************************************************
 
-Expr: <Id "Character" lit.ads:32:9-32:18>
+Expr: <Id "Character" lit.ads:34:9-34:18>
   references:    <DefiningName "Character" __standard:21:8-21:17>
   type:          None
   expected type: None
-Expr: <Id "C1" lit.ads:32:27-32:29>
-  references:    <DefiningName "C1" lit.ads:5:4-5:6>
+Expr: <Id "C1" lit.ads:34:27-34:29>
+  references:    <DefiningName "C1" lit.ads:7:4-7:6>
   type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
   expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
 
-Resolving xrefs for node <ObjectDecl ["R2"] lit.ads:35:4-35:25>
+Resolving xrefs for node <ObjectDecl ["R2"] lit.ads:37:4-37:25>
 ***************************************************************
 
-Expr: <Id "Enum" lit.ads:35:9-35:13>
-  references:    <DefiningName "Enum" lit.ads:3:9-3:13>
+Expr: <Id "Enum" lit.ads:37:9-37:13>
+  references:    <DefiningName "Enum" lit.ads:5:9-5:13>
   type:          None
   expected type: None
-Expr: <Id "E1" lit.ads:35:22-35:24>
-  references:    <DefiningName "E1" lit.ads:14:4-14:6>
-  type:          <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
-  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:3:4-3:28>
+Expr: <Id "E1" lit.ads:37:22-37:24>
+  references:    <DefiningName "E1" lit.ads:16:4-16:6>
+  type:          <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
+  expected type: <ConcreteTypeDecl ["Enum"] lit.ads:5:4-5:28>
 
-Resolving xrefs for node <ObjectDecl ["WC1"] lit.ads:38:4-38:41>
+Resolving xrefs for node <ObjectDecl ["WC1"] lit.ads:40:4-40:41>
 ****************************************************************
 
-Expr: <Id "Wide_Character" lit.ads:38:19-38:33>
+Expr: <Id "Wide_Character" lit.ads:40:19-40:33>
   references:    <DefiningName "Wide_Character" __standard:22:8-22:22>
   type:          None
   expected type: None
-Expr: <Chr "'\u2e8e'" lit.ads:38:37-38:40>
+Expr: <Chr "'\u2e8e'" lit.ads:40:37-40:40>
   references:    <SyntheticDefiningName "'\u2e8e'" __standard:22:3-22:32>
   type:          <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
   expected type: <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
 
-Resolving xrefs for node <ObjectDecl ["WWC1"] lit.ads:41:4-41:47>
+Resolving xrefs for node <ObjectDecl ["WWC1"] lit.ads:43:4-43:47>
 *****************************************************************
 
-Expr: <Id "Wide_Wide_Character" lit.ads:41:20-41:39>
+Expr: <Id "Wide_Wide_Character" lit.ads:43:20-43:39>
   references:    <DefiningName "Wide_Wide_Character" __standard:23:8-23:27>
   type:          None
   expected type: None
-Expr: <Chr "'\U00020024'" lit.ads:41:43-41:46>
+Expr: <Chr "'\U00020024'" lit.ads:43:43-43:46>
   references:    <SyntheticDefiningName "'\U00020024'" __standard:23:3-23:37>
   type:          <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>
   expected type: <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>
 
-Resolving xrefs for node <SubpRenamingDecl ["Fwc1"] lit.ads:44:4-44:52>
+Resolving xrefs for node <SubpRenamingDecl ["Fwc1"] lit.ads:46:4-46:52>
 ***********************************************************************
 
-Expr: <Chr "'\u2e8e'" lit.ads:44:48-44:51>
+Expr: <Chr "'\u2e8e'" lit.ads:46:48-46:51>
   references:    <SyntheticDefiningName "'\u2e8e'" __standard:22:3-22:32>
   type:          <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
   expected type: <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
 
-Resolving xrefs for node <SubpRenamingDecl ["Fwwc1"] lit.ads:47:4-47:58>
+Resolving xrefs for node <SubpRenamingDecl ["Fwwc1"] lit.ads:49:4-49:58>
 ************************************************************************
 
-Expr: <Chr "'\U00020024'" lit.ads:47:54-47:57>
+Expr: <Chr "'\U00020024'" lit.ads:49:54-49:57>
   references:    <SyntheticDefiningName "'\U00020024'" __standard:23:3-23:37>
   type:          <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>
   expected type: <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>

@@ -151,11 +151,11 @@ begin
    --
    --  * If the extending project has a Compiler package that defines no such
    --    attribute, no unit in that project have local configuration pragmas
-   --    (ext_a2.gpr)
+   --    (ext_a2.gpr).
    --
    --  * If the extending project does not define a Compiler package, all units
    --    in that project use the local configuration pragmas from the extended
-   --    project attribute (ext_a3.gpr)
+   --    project attribute (ext_a3.gpr).
 
    Run ("gpr/ext_a1.gpr", "");
    Run ("gpr/ext_a2.gpr", "");

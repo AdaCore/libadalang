@@ -100,7 +100,7 @@ Working on node <ObjectDecl ["Hex_80000000"] test.adb:37:4-37:81>
 Eval 'node.f_default_expr.p_eval_as_int'
 Result: 2147483648
 
-Working on node <ObjectDecl ["B"] test.adb:40:4-40:47>
+Working on node <ObjectDecl ["B"] test.adb:41:4-41:47>
 ======================================================
 
 Eval 'node.f_default_expr.p_eval_as_int'

@@ -5,8 +5,10 @@ expected.
 """
 import libadalang as lal
 
+
 def subp_image(subp):
     return "{}:{}".format(subp.p_defining_name.text, subp.sloc_range)
+
 
 ctx = lal.AnalysisContext()
 u = ctx.get_from_file("test.adb")
@@ -20,4 +22,3 @@ for subp in subps:
         base_bases = base.p_base_subp_declarations()
         for base_base in base_bases:
             print("      - {}".format(subp_image(base_base)))
-

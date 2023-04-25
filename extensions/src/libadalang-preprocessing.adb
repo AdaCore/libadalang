@@ -580,7 +580,7 @@ package body Libadalang.Preprocessing is
       procedure Process_Switch (View : Any_View; Switch : XString);
       --  If relevant, add the compiler ``Switch`` (found in ``View``) to our
       --  knowledge base: the ``Default_Config`` and ``File_Configs`` arguments
-      --  (for preprocesor data files) and ``Defs`` (for symbol definitions).
+      --  (for preprocessor data files) and ``Defs`` (for symbol definitions).
 
       --------------------
       -- Process_Switch --
@@ -621,8 +621,8 @@ package body Libadalang.Preprocessing is
                Path : constant Any_Path := Create_Path
                  (Directories => (1 => To_XString (Object_Dir (View))),
                   CWD         => If_Empty);
-               --  If the proprocesor data file is not absolute, it is relative
-               --  to the object directory.
+               --  If the preprocessor data file is not absolute, it is
+               --  relative to the object directory.
             begin
                Parse_Preprocessor_Data_File
                  (File.To_String, Path, Default_Config, File_Configs);

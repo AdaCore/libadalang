@@ -45,4 +45,9 @@ LANGKIT_SUPPORT.ERRORS.FILE_READ_ERROR: no such file: foo.prep
 
 LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: foo.prep:1:2: invalid token
 
+== gnatep_in_source_dirs/p.gpr ==
+
+# default
+  n -> String("3")
+
 Done.

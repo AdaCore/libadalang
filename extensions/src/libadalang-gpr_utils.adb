@@ -207,6 +207,54 @@ package body Libadalang.GPR_Utils is
       end case;
    end Is_Extended;
 
+   ----------------------
+   -- Source_Dirs_Path --
+   ----------------------
+
+   function Source_Dirs_Path (Tree : Any_Tree; View : Any_View) return Any_Path
+   is
+      Root_View : constant Any_View :=
+        (if View = No_View (Tree)
+         then Root (Tree)
+         else View);
+      --  Subproject from which to start looking for source directories
+
+      Result : Any_Path;
+
+      procedure Process (Self : Any_View);
+      --  Add ``Self``'s source directories to ``Result``
+
+      -------------
+      -- Process --
+      -------------
+
+      procedure Process (Self : Any_View) is
+      begin
+         --  Aggregate projects do not have source dirs/files of their own:
+         --  just skip them.
+
+         if Is_Aggregate_Project (Self) then
+            return;
+         end if;
+
+         case Self.Kind is
+            when GPR1_Kind =>
+               for D of Self.GPR1_Value.Source_Dirs loop
+                  Add_Directory (Result, +D.Full_Name);
+               end loop;
+
+            when GPR2_Kind =>
+               for D of Self.GPR2_Value.Source_Directories loop
+                  Add_Directory (Result, String (D.Value));
+               end loop;
+         end case;
+      end Process;
+
+   begin
+      Iterate (Root_View, Process'Access);
+      return Result;
+   end Source_Dirs_Path;
+
    ----------------
    -- Object_Dir --
    ----------------

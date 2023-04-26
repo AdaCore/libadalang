@@ -124,5 +124,6 @@ begin
        To_Unbounded_String ("q")));
    Process ("file_read_error/p.gpr");
    Process ("syntax_error/p.gpr");
+   Process ("gnatep_in_source_dirs/p.gpr");
    Put_Line ("Done.");
 end Main;

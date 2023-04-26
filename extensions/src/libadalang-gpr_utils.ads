@@ -8,8 +8,9 @@
 
 with Ada.Containers.Vectors;
 
+with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Projects;
-with GNATCOLL.Strings; use GNATCOLL.Strings;
+with GNATCOLL.Strings;    use GNATCOLL.Strings;
 with GPR2.Project.Registry.Attribute;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
@@ -81,6 +82,11 @@ private package Libadalang.GPR_Utils is
 
    function Is_Extended (Self : Any_View) return Boolean;
    --  Return whether ``Self`` is extended by another project
+
+   function Source_Dirs_Path
+     (Tree : Any_Tree; View : Any_View) return Any_Path;
+   --  Return a search path that gives access to all source files in the
+   --  ``View`` project subtree if given, or the whole project otherwise.
 
    function Object_Dir (Self : Any_View) return String;
    --  Return the object directory for ``Self``

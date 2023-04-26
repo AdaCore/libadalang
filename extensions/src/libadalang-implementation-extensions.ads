@@ -74,6 +74,9 @@ package Libadalang.Implementation.Extensions is
    function Compilation_Unit_P_External_Config_Pragmas
      (Node : Bare_Compilation_Unit) return Bare_Pragma_Node_Array_Access;
 
+   function Compilation_Unit_P_Stub_For_Impl
+     (Node : Bare_Compilation_Unit; Su : Bare_Subunit) return Bare_Body_Stub;
+
    -------------------
    -- Defining_Name --
    -------------------

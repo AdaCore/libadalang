@@ -25,7 +25,7 @@ Expr: <AttributeRef test.adb:6:28-6:35>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "U" test.adb:6:28-6:29>
   references:    <DefiningName "U" test.adb:5:12-5:13>
-  type:          None
+  type:          <ConcreteTypeDecl ["U"] test.adb:5:7-6:40>
   expected type: None
 Expr: <Id "First" test.adb:6:30-6:35>
   references:    None

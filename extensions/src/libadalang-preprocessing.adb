@@ -582,6 +582,9 @@ package body Libadalang.Preprocessing is
       --  knowledge base: the ``Default_Config`` and ``File_Configs`` arguments
       --  (for preprocessor data files) and ``Defs`` (for symbol definitions).
 
+      Source_Dirs : constant Any_Path := Source_Dirs_Path (Tree, View);
+      --  Source directories in which to look for preprocessor data files
+
       --------------------
       -- Process_Switch --
       --------------------
@@ -618,12 +621,12 @@ package body Libadalang.Preprocessing is
                --  Name of the preprocessor data file. It may appear absolute
                --  or relative in the project file.
 
-               Path : constant Any_Path := Create_Path
-                 (Directories => (1 => To_XString (Object_Dir (View))),
-                  CWD         => If_Empty);
-               --  If the preprocessor data file is not absolute, it is
-               --  relative to the object directory.
+               Path : Any_Path := Source_Dirs;
+               --  Preprocessor data files are looked up in the object
+               --  directory or in any of the source directories in the project
+               --  tree.
             begin
+               Add_Directory (Path, Object_Dir (View));
                Parse_Preprocessor_Data_File
                  (File.To_String, Path, Default_Config, File_Configs);
             end;

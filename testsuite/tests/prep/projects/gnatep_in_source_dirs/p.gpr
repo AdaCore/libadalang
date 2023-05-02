@@ -1,6 +1,8 @@
+with "q";
+
 project P is
 
-   for Source_Dirs use ("src1", "src2", "src3");
+   for Source_Dirs use Q.Source_Dirs;
    for Main use ("main.adb");
 
    package Compiler is

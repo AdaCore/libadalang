@@ -230,23 +230,24 @@ package body Libadalang.GPR_Utils is
 
       procedure Process (Self : Any_View) is
       begin
-         --  Aggregate projects do not have source dirs/files of their own:
-         --  just skip them.
-
-         if Is_Aggregate_Project (Self) then
-            return;
-         end if;
-
          case Self.Kind is
             when GPR1_Kind =>
-               for D of Self.GPR1_Value.Source_Dirs loop
-                  Add_Directory (Result, +D.Full_Name);
-               end loop;
+
+               --  Aggregate projects do not have source dirs/files of their
+               --  own: just skip them.
+
+               if not Is_Aggregate_Project (Self) then
+                  for D of Self.GPR1_Value.Source_Dirs loop
+                     Add_Directory (Result, +D.Full_Name);
+                  end loop;
+               end if;
 
             when GPR2_Kind =>
-               for D of Self.GPR2_Value.Source_Directories loop
-                  Add_Directory (Result, String (D.Value));
-               end loop;
+               if Self.GPR2_Value.Kind in GPR2.With_Source_Dirs_Kind then
+                  for D of Self.GPR2_Value.Source_Directories loop
+                     Add_Directory (Result, String (D.Value));
+                  end loop;
+               end if;
          end case;
       end Process;
 

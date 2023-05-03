@@ -7,6 +7,7 @@ with Ada.Containers.Hashed_Maps;
 with Ada.Containers.Hashed_Sets;
 with Ada.Strings.Unbounded.Hash;
 
+with GNAT.OS_Lib;
 with GNAT.Task_Lock;
 
 with GNATCOLL.Strings; use GNATCOLL.Strings;
@@ -159,6 +160,11 @@ package body Libadalang.Project_Provider is
    --  (``View`` being ``No_View`` means: use the root project). On success,
    --  set ``Provider`` and ``Provider_Ref`` to the created unit provider. On
    --  failure, raise an ``Unsupported_View_Error`` exception.
+
+   procedure Create_Sorted_Filenames
+     (File_Set    : Filename_Sets.Set;
+      File_Vector : out Filename_Vectors.Vector);
+   --  Sort files in ``File_Set`` and put the result in ``File_Vector``
 
    function Default_Charset_From_Project
      (Tree : Any_Tree; View : Any_View) return String;
@@ -807,6 +813,34 @@ package body Libadalang.Project_Provider is
       end case;
    end Release;
 
+   -----------------------------
+   -- Create_Sorted_Filenames --
+   -----------------------------
+
+   procedure Create_Sorted_Filenames
+     (File_Set    : Filename_Sets.Set;
+      File_Vector : out Filename_Vectors.Vector)
+   is
+      package Sorting is new Filename_Vectors.Generic_Sorting
+        ("<" => US."<");
+   begin
+      for F of File_Set loop
+
+         --  Normalize the files to return to avoid discrepancies during
+         --  testing if GPR1 does normalization and GPR2 does not or
+         --  conversely.
+
+         declare
+            Original : constant String := +F.Full_Name;
+            Normalized : constant String :=
+              GNAT.OS_Lib.Normalize_Pathname (Original);
+         begin
+            File_Vector.Append (US.To_Unbounded_String (Normalized));
+         end;
+      end loop;
+      Sorting.Sort (File_Vector);
+   end Create_Sorted_Filenames;
+
    ------------------
    -- Source_Files --
    ------------------
@@ -911,15 +945,106 @@ package body Libadalang.Project_Provider is
       --  deterministic and thus helps reproducibility.
 
       return V : Filename_Vectors.Vector do
-         for F of Result loop
-            V.Append (US.To_Unbounded_String (+F.Full_Name));
+         Create_Sorted_Filenames (Result, V);
+      end return;
+   end Source_Files;
+
+   ------------------
+   -- Source_Files --
+   ------------------
+
+   function Source_Files
+     (Tree     : GPR2.Project.Tree.Object;
+      Mode     : Source_Files_Mode := Default;
+      Projects : GPR2.Project.View.Set.Object := GPR2.Project.View.Set.Empty)
+      return Filename_Vectors.Vector
+   is
+      --  Note that the GNATCOLL.Projects and GPR2 APIs to query source files
+      --  are just too different, so creating a common API on top of them is
+      --  not worth it. For this reason, this GPR2 implementation of
+      --  Source_Files is completely independent.
+
+      Result : Filename_Sets.Set;
+
+      procedure Process (View : GPR2.Project.View.Object);
+      --  Include sources that belong to ``P`` (according to ``Mode``) to
+      --  ``Result``.
+
+      procedure Include (View : GPR2.Project.View.Object);
+      --  Include in ``Result`` all sources that directly belong to ``P``
+
+      -------------
+      -- Process --
+      -------------
+
+      procedure Process (View : GPR2.Project.View.Object) is
+      begin
+         case Mode is
+            when Default =>
+
+               --  Go through all projects except externally built ones
+
+               for V of Closure (View) loop
+                  if not V.Is_Externally_Built then
+                     Include (V);
+                  end if;
+               end loop;
+
+            when Root_Project =>
+
+               --  Go through ``P`` only, regardless of whether it is
+               --  externally built.
+
+               Include (View);
+
+            when Whole_Project | Whole_Project_With_Runtime =>
+
+               --  Go through the whole project sub tree
+
+               for V of Closure (View) loop
+                  Include (V);
+               end loop;
+         end case;
+      end Process;
+
+      -------------
+      -- Include --
+      -------------
+
+      procedure Include (View : GPR2.Project.View.Object) is
+         use type GPR2.Language_Id;
+      begin
+         for S of View.Sources loop
+            if S.Language = GPR2.Ada_Language then
+               Result.Include (Create (+String (S.Path_Name.Value)));
+            end if;
          end loop;
-         declare
-            package Sorting is new Filename_Vectors.Generic_Sorting
-              ("<" => US."<");
-         begin
-            Sorting.Sort (V);
-         end;
+      end Include;
+
+   begin
+      --  Include sources from all the requested projects themselves
+
+      if Projects.Is_Empty then
+         Process (Tree.Root_Project);
+      else
+         for P of Projects loop
+            Process (P);
+         end loop;
+      end if;
+
+      --  Only then, if requested, get runtime sources: they are common to all
+      --  subprojects.
+
+      if Mode = Whole_Project_With_Runtime and then Tree.Has_Runtime_Project
+      then
+         Include (Tree.Runtime_Project);
+      end if;
+
+      --  Return the sorted list of source files. Sorting gets the output
+      --  deterministic and thus helps reproducibility.
+
+      return V : Filename_Vectors.Vector do
+         Create_Sorted_Filenames (Result, V);
       end return;
    end Source_Files;
 

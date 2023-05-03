@@ -1,0 +1,4 @@
+project Installed_Dep is
+   for Externally_Built use "true";
+   for Source_Files use ("installed_dep.adb");
+end Installed_Dep;

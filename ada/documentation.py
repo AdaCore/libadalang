@@ -28,8 +28,8 @@ libadalang_docs = {
     'libadalang.gpr_project_load': """
         Load a project file with the given parameter. On success, set
         ``Project`` to a newly allocated ``ada_gpr_project`` record, as well as
-        a possibly empty list of error messages in ``Errors``.  Raise an
-        ``Invalid_Project`` exception on failure.
+        a possibly empty list of error messages in ``Errors``.  Raise a
+        ``Project_Error`` exception on failure.
     """,
     'libadalang.gpr_project_load_implicit': """
         Load an implicit project in the current directory. This function uses
@@ -44,7 +44,7 @@ libadalang_docs = {
 
         If ``Project`` is passed, it must be the name of a sub-project. If the
         selected project contains conflicting sources, raise an
-        ``Invalid_Project`` exception.
+        ``Project_Error`` exception.
 
         The returned unit provider assumes that resources allocated by ``Self``
         are kept live: it is the responsibility of the caller to make ``Self``
@@ -200,7 +200,7 @@ libadalang_docs = {
         in ``Mapping`` does not belong to ``Context`` or if an analysis unit
         appears twice as a key in ``Mapping``.
     """,
-    'libadalang.project_provider.invalid_project': """
+    'libadalang.project_provider.project_error': """
         Raised when an error occurs while loading a project file.
     """,
     'libadalang.project_provider.unsupported_view_error': """

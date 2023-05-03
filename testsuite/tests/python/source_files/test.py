@@ -46,8 +46,8 @@ for prj, kwargs in [
 print("invalid project:")
 try:
     lal.GPRProject("foo.gpr")
-except lal.InvalidProject:
-    print("  <InvalidProject exception>")
+except lal.ProjectError:
+    print("  <ProjectError exception>")
 else:
     print("  Unexpected absence of exception")
 print("")
@@ -56,8 +56,8 @@ print("")
 print("invalid sub-project:")
 try:
     prjs[prj].source_files(projects=["nosuchproject"])
-except lal.InvalidProject:
-    print("  <InvalidProject exception>")
+except lal.ProjectError:
+    print("  <ProjectError exception>")
 else:
     print("  Unexpected absence of exception")
 print("")

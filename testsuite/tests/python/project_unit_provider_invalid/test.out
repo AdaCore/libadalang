@@ -1,9 +1,9 @@
 Trying to load invalid project:
-   ... got an exception: gnatcoll-projects.adb:XXX
-invalid.gpr:1:01: ":=" expected
+   ... got an exception: fatal error, cannot load the project tree
+invalid.gpr:2:01: error: Expected ':=', got Termination
 Trying to load not existing:
-   ... got an exception: gnatcoll-projects.adb:XXX
-does_not_exist.gpr is not a regular file
+   ... got an exception: fatal error, cannot load the project tree
+does_not_exist.gpr: error: project file "<working-dir>/does_not_exist.gpr" not found
 Trying to load project with unknown target:
    ... got no exception
 Trying to get unit: '\xe9'

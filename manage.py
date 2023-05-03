@@ -150,8 +150,8 @@ class Manage(ManageScript):
 
         # Register our custom exception types
         ctx.register_exception_type(
-            package=["GNATCOLL", "Projects"],
-            name=names.Name("Invalid_Project"),
+            package=["GPR2"],
+            name=names.Name("Project_Error"),
             doc_section="libadalang.project_provider",
         )
         ctx.register_exception_type(

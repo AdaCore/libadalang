@@ -1,16 +1,16 @@
 == nosuchgpr.gpr ==
-Got an exception (EXCEPTION_INVALID_PROJECT):
-  gnatcoll-projects.adb:7668
-nosuchgpr.gpr is not a regular file
+Got an exception (EXCEPTION_PROJECT_ERROR):
+  <working-dir>/nosuchgpr.gpr: fatal error, cannot load the project tree
+nosuchgpr.gpr: error: project file "<working-dir>/nosuchgpr.gpr" not found
 
 == nosuchtarget.gpr ==
 Got no exception
 
-error: Could not locate exec nosuchtarget-gnatls
+error: kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
 
 == missingdep.gpr ==
-Got an exception (EXCEPTION_INVALID_PROJECT):
-  gnatcoll-projects.adb:7714
-missingdep.gpr:1:06: imported project file "foo" not found
+Got an exception (EXCEPTION_PROJECT_ERROR):
+  <working-dir>/missingdep.gpr: fatal error, cannot load the project tree
+missingdep.gpr:1:06: error: imported project file "foo.gpr" not found
 
 Done.

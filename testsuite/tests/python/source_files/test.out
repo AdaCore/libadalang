@@ -26,10 +26,10 @@ alt {}:
   src-root/root.ads
 
 invalid project:
-  <InvalidProject exception>
+  <ProjectError exception>
 
 invalid sub-project:
-  <InvalidProject exception>
+  <ProjectError exception>
 
 with runtime:
   system.ads is present

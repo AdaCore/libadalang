@@ -1,10 +1,10 @@
-got InvalidProject gnatcoll-projects.adb:XXX
-invalid.gpr:1:27: ":=" expected
+got ProjectError fatal error, cannot load the project tree
+invalid.gpr:1:27: error: Expected ':=', got ';'
 
-got InvalidProject gnatcoll-projects.adb:XXX
-does_not_exist.gpr is not a regular file
+got ProjectError fatal error, cannot load the project tree
+does_not_exist.gpr: error: project file "<working-dir>/does_not_exist.gpr" not found
 
-got InvalidProject no such project: does_not_exist
+got ProjectError no such project: does_not_exist
 
 For SRC_DIR=src1
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:

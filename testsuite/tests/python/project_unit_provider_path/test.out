@@ -1,7 +1,7 @@
 Load without project scope
    exception UnsupportedViewError: inconsistent units found
 Load with ambiguous scope
-   exception InvalidProject: no such project: arch
+   exception ProjectError: ambiguous project: arch
 Load with a project scope
    success
 Done.

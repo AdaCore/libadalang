@@ -30,7 +30,7 @@ for label, project_file, kwargs in [
     pflush('Trying to load {}:'.format(label))
     try:
         ufp = libadalang.UnitProvider.for_project(project_file, **kwargs)
-    except libadalang.InvalidProject as exc:
+    except libadalang.ProjectError as exc:
         pflush('   ... got an exception: ' + format_exc(exc))
     else:
         pflush('   ... got no exception')

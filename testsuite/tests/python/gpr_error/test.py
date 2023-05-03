@@ -20,7 +20,7 @@ def run(project_file, **kwargs):
     try:
         prj = lal.GPRProject(project_file, **kwargs)
         flush()
-    except lal.InvalidProject as exc:
+    except lal.ProjectError as exc:
         print(f"Got an exception: {type(exc).__name__}: {exc}")
         print("")
     else:

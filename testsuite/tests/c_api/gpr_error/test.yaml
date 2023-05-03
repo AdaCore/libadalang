@@ -1,4 +1,5 @@
 driver: c-api
+canonicalize_directory_separators: true
 compile_units: [main.c]
 input_sources: []
 control:

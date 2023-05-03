@@ -7,8 +7,6 @@
 
 with Ada.Unchecked_Deallocation;
 
-with GNATCOLL.Projects; use GNATCOLL.Projects;
-
 package Libadalang.Implementation.C.Extensions is
 
    type C_String_Array is array (int range <>) of chars_ptr;
@@ -32,17 +30,7 @@ package Libadalang.Implementation.C.Extensions is
    -- Project handling --
    ----------------------
 
-   type ada_gpr_project is record
-      Tree : Project_Tree_Access;
-      Env  : Project_Environment_Access;
-   end record
-      with Convention => C;
-
-   type ada_gpr_project_ptr is access all ada_gpr_project
-      with Convention => C;
-
-   procedure Free is new Ada.Unchecked_Deallocation
-     (ada_gpr_project, ada_gpr_project_ptr);
+   type ada_gpr_project is new System.Address;
 
    type ada_gpr_project_scenario_variable is record
       Name, Value : chars_ptr;
@@ -59,20 +47,20 @@ package Libadalang.Implementation.C.Extensions is
      (Project_File    : chars_ptr;
       Scenario_Vars   : System.Address;
       Target, Runtime : chars_ptr;
-      Project         : access ada_gpr_project_ptr;
+      Project         : access ada_gpr_project;
       Errors          : access ada_string_array_ptr)
      with Export, Convention => C;
    --  Load a project file with the given parameter. On success, set
-   --  ``Project`` to a newly allocated ``ada_gpr_project`` record, as well as
-   --  a possibly empty list of error messages in ``Errors``.  Raise an
+   --  ``Project`` to a newly allocated ``ada_gpr_project``, as well as a
+   --  possibly empty list of error messages in ``Errors``.  Raise an
    --  ``Invalid_Project`` exception on failure.
 
-   procedure ada_gpr_project_free (Self : ada_gpr_project_ptr)
+   procedure ada_gpr_project_free (Self : ada_gpr_project)
      with Export, Convention => C;
    --  Free resources allocated for ``Self``
 
    function ada_gpr_project_create_unit_provider
-     (Self    : ada_gpr_project_ptr;
+     (Self    : ada_gpr_project;
       Project : chars_ptr) return ada_unit_provider
      with Export, Convention => C;
    --  Create a project provider using the given GPR project ``Self``.
@@ -86,7 +74,7 @@ package Libadalang.Implementation.C.Extensions is
    --  ``Self`` live at least as long as the returned unit provider.
 
    function ada_gpr_project_source_files
-     (Self            : ada_gpr_project_ptr;
+     (Self            : ada_gpr_project;
       Mode            : int;
       Projects_Data   : access chars_ptr;
       Projects_Length : int) return ada_string_array_ptr
@@ -101,7 +89,7 @@ package Libadalang.Implementation.C.Extensions is
    --  search.
 
    function ada_gpr_project_default_charset
-     (Self : ada_gpr_project_ptr; Project : chars_ptr) return chars_ptr
+     (Self : ada_gpr_project; Project : chars_ptr) return chars_ptr
    with Export, Convention => C;
    --  Try to detect the default charset to use for the given project.
    --
@@ -145,7 +133,7 @@ package Libadalang.Implementation.C.Extensions is
    --  sources accordingly.
 
    function ada_gpr_project_create_preprocessor
-     (Self      : ada_gpr_project_ptr;
+     (Self      : ada_gpr_project;
       Project   : chars_ptr;
       Line_Mode : access int) return ada_file_reader
    with Export, Convention => C;

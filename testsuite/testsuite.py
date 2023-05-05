@@ -98,6 +98,11 @@ class LALTestsuite(Testsuite):
             help='Disable tests involving the Python API.'
         )
         parser.add_argument(
+            '--enable-native-image', action='store_true',
+            help='Enable tests involving native-image (they are disabled'
+                 ' by default).'
+        )
+        parser.add_argument(
             '--with-ocaml-bindings', default=None,
             help='If provided, must be a path from the current directory to'
                  ' the directory in which the OCaml bindings were generated.'
@@ -214,6 +219,7 @@ class LALTestsuite(Testsuite):
             'has_pygments': has_pygments,
             'python': python_version,
             'has_put_image': opts.has_put_image,
+            'has_native_image': opts.enable_native_image,
             'valgrind': opts.valgrind,
             'coverage': opts.coverage is not None,
         }

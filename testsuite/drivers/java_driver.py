@@ -109,7 +109,7 @@ class JavaDriver(BaseDriver):
             ni_exec = P.realpath(P.join(
                 os.environ['GRAAL_HOME'],
                 'bin',
-                'native-image'
+                ('native-image.cmd' if os.name == 'nt' else 'native-image')
             ))
 
             # Run the native-image compilation

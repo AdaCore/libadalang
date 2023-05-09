@@ -14,20 +14,22 @@ let () =
         ?(runtime = "")
         project_file
   =
-    try ignore (UnitProvider.for_project
+    ( try ignore (UnitProvider.for_project
                   ~project:project
                   ~scenario_vars:scenario_vars
                   ~target:target
                   ~runtime:runtime
                   project_file : UnitProvider.t) ;
-        ignore (GPRProject.load
+    (* These exceptions come from GNATCOLL and contain no message but a
+     *  reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
+    with InvalidProject s ->
+      Format.printf "@[<v>got InvalidProject %s@ @ @]" (format_exc_message s) );
+    try ignore (GPRProject.load
                   ~scenario_vars
                   ~target
                   ~runtime
                   project_file |>
-                GPRProject.create_unit_provider : UnitProvider.t)
-    (* These exceptions come from GNATCOLL and contain no message but a
-     *  reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
+                GPRProject.create_unit_provider ~project : UnitProvider.t)
     with InvalidProject s ->
       Format.printf "@[<v>got InvalidProject %s@ @ @]" (format_exc_message s)
   in

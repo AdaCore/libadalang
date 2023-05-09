@@ -48,7 +48,7 @@ module GPRProject = struct
   let gpr_project_load =
     foreign ~from:c_lib "${capi.get_name("gpr_project_load")}"
     (string @-> UnitProvider.project_scenario_variable @-> string
-     @-> string @-> ptr c_type @-> ptr string_array @-> returning void)
+     @-> string @-> ptr c_type @-> ptr string_array @-> raisable void)
 
   let gpr_project_create_unit_provider =
     foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"

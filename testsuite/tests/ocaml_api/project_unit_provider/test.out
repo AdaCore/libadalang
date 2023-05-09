@@ -1,6 +1,14 @@
 got InvalidProject gnatcoll-projects.adb:XXX
 
 got InvalidProject gnatcoll-projects.adb:XXX
+invalid.gpr:1:27: ":=" expected
+
+got InvalidProject gnatcoll-projects.adb:XXX
+
+got InvalidProject gnatcoll-projects.adb:XXX
+does_not_exist.gpr is not a regular file
+
+got InvalidProject no such project: does_not_exist
 
 got InvalidProject no such project: does_not_exist
 

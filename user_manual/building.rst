@@ -27,6 +27,9 @@ following steps:
   `gnatcoll-core <https://github.com/AdaCore/gnatcoll-core>`_ and
   `gnatcoll-bindings <https://github.com/AdaCore/gnatcoll-bindings>`_.
 
+* Build and install the AdaSAT library. You can find its sources on its `GitHub
+  repository <https://github.com/AdaCore/adasat>`_.
+
 * Install every Python dependency. We recommend creating a `virtual environment
   <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
   and installing them inside of it, this way:
@@ -54,6 +57,11 @@ following steps:
      # Install it. Replace $PREFIX below with the directory where you want to
      # install the langkit_support.gpr project.
      $ python manage.py install-langkit-support --library-types=static,static-pic,relocatable $PREFIX
+
+For GNATcoll, AdaSAT and Langkit, make sure to install the version that
+corresponds to the version of Libadalang that is built. For instance, build all
+``22.1`` branches, or all ``master`` branches. Mixing versions is not
+supported.
 
 To develop comfortably:
 

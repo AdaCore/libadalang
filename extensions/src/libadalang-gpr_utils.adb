@@ -625,7 +625,7 @@ package body Libadalang.GPR_Utils is
          Visited.Include (Self);
          Result.Append (Self);
 
-         if Self.Kind = GPR2.K_Aggregate_Library then
+         if Self.Kind in GPR2.Aggregate_Kind then
             for P of Self.Aggregated loop
                Visit (P);
             end loop;

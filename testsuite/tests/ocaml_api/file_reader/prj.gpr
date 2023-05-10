@@ -4,9 +4,9 @@ project Prj is
 
    package Compiler is
       case Mode is
-         when "debug" ->
+         when "debug" =>
             for Default_Switches ("Ada") use ("-gnateDX=False");
-         when "prod" ->
+         when "prod" =>
             for Default_Switches ("Ada") use ("-gnateDX=True");
       end case;
    end Compiler;

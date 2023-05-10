@@ -1,47 +1,3 @@
-  type project_scenario_variable
-
-  let c_project_scenario_variable : project_scenario_variable structure typ =
-    structure "project_scenario_variable"
-
-  let scenario_var_name = field c_project_scenario_variable "name" (ptr char)
-
-  let scenario_var_value = field c_project_scenario_variable "value" (ptr char)
-
-  let () = seal c_project_scenario_variable
-
-  let create_scenario_variable scenario_vars =
-    (* One more to store (null, null) *)
-    let scenario_vars_len = List.length scenario_vars + 1 in
-    let c_scenario_vars =
-      (* Allocates a fresh array with given size, fill with zeros. Thus,
-         the last cell is already (null, null) *)
-      allocate_n c_project_scenario_variable ~count:scenario_vars_len
-    in
-    let fill_scenario_vars i (name, value) =
-      let c_struct = make c_project_scenario_variable in
-      let name = char_ptr_of_string name in
-      let value = char_ptr_of_string value in
-      setf c_struct scenario_var_name name ;
-      add_gc_link ~from:c_scenario_vars ~to_:name ;
-      setf c_struct scenario_var_value value ;
-      add_gc_link ~from:c_scenario_vars ~to_:value ;
-      c_scenario_vars +@ i <-@ c_struct
-    in
-    List.iteri fill_scenario_vars scenario_vars ;
-    c_scenario_vars
-
-  (* project_scenario_variable is never wrapped *)
-  let project_scenario_variable =
-    view
-      (ptr c_project_scenario_variable)
-      ~read:(fun _ -> assert false)
-      ~write:create_scenario_variable
-
-  let create_project_unit_provider =
-    foreign ~from:c_lib "${capi.get_name("create_project_unit_provider")}"
-    (string @-> string @-> project_scenario_variable @-> string
-     @-> string @-> raisable c_type)
-
   let dec_ref =
     let f =
       foreign ~from:c_lib "${capi.get_name("dec_ref_unit_provider")}"
@@ -61,18 +17,25 @@
     in
     allocate ~finalise (ptr void) v
 
+  let gpr_project_create_unit_provider =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"
+      (GPRProject.c_type @-> string @-> raisable c_type)
+
+  let gpr_project ?(project = "") gpr_project =
+    let result = gpr_project_create_unit_provider gpr_project project in
+    (* The unit provider keeps an internal reference to the project. Use
+       the keep argument to simulate the same behaviour and avoid freeing
+       the project file too early. *)
+    wrap ~keep:gpr_project result
+
   let for_project
       ?(project = "")
       ?(scenario_vars = [])
       ?(target = "")
       ?(runtime = "")
       project_file =
-    let result = create_project_unit_provider
-                   project_file project
-                   scenario_vars
-                   target runtime
-    in
-    wrap result
+    GPRProject.load ~scenario_vars ~target ~runtime project_file
+    |> gpr_project ~project
 
   let create_auto_provider =
     foreign ~from:c_lib "${capi.get_name("create_auto_provider")}"

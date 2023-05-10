@@ -15,14 +15,14 @@ let print_idents ctx =
 
 let test1 ?line_mode () =
   let project = GPRProject.load "prj.gpr" in
-  let unit_provider = GPRProject.create_unit_provider project in
+  let unit_provider = UnitProvider.gpr_project project in
   let file_reader = GPRProject.create_preprocessor ?line_mode project in
   let ctx = AnalysisContext.create ~unit_provider ~file_reader () in
   print_idents ctx
 
 let test2 ?line_mode () =
   let project = GPRProject.load ~scenario_vars:[("mode", "prod")] "prj.gpr" in
-  let unit_provider = GPRProject.create_unit_provider project in
+  let unit_provider = UnitProvider.gpr_project project in
   let file_reader = GPRProject.create_preprocessor ?line_mode project in
   let ctx = AnalysisContext.create ~unit_provider ~file_reader () in
   print_idents ctx

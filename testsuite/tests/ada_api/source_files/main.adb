@@ -1,12 +1,17 @@
 --  Check that Libadalang.Project_Provider.Source_Files works as expected for
 --  representative inputs.
 
+with Ada.Characters.Handling; use Ada.Characters.Handling;
 with Ada.Directories;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Strings.Unbounded;   use Ada.Strings.Unbounded;
+with Ada.Text_IO;             use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
+with GPR2.Context;
+with GPR2.Path_Name;
+with GPR2.Project.Tree;
+with GPR2.Project.View.Set;
 
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
@@ -17,6 +22,8 @@ procedure Main is
 
    Env  : Project_Environment_Access;
    Tree : Project_Tree;
+
+   GPR2_Tree : GPR2.Project.Tree.Object;
 
    type Project_Name_Array is array (Positive range <>) of Unbounded_String;
 
@@ -54,18 +61,31 @@ procedure Main is
    -----------
 
    procedure Check (Projects : Project_Name_Array) is
-      Prjs : Project_Array (Projects'Range);
+      GPR1_Prjs : Project_Array (Projects'Range);
+      GPR2_Prjs : GPR2.Project.View.Set.Object;
    begin
       Put ("## [");
       for I in Projects'Range loop
          declare
-            Name : constant String := To_String (Projects (I));
+            Name  : constant String := To_Lower (To_String (Projects (I)));
+            Found : Boolean;
          begin
             if I > Projects'First then
                Put (", ");
             end if;
             Put (Name);
-            Prjs (I) := Tree.Project_From_Name (Name);
+            GPR1_Prjs (I) := Tree.Project_From_Name (Name);
+
+            Found := False;
+            for V of GPR2_Tree loop
+               if To_Lower (String (V.Name)) = Name then
+                  Found := True;
+                  GPR2_Prjs.Include (V);
+               end if;
+            end loop;
+            if not Found then
+               raise Program_Error with "no such project: " & Name;
+            end if;
          end;
       end loop;
       Put_Line ("]");
@@ -78,9 +98,15 @@ procedure Main is
          --  sources, but just track whether we have seen some runtime units.
 
          declare
-            Has_Runtime : Boolean := False;
+            use type Filename_Vectors.Vector;
+
+            Has_Runtime  : Boolean := False;
+            GPR1_Sources : constant Filename_Vectors.Vector :=
+              Source_Files (Tree, Mode, GPR1_Prjs);
+            GPR2_Sources : constant Filename_Vectors.Vector :=
+              Source_Files (GPR2_Tree, Mode, GPR2_Prjs);
          begin
-            for F of Source_Files (Tree, Mode, Prjs) loop
+            for F of GPR1_Sources loop
                declare
                   Simple_Name : constant String :=
                     Ada.Directories.Simple_Name (To_String (F));
@@ -95,6 +121,10 @@ procedure Main is
             if Has_Runtime then
                Put_Line ("  ... plus runtime sources");
             end if;
+
+            if GPR1_Sources /= GPR2_Sources then
+               raise Program_Error with "got different sources with GPR2";
+            end if;
          end;
          New_Line;
       end loop;
@@ -105,6 +135,10 @@ procedure Main is
 begin
    Initialize (Env);
    Tree.Load (Create (+"root.gpr"), Env);
+   GPR2_Tree.Load_Autoconf
+     (Filename => GPR2.Path_Name.Create_File
+                    ("root.gpr", GPR2.Path_Name.No_Resolution),
+      Context  => GPR2.Context.Empty);
 
    --  Simple case: just pass the root project, both implicitly and explicitly
 

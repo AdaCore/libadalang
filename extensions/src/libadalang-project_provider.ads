@@ -12,6 +12,7 @@ with GNATCOLL.Traces; use GNATCOLL.Traces;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 with GPR2.Project.View.Vector;
+with GPR2.Project.View.Set;
 
 with Libadalang.Analysis;
 with Libadalang.Common; use Libadalang.Common;
@@ -183,6 +184,29 @@ package Libadalang.Project_Provider is
    --  If Project is not provided, run ``Create_Project_Unit_Providers``: if it
    --  returns only one provider, return it, otherwise raise an
    --  ``Unsupported_View_Error`` exception.
+
+   function Source_Files
+     (Tree     : GPR2.Project.Tree.Object;
+      Mode     : Source_Files_Mode := Default;
+      Projects : GPR2.Project.View.Set.Object := GPR2.Project.View.Set.Empty)
+      return Filename_Vectors.Vector;
+   --  Return the list of source files in the given project ``Tree``. Which
+   --  sources are considered depends on ``Mode``:
+   --
+   --  * ``Default``: sources in the root project and its non-externally built
+   --    dependencies;
+   --
+   --  * ``Root_Project``: sources in the root project only;
+   --
+   --  * ``Whole_Project``: sources in the whole project tree (i.e. including
+   --    externally built dependencies);
+   --
+   --  * ``Whole_Project_With_Runtime``: sources in the whole project tree plus
+   --    runtime sources.
+   --
+   --  If ``Projects`` is not empty, return instead the list for the sources in
+   --  all sub-projects in ``Projects``, still applying the given mode to the
+   --  search.
 
    function Default_Charset_From_Project
      (Tree    : GPR2.Project.Tree.Object;

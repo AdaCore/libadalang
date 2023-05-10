@@ -12,6 +12,7 @@ with Interfaces.C.Strings; use Interfaces.C.Strings;
 with GNAT.Task_Lock;
 
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
+with GNATCOLL.Projects;   use GNATCOLL.Projects;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
 
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
@@ -23,6 +24,19 @@ with Libadalang.Project_Provider;  use Libadalang.Project_Provider;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 
 package body Libadalang.Implementation.C.Extensions is
+
+   type GPR_Project is record
+      Tree : Project_Tree_Access;
+      Env  : Project_Environment_Access;
+   end record;
+   type GPR_Project_Access is access all GPR_Project;
+   pragma No_Strict_Aliasing (GPR_Project_Access);
+   procedure Free is new Ada.Unchecked_Deallocation
+     (GPR_Project, GPR_Project_Access);
+   function Wrap is new Ada.Unchecked_Conversion
+     (GPR_Project_Access, ada_gpr_project);
+   function Unwrap is new Ada.Unchecked_Conversion
+     (ada_gpr_project, GPR_Project_Access);
 
    function To_C_Provider
      (Provider : Unit_Provider_Reference) return ada_unit_provider
@@ -261,7 +275,7 @@ package body Libadalang.Implementation.C.Extensions is
      (Project_File    : chars_ptr;
       Scenario_Vars   : System.Address;
       Target, Runtime : chars_ptr;
-      Project         : access ada_gpr_project_ptr;
+      Project         : access ada_gpr_project;
       Errors          : access ada_string_array_ptr)
    is
       Prj : Project_Tree_Access;
@@ -305,7 +319,7 @@ package body Libadalang.Implementation.C.Extensions is
          return;
       end if;
 
-      Project.all := new ada_gpr_project'(Prj, Env);
+      Project.all := Wrap (new GPR_Project'(Prj, Env));
       Errors.all := To_C (Err);
    end ada_gpr_project_load;
 
@@ -313,14 +327,13 @@ package body Libadalang.Implementation.C.Extensions is
    -- ada_gpr_project_free --
    --------------------------
 
-   procedure ada_gpr_project_free (Self : ada_gpr_project_ptr) is
-      Var_Self : ada_gpr_project_ptr := Self;
+   procedure ada_gpr_project_free (Self : ada_gpr_project) is
+      Var_Self : GPR_Project_Access := Unwrap (Self);
    begin
       Clear_Last_Exception;
-
-      Self.Tree.Unload;
-      Free (Self.Tree);
-      Free (Self.Env);
+      Var_Self.Tree.Unload;
+      Free (Var_Self.Tree);
+      Free (Var_Self.Env);
       Free (Var_Self);
    end ada_gpr_project_free;
 
@@ -329,12 +342,13 @@ package body Libadalang.Implementation.C.Extensions is
    ------------------------------------------
 
    function ada_gpr_project_create_unit_provider
-     (Self    : ada_gpr_project_ptr;
+     (Self    : ada_gpr_project;
       Project : chars_ptr) return ada_unit_provider
    is
+      P : constant GPR_Project_Access := Unwrap (Self);
    begin
       Clear_Last_Exception;
-      return Create_Unit_Provider (Self.Tree, Self.Env, Project, False);
+      return Create_Unit_Provider (P.Tree, P.Env, Project, False);
    exception
       when Exc : Unsupported_View_Error | GNATCOLL.Projects.Invalid_Project =>
          Set_Last_Exception (Exc);
@@ -388,7 +402,7 @@ package body Libadalang.Implementation.C.Extensions is
    ----------------------------------
 
    function ada_gpr_project_source_files
-     (Self            : ada_gpr_project_ptr;
+     (Self            : ada_gpr_project;
       Mode            : int;
       Projects_Data   : access chars_ptr;
       Projects_Length : int) return ada_string_array_ptr
@@ -427,7 +441,7 @@ package body Libadalang.Implementation.C.Extensions is
               new GNATCOLL.Projects.Project_Array (Projects_Array'Range);
             for I in Projects_Array'Range loop
                Projects.all (I) :=
-                 Fetch_Project (Self.Tree.all, Projects_Array (I));
+                 Fetch_Project (Unwrap (Self).Tree.all, Projects_Array (I));
             end loop;
          exception
             when Exc : GNATCOLL.Projects.Invalid_Project =>
@@ -438,7 +452,7 @@ package body Libadalang.Implementation.C.Extensions is
 
       --  Compute the list of source files
 
-      Result := Source_Files (Self.Tree.all, M, Projects.all);
+      Result := Source_Files (Unwrap (Self).Tree.all, M, Projects.all);
 
       Free (Projects);
 
@@ -459,11 +473,11 @@ package body Libadalang.Implementation.C.Extensions is
    -------------------------------------
 
    function ada_gpr_project_default_charset
-     (Self : ada_gpr_project_ptr; Project : chars_ptr) return chars_ptr is
+     (Self : ada_gpr_project; Project : chars_ptr) return chars_ptr is
    begin
       Clear_Last_Exception;
       declare
-         Tree : Project_Tree'Class renames Self.Tree.all;
+         Tree : Project_Tree'Class renames Unwrap (Self).Tree.all;
          Prj  : constant Project_Type := Fetch_Project (Tree, Project);
       begin
          return New_String (Default_Charset_From_Project (Tree, Prj));
@@ -576,7 +590,7 @@ package body Libadalang.Implementation.C.Extensions is
    -----------------------------------------
 
    function ada_gpr_project_create_preprocessor
-     (Self      : ada_gpr_project_ptr;
+     (Self      : ada_gpr_project;
       Project   : chars_ptr;
       Line_Mode : access int) return ada_file_reader
    is
@@ -586,13 +600,13 @@ package body Libadalang.Implementation.C.Extensions is
    begin
       Clear_Last_Exception;
 
-      P := Fetch_Project (Self.Tree.all, Project);
+      P := Fetch_Project (Unwrap (Self).Tree.all, Project);
 
       --  Load preprocessor data from the given project, then create the file
       --  reader from that data.
 
       Extract_Preprocessor_Data_From_Project
-        (Self.Tree.all, P, Default_Config, File_Configs);
+        (Unwrap (Self).Tree.all, P, Default_Config, File_Configs);
 
       --  If requested, force the line mode
 

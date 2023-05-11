@@ -1056,18 +1056,10 @@ package body Libadalang.Project_Provider is
      (Tree : GPR2.Project.Tree.Object)
       return GPR2_Provider_And_Projects_Array_Access
    is
-      Result : Any_Provider_And_Projects_Array_Access;
-   begin
-      --  TODO??? (eng/gpr/gpr-issues#34) The implicit discovery of project
-      --  sources in GPR2.Project.View.Unit is broken: manually register
-      --  sources so that unit->source lookups work as expected.
-
-      Tree.Update_Sources (With_Runtime => True);
-
-      Result :=
+      Result : Any_Provider_And_Projects_Array_Access :=
         Create_Project_Unit_Providers
           ((Kind => GPR2_Kind, GPR2_Value => Tree.Reference));
-
+   begin
       --  Convert Result (GPR library agnostic data structure) into the return
       --  type (GPR2-specific data structure).
 
@@ -1102,12 +1094,6 @@ package body Libadalang.Project_Provider is
    is
       Dummy : Project_Unit_Provider_Access;
    begin
-      --  TODO??? (eng/gpr/gpr-issues#34) The implicit discovery of project
-      --  sources in GPR2.Project.View.Unit is broken: manually register
-      --  sources so that unit->source lookups work as expected.
-
-      Tree.Update_Sources (With_Runtime => True);
-
       return Result : LAL.Unit_Provider_Reference do
          Create_Project_Unit_Provider
            (Tree         => (Kind => GPR2_Kind, GPR2_Value => Tree.Reference),

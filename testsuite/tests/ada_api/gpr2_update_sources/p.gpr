@@ -1,3 +1,0 @@
-project P is
-   for Source_Files use ("p.adb");
-end P;

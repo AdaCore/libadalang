@@ -12,9 +12,7 @@ project Nameres is
 
    for Languages use ("Ada");
 
-   for Source_Dirs use
-     ("../testsuite/ada",
-      "../testsuite/ada/gnat_compare");
+   for Source_Dirs use ("../testsuite/ada");
    for Main use ("nameres.adb");
    for Object_Dir use "obj-nameres/" & Build_Mode;
 

@@ -156,6 +156,14 @@ procedure Main is
             end if;
 
             if GPR1_Sources /= GPR2_Sources then
+               Put_Line ("With GPR1:");
+               for F of GPR1_Sources loop
+                  Put_Line ("  " & To_String (F));
+               end loop;
+               Put_Line ("With GPR2:");
+               for F of GPR2_Sources loop
+                  Put_Line ("  " & To_String (F));
+               end loop;
                raise Program_Error with "got different sources with GPR2";
             end if;
          end;

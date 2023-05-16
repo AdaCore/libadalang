@@ -1,35 +1,30 @@
-Working on node <SubpBody ["Foo"] multi_units.adb:2:1-5:9>
-==========================================================
+== <SubpBody ["Foo"] multi_units.adb:2:1-5:9> ==
 
-Eval 'node.p_decl_part()'
-Result: <SubpDecl ["Foo"] pkg.ads:2:4-2:18>
+Previous part: <SubpBodyStub ["Foo"] pkg.adb:2:4-2:30>
+Next part: None
+Decl part: <SubpDecl ["Foo"] pkg.ads:2:4-2:18>
 
-Working on node <SubpBody ["Bar"] multi_units.adb:9:1-12:9>
-===========================================================
+== <SubpBody ["Bar"] multi_units.adb:9:1-12:9> ==
 
-Eval 'node.p_decl_part()'
-Result: <SubpDecl ["Bar"] pkg.ads:5:4-5:18>
+Previous part: <SubpBodyStub ["Bar"] pkg.adb:3:4-3:30>
+Next part: None
+Decl part: <SubpDecl ["Bar"] pkg.ads:5:4-5:18>
 
-Working on node <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
-==============================================================
+== <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19> ==
 
-Eval 'node.p_body_part()'
-Result: <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
+Body part: <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
 
-Working on node <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31>
-==================================================================
+== <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31> ==
 
-Eval 'node.p_previous_part()'
-Result: <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
+Previous part: <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
+Next part: <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
+Decl part: <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
 
-Eval 'node.p_next_part_for_decl()'
-Result: <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
+== <SubpBody ["Bazz"] multi_units.adb:27:1-30:10> ==
 
-Working on node <SubpBody ["Bazz"] multi_units.adb:27:1-30:10>
-==============================================================
+Previous part: <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31>
+Next part: None
+Decl part: <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
 
-Eval 'node.p_previous_part()'
-Result: <SubpBodyStub ["Bazz"] multi_units.adb:21:4-21:31>
 
-Eval 'node.p_decl_part()'
-Result: <SubpDecl ["Bazz"] multi_units.adb:16:4-16:19>
+Done

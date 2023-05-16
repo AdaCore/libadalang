@@ -1,3 +1,3 @@
-driver: inline-playground
-input_sources: [foo.ads, bar.ads, multi_units.adb]
-project_file: test.gpr
+driver: ada-api
+main: main.adb
+argv: [-Ptest.gpr, --gpr2, multi_units.adb]

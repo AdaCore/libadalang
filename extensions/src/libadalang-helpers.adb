@@ -8,7 +8,8 @@ with Ada.Containers.Synchronized_Queue_Interfaces;
 with Ada.Containers.Unbounded_Synchronized_Queues;
 with Ada.Containers.Hashed_Sets;
 with Ada.Directories;
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Exceptions; use Ada.Exceptions;
+with Ada.Text_IO;    use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 with System.Multiprocessors;
 
@@ -18,11 +19,18 @@ with GNAT.Traceback.Symbolic;
 with GNATCOLL.File_Paths;
 with GNATCOLL.Strings; use GNATCOLL.Strings;
 with GNATCOLL.VFS;     use GNATCOLL.VFS;
+with GPR2.Containers;
+with GPR2.Context;
+with GPR2.Path_Name;
+with GPR2.Project.Configuration;
+with GPR2.Project.View;
+with GPR2.Project.View.Set;
 
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 with Langkit_Support.Text;         use Langkit_Support.Text;
 
 with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
+with Libadalang.GPR_Utils;        use Libadalang.GPR_Utils;
 with Libadalang.Common;
 with Libadalang.Preprocessing;    use Libadalang.Preprocessing;
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
@@ -44,6 +52,27 @@ package body Libadalang.Helpers is
      (Unbounded_String);
    package String_Queues is new Ada.Containers.Unbounded_Synchronized_Queues
      (String_QI);
+
+   procedure Iterate_Scenario_Vars
+     (Scenario_Vars : Unbounded_String_Array;
+      Process       : access procedure (Name, Value : String));
+   --  Call ``Process`` on all the scenario variables defined in
+   --  ``Scenario_Vars``. ``Scenario_Vars`` should be an array of strings of
+   --  the format ``<Var>=<Val>``. If the format is incorrect, ``Abort_App``
+   --  will be called.
+
+   procedure Load_Project
+     (Project_File             : String;
+      Scenario_Vars            : Unbounded_String_Array := Empty_Array;
+      Target, RTS, Config_File : String := "";
+      Project                  : in out GPR2.Project.Tree.Object);
+   --  Same as the corresponding overloaded procedure in the package spec, but
+   --  for GPR2.
+
+   function Project_To_Provider
+     (Project : GPR2.Project.Tree.Object) return Unit_Provider_Reference;
+   --  Same as the corresponding overloaded function in the package spec, but
+   --  for GPR2.
 
    -----------------
    -- Print_Error --
@@ -162,7 +191,11 @@ package body Libadalang.Helpers is
 
          Project : Project_Tree_Access;
          Env     : Project_Environment_Access;
-         --  Reference to the loaded project tree, if any. Null otherwise.
+         --  Reference to the project tree loaded with GNATCOLL.Projects, if
+         --  any. Null otherwise.
+
+         GPR2_Project : GPR2.Project.Tree.Object;
+         --  Project tree loaded with GPR2, if any
 
          FR : File_Reader_Reference;
          --  File reader to use in all contexts for this app
@@ -386,59 +419,117 @@ package body Libadalang.Helpers is
                Abort_App ("--auto-dir conflicts with -P");
             end if;
 
-            --  Handle project file and build the list of source files to
-            --  process.
-            Load_Project
-              (Project_File  => +Args.Project_File.Get,
-               Scenario_Vars =>
-                 Unbounded_String_Array (Args.Scenario_Vars.Get),
-               Target        => +Args.Target.Get,
-               RTS           => +Args.RTS.Get,
-               Config_File   => +Args.Config_File.Get,
-               Project       => Project,
-               Env           => Env);
-            UFP := Project_To_Provider (Project);
+            declare
+               Use_GPR2          : constant Boolean := Args.GPR2.Get;
+               Project_Filename  : constant String := +Args.Project_File.Get;
+               Scenario_Vars     : constant Unbounded_String_Array :=
+                 Unbounded_String_Array (Args.Scenario_Vars.Get);
+               Target            : constant String := +Args.Target.Get;
+               RTS               : constant String := +Args.RTS.Get;
+               Config_File       : constant String := +Args.Config_File.Get;
+            begin
+               --  Load the requested project file
 
-            if not Files_From_Args (Files) then
-               declare
-                  Mode : constant Source_Files_Mode :=
-                    (if Args.Process_Runtime.Get
-                     then Whole_Project_With_Runtime
-                     else (if Args.Process_Full_Project_Tree.Get
-                           then Default
-                           else Root_Project));
+               if Use_GPR2 then
+                  Load_Project
+                    (Project_Filename,
+                     Scenario_Vars,
+                     Target,
+                     RTS,
+                     Config_File,
+                     GPR2_Project);
+                  UFP := Project_To_Provider (GPR2_Project);
+               else
+                  Load_Project
+                    (Project_Filename,
+                     Scenario_Vars,
+                     Target,
+                     RTS,
+                     Config_File,
+                     Project,
+                     Env);
+                  UFP := Project_To_Provider (Project);
+               end if;
 
-                  --  Decode the "--subproject" arguments
+               --  If none was given, build the list of source files to process
 
-                  Project_Names : constant Unbounded_String_Array :=
-                    Unbounded_String_Array (Args.Subprojects.Get);
-                  Projects      : Project_Array (Project_Names'Range);
-               begin
-                  for I in Project_Names'Range loop
-                     declare
-                        N : constant String := +Project_Names (I);
-                     begin
-                        Projects (I) := Project.Project_From_Name (N);
-                        if Projects (I) = No_Project then
-                           Abort_App ("--subproject: unknown project " & N);
-                        end if;
-                     end;
-                  end loop;
+               if not Files_From_Args (Files) then
+                  declare
+                     Mode : constant Source_Files_Mode :=
+                       (if Args.Process_Runtime.Get
+                        then Whole_Project_With_Runtime
+                        else (if Args.Process_Full_Project_Tree.Get
+                              then Default
+                              else Root_Project));
 
-                  Files.Append_Vector
-                    (Source_Files (Project.all, Mode, Projects));
-               end;
-            end if;
+                     --  Decode the "--subproject" arguments
 
-            --  Fill in the provider
-            App_Ctx.Provider := (Kind => Project_File, Project => Project);
+                     Project_Names : constant Unbounded_String_Array :=
+                       Unbounded_String_Array (Args.Subprojects.Get);
+                  begin
+                     if Use_GPR2 then
+                        declare
+                           Projects : GPR2.Project.View.Set.Object;
+                        begin
+                           for N of Project_Names loop
+                              begin
+                                 Projects.Include (Lookup (GPR2_Project, +N));
+                              exception
+                                 when Exc : GPR2.Project_Error =>
+                                    Abort_App
+                                      ("--subproject: "
+                                       & Exception_Message (Exc));
+                              end;
+                           end loop;
+                           Files.Append_Vector
+                             (Source_Files (GPR2_Project, Mode, Projects));
+                        end;
+                     else
+                        declare
+                           Projects : Project_Array (Project_Names'Range);
+                        begin
+                           for I in Project_Names'Range loop
+                              declare
+                                 N : constant String := +Project_Names (I);
+                              begin
+                                 Projects (I) := Project.Project_From_Name (N);
+                                 if Projects (I) = No_Project then
+                                    Abort_App
+                                      ("--subproject: unknown project " & N);
+                                 end if;
+                              end;
+                           end loop;
+                           Files.Append_Vector
+                             (Source_Files (Project.all, Mode, Projects));
+                        end;
+                     end if;
+                  end;
+               end if;
 
-            --  If no charset was specified, detect the default one from the
-            --  project file.
+               --  Create the unit provider
 
-            if Default_Charset = Null_Unbounded_String then
-               Default_Charset := +Default_Charset_From_Project (Project.all);
-            end if;
+               if Use_GPR2 then
+                  App_Ctx.Provider :=
+                    (Kind         => GPR2_Project_File,
+                     GPR2_Project => GPR2_Project.Reference);
+               else
+                  App_Ctx.Provider :=
+                    (Kind => Project_File, Project => Project);
+               end if;
+
+               --  If no charset was specified, detect the default one from the
+               --  project file.
+
+               if Default_Charset = Null_Unbounded_String then
+                  if Use_GPR2 then
+                     Default_Charset :=
+                       +Default_Charset_From_Project (GPR2_Project);
+                  else
+                     Default_Charset :=
+                       +Default_Charset_From_Project (Project.all);
+                  end if;
+               end if;
+            end;
 
          elsif Args.Auto_Dirs.Get'Length > 0 then
             --  The auto provider is requested: initialize it with the given
@@ -487,13 +578,15 @@ package body Libadalang.Helpers is
          end if;
 
          --  Make sure project-specific options are used only with -P
-         if App_Ctx.Provider.Kind /= Project_File then
+         if App_Ctx.Provider.Kind not in Project_File | GPR2_Project_File then
             if Args.Target.Get /= Null_Unbounded_String then
                Abort_App ("--target requires -P");
             elsif Args.RTS.Get /= Null_Unbounded_String then
                Abort_App ("--RTS requires -P");
             elsif Args.Config_File.Get /= Null_Unbounded_String then
                Abort_App ("--config requires -P");
+            elsif Args.GPR2.Get then
+               Abort_App ("--gpr2 requires -P");
             end if;
          end if;
 
@@ -582,6 +675,33 @@ package body Libadalang.Helpers is
       end Run;
    end App;
 
+   ---------------------------
+   -- Iterate_Scenario_Vars --
+   ---------------------------
+
+   procedure Iterate_Scenario_Vars
+     (Scenario_Vars : Unbounded_String_Array;
+      Process       : access procedure (Name, Value : String)) is
+   begin
+      for Assoc of Scenario_Vars loop
+         declare
+            A        : constant String := +Assoc;
+            Eq_Index : Natural := A'First;
+         begin
+            while Eq_Index <= A'Last
+              and then A (Eq_Index) /= '=' loop
+               Eq_Index := Eq_Index + 1;
+            end loop;
+            if Eq_Index not in A'Range then
+               Abort_App ("Invalid scenario variable: -X" & A);
+            end if;
+            Process.all
+              (Name  => A (A'First .. Eq_Index - 1),
+               Value => A (Eq_Index + 1 .. A'Last));
+         end;
+      end loop;
+   end Iterate_Scenario_Vars;
+
    ------------------
    -- Load_Project --
    ------------------
@@ -596,6 +716,9 @@ package body Libadalang.Helpers is
       procedure Cleanup;
       --  Cleanup helpers for error handling
 
+      procedure Set_Scenario_Var (Name, Value : String);
+      --  Set the given scenario variable in ``Env``
+
       -------------
       -- Cleanup --
       -------------
@@ -605,32 +728,31 @@ package body Libadalang.Helpers is
          Free (Project);
          Free (Env);
       end Cleanup;
+
+      ----------------------
+      -- Set_Scenario_Var --
+      ----------------------
+
+      procedure Set_Scenario_Var (Name, Value : String) is
+      begin
+         Env.Change_Environment (Name, Value);
+      end Set_Scenario_Var;
+
    begin
       Libadalang.Project_Provider.Trace.Trace
         ("Loading project " & Project_File);
       Project := new Project_Tree;
       Initialize (Env);
 
-      --  Set scenario variables
-      for Assoc of Scenario_Vars loop
-         declare
-            A        : constant String := +Assoc;
-            Eq_Index : Natural := A'First;
-         begin
-            while Eq_Index <= A'Last
-              and then A (Eq_Index) /= '=' loop
-               Eq_Index := Eq_Index + 1;
-            end loop;
-            if Eq_Index not in A'Range then
-               Cleanup;
-               Abort_App ("Invalid scenario variable: -X" & A);
-            end if;
-            Change_Environment
-              (Env.all,
-               A (A'First .. Eq_Index - 1),
-               A (Eq_Index + 1 .. A'Last));
-         end;
-      end loop;
+      --  Load scenario variables
+
+      begin
+         Iterate_Scenario_Vars (Scenario_Vars, Set_Scenario_Var'Access);
+      exception
+         when Abort_App_Exception =>
+            Cleanup;
+            raise;
+      end;
 
       --  Set the target/runtime or use the config file
       if Config_File = "" then
@@ -658,6 +780,95 @@ package body Libadalang.Helpers is
       Libadalang.Project_Provider.Trace.Trace ("Loading succeeded");
    end Load_Project;
 
+   ------------------
+   -- Load_Project --
+   ------------------
+
+   procedure Load_Project
+     (Project_File             : String;
+      Scenario_Vars            : Unbounded_String_Array := Empty_Array;
+      Target, RTS, Config_File : String := "";
+      Project                  : in out GPR2.Project.Tree.Object)
+   is
+      Ctx   : GPR2.Context.Object;
+      Error : Boolean := False;
+
+      procedure Set_Scenario_Var (Name, Value : String);
+      --  Set the given scenario variable in ``Ctx``
+
+      ----------------------
+      -- Set_Scenario_Var --
+      ----------------------
+
+      procedure Set_Scenario_Var (Name, Value : String) is
+      begin
+         Ctx.Include (GPR2.Name_Type (Name), Value);
+      end Set_Scenario_Var;
+
+   begin
+      Libadalang.Project_Provider.Trace.Trace
+        ("Loading project " & Project_File & " with GPR2");
+
+      Iterate_Scenario_Vars (Scenario_Vars, Set_Scenario_Var'Access);
+
+      --  Load the project tree with either a config file (if given) or the
+      --  requested target/runtime , and beware of loading errors
+
+      declare
+         PF      : constant GPR2.Path_Name.Object :=
+           GPR2.Path_Name.Create_File
+             (GPR2.Filename_Type (Project_File), GPR2.Path_Name.No_Resolution);
+         RTS_Map : GPR2.Containers.Lang_Value_Map;
+      begin
+         if Config_File = "" then
+            if RTS /= "" then
+               RTS_Map.Include (GPR2.Ada_Language, RTS);
+            end if;
+            Project.Load_Autoconf
+              (Filename          => PF,
+               Context           => Ctx,
+               Target            => GPR2.Optional_Name_Type (Target),
+               Language_Runtimes => RTS_Map);
+
+         elsif Target /= "" or else RTS /= "" then
+            Abort_App ("--config not allowed if --target or --RTS are passed");
+
+         else
+            declare
+               F      : constant GPR2.Path_Name.Object :=
+                 GPR2.Path_Name.Create_File (GPR2.Filename_Type (Config_File));
+               Config : constant GPR2.Project.Configuration.Object :=
+                 GPR2.Project.Configuration.Load (F);
+            begin
+               Project.Load
+                 (Filename => PF,
+                  Context  => Ctx,
+                  Config   => Config);
+            end;
+         end if;
+
+         Project.Update_Sources (With_Runtime => True);
+      exception
+         when Exc : GPR2.Project_Error =>
+            Error := True;
+            Libadalang.Project_Provider.Trace.Trace
+              ("Loading failed: " & Exception_Message (Exc));
+      end;
+
+      --  Whether the project loaded successfully or not, print messages since
+      --  they may contain warnings. If there was an error, abort the App.
+
+      Project.Log_Messages.Output_Messages
+        (Information => False,
+         Warning     => True,
+         Error       => True);
+      if Error or else Project.Log_Messages.Has_Error then
+         Abort_App;
+      end if;
+
+      Libadalang.Project_Provider.Trace.Trace ("Loading succeeded");
+   end Load_Project;
+
    -------------------------
    -- Project_To_Provider --
    -------------------------
@@ -666,6 +877,31 @@ package body Libadalang.Helpers is
      (Project : Project_Tree_Access) return Unit_Provider_Reference
    is
       Partition : Provider_And_Projects_Array_Access :=
+        Create_Project_Unit_Providers (Project);
+   begin
+      --  Reject partitions with multiple parts: we cannot analyze it with
+      --  only one provider.
+
+      if Partition.all'Length /= 1 then
+         Free (Partition);
+         Abort_App ("This aggregate project contains conflicting sources");
+      end if;
+
+      return Result : constant Unit_Provider_Reference :=
+        Partition.all (Partition'First).Provider
+      do
+         Free (Partition);
+      end return;
+   end Project_To_Provider;
+
+   -------------------------
+   -- Project_To_Provider --
+   -------------------------
+
+   function Project_To_Provider
+     (Project : GPR2.Project.Tree.Object) return Unit_Provider_Reference
+   is
+      Partition : GPR2_Provider_And_Projects_Array_Access :=
         Create_Project_Unit_Providers (Project);
    begin
       --  Reject partitions with multiple parts: we cannot analyze it with

@@ -190,6 +190,16 @@ private package Libadalang.GPR_Utils is
    -- GPR2 helpers --
    ------------------
 
+   function Lookup
+     (Self         : GPR2.Project.Tree.Object;
+      Project_Name : String) return GPR2.Project.View.Object;
+   --  Return the view that ``Project_Name`` designates: it may be either a
+   --  project name (case insensitive Ada identifier) or a (possibly relative)
+   --  project file name.
+   --
+   --  If no project match or if multiple projects match, raise a
+   --  ``GPR2.Project_Error`` exception.
+
    function Closure
      (Self : GPR2.Project.View.Object) return GPR2.Project.View.Vector.Object;
    --  Return the list of all views reachable from ``Self``, self included

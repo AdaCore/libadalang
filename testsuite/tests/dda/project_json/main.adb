@@ -5,8 +5,7 @@ with Ada.Strings.Unbounded;   use Ada.Strings.Unbounded;
 with Ada.Text_IO;             use Ada.Text_IO;
 
 with GNATCOLL.Traces;
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 
@@ -18,18 +17,17 @@ with Libadalang.Project_Provider;   use Libadalang.Project_Provider;
 
 procedure Main is
 
-   Ctx     : Analysis_Context;
-   Tree    : GPR2.Project.Tree.Object;
-   View    : GPR2.Project.View.Object;
    Repinfo : Repinfo_Collection;
 
    function "+"
      (S : String) return Unbounded_String renames To_Unbounded_String;
 
    procedure Load_Project
-     (Filename   : String;
-      Var_Name   : GPR2.Optional_Name_Type := "";
-      Var_Value  : GPR2.Value_Type := "";
+     (Tree       : in out GPR2.Project.Tree.Object;
+      View       : out GPR2.Project.View.Object;
+      Filename   : String;
+      Var_Name   : String := "";
+      Var_Value  : String := "";
       Subdirs    : String := "";
       Subproject : String := "");
    --  Load in ``Tree`` the project file ``Filename` with the given settings
@@ -39,7 +37,10 @@ procedure Main is
    --  Set ``View`` to ``Undefined`` if ``Subproject`` is the empty string, and
    --  to the view with the corresponding name otherwise.
 
-   procedure Check (Sources : Filename_Array);
+   procedure Check
+     (Tree    : GPR2.Project.Tree.Object;
+      View    : GPR2.Project.View.Object;
+      Sources : Filename_Array);
    --  Load all Ada sources files denoted by the filenames in ``Sources`` and
    --  lookup type information for the (only expected) type declaration they
    --  contain.
@@ -49,24 +50,32 @@ procedure Main is
    ------------------
 
    procedure Load_Project
-     (Filename   : String;
-      Var_Name   : GPR2.Optional_Name_Type := "";
-      Var_Value  : GPR2.Value_Type := "";
+     (Tree       : in out GPR2.Project.Tree.Object;
+      View       : out GPR2.Project.View.Object;
+      Filename   : String;
+      Var_Name   : String := "";
+      Var_Value  : String := "";
       Subdirs    : String := "";
       Subproject : String := "")
    is
-      Context : GPR2.Context.Object;
+      Options : GPR2.Options.Object;
    begin
+      Options.Add_Switch (GPR2.Options.P, Filename);
+      if Subdirs /= "" then
+         Options.Add_Switch (GPR2.Options.Subdirs, Subdirs);
+      end if;
       if Var_Name'Length > 0 then
-         Context.Insert (Var_Name, Var_Value);
+         Options.Add_Switch (GPR2.Options.X, Var_Name & "=" & Var_Value);
       end if;
 
-      Tree.Load_Autoconf
-        (Filename => GPR2.Path_Name.Create_File
-                       (Name      => GPR2.Filename_Type (Filename),
-                        Directory => GPR2.Path_Name.No_Resolution),
-         Context  => Context,
-         Subdirs  => GPR2.Optional_Name_Type (Subdirs));
+      if not Tree.Load
+               (Options,
+                With_Runtime     => True,
+                Absent_Dir_Error => GPR2.No_Error)
+         or else not Update_Sources (Tree)
+      then
+         raise Program_Error;
+      end if;
 
       View := GPR2.Project.View.Undefined;
       if Subproject'Length > 0 then
@@ -80,16 +89,19 @@ procedure Main is
               "cannot find " & Subproject & " in " & Filename;
          end if;
       end if;
-
-      Ctx := Create_Context
-        (Unit_Provider => Create_Project_Unit_Provider (Tree, View));
    end Load_Project;
 
    -----------
    -- Check --
    -----------
 
-   procedure Check (Sources : Filename_Array) is
+   procedure Check
+     (Tree    : GPR2.Project.Tree.Object;
+      View    : GPR2.Project.View.Object;
+      Sources : Filename_Array)
+   is
+      Ctx    : constant Analysis_Context := Create_Context
+        (Unit_Provider => Create_Project_Unit_Provider (Tree, View));
       U      : Analysis_Unit;
       T      : Base_Type_Decl;
       T_Info : Type_Representation;
@@ -126,9 +138,14 @@ begin
 
    Put_Line ("== Simple ==");
    New_Line;
-   Load_Project ("simple.gpr");
-   Repinfo := Load_From_Project (Tree, View);
-   Check ((1 => +"src/simple/simple.ads"));
+   declare
+      Tree : GPR2.Project.Tree.Object;
+      View : GPR2.Project.View.Object;
+   begin
+      Load_Project (Tree, View, "simple.gpr");
+      Repinfo := Load_From_Project (Tree, View);
+      Check (Tree, View, (1 => +"src/simple/simple.ads"));
+   end;
    New_Line;
 
    --  Make sure Load_From_Project honors its View formal: it is not supposed
@@ -136,11 +153,18 @@ begin
 
    Put_Line ("== Tree ==");
    New_Line;
-   Load_Project ("tree_root.gpr", Subproject => "tree_child");
-   Repinfo := Load_From_Project (Tree, View);
-   Check
-     ((+"src/tree_root/tree_root.ads",
-       +"src/tree_child/tree_child.ads"));
+   declare
+      Tree : GPR2.Project.Tree.Object;
+      View : GPR2.Project.View.Object;
+   begin
+      Load_Project (Tree, View, "tree_root.gpr", Subproject => "tree_child");
+      Repinfo := Load_From_Project (Tree, View);
+      Check
+        (Tree,
+         View,
+         (+"src/tree_root/tree_root.ads",
+          +"src/tree_child/tree_child.ads"));
+   end;
    New_Line;
 
    --  Make sure Load_From_Project correctly procesess a project loaded with
@@ -149,9 +173,14 @@ begin
 
    Put_Line ("== Subdirs ==");
    New_Line;
-   Load_Project ("simple.gpr", Subdirs => "somesubdirs");
-   Repinfo := Load_From_Project (Tree, View, Subdirs => "othersubdirs");
-   Check ((1 => +"src/simple/simple.ads"));
+   declare
+      Tree : GPR2.Project.Tree.Object;
+      View : GPR2.Project.View.Object;
+   begin
+      Load_Project (Tree, View, "simple.gpr", Subdirs => "somesubdirs");
+      Repinfo := Load_From_Project (Tree, View, Subdirs => "othersubdirs");
+      Check (Tree, View, (1 => +"src/simple/simple.ads"));
+   end;
    New_Line;
 
    --  Make sure Load_From_Project passes expected external variables to
@@ -160,9 +189,15 @@ begin
 
    Put_Line ("== With vars ==");
    New_Line;
-   Load_Project ("with_var.gpr", Var_Name => "MY_VAR", Var_Value => "foo");
-   Repinfo := Load_From_Project (Tree, View);
-   Check ((1 => +"src/with_var/with_var.ads"));
+   declare
+      Tree : GPR2.Project.Tree.Object;
+      View : GPR2.Project.View.Object;
+   begin
+      Load_Project
+        (Tree, View, "with_var.gpr", Var_Name => "MY_VAR", Var_Value => "foo");
+      Repinfo := Load_From_Project (Tree, View);
+      Check (Tree, View, (1 => +"src/with_var/with_var.ads"));
+   end;
    New_Line;
 
    Put_Line ("Done.");

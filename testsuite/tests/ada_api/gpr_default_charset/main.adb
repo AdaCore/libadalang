@@ -5,8 +5,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
@@ -37,12 +36,15 @@ procedure Main is
       end;
 
       declare
-         Tree : GPR2.Project.Tree.Object;
+         Options : GPR2.Options.Object;
+         Tree    : GPR2.Project.Tree.Object;
       begin
-         Tree.Load_Autoconf
-           (Filename => GPR2.Path_Name.Create_File
-                          (GPR2.Filename_Type (project)),
-            Context  => GPR2.Context.Empty);
+         Options.Add_Switch (GPR2.Options.P, Project);
+         if not Tree.Load (Options, With_Runtime => True)
+            or else not Update_Sources (Tree)
+         then
+            raise Program_Error;
+         end if;
          Put_Line ("GPR2: " & Default_Charset_From_Project (Tree));
       end;
 

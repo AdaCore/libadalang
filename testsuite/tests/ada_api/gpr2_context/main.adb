@@ -2,7 +2,7 @@ with Ada.Characters.Handling; use Ada.Characters.Handling;
 with Ada.Exceptions;          use Ada.Exceptions;
 with Ada.Text_IO;             use Ada.Text_IO;
 
-with GPR2.Context;
+with GPR2.Options;
 with GPR2.Path_Name;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
@@ -38,25 +38,27 @@ procedure Main is
       With_Trivia   : Boolean := True;
       Tab_Stop      : Positive := 8)
    is
-      Tree : GPR2.Project.Tree.Object;
-      Prj  : GPR2.Project.View.Object;
-      Ctx  : Analysis_Context;
-      U    : Analysis_Unit;
-      N    : Basic_Decl;
+      Options : GPR2.Options.Object;
+      Tree    : GPR2.Project.Tree.Object;
+      Prj     : GPR2.Project.View.Object;
+      Ctx     : Analysis_Context;
+      U       : Analysis_Unit;
+      N       : Basic_Decl;
    begin
       Put_Line ("== " & Label & " ==");
       New_Line;
 
       --  Load the requested tree and fetch the requested project (if any)
 
-      Tree.Load_Autoconf
-        (Filename => GPR2.Path_Name.Create_File
-                       (GPR2.Filename_Type (Root_Project)),
-         Context  => GPR2.Context.Empty);
-      if Tree.Has_Messages then
+      Options.Add_Switch (GPR2.Options.P, Root_Project);
+      if not Tree.Load (Options) then
+         raise Program_Error;
+      elsif Tree.Has_Messages then
          Tree.Log_Messages.Output_Messages (Information => False);
       end if;
-      Tree.Update_Sources (With_Runtime => True);
+      if not Update_Sources (Tree) then
+         raise Program_Error;
+      end if;
       if Project /= "" then
          declare
             Root : constant GPR2.Project.View.Object := Tree.Root_Project;

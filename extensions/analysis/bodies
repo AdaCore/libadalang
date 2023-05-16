@@ -83,6 +83,8 @@ is
    --  This creates a ref-counted object: we must decrease its ref-count
    --  whether we return normally or through an exception.
 begin
+   Libadalang.Project_Provider.Check_Source_Info (Tree);
+
    begin
       GPR_Impl.Initialize_Context_From_Project
         (Result, Tree, Project, EH_Int, With_Trivia, Tab_Stop);

@@ -5,13 +5,14 @@ with Ada.Text_IO;             use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 
 with Langkit_Support.Errors;   use Langkit_Support.Errors;
-with Libadalang.Preprocessing; use Libadalang.Preprocessing;
+
+with Libadalang.Preprocessing;    use Libadalang.Preprocessing;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 procedure Main is
 
@@ -35,6 +36,7 @@ procedure Main is
       Tree    : Project_Tree;
       Project : Project_Type;
 
+      Options   : GPR2.Options.Object;
       GPR2_Tree : GPR2.Project.Tree.Object;
       GPR2_View : GPR2.Project.View.Object;
    begin
@@ -46,12 +48,12 @@ procedure Main is
       Initialize (Env);
       Tree.Load (Create (+Filename));
 
-      GPR2_Tree.Load_Autoconf
-        (Filename => GPR2.Path_Name.Create_File
-                       (GPR2.Filename_Type (Filename),
-                        GPR2.Path_Name.No_Resolution),
-         Context  => GPR2.Context.Empty);
-      GPR2_Tree.Update_Sources (With_Runtime => True);
+      Options.Add_Switch (GPR2.Options.P, Filename);
+      if not GPR2_Tree.Load (Options, With_Runtime => True)
+         or else not Update_Sources (GPR2_Tree)
+      then
+         raise Program_Error;
+      end if;
 
       --  Run the extraction on all the requested subprojects
 

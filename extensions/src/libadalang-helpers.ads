@@ -89,7 +89,7 @@ package Libadalang.Helpers is
          when Auto_Dir =>
             Dirs, Found_Files : String_Vectors.Vector;
          when GPR2_Project_File =>
-            GPR2_Project : access GPR2.Project.Tree.Object;
+            GPR2_Project : GPR2.Project.Tree.Object;
       end case;
    end record;
 

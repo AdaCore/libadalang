@@ -142,6 +142,32 @@ package Libadalang.Project_Provider is
    --  to allow experiments, it is totally unsupported and the API is very
    --  likely to change in the future.
 
+   Runtime_Missing_Error : exception;
+   --  Exception raised by the ``Create_Project_Unit_Provider[s]`` functions
+   --  when passed a project that does not have the runtime project loaded.
+   --
+   --  In order to load the runtime project, pass ``With_Runtime => True`` to
+   --  the relevant project loading procedure (in ``GPR2.Project.Tree``).
+
+   Source_Info_Missing_Error : exception;
+   --  Exception raised by the ``Create_Project_Unit_Provider[s]`` functions
+   --  when passed a project that does not contain the necessary source
+   --  information.
+   --
+   --  In order to load the source infomation necessary for unit providers to
+   --  work correctly, use ``GPR2.Projects.Tree.Update_Sources`` or the
+   --  ``Update_Sources`` shortcut below.
+
+   procedure Check_Source_Info (Tree : GPR2.Project.Tree.Object);
+   --  Raise ``Runtime_Missing_Error` if ``Tree`` does not have a runtime
+   --  project loaded. Raise ``Source_Missing_Info_Error`` if it does not have
+   --  source information loaded.
+
+   function Update_Sources (Tree : GPR2.Project.Tree.Object) return Boolean;
+   --  Call ``GPR2.Project.Tree.Update_Sources``, print potential
+   --  warnings/errors. Return ``True`` if there was no error, ``False``
+   --  otherwise.
+
    type GPR2_Provider_And_Projects is record
       Provider : LAL.Unit_Provider_Reference;
       Projects : GPR2.Project.View.Vector.Object;
@@ -171,9 +197,8 @@ package Libadalang.Project_Provider is
    --  providers, and it is up to callers to deallocate ``Tree`` itself.
 
    function Create_Project_Unit_Provider
-     (Tree             : GPR2.Project.Tree.Object;
-      Project          : GPR2.Project.View.Object :=
-                           GPR2.Project.View.Undefined)
+     (Tree    : GPR2.Project.Tree.Object;
+      Project : GPR2.Project.View.Object := GPR2.Project.View.Undefined)
       return LAL.Unit_Provider_Reference;
    --  Likewise, but create only one unit provider.
    --

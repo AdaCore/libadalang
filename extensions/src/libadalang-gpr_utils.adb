@@ -9,14 +9,17 @@ with GNAT.Strings; use GNAT.Strings;
 
 with GNATCOLL.Utils;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
+with GPR2.Build.Source;
+pragma Warnings (Off, "not referenced");
+with GPR2.Build.Source.Sets;
+pragma Warnings (On, "not referenced");
+with GPR2.Build.Unit_Info;
 with GPR2.Containers;
 with GPR2.Path_Name;
 with GPR2.Project.Attribute;
 with GPR2.Project.Attribute.Set;
 with GPR2.Project.Attribute_Index;
-with GPR2.Project.Source;
 with GPR2.Project.View.Set;
-with GPR2.Unit;
 
 package body Libadalang.GPR_Utils is
 
@@ -425,13 +428,12 @@ package body Libadalang.GPR_Utils is
 
       when GPR2_Kind =>
          declare
-            Path : constant GPR2.Path_Name.Object :=
-              GPR2.Path_Name.Create_File
-                (GPR2.Filename_Type (Filename), GPR2.Path_Name.No_Resolution);
-            File : constant GPR2.Project.Source.Object :=
-              View.GPR2_Value.Source (Path);
+            use type GPR2.Language_Id;
+
+            File : constant GPR2.Build.Source.Object :=
+              View.GPR2_Value.Source (GPR2.Simple_Name (Filename));
          begin
-            return File.Is_Defined and then File.Is_Ada;
+            return File.Is_Defined and then File.Language = GPR2.Ada_Language;
          end;
       end case;
    end Is_Ada_Source;
@@ -511,32 +513,53 @@ package body Libadalang.GPR_Utils is
          --  instead of using this internal API.
 
          declare
-            procedure Process_Wrapper (Source : GPR2.Project.Source.Object);
+            procedure Process_Wrapper (Source : GPR2.Build.Source.Object);
             --  Call ``Process`` on all units in ``Source``
+
+            function Unit_Name (U : GPR2.Build.Unit_Info.Object) return String
+            is (String (U.Name)
+                & (if U.Kind in GPR2.S_Separate
+                   then "." & String (U.Separate_Name)
+                   else ""));
 
             ---------------------
             -- Process_Wrapper --
             ---------------------
 
-            procedure Process_Wrapper (Source : GPR2.Project.Source.Object) is
+            procedure Process_Wrapper (Source : GPR2.Build.Source.Object) is
                Filename : constant String := String (Source.Path_Name.Value);
             begin
+               if not Source.Has_Units then
+                  return;
+               end if;
+
                for U of Source.Units loop
-                  Process.all
-                    (Unit_Name => String (U.Name),
-                     Unit_Part => (if U.Kind in GPR2.Unit.Spec_Kind
-                                   then Unit_Spec
-                                   else Unit_Body),
-                     Filename  => Filename);
+
+                  --  TODO (eng/gpr/gpr-issues#227) GPR2 cannot find the name
+                  --  of some units. Discard them since we cannot do anything
+                  --  useful with them, and they may cause trouble later on
+                  --  (conflicting sources for the same empty unit name).
+
+                  declare
+                     N : constant String := Unit_Name (U);
+                  begin
+                     if N /= "" then
+                        Process.all
+                          (Unit_Name => N,
+                           Unit_Part => (if U.Kind in GPR2.S_Spec
+                                         then Unit_Spec
+                                         else Unit_Body),
+                           Filename  => Filename);
+                     end if;
+                  end;
                end loop;
             end Process_Wrapper;
          begin
             if Recursive then
-               Tree.GPR2_Value.For_Each_Source
-                 (View             => View.GPR2_Value,
-                  Action           => Process_Wrapper'Access,
-                  Language         => GPR2.Ada_Language,
-                  Externally_Built => True);
+               for V of View.GPR2_Value.Closure (Include_Self => True) loop
+                  Iterate_Ada_Units
+                    (Tree, (GPR2_Kind, V), Process, Recursive => False);
+               end loop;
             else
                for S of View.GPR2_Value.Sources loop
                   Process_Wrapper (S);
@@ -590,15 +613,19 @@ package body Libadalang.GPR_Utils is
 
          --  Also process compiler switches for all Ada sources
 
-         for Source of Indexes (Self, Switches) loop
-            declare
-               Filename : constant String := Source.To_String;
-            begin
-               if Is_Ada_Source (Tree, Self, Filename) then
-                  Process_Switches (Self, Switches, Filename);
-               end if;
-            end;
-         end loop;
+         declare
+            Index_List : constant XString_Array := Indexes (Self, Switches);
+         begin
+            for Source of Index_List loop
+               declare
+                  Filename : constant String := Source.To_String;
+               begin
+                  if Is_Ada_Source (Tree, Self, Filename) then
+                     Process_Switches (Self, Switches, Filename);
+                  end if;
+               end;
+            end loop;
+         end;
       end Process_View;
 
       ----------------------

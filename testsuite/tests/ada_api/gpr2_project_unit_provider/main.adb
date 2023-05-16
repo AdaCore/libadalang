@@ -6,8 +6,7 @@ with Ada.Characters.Handling; use Ada.Characters.Handling;
 with Ada.Exceptions;
 with Ada.Text_IO;             use Ada.Text_IO;
 
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 
@@ -33,16 +32,19 @@ procedure Main is
    function Load_Project
      (File : String; Project : String := "") return Unit_Provider_Reference
    is
-      View : GPR2.Project.View.Object;
+      Options : GPR2.Options.Object;
+      View    : GPR2.Project.View.Object;
    begin
       Put_Line ("Loading " & File & "...");
       if Project'Length > 0 then
          Put_Line ("   Targetting subproject " & Project);
       end if;
-      Tree.Load_Autoconf
-        (Filename => GPR2.Path_Name.Create_File (GPR2.Filename_Type (File)),
-         Context  => GPR2.Context.Empty);
-      Tree.Update_Sources (With_Runtime => True);
+      Options.Add_Switch (GPR2.Options.P, File);
+      if not Tree.Load (Options, With_Runtime => True)
+         or else not Update_Sources (Tree)
+      then
+         raise Program_Error;
+      end if;
       if Project'Length > 0 then
          for V of Tree.Ordered_Views loop
             if To_Lower (String (V.Name)) = To_Lower (Project) then

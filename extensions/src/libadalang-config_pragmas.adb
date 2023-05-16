@@ -251,7 +251,7 @@ package body Libadalang.Config_Pragmas is
    begin
       return Import_From_Project
         (Context,
-         (Kind => GPR2_Kind, GPR2_Value => Tree.Reference),
+         (Kind => GPR2_Kind, GPR2_Value => Tree),
          (Kind => GPR2_Kind, GPR2_Value => View));
    end Import_From_Project;
 

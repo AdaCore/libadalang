@@ -1,23 +1,22 @@
-WARNING: File pkg.ads not found
-Working on node <SubpDecl ["Foo"] test.adb:10:4-10:31>
-======================================================
+Working on node <SubpDecl ["Foo"] pkg.ads:10:4-10:31>
+=====================================================
 
 Eval 'node.findall(lal.Name)[-1].doc_name'
 Result: 'Child_Pkg.My_Int'
 
-Working on node <SubpDecl ["Foo"] test.adb:18:4-18:38>
-======================================================
+Working on node <SubpDecl ["Foo"] pkg2.ads:5:4-5:38>
+====================================================
 
 Eval 'node.findall(lal.Name)[-1].doc_name'
 Result: 'Pkg.My_String'
 
-Working on node <SubpDecl ["Bar"] test.adb:21:4-21:34>
-======================================================
+Working on node <SubpDecl ["Bar"] pkg2.ads:8:4-8:34>
+====================================================
 
 Eval 'node.findall(lal.Name)[-1].doc_name'
 Result: 'Pkg.My_String'
 
-Working on node <SubpDecl ["Baz"] test.adb:24:4-24:45>
+Working on node <SubpDecl ["Baz"] pkg2.ads:11:4-11:45>
 ======================================================
 
 Eval 'node.findall(lal.Name)[-1].doc_name'

@@ -597,6 +597,46 @@ package body Libadalang.GPR_Utils is
       Iterate (Root_View, Process_View'Access);
    end Iterate_Ada_Compiler_Switches;
 
+   ------------
+   -- Lookup --
+   ------------
+
+   function Lookup
+     (Self         : GPR2.Project.Tree.Object;
+      Project_Name : String) return GPR2.Project.View.Object
+   is
+      use type GPR2.Path_Name.Object;
+
+      Normalized_Name : constant String := To_Lower (Project_Name);
+      File_Name       : constant GPR2.Path_Name.Object :=
+        GPR2.Path_Name.Create_File (GPR2.Filename_Type (Project_Name));
+   begin
+      return Result : GPR2.Project.View.Object do
+         for View of Self loop
+            if To_Lower (String (View.Name)) = Normalized_Name
+               or else View.Path_Name = File_Name
+            then
+               --  If here are more than one project matching the requested
+               --  name, abort with an error.
+
+               if Result.Is_Defined then
+                  raise GPR2.Project_Error with
+                    "ambiguous project: " & Project_Name;
+               end if;
+
+               Result := View;
+            end if;
+         end loop;
+
+         --  If we found no project matching the requested name, abort with
+         --  an error.
+
+         if not Result.Is_Defined then
+            raise GPR2.Project_Error with "no such project: " & Project_Name;
+         end if;
+      end return;
+   end Lookup;
+
    -------------
    -- Closure --
    -------------

@@ -11,6 +11,7 @@ with GNATCOLL.Opt_Parse;
 with GNATCOLL.Projects;  use GNATCOLL.Projects;
 with GNATCOLL.Traces;    use GNATCOLL.Traces;
 with GNATCOLL.Utils;     use GNATCOLL.Utils;
+with GPR2.Project.Tree;
 
 with Libadalang.Project_Provider;
 with Libadalang.Analysis; use Libadalang.Analysis;
@@ -72,9 +73,11 @@ package Libadalang.Helpers is
    --
    --  * Default (look in the current directory);
    --  * Project_File (from a GPR project file);
-   --  * Auto_Dir (files in a list of directories).
+   --  * Auto_Dir (files in a list of directories);
+   --  * GPR2_Project_File (from a GPR file, loaded with GPR2).
 
-   type Source_Provider_Kind is (Default, Project_File, Auto_Dir);
+   type Source_Provider_Kind is
+     (Default, Project_File, Auto_Dir, GPR2_Project_File);
    type Source_Provider
      (Kind : Source_Provider_Kind := Source_Provider_Kind'First) is
    record
@@ -85,6 +88,8 @@ package Libadalang.Helpers is
             Project : GNATCOLL.Projects.Project_Tree_Access;
          when Auto_Dir =>
             Dirs, Found_Files : String_Vectors.Vector;
+         when GPR2_Project_File =>
+            GPR2_Project : access GPR2.Project.Tree.Object;
       end case;
    end record;
 
@@ -274,6 +279,11 @@ package Libadalang.Helpers is
             Help          => "Name of the configuration project file. If"
                              & " passed, this file must exist and neither"
                              & " --target nor --RTS must be passed.");
+         package GPR2 is new Parse_Flag
+           (Parser, Long => "--gpr2",
+            Help         => "Internal option (will be removed without notice"
+                            & " in the future). Use GPR2 to process project"
+                            & " files (GNATCOLL.Projects is the default)");
 
          package Auto_Dirs is new Parse_Option_List
            (Parser, "-A", "--auto-dir",

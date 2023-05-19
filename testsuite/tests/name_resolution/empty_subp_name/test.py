@@ -16,7 +16,7 @@ end;
 
 ctx = lal.AnalysisContext()
 unit = ctx.get_from_buffer('bla.adb', bla_1)
-unit.populate_lexical_env()
+unit.populate_lexical_env(1)
 
 # The following used to raise a Constraint_Error
 unit = ctx.get_from_buffer('bla.adb', bla_2)

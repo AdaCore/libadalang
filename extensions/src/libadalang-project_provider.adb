@@ -13,6 +13,7 @@ with GNAT.Task_Lock;
 with GNATCOLL.Strings; use GNATCOLL.Strings;
 with GNATCOLL.VFS;     use GNATCOLL.VFS;
 with GPR2.Project.Unit_Info;
+with GPR2.Unit;
 
 with Libadalang.GPR_Utils; use Libadalang.GPR_Utils;
 with Libadalang.Unit_Files;
@@ -57,6 +58,13 @@ package body Libadalang.Project_Provider is
       Name     : Text_Type;
       Kind     : Analysis_Unit_Kind) return String;
 
+   overriding procedure Get_Unit_Location
+     (Provider       : Project_Unit_Provider;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Filename       : in out US.Unbounded_String;
+      PLE_Root_Index : in out Natural);
+
    overriding function Get_Unit
      (Provider    : Project_Unit_Provider;
       Context     : LAL.Analysis_Context'Class;
@@ -64,6 +72,16 @@ package body Libadalang.Project_Provider is
       Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return LAL.Analysis_Unit'Class;
+
+   overriding procedure Get_Unit_And_PLE_Root
+     (Provider       : Project_Unit_Provider;
+      Context        : LAL.Analysis_Context'Class;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Charset        : String := "";
+      Reparse        : Boolean := False;
+      Unit           : in out LAL.Analysis_Unit'Class;
+      PLE_Root_Index : in out Natural);
 
    overriding procedure Release (Provider : in out Project_Unit_Provider);
 
@@ -625,17 +643,40 @@ package body Libadalang.Project_Provider is
    overriding function Get_Unit_Filename
      (Provider : Project_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Analysis_Unit_Kind) return String
+      Kind     : Analysis_Unit_Kind) return String is
+   begin
+      --  Get_Unit_Location is supposed to handle all cases, so this should be
+      --  dead code.
+
+      return (raise Program_Error);
+   end Get_Unit_Filename;
+
+   -----------------------
+   -- Get_Unit_Location --
+   -----------------------
+
+   overriding procedure Get_Unit_Location
+     (Provider       : Project_Unit_Provider;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Filename       : in out US.Unbounded_String;
+      PLE_Root_Index : in out Natural)
    is
-      Str_Name : constant String :=
+      Str_Name  : constant String :=
         Libadalang.Unit_Files.Unit_String_Name (Name);
    begin
-      --  Look for a source file corresponding to Name/Kind in all projects
-      --  associated to this Provider.
-
       case Provider.Data.Kind is
       when GPR1_Kind =>
          begin
+            --  GNATCOLL.Projects does not provide the compilation unit index
+            --  information: we have to assume that there are always at most
+            --  one compilation unit per source file.
+
+            PLE_Root_Index := 1;
+
+            --  Look for a source file corresponding to Name/Kind in all
+            --  projects associated to this Provider.
+
             GNAT.Task_Lock.Lock;
 
             --  Unlike what is documented, it's not because File_From_Unit
@@ -659,7 +700,8 @@ package body Libadalang.Project_Provider is
                      begin
                         if Fullname'Length /= 0 then
                            GNAT.Task_Lock.Unlock;
-                           return Fullname;
+                           Filename := US.To_Unbounded_String (Fullname);
+                           return;
                         end if;
                      end;
                   end if;
@@ -675,21 +717,37 @@ package body Libadalang.Project_Provider is
 
       when GPR2_Kind =>
          declare
-            function Lookup
-              (View   : GPR2.Project.View.Object;
-               Result : out US.Unbounded_String) return Boolean;
-            --  TODO???
+            procedure Set (SUI : GPR2.Unit.Source_Unit_Identifier);
+            --  Set ``Filename`` and ``PLE_Root_Index`` from ``SUI``'s
+
+            function Lookup (View : GPR2.Project.View.Object) return Boolean;
+            --  If ``View`` contains the requested unit, return ``True`` and
+            --  set ``Filename`` to the corresponding filename. Return
+            --  ``False`` otherwise.
 
             Unit_Name : constant GPR2.Name_Type := GPR2.Name_Type (Str_Name);
+
+            ---------
+            -- Set --
+            ---------
+
+            procedure Set (SUI : GPR2.Unit.Source_Unit_Identifier) is
+               use type GPR2.Unit_Index;
+            begin
+               --  GPR2 sets the CU index to 0 when there is no "at N" clause
+               --  in the project file. This is equivalont to "at 1", which is
+               --  what we need here since PLE_Root_Index is a Positive.
+
+               Filename := US.To_Unbounded_String (SUI.Source.Value);
+               PLE_Root_Index :=
+                 (if SUI.Index = 0 then 1 else Positive (SUI.Index));
+            end Set;
 
             ------------
             -- Lookup --
             ------------
 
-            function Lookup
-              (View   : GPR2.Project.View.Object;
-               Result : out US.Unbounded_String) return Boolean
-            is
+            function Lookup (View : GPR2.Project.View.Object) return Boolean is
                Unit : constant GPR2.Project.Unit_Info.Object :=
                  View.Unit (Unit_Name);
             begin
@@ -697,15 +755,12 @@ package body Libadalang.Project_Provider is
                   case Kind is
                      when Unit_Specification =>
                         if Unit.Has_Spec then
-                           Result :=
-                             US.To_Unbounded_String (Unit.Spec.Source.Value);
+                           Set (Unit.Spec);
                            return True;
                         end if;
                      when Unit_Body =>
                         if Unit.Has_Body then
-                           Result :=
-                             US.To_Unbounded_String
-                               (Unit.Main_Body.Source.Value);
+                           Set (Unit.Main_Body);
                            return True;
                         end if;
                   end case;
@@ -714,27 +769,25 @@ package body Libadalang.Project_Provider is
                return False;
             end Lookup;
 
-            Tree   : GPR2.Project.Tree.Object renames
+            Tree : GPR2.Project.Tree.Object renames
               Provider.Data.GPR2_Tree.all;
-            Result : US.Unbounded_String;
          begin
             --  Look for all the requested unit in the closure of all the
             --  projects that this provider handles.
 
             for View of Provider.Projects loop
                for V of Closure (View.GPR2_Value) loop
-                  if Lookup (V, Result) then
-                     return US.To_String (Result);
+                  if Lookup (V) then
+                     return;
                   end if;
                end loop;
             end loop;
 
             --  Also look in the runtime project, if any
 
-            if Tree.Has_Runtime_Project
-               and then Lookup (Tree.Runtime_Project, Result)
+            if Tree.Has_Runtime_Project and then Lookup (Tree.Runtime_Project)
             then
-               return US.To_String (Result);
+               return;
             end if;
          end;
       end case;
@@ -742,25 +795,52 @@ package body Libadalang.Project_Provider is
       --  If we reach this point, we have not found a unit handled by this
       --  provider that matches the requested name/kind.
 
-      return "";
-   end Get_Unit_Filename;
+      Filename := US.Null_Unbounded_String;
+      PLE_Root_Index := 1;
+   end Get_Unit_Location;
 
    --------------
    -- Get_Unit --
    --------------
 
    overriding function Get_Unit
-     (Provider    : Project_Unit_Provider;
-      Context     : LAL.Analysis_Context'Class;
-      Name        : Text_Type;
-      Kind        : Analysis_Unit_Kind;
-      Charset     : String := "";
-      Reparse     : Boolean := False) return LAL.Analysis_Unit'Class
+     (Provider : Project_Unit_Provider;
+      Context  : LAL.Analysis_Context'Class;
+      Name     : Text_Type;
+      Kind     : Analysis_Unit_Kind;
+      Charset  : String := "";
+      Reparse  : Boolean := False) return LAL.Analysis_Unit'Class
    is
-      Filename : constant String := Provider.Get_Unit_Filename (Name, Kind);
+      --  Get_Unit_And_PLE_Root is supposed to handle all cases, so this should
+      --  be dead code.
+
+      pragma Unreferenced (Provider, Context, Name, Kind, Charset, Reparse);
    begin
-      if Filename /= "" then
-         return LAL.Get_From_File (Context, Filename, Charset, Reparse);
+      return (raise Program_Error);
+   end Get_Unit;
+
+   ---------------------------
+   -- Get_Unit_And_PLE_Root --
+   ---------------------------
+
+   overriding procedure Get_Unit_And_PLE_Root
+     (Provider       : Project_Unit_Provider;
+      Context        : LAL.Analysis_Context'Class;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Charset        : String := "";
+      Reparse        : Boolean := False;
+      Unit           : in out LAL.Analysis_Unit'Class;
+      PLE_Root_Index : in out Natural)
+   is
+      Filename : US.Unbounded_String;
+   begin
+      Provider.Get_Unit_Location (Name, Kind, Filename, PLE_Root_Index);
+      pragma Assert (PLE_Root_Index > 0);
+
+      if US.Length (Filename) > 0 then
+         Unit := LAL.Analysis_Unit'Class
+           (Context.Get_From_File (US.To_String (Filename), Charset, Reparse));
       else
          declare
             Dummy_File : constant String :=
@@ -773,10 +853,11 @@ package body Libadalang.Project_Provider is
                "Could not find source file for " & Name & " (" & Kind_Name
                & ")";
          begin
-            return LAL.Get_With_Error (Context, Dummy_File, Error, Charset);
+            Unit := LAL.Analysis_Unit'Class
+              (Context.Get_With_Error (Dummy_File, Error, Charset));
          end;
       end if;
-   end Get_Unit;
+   end Get_Unit_And_PLE_Root;
 
    -------------
    -- Release --

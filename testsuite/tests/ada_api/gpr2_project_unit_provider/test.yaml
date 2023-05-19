@@ -1,4 +1,4 @@
 driver: ada-api
 main: main.adb
 control:
-    - [XFAIL, "True", "Pending resolution of VC13-018"]
+    - [XFAIL, "valgrind", "Pending resolution of S912-003"]

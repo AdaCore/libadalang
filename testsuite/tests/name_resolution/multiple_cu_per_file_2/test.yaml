@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [all_sources.ada]
+project_file: p.gpr

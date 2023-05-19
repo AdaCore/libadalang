@@ -55,10 +55,6 @@ package body Libadalang.Implementation.Extensions is
    function Ada_Node_P_Can_Reach
      (Node, From_Node : Bare_Ada_Node) return Boolean
    is
-      function CU_For (Node : Bare_Ada_Node) return Bare_Compilation_Unit;
-      --  Return the ``Compilation_Unit`` node that owns ``Node``. Return null
-      --  if we cannot find it.
-
       function Can_Reach_In_Same_Unit
         (Node, From_Node : Bare_Ada_Node) return Boolean
       is (From_Node = null
@@ -71,21 +67,6 @@ package body Libadalang.Implementation.Extensions is
       --  For convenience, assume that ``Node`` can be reached if ``From_Node``
       --  is null.
 
-      ------------
-      -- CU_For --
-      ------------
-
-      function CU_For (Node : Bare_Ada_Node) return Bare_Compilation_Unit is
-         Result : constant Bare_Ada_Node :=
-           (if Node = null
-            then null
-            else Node.Unit.Ast_Root);
-      begin
-         return (if Result = null or else Result.Kind /= Ada_Compilation_Unit
-                 then null
-                 else Result);
-      end CU_For;
-
       Node_CU      : Bare_Compilation_Unit;
       From_CU      : Bare_Compilation_Unit;
       From_Subunit : Bare_Subunit;
@@ -95,8 +76,8 @@ package body Libadalang.Implementation.Extensions is
          return True;
       end if;
 
-      Node_CU := CU_For (Node);
-      From_CU := CU_For (From_Node);
+      Node_CU := Ple_Root (Node);
+      From_CU := Ple_Root (From_Node);
 
       --  If Node and From_Node belong to the same unit, just check their
       --  relative position.
@@ -681,7 +662,7 @@ package body Libadalang.Implementation.Extensions is
    function Compilation_Unit_P_Stub_For_Impl
      (Node : Bare_Compilation_Unit; Su : Bare_Subunit) return Bare_Body_Stub
    is
-      CU      : Bare_Compilation_Unit := Su.Unit.Ast_Root;
+      CU      : Bare_Compilation_Unit := Ple_Root (Su);
       Subunit : Bare_Subunit := Su;
       --  Subunit that is currently inspected and its compilation unit
 

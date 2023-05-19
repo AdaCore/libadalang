@@ -1,0 +1,8 @@
+project Multi_Unit_Files_1 is
+   package Naming is
+      for Spec_Suffix ("Ada") use ".1.ada";
+      for Body_Suffix ("Ada") use ".2.ada";
+      for Spec ("objects") use "multi_unit_files.ada" at 1;
+      for Spec ("types") use "multi_unit_files.ada" at 2;
+   end Naming;
+end Multi_Unit_Files_1;

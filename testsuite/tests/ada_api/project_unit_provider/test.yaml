@@ -1,4 +1,4 @@
 driver: ada-api
 main: main.adb
 control:
-    - [XFAIL, "valgrind", "Pending resolution of S912-003"]
+    - [XFAIL, "valgrind", "W320-022: GNATCOLL.Projects leaks no longer fixed"]

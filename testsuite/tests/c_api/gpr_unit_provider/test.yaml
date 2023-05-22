@@ -2,4 +2,4 @@ driver: c-api
 compile_units: [main.c]
 input_sources: []
 control:
-    - [XFAIL, "valgrind", "See W320-022"]
+    - [XFAIL, "valgrind", "W320-022: GNATCOLL.Projects leaks no longer fixed"]

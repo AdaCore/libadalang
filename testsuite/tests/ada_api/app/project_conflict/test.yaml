@@ -3,4 +3,4 @@ main: main.adb
 argv: [-Pagg.gpr]
 status_code: 1
 control:
-    - [XFAIL, "valgrind", "See W320-022"]
+    - [XFAIL, "valgrind", "W320-022: GNATCOLL.Projects leaks no longer fixed"]

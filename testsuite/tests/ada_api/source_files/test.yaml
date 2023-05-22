@@ -1,4 +1,5 @@
 driver: ada-api
 main: main.adb
 control:
-   - [XFAIL, "valgrind", "GNATCOLL.Projects leaks are not longer fixed"]
+    - [XFAIL, "valgrind", "W320-022: GNATCOLL.Projects leaks no longer fixed"]
+    - [XFAIL, "valgrind", "Pending resolution of eng/gpr/gpr-issues#43"]

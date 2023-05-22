@@ -1,5 +1,3 @@
 driver: c-api
 compile_units: [main.c]
 input_sources: []
-control:
-   - [XFAIL, "valgrind", "GNATCOLL.Projects leaks are no longer fixed"]

@@ -4,4 +4,5 @@ main:
   - projects.adb
   - sources.adb
 control:
-    - [XFAIL, "valgrind", "Pending resolution of V506-022"]
+    - [XFAIL, "valgrind", "Pending resolution of eng/gpr/gpr-issues#43"]
+    - [XFAIL, "valgrind", "W320-022: GNATCOLL.Projects leaks no longer fixed"]

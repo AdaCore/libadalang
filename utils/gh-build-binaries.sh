@@ -30,7 +30,7 @@ build_archive()
   cd xmlada*
   ./configure --prefix=$prefix ${DEBUG:+--enable-build=Debug}
   make $LIBRARY_TYPE install-$LIBRARY_TYPE \
-    GPRBUILD_OPTIONS="-cargs -gnatwn -gargs"
+    GPRBUILD_OPTIONS="-cargs -g1 -gnatwn -gargs"
   cd ..
 
   make -C gprbuild prefix=$prefix BUILD=${DEBUG:-production} \
@@ -39,10 +39,11 @@ build_archive()
 
   BUILD=`echo $DEBUG| tr [a-z] [A-Z]`  # Convert to uppercase
 
-  make -C gnatcoll-core prefix=$prefix BUILD=${BUILD:-PROD} LIBRARY_TYPES=$LIBRARY_TYPE build install
-  python gnatcoll-bindings/iconv/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=$LIBRARY_TYPE
+  make -C gnatcoll-core prefix=$prefix BUILD=${BUILD:-PROD} LIBRARY_TYPES=$LIBRARY_TYPE \
+    GPRBUILD_OPTIONS="-cargs -g1 -gargs" build install
+  ADAFLAGS=-g1 CFLAGS=-g1 python gnatcoll-bindings/iconv/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=$LIBRARY_TYPE
   python gnatcoll-bindings/iconv/setup.py install
-  python gnatcoll-bindings/gmp/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=$LIBRARY_TYPE
+  ADAFLAGS=-g1 CFLAGS=-g1 python gnatcoll-bindings/gmp/setup.py build ${DEBUG:+--debug} -j0 --prefix=$prefix --library-types=$LIBRARY_TYPE
   python gnatcoll-bindings/gmp/setup.py install
 
   BUILD=${DEBUG:+dev}  # Convert debug to dev
@@ -51,25 +52,23 @@ build_archive()
   gprbuild -p -P langkit/langkit/adasat/adasat.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod}
   gprinstall -p -P langkit/langkit/adasat/adasat.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod} --prefix=$prefix
 
-  langkit/manage.py build-langkit-support --library-types=$LIBRARY_TYPE
-  langkit/manage.py install-langkit-support $prefix --library-types=$LIBRARY_TYPE
+  langkit/manage.py build-langkit-support --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod}
+  langkit/manage.py install-langkit-support $prefix --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod}
 
-  make -C gpr2 setup prefix=$prefix GPR2_BUILD=${DEBUG:-release} GPR2KBDIR=./gprconfig_kb/db build-lib-$LIBRARY_TYPE install-lib-$LIBRARY_TYPE
+  make -C gpr2 setup prefix=$prefix GPR2_BUILD=${DEBUG:-release} \
+    GPRBUILD_OPTIONS="-cargs -g1 -gargs" GPR2KBDIR=./gprconfig_kb/db \
+    build-lib-$LIBRARY_TYPE install-lib-$LIBRARY_TYPE
   # Build libadalang static library
   ./manage.py generate
 
-  if [ $LIBRARY_TYPE = "static" ]; then
-    # Disable SAL for static libadalang library
-    sed -i -e '/for .*Interface.* use/,/;/d' ./build/libadalang.gpr
-  fi
+  GPR_PROJECT_PATH=$prefix/share/gpr \
+  ./manage.py build --disable-all-mains --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod}
 
-  ./manage.py build --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod}
-  ./manage.py install --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod} $prefix
-  gprinstall --uninstall --prefix=$prefix mains.gpr
+  ./manage.py install --disable-all-mains --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod} $prefix
   tar czf libadalang-$RUNNER_OS-`basename $GITHUB_REF`${DEBUG:+-dbg}-$LIBRARY_TYPE.tar.gz -C $prefix .
 }
 
-# Disable SAL for static langkit library
-sed -i -e '/for .*Interface.* use/,/;/d' langkit/langkit/support/langkit_support.gpr
+# Disable SAL for static libadalang library
+export STANDALONE=no
 
 build_archive "static" "static"

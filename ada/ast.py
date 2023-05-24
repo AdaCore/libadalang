@@ -5798,7 +5798,8 @@ class BaseTypeDecl(BasicDecl):
     )
 
     is_implicit_deref = Property(
-        Entity.is_access_type | Not(Entity.get_imp_deref.is_null),
+        Entity.access_def.then(lambda d: Not(d.is_a(AccessToSubpDef)))
+        | Not(Entity.get_imp_deref.is_null),
         doc="Whether Self is an implicitly dereferenceable type or not",
         dynamic_vars=[origin]
     )
@@ -14336,6 +14337,16 @@ class CallExpr(Name):
                 )).env_group()
             )
         )
+
+    @langkit_property()
+    def designated_env_no_overloading():
+        """
+        A call expression can never provide any dot-accessible entities in
+        a "no overloading" context. In other words, it's never valid to have
+        a ``CallExpr`` in the middle of a name that designates a type, so we
+        can return an empty environment.
+        """
+        return EmptyEnv
 
     @langkit_property()
     def env_elements_impl():

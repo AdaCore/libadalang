@@ -1,0 +1,9 @@
+type: bugfix
+title: Improve performance of sequenced dot calls
+description: |
+  This change implements an optimization inside the name resolution mechanism
+  to avoid unnecessary computations when resolving a call with the dot
+  notation. While unnoticeable on small sequences, chaining dozens of them
+  could rapidly become abnormally slow. It should now behave about the same as
+  calls done without the dot notation.
+date: 2023-03-02

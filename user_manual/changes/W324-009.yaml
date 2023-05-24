@@ -1,0 +1,20 @@
+type: bugfix
+title: Nameres array indexing after access-to-function call
+description: |
+  This change fixes a bug where name resolution would fail on expressions
+  involving an array indexing when the array is the result of a call to
+  an access-to-subprogram object, as illustrated by the following example:
+
+  .. code:: ada
+
+     type Arr is array (Positive range <>) of Integer;
+
+     function Bar
+       (F : access function (X : Positive) return Arr) return Integer
+     is
+     begin
+        return F (2) (1); --  name resolution failure here
+     end Bar;
+
+
+date: 2023-03-24

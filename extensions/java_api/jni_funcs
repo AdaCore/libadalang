@@ -8,6 +8,7 @@ nat = c_api.get_name
     @CompilerDirectives.TruffleBoundary
     public static native PointerWrapper ${nat("gpr_project_load")}(
         String projectFile,
+        ScenarioVariable[] scenarioVariables,
         String target,
         String runtime
     );

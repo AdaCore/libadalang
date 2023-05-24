@@ -12,6 +12,13 @@ File pk4.ads
   root = <CompilationUnit pk4.ads:1:1-6:9>
 -------------------
 
+--- Open p2.gpr ---
+File pk3_bis.ads
+  root = <CompilationUnit pk3_bis.ads:1:1-6:13>
+File pk4_bis.ads
+  root = <CompilationUnit pk4_bis.ads:1:1-6:13>
+-------------------
+
 --- Open invalid.gpr ---
 gnatcoll-projects.adb:XXX:
 invalid.gpr:1:27: ":=" expected

@@ -93,6 +93,128 @@ nat = c_api.get_name
     }
 
     /**
+     * This class represents a scenario variable for a GPR project file.
+     */
+    public static final class ScenarioVariable {
+
+        // ----- Class attributes -----
+
+        /** Singleton that represents the none scenario variable. */
+        public static final ScenarioVariable NONE =
+            new ScenarioVariable(null, null);
+
+        // ----- Instance attributes -----
+
+        /** The name of the variable. */
+        public final String name;
+
+        /** The value of the variable. */
+        public final String value;
+
+        // ----- Constructors -----
+
+        /**
+         * Create a new scenario variable with its name and value.
+         *
+         * @param name Name of the variable.
+         * @param value Value of the variable.
+         */
+        ScenarioVariable(
+            final String name,
+            final String value
+        ) {
+            this.name = name;
+            this.value = value;
+        }
+
+        /**
+         * Public method to create scenario variable.
+         * This method raise a runtime exception if name or value is null.
+         *
+         * @param name Name of the variable.
+         * @param value Value of the variable.
+         */
+        public static ScenarioVariable create(
+            final String name,
+            final String value
+        ) {
+            if(name == null) throw new RuntimeException("Scenario variable name cannot be null");
+            if(value == null) throw new RuntimeException("Scenario variable value cannot be null");
+            return new ScenarioVariable(name, value);
+        }
+
+        // ----- Graal C API methods -----
+
+        /**
+         * Wrap the given pointer to a native scenario variable.
+         *
+         * @param pointer The pointer to the native scenario variable.
+         * @return The wrapped scenario variable.
+         */
+        public static ScenarioVariable wrap(
+            final Pointer pointer
+        ) {
+            return wrap((ScenarioVariableNative) pointer.readWord(0));
+        }
+
+        /**
+         * Wrap the given native scenario variable.
+         *
+         * @param scenarioVariableNative The native scenario variable.
+         * @return The wrapped scenario variable.
+         */
+        public static ScenarioVariable wrap(
+            final ScenarioVariableNative scenarioVariableNative
+        ) {
+            final CCharPointer nameNative = scenarioVariableNative.get_name();
+            final CCharPointer valueNative = scenarioVariableNative.get_value();
+            return new ScenarioVariable(
+                nameNative.isNull() ?
+                    null :
+                    toJString(nameNative),
+                valueNative.isNull() ?
+                    null :
+                    toJString(valueNative)
+            );
+        }
+
+        /**
+         * Unwrap the scenario variable in the given native value.
+         *
+         * @param scenarioVariableNative The native value to fill.
+         */
+        public void unwrap(
+            final ScenarioVariableNative scenarioVariableNative
+        ) {
+            final CCharPointer nameNative = this.name == null ?
+                WordFactory.nullPointer() :
+                toCString(this.name);
+            final CCharPointer valueNative = this.value == null ?
+                WordFactory.nullPointer() :
+                toCString(this.value);
+            scenarioVariableNative.set_name(nameNative);
+            scenarioVariableNative.set_value(valueNative);
+        }
+
+        /**
+         * Release the given native scenario variable allocated strings.
+         *
+         * @param scenarioVariableNative The native scenario variable to release.
+         */
+        public static void release(
+            final ScenarioVariableNative scenarioVariableNative
+        ) {
+            if(scenarioVariableNative.get_name().isNonNull()) {
+                UnmanagedMemory.free(scenarioVariableNative.get_name());
+            }
+            if(scenarioVariableNative.get_value().isNonNull()) {
+                UnmanagedMemory.free(scenarioVariableNative.get_value());
+            }
+        }
+
+    }
+
+    /**
      * This class is used for the GPR project loading.
      */
     public static final class ProjectManager implements AutoCloseable {
@@ -126,21 +248,57 @@ nat = c_api.get_name
         }
 
         /**
+         * Create a project manager for the given project file.
+         *
+         * @param projectFile The GPR project file to load.
+         * @return The newly created project manager.
+         */
+        public static ProjectManager create(
+            final String projectFile
+        ) {
+            return create(
+                projectFile,
+                null,
+                "",
+                ""
+            );
+        }
+
+        /**
          * Create a project manager from a project file, target and runtime.
          *
          * @param projectFile The GPR file to load.
-         * @param scenarioVariables The scenario variables for the GPR file.
+         * @param scenarioVariables The scenario variables for the project, it can be null.
          * @param target The target to load.
          * @param runtime The runtime to load.
          * @return The newly created project manager.
          */
         public static ProjectManager create(
             final String projectFile,
+            final ScenarioVariable[] scenarioVariables,
             final String target,
             final String runtime
         ) {
 
             if(ImageInfo.inImageCode()) {
+                // Create the scenario variable array
+                final Pointer scenarioVariablesNative;
+                final int scenarioVariableNativeSize = SizeOf.get(ScenarioVariableNative.class);
+
+                if(scenarioVariables != null && scenarioVariables.length > 0) {
+                    final int size = scenarioVariables.length + 1;
+                    scenarioVariablesNative = UnmanagedMemory.calloc(
+                        size * scenarioVariableNativeSize
+                    );
+                    for(int i = 0 ; i < scenarioVariables.length ; i++) {
+                        final ScenarioVariableNative scenarioVariableNative = (ScenarioVariableNative)
+                            scenarioVariablesNative.add(i * scenarioVariableNativeSize);
+                        scenarioVariables[i].unwrap(scenarioVariableNative);
+                    }
+                } else {
+                    scenarioVariablesNative = WordFactory.nullPointer();
+                }
+
                 // Call the native project loading function
                 final CCharPointer projectFileNative = toCString(projectFile);
                 final CCharPointer targetNative = toCString(target);
@@ -151,12 +309,24 @@ nat = c_api.get_name
                 errorsPointer.writeWord(0, WordFactory.nullPointer());
                 NI_LIB.${nat("gpr_project_load")}(
                     projectFileNative,
-                    WordFactory.nullPointer(),
+                    scenarioVariablesNative,
                     targetNative,
                     runtimeNative,
                     projectPointer,
                     errorsPointer
                 );
+
+                // Free the scenario variables
+                if(scenarioVariablesNative.isNonNull()) {
+                    for(int i = 0 ; i < scenarioVariables.length ; i++) {
+                        final ScenarioVariableNative scenarioVariableNative = (ScenarioVariableNative)
+                            scenarioVariablesNative.add(i * scenarioVariableNativeSize);
+                        ScenarioVariable.release(scenarioVariableNative);
+                    }
+                    UnmanagedMemory.free(scenarioVariablesNative);
+                }
+
+                // Free the allocated strings
                 UnmanagedMemory.free(projectFileNative);
                 UnmanagedMemory.free(targetNative);
                 UnmanagedMemory.free(runtimeNative);
@@ -168,7 +338,7 @@ nat = c_api.get_name
                         (StringArrayNative) errorsPointer.readWord(0)
                     );
                     for (String error : errors) {
-                        System.err.println("Error during project opening : " + error);
+                        System.err.println("Error during project opening: " + error);
                     }
 
                     // Free the error array
@@ -188,6 +358,7 @@ nat = c_api.get_name
             } else {
                 final PointerWrapper reference = JNI_LIB.${nat("gpr_project_load")}(
                     projectFile,
+                    scenarioVariables,
                     target,
                     runtime
                 );

@@ -1,5 +1,6 @@
 <%
 string_array_struct = capi.get_name('string_array_ptr_struct')
+scn_var_type = capi.get_name('gpr_project_scenario_variable')
 %>
 
     // ===== Native structures =====
@@ -16,4 +17,15 @@ string_array_struct = capi.get_name('string_array_ptr_struct')
 
         @CField("c_ptr") public CCharPointerPointer get_c_ptr();
         @CField("c_ptr") public void set_c_ptr(CCharPointerPointer c_ptr);
+    }
+
+    /** Structure for a scenrio variable. */
+    @CContext(LibDirectives.class)
+    @CStruct("${scn_var_type}")
+    public interface ScenarioVariableNative extends PointerBase {
+        @CField("name") public CCharPointer get_name();
+        @CField("name") public void set_name(CCharPointer name);
+
+        @CField("value") public CCharPointer get_value();
+        @CField("value") public void set_value(CCharPointer value);
     }

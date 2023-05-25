@@ -11,6 +11,8 @@ with GPR2.Path_Name;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 
+with Langkit_Support.Text; use Langkit_Support.Text;
+
 with Libadalang.Analysis;         use Libadalang.Analysis;
 with Libadalang.Common;           use Libadalang.Common;
 with Libadalang.Iterators;        use Libadalang.Iterators;
@@ -40,6 +42,7 @@ procedure Main is
       Tree.Load_Autoconf
         (Filename => GPR2.Path_Name.Create_File (GPR2.Filename_Type (File)),
          Context  => GPR2.Context.Empty);
+      Tree.Update_Sources (With_Runtime => True);
       if Project'Length > 0 then
          for V of Tree.Ordered_Views loop
             if To_Lower (String (V.Name)) = To_Lower (Project) then
@@ -70,6 +73,34 @@ procedure Main is
                    & Ada.Exceptions.Exception_Message (Exc));
    end Try_Loading_Project;
 
+   -------------
+   -- Resolve --
+   -------------
+
+   procedure Resolve (Project : String; Unit_Name : Text_Type) is
+   begin
+      Put_Line ("== Resolutions in " & Project & " ==");
+      New_Line;
+      declare
+         Ctx  : constant Analysis_Context :=
+            Create_Context (Unit_Provider => Load_Project (Project));
+         Unit : constant Analysis_Unit :=
+            Get_From_Provider (Ctx, Unit_Name, Unit_Specification);
+         Root : constant Ada_Node := Unit.Root;
+
+         Subtype_Ind : constant Subtype_Indication := Find_First
+           (Root, Kind_Is (Ada_Subtype_Indication)).As_Subtype_Indication;
+         Res_Type    : constant Ada_Node_Array :=
+            Subtype_Ind.F_Name.P_Matching_Nodes;
+      begin
+         Put_Line (Subtype_Ind.Image & " resolves to:");
+         for E of Res_Type loop
+            Put_Line ("  " & E.Image);
+         end loop;
+      end;
+      New_Line;
+   end Resolve;
+
 begin
    Try_Loading_Project ("unsupported_aggr.gpr");
    Try_Loading_Project ("unsupported_aggr.gpr", "unsupported_aggr");
@@ -80,24 +111,11 @@ begin
    Try_Loading_Project ("supported_chained_aggr.gpr");
    Try_Loading_Project ("supported_chained_aggr.gpr",
                         "supported_chained_aggr");
+   New_Line;
 
-   declare
-      Ctx  : constant Analysis_Context :=
-         Create_Context (Unit_Provider => Load_Project ("p.gpr"));
-      Unit : constant Analysis_Unit :=
-         Get_From_Provider (Ctx, "p2", Unit_Specification);
-      Root : constant Ada_Node := Unit.Root;
-
-      Subtype_Ind : constant Subtype_Indication := Find_First
-        (Root, Kind_Is (Ada_Subtype_Indication)).As_Subtype_Indication;
-      Res_Type    : constant Ada_Node_Array :=
-         Subtype_Ind.F_Name.P_Matching_Nodes;
-   begin
-      Put_Line (Subtype_Ind.Image & " resolves to:");
-      for E of Res_Type loop
-         Put_Line ("  " & E.Image);
-      end loop;
-   end;
+   Resolve ("p.gpr", "p2");
+   Resolve ("multi_unit_files_1.gpr", "objects");
+   Resolve ("multi_unit_files_2.gpr", "objects");
 
    Put_Line ("Done.");
 end Main;

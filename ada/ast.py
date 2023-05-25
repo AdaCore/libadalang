@@ -19760,6 +19760,8 @@ class CompilationUnit(AdaNode):
     Root node for all Ada analysis units (:rmlink:`10.1.1`).
     """
 
+    annotations = Annotations(ple_unit_root=True)
+
     prelude = Field(doc="``with``, ``use`` or ``pragma`` statements.")
     body = Field(type=T.AdaNode)
     pragmas = Field(type=T.Pragma.list)

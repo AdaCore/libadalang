@@ -24,9 +24,10 @@ package body Libadalang.Auto_Provider is
    --  called on the file base name) returns True.
 
    procedure Add_Entry
-     (Provider : in out Auto_Unit_Provider;
-      Filename : Virtual_File;
-      CU       : Compilation_Unit);
+     (Provider       : in out Auto_Unit_Provider;
+      Filename       : Unbounded_String;
+      CU             : Compilation_Unit;
+      PLE_Root_Index : Positive);
    --  Add a CU -> Filename entry to Provider.Mapping
 
    ---------------
@@ -34,9 +35,10 @@ package body Libadalang.Auto_Provider is
    ---------------
 
    procedure Add_Entry
-     (Provider : in out Auto_Unit_Provider;
-      Filename : Virtual_File;
-      CU       : Compilation_Unit)
+     (Provider       : in out Auto_Unit_Provider;
+      Filename       : Unbounded_String;
+      CU             : Compilation_Unit;
+      PLE_Root_Index : Positive)
    is
       use Ada.Strings.Wide_Wide_Unbounded;
 
@@ -53,12 +55,14 @@ package body Libadalang.Auto_Provider is
       end loop;
 
       declare
-         Key      : constant Symbol_Type := As_Key (To_Wide_Wide_String (Name),
-                                                    Kind, Provider);
-         Dummy_Cur : CU_To_File_Maps.Cursor;
+         Key       : constant Symbol_Type :=
+           As_Key (To_Wide_Wide_String (Name), Kind, Provider);
+         Value     : constant Filename_And_PLE_Root :=
+           (Filename, PLE_Root_Index);
+         Dummy_Cur : Unit_Maps.Cursor;
          Inserted  : Boolean;
       begin
-         Provider.Mapping.Insert (Key, Filename, Dummy_Cur, Inserted);
+         Provider.Mapping.Insert (Key, Value, Dummy_Cur, Inserted);
 
          --  TODO??? Somehow report duplicate entries
          pragma Unreferenced (Inserted);
@@ -141,19 +145,45 @@ package body Libadalang.Auto_Provider is
    overriding function Get_Unit_Filename
      (Provider : Auto_Unit_Provider;
       Name     : Text_Type;
-      Kind     : Analysis_Unit_Kind) return String
-   is
-      use CU_To_File_Maps;
-
-      Cur : constant Cursor := Provider.Mapping.Find
-        (As_Key (Name, Kind, Provider));
+      Kind     : Analysis_Unit_Kind) return String is
    begin
-      if Cur = No_Element then
-         return "";
-      else
-         return +Full_Name (Element (Cur));
-      end if;
+      --  Get_Unit_Location is supposed to handle all cases, so this should be
+      --  dead code.
+
+      pragma Unreferenced (Provider, Name, Kind);
+      return (raise Program_Error);
    end Get_Unit_Filename;
+
+   -----------------------
+   -- Get_Unit_Location --
+   -----------------------
+
+   overriding procedure Get_Unit_Location
+     (Provider       : Auto_Unit_Provider;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Filename       : in out Unbounded_String;
+      PLE_Root_Index : in out Natural)
+   is
+      use Unit_Maps;
+
+      Mapping : Map renames Provider.Mapping;
+      Cur     : constant Cursor :=
+        Mapping.Find (As_Key (Name, Kind, Provider));
+   begin
+      if Has_Element (Cur) then
+         declare
+            Value : Filename_And_PLE_Root renames
+              Mapping.Constant_Reference (Cur);
+         begin
+            Filename := Value.Filename;
+            PLE_Root_Index := Value.PLE_Root_Index;
+         end;
+      else
+         Filename := Null_Unbounded_String;
+         PLE_Root_Index := 1;
+      end if;
+   end Get_Unit_Location;
 
    --------------
    -- Get_Unit --
@@ -167,10 +197,37 @@ package body Libadalang.Auto_Provider is
       Charset     : String := "";
       Reparse     : Boolean := False) return Analysis_Unit'Class
    is
-      Filename : constant String := Provider.Get_Unit_Filename (Name, Kind);
+      --  Get_Unit_And_PLE_Root is supposed to handle all cases, so this should
+      --  be dead code.
+
+      pragma Unreferenced (Provider, Context, Name, Kind, Charset, Reparse);
    begin
-      if Filename /= "" then
-         return Get_From_File (Context, Filename, Charset, Reparse);
+      return (raise Program_Error);
+   end Get_Unit;
+
+   ---------------------------
+   -- Get_Unit_And_PLE_Root --
+   ---------------------------
+
+   overriding procedure Get_Unit_And_PLE_Root
+     (Provider       : Auto_Unit_Provider;
+      Context        : Analysis_Context'Class;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Charset        : String := "";
+      Reparse        : Boolean := False;
+      Unit           : in out Analysis_Unit'Class;
+      PLE_Root_Index : in out Natural)
+   is
+      Filename : Unbounded_String;
+   begin
+      Provider.Get_Unit_Location (Name, Kind, Filename, PLE_Root_Index);
+      pragma Assert (PLE_Root_Index > 0);
+
+      if Length (Filename) > 0 then
+         Unit :=
+           Analysis_Unit'Class
+             (Context.Get_From_File (To_String (Filename), Charset, Reparse));
       else
          declare
             Dummy_File : constant String :=
@@ -183,10 +240,11 @@ package body Libadalang.Auto_Provider is
                "Could not find source file for " & Name & " (" & Kind_Name
                & ")";
          begin
-            return Get_With_Error (Context, Dummy_File, Error, Charset);
+            Unit := Analysis_Unit'Class
+              (Context.Get_With_Error (Dummy_File, Error, Charset));
          end;
       end if;
-   end Get_Unit;
+   end Get_Unit_And_PLE_Root;
 
    -------------
    -- Release --
@@ -210,30 +268,43 @@ package body Libadalang.Auto_Provider is
       Context : constant Analysis_Context := Create_Context (Charset);
    begin
       --  Go through every input file and try to parse them
-      for File of Input_Files loop
+
+      for Filename_VFS of Input_Files loop
          declare
-            F    : constant String := +File.Full_Name;
+            Filename_String : constant String := +Filename_VFS.Full_Name;
+            Filename_Unb    : constant Unbounded_String :=
+              To_Unbounded_String (Filename_String);
+
             Unit : constant Analysis_Unit :=
-               Get_From_File (Context, F, Reparse => True);
+              Get_From_File (Context, Filename_String, Reparse => True);
             R    : constant Ada_Node := Root (Unit);
          begin
             if not Has_Diagnostics (Unit) then
+
                --  If parsing went fine, add the compilation units File
                --  contains to our internal mapping.
                --
                --  TODO??? Somehow report parsing errors.
+
                case Unit_Files.Root_Nodes (R.Kind) is
                   when Ada_Compilation_Unit =>
-                     Add_Entry (Provider, File, R.As_Compilation_Unit);
+                     Add_Entry
+                       (Provider, Filename_Unb, R.As_Compilation_Unit, 1);
                   when Ada_Compilation_Unit_List =>
-                     for CU of R.Children loop
-                        Add_Entry (Provider, File, CU.As_Compilation_Unit);
+                     for I in 1 .. R.Children_Count loop
+                        Add_Entry
+                          (Provider,
+                           Filename_Unb,
+                           R.Child (I).As_Compilation_Unit,
+                           I);
                      end loop;
 
                   when Ada_Pragma_Node_List =>
+
                      --  This could be a configuration pragma file, or a body
                      --  that contains just "pragma No_Body;". In any case,
                      --  there is no entry to register here.
+
                      null;
                end case;
             end if;

@@ -1,0 +1,8 @@
+project P is
+   package Naming is
+      for Spec_Suffix ("Ada") use ".1.ada";
+      for Body_Suffix ("Ada") use ".2.ada";
+      for Spec ("objects") use "all_sources.ada" at 1;
+      for Spec ("types") use "all_sources.ada" at 2;
+   end Naming;
+end P;

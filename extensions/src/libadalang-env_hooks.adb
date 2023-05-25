@@ -218,8 +218,10 @@ package body Libadalang.Env_Hooks is
       Process_Parents    : Boolean := True) return Internal_Unit
    is
 
-      procedure Prepare_Nameres (Unit : Internal_Unit);
-      --  Prepare semantic analysis and add a reference from ``From_Unit`` to
+      procedure Prepare_Nameres
+        (Unit : Internal_Unit; PLE_Root_Index : Positive);
+      --  Prepare semantic analysis for the compilation unit at
+      --  ``Unit``/``PLE_Root_Index`` and add a reference from ``From_Unit`` to
       --  ``Unit``.
 
       procedure Emit_Unit_Requested
@@ -233,10 +235,11 @@ package body Libadalang.Env_Hooks is
       -- Prepare_Nameres --
       ---------------------
 
-      procedure Prepare_Nameres (Unit : Internal_Unit) is
+      procedure Prepare_Nameres
+        (Unit : Internal_Unit; PLE_Root_Index : Positive) is
       begin
          if Unit.Ast_Root /= null then
-            Populate_Lexical_Env (Wrap_Unit (Unit));
+            Populate_Lexical_Env (Wrap_Unit (Unit), PLE_Root_Index);
             Reference_Unit (From       => From_Unit,
                             Referenced => Unit);
          end if;
@@ -265,24 +268,39 @@ package body Libadalang.Env_Hooks is
          end if;
       end Emit_Unit_Requested;
 
-      UFP       : constant Internal_Unit_Provider_Access := Ctx.Unit_Provider;
-      Unit_Name : constant Text_Type := To_String (Name);
-      Unit      : Internal_Unit;
+      Unit_Name      : constant Text_Type := To_String (Name);
+      Unit           : Internal_Unit;
+      PLE_Root_Index : Positive;
    begin
       --  If we must not load missing units and this one is missing, do
       --  nothing.
 
-      if not Load_If_Needed
-         and then not Has_Unit (Ctx, UFP.Get_Unit_Filename (Unit_Name, Kind))
-      then
-         return null;
+      if not Load_If_Needed then
+         declare
+            Filename : String_Access;
+         begin
+            Get_Unit_Location
+              (Context        => Ctx,
+               Name           => Unit_Name,
+               Kind           => Kind,
+               Filename       => Filename,
+               PLE_Root_Index => PLE_Root_Index);
+            if not Has_Unit (Ctx, Filename.all) then
+               return null;
+            end if;
+         end;
       end if;
 
       --  If we are not preparing nameres, we can directly return the unit
       --  corresponding to the entire name.
 
       if not Do_Prepare_Nameres then
-         Unit := UFP.Get_Unit (Ctx, Unit_Name, Kind);
+         Get_Unit_And_PLE_Root
+           (Context        => Ctx,
+            Name           => Unit_Name,
+            Kind           => Kind,
+            Unit           => Unit,
+            PLE_Root_Index => PLE_Root_Index);
          return Unit;
       end if;
 
@@ -303,8 +321,13 @@ package body Libadalang.Env_Hooks is
                   Lookup_Symbol (Ctx, SP.all);
                SP_FQN    : constant Symbol_Type_Array := Name & SP_Symbol;
             begin
-               Prepare_Nameres
-                 (UFP.Get_Unit (Ctx, To_String (SP_FQN), Kind));
+               Get_Unit_And_PLE_Root
+                 (Context        => Ctx,
+                  Name           => To_String (SP_FQN),
+                  Kind           => Kind,
+                  Unit           => Unit,
+                  PLE_Root_Index => PLE_Root_Index);
+               Prepare_Nameres (Unit, PLE_Root_Index);
             end;
          end loop;
       end if;
@@ -314,9 +337,14 @@ package body Libadalang.Env_Hooks is
       --  callback" event.
 
       if not Process_Parents then
-         Unit := UFP.Get_Unit (Ctx, Unit_Name, Kind);
+         Get_Unit_And_PLE_Root
+           (Context        => Ctx,
+            Name           => Unit_Name,
+            Kind           => Kind,
+            Unit           => Unit,
+            PLE_Root_Index => PLE_Root_Index);
          Emit_Unit_Requested (Unit, Not_Found_Is_Error);
-         Prepare_Nameres (Unit);
+         Prepare_Nameres (Unit, PLE_Root_Index);
          return Unit;
       end if;
 
@@ -359,7 +387,12 @@ package body Libadalang.Env_Hooks is
             --  we mean to fetch ``B``'s body, unless ``B`` is a subunit (in
             --  that case ``A`` must have a body).
          begin
-            Unit := UFP.Get_Unit (Ctx, Current_Name, I_Kind);
+            Get_Unit_And_PLE_Root
+              (Context        => Ctx,
+               Name           => Current_Name,
+               Kind           => I_Kind,
+               Unit           => Unit,
+               PLE_Root_Index => PLE_Root_Index);
 
             --  If we are trying to fetch a dependency of the requested unit,
             --  it may be a subunit: if fetching a spec did not work, try
@@ -367,9 +400,15 @@ package body Libadalang.Env_Hooks is
 
             if not Is_Last and then Unit.Ast_Root = null then
                declare
-                  B : constant Internal_Unit :=
-                    UFP.Get_Unit (Ctx, Current_Name, Unit_Body);
+                  B : Internal_Unit;
+                  I : Positive;
                begin
+                  Get_Unit_And_PLE_Root
+                    (Context        => Ctx,
+                     Name           => Current_Name,
+                     Kind           => Unit_Body,
+                     Unit           => B,
+                     PLE_Root_Index => I);
                   Emit_Unit_Requested
                     (Unit => B, Not_Found_Is_Error => False);
 
@@ -378,6 +417,7 @@ package body Libadalang.Env_Hooks is
 
                   if B.Ast_Root /= null then
                      Unit := B;
+                     PLE_Root_Index := I;
                   end if;
                end;
             end if;
@@ -390,7 +430,7 @@ package body Libadalang.Env_Hooks is
               (Unit               => Unit,
                Not_Found_Is_Error => not Is_Last or else Not_Found_Is_Error);
 
-            Prepare_Nameres (Unit);
+            Prepare_Nameres (Unit, PLE_Root_Index);
 
             --  We're on the last portion of the name: return
 
@@ -481,7 +521,7 @@ package body Libadalang.Env_Hooks is
          Rule        => Default_Grammar_Rule,
          Is_Internal => True);
    begin
-      Populate_Lexical_Env (Std);
+      Populate_Lexical_Env (Std, 1);
    end Fetch_Standard;
 
 end Libadalang.Env_Hooks;

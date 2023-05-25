@@ -18,7 +18,23 @@ Loading supported_chained_aggr.gpr...
 Loading supported_chained_aggr.gpr...
    Targetting subproject supported_chained_aggr
    Success
+
+== Resolutions in p.gpr ==
+
 Loading p.gpr...
 <SubtypeIndication p2.ada_specification:4:8-4:22> resolves to:
   <ConcreteTypeDecl ["Record_Type"] p1.ada_specification:2:4-2:36>
+
+== Resolutions in multi_unit_files_1.gpr ==
+
+Loading multi_unit_files_1.gpr...
+<SubtypeIndication multi_unit_files.ada:4:9-4:17> resolves to:
+  <ConcreteTypeDecl ["T1"] multi_unit_files.ada:8:4-8:27>
+
+== Resolutions in multi_unit_files_2.gpr ==
+
+Loading multi_unit_files_2.gpr...
+<SubtypeIndication multi_unit_files.ada:4:9-4:17> resolves to:
+  <ConcreteTypeDecl ["T1"] multi_unit_files.ada:8:4-8:27>
+
 Done.

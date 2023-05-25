@@ -11,7 +11,7 @@ origin_decls = []
 units = [ctx.get_from_file(f) for f in sys.argv[1:]]
 
 for u in units:
-    u.populate_lexical_env()
+    u.populate_lexical_env(1)
     test_decls.extend(u.root.findall(
         lambda n:
         n.is_a(lal.BasicDecl) and

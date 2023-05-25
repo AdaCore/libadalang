@@ -1,0 +1,21 @@
+Analyzing all_sources.ada
+#########################
+
+Resolving xrefs for node <ObjectDecl ["O1"] all_sources.ada:4:4-4:18>
+*********************************************************************
+
+Expr: <DottedName all_sources.ada:4:9-4:17>
+  references:    <DefiningName "T1" all_sources.ada:9:9-9:11>
+  type:          None
+  expected type: None
+Expr: <Id "Types" all_sources.ada:4:9-4:14>
+  references:    <DefiningName "Types" all_sources.ada:8:9-8:14>
+  type:          None
+  expected type: None
+Expr: <Id "T1" all_sources.ada:4:15-4:17>
+  references:    <DefiningName "T1" all_sources.ada:9:9-9:11>
+  type:          None
+  expected type: None
+
+
+Done.

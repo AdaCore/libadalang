@@ -1,4 +1,3 @@
---
 --  Copyright (C) 2014-2022, AdaCore
 --  SPDX-License-Identifier: Apache-2.0
 --
@@ -10,14 +9,15 @@
 --  It is useful in order to easily run Libadalang on a complex project that
 --  does not have its own GPR project file.
 
-with Langkit_Support.Symbols;
-
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 private with Ada.Containers.Hashed_Maps;
 
 with GNAT.Regexp;
 with GNAT.Regpat;
 
 with GNATCOLL.VFS;
+
+with Langkit_Support.Symbols;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
@@ -63,6 +63,14 @@ package Libadalang.Auto_Provider is
       Kind     : Analysis_Unit_Kind) return String;
    --% no-document: True
 
+   overriding procedure Get_Unit_Location
+     (Provider       : Auto_Unit_Provider;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Filename       : in out Unbounded_String;
+      PLE_Root_Index : in out Natural);
+   --% no-document: True
+
    overriding function Get_Unit
      (Provider    : Auto_Unit_Provider;
       Context     : Analysis_Context'Class;
@@ -70,6 +78,17 @@ package Libadalang.Auto_Provider is
       Kind        : Analysis_Unit_Kind;
       Charset     : String := "";
       Reparse     : Boolean := False) return Analysis_Unit'Class;
+   --% no-document: True
+
+   overriding procedure Get_Unit_And_PLE_Root
+     (Provider       : Auto_Unit_Provider;
+      Context        : Analysis_Context'Class;
+      Name           : Text_Type;
+      Kind           : Analysis_Unit_Kind;
+      Charset        : String := "";
+      Reparse        : Boolean := False;
+      Unit           : in out Analysis_Unit'Class;
+      PLE_Root_Index : in out Natural);
    --% no-document: True
 
    overriding procedure Release (Provider : in out Auto_Unit_Provider);
@@ -101,20 +120,24 @@ package Libadalang.Auto_Provider is
 
 private
 
+   use GNATCOLL.VFS;
    use Langkit_Support.Symbols;
 
-   use GNATCOLL.VFS;
+   type Filename_And_PLE_Root is record
+      Filename       : Unbounded_String;
+      PLE_Root_Index : Positive;
+   end record;
 
-   package CU_To_File_Maps is new Ada.Containers.Hashed_Maps
+   package Unit_Maps is new Ada.Containers.Hashed_Maps
      (Key_Type        => Symbol_Type,
-      Element_Type    => Virtual_File,
+      Element_Type    => Filename_And_PLE_Root,
       Hash            => Hash,
       Equivalent_Keys => "=");
 
    type Auto_Unit_Provider is new Libadalang.Analysis.Unit_Provider_Interface
    with record
       Keys    : Symbol_Table;
-      Mapping : CU_To_File_Maps.Map;
+      Mapping : Unit_Maps.Map;
    end record;
 
    type Auto_Unit_Provider_Access is access all Auto_Unit_Provider;

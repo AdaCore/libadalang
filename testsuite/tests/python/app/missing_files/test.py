@@ -24,7 +24,7 @@ class Testcase:
 class App(lal.App):
     def process_unit(self, unit):
         print("Processing:", os.path.basename(unit.filename))
-        unit.populate_lexical_env()
+        unit.populate_lexical_env(1)
 
 
 tests = [

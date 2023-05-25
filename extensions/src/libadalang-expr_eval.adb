@@ -6,6 +6,8 @@
 with Ada.Exceptions;
 with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 
+with GNATCOLL.GMP.Integers.Misc;
+
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
 with Libadalang.Sources;  use Libadalang.Sources;
@@ -244,6 +246,14 @@ package body Libadalang.Expr_Eval is
 
       function Eval_Function_Attr
         (AR : LAL.Attribute_Ref; Args : LAL.Assoc_List) return Eval_Result;
+      --  Helper to evaluate function attribute references
+
+      function Eval_Array_Index
+        (Call_Expr : LAL.Call_Expr; Index : LAL.Expr) return Eval_Result;
+      --  Helper to evaluate array indexes
+
+      function Eval_Array_Slice
+        (Call_Expr : LAL.Call_Expr; Bounds : LAL.Bin_Op) return Eval_Result;
       --  Helper to evaluate function attribute references
 
       function Expr_Eval (E : LAL.Expr) return Eval_Result;
@@ -487,6 +497,26 @@ package body Libadalang.Expr_Eval is
                   & D.Kind'Image;
             end case;
 
+         when Ada_Object_Decl =>
+            declare
+               Val    : constant Eval_Result := Eval_Decl (D.As_Basic_Decl);
+               Typ    : constant LAL.Base_Type_Decl :=
+                  D.As_Object_Decl.P_Type_Expression.P_Designated_Type_Decl;
+               Result : Big_Integer;
+            begin
+               if Val.Kind /= String_Lit then
+                  raise Property_Error with
+                    "Cannot eval " & A'Image & " on " & Val.Kind'Image;
+               end if;
+
+               case A is
+               when Range_First => Result.Set (GNATCOLL.GMP.Long (Val.First));
+               when Range_Last => Result.Set (GNATCOLL.GMP.Long (Val.Last));
+               end case;
+
+               return Create_Int_Result (Typ, Result);
+            end;
+
          when others =>
             raise Property_Error with
                "Cannot eval " & A'Image & " attribute of " & D.Kind'Image;
@@ -664,11 +694,156 @@ package body Libadalang.Expr_Eval is
                      "'Val only applicable to scalar types";
                end if;
             end;
+         elsif Name in "pos" then
+            if Args.Is_Null or Args.Children_Count /= 1 then
+               raise Property_Error with
+                  "'Pos require exactly one argument";
+            end if;
+
+            declare
+               Typ      : constant Base_Type_Decl :=
+                  AR.F_Prefix.P_Name_Designated_Type;
+               Ret_Typ  : constant Base_Type_Decl :=
+                  AR.P_Universal_Int_Type.As_Base_Type_Decl;
+               Val      : constant Eval_Result :=
+                  Expr_Eval (Args.Child (1).As_Param_Assoc.F_R_Expr);
+            begin
+               if Typ.P_Is_Int_Type then
+                  if Val.Kind /= Int then
+                     raise Property_Error with
+                        "'Pos expects an integer argument";
+                  end if;
+
+                  --  The evaluator doesn't check if Pos argument is in the
+                  --  range of Typ, i.e., illegal code such as:
+                  --    Positive'Pos (-2)
+                  --  will return -2.
+
+                  return Create_Int_Result (Ret_Typ, Val.Int_Result);
+               elsif Typ.P_Is_Enum_Type then
+                  case Val.Kind is
+                  when Int =>
+                     return Create_Int_Result (Ret_Typ, Val.Int_Result);
+                     --  This case allows to support Character enum literals
+                  when Enum_Lit =>
+                     return Create_Int_Result
+                       (Ret_Typ, Val.Enum_Result.P_Enum_Rep);
+                  when others =>
+                     raise Property_Error with
+                        "'Pos expects an argument of a discrete type";
+                  end case;
+               else
+                  raise Property_Error with
+                     "'Pos only applicable to discrete types";
+               end if;
+            end;
+         elsif Name in "length" then
+
+            --  Current support of 'Length only works on Strings (Character
+            --  arrays). TODO??? Add support for all array types, including
+            --  multidimensional ones.
+
+            if not Args.Is_Null then
+               raise Property_Error with
+                  "'Length require no argument";
+            end if;
+            --  Not true for multidimensional arrays. 'Length attribute can
+            --  take one argument standing for the Nth dimension of the
+            --  array length is requested.
+
+            declare
+               Typ    : constant Base_Type_Decl :=
+                  AR.F_Prefix.P_Name_Designated_Type;
+               Val    : constant Eval_Result :=
+                  Expr_Eval
+                    (AR.F_Prefix.P_Referenced_Decl
+                     .As_Object_Decl.F_Default_Expr);
+               Result : Big_Integer;
+            begin
+               if Val.Kind /= String_Lit then
+                  raise Property_Error with
+                     "'Length expects a string argument";
+               end if;
+
+               Result.Set (GNATCOLL.GMP.Long (Length (As_String (Val))));
+
+               return Create_Int_Result (Typ, Result);
+            end;
          else
             raise Property_Error
               with "Unhandled attribute ref: " & Image (Attr.Text);
          end if;
       end Eval_Function_Attr;
+
+      ----------------------
+      -- Eval_Array_Index --
+      ----------------------
+
+      function Eval_Array_Index
+        (Call_Expr : LAL.Call_Expr; Index : LAL.Expr) return Eval_Result
+      is
+         Array_Val : constant Eval_Result :=
+            Eval_Decl (Call_Expr.P_Referenced_Decl);
+         Index_Val : constant Eval_Result := Expr_Eval (Index);
+
+         use GNATCOLL.GMP.Integers.Misc;
+      begin
+         if Array_Val.Kind = String_Lit then
+            declare
+               Str   : constant Unbounded_Text_Type := As_String (Array_Val);
+               Index : constant Integer :=
+                  Integer (As_Signed_Long (Index_Val.Int_Result));
+            begin
+               return Create_Int_Result
+                 (Call_Expr.P_Expression_Type.P_Comp_Type,
+                  Wide_Wide_Character'Pos (Element (Str, Index)));
+            end;
+         else
+            raise Property_Error with
+               "Cannot eval array index of kind " & Array_Val.Kind'Image;
+         end if;
+      end Eval_Array_Index;
+
+      ----------------------
+      -- Eval_Array_Slice --
+      ----------------------
+
+      function Eval_Array_Slice
+        (Call_Expr : LAL.Call_Expr; Bounds : LAL.Bin_Op) return Eval_Result
+      is
+         Array_Val : constant Eval_Result :=
+            Eval_Decl (Call_Expr.P_Referenced_Decl);
+         First_Val : constant Eval_Result := Expr_Eval (Bounds.F_Left);
+         Last_Val  : constant Eval_Result := Expr_Eval (Bounds.F_Right);
+
+         use GNATCOLL.GMP.Integers.Misc;
+      begin
+         if Array_Val.Kind = String_Lit then
+            declare
+               Str   : Unbounded_Text_Type := As_String (Array_Val);
+               First : constant Integer :=
+                  Integer (As_Signed_Long (First_Val.Int_Result));
+               Last  : constant Integer :=
+                  Integer (As_Signed_Long (Last_Val.Int_Result));
+               Len   : constant Positive := Length (Str);
+
+            begin
+               if First < Last then
+                  --  Adjust Str regarding to requested bounds
+                  Delete (Str, Len - (Array_Val.Last - Last - 1), Len);
+                  Delete (Str, 1, First - Array_Val.First);
+               else
+                  --  The empty string
+                  Delete (Str, 1, Len);
+               end if;
+               return (String_Lit, Call_Expr.P_Expression_Type,
+                       Str, First, Last);
+            end;
+         else
+            raise Property_Error with
+               "Cannot eval array slide of kind " & Array_Val.Kind'Image;
+         end if;
+      end Eval_Array_Slice;
 
       ---------------
       -- Expr_Eval --
@@ -736,9 +911,12 @@ package body Libadalang.Expr_Eval is
             end return;
 
          when Ada_String_Literal =>
-            return (String_Lit,
-                    E.P_Expression_Type,
-                    +E.As_String_Literal.P_Denoted_Value);
+            declare
+               Val : constant Unbounded_Text_Type :=
+                  +E.As_String_Literal.P_Denoted_Value;
+            begin
+               return (String_Lit, E.P_Expression_Type, Val, 1, Length (Val));
+            end;
 
          when Ada_Membership_Expr =>
             declare
@@ -986,15 +1164,24 @@ package body Libadalang.Expr_Eval is
             declare
                CO            : constant LAL.Concat_Op := E.As_Concat_Op;
                Concat_Result : Unbounded_Text_Type;
+               First         : Natural := 0;
             begin
                for I of CO.P_Operands loop
                   declare
                      ER : constant Eval_Result := Expr_Eval (I);
                   begin
+                     if First = 0 then
+                        First := ER.First;
+                     end if;
                      Concat_Result := Concat_Result & ER.String_Result;
                   end;
                end loop;
-               return (String_Lit, E.P_Expression_Type, Concat_Result);
+               return
+                 (String_Lit,
+                  E.P_Expression_Type,
+                  Concat_Result,
+                  First,
+                  First + Length (Concat_Result));
             end;
 
          when Ada_Un_Op =>
@@ -1105,12 +1292,31 @@ package body Libadalang.Expr_Eval is
                Arg             : Expr;
                Designated_Type : constant Base_Type_Decl :=
                   C.F_Name.P_Name_Designated_Type;
+               C_Kind          : Call_Expr_Kind;
             begin
                --  Make sure that C's name designates a type and that C has
                --  exactly one argument.
                if C.F_Name.Kind in Ada_Attribute_Ref then
                   return Eval_Function_Attr
                     (C.F_Name.As_Attribute_Ref, S.As_Assoc_List);
+               end if;
+
+               --  Avoid displaying LAL's internal property errors on calls to
+               --  P_Kind when evaluating invalid code.
+               begin
+                  C_Kind := C.P_Kind;
+               exception
+                  when Property_Error =>
+                     raise Property_Error with
+                        "Unhandled call expr: " & Image (E.Text);
+               end;
+
+               if C_Kind in Array_Index then
+                  return Eval_Array_Index
+                    (C, S.Child (1).As_Param_Assoc.F_R_Expr);
+               elsif C_Kind in Array_Slice then
+                  return Eval_Array_Slice
+                    (C, S.As_Bin_Op);
                elsif Designated_Type.Is_Null
                   or else S.Is_Null
                   or else S.Children_Count /= 1

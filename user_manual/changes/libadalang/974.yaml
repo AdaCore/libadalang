@@ -1,0 +1,12 @@
+type: new-feature
+short_title: Extending static expression evaluator support
+title: Extending the static expression evaluator regarding string support
+description: |
+  The static expression evaluator string support has been extended to handle
+  'First, 'Last, 'Length, and 'Pos attributes, as well as array indexing and
+  slicing.
+
+  'Pos attribute support has also been extended to all discrete type objects
+  evaluation.
+
+date: 2023-05-25

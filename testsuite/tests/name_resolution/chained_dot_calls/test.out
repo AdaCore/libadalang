@@ -8,143 +8,143 @@ Expr: <ParenExpr test.adb:12:7-47:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
 Expr: <CallExpr test.adb:12:8-47:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
 Expr: <DottedName test.adb:12:8-47:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-46:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-45:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-45:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-44:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-43:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-43:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-42:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-41:23>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-36:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-35:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-35:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-34:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-33:23>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-26:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-25:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-25:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-24:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-23:23>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-21:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-20:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-20:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-19:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-18:23>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-16:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-15:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-15:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-14:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <CallExpr test.adb:12:8-13:21>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-13:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <DottedName test.adb:12:8-12:28>
-  references:    <DefiningName "Empty_Vector" test.adb:8:7-8:19>
+  references:    <DefiningName test.adb:8:7-8:19>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Strings" test.adb:12:8-12:15>
-  references:    <DefiningName "Strings" test.adb:2:12-2:19>
+  references:    <DefiningName test.adb:2:12-2:19>
   type:          None
   expected type: None
 Expr: <Id "Empty_Vector" test.adb:12:16-12:28>
-  references:    <DefiningName "Empty_Vector" test.adb:8:7-8:19>
+  references:    <DefiningName test.adb:8:7-8:19>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:13:9-13:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""a"" test.adb:13:17-13:20>
@@ -152,11 +152,11 @@ Expr: <Str ""a"" test.adb:13:17-13:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "New_Line" test.adb:14:9-14:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:15:9-15:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""b"" test.adb:15:17-15:20>
@@ -164,7 +164,7 @@ Expr: <Str ""b"" test.adb:15:17-15:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Append" test.adb:16:9-16:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:16:17-18:22>
@@ -197,11 +197,11 @@ Expr: <Str ""e"" test.adb:18:19-18:22>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "New_Line" test.adb:19:9-19:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:20:9-20:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""f"" test.adb:20:17-20:20>
@@ -209,7 +209,7 @@ Expr: <Str ""f"" test.adb:20:17-20:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Append" test.adb:21:9-21:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:21:17-23:22>
@@ -242,11 +242,11 @@ Expr: <Str ""i"" test.adb:23:19-23:22>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "New_Line" test.adb:24:9-24:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:25:9-25:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""j"" test.adb:25:17-25:20>
@@ -254,7 +254,7 @@ Expr: <Str ""j"" test.adb:25:17-25:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Append" test.adb:26:9-26:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:26:17-33:22>
@@ -342,11 +342,11 @@ Expr: <Str ""r"" test.adb:33:19-33:22>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "New_Line" test.adb:34:9-34:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:35:9-35:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""r"" test.adb:35:17-35:20>
@@ -354,7 +354,7 @@ Expr: <Str ""r"" test.adb:35:17-35:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "Append" test.adb:36:9-36:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:36:17-41:22>
@@ -420,11 +420,11 @@ Expr: <Str ""x"" test.adb:41:19-41:22>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "New_Line" test.adb:42:9-42:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:43:9-43:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""y"" test.adb:43:17-43:20>
@@ -432,11 +432,11 @@ Expr: <Str ""y"" test.adb:43:17-43:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "New_Line" test.adb:44:9-44:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:45:9-45:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""z"" test.adb:45:17-45:20>
@@ -444,11 +444,11 @@ Expr: <Str ""z"" test.adb:45:17-45:20>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "New_Line" test.adb:46:9-46:17>
-  references:    <DefiningName "New_Line" test.adb:6:16-6:24>
+  references:    <DefiningName test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Id "Append" test.adb:47:9-47:15>
-  references:    <DefiningName "Append" test.adb:5:16-5:22>
+  references:    <DefiningName test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <Str ""0"" test.adb:47:17-47:20>

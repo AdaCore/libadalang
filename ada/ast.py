@@ -11541,6 +11541,8 @@ class GenericPackageDecl(GenericDecl):
         Self.package_decl.package_name.as_entity.singleton
     )
 
+    declarative_parts = Property(Entity.package_decl.declarative_parts)
+
     @langkit_property(public=True)
     def body_part():
         """

@@ -1,0 +1,173 @@
+Working on node <PackageDecl ["P"] test.adb:3:4-6:10>
+=====================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageBody ["P"] test.adb:9:4-10:10>
+======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <SubpDecl ["P"] test.adb:16:7-16:19>
+====================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <PackageDecl ["Q"] test.adb:13:4-18:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <NullSubpDecl ["P"] test.adb:22:7-22:27>
+========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <PackageBody ["Q"] test.adb:21:4-24:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageDecl ["R"] test.adb:27:4-29:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageBody ["R"] test.adb:32:4-33:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageDecl ["S"] test.adb:36:4-37:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <PackageDecl ["T"] test.adb:40:4-41:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <SubpDecl ["P"] test.adb:46:7-46:19>
+====================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageDecl ["U"] test.adb:45:4-49:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <NullSubpDecl ["P"] test.adb:53:7-53:27>
+========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageBody ["U"] test.adb:52:4-55:10>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <SubpDecl ["q2"] test.adb:59:7-59:20>
+=====================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <SubpDecl ["q3"] test.adb:63:7-63:20>
+=====================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <ConcreteTypeDecl ["R"] test.adb:66:7-66:29>
+============================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <ComponentDecl ["F1"] test.adb:74:10-74:23>
+===========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <ComponentDecl ["F2"] test.adb:76:10-76:23>
+===========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["M"] test.adb:73:7-81:18>
+============================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <ConcreteTypeDecl ["E"] test.adb:84:7-84:37>
+============================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Eval 'node.f_type_def.f_enum_literals[0].p_has_aspect ("Obsolescent")'
+Result: False
+
+Eval 'node.f_type_def.f_enum_literals[1].p_has_aspect ("Obsolescent")'
+Result: True
+
+Eval 'node.f_type_def.f_enum_literals[2].p_has_aspect ("Obsolescent")'
+Result: True
+
+Eval 'node.f_type_def.f_enum_literals[3].p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <SubpDecl [""+""] test.adb:93:7-94:45>
+======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageDecl ["qq"] test.adb:58:4-97:8>
+=======================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <NullSubpDecl ["q2"] test.adb:101:7-101:28>
+===========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <NullSubpDecl ["q3"] test.adb:103:7-103:28>
+===========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False
+
+Working on node <SubpBody [""+""] test.adb:106:7-110:11>
+========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: True
+
+Working on node <PackageBody ["qq"] test.adb:100:4-112:8>
+=========================================================
+
+Eval 'node.p_has_aspect ("Obsolescent")'
+Result: False

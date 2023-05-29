@@ -10134,6 +10134,18 @@ class Pragma(AdaNode):
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.Name)._.singleton,
 
+            Entity.id.name_is('Obsolescent'),
+            Entity.args.at(0)._.assoc_expr.cast(T.Name).then(
+                # Pragma Obsolescent can have a StringLiteral as a first
+                # argument, in which case there is no associated entity with
+                # it.
+                lambda name: If(
+                    Not(name.is_a(T.StringLiteral)),
+                    name.singleton,
+                    No(T.Name.entity.array)
+                )
+            ),
+
             No(T.Name.entity.array),
         )
 
@@ -10207,9 +10219,13 @@ class Pragma(AdaNode):
                 )
             ),
             default_val=If(
-                # If no name, either it's a contract pragma...
-                Self.is_contract_aspect(Entity.id.name_symbol),
-
+                # If no name
+                Or(
+                    # either it's a contract pragma...
+                    Self.is_contract_aspect(Entity.id.name_symbol),
+                    # or the Obsolescent pragma
+                    Entity.id.name_is('Obsolescent')
+                ),
                 # in which case they are attached to the closest declaration
                 # above it. We could have used a call to previous_sibling here
                 # to find the closest declaration above it but since
@@ -10225,11 +10241,10 @@ class Pragma(AdaNode):
                         lambda decls: decls.at(decls.length - 1)
                     ).cast(BasicDecl).as_entity._.singleton
                 )._or(
-                    # Or else to the closest parent subprogram
                     enclosing_program_unit.singleton
                 ),
 
-                # Or else it 's necessarily a program unit pragma
+                # Or else it's necessarily a program unit pragma
                 enclosing_program_unit.singleton
             ).map(lambda bd: bd.defining_name)
         )
@@ -16687,7 +16702,7 @@ class DefiningName(Name):
         """
         parts_to_check = Var(If(
             name.any_of(
-                'Inline',
+                'Inline', 'Obsolescent',
                 # For the following aspects, an aspect only on the body is
                 # illegal, but we don't care about illegal cases, and this
                 # allows us to auto propagate the aspect from spec to body.
@@ -16760,7 +16775,14 @@ class DefiningName(Name):
         in aspects, i.e. information that can be represented by either aspect
         specification nodes, pragma nodes or attribute definition nodes.
         """
-        bd = Var(Entity.basic_decl_no_internal)
+        bd = Var(Entity.basic_decl_no_internal.match(
+            # If Entity is an EnumLiteralDecl, search the pragma from the enum
+            # type declaration node.
+            lambda eld=T.EnumLiteralDecl:
+            eld.parent.parent.parent.cast_or_raise(T.BasicDecl),
+            lambda o: o
+        ))
+
         # First look at library level pragmas if Self is a library item
         return bd.library_item_pragmas.then(
             # Check pragma's name

@@ -333,6 +333,14 @@ package Libadalang.Helpers is
                      & " exit with an error on the first missing dependency."
                      & " Continue with a warning in the option is passed.");
 
+         package Sort_By_Basename is new Parse_Flag
+           (Parser,
+            Long => "--sort-by-basename",
+            Help => "Process source files sorted by basename. This is useful"
+                    & " in order to get outputs that do not vary depending on"
+                    & " where the source files are installed on the file"
+                    & " system.");
+
          package Files is new Parse_Positional_Arg_List
            (Parser,
             Name        => "files",

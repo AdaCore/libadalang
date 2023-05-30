@@ -601,6 +601,39 @@ package body Libadalang.Helpers is
             Default_Charset := +Libadalang.Common.Default_Charset;
          end if;
 
+         --  If requested, sort the source files to process by basename
+
+         if Args.Sort_By_Basename.Get then
+            declare
+               function "<" (Left, Right : Unbounded_String) return Boolean;
+               --  Return whether the basename for ``Left`` should be sorted
+               --  before the basename for ``Right``. If they are the same,
+               --  sort using the full path.
+
+               ---------
+               -- "<" --
+               ---------
+
+               function "<" (Left, Right : Unbounded_String) return Boolean is
+                  L : constant String := To_String (Left);
+                  R : constant String := To_String (Right);
+
+                  SL : constant String := Ada.Directories.Simple_Name (L);
+                  SR : constant String := Ada.Directories.Simple_Name (R);
+               begin
+                  if SL = SR then
+                     return L < R;
+                  else
+                     return SL < SR;
+                  end if;
+               end "<";
+
+               package Sorting is new String_Vectors.Generic_Sorting;
+            begin
+               Sorting.Sort (Files);
+            end;
+         end if;
+
          --  Initialize contexts
 
          declare

@@ -46,6 +46,9 @@ class NameResolutionDriver(BaseDriver):
 
     * ``preprocessor_path``: List of directories where preprocessor data files
       can be found.
+
+    * ``sort_by_basename``: Boolean (false by default): whether to pass the
+      ``--sort-by-basename`` switch to ``nameres``.
     """
 
     perf_supported = True
@@ -127,6 +130,9 @@ class NameResolutionDriver(BaseDriver):
 
         if self.test_env.get("recursive"):
             args.append("--recursive")
+
+        if self.test_env.get("sort_by_basename"):
+            args.append("--sort-by-basename")
 
         # Add optional explicit list of sources to process
         args += input_sources

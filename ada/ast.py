@@ -21797,6 +21797,9 @@ class IncompleteTypeDecl(BaseTypeDecl):
         ignore(stop_recurse_at)
         return Entity.discriminants.abstract_formal_params
 
+    xref_stop_resolution = Property(True)
+    xref_equation = Property(LogicTrue())
+
 
 class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
     """
@@ -21816,6 +21819,13 @@ class IncompleteFormalTypeDecl(IncompleteTypeDecl):
     default_type = Field(type=T.Name)
 
     is_tagged_type = Property(Not(Self.is_tagged.is_null))
+
+    xref_stop_resolution = Property(Self.default_type.is_null)
+    xref_equation = Property(If(
+        Entity.xref_stop_resolution,
+        Entity.super(),
+        Entity.default_type.sub_equation
+    ))
 
 
 class Params(AdaNode):

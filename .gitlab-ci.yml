@@ -27,7 +27,7 @@ variables:
   CI_FRAGMENTS_PATH: /tmp/$CI_FRAGMENTS
 
 stages:
-  - build_and_test
+  - single
 
 
 build_and_test:
@@ -45,7 +45,7 @@ build_and_test:
      - image:sandbox
      - cpu:8
      - mem:16
-  stage: build_and_test
+  stage: single
   script:
     - export PATH=/it/e3/bin:$PATH
     - . ~/.aws_container_credentials
@@ -83,3 +83,78 @@ build_and_test:
       - xunit_output.xml
     reports:
       junit: xunit_output.xml
+
+
+continuous_builder:
+  # This job is meant to be run only after all updates on the "master" branch.
+  # Its purpose is to check that recent work in Libadalang/Langkit/AdaSAT does
+  # not break the build of GNAT. In this context, we are only interested in
+  # builds: we think that a situation where LAL changes do not break builds but
+  # create serious regressions at runtime are very unlikely, and running
+  # relevant testing is very costly.
+  #
+  # Important: this job must be synchronized with the equivalent ones in the
+  # Libadalang, Langkit and AdaSAT repositories.
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  services:
+     - image:sandbox
+     - cpu:8
+     - mem:16
+  stage: single
+  variables:
+    ANOD_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/it/anod
+    ADASAT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/adasat
+    LANGKIT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/langkit
+    AWS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/toolchain/aws
+    GPR2_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/gpr/gpr
+    TEMPLATES_PARSER_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/toolchain/templates-parser
+  script:
+    - export PATH=/it/e3/bin:$PATH
+    - . ~/.aws_container_credentials
+
+    # Get up-to-date sources for the continuous build: anod specs, LAL
+    # repositories and unstabilized projects using LAL.
+    - cd /tmp
+    - git clone --depth 1 $ANOD_GIT
+    - git clone --depth 1 $ADASAT_GIT
+    - git clone --depth 1 $LANGKIT_GIT
+    - git clone --depth 1 $AWS_GIT
+    - git clone --depth 1 $GPR2_GIT
+    - git clone --depth 1 $TEMPLATES_PARSER_GIT
+
+    # Make the sandbox use these sources over nightly source packages
+    - cd /it/wave
+    - anod tune --anod-dir /tmp/anod
+    - anod vcs --add-repo adasat /tmp/adasat
+    - anod vcs --add-repo langkit /tmp/langkit
+    - anod vcs --add-repo aws /tmp/aws
+    - anod vcs --add-repo gpr2 /tmp/gpr
+    - anod vcs --add-repo templates_parser /tmp/templates-parser
+
+    # By default, the anod resolved installs dependencies, so we must manually
+    # trigger intermediate builds each time. For instance: build adasat so that
+    # the build of langkit_support does not install it.
+
+    # Run builds for...
+
+    # ... the Libadalang (internal lib) closure
+    - anod build adasat
+    - anod build langkit_support
+    - anod build langkit
+    - anod build libgpr2 -Qbare,edge
+    - anod build libadalang
+
+    # ... the Libadalang (for customers) closure
+    - anod build libadalang-doc
+    - anod build libadalang_for_customers
+
+    # ... the AWS closure
+    - anod build aws-lib
+    - anod build aws-tools
+    - anod build aws
+
+    # ... build the GPR2 closure
+    - anod build gpr2name
+    - anod build libgpr2 -Qbare
+    - anod build gpr2

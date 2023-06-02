@@ -1,11 +1,15 @@
-# This bit is used to make sure we don't run too many pipelines:
-# run on a triggered pipeline, on a merge request, or on a push to a branch,
-# but do not run in reaction to a push to a branch if there is also
-# a merge request for it.
 workflow:
   rules:
+    # To avoid running too many pipelines, restrict the times we run one:
+
+    # Run "trigger" pipelines
     - if: '$CI_PIPELINE_SOURCE == "pipeline"'
+
+    # Run pipelines triggered by a merge request creation/update
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+    # Run for pushes to a branch *except* if there is also a merge request for
+    # it.
     - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
       when: never
     - if: '$CI_COMMIT_BRANCH'

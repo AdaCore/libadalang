@@ -5828,7 +5828,7 @@ class BaseTypeDecl(BasicDecl):
         doc="If self has an Implicit_Dereference aspect, return its expression"
     )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    @langkit_property(return_type=T.BaseTypeDecl.entity, public=True)
     def specific_type():
         """
         Return the specific type under a class-wide type. Consider for example:
@@ -5971,11 +5971,15 @@ class BaseTypeDecl(BasicDecl):
     )
 
     # TODO: Not clear if the below origin.bind is correct, investigate later
-    classwide_type = Property(origin.bind(Self, If(
-        Entity.is_tagged_type,
-        Self.classwide_type_node.as_entity,
-        No(T.ClasswideTypeDecl.entity)
-    )))
+    classwide_type = Property(
+        origin.bind(Self, If(
+            Entity.is_tagged_type,
+            Self.classwide_type_node.as_entity,
+            No(T.ClasswideTypeDecl.entity)
+        )),
+        public=True,
+        doc="Return the classwide type for this type, if applicable"
+    )
 
     scalar_base_type = Property(Self.scalar_base_subtype_node.as_entity)
 
@@ -6352,11 +6356,35 @@ class BaseTypeDecl(BasicDecl):
         """
         entity_can = Var(Entity.canonical_type)
         other_can = Var(other_type.canonical_type)
+
         return Or(
+            # The canonical types are the same
             entity_can == other_can,
-            And(Not(entity_can.classwide_type.is_null),
-                entity_can.classwide_type == other_can.classwide_type),
-            Entity.base_types.any(lambda bt: bt._.is_derived_type(other_type))
+
+            # Other is classwide, and entity's classwide type is the same as
+            # other.
+            #
+            # NOTE: This only works one way::
+            #
+            #     T'Class.is_derived_type (T) -> False
+            #     T.is_derived_type (T'Class) -> True
+            And(other_can.is_classwide,
+                entity_can.classwide_type == other_can),
+
+            # Recurse on base types
+            Entity.base_types.any(lambda bt: bt.is_derived_type(other_type)),
+
+            # If both types are classwide, then we also recurse on base types
+            # for the specific type of ``Entity``. While this goes further than
+            # the ARM definition of what is a derived type, it is a useful
+            # complement.
+            And(
+                entity_can.is_classwide,
+                other_can.is_classwide,
+                entity_can.cast(T.ClasswideTypeDecl).typedecl.base_types.any(
+                    lambda bt: bt.is_derived_type(other_type)
+                )
+            )
         )
 
     is_iterable_type = Property(
@@ -6444,22 +6472,24 @@ class BaseTypeDecl(BasicDecl):
         actual_type = Var(Entity)
         return Or(
             And(formal_type.is_classwide | accept_derived,
-                actual_type.is_derived_type(formal_type)),
+                actual_type.specific_type.is_derived_type(formal_type)),
 
             And(actual_type.is_classwide,
                 actual_type.specific_type.matching_type(formal_type)),
 
             # Matching of access types parameters
             actual_type.accessed_type.then(
-                lambda actual_access:
+                lambda actual_accessed_type:
                 formal_type.accessed_type.then(
-                    lambda formal_access: Or(
-                        And(formal_access.is_classwide | accept_derived,
-                            actual_access.is_derived_type(formal_access)),
+                    lambda formal_accessed_type: Or(
 
-                        And(actual_access.is_classwide,
-                            actual_access.specific_type.matching_type(
-                                formal_access)),
+                        And(formal_accessed_type.is_classwide | accept_derived,
+                            actual_accessed_type.specific_type
+                            .is_derived_type(formal_accessed_type)),
+
+                        And(actual_accessed_type.is_classwide,
+                            actual_accessed_type.specific_type.matching_type(
+                                formal_accessed_type)),
                     )
                 )
             ),
@@ -6981,8 +7011,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
     is_classwide = Property(True)
 
     is_tagged_type = Property(True)
-    base_type = Property(Entity.typedecl.base_type)
-    base_interfaces = Property(Entity.typedecl.base_interfaces)
+    base_type = Property(No(T.BaseTypeDecl.entity))
+    base_interfaces = Property(No(T.BaseTypeDecl.entity.array))
     record_def = Property(Entity.typedecl.record_def)
     classwide_type = Property(Entity)
     is_iterable_type = Property(Entity.typedecl.is_iterable_type)

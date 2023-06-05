@@ -21640,7 +21640,21 @@ class Subunit(AdaNode):
         ).cast(BodyStub)
 
     xref_entry_point = Property(True)
-    xref_equation = Property(Bind(Self.name.ref_var, Entity.body_root))
+
+    @langkit_property()
+    def xref_equation():
+        return And(
+            Bind(Self.name.ref_var, Entity.body_root),
+            # Bind the parent unit's name to the enclosing body for this
+            # subunit.
+            Entity.name.cast(T.DottedName).then(
+                lambda dn: env.bind(
+                    Self.body.node_env,
+                    dn.prefix.xref_no_overloading
+                ),
+                default_val=LogicTrue()
+            )
+        )
 
 
 class ProtectedBodyStub(BodyStub):

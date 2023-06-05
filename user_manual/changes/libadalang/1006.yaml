@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix name resolution of ``Subunit``'s name
+description: |
+  This change fixes a bug where ``Subunit`` names were not properly resolved by
+  name resolution. All the prefixed names in a subunit name are now correctly
+  referenced.
+date: 2023-06-05

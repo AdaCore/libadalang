@@ -1,0 +1,3 @@
+project a is
+  for Source_Dirs use (".");
+end a;

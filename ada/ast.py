@@ -11187,7 +11187,10 @@ class GenericInstantiation(BasicDecl):
             ).logic_all(lambda pm: Let(
                 lambda actual_name=pm.actual.assoc.expr.cast(T.Name):
                 pm.formal.formal_decl.cast(T.GenericFormal).decl.match(
-                    lambda _=T.TypeDecl: actual_name.xref_no_overloading,
+                    lambda _=T.BaseTypeDecl: actual_name.xref_no_overloading,
+
+                    lambda _=T.GenericPackageInstantiation:
+                    actual_name.xref_no_overloading,
 
                     lambda subp_decl=T.FormalSubpDecl.entity:
                     If(

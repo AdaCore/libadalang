@@ -51,24 +51,26 @@ package body Libadalang.Iterators.Extensions is
 
       --  Look for at least one defining name that matches the expected name
       for Def_Name of N.As_Basic_Decl.P_Defining_Names loop
-         declare
-            N : constant Name := Def_Name.F_Name;
-         begin
-            case N.Kind is
-               when Ada_Identifier | Ada_String_Literal =>
-                  if Check_Base_Id (N.As_Base_Id) then
-                     return True;
-                  end if;
+         if not Def_Name.Is_Null then
+            declare
+               N : constant Name := Def_Name.F_Name;
+            begin
+               case N.Kind is
+                  when Ada_Identifier | Ada_String_Literal =>
+                     if Check_Base_Id (N.As_Base_Id) then
+                        return True;
+                     end if;
 
-               when Ada_Dotted_Name =>
-                  if Check_Base_Id (N.As_Dotted_Name.F_Suffix) then
-                     return True;
-                  end if;
+                  when Ada_Dotted_Name =>
+                     if Check_Base_Id (N.As_Dotted_Name.F_Suffix) then
+                        return True;
+                     end if;
 
-               when others =>
-                  null;
-            end case;
-         end;
+                  when others =>
+                     null;
+               end case;
+            end;
+         end if;
       end loop;
 
       return False;

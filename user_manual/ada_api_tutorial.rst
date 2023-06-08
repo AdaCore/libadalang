@@ -1,6 +1,6 @@
 .. _ada api tutorial:
 
-Ada API Tutorial
+Ada API tutorial
 ################
 
 Now that you are familiar with Libadalang's :ref:`core-concepts`, let's

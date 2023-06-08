@@ -1,4 +1,4 @@
-Python API Tutorial
+Python API tutorial
 ###################
 
 Now that you are familiar with Libadalang's :ref:`core-concepts`, let's

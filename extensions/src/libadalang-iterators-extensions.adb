@@ -19,7 +19,7 @@ package body Libadalang.Iterators.Extensions is
            (Size    => Name'Length,
             Name    => Name,
             Context => No_Analysis_Context,
-            Symbol  => null));
+            Symbol  => No_Symbol));
       end return;
    end Decl_Defines;
 

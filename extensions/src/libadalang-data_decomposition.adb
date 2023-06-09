@@ -613,7 +613,7 @@ package body Libadalang.Data_Decomposition is
          --  If ``Repr`` does not designate an artificial component, do not
          --  register it.
 
-         Name : Text_Type renames Repr.Name.all;
+         Name : constant Text_Type := +Repr.Name;
       begin
          if Name /= "" and then Name (Name'First) /= '_' then
             return False;
@@ -1842,7 +1842,7 @@ package body Libadalang.Data_Decomposition is
    function Component_Name (Self : Component_Representation) return Text_Type
    is
    begin
-      return Self.Data.Name.all;
+      return +Self.Data.Name;
    end Component_Name;
 
    -------------------------

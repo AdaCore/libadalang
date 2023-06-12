@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["J"] test.adb:22:4-22:46>
+********************************************************************************
+
+Expr: <Id "R" test.adb:22:21-22:22>
+  references:    <DefiningName "R" test.adb:14:12-14:13>
+  type:          None
+  expected type: None
+Expr: <Id "T" test.adb:22:24-22:25>
+  references:    <DefiningName "T" test.adb:12:12-12:13>
+  type:          None
+  expected type: None
+Expr: <Id "Integer" test.adb:22:29-22:36>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Id "Q" test.adb:22:38-22:39>
+  references:    <DefiningName "Q" test.adb:13:20-13:21>
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:22:43-22:44>
+  references:    <DefiningName "I" test.adb:20:12-20:13>
+  type:          None
+  expected type: None
+
+
+Done.

@@ -1,73 +1,73 @@
 CompilationUnit foo.adb:1:1-6:9
-|prelude:
+|f_prelude:
 |  AdaNodeList foo.adb:1:1-1:18
 |  |item_0:
 |  |  WithClause foo.adb:1:1-1:18
-|  |  |has_limited:
+|  |  |f_has_limited:
 |  |  |  LimitedAbsent foo.adb:1:1-1:1
-|  |  |has_private:
+|  |  |f_has_private:
 |  |  |  PrivateAbsent foo.adb:1:1-1:1
-|  |  |packages:
+|  |  |f_packages:
 |  |  |  NameList foo.adb:1:6-1:17
 |  |  |  |item_0:
 |  |  |  |  DottedName foo.adb:1:6-1:17
-|  |  |  |  |prefix:
+|  |  |  |  |f_prefix:
 |  |  |  |  |  Id "Ada" foo.adb:1:6-1:9: Ada
-|  |  |  |  |suffix:
+|  |  |  |  |f_suffix:
 |  |  |  |  |  Id "Text_IO" foo.adb:1:10-1:17: Text_IO
-|body:
+|f_body:
 |  LibraryItem foo.adb:3:1-6:9
-|  |has_private:
+|  |f_has_private:
 |  |  PrivateAbsent foo.adb:1:18-1:18
-|  |item:
+|  |f_item:
 |  |  SubpBody ["Foo"] foo.adb:3:1-6:9
-|  |  |overriding:
+|  |  |f_overriding:
 |  |  |  OverridingUnspecified foo.adb:1:18-1:18
-|  |  |subp_spec:
+|  |  |f_subp_spec:
 |  |  |  SubpSpec foo.adb:3:1-3:14
-|  |  |  |subp_kind:
+|  |  |  |f_subp_kind:
 |  |  |  |  SubpKindProcedure foo.adb:3:1-3:10
-|  |  |  |subp_name:
+|  |  |  |f_subp_name:
 |  |  |  |  DefiningName "Foo" foo.adb:3:11-3:14
-|  |  |  |  |name:
+|  |  |  |  |f_name:
 |  |  |  |  |  Id "Foo" foo.adb:3:11-3:14: Foo
-|  |  |  |subp_params: None
-|  |  |  |subp_returns: None
-|  |  |aspects: None
-|  |  |decls:
+|  |  |  |f_subp_params: None
+|  |  |  |f_subp_returns: None
+|  |  |f_aspects: None
+|  |  |f_decls:
 |  |  |  DeclarativePart foo.adb:3:17-4:1
-|  |  |  |decls:
+|  |  |  |f_decls:
 |  |  |  |  AdaNodeList foo.adb:3:17-3:17
-|  |  |stmts:
+|  |  |f_stmts:
 |  |  |  HandledStmts foo.adb:4:6-6:1
-|  |  |  |stmts:
+|  |  |  |f_stmts:
 |  |  |  |  StmtList foo.adb:5:4-5:43
 |  |  |  |  |item_0:
 |  |  |  |  |  CallStmt foo.adb:5:4-5:43
-|  |  |  |  |  |call:
+|  |  |  |  |  |f_call:
 |  |  |  |  |  |  CallExpr foo.adb:5:4-5:42
-|  |  |  |  |  |  |name:
+|  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  DottedName foo.adb:5:4-5:24
-|  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  DottedName foo.adb:5:4-5:15
-|  |  |  |  |  |  |  |  |prefix:
+|  |  |  |  |  |  |  |  |f_prefix:
 |  |  |  |  |  |  |  |  |  Id "Ada" foo.adb:5:4-5:7: Ada
-|  |  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  |  Id "Text_IO" foo.adb:5:8-5:15: Text_IO
-|  |  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  |  Id "Put_Line" foo.adb:5:16-5:24: Put_Line
-|  |  |  |  |  |  |suffix:
+|  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  AssocList foo.adb:5:26-5:41
 |  |  |  |  |  |  |  |item_0:
 |  |  |  |  |  |  |  |  ParamAssoc foo.adb:5:26-5:41
-|  |  |  |  |  |  |  |  |designator: None
-|  |  |  |  |  |  |  |  |r_expr:
+|  |  |  |  |  |  |  |  |f_designator: None
+|  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  Str ""Hello, world!"" foo.adb:5:26-5:41: "Hello, world!"
-|  |  |  |exceptions:
+|  |  |  |f_exceptions:
 |  |  |  |  AdaNodeList foo.adb:5:42-5:42
-|  |  |end_name:
+|  |  |f_end_name:
 |  |  |  EndName foo.adb:6:5-6:8
-|  |  |  |name:
+|  |  |  |f_name:
 |  |  |  |  Id "Foo" foo.adb:6:5-6:8: Foo
-|pragmas:
+|f_pragmas:
 |  PragmaNodeList foo.adb:6:9-6:9

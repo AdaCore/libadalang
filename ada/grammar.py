@@ -1022,7 +1022,7 @@ A.add_rules(
                      A.case_stmt, A.accept_stmt,
                      A.select_stmt),
 
-    elsif_part=ElsifStmtPart("elsif", A.expr, "then",
+    elsif_part=ElsifStmtPart("elsif", Cut(), A.expr, "then",
                              A.stmts.dont_skip(Or("elsif", "else", "end"))),
 
     if_stmt=IfStmt(

@@ -1,6 +1,6 @@
 .. _ada api tutorial:
 
-Ada API Tutorial
+Ada API tutorial
 ################
 
 Now that you are familiar with Libadalang's :ref:`core-concepts`, let's
@@ -145,6 +145,41 @@ expected start/end line/column numbers.
       & Slocs.Line_Number'Image (Node.Sloc_Range.Start_Line)
       & ": " & Text.Image (Node.Text));
 
+Accessing node fields
+---------------------
+
+Another thing to do with nodes is to access their fields. Each kind of node has
+a specific set of fields: child nodes in the parsing tree. For instance,
+``Object_Decl`` nodes have 8 syntactic fields:
+
+* ``F_Ids``: identifiers for the declared objects;
+* ``F_Has_Aliased``: node to materialize the presence/absence for the
+  ``aliased`` keyword;
+* ``F_Has_Constant``: node to materialize the presence/absence for the
+  ``constant`` keyword;
+* ``F_Mode``: node to materialize the parameter passing mode (when the object
+  declaration is used as a generic formal);
+* ``F_Type_Expr``: type for the declared objects;
+* ``F_Default_Expr``: expression to initialize the declared objects or provide
+  a default value;
+* ``F_Renaming_Clause``: part that follows the ``renames`` keyword when the
+  declaration is a renaming.
+* ``F_Aspects``: list of aspects associated to this declaration.
+
+Accessing them is as simple as using the homonym primitive on the node that
+contains the field. For instance, in order to get the type expression for an
+object declaration:
+
+.. code-block:: ada
+
+   Obj : Object_Decl;
+
+   Put_Line ("Type expression: " & Obj.F_Type_Expr.Image);
+
+Note that is is always valid to access syntax fields for non-null objects. Some
+fields may contain a null node, for instance the ``Object_Decl.F_Default_Expr``
+field is null for the ``V : T;`` object declaration.
+
 .. _ada example program:
 
 Final program
@@ -223,6 +258,82 @@ If you run this program on its own sources, you should get:
    Line 33: Context : constant LAL.Analysis_Context := LAL.Create_Context;
    Line 38: Filename : constant String := Ada.Command_Line.Argument (I);
    Line 39: Unit     : constant LAL.Analysis_Unit :=\x0a            Context.Get_From_File (Filename);
+
+Note on API discoverability
+---------------------------
+
+The Ada syntax is rich; as a consequence, there are many node kinds, and each
+have many syntax fields. Short of reading the language grammar, the best way to
+discover the nodes that parsing creates is to let Libadalang parse an example
+and print the resulting tree. This is easily done with the ``Print`` procedure:
+
+.. code-block:: ada
+
+   --  Test program
+
+   with Ada.Command_Line;
+   with Ada.Text_IO; use Ada.Text_IO;
+
+   with Libadalang.Analysis; use Libadalang.Analysis;
+
+   procedure Parse is
+      Ctx : constant Analysis_Context := Create_Context;
+      U   : constant Analysis_Unit :=
+        Ctx.Get_From_File (Ada.Command_Line.Argument (1));
+   begin
+      for D of U.Diagnostics loop
+         Put_Line (U.Format_GNU_Diagnostic (D));
+      end loop;
+      U.Root.Print;
+   end Parse;
+
+   --  Source to parse
+
+   package Pkg is
+   end Pkg;
+
+Running the above program on the ``pkg.ads`` source file yields:
+
+.. code-block:: text
+
+   $ ./parse pkg.ads
+   CompilationUnit[1:1-2:9]
+   |f_prelude:
+   |  AdaNodeList[1:1-1:1]: <empty list>
+   |f_body:
+   |  LibraryItem[1:1-2:9]
+   |  |f_has_private:
+   |  |  PrivateAbsent[1:1-1:1]
+   |  |f_item:
+   |  |  PackageDecl[1:1-2:9]
+   |  |  |f_package_name:
+   |  |  |  DefiningName[1:9-1:12]
+   |  |  |  |f_name:
+   |  |  |  |  Id[1:9-1:12]: Pkg
+   |  |  |f_aspects: <null>
+   |  |  |f_public_part:
+   |  |  |  PublicPart[1:15-2:1]
+   |  |  |  |f_decls:
+   |  |  |  |  AdaNodeList[1:15-1:15]: <empty list>
+   |  |  |f_private_part: <null>
+   |  |  |f_end_name:
+   |  |  |  EndName[2:5-2:8]
+   |  |  |  |f_name:
+   |  |  |  |  Id[2:5-2:8]: Pkg
+   |f_pragmas:
+   |  PragmaNodeList[2:9-2:9]: <empty list>
+
+We can see here that the parse tree for ``pkg.ads`` is made of:
+
+* a ``Compilation_Unit`` node as the root of the tree; that node has children
+  in 3 syntax fields:
+* its ``F_Prelude`` field is an ``Ada_Node_List`` node, that is an empty list
+  (i.e. it has no children itself);
+* its ``F_Body`` field is a ``Library_Item`` node, which has itself other syntax
+  fields (``F_Has_Private`` and ``F_Item``);
+* its ``F_Pragmas`` field is a ``Pragma_Node_List`` that is an empty list;
+* the ``Package_Decl`` node has a null ``F_Aspects`` syntax field.
+
 
 Follow references
 =================

@@ -1,0 +1,6 @@
+input:1:1: Cannot parse <elsif_part>
+input:2:1: Expected 'then', got Termination
+ElsifStmtPart[1:1-2:1] <<INCOMPLETE>>
+|f_cond_expr:
+|  Id[1:7-1:8]: X
+|f_stmts: <null>

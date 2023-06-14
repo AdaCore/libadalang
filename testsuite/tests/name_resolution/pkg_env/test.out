@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["O"] test.adb:14:7-14:33>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:14:11-14:18>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:14:22-14:32>
+  references:    <DefiningName "Values" test.adb:13:20-13:26>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Values" test.adb:14:22-14:28>
+  references:    <DefiningName "Values" test.adb:13:20-13:26>
+  type:          <| ConcreteTypeDecl ["Value_TT"] test.adb:6:7-6:54 [test.adb:11:4] |>
+  expected type: None
+Expr: <Int test.adb:14:30-14:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

@@ -17,7 +17,7 @@ export DYLD_LIBRARY_PATH=/usr/local/lib
 export PATH=`ls -d $PWD/cached_gnat/*/bin |tr '\n' ':'`$PATH
 echo PATH=$PATH
 
-pip install -r langkit/REQUIREMENTS.dev
+pip install -r langkit/requirements-github.txt
 pip install jsonschema
 pip install langkit/
 eval `langkit/manage.py setenv`

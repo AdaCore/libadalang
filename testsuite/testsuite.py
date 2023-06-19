@@ -98,8 +98,8 @@ class LALTestsuite(Testsuite):
             help='Disable tests involving the Python API.'
         )
         parser.add_argument(
-            '--enable-native-image', action='store_true',
-            help='Enable tests involving native-image (they are disabled'
+            '--disable-native-image', action='store_true',
+            help='Disable tests involving native-image (they are enabled'
                  ' by default).'
         )
         parser.add_argument(
@@ -219,7 +219,7 @@ class LALTestsuite(Testsuite):
             'has_pygments': has_pygments,
             'python': python_version,
             'has_put_image': opts.has_put_image,
-            'has_native_image': opts.enable_native_image,
+            'has_native_image': not opts.disable_native_image,
             'valgrind': opts.valgrind,
             'coverage': opts.coverage is not None,
         }

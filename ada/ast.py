@@ -2481,6 +2481,9 @@ class BasicDecl(AdaNode):
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
 
+        Aspects are properties of entities that can be specified by the Ada
+        program, either via aspect specifications, pragmas, or attributes.
+
         "Aspect" is used as in RM terminology (see :rmlink:`13`).
         """
         return Entity.defining_name_or_raise._.has_aspect(name)
@@ -2490,7 +2493,7 @@ class BasicDecl(AdaNode):
         """
         Return the pragma with name ``name`` associated to this entity.
 
-        Please use the ``p_get_aspects`` property instead if you are interested
+        Please use the ``p_get_aspect`` property instead if you are interested
         in aspects, i.e. information that can be represented by either aspect
         specification nodes, pragma nodes or attribute definition nodes.
         """
@@ -16700,6 +16703,9 @@ class DefiningName(Name):
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
 
+        Aspects are properties of entities that can be specified by the Ada
+        program, either via aspect specifications, pragmas, or attributes.
+
         "Aspect" is used as in RM terminology (see :rmlink:`13.1`).
         """
         a = Var(Entity.get_aspect(name))
@@ -16744,7 +16750,7 @@ class DefiningName(Name):
         """
         Return the pragma with name ``name`` associated to this entity.
 
-        Please use the ``p_get_aspects`` property instead if you are interested
+        Please use the ``p_get_aspect`` property instead if you are interested
         in aspects, i.e. information that can be represented by either aspect
         specification nodes, pragma nodes or attribute definition nodes.
         """

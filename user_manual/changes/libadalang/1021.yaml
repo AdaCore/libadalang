@@ -1,0 +1,5 @@
+type: new-feature
+title: SPARK ``Initial_Condition`` contract support
+description: |
+  This change adds support for the SPARK contract ``Initial_Condition``.
+date: 2023-06-20

@@ -1,0 +1,131 @@
+Analyzing test.ads
+##################
+
+Resolving xrefs for node <AspectAssoc test.ads:2:4-2:61>
+********************************************************
+
+Expr: <Id "Initial_Condition" test.ads:2:4-2:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.ads:2:25-2:61>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <QuantifiedExpr test.ads:2:26-2:60>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test.ads:2:55-2:60>
+  references:    <DefiningName "F" test.ads:6:16-6:17>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" test.ads:2:55-2:56>
+  references:    <DefiningName "F" test.ads:6:16-6:17>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "A" test.ads:2:58-2:59>
+  references:    <DefiningName "A" test.ads:2:34-2:35>
+  type:          <ConcreteTypeDecl ["Address_Type"] test.ads:5:7-5:40>
+  expected type: <ConcreteTypeDecl ["Address_Type"] test.ads:5:7-5:40>
+
+Resolving xrefs for node <ForLoopSpec test.ads:2:34-2:51>
+*********************************************************
+
+Expr: <Id "Address_Type" test.ads:2:39-2:51>
+  references:    <DefiningName "Address_Type" test.ads:5:12-5:24>
+  type:          <ConcreteTypeDecl ["Address_Type"] test.ads:5:7-5:40>
+  expected type: None
+
+Resolving xrefs for node <ConcreteTypeDecl ["Address_Type"] test.ads:5:7-5:40>
+******************************************************************************
+
+Expr: <Id "Integer" test.ads:5:32-5:39>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.ads:6:7-6:51>
+*****************************************************
+
+Expr: <Id "Boolean" test.ads:6:44-6:51>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["A"] test.ads:6:19-6:35>
+*************************************************************
+
+Expr: <Id "Address_Type" test.ads:6:23-6:35>
+  references:    <DefiningName "Address_Type" test.ads:5:12-5:24>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName test.ads:7:8-7:13>
+****************************************************
+
+Expr: <EndName test.ads:7:8-7:13>
+  references:    <DefiningName "Inner" test.ads:4:12-4:17>
+  type:          None
+  expected type: None
+Expr: <Id "Inner" test.ads:7:8-7:13>
+  references:    <DefiningName "Inner" test.ads:4:12-4:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <UsePackageClause test.ads:9:4-9:14>
+*************************************************************
+
+Expr: <Id "Inner" test.ads:9:8-9:13>
+  references:    <DefiningName "Inner" test.ads:4:12-4:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <EndName test.ads:11:5-11:9>
+*****************************************************
+
+Expr: <EndName test.ads:11:5-11:9>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
+  type:          None
+  expected type: None
+Expr: <Id "Test" test.ads:11:5-11:9>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
+  type:          None
+  expected type: None
+
+
+Analyzing test.adb
+##################
+
+Analyzing test_pragma.ads
+#########################
+
+Resolving xrefs for node <PragmaNode test_pragma.ads:2:4-2:68>
+**************************************************************
+
+Expr: <Id "Initial_Condition" test_pragma.ads:2:11-2:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test_pragma.ads:2:30-2:66>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <QuantifiedExpr test_pragma.ads:2:31-2:65>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test_pragma.ads:2:60-2:65>
+  references:    <DefiningName "F" test_pragma.ads:6:16-6:17>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" test_pragma.ads:2:60-2:61>
+  references:    <DefiningName "F" test_pragma.ads:6:16-6:17>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "A" test_pragma.ads:2:63-2:64>
+  references:    <DefiningName "A" test_pragma.ads:2:39-2:40>
+  type:          <ConcreteTypeDecl ["Address_Type"] test_pragma.ads:5:7-5:40>
+  expected type: <ConcreteTypeDecl ["Address_Type"] test_pragma.ads:5:7-5:40>
+
+
+Analyzing test_pragma.adb
+#########################
+
+Done.

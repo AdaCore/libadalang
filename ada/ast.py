@@ -221,7 +221,7 @@ class AdaNode(ASTNode):
             "Postcondition'Class", "Invariant", "Invariant'Class",
             "Type_Invariant", "Type_Invariant'Class",
             "Predicate", "Static_Predicate", "Dynamic_Predicate",
-            "Default_Initial_Condition",
+            "Default_Initial_Condition", "Initial_Condition",
             "Contract_Cases", "Test_Case",
             "Global", "Refined_Global", "Refined_State",
             "Stable_Properties",
@@ -10024,7 +10024,8 @@ class Pragma(AdaNode):
             Entity.id.name_symbol.any_of(
                 "Pre", "Post", "Pre'Class", "Post'Class",
                 "Precondition", "Postcondition",
-                "Precondition'Class", "Postcondition'Class"
+                "Precondition'Class", "Postcondition'Class",
+                "Initial_Condition"
             ),
             Entity.args.at(0).assoc_expr.then(
                 lambda expr:
@@ -10483,7 +10484,8 @@ class AspectAssoc(AdaNode):
             # Contracts
             Entity.id.name_symbol.any_of(
                 'Pre', 'Post', 'Refined_Post', 'Type_Invariant', 'Invariant',
-                'Predicate', 'Static_Predicate', 'Dynamic_Predicate'
+                'Predicate', 'Static_Predicate', 'Dynamic_Predicate',
+                'Initial_Condition'
             ),
             Let(
                 lambda expr_equation_env=If(

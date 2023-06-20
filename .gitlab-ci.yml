@@ -135,29 +135,8 @@ continuous_builder:
     - anod vcs --add-repo gpr2 /tmp/gpr
     - anod vcs --add-repo templates_parser /tmp/templates-parser
 
-    # By default, the anod resolved installs dependencies, so we must manually
-    # trigger intermediate builds each time. For instance: build adasat so that
-    # the build of langkit_support does not install it.
+    # Make sure the GNAT package can still build with all these changes
+    - anod build --smart-rebuild gnat
 
-    # Run builds for...
-
-    # ... the Libadalang (internal lib) closure
-    - anod build adasat
-    - anod build langkit_support
-    - anod build langkit
-    - anod build libgpr2 -Qbare,edge
-    - anod build libadalang
-
-    # ... the Libadalang (for customers) closure
-    - anod build libadalang-doc
-    - anod build libadalang_for_customers
-
-    # ... the AWS closure
-    - anod build aws-lib
-    - anod build aws-tools
-    - anod build aws
-
-    # ... build the GPR2 closure
-    - anod build gpr2name
-    - anod build libgpr2 -Qbare
-    - anod build gpr2
+    # Also build the customer-facing Libadalang package
+    - anod build --smart-rebuild libadalang_for_customers

@@ -10175,7 +10175,7 @@ class Pragma(AdaNode):
             default_val=No(DefiningName.entity.array)
         ))
 
-        enclosing_program_unit = Var(Self.parents.find(
+        enclosing_program_unit = Var(Self.parents(with_self=False).find(
             lambda p: p.is_a(T.BasicDecl)
         ).cast(T.BasicDecl).as_entity)
 
@@ -10210,10 +10210,16 @@ class Pragma(AdaNode):
                 # If no name, either it's a contract pragma...
                 Self.is_contract_aspect(Entity.id.name_symbol),
 
-                # in which case they are attached to the closest subprogram
-                # above it.
-                Entity.declarative_scope.then(
-                    lambda decl_scope: decl_scope.decls.filter(
+                # in which case they are attached to the closest declaration
+                # above it. We could have used a call to previous_sibling here
+                # to find the closest declaration above it but since
+                # declarations are in lists we can directly search it in the
+                # parent list to save time (previous_sibling has a linear
+                # complexity so it can be very inefficient if we have a long
+                # list of pragma to process before reaching the declaration
+                # associated to them).
+                Self.parent.cast(AdaNode.list)._.then(
+                    lambda decls: decls.filter(
                         lambda decl: decl.is_a(BasicDecl) & (decl < Self)
                     ).then(
                         lambda decls: decls.at(decls.length - 1)

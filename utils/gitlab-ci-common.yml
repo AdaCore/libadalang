@@ -22,6 +22,7 @@
     GPR2_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/gpr/gpr
     LANGKIT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/langkit
     LIBADALANG_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/libadalang
+    LIBADALANG_TOOLS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/ide/libadalang-tools
     TEMPLATES_PARSER_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/toolchain/templates-parser
   script:
     - export PATH=/it/e3/bin:$PATH
@@ -36,6 +37,7 @@
     - git clone --depth 1 $GPR2_GIT
     - git clone --depth 1 $LANGKIT_GIT
     - git clone --depth 1 $LIBADALANG_GIT
+    - git clone --depth 1 $LIBADALANG_TOOLS_GIT
     - git clone --depth 1 $TEMPLATES_PARSER_GIT
 
     # Make the sandbox use these sources over nightly source packages
@@ -46,6 +48,7 @@
     - anod vcs --add-repo gpr2 /tmp/gpr
     - anod vcs --add-repo langkit /tmp/langkit
     - anod vcs --add-repo libadalang /tmp/libadalang
+    - anod vcs --add-repo libadalang-tools /tmp/libadalang-tools
     - anod vcs --add-repo templates_parser /tmp/templates-parser
 
     # Make sure the GNAT package can still build with all these changes

@@ -1,0 +1,6 @@
+project Test is
+   package Compiler is
+      for Local_Configuration_Pragmas use "test.adc";
+   end Compiler;
+   for Source_Files use ("test.ads", "test.adb");
+end Test;

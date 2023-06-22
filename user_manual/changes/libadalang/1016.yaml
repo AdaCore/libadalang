@@ -1,0 +1,7 @@
+type: new-feature
+title: New `is_spark` property on `BaseSubpBody`
+description: |
+  This change introduces a new property on subprogram bodies (`BaseSubpBody`).
+  This property, named `is_spark` allows to determine if a given subprogram is
+  in SPARK or not.
+date: 2023-07-06

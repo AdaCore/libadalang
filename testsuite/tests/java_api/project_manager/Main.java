@@ -96,7 +96,8 @@ public class Main {
         openProject(
             "p2.gpr",
             new Libadalang.ScenarioVariable[] {
-                Libadalang.ScenarioVariable.create("SRC_DIR", "src2_1")
+                Libadalang.ScenarioVariable.create("SRC_DIR", "src2_1"),
+                Libadalang.ScenarioVariable.create("USELESS", "useless")
             },
             true
         );

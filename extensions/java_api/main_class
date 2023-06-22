@@ -212,6 +212,15 @@ nat = c_api.get_name
             }
         }
 
+        // ----- Override methods -----
+
+        /** @see java.lang.Object#toString() */
+        public String toString() {
+            return "ScenarioVariable(" +
+                this.name + " = " + this.value +
+                ")";
+        }
+
     }
 
     /**
@@ -316,6 +325,17 @@ nat = c_api.get_name
                     errorsPointer
                 );
 
+                // Check the langkit exception and cast it into a project manager error
+                try {
+                    checkException();
+                } catch (LangkitException e) {
+                    throw new ProjectManagerException(e.getMessage());
+                }
+
+                // Get the result of modified values
+                final ProjectManagerNative projectManagerNative = (ProjectManagerNative) projectPointer.readWord(0);
+                final StringArrayNative errorArrayNative = (StringArrayNative) errorsPointer.readWord(0);
+
                 // Free the scenario variables
                 if(scenarioVariablesNative.isNonNull()) {
                     for(int i = 0 ; i < scenarioVariables.length ; i++) {
@@ -331,18 +351,16 @@ nat = c_api.get_name
                 UnmanagedMemory.free(targetNative);
                 UnmanagedMemory.free(runtimeNative);
 
-                // `errorsPointer` is not allocated if an exception was raised during project file loading.
-                if (((Pointer) errorsPointer.readWord(0)).isNonNull()) {
-                    // Verify the error array
-                    final String[] errors = toJStringArray(
-                        (StringArrayNative) errorsPointer.readWord(0)
-                    );
+                // `errorsPointer` is not allocated if an exception was raised during project file loading
+                if (errorArrayNative.isNonNull()) {
+                    // Translate the error native array into a Java array
+                    final String[] errors = toJStringArray(errorArrayNative);
                     for (String error : errors) {
                         System.err.println("Error during project opening: " + error);
                     }
 
                     // Free the error array
-                    NI_LIB.${nat("free_string_array")}((StringArrayNative) errorsPointer.readWord(0));
+                    NI_LIB.${nat("free_string_array")}(errorArrayNative);
                 }
 
                 // Check the langkit exception and cast it into a project manager error
@@ -352,9 +370,8 @@ nat = c_api.get_name
                     throw new ProjectManagerException(e.getMessage());
                 }
 
-                return wrap(
-                    (ProjectManagerNative) projectPointer.readWord(0)
-                );
+                // Return the Java wrapped project manager
+                return wrap(projectManagerNative);
             } else {
                 final PointerWrapper reference = JNI_LIB.${nat("gpr_project_load")}(
                     projectFile,

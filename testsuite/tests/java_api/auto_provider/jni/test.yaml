@@ -1,0 +1,4 @@
+driver: java
+mode: jni
+java_path: ../
+projects_path: ../sources

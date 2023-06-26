@@ -534,3 +534,53 @@ nat = c_api.get_name
         }
 
     }
+
+    ${java_doc("libadalang.create_auto_provider", 4)}
+    public static UnitProvider createAutoProvider(
+        final String[] sourceFiles,
+        final String charset
+    ) {
+        if (ImageInfo.inImageCode()) {
+            final CCharPointer charsetNative =
+                charset == null ?
+                WordFactory.nullPointer() :
+                toCString(charset);
+
+            // Allocate the C array of C strings that will contain decoded
+            // source file names. Make room for one additional null pointer
+            // to mark the end of the array.
+            final CCharPointerPointer sourceFilesNative =
+                UnmanagedMemory.calloc(
+                    (sourceFiles.length + 1) * SizeOf.get(CCharPointerPointer.class)
+                );
+
+            for (int i = 0; i < sourceFiles.length; ++i) {
+                sourceFilesNative.write(i, toCString(sourceFiles[i]));
+            }
+
+            // Create the auto provider
+            final UnitProviderNative unitProviderNative =
+                NI_LIB.${nat('create_auto_provider')}(
+                    sourceFilesNative,
+                    charsetNative
+                );
+
+            // Release all temporarily allocated memory
+            for (int i = 0; i < sourceFiles.length; ++i) {
+                UnmanagedMemory.free(sourceFilesNative.read(i));
+            }
+
+            UnmanagedMemory.free(sourceFilesNative);
+
+            if (charset != null) {
+                UnmanagedMemory.free(charsetNative);
+            }
+
+            return UnitProvider.wrap(unitProviderNative);
+        } else {
+            return JNI_LIB.${nat("create_auto_provider")}(
+                sourceFiles,
+                charset
+            );
+        }
+    }

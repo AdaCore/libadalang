@@ -220,3 +220,57 @@ ${api.jni_func_sig("gpr_project_source_files", "jobjectArray")}(
     // Return the result array
     return result_array;
 }
+
+// Create an auto provider reference
+${api.jni_func_sig("create_auto_provider", "jobject")}(
+    JNIEnv *env,
+    jclass jni_lib,
+    jobjectArray source_files,
+    jstring charset
+) {
+    // Retrieve the number of files N
+    jsize source_file_count = (*env)->GetArrayLength(env, source_files);
+
+    // Allocate an array of N+1 element (the last one should be the null pointer),
+    // indicating the end of the C array.
+    const char** source_files_c = calloc(source_file_count + 1, sizeof(char*));
+
+    for (int i = 0; i < source_file_count; ++i) {
+        jstring source_file = (jstring) (*env)->GetObjectArrayElement(
+            env,
+            source_files,
+            i
+        );
+        source_files_c[i] = (*env)->GetStringUTFChars(env, source_file, NULL);
+    }
+
+    const char* charset_c = NULL;
+
+    if (charset != NULL) {
+        charset_c = (*env)->GetStringUTFChars(env, charset, NULL);
+    }
+
+    // Create the auto provider
+    ${unit_provider_type} res = ${nat("create_auto_provider")}(
+        source_files_c, charset_c
+    );
+
+    // Free all temporarily allocated memory
+
+    if (charset_c != NULL) {
+        (*env)->ReleaseStringUTFChars(env, charset, charset_c);
+    }
+
+    for (int i = 0; i < source_file_count; ++i) {
+        jstring source_file = (jstring) (*env)->GetObjectArrayElement(
+            env,
+            source_files,
+            i
+        );
+        (*env)->ReleaseStringUTFChars(env, source_file, source_files_c[i]);
+    }
+    free(source_files_c);
+
+    // Return the new unit provider
+    return UnitProvider_wrap(env, res);
+}

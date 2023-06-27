@@ -102,7 +102,10 @@ main(void)
     if (!ada_ada_node_token_start(&subp_name, &tok))
       error("Could not get token for Identifier");
     printf("Identifier: tok = ");
-    fprint_text(stderr, tok.text, false);
+    ada_text token_text;
+    ada_token_range_text (&tok, &tok, &token_text);
+    fprint_text(stderr, token_text, false);
+    ada_destroy_text (&token_text);
     putchar('\n');
 
 

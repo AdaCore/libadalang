@@ -30,11 +30,17 @@ print_sloc_range(ada_source_location_range *sr)
 static void
 print_token(ada_token *token)
 {
-    char *kind = ada_token_kind_name(token->kind);
+    char *kind = ada_token_kind_name(ada_token_get_kind(token));
+    ada_text text;
+
+    ada_token_range_text(token, token, &text);
+
     printf("<Token Kind=%s Text=\"", kind);
-    fprint_text(stdout, token->text, false);
+    fprint_text(stdout, text, false);
     printf("\">");
+
     free(kind);
+    ada_destroy_text(&text);
 }
 
 static void

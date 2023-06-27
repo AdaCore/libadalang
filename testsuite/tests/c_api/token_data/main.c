@@ -16,6 +16,7 @@ main(void)
     ada_base_entity node;
     ada_token tok;
     char *tk_name;
+    ada_text text;
 
     ctx = ada_allocate_analysis_context ();
     abort_on_exception ();
@@ -45,18 +46,22 @@ main(void)
               ".f_name.token_start");
 
     puts("Token data for the \"foo\" identifier:");
-    tk_name = ada_token_kind_name(tok.kind);
+    tk_name = ada_token_kind_name(ada_token_get_kind(&tok));
     printf("Kind: %s\n", tk_name);
     free(tk_name);
     printf("Text: ");
-    fprint_text(stdout, tok.text, false);
+    ada_token_range_text (&tok, &tok, &text);
+    fprint_text(stdout, text, false);
+    ada_destroy_text (&text);
     printf("\n");
 
+    ada_source_location_range sloc_range;
+    ada_token_sloc_range (&tok, &sloc_range);
     printf("Sloc range: %u:%u-%u:%u\n",
-       (unsigned) tok.sloc_range.start.line,
-       (unsigned) tok.sloc_range.start.column,
-       (unsigned) tok.sloc_range.end.line,
-       (unsigned) tok.sloc_range.end.column);
+       (unsigned) sloc_range.start.line,
+       (unsigned) sloc_range.start.column,
+       (unsigned) sloc_range.end.line,
+       (unsigned) sloc_range.end.column);
 
     ada_context_decref(ctx);
 

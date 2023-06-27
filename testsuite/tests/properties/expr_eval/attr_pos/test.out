@@ -1,0 +1,17 @@
+Working on node <NumberDecl ["E"] test.adb:6:4-6:40>
+====================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 2
+
+Working on node <NumberDecl ["I"] test.adb:9:4-9:38>
+====================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 123
+
+Working on node <NumberDecl ["J"] test.adb:12:4-12:33>
+======================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: -3

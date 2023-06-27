@@ -1,3 +1,147 @@
+Working on node <ObjectDecl ["Slice_1"] slice.adb:6:3-6:62>
+===========================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: 'bcdefg'
+
+Working on node <ObjectDecl ["Slice_2"] slice.adb:8:3-8:80>
+===========================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: 'cdef'
+
+Working on node <ObjectDecl ["Slice_3"] slice.adb:10:3-10:80>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: 'de'
+
+Working on node <ObjectDecl ["Slice_4"] slice.adb:12:3-12:80>
+=============================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: ''
+
+Working on node <ObjectDecl ["S_First_1"] slice.adb:19:3-19:43>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <NumberDecl ["S_First_2"] slice.adb:21:3-21:35>
+===============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Slice_1_First"] slice.adb:23:3-23:53>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["Slice_2_First"] slice.adb:25:3-25:53>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 3
+
+Working on node <ObjectDecl ["Slice_3_First"] slice.adb:27:3-27:53>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 4
+
+Working on node <ObjectDecl ["Slice_4_First"] slice.adb:29:3-29:53>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 5
+
+Working on node <ObjectDecl ["Slice_5_First"] slice.adb:32:3-32:53>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 5
+
+Working on node <ObjectDecl ["Slice_6_First"] slice.adb:34:3-34:53>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 6
+
+Working on node <ObjectDecl ["Slice_7_First"] slice.adb:36:3-36:53>
+===================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 3
+
+Working on node <ObjectDecl ["S_Last_1"] slice.adb:39:3-39:41>
+==============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 8
+
+Working on node <NumberDecl ["S_Last_2"] slice.adb:41:3-41:33>
+==============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 8
+
+Working on node <ObjectDecl ["Slice_1_Last"] slice.adb:43:3-43:51>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 7
+
+Working on node <ObjectDecl ["Slice_2_Last"] slice.adb:45:3-45:51>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 6
+
+Working on node <ObjectDecl ["Slice_3_Last"] slice.adb:47:3-47:51>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 5
+
+Working on node <ObjectDecl ["Slice_4_Last"] slice.adb:49:3-49:51>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 4
+
+Working on node <ObjectDecl ["Slice_5_Last"] slice.adb:52:3-52:51>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 4
+
+Working on node <ObjectDecl ["Slice_6_Last"] slice.adb:54:3-54:51>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 7
+
+Working on node <ObjectDecl ["Slice_7_Last"] slice.adb:56:3-56:51>
+==================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 9
+
+Working on node <ObjectDecl ["Index"] test_pkg.adb:4:4-4:37>
+============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 80
+
+Working on node <ObjectDecl ["Slice"] test_pkg.adb:7:4-7:39>
+============================================================
+
+Eval 'node.f_default_expr.p_eval_as_string'
+Result: 'kg'
+
 Working on node <ObjectDecl ["S1"] valid.ads:3:4-3:43>
 ======================================================
 
@@ -39,3 +183,75 @@ Working on node <ObjectDecl ["S7"] valid.ads:21:4-21:62>
 
 Eval 'node.f_default_expr.p_eval_as_string'
 Result: 'ABCDE'
+
+Working on node <NumberDecl ["S_First"] valid.ads:24:4-24:35>
+=============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 1
+
+Working on node <NumberDecl ["S_Last"] valid.ads:27:4-27:33>
+============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 12
+
+Working on node <ObjectDecl ["S_First_2"] valid.ads:30:4-30:45>
+===============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["S_Last_2"] valid.ads:33:4-33:43>
+==============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 12
+
+Working on node <NumberDecl ["S_Length"] valid.ads:36:4-36:37>
+==============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 12
+
+Working on node <NumberDecl ["Item_P"] valid.ads:39:4-39:45>
+============================================================
+
+Eval 'node.f_expr.p_eval_as_int'
+Result: 72
+
+Working on node <ObjectDecl ["S_Item"] valid.ads:42:4-42:61>
+============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 33
+
+Working on node <ObjectDecl ["S_Item_2"] valid.ads:45:4-45:64>
+==============================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 72
+
+Working on node <ObjectDecl ["Slice"] valid.ads:48:4-48:58>
+===========================================================
+
+Eval 'node.f_renaming_clause.f_renamed_object.p_eval_as_string'
+Result: 'ello World'
+
+Working on node <ObjectDecl ["Slice_First"] valid.ads:51:4-51:50>
+=================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 2
+
+Working on node <ObjectDecl ["Slice_Last"] valid.ads:54:4-54:48>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 11
+
+Working on node <ObjectDecl ["Slice_Item"] valid.ads:57:4-57:73>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 108

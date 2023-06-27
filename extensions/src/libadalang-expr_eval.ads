@@ -39,6 +39,9 @@ package Libadalang.Expr_Eval is
             Real_Result : Rational;
          when String_Lit =>
             String_Result : Unbounded_Text_Type;
+            --  First and Last are used to keep track of the String objects
+            --  bounds (this information is required to evaluate slices).
+            First, Last   : Natural;
       end case;
    end record;
    --  This data type represents the result of the evaluation of an expression

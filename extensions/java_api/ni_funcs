@@ -47,3 +47,12 @@ nat = c_api.get_name
     public static native void ${nat("free_string_array")}(
         StringArrayNative sourceFileArray
     );
+
+    /** Create an auto provider reference */
+    @CompilerDirectives.TruffleBoundary
+    @CFunction
+    public static native UnitProviderNative ${nat("create_auto_provider")}(
+        CCharPointerPointer sourceFiles,
+        CCharPointer charset
+    );
+

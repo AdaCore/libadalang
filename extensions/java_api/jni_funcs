@@ -31,3 +31,10 @@ nat = c_api.get_name
         ProjectManager project,
         int mode
     );
+
+    /** Create an auto provider reference */
+    @CompilerDirectives.TruffleBoundary
+    public static native UnitProvider ${nat("create_auto_provider")}(
+        String[] sourceFiles,
+        String charset
+    );

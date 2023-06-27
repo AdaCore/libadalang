@@ -1,20 +1,6 @@
 # Common items to create CIs for Libadalang-related projects
 
-.cb:
-  # Items to create continuous builders (CB).
-  #
-  # Such jobs are meant to be run only after all updates on the "master"
-  # branch.  Their purpose is to check that recent work the
-  # Libadalang/Langkit/AdaSAT repositories does not break the build of GNAT. In
-  # this context, we are only interested in builds: we think that a situation
-  # where LAL changes do not break builds but create serious regressions at
-  # runtime are very unlikely, and running relevant testing is very costly.
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-  services:
-     - image:sandbox
-     - cpu:8
-     - mem:16
+.basic:
   variables:
     ADASAT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/adasat
     ANOD_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/it/anod
@@ -24,15 +10,39 @@
     LIBADALANG_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/libadalang
     LIBADALANG_TOOLS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/ide/libadalang-tools
     TEMPLATES_PARSER_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/toolchain/templates-parser
-  script:
+
+.script_snippets:
+  setup:
     - export PATH=/it/e3/bin:$PATH
     - . ~/.aws_container_credentials
+
+    # Use the latest Anod specs
+    - (cd /tmp && git clone --depth 1 $ANOD_GIT)
+    - (cd /it/wave && anod tune --anod-dir /tmp/anod)
+
+.cb:
+  # Items to create continuous builders (CB).
+  #
+  # Such jobs are meant to be run only after all updates on the "master"
+  # branch.  Their purpose is to check that recent work the
+  # Libadalang/Langkit/AdaSAT repositories does not break the build of GNAT. In
+  # this context, we are only interested in builds: we think that a situation
+  # where LAL changes do not break builds but create serious regressions at
+  # runtime are very unlikely, and running relevant testing is very costly.
+  extends: .basic
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  services:
+     - image:sandbox
+     - cpu:8
+     - mem:16
+  script:
+    - !reference [.script_snippets, setup]
 
     # Get up-to-date sources for the continuous build: anod specs, LAL
     # repositories and unstabilized projects using LAL.
     - cd /tmp
     - git clone --depth 1 $ADASAT_GIT
-    - git clone --depth 1 $ANOD_GIT
     - git clone --depth 1 $AWS_GIT
     - git clone --depth 1 $GPR2_GIT
     - git clone --depth 1 $LANGKIT_GIT
@@ -42,7 +52,6 @@
 
     # Make the sandbox use these sources over nightly source packages
     - cd /it/wave
-    - anod tune --anod-dir /tmp/anod
     - anod vcs --add-repo adasat /tmp/adasat
     - anod vcs --add-repo aws /tmp/aws
     - anod vcs --add-repo gpr2 /tmp/gpr

@@ -35,6 +35,7 @@ stages:
 
 build_and_test:
   # This job works with the latest package containing the upstream project
+  extends: .basic
   rules:
     # Do not trigger it from branches that start with "sync/": these are tested
     # from the Langkit CI.
@@ -50,8 +51,7 @@ build_and_test:
      - mem:16
   stage: single
   script:
-    - export PATH=/it/e3/bin:$PATH
-    - . ~/.aws_container_credentials
+    - !reference [.script_snippets, setup]
 
     # Download the langkit package
     - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)

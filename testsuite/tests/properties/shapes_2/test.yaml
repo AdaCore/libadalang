@@ -1,2 +1,3 @@
 driver: inline-playground
+ignore_parsing_errors: true
 input_sources: [test.adb]

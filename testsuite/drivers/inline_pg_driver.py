@@ -25,4 +25,6 @@ class InlinePlaygroundDriver(BaseDriver):
             args.insert(0, '--charset={}'.format(charset))
         if project_file:
             args.insert(0, '-P{}'.format(project_file))
+        if self.test_env.get('ignore_parsing_errors', False):
+            args.insert(0, '--ignore-parsing-errors')
         py_runner.run(py_file, args)

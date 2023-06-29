@@ -10,7 +10,7 @@ Working on node <ObjectDecl ["Bad_Type"] invalid.ads:9:4-9:45>
 Eval 'node.f_default_expr.p_eval_as_int'
 Exception: Cannot resolve attribute prefix
 
-Working on node <ObjectDecl ["Unknown_Decl"] invalid.ads:14:4-14:61>
+Working on node <ObjectDecl ["Unknown_Decl"] invalid.ads:12:4-12:61>
 ====================================================================
 
 Eval 'node.f_default_expr.p_eval_as_int'

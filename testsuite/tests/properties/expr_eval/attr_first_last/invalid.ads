@@ -9,8 +9,6 @@ package Invalid is
    Bad_Type : constant Integer := Rec'First;
    --% node.f_default_expr.p_eval_as_int
 
-   subtype Invalid_Subtype is ;
-
    Unknown_Decl : constant Integer := Invalid_Subtype'First;
    --% node.f_default_expr.p_eval_as_int
 

@@ -17066,6 +17066,13 @@ class BaseId(SingleTokNode):
                                  (origin._or(Self)).node_env),
             Array([private_part_env, env, formals_env]).env_group(),
 
+            # If we're not looking from the private part, we could be looking
+            # from the public part of a generic package decl. In such a case
+            # the returned env should also include the formals environment for
+            # that package.
+            bd.is_a(T.GenericPackageDecl),
+            Array([env, formals_env]).env_group(),
+
             # TODO: Probably some special handling for separates here, because
             # they'll have full visibility on the package body in which they're
             # defined.

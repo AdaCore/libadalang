@@ -9174,7 +9174,7 @@ class AccessDef(TypeDef):
     """
     Base class for access type definitions (:rmlink:`3.10`).
     """
-    has_not_null = Field(type=NotNull)
+    has_not_null = Field(type=NotNull, nullable=True)
 
     is_access_type = Property(True)
 
@@ -17629,7 +17629,7 @@ class EnumLiteralDecl(BasicSubpDecl):
     Declaration for an enumeration literal (:rmlink:`3.5.1`).
     """
 
-    name = Field(type=T.DefiningName)
+    name = Field(type=T.DefiningName, nullable=True)
     aspects = NullField()
 
     is_static_decl = Property(True)
@@ -18345,7 +18345,7 @@ class SyntheticBinarySpec(BaseSubpSpec):
     subp_symbol = UserField(type=T.Symbol, public=False)
     left_param = Field(type=T.SyntheticFormalParamDecl)
     right_param = Field(type=T.SyntheticFormalParamDecl)
-    return_type_expr = Field(type=T.TypeExpr)
+    return_type_expr = Field(type=T.TypeExpr, nullable=True)
 
     name = Property(Self.synthesize_defining_name(Self.subp_symbol).as_entity)
     returns = Property(Entity.return_type_expr)

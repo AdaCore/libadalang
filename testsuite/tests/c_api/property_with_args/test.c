@@ -8,18 +8,21 @@
 static void
 dump_identifier(ada_base_node id)
 {
-    ada_text kind;
-    ada_kind_name(ada_node_kind(id), &kind);
+    ada_text text;
     ada_token name;
 
+    ada_kind_name(ada_node_kind(id), &text);
     printf("  ");
-    fprint_text(stdout, kind, 0);
+    fprint_text(stdout, text, 0);
     printf(": ");
+    ada_destroy_text(&text);
 
     if (!ada_ada_node_token_start(id, &name))
       error("Could not the the name of an Identifier");
-    fprint_text(stdout, name.text, 0);
+    ada_token_range_text (&name, &name, &text);
+    fprint_text(stdout, text, 0);
     printf("\n");
+    ada_destroy_text(&text);
 }
 
 static const char *

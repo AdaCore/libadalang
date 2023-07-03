@@ -30,8 +30,9 @@ main(void)
          tok.token_data != NULL;
          ada_token_next(&tok, &tok))
     {
-        char *kind_name = ada_token_kind_name(tok.kind);
+        char *kind_name = ada_token_kind_name(ada_token_get_kind(&tok));
         ada_token pt;
+	ada_text text;
 
         ada_token_previous(&tok, &pt);
         if (!token_eq_p(&prev_tok, &pt))
@@ -39,10 +40,13 @@ main(void)
 
         printf("%s", kind_name);
 	free (kind_name);
-        if (tok.text.length > 0) {
+
+	ada_token_range_text (&tok, &tok, &text);
+        if (text.length > 0) {
             printf(" ");
-            fprint_text(stdout, tok.text, true);
+            fprint_text(stdout, text, true);
         }
+	ada_destroy_text (&text);
         printf("\n");
         prev_tok = tok;
     }

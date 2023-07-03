@@ -5948,7 +5948,7 @@ class BaseTypeDecl(BasicDecl):
             name=Self.name,
             discriminants=No(T.DiscriminantPart),
             type_def=T.AnonymousTypeAccessDef.new(
-                has_not_null=T.NotNullAbsent.new(),
+                has_not_null=No(T.NotNull),
                 type_decl=Self
             )
         ).cast(T.BaseTypeDecl).as_entity

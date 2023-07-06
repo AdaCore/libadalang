@@ -26,7 +26,8 @@ class JavaDriver(BaseDriver):
         libadalang_jar = P.join(bindings_dir, 'target', 'libadalang.jar')
         if not P.isfile(libadalang_jar):
             raise TestAbortWithFailure(
-                'Cannot find the Java bindings JAR archive'
+                "Cannot find the Java bindings JAR archive, make sure you "
+                "built libadalang with the '--enable-java' flag"
             )
 
         # Get the java main file

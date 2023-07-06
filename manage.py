@@ -38,6 +38,10 @@ class Manage(ManageScript):
             help='Disable tests involving the OCaml API'
         )
         self.test_parser.add_argument(
+            '--disable-java', action="store_true",
+             help='Disable tests involving the Java API'
+        )
+        self.test_parser.add_argument(
             'testsuite-args', nargs='*',
             help='Arguments to pass to testsuite.py.'
         )
@@ -208,6 +212,10 @@ class Manage(ManageScript):
         if not args.disable_ocaml:
             argv.append('--with-ocaml-bindings')
             argv.append(os.path.join(args.build_dir, 'ocaml'))
+
+        if not args.disable_java:
+            argv.append('--with-java-bindings')
+            argv.append(os.path.join(args.build_dir, 'java'))
 
         if not LibraryType.relocatable in args.library_types:
             argv.append('--disable-shared')

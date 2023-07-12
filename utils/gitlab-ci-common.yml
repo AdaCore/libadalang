@@ -13,9 +13,6 @@
 
 .script_snippets:
   setup:
-    - export PATH=/it/e3/bin:$PATH
-    - . ~/.aws_container_credentials
-
     # Use the latest Anod specs
     - (cd /tmp && git clone --depth 1 $ANOD_GIT)
     - (cd /it/wave && anod tune --anod-dir /tmp/anod)

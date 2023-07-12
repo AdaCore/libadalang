@@ -31,6 +31,7 @@ gnatinspect.db-*
 *.ali
 .gdb_history
 .gnatdebug
+*.ad?.std*
 
 # IDEA junk
 .idea

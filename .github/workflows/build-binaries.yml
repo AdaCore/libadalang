@@ -81,10 +81,10 @@ jobs:
         with:
           toolchain: gnat_native^12 gprbuild^22
           toolchain_dir: ./cached_gnat
-      - name: Setup Python 3.8
+      - name: Setup Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.10'
       - name: Build Libadalang and its dependencies (Windows)
         if: ${{ runner.os == 'Windows' }}
         shell: msys2 {0}

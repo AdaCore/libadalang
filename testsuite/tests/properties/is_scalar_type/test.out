@@ -1,0 +1,35 @@
+Working on node <ConcreteTypeDecl ["A"] test.adb:2:4-2:26>
+==========================================================
+
+Eval 'node.p_is_scalar_type()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["B"] test.adb:4:4-4:28>
+==========================================================
+
+Eval 'node.p_is_scalar_type()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["C"] test.adb:6:4-6:24>
+==========================================================
+
+Eval 'node.p_is_scalar_type()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["D"] test.adb:8:4-8:26>
+==========================================================
+
+Eval 'node.p_is_scalar_type()'
+Result: False
+
+Working on node <ConcreteTypeDecl ["E"] test.adb:10:4-10:20>
+============================================================
+
+Eval 'node.p_is_scalar_type()'
+Result: False
+
+Working on node <SubtypeDecl ["F"] test.adb:12:4-12:19>
+=======================================================
+
+Eval 'node.p_is_scalar_type()'
+Result: False

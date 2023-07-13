@@ -1,0 +1,7 @@
+type: new-feature
+title: Add ``is_scalar_type`` property
+description: |
+    Added a new ``BaseTypeDecl.p_is_scalar_type`` property, that allows users
+    to query whether a type is scalar or not.
+
+date: 2023-07-12

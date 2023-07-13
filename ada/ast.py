@@ -6082,6 +6082,13 @@ class BaseTypeDecl(BasicDecl):
         False, doc="Whether type is a fixed point type or not.", public=True,
         dynamic_vars=[default_origin()]
     )
+    is_scalar_type = Property(
+        Entity.is_int_type | Entity.is_real_type | Entity.is_float_type
+        | Entity.is_fixed_point | Entity.is_enum_type,
+        doc="Whether type is a scalar type.",
+        public=True,
+        dynamic_vars=[default_origin()]
+    )
 
     is_enum_type = Property(
         False, doc="Whether type is an enum type", public=True,

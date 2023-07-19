@@ -24,6 +24,7 @@ from langkit.utils import Colors, printcol
 class Manage(ManageScript):
 
     ENABLE_BUILD_WARNINGS_DEFAULT = True
+    ENABLE_JAVA_DEFAULT = True
 
     def add_extra_subcommands(self) -> None:
         ########

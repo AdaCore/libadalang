@@ -24,6 +24,7 @@ from langkit.utils import Colors, printcol
 class Manage(ManageScript):
 
     ENABLE_BUILD_WARNINGS_DEFAULT = True
+    ENABLE_JAVA_DEFAULT = True
 
     def add_extra_subcommands(self) -> None:
         ########
@@ -224,7 +225,7 @@ class Manage(ManageScript):
         argv.extend(getattr(args, 'testsuite-args'))
 
         try:
-            return self.check_call('Testsuite', argv)
+            return self.check_call('Testsuite', argv, direct_c_header=True)
         except KeyboardInterrupt:
             # At this point, the testsuite already made it explicit we stopped
             # after a keyboard interrupt, so we just have to exit.

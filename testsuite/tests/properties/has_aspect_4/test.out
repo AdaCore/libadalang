@@ -1,0 +1,29 @@
+Working on node <ComponentDecl ["A"] test.adb:4:7-4:19>
+=======================================================
+
+Eval 'node.p_has_aspect ("Independent")'
+Result: True
+
+Working on node <ComponentDecl ["B"] test.adb:7:7-7:19>
+=======================================================
+
+Eval 'node.p_has_aspect ("Independent")'
+Result: True
+
+Working on node <ComponentDecl ["C"] test.adb:9:7-9:19>
+=======================================================
+
+Eval 'node.p_has_aspect ("Independent")'
+Result: False
+
+Working on node <ComponentDecl ["D"] test.adb:12:7-12:36>
+=========================================================
+
+Eval 'node.p_has_aspect ("Independent")'
+Result: True
+
+Working on node <ConcreteTypeDecl ["T"] test.adb:3:4-14:15>
+===========================================================
+
+Eval 'node.p_has_aspect ("Independent")'
+Result: False

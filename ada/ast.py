@@ -2481,6 +2481,9 @@ class BasicDecl(AdaNode):
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
 
+        Aspects are properties of entities that can be specified by the Ada
+        program, either via aspect specifications, pragmas, or attributes.
+
         "Aspect" is used as in RM terminology (see :rmlink:`13`).
         """
         return Entity.defining_name_or_raise._.has_aspect(name)
@@ -2490,7 +2493,7 @@ class BasicDecl(AdaNode):
         """
         Return the pragma with name ``name`` associated to this entity.
 
-        Please use the ``p_get_aspects`` property instead if you are interested
+        Please use the ``p_get_aspect`` property instead if you are interested
         in aspects, i.e. information that can be represented by either aspect
         specification nodes, pragma nodes or attribute definition nodes.
         """
@@ -10131,6 +10134,18 @@ class Pragma(AdaNode):
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.Name)._.singleton,
 
+            Entity.id.name_is('Obsolescent'),
+            Entity.args.at(0)._.assoc_expr.cast(T.Name).then(
+                # Pragma Obsolescent can have a StringLiteral as a first
+                # argument, in which case there is no associated entity with
+                # it.
+                lambda name: If(
+                    Not(name.is_a(T.StringLiteral)),
+                    name.singleton,
+                    No(T.Name.entity.array)
+                )
+            ),
+
             No(T.Name.entity.array),
         )
 
@@ -10172,7 +10187,7 @@ class Pragma(AdaNode):
             default_val=No(DefiningName.entity.array)
         ))
 
-        enclosing_program_unit = Var(Self.parents.find(
+        enclosing_program_unit = Var(Self.parents(with_self=False).find(
             lambda p: p.is_a(T.BasicDecl)
         ).cast(T.BasicDecl).as_entity)
 
@@ -10204,23 +10219,32 @@ class Pragma(AdaNode):
                 )
             ),
             default_val=If(
-                # If no name, either it's a contract pragma...
-                Self.is_contract_aspect(Entity.id.name_symbol),
-
-                # in which case they are attached to the closest subprogram
-                # above it.
-                Entity.declarative_scope.then(
-                    lambda decl_scope: decl_scope.decls.filter(
+                # If no name
+                Or(
+                    # either it's a contract pragma...
+                    Self.is_contract_aspect(Entity.id.name_symbol),
+                    # or the Obsolescent pragma
+                    Entity.id.name_is('Obsolescent')
+                ),
+                # in which case they are attached to the closest declaration
+                # above it. We could have used a call to previous_sibling here
+                # to find the closest declaration above it but since
+                # declarations are in lists we can directly search it in the
+                # parent list to save time (previous_sibling has a linear
+                # complexity so it can be very inefficient if we have a long
+                # list of pragma to process before reaching the declaration
+                # associated to them).
+                Self.parent.cast(AdaNode.list)._.then(
+                    lambda decls: decls.filter(
                         lambda decl: decl.is_a(BasicDecl) & (decl < Self)
                     ).then(
                         lambda decls: decls.at(decls.length - 1)
                     ).cast(BasicDecl).as_entity._.singleton
                 )._or(
-                    # Or else to the closest parent subprogram
                     enclosing_program_unit.singleton
                 ),
 
-                # Or else it 's necessarily a program unit pragma
+                # Or else it's necessarily a program unit pragma
                 enclosing_program_unit.singleton
             ).map(lambda bd: bd.defining_name)
         )
@@ -16678,7 +16702,7 @@ class DefiningName(Name):
         """
         parts_to_check = Var(If(
             name.any_of(
-                'Inline',
+                'Inline', 'Obsolescent',
                 # For the following aspects, an aspect only on the body is
                 # illegal, but we don't care about illegal cases, and this
                 # allows us to auto propagate the aspect from spec to body.
@@ -16699,6 +16723,9 @@ class DefiningName(Name):
         """
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
+
+        Aspects are properties of entities that can be specified by the Ada
+        program, either via aspect specifications, pragmas, or attributes.
 
         "Aspect" is used as in RM terminology (see :rmlink:`13.1`).
         """
@@ -16744,11 +16771,18 @@ class DefiningName(Name):
         """
         Return the pragma with name ``name`` associated to this entity.
 
-        Please use the ``p_get_aspects`` property instead if you are interested
+        Please use the ``p_get_aspect`` property instead if you are interested
         in aspects, i.e. information that can be represented by either aspect
         specification nodes, pragma nodes or attribute definition nodes.
         """
-        bd = Var(Entity.basic_decl_no_internal)
+        bd = Var(Entity.basic_decl_no_internal.match(
+            # If Entity is an EnumLiteralDecl, search the pragma from the enum
+            # type declaration node.
+            lambda eld=T.EnumLiteralDecl:
+            eld.parent.parent.parent.cast_or_raise(T.BasicDecl),
+            lambda o: o
+        ))
+
         # First look at library level pragmas if Self is a library item
         return bd.library_item_pragmas.then(
             # Check pragma's name

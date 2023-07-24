@@ -1,0 +1,9 @@
+type: bugfix
+title: Various pragma support improvements
+description: |
+  This change improves the aspect/pragma support by correctly
+  handling pragmas associated to components and to enum literals.
+
+  Consequently, Libadalang now correctly supports the ``Independent`` and
+  ``Obsolescent`` (implementation-defined) pragmas.
+date: 2023-05-29

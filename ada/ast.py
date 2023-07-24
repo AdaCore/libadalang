@@ -6138,10 +6138,12 @@ class BaseTypeDecl(BasicDecl):
     def specific_type():
         """
         Return the specific type under a class-wide type. Consider for example:
-        ```
-        subtype S1 is T'Class
-        subtype S2 is S1'Class
-        ```
+
+        .. code-block:: ada
+
+           subtype S1 is T'Class
+           subtype S2 is S1'Class
+
         Calling this property on ``S2`` will return ``T``.
         """
         return Entity.match(

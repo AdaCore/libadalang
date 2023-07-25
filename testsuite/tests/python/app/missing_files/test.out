@@ -2,12 +2,14 @@ test.py: Starting...
 
 == no_missing ==
 
+no_such_file.adb: Cannot read no_such_file.adb
 Processing: no_missing.adb
 Processing: no_such_file.adb
 Return code: 0
 
 == missing_warn ==
 
+no_such_file.adb: Cannot read no_such_file.adb
 Processing: missing.adb
 WARNING: File missing_unit.ads not found
 Processing: no_missing.adb
@@ -16,6 +18,7 @@ Return code: 0
 
 == missing_error ==
 
+no_such_file.adb: Cannot read no_such_file.adb
 Processing: missing.adb
 ERROR: File missing_unit.ads not found
 Return code: 1

@@ -60,7 +60,15 @@ class InlinePlayground(lal.App):
             '--charset', default=None,
             help='Charset to use for source decoding'
         )
+        self.parser.add_argument(
+            '--ignore-parsing-errors', action='store_true',
+            help='Do not print parsing errors',
+        )
         super(InlinePlayground, self).add_arguments()
+
+    def on_parsing_errors(self, unit: lal.AnalysisUnit) -> None:
+        if not self.args.ignore_parsing_errors:
+            super().on_parsing_errors(unit)
 
     def prepare_output(self) -> None:
         if self._output_empty:

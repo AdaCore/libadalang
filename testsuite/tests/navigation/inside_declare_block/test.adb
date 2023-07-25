@@ -10,5 +10,7 @@ begin
 
       procedure Foo is null;
       --% node.p_previous_part_for_decl()
+   begin
+      null;
    end;
 end Test;

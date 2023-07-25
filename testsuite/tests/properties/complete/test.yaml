@@ -1,4 +1,5 @@
 driver: inline-playground
+ignore_parsing_errors: true
 input_sources: [testcomp.adb, test_pkg-foo.adb, private.adb,
                 subtype_indication.adb, case.adb, func_name.adb,
                 disass.adb, dotted_name.adb, cond_expr.adb]

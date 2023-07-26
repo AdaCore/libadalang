@@ -62,7 +62,7 @@ build_archive()
   ./manage.py generate
 
   GPR_PROJECT_PATH=$prefix/share/gpr \
-  ./manage.py build --disable-all-mains --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod}
+  ./manage.py build --disable-all-mains --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod} --disable-java
 
   ./manage.py install --disable-all-mains --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod} $prefix
   tar czf libadalang-$RUNNER_OS-`basename $GITHUB_REF`${DEBUG:+-dbg}-$LIBRARY_TYPE.tar.gz -C $prefix .

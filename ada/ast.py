@@ -10629,7 +10629,7 @@ class AspectAssoc(AdaNode):
         target = Var(Self.parent.parent.parent)
         return Cond(
             # Iterable aspect
-            Entity.id.name_is('Iterable'),
+            Entity.id.name_symbol.any_of('Aggregate', 'Iterable'),
             Entity.expr.cast(T.Aggregate).assocs.unpacked_params.logic_all(
                 lambda sa:
                 sa.assoc.expr
@@ -13589,6 +13589,7 @@ class BaseAggregate(Expr):
             Self.in_aspect('Global') | Self.in_aspect('Refined_Global')
             | Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends')
             | Self.in_aspect('Test_Case') | Self.in_aspect('Refined_State')
+            | Self.in_aspect('Aggregate')
             # Careful: normal aggregates can appear inside a contract_cases
             # aspect's expression, so we must only special case the direct
             # aggregate of that aspect.

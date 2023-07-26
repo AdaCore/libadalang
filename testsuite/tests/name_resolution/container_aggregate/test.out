@@ -1,0 +1,32 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AspectAssoc test.adb:11:14-12:50>
+***********************************************************
+
+Expr: <Id "Aggregate" test.adb:11:14-11:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:11:27-12:50>
+  type:          None
+  expected type: None
+Expr: <Id "Empty" test.adb:11:28-11:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "New_JSON_Array" test.adb:11:43-11:57>
+  references:    <DefiningName "New_JSON_Array" test.adb:15:16-15:30>
+  type:          None
+  expected type: None
+Expr: <Id "Add_Unnamed" test.adb:12:28-12:39>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Append" test.adb:12:43-12:49>
+  references:    <DefiningName "Append" test.adb:17:17-17:23>
+  type:          None
+  expected type: None
+
+
+Done.

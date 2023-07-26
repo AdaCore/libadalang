@@ -27,6 +27,9 @@ procedure Test is
 
       function New_JSON_Array return JSON_Array is (null record);
    end JSON;
+
+   List : JSON.JSON_Array := [1, 2, 3];
+   pragma Test_Statement;
 begin
    null;
 end Test;

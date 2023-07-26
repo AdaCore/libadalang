@@ -365,4 +365,292 @@ Expr: <Int pkg.adb:15:51-15:52>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
+Analyzing ai12_0212.adb
+#######################
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:121:4-121:12>
+****************************************************************
+
+Expr: <Id "S" ai12_0212.adb:121:4-121:5>
+  references:    <DefiningName "S" ai12_0212.adb:101:4-101:5>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:121:9-121:11>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:125:4-125:16>
+****************************************************************
+
+Expr: <Id "S" ai12_0212.adb:125:4-125:5>
+  references:    <DefiningName "S" ai12_0212.adb:101:4-101:5>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:125:9-125:15>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+Expr: <Int ai12_0212.adb:125:10-125:11>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
+Expr: <Int ai12_0212.adb:125:13-125:14>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:129:4-129:42>
+****************************************************************
+
+Expr: <Id "S" ai12_0212.adb:129:4-129:5>
+  references:    <DefiningName "S" ai12_0212.adb:101:4-101:5>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:129:9-129:41>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+Expr: <BinOp ai12_0212.adb:129:22-129:28>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Int ai12_0212.adb:129:22-129:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <OpDoubleDot ".." ai12_0212.adb:129:24-129:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ai12_0212.adb:129:27-129:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <BinOp ai12_0212.adb:129:32-129:40>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
+Expr: <Id "Item" ai12_0212.adb:129:32-129:36>
+  references:    <DefiningName "Item" ai12_0212.adb:129:14-129:18>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpMult "*" ai12_0212.adb:129:37-129:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ai12_0212.adb:129:39-129:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:133:4-134:39>
+****************************************************************
+
+Expr: <Id "S" ai12_0212.adb:133:4-133:5>
+  references:    <DefiningName "S" ai12_0212.adb:101:4-101:5>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:133:9-134:38>
+  type:          <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+  expected type: <ConcreteTypeDecl ["Set_Type"] ai12_0212.adb:13:7-15:53>
+Expr: <BinOp ai12_0212.adb:133:22-133:28>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Int ai12_0212.adb:133:22-133:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <OpDoubleDot ".." ai12_0212.adb:133:24-133:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ai12_0212.adb:133:27-133:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Id "Item" ai12_0212.adb:133:32-133:36>
+  references:    <DefiningName "Item" ai12_0212.adb:133:14-133:18>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
+Expr: <BinOp ai12_0212.adb:134:22-134:28>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Int ai12_0212.adb:134:22-134:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <OpDoubleDot ".." ai12_0212.adb:134:24-134:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ai12_0212.adb:134:27-134:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <UnOp ai12_0212.adb:134:32-134:37>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
+Expr: <OpMinus "-" ai12_0212.adb:134:32-134:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Item" ai12_0212.adb:134:33-134:37>
+  references:    <DefiningName "Item" ai12_0212.adb:134:14-134:18>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Small_Integer"] ai12_0212.adb:19:7-19:58>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:140:4-140:12>
+****************************************************************
+
+Expr: <Id "M" ai12_0212.adb:140:4-140:5>
+  references:    <DefiningName "M" ai12_0212.adb:102:4-102:5>
+  type:          <ConcreteTypeDecl ["Map_Type"] ai12_0212.adb:24:7-26:55>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:140:9-140:11>
+  type:          <ConcreteTypeDecl ["Map_Type"] ai12_0212.adb:24:7-26:55>
+  expected type: <ConcreteTypeDecl ["Map_Type"] ai12_0212.adb:24:7-26:55>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:144:4-144:40>
+****************************************************************
+
+Expr: <Id "M" ai12_0212.adb:144:4-144:5>
+  references:    <DefiningName "M" ai12_0212.adb:102:4-102:5>
+  type:          <ConcreteTypeDecl ["Map_Type"] ai12_0212.adb:24:7-26:55>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:144:9-144:39>
+  type:          <ConcreteTypeDecl ["Map_Type"] ai12_0212.adb:24:7-26:55>
+  expected type: <ConcreteTypeDecl ["Map_Type"] ai12_0212.adb:24:7-26:55>
+Expr: <Int ai12_0212.adb:144:10-144:12>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Str ""house"" ai12_0212.adb:144:16-144:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Int ai12_0212.adb:144:25-144:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Str ""beige"" ai12_0212.adb:144:31-144:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:166:4-166:12>
+****************************************************************
+
+Expr: <Id "V" ai12_0212.adb:166:4-166:5>
+  references:    <DefiningName "V" ai12_0212.adb:103:4-103:5>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:166:9-166:11>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:170:4-170:24>
+****************************************************************
+
+Expr: <Id "V" ai12_0212.adb:170:4-170:5>
+  references:    <DefiningName "V" ai12_0212.adb:103:4-103:5>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:170:9-170:23>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+Expr: <Str ""abc"" ai12_0212.adb:170:10-170:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""def"" ai12_0212.adb:170:17-170:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:174:4-174:57>
+****************************************************************
+
+Expr: <Id "V" ai12_0212.adb:174:4-174:5>
+  references:    <DefiningName "V" ai12_0212.adb:103:4-103:5>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:174:9-174:56>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+Expr: <Int ai12_0212.adb:174:10-174:11>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Str ""this"" ai12_0212.adb:174:15-174:21>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Int ai12_0212.adb:174:23-174:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Str ""is"" ai12_0212.adb:174:28-174:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Int ai12_0212.adb:174:34-174:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Str ""a"" ai12_0212.adb:174:39-174:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Int ai12_0212.adb:174:44-174:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Str ""test"" ai12_0212.adb:174:49-174:55>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <AssignStmt ai12_0212.adb:178:4-178:48>
+****************************************************************
+
+Expr: <Id "V" ai12_0212.adb:178:4-178:5>
+  references:    <DefiningName "V" ai12_0212.adb:103:4-103:5>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: None
+Expr: <BracketAggregate ai12_0212.adb:178:9-178:47>
+  type:          <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+  expected type: <ConcreteTypeDecl ["Vector_Type"] ai12_0212.adb:33:7-37:63>
+Expr: <BinOp ai12_0212.adb:178:19-178:25>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Int ai12_0212.adb:178:19-178:20>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <OpDoubleDot ".." ai12_0212.adb:178:21-178:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ai12_0212.adb:178:24-178:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <CallExpr ai12_0212.adb:178:29-178:46>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <AttributeRef ai12_0212.adb:178:29-178:42>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  type:          None
+  expected type: None
+Expr: <Id "Integer" ai12_0212.adb:178:29-178:36>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Id "Image" ai12_0212.adb:178:37-178:42>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "I" ai12_0212.adb:178:44-178:45>
+  references:    <DefiningName "I" ai12_0212.adb:178:14-178:15>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
 Done.

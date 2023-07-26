@@ -1,0 +1,5 @@
+project P1 is
+   package Builder is
+      for Global_Configuration_Pragmas use "p1.adc";
+   end Builder;
+end P1;

@@ -1,0 +1,5 @@
+project P2 is
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnatep=p2.def");
+   end Compiler;
+end P2;

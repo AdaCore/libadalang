@@ -61,7 +61,7 @@ extern ${str_array_type}
 ${capi.get_name('gpr_project_source_files')} (
    ${project_type} self,
    int mode,
-   char **projects_data,
+   const char **projects_data,
    int projects_length
 );
 

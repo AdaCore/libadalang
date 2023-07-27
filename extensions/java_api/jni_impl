@@ -169,13 +169,25 @@ ${api.jni_func_sig("gpr_project_free", "void")}(
 ${api.jni_func_sig("gpr_project_create_unit_provider", "jobject")}(
     JNIEnv *env,
     jclass jni_lib,
-    jobject project
+    jobject project,
+    jstring subproject
 ) {
+    const char* subproject_c = NULL;
+
+    if (subproject != NULL) {
+        subproject_c = (*env)->GetStringUTFChars(env, subproject, NULL);
+    }
+
     // Call the native function
     ${unit_provider_type} res = ${nat("gpr_project_create_unit_provider")}(
         (${project_type}) get_reference(env, project),
-        NULL
+        subproject_c
     );
+
+    // Free all temporarily allocated memory
+    if (subproject_c != NULL) {
+        (*env)->ReleaseStringUTFChars(env, subproject, subproject_c);
+    }
 
     // Return the new unit provider
     return UnitProvider_wrap(env, res);

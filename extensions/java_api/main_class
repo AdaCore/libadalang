@@ -241,9 +241,6 @@ nat = c_api.get_name
         /** Reference to the native value. */
         private final PointerWrapper reference;
 
-        /** Cache for the unit provider. */
-        private UnitProvider provider;
-
         // ----- Constructors -----
 
         /**
@@ -255,7 +252,6 @@ nat = c_api.get_name
             final PointerWrapper reference
         ) {
             this.reference = reference;
-            this.provider = null;
         }
 
         /**
@@ -465,29 +461,41 @@ nat = c_api.get_name
         // -----  Instance methods -----
 
         /**
-         * Get the unit provider of the project manager.
+         * Create a unit provider for the given subproject.
          *
+         * @param subproject The subproject for which to create a unit provider.
          * @return The unit provider for the project manager.
          */
-        public UnitProvider getProvider() {
-            if(this.provider == null) {
+        public UnitProvider getProvider(final String subproject) {
+            final UnitProvider result;
+            if(ImageInfo.inImageCode()) {
+                final CCharPointer subprojectNative =
+                    subproject == null ?
+                    WordFactory.nullPointer() :
+                    toCString(subproject);
 
-                if(ImageInfo.inImageCode()) {
-                    UnitProviderNative unitProviderNative = NI_LIB.${nat('gpr_project_create_unit_provider')}(
-                        this.reference.ni(),
-                        WordFactory.nullPointer()
-                    );
-                    this.provider = UnitProvider.wrap(unitProviderNative);
-                } else {
-                    this.provider = JNI_LIB.${nat("gpr_project_create_unit_provider")}(
-                        this
-                    );
+                UnitProviderNative unitProviderNative = NI_LIB.${nat('gpr_project_create_unit_provider')}(
+                    this.reference.ni(),
+                    subprojectNative
+                );
+                result = UnitProvider.wrap(unitProviderNative);
+                if (subproject != null) {
+                    UnmanagedMemory.free(subprojectNative);
                 }
-
+            } else {
+                result = JNI_LIB.${nat("gpr_project_create_unit_provider")}(
+                    this,
+                    subproject
+                );
             }
+            return result;
+        }
 
-            // Return the unit provider of the project
-            return this.provider;
+        /**
+         * Create a unit provider for root project.
+         */
+        public UnitProvider getProvider() {
+            return this.getProvider(null);
         }
 
         /**

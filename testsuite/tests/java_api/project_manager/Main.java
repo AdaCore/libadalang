@@ -69,7 +69,9 @@ public class Main {
             );
 
             // Create an analysis context with the project unit provider
-            Libadalang.UnitProvider unitProvider = project.getProvider();
+            Libadalang.UnitProvider unitProvider =
+                project.getProvider(subproject);
+
             try(
                Libadalang.AnalysisContext context
                  = Libadalang.AnalysisContext.create(

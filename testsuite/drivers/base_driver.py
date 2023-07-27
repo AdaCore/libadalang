@@ -3,6 +3,7 @@ import os.path
 import sys
 from typing import Dict, List, Optional, Tuple, Union
 
+from e3.fs import sync_tree
 from e3.testsuite.control import YAMLTestControlCreator
 from e3.testsuite.driver.classic import (TestAbortWithError,
                                          TestAbortWithFailure, TestSkip)
@@ -45,6 +46,15 @@ class BaseDriver(DiffTestDriver):
 
     def set_up(self):
         super().set_up()
+
+        # Allow tests to copy directories from the test directory tree in their
+        # working dir, such as common dependencies between multiple tests.
+        for path in self.test_env.get("sync_trees", []):
+            sync_tree(
+                self.test_dir(path),
+                self.working_dir(),
+                delete=False,
+            )
 
         # If requested, skip internal testcases
         if (

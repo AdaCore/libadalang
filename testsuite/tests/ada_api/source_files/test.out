@@ -166,4 +166,126 @@ For WHOLE_PROJECT_WITH_RUNTIME
   ... plus runtime sources
 
 
+===== Now testing with aggregate project =====
+
+## []
+
+For DEFAULT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For ROOT_PROJECT
+
+For WHOLE_PROJECT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub1.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [agg]
+
+For DEFAULT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For ROOT_PROJECT
+
+For WHOLE_PROJECT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub1.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [sub1, sub2]
+
+For DEFAULT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT
+  common.adb
+  sub1.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub1.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [sub2]
+
+For DEFAULT
+  common.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  sub2.adb
+
+For WHOLE_PROJECT
+  common.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub2.adb
+  ... plus runtime sources
+
+
+## [common]
+
+For DEFAULT
+  common.adb
+
+For ROOT_PROJECT
+  common.adb
+
+For WHOLE_PROJECT
+  common.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  ... plus runtime sources
+
+
+## [sub2, common]
+
+For DEFAULT
+  common.adb
+  sub2.adb
+
+For ROOT_PROJECT
+  common.adb
+  sub2.adb
+
+For WHOLE_PROJECT
+  common.adb
+  sub2.adb
+
+For WHOLE_PROJECT_WITH_RUNTIME
+  common.adb
+  sub2.adb
+  ... plus runtime sources
+
+
 Done.

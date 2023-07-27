@@ -33,14 +33,20 @@ public class Main {
      *
      * @param gprFile The gpr file
      * @param lookInProjectPath If the function should look for the GPR file
-     * in the given project path
+     *     in the given project path
+     * @param subproject The subproject to use. If null, use the root project
      */
     private static void openProject(
         String gprFile,
         Libadalang.ScenarioVariable[] scenarioVariables,
-        boolean lookInProjectPath
+        boolean lookInProjectPath,
+        String subproject
     ) {
-        header("Open " + gprFile);
+        String headerMsg = "Open " + gprFile;
+        if (subproject != null) {
+            headerMsg += " (" + subproject + ")";
+        }
+        header(headerMsg);
 
         // Resolve the project file if needed
         String projectFile = gprFile;
@@ -58,7 +64,8 @@ public class Main {
               )
         ) {
             String[] files = project.getFiles(
-                Libadalang.SourceFileMode.ROOT_PROJECT
+                Libadalang.SourceFileMode.ROOT_PROJECT,
+                subproject == null ? null : new String[] {subproject}
             );
 
             // Create an analysis context with the project unit provider
@@ -92,21 +99,23 @@ public class Main {
      * Test opening a valid project.
      */
     private static void testValid() {
-        openProject("p1.gpr", null, true);
+        openProject("p1.gpr", null, true, null);
         openProject(
             "p2.gpr",
             new Libadalang.ScenarioVariable[] {
                 Libadalang.ScenarioVariable.create("SRC_DIR", "src2_1"),
                 Libadalang.ScenarioVariable.create("USELESS", "useless")
             },
-            true
+            true,
+            null
         );
         openProject(
             "p2.gpr",
             new Libadalang.ScenarioVariable[] {
                 Libadalang.ScenarioVariable.create("SRC_DIR", "src2_2")
             },
-            true
+            true,
+            null
         );
     }
 
@@ -114,14 +123,22 @@ public class Main {
      * Test opening an invalid project.
      */
     private static void testInvalid() {
-        openProject("invalid.gpr", null, true);
+        openProject("invalid.gpr", null, true, null);
     }
 
     /**
      * Test opening an inexistant project.
      */
     private static void testInexistant() {
-        openProject("idonotexist.gpr", null, false);
+        openProject("idonotexist.gpr", null, false, null);
+    }
+
+    /**
+     * Test opening an aggregate project.
+     */
+    private static void testAggregate() {
+        openProject("agg.gpr", null, true, "p1.gpr");
+        openProject("agg.gpr", null, true, "p2.gpr");
     }
 
     /**
@@ -132,5 +149,6 @@ public class Main {
         testValid();
         testInvalid();
         testInexistant();
+        testAggregate();
     }
 }

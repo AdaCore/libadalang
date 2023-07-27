@@ -31,7 +31,8 @@ nat = c_api.get_name
     @CompilerDirectives.TruffleBoundary
     public static native String[] ${nat("gpr_project_source_files")}(
         ProjectManager project,
-        int mode
+        int mode,
+        String[] subprojects
     );
 
     /** Create an auto provider reference */

@@ -305,6 +305,57 @@ class GPRProject:
             ),
         )
 
+    def create_context(
+        self,
+        project: Opt[str] = None,
+        event_handler: Opt[EventHandler] = None,
+        with_trivia: bool = True,
+        tab_stop: int = 8,
+    ) -> AnalysisContext:
+        ${py_doc("libadalang.gpr_project_initialize_context", 8)}
+        c_project = _coerce_bytes("project", project, or_none=True)
+
+        event_handler_wrapper, c_event_handler = (
+            _EventHandlerWrapper.create(event_handler)
+        )
+
+        # Manually allocate a C-level analysis context so that we can
+        # initialize it ourselves.
+        c_value = _allocate_analysis_context()
+
+        # Create the Python wrapper, so that we have one ready for event
+        # handler callbacks triggered during context initialization.
+        result = AnalysisContext(_c_value=c_value)
+
+        # The wrapper created its own ownership share: release ours
+        _context_decref(c_value)
+
+        # Attach extra wrappers to the analysis context wrapper so that
+        # wrappers live at least as long as the analysis context.
+        #
+        # HACK: use the "_unit_provider" slot for the GPRProject instance
+        # itself. The initialization procedure will take care of creating a
+        # unit provider and make the context actually use it: there is no need
+        # for a UnitProvider wrapper here.
+        result._event_handler_wrapper = event_handler_wrapper
+        result._unit_provider = self
+
+        # Finally, initialize the analysis context. Note that this step may
+        # raise an exception: in that case, the analysis context is considered
+        # not initialized, but we are not returning "result", so it will become
+        # unreachable from the Python world, and garbage collection will take
+        # care of releasing it.
+        self._c_initialize_context(
+            self._c_value,
+            c_value,
+            c_project,
+            c_event_handler,
+            with_trivia,
+            tab_stop,
+        )
+
+        return result
+
     _c_type = _hashable_c_pointer()
 
     class _c_scenario_variable(ctypes.Structure):
@@ -347,4 +398,15 @@ class GPRProject:
         "ada_gpr_project_create_preprocessor",
         [_c_type, ctypes.c_char_p, ctypes.POINTER(ctypes.c_int)],
         _file_reader,
+    ))
+
+    _c_initialize_context = staticmethod(_import_func(
+        "ada_gpr_project_initialize_context",
+        [_c_type,                  # gpr_project
+         AnalysisContext._c_type, # context
+         ctypes.c_char_p,         # project
+         _event_handler,          # event_handler
+         ctypes.c_int,            # with_trivia
+         ctypes.c_int],           # tab_stop
+        None,
     ))

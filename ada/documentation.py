@@ -61,6 +61,26 @@ libadalang_docs = {
         ``Context`` (an already allocated but not yet initialized analysis
         context) from ``Self``.
     """,
+    'libadalang.gpr_project_create_context': """
+        Create a new analysis context from a GPR project.
+
+        The unit provider, file reader, config pragmas and default charset are
+        inferred from the designated project: see the
+        % if lang == "python":
+        ``create_unit_provider``
+        % elif lang == "java":
+        ``getProvider``
+        % endif
+        method for the semantics of the ``project`` argument.
+
+        See
+        % if lang == "python":
+        ``AnalysisContext.__init__``
+        % elif lang == "java":
+        the ``AnalysisContext`` class constructor
+        % endif
+        for the semantics of the other arguments.
+    """,
     'libadalang.create_project_unit_provider': """
         Load the project file at ``Project_File`` and return a unit provider
         that uses it.

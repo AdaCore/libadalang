@@ -1,3 +1,5 @@
+## vim: ft=makojava
+
 <%
 string_array_struct = capi.get_name('string_array_ptr_struct')
 scn_var_type = capi.get_name('gpr_project_scenario_variable')

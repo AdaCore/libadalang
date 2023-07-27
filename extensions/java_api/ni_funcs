@@ -1,3 +1,5 @@
+## vim: ft=makojava
+
 <%
 nat = c_api.get_name
 %>

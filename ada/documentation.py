@@ -56,6 +56,11 @@ libadalang_docs = {
         Note that, as of today, this detection only looks for the ``-gnatW8``
         compiler switch: other charsets are not supported.
     """,
+    'libadalang.gpr_project_initialize_context': """
+        Wrapper around ``Initialize_Context_From_Project`` to initialize
+        ``Context`` (an already allocated but not yet initialized analysis
+        context) from ``Self``.
+    """,
     'libadalang.create_project_unit_provider': """
         Load the project file at ``Project_File`` and return a unit provider
         that uses it.

@@ -72,6 +72,17 @@ ${capi.get_name('gpr_project_default_charset')} (
     const char *project
 );
 
+${c_doc('libadalang.gpr_project_initialize_context')}
+extern void
+${capi.get_name('gpr_project_initialize_context')}(
+   ${project_type} self,
+   ${analysis_context_type} context,
+   const char *project,
+   ${event_handler_type} event_handler,
+   int with_trivia,
+   int tab_stop
+);
+
 ${c_doc('libadalang.create_project_unit_provider')}
 extern ${unit_provider_type}
 ${capi.get_name('create_project_unit_provider')}(

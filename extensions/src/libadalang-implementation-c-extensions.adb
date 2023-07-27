@@ -19,6 +19,7 @@ with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Auto_Provider;     use Libadalang.Auto_Provider;
+with Libadalang.GPR_Impl;          use Libadalang.GPR_Impl;
 with Libadalang.Preprocessing;     use Libadalang.Preprocessing;
 with Libadalang.Project_Provider;  use Libadalang.Project_Provider;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
@@ -525,6 +526,38 @@ package body Libadalang.Implementation.C.Extensions is
          end if;
          return ada_unit_provider (System.Null_Address);
    end ada_create_project_unit_provider;
+
+   ----------------------------------------
+   -- ada_gpr_project_initialize_context --
+   ----------------------------------------
+
+   procedure ada_gpr_project_initialize_context
+     (Self          : ada_gpr_project;
+      Context       : ada_analysis_context;
+      Project       : chars_ptr;
+      Event_Handler : ada_event_handler;
+      With_Trivia   : int;
+      Tab_Stop      : int)
+   is
+      GPR : GPR_Project renames Unwrap (Self).all;
+      P   : Project_Type;
+   begin
+      Clear_Last_Exception;
+
+      P := Fetch_Project (GPR.Tree.all, Project);
+      Initialize_Context_From_Project
+        (Context          => Context,
+         Tree             => GPR.Tree,
+         Project          => P,
+         Env              => GPR.Env,
+         Is_Project_Owner => False,
+         Event_Handler    => Unwrap_Private_Event_Handler (Event_Handler),
+         With_Trivia      => With_Trivia /= 0,
+         Tab_Stop         => Natural (Tab_Stop));
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+   end ada_gpr_project_initialize_context;
 
    ---------------------------------------
    -- ada_create_preprocessor_from_file --

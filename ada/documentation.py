@@ -80,6 +80,12 @@ libadalang_docs = {
         the ``AnalysisContext`` class constructor
         % endif
         for the semantics of the other arguments.
+
+        % if lang == "java":
+        .. TODO: For now, the returned ``AnalysisContext`` instance has a weak
+           reference to the project manager: make sure the ``ProjectManager``
+           instance lives at least as long as the ``AnalysisContext`` one.
+        % endif
     """,
     'libadalang.create_project_unit_provider': """
         Load the project file at ``Project_File`` and return a unit provider

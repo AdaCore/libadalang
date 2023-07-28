@@ -36,6 +36,15 @@ nat = c_api.get_name
         String[] subprojects
     );
 
+    ${java_doc("libadalang.gpr_project_create_context", 4)}
+    public static native AnalysisContext ${nat("gpr_project_create_context")}(
+        ProjectManager project,
+        String subproject,
+        EventHandler eventHandler,
+        boolean withTrivia,
+        int tabStop
+    );
+
     /** Create an auto provider reference */
     @CompilerDirectives.TruffleBoundary
     public static native UnitProvider ${nat("create_auto_provider")}(

@@ -498,6 +498,74 @@ nat = c_api.get_name
             return this.getProvider(null);
         }
 
+        ${java_doc("libadalang.gpr_project_create_context", 8)}
+        public AnalysisContext createContext(
+            String subproject,
+            EventHandler eventHandler,
+            boolean withTrivia,
+            int tabStop
+        ) {
+            if(ImageInfo.inImageCode()) {
+                // Prepare C values for native calls
+                final CCharPointer subproject_c =
+                  subproject == null
+                  ? WordFactory.nullPointer()
+                  : toCString(subproject);
+                EventHandlerNative eventHandler_c =
+                  eventHandler == null
+                  ? WordFactory.nullPointer()
+                  : eventHandler.reference.ni();
+
+                // Manually allocate a C-level analysis context so that we can
+                // initialize it ourselves.
+                final PointerWrapper context = new PointerWrapper(
+                    NI_LIB.${nat("allocate_analysis_context")}()
+                );
+
+                // Create the Java wrapper, so that we have one ready for
+                // event handler callbacks triggered during context
+                // initialization.
+                AnalysisContext result =
+                    AnalysisContext.fromReference(context, eventHandler, true);
+
+                // "result" has its own ownership share: release ours
+                NI_LIB.${nat("context_decref")}(context.ni());
+
+                // TODO: attach "this" to "result" so that the former lives at
+                // least as long as the former.
+
+                // Finally, initialize the analysis context. Note that this
+                // step may raise an exception: in that case, the analysis
+                // context is considered not initialized: release it.
+                NI_LIB.${nat("gpr_project_initialize_context")}(
+                    this.reference.ni(),
+                    context.ni(),
+                    subproject_c,
+                    eventHandler_c,
+                    withTrivia ? 1 : 0,
+                    tabStop
+                );
+                UnmanagedMemory.free(subproject_c);
+                final LangkitExceptionNative exc_c =
+                    NI_LIB.${nat("get_last_exception")}();
+                if (exc_c.isNonNull()) {
+                    LangkitException exc = wrapException(exc_c);
+                    NI_LIB.${nat("context_decref")}(context.ni());
+                    throw exc;
+                }
+
+                return result;
+            } else {
+                return JNI_LIB.${nat("gpr_project_create_context")}(
+                    this,
+                    subproject,
+                    eventHandler,
+                    withTrivia,
+                    tabStop
+                );
+            }
+        }
+
         /**
          * Get the files for the given subprojects in a string array.
          *

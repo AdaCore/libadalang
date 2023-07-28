@@ -43,6 +43,18 @@ nat = c_api.get_name
         int projectsLength
     );
 
+    ${java_doc("libadalang.gpr_project_initialize_context", 4)}
+    @CompilerDirectives.TruffleBoundary
+    @CFunction
+    public static native void ${nat("gpr_project_initialize_context")}(
+        ProjectManagerNative project,
+        AnalysisContextNative context,
+        CCharPointer subproject,
+        EventHandlerNative eventHandler,
+        int withTrivia,
+        int tabStop
+    );
+
     /** Free the given source file array */
     @CompilerDirectives.TruffleBoundary
     @CFunction

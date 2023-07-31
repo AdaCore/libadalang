@@ -172,5 +172,39 @@ begin
    Tree.Unload;
    Free (Env);
 
+   Put_Line ("===== Now testing with aggregate project =====");
+   New_Line;
+
+   Initialize (Env);
+   Tree.Load (Create (+"agg.gpr"), Env);
+   GPR2_Tree.Load_Autoconf
+     (Filename => GPR2.Path_Name.Create_File
+                    ("agg.gpr", GPR2.Path_Name.No_Resolution),
+      Context  => GPR2.Context.Empty);
+
+   --  Simple case: just pass the root project, both implicitly and explicitly
+
+   Check ((1 .. 0 => <>));
+   Check ((1 => +"agg"));
+
+   --  Pass the two direct subprojects
+
+   Check ((+"sub1", +"sub2"));
+
+   --  Pass only one of them
+
+   Check ((1 => +"sub2"));
+
+   --  Pass the common subproject only
+
+   Check ((1 => +"common"));
+
+   --  Pass one subproject and the (redundant) common subproject
+
+   Check ((+"sub2", +"common"));
+
+   Tree.Unload;
+   Free (Env);
+
    Put_Line ("Done.");
 end Main;

@@ -169,13 +169,25 @@ ${api.jni_func_sig("gpr_project_free", "void")}(
 ${api.jni_func_sig("gpr_project_create_unit_provider", "jobject")}(
     JNIEnv *env,
     jclass jni_lib,
-    jobject project
+    jobject project,
+    jstring subproject
 ) {
+    const char* subproject_c = NULL;
+
+    if (subproject != NULL) {
+        subproject_c = (*env)->GetStringUTFChars(env, subproject, NULL);
+    }
+
     // Call the native function
     ${unit_provider_type} res = ${nat("gpr_project_create_unit_provider")}(
         (${project_type}) get_reference(env, project),
-        NULL
+        subproject_c
     );
+
+    // Free all temporarily allocated memory
+    if (subproject_c != NULL) {
+        (*env)->ReleaseStringUTFChars(env, subproject, subproject_c);
+    }
 
     // Return the new unit provider
     return UnitProvider_wrap(env, res);
@@ -186,14 +198,32 @@ ${api.jni_func_sig("gpr_project_source_files", "jobjectArray")}(
     JNIEnv *env,
     jclass jni_lib,
     jobject project,
-    jint mode
+    jint mode,
+    jobjectArray subprojects
 ) {
+    jsize subproject_count = 0;
+    const char** subprojects_c = NULL;
+
+    if (subprojects != NULL) {
+        subproject_count = (*env)->GetArrayLength(env, subprojects);
+        subprojects_c = calloc(subproject_count, sizeof(char*));
+    }
+
+    for (int i = 0; i < subproject_count; ++i) {
+        jstring subproject = (jstring) (*env)->GetObjectArrayElement(
+            env,
+            subprojects,
+            i
+        );
+        subprojects_c[i] = (*env)->GetStringUTFChars(env, subproject, NULL);
+    }
+
     // Get the result
     ${str_array_type} source_files_c = ${nat("gpr_project_source_files")}(
         (${project_type}) get_reference(env, project),
         (int) mode,
-        NULL,
-        0
+        subprojects_c,
+        subproject_count
     );
 
     // Create the result array
@@ -218,6 +248,16 @@ ${api.jni_func_sig("gpr_project_source_files", "jobjectArray")}(
 
     // Free the native string array
     ${nat("free_string_array")}(source_files_c);
+
+    for (int i = 0; i < subproject_count; ++i) {
+        jstring subproject = (jstring) (*env)->GetObjectArrayElement(
+            env,
+            subprojects,
+            i
+        );
+        (*env)->ReleaseStringUTFChars(env, subproject, subprojects_c[i]);
+    }
+    free(subprojects_c);
 
     // Return the result array
     return result_array;

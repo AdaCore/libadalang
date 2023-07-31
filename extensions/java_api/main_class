@@ -241,9 +241,6 @@ nat = c_api.get_name
         /** Reference to the native value. */
         private final PointerWrapper reference;
 
-        /** Cache for the unit provider. */
-        private UnitProvider provider;
-
         // ----- Constructors -----
 
         /**
@@ -255,7 +252,6 @@ nat = c_api.get_name
             final PointerWrapper reference
         ) {
             this.reference = reference;
-            this.provider = null;
         }
 
         /**
@@ -465,62 +461,127 @@ nat = c_api.get_name
         // -----  Instance methods -----
 
         /**
-         * Get the unit provider of the project manager.
+         * Create a unit provider for the given subproject.
          *
+         * @param subproject The subproject for which to create a unit provider.
          * @return The unit provider for the project manager.
          */
-        public UnitProvider getProvider() {
-            if(this.provider == null) {
+        public UnitProvider getProvider(final String subproject) {
+            final UnitProvider result;
+            if(ImageInfo.inImageCode()) {
+                final CCharPointer subprojectNative =
+                    subproject == null ?
+                    WordFactory.nullPointer() :
+                    toCString(subproject);
 
-                if(ImageInfo.inImageCode()) {
-                    UnitProviderNative unitProviderNative = NI_LIB.${nat('gpr_project_create_unit_provider')}(
-                        this.reference.ni(),
-                        WordFactory.nullPointer()
-                    );
-                    this.provider = UnitProvider.wrap(unitProviderNative);
-                } else {
-                    this.provider = JNI_LIB.${nat("gpr_project_create_unit_provider")}(
-                        this
-                    );
+                UnitProviderNative unitProviderNative = NI_LIB.${nat('gpr_project_create_unit_provider')}(
+                    this.reference.ni(),
+                    subprojectNative
+                );
+                result = UnitProvider.wrap(unitProviderNative);
+                if (subproject != null) {
+                    UnmanagedMemory.free(subprojectNative);
                 }
-
+            } else {
+                result = JNI_LIB.${nat("gpr_project_create_unit_provider")}(
+                    this,
+                    subproject
+                );
             }
-
-            // Return the unit provider of the project
-            return this.provider;
+            return result;
         }
 
         /**
-         * Get the files of the project in a string array.
+         * Create a unit provider for root project.
+         */
+        public UnitProvider getProvider() {
+            return this.getProvider(null);
+        }
+
+        /**
+         * Get the files for the given subprojects in a string array.
          *
          * @param mode The file getting mode.
+         * @param subprojects The subprojects to consider.
          * @return The array that contains the project files.
          */
         public String[] getFiles(
-            final SourceFileMode mode
+            final SourceFileMode mode,
+            final String[] subprojects
         ) {
             // Verify if the project is null
             if(this.reference.isNull())
                 return new String[0];
 
+            String[] result = null;
+
             if(ImageInfo.inImageCode()) {
+                final int subprojectCount;
+                final CCharPointerPointer subprojectsNative;
+
+                if (subprojects != null && subprojects.length > 0) {
+                    subprojectCount = subprojects.length;
+                    subprojectsNative =
+                        UnmanagedMemory.calloc(
+                            subprojectCount * SizeOf.get(CCharPointerPointer.class)
+                        );
+                } else {
+                    subprojectCount = 0;
+                    subprojectsNative = WordFactory.nullPointer();
+                }
+
+                for (int i = 0; i < subprojectCount; ++i) {
+                    subprojectsNative.write(i, toCString(subprojects[i]));
+                }
+
                 final StringArrayNative sourceFileArray =
                     NI_LIB.${nat('gpr_project_source_files')}(
                         this.reference.ni(),
                         mode.toC(),
-                        WordFactory.nullPointer(),
-                        0
+                        subprojectsNative,
+                        subprojectCount
                     );
-                final String[] res = toJStringArray(sourceFileArray);
+
+                result = toJStringArray(sourceFileArray);
+
                 NI_LIB.${nat("free_string_array")}(sourceFileArray);
-                return res;
+
+                // Release all temporarily allocated memory
+                for (int i = 0; i < subprojectCount; ++i) {
+                    UnmanagedMemory.free(subprojectsNative.read(i));
+                }
+
+                if (subprojectCount > 0) {
+                    UnmanagedMemory.free(subprojectsNative);
+                }
             } else {
-                return JNI_LIB.${nat("gpr_project_source_files")}(
+                result = JNI_LIB.${nat("gpr_project_source_files")}(
                     this,
-                    mode.toC()
+                    mode.toC(),
+                    subprojects
                 );
             }
 
+            // The call to `gpr_project_source_files` may have raised an
+            // exception.
+            try {
+                checkException();
+            } catch (LangkitException e) {
+                throw new ProjectManagerException(e.getMessage());
+            }
+
+            return result;
+
+        }
+
+        /**
+         * Get the files of the root project in a string array.
+         *
+         * @param mode The file getting mode.
+         * @return The array that contains the project files.
+         */
+        public String[] getFiles(final SourceFileMode mode) {
+            return this.getFiles(mode, null);
         }
 
         /** @see java.lang.AutoCloseable#close() */

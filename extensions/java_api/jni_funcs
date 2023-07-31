@@ -24,14 +24,16 @@ nat = c_api.get_name
     /** Get the unit provider for the given project */
     @CompilerDirectives.TruffleBoundary
     public static native UnitProvider ${nat("gpr_project_create_unit_provider")}(
-        ProjectManager project
+        ProjectManager project,
+        String subproject
     );
 
     /** Get the source file array for the given project */
     @CompilerDirectives.TruffleBoundary
     public static native String[] ${nat("gpr_project_source_files")}(
         ProjectManager project,
-        int mode
+        int mode,
+        String[] subprojects
     );
 
     /** Create an auto provider reference */

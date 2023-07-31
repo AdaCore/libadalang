@@ -994,7 +994,8 @@ package body Libadalang.Project_Provider is
 
       procedure Append (F : Virtual_File);
       --  If ``F`` is an Ada source in the project tree, append it to
-      --  ``Result``.
+      --  ``Result``. This is considered the case if at least one project
+      --  in the project tree considers this file as an Ada source.
 
       -------------
       -- Include --
@@ -1042,11 +1043,30 @@ package body Libadalang.Project_Provider is
       ------------
 
       procedure Append (F : Virtual_File) is
-         FI : constant File_Info := Tree.Info (F);
+         FIS : constant File_Info_Set := Tree.Info_Set (F);
+         --  Compute the set of ``File_Info`` for this file (one for each
+         --  specific project of the project tree that includes this source).
+         --  We use ``Tree.Info_Set`` instead of ``Tree.Info`` in order to
+         --  support the case of aggregate projects. In such case, the set
+         --  might contain multiple elements (one for each aggregated project
+         --  that includes this source file): we choose to consider this file
+         --  an Ada source if any of those projects considers it an Ada source.
+         --
+         --  TODO??? We could be more precise by checking that the actual
+         --  project found in the ``File_Info`` is the one we are currently
+         --  traversing, but it might actually not be if this source was found
+         --  as part of a recursive lookup. Besides, it sounds unrealistic for
+         --  a given source file to be considered an Ada source file in one
+         --  subproject but, say, a C source file in another. This
+         --  approximation should be good enough in practice, and will be
+         --  deprecated anyway once the transition to GPR2 is complete.
       begin
-         if FI.Language = "ada" then
-            Result.Include (F);
-         end if;
+         for FI of FIS loop
+            if File_Info (FI).Language = "ada" then
+               Result.Include (F);
+               return;
+            end if;
+         end loop;
       end Append;
 
    begin

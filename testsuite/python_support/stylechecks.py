@@ -5,6 +5,10 @@ from os.path import join
 import sys
 
 
+def in_shared(*args):
+    return join('testsuite', 'shared', *args)
+
+
 def in_test(*args):
     return join('testsuite', 'tests', *args)
 
@@ -16,6 +20,8 @@ dirs = ['ada', 'contrib', 'testsuite', 'utils']
 excludes = ['tmp', 'doc',
             join('contrib', 'highlight', 'obj'),
             join('contrib', 'AdaEurope2018', 'obj'),
+            in_shared('gpr_context', 'simple', 'pkg.adb'),
+            in_shared('gpr_context', 'utf-8', 'pkg.adb'),
             in_test('contrib'),
             in_test('internal'),
             in_test('ada_api', 'static_expr_eval', 'test.adb'),

@@ -1,0 +1,5 @@
+project P is
+   package Compiler is
+      for Default_Switches ("Ada") use ("-gnatW8");
+   end Compiler;
+end P;

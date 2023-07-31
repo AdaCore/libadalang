@@ -226,7 +226,7 @@ package body Libadalang.Project_Provider is
       exception
          when Unsupported_View_Error =>
             Dec_Ref (EH_Int);
-            Release_Uninitialized_Context (Result);
+            Dec_Ref (Result);
             raise;
       end;
       Dec_Ref (EH_Int);
@@ -1337,7 +1337,7 @@ package body Libadalang.Project_Provider is
       exception
          when Unsupported_View_Error =>
             Dec_Ref (EH_Int);
-            Release_Uninitialized_Context (Result);
+            Dec_Ref (Result);
             raise;
       end;
       Dec_Ref (EH_Int);

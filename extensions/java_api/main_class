@@ -582,8 +582,12 @@ nat = c_api.get_name
                 return new String[0];
 
             String[] result = null;
+            LangkitException exc;
 
             if(ImageInfo.inImageCode()) {
+                // Convert the Java array of subprojects ("subprojects"
+                // argument) into the required C array
+                // (subprojectCount/subprojectsNative).
                 final int subprojectCount;
                 final CCharPointerPointer subprojectsNative;
 
@@ -602,23 +606,27 @@ nat = c_api.get_name
                     subprojectsNative.write(i, toCString(subprojects[i]));
                 }
 
-                final StringArrayNative sourceFileArray =
+                // Call the C API. Keep track of a potential native exception.
+                StringArrayNative sourceFileArray =
                     NI_LIB.${nat('gpr_project_source_files')}(
                         this.reference.ni(),
                         mode.toC(),
                         subprojectsNative,
                         subprojectCount
                     );
+                exc = getLastException();
 
-                result = toJStringArray(sourceFileArray);
+                // If the call was successful, create the Java array result and
+                // initialize it, and free the C array result.
+                if(exc == null) {
+                    result = toJStringArray(sourceFileArray);
+                    NI_LIB.${nat("free_string_array")}(sourceFileArray);
+                }
 
-                NI_LIB.${nat("free_string_array")}(sourceFileArray);
-
-                // Release all temporarily allocated memory
+                // Release subprojectsNative
                 for (int i = 0; i < subprojectCount; ++i) {
                     UnmanagedMemory.free(subprojectsNative.read(i));
                 }
-
                 if (subprojectCount > 0) {
                     UnmanagedMemory.free(subprojectsNative);
                 }
@@ -628,14 +636,13 @@ nat = c_api.get_name
                     mode.toC(),
                     subprojects
                 );
+                exc = getLastException();
             }
 
-            // The call to `gpr_project_source_files` may have raised an
-            // exception.
-            try {
-                checkException();
-            } catch (LangkitException e) {
-                throw new ProjectManagerException(e.getMessage());
+            // If we got an exception, turn it into a ProjectManagerException
+            // one.
+            if(exc != null) {
+                throw new ProjectManagerException(exc.getMessage());
             }
 
             return result;

@@ -201,66 +201,63 @@ ${api.jni_func_sig("gpr_project_source_files", "jobjectArray")}(
     jint mode,
     jobjectArray subprojects
 ) {
+    jobjectArray result_java = NULL;
+
+    /* Convert the Java array of subprojects ("subprojects" argument) into the
+       required C array (subproject_count/subprojects_c).  */
     jsize subproject_count = 0;
     const char** subprojects_c = NULL;
 
-    if (subprojects != NULL) {
-        subproject_count = (*env)->GetArrayLength(env, subprojects);
-        subprojects_c = calloc(subproject_count, sizeof(char*));
-    }
+    if (subprojects != NULL)
+      {
+	subproject_count = (*env)->GetArrayLength (env, subprojects);
+	subprojects_c = calloc (subproject_count, sizeof (char*));
+      }
 
-    for (int i = 0; i < subproject_count; ++i) {
-        jstring subproject = (jstring) (*env)->GetObjectArrayElement(
-            env,
-            subprojects,
-            i
-        );
-        subprojects_c[i] = (*env)->GetStringUTFChars(env, subproject, NULL);
-    }
+    for (int i = 0; i < subproject_count; ++i)
+      {
+	jstring subproject
+	  = (jstring) (*env)->GetObjectArrayElement (env, subprojects, i);
+	subprojects_c[i] = (*env)->GetStringUTFChars (env, subproject, NULL);
+      }
 
-    // Get the result
-    ${str_array_type} source_files_c = ${nat("gpr_project_source_files")}(
-        (${project_type}) get_reference(env, project),
+    /* Call the C API.  In case of failure, return NULL and let the caller
+       propagate the native exception into the Java world.  */
+    ${str_array_type} result_c = ${nat("gpr_project_source_files")} (
+        (${project_type}) get_reference (env, project),
         (int) mode,
         subprojects_c,
         subproject_count
     );
+    if (${nat("get_last_exception")} () != NULL)
+      goto error;
 
-    // Create the result array
-    jclass clazz = (*env)->FindClass(env, "java/lang/String");
-    jobjectArray result_array = (*env)->NewObjectArray(
-        env,
-        (jsize) source_files_c->length,
-        clazz,
-        NULL
-    );
+    /* Create the Java array result and initialize it.  */
+    jclass clazz = (*env)->FindClass (env, "java/lang/String");
+    result_java
+      = (*env)->NewObjectArray (env, (jsize) result_c->length, clazz, NULL);
+    for (int i = 0 ; i < result_c->length ; i++)
+      {
+        jstring source_file
+	  = to_j_string (env, result_c->c_ptr[i]);
+        (*env)->SetObjectArrayElement (env, result_java, (jsize) i,
+				       (jobject) source_file);
+      }
 
-    // Fill the result array
-    for(int i = 0 ; i < source_files_c->length ; i++) {
-        jstring source_file = to_j_string(env, source_files_c->c_ptr[i]);
-        (*env)->SetObjectArrayElement(
-            env,
-            result_array,
-            (jsize) i,
-            (jobject) source_file
-        );
-    }
+    /* Now that the Java result is ready, release the C result.  */
+    ${nat("free_string_array")} (result_c);
 
-    // Free the native string array
-    ${nat("free_string_array")}(source_files_c);
+error:
+    /* Release subprojects_c.  */
+    for (int i = 0; i < subproject_count; ++i)
+      {
+	jstring subproject
+	  = (jstring) (*env)->GetObjectArrayElement(env, subprojects, i);
+	(*env)->ReleaseStringUTFChars (env, subproject, subprojects_c[i]);
+      }
+    free (subprojects_c);
 
-    for (int i = 0; i < subproject_count; ++i) {
-        jstring subproject = (jstring) (*env)->GetObjectArrayElement(
-            env,
-            subprojects,
-            i
-        );
-        (*env)->ReleaseStringUTFChars(env, subproject, subprojects_c[i]);
-    }
-    free(subprojects_c);
-
-    // Return the result array
-    return result_array;
+    return result_java;
 }
 
 ${c_doc("libadalang.gpr_project_create_context", lang="java")}

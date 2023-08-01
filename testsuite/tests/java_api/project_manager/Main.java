@@ -139,6 +139,7 @@ public class Main {
      * Test opening an aggregate project.
      */
     private static void testAggregate() {
+        openProject("agg.gpr", null, true, "nosuchsubproject");
         openProject("agg.gpr", null, true, "p1.gpr");
         openProject("agg.gpr", null, true, "p2.gpr");
     }

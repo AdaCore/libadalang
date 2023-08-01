@@ -134,26 +134,6 @@ package Libadalang.Project_Provider is
    --  Note that, as of today, this detection only looks for the ``-gnatW8``
    --  compiler switch: other charsets are not supported.
 
-   function Create_Context_From_Project
-     (Tree             : Prj.Project_Tree_Access;
-      Project          : Prj.Project_Type := Prj.No_Project;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True;
-      Event_Handler    : LAL.Event_Handler_Reference :=
-                           LAL.No_Event_Handler_Ref;
-      With_Trivia      : Boolean := True;
-      Tab_Stop         : Positive := 8)
-     return LAL.Analysis_Context;
-   --  Create a new analysis context from a GPR project.
-   --
-   --  The unit provider, file reader, config pragmas and default charset are
-   --  inferred from the designated project: see
-   --  ``Create_Project_Unit_Provider`` for the semantics of the ``Tree``,
-   --  ``Project``, ``Env`` and ``Is_Project_Owner`` arguments.
-   --
-   --  See ``Libadalang.Analysis.Create_Context`` for the semantics of the
-   --  other arguments.
-
    --------------------
    -- GPR2 based API --
    --------------------
@@ -239,22 +219,5 @@ package Libadalang.Project_Provider is
    --
    --  Note that, as of today, this detection only looks for the ``-gnatW8``
    --  compiler switch: other charsets are not supported.
-
-   function Create_Context_From_Project
-     (Tree          : GPR2.Project.Tree.Object;
-      Project       : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
-      Event_Handler : LAL.Event_Handler_Reference := LAL.No_Event_Handler_Ref;
-      With_Trivia   : Boolean := True;
-      Tab_Stop      : Positive := 8)
-     return LAL.Analysis_Context;
-   --  Create a new analysis context from a GPR project.
-   --
-   --  The unit provider, file reader, config pragmas and default charset are
-   --  inferred from the designated project: see
-   --  ``Create_Project_Unit_Provider`` for the semantics of the ``Tree`` and
-   --  ``Project`` arguments.
-   --
-   --  See ``Libadalang.Analysis.Create_Context`` for the semantics of the
-   --  other arguments.
 
 end Libadalang.Project_Provider;

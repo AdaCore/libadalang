@@ -113,6 +113,15 @@ class Manage(ManageScript):
         # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
         ctx.add_with_clause('Analysis', AdaSourceKind.body, 'Libadalang.Lexer')
 
+        # LAL.Analysis.Create_Context_From_Project just calls the homonym
+        # function in LAL.Project_Provider.
+        for dep in [
+            "GNATCOLL.Projects", "GPR2.Project.Tree", "GPR2.Project.View"
+        ]:
+            ctx.add_with_clause("Analysis", AdaSourceKind.spec, dep)
+        for dep in ["Libadalang.GPR_Impl", "Libadalang.Project_Provider"]:
+            ctx.add_with_clause("Analysis", AdaSourceKind.body, dep)
+
         # LAL.Lexer.Is_Keyword's implementation uses precomputed symbols
         ctx.add_with_clause('Lexer',
                             AdaSourceKind.body,

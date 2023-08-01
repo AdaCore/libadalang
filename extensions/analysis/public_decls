@@ -11,3 +11,42 @@ function Is_Keyword
 --
 --  This function returns True for regular lexer keywords, as well as for those
 --  identifiers.
+
+function Create_Context_From_Project
+  (Tree             : GNATCOLL.Projects.Project_Tree_Access;
+   Project          : GNATCOLL.Projects.Project_Type :=
+                        GNATCOLL.Projects.No_Project;
+   Env              : GNATCOLL.Projects.Project_Environment_Access;
+   Is_Project_Owner : Boolean := True;
+   Event_Handler    : Event_Handler_Reference :=
+                        No_Event_Handler_Ref;
+   With_Trivia      : Boolean := True;
+   Tab_Stop         : Positive := 8)
+  return Analysis_Context;
+--  Create a new analysis context from a GPR project.
+--
+--  The unit provider, file reader, config pragmas and default charset are
+--  inferred from the designated project: see
+--  ``Libadalang.Project_Provider.Create_Project_Unit_Provider`` for the
+--  semantics of the ``Tree``, ``Project``, ``Env`` and ``Is_Project_Owner``
+--  arguments.
+--
+--  See ``Libadalang.Analysis.Create_Context`` for the semantics of the other
+--  arguments.
+
+function Create_Context_From_Project
+  (Tree          : GPR2.Project.Tree.Object;
+   Project       : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
+   Event_Handler : Event_Handler_Reference := No_Event_Handler_Ref;
+   With_Trivia   : Boolean := True;
+   Tab_Stop      : Positive := 8)
+  return Analysis_Context;
+--  Create a new analysis context from a GPR project.
+--
+--  The unit provider, file reader, config pragmas and default charset are
+--  inferred from the designated project: see
+--  ``Libadalang.Project_Provider.Create_Project_Unit_Provider`` for the
+--  semantics of the ``Tree`` and ``Project`` arguments.
+--
+--  See ``Libadalang.Analysis.Create_Context`` for the semantics of the other
+--  arguments.

@@ -15,10 +15,8 @@ with GNATCOLL.VFS;     use GNATCOLL.VFS;
 with GPR2.Project.Unit_Info;
 with GPR2.Unit;
 
-with Libadalang.GPR_Impl;
-with Libadalang.GPR_Utils;         use Libadalang.GPR_Utils;
-with Libadalang.Implementation;    use Libadalang.Implementation;
-with Libadalang.Public_Converters; use Libadalang.Public_Converters;
+with Libadalang.GPR_Utils;      use Libadalang.GPR_Utils;
+with Libadalang.Implementation; use Libadalang.Implementation;
 with Libadalang.Unit_Files;
 
 package body Libadalang.Project_Provider is
@@ -190,55 +188,6 @@ package body Libadalang.Project_Provider is
    function Default_Charset_From_Project
      (Tree : Any_Tree; View : Any_View) return String;
    --  Common implementation for the homonym public functions
-
-   ---------------------------------
-   -- Create_Context_From_Project --
-   ---------------------------------
-
-   function Create_Context_From_Project
-     (Tree             : Prj.Project_Tree_Access;
-      Project          : Prj.Project_Type := Prj.No_Project;
-      Env              : Prj.Project_Environment_Access;
-      Is_Project_Owner : Boolean := True;
-      Event_Handler    : LAL.Event_Handler_Reference :=
-                           LAL.No_Event_Handler_Ref;
-      With_Trivia      : Boolean := True;
-      Tab_Stop         : Positive := 8)
-     return LAL.Analysis_Context
-   is
-      Result : Internal_Context := Allocate_Context;
-
-      EH_Int : Internal_Event_Handler_Access :=
-        Wrap_Public_Event_Handler (Event_Handler);
-      --  This creates a ref-counted object: we must decrease its ref-count
-      --  whether we return normally or through an exception.
-   begin
-      begin
-         GPR_Impl.Initialize_Context_From_Project
-           (Result,
-            Tree,
-            Project,
-            Env,
-            Is_Project_Owner,
-            EH_Int,
-            With_Trivia,
-            Tab_Stop);
-      exception
-         when Unsupported_View_Error =>
-            Dec_Ref (EH_Int);
-            Dec_Ref (Result);
-            raise;
-      end;
-      Dec_Ref (EH_Int);
-
-      return Context : constant LAL.Analysis_Context := Wrap_Context (Result)
-      do
-         --  Now that ``Context`` has one ownership share, release the one that
-         --  ``Result`` has.
-
-         Dec_Ref (Result);
-      end return;
-   end Create_Context_From_Project;
 
    -------------------
    -- Set_Unit_File --
@@ -1311,44 +1260,5 @@ package body Libadalang.Project_Provider is
         (Tree => (Kind => GPR2_Kind, GPR2_Value => Tree'Unrestricted_Access),
          View => (Kind => GPR2_Kind, GPR2_Value => Project));
    end Default_Charset_From_Project;
-
-   ---------------------------------
-   -- Create_Context_From_Project --
-   ---------------------------------
-
-   function Create_Context_From_Project
-     (Tree          : GPR2.Project.Tree.Object;
-      Project       : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
-      Event_Handler : LAL.Event_Handler_Reference := LAL.No_Event_Handler_Ref;
-      With_Trivia   : Boolean := True;
-      Tab_Stop      : Positive := 8)
-     return LAL.Analysis_Context
-   is
-      Result : Internal_Context := Allocate_Context;
-
-      EH_Int : Internal_Event_Handler_Access :=
-        Wrap_Public_Event_Handler (Event_Handler);
-      --  This creates a ref-counted object: we must decrease its ref-count
-      --  whether we return normally or through an exception.
-   begin
-      begin
-         GPR_Impl.Initialize_Context_From_Project
-           (Result, Tree, Project, EH_Int, With_Trivia, Tab_Stop);
-      exception
-         when Unsupported_View_Error =>
-            Dec_Ref (EH_Int);
-            Dec_Ref (Result);
-            raise;
-      end;
-      Dec_Ref (EH_Int);
-
-      return Context : constant LAL.Analysis_Context := Wrap_Context (Result)
-      do
-         --  Now that ``Context`` has one ownership share, release the one that
-         --  ``Result`` has.
-
-         Dec_Ref (Result);
-      end return;
-   end Create_Context_From_Project;
 
 end Libadalang.Project_Provider;

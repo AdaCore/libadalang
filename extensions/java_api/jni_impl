@@ -263,6 +263,65 @@ ${api.jni_func_sig("gpr_project_source_files", "jobjectArray")}(
     return result_array;
 }
 
+${c_doc("libadalang.gpr_project_create_context", lang="java")}
+${api.jni_func_sig("gpr_project_create_context", "jobject")}(
+    JNIEnv *env,
+    jclass jni_lib,
+    jobject project,
+    jstring subproject,
+    jobject event_handler,
+    jboolean with_trivia,
+    jint tab_stop
+)
+{
+    const char *subproject_c = NULL;
+    if (subproject != NULL)
+      subproject_c = (*env)->GetStringUTFChars (env, subproject, NULL);
+
+    ${event_handler_type} event_handler_c = NULL;
+    if (event_handler != NULL)
+        event_handler_c = EventHandler_unwrap (env, event_handler);
+
+    /* Manually allocate a C-level analysis context so that we can initialize
+       it ourselves.  */
+    ${analysis_context_type} ctx_c = ${nat("allocate_analysis_context")} ();
+
+    /* Create the Java wrapper, so that we have one ready for event handler
+       callbacks triggered during context initialization.  */
+    jobject ctx = AnalysisContext_wrap (env, ctx_c);
+
+    /* The wrapper created its own ownership share: release ours.  */
+    ${nat("context_decref")} (ctx_c);
+
+    /* TODO: attach extra wrappers to the analysis context wrapper so that
+       wrappers ("project" and "event_handler") live at least as long as the
+       analysis context.  */
+
+    /* Finally, initialize the analysis context. Note that this step may raise
+       an exception: in that case, the analysis context is considered not
+       initialized: release it.  */
+    ${nat("gpr_project_initialize_context")} (
+      (${project_type}) get_reference (env, project),
+      ctx_c,
+      subproject_c,
+      event_handler_c,
+      (int) with_trivia,
+      (int) tab_stop
+    );
+    if (subproject_c != NULL)
+      (*env)->ReleaseStringUTFChars (env, subproject, subproject_c);
+
+    const ${exception_type} *exc_c = ${nat("get_last_exception")} ();
+    if (exc_c != NULL)
+      {
+          jthrowable exc = LangkitException_wrap (env, *exc_c);
+          ${nat("context_decref")} (ctx_c);
+          (*env)->Throw (env, exc);
+      }
+
+    return ctx;
+}
+
 // Create an auto provider reference
 ${api.jni_func_sig("create_auto_provider", "jobject")}(
     JNIEnv *env,

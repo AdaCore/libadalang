@@ -1,0 +1,69 @@
+== Simple: defaults ==
+
+pkg%b first token/trivia: <Token Kind=Comment Text="--  Latin-1 comment: \xe9">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+
+== Simple: without trivia ==
+
+pkg%b first token/trivia: <Token Kind=Package Text="package">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+
+== Simple: tab stop = 4 ==
+
+pkg%b first token/trivia: <Token Kind=Comment Text="--  Latin-1 comment: \xe9">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+
+== UTF-8 ==
+
+pkg%b first token/trivia: <Token Kind=Comment Text="--  UTF-8 comment: \xe9">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+
+== Aggregate project (no specific view) ==
+
+Unsupported_View_Error: inconsistent units found
+
+== Aggregate project (specific view: p2) ==
+
+pkg%b first token/trivia: <Token Kind=Comment Text="--  This is src-p2/pkg.adb">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+
+== Simple: event handler ==
+
+Unit_Parsed_Callback invoked
+pkg%b first token/trivia: <Token Kind=Comment Text="--  Latin-1 comment: \xe9">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-3:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+
+== Preprocessing (p1) ==
+
+pkg%b first token/trivia: <Token Kind=Whitespace Text="\x0a\x0a\x0a\x0a">
+pkg%b root node: <CompilationUnit pkg.adb:5:1-8:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-3:9>
+
+== Preprocessing (p2) ==
+
+pkg%b first token/trivia: <Token Kind=Comment Text="--! #if X then">
+pkg%b root node: <CompilationUnit pkg.adb:2:1-8:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-3:9>
+Config pragma: <PragmaNode pkg.adb:2:1-2:12>
+
+== Config pragmas (p1) ==
+
+pkg%b first token/trivia: <Token Kind=Package Text="package">
+pkg%b root node: <CompilationUnit pkg.adb:1:1-2:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+Config pragma: <PragmaNode p1.adc:1:1-1:12>
+
+== Config pragmas (p2) ==
+
+pkg%b first token/trivia: <Token Kind=Package Text="package">
+pkg%b root node: <CompilationUnit pkg.adb:1:1-2:9>
+pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
+Config pragma: <PragmaNode p2.adc:1:1-1:12>
+
+Done.

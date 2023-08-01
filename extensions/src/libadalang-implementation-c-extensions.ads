@@ -106,6 +106,18 @@ package Libadalang.Implementation.C.Extensions is
      with Export, Convention => C;
    --  Load a project file and create a unit provider for it in one pass
 
+   procedure ada_gpr_project_initialize_context
+     (Self          : ada_gpr_project;
+      Context       : ada_analysis_context;
+      Project       : chars_ptr;
+      Event_Handler : ada_event_handler;
+      With_Trivia   : int;
+      Tab_Stop      : int)
+     with Export, Convention => C;
+   --  Wrapper around ``Initialize_Context_From_Project`` to initialize
+   --  ``Context`` (an already allocated but not yet initialized analysis
+   --  context) from ``Self``.
+
    ------------------------
    -- Auto unit provider --
    ------------------------

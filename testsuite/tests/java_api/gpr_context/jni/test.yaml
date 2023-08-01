@@ -1,0 +1,5 @@
+driver: java
+mode: jni
+java_path: ../
+sync_trees:
+  - ../../../../shared/gpr_context

@@ -56,6 +56,37 @@ libadalang_docs = {
         Note that, as of today, this detection only looks for the ``-gnatW8``
         compiler switch: other charsets are not supported.
     """,
+    'libadalang.gpr_project_initialize_context': """
+        Wrapper around ``Initialize_Context_From_Project`` to initialize
+        ``Context`` (an already allocated but not yet initialized analysis
+        context) from ``Self``.
+    """,
+    'libadalang.gpr_project_create_context': """
+        Create a new analysis context from a GPR project.
+
+        The unit provider, file reader, config pragmas and default charset are
+        inferred from the designated project: see the
+        % if lang == "python":
+        ``create_unit_provider``
+        % elif lang == "java":
+        ``getProvider``
+        % endif
+        method for the semantics of the ``project`` argument.
+
+        See
+        % if lang == "python":
+        ``AnalysisContext.__init__``
+        % elif lang == "java":
+        the ``AnalysisContext`` class constructor
+        % endif
+        for the semantics of the other arguments.
+
+        % if lang == "java":
+        .. TODO: For now, the returned ``AnalysisContext`` instance has a weak
+           reference to the project manager: make sure the ``ProjectManager``
+           instance lives at least as long as the ``AnalysisContext`` one.
+        % endif
+    """,
     'libadalang.create_project_unit_provider': """
         Load the project file at ``Project_File`` and return a unit provider
         that uses it.

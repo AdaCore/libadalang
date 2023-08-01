@@ -21,11 +21,17 @@ procedure Main is
    renames To_Unbounded_String;
 
    Env  : Project_Environment_Access;
-   Tree : Project_Tree;
+   Tree : Project_Tree_Access;
 
    GPR2_Tree : GPR2.Project.Tree.Object;
 
    type Project_Name_Array is array (Positive range <>) of Unbounded_String;
+
+   procedure Load (Filename : String);
+   --  Load the GPR file at Filename into Env/Tree and GPR2_Tree
+
+   procedure Unload;
+   --  Free all GPR resources
 
    procedure Check (Projects : Project_Name_Array);
    --  Print the output of Libadalang.Project.Source_Files for the given list
@@ -55,6 +61,33 @@ procedure Main is
          | "unchconv.ads"
          | "unchdeal.ads");
    --  Return whether ``Simple_Name`` designates a source from the runtime
+
+   ----------
+   -- Load --
+   ----------
+
+   procedure Load (Filename : String) is
+   begin
+      Initialize (Env);
+      Tree := new Project_Tree;
+      Tree.Load (Create (+Filename), Env);
+      GPR2_Tree.Load_Autoconf
+        (Filename => GPR2.Path_Name.Create_File
+                       (GPR2.Filename_Type (Filename),
+                        GPR2.Path_Name.No_Resolution),
+         Context  => GPR2.Context.Empty);
+   end Load;
+
+   ------------
+   -- Unload --
+   ------------
+
+   procedure Unload is
+   begin
+      Tree.Unload;
+      Free (Tree);
+      Free (Env);
+   end Unload;
 
    -----------
    -- Check --
@@ -102,7 +135,7 @@ procedure Main is
 
             Has_Runtime  : Boolean := False;
             GPR1_Sources : constant Filename_Vectors.Vector :=
-              Source_Files (Tree, Mode, GPR1_Prjs);
+              Source_Files (Tree.all, Mode, GPR1_Prjs);
             GPR2_Sources : constant Filename_Vectors.Vector :=
               Source_Files (GPR2_Tree, Mode, GPR2_Prjs);
          begin
@@ -133,12 +166,7 @@ procedure Main is
    end Check;
 
 begin
-   Initialize (Env);
-   Tree.Load (Create (+"root.gpr"), Env);
-   GPR2_Tree.Load_Autoconf
-     (Filename => GPR2.Path_Name.Create_File
-                    ("root.gpr", GPR2.Path_Name.No_Resolution),
-      Context  => GPR2.Context.Empty);
+   Load ("root.gpr");
 
    --  Simple case: just pass the root project, both implicitly and explicitly
 
@@ -169,18 +197,12 @@ begin
 
    Check ((1 => +"installed_dep"));
 
-   Tree.Unload;
-   Free (Env);
+   Unload;
 
    Put_Line ("===== Now testing with aggregate project =====");
    New_Line;
 
-   Initialize (Env);
-   Tree.Load (Create (+"agg.gpr"), Env);
-   GPR2_Tree.Load_Autoconf
-     (Filename => GPR2.Path_Name.Create_File
-                    ("agg.gpr", GPR2.Path_Name.No_Resolution),
-      Context  => GPR2.Context.Empty);
+   Load ("agg.gpr");
 
    --  Simple case: just pass the root project, both implicitly and explicitly
 
@@ -203,8 +225,7 @@ begin
 
    Check ((+"sub2", +"common"));
 
-   Tree.Unload;
-   Free (Env);
+   Unload;
 
    Put_Line ("Done.");
 end Main;

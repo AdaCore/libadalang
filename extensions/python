@@ -24,6 +24,15 @@ def _coerce_bytes(label, value, what='a bytes string', or_none=False):
                         .format(label, what, _type_fullname(type(value))))
 
 
+_set_config_pragmas_mapping = _import_func(
+    "ada_set_config_pragmas_mapping",
+    [AnalysisContext._c_type,
+     AnalysisUnit._c_type,
+     ctypes.POINTER(AnalysisUnit._c_type)],
+    None
+)
+
+
 ## Handling of string arrays
 
 class _c_string_array(ctypes.Structure):

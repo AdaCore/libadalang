@@ -1,0 +1,29 @@
+## vim: filetype=makopython
+
+    def set_config_pragmas_mapping(
+        self,
+        global_pragmas: Opt[AnalysisUnit] = None,
+        local_pragmas: Opt[Dict[AnalysisUnit, AnalysisUnit]] = None,
+    ):
+        ${py_doc("libadalang.set_config_pragmas_mapping", 8)}
+
+        if global_pragmas is None:
+            global_c = None
+        else:
+            assert isinstance(global_pragmas, AnalysisUnit)
+            global_c = global_pragmas._c_value
+
+        local_mapping = []
+        if local_pragmas is not None:
+            for key, value in local_pragmas.items():
+                assert isinstance(key, AnalysisUnit)
+                assert isinstance(value, AnalysisUnit)
+                local_mapping += [key._c_value, value._c_value]
+        local_mapping.append(None)
+
+        local_c_type = AnalysisUnit._c_type * len(local_mapping)
+        local_c = local_c_type()
+        for i, u in enumerate(local_mapping):
+            local_c[i] = u
+
+        _set_config_pragmas_mapping(self._c_value, global_c, local_c)

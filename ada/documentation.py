@@ -174,6 +174,24 @@ libadalang_docs = {
         are kept live: it is the responsibility of the caller to make ``Self``
         live at least as long as the returned file reader.
     """,
+    'libadalang.set_config_pragmas_mapping': """
+        Assign in ``Context`` configuration pragmas files to analysis units as
+        described in ``Global_Pragmas`` (configuration pragmas file that
+        applies to all analysis units, or null) and ``Local_Pragmas`` (mapping
+        that associates an analysis unit to the local configuration pragmas
+        file that applies to it).
+
+        % if lang == "c":
+        The ``Local_Pragmas`` mapping is encoded as a NULL-trailing analysis
+        unit array that describes a unit-to-unit mapping: for N associations,
+        ``Local_Pragmas[2 * (N - 1)]`` is they key and
+        ``Local_Pragmas[2 * (N - 1) + 1]`` is the value.
+        % endif
+
+        This raises a ``Precondition_Failure`` exception if any analysis unit
+        in ``Mapping`` does not belong to ``Context`` or if an analysis unit
+        appears twice as a key in ``Mapping``.
+    """,
     'libadalang.project_provider.invalid_project': """
         Raised when an error occurs while loading a project file.
     """,

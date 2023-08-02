@@ -19,6 +19,7 @@ with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Auto_Provider;     use Libadalang.Auto_Provider;
+with Libadalang.Config_Pragmas;    use Libadalang.Config_Pragmas;
 with Libadalang.GPR_Impl;          use Libadalang.GPR_Impl;
 with Libadalang.Preprocessing;     use Libadalang.Preprocessing;
 with Libadalang.Project_Provider;  use Libadalang.Project_Provider;
@@ -683,5 +684,50 @@ package body Libadalang.Implementation.C.Extensions is
          Set_Last_Exception (Exc);
          return ada_file_reader (System.Null_Address);
    end ada_gpr_project_create_preprocessor;
+
+   ------------------------------------
+   -- ada_set_config_pragmas_mapping --
+   ------------------------------------
+
+   procedure ada_set_config_pragmas_mapping
+     (Context        : ada_analysis_context;
+      Global_Pragmas : ada_analysis_unit;
+      Local_Pragmas  : access ada_analysis_unit)
+   is
+   begin
+      Clear_Last_Exception;
+
+      declare
+         Ctx      : constant Analysis_Context := Wrap_Context (Context);
+         Mappings : Config_Pragmas_Mapping;
+
+         type Unit_Array is array (Positive) of ada_analysis_unit;
+         LP : Unit_Array with Import, Address => Local_Pragmas.all'Address;
+         I  : Positive := 1;
+      begin
+         Mappings.Global_Pragmas := Wrap_Unit (Global_Pragmas);
+         while LP (I) /= null loop
+            declare
+               Key      : constant Analysis_Unit := Wrap_Unit (LP (I));
+               Value    : constant Analysis_Unit := Wrap_Unit (LP (I + 1));
+               Dummy    : Libadalang.Config_Pragmas.Unit_Maps.Cursor;
+               Inserted : Boolean;
+            begin
+               Mappings.Local_Pragmas.Insert (Key, Value, Dummy, Inserted);
+               if not Inserted then
+                  raise Precondition_Failure
+                    with "an analysis unit is present twice as a key";
+               end if;
+               I := I + 2;
+            end;
+         end loop;
+
+         Set_Mapping (Ctx, Mappings);
+      end;
+
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+   end ada_set_config_pragmas_mapping;
 
 end Libadalang.Implementation.C.Extensions;

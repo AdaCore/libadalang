@@ -1372,15 +1372,15 @@ package body Libadalang.Data_Decomposition is
                         Error;
                      end if;
 
-                     Result := Result_Template;
-
-                     Result.Op_1 := Operands (1);
+                     Result_Template.Op_1 := Operands (1);
                      if Op in Opcode_2 then
-                        Result.Op_2 := Operands (2);
+                        Result_Template.Op_2 := Operands (2);
                         if Op in Opcode_3 then
-                           Result.Op_3 := Operands (3);
+                           Result_Template.Op_3 := Operands (3);
                         end if;
                      end if;
+
+                     Result := Result_Template;
                   end;
                end;
 

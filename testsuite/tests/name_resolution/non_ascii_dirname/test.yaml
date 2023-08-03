@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: []
+project_file: test.gpr

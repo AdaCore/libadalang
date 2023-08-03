@@ -1,0 +1,24 @@
+Analyzing main.adb
+##################
+
+Resolving xrefs for node <CallStmt main.adb:5:4-5:12>
+*****************************************************
+
+Expr: <DottedName main.adb:5:4-5:11>
+  references:    <DefiningName "Foo" pkg.ads:2:14-2:17>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" main.adb:5:4-5:7>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" main.adb:5:8-5:11>
+  references:    <DefiningName "Foo" pkg.ads:2:14-2:17>
+  type:          None
+  expected type: None
+
+
+Analyzing pkg.ads
+#################
+
+Done.

@@ -1,0 +1,70 @@
+## vim: filetype=makojava
+<%
+    api = java_api
+    nat = c_api.get_name
+%>
+
+        ${java_doc("libadalang.set_config_pragmas_mapping", 8)}
+        public void setConfigPragmasMapping(
+            AnalysisUnit globalPragmas,
+            Map<AnalysisUnit, AnalysisUnit> localPragmas
+        ) {
+            // Create the flat array for local pragmas that the C API expects
+            AnalysisUnit[] locals;
+            int i = 0;
+            int localCount;
+            if (localPragmas == null) {
+                localCount = 1;
+                locals = new AnalysisUnit[localCount];
+            } else {
+                localCount = 2 * localPragmas.size() + 1;
+                locals = new AnalysisUnit[localCount];
+                for (Map.Entry<AnalysisUnit, AnalysisUnit> entry :
+                     localPragmas.entrySet()) {
+                    AnalysisUnit key = entry.getKey();
+                    AnalysisUnit value = entry.getValue();
+
+                    if (key == null)
+                        throw new RuntimeException("localPragmas: null key");
+                    if (value == null)
+                        throw new RuntimeException("localPragmas: null value");
+
+                    locals[i] = key;
+                    locals[i + 1] = value;
+                    i += 2;
+                }
+            }
+            locals[i] = null;
+
+            if(ImageInfo.inImageCode()) {
+                final int unitSize = SizeOf.get(AnalysisUnitNative.class);
+                final Pointer localPragmasNative = UnmanagedMemory.calloc(
+                    localCount * unitSize
+                );
+                for (i = 0; i < localCount; ++i) {
+                    final AnalysisUnitNative u =
+                        locals[i] == null
+                        ? WordFactory.nullPointer()
+                        : locals[i].unwrap();
+                    localPragmasNative.writeWord(unitSize * i, u);
+                }
+
+                final AnalysisUnitNative globalPragmasNative =
+                    globalPragmas == null
+                    ? WordFactory.nullPointer()
+                    : globalPragmas.unwrap();
+
+                NI_LIB.${nat("set_config_pragmas_mapping")}(
+                    this.reference.ni(),
+                    globalPragmasNative,
+                    localPragmasNative
+                );
+            } else {
+                JNI_LIB.${nat("set_config_pragmas_mapping")}(
+                    this,
+                    globalPragmas,
+                    locals
+                );
+            }
+            checkException();
+        }

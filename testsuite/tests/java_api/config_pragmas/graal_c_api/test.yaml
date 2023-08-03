@@ -1,0 +1,7 @@
+driver: java
+mode: graal_c_api
+java_path: ../
+sync_trees:
+  - ../../../../shared/config_pragmas
+control:
+    - [SKIP, "not has_native_image", "Native-image tests disabled"]

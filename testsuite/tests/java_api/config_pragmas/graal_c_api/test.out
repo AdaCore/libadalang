@@ -1,0 +1,50 @@
+== Query config pragmas with no mappings set ==
+Pragmas for foo.adb:
+Got an exception (EXCEPTION_PROPERTY_ERROR): missing configuration pragmas files mapping
+Pragmas for bar.adb:
+Got an exception (EXCEPTION_PROPERTY_ERROR): missing configuration pragmas files mapping
+
+== Set empty mappings ==
+Pragmas for foo.adb:
+Pragmas for bar.adb:
+
+== Set global-only mapping ==
+Pragmas for foo.adb:
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+Pragmas for bar.adb:
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+
+== Set local mapping for foo.adb ==
+Pragmas for foo.adb:
+Config pragma: <PragmaNode local_1.adc:1:1-1:18>
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+Pragmas for bar.adb:
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+
+== Set all mappings ==
+Pragmas for foo.adb:
+Config pragma: <PragmaNode local_1.adc:1:1-1:18>
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+Pragmas for bar.adb:
+Config pragma: <PragmaNode local_2.adc:1:1-1:18>
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+
+== Buggy key (error) ==
+Got an exception: localPragmas: null key
+Pragmas for foo.adb:
+Config pragma: <PragmaNode local_1.adc:1:1-1:18>
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+Pragmas for bar.adb:
+Config pragma: <PragmaNode local_2.adc:1:1-1:18>
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+
+== Buggy value (error) ==
+Got an exception: localPragmas: null value
+Pragmas for foo.adb:
+Config pragma: <PragmaNode local_1.adc:1:1-1:18>
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+Pragmas for bar.adb:
+Config pragma: <PragmaNode local_2.adc:1:1-1:18>
+Config pragma: <PragmaNode global.adc:1:1-1:15>
+
+Done.

@@ -1,0 +1,1 @@
+for Key of Keys use Key => Integer'Image (Key)

@@ -1180,8 +1180,9 @@ A.add_rules(
 
     iterated_assoc=IteratedAssoc(
         "for", Cut(),
-        A.for_loop_param_spec, "=>",
-        A.expr
+        A.for_loop_param_spec,
+        Opt("use", A.expr),
+        "=>", A.expr
     ),
 
     aggregate_assoc=Or(

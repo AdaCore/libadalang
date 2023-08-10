@@ -25,6 +25,7 @@ ReduceAttributeRef[1:1-1:38]
 |  |  |  |  |f_right:
 |  |  |  |  |  Id[1:16-1:17]: N
 |  |  |  |f_iter_filter: <null>
+|  |  |f_key_expr: <null>
 |  |  |f_r_expr:
 |  |  |  Id[1:21-1:22]: J
 |f_attribute:

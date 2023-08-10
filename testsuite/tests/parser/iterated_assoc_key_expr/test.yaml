@@ -1,0 +1,2 @@
+driver: parser
+rule: iterated_assoc

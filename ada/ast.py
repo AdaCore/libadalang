@@ -16002,6 +16002,7 @@ class IteratedAssoc(BasicAssoc):
     Iterated association (Ada 2020, :rmlink:`4.3.3`).
     """
     spec = Field(type=T.ForLoopSpec)
+    key_expr = Field(type=T.Expr)
     r_expr = Field(type=T.Expr)
 
     expr = Property(Entity.r_expr)

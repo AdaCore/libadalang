@@ -156,9 +156,8 @@ begin
    --  !!! Make GNAT crash.
 
    --  The above could have been written using an explicit key_expression:
-   --  M:= [for Key of Keys use Key => Integer'Image (Key)];
-   --  This example is not supported by LAL ([use key_expression] not parsed)
-   --  TODO: fix LAL, see libadalang#1050.
+   M:= [for Key of Keys use Key => Integer'Image (Key)];
+   pragma Test_Statement;
 
    --  Example aggregates using Vector_Type
 

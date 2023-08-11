@@ -1,0 +1,8 @@
+type: new-feature
+short_title: Support key expression in aggregates
+title: Add support for key expression in container aggregates
+description: |
+  Libadalang now handles key expression used in the iterated element association
+  of container aggregates. This change adds both parser and name resolution
+  support. Container aggregate is an Ada 2022 feature, see ARM 4.3.5.
+date: 2023-08-11

@@ -16075,7 +16075,14 @@ class IteratedAssoc(BasicAssoc):
                 # .. Then we want to match the component type
                 Entity.expr.sub_equation
                 & Bind(Entity.expr.expected_type_var, comp_type)
-                & Entity.expr.matches_expected_type,
+                & Entity.expr.matches_expected_type
+                # .. As well as the key expression if it exists
+                & Entity.key_expr.then(
+                    lambda ke: ke.sub_equation
+                    & Bind(ke.expected_type_var, index_type)
+                    & ke.matches_expected_type,
+                    default_val=LogicTrue()
+                ),
 
                 # .. Else we're on an intermediate dimension of a
                 # multidimensional array: do nothing.

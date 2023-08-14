@@ -70,3 +70,13 @@ nat = c_api.get_name
         CCharPointer charset
     );
 
+
+    // --- Config pragmas
+
+    @CompilerDirectives.TruffleBoundary
+    @CFunction
+    public static native void ${nat("set_config_pragmas_mapping")}(
+        AnalysisContextNative context,
+        AnalysisUnitNative globalPragmas,
+        Pointer localPragmas
+    );

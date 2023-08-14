@@ -120,3 +120,11 @@ ${capi.get_name('gpr_project_create_preprocessor')}(
    const char *project,
    const int *line_mode
 );
+
+${c_doc('libadalang.set_config_pragmas_mapping')}
+extern void
+${capi.get_name('set_config_pragmas_mapping')}(
+   ${analysis_context_type} context,
+   ${analysis_unit_type} global_pragmas,
+   ${analysis_unit_type} *local_pragmas
+);

@@ -372,3 +372,40 @@ ${api.jni_func_sig("create_auto_provider", "jobject")}(
     // Return the new unit provider
     return UnitProvider_wrap(env, res);
 }
+
+${api.jni_func_sig("set_config_pragmas_mapping", "void")}(
+    JNIEnv *env,
+    jclass jni_lib,
+    jobject context,
+    jobject global_pragmas,
+    jobjectArray local_pragmas
+) {
+  ada_analysis_context context_c;
+  ada_analysis_unit global_pragmas_c;
+  ada_analysis_unit *local_pragmas_c;
+  int i, size;
+
+  context_c = AnalysisContext_unwrap (env, context);
+  global_pragmas_c
+    = (global_pragmas == NULL)
+      ? NULL
+      : AnalysisUnit_unwrap (env, global_pragmas);
+
+  size = (*env)->GetArrayLength (env, local_pragmas);
+  local_pragmas_c = calloc (size, sizeof (ada_analysis_unit));
+  for (i = 0; i < size; ++i)
+    {
+      jobject unit_java
+        = (*env)->GetObjectArrayElement (env, local_pragmas, (jsize) i);
+      ada_analysis_unit unit_c;
+
+      unit_c
+	= (unit_java == NULL) ? NULL : AnalysisUnit_unwrap (env, unit_java);
+      local_pragmas_c[i] = unit_c;
+    }
+
+  ${nat("set_config_pragmas_mapping")} (context_c, global_pragmas_c,
+					local_pragmas_c);
+
+  free (local_pragmas_c);
+}

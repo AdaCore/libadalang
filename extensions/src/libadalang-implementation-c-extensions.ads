@@ -166,4 +166,15 @@ package Libadalang.Implementation.C.Extensions is
    --  are kept live: it is the responsibility of the caller to make ``Self``
    --  live at least as long as the returned file reader.
 
+   --------------------
+   -- Config pragmas --
+   --------------------
+
+   procedure ada_set_config_pragmas_mapping
+     (Context        : ada_analysis_context;
+      Global_Pragmas : ada_analysis_unit;
+      Local_Pragmas  : access ada_analysis_unit)
+     with Export, Convention => C;
+   --  See the C header
+
 end Libadalang.Implementation.C.Extensions;

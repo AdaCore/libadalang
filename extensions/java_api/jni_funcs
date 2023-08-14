@@ -51,3 +51,12 @@ nat = c_api.get_name
         String[] sourceFiles,
         String charset
     );
+
+    // --- Config pragmas
+
+    @CompilerDirectives.TruffleBoundary
+    public static native void ${nat("set_config_pragmas_mapping")}(
+        AnalysisContext context,
+        AnalysisUnit globalPragmas,
+        AnalysisUnit[] localPragmas
+    );

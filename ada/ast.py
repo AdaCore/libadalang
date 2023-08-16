@@ -16129,8 +16129,9 @@ class IfExpr(CondExpr):
         ).logic_all(
             lambda e:
             Predicate(BaseTypeDecl.is_universal_type, e.type_var)
-            | Bind(e.type_var, Self.type_var,
-                   conv_prop=BaseTypeDecl.base_subtype)
+            | (Predicate(AdaNode.is_not_null, e.type_var)
+               & Bind(e.type_var, Self.type_var,
+                      conv_prop=BaseTypeDecl.base_subtype))
         )
 
 

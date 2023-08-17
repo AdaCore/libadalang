@@ -5,4 +5,4 @@ Set 'decl' to 'node[0].f_name.p_referenced_decl()'
 Result: <GenericSubpInstantiation ["Free"] test.adb:7:4-7:71>
 
 Eval 'decl.p_designated_subp.p_fully_qualified_name'
-Result: 'Ada.Unchecked_Deallocation'
+Result: 'Test.Free'

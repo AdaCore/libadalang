@@ -567,11 +567,17 @@ class AdaNode(ASTNode):
                         SynthAnonymousTypeDecl),
             Entity.semantic_parent.parent_basic_decl,
             Entity.semantic_parent.then(
-                lambda sp: If(
+                lambda sp: Cond(
+                    sp.is_a(GenericDecl),
+                    sp.cast(GenericDecl).then(
+                        lambda gd: gd.decl.get_instantiation._or(gd)
+                    ),
+
                     sp.is_a(GenericSubpInternal, GenericPackageInternal),
-                    sp.cast(BasicDecl).get_instantiation,
-                    sp.cast(BasicDecl)
-                )._or(sp.parent_basic_decl)
+                    sp.parent_basic_decl,
+
+                    sp.cast(BasicDecl)._or(sp.parent_basic_decl)
+                )
             )
         )
 

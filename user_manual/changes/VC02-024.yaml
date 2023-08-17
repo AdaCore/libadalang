@@ -1,0 +1,23 @@
+type: bugfix
+title: Fix ``P_Fully_Qualified_Name`` on formal decls
+description: |
+    On the following snippet:
+
+    .. code:: ada
+
+        generic
+            Obj : Integer;
+        package Pkg is
+        end Pkg;
+
+        package My_Pkg is new Pkg (1);
+
+    Navigating inside ``My_Pkg`` through the instantiation of ``Pkg`` and
+    querying the fully qualified name of ``Obj`` used to return ``Pkg.Obj``,
+    not taking into account the generic context. It now returns ``My_Pkg.Obj``.
+    Note that in this example Ada does not allow accessing ``My_Pkg.Obj`` from
+    the enclosing package, however there are certain scenarios in which this is
+    allowed (e.g. with generic formal packages) and therefore the old behavior
+    would return invalid results for those legal cases.
+
+date: 2022-12-08

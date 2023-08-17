@@ -78,7 +78,7 @@ build_and_test:
         --failure-exit-code 1
         --xunit-output $CI_PROJECT_DIR/xunit_output.xml
         --xunit-name Libadalang
-        x86_64-linux/libadalang-test/results/new/;
+        x86_64-linux/libadalang_test/results/new/;
 
   artifacts:
     when: always

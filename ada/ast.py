@@ -916,6 +916,16 @@ class AdaNode(ASTNode):
         """
         pass
 
+    @langkit_property(return_type=T.Bool, public=True,
+                      external=True, uses_entity_info=False, uses_envs=False)
+    def is_keyword(token=T.Token, language_version=T.Symbol):
+        """
+        Static method. Return whether the given token is considered a keyword
+        in the given version of Ada. Supported values for the language version
+        argument are: "Ada_83", "Ada_95", "Ada_2005", "Ada_2012", "Ada_2022".
+        """
+        pass
+
     std = Property(
         Self.standard_unit.root.cast(T.CompilationUnit)
         .body.cast(T.LibraryItem).item.as_bare_entity,

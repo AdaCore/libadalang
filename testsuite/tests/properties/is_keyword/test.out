@@ -1,0 +1,6 @@
+'protected' is a keyword in Ada 2012 but not in Ada 83
+'synchronized' is a keyword in Ada 2012 but not in Ada 83
+'interface' is a keyword in Ada 2012 but not in Ada 83
+'overriding' is a keyword in Ada 2012 but not in Ada 83
+'some' is a keyword in Ada 2012 but not in Ada 83
+Unknown Ada version ada_2013

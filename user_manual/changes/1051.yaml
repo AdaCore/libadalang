@@ -1,0 +1,6 @@
+type: new-feature
+title: Consider all ``Image`` attributes as calls
+description: |
+  Until this change, attributes such as ``Integer'Image (X)`` were considered
+  calls but not their short form ``X'Image``. It is now the case.
+date: 2023-09-01

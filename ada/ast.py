@@ -14802,11 +14802,24 @@ class Name(Expr):
         Returns an array of pairs, associating formal parameters to actual or
         default expressions.
         """
+        is_call = Var(Entity.is_call)
+        is_prefix_call = Var(If(
+            is_call,
+            Entity.is_dot_call | Entity.is_a(AttributeRef),
+            False
+        ))
+        call_prefix = Var(
+            Entity.cast(CallExpr)._.name._or(Entity).match(
+                lambda dn=DottedName: dn.prefix,
+                lambda ar=AttributeRef: ar.prefix,
+                lambda _: No(Expr.entity)
+            )
+        )
         return If(
-            Entity.is_call,
+            is_call,
 
             Let(
-                lambda offset=If(Entity.is_dot_call, 1, 0),
+                lambda offset=If(is_prefix_call, 1, 0),
                 # Get the actuals of this call expression if any
                 aparams=Entity.cast(CallExpr)._.params,
                 # Create an array of pairs from the subprogram formals and
@@ -14818,13 +14831,8 @@ class Name(Expr):
                             actual=If(
                                 # Handling dot notation (first actual is
                                 # denoted by the prefix of the dot call).
-                                And(Entity.is_dot_call, i == 0),
-
-                                Entity.cast(CallExpr).then(
-                                    lambda c: c.name.cast(DottedName).prefix,
-                                    default_val=Entity.cast(DottedName).prefix
-                                ),
-
+                                And(is_prefix_call, i == 0),
+                                call_prefix,
                                 p.cast(ParamSpec)._.default_expr
                             )
                         )
@@ -14842,7 +14850,7 @@ class Name(Expr):
                             actual=If(
                                 # Handling dot notation (do not update first
                                 # actual).
-                                And(Entity.is_dot_call, i == 0),
+                                And(is_prefix_call, i == 0),
 
                                 dp.actual,
 
@@ -19095,9 +19103,12 @@ class AttributeRef(Name):
         )
 
     @langkit_property(return_type=BasicDecl.entity)
-    def attribute_subprogram():
+    def attribute_subprogram_for_type(typ=T.BaseTypeDecl.entity):
+        """
+        Return the subprogram declaration referred by this attribute name
+        and defined on the given type.
+        """
         rel_name = Var(Entity.attribute.name_symbol)
-        typ = Var(Entity.prefix.name_designated_type)
         return Cond(
             typ.is_null,
             No(BasicDecl.entity),
@@ -19115,6 +19126,16 @@ class AttributeRef(Name):
             ),
 
             Entity.synthesize_attribute_subprogram(typ)
+        )
+
+    @langkit_property(return_type=BasicDecl.entity)
+    def attribute_subprogram():
+        """
+        Return the subprogram declaration referred by this attribute name,
+        assuming its prefix denotes a type.
+        """
+        return Entity.attribute_subprogram_for_type(
+            Entity.prefix.name_designated_type
         )
 
     @langkit_property()
@@ -19623,6 +19644,18 @@ class AttributeRef(Name):
             & Bind(Self.type_var, Self.bool_type)
             # The only one argument of the attribute can be of any type
             & Entity.args.at(0).sub_equation
+        )
+
+    @langkit_property()
+    def called_subp_spec():
+        rel_name = Var(Entity.attribute.name_symbol)
+        return If(
+            rel_name.any_of('Image', 'Wide_Image', 'Wide_Wide_Image'),
+            Entity.prefix.expression_type.then(
+                lambda typ:
+                Entity.attribute_subprogram_for_type(typ).subp_spec_or_null,
+            ),
+            No(BaseFormalParamHolder.entity)
         )
 
 

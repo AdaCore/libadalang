@@ -25,6 +25,11 @@ package Libadalang.Implementation.Extensions is
    function Ada_Node_P_Standard_Unit
      (Node : Bare_Ada_Node) return Internal_Unit;
 
+   function Ada_Node_P_Is_Keyword
+     (Node             : Bare_Ada_Node;
+      Token            : Token_Reference;
+      Language_Version : Symbol_Type) return Boolean;
+
    function Ada_Node_P_Filter_Is_Imported_By
      (Node       : Bare_Ada_Node;
       Units      : Internal_Unit_Array_Access;

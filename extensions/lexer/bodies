@@ -51,7 +51,7 @@ begin
                         | +Precomputed_Sym_Synchronized
                         | +Precomputed_Sym_Tagged
                         | +Precomputed_Sym_Until;
-         when Ada_2012 =>
+         when Ada_2012 | Ada_2022 =>
             return Sym in +Precomputed_Sym_Abstract
                         | +Precomputed_Sym_Interface
                         | +Precomputed_Sym_Overriding

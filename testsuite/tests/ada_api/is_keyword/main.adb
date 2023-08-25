@@ -20,7 +20,8 @@ procedure Main is
 
    subtype Version_Image is String (1 .. 2);
    Version_Images : constant array (Language_Version)
-                             of Version_Image := ("83", "95", "05", "12");
+                             of Version_Image :=
+                               ("83", "95", "05", "12", "22");
 
 begin
    Put_Line ("Keyword tokens for " & Filename & ":");

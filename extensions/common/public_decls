@@ -1,4 +1,4 @@
 ##  vim: ft=makoada
 
-type Language_Version is (Ada_83, Ada_95, Ada_2005, Ada_2012);
+type Language_Version is (Ada_83, Ada_95, Ada_2005, Ada_2012, Ada_2022);
 --  Enum representing a version of the Ada language

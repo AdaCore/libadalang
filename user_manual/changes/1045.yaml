@@ -1,9 +1,0 @@
-type: new-feature
-title: Add the static property ``is_keyword``
-description: |
-  This change introduces a new "static" property ``is_keyword``, which returns
-  whether a given token is considered a keyword in the given Ada language
-  version. For example, calling this property on a ``synchronized`` token with
-  the ``Ada_2005`` version identifier returns False, whereas it returns True
-  when using the ``Ada_2012`` version identifier.
-date: 2023-08-24

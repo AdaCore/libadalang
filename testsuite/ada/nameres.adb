@@ -11,9 +11,9 @@ with Ada.Unchecked_Deallocation;
 with GNAT.Traceback.Symbolic;
 
 with GNATCOLL.JSON;
-with GNATCOLL.Memory;
+with GNATCOLL.Memory; use GNATCOLL.Memory;
 with GNATCOLL.Opt_Parse;
-with GNATCOLL.VFS; use GNATCOLL.VFS;
+with GNATCOLL.VFS;    use GNATCOLL.VFS;
 
 with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
 with Langkit_Support.Lexical_Envs;
@@ -1375,9 +1375,13 @@ procedure Nameres is
       Put_Line ("Done.");
 
       if Args.Memory.Get then
-         Ada.Text_IO.Put_Line
-           ("Memory allocation at end (MB):"
-            & Integer'Image (Integer (Watermark.Current) / 1024 / 1024));
+         declare
+            Watermark_Mb : constant Byte_Count :=
+              Watermark.Current / 1024 / 1024;
+         begin
+            Ada.Text_IO.Put_Line
+              ("Memory allocation at end (MB):" & Watermark_Mb'Image);
+         end;
       end if;
 
       Free (Job_Data);

@@ -1,6 +1,7 @@
 driver: java
 mode: graal_c_api
 java_path: ../
+main_class: ConfigPragmas
 sync_trees:
   - ../../../../shared/config_pragmas
 control:

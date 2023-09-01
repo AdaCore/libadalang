@@ -11,11 +11,6 @@ class JavaDriver(BaseDriver):
     Driver to build and run tests for the Java bindings.
     """
 
-    main_java_class = "Main"
-    """
-    The name of the Java class to run.
-    """
-
     def run(self):
         # Verify the Java bindings directory
         bindings_dir = self.env.java_bindings
@@ -29,12 +24,14 @@ class JavaDriver(BaseDriver):
                 "Cannot find the Java bindings JAR archive, make sure you "
                 "built libadalang with the '--enable-java' flag"
             )
+        # Get the Java main class name
+        main_class = self.test_env.get("main_class", "Main")
 
         # Get the java main file
         main_java = P.realpath(P.join(
             self.test_env['test_dir'],
             self.test_env.get('java_path', '.'),
-            f"{self.main_java_class}.java"
+            f"{main_class}.java"
         ))
 
         # Get the project path
@@ -125,7 +122,7 @@ class JavaDriver(BaseDriver):
                 '--macro:truffle',
                 '-H:+BuildOutputSilent',
                 '-H:+ReportExceptionStackTraces',
-                f'{self.main_java_class}',
+                f'{main_class}',
                 main_exec,
             ])
 

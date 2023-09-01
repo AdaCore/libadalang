@@ -1,5 +1,6 @@
 driver: java
 mode: jni
 java_path: ../
+main_class: GPRContext
 sync_trees:
   - ../../../../shared/gpr_context

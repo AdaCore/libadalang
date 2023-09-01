@@ -8,7 +8,7 @@ import com.adacore.libadalang.Libadalang;
 /**
  * Test that auto providers work as expected
  */
-public class Main {
+public class AutoProvider {
     private static void doTest(String[] args, String charset) {
         final String projectPath = args[0];
         final String sourceA = Paths.get(projectPath, "a.ads").toString();

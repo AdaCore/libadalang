@@ -1,4 +1,5 @@
 driver: java
 mode: jni
 java_path: ../
+main_class: ProjectManager
 projects_path: ../sources

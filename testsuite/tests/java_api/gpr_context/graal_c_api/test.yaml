@@ -1,6 +1,7 @@
 driver: java
 mode: graal_c_api
 java_path: ../
+main_class: GPRContext
 sync_trees:
   - ../../../../shared/gpr_context
 control:

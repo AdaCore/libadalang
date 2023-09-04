@@ -1,0 +1,29 @@
+=== Analysing unit:  <AnalysisUnit 'a.adb'> """
+Subprogram <SubpBody ["P"] a.adb:4:4-7:10> is skipped
+Subprogram <SubpBody ["Q"] a.adb:10:4-19:10> is skipped
+Subprogram <SubpBody ["QQ"] a.adb:11:7-15:14> is skipped
+Subprogram <NullSubpDecl ["QQQ"] a.adb:12:10-12:32> is skipped
+Subprogram <SubpBody ["R"] a.adb:22:4-31:10> is skipped
+Subprogram <SubpBody ["RR"] a.adb:23:7-27:14> is skipped
+Subprogram <NullSubpDecl ["RRR"] a.adb:24:10-24:32> is skipped
+Subprogram <SubpBody ["S"] a.adb:34:4-43:10> is analyzed
+Subprogram <SubpBody ["SS"] a.adb:35:7-39:14> is skipped
+Subprogram <NullSubpDecl ["SSS"] a.adb:36:10-36:32> is skipped
+Subprogram <SubpBody ["T"] a.adb:46:4-60:10> is analyzed
+Subprogram <SubpBody ["TT"] a.adb:47:7-56:14> is analyzed
+Subprogram <SubpBody ["TTT"] a.adb:48:10-52:18> is skipped
+Subprogram <NullSubpDecl ["TTTT"] a.adb:49:13-49:36> is skipped
+Subprogram <SubpBody ["U"] a.adb:63:4-79:10> is analyzed
+Subprogram <SubpBody ["UU"] a.adb:64:7-75:14> is analyzed
+Subprogram <SubpBody ["UUU"] a.adb:67:10-71:18> is skipped
+Subprogram <NullSubpDecl ["UUUU"] a.adb:68:13-68:36> is skipped
+Subprogram <NullSubpDecl ["V"] a.adb:82:4-82:24> is skipped
+Subprogram <SubpBody ["W"] a.adb:85:4-88:10> is skipped
+Subprogram <SubpBody ["X"] a.adb:91:4-94:10> is skipped
+
+=== Analysing unit:  <AnalysisUnit 'b-p.adb'> """
+Subprogram <SubpBody ["P"] b-p.adb:2:1-5:7> is skipped
+
+=== Analysing unit:  <AnalysisUnit 'b-q.adb'> """
+Subprogram <SubpBody ["Q"] b-q.adb:2:1-5:7> is analyzed
+

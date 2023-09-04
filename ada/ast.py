@@ -226,7 +226,7 @@ class AdaNode(ASTNode):
             "Global", "Refined_Global", "Refined_State",
             "Stable_Properties",
             "Depends", "Refined_Depends",
-            "Predicate_Failure"
+            "Predicate_Failure", "SPARK_Mode"
         )
 
     in_contract = Property(Not(Self.parents.find(
@@ -10112,12 +10112,34 @@ class Pragma(AdaNode):
         For example, on ``pragma Convention (C, X)``, the returned value is
         ``C`` because one would write ``X : Integer with Convention => C``.
         """
-        return If(
+        return Cond(
             Entity.id.name_symbol.any_of(
                 'Import', 'Export', 'Interface', 'Convention'
             ),
             Entity.args.at(0).assoc_expr,
+
+            # SPARK_Mode can have no associated value (in that case, the
+            # default is `On`) but if a value is provided, it's in first
+            # position.
+            Entity.id.name_is('SPARK_Mode'),
+            Entity.args._.at(0)._.assoc_expr,
+
             Entity.args._.at(1)._.assoc_expr
+        )
+
+    @langkit_property(return_type=T.Bool)
+    def spark_mode_is_on():
+        """
+        Return whether this pragma sets SPARK mode to On.
+        """
+        return And(
+            Entity.id.name_is('SPARK_Mode'),
+            Entity.value_expr.then(
+                # If the value is set to `On`, then SPARK mode is on
+                lambda mode: mode.cast(T.Name).name_is('On'),
+                # If no value is set, default value is `On`
+                default_val=True
+            )
         )
 
     @langkit_property(return_type=T.Name.entity.array)
@@ -10247,6 +10269,7 @@ class Pragma(AdaNode):
                         lambda decls: decls.at(decls.length - 1)
                     ).cast(BasicDecl).as_entity._.singleton
                 )._or(
+                    # Or else to the closest parent subprogram
                     enclosing_program_unit.singleton
                 ),
 
@@ -10909,6 +10932,65 @@ class DeclarativePart(AdaNode):
             lambda c: c.is_a(T.UseClause)
         ).env_group()
 
+    @langkit_property(return_type=T.Pragma.entity)
+    def spark_mode_pragma():
+        """
+        Return the ``SPARK_Mode`` pragma node declared in this declarative
+        part if any.
+        """
+        # `SPARK_Mode` pragma can only be at the begining of the declarative
+        # region.
+        return Entity.decls.take_while(
+            lambda decl: decl.is_a(T.Pragma)
+        ).find(
+            lambda decl: decl.cast(T.Pragma).id.name_is('SPARK_Mode')
+        ).cast(T.Pragma)
+
+    @langkit_property(return_type=T.Bool)
+    def is_spark():
+        """
+        Return whether this declarative part has SPARK mode set to On.
+        """
+        # Look if a `SPARK_Mode` pragma has been specified for that part
+        return Entity.spark_mode_pragma.then(
+            # Then, is it `On` or`Off`?
+            lambda pragma: pragma.spark_mode_is_on,
+            # Else, `SPARK_Mode` can also be secified by an aspect
+            default_val=Entity.parent.cast(BasicDecl).then(
+                lambda bd: bd.get_aspect_assoc('SPARK_Mode').then(
+                    lambda aa: aa.expr.then(
+                        lambda mode: mode.cast(T.Name).name_is('On'),
+                        # `SPARK_Mode` without value is `On` by default
+                        default_val=True
+                    ),
+                    # If not pragma or aspect sets `SPARK_Mode`, have a look at
+                    # the parent declarative scope.
+                    default_val=Entity.parent_declarative_part_is_spark
+                ),
+                default_val=Entity.parent_declarative_part_is_spark
+            )
+        )
+
+    @langkit_property(return_type=T.Bool)
+    def parent_declarative_part_is_spark():
+        """
+        Return whether the parent declarative part (if any) is in SPARK.
+        Nested declarative parts inherit SPARK mode of their parent if no mode
+        is specified for Self.
+        """
+        return Entity.parent.declarative_scope.then(
+            lambda parent_scope: parent_scope.as_entity.is_spark,
+            # Else, check if we are in a package body stmt part
+            default_val=Entity.parent.parents.find(
+                # Return the library-level package body statement part in which
+                # Self is.
+                lambda n:
+                n.is_a(T.HandledStmts)
+                & n.parent.is_a(T.PackageBody)
+                & n.parent.parent.is_a(T.LibraryItem)
+            ).cast(T.HandledStmts)._.is_spark
+        )
+
 
 class PrivatePart(DeclarativePart):
     """
@@ -10937,6 +11019,20 @@ class PrivatePart(DeclarativePart):
         add_to_env_kv('__privatepart', Self),
         add_env(transitive_parent=True, names=Self.env_names)
     )
+
+    @langkit_property(return_type=T.Bool)
+    def is_spark():
+        """
+        Return whether this private part has SPARK mode set to On.
+        """
+        # Look if a `SPARK_Mode` pragma has been specified for that part
+        return Entity.spark_mode_pragma.then(
+            lambda pragma: pragma.spark_mode_is_on,
+            # If not pragma sets `SPARK_Mode`, have a look at the corresponding
+            # public part if any.
+            default_val=Entity.parent.cast(T.PackageDecl)
+            ._.public_part.is_spark
+        )
 
 
 class PublicPart(DeclarativePart):
@@ -16709,7 +16805,7 @@ class DefiningName(Name):
         """
         parts_to_check = Var(If(
             name.any_of(
-                'Inline', 'Obsolescent',
+                'Annotate', 'Inline', 'Obsolescent',
                 # For the following aspects, an aspect only on the body is
                 # illegal, but we don't care about illegal cases, and this
                 # allows us to auto propagate the aspect from spec to body.
@@ -20457,6 +20553,116 @@ class BaseSubpBody(Body):
         )
     )
 
+    @langkit_property(return_type=T.Expr.entity.array, memoized=True)
+    def gnatprove_annotations():
+        """
+        Get all ``GNATprove`` annotations specified for that subprogram.
+        """
+        subp_decl_part = Var(Entity.decl_part)
+
+        # GNATprove annotations are specified in the specification, or else on
+        # the body if it doesn't have a specification.
+        annotations = Var(
+            subp_decl_part.then(
+                lambda part: part.aspects,
+                default_val=Entity.aspects
+            )._.aspect_assocs.filtermap(
+                lambda a: a.expr.cast(T.Aggregate).assocs.at(1).expr,
+                lambda a: a.id.name_is('Annotate')
+                & a.expr.is_a(T.Aggregate)
+                & a.expr.cast(T.Aggregate).assocs.at(0)
+                .expr.cast(T.Name)._.name_is('GNATprove')
+            )
+        )
+
+        # GNATprove pragmas immediately follow the specification, or the body
+        # iff it's an `ExprFunction`.
+        pragmas = Var(
+            Let(
+                lambda pragma_scope=subp_decl_part.then(
+                    lambda part: part,
+                    default_val=If(
+                        Entity.is_a(T.ExprFunction),
+                        Entity,
+                        No(T.BaseSubpBody).as_entity
+                    )
+                ):
+
+                pragma_scope._.declarative_scope.decls.filtermap(
+                    lambda d: d.cast(T.Pragma).args.at(1).as_entity.assoc_expr,
+                    lambda d: (d > pragma_scope.node)
+                    & d.cast(T.Pragma)._.id.name_is('Annotate')
+                    & d.cast(T.Pragma).args.at(0)._.as_entity
+                    .assoc_expr.cast(T.Name)._.name_is('GNATprove')
+                    & d.cast(T.Pragma).args.at(2)._.as_entity
+                    .assoc_expr.cast(T.Name)
+                    ._.name_is(Entity.defining_names.at(0).name_symbol)
+                )
+            )
+        )
+
+        # Also look for annotations declared on the enclosing bodies
+        enclosing_subp_annotations = Var(
+            Entity.parents(with_self=False).find(
+                lambda n: n.is_a(T.BaseSubpBody)
+            ).cast(T.BaseSubpBody)._.gnatprove_annotations
+        )
+
+        return annotations.concat(pragmas).concat(enclosing_subp_annotations)
+
+    @langkit_property(public=True, return_type=Bool, memoized=True)
+    def is_spark():
+        """
+        Return whether this subprogram body is in SPARK or not, i.e. return
+        whether SPARK proofs will be applied to that subprogram or not.
+
+        .. note:: Using this property before creating the configuration pragmas
+           files mapping using subprograms from the
+           ``Libadalang.Config_Pragmas`` package will raise an error.
+        """
+        return Cond(
+            # If `Skip_Proof` or `Skip_Flow_And_Proof` has been specified, this
+            # is not in SPARK.
+            Not(
+                Entity.gnatprove_annotations.find(
+                    lambda a: a.cast(Name).name_symbol.any_of(
+                        'Skip_Proof', 'Skip_Flow_And_Proof'
+                    )
+                ).is_null
+            ),
+            False,
+
+            # Else, check for the `SPARK_Mode` aspect. For subprogram bodies,
+            # only the mode `On` turns proofs on. Any other values: `Off` and
+            # `Auto` turn them off. Of course, if the aspect isn't specified at
+            # all, the proofs are off too.
+            Entity.has_aspect("SPARK_Mode"),
+            Entity.get_aspect("SPARK_Mode").value.then(
+                lambda mode: mode.cast(T.Name).name_is("On"),
+                # `SPARK_Mode` without value is `On` by default
+                default_val=True
+            ),
+
+            # If there is no aspect on this subprogram, it's `On` if the
+            # enclosing subprogram or declarative region is `On`.
+            If(
+                Entity.subp_previous_part._.is_a(T.BodyStub),
+                Entity.subp_previous_part,
+                Entity
+            ).declarative_scope.as_entity._.is_spark,
+            True,
+
+            # Finally, check for configuration pragmas. This configuration
+            # pragma is of the form `pragma SPARK_Mode [On|Off|Auto]`.
+            Entity.enclosing_compilation_unit.all_config_pragmas.filter(
+                lambda p: p.id.name_is("SPARK_Mode")
+            ).at(0).then(
+                lambda p: p.spark_mode_is_on,
+                # No configuration pragma were found
+                default_val=False
+            )
+        )
+
 
 class ExprFunction(BaseSubpBody):
     """
@@ -20541,6 +20747,23 @@ class HandledStmts(AdaNode):
 
     stmts = Field(type=T.StmtList)
     exceptions = Field(type=T.AdaNode.list)
+
+    @langkit_property(return_type=T.Bool)
+    def is_spark():
+        """
+        Return whether this list of statement has SPARK mode set to On
+        (assuming that we are in a library-level package body statements
+        section).
+        """
+        return Entity.stmts.take_while(
+            lambda stmt: stmt.is_a(T.Pragma)
+        ).find(
+            lambda stmt: stmt.cast(T.Pragma).id.name_is('SPARK_Mode')
+        ).then(
+            lambda spark_mode: spark_mode.cast(T.Pragma).spark_mode_is_on,
+            # Else, look at the body declarative part
+            default_val=Entity.parent.cast(T.PackageBody)._.decls.is_spark
+        )
 
 
 class ExceptionHandler(BasicDecl):

@@ -515,10 +515,8 @@ package body Libadalang.Preprocessing is
                      Full_Name : constant String :=
                        Lookup_File (Path, Base_Name);
                   begin
-                     Cfg :=
-                       (Enabled     => True,
-                        Definitions => Parse_Definition_File (Full_Name),
-                        others      => <>);
+                     Cfg := Base_Enabled_File_Config;
+                     Cfg.Definitions := Parse_Definition_File (Full_Name);
                      Next (L, T);
                   end;
                end if;
@@ -528,7 +526,7 @@ package body Libadalang.Preprocessing is
                while T.Kind not in EOL | EOF loop
                   if T.Kind = Switch then
                      if not Cfg.Enabled then
-                        Cfg := (Enabled => True, others => <>);
+                        Cfg := Base_Enabled_File_Config;
                      end if;
                      Process_Switch (Cfg, US.To_String (Get_Text (L, T)));
                   else
@@ -660,7 +658,7 @@ package body Libadalang.Preprocessing is
                use Definition_Maps;
             begin
                if not Config.Enabled then
-                  Config := (Enabled => True, others => <>);
+                  Config := Base_Enabled_File_Config;
                end if;
                for Cur in Defs.Iterate loop
                   Config.Definitions.Include (Key (Cur), Element (Cur));

@@ -17,21 +17,25 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-3.txt:1:8: invalid token
 == standard.txt ==
 
 # default
+  -b
   -s
   <none>
 
 # "s01.adb"
+  -b
   a -> Symbol(...)
   b -> Symbol(...)
   z -> Symbol(._._.)
 
 # "s02.adb"
+  -b
   -u
   a -> Symbol(...)
   b -> Symbol(...)
   z -> Symbol(._._.)
 
 # "s03.adb"
+  -b
   -u
   a -> Symbol(X)
   b -> Symbol(...)
@@ -40,6 +44,7 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-3.txt:1:8: invalid token
   z -> Symbol(._._.)
 
 # "s04.adb"
+  -b
   -u
   a -> Symbol(X)
   b -> Symbol(...)
@@ -48,12 +53,14 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-3.txt:1:8: invalid token
   z -> Symbol(._._.)
 
 # "s05.adb"
+  -b
   a -> <null>
   b -> Symbol(._.)
   c -> String("foo bar""")
   z -> Symbol(._._.)
 
 # "s06.adb"
+  -b
   a -> <null>
   b -> <null>
   meh -> <null>
@@ -71,6 +78,7 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-3.txt:1:8: invalid token
   <none>
 
 # "s10.adb"
+  -b
   -u
   <none>
 

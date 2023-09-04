@@ -3,14 +3,22 @@ with Bar;
 
 procedure Foo is
 begin
+
+
+
    null;
+
 end Foo;
 ==========
 with Bar;
 
 procedure Foo is
 begin
+
    Bar;
+
+
+
 end Foo;
 ==========
 with Bar;

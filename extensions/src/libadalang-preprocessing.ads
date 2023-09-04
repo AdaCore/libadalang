@@ -241,6 +241,13 @@ package Libadalang.Preprocessing is
    Disabled_File_Config : constant File_Config := (Enabled => False);
    --  By default, the preprocessor is disabled on all Ada sources
 
+   Base_Enabled_File_Config : constant File_Config :=
+     (Enabled   => True,
+      Line_Mode => Blank_Lines,
+      others    => <>);
+   --  Default file configuration when enabling preprocessing for a source
+   --  file for the preprocessor integrated into GNAT.
+
    procedure Move (Target, Source : in out File_Config);
    --  Move data from ``Source`` to ``Target``. When this procedure returns
    --  ``Source`` is ``Disabled_File_Config``.

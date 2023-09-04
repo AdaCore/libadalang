@@ -1,40 +1,47 @@
 == simple/p.gpr ==
 
 # default
+  -b
   foo -> Symbol(1)
   foobar -> Symbol(2)
 
 == switches/p.gpr ==
 
 # default
+  -b
   bar -> Symbol(2)
 
 == with/q.gpr ==
 
 # default
+  -b
   bar -> Symbol(1)
   foo -> Symbol(1)
 
 == extends/q.gpr ==
 
 # default
+  -b
   bar -> Symbol(1)
   foo -> Symbol(1)
 
 == aggr/aggr.gpr ==
 
 # default
+  -b
   bar -> Symbol(1)
   foo -> Symbol(1)
 
 Focusing on the p sub-project
 
 # default
+  -b
   bar -> Symbol(1)
 
 Focusing on the q sub-project
 
 # default
+  -b
   foo -> Symbol(1)
 
 == file_read_error/p.gpr ==
@@ -48,6 +55,7 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: foo.prep:1:2: invalid token
 == gnatep_in_source_dirs/p.gpr ==
 
 # default
+  -b
   n -> String("3")
 
 Done.

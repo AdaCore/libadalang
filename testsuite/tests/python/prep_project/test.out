@@ -6,9 +6,13 @@ Preprocessor output on foo.adb:
    3 | procedure Foo is
    4 |    I : constant Integer := 1;
    5 |    S : constant String :=
-   6 |    "FOOBAR is defined"
-   7 | end Foo;
+   6 |
+   7 |    "FOOBAR is defined"
    8 |
+   9 |
+  10 |
+  11 | end Foo;
+  12 |
 
 == Normal (subproject) ==
 
@@ -18,9 +22,13 @@ Preprocessor output on foo.adb:
    3 | procedure Foo is
    4 |    I : constant Integer := 1;
    5 |    S : constant String :=
-   6 |    "FOOBAR is *not* defined"
-   7 | end Foo;
+   6 |
+   7 |
    8 |
+   9 |    "FOOBAR is *not* defined"
+  10 |
+  11 | end Foo;
+  12 |
 
 == Normal (no_such_project) ==
 

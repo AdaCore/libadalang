@@ -9,7 +9,7 @@ import com.adacore.libadalang.Libadalang;
 /**
  * Test that the ProjectManager.createContext method work as expected.
  */
-public class Main {
+public class GPRContext {
     private static void check(
         String label,
         String root_project,

@@ -12,7 +12,7 @@ import com.adacore.libadalang.Libadalang.*;
  * Test that the AnalysisContext.setConfigPragmasMapping method works as
  * expected.
  */
-public class Main {
+public class ConfigPragmas {
     private static AnalysisContext ctx;
 
     private static String[] filenames = new String[] {"foo.adb", "bar.adb"};

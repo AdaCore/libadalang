@@ -11,9 +11,9 @@ class JavaDriver(BaseDriver):
     Driver to build and run tests for the Java bindings.
     """
 
-    main_java_class = "Main"
+    ni_test_driver: str
     """
-    The name of the Java class to run.
+    Path to the native-image pre-compiled Java test driver.
     """
 
     def run(self):
@@ -29,12 +29,14 @@ class JavaDriver(BaseDriver):
                 "Cannot find the Java bindings JAR archive, make sure you "
                 "built libadalang with the '--enable-java' flag"
             )
+        # Get the Java main class name
+        main_class = self.test_env.get("main_class", "Main")
 
         # Get the java main file
         main_java = P.realpath(P.join(
             self.test_env['test_dir'],
             self.test_env.get('java_path', '.'),
-            f"{self.main_java_class}.java"
+            f"{main_class}.java"
         ))
 
         # Get the project path
@@ -87,50 +89,17 @@ class JavaDriver(BaseDriver):
 
         def native_image_run():
             """
-            Run the Java main class after its compilation with native-image.
+            Run the pre-compiled native-image produced executable with the
+            main Java class as first argument.
             """
+            assert self.ni_test_driver, ("Test driver cannot access the pre-"
+                                         "compiled Graal C API tests")
 
-            # Get the javac executable from the java home
-            javac_exec = P.realpath(P.join(
-                os.environ['JAVA_HOME'],
-                'bin',
-                'javac'
-            ))
-
-            # Compile the Java main class
             self.run_and_check([
-                javac_exec,
-                '-cp', class_path,
-                '-encoding', 'utf8',
-                '-d', self.test_env['working_dir'],
-                main_java,
+                self.ni_test_driver,
+                main_class,
+                project_path
             ])
-
-            # Get the native-image executable
-            ni_exec = P.realpath(P.join(
-                os.environ['GRAAL_HOME'],
-                'bin',
-                ('native-image.cmd' if os.name == 'nt' else 'native-image')
-            ))
-
-            # Run the native-image compilation
-            main_exec = P.join(
-                self.test_env['working_dir'],
-                'main'
-            )
-            self.run_and_check([
-                ni_exec,
-                '-cp', class_path,
-                '--no-fallback',
-                '--macro:truffle',
-                '-H:+BuildOutputSilent',
-                '-H:+ReportExceptionStackTraces',
-                f'{self.main_java_class}',
-                main_exec,
-            ])
-
-            # Run the compiled Java
-            self.run_and_check([main_exec, project_path])
 
         # Run the test with the wanted mode
         if self.test_env['mode'] == 'graal_c_api':

@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import com.adacore.libadalang.Libadalang;
 
-public class Main {
+public class ProjectManager {
 
     /** The direcotry which contains the projects */
     private static String projectPath;

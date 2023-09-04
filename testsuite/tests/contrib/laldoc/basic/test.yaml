@@ -1,7 +1,0 @@
-driver: python
-input_sources: []
-control:
-    # The new laldoc relies on non-standard Python packages, guaranteed to be
-    # available only in CIs.
-    - [SKIP, "restricted_env",
-       "non-standard Python packages required (sphinx, funcy, ...)"]

@@ -290,8 +290,14 @@ class LALTestsuite(Testsuite):
             ):
                 graal_c_api_tests.append(test_data.driver)
 
-        # If no test requires "native-image" execution then do nothing
-        if not graal_c_api_tests:
+        # If no test requires "native-image" execution, if there is no Java
+        # bindings available or if the "native-image" tests are disabled, do
+        # nothing.
+        if (
+            not graal_c_api_tests or
+            not self.env.java_bindings or
+            self.env.options.disable_native_image
+        ):
             return
 
         logger.info("Pre-compile Graal C API tests...")

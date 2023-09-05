@@ -29,25 +29,6 @@ from drivers import (
 )
 
 
-ni_main_template = """import java.util.Arrays;
-:IMPORTS:
-
-public final class NativeImageMain {
-    private static String[] toForward(String[] srcArgs) {
-        return Arrays.copyOfRange(srcArgs, 1, srcArgs.length);
-    }
-
-    public static void main(String[] args) {
-        if(args.length < 1)
-            throw new RuntimeException("Usage: main [test_class] ...");
-        switch(args[0]) {
-            :TEST_CASES:
-        }
-    }
-}
-"""
-
-
 class PerfTestFinder(YAMLTestFinder):
     """
     Testcase finder to use in perf mode.
@@ -276,131 +257,23 @@ class LALTestsuite(Testsuite):
         # for each test we need to get their main Java class and link it to the
         # generated native-image Java main.
         # Then the native-image compilation is done once for all.
-        graal_c_api_tests = []
-        for _, test_data in dag.vertex_data.items():
-            if (
-                isinstance(test_data.driver, java_driver.JavaDriver) and
-                test_data.driver.test_env['mode'] == 'graal_c_api'
-            ):
-                graal_c_api_tests.append(test_data.driver)
 
-        # If no test requires "native-image" execution or if there is no Java
-        # bindings available, do nothing.
-        if not graal_c_api_tests or not self.env.java_bindings:
-            return
-
-        logger.info("Pre-compile Graal C API tests...")
-
-        # Create the native-image build directories
-        ni_dir = os.path.join(self.working_dir, "_native_image_build")
-        ni_bin_dir = os.path.join(ni_dir, "bin")
-        ni_bin = os.path.join(ni_bin_dir, "main")
-        if os.path.isdir(ni_dir):
-            shutil.rmtree(ni_dir)
-        os.makedirs(ni_dir)
-        os.makedirs(ni_bin_dir)
-
-        # Get the Libadalang Java bindings JAR and verify it
-        bindings_dir = os.path.abspath(self.env.java_bindings)
-        libadalang_jar = os.path.join(
-            bindings_dir,
-            'target',
-            'libadalang.jar'
-        )
-        if not os.path.isfile(libadalang_jar):
-            raise RuntimeError(
-                "Cannot find the Java bindings JAR archive, make sure you "
-                "built libadalang with the '--enable-java' flag"
+        # If Java bindings are available, build a single test main for all
+        # native-image tests in order to reduce the cost of native-image
+        # compilation.
+        if self.env.java_bindings:
+            java_driver.JavaDriver.build_ni_main(
+                self.working_dir,
+                self.env.java_bindings,
+                [
+                    test_data.driver
+                    for test_data in dag.vertex_data.values()
+                    if (
+                        isinstance(test_data.driver, java_driver.JavaDriver)
+                        and test_data.driver.mode == "graal_c_api"
+                    )
+                ],
             )
-
-        # Get the needed executables
-        javac_exec = os.path.realpath(os.path.join(
-            os.environ['JAVA_HOME'],
-            'bin',
-            'javac'
-        ))
-        ni_exec = os.path.realpath(os.path.join(
-            os.environ['GRAAL_HOME'],
-            'bin',
-            ('native-image.cmd' if os.name == 'nt' else 'native-image')
-        ))
-
-        # Prepare the build directory by copying Java sources and
-        # generating native-image main Java file.
-        import_stmts = []
-        case_stmts = []
-        for test in graal_c_api_tests:
-            test_env = test.test_env
-
-            # Copy the test Java source file and add a "package" statement
-            # at the top of it.
-            main_class = test_env.get('main_class', 'Main')
-            src_java_file_name = os.path.join(
-                test_env['test_dir'],
-                test_env.get('java_path', '.'),
-                f"{main_class}.java"
-            )
-            java_file_name = os.path.join(ni_dir, f"{main_class}.java")
-            with open(src_java_file_name) as f:
-                contents = f.read()
-            with open(java_file_name, 'w') as f:
-                print("package tests;", file=f)
-                f.write(contents)
-
-            # Compile the test Java file
-            subprocess.check_call([
-                javac_exec,
-                '-cp', libadalang_jar,
-                '-d', ni_dir,
-                '-encoding', 'utf8',
-                java_file_name
-            ])
-
-            # Add the test class to the native-image main Java content
-            import_stmts.append(f"import tests.{main_class};")
-            case_stmts.append(f'case "{main_class}": {main_class}.main'
-                              '(toForward(args)); break;')
-
-            # Communicate the path to the final native-image executable to
-            # test drivers.
-            test.ni_test_driver = ni_bin
-
-        # Create the native-image Java main file content, write it and
-        # compile it.
-        ni_main_content = ni_main_template.replace(
-            ':IMPORTS:',
-            '\n'.join(import_stmts)
-        ).replace(
-            ':TEST_CASES:',
-            '\n'.join(case_stmts)
-        )
-        ni_main_file_name = os.path.join(ni_dir, "NativeImageMain.java")
-        with open(ni_main_file_name, 'w') as f:
-            print(ni_main_content, file=f)
-        subprocess.check_call([
-            javac_exec,
-            '-cp', ni_dir,
-            '-encoding', 'utf8',
-            ni_main_file_name
-        ])
-
-        # Run the native-image compiler
-        class_path = os.pathsep.join([
-            libadalang_jar,
-            ni_dir
-        ])
-        subprocess.check_call([
-            ni_exec,
-            '-cp', class_path,
-            '--no-fallback',
-            '--macro:truffle',
-            '-H:+BuildOutputSilent',
-            '-H:+ReportExceptionStackTraces',
-            'NativeImageMain',
-            ni_bin,
-        ])
-
-        logger.info("Done")
 
     def tear_down(self):
         opts = self.main.args

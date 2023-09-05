@@ -618,13 +618,6 @@ package body Libadalang.Implementation.Extensions is
       Ctx : constant Internal_Context := U.Context;
 
    begin
-      --  Make sure that the mapping for configuration pragmas files was set
-
-      if not Ctx.Config_Pragmas_Set then
-         raise Property_Error
-           with "missing configuration pragmas files mapping";
-      end if;
-
       --  Fetch the global and local list of configuration pragmas (if any)
 
       declare

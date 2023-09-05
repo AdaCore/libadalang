@@ -33,18 +33,12 @@ procedure Sources is
    end Check_Unit;
 begin
    --  Check that calling these properties without setting configuration
-   --  pragmas files mappings first creates an error.
+   --  pragmas files mappings first works and yields no external pragma.
 
    Put_Line
      ("Trying to get configuration pragmas without creating the mapping"
       & " first...");
-   begin
-      Check_Unit ("pkg.ads");
-      raise Program_Error;
-   exception
-      when Exc : Property_Error =>
-         Put_Line (Exception_Name (Exc) & ": " & Exception_Message (Exc));
-   end;
+   Check_Unit ("pkg.ads");
    New_Line;
 
    --  Now check that P_All_Config_Pragmas return the correct list of pragmas

@@ -20345,10 +20345,6 @@ class CompilationUnit(AdaNode):
         """
         Return the list of configuration pragmas that apply to the current
         unit.
-
-        .. note:: Using this property before creating the configuration pragmas
-           files mapping using subprograms from the
-           ``Libadalang.Config_Pragmas`` package will raise an error.
         """
         return (
             Self.sources_config_pragmas.concat(Self.external_config_pragmas)
@@ -20360,10 +20356,6 @@ class CompilationUnit(AdaNode):
         """
         Return the list of configuration pragmas with the given name that apply
         to the current unit.
-
-        .. note:: Using this property before creating the configuration pragmas
-           files mapping using subprograms from the
-           ``Libadalang.Config_Pragmas`` package will raise an error.
         """
         return Self.all_config_pragmas.filter(
             lambda n: n.id.name_symbol == name
@@ -20672,10 +20664,6 @@ class BaseSubpBody(Body):
         """
         Return whether this subprogram body is in SPARK or not, i.e. return
         whether SPARK proofs will be applied to that subprogram or not.
-
-        .. note:: Using this property before creating the configuration pragmas
-           files mapping using subprograms from the
-           ``Libadalang.Config_Pragmas`` package will raise an error.
         """
         return Cond(
             # If `Skip_Proof` or `Skip_Flow_And_Proof` has been specified, this

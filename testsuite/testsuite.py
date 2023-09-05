@@ -118,11 +118,6 @@ class LALTestsuite(Testsuite):
             help='Disable tests involving the Python API.'
         )
         parser.add_argument(
-            '--disable-native-image', action='store_true',
-            help='Disable tests involving native-image (they are enabled'
-                 ' by default).'
-        )
-        parser.add_argument(
             '--with-ocaml-bindings', default=None,
             help='If provided, must be a path from the current directory to'
                  ' the directory in which the OCaml bindings were generated.'
@@ -239,7 +234,6 @@ class LALTestsuite(Testsuite):
             'has_pygments': has_pygments,
             'python': python_version,
             'has_put_image': opts.has_put_image,
-            'has_native_image': not opts.disable_native_image,
             'valgrind': opts.valgrind,
             'coverage': opts.coverage is not None,
         }
@@ -290,14 +284,9 @@ class LALTestsuite(Testsuite):
             ):
                 graal_c_api_tests.append(test_data.driver)
 
-        # If no test requires "native-image" execution, if there is no Java
-        # bindings available or if the "native-image" tests are disabled, do
-        # nothing.
-        if (
-            not graal_c_api_tests or
-            not self.env.java_bindings or
-            self.env.options.disable_native_image
-        ):
+        # If no test requires "native-image" execution or if there is no Java
+        # bindings available, do nothing.
+        if not graal_c_api_tests or not self.env.java_bindings:
             return
 
         logger.info("Pre-compile Graal C API tests...")

@@ -4,5 +4,3 @@ java_path: ../
 main_class: GPRContext
 sync_trees:
   - ../../../../shared/gpr_context
-control:
-    - [SKIP, "not has_native_image", "Native-image tests disabled"]

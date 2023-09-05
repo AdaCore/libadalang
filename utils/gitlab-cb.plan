@@ -1,0 +1,7 @@
+def run_cb():
+    # Make sure the GNAT package can still build with all these changes
+    anod_build("gnat")
+
+    # Also build the customer-facing Libadalang package
+    anod_build("libadalang_for_customers")
+

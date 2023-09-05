@@ -57,8 +57,4 @@
     - anod vcs --add-repo libadalang-tools /tmp/libadalang-tools
     - anod vcs --add-repo templates_parser /tmp/templates-parser
 
-    # Make sure the GNAT package can still build with all these changes
-    - anod build --smart-rebuild gnat
-
-    # Also build the customer-facing Libadalang package
-    - anod build --smart-rebuild libadalang_for_customers
+    - anod run --plan /tmp/libadalang/utils/gitlab-cb.plan run_cb --smart-rebuild

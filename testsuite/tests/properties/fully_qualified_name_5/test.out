@@ -2,7 +2,7 @@ Working on node <ObjectDecl ["A", "B"] test.adb:4:4-4:19>
 =========================================================
 
 Eval 'node.p_fully_qualified_name'
-Exception: Can't call on a declaration with several names
+Exception: BasicDecl with multiple defining names
 
 Set 'a' to 'node.p_defining_names[0]'
 Result: <DefiningName "A" test.adb:4:4-4:5>

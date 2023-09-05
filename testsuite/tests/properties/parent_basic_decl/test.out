@@ -1,3 +1,75 @@
+Working on node <GenericPackageInternal ["Pkg_G"] gen.adb:3:4-5:14>
+===================================================================
+
+Eval 'node.parent.p_parent_basic_decl'
+Result: <SubpBody ["Gen"] gen.adb:1:1-35:9>
+
+Eval 'node.p_parent_basic_decl'
+Result: <GenericPackageDecl ["Pkg_G"] gen.adb:2:4-5:14>
+
+Eval 'node.find(lal.ObjectDecl).p_parent_basic_decl'
+Result: <GenericPackageDecl ["Pkg_G"] gen.adb:2:4-5:14>
+
+Working on node <GenericSubpDecl ["Subp_G"] gen.adb:10:4-11:35>
+===============================================================
+
+Eval 'node.p_parent_basic_decl'
+Result: <SubpBody ["Gen"] gen.adb:1:1-35:9>
+
+Eval 'node.f_subp_decl.p_parent_basic_decl'
+Result: <GenericSubpDecl ["Subp_G"] gen.adb:10:4-11:35>
+
+Eval 'node.find(lal.ParamSpec).p_parent_basic_decl'
+Result: <GenericSubpDecl ["Subp_G"] gen.adb:10:4-11:35>
+
+Working on node <GenericPackageInstantiation ["My_Pkg"] gen.adb:16:4-16:32>
+===========================================================================
+
+Eval 'node.p_parent_basic_decl'
+Result: <SubpBody ["Gen"] gen.adb:1:1-35:9>
+
+Set 'decl' to 'node.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["Pkg_G"] gen.adb:2:4-5:14 [gen.adb:16:4] |>
+
+Eval 'decl.p_parent_basic_decl'
+Result: <GenericPackageInstantiation ["My_Pkg"] gen.adb:16:4-16:32>
+
+Set 'internal' to 'decl.f_package_decl'
+Result: <| GenericPackageInternal ["Pkg_G"] gen.adb:3:4-5:14 [gen.adb:16:4] |>
+
+Eval 'internal.p_parent_basic_decl'
+Result: <GenericPackageInstantiation ["My_Pkg"] gen.adb:16:4-16:32>
+
+Set 'obj' to 'internal.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] gen.adb:4:7-4:19 [gen.adb:16:4] |>
+
+Eval 'obj.p_parent_basic_decl'
+Result: <GenericPackageInstantiation ["My_Pkg"] gen.adb:16:4-16:32>
+
+Working on node <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
+=========================================================================
+
+Eval 'node.p_parent_basic_decl'
+Result: <SubpBody ["Gen"] gen.adb:1:1-35:9>
+
+Set 'decl' to 'node.p_designated_generic_decl'
+Result: <| GenericSubpDecl ["Subp_G"] gen.adb:10:4-11:35 [gen.adb:25:4] |>
+
+Eval 'decl.p_parent_basic_decl'
+Result: <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
+
+Set 'internal' to 'decl.f_subp_decl'
+Result: <| GenericSubpInternal ["Subp_G"] gen.adb:11:4-11:34 [gen.adb:25:4] |>
+
+Eval 'internal.p_parent_basic_decl'
+Result: <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
+
+Set 'param' to 'decl.find(lal.ParamSpec)'
+Result: <| ParamSpec ["X"] gen.adb:11:22-11:33 [gen.adb:25:4] |>
+
+Eval 'param.p_parent_basic_decl'
+Result: <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
+
 Working on node <SubpDecl ["Foo"] test.adb:8:4-10:19>
 =====================================================
 

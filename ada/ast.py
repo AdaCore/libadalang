@@ -7245,7 +7245,9 @@ class BaseTypeDecl(BasicDecl):
             )
         )
         return Cond(
-            Not(Entity.is_tagged_type),
+            Not(Entity.is_tagged_type
+                # Private types can have a tagged completion
+                | Entity.private_completion._.is_tagged_type),
             No(T.inner_env_assoc.array),
 
             pkg.is_null,

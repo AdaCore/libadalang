@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ReturnStmt test.adb:16:9-16:20>
+*********************************************************
+
+Expr: <DottedName test.adb:16:16-16:19>
+  references:    <DefiningName "F" test.adb:6:16-6:17>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "N" test.adb:16:16-16:17>
+  references:    <DefiningName "N" test.adb:14:19-14:20>
+  type:          <ConcreteTypeDecl ["T"] test.adb:8:7-10:18>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:8:7-10:18>
+Expr: <Id "F" test.adb:16:18-16:19>
+  references:    <DefiningName "F" test.adb:6:16-6:17>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

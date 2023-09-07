@@ -36,7 +36,7 @@ public class GPRContext {
             );
         } catch (Libadalang.LangkitException e) {
             if (e.kind
-                != Libadalang.ExceptionKind.EXCEPTION_UNSUPPORTED_VIEW_ERROR)
+                != Libadalang.ExceptionKind.UNSUPPORTED_VIEW_ERROR)
                 throw new RuntimeException();
             System.out.println("Unsupported_View_Error: " + e.getMessage());
             System.out.println("");

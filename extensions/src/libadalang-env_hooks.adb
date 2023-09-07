@@ -259,12 +259,33 @@ package body Libadalang.Env_Hooks is
          --  consider that anything can be done in the callback anyway?
 
          if Ctx.Event_Handler /= null then
-            Ctx.Event_Handler.Unit_Requested_Callback
-              (Ctx,
-               To_Text (Get_Filename (Unit)),
-               From_Unit,
-               Unit.Ast_Root /= null,
-               Not_Found_Is_Error);
+
+            --  TODO??? (libadalang#1028) Passing a filename as a Text_Type is
+            --  dubious. Do the best approximation we can without crashing for
+            --  non-ASCII bytes for now, but in the future we may want to
+            --  change the signature for this event.
+
+            declare
+               Filename : constant String := Get_Filename (Unit);
+               Name     : Text_Type (Filename'Range);
+            begin
+               for I in Filename'Range loop
+                  declare
+                     C : Character renames Filename (I);
+                  begin
+                     Name (I) :=
+                       (if C in Character'Val (0) .. Character'Val (127)
+                        then Wide_Wide_Character'Val (Character'Pos (C))
+                        else '?');
+                  end;
+               end loop;
+               Ctx.Event_Handler.Unit_Requested_Callback
+                 (Ctx,
+                  Name,
+                  From_Unit,
+                  Unit.Ast_Root /= null,
+                  Not_Found_Is_Error);
+            end;
          end if;
       end Emit_Unit_Requested;
 

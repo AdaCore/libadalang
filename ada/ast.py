@@ -20451,36 +20451,38 @@ class BaseSubpBody(Body):
         return If(
             Entity.in_scope,
 
-            If(
-                Entity.subp_spec_or_null
-                ._.paramless(Entity.info.md.dottable_subp, can_be=True),
-                Array([
-                    Entity.children_env, Entity.subp_spec.defining_env,
-                    # For bodies corresponding to generic declaration, add the
-                    # declaration's formal_part env to the body one, as for
-                    # example in:
-                    #
-                    # .. code:: ada
-                    #   procedure Gen_Proc is
-                    #      C : constant T := Gen_Proc.F;
-                    #   begin
-                    #      null;
-                    #   end Gen_Proc;
-                    #
-                    # with `F` being a `Gen_Proc` formal's function:
-                    #
-                    # .. code ada
-                    #   generic
-                    #     type T is private;
-                    #     with function F return T is <>;
-                    #   procedure Gen_Proc;
-                    Entity.decl_part.then(
-                        lambda decl: decl.cast(T.GenericSubpDecl)
-                        ._.formal_part._.children_env
-                    )
-                ]).env_group(),
-                Entity.children_env
-            ),
+            Array([
+                If(
+                    Entity.subp_spec_or_null
+                    ._.paramless(Entity.info.md.dottable_subp, can_be=True),
+                    Array([
+                        Entity.children_env, Entity.subp_spec.defining_env,
+                    ]).env_group(),
+                    Entity.children_env
+                ),
+                # For bodies corresponding to generic declaration, add the
+                # declaration's formal_part env to the body one, as for
+                # example in:
+                #
+                # .. code:: ada
+                #   procedure Gen_Proc is
+                #      C : constant T := Gen_Proc.F;
+                #   begin
+                #      null;
+                #   end Gen_Proc;
+                #
+                # with `F` being a `Gen_Proc` formal's function:
+                #
+                # .. code ada
+                #   generic
+                #     type T is private;
+                #     with function F return T is <>;
+                #   procedure Gen_Proc;
+                Entity.decl_part.then(
+                    lambda decl: decl.cast(T.GenericSubpDecl)
+                    ._.formal_part._.children_env
+                )
+            ]).env_group(),
 
             Entity.subp_spec.defining_env
         )

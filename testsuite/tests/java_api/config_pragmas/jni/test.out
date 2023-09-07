@@ -1,8 +1,6 @@
 == Query config pragmas with no mappings set ==
 Pragmas for foo.adb:
-Got an exception (EXCEPTION_PROPERTY_ERROR): missing configuration pragmas files mapping
 Pragmas for bar.adb:
-Got an exception (EXCEPTION_PROPERTY_ERROR): missing configuration pragmas files mapping
 
 == Set empty mappings ==
 Pragmas for foo.adb:

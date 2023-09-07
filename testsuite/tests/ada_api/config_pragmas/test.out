@@ -98,7 +98,7 @@ Done.
 == sources.adb ==
 
 Trying to get configuration pragmas without creating the mapping first...
-LANGKIT_SUPPORT.ERRORS.PROPERTY_ERROR: missing configuration pragmas files mapping
+pkg.ads: Cfg_1 Cfg_2
 
 pkg.ads: Cfg_1 Cfg_2 Global_Foo
 pkg.adb: Cfg_2 Cfg_1 Global_Foo

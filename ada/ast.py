@@ -566,7 +566,9 @@ class AdaNode(ASTNode):
             Entity.is_a(ClasswideTypeDecl, DiscreteBaseSubtypeDecl,
                         SynthAnonymousTypeDecl),
             Entity.semantic_parent.parent_basic_decl,
-            Entity.semantic_parent.then(
+            Entity.cast(GenericDecl).then(
+                lambda gd: gd.decl.get_instantiation
+            )._or(Entity.semantic_parent.then(
                 lambda sp: Cond(
                     sp.is_a(GenericDecl),
                     sp.cast(GenericDecl).then(
@@ -578,7 +580,7 @@ class AdaNode(ASTNode):
 
                     sp.cast(BasicDecl)._or(sp.parent_basic_decl)
                 )
-            )
+            ))
         )
 
     @langkit_property(return_type=T.LexicalEnv)
@@ -3351,75 +3353,31 @@ class BasicDecl(AdaNode):
             Entity
         )
 
-    @langkit_property(return_type=T.String.array)
-    def fully_qualified_name_impl(
-        include_profile=(T.Bool, False),
-        dn=(T.DefiningName.entity, No(T.DefiningName.entity))
-    ):
+    @langkit_property(return_type=T.String)
+    def fqn_extra_suffix():
         """
-        Return the fully qualified name corresponding to this declaration, as
-        an array of symbols.
-
-        If ``dn`` is null, take the first defining name for the declaration.
-        Else, assume that dn is one of the defining names for this declaration.
+        Return the extra suffix that should be appended to the fully qualified
+        name of this declaration, for example to append ``'Class`` to classwide
+        type declarations, etc.
         """
-        # If this basic decl has several names, and a defining name was not
-        # passed, then raise an error. We assume that all internal callers will
-        # pass this correctly, so the only cases in which this property error
-        # should be raised is when the user calls a public property on a decl
-        # with several names.
-        ignore(Var(If(
-            dn.is_null & (Entity.defining_names.length > 1),
-            PropertyError(T.Bool,
-                          "Can't call on a declaration with several names"),
-            False
-        )))
+        return Cond(
+            Entity.is_a(T.ClasswideTypeDecl),
+            String("'Class"),
 
-        def_name = Var(If(
-            dn.is_null, Entity.defining_name, dn
-        ).match(
-            lambda scel=T.SyntheticDefiningName: [scel.name_symbol.image],
-            lambda n: n.as_single_tok_node_array.map(lambda t: t.text)
-        ))
+            Entity.is_a(T.DiscreteBaseSubtypeDecl),
+            String("'Base"),
 
-        self_name = Var(def_name.map(
-            lambda i, t: t.concat(
-                If(include_profile, Entity.custom_id_text, String(""))
-            ).concat(If(
-                i == (def_name.length - 1),
-                Cond(Entity.is_a(T.ClasswideTypeDecl), String("'Class"),
-                     Entity.is_a(T.DiscreteBaseSubtypeDecl), String("'Base"),
+            # For the moment, SynthAnonymousTypeDecl is used solely to
+            # generate anonymous access types. We give those a name.
+            # NOTE: this is not an Ada type as per the RM, and is used
+            # for the GNAT specific 'Unrestricted_Access attribute, so
+            # we give this type a name that doesn't exist in the RM
+            # either.
+            Entity.is_a(T.SynthAnonymousTypeDecl),
+            String("'Anonymous_Access"),
 
-                     # For the moment, SynthAnonymousTypeDecl is used solely to
-                     # generate anonymous access types. We give those a name.
-                     # NOTE: this is not an Ada type as per the RM, and is used
-                     # for the GNAT specific 'Unrestricted_Access attribute, so
-                     # we give this type a name that doesn't exist in the RM
-                     # either.
-                     Entity.is_a(T.SynthAnonymousTypeDecl),
-                     String("'Anonymous_Access"),
-
-                     String("")),
-                String("")
-            ))
-        ))
-
-        fqn = Var(If(
-            Entity.is_compilation_unit_root,
-            self_name,
-
-            Entity.parent_basic_decl
-            ._.fully_qualified_name_impl(include_profile=include_profile)
-            .then(lambda fqn: If(
-                Self.is_a(T.GenericPackageInternal, T.GenericSubpInternal),
-                fqn,
-                fqn.concat(self_name)
-            ))
-        ))
-
-        return Self.parent.cast(
-            T.Subunit)._.name.as_single_tok_node_array.map(
-                lambda t: t.text).concat(fqn)._or(fqn)
+            String("")
+        )
 
     @langkit_property(return_type=T.String.array)
     def fully_qualified_name_string_array(include_profile=(T.Bool, False)):
@@ -3427,8 +3385,9 @@ class BasicDecl(AdaNode):
         Return the fully qualified name corresponding to this declaration, as
         an array of symbols.
         """
-        return Entity.fully_qualified_name_impl(
-            include_profile=include_profile
+        return Entity.defining_name_or_raise.fully_qualified_name_impl(
+            include_profile=include_profile,
+            suffix=Entity.fqn_extra_suffix
         )
 
     @langkit_property(public=True, return_type=T.Symbol.array)
@@ -3446,23 +3405,7 @@ class BasicDecl(AdaNode):
         """
         Return the fully qualified name corresponding to this declaration.
         """
-        return String(".").join(Entity.fully_qualified_name_impl())
-
-    @langkit_property(return_type=T.String)
-    def canonical_fully_qualified_name_impl(
-        include_profile=(T.Bool, False),
-        dn=(T.DefiningName.entity, No(T.DefiningName.entity))
-    ):
-        """
-        Implementation of canonical_fully_qualified_name.
-        """
-        return String(".").join(
-            Entity.fully_qualified_name_impl(
-                include_profile=include_profile, dn=dn
-            )
-            # Map to symbol & back to canonicalize
-            .map(lambda t: t.to_symbol).map(lambda t: t.image)
-        )
+        return String(".").join(Entity.fully_qualified_name_string_array)
 
     @langkit_property(public=True, return_type=T.String)
     def canonical_fully_qualified_name():
@@ -3470,19 +3413,11 @@ class BasicDecl(AdaNode):
         Return a canonical representation of the fully qualified name
         corresponding to this declaration.
         """
-        return Entity.canonical_fully_qualified_name_impl()
-
-    @langkit_property(return_type=T.String)
-    def unique_identifying_name_impl(
-        dn=(T.DefiningName.entity, No(T.DefiningName.entity))
-    ):
-        """
-        Implementation for unique_identifying_name.
-        """
-        return Entity.match(
-            lambda _=T.AnonymousTypeDecl: Entity.custom_id_text,
-            lambda _: Entity.canonical_fully_qualified_name_impl(
-                include_profile=True, dn=dn
+        return (
+            Entity.defining_name_or_raise
+            .canonical_fully_qualified_name_impl(
+                include_profile=False,
+                suffix=Entity.fqn_extra_suffix
             )
         )
 
@@ -3498,7 +3433,9 @@ class BasicDecl(AdaNode):
             Notably, anything nested in an unnamed declare block won't be
             handled correctly.
         """
-        return Entity.unique_identifying_name_impl()
+        return Entity.defining_name_or_raise.unique_identifying_name_impl(
+            suffix=Entity.fqn_extra_suffix
+        )
 
     @langkit_property(return_type=T.String)
     def custom_id_text():
@@ -16399,13 +16336,92 @@ class DefiningName(Name):
             lambda n: n.is_a(BaseFormalParamDecl)
         ).cast_or_raise(T.BaseFormalParamDecl)
 
+    @langkit_property(return_type=T.String.array)
+    def fully_qualified_name_impl(
+        include_profile=T.Bool,
+        suffix=T.String,
+    ):
+        """
+        Return the fully qualified name corresponding to this declaration, as
+        an array of symbols.
+        """
+        def_name_array = Var(Self.match(
+            lambda scel=T.SyntheticDefiningName: [scel.name_symbol.image],
+            lambda n: n.as_single_tok_node_array.map(lambda t: t.text)
+        ))
+        bd = Var(Entity.basic_decl_no_internal)
+
+        self_name = Var(def_name_array.map(
+            lambda i, t: t.concat(
+                If(include_profile, bd.custom_id_text, String(""))
+            ).concat(If(
+                i == (def_name_array.length - 1), suffix, String("")
+            ))
+        ))
+
+        parent_decl = Var(bd.parent_basic_decl)
+        is_generic = Var(bd.is_a(GenericDecl))
+        is_instantiated = Var(
+            is_generic & parent_decl.is_a(GenericInstantiation)
+        )
+
+        fqn = Var(If(
+            Not(is_instantiated) & bd.is_compilation_unit_root,
+            self_name,
+            parent_decl._.fully_qualified_name_string_array(
+                include_profile=include_profile
+            ).then(
+                # If we were on an instantiated generic declaration, we don't
+                # want to include the name of the generic but the name of the
+                # instance (which is `fqn`).
+                lambda fqn: If(is_instantiated, fqn, fqn.concat(self_name))
+            )
+        ))
+
+        return bd.parent.cast(Subunit)._.name.as_single_tok_node_array.map(
+            lambda t: t.text
+        ).concat(fqn)._or(fqn)
+
+    @langkit_property(return_type=T.String)
+    def canonical_fully_qualified_name_impl(
+        include_profile=T.Bool,
+        suffix=T.String,
+    ):
+        """
+        Implementation of canonical_fully_qualified_name.
+        """
+        return String(".").join(
+            Entity.fully_qualified_name_impl(
+                include_profile=include_profile,
+                suffix=suffix
+            )
+            # Map to symbol & back to canonicalize
+            .map(lambda t: t.to_symbol).map(lambda t: t.image)
+        )
+
+    @langkit_property(return_type=T.String)
+    def unique_identifying_name_impl(suffix=T.String):
+        """
+        Implementation for unique_identifying_name.
+        """
+        return Entity.basic_decl.match(
+            lambda atd=T.AnonymousTypeDecl: atd.custom_id_text,
+            lambda _: Entity.canonical_fully_qualified_name_impl(
+                include_profile=True,
+                suffix=suffix
+            )
+        )
+
     @langkit_property(public=True, return_type=T.String)
     def canonical_fully_qualified_name():
         """
         Return a canonical representation of the fully qualified name
         corresponding to this defining name.
         """
-        return Entity.basic_decl.canonical_fully_qualified_name_impl(dn=Entity)
+        return Entity.canonical_fully_qualified_name_impl(
+            include_profile=False,
+            suffix=String("")
+        )
 
     @langkit_property(public=True, return_type=T.String)
     def unique_identifying_name():
@@ -16419,7 +16435,7 @@ class DefiningName(Name):
             Notably, anything nested in an unnamed declare block won't be
             handled correctly.
         """
-        return Entity.basic_decl.unique_identifying_name_impl(Entity)
+        return Entity.unique_identifying_name_impl(suffix=String(""))
 
     @langkit_property(public=True, return_type=T.Symbol.array)
     def fully_qualified_name_array():
@@ -16427,8 +16443,9 @@ class DefiningName(Name):
         Return the fully qualified name corresponding to this defining name, as
         an array of symbols.
         """
-        return Entity.basic_decl.fully_qualified_name_impl(
-            dn=Entity
+        return Entity.fully_qualified_name_impl(
+            include_profile=False,
+            suffix=String("")
         ).map(lambda t: t.to_symbol)
 
     @langkit_property(public=True, return_type=T.String)
@@ -16436,9 +16453,10 @@ class DefiningName(Name):
         """
         Return the fully qualified name corresponding to this defining name.
         """
-        return String(".").join(
-            Entity.basic_decl.fully_qualified_name_impl(dn=Entity)
-        )
+        return String(".").join(Entity.fully_qualified_name_impl(
+            include_profile=False,
+            suffix=String("")
+        ))
 
     @langkit_property()
     def all_env_els_impl(

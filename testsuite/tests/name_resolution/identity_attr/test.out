@@ -12,8 +12,8 @@ Expr: <AttributeRef test.adb:20:7-20:17>
   type:          ada.task_identification.task_id
   expected type: ada.task_identification.task_id
 Expr: <Id "T" test.adb:20:7-20:8>
-  references:    test().t.t
-  type:          test().t.t
+  references:    test().t
+  type:          test().t
   expected type: None
 Expr: <Id "Identity" test.adb:20:9-20:17>
   references:    None

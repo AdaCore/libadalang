@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix ``is_ghost_code`` on instantiated generics
+description: |
+  This change fixes a bug where the ``is_ghost_code`` property would return
+  False when called on an instantiated generic declaration when it was the
+  instantiation itself that was ghost while the generic declaration was not.
+date: 2023-09-08

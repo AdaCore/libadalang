@@ -1,0 +1,2 @@
+<| GenericPackageDecl ["G"] test_1.adb:5:7-8:13 [test_1.adb:21:7] |> is ghost ? True
+<| GenericPackageDecl ["G"] test_2.adb:5:7-8:13 [test_2.adb:21:7] |> is ghost ? True

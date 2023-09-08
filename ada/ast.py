@@ -11190,6 +11190,22 @@ class GenericInstantiation(BasicDecl):
         """
     )
 
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def designated_bare_generic_decl():
+        """
+        Return the generic decl designated by this instantiation, but without
+        the associated generic context.
+        """
+        decl = Var(Entity.designated_generic_decl)
+        return T.Entity.new(
+            node=decl.node,
+            info=T.EntityInfo.new(
+                md=decl.info.md,
+                rebindings=decl.info.rebindings.get_parent,
+                from_rebound=decl.info.from_rebound
+            )
+        ).cast(BasicDecl.entity)
+
     @lazy_field(return_type=T.AnonymousExprDecl.array,
                 ignore_warn_on_node=True)
     def actual_expr_decls():
@@ -16997,7 +17013,7 @@ class DefiningName(Name):
 
             # Instantiation of generic ghost entity is ghost code
             bd.cast(GenericInstantiation).then(
-                lambda gi: gi.designated_generic_decl.is_ghost_code()
+                lambda gi: gi.designated_bare_generic_decl.is_ghost_code()
             ),
 
             # Renaming of ghost entity is ghost code

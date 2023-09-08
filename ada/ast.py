@@ -10085,17 +10085,24 @@ class Pragma(AdaNode):
             ),
 
             Entity.id.name_is('Warnings'),
-            Entity.args.at(1)._.assoc_expr.then(
-                lambda expr: If(
-                    expr.is_a(T.Identifier),
+            Entity.args.logic_all(
+                lambda arg: arg.assoc_expr.then(
+                    lambda expr: If(
+                        expr.is_a(T.Identifier),
+                        If(
+                            expr.cast(T.Identifier)._.name_symbol.any_of(
+                                'On', 'Off', 'GNAT', 'GNATprove'
+                            ),
+                            LogicTrue(),
+                            expr.sub_equation
+                        ),
 
-                    expr.sub_equation,
-
-                    Bind(expr.expected_type_var, Self.std_entity("String"))
-                    & expr.sub_equation
-                    & expr.matches_expected_type
-                ),
-                default_val=LogicTrue()
+                        Bind(expr.expected_type_var, Self.std_entity("String"))
+                        & expr.sub_equation
+                        & expr.matches_expected_type
+                    ),
+                    default_val=LogicTrue()
+                )
             ),
 
             # Pragmas we want to deliberately not resolve, either because there

@@ -16355,7 +16355,7 @@ class DefiningName(Name):
     @langkit_property(return_type=T.String.array)
     def fully_qualified_name_impl(
         include_profile=T.Bool,
-        suffix=T.String,
+        suffix=T.String
     ):
         """
         Return the fully qualified name corresponding to this declaration, as
@@ -16401,7 +16401,7 @@ class DefiningName(Name):
     @langkit_property(return_type=T.String)
     def canonical_fully_qualified_name_impl(
         include_profile=T.Bool,
-        suffix=T.String,
+        suffix=T.String
     ):
         """
         Implementation of canonical_fully_qualified_name.

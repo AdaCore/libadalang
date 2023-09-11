@@ -902,26 +902,6 @@ class AdaNode(ASTNode):
         result = Var(Entity.resolve_names_from_closest_entry_point_impl)
         return result != No(LexicalEnv)
 
-    @langkit_property(return_type=LexicalEnv)
-    def parent_unit_env_helper(unit=AnalysisUnit, env=LexicalEnv):
-        return env.env_parent.then(lambda parent_env: parent_env.env_node.then(
-            lambda parent_node: If(
-                parent_node.unit == unit,
-                Self.parent_unit_env_helper(unit, parent_env),
-                parent_env
-            )
-        ))
-
-    @langkit_property()
-    def parent_unit_env(env=LexicalEnv):
-        """
-        Given env's AnalysisUnit, return the first env that has a different
-        analysis unit in the env parent chain.
-        """
-        return env.then(
-            lambda env: Self.parent_unit_env_helper(env.env_node.unit, env)
-        )
-
     @langkit_property(return_type=T.AnalysisUnit, public=True,
                       external=True, uses_entity_info=False, uses_envs=False)
     def standard_unit():
@@ -1080,6 +1060,39 @@ class AdaNode(ASTNode):
         """
     )
 
+    @langkit_property(return_type=T.Bool)
+    def parent_has_with_visibility(refd_unit=T.AnalysisUnit,
+                                   self_cu=T.CompilationUnit,
+                                   has_private_view=T.Bool):
+        """
+        Return whether the parent unit of this node has with visibility on
+        the given analysis unit. In particular, this takes into account
+        private visibility: for a given node which is inside a body or a
+        private part, it will forward to the query in the parent unit the
+        fact that the origin node has visibility on the ``private with``
+        clauses of the parent unit.
+        """
+        should_have_private_view = Var(
+            has_private_view | self_cu.has_private_view(Self)
+        )
+        return self_cu.decl.as_bare_entity.semantic_parent.then(
+            lambda parent: If(
+                # In our implementation, the semantic parent of a child package
+                # is always the private part of the parent package (see note in
+                # ``PackageDecl``'s ``env_spec``). But if we are not supposed
+                # to have view on the private part, we must perform the query
+                # outside of it, here from the parent of the private part.
+                parent.is_a(PrivatePart) & Not(should_have_private_view),
+                parent.parent.has_with_visibility(
+                    refd_unit, omit_privacy_check=False
+                ),
+
+                parent.has_with_visibility(
+                    refd_unit, omit_privacy_check=should_have_private_view
+                )
+            )
+        )
+
     @langkit_property(return_type=Bool)
     def has_private_part_parent(barrier=T.AdaNode):
         """
@@ -1091,12 +1104,12 @@ class AdaNode(ASTNode):
         same visibility privileges of private parts (i.e. they can see "private
         with"s).
         """
-        parent = Var(Self.node_env.env_node)
         return Or(
-            parent.is_null,
-            parent.is_a(PrivatePart),
-            And(parent != barrier,
-                parent.has_private_part_parent(barrier))
+            Self.is_a(PrivatePart),
+            (Self != barrier) & Self.node_env.env_node.then(
+                lambda parent: parent.has_private_part_parent(barrier),
+                default_val=True
+            )
         )
 
     @langkit_property(return_type=Bool)
@@ -1109,22 +1122,15 @@ class AdaNode(ASTNode):
         private part.
         """
         return Or(
+            # If the referenced unit is ourself, we don't need further checks
             Self.unit == refd_unit,
 
-            # A private package necessarily has private-with visibility
-            self_cu.body.cast(LibraryItem)._.has_private.as_bool,
+            # If we have view on "private with"s, we don't need further checks
+            self_cu.has_private_view(Self),
 
-            Let(lambda decl=self_cu.decl: If(
-                # Private visibility only makes sense when we are in a package
-                # declaration, so check that we are in this case first.
-                decl.is_a(BasePackageDecl, GenericPackageDecl)
-                # If we are, check whether the referenced unit is only visible
-                # in private parts.
-                & self_cu.privately_imported_units.contains(refd_unit),
-                # If it's the case, check that we are in a private part
-                Self.has_private_part_parent(decl.children_env.env_node),
-                True
-            ))
+            # But if we don't, so we must return False if the referenced unit
+            # is only visible from private parts.
+            Not(self_cu.privately_imported_units.contains(refd_unit)),
         )
 
     @langkit_property(return_type=Bool)
@@ -1138,22 +1144,16 @@ class AdaNode(ASTNode):
         """
         cu = Var(Self.enclosing_compilation_unit)
         return Or(
+            # First, check whether this unit "with"s the referenced unit
             refd_unit.is_referenced_from(Self.unit)
             & (omit_privacy_check
                | Self.has_private_with_visibility(cu, refd_unit)),
 
-            Self.parent_unit_env(
-                # Here we go and explicitly grab the top level item, rather
-                # than use Self's children env, because of use clauses, that
-                # can be at the top level but semantically belong to the env of
-                # the top level item.
-                cu.decl.children_env
-            ).env_node._.has_with_visibility(
+            # If it doesn't, check whether its parent unit does
+            Self.parent_has_with_visibility(
                 refd_unit,
-
-                # A child unit necessarily has view on the private part of its
-                # parent unit, so we should not discard "private with"s.
-                omit_privacy_check=True
+                cu,
+                has_private_view=omit_privacy_check
             ),
 
             # With clauses from a library level subprogram declaration are
@@ -20805,6 +20805,27 @@ class CompilationUnit(AdaNode):
         Ada implementation of ``CompilationUnit.stub_for``.
         """
         pass
+
+    @langkit_property(return_type=T.Bool)
+    def has_private_view(origin=T.AdaNode):
+        """
+        Return whether the given ``origin`` node has view on "private withs" of
+        its unit or parent units.
+        """
+        decl = Var(Self.decl)
+        return Or(
+            # A private package necessarily has private-with visibility
+            Self.body.cast(LibraryItem)._.has_private.as_bool,
+
+            # If this compilation doesn't declare a package, then we
+            # necessarily have private-with visibility because it means we are
+            # inside a body.
+            Not(decl.is_a(BasePackageDecl, GenericPackageDecl)),
+
+            # Otherwise (this compilation unit declares a package), check
+            # whether `origin` lies in a private part.
+            origin.has_private_part_parent(decl.children_env.env_node),
+        )
 
 
 @abstract

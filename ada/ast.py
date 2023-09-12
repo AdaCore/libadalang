@@ -20663,7 +20663,7 @@ class BaseSubpBody(Body):
 
         # GNATprove annotations are specified in the specification, or else on
         # the body if it doesn't have a specification.
-        annotations = Var(
+        aspects = Var(
             subp_decl_part.then(
                 lambda part: part.aspects,
                 default_val=Entity.aspects
@@ -20678,29 +20678,33 @@ class BaseSubpBody(Body):
 
         # GNATprove pragmas immediately follow the specification, or the body
         # iff it's an `ExprFunction`.
-        pragmas = Var(
-            Let(
-                lambda pragma_scope=subp_decl_part.then(
-                    lambda part: part,
-                    default_val=If(
-                        Entity.is_a(T.ExprFunction),
-                        Entity,
-                        No(T.BaseSubpBody).as_entity
-                    )
-                ):
-
-                pragma_scope._.declarative_scope.decls.filtermap(
-                    lambda d: d.cast(T.Pragma).args.at(1).as_entity.assoc_expr,
-                    lambda d: (d > pragma_scope.node)
-                    & d.cast(T.Pragma)._.id.name_is('Annotate')
-                    & d.cast(T.Pragma).args.at(0)._.as_entity
-                    .assoc_expr.cast(T.Name)._.name_is('GNATprove')
-                    & d.cast(T.Pragma).args.at(2)._.as_entity
-                    .assoc_expr.cast(T.Name)
-                    ._.name_is(Entity.defining_names.at(0).name_symbol)
-                )
-            )
+        pragma_scope = Var(
+            subp_decl_part._or(Entity.cast(T.ExprFunction))
         )
+
+        # List all the pragmas that appear in the same declarative scope,
+        # or in the case of a library item, the pragmas at the end of the
+        # compilation unit.
+        scope_decls = Var(
+            pragma_scope._.declarative_scope._.decls.filtermap(
+                lambda p: p.cast(Pragma),
+                lambda p: p.is_a(Pragma)
+            )._or(pragma_scope._.library_item_pragmas.map(
+                lambda p: p.node
+            ))
+        )
+
+        # Find those that are a "GNATProve" annotation
+        pragmas = Var(scope_decls.filtermap(
+            lambda d: d.args.at(1).as_entity.assoc_expr,
+            lambda d: (d > pragma_scope.node)
+            & d._.id.name_is('Annotate')
+            & d.args.at(0)._.as_entity
+            .assoc_expr.cast(T.Name)._.name_is('GNATprove')
+            & d.args.at(2)._.as_entity
+            .assoc_expr.cast(T.Name)
+            ._.name_is(Entity.defining_names.at(0).name_symbol)
+        ))
 
         # Also look for annotations declared on the enclosing bodies
         enclosing_subp_annotations = Var(
@@ -20709,7 +20713,7 @@ class BaseSubpBody(Body):
             ).cast(T.BaseSubpBody)._.gnatprove_annotations
         )
 
-        return annotations.concat(pragmas).concat(enclosing_subp_annotations)
+        return aspects.concat(pragmas).concat(enclosing_subp_annotations)
 
     @langkit_property(public=True, return_type=Bool, memoized=True)
     def is_spark(include_skip_proof_annotations=(T.Bool, True)):

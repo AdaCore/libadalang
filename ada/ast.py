@@ -20347,7 +20347,7 @@ class CompilationUnit(AdaNode):
         )
 
     @langkit_property(return_type=T.Pragma.array)
-    def sources_config_pragmas():
+    def sources_config_pragmas(include_other_part=(Bool, True)):
         """
         Return the list of configuration pragmas defined in Ada sources and
         which apply to the current unit.
@@ -20360,13 +20360,14 @@ class CompilationUnit(AdaNode):
             Cond(
                 # If Self is a spec, we need to look at its body, and
                 # conversely.
-                Self.body.is_a(T.LibraryItem),
+                include_other_part & Self.body.is_a(T.LibraryItem),
                 Self.other_part._.local_config_pragmas,
 
                 # If Self is a sub-unit, we need to look at all subunits up in
                 # the chain, the root body, and the corresponding spec.
                 Self.body.is_a(T.Subunit),
-                Self.body.cast(Subunit).root_unit._.sources_config_pragmas,
+                Self.body.cast(Subunit).root_unit
+                ._.sources_config_pragmas(include_other_part),
 
                 No(T.Pragma.array),
             )
@@ -20383,6 +20384,21 @@ class CompilationUnit(AdaNode):
         return (
             Self.sources_config_pragmas.concat(Self.external_config_pragmas)
             .map(lambda n: n.as_bare_entity)
+        )
+
+    @langkit_property(return_type=T.Pragma.entity)
+    def spark_config_pragma():
+        """
+        Return the ``SPARK_Mode`` configuration pragma that applies to the
+        current unit.
+        """
+        return (
+            Self.external_config_pragmas.concat(
+                Self.sources_config_pragmas(include_other_part=False)
+            ).filtermap(
+                lambda n: n.as_bare_entity,
+                lambda n: n.id.name_is("SPARK_Mode")
+            ).at(-1)
         )
 
     @langkit_property(return_type=T.Pragma.entity.array, public=True)
@@ -20735,9 +20751,7 @@ class BaseSubpBody(Body):
 
             # Finally, check for configuration pragmas. This configuration
             # pragma is of the form `pragma SPARK_Mode [On|Off|Auto]`.
-            Entity.enclosing_compilation_unit.all_config_pragmas.filter(
-                lambda p: p.id.name_is("SPARK_Mode")
-            ).at(0).then(
+            Entity.enclosing_compilation_unit.spark_config_pragma.then(
                 lambda p: p.spark_mode_is_on,
                 # No configuration pragma were found
                 default_val=False

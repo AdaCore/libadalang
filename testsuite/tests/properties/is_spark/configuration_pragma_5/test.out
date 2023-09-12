@@ -1,0 +1,6 @@
+=== Analysing unit:  <AnalysisUnit 'test.adb'> """
+Subprogram <NullSubpDecl ["P"] test.adb:2:4-2:24> is skipped
+
+=== Analysing unit:  <AnalysisUnit 'test2-p.adb'> """
+Subprogram <SubpBody ["P"] test2-p.adb:2:1-5:7> is analyzed
+

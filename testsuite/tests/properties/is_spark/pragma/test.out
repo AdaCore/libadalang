@@ -1,36 +1,36 @@
-=== Analysing unit:  <AnalysisUnit 'a.adb'> """
+=== Analysing unit:  <AnalysisUnit 'a.adb'> ===
 Subprogram <NullSubpDecl ["P"] a.adb:3:4-3:24> is skipped
 Subprogram <NullSubpDecl ["Q"] a.adb:4:4-4:24> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'b.adb'> """
+=== Analysing unit:  <AnalysisUnit 'b.adb'> ===
 Subprogram <NullSubpDecl ["P"] b.adb:2:4-2:24> is skipped
 Subprogram <NullSubpDecl ["Q"] b.adb:3:4-3:24> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'c.adb'> """
+=== Analysing unit:  <AnalysisUnit 'c.adb'> ===
 Subprogram <NullSubpDecl ["P"] c.adb:3:4-3:24> is skipped
 Subprogram <NullSubpDecl ["Q"] c.adb:4:4-4:24> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'd-p2.adb'> """
+=== Analysing unit:  <AnalysisUnit 'd-p2.adb'> ===
 Subprogram <SubpBody ["P2"] d-p2.adb:2:1-5:5> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'd.adb'> """
+=== Analysing unit:  <AnalysisUnit 'd.adb'> ===
 Subprogram <NullSubpDecl ["P1"] d.adb:2:4-2:25> is skipped
 Subprogram <NullSubpDecl ["P3"] d.adb:4:4-4:25> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'e-p2.adb'> """
+=== Analysing unit:  <AnalysisUnit 'e-p2.adb'> ===
 Subprogram <SubpBody ["P2"] e-p2.adb:2:1-6:5> is analyzed
 
-=== Analysing unit:  <AnalysisUnit 'e.adb'> """
+=== Analysing unit:  <AnalysisUnit 'e.adb'> ===
 Subprogram <SubpBody ["P1"] e.adb:2:4-6:11> is analyzed
 Subprogram <SubpBody ["P3"] e.adb:9:4-13:11> is skipped
 Subprogram <SubpBody ["P4"] e.adb:15:4-18:11> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'f.adb'> """
+=== Analysing unit:  <AnalysisUnit 'f.adb'> ===
 Subprogram <SubpBody ["P"] f.adb:4:4-23:10> is analyzed
 Subprogram <SubpBody ["Q"] f.adb:10:7-14:13> is skipped
 Subprogram <NullSubpDecl ["R"] f.adb:19:7-19:27> is analyzed
 
-=== Analysing unit:  <AnalysisUnit 'g.adb'> """
+=== Analysing unit:  <AnalysisUnit 'g.adb'> ===
 Subprogram <NullSubpDecl ["P"] g.adb:5:7-5:27> is skipped
 Subprogram <SubpBody ["F"] g.adb:12:7-15:13> is skipped
 Subprogram <NullSubpDecl ["Q"] g.adb:17:7-17:27> is skipped

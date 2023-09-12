@@ -1,4 +1,4 @@
-=== Analysing unit:  <AnalysisUnit 'test.adb'> """
+=== Analysing unit:  <AnalysisUnit 'test.adb'> ===
 Subprogram <NullSubpDecl ["P"] test.adb:2:4-2:24> is skipped
 Subprogram <NullSubpDecl ["Q"] test.adb:3:4-3:24> is skipped
 Subprogram <NullSubpDecl ["R"] test.adb:4:4-4:24> is skipped

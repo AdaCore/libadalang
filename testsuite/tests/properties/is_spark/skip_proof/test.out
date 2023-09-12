@@ -1,4 +1,4 @@
-=== Analysing unit:  <AnalysisUnit 'a.adb'> """
+=== Analysing unit:  <AnalysisUnit 'a.adb'> ===
 Subprogram <SubpBody ["P"] a.adb:4:4-7:10> is skipped
 Subprogram <SubpBody ["Q"] a.adb:10:4-19:10> is skipped
 Subprogram <SubpBody ["QQ"] a.adb:11:7-15:14> is skipped
@@ -21,9 +21,9 @@ Subprogram <NullSubpDecl ["V"] a.adb:82:4-82:24> is skipped
 Subprogram <SubpBody ["W"] a.adb:85:4-88:10> is skipped
 Subprogram <SubpBody ["X"] a.adb:91:4-94:10> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'b-p.adb'> """
+=== Analysing unit:  <AnalysisUnit 'b-p.adb'> ===
 Subprogram <SubpBody ["P"] b-p.adb:2:1-5:7> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'b-q.adb'> """
+=== Analysing unit:  <AnalysisUnit 'b-q.adb'> ===
 Subprogram <SubpBody ["Q"] b-q.adb:2:1-5:7> is analyzed
 

@@ -20696,7 +20696,7 @@ class BaseSubpBody(Body):
         return annotations.concat(pragmas).concat(enclosing_subp_annotations)
 
     @langkit_property(public=True, return_type=Bool, memoized=True)
-    def is_spark():
+    def is_spark(include_skip_proof_annotations=(T.Bool, True)):
         """
         Return whether this subprogram body is in SPARK or not, i.e. return
         whether SPARK proofs will be applied to that subprogram or not.
@@ -20704,7 +20704,7 @@ class BaseSubpBody(Body):
         return Cond(
             # If `Skip_Proof` or `Skip_Flow_And_Proof` has been specified, this
             # is not in SPARK.
-            Not(
+            include_skip_proof_annotations & Not(
                 Entity.gnatprove_annotations.find(
                     lambda a: a.cast(Name).name_symbol.any_of(
                         'Skip_Proof', 'Skip_Flow_And_Proof'

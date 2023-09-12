@@ -1,24 +1,24 @@
-=== Analysing unit:  <AnalysisUnit 'test.ads'> """
+=== Analysing unit:  <AnalysisUnit 'test.ads'> ===
 Subprogram <ExprFunction ["F1"] test.ads:6:4-6:64> is skipped
 Subprogram <ExprFunction ["F2"] test.ads:8:4-8:63> is analyzed
 Subprogram <ExprFunction ["F3"] test.ads:10:4-10:41> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'test2.adb'> """
+=== Analysing unit:  <AnalysisUnit 'test2.adb'> ===
 Subprogram <ExprFunction ["F10"] test2.adb:5:4-5:42> is analyzed
 
-=== Analysing unit:  <AnalysisUnit 'test2.ads'> """
+=== Analysing unit:  <AnalysisUnit 'test2.ads'> ===
 Subprogram <ExprFunction ["F1"] test2.ads:6:4-6:41> is analyzed
 Subprogram <ExprFunction ["F2"] test2.ads:8:4-8:64> is skipped
 Subprogram <ExprFunction ["F3"] test2.ads:10:4-10:41> is skipped
 Subprogram <ExprFunction ["F4"] test2.ads:13:4-13:41> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'test3.ads'> """
+=== Analysing unit:  <AnalysisUnit 'test3.ads'> ===
 Subprogram <ExprFunction ["F1"] test3.ads:4:4-4:41> is analyzed
 Subprogram <ExprFunction ["F2"] test3.ads:6:4-6:64> is skipped
 Subprogram <ExprFunction ["F3"] test3.ads:8:4-8:41> is skipped
 Subprogram <ExprFunction ["F4"] test3.ads:11:4-11:41> is skipped
 
-=== Analysing unit:  <AnalysisUnit 'test4.adb'> """
+=== Analysing unit:  <AnalysisUnit 'test4.adb'> ===
 Subprogram <NullSubpDecl ["P"] test4.adb:4:4-4:24> is analyzed
 Subprogram <SubpBody ["Q"] test4.adb:6:4-31:10> is analyzed
 Subprogram <SubpBody ["K"] test4.adb:12:7-16:13> is skipped
@@ -28,6 +28,6 @@ Subprogram <SubpBody ["P"] test4.adb:34:7-44:13> is analyzed
 Subprogram <NullSubpDecl ["K"] test4.adb:40:13-40:33> is analyzed
 Subprogram <NullSubpDecl ["P"] test4.adb:52:7-52:27> is analyzed
 
-=== Analysing unit:  <AnalysisUnit 'test5.adb'> """
+=== Analysing unit:  <AnalysisUnit 'test5.adb'> ===
 Subprogram <ExprFunction ["F"] test5.adb:4:7-4:43> is analyzed
 

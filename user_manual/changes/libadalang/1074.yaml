@@ -1,0 +1,9 @@
+type: api-change
+short_title: Skip annotations in `p_is_spark`
+title: Allow to skip `Skip_Proof` annotations in `p_is_spark`
+description: |
+  The property `p_is_spark` can now take a boolean parameter
+  (`include_skip_proof_annotations`, defaults to `True`) to specify whether the
+  `GNATprove` `Skip_Proof` and `Skip_Flow_And_Proof` annotations should be
+  ignored to determine if a subprogram is in SPARK or not.
+date: 2023-09-12

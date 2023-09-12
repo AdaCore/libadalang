@@ -1,0 +1,5 @@
+Working on node <SubpBody ["Test"] test.adb:1:1-4:10>
+=====================================================
+
+Eval 'node.p_is_spark()'
+Result: False

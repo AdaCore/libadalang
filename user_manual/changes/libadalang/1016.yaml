@@ -1,7 +1,24 @@
 type: new-feature
-title: New `is_spark` property on `BaseSubpBody`
+title: New SPARK related properties on subprograms
 description: |
-  This change introduces a new property on subprogram bodies (`BaseSubpBody`).
-  This property, named `is_spark` allows to determine if a given subprogram is
-  in SPARK or not.
-date: 2023-07-06
+
+  This change introduces new properties on subprogram decls & bodies:
+
+  .. code-block::
+
+     SubpBody.is_subject_to_proof()``:
+     """
+     Returns whether this subprogram body is subject to proof in the context of
+     the SPARK/GNATprove tools.
+     """
+
+     SubpDecl/SubpBody.has_spark_mode_on():
+     """
+     Returns whether this subprogram has explicitly been set as having
+     ``Spark_Mode`` to ``On``, directly or indirectly.
+
+     Doesn't include subprograms that can be inferred by GNATprove as being
+     SPARK.
+     """
+
+date: 2023-09-14

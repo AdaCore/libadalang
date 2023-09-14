@@ -1889,6 +1889,57 @@ class BasicDecl(AdaNode):
     associates a name with a language entity, for example a type or a variable.
     """
 
+    @langkit_property(return_type=Bool, memoized=True)
+    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+        """
+        Main implementation for the properties ``has_spark_mode_on`` and
+        ``is_subject_to_proof``.
+
+        This property will determine if the decl or body has SPARK mode on,
+        with some special paths for bodies.
+
+        It will also, for bodies only, determine whether there are
+        ``Skip_Proof`` annotations, if the parameter
+        ``include_skip_proof_annotations`` is True.
+        """
+        return Cond(
+            # For bodies, and if `include_skip_proof_annotations` is True,
+            # check `Skip_Proof`/`Skip_Flow_And_Proof`.
+            include_skip_proof_annotations & Not(
+                Entity.cast(BaseSubpBody)._.gnatprove_annotations.find(
+                    lambda a: a.cast(Name).name_symbol.any_of(
+                        'Skip_Proof', 'Skip_Flow_And_Proof'
+                    )
+                ).is_null
+            ),
+            False,
+
+            # Check for the `SPARK_Mode` aspect. Only consider explicit `On`
+            Entity.has_aspect("SPARK_Mode"),
+            Entity.get_aspect("SPARK_Mode").value.then(
+                lambda mode: mode.cast(T.Name).name_is("On"),
+                # `SPARK_Mode` without value is `On` by default
+                default_val=True
+            ),
+
+            # If there is no aspect on this subprogram, it's `On` if the
+            # enclosing subprogram or declarative region is `On`.
+            If(
+                Entity.previous_part_for_decl._.is_a(T.BodyStub),
+                Entity.previous_part_for_decl,
+                Entity
+            ).declarative_scope.as_entity._.is_spark,
+            True,
+
+            # Finally, check for configuration pragmas. This configuration
+            # pragma is of the form `pragma SPARK_Mode [On|Off|Auto]`.
+            Entity.enclosing_compilation_unit.spark_config_pragma.then(
+                lambda p: p.spark_mode_is_on,
+                # No configuration pragma were found
+                default_val=False
+            )
+        )
+
     @langkit_property(return_type=Equation, dynamic_vars=[origin])
     def subp_constrain_prefix(prefix=T.Expr):
         """
@@ -9720,6 +9771,17 @@ class BasicSubpDecl(BasicDecl):
         subprogram if the subprogram is a function.
         """
     )
+
+    @langkit_property(return_type=Bool, public=True)
+    def has_spark_mode_on():
+        """
+        Returns whether this subprogram has explicitly been set as having
+        ``Spark_Mode`` to ``On``, directly or indirectly.
+
+        Doesn't include subprograms that can be inferred by GNATprove as being
+        SPARK.
+        """
+        return Entity.is_spark_impl(include_skip_proof_annotations=False)
 
     @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def get_body_in_env(env=T.LexicalEnv):
@@ -20715,52 +20777,24 @@ class BaseSubpBody(Body):
 
         return aspects.concat(pragmas).concat(enclosing_subp_annotations)
 
-    @langkit_property(public=True, return_type=Bool, memoized=True)
-    def is_spark(include_skip_proof_annotations=(T.Bool, True)):
+    @langkit_property(return_type=Bool, public=True)
+    def is_subject_to_proof():
         """
-        Return whether this subprogram body is in SPARK or not, i.e. return
-        whether SPARK proofs will be applied to that subprogram or not.
+        Returns whether this subprogram body is subject to proof in the context
+        of the SPARK/GNATprove tools.
         """
-        return Cond(
-            # If `Skip_Proof` or `Skip_Flow_And_Proof` has been specified, this
-            # is not in SPARK.
-            include_skip_proof_annotations & Not(
-                Entity.gnatprove_annotations.find(
-                    lambda a: a.cast(Name).name_symbol.any_of(
-                        'Skip_Proof', 'Skip_Flow_And_Proof'
-                    )
-                ).is_null
-            ),
-            False,
+        return Entity.is_spark_impl(include_skip_proof_annotations=True)
 
-            # Else, check for the `SPARK_Mode` aspect. For subprogram bodies,
-            # only the mode `On` turns proofs on. Any other values: `Off` and
-            # `Auto` turn them off. Of course, if the aspect isn't specified at
-            # all, the proofs are off too.
-            Entity.has_aspect("SPARK_Mode"),
-            Entity.get_aspect("SPARK_Mode").value.then(
-                lambda mode: mode.cast(T.Name).name_is("On"),
-                # `SPARK_Mode` without value is `On` by default
-                default_val=True
-            ),
+    @langkit_property(return_type=Bool, public=True)
+    def has_spark_mode_on():
+        """
+        Returns whether this subprogram has explicitly been set as having
+        ``Spark_Mode`` to ``On``, directly or indirectly.
 
-            # If there is no aspect on this subprogram, it's `On` if the
-            # enclosing subprogram or declarative region is `On`.
-            If(
-                Entity.subp_previous_part._.is_a(T.BodyStub),
-                Entity.subp_previous_part,
-                Entity
-            ).declarative_scope.as_entity._.is_spark,
-            True,
-
-            # Finally, check for configuration pragmas. This configuration
-            # pragma is of the form `pragma SPARK_Mode [On|Off|Auto]`.
-            Entity.enclosing_compilation_unit.spark_config_pragma.then(
-                lambda p: p.spark_mode_is_on,
-                # No configuration pragma were found
-                default_val=False
-            )
-        )
+        Doesn't include subprograms that can be inferred by GNATprove as being
+        SPARK.
+        """
+        return Entity.is_spark_impl(include_skip_proof_annotations=False)
 
 
 class ExprFunction(BaseSubpBody):

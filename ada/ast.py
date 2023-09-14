@@ -18311,7 +18311,12 @@ class BaseSubpSpec(BaseFormalParamHolder):
     Base class for subprogram specifications (:rmlink:`6.1`).
     """
 
-    name = AbstractProperty(type=T.DefiningName.entity)
+    name = AbstractProperty(
+        type=T.DefiningName.entity, public=True, doc="""
+        Syntax property. Return the name of the subprogram defined by this
+        specification.
+        """
+    )
     returns = AbstractProperty(
         type=T.TypeExpr.entity, public=True, doc="""
         Syntax property. Return the type expression node corresponding to the

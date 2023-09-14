@@ -1,0 +1,35 @@
+Working on node <SubpDecl ["Foo"] test.adb:2:4-2:32>
+====================================================
+
+Eval 'node.f_subp_spec.p_name'
+Result: <DefiningName "Foo" test.adb:2:14-2:17>
+
+Working on node <NullSubpDecl ["Foo"] test.adb:4:4-4:40>
+========================================================
+
+Eval 'node.f_subp_spec.p_name'
+Result: <DefiningName "Foo" test.adb:4:14-4:17>
+
+Working on node <ExprFunction ["Bar"] test.adb:7:4-7:53>
+========================================================
+
+Eval 'node.f_subp_spec.p_name'
+Result: <DefiningName "Bar" test.adb:7:13-7:16>
+
+Working on node <EntryDecl ["Baz"] test.adb:11:7-11:31>
+=======================================================
+
+Eval 'node.f_spec.p_name'
+Result: <DefiningName "Baz" test.adb:11:13-11:16>
+
+Working on node <ObjectDecl ["X"] test.adb:23:4-23:36>
+======================================================
+
+Eval 'node.f_default_expr.p_called_subp_spec.p_name'
+Result: <SyntheticDefiningName "image" __standard:4:3-4:54>
+
+Working on node <ObjectDecl ["Y"] test.adb:26:4-26:36>
+======================================================
+
+Eval 'node.f_default_expr.p_called_subp_spec.p_name'
+Result: <SyntheticDefiningName "image" __standard:4:3-4:54>

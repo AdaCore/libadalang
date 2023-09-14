@@ -153,4 +153,27 @@ module GPRProject = struct
        the keep argument to simulate the same behaviour and avoid freeing
        the project file too early. *)
     UnitProvider.wrap ~keep:gpr_project result
+
+  let gpr_project_initialize_context =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_initialize_context")}"
+      ( c_type @-> AnalysisContextStruct.c_type @-> string
+        @-> ptr void @-> bool @-> int @-> raisable void )
+
+  let create_analysis_context
+      ?(with_trivia = true)
+      ?(tab_stop = ${ctx.default_tab_stop})
+      ?(project = "")
+      gpr_project : analysis_context =
+    if tab_stop < 1 then
+      raise (Invalid_argument "Invalid tab_stop (positive integer expected)") ;
+    let c_context = AnalysisContextStruct.allocate_analysis_context () in
+    gpr_project_initialize_context
+      gpr_project
+      c_context
+      project
+      Ctypes.null (* TODO: bind the event handlers API to OCaml *)
+      with_trivia
+      tab_stop ;
+    { c_value= c_context
+      ; unit_provider= UnitProvider.null }
 end

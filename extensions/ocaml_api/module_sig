@@ -30,4 +30,6 @@ module GPRProject : sig
   val create_preprocessor : ?project:string -> ?line_mode:line_mode -> t -> FileReader.t
 
   val create_unit_provider : ?project:string -> t -> UnitProvider.t
+
+  val create_analysis_context : ?with_trivia:bool -> ?tab_stop:int -> ?project:string -> t -> AnalysisContext.t
 end

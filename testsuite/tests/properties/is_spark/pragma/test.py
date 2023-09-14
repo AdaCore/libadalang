@@ -17,6 +17,6 @@ for filename in sorted(glob.glob('*.ad[bs]')):
         for subprogram in subprograms:
             print("Subprogram {} is {}".format(
                 subprogram,
-                "analyzed" if subprogram.p_is_spark() else "skipped"
+                "analyzed" if subprogram.p_is_subject_to_proof else "skipped"
             ))
         print('')

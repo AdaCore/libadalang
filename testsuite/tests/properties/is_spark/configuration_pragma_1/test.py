@@ -17,14 +17,14 @@ for filename in sorted(glob.glob('*.ad[bs]')):
         for subprogram in subprograms:
             print("Subprogram {} is {}".format(
                 subprogram,
-                "analyzed" if subprogram.p_is_spark() else "skipped"
+                "analyzed" if subprogram.p_is_subject_to_proof else "skipped"
             ))
         print('')
-        print('=== Re-analysing unit (ignoring Skip_Proof annotations): ',
+        print('=== Re-analysing unit calling has_spark_mode: ',
               unit, '===')
         for subprogram in subprograms:
             print("Subprogram {} is {}".format(
                 subprogram,
-                "analyzed" if subprogram.p_is_spark(False) else "skipped"
+                "analyzed" if subprogram.p_has_spark_mode_on else "skipped"
             ))
         print('')

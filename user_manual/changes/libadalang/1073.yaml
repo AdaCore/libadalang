@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix `p_is_spark` configuration pragma handling
-description: |
-  This change fixes a bug in the `is_spark` property where configuration
-  pragmas were not handled correctly: a `SPARK_Mode` configuration pragma in a
-  package specification only applies to the package specification and does not
-  affect the body (and vice-versa).
-date: 2023-09-12

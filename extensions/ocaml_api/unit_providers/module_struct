@@ -17,26 +17,6 @@
     in
     allocate ~finalise (ptr void) v
 
-  let gpr_project_create_unit_provider =
-    foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"
-      (GPRProject.c_type @-> string @-> raisable c_type)
-
-  let gpr_project ?(project = "") gpr_project =
-    let result = gpr_project_create_unit_provider gpr_project project in
-    (* The unit provider keeps an internal reference to the project. Use
-       the keep argument to simulate the same behaviour and avoid freeing
-       the project file too early. *)
-    wrap ~keep:gpr_project result
-
-  let for_project
-      ?(project = "")
-      ?(scenario_vars = [])
-      ?(target = "")
-      ?(runtime = "")
-      project_file =
-    GPRProject.load ~scenario_vars ~target ~runtime project_file
-    |> gpr_project ~project
-
   let create_auto_provider =
     foreign ~from:c_lib "${capi.get_name("create_auto_provider")}"
       (ptr (ptr char) @-> string @-> raisable c_type)

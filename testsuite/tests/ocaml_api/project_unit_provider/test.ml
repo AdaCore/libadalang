@@ -14,12 +14,11 @@ let () =
         ?(runtime = "")
         project_file
   =
-    try ignore (UnitProvider.for_project
-                  ~project:project
+    try ignore (GPRProject.load
                   ~scenario_vars:scenario_vars
                   ~target:target
                   ~runtime:runtime
-                  project_file : UnitProvider.t) ;
+                  project_file |> GPRProject.create_unit_provider ~project : UnitProvider.t) ;
     (* These exceptions come from GNATCOLL and contain no message but a
      *  reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
     with InvalidProject s ->
@@ -40,7 +39,8 @@ let () =
 
 let test_src src_dir =
   let unit_provider =
-    UnitProvider.for_project ~scenario_vars:[("SRC_DIR", src_dir)] "p.gpr"
+    GPRProject.(load ~scenario_vars:[("SRC_DIR", src_dir)] "p.gpr"
+                |> create_unit_provider)
   in
   let ctx = AnalysisContext.create ~unit_provider () in
   let filename = "p2.ads" in

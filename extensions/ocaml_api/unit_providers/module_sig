@@ -1,13 +1,2 @@
-  val for_project :
-    ?project:string
-    -> ?scenario_vars:(string * string) list
-    -> ?target:string
-    -> ?runtime:string
-    -> string
-    -> t
-  ${ocaml_doc('libadalang.create_project_unit_provider', 1)}
-
-  val gpr_project : ?project:string -> GPRProject.t -> t
-
   val auto : string list -> t
   ${ocaml_doc('libadalang.create_auto_provider', 1)}

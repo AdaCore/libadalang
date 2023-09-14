@@ -142,4 +142,15 @@ module GPRProject = struct
          from_voidp int null
     in
     gpr_project_create_preprocessor gpr_project project line_mode_c
+
+  let gpr_project_create_unit_provider =
+    foreign ~from:c_lib "${capi.get_name("gpr_project_create_unit_provider")}"
+      (c_type @-> string @-> raisable UnitProvider.c_type)
+
+  let create_unit_provider ?(project = "") gpr_project =
+    let result = gpr_project_create_unit_provider gpr_project project in
+    (* The unit provider keeps an internal reference to the project. Use
+       the keep argument to simulate the same behaviour and avoid freeing
+       the project file too early. *)
+    UnitProvider.wrap ~keep:gpr_project result
 end

@@ -28,4 +28,6 @@ module GPRProject : sig
     | CommentLines
 
   val create_preprocessor : ?project:string -> ?line_mode:line_mode -> t -> FileReader.t
+
+  val create_unit_provider : ?project:string -> t -> UnitProvider.t
 end

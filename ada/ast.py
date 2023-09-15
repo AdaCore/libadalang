@@ -531,6 +531,16 @@ class AdaNode(ASTNode):
         """
         return Entity.semantic_parent_helper(Entity.node_env)
 
+    @langkit_property(return_type=T.AdaNode.entity.array)
+    def semantic_parents():
+        """
+        Recursively call ``semantic_parent`` to get all the semantic parents
+        of this node.
+        """
+        return Entity.semantic_parent.then(
+            lambda sp: sp.singleton.concat(sp.semantic_parents)
+        )
+
     @langkit_property(public=True, return_type=T.BasicDecl.entity)
     def parent_basic_decl():
         """
@@ -3747,8 +3757,20 @@ class Body(BasicDecl):
         """
         return And(
             Not(origin.is_null),
-            origin.unit == Self.unit,
-            Not(origin.parents.find(lambda p: p == Self).is_null)
+            Or(
+                # Either origin and Self are in the same unit
+                And(
+                    origin.unit == Self.unit,
+                    Not(origin.parents.find(lambda p: p == Self).is_null)
+                ),
+                # Either origin is nested in a subprogam subunit of Self
+                origin.enclosing_compilation_unit.body.cast(T.Subunit).then(
+                    lambda su: su.bodies_root.any(
+                        lambda br: br.is_a(T.BaseSubpBody)
+                        & (br.unit == Self.unit)
+                    )
+                )
+            )
         )
 
     @langkit_property()
@@ -18081,7 +18103,7 @@ class BaseId(SingleTokNode):
                 # local variables.
                 If(
                     is_prefix,
-                    Entity.parents.find(
+                    Entity.semantic_parents.find(
                         lambda n: n.is_a(T.TaskBody, T.BaseSubpBody).then(
                             lambda _:
                             n.cast(T.BasicDecl).defining_name
@@ -22575,6 +22597,27 @@ class Subunit(AdaNode):
         Return the body in which this subunit is rooted.
         """
         return Self.root_unit.decl.as_bare_entity
+
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def bodies_root():
+        """
+        Return all the bodies this subunit is rooted in, so that for:
+
+        .. code::ada
+
+            separate (P1.P2.P3)
+            procedure P4 is ...
+
+        ``bodies_root`` will return ``[P3, P2, P1]``, an array containing all
+        the nested subunits (``P2``, ``P3``), as well as the body root ``P1``,
+        in which ``P4`` has been recursively rooted in.
+        """
+        br = Var(Self.root_unit.decl.as_bare_entity)
+
+        return br.parent.cast(T.Subunit).then(
+            lambda su: br.singleton.concat(su.bodies_root),
+            default_val=br.singleton
+        )
 
     @langkit_property(
         return_type=T.BodyStub,

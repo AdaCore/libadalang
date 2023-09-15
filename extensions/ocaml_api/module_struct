@@ -166,7 +166,9 @@ module GPRProject = struct
       gpr_project : analysis_context =
     if tab_stop < 1 then
       raise (Invalid_argument "Invalid tab_stop (positive integer expected)") ;
-    let c_context = AnalysisContextStruct.allocate_analysis_context () in
+    let c_context =
+      AnalysisContextStruct.allocate_analysis_context ~keep:gpr_project ()
+    in
     gpr_project_initialize_context
       gpr_project
       c_context

@@ -1,5 +1,11 @@
 open Libadalang
 
+let value_exn = function
+  | Some x ->
+      x
+  | None ->
+      raise (Invalid_argument "Some expected, got None")
+
 let format_exc_message msg =
   (* For exceptions with no explicit message (e.g. Invalid_Project exceptions
    * from gnatcoll-projects.adb), hide the line number, which is out of our
@@ -67,4 +73,37 @@ let test_src src_dir =
     (Format.pp_print_list pp_node)
     matching_nodes
 
-let () = test_src "src1" ; test_src "src2"
+let analysis_context () =
+  let open GPRProject in
+  let gpr = load ~scenario_vars:[("SRC_DIR", "src3")] "p.gpr" in
+  create_analysis_context gpr
+
+let test_gpr_project_context () =
+  let ctx = analysis_context () in
+  (* At this point gpr is out of scope, call GC.full_major to hopefully trigger
+     a valgrind issue in case gpr has been gced (we want it to stay alive
+     because the context uses it *)
+  Gc.full_major () ;
+  let u = AnalysisContext.get_from_file ctx "src3/a.ads" in
+  let root =
+    match AnalysisUnit.root u with
+    | Some n ->
+        n
+    | None ->
+        Format.printf "@[<v>Cannot get root node for file a.ads@ @]" ;
+        exit 1
+  in
+  let name =
+    AdaNode.find ObjectDecl root
+    |> ObjectDecl.f_default_expr
+    |> value_exn
+    |> AdaNode.as_a Name
+    |> value_exn
+  in
+  let ref = Name.p_referenced_decl name |> value_exn in
+  Format.printf "%s referenced_decl is %s@."
+    (AdaNode.image name)
+    (AdaNode.image ref)
+
+
+let () = test_src "src1" ; test_src "src2"; test_gpr_project_context ()

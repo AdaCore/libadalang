@@ -19286,7 +19286,21 @@ class QualExpr(Name):
             & Bind(Self.prefix.ref_var, typ)
             & Bind(Self.suffix.expected_type_var, typ)
             & Entity.suffix.matches_expected_type
-            & Bind(Self.type_var, typ)
+            & Bind(
+                Self.type_var,
+                If(
+                    # A qualified expression that appears as a statement
+                    # denotes a machine code insertion, in GNAT, it is parsed
+                    # as a parameterless procedure call. In that case,
+                    # Self.type_var shouldn't denote any type. Note that we are
+                    # more flexible than Ada since we allow any type to be code
+                    # statements whereas Ada restricts that to types defined in
+                    # package `System.Machine_Code` (see :rmlink:`13.8`).
+                    Entity.parent.is_a(T.CallStmt),
+                    No(AdaNode.entity),
+                    typ
+                )
+            )
         )
 
     # TODO: once we manage to turn prefix into a subtype indication, remove

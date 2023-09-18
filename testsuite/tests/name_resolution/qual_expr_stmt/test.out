@@ -1,0 +1,32 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:6:7-6:30>
+*****************************************************
+
+Expr: <QualExpr test.adb:6:7-6:29>
+  references:    <DefiningName "Asm_Insn" s-maccod.ads:60:9-60:17>
+  type:          None
+  expected type: None
+Expr: <Id "Asm_Insn" test.adb:6:7-6:15>
+  references:    <DefiningName "Asm_Insn" s-maccod.ads:60:9-60:17>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:6:16-6:29>
+  type:          <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+  expected type: <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+Expr: <CallExpr test.adb:6:17-6:28>
+  references:    <DefiningName "Asm" s-maccod.ads:113:13-113:16>
+  type:          <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+  expected type: <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+Expr: <Id "Asm" test.adb:6:17-6:20>
+  references:    <DefiningName "Asm" s-maccod.ads:113:13-113:16>
+  type:          <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+  expected type: None
+Expr: <Str ""nop"" test.adb:6:22-6:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+
+Done.

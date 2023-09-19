@@ -16460,19 +16460,33 @@ class IfExpr(CondExpr):
         if-expression is known. In that case, we can use it to infer the
         branches' types.
         """
-        return Bind(Self.type_var, Self.expected_type_var) & If(
+        return Bind(Self.type_var, Self.then_expr.expected_type_var) & If(
             Not(Self.else_expr.is_null),
 
-            Bind(Self.else_expr.expected_type_var, Self.expected_type_var)
-            & Bind(Self.then_expr.expected_type_var, Self.expected_type_var)
+            Bind(Self.type_var, Self.else_expr.expected_type_var)
+            & Bind(Self.expected_type_var, Self.else_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
+            & Bind(Self.expected_type_var, Self.then_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
             & Entity.else_expr.matches_expected_formal_type
             & Entity.then_expr.matches_expected_formal_type,
 
             LogicTrue()
         ) & Entity.alternatives.logic_all(
             lambda elsif:
-            Bind(elsif.then_expr.expected_type_var, Self.expected_type_var)
+            Bind(Self.type_var, elsif.then_expr.expected_type_var)
+            & Bind(Self.expected_type_var, elsif.then_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
             & elsif.then_expr.matches_expected_formal_type
+        ) & Entity.dependent_exprs.filter(
+            lambda e: e.has_context_free_type
+        ).logic_all(
+            lambda e: Or(
+                Predicate(BaseTypeDecl.is_not_universal_type, e.type_var)
+                & Bind(e.type_var, e.expected_type_var,
+                       conv_prop=BaseTypeDecl.base_subtype),
+                LogicTrue()
+            )
         )
 
     @langkit_property(dynamic_vars=[env, origin])

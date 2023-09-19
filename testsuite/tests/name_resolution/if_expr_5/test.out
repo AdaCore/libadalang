@@ -1,0 +1,39 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:6:4-6:64>
+*************************************************************
+
+Expr: <Id "Base_Or_Null" test.adb:6:8-6:20>
+  references:    <DefiningName "Base_Or_Null" test.adb:3:12-3:24>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:6:24-6:63>
+  type:          <DiscreteBaseSubtypeDecl ["Base"] test.adb:2:4-2:30>
+  expected type: <SubtypeDecl ["Base_Or_Null"] test.adb:3:4-3:59>
+Expr: <IfExpr test.adb:6:25-6:62>
+  type:          <DiscreteBaseSubtypeDecl ["Base"] test.adb:2:4-2:30>
+  expected type: <SubtypeDecl ["Base_Or_Null"] test.adb:3:4-3:59>
+Expr: <Id "True" test.adb:6:28-6:32>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "B" test.adb:6:38-6:39>
+  references:    <DefiningName "B" test.adb:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Base"] test.adb:2:4-2:30>
+  expected type: <DiscreteBaseSubtypeDecl ["Base"] test.adb:2:4-2:30>
+Expr: <AttributeRef test.adb:6:45-6:62>
+  references:    None
+  type:          <SubtypeDecl ["Base_Or_Null"] test.adb:3:4-3:59>
+  expected type: <DiscreteBaseSubtypeDecl ["Base"] test.adb:2:4-2:30>
+Expr: <Id "Base_Or_Null" test.adb:6:45-6:57>
+  references:    <DefiningName "Base_Or_Null" test.adb:3:12-3:24>
+  type:          None
+  expected type: None
+Expr: <Id "Last" test.adb:6:58-6:62>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

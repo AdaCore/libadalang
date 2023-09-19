@@ -16411,7 +16411,7 @@ class IfExpr(CondExpr):
     def dependent_exprs():
         return Entity.then_expr.singleton.concat(
             Entity.alternatives.map(lambda a: a.then_expr)
-        ).concat(Entity.else_expr.singleton)
+        ).concat(Entity.else_expr._.singleton)
 
     @langkit_property()
     def xref_equation():
@@ -16483,11 +16483,7 @@ class IfExpr(CondExpr):
         the type of the if expression by taking the common base subtype of the
         context-free types of all the sub-branches.
         """
-        return Self.then_expr.singleton.concat(
-            Self.alternatives.map(lambda a: a.then_expr)
-        ).concat(
-            Self.else_expr._.singleton
-        ).filter(
+        return Entity.dependent_exprs.filter(
             lambda e: e.has_context_free_type
         ).logic_all(
             lambda e:

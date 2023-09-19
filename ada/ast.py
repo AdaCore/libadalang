@@ -18080,9 +18080,10 @@ class BaseId(SingleTokNode):
                 )
             ),
 
-            # This identifier is the name for a called subprogram or an array.
+            # This identifier is the name for a called subprogram, entry, or an
+            # array.
             # So only keep:
-            # * subprograms for which the actuals match
+            # * subprograms/entries for which the actuals match
             # * arrays for which the number of dimensions match
             # * any type that has a user defined indexing aspect.
 
@@ -18094,33 +18095,51 @@ class BaseId(SingleTokNode):
                     lambda b=BasicDecl:
                     b.subp_spec_or_null.then(
                         lambda spec: Let(
-                            lambda real_pc=If(
-                                spec.cast(T.EntrySpec)._.family_type.is_null,
-                                pc, pc.parent.cast(T.CallExpr)
-                            ):
-                            # ``real_pc`` can be null if we are handling a
-                            # paramless entry decl that has an entry family,
-                            # in which case the subsequent checks are not
-                            # relevant.
-                            real_pc.is_null
-
-                            # Either the subprogram is matching the CallExpr's
-                            # parameters.
-                            | And(
-                                spec.is_matching_param_list(
-                                    params, b.info.md.dottable_subp
+                            lambda family_type=spec.cast(T.EntrySpec)
+                            ._.family_type: Let(
+                                # If b is a `EntryDecl` with a specified family
+                                # type, then the real `CallExpr` is its parent,
+                                # as in: `Task.Entry (Family) (Arg1, Arg2)`,
+                                # where `Entry (Family) (Arg1, Arg2)` is the
+                                # real `CallExpr`, not just `Entry (Family)`.
+                                # Adjust `pc` and `params` accordingly:
+                                lambda real_pc=If(
+                                    family_type.is_null,
+                                    pc, pc.parent.cast(T.CallExpr)
                                 ),
-                                real_pc.parent.cast(T.CallExpr).then(
-                                    lambda ce: ce.check_for_type(b.expr_type),
-                                    default_val=True
+                                real_params=If(
+                                    family_type.is_null,
+                                    params, pc.parent.cast(T.CallExpr).then(
+                                        lambda ce:
+                                        ce.suffix.cast_or_raise(AssocList)
+                                    )
+                                ):
+                                # ``real_pc`` can be null if we are handling a
+                                # paramless entry decl that has an entry
+                                # family, in which case the subsequent checks
+                                # are not relevant.
+                                real_pc.is_null
+
+                                # Either the subprogram/entry is matching the
+                                # CallExpr's parameters.
+                                | And(
+                                    spec.is_matching_param_list(
+                                        real_params, b.info.md.dottable_subp
+                                    ),
+                                    real_pc.parent.cast(T.CallExpr).then(
+                                        lambda ce:
+                                        ce.check_for_type(b.expr_type),
+                                        default_val=True
+                                    )
                                 )
+
+                                # Or the entity is parameterless, and the
+                                # returned component (s) matches the callexpr
+                                # (s).
+                                | And(real_pc.check_for_type(b.expr_type),
+                                      spec.paramless(b.info.md.dottable_subp)),
+
                             )
-
-                            # Or the entity is parameterless, and the returned
-                            # component (s) matches the callexpr (s).
-                            | And(real_pc.check_for_type(b.expr_type),
-                                  spec.paramless(b.info.md.dottable_subp)),
-
                         ),
                         # In the case of ObjectDecls/CompDecls in general,
                         # verify that the callexpr is valid for the given

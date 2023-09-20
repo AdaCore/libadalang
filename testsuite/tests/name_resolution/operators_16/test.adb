@@ -15,6 +15,14 @@ procedure Test is
    A_3 : constant Boolean :=
       1 <= (if True then 2 elsif False then C else 3);
    pragma Test_Statement;
+
+   B_1 : constant Boolean :=
+      4 <= (case EX is when X => C, when Y => 2);
+   pragma Test_Statement;
+
+   B_2 : constant Boolean :=
+      4 <= (case EX is when X => 2, when Y => C);
+   pragma Test_Statement;
 begin
    null;
 end Test;

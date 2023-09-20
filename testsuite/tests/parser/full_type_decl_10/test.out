@@ -20,7 +20,7 @@ ConcreteTypeDecl[1:1-1:27]
 |  |  |  Id[1:15-1:16]: A
 |  |  |f_constraint:
 |  |  |  DeltaConstraint[1:17-1:26]
-|  |  |  |f_digits:
+|  |  |  |f_delta:
 |  |  |  |  Real[1:23-1:26]: 1.0
 |  |  |  |f_range: <null>
 |  |f_interfaces:

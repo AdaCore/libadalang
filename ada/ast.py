@@ -8383,27 +8383,59 @@ class DigitsConstraint(Constraint):
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
-    xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.then(
-            lambda range: range.sub_equation,
-            default_val=LogicTrue()
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a digits constraint definition.
+        """
+        return And(
+            # As per :rmlink:`3.5.9`, the digits expression is expected to be
+            # of any integer type.
+            Entity.universal_int_bind(Entity.digits.expected_type_var),
+            Entity.digits.sub_equation,
+            Entity.digits.matches_expected_type,
+
+            # Expressions from the range specification are expected to be of
+            # any real type, the types need not be the same.
+            Entity.range.then(
+                lambda r:
+                Entity.universal_real_bind(r.range.expected_type_var)
+                & r.range.sub_equation
+                & r.range.matches_expected_type,
+                default_val=LogicTrue()
+            )
         )
-    )
 
 
 class DeltaConstraint(Constraint):
     """
     Delta and range type constraint (:rmlink:`J.3`).
     """
-    digits = Field(type=T.Expr)
+    delta = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
-    xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.then(
-            lambda range: range.sub_equation,
-            default_val=LogicTrue()
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a delta constraint definition.
+        """
+        return And(
+            # As per :rmlink:`J.3`, the delta expression is expected to be of
+            # any real type.
+            Entity.universal_real_bind(Entity.delta.expected_type_var),
+            Entity.delta.sub_equation,
+            Entity.delta.matches_expected_type,
+
+            # Expressions from the range specification are expected to be of
+            # any real type, the types need not be the same.
+            Entity.range.then(
+                lambda r:
+                Entity.universal_real_bind(r.range.expected_type_var)
+                & r.range.sub_equation
+                & r.range.matches_expected_type,
+                default_val=LogicTrue()
+            )
         )
-    )
 
 
 class CompositeConstraint(Constraint):

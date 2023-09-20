@@ -11,7 +11,7 @@ Expr: <Id "Fixed_T" test.adb:5:24-5:31>
 Expr: <Real test.adb:5:38-5:41>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 
 Resolving xrefs for node <SubtypeDecl ["Float_ST"] test.adb:7:4-7:41>
 *********************************************************************
@@ -23,7 +23,7 @@ Expr: <Id "Float_T" test.adb:7:24-7:31>
 Expr: <Int test.adb:7:39-7:40>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 
 
 Done.

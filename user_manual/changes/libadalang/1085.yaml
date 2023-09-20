@@ -1,0 +1,7 @@
+type: api-change
+title: Rename ``F_Digits`` field of ``Ada_Delta_Constraint``
+description: |
+  The field `F_Digits` of the node `Ada_Delta_Constraint` has been renamed to
+  `F_Delta` to correctly match the definition of a delta constraint (which
+  doesn't specify `digits` but `delta`).
+date: 2023-09-20

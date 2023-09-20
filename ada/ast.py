@@ -16537,35 +16537,45 @@ class CaseExpr(CondExpr):
             Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
         )))
 
-        return And(
-            Bind(Self.type_var, Self.expected_type_var),
-            Entity.cases.logic_all(
-                lambda alt:
+        return Entity.cases.logic_all(
+            lambda alt:
 
-                alt.choices.logic_all(lambda c: c.match(
-                    # Expression case
-                    lambda e=T.Expr: If(
-                        Not(e.cast(Name)._.name_designated_type.is_null),
+            alt.choices.logic_all(lambda c: c.match(
+                # Expression case
+                lambda e=T.Expr: If(
+                    Not(e.cast(Name)._.name_designated_type.is_null),
 
-                        e.cast(Name).xref_no_overloading,
+                    e.cast(Name).xref_no_overloading,
 
-                        Bind(e.expected_type_var, Self.expr.type_val)
-                        & e.sub_equation
-                        & e.matches_expected_type
-                    ),
+                    Bind(e.expected_type_var, Self.expr.type_val)
+                    & e.sub_equation
+                    & e.matches_expected_type
+                ),
 
-                    # SubtypeIndication case (``when Color range Red .. Blue``)
-                    lambda t=T.SubtypeIndication: t.xref_equation,
+                # SubtypeIndication case (``when Color range Red .. Blue``)
+                lambda t=T.SubtypeIndication: t.xref_equation,
 
-                    lambda _=T.OthersDesignator: LogicTrue(),
+                lambda _=T.OthersDesignator: LogicTrue(),
 
-                    lambda _: PropertyError(T.Equation, "Should not happen")
-                ))
+                lambda _: PropertyError(T.Equation, "Should not happen")
+            ))
 
-                # Equations for the dependent expressions
-                & Bind(Self.expected_type_var, alt.expr.expected_type_var)
-                & alt.expr.sub_equation
-                & alt.expr.matches_expected_type
+            # Equations for the dependent expressions
+            & Bind(Self.type_var, alt.expr.expected_type_var)
+            & Bind(Self.expected_type_var, alt.expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
+            & alt.expr.sub_equation
+            & alt.expr.matches_expected_type
+            & If(
+                alt.expr.has_context_free_type,
+                Or(
+                    Predicate(BaseTypeDecl.is_not_universal_type,
+                              alt.expr.type_var)
+                    & Bind(alt.expr.type_var, alt.expr.expected_type_var,
+                           conv_prop=BaseTypeDecl.base_subtype),
+                    LogicTrue()
+                ),
+                LogicTrue()
             )
         )
 

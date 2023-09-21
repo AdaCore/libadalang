@@ -13007,17 +13007,16 @@ class BinOp(Expr):
             Bind(Self.type_var, Self.left.expected_type_var),
             Bind(Self.type_var, Self.right.expected_type_var),
             Self.left.matches_expected_formal_type,
-            Self.right.matches_expected_formal_type,
-        ) & Or(
-            # Expected type was given explicitly, so we can simply check that
-            # the type inferred for the operands matches. This is generally
-            # the case for ranges in component representation clauses or
-            # in subtype indications' constraints.
-            Predicate(AdaNode.is_not_null, Self.expected_type_var),
-
-            # Expected was not given explicitly, so we must infer it here.
-            # This is generally the case for ranges in for loop specs.
-            Entity.numeric_type_from_operands_equation(Self.type_var)
+            Self.right.matches_expected_formal_type
+        ) & Self.use_expected_type_or(
+            # In some cases the expected type is given explicitly, so we can
+            # simply check that the type inferred for the operands matches.
+            # This is generally the case for ranges in component representation
+            # clauses or in subtype indications' constraints.
+            # However if the expected is not given explicitly, we must infer
+            # it here from one of the operands. This is generally the case
+            # for ranges in for-loop specs.
+            Entity.infer_from_either_operands(Self.type_var)
         )
 
     @langkit_property(dynamic_vars=[origin])
@@ -13076,68 +13075,117 @@ class BinOp(Expr):
         to construct the xref equation for this node.
         """
         return Cond(
-            # For multiplication operators, we must handle the general shape
-            # `function "op" (X, Y : T) return T`, but also the shape
-            # `function "op" (X : Integer, Y : T) return T` as well as
-            # `function "op" (X : T, Y : Integer) return T`.
+            # For multiplication operators, we must handle three shapes
             Self.op.is_a(Op.alt_mult, Op.alt_div),
             Or(
+                # `function "op" (X, Y : T) return T`
                 Bind(Self.type_var, Self.left.expected_type_var)
-                & Bind(Self.type_var, Self.right.expected_type_var),
+                & Bind(Self.type_var, Self.right.expected_type_var)
+                & Self.use_expected_type_or(
+                    Entity.infer_from_either_operands(Self.type_var)
+                ),
 
+                # `function "op" (X : Integer, Y : T) return T`
                 Bind(Self.left.expected_type_var, Self.int_type)
-                & Bind(Self.right.expected_type_var, Self.type_var),
+                & Bind(Self.right.expected_type_var, Self.type_var)
+                & Self.use_expected_type_or(
+                    Entity.infer_from_right_operand(Self.type_var)
+                ),
 
+                # `function "op" (X : T, Y : Integer) return T`
                 Bind(Self.right.expected_type_var, Self.int_type)
-                & Bind(Self.left.expected_type_var, Self.type_var),
+                & Bind(Self.left.expected_type_var, Self.type_var)
+                & Self.use_expected_type_or(
+                    Entity.infer_from_left_operand(Self.type_var)
+                )
             ),
 
             # For power operators, we must only handle the shape
             # `function "op" (X : T, Y : Integer) return T`.
             Self.op.is_a(Op.alt_pow),
             Bind(Self.right.expected_type_var, Self.int_type)
-            & Bind(Self.left.expected_type_var, Self.type_var),
+            & Bind(Self.left.expected_type_var, Self.type_var)
+            & Self.use_expected_type_or(
+                Entity.infer_from_left_operand(Self.type_var)
+            ),
 
             # For other operators, we only need to handle the shape
             # `function "op" (X, Y : T) return T`.
-            And(
-                Bind(Self.type_var, Self.left.expected_type_var),
-                Bind(Self.type_var, Self.right.expected_type_var)
+            Bind(Self.type_var, Self.left.expected_type_var)
+            & Bind(Self.type_var, Self.right.expected_type_var)
+            & Self.use_expected_type_or(
+                Entity.infer_from_either_operands(Self.type_var)
             )
         ) & Or(
-            # If the expected type is known, use it to infer the type of Self.
-            # This will allow Self's type to be used in the next disjunction to
-            # infer the type of the operands if necessary.
+            # We have an expected type: we can directly infer the actual type
+            # of the result, and of the operands using the equations above.
+            # Note that there is a difference between not having an expected
+            # type at all (as in a type conversion), and having an expected
+            # type but not inferrable from the context (as in an operand of a
+            # comparison operator `(A + B) = 2`. The latter simply means
+            # that the expected type itself will be inferred from the operands
+            # using one of `Entity.infer_from_*` properties.
             Predicate(AdaNode.is_not_null, Self.expected_type_var)
             & Bind(Self.expected_type_var, Self.type_var,
                    conv_prop=BaseTypeDecl.derefed_base_subtype),
 
-            # Otherwise, we cannot infer the type of Self from its expected
-            # type, so we will infer it from one of the operands, since at
-            # least one of them necessarily has a context-free type (otherwise
-            # this wouldn't be valid Ada code).
+            # There is no expected type (e.g. we are in a type conversion).
+            # In this case, the type of the result will be inferred from the
+            # type of operands: we know that at least one of them has a
+            # context-free type (otherwise this wouldn't be valid Ada code).
             Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
-        ) & Or(
-            # If the expected is known, it was assigned to the type of Self,
-            # there might be nothing more to do.
-            Predicate(AdaNode.is_not_null, Self.expected_type_var),
-
-            # If we're trying the following option, it means we must infer
-            # Self's type from one of the operands. We assign it to the first
-            # one that is *not* a universal type (the result of a binary
-            # operation cannot be a universal type).
-            Entity.numeric_type_from_operands_equation(Self.type_var)
         ) & And(
             Self.left.matches_expected_formal_type,
             Self.right.matches_expected_formal_type
         )
 
+    @langkit_property(return_type=Equation)
+    def use_expected_type_or(eq=T.Equation):
+        """
+        Construct the xref equation that first attempts to resolve this binary
+        operation using the expected type given by the context only, and then
+        by using the additional equation given as argument (typically this
+        equation will try to infer the type from one of the operands).
+        """
+        return Predicate(AdaNode.is_not_null, Self.expected_type_var) | eq
+
     @langkit_property(return_type=Equation, dynamic_vars=[origin])
-    def numeric_type_from_operands_equation(dest_var=T.LogicVar):
+    def infer_from_left_operand(dest_var=T.LogicVar):
         """
         Construct the xref equation that must bind the given variable to the
         type of this binary operation's operands, assuming we are dealing with
-        numeric types and arithmetic operators.
+        numeric types and arithmetic operators with the following profile:
+        ``function "op" (X : T, Y : U) return T`` (we want to infer ``T``).
+        """
+        return And(
+            Predicate(BaseTypeDecl.is_not_universal_type,
+                      Self.left.type_var),
+            Bind(Self.left.type_var, dest_var,
+                 conv_prop=BaseTypeDecl.derefed_base_subtype),
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    def infer_from_right_operand(dest_var=T.LogicVar):
+        """
+        Construct the xref equation that must bind the given variable to the
+        type of this binary operation's operands, assuming we are dealing with
+        numeric types and arithmetic operators with the following profile:
+        ``function "op" (X : U, Y : T) return T`` (we want to infer ``T``).
+        """
+        return And(
+            Predicate(BaseTypeDecl.is_not_universal_type,
+                      Self.right.type_var),
+            Bind(Self.right.type_var, dest_var,
+                 conv_prop=BaseTypeDecl.derefed_base_subtype),
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    def infer_from_either_operands(dest_var=T.LogicVar):
+        """
+        Construct the xref equation that must bind the given variable to the
+        type of this binary operation's operands, assuming we are dealing with
+        numeric types and arithmetic operators with the following profile:
+        ``function "op" (X, Y : T) return T`` (we want to infer ``T``).
         """
         left_ctx_free = Var(Self.left.has_context_free_type)
         right_ctx_free = Var(Self.right.has_context_free_type)
@@ -13156,15 +13204,8 @@ class BinOp(Expr):
 
             Let(
                 lambda
-                infer_left=Predicate(BaseTypeDecl.is_not_universal_type,
-                                     Self.left.type_var)
-                & Bind(Self.left.type_var, dest_var,
-                       conv_prop=BaseTypeDecl.derefed_base_subtype),
-
-                infer_right=Predicate(BaseTypeDecl.is_not_universal_type,
-                                      Self.right.type_var)
-                & Bind(Self.right.type_var, dest_var,
-                       conv_prop=BaseTypeDecl.derefed_base_subtype):
+                infer_left=Entity.infer_from_left_operand(dest_var),
+                infer_right=Entity.infer_from_right_operand(dest_var):
 
                 If(left_ctx_free,
                    infer_left | infer_right,
@@ -13504,7 +13545,7 @@ class RelationOp(BinOp):
     no_overload_equation = Property(
         Bind(Self.type_var, Self.bool_type)
         & Bind(Self.left.expected_type_var, Self.right.expected_type_var)
-        & Entity.numeric_type_from_operands_equation(
+        & Entity.infer_from_either_operands(
             Self.left.expected_type_var
         )
         & Self.left.matches_expected_formal_type

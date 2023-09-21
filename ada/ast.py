@@ -13005,14 +13005,15 @@ class BinOp(Expr):
             Predicate(AdaNode.is_not_null, Self.expected_type_var),
             Bind(Self.expected_type_var, Self.type_var),
             Bind(Self.type_var, Self.left.expected_type_var),
-            Bind(Self.type_var, Self.right.expected_type_var)
+            Bind(Self.type_var, Self.right.expected_type_var),
+            Self.left.matches_expected_formal_type,
+            Self.right.matches_expected_formal_type,
         ) & Or(
             # Expected type was given explicitly, so we can simply check that
             # the type inferred for the operands matches. This is generally
             # the case for ranges in component representation clauses or
             # in subtype indications' constraints.
-            Self.left.matches_expected_formal_type
-            & Self.right.matches_expected_formal_type,
+            Predicate(AdaNode.is_not_null, Self.expected_type_var),
 
             # Expected was not given explicitly, so we must infer it here.
             # This is generally the case for ranges in for loop specs.
@@ -13119,15 +13120,16 @@ class BinOp(Expr):
         ) & Or(
             # If the expected is known, it was assigned to the type of Self,
             # there might be nothing more to do.
-            Predicate(AdaNode.is_not_null, Self.expected_type_var)
-            & Self.left.matches_expected_formal_type
-            & Self.right.matches_expected_formal_type,
+            Predicate(AdaNode.is_not_null, Self.expected_type_var),
 
             # If we're trying the following option, it means we must infer
             # Self's type from one of the operands. We assign it to the first
             # one that is *not* a universal type (the result of a binary
             # operation cannot be a universal type).
             Entity.numeric_type_from_operands_equation(Self.type_var)
+        ) & And(
+            Self.left.matches_expected_formal_type,
+            Self.right.matches_expected_formal_type
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[origin])
@@ -13150,25 +13152,19 @@ class BinOp(Expr):
                       Self.left.type_var, Self.right.type_var)
             & NPropagate(dest_var,
                          BaseTypeDecl.non_universal_base_subtype,
-                         Self.left.type_var, Self.right.type_var)
-            & Self.left.matches_expected_formal_type
-            & Self.right.matches_expected_formal_type,
+                         Self.left.type_var, Self.right.type_var),
 
             Let(
                 lambda
                 infer_left=Predicate(BaseTypeDecl.is_not_universal_type,
                                      Self.left.type_var)
                 & Bind(Self.left.type_var, dest_var,
-                       conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.left.matches_expected_formal_type
-                & Self.right.matches_expected_formal_type,
+                       conv_prop=BaseTypeDecl.derefed_base_subtype),
 
                 infer_right=Predicate(BaseTypeDecl.is_not_universal_type,
                                       Self.right.type_var)
                 & Bind(Self.right.type_var, dest_var,
-                       conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.left.matches_expected_formal_type
-                & Self.right.matches_expected_formal_type:
+                       conv_prop=BaseTypeDecl.derefed_base_subtype):
 
                 If(left_ctx_free,
                    infer_left | infer_right,
@@ -13511,6 +13507,8 @@ class RelationOp(BinOp):
         & Entity.numeric_type_from_operands_equation(
             Self.left.expected_type_var
         )
+        & Self.left.matches_expected_formal_type
+        & Self.right.matches_expected_formal_type
     )
 
 

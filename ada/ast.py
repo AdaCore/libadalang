@@ -17921,11 +17921,16 @@ class Op(BaseId):
             lambda e: And(
                 e.cast_or_raise(T.BasicDecl).is_subprogram,
 
-                # Note: we do not use synthesized operators for BinOp/UnOp
-                # resolution for now as it introduces a significant performance
-                # regression.
-
-                # TODO: retry when new solver is available
+                # Note: here we explicitly filter out synthesized operators
+                # (which correspond to built-in operators), because using them
+                # for resolving arithmetic expressions would have a significant
+                # performance impact. Instead, we use specific equations
+                # tailored for the resolution of built-in operators. See
+                # `BinOp.no_overload_equation`.
+                # TODO: However these custom rules currently do not assign the
+                # `ref_var` of operator references designating which built-in
+                # operators have been called, which would be useful for users
+                # and make this more transparent.
                 Not(e.is_a(SyntheticSubpDecl))
             )
         ))

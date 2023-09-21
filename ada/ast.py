@@ -4781,6 +4781,8 @@ class TypeDef(AdaNode):
         """
         return False
 
+    is_task_type = Property(False)
+
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
         Return the base type entity for this derived type definition.
@@ -7405,6 +7407,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     record_def = Property(Entity.type_decl.record_def)
     classwide_type = Property(Entity)
     is_iterable_type = Property(Entity.type_decl.is_iterable_type)
+    is_task_type = Property(Entity.type_decl.is_task_type)
     iterable_comp_type = Property(Entity.type_decl.iterable_comp_type)
     defining_env = Property(Entity.type_decl.defining_env)
     is_private = Property(Entity.type_decl.is_private)
@@ -7675,6 +7678,7 @@ class TypeDecl(BaseTypeDecl):
     ))
 
     is_tagged_type = Property(Entity.type_def.is_tagged_type)
+    is_task_type = Property(Entity.type_def.is_task_type)
     base_type = Property(Entity.type_def.base_type)
     base_interfaces = Property(Entity.type_def.base_interfaces)
     is_char_type = Property(Entity.type_def.is_char_type)
@@ -8952,6 +8956,7 @@ class InterfaceTypeDef(TypeDef):
     interfaces = Field(type=T.ParentList)
 
     is_tagged_type = Property(True)
+    is_task_type = Property(Entity.interface_kind.is_a(InterfaceKind.alt_task))
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)

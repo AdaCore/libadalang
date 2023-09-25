@@ -6231,40 +6231,6 @@ class BaseTypeDecl(BasicDecl):
             ).base_subtype
         )
 
-    @langkit_property(return_type=Bool)
-    def one_non_universal(second=T.BaseTypeDecl.entity):
-        return Or(
-            Not(Entity.is_null) & Entity.is_not_universal_type,
-            Not(second.is_null) & second.is_not_universal_type
-        )
-
-    @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[default_origin()])
-    def non_universal_base_subtype(second=T.BaseTypeDecl.entity):
-        first_ok = Var(Not(Entity.is_null) & Entity.is_not_universal_type)
-        second_ok = Var(Not(second.is_null) & second.is_not_universal_type)
-        return Cond(
-            first_ok & second_ok,
-            Let(
-                lambda
-                first_st=Entity.derefed_base_subtype,
-                second_st=second.derefed_base_subtype:
-                If(
-                    second_st.matching_formal_type(first_st),
-                    first_st,
-                    second_st
-                )
-            ),
-
-            first_ok,
-            Entity.derefed_base_subtype,
-
-            second_ok,
-            second.derefed_base_subtype,
-
-            No(BaseTypeDecl.entity)
-        )
-
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()])
     def array_concat_result_type(other=T.BaseTypeDecl.entity):
@@ -13187,31 +13153,9 @@ class BinOp(Expr):
         numeric types and arithmetic operators with the following profile:
         ``function "op" (X, Y : T) return T`` (we want to infer ``T``).
         """
-        left_ctx_free = Var(Self.left.has_context_free_type)
-        right_ctx_free = Var(Self.right.has_context_free_type)
-        return If(
-            # If both operands have a context free type, we can use an
-            # N-Propagate equation to assign `dest_var` because we know for
-            # sure that Self.left.type_var and Self.right.type_var will be
-            # given a value explicitly.
-            left_ctx_free & right_ctx_free,
-
-            Predicate(BaseTypeDecl.one_non_universal,
-                      Self.left.type_var, Self.right.type_var)
-            & NPropagate(dest_var,
-                         BaseTypeDecl.non_universal_base_subtype,
-                         Self.left.type_var, Self.right.type_var),
-
-            Let(
-                lambda
-                infer_left=Entity.infer_from_left_operand(dest_var),
-                infer_right=Entity.infer_from_right_operand(dest_var):
-
-                If(left_ctx_free,
-                   infer_left | infer_right,
-                   infer_right | infer_left)
-            )
-        )
+        infer_left = Var(Entity.infer_from_left_operand(dest_var))
+        infer_right = Var(Entity.infer_from_right_operand(dest_var))
+        return infer_left | infer_right
 
     @langkit_property()
     def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):

@@ -51,6 +51,7 @@ build_and_test:
      - mem:16
   stage: single
   script:
+    - unset GITLAB_TOKEN; require_issue
     - !reference [.script_snippets, setup]
 
     # Download the langkit package

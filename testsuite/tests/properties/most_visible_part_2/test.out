@@ -1,0 +1,17 @@
+Working on node <CallStmt test.adb:6:4-6:26>
+============================================
+
+Set 'fun' to 'node.f_call.f_name.p_referenced_decl()'
+Result: <| SubpDecl ["Foo"] pkg_g.ads:7:4-7:26 [test.adb:4:4] |>
+
+Set 'typ_t' to 'fun.findall(lal.Identifier)[2].p_referenced_decl()'
+Result: <| ConcreteTypeDecl ["T"] pkg_g.ads:3:4-3:22 [test.adb:4:4] |>
+
+Set 'complete_t' to 'typ_t.p_most_visible_part(fun.p_body_part())'
+Result: <| ConcreteTypeDecl ["T"] pkg_g.ads:9:4-9:26 [test.adb:4:4] |>
+
+Set 'typ_u' to 'complete_t.next_sibling'
+Result: <| IncompleteTypeDecl ["U"] pkg_g.ads:10:4-10:11 [test.adb:4:4] |>
+
+Set 'complete_u' to 'typ_u.p_most_visible_part(fun.p_body_part())'
+Result: <| ConcreteTypeDecl ["U"] pkg_g.adb:2:4-2:26 [test.adb:4:4] |>

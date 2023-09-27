@@ -2703,7 +2703,9 @@ class BasicDecl(AdaNode):
             # If Self is declared in a private part, check that we can find it
             # from origin's env.
             Entity.is_in_private_part,
-            from_node.node_env.get(Entity.name_symbol).contains(Entity)
+            from_node.node_env.get(Entity.name_symbol).contains(
+                Self.as_bare_entity
+            )
             # Even if the above expression is True, we may not have visibility
             # according to Ada rules: in LAL, library-level child packages'
             # parent environments are defined to be their parent packages'
@@ -2711,7 +2713,7 @@ class BasicDecl(AdaNode):
             # is declared in the private part of a library-level package and
             # from_node lies in the public part of a child package.
             & Not(
-                Entity.parent.parent.parent.cast(PackageDecl)
+                Entity.parent.parent.parent.cast(BasePackageDecl)
                 .is_compilation_unit_root
                 & from_node.is_in_top_level_public_part
             ),
@@ -3403,7 +3405,7 @@ class BasicDecl(AdaNode):
             # if its lexical env is one of the parents of origin's env.
             Not(np.is_in_private_part | np.is_in_public_part),
             If(
-                origin.node_env.get(sym).contains(Entity),
+                origin.node_env.get(sym).contains(Self.as_bare_entity),
                 np.most_visible_part_for_name(sym),
                 Entity
             ),

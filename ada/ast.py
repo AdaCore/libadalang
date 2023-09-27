@@ -7971,9 +7971,8 @@ class TypeDecl(BaseTypeDecl):
                 lambda e: e.cast(T.BasicDecl),
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                    lambda ss:
-                    origin.bind(
-                        Self.origin_node,
+                    lambda ss: origin.bind(
+                        env_el.node,
                         ss.unpacked_formal_params.at(0)
                         ._.formal_decl.formal_type.matching_formal_type(Entity)
                     )
@@ -7983,15 +7982,14 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def variable_indexing_fns():
-        return origin.bind(
-            Self.origin_node,
-            Entity.get_aspect_spec_expr('Variable_Indexing').then(
-                lambda a: a.cast_or_raise(T.Name)
-                .all_env_elements_internal(seq=False).filtermap(
-                    lambda e: e.cast(T.BasicDecl),
-                    lambda env_el:
-                    env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                        lambda ss:
+        return Entity.get_aspect_spec_expr('Variable_Indexing').then(
+            lambda a: a.cast_or_raise(T.Name)
+            .all_env_elements_internal(seq=False).filtermap(
+                lambda e: e.cast(T.BasicDecl),
+                lambda env_el:
+                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
+                    lambda ss: origin.bind(
+                        env_el.node,
                         ss.unpacked_formal_params.at(0)
                         ._.formal_decl.formal_type.matching_formal_type(Entity)
                         & ss.return_type.is_implicit_deref

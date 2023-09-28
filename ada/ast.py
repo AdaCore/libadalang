@@ -3382,7 +3382,9 @@ class BasicDecl(AdaNode):
         returns the most visible completion of Self that can be seen by origin,
         according to Ada's visibility rules.
         """
-        return Entity.defining_name_or_raise.most_visible_part._.basic_decl
+        return Entity.most_visible_part_for_name(
+            Entity.defining_name_or_raise.name_symbol
+        )
 
     @langkit_property(return_type=T.BasicDecl.entity,
                       dynamic_vars=[origin, imprecise_fallback])

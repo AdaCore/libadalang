@@ -7370,6 +7370,19 @@ class ClasswideTypeDecl(BaseTypeDecl):
             lambda pp: pp.classwide_type
         )
 
+    @langkit_property()
+    def next_part():
+        td = Var(Entity.type_decl)
+        return td.next_part.then(
+            # Sometimes `next_part` returns Entity itself, so check that
+            # to avoid an infinite loop.
+            lambda np: If(
+                td == np,
+                Entity,
+                np.classwide_type
+            )
+        )
+
     canonical_type = Property(Entity.type_decl.canonical_type.then(
         # The canonical type should be classwide whenever it makes sense (e.g.
         # if the canonical type is a tagged record type.) Otherwise return

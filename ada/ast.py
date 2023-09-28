@@ -22511,10 +22511,13 @@ class IncompleteTypeDecl(BaseTypeDecl):
         Since Self is an IncompleteTypeDecl, the next part will necessarily be
         the first type declaration of the same name that is not Self.
         """
-        return decl_part.decls.find(
+        return decl_part.children_env.get(
+            Self.name_symbol,
+            lookup=LK.minimal,
+            categories=no_prims
+        ).find(
             lambda t: t.cast(BaseTypeDecl).then(
-                lambda btd:
-                btd.name.name_is(Self.name_symbol) & (btd != Entity)
+                lambda btd: btd != Entity
             )
         ).cast(BaseTypeDecl)
 

@@ -4950,13 +4950,47 @@ class Variant(AdaNode):
     choices = Field(type=T.AlternativesList)
     components = Field(type=T.ComponentList)
 
+    @langkit_property(return_type=T.Expr.entity)
+    def default_discriminant_expr():
+        """
+        Return the default expression of the discriminant this Variant
+        depends on, if any.
+        """
+        # First, get the record type declaration to extract the
+        # discriminant specifications.
+        discr_specs = Var(
+            Entity.parents(with_self=False).find(
+                lambda p: p.is_a(T.ConcreteTypeDecl)
+            ).cast_or_raise(ConcreteTypeDecl).discriminants
+            .cast_or_raise(KnownDiscriminantPart).discr_specs
+        )
+
+        discr_symbol = Var(
+            Entity.parent.parent
+            .cast_or_raise(VariantPart).discr_name.symbol
+        )
+
+        # Then, get the default expression that applies to Entity's variant
+        # part discriminant.
+        return discr_specs.find(
+            lambda d: d.defining_names.any(
+                lambda n: n.name_is(discr_symbol)
+            )
+        ).default_expr
+
     @langkit_property(return_type=Bool)
     def matches(expr=T.Expr.entity):
         """
         Check if any choice in the choice list matches expr's value.
         """
         # Statically evaluate expr
-        expr_val = Var(expr.eval_as_int)
+        expr_val = Var(If(
+            # If expr is a box expr, `expr_val` is the value of the default
+            # expression of the given discriminant (:rmlink:`4.3.1`).
+            expr.is_a(T.BoxExpr),
+            Entity.default_discriminant_expr,
+            expr
+        ).eval_as_int)
 
         return Entity.choices.any(
             lambda c: c.choice_match(expr_val)

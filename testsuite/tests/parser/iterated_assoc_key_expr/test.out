@@ -1,0 +1,35 @@
+IteratedAssoc[1:1-1:47]
+|f_spec:
+|  ForLoopSpec[1:5-1:16]
+|  |f_var_decl:
+|  |  ForLoopVarDecl[1:5-1:8]
+|  |  |f_id:
+|  |  |  DefiningName[1:5-1:8]
+|  |  |  |f_name:
+|  |  |  |  Id[1:5-1:8]: Key
+|  |  |f_id_type: <null>
+|  |f_loop_type:
+|  |  IterTypeOf[1:9-1:11]
+|  |f_has_reverse:
+|  |  ReverseAbsent[1:11-1:11]
+|  |f_iter_expr:
+|  |  Id[1:12-1:16]: Keys
+|  |f_iter_filter: <null>
+|f_key_expr:
+|  Id[1:21-1:24]: Key
+|f_r_expr:
+|  CallExpr[1:28-1:47]
+|  |f_name:
+|  |  AttributeRef[1:28-1:41]
+|  |  |f_prefix:
+|  |  |  Id[1:28-1:35]: Integer
+|  |  |f_attribute:
+|  |  |  Id[1:36-1:41]: Image
+|  |  |f_args:
+|  |  |  AssocList[1:41-1:41]: <empty list>
+|  |f_suffix:
+|  |  AssocList[1:43-1:46]
+|  |  |  ParamAssoc[1:43-1:46]
+|  |  |  |f_designator: <null>
+|  |  |  |f_r_expr:
+|  |  |  |  Id[1:43-1:46]: Key

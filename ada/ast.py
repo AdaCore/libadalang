@@ -229,11 +229,26 @@ class AdaNode(ASTNode):
             "Predicate_Failure", "SPARK_Mode"
         )
 
-    in_contract = Property(Not(Self.parents.find(
+    @langkit_property(return_type=Bool)
+    def aspect_has_forward_visibility(name=Symbol):
+        """
+        Return True if the given ``name`` is that of an Ada aspect in which
+        references can designate entities declared *after* the entity on which
+        this aspect is defined.
+        """
+        return Self.is_contract_aspect(name) | name.any_of(
+            "Iterator_Element", "Default_Iterator"
+        )
+
+    in_aspect_with_forward_visibility = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
-            lambda a: Self.is_contract_aspect(a.id.as_bare_entity.name_symbol)
+            lambda a: Self.aspect_has_forward_visibility(
+                a.id.as_bare_entity.name_symbol
+            )
         )._or(p.cast(Pragma).then(
-            lambda p: Self.is_contract_aspect(p.id.as_bare_entity.name_symbol)
+            lambda p: Self.aspect_has_forward_visibility(
+                p.id.as_bare_entity.name_symbol
+            )
         ))
     ).is_null))
 
@@ -1620,7 +1635,7 @@ class AdaNode(ASTNode):
         where sequential lookup needs to be deactivated. Return Self otherwise.
         """
         return Cond(
-            Self.in_contract,
+            Self.in_aspect_with_forward_visibility,
             No(T.AdaNode),
             Self.is_a(ExprFunction),
             Self.cast(ExprFunction).expr,

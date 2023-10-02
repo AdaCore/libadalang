@@ -6002,7 +6002,13 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(dynamic_vars=[origin], return_type=Bool)
     def is_array_or_rec():
-        return Not(Self.is_null) & (Entity.is_array | Entity.is_record_type)
+        return And(
+            Not(Self.is_null),
+            (Entity.is_array | Entity.is_record_type
+             # Also consider container aggregates as array or rec
+             | (origin.is_a(T.BracketAggregate)
+                & Entity.has_aspect('Aggregate')))
+        )
 
     @langkit_property(public=True, return_type=Bool)
     def is_inherited_primitive(p=T.BasicDecl.entity):
@@ -10629,7 +10635,7 @@ class AspectAssoc(AdaNode):
         target = Var(Self.parent.parent.parent)
         return Cond(
             # Iterable aspect
-            Entity.id.name_is('Iterable'),
+            Entity.id.name_symbol.any_of('Aggregate', 'Iterable'),
             Entity.expr.cast(T.Aggregate).assocs.unpacked_params.logic_all(
                 lambda sa:
                 sa.assoc.expr
@@ -13589,6 +13595,7 @@ class BaseAggregate(Expr):
             Self.in_aspect('Global') | Self.in_aspect('Refined_Global')
             | Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends')
             | Self.in_aspect('Test_Case') | Self.in_aspect('Refined_State')
+            | Self.in_aspect('Aggregate')
             # Careful: normal aggregates can appear inside a contract_cases
             # aspect's expression, so we must only special case the direct
             # aggregate of that aspect.
@@ -13818,6 +13825,83 @@ class Aggregate(BaseAggregate):
     """
     Aggregate that is not a ``null record`` aggregate (:rmlink:`4.3`).
     """
+
+    @langkit_property()
+    def add_named_param_at(index=T.Int):
+        """
+        Return the ``Add_Named`` subprogram parameter specified by ``index``.
+        This aggregate must be a container aggregate aspect specification.
+        """
+        # `Add_Named`denotes exactly one procedure that has three parameters,
+        # the first an in out parameter of the container type, the second an in
+        # parameter of a nonlimited type (the key type of the container type),
+        # and the third, an in parameter of a nonlimited type that is called
+        # the element type of the container type (so index should be an Int
+        # between 0 and 2).
+        add_named = Var(
+            Entity.assocs.find(
+                lambda assoc: assoc.cast(T.AggregateAssoc).names.at(0)
+                .cast(T.Name).name_is('Add_Named')
+            )
+        )
+        add_named_params = Var(
+            add_named.then(
+                lambda an:
+                an.expr.cast(T.Name).referenced_decl.subp_spec_or_null.params
+            )
+        )
+
+        return add_named.then(
+            lambda _:
+            add_named_params.at(index).type_expression.designated_type_decl
+        )
+
+    @langkit_property()
+    def element_type():
+        """
+        Return the element type of that Aggregate. This aggregate must be a
+        container aggregate aspect specification.
+        """
+        # Position container case: `Add_Unnamed` should be specified. It
+        # denotes exactly one procedure that has two parameters, the first an
+        # in out parameter of the container type, and the second an in
+        # parameter of some nonlimited type, called the element type of the
+        # container type.
+        add_unnamed = Var(
+            Entity.assocs.find(
+                lambda assoc: assoc.cast(T.AggregateAssoc).names.at(0)
+                .cast(T.Name).name_is('Add_Unnamed')
+            )
+        )
+        unnamed_element_type = Var(
+            add_unnamed.then(
+                lambda au: au.expr.cast(T.Name).referenced_decl
+                .subp_spec_or_null.params.at(1).type_expression
+                .designated_type_decl
+            )
+        )
+
+        # Named container case: `Add_Named` should be specified
+        named_element_type = Var(Entity.add_named_param_at(2))
+
+        return If(
+            add_unnamed.is_null, named_element_type, unnamed_element_type
+        )
+
+    @langkit_property()
+    def key_type():
+        """
+        Return the key type of that Aggregate. This aggregate must be a
+        container aggregate aspect specification.
+        """
+        # Named container case: `Add_Named` should be specified
+        key_type = Var(Entity.add_named_param_at(1))
+
+        return key_type._or(
+            # If add_named is not specified, key_type is the universal integer
+            # type used for indexed aggregates.
+            Entity.universal_int_type
+        )
 
 
 class NullRecordAggregate(BaseAggregate):
@@ -15666,12 +15750,43 @@ class AggregateAssoc(BasicAssoc):
             agg.in_aspect('Contract_Cases'),
             Entity.contract_cases_assoc_equation,
 
+            agg.is_a(T.BracketAggregate) & td._.has_aspect('Aggregate'),
+            Entity.container_aggregate_equation(td),
+
             agg.parent.is_a(AspectClause, AspectAssoc, PragmaArgumentAssoc),
             LogicTrue(),
 
             atd.is_null,
             Entity.record_assoc_equation,
             Entity.array_assoc_equation(atd, mra)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def container_aggregate_equation(td=BaseTypeDecl.entity):
+        """
+        Equation for the case where this is an aggregate assoc for a
+        container type. This is an Ada 2022 feature (:rmlink:`4.3.5`).
+        """
+        aggregate_aspect = Var(
+            td.get_aspect('Aggregate').value.cast(T.Aggregate)
+        )
+        entity_name = Var(Entity.names._.at(0).cast(T.Name))
+        element_type = Var(aggregate_aspect.element_type)
+        key_type = Var(aggregate_aspect.key_type)
+
+        return And(
+            Bind(Entity.expr.expected_type_var, element_type),
+            Entity.expr.sub_equation,
+            Entity.expr.matches_expected_type,
+            If(
+                entity_name.is_null,
+                LogicTrue(),
+                And(
+                    Bind(entity_name.expected_type_var, key_type),
+                    entity_name.as_entity.sub_equation,
+                    entity_name.matches_expected_type
+                )
+            )
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -15907,6 +16022,25 @@ class IteratedAssoc(BasicAssoc):
 
         array_type_def = Var(type_decl._.array_def)
 
+        # The iterated assoc can also be in a container aggregate
+        container_aggregate = Var(
+            type_decl.get_aspect('Aggregate').value.cast(T.Aggregate)
+        )
+        # Get the "component" type of the array or container
+        comp_type = Var(
+            array_type_def.then(
+                lambda atd: atd.comp_type,
+                default_val=container_aggregate.element_type
+            )
+        )
+        # Get the index type of the array or container
+        index_type = Var(
+            array_type_def.then(
+                lambda atd: atd.index_type(root_agg.rank),
+                default_val=container_aggregate.key_type
+            )
+        )
+
         # NOTE: we need to resolve the spec first so that the indexing variable
         # has a type when resolving `r_expr`.
         # NOTE: if the form of the iterated_component_association is
@@ -15916,7 +16050,7 @@ class IteratedAssoc(BasicAssoc):
         spec_success = Var(Entity.spec.resolve_names_internal_with_eq(
             If(Self.spec.loop_type.is_a(IterType.alt_in),
                Bind(Entity.spec.iter_expr.cast(Expr).expected_type_var,
-                    array_type_def.index_type(root_agg.rank))
+                    index_type)
                & Entity.spec.iter_expr.cast(Expr).matches_expected_type,
                LogicTrue())
         ))
@@ -15931,7 +16065,7 @@ class IteratedAssoc(BasicAssoc):
 
                 # .. Then we want to match the component type
                 Entity.expr.sub_equation
-                & Bind(Entity.expr.expected_type_var, array_type_def.comp_type)
+                & Bind(Entity.expr.expected_type_var, comp_type)
                 & Entity.expr.matches_expected_type,
 
                 # .. Else we're on an intermediate dimension of a

@@ -1,0 +1,53 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpRenamingDecl ["P1"] test.adb:10:7-10:32>
+**********************************************************************
+
+Expr: <Id "Ent" test.adb:10:28-10:31>
+  references:    <DefiningName "Ent" test.adb:5:13-5:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpRenamingDecl ["P1"] test.adb:12:7-12:46>
+**********************************************************************
+
+Expr: <Id "Ent" test.adb:12:42-12:45>
+  references:    <DefiningName "Ent" test.adb:6:13-6:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpRenamingDecl ["P2"] test.adb:17:13-17:38>
+***********************************************************************
+
+Expr: <Id "Ent" test.adb:17:34-17:37>
+  references:    <DefiningName "Ent" test.adb:5:13-5:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpRenamingDecl ["P2"] test.adb:19:13-19:52>
+***********************************************************************
+
+Expr: <Id "Ent" test.adb:19:48-19:51>
+  references:    <DefiningName "Ent" test.adb:6:13-6:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:27:4-27:12>
+*******************************************************
+
+Expr: <DottedName test.adb:27:4-27:11>
+  references:    <DefiningName "Ent" test.adb:5:13-5:16>
+  type:          None
+  expected type: None
+Expr: <Id "Tas" test.adb:27:4-27:7>
+  references:    <DefiningName "Tas" test.adb:4:9-4:12>
+  type:          <SingleTaskTypeDecl ["Tas"] test.adb:4:9-7:11>
+  expected type: None
+Expr: <Id "Ent" test.adb:27:8-27:11>
+  references:    <DefiningName "Ent" test.adb:5:13-5:16>
+  type:          None
+  expected type: None
+
+
+Done.

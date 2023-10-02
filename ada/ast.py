@@ -2737,9 +2737,12 @@ class BasicDecl(AdaNode):
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def subp_decl_match_signature(other=T.BasicDecl.entity):
-        return Entity.subp_spec_or_null.match_signature(
-            other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
-            False
+        return Entity.subp_spec_or_null.then(
+            lambda spec: spec.match_signature(
+                other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
+                False
+            ),
+            default_val=False
         )
 
     @langkit_property(return_type=T.BasicDecl.entity.array,

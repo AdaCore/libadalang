@@ -133,3 +133,6 @@ $root = LexEnv(Static_Primary, Parent=null):
 @4 = LexEnv(Static_Primary, Parent=@3, Node=<DeclBlock input:4:7-8:11>):
     lol: [<SubtypeDecl ["Lol"] input:5:10-5:47>]
 
+@5 = LexEnv(Static_Primary, Parent=@4, Node=<SubtypeDecl ["Lol"] input:5:10-5:47>):
+    lol: [<SyntheticTypePredicateObjectDecl ["Lol"] input:5:10-5:47>]
+

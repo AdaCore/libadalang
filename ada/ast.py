@@ -712,7 +712,10 @@ class AdaNode(ASTNode):
         """
         pass
 
-    xref_stop_resolution = Property(False)
+    xref_stop_resolution = Property(
+        False,
+        dynamic_vars=[env, origin]
+    )
     stop_resolution_equation = Property(
         LogicTrue(),
         dynamic_vars=[env, origin]
@@ -847,27 +850,28 @@ class AdaNode(ASTNode):
                 res=Entity.parent
                 ._.resolve_names_from_closest_entry_point_impl:
 
-                Cond(
-                    # Resolution failed for the parent, so return None as well
-                    res == No(T.LexicalEnv),
+                env.bind(
                     res,
+                    origin.bind(
+                        Self.origin_node,
+                        Cond(
+                            # Resolution failed for the parent, so return None
+                            # as well.
+                            res == No(T.LexicalEnv),
+                            res,
 
-                    # Resolution succeeded for the parent and this is a stop
-                    # resolution, so re-use the parent environment to resolve
-                    # Self's names.
-                    Entity.xref_stop_resolution,
-                    env.bind(
-                        res,
-                        origin.bind(
-                            Self.origin_node,
-                            If(Entity.resolve_own_names, res, No(LexicalEnv))
+                            # Resolution succeeded for the parent and this is a
+                            # stop resolution, so re-use the parent environment
+                            # to resolve Self's names.
+                            Entity.xref_stop_resolution,
+                            If(Entity.resolve_own_names, res, No(LexicalEnv)),
+
+                            # Resolution succeeded but there is nothing to do
+                            # on that particular node: return the parent
+                            # environment, so that deeper children can use it.
+                            res
                         )
-                    ),
-
-                    # Resolution succeeded but there is nothing to do on that
-                    # particular node: return the parent environment, so that
-                    # deeper children can use it.
-                    res
+                    )
                 )
             )
         )
@@ -1641,7 +1645,13 @@ class AdaNode(ASTNode):
         Return a null node iff we are in the definition of an aspect clause
         where sequential lookup needs to be deactivated. Return Self otherwise.
         """
-        return If(Self.in_contract, No(T.AdaNode), Self)
+        return Cond(
+            Self.in_contract,
+            No(T.AdaNode),
+            Self.is_a(ExprFunction),
+            Self.cast(ExprFunction).expr,
+            Self
+        )
 
     @langkit_property()
     def env_hook():
@@ -6065,6 +6075,33 @@ class BaseTypeDecl(BasicDecl):
             )
         ))
 
+    @lazy_field(return_type=T.env_assoc)
+    def synthetic_type_predicate_object_decl():
+        """
+        Create an env_assoc embedding the synthetic object declaration
+        required for predicates name resolution.
+
+        This property should only be called once by ``env_spec``
+        (``SubtypeDecl``, ``TypeDecl``).
+        """
+        return new_env_assoc(
+            key=Self.name_symbol,
+            # This synthetic object declaration is used for resolving the
+            # references to its own derived/subtype identifier that can be used
+            # in predicates as object references. This virtual object only
+            # lives in the scope of the derived/subtype declaration, and has
+            # the same name and type than the declaration it derives from.
+            value=T.SyntheticTypePredicateObjectDecl.new(
+                name=Self.name,
+                # A `SubtypeDecl` has a type expression that we can reuse On
+                # the contrary, we have to embed the TypeDecl into a synthetic
+                # `TypeExpr` for `TypeDecl`s.
+                type_expr=Self.as_bare_entity.type_expression.node._or(
+                    SyntheticTypeExpr.new(target_type=Self)
+                )
+            )
+        )
+
     is_task_type = Property(False, doc="Whether type is a task type")
 
     is_real_type = Property(
@@ -7709,7 +7746,19 @@ class TypeDecl(BaseTypeDecl):
             dest_env=Self.node_env,
             cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
             category="inherited_primitives"
-        )
+        ),
+
+        # If this `TypeDecl` can have a predicate, add a synthetic object
+        # declaration into its environement in order to support name resolution
+        # of self-references that can appear in predicates (see
+        # `SyntheticTypePredicateObjectDecl`).
+        add_to_env(If(
+            # Try to filter which type decls can have predicate to save some
+            # space in envs.
+            Self.type_def.is_a(T.DerivedTypeDef, T.TypeAccessDef),
+            Entity.synthetic_type_predicate_object_decl,
+            No(T.env_assoc)
+        ))
     )
 
     record_def = Property(
@@ -8982,6 +9031,23 @@ class SubtypeDecl(BaseSubtypeDecl):
     subtype = Field(type=T.SubtypeIndication)
     aspects = Field(type=T.AspectSpec)
 
+    env_spec = EnvSpec(
+        add_to_env_kv(Entity.name_symbol, Self),
+
+        # Subtype predicates expressions can refers to its own subtype
+        # declaration identifier as an object such as in::
+        #
+        #     subtype Odd is Natural with
+        #        Dynamic_Predicate => Odd mod 2 = 1;
+        #
+        # where ``Odd`` should refer to an anonymous object of the same name
+        # and of its own subtype. This object only virtually exists in the
+        # subtype environment, so we add a children environement here, just to
+        # hold this object.
+        add_env(transitive_parent=True),
+        add_to_env(Entity.synthetic_type_predicate_object_decl)
+    )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
     def get_type():
         return Entity.subtype.designated_type.match(
@@ -8999,6 +9065,32 @@ class SubtypeDecl(BaseSubtypeDecl):
 
     is_static_decl = Property(Entity.subtype.is_static_subtype)
     xref_entry_point = Property(True)
+
+
+@synthetic
+class SyntheticTypePredicateObjectDecl(BasicDecl):
+    """
+    SyntheticTypePredicateObjectDecl is a declaration that holds a virtual
+    object used in type predicates to refer to an object of that type. Such as
+    in::
+
+         subtype Odd is Natural with
+            Dynamic_Predicate => Odd mod 2 = 1;
+
+    where we have to create an object named ``Odd``, and of type ``Odd`` so
+    that the name in the aspect expression refers to it and can be properly
+    resolved to the type identifier.
+
+    This node has no existance in the Ada RM, it's only used for internal name
+    resolution purposes.
+    """
+    name = UserField(type=T.DefiningName, public=False)
+    type_expr = UserField(type=T.TypeExpr, public=False)
+
+    aspects = NullField()
+
+    type_expression = Property(Self.type_expr.as_entity)
+    defining_names = Property(Self.name.as_entity.singleton)
 
 
 @synthetic
@@ -9973,7 +10065,7 @@ class Pragma(AdaNode):
                 "Pre", "Post", "Pre'Class", "Post'Class",
                 "Precondition", "Postcondition",
                 "Precondition'Class", "Postcondition'Class",
-                "Test_Case", "Contract_Cases"
+                "Test_Case", "Contract_Cases", "Predicate"
             ),
             Entity.associated_entities.at(0).children_env,
             Entity.children_env
@@ -10159,7 +10251,7 @@ class Pragma(AdaNode):
                 'Volatile', 'Volatile_Components', 'Unchecked_Union',
                 'Atomic', 'Atomic_Components', 'No_Return', "Discard_Names",
                 "Independent", "Independent_Components", "Asynchronous",
-                "Interrupt_Handler", "Attach_Handler",
+                "Interrupt_Handler", "Attach_Handler", "Predicate"
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.Name)._.singleton,
 
@@ -14688,7 +14780,13 @@ class Name(Expr):
 
             # Handle out/inout param case
             lambda p=T.ParamAssoc: If(
-                p.parent.parent.cast(CallExpr)._.is_type_conversion,
+                env.bind(
+                    Self.node_env,
+                    origin.bind(
+                        Self.origin_node,
+                        p.parent.parent.cast(CallExpr)._.is_type_conversion,
+                    )
+                ),
                 p.parent.parent.cast(CallExpr).is_write_reference,
                 p.get_params.any(
                     lambda m:
@@ -15211,14 +15309,16 @@ class CallExpr(Name):
             LogicFalse()
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
     def is_type_conversion():
         """
         Return whether this CallExpr actually represents a type conversion.
         """
         return And(
             Not(Entity.name.is_a(QualExpr)),
-            Not(Entity.name.name_designated_type.is_null)
+            # Directly call designated_type_impl instead of
+            # name_designated_type to propagate Self's origin.
+            Not(Entity.name.designated_type_impl.is_null)
         )
 
     xref_stop_resolution = Property(

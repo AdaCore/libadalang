@@ -1,0 +1,722 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AspectAssoc test.adb:5:7-5:50>
+********************************************************
+
+Expr: <Id "Dynamic_Predicate" test.adb:5:7-5:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:5:28-5:50>
+  references:    <DefiningName "F" test.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" test.adb:5:28-5:29>
+  references:    <DefiningName "F" test.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr test.adb:5:31-5:49>
+  references:    <DefiningName "String_T" test.adb:4:12-4:20>
+  type:          <SubtypeDecl ["String_T"] test.adb:4:4-5:51>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "String_T" test.adb:5:31-5:39>
+  references:    <DefiningName "String_T" test.adb:4:12-4:20>
+  type:          <SubtypeDecl ["String_T"] test.adb:4:4-5:51>
+  expected type: None
+Expr: <BinOp test.adb:5:41-5:48>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int test.adb:5:41-5:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." test.adb:5:43-5:45>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:5:46-5:48>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+Resolving xrefs for node <AspectAssoc test.adb:9:7-9:38>
+********************************************************
+
+Expr: <Id "Static_Predicate" test.adb:9:7-9:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:9:27-9:38>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Count" test.adb:9:27-9:32>
+  references:    <DefiningName "Count" test.adb:8:12-8:17>
+  type:          <SubtypeDecl ["Count"] test.adb:8:4-9:39>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpNeq "/=" test.adb:9:33-9:35>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:9:36-9:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AspectAssoc test.adb:13:7-13:43>
+**********************************************************
+
+Expr: <Id "Predicate" test.adb:13:7-13:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:13:20-13:43>
+  references:    <DefiningName "F" test.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" test.adb:13:20-13:21>
+  references:    <DefiningName "F" test.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr test.adb:13:23-13:42>
+  references:    <DefiningName "String_T2" test.adb:12:12-12:21>
+  type:          <SubtypeDecl ["String_T2"] test.adb:12:4-13:44>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "String_T2" test.adb:13:23-13:32>
+  references:    <DefiningName "String_T2" test.adb:12:12-12:21>
+  type:          <SubtypeDecl ["String_T2"] test.adb:12:4-13:44>
+  expected type: None
+Expr: <BinOp test.adb:13:34-13:41>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int test.adb:13:34-13:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." test.adb:13:36-13:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:13:39-13:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+Resolving xrefs for node <AspectAssoc test.adb:17:7-17:32>
+**********************************************************
+
+Expr: <Id "Predicate" test.adb:17:7-17:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:17:20-17:32>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Count2" test.adb:17:20-17:26>
+  references:    <DefiningName "Count2" test.adb:16:12-16:18>
+  type:          <SubtypeDecl ["Count2"] test.adb:16:4-17:33>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpNeq "/=" test.adb:17:27-17:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:17:30-17:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <PragmaNode test.adb:21:4-23:41>
+*********************************************************
+
+Expr: <Id "Predicate" test.adb:21:11-21:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Entity" test.adb:22:7-22:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "String_T3" test.adb:22:17-22:26>
+  references:    <DefiningName "String_T3" test.adb:20:12-20:21>
+  type:          <SubtypeDecl ["String_T3"] test.adb:20:4-20:42>
+  expected type: None
+Expr: <Id "Check" test.adb:23:7-23:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:23:16-23:39>
+  references:    <DefiningName "F" test.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "F" test.adb:23:16-23:17>
+  references:    <DefiningName "F" test.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr test.adb:23:19-23:38>
+  references:    <DefiningName "String_T3" test.adb:20:12-20:21>
+  type:          <SubtypeDecl ["String_T3"] test.adb:20:4-20:42>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "String_T3" test.adb:23:19-23:28>
+  references:    <DefiningName "String_T3" test.adb:20:12-20:21>
+  type:          <SubtypeDecl ["String_T3"] test.adb:20:4-20:42>
+  expected type: None
+Expr: <BinOp test.adb:23:30-23:37>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int test.adb:23:30-23:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." test.adb:23:32-23:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:23:35-23:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+Resolving xrefs for node <PragmaNode test.adb:27:4-29:30>
+*********************************************************
+
+Expr: <Id "Predicate" test.adb:27:11-27:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Entity" test.adb:28:7-28:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Count3" test.adb:28:17-28:23>
+  references:    <DefiningName "Count3" test.adb:26:12-26:18>
+  type:          <SubtypeDecl ["Count3"] test.adb:26:4-26:30>
+  expected type: None
+Expr: <Id "Check" test.adb:29:7-29:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:29:16-29:28>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "Count3" test.adb:29:16-29:22>
+  references:    <DefiningName "Count3" test.adb:26:12-26:18>
+  type:          <SubtypeDecl ["Count3"] test.adb:26:4-26:30>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpNeq "/=" test.adb:29:23-29:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:29:26-29:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing derived.adb
+#####################
+
+Resolving xrefs for node <AspectAssoc derived.adb:5:7-5:59>
+***********************************************************
+
+Expr: <Id "Dynamic_Predicate" derived.adb:5:7-5:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr derived.adb:5:28-5:59>
+  references:    <DefiningName "F" derived.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" derived.adb:5:28-5:29>
+  references:    <DefiningName "F" derived.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr derived.adb:5:31-5:58>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "String" derived.adb:5:31-5:37>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <CallExpr derived.adb:5:39-5:57>
+  references:    <DefiningName "String_T" derived.adb:4:9-4:17>
+  type:          <ConcreteTypeDecl ["String_T"] derived.adb:4:4-5:60>
+  expected type: None
+Expr: <Id "String_T" derived.adb:5:39-5:47>
+  references:    <DefiningName "String_T" derived.adb:4:9-4:17>
+  type:          <ConcreteTypeDecl ["String_T"] derived.adb:4:4-5:60>
+  expected type: None
+Expr: <BinOp derived.adb:5:49-5:56>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int derived.adb:5:49-5:50>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." derived.adb:5:51-5:53>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int derived.adb:5:54-5:56>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+Resolving xrefs for node <AspectAssoc derived.adb:9:7-9:38>
+***********************************************************
+
+Expr: <Id "Static_Predicate" derived.adb:9:7-9:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp derived.adb:9:27-9:38>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Count" derived.adb:9:27-9:32>
+  references:    <DefiningName "Count" derived.adb:8:9-8:14>
+  type:          <ConcreteTypeDecl ["Count"] derived.adb:8:4-9:39>
+  expected type: <ConcreteTypeDecl ["Count"] derived.adb:8:4-9:39>
+Expr: <OpNeq "/=" derived.adb:9:33-9:35>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int derived.adb:9:36-9:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Count"] derived.adb:8:4-9:39>
+
+Resolving xrefs for node <AspectAssoc derived.adb:13:7-13:52>
+*************************************************************
+
+Expr: <Id "Predicate" derived.adb:13:7-13:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr derived.adb:13:20-13:52>
+  references:    <DefiningName "F" derived.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "F" derived.adb:13:20-13:21>
+  references:    <DefiningName "F" derived.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr derived.adb:13:23-13:51>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "String" derived.adb:13:23-13:29>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <CallExpr derived.adb:13:31-13:50>
+  references:    <DefiningName "String_T2" derived.adb:12:9-12:18>
+  type:          <ConcreteTypeDecl ["String_T2"] derived.adb:12:4-13:53>
+  expected type: None
+Expr: <Id "String_T2" derived.adb:13:31-13:40>
+  references:    <DefiningName "String_T2" derived.adb:12:9-12:18>
+  type:          <ConcreteTypeDecl ["String_T2"] derived.adb:12:4-13:53>
+  expected type: None
+Expr: <BinOp derived.adb:13:42-13:49>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int derived.adb:13:42-13:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." derived.adb:13:44-13:46>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int derived.adb:13:47-13:49>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+Resolving xrefs for node <AspectAssoc derived.adb:17:7-17:32>
+*************************************************************
+
+Expr: <Id "Predicate" derived.adb:17:7-17:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp derived.adb:17:20-17:32>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Count2" derived.adb:17:20-17:26>
+  references:    <DefiningName "Count2" derived.adb:16:9-16:15>
+  type:          <ConcreteTypeDecl ["Count2"] derived.adb:16:4-17:33>
+  expected type: <ConcreteTypeDecl ["Count2"] derived.adb:16:4-17:33>
+Expr: <OpNeq "/=" derived.adb:17:27-17:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int derived.adb:17:30-17:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Count2"] derived.adb:16:4-17:33>
+
+Resolving xrefs for node <PragmaNode derived.adb:21:4-23:50>
+************************************************************
+
+Expr: <Id "Predicate" derived.adb:21:11-21:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Entity" derived.adb:22:7-22:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "String_T3" derived.adb:22:17-22:26>
+  references:    <DefiningName "String_T3" derived.adb:20:9-20:18>
+  type:          <ConcreteTypeDecl ["String_T3"] derived.adb:20:4-20:33>
+  expected type: None
+Expr: <Id "Check" derived.adb:23:7-23:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr derived.adb:23:16-23:48>
+  references:    <DefiningName "F" derived.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "F" derived.adb:23:16-23:17>
+  references:    <DefiningName "F" derived.adb:2:13-2:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr derived.adb:23:19-23:47>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "String" derived.adb:23:19-23:25>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <CallExpr derived.adb:23:27-23:46>
+  references:    <DefiningName "String_T3" derived.adb:20:9-20:18>
+  type:          <ConcreteTypeDecl ["String_T3"] derived.adb:20:4-20:33>
+  expected type: None
+Expr: <Id "String_T3" derived.adb:23:27-23:36>
+  references:    <DefiningName "String_T3" derived.adb:20:9-20:18>
+  type:          <ConcreteTypeDecl ["String_T3"] derived.adb:20:4-20:33>
+  expected type: None
+Expr: <BinOp derived.adb:23:38-23:45>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int derived.adb:23:38-23:39>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." derived.adb:23:40-23:42>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int derived.adb:23:43-23:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+Resolving xrefs for node <PragmaNode derived.adb:27:4-29:30>
+************************************************************
+
+Expr: <Id "Predicate" derived.adb:27:11-27:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Entity" derived.adb:28:7-28:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Count3" derived.adb:28:17-28:23>
+  references:    <DefiningName "Count3" derived.adb:26:9-26:15>
+  type:          <ConcreteTypeDecl ["Count3"] derived.adb:26:4-26:31>
+  expected type: None
+Expr: <Id "Check" derived.adb:29:7-29:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp derived.adb:29:16-29:28>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "Count3" derived.adb:29:16-29:22>
+  references:    <DefiningName "Count3" derived.adb:26:9-26:15>
+  type:          <ConcreteTypeDecl ["Count3"] derived.adb:26:4-26:31>
+  expected type: <ConcreteTypeDecl ["Count3"] derived.adb:26:4-26:31>
+Expr: <OpNeq "/=" derived.adb:29:23-29:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int derived.adb:29:26-29:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Count3"] derived.adb:26:4-26:31>
+
+
+Analyzing other.adb
+###################
+
+Resolving xrefs for node <AspectAssoc other.adb:3:12-3:44>
+**********************************************************
+
+Expr: <Id "Static_Predicate" other.adb:3:12-3:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <MembershipExpr other.adb:3:32-3:44>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Color" other.adb:3:32-3:37>
+  references:    <DefiningName "Color" other.adb:2:9-2:14>
+  type:          <ConcreteTypeDecl ["Color"] other.adb:2:4-3:45>
+  expected type: None
+Expr: <OpIn "in" other.adb:3:38-3:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Red" other.adb:3:41-3:44>
+  references:    <DefiningName "Red" other.adb:2:26-2:29>
+  type:          <ConcreteTypeDecl ["Color"] other.adb:2:4-3:45>
+  expected type: <ConcreteTypeDecl ["Color"] other.adb:2:4-3:45>
+
+Resolving xrefs for node <AspectAssoc other.adb:7:12-7:41>
+**********************************************************
+
+Expr: <Id "Predicate" other.adb:7:12-7:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp other.adb:7:25-7:41>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp other.adb:7:25-7:37>
+  type:          <ConcreteTypeDecl ["Column"] other.adb:6:4-7:42>
+  expected type: <ConcreteTypeDecl ["Column"] other.adb:6:4-7:42>
+Expr: <Id "Column" other.adb:7:25-7:31>
+  references:    <DefiningName "Column" other.adb:6:9-6:15>
+  type:          <ConcreteTypeDecl ["Column"] other.adb:6:4-7:42>
+  expected type: <ConcreteTypeDecl ["Column"] other.adb:6:4-7:42>
+Expr: <OpMod "mod" other.adb:7:32-7:35>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int other.adb:7:36-7:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Column"] other.adb:6:4-7:42>
+Expr: <OpEq "=" other.adb:7:38-7:39>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int other.adb:7:40-7:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Column"] other.adb:6:4-7:42>
+
+Resolving xrefs for node <PragmaNode other.adb:11:4-11:46>
+**********************************************************
+
+Expr: <Id "Predicate" other.adb:11:11-11:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Table" other.adb:11:22-11:27>
+  references:    <DefiningName "Table" other.adb:10:9-10:14>
+  type:          <ConcreteTypeDecl ["Table"] other.adb:10:4-10:45>
+  expected type: None
+Expr: <RelationOp other.adb:11:29-11:44>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <AttributeRef other.adb:11:29-11:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Table" other.adb:11:29-11:34>
+  references:    <DefiningName "Table" other.adb:10:9-10:14>
+  type:          None
+  expected type: None
+Expr: <Id "First" other.adb:11:35-11:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq "=" other.adb:11:41-11:42>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int other.adb:11:43-11:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ComponentDecl ["I"] other.adb:15:7-15:19>
+*******************************************************************
+
+Expr: <Id "Integer" other.adb:15:11-15:18>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc other.adb:16:20-16:40>
+************************************************************
+
+Expr: <Id "Predicate" other.adb:16:20-16:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp other.adb:16:33-16:40>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName other.adb:16:33-16:36>
+  references:    <DefiningName "I" other.adb:15:7-15:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "R" other.adb:16:33-16:34>
+  references:    <DefiningName "R" other.adb:14:9-14:10>
+  type:          <ConcreteTypeDecl ["R"] other.adb:14:4-16:41>
+  expected type: <ConcreteTypeDecl ["R"] other.adb:14:4-16:41>
+Expr: <Id "I" other.adb:16:35-16:36>
+  references:    <DefiningName "I" other.adb:15:7-15:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpEq "=" other.adb:16:37-16:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int other.adb:16:39-16:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing conflict.adb
+######################
+
+Resolving xrefs for node <ExprFunction ["To_String"] conflict.adb:8:4-9:32>
+***************************************************************************
+
+Expr: <ParenExpr conflict.adb:9:6-9:31>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOp conflict.adb:9:7-9:30>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <CallExpr conflict.adb:9:7-9:24>
+  references:    <DefiningName "Name" conflict.adb:8:24-8:28>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+Expr: <Id "Name" conflict.adb:9:7-9:11>
+  references:    <DefiningName "Name" conflict.adb:8:24-8:28>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <AttributeRef conflict.adb:9:13-9:23>
+  references:    None
+  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "Name" conflict.adb:9:13-9:17>
+  references:    <DefiningName "Name" conflict.adb:8:24-8:28>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "First" conflict.adb:9:18-9:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ConcatOperand conflict.adb:9:25-9:30>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" conflict.adb:9:25-9:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""!"" conflict.adb:9:27-9:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <PragmaNode conflict.adb:12:4-12:52>
+*************************************************************
+
+Expr: <Id "Predicate" conflict.adb:12:11-12:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Name" conflict.adb:12:22-12:26>
+  references:    <DefiningName "Name" conflict.adb:6:12-6:16>
+  type:          <SubtypeDecl ["Name"] conflict.adb:6:4-6:37>
+  expected type: None
+Expr: <RelationOp conflict.adb:12:28-12:50>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr conflict.adb:12:28-12:41>
+  references:    <DefiningName "Name" conflict.adb:6:12-6:16>
+  type:          <SubtypeDecl ["Name"] conflict.adb:6:4-6:37>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "Name" conflict.adb:12:28-12:32>
+  references:    <DefiningName "Name" conflict.adb:6:12-6:16>
+  type:          <SubtypeDecl ["Name"] conflict.adb:6:4-6:37>
+  expected type: None
+Expr: <BinOp conflict.adb:12:34-12:40>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int conflict.adb:12:34-12:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." conflict.adb:12:36-12:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int conflict.adb:12:39-12:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpEq "=" conflict.adb:12:42-12:43>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""FAIL"" conflict.adb:12:44-12:50>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <PragmaNode conflict.adb:17:4-17:47>
+*************************************************************
+
+Expr: <Id "Predicate" conflict.adb:17:11-17:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Name" conflict.adb:17:22-17:26>
+  references:    <DefiningName "Name" conflict.adb:6:12-6:16>
+  type:          <SubtypeDecl ["Name"] conflict.adb:6:4-6:37>
+  expected type: None
+Expr: <CallExpr conflict.adb:17:28-17:45>
+  references:    <DefiningName "P" conflict.adb:15:13-15:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "P" conflict.adb:17:28-17:29>
+  references:    <DefiningName "P" conflict.adb:15:13-15:14>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr conflict.adb:17:31-17:44>
+  references:    <DefiningName "Name" conflict.adb:6:12-6:16>
+  type:          <SubtypeDecl ["Name"] conflict.adb:6:4-6:37>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "Name" conflict.adb:17:31-17:35>
+  references:    <DefiningName "Name" conflict.adb:6:12-6:16>
+  type:          <SubtypeDecl ["Name"] conflict.adb:6:4-6:37>
+  expected type: None
+Expr: <BinOp conflict.adb:17:37-17:43>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int conflict.adb:17:37-17:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." conflict.adb:17:39-17:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int conflict.adb:17:42-17:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+
+
+Done.

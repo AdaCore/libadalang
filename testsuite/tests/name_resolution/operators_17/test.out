@@ -1,0 +1,126 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["I"] test.adb:6:4-6:35>
+*************************************************************
+
+Expr: <Id "Integer" test.adb:6:8-6:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:6:19-6:34>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Integer" test.adb:6:19-6:26>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <BinOp test.adb:6:28-6:33>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+  expected type: None
+Expr: <Int test.adb:6:28-6:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpMult "*" test.adb:6:30-6:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:6:32-6:33>
+  references:    <DefiningName "X" test.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+
+Resolving xrefs for node <AssignStmt test.adb:9:4-9:31>
+*******************************************************
+
+Expr: <Id "B" test.adb:9:4-9:5>
+  references:    <DefiningName "B" test.adb:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <RelationOp test.adb:9:9-9:30>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp test.adb:9:9-9:24>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+Expr: <Id "X" test.adb:9:9-9:10>
+  references:    <DefiningName "X" test.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+Expr: <OpMult "*" test.adb:9:11-9:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <QualExpr test.adb:9:13-9:24>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Integer" test.adb:9:13-9:20>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:9:21-9:24>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:9:22-9:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpEq "=" test.adb:9:25-9:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:9:27-9:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+
+Resolving xrefs for node <AssignStmt test.adb:11:4-11:31>
+*********************************************************
+
+Expr: <Id "B" test.adb:11:4-11:5>
+  references:    <DefiningName "B" test.adb:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <RelationOp test.adb:11:9-11:30>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp test.adb:11:9-11:24>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+Expr: <QualExpr test.adb:11:9-11:20>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Integer" test.adb:11:9-11:16>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:11:17-11:20>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:11:18-11:19>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpMult "*" test.adb:11:21-11:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:11:23-11:24>
+  references:    <DefiningName "X" test.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+Expr: <OpEq "=" test.adb:11:25-11:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:11:27-11:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:44>
+
+
+Done.

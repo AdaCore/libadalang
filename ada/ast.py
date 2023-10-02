@@ -5011,14 +5011,10 @@ class ComponentDecl(BaseFormalParamDecl):
     @langkit_property(return_type=Equation)
     def constrain_prefix(prefix=T.Expr):
         return If(
-            # If the prefix is `X'Unrestricted_Access`, we have an implicit
-            # dereference. Do not constrain the equation further here and let
-            # the AttributeRef's xref_equation handle this case.
-            prefix.cast(AttributeRef)._.is_access_attr
             # If Self is a component of a SingleProtectedDecl or
             # ProtectedTypeDecl, do not constrain the equation further since
             # they do not have a type.
-            | Self.parents.any(lambda p: p.is_a(ProtectedDef)),
+            Self.parents.any(lambda p: p.is_a(ProtectedDef)),
 
             LogicTrue(),
 
@@ -19874,12 +19870,22 @@ class AttributeRef(Name):
                     Entity.prefix.matches_expected_formal_type
                 ),
 
-                # If the expected type is not known, synthesize an anonymous
-                # access type for this expression.
-                Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
-                & Bind(Self.prefix.type_var,
-                       Self.type_var,
-                       conv_prop=BaseTypeDecl.anonymous_access_type_or_null)
+                # If this `X'Access` is the prefix of a DottedName, we may be
+                # resolving an implicit dereference. In that case, our expected
+                # type is also the expected type of the prefix `X`, and we
+                # should synthesize an anonymous access type for the actual
+                # type of `X'Access`.
+                If(
+                    Self.parent.is_a(DottedName) & Self.is_prefix,
+                    Bind(Self.prefix.expected_type_var, Self.expected_type_var)
+                    & Entity.prefix.matches_expected_formal_type
+                    & Bind(
+                        Self.prefix.type_var,
+                        Self.type_var,
+                        conv_prop=BaseTypeDecl.anonymous_access_type_or_null
+                    ),
+                    LogicFalse()
+                )
             )
         )
 

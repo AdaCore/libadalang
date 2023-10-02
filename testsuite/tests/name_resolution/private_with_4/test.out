@@ -1,0 +1,49 @@
+Analyzing pkg-foo.ads
+#####################
+
+Resolving xrefs for node <GenericPackageInstantiation ["Socket_Lists"] pkg-foo.ads:2:4-2:73>
+********************************************************************************************
+
+Expr: <DottedName pkg-foo.ads:2:32-2:62>
+  references:    <DefiningName "Ada.Containers.Doubly_Linked_Lists" a-cdlili.ads:47:9-47:43>
+  type:          None
+  expected type: None
+Expr: <Id "Containers" pkg-foo.ads:2:32-2:42>
+  references:    <DefiningName "Ada.Containers" a-contai.ads:16:9-16:23>
+  type:          None
+  expected type: None
+Expr: <Id "Doubly_Linked_Lists" pkg-foo.ads:2:43-2:62>
+  references:    <DefiningName "Ada.Containers.Doubly_Linked_Lists" a-cdlili.ads:47:9-47:43>
+  type:          None
+  expected type: None
+Expr: <Id "Integer" pkg-foo.ads:2:64-2:71>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+
+Analyzing pkg_2-foo.ads
+#######################
+
+Resolving xrefs for node <GenericPackageInstantiation ["Socket_Lists"] pkg_2-foo.ads:2:4-2:73>
+**********************************************************************************************
+
+Expr: <DottedName pkg_2-foo.ads:2:32-2:62>
+  references:    <DefiningName "Ada.Containers.Doubly_Linked_Lists" a-cdlili.ads:47:9-47:43>
+  type:          None
+  expected type: None
+Expr: <Id "Containers" pkg_2-foo.ads:2:32-2:42>
+  references:    <DefiningName "Ada.Containers" a-contai.ads:16:9-16:23>
+  type:          None
+  expected type: None
+Expr: <Id "Doubly_Linked_Lists" pkg_2-foo.ads:2:43-2:62>
+  references:    <DefiningName "Ada.Containers.Doubly_Linked_Lists" a-cdlili.ads:47:9-47:43>
+  type:          None
+  expected type: None
+Expr: <Id "Integer" pkg_2-foo.ads:2:64-2:71>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+
+Done.

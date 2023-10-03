@@ -16411,7 +16411,7 @@ class IfExpr(CondExpr):
     def dependent_exprs():
         return Entity.then_expr.singleton.concat(
             Entity.alternatives.map(lambda a: a.then_expr)
-        ).concat(Entity.else_expr.singleton)
+        ).concat(Entity.else_expr._.singleton)
 
     @langkit_property()
     def xref_equation():
@@ -16460,19 +16460,33 @@ class IfExpr(CondExpr):
         if-expression is known. In that case, we can use it to infer the
         branches' types.
         """
-        return Bind(Self.type_var, Self.expected_type_var) & If(
+        return Bind(Self.type_var, Self.then_expr.expected_type_var) & If(
             Not(Self.else_expr.is_null),
 
-            Bind(Self.else_expr.expected_type_var, Self.expected_type_var)
-            & Bind(Self.then_expr.expected_type_var, Self.expected_type_var)
+            Bind(Self.type_var, Self.else_expr.expected_type_var)
+            & Bind(Self.expected_type_var, Self.else_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
+            & Bind(Self.expected_type_var, Self.then_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
             & Entity.else_expr.matches_expected_formal_type
             & Entity.then_expr.matches_expected_formal_type,
 
             LogicTrue()
         ) & Entity.alternatives.logic_all(
             lambda elsif:
-            Bind(elsif.then_expr.expected_type_var, Self.expected_type_var)
+            Bind(Self.type_var, elsif.then_expr.expected_type_var)
+            & Bind(Self.expected_type_var, elsif.then_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
             & elsif.then_expr.matches_expected_formal_type
+        ) & Entity.dependent_exprs.filter(
+            lambda e: e.has_context_free_type
+        ).logic_all(
+            lambda e: Or(
+                Predicate(BaseTypeDecl.is_not_universal_type, e.type_var)
+                & Bind(e.type_var, e.expected_type_var,
+                       conv_prop=BaseTypeDecl.base_subtype),
+                LogicTrue()
+            )
         )
 
     @langkit_property(dynamic_vars=[env, origin])
@@ -16483,11 +16497,7 @@ class IfExpr(CondExpr):
         the type of the if expression by taking the common base subtype of the
         context-free types of all the sub-branches.
         """
-        return Self.then_expr.singleton.concat(
-            Self.alternatives.map(lambda a: a.then_expr)
-        ).concat(
-            Self.else_expr._.singleton
-        ).filter(
+        return Entity.dependent_exprs.filter(
             lambda e: e.has_context_free_type
         ).logic_all(
             lambda e:
@@ -16527,35 +16537,45 @@ class CaseExpr(CondExpr):
             Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
         )))
 
-        return And(
-            Bind(Self.type_var, Self.expected_type_var),
-            Entity.cases.logic_all(
-                lambda alt:
+        return Entity.cases.logic_all(
+            lambda alt:
 
-                alt.choices.logic_all(lambda c: c.match(
-                    # Expression case
-                    lambda e=T.Expr: If(
-                        Not(e.cast(Name)._.name_designated_type.is_null),
+            alt.choices.logic_all(lambda c: c.match(
+                # Expression case
+                lambda e=T.Expr: If(
+                    Not(e.cast(Name)._.name_designated_type.is_null),
 
-                        e.cast(Name).xref_no_overloading,
+                    e.cast(Name).xref_no_overloading,
 
-                        Bind(e.expected_type_var, Self.expr.type_val)
-                        & e.sub_equation
-                        & e.matches_expected_type
-                    ),
+                    Bind(e.expected_type_var, Self.expr.type_val)
+                    & e.sub_equation
+                    & e.matches_expected_type
+                ),
 
-                    # SubtypeIndication case (``when Color range Red .. Blue``)
-                    lambda t=T.SubtypeIndication: t.xref_equation,
+                # SubtypeIndication case (``when Color range Red .. Blue``)
+                lambda t=T.SubtypeIndication: t.xref_equation,
 
-                    lambda _=T.OthersDesignator: LogicTrue(),
+                lambda _=T.OthersDesignator: LogicTrue(),
 
-                    lambda _: PropertyError(T.Equation, "Should not happen")
-                ))
+                lambda _: PropertyError(T.Equation, "Should not happen")
+            ))
 
-                # Equations for the dependent expressions
-                & Bind(Self.expected_type_var, alt.expr.expected_type_var)
-                & alt.expr.sub_equation
-                & alt.expr.matches_expected_type
+            # Equations for the dependent expressions
+            & Bind(Self.type_var, alt.expr.expected_type_var)
+            & Bind(Self.expected_type_var, alt.expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
+            & alt.expr.sub_equation
+            & alt.expr.matches_expected_type
+            & If(
+                alt.expr.has_context_free_type,
+                Or(
+                    Predicate(BaseTypeDecl.is_not_universal_type,
+                              alt.expr.type_var)
+                    & Bind(alt.expr.type_var, alt.expr.expected_type_var,
+                           conv_prop=BaseTypeDecl.base_subtype),
+                    LogicTrue()
+                ),
+                LogicTrue()
             )
         )
 

@@ -1,0 +1,226 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["A_1"] test.adb:7:4-8:36>
+***************************************************************
+
+Expr: <Id "Boolean" test.adb:7:19-7:26>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:8:7-8:35>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.adb:8:7-8:8>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLte "<=" test.adb:8:9-8:11>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:8:12-8:35>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <IfExpr test.adb:8:13-8:34>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "True" test.adb:8:16-8:20>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "C" test.adb:8:26-8:27>
+  references:    <DefiningName "C" test.adb:5:4-5:5>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:8:33-8:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["A_2"] test.adb:11:4-12:36>
+*****************************************************************
+
+Expr: <Id "Boolean" test.adb:11:19-11:26>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:12:7-12:35>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.adb:12:7-12:8>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLte "<=" test.adb:12:9-12:11>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:12:12-12:35>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <IfExpr test.adb:12:13-12:34>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "True" test.adb:12:16-12:20>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.adb:12:26-12:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C" test.adb:12:33-12:34>
+  references:    <DefiningName "C" test.adb:5:4-5:5>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["A_3"] test.adb:15:4-16:55>
+*****************************************************************
+
+Expr: <Id "Boolean" test.adb:15:19-15:26>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:16:7-16:54>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.adb:16:7-16:8>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLte "<=" test.adb:16:9-16:11>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:16:12-16:54>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <IfExpr test.adb:16:13-16:53>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "True" test.adb:16:16-16:20>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.adb:16:26-16:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "False" test.adb:16:34-16:39>
+  references:    <DefiningName "False" __standard:3:20-3:25>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "C" test.adb:16:45-16:46>
+  references:    <DefiningName "C" test.adb:5:4-5:5>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:16:52-16:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["B_1"] test.adb:19:4-20:50>
+*****************************************************************
+
+Expr: <Id "Boolean" test.adb:19:19-19:26>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:20:7-20:49>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.adb:20:7-20:8>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLte "<=" test.adb:20:9-20:11>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:20:12-20:49>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CaseExpr test.adb:20:13-20:48>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "EX" test.adb:20:18-20:20>
+  references:    <DefiningName "EX" test.adb:4:4-4:6>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+  expected type: None
+Expr: <CaseExprAlternative test.adb:20:24-20:35>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:20:29-20:30>
+  references:    <DefiningName "X" test.adb:2:15-2:16>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+Expr: <Id "C" test.adb:20:34-20:35>
+  references:    <DefiningName "C" test.adb:5:4-5:5>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CaseExprAlternative test.adb:20:37-20:48>
+  type:          None
+  expected type: None
+Expr: <Id "Y" test.adb:20:42-20:43>
+  references:    <DefiningName "Y" test.adb:2:18-2:19>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+Expr: <Int test.adb:20:47-20:48>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["B_2"] test.adb:23:4-24:50>
+*****************************************************************
+
+Expr: <Id "Boolean" test.adb:23:19-23:26>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <RelationOp test.adb:24:7-24:49>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int test.adb:24:7-24:8>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLte "<=" test.adb:24:9-24:11>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:24:12-24:49>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CaseExpr test.adb:24:13-24:48>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "EX" test.adb:24:18-24:20>
+  references:    <DefiningName "EX" test.adb:4:4-4:6>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+  expected type: None
+Expr: <CaseExprAlternative test.adb:24:24-24:35>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:24:29-24:30>
+  references:    <DefiningName "X" test.adb:2:15-2:16>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+Expr: <Int test.adb:24:34-24:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CaseExprAlternative test.adb:24:37-24:48>
+  type:          None
+  expected type: None
+Expr: <Id "Y" test.adb:24:42-24:43>
+  references:    <DefiningName "Y" test.adb:2:18-2:19>
+  type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:21>
+Expr: <Id "C" test.adb:24:47-24:48>
+  references:    <DefiningName "C" test.adb:5:4-5:5>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

@@ -6921,11 +6921,17 @@ class BaseTypeDecl(BasicDecl):
         """
         Returns the previous part for this type decl.
         """
-        return If(
+        return Cond(
             Self.is_generic_formal,
 
             # A generic formal type never has a previous part
             No(T.BaseTypeDecl.entity),
+
+            Self.is_a(ClasswideTypeDecl),
+            Entity.cast(ClasswideTypeDecl).type_decl
+            .previous_part(go_to_incomplete).then(
+                lambda pp: pp.classwide_type
+            ),
 
             # Otherwise look for the previous part in the immediate enclosing
             # declarative region.
@@ -6975,6 +6981,18 @@ class BaseTypeDecl(BasicDecl):
                     lambda p: itd.find_next_part_in(p.decls)
                 )
             )),
+
+            lambda cwt=T.ClasswideTypeDecl: Let(
+                lambda td=cwt.type_decl: td.next_part.then(
+                    # Sometimes `next_part` returns Entity itself, so check
+                    # that to avoid an infinite loop.
+                    lambda np: If(
+                        td == np,
+                        cwt,
+                        np.classwide_type
+                    )
+                )
+            ),
 
             lambda _: If(
                 Entity.is_private
@@ -7383,26 +7401,6 @@ class ClasswideTypeDecl(BaseTypeDecl):
             stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
         return Entity.type_decl.discriminants_list(stop_recurse_at)
-
-    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
-                      memoized=True)
-    def previous_part(go_to_incomplete=(Bool, True)):
-        return Entity.type_decl.previous_part(go_to_incomplete).then(
-            lambda pp: pp.classwide_type
-        )
-
-    @langkit_property()
-    def next_part():
-        td = Var(Entity.type_decl)
-        return td.next_part.then(
-            # Sometimes `next_part` returns Entity itself, so check that
-            # to avoid an infinite loop.
-            lambda np: If(
-                td == np,
-                Entity,
-                np.classwide_type
-            )
-        )
 
     canonical_type = Property(Entity.type_decl.canonical_type.then(
         # The canonical type should be classwide whenever it makes sense (e.g.

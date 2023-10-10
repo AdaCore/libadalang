@@ -17,8 +17,8 @@ main(void)
     uint32_t unit_name_chars[2] = { 'p', '2' };
     ada_text unit_name = { unit_name_chars, 2, true };
 
-    ada_base_entity root, subtype_ind, name;
-    ada_ada_node_array entities;
+    ada_node root, subtype_ind, name;
+    ada_node_array entities;
     ada_text text;
     int i;
 
@@ -50,7 +50,7 @@ main(void)
     printf(" resolves to:\n");
 
     for (i = 0; i < entities->n; ++i) {
-        ada_base_entity *ent = &entities->items[i];
+        ada_node *ent = &entities->items[i];
 
         printf("  ");
         ada_node_image(ent, &text);
@@ -60,7 +60,7 @@ main(void)
     }
     if (entities->n == 0)
       printf("  <nothing>\n");
-    ada_ada_node_array_dec_ref(entities);
+    ada_node_array_dec_ref(entities);
 
     ada_context_decref(ctx);
     puts("Done.");

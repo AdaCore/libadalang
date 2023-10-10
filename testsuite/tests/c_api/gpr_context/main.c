@@ -27,8 +27,8 @@ check (const char *label,
   ada_token t;
   ada_token_kind k;
   ada_text text;
-  ada_base_entity n;
-  ada_ada_node_array nodes;
+  ada_node n;
+  ada_node_array nodes;
   int count, i;
   char *name;
 
@@ -159,7 +159,7 @@ check (const char *label,
       abort_on_exception ();
     }
 
-  ada_ada_node_array_dec_ref (nodes);
+  ada_node_array_dec_ref (nodes);
   abort_on_exception ();
 
   ada_context_decref (ctx);

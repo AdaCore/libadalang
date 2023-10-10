@@ -13,7 +13,7 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_base_entity node;
+    ada_node node;
     ada_token tok;
     char *tk_name;
     ada_text text;

@@ -88,7 +88,7 @@ check (const char *label, const struct unit_ref *refs,
       else
 	{
 	  const char *kind_name = (kind == UNIT_BODY) ? "body" : "spec";
-	  ada_base_entity root;
+	  ada_node root;
 	  ada_text image;
 
 	  ada_unit_root (unit, &root);

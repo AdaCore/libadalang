@@ -13,7 +13,7 @@ main(void)
 {
     ada_analysis_context ctx;
     ada_analysis_unit unit;
-    ada_base_entity root;
+    ada_node root;
 
     ctx = ada_allocate_analysis_context ();
     abort_on_exception ();

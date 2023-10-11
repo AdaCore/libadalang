@@ -15,12 +15,11 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_base_entity with_clause, subp_body, subp_name, has_limited,
-                    has_private;
-    ada_base_entity tmp;
+    ada_node with_clause, subp_body, subp_name, has_limited, has_private;
+    ada_node tmp;
 
     ada_bool is_limited, is_private;
-    ada_base_entity overriding;
+    ada_node overriding;
     ada_token tok;
 
     ctx = ada_allocate_analysis_context ();

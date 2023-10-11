@@ -39,8 +39,8 @@ check_pragmas (ada_analysis_context ctx)
 {
   int i, j;
   ada_analysis_unit u;
-  ada_base_entity n;
-  ada_ada_node_array nodes;
+  ada_node n;
+  ada_node_array nodes;
   ada_text text;
 
   for (i = 0; i < 2; ++i)
@@ -71,7 +71,7 @@ check_pragmas (ada_analysis_context ctx)
 	  abort_on_exception ();
 	}
 
-      ada_ada_node_array_dec_ref (nodes);
+      ada_node_array_dec_ref (nodes);
       abort_on_exception ();
     }
 }

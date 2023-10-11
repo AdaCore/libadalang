@@ -44,7 +44,7 @@ print_token(ada_token *token)
 }
 
 static void
-dump(ada_base_entity *node, int level)
+dump(ada_node *node, int level)
 {
     ada_node_kind_enum kind;
     ada_text kind_name;
@@ -66,7 +66,7 @@ dump(ada_base_entity *node, int level)
     count = ada_node_children_count(node);
     for (i = 0; i < count; ++i)
     {
-        ada_base_entity child;
+        ada_node child;
 
         if (ada_node_child(node, i, &child) == 0)
             error("Error while getting a child");
@@ -75,7 +75,7 @@ dump(ada_base_entity *node, int level)
 }
 
 static void
-dump_image(ada_base_entity *node, int level)
+dump_image(ada_node *node, int level)
 {
     ada_text img;
     unsigned i, count;
@@ -95,7 +95,7 @@ dump_image(ada_base_entity *node, int level)
     count = ada_node_children_count(node);
     for (i = 0; i < count; ++i)
     {
-        ada_base_entity child;
+        ada_node child;
 
         if (ada_node_child(node, i, &child) == 0)
             error("Error while getting a child");

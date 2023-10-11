@@ -37,8 +37,8 @@ main(void)
     ada_analysis_context ctx;
     ada_analysis_unit unit;
 
-    ada_base_entity foo, i;
-    ada_base_entity tmp;
+    ada_node foo, i;
+    ada_node tmp;
     ada_bool boolean;
 
     ctx = ada_allocate_analysis_context ();

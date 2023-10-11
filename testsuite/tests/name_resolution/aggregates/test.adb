@@ -68,6 +68,11 @@ procedure Test is
    pragma Test_Statement;
    DEF4 : T5 := (D1 | D2 | D3 => <>, C1 => <>, C2 => <>);
    pragma Test_Statement;
+
+   A : constant T3 := (C1|C2 => <>);
+   pragma Test_Statement;
+   B : constant T3 := (others => <>);
+   pragma Test_Statement;
 begin
    null;
 end Test;

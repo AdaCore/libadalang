@@ -3924,4 +3924,125 @@ Expr: <Chr "'U'" test2.adb:24:30-24:33>
   expected type: standard.character
 
 
+Analyzing test3.adb
+###################
+
+Resolving xrefs for node <CallStmt test3.adb:14:4-14:55>
+********************************************************
+
+Expr: <CallExpr test3.adb:14:4-14:54>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <DottedName test3.adb:14:4-14:24>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <DottedName test3.adb:14:4-14:15>
+  references:    <DefiningName "Ada.Text_IO" a-textio.ads:58:9-58:20>
+  type:          None
+  expected type: None
+Expr: <Id "Ada" test3.adb:14:4-14:7>
+  references:    <DefiningName "Ada" ada.ads:16:9-16:12>
+  type:          None
+  expected type: None
+Expr: <Id "Text_IO" test3.adb:14:8-14:15>
+  references:    <DefiningName "Ada.Text_IO" a-textio.ads:58:9-58:20>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test3.adb:14:16-14:24>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <ConcatOp test3.adb:14:26-14:53>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <BinOp test3.adb:14:26-14:37>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "Arg1" test3.adb:14:26-14:30>
+  references:    <DefiningName "Arg1" test3.adb:10:4-10:8>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpPlus "+" test3.adb:14:31-14:32>
+  references:    <DefiningName ""+"" test3.adb:5:13-5:16>
+  type:          None
+  expected type: None
+Expr: <Id "Arg2" test3.adb:14:33-14:37>
+  references:    <DefiningName "Arg2" test3.adb:11:4-11:8>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test3.adb:14:38-14:53>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" test3.adb:14:38-14:39>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""some string"" test3.adb:14:40-14:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <CallStmt test3.adb:17:4-17:57>
+********************************************************
+
+Expr: <CallExpr test3.adb:17:4-17:56>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <DottedName test3.adb:17:4-17:24>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <DottedName test3.adb:17:4-17:15>
+  references:    <DefiningName "Ada.Text_IO" a-textio.ads:58:9-58:20>
+  type:          None
+  expected type: None
+Expr: <Id "Ada" test3.adb:17:4-17:7>
+  references:    <DefiningName "Ada" ada.ads:16:9-16:12>
+  type:          None
+  expected type: None
+Expr: <Id "Text_IO" test3.adb:17:8-17:15>
+  references:    <DefiningName "Ada.Text_IO" a-textio.ads:58:9-58:20>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test3.adb:17:16-17:24>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <ConcatOp test3.adb:17:26-17:55>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ParenExpr test3.adb:17:26-17:39>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <BinOp test3.adb:17:27-17:38>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "Arg1" test3.adb:17:27-17:31>
+  references:    <DefiningName "Arg1" test3.adb:10:4-10:8>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpPlus "+" test3.adb:17:32-17:33>
+  references:    <DefiningName ""+"" test3.adb:5:13-5:16>
+  type:          None
+  expected type: None
+Expr: <Id "Arg2" test3.adb:17:34-17:38>
+  references:    <DefiningName "Arg2" test3.adb:11:4-11:8>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test3.adb:17:40-17:55>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" test3.adb:17:40-17:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""some string"" test3.adb:17:42-17:55>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+
 Done.

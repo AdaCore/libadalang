@@ -2700,6 +2700,11 @@ class BasicDecl(AdaNode):
             for now.
         """
         return Cond(
+            # For synthetic type decls, forward the computation on their
+            # specific type.
+            Entity.is_a(ClasswideTypeDecl, DiscreteBaseSubtypeDecl),
+            Entity.parent.cast(BaseTypeDecl).is_visible(from_node),
+
             # If Self is declared in a private part, check that we can find it
             # from origin's env.
             Entity.is_in_private_part,
@@ -2720,7 +2725,8 @@ class BasicDecl(AdaNode):
             # on the parent scope.
             Entity.is_in_public_part
             | Entity.parent.is_a(GenericFormalPackage),
-            Entity.parent_basic_decl.is_visible(from_node),
+            Self.is_directly_reachable(from_node)
+            | Entity.parent_basic_decl.is_visible(from_node),
 
             # If Self is declared at the top-level (but is not a subunit), we
             # necessarily have visibility on it.
@@ -3391,10 +3397,49 @@ class BasicDecl(AdaNode):
 
     @langkit_property(return_type=T.BasicDecl.entity,
                       dynamic_vars=[origin, imprecise_fallback])
-    def most_visible_part_for_name(sym=T.Symbol):
+    def most_visible_part_for_name(sym=T.Symbol, only_backwards=(Bool, False)):
         """
-        Internal method for computing the most visible part of a basic decl
-        according to one of its defining names.
+        Internal method for computing the most visible part (going forward or
+        backwards) of a basic decl according to one of its defining names.
+        """
+        # Note that for optimization purposes, we only try to go backwards if
+        # this part is in a private part, because that's what is required to
+        # implement correct name resolution. Making it work in any
+        # circumstances would be more useful for users but does slowdown
+        # name resolution, so should probably be done in a wrapper property
+        # which we can bypass internally. The complete behavior can be enabled
+        # by removing the condition on ``is_in_private_part`` below.
+        self_is_visible = Var(
+            origin.is_null
+            | Not(Entity.is_in_private_part)
+            | Entity.is_visible(origin.as_bare_entity),
+        )
+        return Cond(
+            # If this part is not visible, check if the previous part is, If
+            # there is no previous part, return a null node.
+            Not(self_is_visible),
+            Entity.previous_part_for_name(sym).then(
+                lambda pp: pp.most_visible_part_for_name(
+                    sym,
+                    only_backwards=True
+                )
+            ),
+
+            # This part is visible but we only want to go backwards, so stop
+            # here.
+            only_backwards,
+            Entity,
+
+            # This part is visible, now check if the next part is as well
+            Entity.most_visible_forward_part_for_name(sym),
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def most_visible_forward_part_for_name(sym=T.Symbol):
+        """
+        Internal method for computing the most visible part (only looking
+        forward) of a basic decl according to one of its defining names.
         """
         np = Var(Entity.next_part_for_name(sym))
         return Cond(
@@ -3404,7 +3449,7 @@ class BasicDecl(AdaNode):
 
             # A null origin means any "find the most complete part"
             origin.is_null,
-            np.most_visible_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym),
 
             # If the entity is not a package declaration, we only need to check
             # if its lexical env is one of the parents of origin's env.
@@ -3414,14 +3459,14 @@ class BasicDecl(AdaNode):
                     sym,
                     categories=no_prims
                 ).contains(Self.as_bare_entity),
-                np.most_visible_part_for_name(sym),
+                np.most_visible_forward_part_for_name(sym),
                 Entity
             ),
 
             # Otherwise this is a package declaration, so we can use the
             # is_visible property.
             np.is_visible(origin.as_bare_entity),
-            np.most_visible_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym),
 
             # Otherwise this was the most visible part
             Entity
@@ -7389,6 +7434,7 @@ class ClasswideTypeDecl(BaseTypeDecl):
     defining_env = Property(Entity.type_decl.defining_env)
     is_private = Property(Entity.type_decl.is_private)
     is_in_private_part = Property(Entity.type_decl.is_in_private_part)
+    is_in_public_part = Property(Entity.type_decl.is_in_public_part)
 
     @langkit_property()
     def get_aspect_assoc(name=Symbol):
@@ -8548,7 +8594,10 @@ class DerivedTypeDef(TypeDef):
     record_extension = Field(type=T.BaseRecordDef)
     has_with_private = Field(type=WithPrivate)
 
-    array_ndims = Property(Entity.base_type.array_ndims)
+    array_ndims = Property(Entity.base_type.then(
+        lambda bt: bt.array_ndims,
+        default_val=Entity.super()
+    ))
 
     base_type = Property(Entity.subtype_indication.designated_type)
 
@@ -8945,7 +8994,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
         # take an origin. But ultimately, for semantic correctness, it will be
         # necessary to remove this, and migrate every property using it to
         # having a dynamic origin parameter.
-        return origin.bind(Self.origin_node, Entity.get_type)
+        return origin.bind(No(AdaNode), Entity.get_type)
 
     @langkit_property(kind=AbstractKind.abstract,
                       return_type=T.BaseTypeDecl.entity,
@@ -17462,7 +17511,7 @@ class BaseId(SingleTokNode):
             bd._.is_package,
             Entity.pkg_env(bd),
 
-            bd.defining_env
+            origin.bind(Self.origin_node, bd.defining_env)
         ))
 
     @langkit_property()
@@ -17607,12 +17656,16 @@ class BaseId(SingleTokNode):
             lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal)
         ).then(
             lambda env_el: env_el.cast(BaseTypeDecl).then(
-                lambda t: origin.bind(
-                    origin._or(Self),
+                lambda t: If(
+                    origin.is_null,
+                    origin.bind(
+                        Self.origin_node,
+                        t.most_visible_forward_part_for_name(t.name_symbol)
+                    ),
                     t.most_visible_part
                 ),
                 default_val=env_el
-            ).match(
+            )._.match(
                 lambda t=BaseTypeDecl: t,
                 lambda tb=TaskBody: tb.task_type,
                 lambda pb=ProtectedBody: pb.protected_type,
@@ -18618,7 +18671,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Returns whether the subprogram containing this spec is a subprogram
         callable via the dot notation.
         """
-        return origin.bind(Entity.name.origin_node, If(
+        return origin.bind(Self.origin_node, If(
             Entity.nb_max_params > 0,
             Entity.potential_dottable_type.then(lambda t: Cond(
                 t.is_a(ClasswideTypeDecl),
@@ -19329,7 +19382,7 @@ class AttributeRef(Name):
         Entity.prefix.designated_type_impl._.classwide_type,
 
         Self.attribute.sym == 'Base',
-        Entity.prefix.name_designated_type.scalar_base_subtype,
+        Entity.prefix.designated_type_impl.scalar_base_subtype,
 
         No(BaseTypeDecl.entity)
     ))

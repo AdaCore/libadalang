@@ -5188,8 +5188,8 @@ class ComponentList(BaseFormalParamHolder):
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
                       dynamic_vars=[env, default_origin()])
     def abstract_formal_params_for_assocs(
-            assocs=T.AssocList.entity,
-            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+        assocs=T.AssocList.entity,
+        stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
 
         td = Var(Entity.type_decl)
@@ -5198,13 +5198,10 @@ class ComponentList(BaseFormalParamHolder):
         # Get param matches for discriminants only
         discriminants_matches = Var(Self.match_formals(
             discriminants, assocs, False
-        ).filter(
-            lambda pm: And(
-                Not(pm.formal.is_null),
-                Not(discriminants.find(
-                    lambda d: d == pm.formal.formal_decl).is_null)
-                )
-        ))
+        ).filter(lambda pm: And(
+            Not(pm.formal.is_null),
+            discriminants.contains(pm.formal.formal_decl)
+        )))
 
         # Get param matches for all aggregates' params. Here, we use and pass
         # down the discriminant matches, so that abstract_formal_params_impl is

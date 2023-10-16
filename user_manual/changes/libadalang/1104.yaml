@@ -1,0 +1,7 @@
+type: bugfix
+title: Fix parsing of concatenation expression
+description: |
+  This change fixes a bug in the libadalang parser to correctly handle all forms
+  of concatenation expression. In particular, the parser was not able to parse a
+  binary operation as a valid concatenation operand.
+date: 2023-10-12

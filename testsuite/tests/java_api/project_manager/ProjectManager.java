@@ -2,6 +2,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 import com.adacore.libadalang.Libadalang;
 
@@ -63,6 +64,13 @@ public class ProjectManager {
                   ""
               )
         ) {
+            // Display the project manager diagnostics if any
+            List<String> diagnostics = project.getDiagnostics();
+            if (diagnostics.size() > 0) {
+                System.out.println("Error during project opening:");
+                System.out.println("  " + diagnostics);
+            }
+
             String[] files = project.getFiles(
                 Libadalang.SourceFileMode.ROOT_PROJECT,
                 subproject == null ? null : new String[] {subproject}
@@ -144,6 +152,10 @@ public class ProjectManager {
         openProject("agg.gpr", null, true, "p2");
     }
 
+    private static void testNoSuchTarget() {
+        openProject("nosuchtarget.gpr", null, true, null);
+    }
+
     /**
      * Run the tests
      */
@@ -153,5 +165,6 @@ public class ProjectManager {
         testInvalid();
         testInexistant();
         testAggregate();
+        testNoSuchTarget();
     }
 }

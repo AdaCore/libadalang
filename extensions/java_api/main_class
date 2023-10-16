@@ -241,6 +241,12 @@ nat = c_api.get_name
         /** Reference to the native value. */
         private final PointerWrapper reference;
 
+        /**
+         * List of diagnostics emitted by the native API during the project
+         * opening.
+         */
+        private final List<String> diagnostics;
+
         // ----- Constructors -----
 
         /**
@@ -252,6 +258,7 @@ nat = c_api.get_name
             final PointerWrapper reference
         ) {
             this.reference = reference;
+            this.diagnostics = new ArrayList<>();
         }
 
         /**
@@ -350,12 +357,10 @@ nat = c_api.get_name
                 UnmanagedMemory.free(runtimeNative);
 
                 // `errorsPointer` is not allocated if an exception was raised during project file loading
+                String[] errors = new String[0];
                 if (errorArrayNative.isNonNull()) {
                     // Translate the error native array into a Java array
-                    final String[] errors = toJStringArray(errorArrayNative);
-                    for (String error : errors) {
-                        System.err.println("Error during project opening: " + error);
-                    }
+                    errors = toJStringArray(errorArrayNative);
 
                     // Free the error array
                     NI_LIB.${nat("free_string_array")}(errorArrayNative);
@@ -368,14 +373,20 @@ nat = c_api.get_name
                     throw new ProjectManagerException(e.getMessage());
                 }
 
-                // Return the Java wrapped project manager
-                return wrap(projectManagerNative);
+                // Create the result project manager and add diagnostics if any
+                final ProjectManager res = wrap(projectManagerNative);
+                if (errors.length > 0) {
+                    res.diagnostics.addAll(List.of(errors));
+                }
+                return res;
             } else {
+                final List<String> diagnostics = new ArrayList<>();
                 final PointerWrapper reference = JNI_LIB.${nat("gpr_project_load")}(
                     projectFile,
                     scenarioVariables,
                     target,
-                    runtime
+                    runtime,
+                    diagnostics
                 );
 
                 // Check the langkit exceptions
@@ -386,7 +397,9 @@ nat = c_api.get_name
                 }
 
                 // Return the project manager
-                return new ProjectManager(reference);
+                final ProjectManager res = new ProjectManager(reference);
+                res.diagnostics.addAll(diagnostics);
+                return res;
             }
 
         }
@@ -459,6 +472,10 @@ nat = c_api.get_name
         }
 
         // -----  Instance methods -----
+
+        public List<String> getDiagnostics() {
+            return this.diagnostics;
+        }
 
         /**
          * Create a unit provider for the given subproject.

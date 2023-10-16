@@ -12,6 +12,24 @@ sig_base = "com/adacore/" + ctx.lib_name.lower + "/" + ctx.lib_name.camel
 ptr_sig = sig_base + "$PointerWrapper"
 %>
 
+void add_error_to_diagnostics(
+    JNIEnv *env,
+    jstring error,
+    jobject diagnostics
+) {
+    // Get the "add" method of the list
+    jclass clazz = (*env)->GetObjectClass(env, diagnostics);
+    jmethodID add_id = (*env)-> GetMethodID(
+        env,
+        clazz,
+        "add",
+        "(Ljava/lang/Object;)Z"
+    );
+
+    // Call the "add" method with the Java string to add it to the diagnostics
+    (*env)->CallVoidMethod(env, diagnostics, add_id, error);
+}
+
 // Unwrap a scenario variable in the given pointer
 void ScenarioVariable_unwrap(
     JNIEnv *env,
@@ -74,7 +92,8 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
     jstring project_file,
     jobjectArray scenario_variables,
     jstring target,
-    jstring runtime
+    jstring runtime,
+    jobject diagnostics
 ) {
     // Create the scenario variable array
     ${scn_var_type} *scenario_variables_native = NULL;
@@ -144,7 +163,8 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
         // Handle the errors
         for(int i = 0 ; i < errors->length ; i++) {
             const char *error = errors->c_ptr[i];
-            fprintf(stderr, "Error during project opening: %s\n", error);
+            jstring j_error = (*env)->NewStringUTF(env, error);
+            add_error_to_diagnostics(env, j_error, diagnostics);
         }
 
         // Free the error array

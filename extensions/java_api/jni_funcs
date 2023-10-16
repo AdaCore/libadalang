@@ -6,13 +6,19 @@ nat = c_api.get_name
 
     // --- Project manager functions
 
-    /** Function to load a GPR project */
+    /**
+     * Function to load a GPR project.
+     *
+     * @param diagnostics The list of diagnostics emitted during the project
+     *     opening. Will be filled by this function call.
+     */
     @CompilerDirectives.TruffleBoundary
     public static native PointerWrapper ${nat("gpr_project_load")}(
         String projectFile,
         ScenarioVariable[] scenarioVariables,
         String target,
-        String runtime
+        String runtime,
+        List<String> diagnostics
     );
 
     /** Free the given project */

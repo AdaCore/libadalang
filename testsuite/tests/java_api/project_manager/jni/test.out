@@ -47,3 +47,8 @@ File pk4_bis.ads
   root = <CompilationUnit pk4_bis.ads:1:1-6:13>
 --------------------
 
+--- Open nosuchtarget.gpr ---
+Error during project opening:
+  [Could not locate exec nosuchtarget-gnatls]
+-----------------------------
+

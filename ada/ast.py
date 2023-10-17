@@ -16578,7 +16578,8 @@ class CaseExpr(CondExpr):
                     Predicate(BaseTypeDecl.is_not_universal_type,
                               alt.expr.type_var)
                     & Bind(alt.expr.type_var, alt.expr.expected_type_var,
-                           conv_prop=BaseTypeDecl.base_subtype),
+                           conv_prop=BaseTypeDecl.base_subtype)
+                    & Bind(alt.expr.expected_type_var, Self.expected_type_var),
                     LogicTrue()
                 ),
                 LogicTrue()

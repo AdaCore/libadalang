@@ -11816,6 +11816,8 @@ class GenericRenamingDecl(BasicDecl):
         # which is not the case here.
         Entity.renaming_name.all_env_elements_internal(
             seq=True, seq_from=Self, categories=no_prims
+        ).filter(
+            lambda e: Not(e.is_a(Body))
         ).at(0)._.match(
             lambda gd=T.GenericDecl: gd,
             lambda grd=T.GenericRenamingDecl: grd.resolve,

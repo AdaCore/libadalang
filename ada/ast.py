@@ -8199,15 +8199,7 @@ class OrdinaryFixedPointDef(RealTypeDef):
             Entity.delta.sub_equation,
             Entity.delta.matches_expected_type,
 
-            # Expressions from the range specification are expected to be of
-            # any real type, the types need not be the same.
-            Entity.range.then(
-                lambda r:
-                Entity.universal_real_bind(r.range.expected_type_var)
-                & r.range.sub_equation
-                & r.range.matches_expected_type,
-                default_val=LogicTrue()
-            )
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
 
     @langkit_property(memoized=True)
@@ -8267,15 +8259,7 @@ class DecimalFixedPointDef(RealTypeDef):
             Entity.digits.sub_equation,
             Entity.digits.matches_expected_type,
 
-            # Expressions from the range specification are expected to be of
-            # any real type, the types need not be the same.
-            Entity.range.then(
-                lambda r:
-                Entity.universal_real_bind(r.range.expected_type_var)
-                & r.range.sub_equation
-                & r.range.matches_expected_type,
-                default_val=LogicTrue()
-            )
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
 
     @langkit_property(memoized=True)
@@ -8383,27 +8367,41 @@ class DigitsConstraint(Constraint):
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
-    xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.then(
-            lambda range: range.sub_equation,
-            default_val=LogicTrue()
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a digits constraint definition.
+        """
+        return And(
+            # As per :rmlink:`3.5.9`, the digits expression is expected to be
+            # of any integer type.
+            Entity.universal_int_bind(Entity.digits.expected_type_var),
+            Entity.digits.sub_equation,
+            Entity.digits.matches_expected_type,
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
-    )
 
 
 class DeltaConstraint(Constraint):
     """
     Delta and range type constraint (:rmlink:`J.3`).
     """
-    digits = Field(type=T.Expr)
+    delta = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
-    xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.then(
-            lambda range: range.sub_equation,
-            default_val=LogicTrue()
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a delta constraint definition.
+        """
+        return And(
+            # As per :rmlink:`J.3`, the delta expression is expected to be of
+            # any real type.
+            Entity.universal_real_bind(Entity.delta.expected_type_var),
+            Entity.delta.sub_equation,
+            Entity.delta.matches_expected_type,
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
-    )
 
 
 class CompositeConstraint(Constraint):
@@ -22489,12 +22487,20 @@ class RangeSpec(AdaNode):
     range = Field(type=Expr)
 
     xref_stop_resolution = Property(Self.parent.is_a(ComponentClause))
-    xref_equation = Property(Entity.range.xref_equation & If(
+    xref_equation = Property(Entity.range.xref_equation & Cond(
         # Ada RM says that for component clauses and signed int type
         # definitions, the expected type is any integer type.
         Self.parent.is_a(ComponentClause, SignedIntTypeDef),
 
         Self.universal_int_bind(Self.range.expected_type_var)
+        & Entity.range.matches_expected_type,
+
+        # In the following cases, expressions from the range specification are
+        # expected to be of any real type, the types need not be the same.
+        Self.parent.is_a(DeltaConstraint, DigitsConstraint,
+                         OrdinaryFixedPointDef, DecimalFixedPointDef),
+
+        Self.universal_real_bind(Self.range.expected_type_var)
         & Entity.range.matches_expected_type,
 
         LogicTrue()

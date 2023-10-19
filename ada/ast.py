@@ -6095,6 +6095,98 @@ class BaseTypeDecl(BasicDecl):
     def attributes_repo():
         return TypeAttributesRepository.new(base_type=Self)
 
+    @langkit_property(return_type=T.BasicSubpDecl.entity)
+    def synthesize_attribute_subprogram(attr_name=T.Symbol):
+        """
+        Return the synthetic declaration of the built-in subprogram denoted by
+        the given attribute name and defined on this type.
+        """
+        repo = Var(Self.attributes_repo)
+        subp = Var(Cond(
+            attr_name == "succ", repo.succ,
+            attr_name == "pred", repo.pred,
+            attr_name == "min", repo.min,
+            attr_name == "max", repo.max,
+
+            attr_name == "rounding", repo.rounding,
+            attr_name == "unbiased_rounding", repo.unbiased_rounding,
+            attr_name == "ceiling", repo.ceiling,
+            attr_name == "floor", repo.floor,
+            attr_name == "truncation", repo.truncation,
+            attr_name == "machine", repo.machine,
+            attr_name == "machine_rounding", repo.machine_rounding,
+            attr_name == "fraction", repo.fraction,
+            attr_name == "exponent", repo.exponent,
+
+            attr_name == "copy_sign", repo.copy_sign,
+            attr_name == "remainder", repo.remainder,
+            attr_name == "adjacent", repo.adjacent,
+            attr_name == "scaling", repo.scaling,
+            attr_name == "compose", repo.compose,
+            attr_name == "leading_part", repo.leading_part,
+
+            attr_name == "mod", repo.mod,
+
+            attr_name == "image", repo.image,
+            attr_name == "wide_image", repo.wide_image,
+            attr_name == "wide_wide_image", repo.wide_wide_image,
+            attr_name == "put_image", repo.put_image,
+
+            attr_name == "value", repo.value,
+            attr_name == "wide_value", repo.wide_value,
+            attr_name == "wide_wide_value", repo.wide_wide_value,
+
+            attr_name == "fixed_value", repo.fixed_value,
+            attr_name == "integer_value", repo.integer_value,
+
+            attr_name == "pos", repo.pos,
+            attr_name == "val", repo.val_attr,
+            attr_name == "enum_rep", repo.enum_rep,
+            attr_name == "enum_val", repo.enum_val,
+
+            attr_name == "read", repo.read,
+            attr_name == "write", repo.write,
+            attr_name == "input", repo.input,
+            attr_name == "output", repo.output,
+
+            attr_name == "asm_input", repo.asm_input,
+            attr_name == "asm_output", repo.asm_output,
+
+            attr_name == 'model', repo.model,
+
+            No(BasicSubpDecl)
+        ))
+        return BasicSubpDecl.entity.new(
+            node=subp,
+            info=T.entity_info.new(
+                rebindings=Entity.info.rebindings,
+                md=No(Metadata),
+                from_rebound=Entity.info.from_rebound
+            )
+        )
+
+    @langkit_property(return_type=BasicDecl.entity, public=True)
+    def attribute_subprogram(attr_name=T.Symbol):
+        """
+        Return the subprogram declaration denoted by this attribute name and
+        defined on this type.
+        """
+        return Cond(
+            attr_name.any_of("read", "write", "input", "output"),
+            Entity.get_representation_clause(attr_name).then(
+                lambda x: x.expr.cast_or_raise(T.Name).referenced_decl,
+                default_val=Entity.synthesize_attribute_subprogram(attr_name)
+            ),
+
+            attr_name == "put_image",
+            Entity._.get_aspect("put_image").value.cast(Name).then(
+                lambda n: n.referenced_decl,
+                default_val=Entity.synthesize_attribute_subprogram(attr_name)
+            ),
+
+            Entity.synthesize_attribute_subprogram(attr_name)
+        )
+
     @langkit_property(
         return_type=T.BaseTypeDecl.entity, public=True, memoized=True
     )
@@ -19602,107 +19694,14 @@ class AttributeRef(Name):
             EmptyEnv
         )
 
-    @langkit_property(return_type=BasicSubpDecl.entity)
-    def synthesize_attribute_subprogram(typ=BaseTypeDecl.entity):
-        rel_name = Var(Entity.attribute.name_symbol)
-        repo = Var(typ._.attributes_repo)
-        subp = Var(Cond(
-            rel_name == "succ", repo.succ,
-            rel_name == "pred", repo.pred,
-            rel_name == "min", repo.min,
-            rel_name == "max", repo.max,
-
-            rel_name == "rounding", repo.rounding,
-            rel_name == "unbiased_rounding", repo.unbiased_rounding,
-            rel_name == "ceiling", repo.ceiling,
-            rel_name == "floor", repo.floor,
-            rel_name == "truncation", repo.truncation,
-            rel_name == "machine", repo.machine,
-            rel_name == "machine_rounding", repo.machine_rounding,
-            rel_name == "fraction", repo.fraction,
-            rel_name == "exponent", repo.exponent,
-
-            rel_name == "copy_sign", repo.copy_sign,
-            rel_name == "remainder", repo.remainder,
-            rel_name == "adjacent", repo.adjacent,
-            rel_name == "scaling", repo.scaling,
-            rel_name == "compose", repo.compose,
-            rel_name == "leading_part", repo.leading_part,
-
-            rel_name == "mod", repo.mod,
-
-            rel_name == "image", repo.image,
-            rel_name == "wide_image", repo.wide_image,
-            rel_name == "wide_wide_image", repo.wide_wide_image,
-            rel_name == "put_image", repo.put_image,
-
-            rel_name == "value", repo.value,
-            rel_name == "wide_value", repo.wide_value,
-            rel_name == "wide_wide_value", repo.wide_wide_value,
-
-            rel_name == "fixed_value", repo.fixed_value,
-            rel_name == "integer_value", repo.integer_value,
-
-            rel_name == "pos", repo.pos,
-            rel_name == "val", repo.val_attr,
-            rel_name == "enum_rep", repo.enum_rep,
-            rel_name == "enum_val", repo.enum_val,
-
-            rel_name == "read", repo.read,
-            rel_name == "write", repo.write,
-            rel_name == "input", repo.input,
-            rel_name == "output", repo.output,
-
-            rel_name == "asm_input", repo.asm_input,
-            rel_name == "asm_output", repo.asm_output,
-
-            rel_name == 'model', repo.model,
-
-            No(BasicSubpDecl)
-        ))
-        return BasicSubpDecl.entity.new(
-            node=subp,
-            info=T.entity_info.new(
-                rebindings=typ.info.rebindings,
-                md=No(Metadata),
-                from_rebound=typ.info.from_rebound
-            )
-        )
-
-    @langkit_property(return_type=BasicDecl.entity)
-    def attribute_subprogram_for_type(typ=T.BaseTypeDecl.entity):
-        """
-        Return the subprogram declaration referred by this attribute name
-        and defined on the given type.
-        """
-        rel_name = Var(Entity.attribute.name_symbol)
-        return Cond(
-            typ.is_null,
-            No(BasicDecl.entity),
-
-            rel_name.any_of("read", "write", "input", "output"),
-            typ.get_representation_clause(Entity.attribute.name_symbol).then(
-                lambda x: x.expr.cast_or_raise(T.Name).referenced_decl,
-                default_val=Entity.synthesize_attribute_subprogram(typ)
-            ),
-
-            rel_name == "put_image",
-            typ._.get_aspect("put_image").value.cast(Name).then(
-                lambda n: n.referenced_decl,
-                default_val=Entity.synthesize_attribute_subprogram(typ)
-            ),
-
-            Entity.synthesize_attribute_subprogram(typ)
-        )
-
     @langkit_property(return_type=BasicDecl.entity)
     def attribute_subprogram():
         """
         Return the subprogram declaration referred by this attribute name,
         assuming its prefix denotes a type.
         """
-        return Entity.attribute_subprogram_for_type(
-            Entity.prefix.name_designated_type
+        return Entity.prefix.name_designated_type._.attribute_subprogram(
+            Entity.attribute.name_symbol
         )
 
     @langkit_property()
@@ -20230,7 +20229,7 @@ class AttributeRef(Name):
             rel_name.any_of('Image', 'Wide_Image', 'Wide_Wide_Image'),
             Entity.prefix.expression_type.then(
                 lambda typ:
-                Entity.attribute_subprogram_for_type(typ).subp_spec_or_null,
+                typ.attribute_subprogram(rel_name).subp_spec_or_null,
             ),
             No(BaseFormalParamHolder.entity)
         )

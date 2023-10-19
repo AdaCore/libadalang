@@ -229,11 +229,26 @@ class AdaNode(ASTNode):
             "Predicate_Failure", "SPARK_Mode"
         )
 
-    in_contract = Property(Not(Self.parents.find(
+    @langkit_property(return_type=Bool)
+    def aspect_has_forward_visibility(name=Symbol):
+        """
+        Return True if the given ``name`` is that of an Ada aspect in which
+        references can designate entities declared *after* the entity on which
+        this aspect is defined.
+        """
+        return Self.is_contract_aspect(name) | name.any_of(
+            "Iterator_Element", "Default_Iterator"
+        )
+
+    in_aspect_with_forward_visibility = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
-            lambda a: Self.is_contract_aspect(a.id.as_bare_entity.name_symbol)
+            lambda a: Self.aspect_has_forward_visibility(
+                a.id.as_bare_entity.name_symbol
+            )
         )._or(p.cast(Pragma).then(
-            lambda p: Self.is_contract_aspect(p.id.as_bare_entity.name_symbol)
+            lambda p: Self.aspect_has_forward_visibility(
+                p.id.as_bare_entity.name_symbol
+            )
         ))
     ).is_null))
 
@@ -515,32 +530,6 @@ class AdaNode(ASTNode):
             this property will return null.
         """
         return Entity.semantic_parent_helper(Entity.node_env)
-
-    @langkit_property(return_type=T.Bool)
-    def is_in_top_level_public_part():
-        """
-        Return whether this node ultimately lies in the public part of a
-        top-level package.
-        """
-        node = Var(Entity.semantic_parent)
-        return Cond(
-            node.is_null,
-            False,
-
-            node.is_a(PrivatePart)
-            & node.parent.cast(BasePackageDecl)._.is_compilation_unit_root,
-            False,
-
-            node.is_a(PackageBody)
-            & node.cast(PackageBody).is_compilation_unit_root,
-            False,
-
-            node.is_a(BasePackageDecl)
-            & node.cast(BasePackageDecl).is_compilation_unit_root,
-            True,
-
-            node.is_in_top_level_public_part
-        )
 
     @langkit_property(public=True, return_type=T.BasicDecl.entity)
     def parent_basic_decl():
@@ -1646,7 +1635,7 @@ class AdaNode(ASTNode):
         where sequential lookup needs to be deactivated. Return Self otherwise.
         """
         return Cond(
-            Self.in_contract,
+            Self.in_aspect_with_forward_visibility,
             No(T.AdaNode),
             Self.is_a(ExprFunction),
             Self.cast(ExprFunction).expr,
@@ -2688,6 +2677,17 @@ class BasicDecl(AdaNode):
     is_in_public_part = Property(Self.parent.parent.is_a(T.PublicPart))
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
 
+    @langkit_property(return_type=Bool)
+    def is_directly_reachable(origin=T.AdaNode.entity):
+        """
+        Return whether Self can be found in a single env query from the given
+        ``origin`` node.
+        """
+        return origin.node.node_env.get(
+            Self.name_symbol,
+            categories=no_prims
+        ).contains(Self.as_bare_entity)
+
     @langkit_property(return_type=Bool, public=True)
     def is_visible(from_node=T.AdaNode.entity):
         """
@@ -2703,23 +2703,23 @@ class BasicDecl(AdaNode):
             # If Self is declared in a private part, check that we can find it
             # from origin's env.
             Entity.is_in_private_part,
-            from_node.node_env.get(Entity.name_symbol).contains(Entity)
+            Self.is_directly_reachable(from_node)
+
             # Even if the above expression is True, we may not have visibility
             # according to Ada rules: in LAL, library-level child packages'
             # parent environments are defined to be their parent packages'
             # private part. The expression below filters out cases where Entity
             # is declared in the private part of a library-level package and
             # from_node lies in the public part of a child package.
-            & Not(
-                Entity.parent.parent.parent.cast(PackageDecl)
-                .is_compilation_unit_root
-                & from_node.is_in_top_level_public_part
+            & from_node.enclosing_compilation_unit.has_private_view(
+                from_node.node
             ),
 
             # If Self is declared in a public part, origin has visibility on it
             # iff it has visibility on the parent of Self: do a recursive call
             # on the parent scope.
-            Entity.is_in_public_part,
+            Entity.is_in_public_part
+            | Entity.parent.is_a(GenericFormalPackage),
             Entity.parent_basic_decl.is_visible(from_node),
 
             # If Self is declared at the top-level (but is not a subunit), we
@@ -2729,6 +2729,11 @@ class BasicDecl(AdaNode):
                 Not(Entity.cast(Body)._.is_subunit)
             ),
             True,
+
+            # If self is in any other kind of declarative part, we can perform
+            # an env query to figure out if we can reach it.
+            Entity.parent._.parent.is_a(DeclarativePart),
+            Self.is_directly_reachable(from_node),
 
             # Unhandled case: raise PropertyError
             PropertyError(Bool, "Only package-level declaration support"
@@ -3380,7 +3385,9 @@ class BasicDecl(AdaNode):
         returns the most visible completion of Self that can be seen by origin,
         according to Ada's visibility rules.
         """
-        return Entity.defining_name_or_raise.most_visible_part._.basic_decl
+        return Entity.most_visible_part_for_name(
+            Entity.defining_name_or_raise.name_symbol
+        )
 
     @langkit_property(return_type=T.BasicDecl.entity,
                       dynamic_vars=[origin, imprecise_fallback])
@@ -3403,7 +3410,10 @@ class BasicDecl(AdaNode):
             # if its lexical env is one of the parents of origin's env.
             Not(np.is_in_private_part | np.is_in_public_part),
             If(
-                origin.node_env.get(sym).contains(Entity),
+                origin.node_env.get(
+                    sym,
+                    categories=no_prims
+                ).contains(Self.as_bare_entity),
                 np.most_visible_part_for_name(sym),
                 Entity
             ),
@@ -5988,19 +5998,6 @@ class BaseTypeDecl(BasicDecl):
             ).cast(T.BaseTypeDecl).as_entity
         )
 
-    @langkit_property(return_type=Bool)
-    def is_view_of_type(comp_view=T.BaseTypeDecl.entity):
-        """
-        Predicate that will return true if comp_view is a more complete view of
-        type typ, or if it is the same view of type typ.
-        """
-        typ = Var(Entity)
-        return Cond(
-            comp_view.is_null, False,
-            comp_view == typ, True,
-            typ.is_view_of_type(comp_view.previous_part(True))
-        )
-
     @langkit_property(dynamic_vars=[origin], return_type=Bool)
     def is_array_or_rec():
         return And(
@@ -6924,11 +6921,17 @@ class BaseTypeDecl(BasicDecl):
         """
         Returns the previous part for this type decl.
         """
-        return If(
+        return Cond(
             Self.is_generic_formal,
 
             # A generic formal type never has a previous part
             No(T.BaseTypeDecl.entity),
+
+            Self.is_a(ClasswideTypeDecl),
+            Entity.cast(ClasswideTypeDecl).type_decl
+            .previous_part(go_to_incomplete).then(
+                lambda pp: pp.classwide_type
+            ),
 
             # Otherwise look for the previous part in the immediate enclosing
             # declarative region.
@@ -6978,6 +6981,18 @@ class BaseTypeDecl(BasicDecl):
                     lambda p: itd.find_next_part_in(p.decls)
                 )
             )),
+
+            lambda cwt=T.ClasswideTypeDecl: Let(
+                lambda td=cwt.type_decl: td.next_part.then(
+                    # Sometimes `next_part` returns Entity itself, so check
+                    # that to avoid an infinite loop.
+                    lambda np: If(
+                        td == np,
+                        cwt,
+                        np.classwide_type
+                    )
+                )
+            ),
 
             lambda _: If(
                 Entity.is_private
@@ -7386,13 +7401,6 @@ class ClasswideTypeDecl(BaseTypeDecl):
             stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
         return Entity.type_decl.discriminants_list(stop_recurse_at)
-
-    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
-                      memoized=True)
-    def previous_part(go_to_incomplete=(Bool, True)):
-        return Entity.type_decl.previous_part(go_to_incomplete).then(
-            lambda pp: pp.classwide_type
-        )
 
     canonical_type = Property(Entity.type_decl.canonical_type.then(
         # The canonical type should be classwide whenever it makes sense (e.g.
@@ -7971,9 +7979,8 @@ class TypeDecl(BaseTypeDecl):
                 lambda e: e.cast(T.BasicDecl),
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                    lambda ss:
-                    origin.bind(
-                        Self.origin_node,
+                    lambda ss: origin.bind(
+                        env_el.node,
                         ss.unpacked_formal_params.at(0)
                         ._.formal_decl.formal_type.matching_formal_type(Entity)
                     )
@@ -7983,15 +7990,14 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def variable_indexing_fns():
-        return origin.bind(
-            Self.origin_node,
-            Entity.get_aspect_spec_expr('Variable_Indexing').then(
-                lambda a: a.cast_or_raise(T.Name)
-                .all_env_elements_internal(seq=False).filtermap(
-                    lambda e: e.cast(T.BasicDecl),
-                    lambda env_el:
-                    env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                        lambda ss:
+        return Entity.get_aspect_spec_expr('Variable_Indexing').then(
+            lambda a: a.cast_or_raise(T.Name)
+            .all_env_elements_internal(seq=False).filtermap(
+                lambda e: e.cast(T.BasicDecl),
+                lambda env_el:
+                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
+                    lambda ss: origin.bind(
+                        env_el.node,
                         ss.unpacked_formal_params.at(0)
                         ._.formal_decl.formal_type.matching_formal_type(Entity)
                         & ss.return_type.is_implicit_deref
@@ -17593,78 +17599,29 @@ class BaseId(SingleTokNode):
     parent_scope = Property(env)
 
     @langkit_property()
-    def designated_type_impl_get_real_type(n=AdaNode.entity):
-        """
-        Helper property for ``designated_type_impl``. Returns the actual type
-        defined by the given node, if any.
-        """
-        return n.match(
-            lambda t=T.BaseTypeDecl.entity: t,
-            lambda tb=T.TaskBody.entity: tb.task_type,
-            lambda _: No(BaseTypeDecl.entity)
-        )
-
-    @langkit_property()
     def designated_type_impl():
-        # This is the view of the type where it is referenced
-        des_type_1 = Var(Self.env_get_first_visible(
+        return Self.env_get_first_visible(
             env,
-            from_node=Self,
-            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal),
+            from_node=Self.origin_node,
+            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal)
         ).then(
-            lambda env_el: Self.designated_type_impl_get_real_type(env_el)
-        ))
-
-        # This is the view of the type where it is used
-        des_type_2 = Var(Self.env_get_first_visible(
-            env,
-            from_node=origin,
-            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal),
+            lambda env_el: env_el.cast(BaseTypeDecl).then(
+                lambda t: origin.bind(
+                    origin._or(Self),
+                    t.most_visible_part
+                ),
+                default_val=env_el
+            ).match(
+                lambda t=BaseTypeDecl: t,
+                lambda tb=TaskBody: tb.task_type,
+                lambda pb=ProtectedBody: pb.protected_type,
+                lambda tbs=TaskBodyStub:
+                tbs.body_part_for_decl.cast(TaskBody).task_type,
+                lambda pbs=ProtectedBodyStub:
+                pbs.body_part_for_decl.cast(ProtectedBody).protected_type,
+                lambda _: No(BaseTypeDecl.entity)
+            )
         ).then(
-            lambda env_el: Self.designated_type_impl_get_real_type(env_el)
-        ))
-
-        des_type = Var(Cond(
-            # In some cases des_type_1 can be null TODO: investigate
-            des_type_1.is_null, des_type_2,
-
-            # If same type, then it doesn't matter (return early from the view
-            # checking below).
-            des_type_1 == des_type_2, des_type_1,
-
-            # If des_type_1 is a less complete version of des_type_2, then pick
-            # des_type_2.
-            des_type_1.then(lambda d: d.is_view_of_type(des_type_2)),
-            des_type_2,
-
-            # In any other case use des_type_1
-            des_type_1
-        ))
-
-        # We might have a more complete view of the type at the origin point,
-        # so look for every entity named like the type, to see if any is a
-        # completer view of the type.
-        completer_view = Var(origin.then(lambda o: Self.env_get(
-            o.as_entity.children_env,
-            # Take symbol from des_type to have a more precise view of the
-            # type, default to Self's symbol otherwise.
-            #
-            # Despite the fact we actually retrieve des_type using Self's
-            # symbol, des_type's name doesn't necessarily match with Self when
-            # resolving a generic instantiation because it's actual can return
-            # a type with a different name that the formal.
-            des_type.then(lambda dt: dt.name_symbol, default_val=Self.symbol),
-            from_node=origin, categories=no_prims
-        )).filtermap(
-            lambda n: n.cast(BaseTypeDecl),
-            lambda n:
-            n.is_a(BaseTypeDecl)
-            & des_type.then(lambda d: d.is_view_of_type(n.cast(BaseTypeDecl)))
-        ).at(0))
-
-        # If completer_view is a more complete view of the type we're
-        # looking up, then return completer_view. Else return des_type.
-        return completer_view._or(des_type).then(
             lambda precise:
             # If we got a formal type declaration (i.e. a type declaration
             # of a generic formal parameter), always returns its default type
@@ -22194,6 +22151,16 @@ class ProtectedBody(Body):
 
     declarative_parts = Property(Entity.decls.singleton)
 
+    @langkit_property(return_type=T.ProtectedTypeDecl.entity)
+    def protected_type():
+        return Entity.decl_part.match(
+            lambda t=T.ProtectedTypeDecl: t,
+            lambda _=T.SingleProtectedDecl: No(ProtectedTypeDecl.entity),
+            lambda _: PropertyError(
+                T.ProtectedTypeDecl.entity, "Should not happen"
+            )
+        )
+
 
 class EntryBody(Body):
     """
@@ -22524,10 +22491,13 @@ class IncompleteTypeDecl(BaseTypeDecl):
         Since Self is an IncompleteTypeDecl, the next part will necessarily be
         the first type declaration of the same name that is not Self.
         """
-        return decl_part.decls.find(
+        return decl_part.children_env.get(
+            Self.name_symbol,
+            lookup=LK.minimal,
+            categories=no_prims
+        ).find(
             lambda t: t.cast(BaseTypeDecl).then(
-                lambda btd:
-                btd.name.name_is(Self.name_symbol) & (btd != Entity)
+                lambda btd: btd != Entity
             )
         ).cast(BaseTypeDecl)
 

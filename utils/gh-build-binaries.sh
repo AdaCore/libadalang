@@ -7,9 +7,9 @@ export CPATH=/usr/local/include
 export LIBRARY_PATH=/usr/local/lib
 if [ $RUNNER_OS = Windows ]; then
    export prefix=/opt/ADALIB_DIR
-   export CPATH=`cygpath -w /mingw64/include`
-   export LIBRARY_PATH=`cygpath -w /mingw64/lib`
-   mount `cygpath -w $RUNNER_TEMP|cut -d: -f1`:/opt /opt
+   export CPATH=`cygpath -w /c/msys64/mingw64/include`
+   export LIBRARY_PATH=`cygpath -w /c/msys64/mingw64/lib`
+   mount D:/opt /opt
 fi
 export PROCESSORS=0
 export GPR_PROJECT_PATH=$prefix/share/gpr
@@ -20,7 +20,7 @@ echo PATH=$PATH
 pip install -r langkit/requirements-github.txt
 pip install jsonschema
 pip install langkit/
-eval `langkit/manage.py setenv`
+eval `langkit/manage.py setenv | grep -v ^PATH=`
 alr --non-interactive get xmlada
 
 build_archive()

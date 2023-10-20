@@ -1,0 +1,17 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:18:5-18:18>
+*********************************************************
+
+Expr: <Id "Child" test.adb:18:5-18:10>
+  references:    <DefiningName "Child" test.adb:15:4-15:9>
+  type:          <ConcreteTypeDecl ["MDI_Child"] test.adb:4:4-4:43>
+  expected type: None
+Expr: <Id "Set" test.adb:18:14-18:17>
+  references:    <DefiningName "Set" test.adb:10:13-10:16>
+  type:          <AnonymousTypeDecl ["None"] test.adb:10:24-10:44>
+  expected type: <ConcreteTypeDecl ["MDI_Child"] test.adb:4:4-4:43>
+
+
+Done.

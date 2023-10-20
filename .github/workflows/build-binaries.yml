@@ -7,11 +7,6 @@ jobs:
   build:
     name: Build and deploy
 
-    # The only purpose of this workflow is to upload builds, so do not run it
-    # in contexts when upload is impossible: only the official repository has
-    # the secrets to upload binaries to Bintray.
-    if: ${{ github.repository == 'AdaCore/libadalang' }}
-
     strategy:
       fail-fast: false
       matrix: # Build debug and/or production
@@ -21,15 +16,19 @@ jobs:
     steps:
       - run: git config --global core.autocrlf input
         shell: bash
-      - name: Install iconv and gmp (Windows only)
+      - name: Force Alire to use preinstalled MSYS2
         if: ${{ runner.os == 'Windows' }}
-        uses: msys2/setup-msys2@v2
-        with:
-          path-type: inherit
-          update: true
-          install: >-
-            mingw64/mingw-w64-x86_64-libiconv
-            mingw64/mingw-w64-x86_64-gmp
+        shell: bash
+        run: |
+          mkdir -p ~/.config/alire
+          echo '[msys2]' >> ~/.config/alire/config.toml
+          echo 'install_dir = "C:\\msys64"' >> ~/.config/alire/config.toml
+      - name: Install iconv and gmp (Windows only)
+        run: pacman --noconfirm -S mingw64/mingw-w64-x86_64-libiconv mingw64/mingw-w64-x86_64-gmp
+        if: ${{ runner.os == 'Windows' }}
+        shell: c:\msys64\usr\bin\bash.exe -l -e -o pipefail {0}
+        env:
+          MSYSTEM: MINGW64
       - name: Get libadalang
         uses: actions/checkout@v3
       - name: Get gprbuild for libgpr
@@ -75,22 +74,18 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: ./cached_gnat
-          key: ${{ runner.os }}-alire-2022
+          key: ${{ runner.os }}-alire-2023
       - name: Get GNAT toolchain with alire
         uses: alire-project/setup-alire@v2
         with:
-          toolchain: gnat_native^12 gprbuild^22
+          toolchain: gnat_native^13 gprbuild^22
           toolchain_dir: ./cached_gnat
       - name: Setup Python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Build Libadalang and its dependencies (Windows)
-        if: ${{ runner.os == 'Windows' }}
-        shell: msys2 {0}
-        run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
-      - name: Build Libadalang and its dependencies (non-Windows)
-        if: ${{ runner.os != 'Windows' }}
+      - name: Build Libadalang and its dependencies
+        shell: bash
         run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
       - name: Keep artifacts
         uses: actions/upload-artifact@v3

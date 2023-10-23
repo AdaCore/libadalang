@@ -19411,7 +19411,7 @@ class AttributeRef(Name):
     @langkit_property()
     def designated_env():
         return Cond(
-            Entity.is_access_attr,
+            Entity.is_access_attr | Entity.attribute.name_is('Old'),
             Entity.prefix.designated_env,
 
             Entity.attribute.name_is('Result'),

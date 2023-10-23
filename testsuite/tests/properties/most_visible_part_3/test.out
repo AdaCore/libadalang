@@ -1,0 +1,8 @@
+Working on node <SubtypeDecl ["U"] pkg-child.ads:6:4-6:19>
+==========================================================
+
+Set 'full_view' to 'node.p_get_type()'
+Result: <ConcreteTypeDecl ["T"] pkg.ads:4:4-4:26>
+
+Set 'view_from_here' to 'full_view.p_most_visible_part(node)'
+Result: <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:22>

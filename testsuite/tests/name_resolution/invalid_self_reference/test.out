@@ -3,3 +3,12 @@ Working on node <ObjectDecl ["Foo"] test.adb:6:4-6:16>
 
 Eval 'node.f_type_expr.p_designated_type_decl'
 Result: None
+
+Working on node <ConcreteTypeDecl ["X"] test.adb:11:4-11:20>
+============================================================
+
+Eval 'node.p_base_type(node)'
+Result: None
+
+Eval 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: None

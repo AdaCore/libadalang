@@ -7097,8 +7097,18 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def matching_membership_type(formal_type=T.BaseTypeDecl.entity):
+        return And(
+            Not(formal_type.is_null),
+            Not(Self.is_null),
+            Entity.matching_formal_type_impl(formal_type,
+                                             accept_root_types=True)
+        )
+
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_formal_type_impl(formal_type=T.BaseTypeDecl.entity,
-                                  accept_derived=(Bool, False)):
+                                  accept_derived=(Bool, False),
+                                  accept_root_types=(Bool, False)):
         actual_type = Var(Entity)
         return Or(
             And(formal_type.is_classwide | accept_derived,
@@ -7120,6 +7130,13 @@ class BaseTypeDecl(BasicDecl):
                         And(actual_accessed_type.is_classwide,
                             actual_accessed_type.specific_type.matching_type(
                                 formal_accessed_type)),
+
+                        # In a MembershipExpr, if formal_type is a general
+                        # access-to-object type, actual_type is convertible to
+                        # formal_type (:rmlink:`4.5.2` 30.3/4).
+                        And(accept_root_types,
+                            formal_accessed_type.specific_type
+                            .is_derived_type(actual_accessed_type))
                     )
                 )
             ),
@@ -12737,6 +12754,14 @@ class Expr(AdaNode):
         )
 
     @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
+    def matches_expected_membership_type():
+        return Predicate(
+            BaseTypeDecl.matching_membership_type,
+            Self.type_var,
+            Self.expected_type_var
+        )
+
+    @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
     def matches_expected_formal_prim_type():
         return Predicate(
             BaseTypeDecl.matching_formal_prim_type,
@@ -13942,7 +13967,7 @@ class MembershipExpr(Expr):
                     # type of the tested expression is the subtype's base type.
                     Bind(Self.expr.expected_type_var,
                          typ.base_subtype)
-                    & Self.expr.matches_expected_formal_type
+                    & Self.expr.matches_expected_membership_type
                 ),
 
                 # Regular membership check

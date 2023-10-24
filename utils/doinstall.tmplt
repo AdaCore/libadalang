@@ -136,8 +136,9 @@ EOF
    shell, the following commands enable you to do this:
 
       GPR_PROJECT_PATH=$prefix/share/gpr:\$GPR_PROJECT_PATH
+      LIBRARY_PATH=$prefix/lib:\$LIBRARY_PATH
       LD_LIBRARY_PATH=$prefix/lib:\$LD_LIBRARY_PATH
-      export GPR_PROJECT_PATH LD_LIBRARY_PATH
+      export GPR_PROJECT_PATH LIBRARY_PATH LD_LIBRARY_PATH
 
    Thank you for installing $long_qualifier!
 

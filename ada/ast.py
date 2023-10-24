@@ -8633,7 +8633,12 @@ class DerivedTypeDef(TypeDef):
         default_val=Entity.super()
     ))
 
-    base_type = Property(Entity.subtype_indication.designated_type)
+    base_type = Property(Entity.subtype_indication.designated_type.then(
+        # If the designated type is Self, it means there is an illegal
+        # cycle. Explicitly return an null node here, otherwise this may
+        # cause infinite recursions in caller properties.
+        lambda t: If(t.node == Self.parent, No(BaseTypeDecl.entity), t)
+    ))
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)

@@ -1,6 +1,7 @@
 # Common items to create CIs for Libadalang-related projects
 
 .basic:
+  interruptible: true
   variables:
     ADASAT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/adasat
     ANOD_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/it/anod

@@ -1,22 +1,6 @@
 include:
   - local: utils/gitlab-ci-common.yml
 
-workflow:
-  rules:
-    # To avoid running too many pipelines, restrict the times we run one:
-
-    # Run "trigger" pipelines
-    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-
-    # Run pipelines triggered by a merge request creation/update
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-
-    # Run for pushes to a branch *except* if there is also a merge request for
-    # it.
-    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
-      when: never
-    - if: '$CI_COMMIT_BRANCH'
-
 
 variables:
   UPSTREAM_PROJECT : eng/libadalang/langkit
@@ -43,15 +27,16 @@ build_and_test:
       when: never
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//
       when: never
-    # This shouldn't trigger from the upstream
-    - if: $CI_PIPELINE_SOURCE != "pipeline"
+
+    # Run this for merge requests only
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   services:
      - image:sandbox
      - cpu:8
      - mem:16
   stage: single
   script:
-    - unset GITLAB_TOKEN; require_issue
+    - require_issue
     - !reference [.script_snippets, setup]
 
     # Download the langkit package

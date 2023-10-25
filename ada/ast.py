@@ -15912,16 +15912,28 @@ class AggregateAssoc(BasicAssoc):
             lambda n: n.is_a(OthersDesignator)
         ))
 
+        # Whether this is the `component_choice_list => <>` association (in
+        # that case the component_choice_list's components can not be of the
+        # same type).
+        is_box_expr = Var(Entity.expr.is_a(T.BoxExpr))
+
         return If(
             Not(is_others_assoc),
 
             matches.logic_all(lambda match: And(
-                Bind(
-                    match.actual.assoc.expr.expected_type_var,
-                    match.formal.formal_decl.type_expression.designated_type
+                # If expr is a box expr do not resolve it since it doesn't have
+                # a name nor type.
+                If(
+                    is_box_expr,
+                    LogicTrue(),
+                    Bind(
+                        match.actual.assoc.expr.expected_type_var,
+                        match.formal.formal_decl
+                        .type_expression.designated_type
+                    )
+                    & match.actual.assoc.expr.sub_equation
+                    & match.actual.assoc.expr.matches_expected_assign_type
                 ),
-                match.actual.assoc.expr.sub_equation,
-                match.actual.assoc.expr.matches_expected_assign_type,
                 match.actual.name.then(
                     lambda n: Bind(n.ref_var, match.formal.formal_decl),
                     LogicTrue()
@@ -15929,19 +15941,23 @@ class AggregateAssoc(BasicAssoc):
             )),
 
             # Since all the formals designated by "others" should have the same
-            # type, we look for the first formal that was not yet matched and
-            # use its type as the type of the expression associated to
-            # "others".
-            agg.first_unmatched_formal.then(
-                lambda unmatched_formal:
-                Bind(
-                    Entity.expr.expected_type_var,
-                    unmatched_formal.formal_decl
-                    .type_expression.designated_type
+            # type (iff expr is not a box expr), we look for the first formal
+            # that was not yet matched and use its type as the type of the
+            # expression associated to "others".
+            If(
+                is_box_expr,
+                LogicTrue(),
+                agg.first_unmatched_formal.then(
+                    lambda unmatched_formal:
+                    Bind(
+                        Entity.expr.expected_type_var,
+                        unmatched_formal.formal_decl
+                        .type_expression.designated_type
+                    )
+                    & Entity.expr.sub_equation
+                    & Entity.expr.matches_expected_type,
+                    default_val=LogicTrue()
                 )
-                & Entity.expr.sub_equation
-                & Entity.expr.matches_expected_type,
-                default_val=LogicTrue()
             )
         )
 

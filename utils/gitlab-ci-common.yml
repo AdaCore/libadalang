@@ -21,15 +21,19 @@
 .cb:
   # Items to create continuous builders (CB).
   #
-  # Such jobs are meant to be run only after all updates on the "master"
-  # branch.  Their purpose is to check that recent work the
-  # Libadalang/Langkit/AdaSAT repositories does not break the build of GNAT. In
-  # this context, we are only interested in builds: we think that a situation
-  # where LAL changes do not break builds but create serious regressions at
-  # runtime are very unlikely, and running relevant testing is very costly.
+  # Such jobs are meant to be run after all updates on the "master" branch and
+  # optionally when manually triggered from the web interface.
+  #
+  # Their purpose is to check that recent work the Libadalang/Langkit/AdaSAT
+  # repositories does not break the build of GNAT. In this context, we are only
+  # interested in builds: we think that a situation where LAL changes do not
+  # break builds but create serious regressions at runtime are very unlikely,
+  # and running relevant testing is very costly.
   extends: .basic
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH != "master"'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web"'
   services:
      - image:sandbox
      - cpu:8

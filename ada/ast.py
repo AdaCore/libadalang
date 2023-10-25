@@ -3431,15 +3431,18 @@ class BasicDecl(AdaNode):
             Entity,
 
             # This part is visible, now check if the next part is as well
-            Entity.most_visible_forward_part_for_name(sym),
+            Entity.most_visible_forward_part_for_name(sym, seq=True),
         )
 
     @langkit_property(return_type=T.BasicDecl.entity,
                       dynamic_vars=[origin, default_imprecise_fallback()])
-    def most_visible_forward_part_for_name(sym=T.Symbol):
+    def most_visible_forward_part_for_name(sym=T.Symbol, seq=T.Bool):
         """
         Internal method for computing the most visible part (only looking
         forward) of a basic decl according to one of its defining names.
+        If ``seq`` is True, the visibility check is sequential: if a next
+        part is in the same unit as the origin but defined after it, it will
+        not be considered visible.
         """
         np = Var(Entity.next_part_for_name(sym))
         return Cond(
@@ -3449,7 +3452,11 @@ class BasicDecl(AdaNode):
 
             # A null origin means any "find the most complete part"
             origin.is_null,
-            np.most_visible_forward_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym, seq),
+
+            # The query is sequential and origin can't see the next part
+            seq & (origin.unit == np.unit) & (origin <= np.node),
+            Entity,
 
             # If the entity is not a package declaration, we only need to check
             # if its lexical env is one of the parents of origin's env.
@@ -3459,14 +3466,14 @@ class BasicDecl(AdaNode):
                     sym,
                     categories=no_prims
                 ).contains(Self.as_bare_entity),
-                np.most_visible_forward_part_for_name(sym),
+                np.most_visible_forward_part_for_name(sym, seq),
                 Entity
             ),
 
             # Otherwise this is a package declaration, so we can use the
             # is_visible property.
             np.is_visible(origin.as_bare_entity),
-            np.most_visible_forward_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym, seq),
 
             # Otherwise this was the most visible part
             Entity
@@ -17715,7 +17722,10 @@ class BaseId(SingleTokNode):
                     origin.is_null,
                     origin.bind(
                         Self.origin_node,
-                        t.most_visible_forward_part_for_name(t.name_symbol)
+                        t.most_visible_forward_part_for_name(
+                            t.name_symbol,
+                            seq=False
+                        )
                     ),
                     t.most_visible_part
                 ),

@@ -7809,14 +7809,6 @@ class TypeDecl(BaseTypeDecl):
         add_to_env(Self.predefined_operators),
         add_env(),
         handle_children(),
-        reference(
-            Self.cast(AdaNode).singleton,
-            through=T.TypeDecl.refined_parent_primitives_env,
-            kind=RefKind.transitive,
-            dest_env=Self.node_env,
-            cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
-            category="inherited_primitives"
-        ),
 
         # If this `TypeDecl` can have a predicate, add a synthetic object
         # declaration into its environement in order to support name resolution
@@ -7828,7 +7820,21 @@ class TypeDecl(BaseTypeDecl):
             Self.type_def.is_a(T.DerivedTypeDef, T.TypeAccessDef),
             Entity.synthetic_type_predicate_object_decl,
             No(T.env_assoc)
-        ))
+        )),
+
+        # Make sure the reference to the primitives env is created *AFTER* the
+        # synthetic type predicate object has been added to Self's env: since
+        # this object has the same name as the type, it is indirectly used to
+        # hide the type and avoid infinite recursions in invalid Ada code such
+        # as ``type X is new X``. See nameres test `invalid_self_reference`.
+        reference(
+            Self.cast(AdaNode).singleton,
+            through=T.TypeDecl.refined_parent_primitives_env,
+            kind=RefKind.transitive,
+            dest_env=Self.node_env,
+            cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
+            category="inherited_primitives"
+        )
     )
 
     record_def = Property(
@@ -8640,12 +8646,7 @@ class DerivedTypeDef(TypeDef):
         default_val=Entity.super()
     ))
 
-    base_type = Property(Entity.subtype_indication.designated_type.then(
-        # If the designated type is Self, it means there is an illegal
-        # cycle. Explicitly return an null node here, otherwise this may
-        # cause infinite recursions in caller properties.
-        lambda t: If(t.node == Self.parent, No(BaseTypeDecl.entity), t)
-    ))
+    base_type = Property(Entity.subtype_indication.designated_type)
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)

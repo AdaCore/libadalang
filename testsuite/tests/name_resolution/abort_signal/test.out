@@ -13,7 +13,7 @@ Expr: <AttributeRef test.adb:4:24-4:54>
   type:          <ConcreteTypeDecl ["Exception_Id"] a-except.ads:48:4-48:33>
   expected type: <ConcreteTypeDecl ["Exception_Id"] a-except.ads:48:4-48:33>
 Expr: <AttributeRef test.adb:4:24-4:45>
-  references:    <DefiningName "Abort_Signal_" __standard:128:3-128:16>
+  references:    <DefiningName "Abort_Signal_" __standard:129:3-129:16>
   type:          None
   expected type: None
 Expr: <Id "Standard" test.adb:4:24-4:32>
@@ -33,7 +33,7 @@ Resolving xrefs for node <RaiseStmt test.adb:7:4-7:32>
 ******************************************************
 
 Expr: <AttributeRef test.adb:7:10-7:31>
-  references:    <DefiningName "Abort_Signal_" __standard:128:3-128:16>
+  references:    <DefiningName "Abort_Signal_" __standard:129:3-129:16>
   type:          None
   expected type: None
 Expr: <Id "Standard" test.adb:7:10-7:18>

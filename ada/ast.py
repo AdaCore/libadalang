@@ -946,6 +946,11 @@ class AdaNode(ASTNode):
         Static method. Return the standard Universal Real type.
         """
     )
+    universal_fixed_type = Property(
+        Self.std_entity('Universal_Fixed_Type_'), public=False, doc="""
+        Static method. Return the standard Universal Fixed type.
+        """
+    )
     std_char_type = Property(
         Self.std_entity('Character').cast(T.BaseTypeDecl), public=True, doc="""
         Static method. Return the standard Character type.
@@ -6522,14 +6527,15 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=Bool)
     def is_universal_type():
         """
-        Return whether this type is one of the two universal types (universal
-        integer or universal real).
+        Return whether this type is one of the three universal types (universal
+        integer, universal fixed, or universal real).
 
         .. note::
             Returns False if Self is null.
         """
         return Not(Entity.is_null) & Or(
             Entity == Self.universal_int_type,
+            Entity == Self.universal_fixed_type,
             Entity == Self.universal_real_type
         )
 
@@ -7958,8 +7964,7 @@ class TypeDecl(BaseTypeDecl):
         (:rmlink:`3.4.1` - 7).
         """
         return If(
-            Self.any_of(Self.universal_int_type.node,
-                        Self.universal_real_type.node),
+            Self.as_bare_entity.is_universal_type,
             No(T.env_assoc.array),
             Self.type_def.predefined_operators
         )

@@ -5,7 +5,7 @@ Resolving xrefs for node <RaiseStmt testexcmsg.adb:3:4-3:61>
 ************************************************************
 
 Expr: <Id "Constraint_Error" testexcmsg.adb:3:10-3:26>
-  references:    <DefiningName "Constraint_Error" __standard:123:3-123:19>
+  references:    <DefiningName "Constraint_Error" __standard:124:3-124:19>
   type:          None
   expected type: None
 Expr: <ConcatOp testexcmsg.adb:3:32-3:60>

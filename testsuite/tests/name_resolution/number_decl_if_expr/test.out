@@ -16,7 +16,7 @@ Expr: <RelationOp test.adb:2:24-2:60>
 Expr: <AttributeRef test.adb:2:24-2:56>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <Id "Long_Long_Float" test.adb:2:24-2:39>
   references:    <DefiningName "Long_Long_Float" __standard:18:8-18:23>
   type:          <ConcreteTypeDecl ["Long_Long_Float"] __standard:18:3-20:33>
@@ -26,13 +26,13 @@ Expr: <Id "Machine_Mantissa" test.adb:2:40-2:56>
   type:          None
   expected type: None
 Expr: <OpEq "=" test.adb:2:57-2:58>
-  references:    <SyntheticDefiningName ""="" __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""="" __standard:120:24-120:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:2:59-2:60>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <Int test.adb:2:66-2:67>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
@@ -46,20 +46,20 @@ Resolving xrefs for node <NumberDecl ["P"] test.adb:4:4-4:26>
 *************************************************************
 
 Expr: <BinOp test.adb:4:20-4:25>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <Id "N" test.adb:4:20-4:21>
   references:    <DefiningName "N" test.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <OpMult "*" test.adb:4:22-4:23>
-  references:    <SyntheticDefiningName ""*"" __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""*"" __standard:120:24-120:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:4:24-4:25>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 
 Resolving xrefs for node <NumberDecl ["F"] test.adb:7:4-7:48>
 *************************************************************
@@ -87,20 +87,20 @@ Resolving xrefs for node <NumberDecl ["Q"] test.adb:9:4-9:26>
 *************************************************************
 
 Expr: <BinOp test.adb:9:20-9:25>
-  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Id "F" test.adb:9:20-9:21>
   references:    <DefiningName "F" test.adb:7:4-7:5>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 Expr: <OpMult "*" test.adb:9:22-9:23>
-  references:    <SyntheticDefiningName ""*"" __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""*"" __standard:121:21-121:30>
   type:          None
   expected type: None
 Expr: <Int test.adb:9:24-9:25>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 
 
 Done.

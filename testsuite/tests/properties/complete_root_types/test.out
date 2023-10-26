@@ -3,4 +3,4 @@ Working on node <CallStmt test.adb:5:4-5:6>
 
 Eval '[x.decl for x in node.f_call.p_complete if x.decl.is_a(lal.PackageDecl)]'
 Result: [<PackageDecl ["ASCII"] __standard:24:3-104:13>,
-         <PackageDecl ["Standard"] __standard:1:1-129:14>]
+         <PackageDecl ["Standard"] __standard:1:1-130:14>]

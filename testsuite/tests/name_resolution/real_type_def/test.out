@@ -20,20 +20,20 @@ Expr: <OpDoubleDot ".." testexp.adb:5:54-5:56>
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:5:57-5:68>
-  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:5:57-5:60>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 Expr: <OpMult "*" testexp.adb:5:61-5:62>
-  references:    <SyntheticDefiningName ""*"" __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""*"" __standard:121:21-121:30>
   type:          None
   expected type: None
 Expr: <Id "Cst_R" testexp.adb:5:63-5:68>
   references:    <DefiningName "Cst_R" testexp.adb:2:4-2:9>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 
 Resolving xrefs for node <ConcreteTypeDecl ["Floating_Point_Def_2"] testexp.adb:8:4-8:46>
 *****************************************************************************************
@@ -62,20 +62,20 @@ Expr: <OpDoubleDot ".." testexp.adb:11:59-11:61>
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:11:62-11:73>
-  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:11:62-11:65>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 Expr: <OpMult "*" testexp.adb:11:66-11:67>
-  references:    <SyntheticDefiningName ""*"" __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""*"" __standard:121:21-121:30>
   type:          None
   expected type: None
 Expr: <Id "Cst_R" testexp.adb:11:68-11:73>
   references:    <DefiningName "Cst_R" testexp.adb:2:4-2:9>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 
 Resolving xrefs for node <ConcreteTypeDecl ["Ordinary_Fixed_Point_Def_2"] testexp.adb:14:4-14:51>
 *************************************************************************************************
@@ -108,20 +108,20 @@ Expr: <OpDoubleDot ".." testexp.adb:18:41-18:43>
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:18:44-18:55>
-  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
   expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
 Expr: <Real testexp.adb:18:44-18:47>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 Expr: <OpMult "*" testexp.adb:18:48-18:49>
-  references:    <SyntheticDefiningName ""*"" __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""*"" __standard:121:21-121:30>
   type:          None
   expected type: None
 Expr: <Id "Cst_R" testexp.adb:18:50-18:55>
   references:    <DefiningName "Cst_R" testexp.adb:2:4-2:9>
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 
 Resolving xrefs for node <ConcreteTypeDecl ["Decimal_Fixed_Point_Def_2"] testexp.adb:21:4-21:63>
 ************************************************************************************************

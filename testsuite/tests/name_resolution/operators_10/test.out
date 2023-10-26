@@ -44,20 +44,20 @@ Expr: <Id "F" test.adb:14:9-14:10>
   type:          <ConcreteTypeDecl ["F"] test.adb:4:4-4:23>
   expected type: None
 Expr: <BinOp test.adb:14:12-14:19>
-  type:          <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  type:          <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
   expected type: None
 Expr: <Int test.adb:14:12-14:13>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <OpMult "*" test.adb:14:14-14:15>
-  references:    <SyntheticDefiningName ""*"" __standard:120:21-120:30>
+  references:    <SyntheticDefiningName ""*"" __standard:121:21-121:30>
   type:          None
   expected type: None
 Expr: <Real test.adb:14:16-14:19>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:120:3-120:31>
+  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
 
 
 Done.

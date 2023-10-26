@@ -189,7 +189,7 @@ CompilationUnit[1:1-11:9]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Static_Primary, Parent=null):
-    standard: [<PackageDecl ["Standard"] __standard:1:1-129:14>]
+    standard: [<PackageDecl ["Standard"] __standard:1:1-130:14>]
 
 @2 = LexEnv(Static_Primary, Parent=@1, Node=<PackageDecl ["Foo"] input:1:1-11:9>):
     "/=": [<SyntheticSubpDecl [""] input:2:20-5:14>, <SyntheticSubpDecl [""] input:7:34-10:14>]
@@ -197,7 +197,7 @@ $root = LexEnv(Static_Primary, Parent=null):
     r1_type: [<ConcreteTypeDecl ["R1_Type"] input:2:4-5:15>]
     r2_type: [<ConcreteTypeDecl ["R2_Type"] input:7:4-10:15>]
 
-@1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-129:14>):
+@1 = LexEnv(Static_Primary, Parent=$root, Node=<PackageDecl ["Standard"] __standard:1:1-130:14>):
     "&": [<SyntheticSubpDecl [""] __standard:105:18-105:56>, <SyntheticSubpDecl [""] __standard:105:18-105:56>, <SyntheticSubpDecl [""] __standard:105:18-105:56>, <SyntheticSubpDecl [""] __standard:105:18-105:56>, <SyntheticSubpDecl [""] __standard:107:23-108:38>, <SyntheticSubpDecl [""] __standard:107:23-108:38>, <SyntheticSubpDecl [""] __standard:107:23-108:38>, <SyntheticSubpDecl [""] __standard:107:23-108:38>, <SyntheticSubpDecl [""] __standard:109:28-110:43>, <SyntheticSubpDecl [""] __standard:109:28-110:43>, <SyntheticSubpDecl [""] __standard:109:28-110:43>, <SyntheticSubpDecl [""] __standard:109:28-110:43>]
     "*": [<SyntheticSubpDecl [""] __standard:4:19-4:53>, <SyntheticSubpDecl [""] __standard:7:34-7:66>, <SyntheticSubpDecl [""] __standard:8:34-8:68>, <SyntheticSubpDecl [""] __standard:9:34-9:68>, <SyntheticSubpDecl [""] __standard:10:34-10:68>, <SyntheticSubpDecl [""] __standard:11:34-11:70>, <SyntheticSubpDecl [""] __standard:12:27-13:50>, <SyntheticSubpDecl [""] __standard:14:27-15:50>, <SyntheticSubpDecl [""] __standard:16:27-17:72>, <SyntheticSubpDecl [""] __standard:18:27-20:32>, <SyntheticSubpDecl [""] __standard:112:20-114:41>, <SyntheticSubpDecl [""] __standard:112:20-114:41>, <SyntheticSubpDecl [""] __standard:112:20-114:41>]
     "**": [<SyntheticSubpDecl [""] __standard:4:19-4:53>, <SyntheticSubpDecl [""] __standard:7:34-7:66>, <SyntheticSubpDecl [""] __standard:8:34-8:68>, <SyntheticSubpDecl [""] __standard:9:34-9:68>, <SyntheticSubpDecl [""] __standard:10:34-10:68>, <SyntheticSubpDecl [""] __standard:11:34-11:70>, <SyntheticSubpDecl [""] __standard:12:27-13:50>, <SyntheticSubpDecl [""] __standard:14:27-15:50>, <SyntheticSubpDecl [""] __standard:16:27-17:72>, <SyntheticSubpDecl [""] __standard:18:27-20:32>, <SyntheticSubpDecl [""] __standard:112:20-114:41>]
@@ -218,11 +218,11 @@ $root = LexEnv(Static_Primary, Parent=null):
     "rem": [<SyntheticSubpDecl [""] __standard:4:19-4:53>, <SyntheticSubpDecl [""] __standard:7:34-7:66>, <SyntheticSubpDecl [""] __standard:8:34-8:68>, <SyntheticSubpDecl [""] __standard:9:34-9:68>, <SyntheticSubpDecl [""] __standard:10:34-10:68>, <SyntheticSubpDecl [""] __standard:11:34-11:70>]
     "xor": [<SyntheticSubpDecl [""] __standard:3:19-3:32>, <SyntheticSubpDecl [""] __standard:105:18-105:56>, <SyntheticSubpDecl [""] __standard:107:23-108:38>, <SyntheticSubpDecl [""] __standard:109:28-110:43>]
     'A': [<EnumLiteralDecl ["'A'"] __standard:21:22-21:25>, <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>, <EnumLiteralDecl ["'A'"] __standard:23:32-23:35>]
-    abort_signal_: [<ExceptionDecl ["Abort_Signal_"] __standard:128:3-128:32>]
+    abort_signal_: [<ExceptionDecl ["Abort_Signal_"] __standard:129:3-129:32>]
     ascii: [<PackageDecl ["ASCII"] __standard:24:3-104:13>]
     boolean: [<ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>]
     character: [<ConcreteTypeDecl ["Character"] __standard:21:3-21:27>]
-    constraint_error: [<ExceptionDecl ["Constraint_Error"] __standard:123:3-123:32>]
+    constraint_error: [<ExceptionDecl ["Constraint_Error"] __standard:124:3-124:32>]
     duration: [<ConcreteTypeDecl ["Duration"] __standard:112:3-114:42>]
     false: [<EnumLiteralDecl ["False"] __standard:3:20-3:25>]
     float: [<ConcreteTypeDecl ["Float"] __standard:14:3-15:51>]
@@ -234,17 +234,18 @@ $root = LexEnv(Static_Primary, Parent=null):
     long_long_integer: [<ConcreteTypeDecl ["Long_Long_Integer"] __standard:10:3-10:69>]
     long_long_long_integer: [<ConcreteTypeDecl ["Long_Long_Long_Integer"] __standard:11:3-11:71>]
     natural: [<SubtypeDecl ["Natural"] __standard:5:3-5:57>]
-    numeric_error: [<ExceptionDecl ["Numeric_Error"] __standard:124:3-124:32>]
+    numeric_error: [<ExceptionDecl ["Numeric_Error"] __standard:125:3-125:32>]
     positive: [<SubtypeDecl ["Positive"] __standard:6:3-6:57>]
-    program_error: [<ExceptionDecl ["Program_Error"] __standard:125:3-125:32>]
-    root_types_: [<PackageDecl ["root_types_"] __standard:118:3-122:19>]
+    program_error: [<ExceptionDecl ["Program_Error"] __standard:126:3-126:32>]
+    root_types_: [<PackageDecl ["root_types_"] __standard:119:3-123:19>]
     short_float: [<ConcreteTypeDecl ["Short_Float"] __standard:12:3-13:51>]
     short_integer: [<ConcreteTypeDecl ["Short_Integer"] __standard:8:3-8:69>]
     short_short_integer: [<ConcreteTypeDecl ["Short_Short_Integer"] __standard:7:3-7:67>]
-    storage_error: [<ExceptionDecl ["Storage_Error"] __standard:126:3-126:32>]
+    storage_error: [<ExceptionDecl ["Storage_Error"] __standard:127:3-127:32>]
     string: [<ConcreteTypeDecl ["String"] __standard:105:3-105:57>]
-    tasking_error: [<ExceptionDecl ["Tasking_Error"] __standard:127:3-127:32>]
+    tasking_error: [<ExceptionDecl ["Tasking_Error"] __standard:128:3-128:32>]
     true: [<EnumLiteralDecl ["True"] __standard:3:27-3:31>]
+    universal_fixed_type_: [<ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:61>]
     universal_int_type_: [<ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>]
     universal_real_type_: [<ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>]
     wide_character: [<ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>]
@@ -253,7 +254,7 @@ $root = LexEnv(Static_Primary, Parent=null):
     wide_wide_string: [<ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>]
 
 $root = LexEnv(Static_Primary, Parent=null):
-    standard: [<PackageDecl ["Standard"] __standard:1:1-129:14>]
+    standard: [<PackageDecl ["Standard"] __standard:1:1-130:14>]
 
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<ConcreteTypeDecl ["R1_Type"] input:2:4-5:15>):
     a: [<ComponentDecl ["A", "B"] input:3:7-3:22>]

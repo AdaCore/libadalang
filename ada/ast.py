@@ -7119,6 +7119,12 @@ class BaseTypeDecl(BasicDecl):
                 And(expected_type == Self.universal_real_type,
                     actual_type.is_real_type),
 
+                And(expected_type == Self.universal_fixed_type,
+                    actual_type.is_fixed_point),
+
+                And(actual_type == Self.universal_fixed_type,
+                    expected_type.is_fixed_point),
+
                 actual_type.canonical_type == expected_type.canonical_type,
 
                 actual_type.matching_access_type(expected_type, False)
@@ -13278,7 +13284,9 @@ class BinOp(Expr):
             Self.op.is_a(Op.alt_and_then, Op.alt_or_else),
             Self.test_eq,
 
-            Entity.overload_equation | Entity.no_overload_equation
+            Entity.overload_equation
+            | Entity.no_overload_equation
+            | Entity.universal_fixed_predefined_operators_equation
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
@@ -13420,6 +13428,33 @@ class BinOp(Expr):
             # type of operands: we know that at least one of them has a
             # context-free type (otherwise this wouldn't be valid Ada code).
             Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
+        ) & And(
+            Self.left.matches_expected_formal_type,
+            Self.right.matches_expected_formal_type
+        )
+
+    @langkit_property(dynamic_vars=[origin])
+    def universal_fixed_predefined_operators_equation():
+        """
+        When no subprogram is found for this node's operator, try to resolve
+        it as a universal_fixed predefined operator (:rmlink:`4.5.5` - 18).
+        """
+        return If(
+            Self.op.is_a(Op.alt_mult, Op.alt_div),
+            Or(
+                Predicate(AdaNode.is_not_null, Self.expected_type_var)
+                & Predicate(BaseTypeDecl.is_fixed_point,
+                            Self.expected_type_var)
+                & Bind(Self.type_var, Self.universal_fixed_type),
+                Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
+            )
+            & Predicate(BaseTypeDecl.is_fixed_point,
+                        Self.left.expected_type_var)
+            & Bind(Self.left.expected_type_var, Self.universal_fixed_type)
+            & Predicate(BaseTypeDecl.is_fixed_point,
+                        Self.right.expected_type_var)
+            & Bind(Self.right.expected_type_var, Self.universal_fixed_type),
+            LogicFalse()
         ) & And(
             Self.left.matches_expected_formal_type,
             Self.right.matches_expected_formal_type

@@ -23,6 +23,10 @@ procedure Test is
    type Y is new Z;
    --% node.p_base_type(node)
    --% node.f_type_def.f_subtype_indication.p_designated_type_decl
+
+   type R is new R.T;
+   --% node.p_base_type(node)
+   --% node.f_type_def.f_subtype_indication.p_designated_type_decl
 begin
    null;
 end Test;

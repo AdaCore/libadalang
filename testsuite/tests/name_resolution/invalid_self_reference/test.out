@@ -36,3 +36,12 @@ Result: <ConcreteTypeDecl ["Z"] test.adb:20:4-20:20>
 
 Eval 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
 Result: <ConcreteTypeDecl ["Z"] test.adb:20:4-20:20>
+
+Working on node <ConcreteTypeDecl ["R"] test.adb:27:4-27:22>
+============================================================
+
+Eval 'node.p_base_type(node)'
+Result: None
+
+Eval 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: None

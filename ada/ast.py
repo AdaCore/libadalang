@@ -1183,7 +1183,13 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=Bool)
     def has_visibility(other_entity=T.AdaNode.entity):
-        return Or(
+        # If we found a synthetic type predicate object decl, it means we are
+        # inside the definition of the type. From there, check if we indeed
+        # have visibility on the synthetic object.
+        return other_entity.cast(SyntheticTypePredicateObjectDecl).then(
+            lambda sod: sod.is_referred_by(Self),
+            default_val=True
+        ) & Or(
             # The node is a generic package instantiation coming from a formal
             # package.
             other_entity.cast(GenericPackageInstantiation)._.info.from_rebound,
@@ -9167,6 +9173,29 @@ class SyntheticTypePredicateObjectDecl(BasicDecl):
 
     type_expression = Property(Self.type_expr.as_entity)
     defining_names = Property(Self.name.as_entity.singleton)
+
+    @langkit_property(return_type=T.Bool)
+    def is_referred_by(origin=T.AdaNode):
+        """
+        Return whether a synthetic type predicate object can be seen from the
+        given ``origin`` node. This already assumes that we are inside a type
+        definition (otherwise the env lookup would not have found the synthetic
+        object), but this can be used to know if the reference points to the
+        synthetic object or to the type itself. By default this will always be
+        the synthetic object, unless we are in an access type definition. This
+        allows correctly resolving:
+
+        .. code:: ada
+
+            type T is record
+               X : access T := T'Unrestricted_Access;
+               --        (1)  (2)
+            end record;
+
+        Here, the reference (1) points to the type, whereas (2) refers to the
+        synthetic object.
+        """
+        return Not(origin.parent.parent.is_a(TypeAccessDef))
 
 
 @synthetic

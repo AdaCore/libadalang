@@ -6357,6 +6357,10 @@ class BaseTypeDecl(BasicDecl):
             )
         ).cast(T.EnumRepClause.entity)
 
+    @langkit_property()
+    def parent_primitives_env():
+        return Self.empty_env
+
     @lazy_field(return_type=T.inner_env_assoc.array)
     def direct_primitive_subps():
         """
@@ -6365,7 +6369,8 @@ class BaseTypeDecl(BasicDecl):
         package this type is declared in.
         """
         scope = Var(Self.declarative_scope)
-        is_derived_tagged = Var(Self.as_bare_entity.is_derived_tagged_type)
+        is_derived_tagged = Var(Self.as_bare_entity.cast(TypeDecl)
+                                ._.is_derived_tagged_type)
         decl_parts = Var(scope._.parent.as_bare_entity._.match(
             lambda pkg_decl=BasePackageDecl:
             # Self is declared in a package scope, we should check all the
@@ -6385,7 +6390,7 @@ class BaseTypeDecl(BasicDecl):
                 No(AdaNode.entity.array)
             )
         ))
-        enum_lits = Var(Self.type_def.cast(EnumTypeDef).then(
+        enum_lits = Var(Self.cast(TypeDecl)._.type_def.cast(EnumTypeDef).then(
             lambda etf: etf.enum_literals.map(
                 lambda lit: T.inner_env_assoc.new(
                     key=lit.name.name_symbol,
@@ -6439,7 +6444,7 @@ class BaseTypeDecl(BasicDecl):
         ))
 
         # Also add this types' predefined operators to the list of primitives
-        predefined_ops = Var(Self.predefined_operators.map(
+        predefined_ops = Var(Self.cast(TypeDecl)._.predefined_operators.map(
             lambda assoc: T.inner_env_assoc.new(
                 key=assoc.key,
                 value=assoc.value,
@@ -6475,7 +6480,7 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(return_type=LexicalEnv.array)
     def primitives_envs(with_rebindings=T.EnvRebindings,
-                        stop_at=BaseTypeDecl.entity.array,
+                        stop_at=T.BaseTypeDecl.entity.array,
                         include_self=(Bool, False)):
         """
         Return the environments containing the primitives for Self (if
@@ -6488,6 +6493,7 @@ class BaseTypeDecl(BasicDecl):
         # later.
         return origin.bind(Self, Entity.base_types.mapcat(lambda t: t.match(
             lambda td=T.TypeDecl: td,
+            lambda ttd=T.TaskTypeDecl: ttd,
             lambda std=T.BaseSubtypeDecl: origin.bind(
                 std.node.origin_node, std.get_type.cast(T.TypeDecl)
             ),
@@ -6508,7 +6514,7 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(memoized=True)
     def compute_primitives_env(
         include_self=(Bool, True),
-        stop_at=(BaseTypeDecl.entity.array, No(BaseTypeDecl.entity.array))
+        stop_at=(T.BaseTypeDecl.entity.array, No(T.BaseTypeDecl.entity.array))
     ):
         """
         Return a environment containing all primitives accessible to Self,
@@ -6529,7 +6535,7 @@ class BaseTypeDecl(BasicDecl):
         primitives of this type, that is, primitives that are not inherited.
         """
         return DynamicLexicalEnv(
-            assocs_getter=TypeDecl.direct_primitive_subps,
+            assocs_getter=BaseTypeDecl.direct_primitive_subps,
             transitive_parent=False
         )
 
@@ -8251,6 +8257,10 @@ class TypeDecl(BaseTypeDecl):
             self_env,
         )
 
+    @langkit_property(memoized=True)
+    def primitives_env():
+        return Entity.compute_primitives_env(include_self=True)
+
     @langkit_property(return_type=T.env_assoc.array, memoized=True)
     def predefined_operators():
         """
@@ -8355,10 +8365,6 @@ class TypeDecl(BaseTypeDecl):
             include_self=False,
             stop_at=Entity.previous_part._.base_types
         )
-
-    @langkit_property()
-    def primitives_env():
-        return Entity.compute_primitives_env(include_self=True)
 
     get_imp_deref = Property(
         Entity.get_aspect_spec_expr('Implicit_Dereference')
@@ -9582,7 +9588,7 @@ class TaskTypeDecl(BaseTypeDecl):
     is_task_type = Property(True)
 
     base_interfaces = Property(
-        Entity.definition.interfaces.map(lambda i: i.name_designated_type)
+        Entity.definition._.interfaces.map(lambda i: i.name_designated_type)
     )
 
     @langkit_property(return_type=T.Symbol.array)
@@ -9597,6 +9603,10 @@ class TaskTypeDecl(BaseTypeDecl):
     )
 
     defining_env = Property(Entity.children_env)
+
+    @langkit_property(memoized=True)
+    def primitives_env():
+        return Entity.compute_primitives_env(include_self=True)
 
     @langkit_property()
     def discriminants_list(

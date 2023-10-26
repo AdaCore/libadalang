@@ -1,3 +1,15 @@
+Working on node <TaskTypeDecl ["Parent"] ptask.adb:3:7-5:18>
+============================================================
+
+Eval 'node.p_get_primitives()'
+Result: [<SubpDecl ["Id"] ptask.adb:8:7-8:47>]
+
+Working on node <ConcreteTypeDecl ["T"] ptask.adb:13:4-13:25>
+=============================================================
+
+Eval 'node.p_get_primitives()'
+Result: [<SubpDecl ["Id"] ptask.adb:8:7-8:47>]
+
 Working on node <ConcreteTypeDecl ["I_5_7"] test.adb:19:4-19:42>
 ================================================================
 

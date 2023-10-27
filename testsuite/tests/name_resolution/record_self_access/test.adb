@@ -14,6 +14,19 @@ procedure Test is
       --% access_type.f_type_def.f_subtype_indication.p_designated_type_decl
       --% node.f_default_expr.f_prefix.p_referenced_decl()
    end record;
+
+   type A is record
+      B : Integer;
+   end record;
+
+   type B is new A;
+
+   procedure Assign (X : in out B; Y : B) is
+   begin
+      X.B := Y.B;
+      --% node.f_dest.f_suffix.p_referenced_decl()
+      --% node.f_expr.f_suffix.p_referenced_decl()
+   end Assign;
 begin
    null;
 end Test;

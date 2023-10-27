@@ -1183,9 +1183,8 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=Bool)
     def has_visibility(other_entity=T.AdaNode.entity):
-        # If we found a synthetic type predicate object decl, it means we are
-        # inside the definition of the type. From there, check if we indeed
-        # have visibility on the synthetic object.
+        # We found a synthetic type predicate object decl, check if we are
+        # allowed to see it.
         return other_entity.cast(SyntheticTypePredicateObjectDecl).then(
             lambda sod: sod.is_referred_by(Self),
             default_val=True
@@ -9178,11 +9177,9 @@ class SyntheticTypePredicateObjectDecl(BasicDecl):
     def is_referred_by(origin=T.AdaNode):
         """
         Return whether a synthetic type predicate object can be seen from the
-        given ``origin`` node. This already assumes that we are inside a type
-        definition (otherwise the env lookup would not have found the synthetic
-        object), but this can be used to know if the reference points to the
-        synthetic object or to the type itself. By default this will always be
-        the synthetic object, unless we are in an access type definition. This
+        given ``origin`` node. If we are outside the type definition, this will
+        always be the type itself. Otherwise this will always be the synthetic
+        object, unless we are in an access type definition. In particular, this
         allows correctly resolving:
 
         .. code:: ada
@@ -9195,7 +9192,14 @@ class SyntheticTypePredicateObjectDecl(BasicDecl):
         Here, the reference (1) points to the type, whereas (2) refers to the
         synthetic object.
         """
-        return Not(origin.parent.parent.is_a(TypeAccessDef))
+        return And(
+            Not(origin.parent.parent.is_a(TypeAccessDef)),
+            Self.is_children_env(
+                Self.type_expr.cast(SyntheticTypeExpr)
+                .target_type.children_env,
+                origin.children_env
+            )
+        )
 
 
 @synthetic

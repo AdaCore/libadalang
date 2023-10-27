@@ -24,3 +24,12 @@ Result: <ConcreteTypeDecl ["T_2"] test.adb:10:4-16:15>
 
 Eval 'node.f_default_expr.f_prefix.p_referenced_decl()'
 Result: <SyntheticTypePredicateObjectDecl ["T_2"] test.adb:10:4-16:15>
+
+Working on node <AssignStmt test.adb:26:7-26:18>
+================================================
+
+Eval 'node.f_dest.f_suffix.p_referenced_decl()'
+Result: <ComponentDecl ["B"] test.adb:19:7-19:19>
+
+Eval 'node.f_expr.f_suffix.p_referenced_decl()'
+Result: <ComponentDecl ["B"] test.adb:19:7-19:19>

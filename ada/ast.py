@@ -10157,26 +10157,6 @@ class Pragma(AdaNode):
         )
 
     @langkit_property()
-    def xref_initial_env():
-        """
-        Contract pragmas such as ``Precondition`` have full visibility on their
-        associated subprogram's formals although they are not in an internal
-        scope. We handle that by overriding this ``xref_initial_env`` property
-        which will make sure that name resolution uses the env returned by this
-        property when constructing xref_equations.
-        """
-        return If(
-            Entity.id.name_symbol.any_of(
-                "Pre", "Post", "Pre'Class", "Post'Class",
-                "Precondition", "Postcondition",
-                "Precondition'Class", "Postcondition'Class",
-                "Test_Case", "Contract_Cases", "Predicate"
-            ),
-            Entity.associated_entities.at(0).children_env,
-            Entity.children_env
-        )
-
-    @langkit_property()
     def xref_equation():
         return Cond(
             Or(
@@ -10487,11 +10467,26 @@ class Pragma(AdaNode):
     def initial_env():
         """
         Return the initial env name for a pragma clause. We use the
-        Standard package for top level use clauses.
+        Standard package for top level use clauses. For contract pragmas such
+        as ``Precondition`` or ``Predicate``, we use the env of the entity the
+        pragma is associated with in order to properly resolve references to
+        formals or to the type's ``SyntheticTypePredicateObjectDecl`` instance.
         """
-        return If(
+        return Cond(
             Self.parent.parent.is_a(CompilationUnit),
             named_env('Standard'),
+
+            Self.as_bare_entity.id.name_symbol.any_of(
+                "Pre", "Post", "Pre'Class", "Post'Class",
+                "Precondition", "Postcondition",
+                "Precondition'Class", "Postcondition'Class",
+                "Test_Case", "Contract_Cases", "Predicate"
+            ),
+            Self.as_bare_entity.associated_entities.at(0).then(
+                lambda ent: direct_env(ent.children_env),
+                default_val=current_env()
+            ),
+
             current_env()
         )
 

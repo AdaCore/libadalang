@@ -1183,7 +1183,12 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=Bool)
     def has_visibility(other_entity=T.AdaNode.entity):
-        return Or(
+        # We found a synthetic type predicate object decl, check if we are
+        # allowed to see it.
+        return other_entity.cast(SyntheticTypePredicateObjectDecl).then(
+            lambda sod: sod.is_referred_by(Self),
+            default_val=True
+        ) & Or(
             # The node is a generic package instantiation coming from a formal
             # package.
             other_entity.cast(GenericPackageInstantiation)._.info.from_rebound,
@@ -3431,15 +3436,18 @@ class BasicDecl(AdaNode):
             Entity,
 
             # This part is visible, now check if the next part is as well
-            Entity.most_visible_forward_part_for_name(sym),
+            Entity.most_visible_forward_part_for_name(sym, seq=True),
         )
 
     @langkit_property(return_type=T.BasicDecl.entity,
                       dynamic_vars=[origin, default_imprecise_fallback()])
-    def most_visible_forward_part_for_name(sym=T.Symbol):
+    def most_visible_forward_part_for_name(sym=T.Symbol, seq=T.Bool):
         """
         Internal method for computing the most visible part (only looking
         forward) of a basic decl according to one of its defining names.
+        If ``seq`` is True, the visibility check is sequential: if a next
+        part is in the same unit as the origin but defined after it, it will
+        not be considered visible.
         """
         np = Var(Entity.next_part_for_name(sym))
         return Cond(
@@ -3449,7 +3457,11 @@ class BasicDecl(AdaNode):
 
             # A null origin means any "find the most complete part"
             origin.is_null,
-            np.most_visible_forward_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym, seq),
+
+            # The query is sequential and origin can't see the next part
+            seq & (origin.unit == np.unit) & (origin <= np.node),
+            Entity,
 
             # If the entity is not a package declaration, we only need to check
             # if its lexical env is one of the parents of origin's env.
@@ -3459,14 +3471,14 @@ class BasicDecl(AdaNode):
                     sym,
                     categories=no_prims
                 ).contains(Self.as_bare_entity),
-                np.most_visible_forward_part_for_name(sym),
+                np.most_visible_forward_part_for_name(sym, seq),
                 Entity
             ),
 
             # Otherwise this is a package declaration, so we can use the
             # is_visible property.
             np.is_visible(origin.as_bare_entity),
-            np.most_visible_forward_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym, seq),
 
             # Otherwise this was the most visible part
             Entity
@@ -7802,14 +7814,6 @@ class TypeDecl(BaseTypeDecl):
         add_to_env(Self.predefined_operators),
         add_env(),
         handle_children(),
-        reference(
-            Self.cast(AdaNode).singleton,
-            through=T.TypeDecl.refined_parent_primitives_env,
-            kind=RefKind.transitive,
-            dest_env=Self.node_env,
-            cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
-            category="inherited_primitives"
-        ),
 
         # If this `TypeDecl` can have a predicate, add a synthetic object
         # declaration into its environement in order to support name resolution
@@ -7821,7 +7825,21 @@ class TypeDecl(BaseTypeDecl):
             Self.type_def.is_a(T.DerivedTypeDef, T.TypeAccessDef),
             Entity.synthetic_type_predicate_object_decl,
             No(T.env_assoc)
-        ))
+        )),
+
+        # Make sure the reference to the primitives env is created *AFTER* the
+        # synthetic type predicate object has been added to Self's env: since
+        # this object has the same name as the type, it is indirectly used to
+        # hide the type and avoid infinite recursions in invalid Ada code such
+        # as ``type X is new X``. See nameres test `invalid_self_reference`.
+        reference(
+            Self.cast(AdaNode).singleton,
+            through=T.TypeDecl.refined_parent_primitives_env,
+            kind=RefKind.transitive,
+            dest_env=Self.node_env,
+            cond=Self.type_def.is_a(T.DerivedTypeDef, T.InterfaceTypeDef),
+            category="inherited_primitives"
+        )
     )
 
     record_def = Property(
@@ -8633,12 +8651,7 @@ class DerivedTypeDef(TypeDef):
         default_val=Entity.super()
     ))
 
-    base_type = Property(Entity.subtype_indication.designated_type.then(
-        # If the designated type is Self, it means there is an illegal
-        # cycle. Explicitly return an null node here, otherwise this may
-        # cause infinite recursions in caller properties.
-        lambda t: If(t.node == Self.parent, No(BaseTypeDecl.entity), t)
-    ))
+    base_type = Property(Entity.subtype_indication.designated_type)
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)
@@ -9159,6 +9172,34 @@ class SyntheticTypePredicateObjectDecl(BasicDecl):
 
     type_expression = Property(Self.type_expr.as_entity)
     defining_names = Property(Self.name.as_entity.singleton)
+
+    @langkit_property(return_type=T.Bool)
+    def is_referred_by(origin=T.AdaNode):
+        """
+        Return whether a synthetic type predicate object can be seen from the
+        given ``origin`` node. If we are outside the type definition, this will
+        always be the type itself. Otherwise this will always be the synthetic
+        object, unless we are in an access type definition. In particular, this
+        allows correctly resolving:
+
+        .. code:: ada
+
+            type T is record
+               X : access T := T'Unrestricted_Access;
+               --        (1)  (2)
+            end record;
+
+        Here, the reference (1) points to the type, whereas (2) refers to the
+        synthetic object.
+        """
+        return And(
+            Not(origin.parent.parent.is_a(TypeAccessDef)),
+            Self.is_children_env(
+                Self.type_expr.cast(SyntheticTypeExpr)
+                .target_type.children_env,
+                origin.children_env
+            )
+        )
 
 
 @synthetic
@@ -10120,26 +10161,6 @@ class Pragma(AdaNode):
         )
 
     @langkit_property()
-    def xref_initial_env():
-        """
-        Contract pragmas such as ``Precondition`` have full visibility on their
-        associated subprogram's formals although they are not in an internal
-        scope. We handle that by overriding this ``xref_initial_env`` property
-        which will make sure that name resolution uses the env returned by this
-        property when constructing xref_equations.
-        """
-        return If(
-            Entity.id.name_symbol.any_of(
-                "Pre", "Post", "Pre'Class", "Post'Class",
-                "Precondition", "Postcondition",
-                "Precondition'Class", "Postcondition'Class",
-                "Test_Case", "Contract_Cases", "Predicate"
-            ),
-            Entity.associated_entities.at(0).children_env,
-            Entity.children_env
-        )
-
-    @langkit_property()
     def xref_equation():
         return Cond(
             Or(
@@ -10450,11 +10471,26 @@ class Pragma(AdaNode):
     def initial_env():
         """
         Return the initial env name for a pragma clause. We use the
-        Standard package for top level use clauses.
+        Standard package for top level use clauses. For contract pragmas such
+        as ``Precondition`` or ``Predicate``, we use the env of the entity the
+        pragma is associated with in order to properly resolve references to
+        formals or to the type's ``SyntheticTypePredicateObjectDecl`` instance.
         """
-        return If(
+        return Cond(
             Self.parent.parent.is_a(CompilationUnit),
             named_env('Standard'),
+
+            Self.as_bare_entity.id.name_symbol.any_of(
+                "Pre", "Post", "Pre'Class", "Post'Class",
+                "Precondition", "Postcondition",
+                "Precondition'Class", "Postcondition'Class",
+                "Test_Case", "Contract_Cases", "Predicate"
+            ),
+            Self.as_bare_entity.associated_entities.at(0).then(
+                lambda ent: direct_env(ent.children_env),
+                default_val=current_env()
+            ),
+
             current_env()
         )
 
@@ -17715,7 +17751,10 @@ class BaseId(SingleTokNode):
                     origin.is_null,
                     origin.bind(
                         Self.origin_node,
-                        t.most_visible_forward_part_for_name(t.name_symbol)
+                        t.most_visible_forward_part_for_name(
+                            t.name_symbol,
+                            seq=False
+                        )
                     ),
                     t.most_visible_part
                 ),

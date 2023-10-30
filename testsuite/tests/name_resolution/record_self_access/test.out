@@ -1,0 +1,35 @@
+Working on node <ComponentDecl ["X"] test.adb:4:7-4:20>
+=======================================================
+
+Set 'access_type' to 'node.f_component_def.f_type_expr.f_type_decl'
+Result: <AnonymousTypeDecl ["None"] test.adb:4:11-4:19>
+
+Eval 'access_type.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["T"] test.adb:3:4-8:15>
+
+Eval 'access_type.f_type_def.f_subtype_indication.f_name.p_referenced_decl()'
+Result: <ConcreteTypeDecl ["T"] test.adb:3:4-8:15>
+
+Working on node <ComponentDecl ["X"] test.adb:11:7-11:49>
+=========================================================
+
+Set 'access_type' to 'node.f_component_def.f_type_expr.f_type_decl'
+Result: <AnonymousTypeDecl ["None"] test.adb:11:11-11:21>
+
+Eval 'access_type.f_type_def.f_subtype_indication.f_name.p_referenced_decl()'
+Result: <ConcreteTypeDecl ["T_2"] test.adb:10:4-16:15>
+
+Eval 'access_type.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["T_2"] test.adb:10:4-16:15>
+
+Eval 'node.f_default_expr.f_prefix.p_referenced_decl()'
+Result: <SyntheticTypePredicateObjectDecl ["T_2"] test.adb:10:4-16:15>
+
+Working on node <AssignStmt test.adb:26:7-26:18>
+================================================
+
+Eval 'node.f_dest.f_suffix.p_referenced_decl()'
+Result: <ComponentDecl ["B"] test.adb:19:7-19:19>
+
+Eval 'node.f_expr.f_suffix.p_referenced_decl()'
+Result: <ComponentDecl ["B"] test.adb:19:7-19:19>

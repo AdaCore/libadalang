@@ -1,0 +1,77 @@
+Working on node <ConcreteTypeDecl ["Non_Limited"] test.adb:2:4-2:38>
+====================================================================
+
+Eval 'node.p_is_limited_type'
+Result: False
+
+Working on node <ConcreteTypeDecl ["Limited_Null_Rec"] test.adb:5:4-5:49>
+=========================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Limited_Array"] test.adb:8:4-8:72>
+======================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Limited_Derived_Type"] test.adb:11:4-11:54>
+===============================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Limited_Tagged_Rec"] test.adb:14:4-14:58>
+=============================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Limited_Derived_Tagged_Type"] test.adb:17:4-17:80>
+======================================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Limited_Component_Type"] test.adb:20:4-22:15>
+=================================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Limited_Variant_Type"] test.adb:25:4-32:15>
+===============================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Non_Limited_Interface"] test.adb:35:4-35:44>
+================================================================================
+
+Eval 'node.p_is_limited_type'
+Result: False
+
+Working on node <ConcreteTypeDecl ["Limited_Synchronized_Interface"] test.adb:38:4-38:66>
+=========================================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Limited_Interface"] test.adb:41:4-41:48>
+============================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Non_Limited_Derived_Interface"] test.adb:44:4-44:74>
+========================================================================================
+
+Eval 'node.p_is_limited_type'
+Result: False
+
+Working on node <ConcreteTypeDecl ["Non_Limited_From_Limited_Interface"] test.adb:47:4-48:24>
+=============================================================================================
+
+Eval 'node.p_is_limited_type'
+Result: False

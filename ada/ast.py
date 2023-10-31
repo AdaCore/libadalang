@@ -4850,6 +4850,8 @@ class TypeDef(AdaNode):
 
     is_task_type = Property(False)
 
+    is_limited_type = Property(False)
+
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
         Return the base type entity for this derived type definition.
@@ -5188,8 +5190,8 @@ class ComponentList(BaseFormalParamHolder):
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
                       dynamic_vars=[env, default_origin()])
     def abstract_formal_params_for_assocs(
-            assocs=T.AssocList.entity,
-            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+        assocs=T.AssocList.entity,
+        stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
 
         td = Var(Entity.type_decl)
@@ -5198,13 +5200,10 @@ class ComponentList(BaseFormalParamHolder):
         # Get param matches for discriminants only
         discriminants_matches = Var(Self.match_formals(
             discriminants, assocs, False
-        ).filter(
-            lambda pm: And(
-                Not(pm.formal.is_null),
-                Not(discriminants.find(
-                    lambda d: d == pm.formal.formal_decl).is_null)
-                )
-        ))
+        ).filter(lambda pm: And(
+            Not(pm.formal.is_null),
+            discriminants.contains(pm.formal.formal_decl)
+        )))
 
         # Get param matches for all aggregates' params. Here, we use and pass
         # down the discriminant matches, so that abstract_formal_params_impl is
@@ -5333,6 +5332,22 @@ class ComponentList(BaseFormalParamHolder):
                 components=self_comps,
                 discriminants_values=No(T.DiscriminantValues.array)
             ).singleton
+        )
+
+    @langkit_property(return_type=Bool)
+    def has_limited_component():
+        """
+        Return whether this component list declares at least one component
+        which is limited. This also looks in all branches of a variant part.
+        """
+        return origin.bind(
+            No(AdaNode),
+            Entity.components.any(
+                lambda c:
+                c.cast(BaseFormalParamDecl)._.formal_type._.is_limited_type
+            ) | Entity.variant_part._.variant.any(
+                lambda v: v.components.has_limited_component
+            )
         )
 
 
@@ -5483,6 +5498,10 @@ class RecordTypeDef(TypeDef):
     record_def = Field(type=T.BaseRecordDef)
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
+    is_limited_type = Property(
+        Self.has_limited.as_bool
+        | Entity.record_def.comps.has_limited_component
+    )
 
     xref_equation = Property(LogicTrue())
 
@@ -6812,6 +6831,33 @@ class BaseTypeDecl(BasicDecl):
         return Entity.full_view._.match(
             lambda td=TypeDecl: td.type_def.is_a(InterfaceTypeDef),
             lambda sb=SubtypeDecl: sb.get_type.is_interface_type,
+            lambda _: False
+        )
+
+    @langkit_property(return_type=Bool, public=True)
+    def is_limited_type():
+        """
+        Return True iff this type is limited, either because it is explicitly
+        marked as such, or because it inherits from a limited type or has a
+        component of a limited type. Also note that protected types and task
+        types are limited by definition. Moreover, note that Ada requires
+        all parts of a type to agree of its limitedness (e.g. the public view
+        of a type must indicate that it is limited if its private completion
+        ends up being limited), hence this property does not require looking at
+        any other part of the type to determine its limitedness, excepted for
+        incomplete type declarations. This implies that for illegal code where
+        several parts don't agree, this property will return the result for the
+        particular view of the type on which this property is called.
+        """
+        # This property does not require an "origin" parameter because as
+        # explained above, all parts of a type must agree on the fact that the
+        # type is limited or not.
+        return Entity.match(
+            lambda td=TypeDecl: td.type_def.is_limited_type,
+            lambda sb=SubtypeDecl: sb.get_type.is_limited_type,
+            lambda it=IncompleteTypeDecl: it.full_view.is_limited_type,
+            lambda _=ProtectedTypeDecl: True,
+            lambda _=TaskTypeDecl: True,
             lambda _: False
         )
 
@@ -8668,6 +8714,19 @@ class DerivedTypeDef(TypeDef):
     )
 
     is_enum_type = Property(Entity.base_type.is_enum_type)
+    is_limited_type = Property(
+        Self.has_limited.as_bool
+        | Entity.record_extension._.comps._.has_limited_component
+        | origin.bind(
+            No(AdaNode),  # We want full visibility
+            # Note that we don't recurse on interfaces, because limitedness is
+            # not inherited from those (ARM 7.5 6.2/2).
+            Entity.base_type.then(
+                lambda bt: Not(bt.is_interface_type) & bt.is_limited_type
+            )
+        )
+    )
+
     is_static = Property(Entity.subtype_indication.is_static_subtype)
 
     @langkit_property(return_type=Equation)
@@ -8697,6 +8756,7 @@ class PrivateTypeDef(TypeDef):
     has_limited = Field(type=Limited)
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
+    is_limited_type = Property(Self.has_limited.as_bool)
 
     xref_equation = Property(LogicTrue())
 
@@ -8954,6 +9014,11 @@ class ArrayTypeDef(TypeDef):
 
     array_ndims = Property(Self.indices.ndims)
 
+    is_limited_type = Property(origin.bind(
+        No(AdaNode),  # We want full visibility
+        Entity.comp_type.is_limited_type
+    ))
+
     @langkit_property()
     def xref_equation():
         return And(
@@ -9024,6 +9089,10 @@ class InterfaceTypeDef(TypeDef):
 
     is_tagged_type = Property(True)
     is_task_type = Property(Entity.interface_kind.is_a(InterfaceKind.alt_task))
+
+    # All four interface kinds declare limited types. Also, limitedness is not
+    # inherited from parent interfaces (ARM 7.5 6.2/2).
+    is_limited_type = Property(Not(Self.interface_kind.is_null))
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)

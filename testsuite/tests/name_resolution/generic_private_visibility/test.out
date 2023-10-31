@@ -1,0 +1,11 @@
+Working on node <GenericPackageInstantiation ["T_Lists"] test.adb:14:7-14:40>
+=============================================================================
+
+Set 'lists' to 'node.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["Lists"] test.adb:2:4-8:14 [test.adb:14:7] |>
+
+Set 'base_expr' to 'lists.find(lal.SubtypeIndication)'
+Result: <| SubtypeIndication test.adb:7:24-7:33 [test.adb:14:7] |>
+
+Eval 'base_expr.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["T"] test.adb:12:7-12:36>

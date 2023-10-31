@@ -2705,6 +2705,11 @@ class BasicDecl(AdaNode):
             for now.
         """
         return Cond(
+            # If entity comes from resolving an actual of the current generic
+            # context, we necessarily have visibility on it.
+            Entity.info.from_rebound,
+            True,
+
             # For synthetic type decls, forward the computation on their
             # specific type.
             Entity.is_a(ClasswideTypeDecl, DiscreteBaseSubtypeDecl),
@@ -6105,7 +6110,19 @@ class BaseTypeDecl(BasicDecl):
                     lambda pp:
                     pp.name_symbol == Entity.name_symbol
                 )
-            ).cast(T.BaseTypeDecl).as_entity
+            ).then(
+                lambda t: BaseTypeDecl.entity.new(
+                    node=t.cast(BaseTypeDecl),
+                    info=T.entity_info.new(
+                        rebindings=Entity.info.rebindings,
+                        # Do not propagate the "metadata" and "from_rebound"
+                        # information to the next part, as these only apply to
+                        # the original part.
+                        md=No(Metadata),
+                        from_rebound=False
+                    )
+                )
+            )
         )
 
     @langkit_property(dynamic_vars=[origin], return_type=Bool)

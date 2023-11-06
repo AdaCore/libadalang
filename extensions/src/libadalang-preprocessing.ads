@@ -300,7 +300,7 @@ package Libadalang.Preprocessing is
      (Tree    : Prj.Project_Tree'Class;
       Project : Prj.Project_Type := Prj.No_Project) return Preprocessor_Data;
    --  Create preprocessor data from compiler arguments found in the given GPR
-   --  project (``-gnateP`` and ``-gnateD`` arguments).
+   --  project (``-gnatep`` and ``-gnateD`` arguments).
    --
    --  If a non-null ``Project`` is given, look for compiler arguments in it
    --  and the other projects in its closure.  If ``Project`` is left to

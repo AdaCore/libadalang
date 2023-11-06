@@ -158,7 +158,7 @@ libadalang_docs = {
     """,
     'libadalang.gpr_project_create_preprocessor': """
         Create preprocessor data from compiler arguments found in the given GPR
-        project ``Self`` (``-gnateP`` and ``-gnateD`` compiler switches), or
+        project ``Self`` (``-gnatep`` and ``-gnateD`` compiler switches), or
         from the ``Project`` sub-project (if the argument is passed).
 
         If ``Line_Mode`` is not null, use it to force the line mode in each

@@ -291,7 +291,7 @@ class GPRProject:
     ) -> FileReader:
         """
         Create preprocessor data from compiler arguments found in the given GPR
-        project (``-gnateP`` and ``-gnateD`` arguments), or from the
+        project (``-gnatep`` and ``-gnateD`` arguments), or from the
         ``project`` sub-project (if the argument is passed).
 
         Note that this function collects all arguments and returns an

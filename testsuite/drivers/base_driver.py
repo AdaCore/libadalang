@@ -118,6 +118,12 @@ class BaseDriver(DiffTestDriver):
         if self.test_env.get("canonicalize_directory_separators", False):
             result.append(Substitute("\\", "/"))
 
+        # If requested, replace occurences of the working directory
+        if self.test_env.get("canonicalize_working_dir", False):
+            result.append(
+                Substitute(self.working_dir(), "[working-dir]")
+            )
+
         return result
 
     @property

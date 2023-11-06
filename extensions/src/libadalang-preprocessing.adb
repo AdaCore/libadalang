@@ -131,6 +131,7 @@ package body Libadalang.Preprocessing is
       exception
          when Exc : File_Read_Error =>
             Append (Diagnostics, Exc => Exc);
+            Contents := Create_Decoded_File_Contents ("");
             return;
       end;
 
@@ -143,20 +144,17 @@ package body Libadalang.Preprocessing is
                   Diagnostics);
       Free (In_Buffer);
 
-      --  If the preprocessor returned a source buffer, decode it. If not, it
-      --  is supposed to have created diagnostics.
+      --  The preprocessor is always supposed to return a (possibly empty)
+      --  source buffer.
 
-      if Out_Buffer.Buffer = null then
-         pragma Assert (not Diagnostics.Is_Empty);
-      else
-         Decode_Buffer
-           (Out_Buffer.Buffer (1 .. Out_Buffer.Last),
-            Charset,
-            Read_BOM,
-            Contents,
-            Diagnostics);
-         Free (Out_Buffer.Buffer);
-      end if;
+      pragma Assert (Out_Buffer.Buffer /= null);
+      Decode_Buffer
+        (Out_Buffer.Buffer (1 .. Out_Buffer.Last),
+         Charset,
+         Read_BOM,
+         Contents,
+         Diagnostics);
+      Free (Out_Buffer.Buffer);
    end Read;
 
    -------------------

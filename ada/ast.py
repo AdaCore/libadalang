@@ -12752,10 +12752,10 @@ class ContractCaseAssoc(BaseAssoc):
 
 class DeclExpr(Expr):
     """
-    Declare expression (Ada 2020, :rmlink:`4.5.9`).
+    Declare expression (Ada 2022, :rmlink:`4.5.9`).
     """
 
-    decls = Field(type=T.BasicDecl.list)
+    decls = Field(type=T.AdaNode.list)
     expr = Field(type=T.Expr)
 
     env_spec = EnvSpec(

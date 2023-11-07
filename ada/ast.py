@@ -9180,11 +9180,11 @@ class UnconstrainedArrayIndices(ArrayIndices):
     @langkit_property()
     def xref_equation():
         return Entity.types.logic_all(
-            lambda typ: typ.subtype_indication.sub_equation
+            lambda typ: typ.subtype_name.xref_no_overloading
         )
 
     is_static = Property(Entity.types.all(
-        lambda t: t.subtype_indication.is_static_subtype
+        lambda t: t.subtype_name.is_static_subtype
     ))
 
 
@@ -23219,11 +23219,11 @@ class UnconstrainedArrayIndex(AdaNode):
     List of unconstrained array indexes.
     """
 
-    subtype_indication = Field(type=SubtypeIndication)
+    subtype_name = Field(type=Name)
 
     @langkit_property(dynamic_vars=[origin])
     def designated_type():
-        return Entity.subtype_indication.designated_type
+        return Entity.subtype_name.name_designated_type
 
 
 class AbstractStateDecl(BasicDecl):

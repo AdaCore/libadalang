@@ -11,13 +11,8 @@ ConcreteTypeDecl[1:1-1:49]
 |  |  |f_types:
 |  |  |  UnconstrainedArrayIndexList[1:20-1:36]
 |  |  |  |  UnconstrainedArrayIndex[1:20-1:36]
-|  |  |  |  |f_subtype_indication:
-|  |  |  |  |  SubtypeIndication[1:20-1:27]
-|  |  |  |  |  |f_has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:20-1:20]
-|  |  |  |  |  |f_name:
-|  |  |  |  |  |  Id[1:20-1:27]: Integer
-|  |  |  |  |  |f_constraint: <null>
+|  |  |  |  |f_subtype_name:
+|  |  |  |  |  Id[1:20-1:27]: Integer
 |  |f_component_type:
 |  |  ComponentDef[1:41-1:48]
 |  |  |f_has_aliased:

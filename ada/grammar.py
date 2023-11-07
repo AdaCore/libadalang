@@ -175,7 +175,7 @@ A.add_rules(
     ),
 
     unconstrained_index=UnconstrainedArrayIndex(
-        A.subtype_indication, "range", "<>"
+        A.subtype_name, "range", "<>"
     ),
 
     array_type_def=ArrayTypeDef(

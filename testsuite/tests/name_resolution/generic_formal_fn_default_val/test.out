@@ -1,0 +1,32 @@
+Analyzing test.ads
+##################
+
+Resolving xrefs for node <ExprFunction ["Copy"] test.ads:3:9-3:53>
+******************************************************************
+
+Expr: <ParenExpr test.ads:3:46-3:52>
+  type:          <IncompleteFormalTypeDecl ["T"] test.ads:2:4-2:11>
+  expected type: <IncompleteFormalTypeDecl ["T"] test.ads:2:4-2:11>
+Expr: <Id "Self" test.ads:3:47-3:51>
+  references:    <DefiningName "Self" test.ads:3:24-3:28>
+  type:          <IncompleteFormalTypeDecl ["T"] test.ads:2:4-2:11>
+  expected type: <IncompleteFormalTypeDecl ["T"] test.ads:2:4-2:11>
+
+Resolving xrefs for node <SubpSpec test.ads:3:9-3:42>
+*****************************************************
+
+Expr: <Id "T" test.ads:3:41-3:42>
+  references:    <DefiningName "T" test.ads:2:9-2:10>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["Self"] test.ads:3:24-3:32>
+****************************************************************
+
+Expr: <Id "T" test.ads:3:31-3:32>
+  references:    <DefiningName "T" test.ads:2:9-2:10>
+  type:          None
+  expected type: None
+
+
+Done.

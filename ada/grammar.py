@@ -453,6 +453,9 @@ A.add_rules(
             Opt("is", Or(A.box_expr, A.name, A.null_literal)),
             A.aspect_spec, ";"
         ),
+        # In the case of generic formal functions with a default expression, we
+        # just use an expression function node.
+        A.expr_fn,
     ),
 
     renaming_clause=RenamingClause("renames", A.name),

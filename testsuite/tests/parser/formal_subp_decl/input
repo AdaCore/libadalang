@@ -1,1 +1,1 @@
-with procedure P is abstract;
+procedure P is abstract;

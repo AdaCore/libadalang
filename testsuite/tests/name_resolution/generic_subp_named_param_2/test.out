@@ -15,8 +15,8 @@ Expr: <Id "Bar" test.adb:15:33-15:36>
 Traversing generic node <| GenericSubpDecl ["Gen"] test.adb:2:4-4:18 [test.adb:15:4] |>
 ***************************************************************************************
 
-Resolving xrefs for node <| GenericFormalSubpDecl ["Foo"] test.adb:3:7-3:46 [test.adb:15:4] |>
-**********************************************************************************************
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test.adb:3:12-3:46 [test.adb:15:4] |>
+************************************************************************************************
 
 
 Resolving xrefs for node <| SubpSpec test.adb:3:12-3:45 [test.adb:15:4] |>
@@ -121,8 +121,8 @@ Expr: <Id "Baz" test_2.adb:23:28-23:31>
 Traversing generic node <| GenericSubpDecl ["G2"] test_2.adb:11:4-13:17 [test_2.adb:23:4] |>
 ********************************************************************************************
 
-Resolving xrefs for node <| GenericFormalSubpDecl ["Bar"] test_2.adb:12:7-12:40 [test_2.adb:23:4] |>
-****************************************************************************************************
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Bar"] test_2.adb:12:12-12:40 [test_2.adb:23:4] |>
+******************************************************************************************************
 
 
 Resolving xrefs for node <| SubpSpec test_2.adb:12:12-12:39 [test_2.adb:23:4] |>
@@ -162,8 +162,8 @@ Expr: <| Id "Bar" test_2.adb:16:31-16:34 [test_2.adb:23:4] |>
 Traversing generic node <| GenericSubpDecl ["G1"] test_2.adb:2:4-4:17 [test_2.adb:23:4, test_2.adb:16:7] |>
 ***********************************************************************************************************
 
-Resolving xrefs for node <| GenericFormalSubpDecl ["Foo"] test_2.adb:3:7-3:40 [test_2.adb:23:4, test_2.adb:16:7] |>
-*******************************************************************************************************************
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test_2.adb:3:12-3:40 [test_2.adb:23:4, test_2.adb:16:7] |>
+*********************************************************************************************************************
 
 
 Resolving xrefs for node <| SubpSpec test_2.adb:3:12-3:39 [test_2.adb:23:4, test_2.adb:16:7] |>
@@ -261,8 +261,8 @@ Expr: <Id "Bar" test_3.adb:15:33-15:36>
 Traversing generic node <| GenericSubpDecl ["Gen"] test_3.adb:4:4-6:18 [test_3.adb:15:4] |>
 *******************************************************************************************
 
-Resolving xrefs for node <| GenericFormalSubpDecl ["Foo"] test_3.adb:5:7-5:43 [test_3.adb:15:4] |>
-**************************************************************************************************
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test_3.adb:5:12-5:43 [test_3.adb:15:4] |>
+****************************************************************************************************
 
 
 Resolving xrefs for node <| SubpSpec test_3.adb:5:12-5:42 [test_3.adb:15:4] |>

@@ -4,7 +4,7 @@ procedure Test is
 
    generic
       with procedure Bar (X : Integer) return String is Integer'Image;
-      pragma Test_Statement;
+      pragma Test_Block;
    package Test is
    end Test;
 begin

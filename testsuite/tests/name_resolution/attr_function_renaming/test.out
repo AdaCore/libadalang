@@ -17,8 +17,8 @@ Expr: <Id "Image" test.adb:2:61-2:66>
   type:          None
   expected type: None
 
-Resolving xrefs for node <GenericFormalSubpDecl ["Bar"] test.adb:6:7-6:71>
-**************************************************************************
+Resolving xrefs for node <ConcreteFormalSubpDecl ["Bar"] test.adb:6:12-6:71>
+****************************************************************************
 
 Expr: <AttributeRef test.adb:6:57-6:70>
   references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
@@ -30,6 +30,22 @@ Expr: <Id "Integer" test.adb:6:57-6:64>
   expected type: None
 Expr: <Id "Image" test.adb:6:65-6:70>
   references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:6:12-6:53>
+******************************************************
+
+Expr: <Id "String" test.adb:6:47-6:53>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["X"] test.adb:6:27-6:38>
+*************************************************************
+
+Expr: <Id "Integer" test.adb:6:31-6:38>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
   expected type: None
 

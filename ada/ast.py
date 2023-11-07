@@ -12914,6 +12914,7 @@ class FormalSubpDecl(ClassicSubpDecl):
 
     defining_names = Property(Entity.subp_spec.name.singleton)
 
+    xref_entry_point = Property(True)
     xref_equation = Property(
         Entity.default_expr.then(lambda e: e.match(
             lambda _=T.NullLiteral: LogicTrue(),
@@ -13069,9 +13070,6 @@ class GenericFormal(BaseFormalParamDecl):
 
     defining_names = Property(Entity.decl.defining_names)
     type_expression = Property(Entity.decl.type_expression)
-
-    xref_entry_point = Property(True)
-    xref_equation = Property(Entity.decl.xref_equation)
 
 
 class GenericFormalObjDecl(GenericFormal):
@@ -23738,9 +23736,6 @@ class IncompleteTypeDecl(BaseTypeDecl):
         ignore(stop_recurse_at)
         return Entity.discriminants.abstract_formal_params
 
-    xref_stop_resolution = Property(True)
-    xref_equation = Property(LogicTrue())
-
 
 class IncompleteTaggedTypeDecl(IncompleteTypeDecl):
     """
@@ -23760,13 +23755,7 @@ class IncompleteFormalTypeDecl(IncompleteTypeDecl):
     default_type = Field(type=T.Name)
 
     is_tagged_type = Property(Not(Self.is_tagged.is_null))
-
-    xref_stop_resolution = Property(Self.default_type.is_null)
-    xref_equation = Property(If(
-        Entity.xref_stop_resolution,
-        Entity.super(),
-        Entity.default_type.sub_equation
-    ))
+    xref_equation = Property(Entity.default_type.sub_equation)
 
 
 class Params(AdaNode):

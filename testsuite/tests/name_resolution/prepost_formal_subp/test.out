@@ -1,6 +1,10 @@
 Analyzing pp_formal.ads
 #######################
 
+Resolving xrefs for node <ConcreteFormalSubpDecl ["P"] pp_formal.ads:2:9-3:46>
+******************************************************************************
+
+
 Resolving xrefs for node <SubpSpec pp_formal.ads:2:9-2:58>
 **********************************************************
 

@@ -20,4 +20,267 @@ Expr: <Id "B" test_decl_expr.adb:2:53-2:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
+Analyzing ada2022.adb
+#####################
+
+Resolving xrefs for node <SubpSpec ada2022.adb:2:4-2:76>
+********************************************************
+
+
+Resolving xrefs for node <ParamSpec ["Input"] ada2022.adb:2:17-2:35>
+********************************************************************
+
+Expr: <Id "Integer" ada2022.adb:2:28-2:35>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["Reg1"] ada2022.adb:2:37-2:55>
+*******************************************************************
+
+Expr: <Id "Integer" ada2022.adb:2:48-2:55>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["Reg2"] ada2022.adb:2:57-2:75>
+*******************************************************************
+
+Expr: <Id "Integer" ada2022.adb:2:68-2:75>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc ada2022.adb:3:12-13:39>
+*************************************************************
+
+Expr: <Id "Post" ada2022.adb:3:12-3:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr ada2022.adb:3:20-13:39>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp ada2022.adb:3:21-13:38>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp ada2022.adb:3:21-4:27>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <ParenExpr ada2022.adb:3:21-3:32>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp ada2022.adb:3:22-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Reg1" ada2022.adb:3:22-3:26>
+  references:    <DefiningName "Reg1" ada2022.adb:2:37-2:41>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpNeq "/=" ada2022.adb:3:27-3:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:3:30-3:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpAndThen "and then" ada2022.adb:4:7-4:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr ada2022.adb:4:16-4:27>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp ada2022.adb:4:17-4:26>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Reg2" ada2022.adb:4:17-4:21>
+  references:    <DefiningName "Reg2" ada2022.adb:2:57-2:61>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpNeq "/=" ada2022.adb:4:22-4:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:4:25-4:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpAndThen "and then" ada2022.adb:5:7-5:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr ada2022.adb:5:16-13:38>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DeclExpr ada2022.adb:5:17-13:37>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp ada2022.adb:13:20-13:37>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <BinOp ada2022.adb:13:20-13:33>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <ParenExpr ada2022.adb:13:20-13:27>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <BinOp ada2022.adb:13:21-13:26>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "P" ada2022.adb:13:21-13:22>
+  references:    <DefiningName "P" ada2022.adb:7:20-7:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" ada2022.adb:13:23-13:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Q" ada2022.adb:13:25-13:26>
+  references:    <DefiningName "Q" ada2022.adb:10:20-10:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpMod "mod" ada2022.adb:13:28-13:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:13:32-13:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpEq "=" ada2022.adb:13:34-13:35>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:13:36-13:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <PragmaNode ada2022.adb:6:20-6:55>
+***********************************************************
+
+Expr: <Id "Assume" ada2022.adb:6:27-6:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp ada2022.adb:6:35-6:53>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <AttributeRef ada2022.adb:6:35-6:47>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+Expr: <Id "Integer" ada2022.adb:6:35-6:42>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Id "Size" ada2022.adb:6:43-6:47>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq "=" ada2022.adb:6:48-6:49>
+  references:    <SyntheticDefiningName ""="" __standard:120:24-120:37>
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:6:50-6:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+
+Resolving xrefs for node <ObjectDecl ["P"] ada2022.adb:7:20-7:49>
+*****************************************************************
+
+Expr: <Id "Integer" ada2022.adb:7:33-7:40>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Id "Reg1" ada2022.adb:7:44-7:48>
+  references:    <DefiningName "Reg1" ada2022.adb:2:37-2:41>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <PragmaNode ada2022.adb:8:20-8:44>
+***********************************************************
+
+Expr: <Id "Assume" ada2022.adb:8:27-8:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp ada2022.adb:8:35-8:42>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "P" ada2022.adb:8:35-8:36>
+  references:    <DefiningName "P" ada2022.adb:7:20-7:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLt "<" ada2022.adb:8:37-8:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:8:39-8:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <PragmaNode ada2022.adb:9:20-9:44>
+***********************************************************
+
+Expr: <Id "Assume" ada2022.adb:9:27-9:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp ada2022.adb:9:35-9:42>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "P" ada2022.adb:9:35-9:36>
+  references:    <DefiningName "P" ada2022.adb:7:20-7:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLt "<" ada2022.adb:9:37-9:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:9:39-9:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Q"] ada2022.adb:10:20-10:49>
+*******************************************************************
+
+Expr: <Id "Integer" ada2022.adb:10:33-10:40>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Id "Reg2" ada2022.adb:10:44-10:48>
+  references:    <DefiningName "Reg2" ada2022.adb:2:57-2:61>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <PragmaNode ada2022.adb:11:20-11:44>
+*************************************************************
+
+Expr: <Id "Assume" ada2022.adb:11:27-11:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp ada2022.adb:11:35-11:42>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "Q" ada2022.adb:11:35-11:36>
+  references:    <DefiningName "Q" ada2022.adb:10:20-10:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLt "<" ada2022.adb:11:37-11:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int ada2022.adb:11:39-11:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
 Done.

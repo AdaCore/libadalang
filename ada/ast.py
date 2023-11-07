@@ -9180,7 +9180,11 @@ class UnconstrainedArrayIndices(ArrayIndices):
     @langkit_property()
     def xref_equation():
         return Entity.types.logic_all(
-            lambda typ: typ.subtype_name.xref_no_overloading
+            lambda typ:
+            typ.subtype_name.xref_no_overloading
+            & If(typ.lower_bound.is_null,
+                 LogicTrue(),
+                 typ.lower_bound.sub_equation)
         )
 
     is_static = Property(Entity.types.all(
@@ -23220,6 +23224,7 @@ class UnconstrainedArrayIndex(AdaNode):
     """
 
     subtype_name = Field(type=Name)
+    lower_bound = Field(type=Expr)
 
     @langkit_property(dynamic_vars=[origin])
     def designated_type():

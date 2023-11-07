@@ -175,7 +175,7 @@ A.add_rules(
     ),
 
     unconstrained_index=UnconstrainedArrayIndex(
-        A.subtype_name, "range", "<>"
+        A.subtype_name, "range", Opt(A.simple_expr, ".."), "<>"
     ),
 
     array_type_def=ArrayTypeDef(
@@ -1426,7 +1426,11 @@ A.add_rules(
     ),
 
     discrete_range=Or(
-        BinOp(A.simple_expr, Op.alt_double_dot(".."), A.simple_expr),
+        BinOp(
+            A.simple_expr,
+            Op.alt_double_dot(".."),
+            Or(A.simple_expr, A.box_expr)
+        ),
         Predicate(A.name, T.Name.is_range_attribute)
     ),
 

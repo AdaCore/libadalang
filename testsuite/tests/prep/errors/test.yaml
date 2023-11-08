@@ -1,5 +1,4 @@
 driver: ada-api
 main: main.adb
-canonicalize_working_dir: true
 control:
     - [XFAIL, "valgrind", "Pending resolution of eng/gpr/gpr-issues#43"]

@@ -9,10 +9,6 @@ variables:
 
   PACKAGE_REPOSITORY_PROJECT: eng/libadalang/ci-packages
 
-  CI_FRAGMENTS: ci_fragments
-  CI_FRAGMENTS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/setton/$CI_FRAGMENTS
-  CI_FRAGMENTS_PATH: /tmp/$CI_FRAGMENTS
-
 stages:
   - single
 
@@ -40,8 +36,7 @@ build_and_test:
     - !reference [.script_snippets, setup]
 
     # Download the langkit package
-    - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
-    - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
+    - download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
     - tar zxf $UPSTREAM_PACKAGE -C /
     - rm $UPSTREAM_PACKAGE
 

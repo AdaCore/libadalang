@@ -26,7 +26,24 @@ procedure Main is
       New_Line;
       if U.Has_Diagnostics then
          for D of U.Diagnostics loop
-            Put_Line (U.Format_GNU_Diagnostic (D));
+
+            --  Remove absolute paths from error messages to have consistent
+            --  baselines.
+
+            declare
+               Msg    : constant String := U.Format_GNU_Diagnostic (D);
+               Prefix : constant String :=
+                 "no_such_file.adb: Cannot open ";
+            begin
+               if Msg'Length > Prefix'Length
+                  and then Msg (Msg'First .. Msg'First + Prefix'Length - 1)
+                           = Prefix
+               then
+                  Put_Line (Prefix & "[...]");
+               else
+                  Put_Line (Msg);
+               end if;
+            end;
          end loop;
          New_Line;
       end if;

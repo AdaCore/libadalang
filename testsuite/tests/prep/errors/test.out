@@ -13,7 +13,7 @@ PragmaNodeList[1:1-1:19]
 
 == no_such_file.adb ==
 
-no_such_file.adb: Cannot open [working-dir]/no_such_file.adb
+no_such_file.adb: Cannot open [...]
 
 CompilationUnitList[1:1-1:1]: <empty list>
 

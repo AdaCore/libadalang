@@ -12547,7 +12547,7 @@ class GenericFormal(BaseFormalParamDecl):
     Enclosing declaration for a generic formal. The real declaration is
     accessible via the ``decl`` field.
     """
-    decl = Field(T.BasicDecl)
+    decl = Field(type=T.BasicDecl)
     aspects = NullField()
 
     defining_names = Property(Entity.decl.defining_names)
@@ -22111,6 +22111,17 @@ class NamedStmt(CompositeStmt):
     )
 
     xref_equation = Property(LogicTrue())
+
+
+class SimpleDeclStmt(SimpleStmt):
+    """
+    Statement wrapping a simple object declaration.
+    """
+    decl = Field(type=T.ObjectDecl)
+
+    @langkit_property()
+    def xref_equation():
+        return LogicTrue()
 
 
 @abstract

@@ -1,0 +1,159 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:10:4-10:37>
+*******************************************************
+
+Expr: <CallExpr test.adb:10:4-10:36>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test.adb:10:4-10:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:10:14-10:35>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <AttributeRef test.adb:10:14-10:27>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  type:          None
+  expected type: None
+Expr: <Id "Integer" test.adb:10:14-10:21>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Id "Image" test.adb:10:22-10:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BinOp test.adb:10:29-10:34>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "A" test.adb:10:29-10:30>
+  references:    <DefiningName "A" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test.adb:10:31-10:32>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "B" test.adb:10:33-10:34>
+  references:    <DefiningName "B" test.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <CallStmt test.adb:15:4-15:41>
+*******************************************************
+
+Resolution failed for node <CallStmt test.adb:15:4-15:41>
+
+Resolving xrefs for node <CallStmt test.adb:20:4-20:41>
+*******************************************************
+
+Expr: <CallExpr test.adb:20:4-20:40>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test.adb:20:4-20:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:20:14-20:39>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <AttributeRef test.adb:20:14-20:27>
+  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  type:          None
+  expected type: None
+Expr: <Id "Integer" test.adb:20:14-20:21>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Id "Image" test.adb:20:22-20:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BinOp test.adb:20:29-20:38>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <BinOp test.adb:20:29-20:34>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "A" test.adb:20:29-20:30>
+  references:    <DefiningName "A" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test.adb:20:31-20:32>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "B" test.adb:20:33-20:34>
+  references:    <DefiningName "B" test.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test.adb:20:35-20:36>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "C" test.adb:20:37-20:38>
+  references:    <DefiningName "C" test.adb:19:4-19:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:24:4-24:20>
+*********************************************************
+
+Expr: <DottedName test.adb:24:4-24:14>
+  references:    <DefiningName "Outer" test.adb:4:4-4:9>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Test" test.adb:24:4-24:8>
+  references:    <DefiningName "Test" test.adb:3:11-3:15>
+  type:          None
+  expected type: None
+Expr: <Id "Outer" test.adb:24:9-24:14>
+  references:    <DefiningName "Outer" test.adb:4:4-4:9>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "A" test.adb:24:18-24:19>
+  references:    <DefiningName "A" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:30:4-30:15>
+*********************************************************
+
+Expr: <Id "Outer" test.adb:30:4-30:9>
+  references:    <DefiningName "Outer" test.adb:27:4-27:9>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "A" test.adb:30:13-30:14>
+  references:    <DefiningName "A" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:34:4-34:20>
+*********************************************************
+
+Expr: <DottedName test.adb:34:4-34:14>
+  references:    <DefiningName "Outer" test.adb:27:4-27:9>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Test" test.adb:34:4-34:8>
+  references:    <DefiningName "Test" test.adb:3:11-3:15>
+  type:          None
+  expected type: None
+Expr: <Id "Outer" test.adb:34:9-34:14>
+  references:    <DefiningName "Outer" test.adb:27:4-27:9>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "A" test.adb:34:18-34:19>
+  references:    <DefiningName "A" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

@@ -94,7 +94,7 @@ Expr: <Id "T1" test.adb:20:12-20:14>
   type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
   expected type: None
 Expr: <BinOp test.adb:20:16-20:23>
-  type:          None
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:61>
   expected type: None
 Expr: <Id "X1" test.adb:20:16-20:18>
   references:    <DefiningName "X1" test.adb:7:6-7:8>

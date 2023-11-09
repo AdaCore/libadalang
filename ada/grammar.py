@@ -517,6 +517,9 @@ A.add_rules(
         A.protected_type_decl,
         A.subtype_decl,
         A.object_decl,
+        A.single_task_decl,
+        A.protected_decl,
+        A.number_decl,
         A.package_decl,
         A.aspect_clause,
         A.use_clause,
@@ -530,9 +533,6 @@ A.add_rules(
     object_decl=Or(
         A.sub_object_decl,
         A.no_type_object_renaming_decl,
-        A.single_task_decl,
-        A.protected_decl,
-        A.number_decl
     ),
 
     sub_object_decl=ObjectDecl(
@@ -1098,9 +1098,11 @@ A.add_rules(
 
     simple_stmt=Or(A.null_stmt, A.assignment_stmt,
                    A.goto_stmt, A.exit_stmt,
-                   A.return_stmt, A.requeue_stmt,
+                   A.return_stmt, A.requeue_stmt, A.simple_decl_stmt,
                    A.call_stmt, A.abort_stmt, A.delay_stmt,
                    A.raise_stmt, A.terminate_alternative, A.pragma),
+
+    simple_decl_stmt=SimpleDeclStmt(A.object_decl),
 
     null_stmt=NullStmt(L.Null, sc()),
 

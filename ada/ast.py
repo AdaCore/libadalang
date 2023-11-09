@@ -13441,23 +13441,12 @@ class BinOp(Expr):
         """
         return If(
             Self.op.is_a(Op.alt_mult, Op.alt_div),
-            Or(
-                Predicate(AdaNode.is_not_null, Self.expected_type_var)
-                & Predicate(BaseTypeDecl.is_fixed_point,
-                            Self.expected_type_var)
-                & Bind(Self.type_var, Self.universal_fixed_type),
-                Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
-            )
-            & Predicate(BaseTypeDecl.is_fixed_point,
-                        Self.left.expected_type_var)
+            Bind(Self.type_var, Self.universal_fixed_type)
             & Bind(Self.left.expected_type_var, Self.universal_fixed_type)
-            & Predicate(BaseTypeDecl.is_fixed_point,
-                        Self.right.expected_type_var)
-            & Bind(Self.right.expected_type_var, Self.universal_fixed_type),
+            & Bind(Self.right.expected_type_var, Self.universal_fixed_type)
+            & Self.left.matches_expected_formal_type
+            & Self.right.matches_expected_formal_type,
             LogicFalse()
-        ) & And(
-            Self.left.matches_expected_formal_type,
-            Self.right.matches_expected_formal_type
         )
 
     @langkit_property(return_type=Equation)

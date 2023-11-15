@@ -13621,9 +13621,19 @@ class ConcatOp(Expr):
                     ),
                     concat_operand=Entity.other_operands.at(pos),
                     right=Entity.other_operands.at(pos).operand: Or(
+                        # TODO: this is implementation is actually not correct
+                        # w.r.t. visibility (eng/libadalang/libadalang#1138).
 
-                        # Find the subprogram corresponding to:
-                        # "&" (left, right).
+                        # First, try to resolve this operator using built-in
+                        # operators only.
+                        Entity.operator_no_subprogram_equation(
+                            left, concat_operand, right
+                        ),
+
+                        # If that didn't work, try to resolve it by considering
+                        # visible user-defined overloads of "&". NOTE: for
+                        # performance reasons it is better to first try the
+                        # built-in operators first.
                         concat_subprograms.logic_any(
                             lambda subp: Let(
                                 lambda spec=subp.subp_spec_or_null:
@@ -13637,12 +13647,6 @@ class ConcatOp(Expr):
                                          spec)
                                 )
                             )
-                        ),
-                        # When no subprogram is found for this concat operator,
-                        # use this equation to infer it's type depending on the
-                        # context.
-                        Entity.operator_no_subprogram_equation(
-                            left, concat_operand, right
                         )
                     )
                 )

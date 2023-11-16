@@ -19914,20 +19914,26 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def result_attr_equation():
-        # We find the containing subprogram starting the bound env's node
-        # instead of Self, as this attribute can appear in a pragma Post
-        # appearing *after* the subprogram.
-        containing_subp = Var(env.env_node.parents.find(
+        # We find the containing declaration (a function declaration or an
+        # access-to-function type) starting the bound env's node instead of
+        # Self, as this attribute can appear in a pragma Post appearing
+        # *after* the declaration.
+        containing_decl = Var(env.env_node.parents.find(
             lambda p: p.is_a(BasicSubpDecl, BaseSubpBody)
+            | p.cast(ConcreteTypeDecl)._.type_def.is_a(AccessToSubpDef)
         ).as_entity.cast(T.BasicDecl))
 
-        returns = Var(containing_subp.subp_spec_or_null.then(
+        returns = Var(containing_decl.match(
+            lambda sd=T.ConcreteTypeDecl:
+            sd.type_def.cast(AccessToSubpDef).subp_spec,
+            lambda bd=T.BasicDecl: bd.subp_spec_or_null,
+        ).then(
             lambda ss: ss.return_type
         ))
 
         return And(
             Bind(Self.type_var, returns),
-            Bind(Entity.prefix.ref_var, containing_subp)
+            Bind(Entity.prefix.ref_var, containing_decl)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])

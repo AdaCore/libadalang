@@ -80,10 +80,10 @@ Working on node <SubpDecl ["Bar"] test.adb:13:4-13:49>
 ======================================================
 
 Eval 'node[1][3].p_designated_type_decl.p_parent_basic_decl'
-Result: <PackageDecl ["Standard"] __standard:1:1-129:14>
+Result: <PackageDecl ["Standard"] __standard:1:1-130:14>
 
 Working on node <AssignStmt test.adb:18:4-18:35>
 ================================================
 
 Eval 'node[1][0].p_expression_type.p_parent_basic_decl'
-Result: <PackageDecl ["Standard"] __standard:1:1-129:14>
+Result: <PackageDecl ["Standard"] __standard:1:1-130:14>

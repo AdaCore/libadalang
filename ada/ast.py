@@ -2805,6 +2805,54 @@ class BasicDecl(AdaNode):
             default_val=False
         )
 
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def subp_renaming_decl_match_signature(prefix=T.BasicDecl.entity,
+                                           other=T.BasicDecl.entity):
+        """
+        Predicate to check whether ``other`` is a valid subprogram renaming
+        of ``Entity``.
+
+        In case ``other`` is a subprogram renaming of a prefixed view call of
+        ``Entity``, subprograms profiles are not fully conformant. The first
+        parameter of ``Entity`` has to be ignored when comparing it to
+        ``other``, and the object designated by ``prefix`` shall be of the type
+        of the first parameter of ``Entity``.
+
+        If ``prefix`` doesn't designate an object (but a package for example),
+        the ``subp_decl_match_signature`` predicate will match.
+
+          .. code::
+
+            procedure Entity (X, Y : T);
+
+            procedure Other (A, B : T) renames Entity; -- Regular subp renaming
+
+            procedure Other (B : T) renames A.Entity; -- Prefixed view renaming
+
+        """
+        return Or(
+            # Check first for a regular subprogram renaming
+            Entity.subp_decl_match_signature(other),
+            # Then, check for a renaming of a prefixed view call
+            Entity.subp_spec_or_null.then(
+                lambda spec: And(
+                    Not(prefix.is_null),
+                    # ``Entity`` shall be a dottable subprogram for the
+                    # object's type designated by ``prefix``.
+                    prefix.expr_type._.accessed_type
+                    ._or(prefix.expr_type) == spec.dottable_subp_of,
+                    # Then signature profiles shall match by ignoring the first
+                    # parameter of ``Entity``.
+                    spec.match_signature(
+                        other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
+                        False,
+                        ignore_first_param=True
+                    )
+                ),
+                default_val=False
+            )
+        )
+
     @langkit_property(return_type=T.BasicDecl.entity.array,
                       dynamic_vars=[imprecise_fallback])
     def base_subp_declarations_impl():
@@ -4793,10 +4841,17 @@ class BaseFormalParamHolder(AdaNode):
         ))
         other_params = Var(other.unpacked_formal_params)
 
-        self_types = Var(Entity.param_types)
+        self_types = Var(Entity.param_types.then(
+            lambda types: If(
+                ignore_first_param,
+                types.filter(lambda i, e: i != 0),
+                types
+            )
+        ))
         other_types = Var(other.param_types)
         return And(
             self_params.length == other_params.length,
+            self_types.length == other_types.length,
             self_params.all(lambda i, p: And(
                 Or(Not(match_names),
                    p.name.matches(other_params.at(i).name.node)),
@@ -21671,36 +21726,44 @@ class SubpRenamingDecl(BaseSubpBody):
     aspects = Field(type=T.AspectSpec)
 
     xref_entry_point = Property(True)
-    xref_equation = Property(Or(
-        Cond(
-            Entity.renames.renamed_object.is_a(CharLiteral),
+    xref_equation = Property(Let(
+        lambda renamed_object=Entity.renames.renamed_object: Or(
+            Cond(
+                renamed_object.is_a(CharLiteral),
 
-            # If the renamed object is a char literal, simply resolves its
-            # equation.
-            Bind(Entity.renames.renamed_object.expected_type_var,
-                 Entity.subp_spec.return_type)
-            & Entity.renames.renamed_object.sub_equation,
+                # If the renamed object is a char literal, simply resolves its
+                # equation.
+                Bind(renamed_object.expected_type_var,
+                     Entity.subp_spec.return_type)
+                & renamed_object.sub_equation,
 
-            Entity.renames.renamed_object.is_a(AttributeRef),
-            # If the renamed object is an attribute ref, do normal
-            # resolution to synthesize its corresponding function.
-            Entity.renames.renamed_object.sub_equation,
+                renamed_object.is_a(AttributeRef),
+                # If the renamed object is an attribute ref, do normal
+                # resolution to synthesize its corresponding function.
+                renamed_object.sub_equation,
 
-            Entity.renames.renamed_object.match(
-                # If renamed_object is a CallExpr, this is likely the renaming
-                # of an entry decl with a family member specified, so use
-                # sub_equation.
-                lambda ce=T.CallExpr: ce.sub_equation,
-                # On the other cases, prefix is a simple identifier
-                lambda o: o.xref_no_overloading(all_els=True)
-            ) & Predicate(BasicDecl.subp_decl_match_signature,
-                          Entity.renames.renamed_object.ref_var,
-                          Entity.cast(T.BasicDecl))
-        ),
-        # Operators might be built-in, so if we cannot find a reference, we'll
-        # just abandon resolution...
-        If(Entity.renames.renamed_object.is_operator_name,
-           LogicTrue(), LogicFalse())
+                renamed_object.match(
+                    # If renamed_object is a CallExpr, this is likely the
+                    # renaming of an entry decl with a family member specified,
+                    # so use sub_equation.
+                    lambda ce=T.CallExpr: ce.sub_equation,
+                    # On the other cases, prefix is a simple identifier
+                    lambda o: o.xref_no_overloading(all_els=True)
+                ) & If(
+                    renamed_object.is_a(DottedName),
+                    Predicate(BasicDecl.subp_renaming_decl_match_signature,
+                              renamed_object.ref_var,
+                              renamed_object.cast(DottedName).prefix.ref_var,
+                              Entity.cast(T.BasicDecl)),
+                    Predicate(BasicDecl.subp_decl_match_signature,
+                              renamed_object.ref_var,
+                              Entity.cast(T.BasicDecl))
+                )
+            ),
+            # Operators might be built-in, so if we cannot find a reference,
+            # we'll just abandon resolution...
+            If(renamed_object.is_operator_name, LogicTrue(), LogicFalse())
+        )
     ))
 
 

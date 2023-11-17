@@ -257,7 +257,7 @@ $root = LexEnv(Static_Primary, Parent=null):
     string: [<ConcreteTypeDecl ["String"] __standard:105:3-105:57>]
     tasking_error: [<ExceptionDecl ["Tasking_Error"] __standard:128:3-128:32>]
     true: [<EnumLiteralDecl ["True"] __standard:3:27-3:31>]
-    universal_fixed_type_: [<ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:61>]
+    universal_fixed_type_: [<ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>]
     universal_int_type_: [<ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>]
     universal_real_type_: [<ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>]
     wide_character: [<ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>]

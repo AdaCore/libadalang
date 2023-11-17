@@ -9,12 +9,10 @@ package body Pkg is
 
    procedure P (Arr : Arr_T) is
       Set1 : Set := [for E of Arr when E < 0 => E];
-      pragma Test_Statement;
       Set2 : Set := [for E of Arr when E < 0 or else E > 0 => E];
-      pragma Test_Statement;
       Set3 : Set := [for Item in 1 .. 5 => Item * 2];
-      pragma Test_Statement;
    begin
       null;
    end P;
+   pragma Test_Block;
 end Pkg;

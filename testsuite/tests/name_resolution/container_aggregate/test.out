@@ -233,6 +233,18 @@ Expr: <Str ""info@domain.com"" test3.adb:70:21-70:38>
 Analyzing pkg.adb
 #################
 
+Resolving xrefs for node <SubpSpec pkg.adb:10:4-10:29>
+******************************************************
+
+
+Resolving xrefs for node <ParamSpec ["Arr"] pkg.adb:10:17-10:28>
+****************************************************************
+
+Expr: <Id "Arr_T" pkg.adb:10:23-10:28>
+  references:    <DefiningName "Arr_T" pkg.ads:2:9-2:14>
+  type:          None
+  expected type: None
+
 Resolving xrefs for node <ObjectDecl ["Set1"] pkg.adb:11:7-11:52>
 *****************************************************************
 
@@ -247,6 +259,14 @@ Expr: <Id "Arr" pkg.adb:11:31-11:34>
   references:    <DefiningName "Arr" pkg.adb:10:17-10:20>
   type:          <ConcreteTypeDecl ["Arr_T"] pkg.ads:2:4-2:55>
   expected type: None
+Expr: <Id "E" pkg.adb:11:49-11:50>
+  references:    <DefiningName "E" pkg.adb:11:26-11:27>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ForLoopIterFilter pkg.adb:11:35-11:45>
+****************************************************************
+
 Expr: <RelationOp pkg.adb:11:40-11:45>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
@@ -262,107 +282,123 @@ Expr: <Int pkg.adb:11:44-11:45>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <Id "E" pkg.adb:11:49-11:50>
-  references:    <DefiningName "E" pkg.adb:11:26-11:27>
+
+Resolving xrefs for node <ObjectDecl ["Set2"] pkg.adb:12:7-12:66>
+*****************************************************************
+
+Expr: <Id "Set" pkg.adb:12:14-12:17>
+  references:    <DefiningName "Set" pkg.adb:8:12-8:15>
+  type:          None
+  expected type: None
+Expr: <BracketAggregate pkg.adb:12:21-12:65>
+  type:          <SubtypeDecl ["Set"] pkg.adb:8:4-8:32>
+  expected type: <SubtypeDecl ["Set"] pkg.adb:8:4-8:32>
+Expr: <Id "Arr" pkg.adb:12:31-12:34>
+  references:    <DefiningName "Arr" pkg.adb:10:17-10:20>
+  type:          <ConcreteTypeDecl ["Arr_T"] pkg.ads:2:4-2:55>
+  expected type: None
+Expr: <Id "E" pkg.adb:12:63-12:64>
+  references:    <DefiningName "E" pkg.adb:12:26-12:27>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
-Resolving xrefs for node <ObjectDecl ["Set2"] pkg.adb:13:7-13:66>
+Resolving xrefs for node <ForLoopIterFilter pkg.adb:12:35-12:59>
+****************************************************************
+
+Expr: <BinOp pkg.adb:12:40-12:59>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp pkg.adb:12:40-12:45>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "E" pkg.adb:12:40-12:41>
+  references:    <DefiningName "E" pkg.adb:12:26-12:27>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpLt "<" pkg.adb:12:42-12:43>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int pkg.adb:12:44-12:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpOrElse "or else" pkg.adb:12:46-12:53>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp pkg.adb:12:54-12:59>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "E" pkg.adb:12:54-12:55>
+  references:    <DefiningName "E" pkg.adb:12:26-12:27>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpGt ">" pkg.adb:12:56-12:57>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int pkg.adb:12:58-12:59>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Set3"] pkg.adb:13:7-13:54>
 *****************************************************************
 
 Expr: <Id "Set" pkg.adb:13:14-13:17>
   references:    <DefiningName "Set" pkg.adb:8:12-8:15>
   type:          None
   expected type: None
-Expr: <BracketAggregate pkg.adb:13:21-13:65>
+Expr: <BracketAggregate pkg.adb:13:21-13:53>
   type:          <SubtypeDecl ["Set"] pkg.adb:8:4-8:32>
   expected type: <SubtypeDecl ["Set"] pkg.adb:8:4-8:32>
-Expr: <Id "Arr" pkg.adb:13:31-13:34>
-  references:    <DefiningName "Arr" pkg.adb:10:17-10:20>
-  type:          <ConcreteTypeDecl ["Arr_T"] pkg.ads:2:4-2:55>
-  expected type: None
-Expr: <BinOp pkg.adb:13:40-13:59>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <RelationOp pkg.adb:13:40-13:45>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <Id "E" pkg.adb:13:40-13:41>
-  references:    <DefiningName "E" pkg.adb:13:26-13:27>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <OpLt "<" pkg.adb:13:42-13:43>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Int pkg.adb:13:44-13:45>
+Expr: <BinOp pkg.adb:13:34-13:40>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <Int pkg.adb:13:34-13:35>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <OpOrElse "or else" pkg.adb:13:46-13:53>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <OpDoubleDot ".." pkg.adb:13:36-13:38>
   references:    None
   type:          None
   expected type: None
-Expr: <RelationOp pkg.adb:13:54-13:59>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-Expr: <Id "E" pkg.adb:13:54-13:55>
-  references:    <DefiningName "E" pkg.adb:13:26-13:27>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <OpGt ">" pkg.adb:13:56-13:57>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Int pkg.adb:13:58-13:59>
+Expr: <Int pkg.adb:13:39-13:40>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <Id "E" pkg.adb:13:63-13:64>
-  references:    <DefiningName "E" pkg.adb:13:26-13:27>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <BinOp pkg.adb:13:44-13:52>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Item" pkg.adb:13:44-13:48>
+  references:    <DefiningName "Item" pkg.adb:13:26-13:30>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpMult "*" pkg.adb:13:49-13:50>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int pkg.adb:13:51-13:52>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
-Resolving xrefs for node <ObjectDecl ["Set3"] pkg.adb:15:7-15:54>
-*****************************************************************
+Resolving xrefs for node <NullStmt pkg.adb:15:7-15:12>
+******************************************************
 
-Expr: <Id "Set" pkg.adb:15:14-15:17>
-  references:    <DefiningName "Set" pkg.adb:8:12-8:15>
+
+Resolving xrefs for node <EndName pkg.adb:16:8-16:9>
+****************************************************
+
+Expr: <EndName pkg.adb:16:8-16:9>
+  references:    <DefiningName "P" pkg.adb:10:14-10:15>
   type:          None
   expected type: None
-Expr: <BracketAggregate pkg.adb:15:21-15:53>
-  type:          <SubtypeDecl ["Set"] pkg.adb:8:4-8:32>
-  expected type: <SubtypeDecl ["Set"] pkg.adb:8:4-8:32>
-Expr: <BinOp pkg.adb:15:34-15:40>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-Expr: <Int pkg.adb:15:34-15:35>
-  references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-Expr: <OpDoubleDot ".." pkg.adb:15:36-15:38>
-  references:    None
+Expr: <Id "P" pkg.adb:16:8-16:9>
+  references:    <DefiningName "P" pkg.adb:10:14-10:15>
   type:          None
   expected type: None
-Expr: <Int pkg.adb:15:39-15:40>
-  references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-Expr: <BinOp pkg.adb:15:44-15:52>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <Id "Item" pkg.adb:15:44-15:48>
-  references:    <DefiningName "Item" pkg.adb:15:26-15:30>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <OpMult "*" pkg.adb:15:49-15:50>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Int pkg.adb:15:51-15:52>
-  references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Analyzing ai12_0212.adb

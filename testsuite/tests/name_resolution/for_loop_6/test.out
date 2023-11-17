@@ -1,0 +1,52 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ForLoopSpec test.adb:13:8-13:41>
+**********************************************************
+
+Expr: <DottedName test.adb:13:14-13:23>
+  references:    <| DefiningName "Iterate" a-cohama.ads:407:13-407:20 [test.adb:6:4] |>
+  type:          <| ClasswideTypeDecl ["Forward_Iterator"] a-iteint.ads:24:4-24:66 [test.adb:6:4, a-cohama.ads:135:4] |>
+  expected type: None
+Expr: <Id "V" test.adb:13:14-13:15>
+  references:    <DefiningName "V" test.adb:11:4-11:5>
+  type:          <| ConcreteTypeDecl ["Map"] a-cohama.ads:99:4-106:50 [test.adb:6:4] |>
+  expected type: <| ConcreteTypeDecl ["Map"] a-cohama.ads:99:4-106:50 [test.adb:6:4] |>
+Expr: <Id "Iterate" test.adb:13:16-13:23>
+  references:    <| DefiningName "Iterate" a-cohama.ads:407:13-407:20 [test.adb:6:4] |>
+  type:          <| ClasswideTypeDecl ["Forward_Iterator"] a-iteint.ads:24:4-24:66 [test.adb:6:4, a-cohama.ads:135:4] |>
+  expected type: None
+
+Resolving xrefs for node <ForLoopIterFilter test.adb:13:24-13:41>
+*****************************************************************
+
+Expr: <RelationOp test.adb:13:29-13:41>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test.adb:13:29-13:37>
+  references:    <| DefiningName "Key" a-cohama.ads:177:13-177:16 [test.adb:6:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Key" test.adb:13:29-13:32>
+  references:    <| DefiningName "Key" a-cohama.ads:177:13-177:16 [test.adb:6:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "It" test.adb:13:34-13:36>
+  references:    <DefiningName "It" test.adb:13:8-13:10>
+  type:          <| ConcreteTypeDecl ["Cursor"] a-cohama.ads:110:4-110:27 [test.adb:6:4] |>
+  expected type: <| ConcreteTypeDecl ["Cursor"] a-cohama.ads:110:4-110:27 [test.adb:6:4] |>
+Expr: <OpGt ">" test.adb:13:38-13:39>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:13:40-13:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <NullStmt test.adb:14:7-14:12>
+*******************************************************
+
+
+
+Done.

@@ -6625,11 +6625,26 @@ class BaseTypeDecl(BasicDecl):
             ['Ada', 'Iterator_Interfaces'], UnitSpecification
         ))
         typ = Var(Entity.cast(T.ClasswideTypeDecl).then(
-            lambda cw: cw.type_decl, default_val=Entity)
-        )
+            lambda cw: cw.type_decl, default_val=Entity
+        ))
         return Or(
             typ.semantic_parent.semantic_parent.node == iifcs,
             Entity.canonical_part.has_aspect("Iterable")
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    def cursor_type():
+        """
+        Assuming this is an iterator type, return the associated cursor
+        type.
+        """
+        return (
+            # For containers and user defined iterator types, cursor type
+            # is defined by the `Cursor` type declaration.
+            Entity.children_env.get_first('Cursor')
+            .cast_or_raise(T.BaseTypeDecl)
+            # Check out cursor type for types with `Iterable` aspect
+            ._or(Entity.cast(TypeDecl).iterable_cursor_type)
         )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
@@ -6979,6 +6994,18 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(dynamic_vars=[origin])
     def iterable_comp_type():
         return No(T.BaseTypeDecl.entity)
+
+    @langkit_property(dynamic_vars=[origin])
+    def iterable_comp_type_or_null():
+        return If(
+            Self.is_null,
+            No(BaseTypeDecl.entity),
+            If(
+                Entity.is_implicit_deref,
+                Entity.accessed_type,
+                Entity
+            ).iterable_comp_type
+        )
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_prefix_type(container_type=T.BaseTypeDecl.entity):
@@ -7734,7 +7761,8 @@ class TypeDecl(BaseTypeDecl):
         return Entity.get_aspect_spec_expr('Iterable').then(
             lambda it: it.cast(T.Aggregate).assocs.unpacked_params.find(
                 lambda sa: sa.name.name_is('First')
-            ).assoc.expr.cast_or_raise(T.Name).referenced_decl.expr_type)
+            ).assoc.expr.cast_or_raise(T.Name).referenced_decl.expr_type
+        )
 
     @langkit_property()
     def discrete_range():
@@ -19412,37 +19440,6 @@ class ForLoopSpec(LoopSpec):
         """
         return Self.parent.is_a(IteratedAssoc)
 
-    @langkit_property(memoized=True, call_memoizable=True,
-                      dynamic_vars=[env, origin])
-    def iter_type():
-        type_var = Var(Entity.iter_expr.cast_or_raise(Expr).type_var)
-
-        p = Var(Entity.iter_expr.resolve_names_internal_with_eq(
-            # Avoid resolving to a procedure
-            Predicate(AdaNode.is_not_null, type_var)
-
-            # If there is a type annotation, use it as the expected type for
-            # `iter_expr`.
-            & If(
-                Self.var_decl.id_type.is_null,
-                LogicTrue(),
-                Bind(Self.iter_expr.cast(Expr).expected_type_var,
-                     Entity.var_decl.id_type.designated_type)
-            )
-        ))
-
-        typ = Var(If(
-            p,
-            type_var.get_value.cast(T.BaseTypeDecl),
-            No(BaseTypeDecl.entity)
-        ))
-
-        return origin.bind(Self.origin_node, If(
-            typ.is_implicit_deref,
-            typ.accessed_type,
-            typ
-        ))
-
     @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.var_decl.sub_equation & Self.loop_type.match(
@@ -19475,59 +19472,40 @@ class ForLoopSpec(LoopSpec):
                 # attribute on a subtype indication, in which case the logic is
                 # the same as above, either it's an expression that yields an
                 # iterator.
-                lambda t=T.Name: t.name_designated_type.then(
+                lambda t=T.Name: t.sub_equation & t.name_designated_type.then(
                     lambda typ:
-                    t.sub_equation
-                    & Bind(Self.var_decl.id.type_var, typ.canonical_type),
-                    default_val=Entity.iterator_xref_equation
+                    Bind(Self.var_decl.id.type_var, typ.canonical_type),
+                    default_val=And(
+                        Predicate(BaseTypeDecl.is_iterator_type, t.type_var),
+                        Bind(t.type_var, Self.var_decl.id.type_var,
+                             conv_prop=BaseTypeDecl.cursor_type)
+                    )
                 ),
 
                 lambda _: LogicTrue()  # should never happen
             ),
 
             # This is a for .. of
-            lambda _=IterType.alt_of: Let(lambda it_typ=Entity.iter_type: If(
-                it_typ.is_iterable_type,
+            lambda _=IterType.alt_of: Entity.iter_expr.cast(Expr).then(
+                lambda iter_expr:
+                Entity.var_decl.id_type.then(
+                    lambda typ:
+                    Bind(iter_expr.expected_type_var, typ.designated_type),
+                    default_val=LogicTrue()
+                )
+                & iter_expr.sub_equation
+                & Predicate(AdaNode.is_not_null, iter_expr.type_var)
+                & Bind(iter_expr.type_var, Self.var_decl.id.type_var,
+                       conv_prop=BaseTypeDecl.iterable_comp_type_or_null),
+                default_val=LogicFalse()
+            )
 
-                # Then we want the type of the induction variable to be the
-                # component type of the type of the expression.
-                Bind(Self.var_decl.id.type_var, it_typ.iterable_comp_type),
-
-                LogicFalse()
-            ))
         ) & If(
             Entity.iter_filter.is_null,
             LogicTrue(),
             Bind(Self.iter_filter.expected_type_var, Self.bool_type)
             & Bind(Self.iter_filter.type_var, Self.bool_type)
             & Entity.iter_filter.sub_equation
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def iterator_xref_equation():
-        iter_expr = Var(Entity.iter_expr.cast_or_raise(T.Expr))
-
-        p = Var(iter_expr.resolve_names_internal_with_eq(
-            Predicate(BaseTypeDecl.is_iterator_type,
-                      iter_expr.type_var)
-        ))
-
-        cursor_type = Var(
-            Let(
-                lambda tv=iter_expr.type_val:
-                # For containers and user defined iterator types, cursor type
-                # is defined by the `Cursor` type declaration.
-                tv.children_env.get_first('Cursor')
-                .cast_or_raise(T.BaseTypeDecl)
-                # Check out cursor type for types with `Iterable` aspect
-                ._or(tv.cast(TypeDecl).iterable_cursor_type)
-            )
-        )
-
-        return If(
-            p,
-            Bind(Self.var_decl.id.type_var, cursor_type),
-            LogicFalse()
         )
 
     # This spec is not a complete resolution context when part of an iterated

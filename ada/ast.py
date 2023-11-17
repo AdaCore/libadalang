@@ -12664,16 +12664,6 @@ class Expr(AdaNode):
         """
     )
 
-    xref_stop_resolution = Property(
-        # Pause resolution of ForLoopSpecs' iterator filter expression, so
-        # that the indexing variable's type can be fully inferred first.
-        # Otherwise, any reference to the indexing variable appearing in the
-        # filter expression will cause an infinite xref_equation recursion.
-        Self.parent.cast(T.ForLoopSpec).then(
-            lambda spec: spec.iter_filter == Self
-        )
-    )
-
     @langkit_property(return_type=T.Bool)
     def has_context_free_type():
         """
@@ -19430,7 +19420,7 @@ class ForLoopSpec(LoopSpec):
     loop_type = Field(type=IterType)
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
-    iter_filter = Field(type=T.Expr)
+    iter_filter = Field(type=T.ForLoopIterFilter)
 
     @langkit_property(return_type=Bool)
     def is_iterated_assoc_spec():
@@ -19499,19 +19489,40 @@ class ForLoopSpec(LoopSpec):
                        conv_prop=BaseTypeDecl.iterable_comp_type_or_null),
                 default_val=LogicFalse()
             )
-
-        ) & If(
-            Entity.iter_filter.is_null,
-            LogicTrue(),
-            Bind(Self.iter_filter.expected_type_var, Self.bool_type)
-            & Bind(Self.iter_filter.type_var, Self.bool_type)
-            & Entity.iter_filter.sub_equation
         )
 
     # This spec is not a complete resolution context when part of an iterated
     # component association: we must know the type of the enclosing aggregate
     # to determine the type of the iteration variable in case of a `for I in`.
     xref_entry_point = Property(Not(Self.is_iterated_assoc_spec))
+
+
+class ForLoopIterFilter(AdaNode):
+    """
+    Represent the ``when ...`` filter after a for loop specification. This
+    class has no RM existence, it is used internally to wrap the filtering
+    expression, so as to have a dedicated name resolution entry point for it
+    and make sure it is resolved separatly from the ``ForLoopSpec`` itself
+    (which it cannot influence anyway).
+    """
+    expr = Field(type=T.Expr)
+
+    @langkit_property(return_type=Equation)
+    def xref_equation():
+        ignore(Var(Entity.parent.cast(ForLoopSpec).then(
+            lambda spec: If(
+                spec.is_iterated_assoc_spec,
+                spec.resolve_names_from_closest_entry_point,
+                True
+            )
+        )))
+        return And(
+            Bind(Self.expr.expected_type_var, Self.bool_type),
+            Entity.expr.sub_equation,
+            Entity.expr.matches_expected_formal_prim_type
+        )
+
+    xref_entry_point = Property(True)
 
 
 class QuantifiedExpr(Expr):

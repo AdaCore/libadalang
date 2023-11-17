@@ -1140,7 +1140,7 @@ A.add_rules(
         IterType.alt_in("in") | IterType.alt_of("of"),
         Reverse("reverse"),
         A.discrete_range | A.discrete_subtype_indication | A.name,
-        Opt("when", A.expr)
+        Opt(ForLoopIterFilter("when", A.expr))
     ),
 
     quantified_expr=QuantifiedExpr(

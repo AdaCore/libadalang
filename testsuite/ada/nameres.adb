@@ -31,18 +31,27 @@ procedure Nameres is
 
    package J renames GNATCOLL.JSON;
 
-   type Stats_Record is record
-      Nb_Files_Analyzed    : Natural := 0;
-      Nb_Successes         : Natural := 0;
-      Nb_Fails             : Natural := 0;
-      Nb_Xfails            : Natural := 0;
-      Nb_Exception_Fails   : Natural := 0;
-      Max_Nb_Fails         : Natural := 0;
-      File_With_Most_Fails : Unbounded_String;
+   type File_Stats_Record is record
+      Filename           : Unbounded_String;
+      Nb_Successes       : Natural  := 0;
+      Nb_Fails           : Natural  := 0;
+      Nb_Xfails          : Natural  := 0;
+      Nb_Exception_Fails : Natural  := 0;
+      Nb_Total           : Natural  := 0;
+      Processing_Time    : Duration := 0.0;
+      Resolution_Speed   : Float    := 0.0;
    end record;
 
-   procedure Merge (Stats : in out Stats_Record; Other : Stats_Record);
-   --  Merge data from Stats and Other into Stats
+   package File_Stats_Vectors is new Ada.Containers.Vectors
+     (Positive, File_Stats_Record);
+
+   type Stats_Record is record
+      File_Stats : File_Stats_Vectors.Vector;
+   end record;
+
+   Number_Of_Slowest_Files_To_Print : constant := 5;
+   --  The maximum number of files for which to print the resolution
+   --  speed when using ``--stats``.
 
    type Config_Record is record
       Display_Slocs : Boolean := False;
@@ -83,7 +92,7 @@ procedure Nameres is
    Job_Data   : Job_Data_Array_Access;
 
    Time_Start : Time;
-   --  Time at which the app starts, when Args.Time is set
+   --  Time at which the app starts
 
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Job_Setup (Context : App_Job_Context);
@@ -91,6 +100,8 @@ procedure Nameres is
    procedure Job_Post_Process (Context : App_Job_Context);
    procedure App_Post_Process
      (Context : App_Context; Jobs : App_Job_Context_Array);
+
+   procedure Print_Stats (Jobs : App_Job_Context_Array);
 
    package App is new Libadalang.Helpers.App
      (Name               => "nameres",
@@ -154,13 +165,6 @@ procedure Nameres is
          Long => "--reparse",
          Help => "Reparse units 10 times (hardening)");
 
-      package Time is new Parse_Flag
-        (App.Args.Parser,
-         Long  => "--time",
-         Short => "-T",
-         Help  => "Show the time it took to nameres each file. "
-                  & "Implies --quiet so that you only have timing info");
-
       package Memory is new Parse_Flag
         (App.Args.Parser,
          Long  => "--memory",
@@ -196,7 +200,7 @@ procedure Nameres is
       else Args.Lookup_Cache_Mode.Get);
 
    function Quiet return Boolean is
-      (Args.Quiet.Get or else Args.JSON.Get or else Args.Time.Get);
+      (Args.Quiet.Get or else Args.JSON.Get);
 
    function Text (N : Ada_Node'Class) return String is (Image (Text (N)));
 
@@ -241,6 +245,11 @@ procedure Nameres is
    --  ``Args.JSON`` is set, also set fields in ``Obj``.
 
    procedure Increment (Counter : in out Natural);
+
+   function Relative_File_Path (Absolute_Path : String) return String is
+     (+Create (+Absolute_Path).Relative_Path (Get_Current_Dir));
+   --  Given the absolute path to a file, return it as a relative
+   --  path from the current directory.
 
    type Supported_Pragma is
      (Ignored_Pragma, Error_In_Pragma, Pragma_Config, Pragma_Section,
@@ -301,26 +310,6 @@ procedure Nameres is
    end record;
 
    function Decode_Pragma (Node : Pragma_Node) return Decoded_Pragma;
-
-   -----------
-   -- Merge --
-   -----------
-
-   procedure Merge (Stats : in out Stats_Record; Other : Stats_Record) is
-   begin
-      Stats.Nb_Files_Analyzed :=
-         Stats.Nb_Files_Analyzed + Other.Nb_Files_Analyzed;
-      Stats.Nb_Successes := Stats.Nb_Successes + Other.Nb_Successes;
-      Stats.Nb_Fails := Stats.Nb_Fails + Other.Nb_Fails;
-      Stats.Nb_Xfails := Stats.Nb_Xfails + Other.Nb_Xfails;
-      Stats.Nb_Exception_Fails :=
-         Stats.Nb_Exception_Fails + Other.Nb_Exception_Fails;
-
-      if Stats.Max_Nb_Fails < Other.Max_Nb_Fails then
-         Stats.Max_Nb_Fails := Other.Max_Nb_Fails;
-         Stats.File_With_Most_Fails := Other.File_With_Most_Fails;
-      end if;
-   end Merge;
 
    --------------
    -- New_Line --
@@ -686,9 +675,7 @@ procedure Nameres is
          Set_Debug_State (Trace);
       end if;
 
-      if Args.Time.Get then
-         Time_Start := Clock;
-      end if;
+      Time_Start := Clock;
 
       Job_Data := new Job_Data_Array'(Jobs'Range => (others => <>));
    end App_Setup;
@@ -712,14 +699,10 @@ procedure Nameres is
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit) is
       Job_Data : Job_Data_Record renames Nameres.Job_Data (Context.ID);
       Basename : constant String := +Create (+Unit.Get_Filename).Base_Name;
-
-      Before, After : Time;
-      Time_Elapsed  : Duration;
    begin
       if not Quiet then
          Put_Title ('#', "Analyzing " & Basename);
       end if;
-      Before := Clock;
 
       begin
          Process_File (Job_Data, Unit, Unit.Get_Filename);
@@ -729,19 +712,9 @@ procedure Nameres is
             App.Dump_Exception (E);
             return;
       end;
-      After := Clock;
 
-      Time_Elapsed := After - Before;
-
-      if Args.Time.Get then
-         Ada.Text_IO.Put_Line
-           ("Time elapsed in process file for "
-            & Basename & ": " & Time_Elapsed'Image);
-      end if;
-
-      Increment (Job_Data.Stats.Nb_Files_Analyzed);
       if Args.File_Limit.Get /= -1
-         and then Job_Data.Stats.Nb_Files_Analyzed
+         and then Natural (Job_Data.Stats.File_Stats.Length)
                   >= Args.File_Limit.Get
       then
          Abort_App ("Requested file limit reached: aborting");
@@ -757,6 +730,13 @@ procedure Nameres is
       Unit     : Analysis_Unit;
       Filename : String)
    is
+      Start : constant Time := Clock;
+      --  Time before processing the file
+
+      Stats : File_Stats_Record := (Filename => +Filename, others => <>);
+      --  Stats for this file, to be added to ``Job_Data`` at the end if
+      --  successfully returning.
+
       Nb_File_Fails : Natural := 0;
       --  Number of name resolution failures not covered by XFAILs we had in
       --  this file.
@@ -1033,7 +1013,7 @@ procedure Nameres is
                Dummy := Traverse (Node, Print_Node'Access);
             end if;
 
-            Increment (Job_Data.Stats.Nb_Successes);
+            Increment (Stats.Nb_Successes);
 
             if Output_JSON then
                Obj.Set_Field ("success", True);
@@ -1044,9 +1024,9 @@ procedure Nameres is
             end if;
 
             if XFAIL then
-               Increment (Job_Data.Stats.Nb_Xfails);
+               Increment (Stats.Nb_Xfails);
             else
-               Increment (Nb_File_Fails);
+               Increment (Stats.Nb_Fails);
             end if;
 
             if Output_JSON then
@@ -1069,9 +1049,9 @@ procedure Nameres is
             Dump_Exception (E, Obj);
 
             if XFAIL then
-               Increment (Job_Data.Stats.Nb_Xfails);
+               Increment (Stats.Nb_Xfails);
             else
-               Increment (Job_Data.Stats.Nb_Exception_Fails);
+               Increment (Stats.Nb_Exception_Fails);
                Increment (Nb_File_Fails);
             end if;
       end Resolve_Node;
@@ -1121,13 +1101,23 @@ procedure Nameres is
          New_Line;
       end if;
 
-      --  Update statistics
+      --  Store the total number of nodes to avoid recomputing it each time
+      --  it is needed.
+      Stats.Nb_Total := Stats.Nb_Successes + Stats.Nb_Fails + Stats.Nb_Xfails;
 
-      Job_Data.Stats.Nb_Fails := Job_Data.Stats.Nb_Fails + Nb_File_Fails;
-      if Job_Data.Stats.Max_Nb_Fails < Nb_File_Fails then
-         Job_Data.Stats.File_With_Most_Fails := +Filename;
-         Job_Data.Stats.Max_Nb_Fails := Nb_File_Fails;
+      --  Compute elapsed time for processing this file
+      Stats.Processing_Time := Clock - Start;
+
+      --  Store the number of nodes resolved per second for this file, which
+      --  will be used to determine which files are slow to resolve.
+      if Stats.Processing_Time > 0.0 then
+         Stats.Resolution_Speed :=
+            Float (Stats.Nb_Total) / Float (Stats.Processing_Time);
       end if;
+
+      --  File processing was successful, include the stats for this file in
+      --  the job's results.
+      Job_Data.Stats.File_Stats.Append (Stats);
 
    end Process_File;
 
@@ -1324,55 +1314,17 @@ procedure Nameres is
    is
       pragma Unreferenced (Context);
 
-      Stats     : Stats_Record;
-      Total     : Natural;
-      Time_Stop : Time;
       Watermark : GNATCOLL.Memory.Watermark_Info;
    begin
       --  Measure time and memory before post-processing
-
-      if Args.Time.Get then
-         Time_Stop := Clock;
-      end if;
 
       if Args.Memory.Get then
          Watermark := GNATCOLL.Memory.Get_Allocations;
       end if;
 
-      --  Aggregate statistics from all jobs
-
-      Stats := Job_Data (Jobs'First).Stats;
-      for I in Jobs'First + 1 .. Jobs'Last loop
-         Merge (Stats, Job_Data (I).Stats);
-      end loop;
-      Total := Stats.Nb_Successes + Stats.Nb_Fails + Stats.Nb_Xfails;
-
-      if Args.Stats.Get and then Total > 0 then
-         declare
-            type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
-            Percent_Successes : constant Percentage := Percentage
-              (Float (Stats.Nb_Successes) / Float (Total) * 100.0);
-            Percent_Failures : constant Percentage :=
-              Percentage (Float (Stats.Nb_Fails) / Float (Total) * 100.0);
-
-            Percent_XFAIL : constant Percentage :=
-              Percentage (Float (Stats.Nb_Xfails) / Float (Total) * 100.0);
-         begin
-            Put_Line ("Resolved " & Total'Image & " nodes");
-            Put_Line ("Of which" & Stats.Nb_Successes'Image
-                      & " successes - " & Percent_Successes'Image & "%");
-            Put_Line ("Of which" & Stats.Nb_Fails'Image
-                      & " failures - " & Percent_Failures'Image & "%");
-
-            Put_Line ("Of which" & Stats.Nb_Xfails'Image
-                      & " XFAILS - " & Percent_XFAIL'Image & "%");
-            Put_Line ("File with most failures ("
-                      & Stats.Max_Nb_Fails'Image
-                      & "):" & (+Stats.File_With_Most_Fails));
-         end;
+      if Args.Stats.Get then
+         Print_Stats (Jobs);
       end if;
-
-      Put_Line ("Done.");
 
       if Args.Memory.Get then
          declare
@@ -1386,19 +1338,125 @@ procedure Nameres is
 
       Free (Job_Data);
 
-      if Args.Time.Get then
-         Ada.Text_IO.Put_Line
-           ("Total time elapsed:" & Duration'Image (Time_Stop - Time_Start));
-
-         --  If the user has requested --time and --memory, warn that this
-         --  skews time measurements.
-         if Args.Memory.Get then
-            Ada.Text_IO.Put_Line
-              ("WARNING: measuring memory impacts time performance!");
-         end if;
-      end if;
+      Put_Line ("Done.");
    end App_Post_Process;
 
+   -----------------
+   -- Print_Stats --
+   -----------------
+
+   procedure Print_Stats (Jobs : App_Job_Context_Array) is
+      Time_Stop : constant Time := Clock;
+
+      Slowest_Files : File_Stats_Vectors.Vector;
+      --  A vector of files sorted by resolution speed. Its length is bounded
+      --  by ``Number_Of_Slowest_Files_To_Print``.
+
+      procedure Insert_In_Slowest_Files (Value : File_Stats_Record);
+      --  Insert the given file in the ``Slowest_Files`` vector at the
+      --  correct index, so that the vector remains sorted.
+
+      ----------------------------------
+      -- Insert_File_Resolution_Speed --
+      ----------------------------------
+
+      procedure Insert_In_Slowest_Files (Value : File_Stats_Record) is
+         use type Ada.Containers.Count_Type;
+
+         Insertion_Index : Natural := Slowest_Files.First_Index;
+      begin
+         --  Find out where the given file should be inserted by comparing it
+         --  to the existing files.
+         while Insertion_Index <= Slowest_Files.Last_Index loop
+            exit when Slowest_Files
+              (Insertion_Index).Resolution_Speed > Value.Resolution_Speed;
+            Insertion_Index := Insertion_Index + 1;
+         end loop;
+
+         if Insertion_Index <= Number_Of_Slowest_Files_To_Print then
+            Slowest_Files.Insert (Insertion_Index, Value);
+
+            --  Shrink the vector in case its size exceeds the max size it is
+            --  allowed to have.
+            if Slowest_Files.Length > Number_Of_Slowest_Files_To_Print then
+               Slowest_Files.Set_Length (Number_Of_Slowest_Files_To_Print);
+            end if;
+         end if;
+      end Insert_In_Slowest_Files;
+
+      Nb_Successes         : Natural := 0;
+      Nb_Fails             : Natural := 0;
+      Nb_Xfails            : Natural := 0;
+      Total                : Natural := 0;
+      Max_Nb_Fails         : Natural := 0;
+      File_With_Most_Fails : Unbounded_String;
+   begin
+      for Job of Jobs loop
+         for File_Stats of Job_Data (Job.ID).Stats.File_Stats loop
+            Nb_Successes := Nb_Successes + File_Stats.Nb_Successes;
+            Nb_Fails     := Nb_Fails + File_Stats.Nb_Fails;
+            Nb_Xfails    := Nb_Xfails + File_Stats.Nb_Xfails;
+
+            if File_Stats.Nb_Fails > Max_Nb_Fails then
+               Max_Nb_Fails := File_Stats.Nb_Fails;
+               File_With_Most_Fails := File_Stats.Filename;
+            end if;
+
+            if File_Stats.Resolution_Speed > 0.0 then
+               Insert_In_Slowest_Files (File_Stats);
+            end if;
+         end loop;
+      end loop;
+
+      Total := Nb_Successes + Nb_Fails + Nb_Xfails;
+
+      if Total > 0 then
+         declare
+            type Percentage is delta 0.01 range 0.0 .. 0.01 * 2.0**32;
+            type Fixed is delta 0.0001 range -1.0e6 .. 1.0e6;
+
+            Percent_Successes : constant Percentage := Percentage
+              (Float (Nb_Successes) / Float (Total) * 100.0);
+            Percent_Failures : constant Percentage :=
+              Percentage (Float (Nb_Fails) / Float (Total) * 100.0);
+
+            Percent_XFAIL : constant Percentage :=
+              Percentage (Float (Nb_Xfails) / Float (Total) * 100.0);
+         begin
+            Put_Line ("Resolved " & Total'Image & " nodes");
+            Put_Line ("Of which" & Nb_Successes'Image
+                      & " successes - " & Percent_Successes'Image & "%");
+            Put_Line ("Of which" & Nb_Fails'Image
+                      & " failures - " & Percent_Failures'Image & "%");
+
+            Put_Line ("Of which" & Nb_Xfails'Image
+                      & " XFAILS - " & Percent_XFAIL'Image & "%");
+            Put_Line ("File with most failures ("
+                      & Max_Nb_Fails'Image
+                      & "):" & Relative_File_Path (+File_With_Most_Fails));
+
+            Put_Line ("Slowest files to resolve:");
+            for F of Slowest_Files loop
+               Put_Line (" - " & Relative_File_Path (+F.Filename) & ":"
+                         & Integer (F.Resolution_Speed)'Image
+                         & " nodes/second (analyzed"
+                         & F.Nb_Total'Image & " nodes in"
+                         & Fixed (F.Processing_Time)'Image & " seconds)");
+            end loop;
+         end;
+      end if;
+
+      Ada.Text_IO.Put_Line
+        ("Total time elapsed:" & Duration'Image (Time_Stop - Time_Start));
+
+      --  If the user has requested --time and --memory, warn that this
+      --  skews time measurements.
+      if Args.Memory.Get then
+         Ada.Text_IO.Put_Line
+           ("WARNING: measuring memory impacts time performance!");
+      end if;
+
+   end Print_Stats;
 begin
    App.Run;
 end Nameres;

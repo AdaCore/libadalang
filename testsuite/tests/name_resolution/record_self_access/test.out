@@ -23,7 +23,7 @@ Eval 'access_type.f_type_def.f_subtype_indication.p_designated_type_decl'
 Result: <ConcreteTypeDecl ["T_2"] test.adb:10:4-16:15>
 
 Eval 'node.f_default_expr.f_prefix.p_referenced_decl()'
-Result: <SyntheticTypePredicateObjectDecl ["T_2"] test.adb:10:4-16:15>
+Result: <SyntheticObjectDecl ["T_2"] test.adb:10:4-16:15>
 
 Working on node <AssignStmt test.adb:26:7-26:18>
 ================================================

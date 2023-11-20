@@ -7988,7 +7988,9 @@ class TypeDecl(BaseTypeDecl):
         add_to_env(If(
             # Try to filter which type decls can have predicate to save some
             # space in envs.
-            Self.type_def.is_a(T.DerivedTypeDef, T.TypeAccessDef),
+            Self.type_def.is_a(
+                T.RecordTypeDef, T.DerivedTypeDef, T.TypeAccessDef
+            ),
             Entity.synthetic_object_decl_env_assoc,
             No(T.env_assoc)
         )),

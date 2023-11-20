@@ -1016,6 +1016,7 @@ Working on node <ComponentDecl ["A"] subtype_indication.adb:34:7-34:13>
 
 Eval 'list(node.f_component_def.f_type_expr.f_name.p_complete)'
 Result: [<CompletionItem decl=<ComponentDecl ["A"] subtype_indication.adb:34:7-34:13> is_dot_call=False is_visible=True weight=0>,
+         <CompletionItem decl=<SyntheticObjectDecl ["T"] subtype_indication.adb:33:4-36:15> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ObjectDecl ["A"] subtype_indication.adb:2:4-2:10> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ObjectDecl ["B"] subtype_indication.adb:10:4-10:10> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ConcreteTypeDecl ["Babar"] subtype_indication.adb:20:4-20:23> is_dot_call=False is_visible=True weight=100>,
@@ -1082,6 +1083,7 @@ Working on node <ConcreteTypeDecl ["T"] subtype_indication.adb:38:4-38:34>
 
 Eval 'list(node.f_discriminants.f_discr_specs[0].f_type_expr.f_name.p_complete)'
 Result: [<CompletionItem decl=<DiscriminantSpec ["D"] subtype_indication.adb:38:12-38:17> is_dot_call=False is_visible=True weight=0>,
+         <CompletionItem decl=<SyntheticObjectDecl ["T"] subtype_indication.adb:38:4-38:34> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ObjectDecl ["A"] subtype_indication.adb:2:4-2:10> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ObjectDecl ["B"] subtype_indication.adb:10:4-10:10> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ConcreteTypeDecl ["Babar"] subtype_indication.adb:20:4-20:23> is_dot_call=False is_visible=True weight=100>,
@@ -1152,6 +1154,7 @@ Result: [<CompletionItem decl=<SyntheticObjectDecl ["A"] test_pkg.ads:4:4-4:50> 
          <CompletionItem decl=<SubpDecl ["My_Body_Method"] test_pkg.adb:6:4-6:54> is_dot_call=True is_visible=True weight=75>,
          <CompletionItem decl=<SubpBody ["My_Method"] test_pkg.adb:8:4-11:18> is_dot_call=True is_visible=True weight=75>,
          <CompletionItem decl=<SubpBody ["My_Body_Method"] test_pkg.adb:13:4-18:23> is_dot_call=True is_visible=True weight=75>,
+         <CompletionItem decl=<SyntheticObjectDecl ["Base_Type"] base.ads:2:4-2:41> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<NullSubpDecl ["Base_Method"] base.ads:3:4-3:53> is_dot_call=True is_visible=True weight=75>]
 
 Working on node <CallStmt testcomp.adb:7:4-9:4>
@@ -1184,4 +1187,5 @@ Result: [<CompletionItem decl=<SyntheticObjectDecl ["A"] test_pkg.ads:4:4-4:50> 
          <CompletionItem decl=<SubpDecl ["My_Body_Method"] test_pkg.adb:6:4-6:54> is_dot_call=True is_visible=True weight=75>,
          <CompletionItem decl=<SubpBody ["My_Method"] test_pkg.adb:8:4-11:18> is_dot_call=True is_visible=True weight=75>,
          <CompletionItem decl=<SubpBody ["My_Body_Method"] test_pkg.adb:13:4-18:23> is_dot_call=True is_visible=True weight=75>,
+         <CompletionItem decl=<SyntheticObjectDecl ["Base_Type"] base.ads:2:4-2:41> is_dot_call=False is_visible=False weight=0>,
          <CompletionItem decl=<NullSubpDecl ["Base_Method"] base.ads:3:4-3:53> is_dot_call=True is_visible=True weight=75>]

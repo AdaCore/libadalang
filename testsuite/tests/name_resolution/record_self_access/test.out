@@ -33,3 +33,18 @@ Result: <ComponentDecl ["B"] test.adb:19:7-19:19>
 
 Eval 'node.f_expr.f_suffix.p_referenced_decl()'
 Result: <ComponentDecl ["B"] test.adb:19:7-19:19>
+
+Working on node <ComponentDecl ["X"] test.adb:32:7-32:49>
+=========================================================
+
+Set 'access_type' to 'node.f_component_def.f_type_expr.f_type_decl'
+Result: <AnonymousTypeDecl ["None"] test.adb:32:11-32:21>
+
+Eval 'access_type.f_type_def.f_subtype_indication.f_name.p_referenced_decl()'
+Result: <ConcreteTypeDecl ["T_3"] test.adb:31:4-37:15>
+
+Eval 'access_type.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["T_3"] test.adb:31:4-37:15>
+
+Eval 'node.f_default_expr.f_prefix.p_referenced_decl()'
+Result: <SyntheticObjectDecl ["T_3"] test.adb:31:4-37:15>

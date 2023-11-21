@@ -19466,6 +19466,9 @@ class ForLoopSpec(LoopSpec):
                     lambda typ:
                     Bind(Self.var_decl.id.type_var, typ.canonical_type),
                     default_val=And(
+                        # Make sure null is not a possible value to avoid a
+                        # null dereference in the subsequent predicate.
+                        Predicate(AdaNode.is_not_null, t.type_var),
                         Predicate(BaseTypeDecl.is_iterator_type, t.type_var),
                         Bind(t.type_var, Self.var_decl.id.type_var,
                              conv_prop=BaseTypeDecl.cursor_type)

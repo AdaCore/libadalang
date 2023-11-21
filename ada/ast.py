@@ -7104,7 +7104,8 @@ class BaseTypeDecl(BasicDecl):
             Entity.matching_type(expected_type),
 
             And(
-                expected_type.is_classwide,
+                expected_type.is_classwide
+                | expected_type.accessed_type._.is_classwide,
                 actual_type.matching_formal_prim_type(expected_type)
             ),
 

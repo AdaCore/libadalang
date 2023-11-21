@@ -83,7 +83,7 @@ Expr: <AttributeRef test.adb:32:10-32:20>
   expected type: ada.task_identification.task_id
 Expr: <Id "I" test.adb:32:10-32:11>
   references:    test().i
-  type:          None
+  type:          test().tt
   expected type: None
 Expr: <Id "Identity" test.adb:32:12-32:20>
   references:    None
@@ -111,6 +111,33 @@ Expr: <Id "Task_Identification" test.adb:32:27-32:46>
   expected type: None
 Expr: <Id "Current_Task" test.adb:32:47-32:59>
   references:    ada.task_identification.current_task(() -> ada.task_identification.task_id)
+  type:          ada.task_identification.task_id
+  expected type: ada.task_identification.task_id
+
+Resolving xrefs for node <ReturnStmt test.adb:44:10-44:44>
+**********************************************************
+
+Expr: <RelationOp test.adb:44:17-44:43>
+  type:          standard.boolean
+  expected type: standard.boolean
+Expr: <AttributeRef test.adb:44:17-44:32>
+  references:    None
+  type:          ada.task_identification.task_id
+  expected type: ada.task_identification.task_id
+Expr: <Id "A_Task" test.adb:44:17-44:23>
+  references:    test().f((test.tt, ada.task_identification.task_id) -> standard.boolean).a_task
+  type:          test().tt
+  expected type: None
+Expr: <Id "Identity" test.adb:44:24-44:32>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpNeq "/=" test.adb:44:33-44:35>
+  references:    ada.task_identification."="((ada.task_identification.task_id, ada.task_identification.task_id) -> standard.boolean)
+  type:          None
+  expected type: None
+Expr: <Id "Compare" test.adb:44:36-44:43>
+  references:    test().f((test.tt, ada.task_identification.task_id) -> standard.boolean).compare
   type:          ada.task_identification.task_id
   expected type: ada.task_identification.task_id
 

@@ -260,9 +260,11 @@ $root = LexEnv(Static_Primary, Parent=null):
     a: [<ComponentDecl ["A", "B"] input:3:7-3:22>]
     b: [<ComponentDecl ["A", "B"] input:3:7-3:22>]
     c: [<ComponentDecl ["C"] input:4:7-4:22>]
+    r1_type: [<SyntheticObjectDecl ["R1_Type"] input:2:4-5:15>]
 
 @4 = LexEnv(Static_Primary, Parent=@2, Node=<ConcreteTypeDecl ["R2_Type"] input:7:4-10:15>):
     i: [<ComponentDecl ["I"] input:8:7-8:19>]
     n: [<DiscriminantSpec ["N"] input:7:18-7:29>]
+    r2_type: [<SyntheticObjectDecl ["R2_Type"] input:7:4-10:15>]
     s: [<ComponentDecl ["S"] input:9:7-9:27>]
 

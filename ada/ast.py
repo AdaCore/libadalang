@@ -1190,7 +1190,7 @@ class AdaNode(ASTNode):
     def has_visibility(other_entity=T.AdaNode.entity):
         # We found a synthetic type predicate object decl, check if we are
         # allowed to see it.
-        return other_entity.cast(SyntheticTypePredicateObjectDecl).then(
+        return other_entity.cast(SyntheticObjectDecl).then(
             lambda sod: sod.is_referred_by(Self),
             default_val=True
         ) & Or(
@@ -6304,7 +6304,7 @@ class BaseTypeDecl(BasicDecl):
         ))
 
     @lazy_field(return_type=T.env_assoc)
-    def synthetic_type_predicate_object_decl():
+    def synthetic_object_decl_env_assoc():
         """
         Create an env_assoc embedding the synthetic object declaration
         required for predicates name resolution.
@@ -6319,7 +6319,7 @@ class BaseTypeDecl(BasicDecl):
             # in predicates as object references. This virtual object only
             # lives in the scope of the derived/subtype declaration, and has
             # the same name and type than the declaration it derives from.
-            value=T.SyntheticTypePredicateObjectDecl.new(
+            value=T.SyntheticObjectDecl.new(
                 name=Self.name,
                 # A `SubtypeDecl` has a type expression that we can reuse On
                 # the contrary, we have to embed the TypeDecl into a synthetic
@@ -7984,12 +7984,14 @@ class TypeDecl(BaseTypeDecl):
         # If this `TypeDecl` can have a predicate, add a synthetic object
         # declaration into its environement in order to support name resolution
         # of self-references that can appear in predicates (see
-        # `SyntheticTypePredicateObjectDecl`).
+        # `SyntheticObjectDecl`).
         add_to_env(If(
             # Try to filter which type decls can have predicate to save some
             # space in envs.
-            Self.type_def.is_a(T.DerivedTypeDef, T.TypeAccessDef),
-            Entity.synthetic_type_predicate_object_decl,
+            Self.type_def.is_a(
+                T.RecordTypeDef, T.DerivedTypeDef, T.TypeAccessDef
+            ),
+            Entity.synthetic_object_decl_env_assoc,
             No(T.env_assoc)
         )),
 
@@ -9315,7 +9317,7 @@ class SubtypeDecl(BaseSubtypeDecl):
         # subtype environment, so we add a children environement here, just to
         # hold this object.
         add_env(transitive_parent=True),
-        add_to_env(Entity.synthetic_type_predicate_object_decl)
+        add_to_env(Entity.synthetic_object_decl_env_assoc)
     )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
@@ -9338,11 +9340,11 @@ class SubtypeDecl(BaseSubtypeDecl):
 
 
 @synthetic
-class SyntheticTypePredicateObjectDecl(BasicDecl):
+class SyntheticObjectDecl(BasicDecl):
     """
-    SyntheticTypePredicateObjectDecl is a declaration that holds a virtual
-    object used in type predicates to refer to an object of that type. Such as
-    in::
+    SyntheticObjectDecl is a declaration that holds a virtual object. This is
+    for example used in type predicates to refer to an object of the enclosing
+    type, as in::
 
          subtype Odd is Natural with
             Dynamic_Predicate => Odd mod 2 = 1;
@@ -10663,7 +10665,7 @@ class Pragma(AdaNode):
         Standard package for top level use clauses. For contract pragmas such
         as ``Precondition`` or ``Predicate``, we use the env of the entity the
         pragma is associated with in order to properly resolve references to
-        formals or to the type's ``SyntheticTypePredicateObjectDecl`` instance.
+        formals or to the type's ``SyntheticObjectDecl`` instance.
         """
         return Cond(
             Self.parent.parent.is_a(CompilationUnit),

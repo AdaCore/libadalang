@@ -5722,6 +5722,15 @@ class TypeAttributesRepository(AdaNode):
         ))
 
     @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def round():
+        # As defined in :rmlink:`3.5.10`
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Round",
+            right_param=Self.universal_real_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
     def rounding():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Rounding",
@@ -6137,6 +6146,7 @@ class BaseTypeDecl(BasicDecl):
             attr_name == "min", repo.min,
             attr_name == "max", repo.max,
 
+            attr_name == "round", repo.round,
             attr_name == "rounding", repo.rounding,
             attr_name == "unbiased_rounding", repo.unbiased_rounding,
             attr_name == "ceiling", repo.ceiling,
@@ -19809,7 +19819,8 @@ class AttributeRef(Name):
                             'Fixed_Value', 'Integer_Value',
                             'Pos', 'Val', 'Enum_Val',
                             'Write', 'Read', 'Output', 'Input', 'Put_Image',
-                            'Asm_Input', 'Asm_Output', 'Model'),
+                            'Asm_Input', 'Asm_Output', 'Model',
+                            'Round'),
             Entity.attribute_subprogram_equation,
 
             rel_name.any_of('Size', 'VADS_Size'), Entity.size_equation,

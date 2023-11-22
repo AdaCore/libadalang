@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [p1-p2.adb, p1-p2-p3.adb, p1-p2-p3-p4.adb]

@@ -13592,30 +13592,48 @@ class ConcatOp(Expr):
 
     @langkit_property()
     def xref_equation():
-        last_operand = Var(
-            Self.other_operands.at(Self.other_operands.length - 1))
+        operand_count = Var(Self.other_operands.length)
+        last_operand = Var(Self.other_operands.at(operand_count - 1))
         concat_subprograms = Var(
-            Entity.other_operands.at(0).operator.subprograms)
+            Entity.other_operands.at(0).operator.subprograms
+        )
 
         # Perform expression resolution from left to right
         return (
             Entity.first_operand.sub_equation
             & Entity.other_operands.logic_all(
-                lambda pos, concat_operand: Let(
-                    # left operand expression is first_operand to begin with,
-                    # then, left operands are the result of the previous
-                    # operator resolution.
-                    lambda left=If(
+                lambda concat_operand: concat_operand.operand.sub_equation
+            )
+            # Build the equations for the concatenations themselves.
+            # WARNING: for now, the equations should appear in the order
+            # below, that is: the equation constraining the leftmost
+            # operand should be first, and equations for successive operands
+            # should follow in the corresponding order, with the rightmost
+            # operand having its equation last. This allows optimal resolution
+            # (performance-wise) until eng/libadalang/langkit#725 is addressed.
+            & Entity.other_operands.logic_all(lambda index, _: Let(
+                lambda pos=operand_count - index - 1: Let(
+                    lambda
+                    left=If(
                         pos > 0,
                         Entity.other_operands.at(pos - 1),
                         Entity.first_operand
                     ),
-                    right=concat_operand.operand:
+                    concat_operand=Entity.other_operands.at(pos),
+                    right=Entity.other_operands.at(pos).operand: Or(
+                        # TODO: this is implementation is actually not correct
+                        # w.r.t. visibility (eng/libadalang/libadalang#1138).
 
-                    right.sub_equation &
-                    Or(
-                        # Find the subprogram corresponding to:
-                        # "&" (left, right).
+                        # First, try to resolve this operator using built-in
+                        # operators only.
+                        Entity.operator_no_subprogram_equation(
+                            left, concat_operand, right
+                        ),
+
+                        # If that didn't work, try to resolve it by considering
+                        # visible user-defined overloads of "&". NOTE: for
+                        # performance reasons it is better to first try the
+                        # built-in operators first.
                         concat_subprograms.logic_any(
                             lambda subp: Let(
                                 lambda spec=subp.subp_spec_or_null:
@@ -13629,16 +13647,10 @@ class ConcatOp(Expr):
                                          spec)
                                 )
                             )
-                        ),
-                        # When no subprogram is found for this concat operator,
-                        # use this equation to infer it's type depending on the
-                        # context.
-                        Entity.operator_no_subprogram_equation(left,
-                                                               concat_operand,
-                                                               right)
+                        )
                     )
                 )
-            )
+            ))
             # Just propagate last operand's type/expected_type to Self
             & Bind(Self.type_var, last_operand.type_var)
             & Bind(Self.expected_type_var, last_operand.expected_type_var)

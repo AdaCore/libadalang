@@ -18,4 +18,24 @@ Expr: <Id "T2" testabort.adb:38:10-38:12>
   expected type: None
 
 
+Analyzing derived.adb
+#####################
+
+Resolving xrefs for node <AbortStmt derived.adb:15:7-15:15>
+***********************************************************
+
+Expr: <Id "X" derived.adb:15:13-15:14>
+  references:    <DefiningName "X" derived.adb:13:20-13:21>
+  type:          <SubtypeDecl ["ST"] derived.adb:10:4-10:20>
+  expected type: None
+
+Resolving xrefs for node <AbortStmt derived.adb:21:7-21:15>
+***********************************************************
+
+Expr: <Id "X" derived.adb:21:13-21:14>
+  references:    <DefiningName "X" derived.adb:19:20-19:21>
+  type:          <ConcreteTypeDecl ["NT"] derived.adb:11:4-11:21>
+  expected type: None
+
+
 Done.

@@ -10810,7 +10810,7 @@ class AttributeDefClause(AspectClause):
 
         return Cond(
             rel_name.any_of('Read', 'Write', 'Input', 'Output'),
-            Entity.expr.cast_or_raise(T.Name).xref_no_overloading
+            Entity.expr.cast_or_raise(T.Name).xref_no_overloading(all_els=True)
             & Predicate(
                 BasicDecl.is_stream_subprogram_for_type,
                 Entity.expr.cast(T.Name).ref_var,

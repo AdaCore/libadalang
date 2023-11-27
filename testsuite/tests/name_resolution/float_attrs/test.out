@@ -647,5 +647,33 @@ Expr: <Id "Safe_Last" test_float_attrs.adb:74:23-74:32>
   type:          None
   expected type: None
 
+Resolving xrefs for node <ObjectDecl ["Z"] test_float_attrs.adb:77:4-77:36>
+***************************************************************************
+
+Expr: <Id "Float" test_float_attrs.adb:77:8-77:13>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
+  type:          None
+  expected type: None
+Expr: <CallExpr test_float_attrs.adb:77:17-77:35>
+  references:    <SyntheticDefiningName "round" __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <AttributeRef test_float_attrs.adb:77:17-77:28>
+  references:    <SyntheticDefiningName "round" __standard:14:3-15:51>
+  type:          None
+  expected type: None
+Expr: <Id "Float" test_float_attrs.adb:77:17-77:22>
+  references:    <DefiningName "Float" __standard:14:8-14:13>
+  type:          None
+  expected type: None
+Expr: <Id "Round" test_float_attrs.adb:77:23-77:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test_float_attrs.adb:77:30-77:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+
 
 Done.

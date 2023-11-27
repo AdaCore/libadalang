@@ -4882,7 +4882,7 @@ class TypeDef(AdaNode):
         """
         return False
 
-    is_task_type = Property(False)
+    is_task_type = Property(False, dynamic_vars=[default_origin()])
 
     is_limited_type = Property(False)
 
@@ -8878,6 +8878,7 @@ class DerivedTypeDef(TypeDef):
         Entity.interfaces.map(lambda i: i.name_designated_type)
     )
 
+    is_task_type = Property(Entity.base_type.is_task_type)
     is_int_type = Property(Entity.base_type.is_int_type)
     is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
     is_char_type = Property(Entity.base_type.is_char_type)
@@ -9310,6 +9311,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     canonical_type = Property(Entity.get_type.canonical_type)
     record_def = Property(Entity.get_type.record_def)
     accessed_type = Property(Entity.get_type.accessed_type)
+    is_task_type = Property(Entity.get_type.is_task_type)
     is_int_type = Property(Entity.get_type.is_int_type)
     is_discrete_type = Property(Entity.get_type.is_discrete_type)
 

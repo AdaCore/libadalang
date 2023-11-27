@@ -1,2 +1,2 @@
 driver: name-resolution
-input_sources: [testabort.adb]
+input_sources: [testabort.adb, derived.adb]

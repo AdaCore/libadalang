@@ -8044,19 +8044,15 @@ class TypeDecl(BaseTypeDecl):
         add_env(),
         handle_children(),
 
-        # If this `TypeDecl` can have a predicate, add a synthetic object
-        # declaration into its environement in order to support name resolution
-        # of self-references that can appear in predicates (see
-        # `SyntheticObjectDecl`).
-        add_to_env(If(
-            # Try to filter which type decls can have predicate to save some
-            # space in envs.
-            Self.type_def.is_a(
-                T.RecordTypeDef, T.DerivedTypeDef, T.TypeAccessDef
-            ),
-            Entity.synthetic_object_decl_env_assoc,
-            No(T.env_assoc)
-        )),
+        # Add a synthetic object declaration into its environement in order to
+        # support name resolution of self-references that can appear in
+        # predicates (see `SyntheticObjectDecl`) or in a records' body.
+        # TODO: This could be added conditionally to avoid polluting envs with
+        # unnecessary objects if we can statically detect whether it will be
+        # useful or not, for example by checking if `Predicate` aspect is
+        # specified on this type. However, it is not as easy because there can
+        # `Predicate` pragmas defined *after* this.
+        add_to_env(Entity.synthetic_object_decl_env_assoc),
 
         # Make sure the reference to the primitives env is created *AFTER* the
         # synthetic type predicate object has been added to Self's env: since

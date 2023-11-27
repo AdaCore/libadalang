@@ -530,7 +530,7 @@ Expr: <AttributeRef other.adb:11:29-11:40>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Table" other.adb:11:29-11:34>
   references:    <DefiningName "Table" other.adb:10:9-10:14>
-  type:          None
+  type:          <ConcreteTypeDecl ["Table"] other.adb:10:4-10:45>
   expected type: None
 Expr: <Id "First" other.adb:11:35-11:40>
   references:    None

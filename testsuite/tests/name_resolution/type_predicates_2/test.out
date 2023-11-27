@@ -1,0 +1,17 @@
+Working on node <Id "Even" test.adb:4:10-4:14>
+==============================================
+
+Eval 'node.p_referenced_decl()'
+Result: <SyntheticObjectDecl ["Even"] test.adb:2:4-5:21>
+
+Working on node <Id "By_4" test.adb:9:10-9:14>
+==============================================
+
+Eval 'node.p_referenced_decl()'
+Result: <SyntheticObjectDecl ["By_4"] test.adb:7:4-10:21>
+
+Working on node <Id "By_8" test.adb:14:10-14:14>
+================================================
+
+Eval 'node.p_referenced_decl()'
+Result: <SyntheticObjectDecl ["By_8"] test.adb:12:4-15:21>

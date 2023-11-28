@@ -6,7 +6,7 @@
 #include "utils.h"
 
 static void
-dump_identifier(ada_base_node id)
+dump_identifier(ada_node *id)
 {
     ada_text text;
     ada_token name;

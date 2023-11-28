@@ -29,7 +29,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{secrets.GHA_CACHE_SECRET}}
           AWS_DEFAULT_REGION: eu-west-1
         run: |
-            aws s3 cp . s3://adacore-gha-tray-eu-west-1/libadalang/ --recursive --exclude "*" --include "*.tar.bz2" --sse=AES256
+            aws s3 cp s3://adacore-gha-tray-eu-west-1/libadalang/${{ matrix.cross }}-${{ runner.os }}-gcc-13.2.tar.bz2 . --sse=AES256
+            aws s3 cp s3://adacore-gha-tray-eu-west-1/libadalang/${{ matrix.cross }}-${{ runner.os }}-gmp-6.2.1.tar.bz2 . --sse=AES256
             sudo apt install -y libc6-dev-arm64-cross linux-libc-dev-arm64-cross binutils-aarch64-linux-gnu
             sudo tar xavf ${{ matrix.cross }}-${{ runner.os }}-gcc-13.2.tar.bz2 -C /
             sudo tar xavf ${{ matrix.cross }}-${{ runner.os }}-gmp-6.2.1.tar.bz2 -C /

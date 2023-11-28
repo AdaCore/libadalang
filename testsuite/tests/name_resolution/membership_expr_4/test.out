@@ -1,0 +1,24 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ReturnStmt test.adb:8:7-8:25>
+*******************************************************
+
+Expr: <MembershipExpr test.adb:8:14-8:24>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "O" test.adb:8:14-8:15>
+  references:    <DefiningName "O" test.adb:6:16-6:17>
+  type:          <AnonymousTypeDecl ["None"] test.adb:6:20-6:28>
+  expected type: <ConcreteTypeDecl ["U_Ptr"] test.adb:4:4-4:27>
+Expr: <OpIn "in" test.adb:8:16-8:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "U_Ptr" test.adb:8:19-8:24>
+  references:    <DefiningName "U_Ptr" test.adb:4:9-4:14>
+  type:          None
+  expected type: None
+
+
+Done.

@@ -1,0 +1,89 @@
+Working on node <GenericSubpInstantiation ["My_Gen"] test.adb:15:4-15:38>
+=========================================================================
+
+Set 'body' to 'node.p_designated_generic_decl.p_body_part()'
+Result: <| SubpBody ["Gen"] test.adb:6:4-11:12 [test.adb:15:4] |>
+
+Set 'calls' to '[s.f_call for s in body.findall(lal.CallStmt)]'
+Result: [<| CallExpr test.adb:8:7-8:15 [test.adb:15:4] |>,
+         <| CallExpr test.adb:9:7-9:20 [test.adb:15:4] |>,
+         <| Id "Foo" test.adb:10:7-10:10 [test.adb:15:4] |>]
+
+Eval 'calls[0].p_referenced_decl()'
+Result: <NullSubpDecl ["Bar"] test.adb:13:4-13:40>
+
+Eval 'calls[1].p_referenced_decl()'
+Result: <NullSubpDecl ["Bar"] test.adb:13:4-13:40>
+
+Eval 'calls[2].p_referenced_decl()'
+Result: <NullSubpDecl ["Bar"] test.adb:13:4-13:40>
+
+Eval 'calls[0].p_called_subp_spec'
+Result: <SubpSpec test.adb:13:4-13:31>
+
+Eval 'calls[1].p_called_subp_spec'
+Result: <SubpSpec test.adb:13:4-13:31>
+
+Eval 'calls[2].p_called_subp_spec'
+Result: <SubpSpec test.adb:13:4-13:31>
+
+Eval 'calls[0].p_call_params'
+Result: [<ParamActual param=<DefiningName "Y" test.adb:13:19-13:20> actual=<| Int test.adb:8:12-8:14 [test.adb:15:4] |>>]
+
+Eval 'calls[1].p_call_params'
+Result: [<ParamActual param=<DefiningName "Y" test.adb:13:19-13:20> actual=<| Int test.adb:9:17-9:19 [test.adb:15:4] |>>]
+
+Eval 'calls[2].p_call_params'
+Result: [<ParamActual param=<| DefiningName "X" test.adb:3:27-3:28 [test.adb:15:4] |> actual=<| Int test.adb:3:42-3:44 [test.adb:15:4] |>>]
+
+Eval 'calls[1].f_suffix[0].f_designator.p_referenced_decl()'
+Result: <ParamSpec ["Y"] test.adb:13:19-13:30>
+
+Working on node <GenericSubpInstantiation ["I2"] test_2.adb:23:4-23:33>
+=======================================================================
+
+Set 'g2' to 'node.p_designated_generic_decl.p_body_part()'
+Result: <| SubpBody ["G2"] test_2.adb:15:4-19:11 [test_2.adb:23:4] |>
+
+Set 'g1_decl' to 'g2.find(lal.GenericInstantiation).p_designated_generic_decl'
+Result: <| GenericSubpDecl ["G1"] test_2.adb:2:4-4:17 [test_2.adb:23:4, test_2.adb:16:7] |>
+
+Set 'g1' to 'g1_decl.p_body_part()'
+Result: <| SubpBody ["G1"] test_2.adb:6:4-9:11 [test_2.adb:23:4, test_2.adb:16:7] |>
+
+Set 'call' to 'g1.find(lal.CallStmt).f_call'
+Result: <| CallExpr test_2.adb:8:7-8:19 [test_2.adb:23:4, test_2.adb:16:7] |>
+
+Eval 'call.p_referenced_decl()'
+Result: <NullSubpDecl ["Baz"] test_2.adb:21:4-21:40>
+
+Eval 'call.f_suffix[0].f_designator.p_referenced_decl()'
+Result: <ParamSpec ["C"] test_2.adb:21:19-21:30>
+
+Eval 'call.p_call_params'
+Result: [<ParamActual param=<DefiningName "C" test_2.adb:21:19-21:20> actual=<| Int test_2.adb:8:17-8:18 [test_2.adb:23:4, test_2.adb:16:7] |>>]
+
+Working on node <GenericSubpInstantiation ["My_Gen"] test_3.adb:15:4-15:38>
+===========================================================================
+
+Set 'body' to 'node.p_designated_generic_decl.p_body_part()'
+Result: <| SubpBody ["Gen"] test_3.adb:8:4-11:12 [test_3.adb:15:4] |>
+
+Set 'calls' to '[s.f_call for s in body.findall(lal.CallStmt)]'
+Result: [<| CallExpr test_3.adb:10:7-10:27 [test_3.adb:15:4] |>]
+
+Eval 'calls[0].p_referenced_decl()'
+Result: <NullSubpDecl ["Bar"] test_3.adb:13:4-13:53>
+
+Eval 'calls[0].p_called_subp_spec'
+Result: <SubpSpec test_3.adb:13:4-13:44>
+
+Eval 'calls[0].p_call_params'
+Result: [<ParamActual param=<DefiningName "A" test_3.adb:13:19-13:20> actual=<| Int test_3.adb:10:25-10:26 [test_3.adb:15:4] |>>,
+         <ParamActual param=<DefiningName "B" test_3.adb:13:32-13:33> actual=<| Int test_3.adb:10:17-10:18 [test_3.adb:15:4] |>>]
+
+Eval 'calls[0].f_suffix[0].f_designator.p_referenced_decl()'
+Result: <ParamSpec ["B"] test_3.adb:13:32-13:43>
+
+Eval 'calls[0].f_suffix[1].f_designator.p_referenced_decl()'
+Result: <ParamSpec ["A"] test_3.adb:13:19-13:30>

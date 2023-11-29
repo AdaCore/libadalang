@@ -1369,7 +1369,12 @@ A.add_rules(
     paren_expr=ParenExpr("(", A.expr, ")"),
 
     declare_expr=DeclExpr(
-        "declare", List(A.object_decl, empty_valid=True), "begin", A.expr
+        "declare",
+        List(
+            Or(A.object_decl, A.pragma), empty_valid=True
+        ),
+        "begin",
+        A.expr
     ),
 
     factor=Or(

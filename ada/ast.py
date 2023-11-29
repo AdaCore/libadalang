@@ -362,10 +362,16 @@ class AdaNode(ASTNode):
         return origin.bind(
             Self.origin_node,
             Entity.complete_items.filter(
-                # This property filters out `SyntheticSubpDecl` items
-                # because they are of no use for completion. Additional
-                # filtering can be done in `complete_items`.
-                lambda n: n.decl.cast(T.SyntheticSubpDecl).is_null
+                # This property filters out `SyntheticSubpDecl` and
+                # `SyntheticObjectDecl` items because they are of no use for
+                # completion. This is not entirely true for
+                # `SyntheticObjectDecl` since they can be useful in type
+                # predicate aspects (yet not implemented since no likely
+                # helpful). Additional filtering can be done in
+                # `complete_items`.
+                lambda n: Not(
+                    n.decl.is_a(T.SyntheticSubpDecl, T.SyntheticObjectDecl)
+                )
             ).to_iterator
         )
 

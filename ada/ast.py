@@ -2473,6 +2473,14 @@ class BasicDecl(AdaNode):
             PropertyError(BasicDecl.entity, "Incorrect rebindings")
         )
 
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def corresponding_actual():
+        """
+        Given a generic formal entity inside a generic context, return the
+        actual that was used to instantiate it.
+        """
+        return Entity
+
     @langkit_property(return_type=T.Bool)
     def is_library_item():
         """
@@ -4441,7 +4449,7 @@ class BaseFormalParamHolder(AdaNode):
             lambda _: Entity.unpacked_formal_params
         )
 
-    @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
+    @langkit_property(return_type=T.ParamMatch.array)
     def match_param_list(params=T.AssocList.entity,
                          is_dottable_subp=Bool):
         return Self.match_formals(
@@ -4552,6 +4560,39 @@ class BaseFormalParamHolder(AdaNode):
             r._.new_env._.env_node.is_a(GenericSubpInstantiation),
             Self.shed_subp_rebindings(r.get_parent),
             r
+        )
+
+    @langkit_property(return_type=T.BaseFormalParamHolder.entity)
+    def corresponding_actual():
+        """
+        For a ``BaseFormalParamHolder`` (e.g. a ``SubpSpec``), we simply go
+        to its parent (e.g. a ``FormalSubpDecl``), retrieve its corresponding
+        actual (e.g. a ``BasicSubpDecl``), and then grab the formal param
+        holder of that node (e.g. a ``SubpSpec``).
+        """
+        return Entity.parent.cast(BasicDecl).then(
+            lambda bd: bd.corresponding_actual._.formal_param_holder_or_null,
+            default_val=Entity
+        )
+
+    @langkit_property(return_type=T.DefiningName.entity)
+    def corresponding_actual_param(name=T.DefiningName.entity):
+        """
+        Given the name of a parameter defined in a specification of a generic
+        formal parameter, return its corresponding name in the actual that was
+        used in the instantiation.
+        """
+        actual_spec = Var(Entity.corresponding_actual)
+        return If(
+            Entity == actual_spec,
+            name,
+            Entity.unpacked_formal_params.mapcat(
+                lambda i, param: If(
+                    param.node == name.node,
+                    [actual_spec.unpacked_formal_params.at(i)],
+                    No(DefiningName.entity.array)
+                )
+            ).at(0)
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
@@ -11667,22 +11708,27 @@ class GenericInstantiation(BasicDecl):
         return If(
             Entity.is_any_formal,
             No(T.inner_env_assoc.array),
-            env.bind(
-                Self.default_initial_env,
-                Self.nonbound_generic_decl._.formal_part.match_param_list(
-                    Entity.generic_inst_params, False
-                ).filter(
-                    lambda pm: Not(pm.actual.assoc.expr.is_a(BoxExpr))
-                ).map(
-                    lambda i, pm: T.inner_env_assoc.new(
-                        key=pm.formal.name.name_symbol,
-                        value=If(
-                            pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
-                            Entity.actual_expr_decls.at(i),
-                            pm.actual.assoc.expr.node
-                        ),
-                        metadata=T.Metadata.new()
-                    )
+            Self.nonbound_generic_decl._.formal_part.match_param_list(
+                Entity.generic_inst_params, False
+            ).filter(
+                lambda pm: And(
+                    Not(pm.actual.assoc.expr.is_a(BoxExpr)),
+                    # Do not put formal subprograms in the rebindings to avoid
+                    # them being eagerly resolved to an actual, as the formal
+                    # part is needed to implement correct name resolution. We
+                    # will use ``BasicDecl.corresponding_actual`` instead to
+                    # manually resolve it.
+                    Not(pm.formal.formal_decl.is_a(GenericFormalSubpDecl))
+                )
+            ).map(
+                lambda i, pm: T.inner_env_assoc.new(
+                    key=pm.formal.name.name_symbol,
+                    value=If(
+                        pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
+                        Entity.actual_expr_decls.at(i),
+                        pm.actual.assoc.expr.node
+                    ),
+                    metadata=T.Metadata.new()
                 )
             )
         )
@@ -11951,6 +11997,21 @@ class GenericInstantiation(BasicDecl):
                 param=dp.param,
                 actual=ap.actual_for_param_at(dp.param, i, dp.actual)
             )
+        )
+
+    @langkit_property(return_type=T.Expr.entity)
+    def actual_for_formal(formal_name=T.DefiningName):
+        """
+        Return the expression of the actual used for the given formal in this
+        generic instantiation. Returns null if none is provided, even if there
+        is a default value.
+        """
+        return Self.nonbound_generic_decl._.formal_part.match_param_list(
+            Entity.generic_inst_params, False
+        ).find(
+            lambda pm: pm.formal.node == formal_name
+        ).then(
+            lambda pm: pm.actual.assoc.expr
         )
 
 
@@ -12350,6 +12411,43 @@ class FormalSubpDecl(ClassicSubpDecl):
             lambda _: PropertyError(Equation, "Should not happen")
         ), default_val=LogicTrue())
     )
+
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def corresponding_actual_impl(rb=T.EnvRebindings):
+        """
+        Retrieves the actual for this formal subprogram by finding the generic
+        formal part in which Self lies in Self's rebindings, and then resolving
+        the corresponding actual.
+        """
+        return Cond(
+            rb.is_null,
+            Entity,
+
+            rb.old_env == Self.parent.node_env,
+            rb.new_env.env_node.cast(GenericInstantiation).then(
+                lambda inst: T.GenericInstantiation.entity.new(
+                    node=inst,
+                    info=T.entity_info.new(
+                        rebindings=rb.get_parent,
+                        md=No(T.Metadata),
+                        from_rebound=False
+                    )
+                )
+            ).actual_for_formal(Entity.defining_name.node)
+            ._.resolve_generic_actual.cast(BasicDecl).then(
+                lambda actual: actual.corresponding_actual
+            )._or(Entity),
+
+            Entity.corresponding_actual_impl(rb.get_parent)
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def corresponding_actual():
+        """
+        For a ``FormalSubpDecl`` we must find the actual by looking in our own
+        rebindings. See ``corresponding_actual_impl``.
+        """
+        return Entity.corresponding_actual_impl(Entity.info.rebindings)
 
     @langkit_property(return_type=T.BasicDecl.entity)
     def designated_subprogram_from(inst=T.GenericInstantiation.entity):
@@ -14488,7 +14586,7 @@ class Name(Expr):
         """
         return And(
             Not(Entity.is_defining),
-            Not(Entity.called_subp_spec.is_null)
+            Not(Entity.called_formal_subp_spec.is_null)
         )
 
     @langkit_property(public=True, return_type=T.Bool,
@@ -14874,7 +14972,19 @@ class Name(Expr):
     def called_subp_spec():
         """
         Return the subprogram specification of the subprogram or subprogram
-        access that is being called by this exact Name, if relevant.
+        access that is being called by this exact Name, if relevant. Note that
+        when inside an instantiated generic, this will return the spec of the
+        actual subprogram.
+        """
+        return Entity.called_formal_subp_spec._.corresponding_actual
+
+    @langkit_property(return_type=T.BaseFormalParamHolder.entity)
+    def called_formal_subp_spec():
+        """
+        Return the subprogram specification of the subprogram or subprogram
+        access that is being called by this exact Name, if relevant. Note that
+        when inside an instantiated generic, this will return the spec of the
+        formal subprogram.
         """
         return If(
             Self.defines_subp_spec_var,
@@ -15426,12 +15536,14 @@ class Name(Expr):
         Returns an array of pairs, associating formal parameters to actual or
         default expressions.
         """
-        is_call = Var(Entity.is_call)
+        formal_spec = Var(Entity.called_formal_subp_spec)
+        is_call = Var(Not(formal_spec.is_null))
         is_prefix_call = Var(If(
             is_call,
             Entity.is_dot_call | Entity.is_a(AttributeRef),
             False
         ))
+        offset = Var(If(is_prefix_call, 1, 0))
         call_prefix = Var(
             Entity.cast(CallExpr)._.name._or(Entity).match(
                 lambda dn=DottedName: dn.prefix,
@@ -15439,16 +15551,23 @@ class Name(Expr):
                 lambda _: No(Expr.entity)
             )
         )
+        # Get the actuals of this call expression if any
+        aparams = Var(Entity.cast(CallExpr)._.params)
+        # Get the formals of the called subprogams
+        fparams = Var(formal_spec._.abstract_formal_params)
+        # Get a flatten list of the parameters of the actual subprogram, so
+        # that we can easily find them by index when mapping from the
+        # parameter of the formal subprogram.
+        actual_formals = Var(
+            formal_spec._.corresponding_actual.unpacked_formal_params
+        )
         return If(
             is_call,
 
             Let(
-                lambda offset=If(is_prefix_call, 1, 0),
-                # Get the actuals of this call expression if any
-                aparams=Entity.cast(CallExpr)._.params,
                 # Create an array of pairs from the subprogram formals and
                 # default expressions.
-                dparams=Entity.called_subp_spec.abstract_formal_params.mapcat(
+                lambda dparams=fparams.mapcat(
                     lambda i, p: p.defining_names.map(
                         lambda n: ParamActual.new(
                             param=n,
@@ -15468,7 +15587,7 @@ class Name(Expr):
                 aparams.then(
                     lambda ap: dparams.map(
                         lambda i, dp: ParamActual.new(
-                            param=dp.param,
+                            param=actual_formals.at(i),
                             # Search if a named param expression exists for
                             # this formal param in the call assoc list.
                             actual=If(
@@ -15776,7 +15895,7 @@ class CallExpr(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def entity_equation(s=T.BasicDecl.entity, root=T.Name):
         # The called entity is the matched entity
-        return Bind(Self.name.ref_var, s) & Cond(
+        return Bind(Self.name.ref_var, s.corresponding_actual) & Cond(
 
             # If s does not have any parameters, then we construct the
             # chain of name equations starting from self, with the parent
@@ -16015,15 +16134,16 @@ class CallExpr(Name):
                         # are designators.
                         pm.actual.name.is_null,
                         LogicTrue(),
-                        Bind(
-                            pm.actual.name.ref_var,
-                            Let(lambda n=pm.formal.formal_decl:
-                                Entity.entity_no_md(
-                                    n.node,
-                                    n.info.rebindings,
-                                    n.info.from_rebound
-                                ))
-                        )
+                        Bind(pm.actual.name.ref_var, Let(
+                            lambda
+                            n=subp_spec.corresponding_actual_param(
+                                pm.formal
+                            ).formal_decl: Entity.entity_no_md(
+                                n.node,
+                                n.info.rebindings,
+                                n.info.from_rebound
+                            )
+                        ))
                     ),
                     LogicFalse()
                 )
@@ -18288,7 +18408,7 @@ class BaseId(SingleTokNode):
 
         return env_els.logic_any(
             lambda e:
-            Bind(Self.ref_var, e)
+            Bind(Self.ref_var, e.cast(BasicDecl).corresponding_actual)
             & If(
                 # If this BaseId refers to an enclosing subprogram and is
                 # the prefix of a dotted name, then it is not a call.
@@ -18303,8 +18423,7 @@ class BaseId(SingleTokNode):
                 # and subp_spec_or_null would indeed return null in this case.
                 Bind(Self.ref_var, Self.type_var,
                      conv_prop=BasicDecl.expr_type)
-                & Bind(Self.ref_var, Self.subp_spec_var,
-                       conv_prop=BasicDecl.subp_spec_or_null)
+                & Bind(Self.subp_spec_var, e.cast(BasicDecl).subp_spec_or_null)
             )
         )
 
@@ -19227,6 +19346,8 @@ class SyntheticFormalParamDecl(BaseFormalParamDecl):
     is_mandatory = Property(True)
     type_expression = Property(Entity.param_type)
 
+    corresponding_actual = Property(Entity)
+
 
 @synthetic
 class SyntheticUnarySpec(BaseSubpSpec):
@@ -19239,6 +19360,8 @@ class SyntheticUnarySpec(BaseSubpSpec):
 
     name = Property(Self.synthesize_defining_name(Self.subp_symbol).as_entity)
     returns = Property(Entity.return_type_expr)
+
+    corresponding_actual = Property(Entity)
 
     @langkit_property()
     def abstract_formal_params():
@@ -19257,6 +19380,8 @@ class SyntheticBinarySpec(BaseSubpSpec):
 
     name = Property(Self.synthesize_defining_name(Self.subp_symbol).as_entity)
     returns = Property(Entity.return_type_expr)
+
+    corresponding_actual = Property(Entity)
 
     @langkit_property()
     def abstract_formal_params():
@@ -20354,7 +20479,7 @@ class AttributeRef(Name):
         )
 
     @langkit_property()
-    def called_subp_spec():
+    def called_formal_subp_spec():
         rel_name = Var(Entity.attribute.name_symbol)
         return If(
             rel_name.any_of('Image', 'Wide_Image', 'Wide_Wide_Image'),

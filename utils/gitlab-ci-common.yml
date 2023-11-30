@@ -50,8 +50,8 @@
       when: never
     - if: '$CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web"'
   services:
-     - image:sandbox
-     - cpu:8
+     - image:pe-base
+     - cpu:16
      - mem:16
   script:
     - !reference [.script_snippets, setup]

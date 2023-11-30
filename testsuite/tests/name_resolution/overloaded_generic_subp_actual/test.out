@@ -1,0 +1,8 @@
+Working on node <GenericSubpInstantiation ["My_Gen"] test.adb:17:4-17:45>
+=========================================================================
+
+Set 'gen' to 'node.p_designated_generic_decl.p_body_part()'
+Result: <| SubpBody ["Gen"] test.adb:6:4-9:12 [test.adb:17:4] |>
+
+Eval 'gen.find(lal.CallExpr).f_name.p_referenced_decl()'
+Result: <NullSubpDecl ["Bar"] test.adb:15:4-15:38>

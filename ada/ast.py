@@ -20106,7 +20106,13 @@ class AttributeRef(Name):
 
             # Entry attributes (RM 9.9)
             rel_name == 'Count',
-            Entity.prefix.xref_no_overloading
+            Entity.prefix.match(
+                # If prefix is a CallExpr, use sub_equation to resolve the
+                # entry reference as it specifies a family member.
+                lambda ce=T.CallExpr: ce.sub_equation,
+                # On the other cases, prefix is a simple identifier
+                lambda o: o.xref_no_overloading
+            )
             & Self.universal_int_bind(Self.type_var),
 
             rel_name == 'Caller',

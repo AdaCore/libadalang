@@ -50,4 +50,56 @@ Expr: <Id "Ent" test.adb:27:8-27:11>
   expected type: None
 
 
+Analyzing family.adb
+####################
+
+Resolving xrefs for node <SubpRenamingDecl ["P"] family.adb:14:4-14:32>
+***********************************************************************
+
+Expr: <CallExpr family.adb:14:24-14:31>
+  references:    <DefiningName "E" family.adb:5:13-5:14>
+  type:          None
+  expected type: None
+Expr: <DottedName family.adb:14:24-14:27>
+  references:    <DefiningName "E" family.adb:5:13-5:14>
+  type:          None
+  expected type: None
+Expr: <Id "T" family.adb:14:24-14:25>
+  references:    <DefiningName "T" family.adb:4:9-4:10>
+  type:          <SingleTaskTypeDecl ["T"] family.adb:4:9-7:9>
+  expected type: None
+Expr: <Id "E" family.adb:14:26-14:27>
+  references:    <DefiningName "E" family.adb:5:13-5:14>
+  type:          None
+  expected type: None
+Expr: <Int family.adb:14:29-14:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
+
+Resolving xrefs for node <SubpRenamingDecl ["P"] family.adb:17:4-17:32>
+***********************************************************************
+
+Expr: <CallExpr family.adb:17:24-17:31>
+  references:    <DefiningName "F" family.adb:6:13-6:14>
+  type:          None
+  expected type: None
+Expr: <DottedName family.adb:17:24-17:27>
+  references:    <DefiningName "F" family.adb:6:13-6:14>
+  type:          None
+  expected type: None
+Expr: <Id "T" family.adb:17:24-17:25>
+  references:    <DefiningName "T" family.adb:4:9-4:10>
+  type:          <SingleTaskTypeDecl ["T"] family.adb:4:9-7:9>
+  expected type: None
+Expr: <Id "F" family.adb:17:26-17:27>
+  references:    <DefiningName "F" family.adb:6:13-6:14>
+  type:          None
+  expected type: None
+Expr: <Id "Z" family.adb:17:29-17:30>
+  references:    <DefiningName "Z" family.adb:2:25-2:26>
+  type:          <ConcreteTypeDecl ["Enume"] family.adb:2:4-2:28>
+  expected type: <ConcreteTypeDecl ["Enume"] family.adb:2:4-2:28>
+
+
 Done.

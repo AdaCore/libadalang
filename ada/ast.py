@@ -21640,10 +21640,16 @@ class SubpRenamingDecl(BaseSubpBody):
             # resolution to synthesize its corresponding function.
             Entity.renames.renamed_object.sub_equation,
 
-            Entity.renames.renamed_object.xref_no_overloading(all_els=True)
-            & Predicate(BasicDecl.subp_decl_match_signature,
-                        Entity.renames.renamed_object.ref_var,
-                        Entity.cast(T.BasicDecl))
+            Entity.renames.renamed_object.match(
+                # If renamed_object is a CallExpr, this is likely the renaming
+                # of an entry decl with a family member specified, so use
+                # sub_equation.
+                lambda ce=T.CallExpr: ce.sub_equation,
+                # On the other cases, prefix is a simple identifier
+                lambda o: o.xref_no_overloading(all_els=True)
+            ) & Predicate(BasicDecl.subp_decl_match_signature,
+                          Entity.renames.renamed_object.ref_var,
+                          Entity.cast(T.BasicDecl))
         ),
         # Operators might be built-in, so if we cannot find a reference, we'll
         # just abandon resolution...

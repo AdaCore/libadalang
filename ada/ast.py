@@ -21963,7 +21963,19 @@ class RequeueStmt(SimpleStmt):
         return And(
             # We call xref_no_overloading to make sure that sub-names are
             # bound.
-            name.xref_no_overloading,
+            name.match(
+                # If name is a DottedName, prefix can be a CallExpr that should
+                # be resolved using sub_equation.
+                lambda dn=T.DottedName:
+                If(dn.prefix.is_a(CallExpr),
+                   dn.prefix.sub_equation,
+                   dn.prefix.xref_no_overloading)
+                & env.bind(
+                    dn.prefix.designated_env,
+                    dn.suffix.xref_no_overloading
+                ),
+                lambda o: o.xref_no_overloading
+            ),
 
             # Then, bind the name to any entry that fits the bills
             entries.logic_any(lambda e: Let(

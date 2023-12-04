@@ -12422,6 +12422,26 @@ class FormalSubpDecl(ClassicSubpDecl):
         ), default_val=LogicTrue())
     )
 
+    @langkit_property(return_type=T.BasicDecl.entity, memoized=True)
+    def resolve_actual_name(name=T.Expr.entity):
+        """
+        Given the name used in the instantiation for this formal subp decl,
+        resolve it at the instantiation site to the corresponding declaration.
+        This property basically replaces ``AdaNode.resolve_generic_actual`` but
+        is more precise because we have access to the formal spec, which means
+        we can disambiguate between overloaded actuals.
+        Note that we cannot simply call ``referenced_decl`` here as this would
+        cause name resolution recursions which we want to avoid at all cost.
+        """
+        return origin.bind(name.node, name.cast(AttributeRef).then(
+            lambda attr: attr.attribute_subprogram,
+            default_val=name.cast(Name).all_env_elements.find(
+                lambda el: el.cast(BasicDecl)._.subp_decl_match_signature(
+                    Entity
+                )
+            )
+        )).cast(BasicDecl)
+
     @langkit_property(return_type=T.BasicDecl.entity)
     def corresponding_actual_impl(rb=T.EnvRebindings):
         """
@@ -12443,8 +12463,9 @@ class FormalSubpDecl(ClassicSubpDecl):
                         from_rebound=False
                     )
                 )
-            ).actual_for_formal(Entity.defining_name.node)
-            ._.resolve_generic_actual.cast(BasicDecl).then(
+            ).actual_for_formal(Entity.defining_name.node).then(
+                lambda name: Entity.resolve_actual_name(name)
+            ).then(
                 lambda actual: actual.corresponding_actual
             )._or(Entity),
 

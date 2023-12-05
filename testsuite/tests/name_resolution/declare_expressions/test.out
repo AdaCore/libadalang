@@ -171,7 +171,7 @@ Expr: <RelationOp ada2022.adb:6:35-6:53>
 Expr: <AttributeRef ada2022.adb:6:35-6:47>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 Expr: <Id "Integer" ada2022.adb:6:35-6:42>
   references:    <DefiningName "Integer" __standard:4:8-4:15>
   type:          None
@@ -181,13 +181,13 @@ Expr: <Id "Size" ada2022.adb:6:43-6:47>
   type:          None
   expected type: None
 Expr: <OpEq "=" ada2022.adb:6:48-6:49>
-  references:    <SyntheticDefiningName ""="" __standard:120:24-120:37>
+  references:    <SyntheticDefiningName ""="" __standard:119:24-119:37>
   type:          None
   expected type: None
 Expr: <Int ada2022.adb:6:50-6:53>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
 
 Resolving xrefs for node <ObjectDecl ["P"] ada2022.adb:7:20-7:49>
 *****************************************************************

@@ -90,6 +90,7 @@ class Manage(ManageScript):
                                                'Canonicalize'),
             documentations=libadalang_docs,
             property_exceptions={"Precondition_Failure"},
+            generate_unparser=True,
         )
 
         # Internals need to access environment hooks, the symbolizer and
@@ -159,9 +160,7 @@ class Manage(ManageScript):
         }
 
     def do_generate(self, args):
-        # Always generate the unparsing machinery and report unused
-        # documentation entries.
-        args.generate_unparser = True
+        # Report unused documentation entries
         args.report_unused_doc_entries = True
         super(Manage, self).do_generate(args)
     do_generate.__doc__ = ManageScript.do_generate.__doc__

@@ -20106,7 +20106,13 @@ class AttributeRef(Name):
 
             # Entry attributes (RM 9.9)
             rel_name == 'Count',
-            Entity.prefix.xref_no_overloading
+            Entity.prefix.match(
+                # If prefix is a CallExpr, use sub_equation to resolve the
+                # entry reference as it specifies a family member.
+                lambda ce=T.CallExpr: ce.sub_equation,
+                # On the other cases, prefix is a simple identifier
+                lambda o: o.xref_no_overloading
+            )
             & Self.universal_int_bind(Self.type_var),
 
             rel_name == 'Caller',
@@ -21634,10 +21640,16 @@ class SubpRenamingDecl(BaseSubpBody):
             # resolution to synthesize its corresponding function.
             Entity.renames.renamed_object.sub_equation,
 
-            Entity.renames.renamed_object.xref_no_overloading(all_els=True)
-            & Predicate(BasicDecl.subp_decl_match_signature,
-                        Entity.renames.renamed_object.ref_var,
-                        Entity.cast(T.BasicDecl))
+            Entity.renames.renamed_object.match(
+                # If renamed_object is a CallExpr, this is likely the renaming
+                # of an entry decl with a family member specified, so use
+                # sub_equation.
+                lambda ce=T.CallExpr: ce.sub_equation,
+                # On the other cases, prefix is a simple identifier
+                lambda o: o.xref_no_overloading(all_els=True)
+            ) & Predicate(BasicDecl.subp_decl_match_signature,
+                          Entity.renames.renamed_object.ref_var,
+                          Entity.cast(T.BasicDecl))
         ),
         # Operators might be built-in, so if we cannot find a reference, we'll
         # just abandon resolution...
@@ -21951,7 +21963,19 @@ class RequeueStmt(SimpleStmt):
         return And(
             # We call xref_no_overloading to make sure that sub-names are
             # bound.
-            name.xref_no_overloading,
+            name.match(
+                # If name is a DottedName, prefix can be a CallExpr that should
+                # be resolved using sub_equation.
+                lambda dn=T.DottedName:
+                If(dn.prefix.is_a(CallExpr),
+                   dn.prefix.sub_equation,
+                   dn.prefix.xref_no_overloading)
+                & env.bind(
+                    dn.prefix.designated_env,
+                    dn.suffix.xref_no_overloading
+                ),
+                lambda o: o.xref_no_overloading
+            ),
 
             # Then, bind the name to any entry that fits the bills
             entries.logic_any(lambda e: Let(

@@ -1,0 +1,65 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <RequeueStmt test.adb:30:10-30:38>
+***********************************************************
+
+Expr: <DottedName test.adb:30:18-30:37>
+  references:    <DefiningName "Process" test.adb:3:13-3:20>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:30:18-30:29>
+  references:    <DefiningName "Arr" test.adb:15:4-15:7>
+  type:          <ProtectedTypeDecl ["PT"] test.adb:2:4-4:11>
+  expected type: None
+Expr: <Id "Arr" test.adb:30:18-30:21>
+  references:    <DefiningName "Arr" test.adb:15:4-15:7>
+  type:          <ConcreteTypeDecl ["My_Array"] test.adb:14:4-14:44>
+  expected type: None
+Expr: <Id "Index" test.adb:30:23-30:28>
+  references:    <DefiningName "Index" test.adb:27:7-27:12>
+  type:          <ConcreteTypeDecl ["My_Range"] test.adb:13:4-13:34>
+  expected type: <ConcreteTypeDecl ["My_Range"] test.adb:13:4-13:34>
+Expr: <Id "Process" test.adb:30:30-30:37>
+  references:    <DefiningName "Process" test.adb:3:13-3:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <RequeueStmt test.adb:33:10-33:45>
+***********************************************************
+
+Expr: <DottedName test.adb:33:18-33:44>
+  references:    <DefiningName "Process" test.adb:3:13-3:20>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:33:18-33:36>
+  references:    <DefiningName "Arr" test.adb:15:4-15:7>
+  type:          <ProtectedTypeDecl ["PT"] test.adb:2:4-4:11>
+  expected type: None
+Expr: <Id "Arr" test.adb:33:18-33:21>
+  references:    <DefiningName "Arr" test.adb:15:4-15:7>
+  type:          <ConcreteTypeDecl ["My_Array"] test.adb:14:4-14:44>
+  expected type: None
+Expr: <CallExpr test.adb:33:23-33:35>
+  references:    <DefiningName "F" test.adb:17:13-17:14>
+  type:          <ConcreteTypeDecl ["My_Range"] test.adb:13:4-13:34>
+  expected type: <ConcreteTypeDecl ["My_Range"] test.adb:13:4-13:34>
+Expr: <Id "F" test.adb:33:23-33:24>
+  references:    <DefiningName "F" test.adb:17:13-17:14>
+  type:          <ConcreteTypeDecl ["My_Range"] test.adb:13:4-13:34>
+  expected type: None
+Expr: <Real test.adb:33:26-33:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Real test.adb:33:31-33:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+Expr: <Id "Process" test.adb:33:37-33:44>
+  references:    <DefiningName "Process" test.adb:3:13-3:20>
+  type:          None
+  expected type: None
+
+
+Done.

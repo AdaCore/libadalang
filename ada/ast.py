@@ -22398,7 +22398,13 @@ class AcceptStmt(CompositeStmt):
         return And(
             Bind(Self.body_decl.name.ref_var, Entity.designated_entry),
             Entity.entry_index_expr.then(
-                lambda e: e.sub_equation,
+                lambda e:
+                # :rmlink:`9.5.2`: The expected type for entry_index_expr is
+                # that of the type defined by the definition of the
+                # corresponding entry declaration.
+                Bind(e.expected_type_var,
+                     Entity.designated_entry.family_type)
+                & e.sub_equation,
                 default_val=LogicTrue()
             )
         )

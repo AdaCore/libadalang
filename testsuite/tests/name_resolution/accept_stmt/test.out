@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AcceptStmtWithStmts test.adb:8:7-10:11>
+*****************************************************************
+
+Expr: <Chr "'c'" test.adb:8:20-8:23>
+  references:    <SyntheticDefiningName "'c'" __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+
+
+Done.

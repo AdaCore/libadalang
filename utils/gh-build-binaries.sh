@@ -24,7 +24,12 @@ pip install langkit/
 eval `langkit/manage.py setenv | grep -v ^PATH=`
 alr --non-interactive get xmlada
 
-TARGET=${CROSS:+$CROSS-linux} # '' or aarch64-linux
+if [ $RUNNER_OS = Linux ] ; then
+  TARGET=${CROSS:+$CROSS-linux} # '' or aarch64-linux
+else
+  TARGET=${CROSS:+$CROSS-darwin} # '' or aarch64-darwin
+fi
+
 TARGET_OPTION=${TARGET:+--target=$TARGET}  # '' or --target=aarch64-linux
 
 build_archive()

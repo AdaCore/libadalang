@@ -18,4 +18,116 @@ Expr: <Id "F" test.adb:16:18-16:19>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
+Analyzing test_proc.adb
+#######################
+
+Resolving xrefs for node <CallStmt test_proc.adb:11:4-11:8>
+***********************************************************
+
+Expr: <DottedName test_proc.adb:11:4-11:7>
+  references:    <DefiningName "P" test_proc.adb:5:14-5:15>
+  type:          None
+  expected type: None
+Expr: <Id "X" test_proc.adb:11:4-11:5>
+  references:    <DefiningName "X" test_proc.adb:9:4-9:5>
+  type:          <ConcreteTypeDecl ["T2"] test_proc.adb:7:4-7:29>
+  expected type: <AnonymousTypeDecl ["None"] test_proc.adb:5:21-5:36>
+Expr: <Id "P" test_proc.adb:11:6-11:7>
+  references:    <DefiningName "P" test_proc.adb:5:14-5:15>
+  type:          None
+  expected type: None
+
+
+Analyzing pkg.adb
+#################
+
+Resolving xrefs for node <CallStmt pkg.adb:18:6-18:33>
+******************************************************
+
+Expr: <CallExpr pkg.adb:18:6-18:32>
+  references:    <DefiningName "Init" foo.ads:7:14-7:18>
+  type:          None
+  expected type: None
+Expr: <DottedName pkg.adb:18:6-18:17>
+  references:    <DefiningName "Init" foo.ads:7:14-7:18>
+  type:          None
+  expected type: None
+Expr: <DottedName pkg.adb:18:6-18:12>
+  references:    <DefiningName "Slot" pkg.adb:11:7-11:11>
+  type:          <ConcreteTypeDecl ["Slot_T"] pkg.adb:8:4-8:44>
+  expected type: <AnonymousTypeDecl ["None"] foo.ads:7:24-7:45>
+Expr: <Id "X" pkg.adb:18:6-18:7>
+  references:    <DefiningName "X" pkg.adb:16:17-16:18>
+  type:          <AnonymousTypeDecl ["None"] pkg.adb:16:21-16:42>
+  expected type: <ConcreteTypeDecl ["Record_T"] pkg.adb:10:4-12:15>
+Expr: <Id "Slot" pkg.adb:18:8-18:12>
+  references:    <DefiningName "Slot" pkg.adb:11:7-11:11>
+  type:          <ConcreteTypeDecl ["Slot_T"] pkg.adb:8:4-8:44>
+  expected type: <AnonymousTypeDecl ["None"] foo.ads:7:24-7:45>
+Expr: <Id "Init" pkg.adb:18:13-18:17>
+  references:    <DefiningName "Init" foo.ads:7:14-7:18>
+  type:          None
+  expected type: None
+Expr: <Id "Spacing" pkg.adb:18:19-18:26>
+  references:    <DefiningName "Spacing" foo.ads:7:47-7:54>
+  type:          None
+  expected type: None
+Expr: <Int pkg.adb:18:30-18:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing region.adb
+####################
+
+Resolving xrefs for node <CallStmt region.adb:9:7-9:18>
+*******************************************************
+
+Expr: <DottedName region.adb:9:7-9:17>
+  references:    <DefiningName "Not_Prim" region.adb:6:17-6:25>
+  type:          None
+  expected type: None
+Expr: <Id "O" region.adb:9:7-9:8>
+  references:    <DefiningName "O" region.adb:7:7-7:8>
+  type:          <ConcreteTypeDecl ["P"] region.adb:5:7-5:36>
+  expected type: <ConcreteTypeDecl ["P"] region.adb:5:7-5:36>
+Expr: <Id "Not_Prim" region.adb:9:9-9:17>
+  references:    <DefiningName "Not_Prim" region.adb:6:17-6:25>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt region.adb:18:7-18:18>
+*********************************************************
+
+Expr: <DottedName region.adb:18:7-18:17>
+  references:    <DefiningName "Not_Prim" region.adb:15:17-15:25>
+  type:          None
+  expected type: None
+Expr: <Id "O" region.adb:18:7-18:8>
+  references:    <DefiningName "O" region.adb:16:7-16:8>
+  type:          <ConcreteTypeDecl ["P2"] region.adb:14:7-14:37>
+  expected type: <ConcreteTypeDecl ["P2"] region.adb:14:7-14:37>
+Expr: <Id "Not_Prim" region.adb:18:9-18:17>
+  references:    <DefiningName "Not_Prim" region.adb:15:17-15:25>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt region.adb:27:7-27:18>
+*********************************************************
+
+Expr: <DottedName region.adb:27:7-27:17>
+  references:    <DefiningName "Not_Prim" region.adb:24:17-24:25>
+  type:          None
+  expected type: None
+Expr: <Id "O" region.adb:27:7-27:8>
+  references:    <DefiningName "O" region.adb:25:7-25:8>
+  type:          <ConcreteTypeDecl ["P2"] region.adb:23:7-23:37>
+  expected type: <ClasswideTypeDecl ["P2"] region.adb:23:7-23:37>
+Expr: <Id "Not_Prim" region.adb:27:9-27:17>
+  references:    <DefiningName "Not_Prim" region.adb:24:17-24:25>
+  type:          None
+  expected type: None
+
+
 Done.

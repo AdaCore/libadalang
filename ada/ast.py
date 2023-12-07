@@ -13132,7 +13132,7 @@ class Expr(AdaNode):
 
                 ar.prefix.name_designated_type
                 ._.is_static_decl & ar.attribute.name_symbol.any_of(
-                    'First', 'Last', 'Range', 'Val'
+                    'First', 'Last', 'Range', 'Val', 'Pos'
                 ),
 
                 ar.prefix.referenced_decl._.is_array

@@ -1,22 +1,6 @@
 include:
   - local: utils/gitlab-ci-common.yml
 
-workflow:
-  rules:
-    # To avoid running too many pipelines, restrict the times we run one:
-
-    # Run "trigger" pipelines
-    - if: '$CI_PIPELINE_SOURCE == "pipeline"'
-
-    # Run pipelines triggered by a merge request creation/update
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-
-    # Run for pushes to a branch *except* if there is also a merge request for
-    # it.
-    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
-      when: never
-    - if: '$CI_COMMIT_BRANCH'
-
 
 variables:
   UPSTREAM_PROJECT : eng/libadalang/langkit
@@ -24,10 +8,6 @@ variables:
   UPSTREAM_PACKAGE: $CI_PROJECT_DIR/$UPSTREAM_PACKAGE_NAME
 
   PACKAGE_REPOSITORY_PROJECT: eng/libadalang/ci-packages
-
-  CI_FRAGMENTS: ci_fragments
-  CI_FRAGMENTS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/setton/$CI_FRAGMENTS
-  CI_FRAGMENTS_PATH: /tmp/$CI_FRAGMENTS
 
 stages:
   - single
@@ -43,20 +23,20 @@ build_and_test:
       when: never
     - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//
       when: never
-    # This shouldn't trigger from the upstream
-    - if: $CI_PIPELINE_SOURCE != "pipeline"
+
+    # Run this for merge requests only
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   services:
      - image:sandbox
      - cpu:8
      - mem:16
   stage: single
   script:
-    - unset GITLAB_TOKEN; require_issue
+    - require_issue
     - !reference [.script_snippets, setup]
 
     # Download the langkit package
-    - (cd /tmp ; git clone $CI_FRAGMENTS_GIT)
-    - GITLAB_TOKEN=$GITLAB_RW_TOKEN $CI_FRAGMENTS_PATH/download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
+    - download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
     - tar zxf $UPSTREAM_PACKAGE -C /
     - rm $UPSTREAM_PACKAGE
 
@@ -67,8 +47,7 @@ build_and_test:
     - touch fingerprints/x86_64-linux.langkit_support.install.json.assume-unchanged
     - touch fingerprints/x86_64-linux.langkit.install.json.assume-unchanged
     - anod build --minimal libadalang
-    # Protect us against the potential build failure of libadalang-doc this day
-    - anod install --latest libadalang-doc
+    - anod build --minimal libadalang-doc
     - anod build --minimal libadalang_for_customers
 
     # Run the testsuite

@@ -3,3 +3,45 @@ Working on node <ObjectDecl ["Foo"] test.adb:6:4-6:16>
 
 Eval 'node.f_type_expr.p_designated_type_decl'
 Result: None
+
+Working on node <ConcreteTypeDecl ["X"] test.adb:14:4-14:20>
+============================================================
+
+Eval 'node.p_base_type(node)'
+Result: None
+
+Eval 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: None
+
+Working on node <IncompleteTypeDecl ["Y"] test.adb:18:4-18:11>
+==============================================================
+
+Eval 'node.p_base_type(node)'
+Result: None
+
+Working on node <ConcreteTypeDecl ["Z"] test.adb:20:4-20:20>
+============================================================
+
+Eval 'node.p_base_type(node)'
+Result: <IncompleteTypeDecl ["Y"] test.adb:18:4-18:11>
+
+Eval 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: <IncompleteTypeDecl ["Y"] test.adb:18:4-18:11>
+
+Working on node <ConcreteTypeDecl ["Y"] test.adb:23:4-23:20>
+============================================================
+
+Eval 'node.p_base_type(node)'
+Result: <ConcreteTypeDecl ["Z"] test.adb:20:4-20:20>
+
+Eval 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["Z"] test.adb:20:4-20:20>
+
+Working on node <ConcreteTypeDecl ["R"] test.adb:27:4-27:22>
+============================================================
+
+Eval 'node.p_base_type(node)'
+Result: None
+
+Eval 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: None

@@ -56,4 +56,78 @@ Expr: <Int inc.adb:2:23-2:24>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
+Analyzing test.ads
+##################
+
+Resolving xrefs for node <SubpSpec test.ads:5:4-5:58>
+*****************************************************
+
+
+Resolving xrefs for node <ParamSpec ["Event"] test.ads:5:30-5:57>
+*****************************************************************
+
+Expr: <Id "Event_Record" test.ads:5:45-5:57>
+  references:    <DefiningName "Event_Record" test.ads:3:9-3:21>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.ads:6:12-6:55>
+*********************************************************
+
+Expr: <Id "Post" test.ads:6:12-6:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test.ads:6:20-6:55>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.ads:6:20-6:32>
+  references:    <DefiningName "Count1" test.ads:9:13-9:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Event" test.ads:6:20-6:25>
+  references:    <DefiningName "Event" test.ads:5:30-5:35>
+  type:          <ConcreteTypeDecl ["Event_Record"] test.ads:3:4-3:40>
+  expected type: <ConcreteTypeDecl ["Event_Record"] test.ads:3:4-3:40>
+Expr: <Id "Count1" test.ads:6:26-6:32>
+  references:    <DefiningName "Count1" test.ads:9:13-9:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpEq "=" test.ads:6:33-6:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BinOp test.ads:6:35-6:55>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName test.ads:6:35-6:51>
+  references:    <DefiningName "Count2" test.ads:10:13-10:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <AttributeRef test.ads:6:35-6:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Event_Record"] test.ads:3:4-3:40>
+  expected type: <ConcreteTypeDecl ["Event_Record"] test.ads:3:4-3:40>
+Expr: <Id "Event" test.ads:6:35-6:40>
+  references:    <DefiningName "Event" test.ads:5:30-5:35>
+  type:          <ConcreteTypeDecl ["Event_Record"] test.ads:3:4-3:40>
+  expected type: <ConcreteTypeDecl ["Event_Record"] test.ads:3:4-3:40>
+Expr: <Id "Old" test.ads:6:41-6:44>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Count2" test.ads:6:45-6:51>
+  references:    <DefiningName "Count2" test.ads:10:13-10:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test.ads:6:52-6:53>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.ads:6:54-6:55>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
 Done.

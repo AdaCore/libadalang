@@ -317,6 +317,9 @@ package body Libadalang.Expr_Eval is
             when Ada_Anonymous_Expr_Decl =>
                return Expr_Eval (D.As_Anonymous_Expr_Decl.F_Expr);
 
+            when Ada_Synthetic_Object_Decl =>
+               return Eval_Decl (D.Parent.As_Basic_Decl);
+
             when others =>
                raise Property_Error
                  with "Cannot eval decl " & D.Kind'Image;

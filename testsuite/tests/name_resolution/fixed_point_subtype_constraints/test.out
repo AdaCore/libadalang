@@ -1,0 +1,59 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubtypeDecl ["Sub_Delta"] test.adb:3:4-3:62>
+**********************************************************************
+
+Expr: <Id "Fix_Delta" test.adb:3:25-3:34>
+  references:    <DefiningName "Fix_Delta" test.adb:2:9-2:18>
+  type:          None
+  expected type: None
+Expr: <Real test.adb:3:41-3:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+Expr: <BinOp test.adb:3:51-3:61>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+Expr: <Real test.adb:3:51-3:54>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+Expr: <OpDoubleDot ".." test.adb:3:55-3:57>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:3:58-3:61>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+
+Resolving xrefs for node <SubtypeDecl ["Sub_Digits"] test.adb:7:4-7:64>
+***********************************************************************
+
+Expr: <Id "Fix_Digits" test.adb:7:26-7:36>
+  references:    <DefiningName "Fix_Digits" test.adb:6:9-6:19>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:7:44-7:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <BinOp test.adb:7:52-7:63>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+Expr: <Real test.adb:7:52-7:55>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+Expr: <OpDoubleDot ".." test.adb:7:56-7:58>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Real test.adb:7:59-7:63>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+
+
+Done.

@@ -59,6 +59,20 @@ procedure Test is
 
    Z : constant T5 (D1|D2 => E1, D3 => E2) := (D3 => E2, others => <>);
    pragma Test_Statement;
+
+   DEF1 : T2 := (D => <>);
+   pragma Test_Statement;
+   DEF2 : T4 := (D => <>, C1 => <>, C2 => <>);
+   pragma Test_Statement;
+   DEF3 : T5 := (D1 => <>, D2 => <>, D3 => <>, C1 => <>, C2 => <>);
+   pragma Test_Statement;
+   DEF4 : T5 := (D1 | D2 | D3 => <>, C1 => <>, C2 => <>);
+   pragma Test_Statement;
+
+   A : constant T3 := (C1|C2 => <>);
+   pragma Test_Statement;
+   B : constant T3 := (others => <>);
+   pragma Test_Statement;
 begin
    null;
 end Test;

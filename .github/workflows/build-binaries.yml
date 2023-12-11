@@ -7,29 +7,55 @@ jobs:
   build:
     name: Build and deploy
 
-    # The only purpose of this workflow is to upload builds, so do not run it
-    # in contexts when upload is impossible: only the official repository has
-    # the secrets to upload binaries to Bintray.
-    if: ${{ github.repository == 'AdaCore/libadalang' }}
-
     strategy:
       fail-fast: false
       matrix: # Build debug and/or production
         debug: ['']      # '' if production, 'debug' for debug
         os: [macos-11, ubuntu-20.04, windows-latest]
+        cross: ['', aarch64]
+        exclude:
+          - os: windows-latest
+            cross: aarch64
     runs-on: ${{ matrix.os }}
     steps:
       - run: git config --global core.autocrlf input
         shell: bash
-      - name: Install iconv and gmp (Windows only)
+      - name: Install cross toolchain (Linux)
+        if: ${{ matrix.cross != '' && runner.os == 'Linux' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.GHA_CACHE_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.GHA_CACHE_SECRET}}
+          AWS_DEFAULT_REGION: eu-west-1
+        run: |
+            sudo apt install -y libc6-dev-arm64-cross linux-libc-dev-arm64-cross binutils-aarch64-linux-gnu
+            aws s3 cp s3://adacore-gha-tray-eu-west-1/toolchain/${{ matrix.cross }}-${{ runner.os }}-gcc-13.2.tar.bz2 . --sse=AES256
+            aws s3 cp s3://adacore-gha-tray-eu-west-1/toolchain/${{ matrix.cross }}-${{ runner.os }}-gmp-6.2.1.tar.bz2 . --sse=AES256
+            sudo tar xjf ${{ matrix.cross }}-${{ runner.os }}-gcc-13.2.tar.bz2  -C /
+            sudo tar xjf ${{ matrix.cross }}-${{ runner.os }}-gmp-6.2.1.tar.bz2 -C /
+      - name: Install cross toolchain (MacOS)
+        if: ${{ matrix.cross != '' && runner.os != 'Linux' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.GHA_CACHE_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.GHA_CACHE_SECRET}}
+          AWS_DEFAULT_REGION: eu-west-1
+        run: |
+            aws s3 cp s3://adacore-gha-tray-eu-west-1/toolchain/${{ matrix.cross }}-${{ runner.os }}-gcc-13.2.tar.bz2 . --sse=AES256
+            aws s3 cp s3://adacore-gha-tray-eu-west-1/toolchain/${{ matrix.cross }}-${{ runner.os }}-gmp-6.2.1.tar.bz2 . --sse=AES256
+            sudo tar xjf ${{ matrix.cross }}-${{ runner.os }}-gcc-13.2.tar.bz2  --strip-components=3 -C /usr/local
+            sudo tar xjf ${{ matrix.cross }}-${{ runner.os }}-gmp-6.2.1.tar.bz2 --strip-components=3 -C /usr/local
+      - name: Force Alire to use preinstalled MSYS2
         if: ${{ runner.os == 'Windows' }}
-        uses: msys2/setup-msys2@v2
-        with:
-          path-type: inherit
-          update: true
-          install: >-
-            mingw64/mingw-w64-x86_64-libiconv
-            mingw64/mingw-w64-x86_64-gmp
+        shell: bash
+        run: |
+          mkdir -p ~/.config/alire
+          echo '[msys2]' >> ~/.config/alire/config.toml
+          echo 'install_dir = "C:\\msys64"' >> ~/.config/alire/config.toml
+      - name: Install iconv and gmp (Windows only)
+        run: pacman --noconfirm -S mingw64/mingw-w64-x86_64-libiconv mingw64/mingw-w64-x86_64-gmp
+        if: ${{ runner.os == 'Windows' }}
+        shell: c:\msys64\usr\bin\bash.exe -l -e -o pipefail {0}
+        env:
+          MSYSTEM: MINGW64
       - name: Get libadalang
         uses: actions/checkout@v3
       - name: Get gprbuild for libgpr
@@ -58,7 +84,6 @@ jobs:
         with:
           repository: AdaCore/gpr
           path: gpr2
-          ref: edge
       - name: Get gprconfig kb
         uses: actions/checkout@v3
         with:
@@ -75,27 +100,23 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: ./cached_gnat
-          key: ${{ runner.os }}-alire-2022
+          key: ${{ runner.os }}-alire-2023
       - name: Get GNAT toolchain with alire
         uses: alire-project/setup-alire@v2
         with:
-          toolchain: gnat_native^12 gprbuild^22
+          toolchain: gnat_native^13 gprbuild^22
           toolchain_dir: ./cached_gnat
       - name: Setup Python 3.10
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Build Libadalang and its dependencies (Windows)
-        if: ${{ runner.os == 'Windows' }}
-        shell: msys2 {0}
-        run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
-      - name: Build Libadalang and its dependencies (non-Windows)
-        if: ${{ runner.os != 'Windows' }}
-        run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }}
+      - name: Build Libadalang and its dependencies
+        shell: bash
+        run: utils/gh-build-binaries.sh "${{ matrix.debug }}" ${{ runner.os }} "${{ matrix.cross }}"
       - name: Keep artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ runner.os }}-${{ matrix.debug }}
+          name: ${{ runner.os }}-${{ matrix.debug }}${{ matrix.cross }}
           path: '*.tar.gz'
       - name: AWS S3 upload
         if: ${{ github.repository == 'AdaCore/libadalang' }}

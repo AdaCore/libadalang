@@ -15,7 +15,7 @@ procedure Test is
    end TT;
 
    X : TT;
-   X_Array : array (1 .. 10) of T;
+   X_Array : array (1 .. 10) of TT;
 begin
    if T'Identity = X'Identity then
       null;
@@ -34,4 +34,17 @@ begin
       end if;
       pragma Test_Statement_UID;
    end loop;
+
+   --  Should also work on ParamSpec
+   declare
+      function F
+        (A_Task  : TT;
+         Compare : Ada.Task_Identification.Task_ID) return Boolean is
+      begin
+         return A_Task'Identity /= Compare;
+         pragma Test_Statement_UID;
+      end F;
+   begin
+      null;
+   end;
 end Test;

@@ -37,9 +37,9 @@ void write_source(const char *src_buffer)
 
 void check(ada_analysis_unit unit)
 {
-    ada_base_entity ast_root;
-    ada_base_entity prelude_list, with_clause;
-    ada_base_entity has_limited;
+    ada_node ast_root;
+    ada_node prelude_list, with_clause;
+    ada_node has_limited;
 
     if (unit == NULL)
         error("Could not create the analysis unit for foo.adb from a file");

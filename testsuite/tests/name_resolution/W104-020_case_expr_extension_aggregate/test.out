@@ -9,10 +9,10 @@ Expr: <Id "Value" test.adb:12:4-12:9>
   type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
   expected type: None
 Expr: <ParenExpr test.adb:12:13-13:32>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <CaseExpr test.adb:12:14-13:31>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
 Expr: <DottedName test.adb:12:19-12:40>
   references:    <DefiningName "X" test.adb:5:7-5:8>
@@ -51,7 +51,7 @@ Expr: <CaseExprAlternative test.adb:13:14-13:31>
 Expr: <Int test.adb:13:29-13:31>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
 
 Done.

@@ -1,0 +1,65 @@
+Analyzing iterators.adb
+#######################
+
+Resolving xrefs for node <AssignStmt iterators.adb:6:7-6:49>
+************************************************************
+
+Expr: <Id "B" iterators.adb:6:7-6:8>
+  references:    <DefiningName "B" iterators.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <CallExpr iterators.adb:6:12-6:48>
+  references:    <DefiningName "Next" iterators.ads:8:13-8:17>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName iterators.adb:6:12-6:38>
+  references:    <DefiningName "Next" iterators.ads:8:13-8:17>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <AttributeRef iterators.adb:6:12-6:33>
+  references:    None
+  type:          <SynthAnonymousTypeDecl ["Iterator"] iterators.ads:6:4-6:31>
+  expected type: <ConcreteTypeDecl ["Iterator"] iterators.ads:6:4-6:31>
+Expr: <Id "I" iterators.adb:6:12-6:13>
+  references:    <DefiningName "I" iterators.adb:2:22-2:23>
+  type:          <ClasswideTypeDecl ["Iterator"] iterators.ads:6:4-6:31>
+  expected type: <ConcreteTypeDecl ["Iterator"] iterators.ads:6:4-6:31>
+Expr: <Id "Unrestricted_Access" iterators.adb:6:14-6:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Next" iterators.adb:6:34-6:38>
+  references:    <DefiningName "Next" iterators.ads:8:13-8:17>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "Element" iterators.adb:6:40-6:47>
+  references:    <DefiningName "Element" iterators.adb:3:7-3:14>
+  type:          <FormalTypeDecl ["Element_Type"] iterators.ads:2:4-2:33>
+  expected type: <FormalTypeDecl ["Element_Type"] iterators.ads:2:4-2:33>
+
+Resolving xrefs for node <CallStmt iterators.adb:8:7-8:33>
+**********************************************************
+
+Expr: <DottedName iterators.adb:8:7-8:32>
+  references:    <DefiningName "Foo" iterators.ads:12:14-12:17>
+  type:          None
+  expected type: None
+Expr: <AttributeRef iterators.adb:8:7-8:28>
+  references:    None
+  type:          <AnonymousTypeDecl ["None"] iterators.ads:12:23-12:38>
+  expected type: <AnonymousTypeDecl ["None"] iterators.ads:12:23-12:38>
+Expr: <Id "I" iterators.adb:8:7-8:8>
+  references:    <DefiningName "I" iterators.adb:2:22-2:23>
+  type:          <ClasswideTypeDecl ["Iterator"] iterators.ads:6:4-6:31>
+  expected type: <ConcreteTypeDecl ["Iterator"] iterators.ads:6:4-6:31>
+Expr: <Id "Unrestricted_Access" iterators.adb:8:9-8:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Foo" iterators.adb:8:29-8:32>
+  references:    <DefiningName "Foo" iterators.ads:12:14-12:17>
+  type:          None
+  expected type: None
+
+
+Done.

@@ -1,0 +1,73 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <PragmaNode test.adb:2:4-2:49>
+*******************************************************
+
+Expr: <Id "Warnings" test.adb:2:11-2:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "GNATprove" test.adb:2:21-2:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "On" test.adb:2:32-2:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""a warning"" test.adb:2:36-2:47>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <PragmaNode test.adb:4:4-4:45>
+*******************************************************
+
+Expr: <Id "Warnings" test.adb:4:11-4:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "GNAT" test.adb:4:21-4:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Off" test.adb:4:27-4:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""a warning"" test.adb:4:32-4:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <PragmaNode test.adb:6:4-6:39>
+*******************************************************
+
+Expr: <Id "Warnings" test.adb:6:11-6:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Off" test.adb:6:21-6:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""a warning"" test.adb:6:26-6:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <PragmaNode test.adb:8:4-8:26>
+*******************************************************
+
+Expr: <Id "Warnings" test.adb:8:11-8:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Off" test.adb:8:21-8:24>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

@@ -1,0 +1,8 @@
+Working on node <ConcreteTypeDecl ["T_Access"] test.adb:5:7-5:43>
+=================================================================
+
+Set 'typ' to 'node.f_type_def.f_subtype_indication.p_designated_type_decl'
+Result: <ClasswideTypeDecl ["T"] test.adb:3:7-3:32>
+
+Eval 'typ.p_next_part'
+Result: <ClasswideTypeDecl ["T"] test.adb:9:7-9:36>

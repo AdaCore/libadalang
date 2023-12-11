@@ -1,0 +1,42 @@
+== foo.adb ==
+
+PragmaNodeList[1:1-1:19]
+|  PragmaNode[1:1-1:19]
+|  |f_id:
+|  |  Id[1:8-1:11]: Foo
+|  |f_args:
+|  |  BaseAssocList[1:13-1:17]
+|  |  |  PragmaArgumentAssoc[1:13-1:17]
+|  |  |  |f_name: <null>
+|  |  |  |f_expr:
+|  |  |  |  Null[1:13-1:17]: null
+
+== no_such_file.adb ==
+
+no_such_file.adb: Cannot open [...]
+
+CompilationUnitList[1:1-1:1]: <empty list>
+
+== invalid.adb ==
+
+invalid.adb:2:2: no matching "#if"
+
+PragmaNodeList[1:1-3:12]
+|  PragmaNode[1:1-1:12]
+|  |f_id:
+|  |  Id[1:8-1:11]: Foo
+|  |f_args:
+|  |  BaseAssocList[1:7-1:7]: <empty list>
+|  PragmaNode[3:1-3:12]
+|  |f_id:
+|  |  Id[3:8-3:11]: Bar
+|  |f_args:
+|  |  BaseAssocList[3:7-3:7]: <empty list>
+
+== bad_encoding.bin ==
+
+bad_encoding.bin:1:1: Could not decode source as "utf-8"
+
+CompilationUnitList[1:1-1:1]: <empty list>
+
+Done.

@@ -116,7 +116,7 @@ CompilationUnit[1:1-10:9]
 
 ==== Dumping lexical environments ====
 $root = LexEnv(Static_Primary, Parent=null):
-    standard: [<PackageDecl ["Standard"] __standard:1:1-129:14>]
+    standard: [<PackageDecl ["Standard"] __standard:1:1-130:14>]
 
 @2 = LexEnv(Static_Primary, Parent=null, Node=<PackageBody ["Foo"] input:1:1-10:9>):
     bar: [<SubpBody ["Bar"] input:2:4-9:12>]
@@ -132,4 +132,7 @@ $root = LexEnv(Static_Primary, Parent=null):
 
 @4 = LexEnv(Static_Primary, Parent=@3, Node=<DeclBlock input:4:7-8:11>):
     lol: [<SubtypeDecl ["Lol"] input:5:10-5:47>]
+
+@5 = LexEnv(Static_Primary, Parent=@4, Node=<SubtypeDecl ["Lol"] input:5:10-5:47>):
+    lol: [<SyntheticObjectDecl ["Lol"] input:5:10-5:47>]
 

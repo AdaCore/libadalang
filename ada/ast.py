@@ -229,11 +229,26 @@ class AdaNode(ASTNode):
             "Predicate_Failure", "SPARK_Mode"
         )
 
-    in_contract = Property(Not(Self.parents.find(
+    @langkit_property(return_type=Bool)
+    def aspect_has_forward_visibility(name=Symbol):
+        """
+        Return True if the given ``name`` is that of an Ada aspect in which
+        references can designate entities declared *after* the entity on which
+        this aspect is defined.
+        """
+        return Self.is_contract_aspect(name) | name.any_of(
+            "Iterator_Element", "Default_Iterator"
+        )
+
+    in_aspect_with_forward_visibility = Property(Not(Self.parents.find(
         lambda p: p.cast(T.AspectAssoc).then(
-            lambda a: Self.is_contract_aspect(a.id.as_bare_entity.name_symbol)
+            lambda a: Self.aspect_has_forward_visibility(
+                a.id.as_bare_entity.name_symbol
+            )
         )._or(p.cast(Pragma).then(
-            lambda p: Self.is_contract_aspect(p.id.as_bare_entity.name_symbol)
+            lambda p: Self.aspect_has_forward_visibility(
+                p.id.as_bare_entity.name_symbol
+            )
         ))
     ).is_null))
 
@@ -347,10 +362,16 @@ class AdaNode(ASTNode):
         return origin.bind(
             Self.origin_node,
             Entity.complete_items.filter(
-                # This property filters out `SyntheticSubpDecl` items
-                # because they are of no use for completion. Additional
-                # filtering can be done in `complete_items`.
-                lambda n: n.decl.cast(T.SyntheticSubpDecl).is_null
+                # This property filters out `SyntheticSubpDecl` and
+                # `SyntheticObjectDecl` items because they are of no use for
+                # completion. This is not entirely true for
+                # `SyntheticObjectDecl` since they can be useful in type
+                # predicate aspects (yet not implemented since no likely
+                # helpful). Additional filtering can be done in
+                # `complete_items`.
+                lambda n: Not(
+                    n.decl.is_a(T.SyntheticSubpDecl, T.SyntheticObjectDecl)
+                )
             ).to_iterator
         )
 
@@ -516,30 +537,14 @@ class AdaNode(ASTNode):
         """
         return Entity.semantic_parent_helper(Entity.node_env)
 
-    @langkit_property(return_type=T.Bool)
-    def is_in_top_level_public_part():
+    @langkit_property(return_type=T.AdaNode.entity.array)
+    def semantic_parents():
         """
-        Return whether this node ultimately lies in the public part of a
-        top-level package.
+        Recursively call ``semantic_parent`` to get all the semantic parents
+        of this node.
         """
-        node = Var(Entity.semantic_parent)
-        return Cond(
-            node.is_null,
-            False,
-
-            node.is_a(PrivatePart)
-            & node.parent.cast(BasePackageDecl)._.is_compilation_unit_root,
-            False,
-
-            node.is_a(PackageBody)
-            & node.cast(PackageBody).is_compilation_unit_root,
-            False,
-
-            node.is_a(BasePackageDecl)
-            & node.cast(BasePackageDecl).is_compilation_unit_root,
-            True,
-
-            node.is_in_top_level_public_part
+        return Entity.semantic_parent.then(
+            lambda sp: sp.singleton.concat(sp.semantic_parents)
         )
 
     @langkit_property(public=True, return_type=T.BasicDecl.entity)
@@ -712,7 +717,10 @@ class AdaNode(ASTNode):
         """
         pass
 
-    xref_stop_resolution = Property(False)
+    xref_stop_resolution = Property(
+        False,
+        dynamic_vars=[env, origin]
+    )
     stop_resolution_equation = Property(
         LogicTrue(),
         dynamic_vars=[env, origin]
@@ -847,27 +855,28 @@ class AdaNode(ASTNode):
                 res=Entity.parent
                 ._.resolve_names_from_closest_entry_point_impl:
 
-                Cond(
-                    # Resolution failed for the parent, so return None as well
-                    res == No(T.LexicalEnv),
+                env.bind(
                     res,
+                    origin.bind(
+                        Self.origin_node,
+                        Cond(
+                            # Resolution failed for the parent, so return None
+                            # as well.
+                            res == No(T.LexicalEnv),
+                            res,
 
-                    # Resolution succeeded for the parent and this is a stop
-                    # resolution, so re-use the parent environment to resolve
-                    # Self's names.
-                    Entity.xref_stop_resolution,
-                    env.bind(
-                        res,
-                        origin.bind(
-                            Self.origin_node,
-                            If(Entity.resolve_own_names, res, No(LexicalEnv))
+                            # Resolution succeeded for the parent and this is a
+                            # stop resolution, so re-use the parent environment
+                            # to resolve Self's names.
+                            Entity.xref_stop_resolution,
+                            If(Entity.resolve_own_names, res, No(LexicalEnv)),
+
+                            # Resolution succeeded but there is nothing to do
+                            # on that particular node: return the parent
+                            # environment, so that deeper children can use it.
+                            res
                         )
-                    ),
-
-                    # Resolution succeeded but there is nothing to do on that
-                    # particular node: return the parent environment, so that
-                    # deeper children can use it.
-                    res
+                    )
                 )
             )
         )
@@ -898,32 +907,22 @@ class AdaNode(ASTNode):
         result = Var(Entity.resolve_names_from_closest_entry_point_impl)
         return result != No(LexicalEnv)
 
-    @langkit_property(return_type=LexicalEnv)
-    def parent_unit_env_helper(unit=AnalysisUnit, env=LexicalEnv):
-        return env.env_parent.then(lambda parent_env: parent_env.env_node.then(
-            lambda parent_node: If(
-                parent_node.unit == unit,
-                Self.parent_unit_env_helper(unit, parent_env),
-                parent_env
-            )
-        ))
-
-    @langkit_property()
-    def parent_unit_env(env=LexicalEnv):
-        """
-        Given env's AnalysisUnit, return the first env that has a different
-        analysis unit in the env parent chain.
-        """
-        return env.then(
-            lambda env: Self.parent_unit_env_helper(env.env_node.unit, env)
-        )
-
     @langkit_property(return_type=T.AnalysisUnit, public=True,
                       external=True, uses_entity_info=False, uses_envs=False)
     def standard_unit():
         """
         Static method. Return the analysis unit corresponding to the Standard
         package.
+        """
+        pass
+
+    @langkit_property(return_type=T.Bool, public=True,
+                      external=True, uses_entity_info=False, uses_envs=False)
+    def is_keyword(token=T.Token, language_version=T.Symbol):
+        """
+        Static method. Return whether the given token is considered a keyword
+        in the given version of Ada. Supported values for the language version
+        argument are: "Ada_83", "Ada_95", "Ada_2005", "Ada_2012", "Ada_2022".
         """
         pass
 
@@ -971,6 +970,11 @@ class AdaNode(ASTNode):
     universal_real_type = Property(
         Self.std_entity('Universal_Real_Type_'), public=True, doc="""
         Static method. Return the standard Universal Real type.
+        """
+    )
+    universal_fixed_type = Property(
+        Self.std_entity('Universal_Fixed_Type_'), public=False, doc="""
+        Static method. Return the standard Universal Fixed type.
         """
     )
     std_char_type = Property(
@@ -1076,6 +1080,39 @@ class AdaNode(ASTNode):
         """
     )
 
+    @langkit_property(return_type=T.Bool)
+    def parent_has_with_visibility(refd_unit=T.AnalysisUnit,
+                                   self_cu=T.CompilationUnit,
+                                   has_private_view=T.Bool):
+        """
+        Return whether the parent unit of this node has with visibility on
+        the given analysis unit. In particular, this takes into account
+        private visibility: for a given node which is inside a body or a
+        private part, it will forward to the query in the parent unit the
+        fact that the origin node has visibility on the ``private with``
+        clauses of the parent unit.
+        """
+        should_have_private_view = Var(
+            has_private_view | self_cu.has_private_view(Self)
+        )
+        return self_cu.decl.as_bare_entity.semantic_parent.then(
+            lambda parent: If(
+                # In our implementation, the semantic parent of a child package
+                # is always the private part of the parent package (see note in
+                # ``PackageDecl``'s ``env_spec``). But if we are not supposed
+                # to have view on the private part, we must perform the query
+                # outside of it, here from the parent of the private part.
+                parent.is_a(PrivatePart) & Not(should_have_private_view),
+                parent.parent.has_with_visibility(
+                    refd_unit, omit_privacy_check=False
+                ),
+
+                parent.has_with_visibility(
+                    refd_unit, omit_privacy_check=should_have_private_view
+                )
+            )
+        )
+
     @langkit_property(return_type=Bool)
     def has_private_part_parent(barrier=T.AdaNode):
         """
@@ -1087,12 +1124,12 @@ class AdaNode(ASTNode):
         same visibility privileges of private parts (i.e. they can see "private
         with"s).
         """
-        parent = Var(Self.node_env.env_node)
         return Or(
-            parent.is_null,
-            parent.is_a(PrivatePart),
-            And(parent != barrier,
-                parent.has_private_part_parent(barrier))
+            Self.is_a(PrivatePart),
+            (Self != barrier) & Self.node_env.env_node.then(
+                lambda parent: parent.has_private_part_parent(barrier),
+                default_val=True
+            )
         )
 
     @langkit_property(return_type=Bool)
@@ -1105,22 +1142,15 @@ class AdaNode(ASTNode):
         private part.
         """
         return Or(
+            # If the referenced unit is ourself, we don't need further checks
             Self.unit == refd_unit,
 
-            # A private package necessarily has private-with visibility
-            self_cu.body.cast(LibraryItem)._.has_private.as_bool,
+            # If we have view on "private with"s, we don't need further checks
+            self_cu.has_private_view(Self),
 
-            Let(lambda decl=self_cu.decl: If(
-                # Private visibility only makes sense when we are in a package
-                # declaration, so check that we are in this case first.
-                decl.is_a(BasePackageDecl, GenericPackageDecl)
-                # If we are, check whether the referenced unit is only visible
-                # in private parts.
-                & self_cu.privately_imported_units.contains(refd_unit),
-                # If it's the case, check that we are in a private part
-                Self.has_private_part_parent(decl.children_env.env_node),
-                True
-            ))
+            # But if we don't, so we must return False if the referenced unit
+            # is only visible from private parts.
+            Not(self_cu.privately_imported_units.contains(refd_unit)),
         )
 
     @langkit_property(return_type=Bool)
@@ -1134,22 +1164,16 @@ class AdaNode(ASTNode):
         """
         cu = Var(Self.enclosing_compilation_unit)
         return Or(
+            # First, check whether this unit "with"s the referenced unit
             refd_unit.is_referenced_from(Self.unit)
             & (omit_privacy_check
                | Self.has_private_with_visibility(cu, refd_unit)),
 
-            Self.parent_unit_env(
-                # Here we go and explicitly grab the top level item, rather
-                # than use Self's children env, because of use clauses, that
-                # can be at the top level but semantically belong to the env of
-                # the top level item.
-                cu.decl.children_env
-            ).env_node._.has_with_visibility(
+            # If it doesn't, check whether its parent unit does
+            Self.parent_has_with_visibility(
                 refd_unit,
-
-                # A child unit necessarily has view on the private part of its
-                # parent unit, so we should not discard "private with"s.
-                omit_privacy_check=True
+                cu,
+                has_private_view=omit_privacy_check
             ),
 
             # With clauses from a library level subprogram declaration are
@@ -1190,7 +1214,12 @@ class AdaNode(ASTNode):
 
     @langkit_property(return_type=Bool)
     def has_visibility(other_entity=T.AdaNode.entity):
-        return Or(
+        # We found a synthetic type predicate object decl, check if we are
+        # allowed to see it.
+        return other_entity.cast(SyntheticObjectDecl).then(
+            lambda sod: sod.is_referred_by(Self),
+            default_val=True
+        ) & Or(
             # The node is a generic package instantiation coming from a formal
             # package.
             other_entity.cast(GenericPackageInstantiation)._.info.from_rebound,
@@ -1641,7 +1670,13 @@ class AdaNode(ASTNode):
         Return a null node iff we are in the definition of an aspect clause
         where sequential lookup needs to be deactivated. Return Self otherwise.
         """
-        return If(Self.in_contract, No(T.AdaNode), Self)
+        return Cond(
+            Self.in_aspect_with_forward_visibility,
+            No(T.AdaNode),
+            Self.is_a(ExprFunction),
+            Self.cast(ExprFunction).expr,
+            Self
+        )
 
     @langkit_property()
     def env_hook():
@@ -2448,6 +2483,14 @@ class BasicDecl(AdaNode):
             PropertyError(BasicDecl.entity, "Incorrect rebindings")
         )
 
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def corresponding_actual():
+        """
+        Given a generic formal entity inside a generic context, return the
+        actual that was used to instantiate it.
+        """
+        return Entity
+
     @langkit_property(return_type=T.Bool)
     def is_library_item():
         """
@@ -2678,6 +2721,17 @@ class BasicDecl(AdaNode):
     is_in_public_part = Property(Self.parent.parent.is_a(T.PublicPart))
     is_in_private_part = Property(Self.parent.parent.is_a(T.PrivatePart))
 
+    @langkit_property(return_type=Bool)
+    def is_directly_reachable(origin=T.AdaNode.entity):
+        """
+        Return whether Self can be found in a single env query from the given
+        ``origin`` node.
+        """
+        return origin.node.node_env.get(
+            Self.name_symbol,
+            categories=no_prims
+        ).contains(Self.as_bare_entity)
+
     @langkit_property(return_type=Bool, public=True)
     def is_visible(from_node=T.AdaNode.entity):
         """
@@ -2690,27 +2744,38 @@ class BasicDecl(AdaNode):
             for now.
         """
         return Cond(
+            # If entity comes from resolving an actual of the current generic
+            # context, we necessarily have visibility on it.
+            Entity.info.from_rebound,
+            True,
+
+            # For synthetic type decls, forward the computation on their
+            # specific type.
+            Entity.is_a(ClasswideTypeDecl, DiscreteBaseSubtypeDecl),
+            Entity.parent.cast(BaseTypeDecl).is_visible(from_node),
+
             # If Self is declared in a private part, check that we can find it
             # from origin's env.
             Entity.is_in_private_part,
-            from_node.node_env.get(Entity.name_symbol).contains(Entity)
+            Self.is_directly_reachable(from_node)
+
             # Even if the above expression is True, we may not have visibility
             # according to Ada rules: in LAL, library-level child packages'
             # parent environments are defined to be their parent packages'
             # private part. The expression below filters out cases where Entity
             # is declared in the private part of a library-level package and
             # from_node lies in the public part of a child package.
-            & Not(
-                Entity.parent.parent.parent.cast(PackageDecl)
-                .is_compilation_unit_root
-                & from_node.is_in_top_level_public_part
+            & from_node.enclosing_compilation_unit.has_private_view(
+                from_node.node
             ),
 
             # If Self is declared in a public part, origin has visibility on it
             # iff it has visibility on the parent of Self: do a recursive call
             # on the parent scope.
-            Entity.is_in_public_part,
-            Entity.parent_basic_decl.is_visible(from_node),
+            Entity.is_in_public_part
+            | Entity.parent.is_a(GenericFormalPackage),
+            Self.is_directly_reachable(from_node)
+            | Entity.parent_basic_decl.is_visible(from_node),
 
             # If Self is declared at the top-level (but is not a subunit), we
             # necessarily have visibility on it.
@@ -2720,6 +2785,11 @@ class BasicDecl(AdaNode):
             ),
             True,
 
+            # If self is in any other kind of declarative part, we can perform
+            # an env query to figure out if we can reach it.
+            Entity.parent._.parent.is_a(DeclarativePart),
+            Self.is_directly_reachable(from_node),
+
             # Unhandled case: raise PropertyError
             PropertyError(Bool, "Only package-level declaration support"
                                 " visibility checks for now.")
@@ -2727,9 +2797,12 @@ class BasicDecl(AdaNode):
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def subp_decl_match_signature(other=T.BasicDecl.entity):
-        return Entity.subp_spec_or_null.match_signature(
-            other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
-            False
+        return Entity.subp_spec_or_null.then(
+            lambda spec: spec.match_signature(
+                other.subp_spec_or_null.cast_or_raise(T.SubpSpec),
+                False
+            ),
+            default_val=False
         )
 
     @langkit_property(return_type=T.BasicDecl.entity.array,
@@ -2985,8 +3058,10 @@ class BasicDecl(AdaNode):
             # An object decl on which you can call 'Identity implies that its
             # type is a task type.
             lambda _=T.ObjectDecl: Self.task_id_type,
-            # As well as for for loop variable declarations
+            # As well as for for loop variable declarations and parameter
+            # specifications.
             lambda _=T.ForLoopVarDecl: Self.task_id_type,
+            lambda _=T.BaseFormalParamDecl: Self.task_id_type,
             lambda _: No(T.BaseTypeDecl.entity)
         )
 
@@ -3367,14 +3442,58 @@ class BasicDecl(AdaNode):
         returns the most visible completion of Self that can be seen by origin,
         according to Ada's visibility rules.
         """
-        return Entity.defining_name_or_raise.most_visible_part._.basic_decl
+        return Entity.most_visible_part_for_name(
+            Entity.defining_name_or_raise.name_symbol
+        )
 
     @langkit_property(return_type=T.BasicDecl.entity,
                       dynamic_vars=[origin, imprecise_fallback])
-    def most_visible_part_for_name(sym=T.Symbol):
+    def most_visible_part_for_name(sym=T.Symbol, only_backwards=(Bool, False)):
         """
-        Internal method for computing the most visible part of a basic decl
-        according to one of its defining names.
+        Internal method for computing the most visible part (going forward or
+        backwards) of a basic decl according to one of its defining names.
+        """
+        # Note that for optimization purposes, we only try to go backwards if
+        # this part is in a private part, because that's what is required to
+        # implement correct name resolution. Making it work in any
+        # circumstances would be more useful for users but does slowdown
+        # name resolution, so should probably be done in a wrapper property
+        # which we can bypass internally. The complete behavior can be enabled
+        # by removing the condition on ``is_in_private_part`` below.
+        self_is_visible = Var(
+            origin.is_null
+            | Not(Entity.is_in_private_part)
+            | Entity.is_visible(origin.as_bare_entity),
+        )
+        return Cond(
+            # If this part is not visible, check if the previous part is, If
+            # there is no previous part, return a null node.
+            Not(self_is_visible),
+            Entity.previous_part_for_name(sym).then(
+                lambda pp: pp.most_visible_part_for_name(
+                    sym,
+                    only_backwards=True
+                )
+            ),
+
+            # This part is visible but we only want to go backwards, so stop
+            # here.
+            only_backwards,
+            Entity,
+
+            # This part is visible, now check if the next part is as well
+            Entity.most_visible_forward_part_for_name(sym, seq=True),
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity,
+                      dynamic_vars=[origin, default_imprecise_fallback()])
+    def most_visible_forward_part_for_name(sym=T.Symbol, seq=T.Bool):
+        """
+        Internal method for computing the most visible part (only looking
+        forward) of a basic decl according to one of its defining names.
+        If ``seq`` is True, the visibility check is sequential: if a next
+        part is in the same unit as the origin but defined after it, it will
+        not be considered visible.
         """
         np = Var(Entity.next_part_for_name(sym))
         return Cond(
@@ -3384,21 +3503,28 @@ class BasicDecl(AdaNode):
 
             # A null origin means any "find the most complete part"
             origin.is_null,
-            np.most_visible_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym, seq),
+
+            # The query is sequential and origin can't see the next part
+            seq & (origin.unit == np.unit) & (origin <= np.node),
+            Entity,
 
             # If the entity is not a package declaration, we only need to check
             # if its lexical env is one of the parents of origin's env.
             Not(np.is_in_private_part | np.is_in_public_part),
             If(
-                origin.node_env.get(sym).contains(Entity),
-                np.most_visible_part_for_name(sym),
+                origin.node_env.get(
+                    sym,
+                    categories=no_prims
+                ).contains(Self.as_bare_entity),
+                np.most_visible_forward_part_for_name(sym, seq),
                 Entity
             ),
 
             # Otherwise this is a package declaration, so we can use the
             # is_visible property.
             np.is_visible(origin.as_bare_entity),
-            np.most_visible_part_for_name(sym),
+            np.most_visible_forward_part_for_name(sym, seq),
 
             # Otherwise this was the most visible part
             Entity
@@ -3655,8 +3781,20 @@ class Body(BasicDecl):
         """
         return And(
             Not(origin.is_null),
-            origin.unit == Self.unit,
-            Not(origin.parents.find(lambda p: p == Self).is_null)
+            Or(
+                # Either origin and Self are in the same unit
+                And(
+                    origin.unit == Self.unit,
+                    Not(origin.parents.find(lambda p: p == Self).is_null)
+                ),
+                # Either origin is nested in a subprogam subunit of Self
+                origin.enclosing_compilation_unit.body.cast(T.Subunit).then(
+                    lambda su: su.bodies_root.any(
+                        lambda br: br.is_a(T.BaseSubpBody)
+                        & (br.unit == Self.unit)
+                    )
+                )
+            )
         )
 
     @langkit_property()
@@ -4321,7 +4459,7 @@ class BaseFormalParamHolder(AdaNode):
             lambda _: Entity.unpacked_formal_params
         )
 
-    @langkit_property(return_type=T.ParamMatch.array, dynamic_vars=[env])
+    @langkit_property(return_type=T.ParamMatch.array)
     def match_param_list(params=T.AssocList.entity,
                          is_dottable_subp=Bool):
         return Self.match_formals(
@@ -4432,6 +4570,39 @@ class BaseFormalParamHolder(AdaNode):
             r._.new_env._.env_node.is_a(GenericSubpInstantiation),
             Self.shed_subp_rebindings(r.get_parent),
             r
+        )
+
+    @langkit_property(return_type=T.BaseFormalParamHolder.entity)
+    def corresponding_actual():
+        """
+        For a ``BaseFormalParamHolder`` (e.g. a ``SubpSpec``), we simply go
+        to its parent (e.g. a ``FormalSubpDecl``), retrieve its corresponding
+        actual (e.g. a ``BasicSubpDecl``), and then grab the formal param
+        holder of that node (e.g. a ``SubpSpec``).
+        """
+        return Entity.parent.cast(BasicDecl).then(
+            lambda bd: bd.corresponding_actual._.formal_param_holder_or_null,
+            default_val=Entity
+        )
+
+    @langkit_property(return_type=T.DefiningName.entity)
+    def corresponding_actual_param(name=T.DefiningName.entity):
+        """
+        Given the name of a parameter defined in a specification of a generic
+        formal parameter, return its corresponding name in the actual that was
+        used in the instantiation.
+        """
+        actual_spec = Var(Entity.corresponding_actual)
+        return If(
+            Entity == actual_spec,
+            name,
+            Entity.unpacked_formal_params.mapcat(
+                lambda i, param: If(
+                    param.node == name.node,
+                    [actual_spec.unpacked_formal_params.at(i)],
+                    No(DefiningName.entity.array)
+                )
+            ).at(0)
         )
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
@@ -4768,6 +4939,10 @@ class TypeDef(AdaNode):
         """
         return False
 
+    is_task_type = Property(False, dynamic_vars=[default_origin()])
+
+    is_limited_type = Property(False)
+
     base_type = Property(
         No(T.BaseTypeDecl.entity), doc="""
         Return the base type entity for this derived type definition.
@@ -4880,13 +5055,47 @@ class Variant(AdaNode):
     choices = Field(type=T.AlternativesList)
     components = Field(type=T.ComponentList)
 
+    @langkit_property(return_type=T.Expr.entity)
+    def default_discriminant_expr():
+        """
+        Return the default expression of the discriminant this Variant
+        depends on, if any.
+        """
+        # First, get the record type declaration to extract the
+        # discriminant specifications.
+        discr_specs = Var(
+            Entity.parents(with_self=False).find(
+                lambda p: p.is_a(T.ConcreteTypeDecl)
+            ).cast_or_raise(ConcreteTypeDecl).discriminants
+            .cast_or_raise(KnownDiscriminantPart).discr_specs
+        )
+
+        discr_symbol = Var(
+            Entity.parent.parent
+            .cast_or_raise(VariantPart).discr_name.symbol
+        )
+
+        # Then, get the default expression that applies to Entity's variant
+        # part discriminant.
+        return discr_specs.find(
+            lambda d: d.defining_names.any(
+                lambda n: n.name_is(discr_symbol)
+            )
+        ).default_expr
+
     @langkit_property(return_type=Bool)
     def matches(expr=T.Expr.entity):
         """
         Check if any choice in the choice list matches expr's value.
         """
         # Statically evaluate expr
-        expr_val = Var(expr.eval_as_int)
+        expr_val = Var(If(
+            # If expr is a box expr, `expr_val` is the value of the default
+            # expression of the given discriminant (:rmlink:`4.3.1`).
+            expr.is_a(T.BoxExpr),
+            Entity.default_discriminant_expr,
+            expr
+        ).eval_as_int)
 
         return Entity.choices.any(
             lambda c: c.choice_match(expr_val)
@@ -4996,14 +5205,10 @@ class ComponentDecl(BaseFormalParamDecl):
     @langkit_property(return_type=Equation)
     def constrain_prefix(prefix=T.Expr):
         return If(
-            # If the prefix is `X'Unrestricted_Access`, we have an implicit
-            # dereference. Do not constrain the equation further here and let
-            # the AttributeRef's xref_equation handle this case.
-            prefix.cast(AttributeRef)._.is_access_attr
             # If Self is a component of a SingleProtectedDecl or
             # ProtectedTypeDecl, do not constrain the equation further since
             # they do not have a type.
-            | Self.parents.any(lambda p: p.is_a(ProtectedDef)),
+            Self.parents.any(lambda p: p.is_a(ProtectedDef)),
 
             LogicTrue(),
 
@@ -5076,8 +5281,8 @@ class ComponentList(BaseFormalParamHolder):
     @langkit_property(return_type=BaseFormalParamDecl.entity.array,
                       dynamic_vars=[env, default_origin()])
     def abstract_formal_params_for_assocs(
-            assocs=T.AssocList.entity,
-            stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
+        assocs=T.AssocList.entity,
+        stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
 
         td = Var(Entity.type_decl)
@@ -5086,13 +5291,10 @@ class ComponentList(BaseFormalParamHolder):
         # Get param matches for discriminants only
         discriminants_matches = Var(Self.match_formals(
             discriminants, assocs, False
-        ).filter(
-            lambda pm: And(
-                Not(pm.formal.is_null),
-                Not(discriminants.find(
-                    lambda d: d == pm.formal.formal_decl).is_null)
-                )
-        ))
+        ).filter(lambda pm: And(
+            Not(pm.formal.is_null),
+            discriminants.contains(pm.formal.formal_decl)
+        )))
 
         # Get param matches for all aggregates' params. Here, we use and pass
         # down the discriminant matches, so that abstract_formal_params_impl is
@@ -5221,6 +5423,22 @@ class ComponentList(BaseFormalParamHolder):
                 components=self_comps,
                 discriminants_values=No(T.DiscriminantValues.array)
             ).singleton
+        )
+
+    @langkit_property(return_type=Bool)
+    def has_limited_component():
+        """
+        Return whether this component list declares at least one component
+        which is limited. This also looks in all branches of a variant part.
+        """
+        return origin.bind(
+            No(AdaNode),
+            Entity.components.any(
+                lambda c:
+                c.cast(BaseFormalParamDecl)._.formal_type._.is_limited_type
+            ) | Entity.variant_part._.variant.any(
+                lambda v: v.components.has_limited_component
+            )
         )
 
 
@@ -5371,6 +5589,10 @@ class RecordTypeDef(TypeDef):
     record_def = Field(type=T.BaseRecordDef)
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
+    is_limited_type = Property(
+        Self.has_limited.as_bool
+        | Entity.record_def.comps.has_limited_component
+    )
 
     xref_equation = Property(LogicTrue())
 
@@ -5553,6 +5775,15 @@ class TypeAttributesRepository(AdaNode):
             subp_symbol="Max",
             left_param=Self.base_type_param,
             right_param=Self.base_type_param,
+            return_type_expr=Self.base_type_expr
+        ))
+
+    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    def round():
+        # As defined in :rmlink:`3.5.10`
+        return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
+            subp_symbol="Round",
+            right_param=Self.universal_real_param,
             return_type_expr=Self.base_type_expr
         ))
 
@@ -5959,6 +6190,99 @@ class BaseTypeDecl(BasicDecl):
     def attributes_repo():
         return TypeAttributesRepository.new(base_type=Self)
 
+    @langkit_property(return_type=T.BasicSubpDecl.entity)
+    def synthesize_attribute_subprogram(attr_name=T.Symbol):
+        """
+        Return the synthetic declaration of the built-in subprogram denoted by
+        the given attribute name and defined on this type.
+        """
+        repo = Var(Self.attributes_repo)
+        subp = Var(Cond(
+            attr_name == "succ", repo.succ,
+            attr_name == "pred", repo.pred,
+            attr_name == "min", repo.min,
+            attr_name == "max", repo.max,
+
+            attr_name == "round", repo.round,
+            attr_name == "rounding", repo.rounding,
+            attr_name == "unbiased_rounding", repo.unbiased_rounding,
+            attr_name == "ceiling", repo.ceiling,
+            attr_name == "floor", repo.floor,
+            attr_name == "truncation", repo.truncation,
+            attr_name == "machine", repo.machine,
+            attr_name == "machine_rounding", repo.machine_rounding,
+            attr_name == "fraction", repo.fraction,
+            attr_name == "exponent", repo.exponent,
+
+            attr_name == "copy_sign", repo.copy_sign,
+            attr_name == "remainder", repo.remainder,
+            attr_name == "adjacent", repo.adjacent,
+            attr_name == "scaling", repo.scaling,
+            attr_name == "compose", repo.compose,
+            attr_name == "leading_part", repo.leading_part,
+
+            attr_name == "mod", repo.mod,
+
+            attr_name == "image", repo.image,
+            attr_name == "wide_image", repo.wide_image,
+            attr_name == "wide_wide_image", repo.wide_wide_image,
+            attr_name == "put_image", repo.put_image,
+
+            attr_name == "value", repo.value,
+            attr_name == "wide_value", repo.wide_value,
+            attr_name == "wide_wide_value", repo.wide_wide_value,
+
+            attr_name == "fixed_value", repo.fixed_value,
+            attr_name == "integer_value", repo.integer_value,
+
+            attr_name == "pos", repo.pos,
+            attr_name == "val", repo.val_attr,
+            attr_name == "enum_rep", repo.enum_rep,
+            attr_name == "enum_val", repo.enum_val,
+
+            attr_name == "read", repo.read,
+            attr_name == "write", repo.write,
+            attr_name == "input", repo.input,
+            attr_name == "output", repo.output,
+
+            attr_name == "asm_input", repo.asm_input,
+            attr_name == "asm_output", repo.asm_output,
+
+            attr_name == 'model', repo.model,
+
+            No(BasicSubpDecl)
+        ))
+        return BasicSubpDecl.entity.new(
+            node=subp,
+            info=T.entity_info.new(
+                rebindings=Entity.info.rebindings,
+                md=No(Metadata),
+                from_rebound=Entity.info.from_rebound
+            )
+        )
+
+    @langkit_property(return_type=BasicDecl.entity, public=True)
+    def attribute_subprogram(attr_name=T.Symbol):
+        """
+        Return the subprogram declaration denoted by this attribute name and
+        defined on this type.
+        """
+        return Cond(
+            attr_name.any_of("read", "write", "input", "output"),
+            Entity.get_representation_clause(attr_name).then(
+                lambda x: x.expr.cast_or_raise(T.Name).referenced_decl,
+                default_val=Entity.synthesize_attribute_subprogram(attr_name)
+            ),
+
+            attr_name == "put_image",
+            Entity._.get_aspect("put_image").value.cast(Name).then(
+                lambda n: n.referenced_decl,
+                default_val=Entity.synthesize_attribute_subprogram(attr_name)
+            ),
+
+            Entity.synthesize_attribute_subprogram(attr_name)
+        )
+
     @langkit_property(
         return_type=T.BaseTypeDecl.entity, public=True, memoized=True
     )
@@ -5974,25 +6298,30 @@ class BaseTypeDecl(BasicDecl):
                     lambda pp:
                     pp.name_symbol == Entity.name_symbol
                 )
-            ).cast(T.BaseTypeDecl).as_entity
-        )
-
-    @langkit_property(return_type=Bool)
-    def is_view_of_type(comp_view=T.BaseTypeDecl.entity):
-        """
-        Predicate that will return true if comp_view is a more complete view of
-        type typ, or if it is the same view of type typ.
-        """
-        typ = Var(Entity)
-        return Cond(
-            comp_view.is_null, False,
-            comp_view == typ, True,
-            typ.is_view_of_type(comp_view.previous_part(True))
+            ).then(
+                lambda t: BaseTypeDecl.entity.new(
+                    node=t.cast(BaseTypeDecl),
+                    info=T.entity_info.new(
+                        rebindings=Entity.info.rebindings,
+                        # Do not propagate the "metadata" and "from_rebound"
+                        # information to the next part, as these only apply to
+                        # the original part.
+                        md=No(Metadata),
+                        from_rebound=False
+                    )
+                )
+            )
         )
 
     @langkit_property(dynamic_vars=[origin], return_type=Bool)
     def is_array_or_rec():
-        return Not(Self.is_null) & (Entity.is_array | Entity.is_record_type)
+        return And(
+            Not(Self.is_null),
+            (Entity.is_array | Entity.is_record_type
+             # Also consider container aggregates as array or rec
+             | (origin.is_a(T.BracketAggregate)
+                & Entity.has_aspect('Aggregate')))
+        )
 
     @langkit_property(public=True, return_type=Bool)
     def is_inherited_primitive(p=T.BasicDecl.entity):
@@ -6064,6 +6393,33 @@ class BaseTypeDecl(BasicDecl):
                 lambda _: type_decl.singleton
             )
         ))
+
+    @lazy_field(return_type=T.env_assoc)
+    def synthetic_object_decl_env_assoc():
+        """
+        Create an env_assoc embedding the synthetic object declaration
+        required for predicates name resolution.
+
+        This property should only be called once by ``env_spec``
+        (``SubtypeDecl``, ``TypeDecl``).
+        """
+        return new_env_assoc(
+            key=Self.name_symbol,
+            # This synthetic object declaration is used for resolving the
+            # references to its own derived/subtype identifier that can be used
+            # in predicates as object references. This virtual object only
+            # lives in the scope of the derived/subtype declaration, and has
+            # the same name and type than the declaration it derives from.
+            value=T.SyntheticObjectDecl.new(
+                name=Self.name,
+                # A `SubtypeDecl` has a type expression that we can reuse On
+                # the contrary, we have to embed the TypeDecl into a synthetic
+                # `TypeExpr` for `TypeDecl`s.
+                type_expr=Self.as_bare_entity.type_expression.node._or(
+                    SyntheticTypeExpr.new(target_type=Self)
+                )
+            )
+        )
 
     is_task_type = Property(False, doc="Whether type is a task type")
 
@@ -6187,40 +6543,6 @@ class BaseTypeDecl(BasicDecl):
             ).base_subtype
         )
 
-    @langkit_property(return_type=Bool)
-    def one_non_universal(second=T.BaseTypeDecl.entity):
-        return Or(
-            Not(Entity.is_null) & Entity.is_not_universal_type,
-            Not(second.is_null) & second.is_not_universal_type
-        )
-
-    @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[default_origin()])
-    def non_universal_base_subtype(second=T.BaseTypeDecl.entity):
-        first_ok = Var(Not(Entity.is_null) & Entity.is_not_universal_type)
-        second_ok = Var(Not(second.is_null) & second.is_not_universal_type)
-        return Cond(
-            first_ok & second_ok,
-            Let(
-                lambda
-                first_st=Entity.derefed_base_subtype,
-                second_st=second.derefed_base_subtype:
-                If(
-                    second_st.matching_formal_type(first_st),
-                    first_st,
-                    second_st
-                )
-            ),
-
-            first_ok,
-            Entity.derefed_base_subtype,
-
-            second_ok,
-            second.derefed_base_subtype,
-
-            No(BaseTypeDecl.entity)
-        )
-
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()])
     def array_concat_result_type(other=T.BaseTypeDecl.entity):
@@ -6296,14 +6618,15 @@ class BaseTypeDecl(BasicDecl):
     @langkit_property(return_type=Bool)
     def is_universal_type():
         """
-        Return whether this type is one of the two universal types (universal
-        integer or universal real).
+        Return whether this type is one of the three universal types (universal
+        integer, universal fixed, or universal real).
 
         .. note::
             Returns False if Self is null.
         """
         return Not(Entity.is_null) & Or(
             Entity == Self.universal_int_type,
+            Entity == Self.universal_fixed_type,
             Entity == Self.universal_real_type
         )
 
@@ -6393,11 +6716,26 @@ class BaseTypeDecl(BasicDecl):
             ['Ada', 'Iterator_Interfaces'], UnitSpecification
         ))
         typ = Var(Entity.cast(T.ClasswideTypeDecl).then(
-            lambda cw: cw.type_decl, default_val=Entity)
-        )
+            lambda cw: cw.type_decl, default_val=Entity
+        ))
         return Or(
             typ.semantic_parent.semantic_parent.node == iifcs,
             Entity.canonical_part.has_aspect("Iterable")
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    def cursor_type():
+        """
+        Assuming this is an iterator type, return the associated cursor
+        type.
+        """
+        return (
+            # For containers and user defined iterator types, cursor type
+            # is defined by the `Cursor` type declaration.
+            Entity.children_env.get_first('Cursor')
+            .cast_or_raise(T.BaseTypeDecl)
+            # Check out cursor type for types with `Iterable` aspect
+            ._or(Entity.cast(TypeDecl).iterable_cursor_type)
         )
 
     @langkit_property(dynamic_vars=[default_origin()], public=True)
@@ -6717,9 +7055,48 @@ class BaseTypeDecl(BasicDecl):
             lambda _: False
         )
 
+    @langkit_property(return_type=Bool, public=True)
+    def is_limited_type():
+        """
+        Return True iff this type is limited, either because it is explicitly
+        marked as such, or because it inherits from a limited type or has a
+        component of a limited type. Also note that protected types and task
+        types are limited by definition. Moreover, note that Ada requires
+        all parts of a type to agree of its limitedness (e.g. the public view
+        of a type must indicate that it is limited if its private completion
+        ends up being limited), hence this property does not require looking at
+        any other part of the type to determine its limitedness, excepted for
+        incomplete type declarations. This implies that for illegal code where
+        several parts don't agree, this property will return the result for the
+        particular view of the type on which this property is called.
+        """
+        # This property does not require an "origin" parameter because as
+        # explained above, all parts of a type must agree on the fact that the
+        # type is limited or not.
+        return Entity.match(
+            lambda td=TypeDecl: td.type_def.is_limited_type,
+            lambda sb=SubtypeDecl: sb.get_type.is_limited_type,
+            lambda it=IncompleteTypeDecl: it.full_view.is_limited_type,
+            lambda _=ProtectedTypeDecl: True,
+            lambda _=TaskTypeDecl: True,
+            lambda _: False
+        )
+
     @langkit_property(dynamic_vars=[origin])
     def iterable_comp_type():
         return No(T.BaseTypeDecl.entity)
+
+    @langkit_property(dynamic_vars=[origin])
+    def iterable_comp_type_or_null():
+        return If(
+            Self.is_null,
+            No(BaseTypeDecl.entity),
+            If(
+                Entity.is_implicit_deref,
+                Entity.accessed_type,
+                Entity
+            ).iterable_comp_type
+        )
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_prefix_type(container_type=T.BaseTypeDecl.entity):
@@ -6777,8 +7154,18 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def matching_membership_type(formal_type=T.BaseTypeDecl.entity):
+        return And(
+            Not(formal_type.is_null),
+            Not(Self.is_null),
+            Entity.matching_formal_type_impl(formal_type,
+                                             accept_root_types=True)
+        )
+
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
     def matching_formal_type_impl(formal_type=T.BaseTypeDecl.entity,
-                                  accept_derived=(Bool, False)):
+                                  accept_derived=(Bool, False),
+                                  accept_root_types=(Bool, False)):
         actual_type = Var(Entity)
         return Or(
             And(formal_type.is_classwide | accept_derived,
@@ -6800,6 +7187,13 @@ class BaseTypeDecl(BasicDecl):
                         And(actual_accessed_type.is_classwide,
                             actual_accessed_type.specific_type.matching_type(
                                 formal_accessed_type)),
+
+                        # In a MembershipExpr, if formal_type is a general
+                        # access-to-object type, actual_type is convertible to
+                        # formal_type (:rmlink:`4.5.2` 30.3/4).
+                        And(accept_root_types,
+                            formal_accessed_type.specific_type
+                            .is_derived_type(actual_accessed_type))
                     )
                 )
             ),
@@ -6818,7 +7212,8 @@ class BaseTypeDecl(BasicDecl):
             Entity.matching_type(expected_type),
 
             And(
-                expected_type.is_classwide,
+                expected_type.is_classwide
+                | expected_type.accessed_type._.is_classwide,
                 actual_type.matching_formal_prim_type(expected_type)
             ),
 
@@ -6859,6 +7254,12 @@ class BaseTypeDecl(BasicDecl):
 
                 And(expected_type == Self.universal_real_type,
                     actual_type.is_real_type),
+
+                And(expected_type == Self.universal_fixed_type,
+                    actual_type.is_fixed_point),
+
+                And(actual_type == Self.universal_fixed_type,
+                    expected_type.is_fixed_point),
 
                 actual_type.canonical_type == expected_type.canonical_type,
 
@@ -6914,11 +7315,17 @@ class BaseTypeDecl(BasicDecl):
         """
         Returns the previous part for this type decl.
         """
-        return If(
+        return Cond(
             Self.is_generic_formal,
 
             # A generic formal type never has a previous part
             No(T.BaseTypeDecl.entity),
+
+            Self.is_a(ClasswideTypeDecl),
+            Entity.cast(ClasswideTypeDecl).type_decl
+            .previous_part(go_to_incomplete).then(
+                lambda pp: pp.classwide_type
+            ),
 
             # Otherwise look for the previous part in the immediate enclosing
             # declarative region.
@@ -6968,6 +7375,18 @@ class BaseTypeDecl(BasicDecl):
                     lambda p: itd.find_next_part_in(p.decls)
                 )
             )),
+
+            lambda cwt=T.ClasswideTypeDecl: Let(
+                lambda td=cwt.type_decl: td.next_part.then(
+                    # Sometimes `next_part` returns Entity itself, so check
+                    # that to avoid an infinite loop.
+                    lambda np: If(
+                        td == np,
+                        cwt,
+                        np.classwide_type
+                    )
+                )
+            ),
 
             lambda _: If(
                 Entity.is_private
@@ -7359,10 +7778,12 @@ class ClasswideTypeDecl(BaseTypeDecl):
     record_def = Property(Entity.type_decl.record_def)
     classwide_type = Property(Entity)
     is_iterable_type = Property(Entity.type_decl.is_iterable_type)
+    is_task_type = Property(Entity.type_decl.is_task_type)
     iterable_comp_type = Property(Entity.type_decl.iterable_comp_type)
     defining_env = Property(Entity.type_decl.defining_env)
     is_private = Property(Entity.type_decl.is_private)
     is_in_private_part = Property(Entity.type_decl.is_in_private_part)
+    is_in_public_part = Property(Entity.type_decl.is_in_public_part)
 
     @langkit_property()
     def get_aspect_assoc(name=Symbol):
@@ -7375,13 +7796,6 @@ class ClasswideTypeDecl(BaseTypeDecl):
             stop_recurse_at=(T.BaseTypeDecl.entity, No(T.BaseTypeDecl.entity))
     ):
         return Entity.type_decl.discriminants_list(stop_recurse_at)
-
-    @langkit_property(public=True, return_type=T.BaseTypeDecl.entity,
-                      memoized=True)
-    def previous_part(go_to_incomplete=(Bool, True)):
-        return Entity.type_decl.previous_part(go_to_incomplete).then(
-            lambda pp: pp.classwide_type
-        )
 
     canonical_type = Property(Entity.type_decl.canonical_type.then(
         # The canonical type should be classwide whenever it makes sense (e.g.
@@ -7456,7 +7870,8 @@ class TypeDecl(BaseTypeDecl):
         return Entity.get_aspect_spec_expr('Iterable').then(
             lambda it: it.cast(T.Aggregate).assocs.unpacked_params.find(
                 lambda sa: sa.name.name_is('First')
-            ).assoc.expr.cast_or_raise(T.Name).referenced_decl.expr_type)
+            ).assoc.expr.cast_or_raise(T.Name).referenced_decl.expr_type
+        )
 
     @langkit_property()
     def discrete_range():
@@ -7629,6 +8044,7 @@ class TypeDecl(BaseTypeDecl):
     ))
 
     is_tagged_type = Property(Entity.type_def.is_tagged_type)
+    is_task_type = Property(Entity.type_def.is_task_type)
     base_type = Property(Entity.type_def.base_type)
     base_interfaces = Property(Entity.type_def.base_interfaces)
     is_char_type = Property(Entity.type_def.is_char_type)
@@ -7691,8 +8107,7 @@ class TypeDecl(BaseTypeDecl):
         (:rmlink:`3.4.1` - 7).
         """
         return If(
-            Self.any_of(Self.universal_int_type.node,
-                        Self.universal_real_type.node),
+            Self.as_bare_entity.is_universal_type,
             No(T.env_assoc.array),
             Self.type_def.predefined_operators
         )
@@ -7702,6 +8117,22 @@ class TypeDecl(BaseTypeDecl):
         add_to_env(Self.predefined_operators),
         add_env(),
         handle_children(),
+
+        # Add a synthetic object declaration into its environement in order to
+        # support name resolution of self-references that can appear in
+        # predicates (see `SyntheticObjectDecl`) or in a records' body.
+        # TODO: This could be added conditionally to avoid polluting envs with
+        # unnecessary objects if we can statically detect whether it will be
+        # useful or not, for example by checking if `Predicate` aspect is
+        # specified on this type. However, it is not as easy because there can
+        # `Predicate` pragmas defined *after* this.
+        add_to_env(Entity.synthetic_object_decl_env_assoc),
+
+        # Make sure the reference to the primitives env is created *AFTER* the
+        # synthetic type predicate object has been added to Self's env: since
+        # this object has the same name as the type, it is indirectly used to
+        # hide the type and avoid infinite recursions in invalid Ada code such
+        # as ``type X is new X``. See nameres test `invalid_self_reference`.
         reference(
             Self.cast(AdaNode).singleton,
             through=T.TypeDecl.refined_parent_primitives_env,
@@ -7947,9 +8378,8 @@ class TypeDecl(BaseTypeDecl):
                 lambda e: e.cast(T.BasicDecl),
                 lambda env_el:
                 env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                    lambda ss:
-                    origin.bind(
-                        Self.origin_node,
+                    lambda ss: origin.bind(
+                        env_el.node,
                         ss.unpacked_formal_params.at(0)
                         ._.formal_decl.formal_type.matching_formal_type(Entity)
                     )
@@ -7959,15 +8389,14 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def variable_indexing_fns():
-        return origin.bind(
-            Self.origin_node,
-            Entity.get_aspect_spec_expr('Variable_Indexing').then(
-                lambda a: a.cast_or_raise(T.Name)
-                .all_env_elements_internal(seq=False).filtermap(
-                    lambda e: e.cast(T.BasicDecl),
-                    lambda env_el:
-                    env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                        lambda ss:
+        return Entity.get_aspect_spec_expr('Variable_Indexing').then(
+            lambda a: a.cast_or_raise(T.Name)
+            .all_env_elements_internal(seq=False).filtermap(
+                lambda e: e.cast(T.BasicDecl),
+                lambda env_el:
+                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
+                    lambda ss: origin.bind(
+                        env_el.node,
                         ss.unpacked_formal_params.at(0)
                         ._.formal_decl.formal_type.matching_formal_type(Entity)
                         & ss.return_type.is_implicit_deref
@@ -8175,15 +8604,7 @@ class OrdinaryFixedPointDef(RealTypeDef):
             Entity.delta.sub_equation,
             Entity.delta.matches_expected_type,
 
-            # Expressions from the range specification are expected to be of
-            # any real type, the types need not be the same.
-            Entity.range.then(
-                lambda r:
-                Entity.universal_real_bind(r.range.expected_type_var)
-                & r.range.sub_equation
-                & r.range.matches_expected_type,
-                default_val=LogicTrue()
-            )
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
 
     @langkit_property(memoized=True)
@@ -8243,15 +8664,7 @@ class DecimalFixedPointDef(RealTypeDef):
             Entity.digits.sub_equation,
             Entity.digits.matches_expected_type,
 
-            # Expressions from the range specification are expected to be of
-            # any real type, the types need not be the same.
-            Entity.range.then(
-                lambda r:
-                Entity.universal_real_bind(r.range.expected_type_var)
-                & r.range.sub_equation
-                & r.range.matches_expected_type,
-                default_val=LogicTrue()
-            )
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
 
     @langkit_property(memoized=True)
@@ -8359,27 +8772,41 @@ class DigitsConstraint(Constraint):
     digits = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
-    xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.then(
-            lambda range: range.sub_equation,
-            default_val=LogicTrue()
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a digits constraint definition.
+        """
+        return And(
+            # As per :rmlink:`3.5.9`, the digits expression is expected to be
+            # of any integer type.
+            Entity.universal_int_bind(Entity.digits.expected_type_var),
+            Entity.digits.sub_equation,
+            Entity.digits.matches_expected_type,
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
-    )
 
 
 class DeltaConstraint(Constraint):
     """
     Delta and range type constraint (:rmlink:`J.3`).
     """
-    digits = Field(type=T.Expr)
+    delta = Field(type=T.Expr)
     range = Field(type=T.RangeSpec)
 
-    xref_equation = Property(
-        Entity.digits.sub_equation & Entity.range.then(
-            lambda range: range.sub_equation,
-            default_val=LogicTrue()
+    @langkit_property()
+    def xref_equation():
+        """
+        Build an equation for a delta constraint definition.
+        """
+        return And(
+            # As per :rmlink:`J.3`, the delta expression is expected to be of
+            # any real type.
+            Entity.universal_real_bind(Entity.delta.expected_type_var),
+            Entity.delta.sub_equation,
+            Entity.delta.matches_expected_type,
+            If(Self.range.is_null, LogicTrue(), Entity.range.sub_equation)
         )
-    )
 
 
 class CompositeConstraint(Constraint):
@@ -8520,7 +8947,10 @@ class DerivedTypeDef(TypeDef):
     record_extension = Field(type=T.BaseRecordDef)
     has_with_private = Field(type=WithPrivate)
 
-    array_ndims = Property(Entity.base_type.array_ndims)
+    array_ndims = Property(Entity.base_type.then(
+        lambda bt: bt.array_ndims,
+        default_val=Entity.super()
+    ))
 
     base_type = Property(Entity.subtype_indication.designated_type)
 
@@ -8528,6 +8958,7 @@ class DerivedTypeDef(TypeDef):
         Entity.interfaces.map(lambda i: i.name_designated_type)
     )
 
+    is_task_type = Property(Entity.base_type.is_task_type)
     is_int_type = Property(Entity.base_type.is_int_type)
     is_access_type = Property(Self.as_bare_entity.base_type.is_access_type)
     is_char_type = Property(Entity.base_type.is_char_type)
@@ -8539,6 +8970,19 @@ class DerivedTypeDef(TypeDef):
     )
 
     is_enum_type = Property(Entity.base_type.is_enum_type)
+    is_limited_type = Property(
+        Self.has_limited.as_bool
+        | Entity.record_extension._.comps._.has_limited_component
+        | origin.bind(
+            No(AdaNode),  # We want full visibility
+            # Note that we don't recurse on interfaces, because limitedness is
+            # not inherited from those (ARM 7.5 6.2/2).
+            Entity.base_type.then(
+                lambda bt: Not(bt.is_interface_type) & bt.is_limited_type
+            )
+        )
+    )
+
     is_static = Property(Entity.subtype_indication.is_static_subtype)
 
     @langkit_property(return_type=Equation)
@@ -8568,6 +9012,7 @@ class PrivateTypeDef(TypeDef):
     has_limited = Field(type=Limited)
 
     is_tagged_type = Property(Self.has_tagged.as_bool)
+    is_limited_type = Property(Self.has_limited.as_bool)
 
     xref_equation = Property(LogicTrue())
 
@@ -8825,6 +9270,11 @@ class ArrayTypeDef(TypeDef):
 
     array_ndims = Property(Self.indices.ndims)
 
+    is_limited_type = Property(origin.bind(
+        No(AdaNode),  # We want full visibility
+        Entity.comp_type.is_limited_type
+    ))
+
     @langkit_property()
     def xref_equation():
         return And(
@@ -8894,6 +9344,11 @@ class InterfaceTypeDef(TypeDef):
     interfaces = Field(type=T.ParentList)
 
     is_tagged_type = Property(True)
+    is_task_type = Property(Entity.interface_kind.is_a(InterfaceKind.alt_task))
+
+    # All four interface kinds declare limited types. Also, limitedness is not
+    # inherited from parent interfaces (ARM 7.5 6.2/2).
+    is_limited_type = Property(Not(Self.interface_kind.is_null))
 
     base_interfaces = Property(
         Entity.interfaces.map(lambda i: i.name_designated_type)
@@ -8916,7 +9371,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
         # take an origin. But ultimately, for semantic correctness, it will be
         # necessary to remove this, and migrate every property using it to
         # having a dynamic origin parameter.
-        return origin.bind(Self.origin_node, Entity.get_type)
+        return origin.bind(No(AdaNode), Entity.get_type)
 
     @langkit_property(kind=AbstractKind.abstract,
                       return_type=T.BaseTypeDecl.entity,
@@ -8936,6 +9391,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     canonical_type = Property(Entity.get_type.canonical_type)
     record_def = Property(Entity.get_type.record_def)
     accessed_type = Property(Entity.get_type.accessed_type)
+    is_task_type = Property(Entity.get_type.is_task_type)
     is_int_type = Property(Entity.get_type.is_int_type)
     is_discrete_type = Property(Entity.get_type.is_discrete_type)
 
@@ -8982,6 +9438,23 @@ class SubtypeDecl(BaseSubtypeDecl):
     subtype = Field(type=T.SubtypeIndication)
     aspects = Field(type=T.AspectSpec)
 
+    env_spec = EnvSpec(
+        add_to_env_kv(Entity.name_symbol, Self),
+
+        # Subtype predicates expressions can refers to its own subtype
+        # declaration identifier as an object such as in::
+        #
+        #     subtype Odd is Natural with
+        #        Dynamic_Predicate => Odd mod 2 = 1;
+        #
+        # where ``Odd`` should refer to an anonymous object of the same name
+        # and of its own subtype. This object only virtually exists in the
+        # subtype environment, so we add a children environement here, just to
+        # hold this object.
+        add_env(transitive_parent=True),
+        add_to_env(Entity.synthetic_object_decl_env_assoc)
+    )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
     def get_type():
         return Entity.subtype.designated_type.match(
@@ -8999,6 +9472,60 @@ class SubtypeDecl(BaseSubtypeDecl):
 
     is_static_decl = Property(Entity.subtype.is_static_subtype)
     xref_entry_point = Property(True)
+
+
+@synthetic
+class SyntheticObjectDecl(BasicDecl):
+    """
+    SyntheticObjectDecl is a declaration that holds a virtual object. This is
+    for example used in type predicates to refer to an object of the enclosing
+    type, as in::
+
+         subtype Odd is Natural with
+            Dynamic_Predicate => Odd mod 2 = 1;
+
+    where we have to create an object named ``Odd``, and of type ``Odd`` so
+    that the name in the aspect expression refers to it and can be properly
+    resolved to the type identifier.
+
+    This node has no existance in the Ada RM, it's only used for internal name
+    resolution purposes.
+    """
+    name = UserField(type=T.DefiningName, public=False)
+    type_expr = UserField(type=T.TypeExpr, public=False)
+
+    aspects = NullField()
+
+    type_expression = Property(Self.type_expr.as_entity)
+    defining_names = Property(Self.name.as_entity.singleton)
+
+    @langkit_property(return_type=T.Bool)
+    def is_referred_by(origin=T.AdaNode):
+        """
+        Return whether a synthetic type predicate object can be seen from the
+        given ``origin`` node. If we are outside the type definition, this will
+        always be the type itself. Otherwise this will always be the synthetic
+        object, unless we are in an access type definition. In particular, this
+        allows correctly resolving:
+
+        .. code:: ada
+
+            type T is record
+               X : access T := T'Unrestricted_Access;
+               --        (1)  (2)
+            end record;
+
+        Here, the reference (1) points to the type, whereas (2) refers to the
+        synthetic object.
+        """
+        return And(
+            Not(origin.parent.parent.is_a(TypeAccessDef)),
+            Self.is_children_env(
+                Self.type_expr.cast(SyntheticTypeExpr)
+                .target_type.children_env,
+                origin.children_env
+            )
+        )
 
 
 @synthetic
@@ -9960,26 +10487,6 @@ class Pragma(AdaNode):
         )
 
     @langkit_property()
-    def xref_initial_env():
-        """
-        Contract pragmas such as ``Precondition`` have full visibility on their
-        associated subprogram's formals although they are not in an internal
-        scope. We handle that by overriding this ``xref_initial_env`` property
-        which will make sure that name resolution uses the env returned by this
-        property when constructing xref_equations.
-        """
-        return If(
-            Entity.id.name_symbol.any_of(
-                "Pre", "Post", "Pre'Class", "Post'Class",
-                "Precondition", "Postcondition",
-                "Precondition'Class", "Postcondition'Class",
-                "Test_Case", "Contract_Cases"
-            ),
-            Entity.associated_entities.at(0).children_env,
-            Entity.children_env
-        )
-
-    @langkit_property()
     def xref_equation():
         return Cond(
             Or(
@@ -10017,17 +10524,24 @@ class Pragma(AdaNode):
             ),
 
             Entity.id.name_is('Warnings'),
-            Entity.args.at(1)._.assoc_expr.then(
-                lambda expr: If(
-                    expr.is_a(T.Identifier),
+            Entity.args.logic_all(
+                lambda arg: arg.assoc_expr.then(
+                    lambda expr: If(
+                        expr.is_a(T.Identifier),
+                        If(
+                            expr.cast(T.Identifier)._.name_symbol.any_of(
+                                'On', 'Off', 'GNAT', 'GNATprove'
+                            ),
+                            LogicTrue(),
+                            expr.sub_equation
+                        ),
 
-                    expr.sub_equation,
-
-                    Bind(expr.expected_type_var, Self.std_entity("String"))
-                    & expr.sub_equation
-                    & expr.matches_expected_type
-                ),
-                default_val=LogicTrue()
+                        Bind(expr.expected_type_var, Self.std_entity("String"))
+                        & expr.sub_equation
+                        & expr.matches_expected_type
+                    ),
+                    default_val=LogicTrue()
+                )
             ),
 
             # Pragmas we want to deliberately not resolve, either because there
@@ -10159,7 +10673,7 @@ class Pragma(AdaNode):
                 'Volatile', 'Volatile_Components', 'Unchecked_Union',
                 'Atomic', 'Atomic_Components', 'No_Return', "Discard_Names",
                 "Independent", "Independent_Components", "Asynchronous",
-                "Interrupt_Handler", "Attach_Handler",
+                "Interrupt_Handler", "Attach_Handler", "Predicate"
             ),
             Entity.args.at(0)._.assoc_expr.cast(T.Name)._.singleton,
 
@@ -10283,11 +10797,26 @@ class Pragma(AdaNode):
     def initial_env():
         """
         Return the initial env name for a pragma clause. We use the
-        Standard package for top level use clauses.
+        Standard package for top level use clauses. For contract pragmas such
+        as ``Precondition`` or ``Predicate``, we use the env of the entity the
+        pragma is associated with in order to properly resolve references to
+        formals or to the type's ``SyntheticObjectDecl`` instance.
         """
-        return If(
+        return Cond(
             Self.parent.parent.is_a(CompilationUnit),
             named_env('Standard'),
+
+            Self.as_bare_entity.id.name_symbol.any_of(
+                "Pre", "Post", "Pre'Class", "Post'Class",
+                "Precondition", "Postcondition",
+                "Precondition'Class", "Postcondition'Class",
+                "Test_Case", "Contract_Cases", "Predicate"
+            ),
+            Self.as_bare_entity.associated_entities.at(0).then(
+                lambda ent: direct_env(ent.children_env),
+                default_val=current_env()
+            ),
+
             current_env()
         )
 
@@ -10361,7 +10890,7 @@ class AttributeDefClause(AspectClause):
 
         return Cond(
             rel_name.any_of('Read', 'Write', 'Input', 'Output'),
-            Entity.expr.cast_or_raise(T.Name).xref_no_overloading
+            Entity.expr.cast_or_raise(T.Name).xref_no_overloading(all_els=True)
             & Predicate(
                 BasicDecl.is_stream_subprogram_for_type,
                 Entity.expr.cast(T.Name).ref_var,
@@ -10537,7 +11066,7 @@ class AspectAssoc(AdaNode):
         target = Var(Self.parent.parent.parent)
         return Cond(
             # Iterable aspect
-            Entity.id.name_is('Iterable'),
+            Entity.id.name_symbol.any_of('Aggregate', 'Iterable'),
             Entity.expr.cast(T.Aggregate).assocs.unpacked_params.logic_all(
                 lambda sa:
                 sa.assoc.expr
@@ -11189,22 +11718,27 @@ class GenericInstantiation(BasicDecl):
         return If(
             Entity.is_any_formal,
             No(T.inner_env_assoc.array),
-            env.bind(
-                Self.default_initial_env,
-                Self.nonbound_generic_decl._.formal_part.match_param_list(
-                    Entity.generic_inst_params, False
-                ).filter(
-                    lambda pm: Not(pm.actual.assoc.expr.is_a(BoxExpr))
-                ).map(
-                    lambda i, pm: T.inner_env_assoc.new(
-                        key=pm.formal.name.name_symbol,
-                        value=If(
-                            pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
-                            Entity.actual_expr_decls.at(i),
-                            pm.actual.assoc.expr.node
-                        ),
-                        metadata=T.Metadata.new()
-                    )
+            Self.nonbound_generic_decl._.formal_part.match_param_list(
+                Entity.generic_inst_params, False
+            ).filter(
+                lambda pm: And(
+                    Not(pm.actual.assoc.expr.is_a(BoxExpr)),
+                    # Do not put formal subprograms in the rebindings to avoid
+                    # them being eagerly resolved to an actual, as the formal
+                    # part is needed to implement correct name resolution. We
+                    # will use ``BasicDecl.corresponding_actual`` instead to
+                    # manually resolve it.
+                    Not(pm.formal.formal_decl.is_a(GenericFormalSubpDecl))
+                )
+            ).map(
+                lambda i, pm: T.inner_env_assoc.new(
+                    key=pm.formal.name.name_symbol,
+                    value=If(
+                        pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
+                        Entity.actual_expr_decls.at(i),
+                        pm.actual.assoc.expr.node
+                    ),
+                    metadata=T.Metadata.new()
                 )
             )
         )
@@ -11475,6 +12009,21 @@ class GenericInstantiation(BasicDecl):
             )
         )
 
+    @langkit_property(return_type=T.Expr.entity)
+    def actual_for_formal(formal_name=T.DefiningName):
+        """
+        Return the expression of the actual used for the given formal in this
+        generic instantiation. Returns null if none is provided, even if there
+        is a default value.
+        """
+        return Self.nonbound_generic_decl._.formal_part.match_param_list(
+            Entity.generic_inst_params, False
+        ).find(
+            lambda pm: pm.formal.node == formal_name
+        ).then(
+            lambda pm: pm.actual.assoc.expr
+        )
+
 
 class GenericSubpInstantiation(GenericInstantiation):
     """
@@ -11743,6 +12292,8 @@ class GenericRenamingDecl(BasicDecl):
         # which is not the case here.
         Entity.renaming_name.all_env_elements_internal(
             seq=True, seq_from=Self, categories=no_prims
+        ).filter(
+            lambda e: Not(e.is_a(Body))
         ).at(0)._.match(
             lambda gd=T.GenericDecl: gd,
             lambda grd=T.GenericRenamingDecl: grd.resolve,
@@ -11871,6 +12422,64 @@ class FormalSubpDecl(ClassicSubpDecl):
         ), default_val=LogicTrue())
     )
 
+    @langkit_property(return_type=T.BasicDecl.entity, memoized=True)
+    def resolve_actual_name(name=T.Expr.entity):
+        """
+        Given the name used in the instantiation for this formal subp decl,
+        resolve it at the instantiation site to the corresponding declaration.
+        This property basically replaces ``AdaNode.resolve_generic_actual`` but
+        is more precise because we have access to the formal spec, which means
+        we can disambiguate between overloaded actuals.
+        Note that we cannot simply call ``referenced_decl`` here as this would
+        cause name resolution recursions which we want to avoid at all cost.
+        """
+        return origin.bind(name.node, name.cast(AttributeRef).then(
+            lambda attr: attr.attribute_subprogram,
+            default_val=name.cast(Name).all_env_elements.find(
+                lambda el: el.cast(BasicDecl)._.subp_decl_match_signature(
+                    Entity
+                )
+            )
+        )).cast(BasicDecl)
+
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def corresponding_actual_impl(rb=T.EnvRebindings):
+        """
+        Retrieves the actual for this formal subprogram by finding the generic
+        formal part in which Self lies in Self's rebindings, and then resolving
+        the corresponding actual.
+        """
+        return Cond(
+            rb.is_null,
+            Entity,
+
+            rb.old_env == Self.parent.node_env,
+            rb.new_env.env_node.cast(GenericInstantiation).then(
+                lambda inst: T.GenericInstantiation.entity.new(
+                    node=inst,
+                    info=T.entity_info.new(
+                        rebindings=rb.get_parent,
+                        md=No(T.Metadata),
+                        from_rebound=False
+                    )
+                )
+            ).actual_for_formal(Entity.defining_name.node).then(
+                lambda name: Entity.resolve_actual_name(name)
+            ).then(
+                lambda actual: actual.corresponding_actual
+            )._or(Entity),
+
+            Entity.corresponding_actual_impl(rb.get_parent)
+        )
+
+    @langkit_property(return_type=T.BasicDecl.entity)
+    def corresponding_actual():
+        """
+        For a ``FormalSubpDecl`` we must find the actual by looking in our own
+        rebindings. See ``corresponding_actual_impl``.
+        """
+        return Entity.corresponding_actual_impl(Entity.info.rebindings)
+
     @langkit_property(return_type=T.BasicDecl.entity)
     def designated_subprogram_from(inst=T.GenericInstantiation.entity):
         """
@@ -11969,7 +12578,7 @@ class GenericFormal(BaseFormalParamDecl):
     Enclosing declaration for a generic formal. The real declaration is
     accessible via the ``decl`` field.
     """
-    decl = Field(T.BasicDecl)
+    decl = Field(type=T.BasicDecl)
     aspects = NullField()
 
     defining_names = Property(Entity.decl.defining_names)
@@ -12240,16 +12849,6 @@ class Expr(AdaNode):
         """
     )
 
-    xref_stop_resolution = Property(
-        # Pause resolution of ForLoopSpecs' iterator filter expression, so
-        # that the indexing variable's type can be fully inferred first.
-        # Otherwise, any reference to the indexing variable appearing in the
-        # filter expression will cause an infinite xref_equation recursion.
-        Self.parent.cast(T.ForLoopSpec).then(
-            lambda spec: spec.iter_filter == Self
-        )
-    )
-
     @langkit_property(return_type=T.Bool)
     def has_context_free_type():
         """
@@ -12285,6 +12884,14 @@ class Expr(AdaNode):
     def matches_expected_formal_type():
         return Predicate(
             BaseTypeDecl.matching_formal_type,
+            Self.type_var,
+            Self.expected_type_var
+        )
+
+    @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
+    def matches_expected_membership_type():
+        return Predicate(
+            BaseTypeDecl.matching_membership_type,
             Self.type_var,
             Self.expected_type_var
         )
@@ -12890,7 +13497,9 @@ class BinOp(Expr):
             Self.op.is_a(Op.alt_and_then, Op.alt_or_else),
             Self.test_eq,
 
-            Entity.overload_equation | Entity.no_overload_equation
+            Entity.overload_equation
+            | Entity.no_overload_equation
+            | Entity.universal_fixed_predefined_operators_equation
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
@@ -12903,18 +13512,18 @@ class BinOp(Expr):
             Predicate(AdaNode.is_not_null, Self.expected_type_var),
             Bind(Self.expected_type_var, Self.type_var),
             Bind(Self.type_var, Self.left.expected_type_var),
-            Bind(Self.type_var, Self.right.expected_type_var)
-        ) & Or(
-            # Expected type was given explicitly, so we can simply check that
-            # the type inferred for the operands matches. This is generally
-            # the case for ranges in component representation clauses or
-            # in subtype indications' constraints.
-            Self.left.matches_expected_formal_type
-            & Self.right.matches_expected_formal_type,
-
-            # Expected was not given explicitly, so we must infer it here.
-            # This is generally the case for ranges in for loop specs.
-            Entity.numeric_type_from_operands_equation(Self.type_var)
+            Bind(Self.type_var, Self.right.expected_type_var),
+            Self.left.matches_expected_formal_type,
+            Self.right.matches_expected_formal_type
+        ) & Self.use_expected_type_or(
+            # In some cases the expected type is given explicitly, so we can
+            # simply check that the type inferred for the operands matches.
+            # This is generally the case for ranges in component representation
+            # clauses or in subtype indications' constraints.
+            # However if the expected is not given explicitly, we must infer
+            # it here from one of the operands. This is generally the case
+            # for ranges in for-loop specs.
+            Entity.infer_from_either_operands(Self.type_var)
         )
 
     @langkit_property(dynamic_vars=[origin])
@@ -12973,106 +13582,137 @@ class BinOp(Expr):
         to construct the xref equation for this node.
         """
         return Cond(
-            # For multiplication operators, we must handle the general shape
-            # `function "op" (X, Y : T) return T`, but also the shape
-            # `function "op" (X : Integer, Y : T) return T` as well as
-            # `function "op" (X : T, Y : Integer) return T`.
+            # For multiplication operators, we must handle three shapes
             Self.op.is_a(Op.alt_mult, Op.alt_div),
             Or(
+                # `function "op" (X, Y : T) return T`
                 Bind(Self.type_var, Self.left.expected_type_var)
-                & Bind(Self.type_var, Self.right.expected_type_var),
+                & Bind(Self.type_var, Self.right.expected_type_var)
+                & Self.use_expected_type_or(
+                    Entity.infer_from_either_operands(Self.type_var)
+                ),
 
+                # `function "op" (X : Integer, Y : T) return T`
                 Bind(Self.left.expected_type_var, Self.int_type)
-                & Bind(Self.right.expected_type_var, Self.type_var),
+                & Bind(Self.right.expected_type_var, Self.type_var)
+                & Self.use_expected_type_or(
+                    Entity.infer_from_right_operand(Self.type_var)
+                ),
 
+                # `function "op" (X : T, Y : Integer) return T`
                 Bind(Self.right.expected_type_var, Self.int_type)
-                & Bind(Self.left.expected_type_var, Self.type_var),
+                & Bind(Self.left.expected_type_var, Self.type_var)
+                & Self.use_expected_type_or(
+                    Entity.infer_from_left_operand(Self.type_var)
+                )
             ),
 
             # For power operators, we must only handle the shape
             # `function "op" (X : T, Y : Integer) return T`.
             Self.op.is_a(Op.alt_pow),
             Bind(Self.right.expected_type_var, Self.int_type)
-            & Bind(Self.left.expected_type_var, Self.type_var),
+            & Bind(Self.left.expected_type_var, Self.type_var)
+            & Self.use_expected_type_or(
+                Entity.infer_from_left_operand(Self.type_var)
+            ),
 
             # For other operators, we only need to handle the shape
             # `function "op" (X, Y : T) return T`.
-            And(
-                Bind(Self.type_var, Self.left.expected_type_var),
-                Bind(Self.type_var, Self.right.expected_type_var)
+            Bind(Self.type_var, Self.left.expected_type_var)
+            & Bind(Self.type_var, Self.right.expected_type_var)
+            & Self.use_expected_type_or(
+                Entity.infer_from_either_operands(Self.type_var)
             )
         ) & Or(
-            # If the expected type is known, use it to infer the type of Self.
-            # This will allow Self's type to be used in the next disjunction to
-            # infer the type of the operands if necessary.
+            # We have an expected type: we can directly infer the actual type
+            # of the result, and of the operands using the equations above.
+            # Note that there is a difference between not having an expected
+            # type at all (as in a type conversion), and having an expected
+            # type but not inferrable from the context (as in an operand of a
+            # comparison operator `(A + B) = 2`. The latter simply means
+            # that the expected type itself will be inferred from the operands
+            # using one of `Entity.infer_from_*` properties.
             Predicate(AdaNode.is_not_null, Self.expected_type_var)
             & Bind(Self.expected_type_var, Self.type_var,
                    conv_prop=BaseTypeDecl.derefed_base_subtype),
 
-            # Otherwise, we cannot infer the type of Self from its expected
-            # type, so we will infer it from one of the operands, since at
-            # least one of them necessarily has a context-free type (otherwise
-            # this wouldn't be valid Ada code).
+            # There is no expected type (e.g. we are in a type conversion).
+            # In this case, the type of the result will be inferred from the
+            # type of operands: we know that at least one of them has a
+            # context-free type (otherwise this wouldn't be valid Ada code).
             Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
-        ) & Or(
-            # If the expected is known, it was assigned to the type of Self,
-            # there might be nothing more to do.
-            Predicate(AdaNode.is_not_null, Self.expected_type_var)
-            & Self.left.matches_expected_formal_type
-            & Self.right.matches_expected_formal_type,
-
-            # If we're trying the following option, it means we must infer
-            # Self's type from one of the operands. We assign it to the first
-            # one that is *not* a universal type (the result of a binary
-            # operation cannot be a universal type).
-            Entity.numeric_type_from_operands_equation(Self.type_var)
+        ) & And(
+            Self.left.matches_expected_formal_type,
+            Self.right.matches_expected_formal_type
         )
 
+    @langkit_property(dynamic_vars=[origin])
+    def universal_fixed_predefined_operators_equation():
+        """
+        When no subprogram is found for this node's operator, try to resolve
+        it as a universal_fixed predefined operator (:rmlink:`4.5.5` - 18).
+        """
+        return If(
+            Self.op.is_a(Op.alt_mult, Op.alt_div),
+            Bind(Self.type_var, Self.universal_fixed_type)
+            & Bind(Self.left.expected_type_var, Self.universal_fixed_type)
+            & Bind(Self.right.expected_type_var, Self.universal_fixed_type)
+            & Self.left.matches_expected_formal_type
+            & Self.right.matches_expected_formal_type,
+            LogicFalse()
+        )
+
+    @langkit_property(return_type=Equation)
+    def use_expected_type_or(eq=T.Equation):
+        """
+        Construct the xref equation that first attempts to resolve this binary
+        operation using the expected type given by the context only, and then
+        by using the additional equation given as argument (typically this
+        equation will try to infer the type from one of the operands).
+        """
+        return Predicate(AdaNode.is_not_null, Self.expected_type_var) | eq
+
     @langkit_property(return_type=Equation, dynamic_vars=[origin])
-    def numeric_type_from_operands_equation(dest_var=T.LogicVar):
+    def infer_from_left_operand(dest_var=T.LogicVar):
         """
         Construct the xref equation that must bind the given variable to the
         type of this binary operation's operands, assuming we are dealing with
-        numeric types and arithmetic operators.
+        numeric types and arithmetic operators with the following profile:
+        ``function "op" (X : T, Y : U) return T`` (we want to infer ``T``).
         """
-        left_ctx_free = Var(Self.left.has_context_free_type)
-        right_ctx_free = Var(Self.right.has_context_free_type)
-        return If(
-            # If both operands have a context free type, we can use an
-            # N-Propagate equation to assign `dest_var` because we know for
-            # sure that Self.left.type_var and Self.right.type_var will be
-            # given a value explicitly.
-            left_ctx_free & right_ctx_free,
-
-            Predicate(BaseTypeDecl.one_non_universal,
-                      Self.left.type_var, Self.right.type_var)
-            & NPropagate(dest_var,
-                         BaseTypeDecl.non_universal_base_subtype,
-                         Self.left.type_var, Self.right.type_var)
-            & Self.left.matches_expected_formal_type
-            & Self.right.matches_expected_formal_type,
-
-            Let(
-                lambda
-                infer_left=Predicate(BaseTypeDecl.is_not_universal_type,
-                                     Self.left.type_var)
-                & Bind(Self.left.type_var, dest_var,
-                       conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.left.matches_expected_formal_type
-                & Self.right.matches_expected_formal_type,
-
-                infer_right=Predicate(BaseTypeDecl.is_not_universal_type,
-                                      Self.right.type_var)
-                & Bind(Self.right.type_var, dest_var,
-                       conv_prop=BaseTypeDecl.derefed_base_subtype)
-                & Self.left.matches_expected_formal_type
-                & Self.right.matches_expected_formal_type:
-
-                If(left_ctx_free,
-                   infer_left | infer_right,
-                   infer_right | infer_left)
-            )
+        return And(
+            Predicate(BaseTypeDecl.is_not_universal_type,
+                      Self.left.type_var),
+            Bind(Self.left.type_var, dest_var,
+                 conv_prop=BaseTypeDecl.derefed_base_subtype),
         )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    def infer_from_right_operand(dest_var=T.LogicVar):
+        """
+        Construct the xref equation that must bind the given variable to the
+        type of this binary operation's operands, assuming we are dealing with
+        numeric types and arithmetic operators with the following profile:
+        ``function "op" (X : U, Y : T) return T`` (we want to infer ``T``).
+        """
+        return And(
+            Predicate(BaseTypeDecl.is_not_universal_type,
+                      Self.right.type_var),
+            Bind(Self.right.type_var, dest_var,
+                 conv_prop=BaseTypeDecl.derefed_base_subtype),
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    def infer_from_either_operands(dest_var=T.LogicVar):
+        """
+        Construct the xref equation that must bind the given variable to the
+        type of this binary operation's operands, assuming we are dealing with
+        numeric types and arithmetic operators with the following profile:
+        ``function "op" (X, Y : T) return T`` (we want to infer ``T``).
+        """
+        infer_left = Var(Entity.infer_from_left_operand(dest_var))
+        infer_right = Var(Entity.infer_from_right_operand(dest_var))
+        return infer_left | infer_right
 
     @langkit_property()
     def potential_actuals_for_dispatch(spec=T.BaseSubpSpec.entity):
@@ -13142,30 +13782,48 @@ class ConcatOp(Expr):
 
     @langkit_property()
     def xref_equation():
-        last_operand = Var(
-            Self.other_operands.at(Self.other_operands.length - 1))
+        operand_count = Var(Self.other_operands.length)
+        last_operand = Var(Self.other_operands.at(operand_count - 1))
         concat_subprograms = Var(
-            Entity.other_operands.at(0).operator.subprograms)
+            Entity.other_operands.at(0).operator.subprograms
+        )
 
         # Perform expression resolution from left to right
         return (
             Entity.first_operand.sub_equation
             & Entity.other_operands.logic_all(
-                lambda pos, concat_operand: Let(
-                    # left operand expression is first_operand to begin with,
-                    # then, left operands are the result of the previous
-                    # operator resolution.
-                    lambda left=If(
+                lambda concat_operand: concat_operand.operand.sub_equation
+            )
+            # Build the equations for the concatenations themselves.
+            # WARNING: for now, the equations should appear in the order
+            # below, that is: the equation constraining the leftmost
+            # operand should be first, and equations for successive operands
+            # should follow in the corresponding order, with the rightmost
+            # operand having its equation last. This allows optimal resolution
+            # (performance-wise) until eng/libadalang/langkit#725 is addressed.
+            & Entity.other_operands.logic_all(lambda index, _: Let(
+                lambda pos=operand_count - index - 1: Let(
+                    lambda
+                    left=If(
                         pos > 0,
                         Entity.other_operands.at(pos - 1),
                         Entity.first_operand
                     ),
-                    right=concat_operand.operand:
+                    concat_operand=Entity.other_operands.at(pos),
+                    right=Entity.other_operands.at(pos).operand: Or(
+                        # TODO: this is implementation is actually not correct
+                        # w.r.t. visibility (eng/libadalang/libadalang#1138).
 
-                    right.sub_equation &
-                    Or(
-                        # Find the subprogram corresponding to:
-                        # "&" (left, right).
+                        # First, try to resolve this operator using built-in
+                        # operators only.
+                        Entity.operator_no_subprogram_equation(
+                            left, concat_operand, right
+                        ),
+
+                        # If that didn't work, try to resolve it by considering
+                        # visible user-defined overloads of "&". NOTE: for
+                        # performance reasons it is better to first try the
+                        # built-in operators first.
                         concat_subprograms.logic_any(
                             lambda subp: Let(
                                 lambda spec=subp.subp_spec_or_null:
@@ -13179,16 +13837,10 @@ class ConcatOp(Expr):
                                          spec)
                                 )
                             )
-                        ),
-                        # When no subprogram is found for this concat operator,
-                        # use this equation to infer it's type depending on the
-                        # context.
-                        Entity.operator_no_subprogram_equation(left,
-                                                               concat_operand,
-                                                               right)
+                        )
                     )
                 )
-            )
+            ))
             # Just propagate last operand's type/expected_type to Self
             & Bind(Self.type_var, last_operand.type_var)
             & Bind(Self.expected_type_var, last_operand.expected_type_var)
@@ -13406,9 +14058,11 @@ class RelationOp(BinOp):
     no_overload_equation = Property(
         Bind(Self.type_var, Self.bool_type)
         & Bind(Self.left.expected_type_var, Self.right.expected_type_var)
-        & Entity.numeric_type_from_operands_equation(
+        & Entity.infer_from_either_operands(
             Self.left.expected_type_var
         )
+        & Self.left.matches_expected_formal_type
+        & Self.right.matches_expected_formal_type
     )
 
 
@@ -13448,7 +14102,7 @@ class MembershipExpr(Expr):
                     # type of the tested expression is the subtype's base type.
                     Bind(Self.expr.expected_type_var,
                          typ.base_subtype)
-                    & Self.expr.matches_expected_formal_type
+                    & Self.expr.matches_expected_membership_type
                 ),
 
                 # Regular membership check
@@ -13497,6 +14151,7 @@ class BaseAggregate(Expr):
             Self.in_aspect('Global') | Self.in_aspect('Refined_Global')
             | Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends')
             | Self.in_aspect('Test_Case') | Self.in_aspect('Refined_State')
+            | Self.in_aspect('Aggregate')
             # Careful: normal aggregates can appear inside a contract_cases
             # aspect's expression, so we must only special case the direct
             # aggregate of that aspect.
@@ -13727,6 +14382,83 @@ class Aggregate(BaseAggregate):
     Aggregate that is not a ``null record`` aggregate (:rmlink:`4.3`).
     """
 
+    @langkit_property()
+    def add_named_param_at(index=T.Int):
+        """
+        Return the ``Add_Named`` subprogram parameter specified by ``index``.
+        This aggregate must be a container aggregate aspect specification.
+        """
+        # `Add_Named`denotes exactly one procedure that has three parameters,
+        # the first an in out parameter of the container type, the second an in
+        # parameter of a nonlimited type (the key type of the container type),
+        # and the third, an in parameter of a nonlimited type that is called
+        # the element type of the container type (so index should be an Int
+        # between 0 and 2).
+        add_named = Var(
+            Entity.assocs.find(
+                lambda assoc: assoc.cast(T.AggregateAssoc).names.at(0)
+                .cast(T.Name).name_is('Add_Named')
+            )
+        )
+        add_named_params = Var(
+            add_named.then(
+                lambda an:
+                an.expr.cast(T.Name).referenced_decl.subp_spec_or_null.params
+            )
+        )
+
+        return add_named.then(
+            lambda _:
+            add_named_params.at(index).type_expression.designated_type_decl
+        )
+
+    @langkit_property()
+    def element_type():
+        """
+        Return the element type of that Aggregate. This aggregate must be a
+        container aggregate aspect specification.
+        """
+        # Position container case: `Add_Unnamed` should be specified. It
+        # denotes exactly one procedure that has two parameters, the first an
+        # in out parameter of the container type, and the second an in
+        # parameter of some nonlimited type, called the element type of the
+        # container type.
+        add_unnamed = Var(
+            Entity.assocs.find(
+                lambda assoc: assoc.cast(T.AggregateAssoc).names.at(0)
+                .cast(T.Name).name_is('Add_Unnamed')
+            )
+        )
+        unnamed_element_type = Var(
+            add_unnamed.then(
+                lambda au: au.expr.cast(T.Name).referenced_decl
+                .subp_spec_or_null.params.at(1).type_expression
+                .designated_type_decl
+            )
+        )
+
+        # Named container case: `Add_Named` should be specified
+        named_element_type = Var(Entity.add_named_param_at(2))
+
+        return If(
+            add_unnamed.is_null, named_element_type, unnamed_element_type
+        )
+
+    @langkit_property()
+    def key_type():
+        """
+        Return the key type of that Aggregate. This aggregate must be a
+        container aggregate aspect specification.
+        """
+        # Named container case: `Add_Named` should be specified
+        key_type = Var(Entity.add_named_param_at(1))
+
+        return key_type._or(
+            # If add_named is not specified, key_type is the universal integer
+            # type used for indexed aggregates.
+            Entity.universal_int_type
+        )
+
 
 class NullRecordAggregate(BaseAggregate):
     """
@@ -13885,7 +14617,7 @@ class Name(Expr):
         """
         return And(
             Not(Entity.is_defining),
-            Not(Entity.called_subp_spec.is_null)
+            Not(Entity.called_formal_subp_spec.is_null)
         )
 
     @langkit_property(public=True, return_type=T.Bool,
@@ -14271,7 +15003,19 @@ class Name(Expr):
     def called_subp_spec():
         """
         Return the subprogram specification of the subprogram or subprogram
-        access that is being called by this exact Name, if relevant.
+        access that is being called by this exact Name, if relevant. Note that
+        when inside an instantiated generic, this will return the spec of the
+        actual subprogram.
+        """
+        return Entity.called_formal_subp_spec._.corresponding_actual
+
+    @langkit_property(return_type=T.BaseFormalParamHolder.entity)
+    def called_formal_subp_spec():
+        """
+        Return the subprogram specification of the subprogram or subprogram
+        access that is being called by this exact Name, if relevant. Note that
+        when inside an instantiated generic, this will return the spec of the
+        formal subprogram.
         """
         return If(
             Self.defines_subp_spec_var,
@@ -14688,7 +15432,13 @@ class Name(Expr):
 
             # Handle out/inout param case
             lambda p=T.ParamAssoc: If(
-                p.parent.parent.cast(CallExpr)._.is_type_conversion,
+                env.bind(
+                    Self.node_env,
+                    origin.bind(
+                        Self.origin_node,
+                        p.parent.parent.cast(CallExpr)._.is_type_conversion,
+                    )
+                ),
                 p.parent.parent.cast(CallExpr).is_write_reference,
                 p.get_params.any(
                     lambda m:
@@ -14817,12 +15567,14 @@ class Name(Expr):
         Returns an array of pairs, associating formal parameters to actual or
         default expressions.
         """
-        is_call = Var(Entity.is_call)
+        formal_spec = Var(Entity.called_formal_subp_spec)
+        is_call = Var(Not(formal_spec.is_null))
         is_prefix_call = Var(If(
             is_call,
             Entity.is_dot_call | Entity.is_a(AttributeRef),
             False
         ))
+        offset = Var(If(is_prefix_call, 1, 0))
         call_prefix = Var(
             Entity.cast(CallExpr)._.name._or(Entity).match(
                 lambda dn=DottedName: dn.prefix,
@@ -14830,16 +15582,23 @@ class Name(Expr):
                 lambda _: No(Expr.entity)
             )
         )
+        # Get the actuals of this call expression if any
+        aparams = Var(Entity.cast(CallExpr)._.params)
+        # Get the formals of the called subprogams
+        fparams = Var(formal_spec._.abstract_formal_params)
+        # Get a flatten list of the parameters of the actual subprogram, so
+        # that we can easily find them by index when mapping from the
+        # parameter of the formal subprogram.
+        actual_formals = Var(
+            formal_spec._.corresponding_actual.unpacked_formal_params
+        )
         return If(
             is_call,
 
             Let(
-                lambda offset=If(is_prefix_call, 1, 0),
-                # Get the actuals of this call expression if any
-                aparams=Entity.cast(CallExpr)._.params,
                 # Create an array of pairs from the subprogram formals and
                 # default expressions.
-                dparams=Entity.called_subp_spec.abstract_formal_params.mapcat(
+                lambda dparams=fparams.mapcat(
                     lambda i, p: p.defining_names.map(
                         lambda n: ParamActual.new(
                             param=n,
@@ -14859,7 +15618,7 @@ class Name(Expr):
                 aparams.then(
                     lambda ap: dparams.map(
                         lambda i, dp: ParamActual.new(
-                            param=dp.param,
+                            param=actual_formals.at(i),
                             # Search if a named param expression exists for
                             # this formal param in the call assoc list.
                             actual=If(
@@ -15167,7 +15926,7 @@ class CallExpr(Name):
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def entity_equation(s=T.BasicDecl.entity, root=T.Name):
         # The called entity is the matched entity
-        return Bind(Self.name.ref_var, s) & Cond(
+        return Bind(Self.name.ref_var, s.corresponding_actual) & Cond(
 
             # If s does not have any parameters, then we construct the
             # chain of name equations starting from self, with the parent
@@ -15211,14 +15970,16 @@ class CallExpr(Name):
             LogicFalse()
         )
 
-    @langkit_property(return_type=Bool)
+    @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
     def is_type_conversion():
         """
         Return whether this CallExpr actually represents a type conversion.
         """
         return And(
             Not(Entity.name.is_a(QualExpr)),
-            Not(Entity.name.name_designated_type.is_null)
+            # Directly call designated_type_impl instead of
+            # name_designated_type to propagate Self's origin.
+            Not(Entity.name.designated_type_impl.is_null)
         )
 
     xref_stop_resolution = Property(
@@ -15404,15 +16165,16 @@ class CallExpr(Name):
                         # are designators.
                         pm.actual.name.is_null,
                         LogicTrue(),
-                        Bind(
-                            pm.actual.name.ref_var,
-                            Let(lambda n=pm.formal.formal_decl:
-                                Entity.entity_no_md(
-                                    n.node,
-                                    n.info.rebindings,
-                                    n.info.from_rebound
-                                ))
-                        )
+                        Bind(pm.actual.name.ref_var, Let(
+                            lambda
+                            n=subp_spec.corresponding_actual_param(
+                                pm.formal
+                            ).formal_decl: Entity.entity_no_md(
+                                n.node,
+                                n.info.rebindings,
+                                n.info.from_rebound
+                            )
+                        ))
                     ),
                     LogicFalse()
                 )
@@ -15566,12 +16328,43 @@ class AggregateAssoc(BasicAssoc):
             agg.in_aspect('Contract_Cases'),
             Entity.contract_cases_assoc_equation,
 
+            agg.is_a(T.BracketAggregate) & td._.has_aspect('Aggregate'),
+            Entity.container_aggregate_equation(td),
+
             agg.parent.is_a(AspectClause, AspectAssoc, PragmaArgumentAssoc),
             LogicTrue(),
 
             atd.is_null,
             Entity.record_assoc_equation,
             Entity.array_assoc_equation(atd, mra)
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def container_aggregate_equation(td=BaseTypeDecl.entity):
+        """
+        Equation for the case where this is an aggregate assoc for a
+        container type. This is an Ada 2022 feature (:rmlink:`4.3.5`).
+        """
+        aggregate_aspect = Var(
+            td.get_aspect('Aggregate').value.cast(T.Aggregate)
+        )
+        entity_name = Var(Entity.names._.at(0).cast(T.Name))
+        element_type = Var(aggregate_aspect.element_type)
+        key_type = Var(aggregate_aspect.key_type)
+
+        return And(
+            Bind(Entity.expr.expected_type_var, element_type),
+            Entity.expr.sub_equation,
+            Entity.expr.matches_expected_type,
+            If(
+                entity_name.is_null,
+                LogicTrue(),
+                And(
+                    Bind(entity_name.expected_type_var, key_type),
+                    entity_name.as_entity.sub_equation,
+                    entity_name.matches_expected_type
+                )
+            )
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -15609,16 +16402,28 @@ class AggregateAssoc(BasicAssoc):
             lambda n: n.is_a(OthersDesignator)
         ))
 
+        # Whether this is the `component_choice_list => <>` association (in
+        # that case the component_choice_list's components can not be of the
+        # same type).
+        is_box_expr = Var(Entity.expr.is_a(T.BoxExpr))
+
         return If(
             Not(is_others_assoc),
 
             matches.logic_all(lambda match: And(
-                Bind(
-                    match.actual.assoc.expr.expected_type_var,
-                    match.formal.formal_decl.type_expression.designated_type
+                # If expr is a box expr do not resolve it since it doesn't have
+                # a name nor type.
+                If(
+                    is_box_expr,
+                    LogicTrue(),
+                    Bind(
+                        match.actual.assoc.expr.expected_type_var,
+                        match.formal.formal_decl
+                        .type_expression.designated_type
+                    )
+                    & match.actual.assoc.expr.sub_equation
+                    & match.actual.assoc.expr.matches_expected_assign_type
                 ),
-                match.actual.assoc.expr.sub_equation,
-                match.actual.assoc.expr.matches_expected_assign_type,
                 match.actual.name.then(
                     lambda n: Bind(n.ref_var, match.formal.formal_decl),
                     LogicTrue()
@@ -15626,19 +16431,23 @@ class AggregateAssoc(BasicAssoc):
             )),
 
             # Since all the formals designated by "others" should have the same
-            # type, we look for the first formal that was not yet matched and
-            # use its type as the type of the expression associated to
-            # "others".
-            agg.first_unmatched_formal.then(
-                lambda unmatched_formal:
-                Bind(
-                    Entity.expr.expected_type_var,
-                    unmatched_formal.formal_decl
-                    .type_expression.designated_type
+            # type (iff expr is not a box expr), we look for the first formal
+            # that was not yet matched and use its type as the type of the
+            # expression associated to "others".
+            If(
+                is_box_expr,
+                LogicTrue(),
+                agg.first_unmatched_formal.then(
+                    lambda unmatched_formal:
+                    Bind(
+                        Entity.expr.expected_type_var,
+                        unmatched_formal.formal_decl
+                        .type_expression.designated_type
+                    )
+                    & Entity.expr.sub_equation
+                    & Entity.expr.matches_expected_type,
+                    default_val=LogicTrue()
                 )
-                & Entity.expr.sub_equation
-                & Entity.expr.matches_expected_type,
-                default_val=LogicTrue()
             )
         )
 
@@ -15779,6 +16588,7 @@ class IteratedAssoc(BasicAssoc):
     Iterated association (Ada 2020, :rmlink:`4.3.3`).
     """
     spec = Field(type=T.ForLoopSpec)
+    key_expr = Field(type=T.Expr)
     r_expr = Field(type=T.Expr)
 
     expr = Property(Entity.r_expr)
@@ -15807,6 +16617,25 @@ class IteratedAssoc(BasicAssoc):
 
         array_type_def = Var(type_decl._.array_def)
 
+        # The iterated assoc can also be in a container aggregate
+        container_aggregate = Var(
+            type_decl.get_aspect('Aggregate').value.cast(T.Aggregate)
+        )
+        # Get the "component" type of the array or container
+        comp_type = Var(
+            array_type_def.then(
+                lambda atd: atd.comp_type,
+                default_val=container_aggregate.element_type
+            )
+        )
+        # Get the index type of the array or container
+        index_type = Var(
+            array_type_def.then(
+                lambda atd: atd.index_type(root_agg.rank),
+                default_val=container_aggregate.key_type
+            )
+        )
+
         # NOTE: we need to resolve the spec first so that the indexing variable
         # has a type when resolving `r_expr`.
         # NOTE: if the form of the iterated_component_association is
@@ -15816,7 +16645,7 @@ class IteratedAssoc(BasicAssoc):
         spec_success = Var(Entity.spec.resolve_names_internal_with_eq(
             If(Self.spec.loop_type.is_a(IterType.alt_in),
                Bind(Entity.spec.iter_expr.cast(Expr).expected_type_var,
-                    array_type_def.index_type(root_agg.rank))
+                    index_type)
                & Entity.spec.iter_expr.cast(Expr).matches_expected_type,
                LogicTrue())
         ))
@@ -15831,8 +16660,15 @@ class IteratedAssoc(BasicAssoc):
 
                 # .. Then we want to match the component type
                 Entity.expr.sub_equation
-                & Bind(Entity.expr.expected_type_var, array_type_def.comp_type)
-                & Entity.expr.matches_expected_type,
+                & Bind(Entity.expr.expected_type_var, comp_type)
+                & Entity.expr.matches_expected_type
+                # .. As well as the key expression if it exists
+                & Entity.key_expr.then(
+                    lambda ke: ke.sub_equation
+                    & Bind(ke.expected_type_var, index_type)
+                    & ke.matches_expected_type,
+                    default_val=LogicTrue()
+                ),
 
                 # .. Else we're on an intermediate dimension of a
                 # multidimensional array: do nothing.
@@ -16175,7 +17011,7 @@ class IfExpr(CondExpr):
     def dependent_exprs():
         return Entity.then_expr.singleton.concat(
             Entity.alternatives.map(lambda a: a.then_expr)
-        ).concat(Entity.else_expr.singleton)
+        ).concat(Entity.else_expr._.singleton)
 
     @langkit_property()
     def xref_equation():
@@ -16224,19 +17060,33 @@ class IfExpr(CondExpr):
         if-expression is known. In that case, we can use it to infer the
         branches' types.
         """
-        return Bind(Self.type_var, Self.expected_type_var) & If(
+        return Bind(Self.type_var, Self.then_expr.expected_type_var) & If(
             Not(Self.else_expr.is_null),
 
-            Bind(Self.else_expr.expected_type_var, Self.expected_type_var)
-            & Bind(Self.then_expr.expected_type_var, Self.expected_type_var)
+            Bind(Self.type_var, Self.else_expr.expected_type_var)
+            & Bind(Self.expected_type_var, Self.else_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
+            & Bind(Self.expected_type_var, Self.then_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
             & Entity.else_expr.matches_expected_formal_type
             & Entity.then_expr.matches_expected_formal_type,
 
             LogicTrue()
         ) & Entity.alternatives.logic_all(
             lambda elsif:
-            Bind(elsif.then_expr.expected_type_var, Self.expected_type_var)
+            Bind(Self.type_var, elsif.then_expr.expected_type_var)
+            & Bind(Self.expected_type_var, elsif.then_expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
             & elsif.then_expr.matches_expected_formal_type
+        ) & Entity.dependent_exprs.filter(
+            lambda e: e.has_context_free_type
+        ).logic_all(
+            lambda e: Or(
+                Predicate(BaseTypeDecl.is_not_universal_type, e.type_var)
+                & Bind(e.type_var, e.expected_type_var,
+                       conv_prop=BaseTypeDecl.base_subtype),
+                LogicTrue()
+            )
         )
 
     @langkit_property(dynamic_vars=[env, origin])
@@ -16247,11 +17097,7 @@ class IfExpr(CondExpr):
         the type of the if expression by taking the common base subtype of the
         context-free types of all the sub-branches.
         """
-        return Self.then_expr.singleton.concat(
-            Self.alternatives.map(lambda a: a.then_expr)
-        ).concat(
-            Self.else_expr._.singleton
-        ).filter(
+        return Entity.dependent_exprs.filter(
             lambda e: e.has_context_free_type
         ).logic_all(
             lambda e:
@@ -16291,35 +17137,46 @@ class CaseExpr(CondExpr):
             Predicate(BaseTypeDecl.is_discrete_type, Self.expr.type_var)
         )))
 
-        return And(
-            Bind(Self.type_var, Self.expected_type_var),
-            Entity.cases.logic_all(
-                lambda alt:
+        return Entity.cases.logic_all(
+            lambda alt:
 
-                alt.choices.logic_all(lambda c: c.match(
-                    # Expression case
-                    lambda e=T.Expr: If(
-                        Not(e.cast(Name)._.name_designated_type.is_null),
+            alt.choices.logic_all(lambda c: c.match(
+                # Expression case
+                lambda e=T.Expr: If(
+                    Not(e.cast(Name)._.name_designated_type.is_null),
 
-                        e.cast(Name).xref_no_overloading,
+                    e.cast(Name).xref_no_overloading,
 
-                        Bind(e.expected_type_var, Self.expr.type_val)
-                        & e.sub_equation
-                        & e.matches_expected_type
-                    ),
+                    Bind(e.expected_type_var, Self.expr.type_val)
+                    & e.sub_equation
+                    & e.matches_expected_type
+                ),
 
-                    # SubtypeIndication case (``when Color range Red .. Blue``)
-                    lambda t=T.SubtypeIndication: t.xref_equation,
+                # SubtypeIndication case (``when Color range Red .. Blue``)
+                lambda t=T.SubtypeIndication: t.xref_equation,
 
-                    lambda _=T.OthersDesignator: LogicTrue(),
+                lambda _=T.OthersDesignator: LogicTrue(),
 
-                    lambda _: PropertyError(T.Equation, "Should not happen")
-                ))
+                lambda _: PropertyError(T.Equation, "Should not happen")
+            ))
 
-                # Equations for the dependent expressions
-                & Bind(Self.expected_type_var, alt.expr.expected_type_var)
-                & alt.expr.sub_equation
-                & alt.expr.matches_expected_type
+            # Equations for the dependent expressions
+            & Bind(Self.type_var, alt.expr.expected_type_var)
+            & Bind(Self.expected_type_var, alt.expr.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype)
+            & alt.expr.sub_equation
+            & alt.expr.matches_expected_type
+            & If(
+                alt.expr.has_context_free_type,
+                Or(
+                    Predicate(BaseTypeDecl.is_not_universal_type,
+                              alt.expr.type_var)
+                    & Bind(alt.expr.type_var, alt.expr.expected_type_var,
+                           conv_prop=BaseTypeDecl.base_subtype)
+                    & Bind(alt.expr.expected_type_var, Self.expected_type_var),
+                    LogicTrue()
+                ),
+                LogicTrue()
             )
         )
 
@@ -17199,7 +18056,7 @@ class BaseId(SingleTokNode):
             bd._.is_package,
             Entity.pkg_env(bd),
 
-            bd.defining_env
+            origin.bind(Self.origin_node, bd.defining_env)
         ))
 
     @langkit_property()
@@ -17337,78 +18194,36 @@ class BaseId(SingleTokNode):
     parent_scope = Property(env)
 
     @langkit_property()
-    def designated_type_impl_get_real_type(n=AdaNode.entity):
-        """
-        Helper property for ``designated_type_impl``. Returns the actual type
-        defined by the given node, if any.
-        """
-        return n.match(
-            lambda t=T.BaseTypeDecl.entity: t,
-            lambda tb=T.TaskBody.entity: tb.task_type,
-            lambda _: No(BaseTypeDecl.entity)
-        )
-
-    @langkit_property()
     def designated_type_impl():
-        # This is the view of the type where it is referenced
-        des_type_1 = Var(Self.env_get_first_visible(
+        return Self.env_get_first_visible(
             env,
-            from_node=Self,
-            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal),
+            from_node=Self.origin_node,
+            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal)
         ).then(
-            lambda env_el: Self.designated_type_impl_get_real_type(env_el)
-        ))
-
-        # This is the view of the type where it is used
-        des_type_2 = Var(Self.env_get_first_visible(
-            env,
-            from_node=origin,
-            lookup_type=If(Self.is_prefix, LK.recursive, LK.minimal),
+            lambda env_el: env_el.cast(BaseTypeDecl).then(
+                lambda t: If(
+                    origin.is_null,
+                    origin.bind(
+                        Self.origin_node,
+                        t.most_visible_forward_part_for_name(
+                            t.name_symbol,
+                            seq=False
+                        )
+                    ),
+                    t.most_visible_part
+                ),
+                default_val=env_el
+            )._.match(
+                lambda t=BaseTypeDecl: t,
+                lambda tb=TaskBody: tb.task_type,
+                lambda pb=ProtectedBody: pb.protected_type,
+                lambda tbs=TaskBodyStub:
+                tbs.body_part_for_decl.cast(TaskBody).task_type,
+                lambda pbs=ProtectedBodyStub:
+                pbs.body_part_for_decl.cast(ProtectedBody).protected_type,
+                lambda _: No(BaseTypeDecl.entity)
+            )
         ).then(
-            lambda env_el: Self.designated_type_impl_get_real_type(env_el)
-        ))
-
-        des_type = Var(Cond(
-            # In some cases des_type_1 can be null TODO: investigate
-            des_type_1.is_null, des_type_2,
-
-            # If same type, then it doesn't matter (return early from the view
-            # checking below).
-            des_type_1 == des_type_2, des_type_1,
-
-            # If des_type_1 is a less complete version of des_type_2, then pick
-            # des_type_2.
-            des_type_1.then(lambda d: d.is_view_of_type(des_type_2)),
-            des_type_2,
-
-            # In any other case use des_type_1
-            des_type_1
-        ))
-
-        # We might have a more complete view of the type at the origin point,
-        # so look for every entity named like the type, to see if any is a
-        # completer view of the type.
-        completer_view = Var(origin.then(lambda o: Self.env_get(
-            o.as_entity.children_env,
-            # Take symbol from des_type to have a more precise view of the
-            # type, default to Self's symbol otherwise.
-            #
-            # Despite the fact we actually retrieve des_type using Self's
-            # symbol, des_type's name doesn't necessarily match with Self when
-            # resolving a generic instantiation because it's actual can return
-            # a type with a different name that the formal.
-            des_type.then(lambda dt: dt.name_symbol, default_val=Self.symbol),
-            from_node=origin, categories=no_prims
-        )).filtermap(
-            lambda n: n.cast(BaseTypeDecl),
-            lambda n:
-            n.is_a(BaseTypeDecl)
-            & des_type.then(lambda d: d.is_view_of_type(n.cast(BaseTypeDecl)))
-        ).at(0))
-
-        # If completer_view is a more complete view of the type we're
-        # looking up, then return completer_view. Else return des_type.
-        return completer_view._or(des_type).then(
             lambda precise:
             # If we got a formal type declaration (i.e. a type declaration
             # of a generic formal parameter), always returns its default type
@@ -17478,7 +18293,7 @@ class BaseId(SingleTokNode):
                 # local variables.
                 If(
                     is_prefix,
-                    Entity.parents.find(
+                    Entity.semantic_parents.find(
                         lambda n: n.is_a(T.TaskBody, T.BaseSubpBody).then(
                             lambda _:
                             n.cast(T.BasicDecl).defining_name
@@ -17492,9 +18307,10 @@ class BaseId(SingleTokNode):
                 )
             ),
 
-            # This identifier is the name for a called subprogram or an array.
+            # This identifier is the name for a called subprogram, entry, or an
+            # array.
             # So only keep:
-            # * subprograms for which the actuals match
+            # * subprograms/entries for which the actuals match
             # * arrays for which the number of dimensions match
             # * any type that has a user defined indexing aspect.
 
@@ -17505,35 +18321,9 @@ class BaseId(SingleTokNode):
 
                     lambda b=BasicDecl:
                     b.subp_spec_or_null.then(
-                        lambda spec: Let(
-                            lambda real_pc=If(
-                                spec.cast(T.EntrySpec)._.family_type.is_null,
-                                pc, pc.parent.cast(T.CallExpr)
-                            ):
-                            # ``real_pc`` can be null if we are handling a
-                            # paramless entry decl that has an entry family,
-                            # in which case the subsequent checks are not
-                            # relevant.
-                            real_pc.is_null
+                        lambda spec:
+                        Entity.call_matches_spec(spec, pc, params, b),
 
-                            # Either the subprogram is matching the CallExpr's
-                            # parameters.
-                            | And(
-                                spec.is_matching_param_list(
-                                    params, b.info.md.dottable_subp
-                                ),
-                                real_pc.parent.cast(T.CallExpr).then(
-                                    lambda ce: ce.check_for_type(b.expr_type),
-                                    default_val=True
-                                )
-                            )
-
-                            # Or the entity is parameterless, and the returned
-                            # component (s) matches the callexpr (s).
-                            | And(real_pc.check_for_type(b.expr_type),
-                                  spec.paramless(b.info.md.dottable_subp)),
-
-                        ),
                         # In the case of ObjectDecls/CompDecls in general,
                         # verify that the callexpr is valid for the given
                         # type designator.
@@ -17548,6 +18338,56 @@ class BaseId(SingleTokNode):
                 default_val=items.filter(lambda e: Not(e.is_a(BaseTypeDecl)))
             )
         ))
+
+    @langkit_property(dynamic_vars=[env, origin], return_type=T.Bool)
+    def call_matches_spec(spec=T.BaseSubpSpec.entity, pc=T.CallExpr.entity,
+                          params=T.AssocList.entity, b=T.BasicDecl.entity):
+        """
+        Return whether the BasicDecl ``b`` should be kept during
+        ``env_elements_baseid`` items filtering. This piece of code has been
+        extracted from ``env_elements_baseid`` to improve code readability.
+        """
+        family_type = Var(spec.cast(T.EntrySpec)._.family_type)
+
+        # If b is a `EntryDecl` with a specified family type, then the real
+        # `CallExpr` is its parent, as in: `Task.Entry (Family) (Arg1, Arg2)`,
+        # where `Entry (Family) (Arg1, Arg2)` is the real `CallExpr`, not just
+        # `Entry (Family)`. Adjust `pc` and `params` accordingly:
+        real_pc = Var(If(
+            family_type.is_null,
+            pc, pc.parent.cast(T.CallExpr)
+        ))
+        real_params = Var(If(
+            family_type.is_null,
+            params, pc.parent.cast(T.CallExpr).then(
+                lambda ce:
+                ce.suffix.cast_or_raise(AssocList)
+            )
+        ))
+
+        return (
+            # ``real_pc`` can be null if we are handling a paramless entry decl
+            # that has an entry family, in which case the subsequent checks are
+            # not relevant.
+            real_pc.is_null
+
+            # Either the subprogram/entry is matching the CallExpr's parameters
+            | And(
+                spec.is_matching_param_list(
+                    real_params, b.info.md.dottable_subp
+                ),
+                real_pc.parent.cast(T.CallExpr).then(
+                    lambda ce:
+                    ce.check_for_type(b.expr_type),
+                    default_val=True
+                )
+            )
+
+            # Or the entity is parameterless, and the returned component (s)
+            # matches the callexpr (s).
+            | And(real_pc.check_for_type(b.expr_type),
+                  spec.paramless(b.info.md.dottable_subp))
+        )
 
     @langkit_property(return_type=Bool)
     def denotes_the_property_function(subp_spec=T.BaseSubpSpec.entity):
@@ -17599,7 +18439,7 @@ class BaseId(SingleTokNode):
 
         return env_els.logic_any(
             lambda e:
-            Bind(Self.ref_var, e)
+            Bind(Self.ref_var, e.cast(BasicDecl).corresponding_actual)
             & If(
                 # If this BaseId refers to an enclosing subprogram and is
                 # the prefix of a dotted name, then it is not a call.
@@ -17614,8 +18454,7 @@ class BaseId(SingleTokNode):
                 # and subp_spec_or_null would indeed return null in this case.
                 Bind(Self.ref_var, Self.type_var,
                      conv_prop=BasicDecl.expr_type)
-                & Bind(Self.ref_var, Self.subp_spec_var,
-                       conv_prop=BasicDecl.subp_spec_or_null)
+                & Bind(Self.subp_spec_var, e.cast(BasicDecl).subp_spec_or_null)
             )
         )
 
@@ -17677,11 +18516,16 @@ class Op(BaseId):
             lambda e: And(
                 e.cast_or_raise(T.BasicDecl).is_subprogram,
 
-                # Note: we do not use synthesized operators for BinOp/UnOp
-                # resolution for now as it introduces a significant performance
-                # regression.
-
-                # TODO: retry when new solver is available
+                # Note: here we explicitly filter out synthesized operators
+                # (which correspond to built-in operators), because using them
+                # for resolving arithmetic expressions would have a significant
+                # performance impact. Instead, we use specific equations
+                # tailored for the resolution of built-in operators. See
+                # `BinOp.no_overload_equation`.
+                # TODO: However these custom rules currently do not assign the
+                # `ref_var` of operator references designating which built-in
+                # operators have been called, which would be useful for users
+                # and make this more transparent.
                 Not(e.is_a(SyntheticSubpDecl))
             )
         ))
@@ -18050,7 +18894,12 @@ class BaseSubpSpec(BaseFormalParamHolder):
     Base class for subprogram specifications (:rmlink:`6.1`).
     """
 
-    name = AbstractProperty(type=T.DefiningName.entity)
+    name = AbstractProperty(
+        type=T.DefiningName.entity, public=True, doc="""
+        Syntax property. Return the name of the subprogram defined by this
+        specification.
+        """
+    )
     returns = AbstractProperty(
         type=T.TypeExpr.entity, public=True, doc="""
         Syntax property. Return the type expression node corresponding to the
@@ -18394,7 +19243,7 @@ class BaseSubpSpec(BaseFormalParamHolder):
         Returns whether the subprogram containing this spec is a subprogram
         callable via the dot notation.
         """
-        return origin.bind(Entity.name.origin_node, If(
+        return origin.bind(Self.origin_node, If(
             Entity.nb_max_params > 0,
             Entity.potential_dottable_type.then(lambda t: Cond(
                 t.is_a(ClasswideTypeDecl),
@@ -18528,6 +19377,8 @@ class SyntheticFormalParamDecl(BaseFormalParamDecl):
     is_mandatory = Property(True)
     type_expression = Property(Entity.param_type)
 
+    corresponding_actual = Property(Entity)
+
 
 @synthetic
 class SyntheticUnarySpec(BaseSubpSpec):
@@ -18540,6 +19391,8 @@ class SyntheticUnarySpec(BaseSubpSpec):
 
     name = Property(Self.synthesize_defining_name(Self.subp_symbol).as_entity)
     returns = Property(Entity.return_type_expr)
+
+    corresponding_actual = Property(Entity)
 
     @langkit_property()
     def abstract_formal_params():
@@ -18558,6 +19411,8 @@ class SyntheticBinarySpec(BaseSubpSpec):
 
     name = Property(Self.synthesize_defining_name(Self.subp_symbol).as_entity)
     returns = Property(Entity.return_type_expr)
+
+    corresponding_actual = Property(Entity)
 
     @langkit_property()
     def abstract_formal_params():
@@ -18822,7 +19677,7 @@ class ForLoopSpec(LoopSpec):
     loop_type = Field(type=IterType)
     has_reverse = Field(type=Reverse)
     iter_expr = Field(type=T.AdaNode)
-    iter_filter = Field(type=T.Expr)
+    iter_filter = Field(type=T.ForLoopIterFilter)
 
     @langkit_property(return_type=Bool)
     def is_iterated_assoc_spec():
@@ -18831,37 +19686,6 @@ class ForLoopSpec(LoopSpec):
         association.
         """
         return Self.parent.is_a(IteratedAssoc)
-
-    @langkit_property(memoized=True, call_memoizable=True,
-                      dynamic_vars=[env, origin])
-    def iter_type():
-        type_var = Var(Entity.iter_expr.cast_or_raise(Expr).type_var)
-
-        p = Var(Entity.iter_expr.resolve_names_internal_with_eq(
-            # Avoid resolving to a procedure
-            Predicate(AdaNode.is_not_null, type_var)
-
-            # If there is a type annotation, use it as the expected type for
-            # `iter_expr`.
-            & If(
-                Self.var_decl.id_type.is_null,
-                LogicTrue(),
-                Bind(Self.iter_expr.cast(Expr).expected_type_var,
-                     Entity.var_decl.id_type.designated_type)
-            )
-        ))
-
-        typ = Var(If(
-            p,
-            type_var.get_value.cast(T.BaseTypeDecl),
-            No(BaseTypeDecl.entity)
-        ))
-
-        return origin.bind(Self.origin_node, If(
-            typ.is_implicit_deref,
-            typ.accessed_type,
-            typ
-        ))
 
     @langkit_property(return_type=Equation)
     def xref_equation():
@@ -18895,65 +19719,70 @@ class ForLoopSpec(LoopSpec):
                 # attribute on a subtype indication, in which case the logic is
                 # the same as above, either it's an expression that yields an
                 # iterator.
-                lambda t=T.Name: t.name_designated_type.then(
+                lambda t=T.Name: t.sub_equation & t.name_designated_type.then(
                     lambda typ:
-                    t.sub_equation
-                    & Bind(Self.var_decl.id.type_var, typ.canonical_type),
-                    default_val=Entity.iterator_xref_equation
+                    Bind(Self.var_decl.id.type_var, typ.canonical_type),
+                    default_val=And(
+                        # Make sure null is not a possible value to avoid a
+                        # null dereference in the subsequent predicate.
+                        Predicate(AdaNode.is_not_null, t.type_var),
+                        Predicate(BaseTypeDecl.is_iterator_type, t.type_var),
+                        Bind(t.type_var, Self.var_decl.id.type_var,
+                             conv_prop=BaseTypeDecl.cursor_type)
+                    )
                 ),
 
                 lambda _: LogicTrue()  # should never happen
             ),
 
             # This is a for .. of
-            lambda _=IterType.alt_of: Let(lambda it_typ=Entity.iter_type: If(
-                it_typ.is_iterable_type,
-
-                # Then we want the type of the induction variable to be the
-                # component type of the type of the expression.
-                Bind(Self.var_decl.id.type_var, it_typ.iterable_comp_type),
-
-                LogicFalse()
-            ))
-        ) & If(
-            Entity.iter_filter.is_null,
-            LogicTrue(),
-            Bind(Self.iter_filter.expected_type_var, Self.bool_type)
-            & Bind(Self.iter_filter.type_var, Self.bool_type)
-            & Entity.iter_filter.sub_equation
-        )
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def iterator_xref_equation():
-        iter_expr = Var(Entity.iter_expr.cast_or_raise(T.Expr))
-
-        p = Var(iter_expr.resolve_names_internal_with_eq(
-            Predicate(BaseTypeDecl.is_iterator_type,
-                      iter_expr.type_var)
-        ))
-
-        cursor_type = Var(
-            Let(
-                lambda tv=iter_expr.type_val:
-                # For containers and user defined iterator types, cursor type
-                # is defined by the `Cursor` type declaration.
-                tv.children_env.get_first('Cursor')
-                .cast_or_raise(T.BaseTypeDecl)
-                # Check out cursor type for types with `Iterable` aspect
-                ._or(tv.cast(TypeDecl).iterable_cursor_type)
+            lambda _=IterType.alt_of: Entity.iter_expr.cast(Expr).then(
+                lambda iter_expr:
+                Entity.var_decl.id_type.then(
+                    lambda typ:
+                    Bind(iter_expr.expected_type_var, typ.designated_type),
+                    default_val=LogicTrue()
+                )
+                & iter_expr.sub_equation
+                & Predicate(AdaNode.is_not_null, iter_expr.type_var)
+                & Bind(iter_expr.type_var, Self.var_decl.id.type_var,
+                       conv_prop=BaseTypeDecl.iterable_comp_type_or_null),
+                default_val=LogicFalse()
             )
-        )
-
-        return If(
-            p,
-            Bind(Self.var_decl.id.type_var, cursor_type),
-            LogicFalse()
         )
 
     # This spec is not a complete resolution context when part of an iterated
     # component association: we must know the type of the enclosing aggregate
     # to determine the type of the iteration variable in case of a `for I in`.
     xref_entry_point = Property(Not(Self.is_iterated_assoc_spec))
+
+
+class ForLoopIterFilter(AdaNode):
+    """
+    Represent the ``when ...`` filter after a for loop specification. This
+    class has no RM existence, it is used internally to wrap the filtering
+    expression, so as to have a dedicated name resolution entry point for it
+    and make sure it is resolved separatly from the ``ForLoopSpec`` itself
+    (which it cannot influence anyway).
+    """
+    expr = Field(type=T.Expr)
+
+    @langkit_property(return_type=Equation)
+    def xref_equation():
+        ignore(Var(Entity.parent.cast(ForLoopSpec).then(
+            lambda spec: If(
+                spec.is_iterated_assoc_spec,
+                spec.resolve_names_from_closest_entry_point,
+                True
+            )
+        )))
+        return And(
+            Bind(Self.expr.expected_type_var, Self.bool_type),
+            Entity.expr.sub_equation,
+            Entity.expr.matches_expected_formal_prim_type
+        )
+
+    xref_entry_point = Property(True)
 
 
 class QuantifiedExpr(Expr):
@@ -19049,7 +19878,21 @@ class QualExpr(Name):
             & Bind(Self.prefix.ref_var, typ)
             & Bind(Self.suffix.expected_type_var, typ)
             & Entity.suffix.matches_expected_type
-            & Bind(Self.type_var, typ)
+            & Bind(
+                Self.type_var,
+                If(
+                    # A qualified expression that appears as a statement
+                    # denotes a machine code insertion, in GNAT, it is parsed
+                    # as a parameterless procedure call. In that case,
+                    # Self.type_var shouldn't denote any type. Note that we are
+                    # more flexible than Ada since we allow any type to be code
+                    # statements whereas Ada restricts that to types defined in
+                    # package `System.Machine_Code` (see :rmlink:`13.8`).
+                    Entity.parent.is_a(T.CallStmt),
+                    No(AdaNode.entity),
+                    typ
+                )
+            )
         )
 
     # TODO: once we manage to turn prefix into a subtype indication, remove
@@ -19091,7 +19934,7 @@ class AttributeRef(Name):
         Entity.prefix.designated_type_impl._.classwide_type,
 
         Self.attribute.sym == 'Base',
-        Entity.prefix.name_designated_type.scalar_base_subtype,
+        Entity.prefix.designated_type_impl.scalar_base_subtype,
 
         No(BaseTypeDecl.entity)
     ))
@@ -19120,7 +19963,7 @@ class AttributeRef(Name):
     @langkit_property()
     def designated_env():
         return Cond(
-            Entity.is_access_attr,
+            Entity.is_access_attr | Entity.attribute.name_is('Old'),
             Entity.prefix.designated_env,
 
             Entity.attribute.name_is('Result'),
@@ -19131,107 +19974,14 @@ class AttributeRef(Name):
             EmptyEnv
         )
 
-    @langkit_property(return_type=BasicSubpDecl.entity)
-    def synthesize_attribute_subprogram(typ=BaseTypeDecl.entity):
-        rel_name = Var(Entity.attribute.name_symbol)
-        repo = Var(typ._.attributes_repo)
-        subp = Var(Cond(
-            rel_name == "succ", repo.succ,
-            rel_name == "pred", repo.pred,
-            rel_name == "min", repo.min,
-            rel_name == "max", repo.max,
-
-            rel_name == "rounding", repo.rounding,
-            rel_name == "unbiased_rounding", repo.unbiased_rounding,
-            rel_name == "ceiling", repo.ceiling,
-            rel_name == "floor", repo.floor,
-            rel_name == "truncation", repo.truncation,
-            rel_name == "machine", repo.machine,
-            rel_name == "machine_rounding", repo.machine_rounding,
-            rel_name == "fraction", repo.fraction,
-            rel_name == "exponent", repo.exponent,
-
-            rel_name == "copy_sign", repo.copy_sign,
-            rel_name == "remainder", repo.remainder,
-            rel_name == "adjacent", repo.adjacent,
-            rel_name == "scaling", repo.scaling,
-            rel_name == "compose", repo.compose,
-            rel_name == "leading_part", repo.leading_part,
-
-            rel_name == "mod", repo.mod,
-
-            rel_name == "image", repo.image,
-            rel_name == "wide_image", repo.wide_image,
-            rel_name == "wide_wide_image", repo.wide_wide_image,
-            rel_name == "put_image", repo.put_image,
-
-            rel_name == "value", repo.value,
-            rel_name == "wide_value", repo.wide_value,
-            rel_name == "wide_wide_value", repo.wide_wide_value,
-
-            rel_name == "fixed_value", repo.fixed_value,
-            rel_name == "integer_value", repo.integer_value,
-
-            rel_name == "pos", repo.pos,
-            rel_name == "val", repo.val_attr,
-            rel_name == "enum_rep", repo.enum_rep,
-            rel_name == "enum_val", repo.enum_val,
-
-            rel_name == "read", repo.read,
-            rel_name == "write", repo.write,
-            rel_name == "input", repo.input,
-            rel_name == "output", repo.output,
-
-            rel_name == "asm_input", repo.asm_input,
-            rel_name == "asm_output", repo.asm_output,
-
-            rel_name == 'model', repo.model,
-
-            No(BasicSubpDecl)
-        ))
-        return BasicSubpDecl.entity.new(
-            node=subp,
-            info=T.entity_info.new(
-                rebindings=typ.info.rebindings,
-                md=No(Metadata),
-                from_rebound=typ.info.from_rebound
-            )
-        )
-
-    @langkit_property(return_type=BasicDecl.entity)
-    def attribute_subprogram_for_type(typ=T.BaseTypeDecl.entity):
-        """
-        Return the subprogram declaration referred by this attribute name
-        and defined on the given type.
-        """
-        rel_name = Var(Entity.attribute.name_symbol)
-        return Cond(
-            typ.is_null,
-            No(BasicDecl.entity),
-
-            rel_name.any_of("read", "write", "input", "output"),
-            typ.get_representation_clause(Entity.attribute.name_symbol).then(
-                lambda x: x.expr.cast_or_raise(T.Name).referenced_decl,
-                default_val=Entity.synthesize_attribute_subprogram(typ)
-            ),
-
-            rel_name == "put_image",
-            typ._.get_aspect("put_image").value.cast(Name).then(
-                lambda n: n.referenced_decl,
-                default_val=Entity.synthesize_attribute_subprogram(typ)
-            ),
-
-            Entity.synthesize_attribute_subprogram(typ)
-        )
-
     @langkit_property(return_type=BasicDecl.entity)
     def attribute_subprogram():
         """
         Return the subprogram declaration referred by this attribute name,
         assuming its prefix denotes a type.
         """
-        return Entity.attribute_subprogram_for_type(
-            Entity.prefix.name_designated_type
+        return Entity.prefix.name_designated_type._.attribute_subprogram(
+            Entity.attribute.name_symbol
         )
 
     @langkit_property()
@@ -19252,7 +20002,8 @@ class AttributeRef(Name):
                             'Fixed_Value', 'Integer_Value',
                             'Pos', 'Val', 'Enum_Val',
                             'Write', 'Read', 'Output', 'Input', 'Put_Image',
-                            'Asm_Input', 'Asm_Output', 'Model'),
+                            'Asm_Input', 'Asm_Output', 'Model',
+                            'Round'),
             Entity.attribute_subprogram_equation,
 
             rel_name.any_of('Size', 'VADS_Size'), Entity.size_equation,
@@ -19355,7 +20106,13 @@ class AttributeRef(Name):
 
             # Entry attributes (RM 9.9)
             rel_name == 'Count',
-            Entity.prefix.xref_no_overloading
+            Entity.prefix.match(
+                # If prefix is a CallExpr, use sub_equation to resolve the
+                # entry reference as it specifies a family member.
+                lambda ce=T.CallExpr: ce.sub_equation,
+                # On the other cases, prefix is a simple identifier
+                lambda o: o.xref_no_overloading
+            )
             & Self.universal_int_bind(Self.type_var),
 
             rel_name == 'Caller',
@@ -19444,20 +20201,26 @@ class AttributeRef(Name):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def result_attr_equation():
-        # We find the containing subprogram starting the bound env's node
-        # instead of Self, as this attribute can appear in a pragma Post
-        # appearing *after* the subprogram.
-        containing_subp = Var(env.env_node.parents.find(
+        # We find the containing declaration (a function declaration or an
+        # access-to-function type) starting the bound env's node instead of
+        # Self, as this attribute can appear in a pragma Post appearing
+        # *after* the declaration.
+        containing_decl = Var(env.env_node.parents.find(
             lambda p: p.is_a(BasicSubpDecl, BaseSubpBody)
+            | p.cast(ConcreteTypeDecl)._.type_def.is_a(AccessToSubpDef)
         ).as_entity.cast(T.BasicDecl))
 
-        returns = Var(containing_subp.subp_spec_or_null.then(
+        returns = Var(containing_decl.match(
+            lambda sd=T.ConcreteTypeDecl:
+            sd.type_def.cast(AccessToSubpDef).subp_spec,
+            lambda bd=T.BasicDecl: bd.subp_spec_or_null,
+        ).then(
             lambda ss: ss.return_type
         ))
 
         return And(
             Bind(Self.type_var, returns),
-            Bind(Entity.prefix.ref_var, containing_subp)
+            Bind(Entity.prefix.ref_var, containing_decl)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -19610,12 +20373,22 @@ class AttributeRef(Name):
                     Entity.prefix.matches_expected_formal_type
                 ),
 
-                # If the expected type is not known, synthesize an anonymous
-                # access type for this expression.
-                Bind(Self.expected_type_var, No(BaseTypeDecl.entity))
-                & Bind(Self.prefix.type_var,
-                       Self.type_var,
-                       conv_prop=BaseTypeDecl.anonymous_access_type_or_null)
+                # If this `X'Access` is the prefix of a DottedName, we may be
+                # resolving an implicit dereference. In that case, our expected
+                # type is also the expected type of the prefix `X`, and we
+                # should synthesize an anonymous access type for the actual
+                # type of `X'Access`.
+                If(
+                    Self.parent.is_a(DottedName) & Self.is_prefix,
+                    Bind(Self.prefix.expected_type_var, Self.expected_type_var)
+                    & Entity.prefix.matches_expected_formal_type
+                    & Bind(
+                        Self.prefix.type_var,
+                        Self.type_var,
+                        conv_prop=BaseTypeDecl.anonymous_access_type_or_null
+                    ),
+                    LogicFalse()
+                )
             )
         )
 
@@ -19743,13 +20516,13 @@ class AttributeRef(Name):
         )
 
     @langkit_property()
-    def called_subp_spec():
+    def called_formal_subp_spec():
         rel_name = Var(Entity.attribute.name_symbol)
         return If(
             rel_name.any_of('Image', 'Wide_Image', 'Wide_Wide_Image'),
             Entity.prefix.expression_type.then(
                 lambda typ:
-                Entity.attribute_subprogram_for_type(typ).subp_spec_or_null,
+                typ.attribute_subprogram(rel_name).subp_spec_or_null,
             ),
             No(BaseFormalParamHolder.entity)
         )
@@ -20542,6 +21315,27 @@ class CompilationUnit(AdaNode):
         """
         pass
 
+    @langkit_property(return_type=T.Bool)
+    def has_private_view(origin=T.AdaNode):
+        """
+        Return whether the given ``origin`` node has view on "private withs" of
+        its unit or parent units.
+        """
+        decl = Var(Self.decl)
+        return Or(
+            # A private package necessarily has private-with visibility
+            Self.body.cast(LibraryItem)._.has_private.as_bool,
+
+            # If this compilation doesn't declare a package, then we
+            # necessarily have private-with visibility because it means we are
+            # inside a body.
+            Not(decl.is_a(BasePackageDecl, GenericPackageDecl)),
+
+            # Otherwise (this compilation unit declares a package), check
+            # whether `origin` lies in a private part.
+            origin.has_private_part_parent(decl.children_env.env_node),
+        )
+
 
 @abstract
 class BaseSubpBody(Body):
@@ -20846,10 +21640,16 @@ class SubpRenamingDecl(BaseSubpBody):
             # resolution to synthesize its corresponding function.
             Entity.renames.renamed_object.sub_equation,
 
-            Entity.renames.renamed_object.xref_no_overloading(all_els=True)
-            & Predicate(BasicDecl.subp_decl_match_signature,
-                        Entity.renames.renamed_object.ref_var,
-                        Entity.cast(T.BasicDecl))
+            Entity.renames.renamed_object.match(
+                # If renamed_object is a CallExpr, this is likely the renaming
+                # of an entry decl with a family member specified, so use
+                # sub_equation.
+                lambda ce=T.CallExpr: ce.sub_equation,
+                # On the other cases, prefix is a simple identifier
+                lambda o: o.xref_no_overloading(all_els=True)
+            ) & Predicate(BasicDecl.subp_decl_match_signature,
+                          Entity.renames.renamed_object.ref_var,
+                          Entity.cast(T.BasicDecl))
         ),
         # Operators might be built-in, so if we cannot find a reference, we'll
         # just abandon resolution...
@@ -21163,7 +21963,19 @@ class RequeueStmt(SimpleStmt):
         return And(
             # We call xref_no_overloading to make sure that sub-names are
             # bound.
-            name.xref_no_overloading,
+            name.match(
+                # If name is a DottedName, prefix can be a CallExpr that should
+                # be resolved using sub_equation.
+                lambda dn=T.DottedName:
+                If(dn.prefix.is_a(CallExpr),
+                   dn.prefix.sub_equation,
+                   dn.prefix.xref_no_overloading)
+                & env.bind(
+                    dn.prefix.designated_env,
+                    dn.suffix.xref_no_overloading
+                ),
+                lambda o: o.xref_no_overloading
+            ),
 
             # Then, bind the name to any entry that fits the bills
             entries.logic_any(lambda e: Let(
@@ -21354,6 +22166,17 @@ class NamedStmt(CompositeStmt):
     )
 
     xref_equation = Property(LogicTrue())
+
+
+class SimpleDeclStmt(SimpleStmt):
+    """
+    Statement wrapping a simple object declaration.
+    """
+    decl = Field(type=T.ObjectDecl)
+
+    @langkit_property()
+    def xref_equation():
+        return LogicTrue()
 
 
 @abstract
@@ -21575,7 +22398,13 @@ class AcceptStmt(CompositeStmt):
         return And(
             Bind(Self.body_decl.name.ref_var, Entity.designated_entry),
             Entity.entry_index_expr.then(
-                lambda e: e.sub_equation,
+                lambda e:
+                # :rmlink:`9.5.2`: The expected type for entry_index_expr is
+                # that of the type defined by the definition of the
+                # corresponding entry declaration.
+                Bind(e.expected_type_var,
+                     Entity.designated_entry.family_type)
+                & e.sub_equation,
                 default_val=LogicTrue()
             )
         )
@@ -21883,6 +22712,16 @@ class ProtectedBody(Body):
 
     declarative_parts = Property(Entity.decls.singleton)
 
+    @langkit_property(return_type=T.ProtectedTypeDecl.entity)
+    def protected_type():
+        return Entity.decl_part.match(
+            lambda t=T.ProtectedTypeDecl: t,
+            lambda _=T.SingleProtectedDecl: No(ProtectedTypeDecl.entity),
+            lambda _: PropertyError(
+                T.ProtectedTypeDecl.entity, "Should not happen"
+            )
+        )
+
 
 class EntryBody(Body):
     """
@@ -21995,6 +22834,27 @@ class Subunit(AdaNode):
         Return the body in which this subunit is rooted.
         """
         return Self.root_unit.decl.as_bare_entity
+
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def bodies_root():
+        """
+        Return all the bodies this subunit is rooted in, so that for:
+
+        .. code::ada
+
+            separate (P1.P2.P3)
+            procedure P4 is ...
+
+        ``bodies_root`` will return ``[P3, P2, P1]``, an array containing all
+        the nested subunits (``P2``, ``P3``), as well as the body root ``P1``,
+        in which ``P4`` has been recursively rooted in.
+        """
+        br = Var(Self.root_unit.decl.as_bare_entity)
+
+        return br.parent.cast(T.Subunit).then(
+            lambda su: br.singleton.concat(su.bodies_root),
+            default_val=br.singleton
+        )
 
     @langkit_property(
         return_type=T.BodyStub,
@@ -22178,12 +23038,20 @@ class RangeSpec(AdaNode):
     range = Field(type=Expr)
 
     xref_stop_resolution = Property(Self.parent.is_a(ComponentClause))
-    xref_equation = Property(Entity.range.xref_equation & If(
+    xref_equation = Property(Entity.range.xref_equation & Cond(
         # Ada RM says that for component clauses and signed int type
         # definitions, the expected type is any integer type.
         Self.parent.is_a(ComponentClause, SignedIntTypeDef),
 
         Self.universal_int_bind(Self.range.expected_type_var)
+        & Entity.range.matches_expected_type,
+
+        # In the following cases, expressions from the range specification are
+        # expected to be of any real type, the types need not be the same.
+        Self.parent.is_a(DeltaConstraint, DigitsConstraint,
+                         OrdinaryFixedPointDef, DecimalFixedPointDef),
+
+        Self.universal_real_bind(Self.range.expected_type_var)
         & Entity.range.matches_expected_type,
 
         LogicTrue()
@@ -22205,10 +23073,13 @@ class IncompleteTypeDecl(BaseTypeDecl):
         Since Self is an IncompleteTypeDecl, the next part will necessarily be
         the first type declaration of the same name that is not Self.
         """
-        return decl_part.decls.find(
+        return decl_part.children_env.get(
+            Self.name_symbol,
+            lookup=LK.minimal,
+            categories=no_prims
+        ).find(
             lambda t: t.cast(BaseTypeDecl).then(
-                lambda btd:
-                btd.name.name_is(Self.name_symbol) & (btd != Entity)
+                lambda btd: btd != Entity
             )
         ).cast(BaseTypeDecl)
 

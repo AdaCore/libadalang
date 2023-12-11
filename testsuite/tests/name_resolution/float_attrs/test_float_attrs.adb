@@ -73,6 +73,9 @@ procedure Test_Float_Attrs is
 
    Y : Float := Float'Safe_Last;
    pragma Test_Statement;
+
+   Z : Float := Float'Round (1.23);
+   pragma Test_Statement;
 begin
    null;
 end Test_Float_Attrs;

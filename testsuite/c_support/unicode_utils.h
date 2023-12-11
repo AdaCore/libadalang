@@ -34,7 +34,7 @@ static const char *src_buffer_utf_8 = (
 
 static ada_text
 get_string_literal(ada_analysis_unit unit) {
-    ada_base_entity node;
+    ada_node node;
     ada_token tok;
 
     ada_unit_root(unit, &node);

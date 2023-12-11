@@ -1,0 +1,17 @@
+type: bugfix
+title: Fix nameres of conditional expressions
+description: |
+  This change addresses an issue where name resolution was previously unable
+  to resolve the type of an expression involving a conditional expression (such
+  as an if-expression or case-expression), when the expected type of the
+  conditional expression could not be deduced from the context but had to be
+  inferred from one of the branches of the conditional, as in:
+
+  .. code::ada
+
+     C : constant Natural := 3;
+     B : constant Boolean := 1 <= (if True then C else 2);
+
+  Libadalang is now able to propagate the type of ``C`` appearing in the
+  then-branch in order to know which comparison operator is being referred to.
+date: 2023-09-20

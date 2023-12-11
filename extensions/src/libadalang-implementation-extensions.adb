@@ -11,9 +11,11 @@ with GNATCOLL.GMP.Integers;
 
 with Langkit_Support.Adalog.Debug;
 with Langkit_Support.Bump_Ptr;
+with Langkit_Support.Symbols;
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
+with Libadalang.Common;
 with Libadalang.Config_Pragmas_Impl;
 with Libadalang.Doc_Utils;
 with Libadalang.Env_Hooks;
@@ -155,6 +157,32 @@ package body Libadalang.Implementation.Extensions is
          Reparse     => False,
          Rule        => Default_Grammar_Rule);
    end Ada_Node_P_Standard_Unit;
+
+   ---------------------------
+   -- Ada_Node_P_Is_Keyword --
+   ---------------------------
+
+   function Ada_Node_P_Is_Keyword
+     (Node             : Bare_Ada_Node;
+      Token            : Token_Reference;
+      Language_Version : Symbol_Type) return Boolean
+   is
+      pragma Unreferenced (Node);
+
+      Version_Text : constant String :=
+        Langkit_Support.Symbols.Image (Language_Version);
+
+      Version : Common.Language_Version;
+   begin
+      begin
+         Version := Common.Language_Version'Value (Version_Text);
+      exception
+         when Constraint_Error =>
+            raise Precondition_Failure
+              with "Unknown Ada version " & Version_Text;
+      end;
+      return Is_Keyword (Token, Version);
+   end Ada_Node_P_Is_Keyword;
 
    --------------------------------------
    -- Ada_Node_P_Filter_Is_Imported_By --

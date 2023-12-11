@@ -8,24 +8,24 @@ Expr: <BinOp test.adb:2:29-2:55>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <UnOp test.adb:2:29-2:40>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <OpMinus "-" test.adb:2:29-2:30>
-  references:    <SyntheticDefiningName ""-"" __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""-"" __standard:120:24-120:37>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:2:31-2:40>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <BinOp test.adb:2:32-2:39>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <Int test.adb:2:32-2:33>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <OpPow "**" test.adb:2:34-2:36>
-  references:    <SyntheticDefiningName ""**"" __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""**"" __standard:120:24-120:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:2:37-2:39>
@@ -37,17 +37,17 @@ Expr: <OpDoubleDot ".." test.adb:2:41-2:43>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:2:44-2:55>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
   expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
 Expr: <BinOp test.adb:2:44-2:51>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <Int test.adb:2:44-2:45>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 Expr: <OpPow "**" test.adb:2:46-2:48>
-  references:    <SyntheticDefiningName ""**"" __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""**"" __standard:120:24-120:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:2:49-2:51>
@@ -55,13 +55,13 @@ Expr: <Int test.adb:2:49-2:51>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <OpMinus "-" test.adb:2:52-2:53>
-  references:    <SyntheticDefiningName ""-"" __standard:119:24-119:37>
+  references:    <SyntheticDefiningName ""-"" __standard:120:24-120:37>
   type:          None
   expected type: None
 Expr: <Int test.adb:2:54-2:55>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:119:3-119:38>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 
 
 Done.

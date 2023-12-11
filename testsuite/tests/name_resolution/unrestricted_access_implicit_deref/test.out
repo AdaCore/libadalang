@@ -11,11 +11,11 @@ Expr: <DottedName test.adb:8:4-8:27>
 Expr: <AttributeRef test.adb:8:4-8:25>
   references:    None
   type:          <SynthAnonymousTypeDecl ["R"] test.adb:2:4-4:15>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["R"] test.adb:2:4-4:15>
 Expr: <Id "X" test.adb:8:4-8:5>
   references:    <DefiningName "X" test.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["R"] test.adb:2:4-4:15>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["R"] test.adb:2:4-4:15>
 Expr: <Id "Unrestricted_Access" test.adb:8:6-8:25>
   references:    None
   type:          None

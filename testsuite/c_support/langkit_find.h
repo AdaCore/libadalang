@@ -7,10 +7,9 @@
 #include "libadalang.h"
 
 static void
-find_node(ada_base_entity *root, ada_node_kind_enum kind,
-	  ada_base_entity *result_p)
+find_node(ada_node *root, ada_node_kind_enum kind, ada_node *result_p)
 {
-    ada_base_entity root_copy;
+    ada_node root_copy;
     unsigned i;
     unsigned count;
 
@@ -23,7 +22,7 @@ find_node(ada_base_entity *root, ada_node_kind_enum kind,
     }
 
     for (i = 0; i < count; ++i) {
-        ada_base_entity child;
+        ada_node child;
 
         if (!ada_node_child(&root_copy, i, &child))
             error("Error while getting a child");

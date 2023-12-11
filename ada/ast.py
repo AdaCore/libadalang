@@ -6357,9 +6357,273 @@ class BaseTypeDecl(BasicDecl):
             )
         ).cast(T.EnumRepClause.entity)
 
+    @langkit_property()
+    def parent_primitives_env():
+        return Self.empty_env
+
+    @lazy_field(return_type=T.inner_env_assoc.array)
+    def direct_primitive_subps():
+        """
+        Return the list of all subprograms that are direct primitives of this
+        type. We look for them in the public part and private part of the
+        package this type is declared in.
+        """
+        scope = Var(Self.declarative_scope)
+        is_derived_tagged = Var(Self.as_bare_entity.cast(TypeDecl)
+                                ._.is_derived_tagged_type)
+        decl_parts = Var(scope._.parent.as_bare_entity._.match(
+            lambda pkg_decl=BasePackageDecl:
+            # Self is declared in a package scope, we should check all the
+            # declarative parts of it.
+            pkg_decl.public_part.decls.as_array.concat(
+                pkg_decl.private_part._.decls.as_array
+            ),
+            lambda _:
+            # Self is not declared in a package scope: the only way that there
+            # can be a primitive of Self here is if Self is a derived tagged
+            # type.
+            If(
+                is_derived_tagged,
+                Self.parent.parent.cast(DeclarativePart).then(
+                    lambda dp: dp.as_bare_entity.decls.as_array
+                ),
+                No(AdaNode.entity.array)
+            )
+        ))
+        enum_lits = Var(Self.cast(TypeDecl)._.type_def.cast(EnumTypeDef).then(
+            lambda etf: etf.enum_literals.map(
+                lambda lit: T.inner_env_assoc.new(
+                    key=lit.name.name_symbol,
+                    value=lit,
+                    metadata=T.Metadata.new(primitive=Self)
+                )
+            )
+        ))
+        prim_subps = Var(decl_parts.filter(
+            lambda decl: decl.cast(BasicDecl)._.subp_spec_or_null.then(
+                lambda spec: spec.candidate_primitive_subp_types.contains(
+                    Self.as_bare_entity
+                ) & If(
+                    # For candidate primitives not declared in a package decl,
+                    # we must further check if they are overriding a parent
+                    # primitive.
+                    # This check is not done in `candidate_type_for_primitive`
+                    # because it may cause infinite recursions if the parent
+                    # type is declared in the same scope as Self.
+                    Not(scope.parent.is_a(BasePackageDecl)),
+                    origin.bind(
+                        spec.origin_node,
+                        Self.as_bare_entity.parent_primitives_env.get(
+                            spec.name.name_symbol
+                        ).any(
+                            lambda x: x.cast(BasicDecl).subp_spec_or_null
+                            .match_signature(spec,
+                                             match_name=False,
+                                             use_entity_info=True)
+                        )
+                    ),
+                    True
+                )
+            )
+        ).mapcat(
+            lambda decl: Let(
+                lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
+                    key=bd.defining_name.name_symbol,
+                    value=bd.node,
+                    metadata=T.Metadata.new(primitive=Self)
+                ).singleton.concat(If(
+                    bd.defining_name.name_is('"="'),
+                    T.inner_env_assoc.new(
+                        key='"/="',
+                        value=bd.node,
+                        metadata=T.Metadata.new(primitive=Self)
+                    ).singleton,
+                    No(T.inner_env_assoc.array)
+                ))
+            )
+        ))
+
+        # Also add this types' predefined operators to the list of primitives
+        predefined_ops = Var(Self.cast(TypeDecl)._.predefined_operators.map(
+            lambda assoc: T.inner_env_assoc.new(
+                key=assoc.key,
+                value=assoc.value,
+                metadata=T.Metadata.new(primitive=Self)
+            )
+        ))
+
+        return enum_lits.concat(prim_subps).concat(predefined_ops)
+
+    @langkit_property(return_type=LexicalEnv)
+    def own_primitives_env(with_rebindings=T.EnvRebindings):
+        """
+        Return the environment containing the primitives for Self, rebound
+        using the given rebindings.
+        """
+        return Entity.direct_primitives_env.rebind_env(with_rebindings)
+
+    @langkit_property(return_type=LexicalEnv.array)
+    def own_primitives_envs(with_rebindings=T.EnvRebindings):
+        """
+        Return the environments containing the primitives for Self and its
+        previous parts, if there are some. All returned environments are
+        rebound using the given rebindings.
+        """
+        # If self has a previous part, it might have primitives too
+        return Entity.previous_part(False).cast(T.TypeDecl).then(
+            lambda pp: Array([
+                Entity.own_primitives_env(with_rebindings),
+                pp.own_primitives_env(with_rebindings)
+            ]),
+            default_val=Entity.own_primitives_env(with_rebindings).singleton
+        )
+
+    @langkit_property(return_type=LexicalEnv.array)
+    def primitives_envs(with_rebindings=T.EnvRebindings,
+                        stop_at=T.BaseTypeDecl.entity.array,
+                        include_self=(Bool, False)):
+        """
+        Return the environments containing the primitives for Self (if
+        ``include_self`` is True) and all its base types up to ``stop_at``:
+        upon rewinding the base type chain, if we stumble on one of the types
+        included in the ``stop_at`` set, we stop the recursion of that branch.
+        All returned environments are rebound using the given rebindings.
+        """
+        # TODO: Not clear if the below origin.bind is correct, investigate
+        # later.
+        return origin.bind(Self, Entity.base_types.mapcat(lambda t: t.match(
+            lambda td=T.TypeDecl: td,
+            lambda ttd=T.TaskTypeDecl: ttd,
+            lambda std=T.BaseSubtypeDecl: origin.bind(
+                std.node.origin_node, std.get_type.cast(T.TypeDecl)
+            ),
+            lambda _: No(T.TypeDecl.entity),
+        ).then(
+            lambda bt: If(
+                stop_at.contains(bt),
+                No(LexicalEnv.array),
+                bt.own_primitives_envs(with_rebindings)
+                .concat(bt.primitives_envs(with_rebindings, stop_at, False)))
+            )
+        ).concat(
+            If(include_self,
+               Entity.own_primitives_envs(with_rebindings),
+               No(LexicalEnv.array))
+        ))
+
+    @langkit_property(memoized=True)
+    def compute_primitives_env(
+        include_self=(Bool, True),
+        stop_at=(T.BaseTypeDecl.entity.array, No(T.BaseTypeDecl.entity.array))
+    ):
+        """
+        Return a environment containing all primitives accessible to Self,
+        with the adjusted ``primitive_real_type`` metadata field.
+        """
+        return Entity.primitives_envs(
+            with_rebindings=Entity.info.rebindings,
+            stop_at=stop_at,
+            include_self=include_self
+        ).env_group(
+            with_md=T.Metadata.new(primitive_real_type=Self)
+        )
+
+    @lazy_field(return_type=LexicalEnv)
+    def direct_primitives_env():
+        """
+        The environment that contains all subprograms that are direct
+        primitives of this type, that is, primitives that are not inherited.
+        """
+        return DynamicLexicalEnv(
+            assocs_getter=BaseTypeDecl.direct_primitive_subps,
+            transitive_parent=False
+        )
+
     @langkit_property(memoized=True)
     def primitives_env():
         return EmptyEnv
+
+    @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
+    def get_primitives(only_inherited=(Bool, False),
+                       include_predefined_operators=(Bool, False)):
+        """
+        Return the list of all primitive operations that are available on this
+        type. If ``only_inherited`` is True, it will only return the primitives
+        that are implicitly inherited by this type, discarding those explicitly
+        defined on this type. Predefined operators are included in the result
+        iff ``include_predefined_operators`` is True. It defaults to False.
+        """
+        prim_env = Var(If(
+            only_inherited,
+            Entity.parent_primitives_env,
+            Entity.primitives_env
+        ))
+
+        all_prims = Var(prim_env.get(symbol=No(T.Symbol)).map(
+            lambda t: t.cast(BasicDecl)
+        ))
+
+        bds = Var(If(
+            include_predefined_operators,
+            all_prims,
+            all_prims.filter(lambda p: Not(p.is_a(SyntheticSubpDecl)))
+        ))
+
+        # Make sure to return only one instance of each primitive: the most
+        # "overriding" one.
+        return bds.filter(lambda i, a: Let(
+            lambda
+            a_spec=a.subp_spec_or_null,
+            a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl):
+
+            bds.all(lambda j, b: Let(
+                lambda b_prim=b.info.md.primitive.cast(BaseTypeDecl):
+                Or(
+                    # Note that we don't want to use `match_name=True` in the
+                    # call to `match_signature` below because it also compares
+                    # the name of the parameters which we don't want to take
+                    # into account here. Therefore, we first compare the names
+                    # of the subprogram separately.
+                    Not(a.defining_name.node.matches(b.defining_name.node)),
+
+                    # If two primitives have the same signature...
+                    origin.bind(b.origin_node, Not(a_spec.match_signature(
+                        b.subp_spec_or_null,
+                        match_name=False, use_entity_info=True
+                    ))),
+
+                    Let(lambda b_prim_ent=b_prim.as_bare_entity: If(
+                        # Test if the type of the first primitive (a) derives
+                        # from the type of the second primitive (b)...
+                        a_prim.has_base_type(b_prim_ent.node),
+
+                        # Case a derives from b...
+
+                        # If b also derives from a, it means the types are
+                        # equal: both primitives are in fact the same
+                        # subprogram, but the first one is the declaration and
+                        # the second one is the body. In that case we decide to
+                        # keep the body.
+                        # Else if b does not derive from a, it means the
+                        # primitive on a overrides the primitive on b, so
+                        # return True.
+                        (i >= j) | Not(b_prim_ent.has_base_type(a_prim.node)),
+
+                        # Case a does *not* derive from b...
+
+                        # If b also does not derive from a, the two base types
+                        # are unrelated, it means that the primitives are
+                        # merged in a single one (remember their signature
+                        # match). We keep the one that is inherited first with
+                        # respect to the list of parents.
+                        # But if b derives from a, we return False as we don't
+                        # want to keep this primitive: we will keep the most
+                        # inherited one (defined on b) later instead.
+                        (i <= j) & Not(b_prim_ent.has_base_type(a_prim.node))
+                    ))
+                )
+            ))
+        ))
 
     @langkit_property(public=True, dynamic_vars=[default_origin()])
     def is_record_type():
@@ -7902,109 +8166,6 @@ class TypeDecl(BaseTypeDecl):
             No(T.BaseFormalParamDecl.entity.array)
         )
 
-    @lazy_field(return_type=LexicalEnv)
-    def direct_primitives_env():
-        """
-        The environment that contains all subprograms that are direct
-        primitives of this type, that is, primitives that are not inherited.
-        """
-        return DynamicLexicalEnv(
-            assocs_getter=TypeDecl.direct_primitive_subps,
-            transitive_parent=False
-        )
-
-    @lazy_field(return_type=T.inner_env_assoc.array)
-    def direct_primitive_subps():
-        """
-        Return the list of all subprograms that are direct primitives of this
-        type. We look for them in the public part and private part of the
-        package this type is declared in.
-        """
-        scope = Var(Self.declarative_scope)
-        is_derived_tagged = Var(Self.as_bare_entity.is_derived_tagged_type)
-        decl_parts = Var(scope._.parent.as_bare_entity._.match(
-            lambda pkg_decl=BasePackageDecl:
-            # Self is declared in a package scope, we should check all the
-            # declarative parts of it.
-            pkg_decl.public_part.decls.as_array.concat(
-                pkg_decl.private_part._.decls.as_array
-            ),
-            lambda _:
-            # Self is not declared in a package scope: the only way that there
-            # can be a primitive of Self here is if Self is a derived tagged
-            # type.
-            If(
-                is_derived_tagged,
-                Self.parent.parent.cast(DeclarativePart).then(
-                    lambda dp: dp.as_bare_entity.decls.as_array
-                ),
-                No(AdaNode.entity.array)
-            )
-        ))
-        enum_lits = Var(Self.type_def.cast(EnumTypeDef).then(
-            lambda etf: etf.enum_literals.map(
-                lambda lit: T.inner_env_assoc.new(
-                    key=lit.name.name_symbol,
-                    value=lit,
-                    metadata=T.Metadata.new(primitive=Self)
-                )
-            )
-        ))
-        prim_subps = Var(decl_parts.filter(
-            lambda decl: decl.cast(BasicDecl)._.subp_spec_or_null.then(
-                lambda spec: spec.candidate_primitive_subp_types.contains(
-                    Self.as_bare_entity
-                ) & If(
-                    # For candidate primitives not declared in a package decl,
-                    # we must further check if they are overriding a parent
-                    # primitive.
-                    # This check is not done in `candidate_type_for_primitive`
-                    # because it may cause infinite recursions if the parent
-                    # type is declared in the same scope as Self.
-                    Not(scope.parent.is_a(BasePackageDecl)),
-                    origin.bind(
-                        spec.origin_node,
-                        Self.as_bare_entity.parent_primitives_env.get(
-                            spec.name.name_symbol
-                        ).any(
-                            lambda x: x.cast(BasicDecl).subp_spec_or_null
-                            .match_signature(spec,
-                                             match_name=False,
-                                             use_entity_info=True)
-                        )
-                    ),
-                    True
-                )
-            )
-        ).mapcat(
-            lambda decl: Let(
-                lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
-                    key=bd.defining_name.name_symbol,
-                    value=bd.node,
-                    metadata=T.Metadata.new(primitive=Self)
-                ).singleton.concat(If(
-                    bd.defining_name.name_is('"="'),
-                    T.inner_env_assoc.new(
-                        key='"/="',
-                        value=bd.node,
-                        metadata=T.Metadata.new(primitive=Self)
-                    ).singleton,
-                    No(T.inner_env_assoc.array)
-                ))
-            )
-        ))
-
-        # Also add this types' predefined operators to the list of primitives
-        predefined_ops = Var(Self.predefined_operators.map(
-            lambda assoc: T.inner_env_assoc.new(
-                key=assoc.key,
-                value=assoc.value,
-                metadata=T.Metadata.new(primitive=Self)
-            )
-        ))
-
-        return enum_lits.concat(prim_subps).concat(predefined_ops)
-
     array_ndims = Property(Entity.type_def.array_ndims)
 
     is_real_type = Property(Entity.type_def.is_real_type)
@@ -8096,6 +8257,10 @@ class TypeDecl(BaseTypeDecl):
             self_env,
         )
 
+    @langkit_property(memoized=True)
+    def primitives_env():
+        return Entity.compute_primitives_env(include_self=True)
+
     @langkit_property(return_type=T.env_assoc.array, memoized=True)
     def predefined_operators():
         """
@@ -8166,79 +8331,6 @@ class TypeDecl(BaseTypeDecl):
 
     is_discrete_type = Property(Entity.type_def.is_discrete_type)
 
-    @langkit_property(return_type=LexicalEnv)
-    def own_primitives_env(with_rebindings=T.EnvRebindings):
-        """
-        Return the environment containing the primitives for Self, rebound
-        using the given rebindings.
-        """
-        return Entity.direct_primitives_env.rebind_env(with_rebindings)
-
-    @langkit_property(return_type=LexicalEnv.array)
-    def own_primitives_envs(with_rebindings=T.EnvRebindings):
-        """
-        Return the environments containing the primitives for Self and its
-        previous parts, if there are some. All returned environments are
-        rebound using the given rebindings.
-        """
-        # If self has a previous part, it might have primitives too
-        return Entity.previous_part(False).cast(T.TypeDecl).then(
-            lambda pp: Array([
-                Entity.own_primitives_env(with_rebindings),
-                pp.own_primitives_env(with_rebindings)
-            ]),
-            default_val=Entity.own_primitives_env(with_rebindings).singleton
-        )
-
-    @langkit_property(return_type=LexicalEnv.array)
-    def primitives_envs(with_rebindings=T.EnvRebindings,
-                        stop_at=BaseTypeDecl.entity.array,
-                        include_self=(Bool, False)):
-        """
-        Return the environments containing the primitives for Self (if
-        ``include_self`` is True) and all its base types up to ``stop_at``:
-        upon rewinding the base type chain, if we stumble on one of the types
-        included in the ``stop_at`` set, we stop the recursion of that branch.
-        All returned environments are rebound using the given rebindings.
-        """
-        # TODO: Not clear if the below origin.bind is correct, investigate
-        # later.
-        return origin.bind(Self, Entity.base_types.mapcat(lambda t: t.match(
-            lambda td=T.TypeDecl: td,
-            lambda std=T.BaseSubtypeDecl: origin.bind(
-                std.node.origin_node, std.get_type.cast(T.TypeDecl)
-            ),
-            lambda _: No(T.TypeDecl.entity),
-        ).then(
-            lambda bt: If(
-                stop_at.contains(bt),
-                No(LexicalEnv.array),
-                bt.own_primitives_envs(with_rebindings)
-                .concat(bt.primitives_envs(with_rebindings, stop_at, False)))
-            )
-        ).concat(
-            If(include_self,
-               Entity.own_primitives_envs(with_rebindings),
-               No(LexicalEnv.array))
-        ))
-
-    @langkit_property(memoized=True)
-    def compute_primitives_env(
-        include_self=(Bool, True),
-        stop_at=(BaseTypeDecl.entity.array, No(BaseTypeDecl.entity.array))
-    ):
-        """
-        Return a environment containing all primitives accessible to Self,
-        with the adjusted ``primitive_real_type`` metadata field.
-        """
-        return Entity.primitives_envs(
-            with_rebindings=Entity.info.rebindings,
-            stop_at=stop_at,
-            include_self=include_self
-        ).env_group(
-            with_md=T.Metadata.new(primitive_real_type=Self)
-        )
-
     @langkit_property()
     def parent_primitives_env():
         return If(
@@ -8273,92 +8365,6 @@ class TypeDecl(BaseTypeDecl):
             include_self=False,
             stop_at=Entity.previous_part._.base_types
         )
-
-    @langkit_property()
-    def primitives_env():
-        return Entity.compute_primitives_env(include_self=True)
-
-    @langkit_property(public=True, return_type=T.BasicDecl.entity.array)
-    def get_primitives(only_inherited=(Bool, False),
-                       include_predefined_operators=(Bool, False)):
-        """
-        Return the list of all primitive operations that are available on this
-        type. If ``only_inherited`` is True, it will only return the primitives
-        that are implicitly inherited by this type, discarding those explicitly
-        defined on this type. Predefined operators are included in the result
-        iff ``include_predefined_operators`` is True. It defaults to False.
-        """
-        prim_env = Var(If(
-            only_inherited,
-            Entity.parent_primitives_env,
-            Entity.primitives_env
-        ))
-
-        all_prims = Var(prim_env.get(symbol=No(T.Symbol)).map(
-            lambda t: t.cast(BasicDecl)
-        ))
-
-        bds = Var(If(
-            include_predefined_operators,
-            all_prims,
-            all_prims.filter(lambda p: Not(p.is_a(SyntheticSubpDecl)))
-        ))
-
-        # Make sure to return only one instance of each primitive: the most
-        # "overriding" one.
-        return bds.filter(lambda i, a: Let(
-            lambda
-            a_spec=a.subp_spec_or_null,
-            a_prim=a.info.md.primitive.as_bare_entity.cast(BaseTypeDecl):
-
-            bds.all(lambda j, b: Let(
-                lambda b_prim=b.info.md.primitive.cast(BaseTypeDecl):
-                Or(
-                    # Note that we don't want to use `match_name=True` in the
-                    # call to `match_signature` below because it also compares
-                    # the name of the parameters which we don't want to take
-                    # into account here. Therefore, we first compare the names
-                    # of the subprogram separately.
-                    Not(a.defining_name.node.matches(b.defining_name.node)),
-
-                    # If two primitives have the same signature...
-                    origin.bind(b.origin_node, Not(a_spec.match_signature(
-                        b.subp_spec_or_null,
-                        match_name=False, use_entity_info=True
-                    ))),
-
-                    Let(lambda b_prim_ent=b_prim.as_bare_entity: If(
-                        # Test if the type of the first primitive (a) derives
-                        # from the type of the second primitive (b)...
-                        a_prim.has_base_type(b_prim_ent.node),
-
-                        # Case a derives from b...
-
-                        # If b also derives from a, it means the types are
-                        # equal: both primitives are in fact the same
-                        # subprogram, but the first one is the declaration and
-                        # the second one is the body. In that case we decide to
-                        # keep the body.
-                        # Else if b does not derive from a, it means the
-                        # primitive on a overrides the primitive on b, so
-                        # return True.
-                        (i >= j) | Not(b_prim_ent.has_base_type(a_prim.node)),
-
-                        # Case a does *not* derive from b...
-
-                        # If b also does not derive from a, the two base types
-                        # are unrelated, it means that the primitives are
-                        # merged in a single one (remember their signature
-                        # match). We keep the one that is inherited first with
-                        # respect to the list of parents.
-                        # But if b derives from a, we return False as we don't
-                        # want to keep this primitive: we will keep the most
-                        # inherited one (defined on b) later instead.
-                        (i <= j) & Not(b_prim_ent.has_base_type(a_prim.node))
-                    ))
-                )
-            ))
-        ))
 
     get_imp_deref = Property(
         Entity.get_aspect_spec_expr('Implicit_Dereference')
@@ -9582,7 +9588,7 @@ class TaskTypeDecl(BaseTypeDecl):
     is_task_type = Property(True)
 
     base_interfaces = Property(
-        Entity.definition.interfaces.map(lambda i: i.name_designated_type)
+        Entity.definition._.interfaces.map(lambda i: i.name_designated_type)
     )
 
     @langkit_property(return_type=T.Symbol.array)
@@ -9597,6 +9603,10 @@ class TaskTypeDecl(BaseTypeDecl):
     )
 
     defining_env = Property(Entity.children_env)
+
+    @langkit_property(memoized=True)
+    def primitives_env():
+        return Entity.compute_primitives_env(include_self=True)
 
     @langkit_property()
     def discriminants_list(

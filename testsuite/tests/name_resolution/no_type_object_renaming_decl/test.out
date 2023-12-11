@@ -10,4 +10,59 @@ Expr: <Id "One" proc.adb:3:15-3:18>
   expected type: None
 
 
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <NoTypeObjectRenamingDecl ["Statee"] test.adb:23:7-23:39>
+**********************************************************************************
+
+Expr: <CallExpr test.adb:23:22-23:38>
+  references:    <DefiningName "State" test.adb:13:7-13:12>
+  type:          <ConcreteTypeDecl ["Task_State"] test.adb:5:4-8:15>
+  expected type: None
+Expr: <DottedName test.adb:23:22-23:32>
+  references:    <DefiningName "State" test.adb:13:7-13:12>
+  type:          <ConcreteTypeDecl ["State_Table"] test.adb:10:4-10:57>
+  expected type: None
+Expr: <Id "This" test.adb:23:22-23:26>
+  references:    <DefiningName "This" test.adb:21:22-21:26>
+  type:          <ConcreteTypeDecl ["CPU_Context"] test.adb:12:4-15:15>
+  expected type: <ConcreteTypeDecl ["CPU_Context"] test.adb:12:4-15:15>
+Expr: <Id "State" test.adb:23:27-23:32>
+  references:    <DefiningName "State" test.adb:13:7-13:12>
+  type:          <ConcreteTypeDecl ["State_Table"] test.adb:10:4-10:57>
+  expected type: None
+Expr: <Id "IDD" test.adb:23:34-23:37>
+  references:    <DefiningName "IDD" test.adb:22:7-22:10>
+  type:          <SubtypeDecl ["Node_Range"] test.adb:2:4-2:48>
+  expected type: <SubtypeDecl ["Node_Range"] test.adb:2:4-2:48>
+
+Resolving xrefs for node <IfStmt test.adb:26:7-28:14>
+*****************************************************
+
+Expr: <RelationOp test.adb:26:10-26:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test.adb:26:10-26:22>
+  references:    <DefiningName "Queue" test.adb:6:7-6:12>
+  type:          <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
+  expected type: <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
+Expr: <Id "Statee" test.adb:26:10-26:16>
+  references:    <DefiningName "Statee" test.adb:23:7-23:13>
+  type:          <ConcreteTypeDecl ["Task_State"] test.adb:5:4-8:15>
+  expected type: <ConcreteTypeDecl ["Task_State"] test.adb:5:4-8:15>
+Expr: <Id "Queue" test.adb:26:17-26:22>
+  references:    <DefiningName "Queue" test.adb:6:7-6:12>
+  type:          <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
+  expected type: <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
+Expr: <OpNeq "/=" test.adb:26:23-26:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Ready" test.adb:26:26-26:31>
+  references:    <DefiningName "Ready" test.adb:3:33-3:38>
+  type:          <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
+  expected type: <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>
+
+
 Done.

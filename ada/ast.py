@@ -11439,6 +11439,12 @@ class NoTypeObjectRenamingDecl(ObjectDecl):
     fit in an ``ObjectDecl``.
     """
     @langkit_property()
+    def expr_type():
+        return Entity.renaming_clause.renamed_object.expression_type
+
+    defining_env = Property(Entity.expr_type.defining_env)
+
+    @langkit_property()
     def xref_equation():
         return Entity.renaming_clause.renamed_object.sub_equation
 

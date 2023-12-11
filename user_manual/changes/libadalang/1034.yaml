@@ -1,0 +1,6 @@
+type: new-feature
+title: Fixed lower bounds for array types and subtypes
+description: |
+  This change adds support for the GNAT experimental feature allowing fixed
+  lower bounds for array types and subtypes.
+date: 2023-11-07

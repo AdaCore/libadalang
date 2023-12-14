@@ -7904,6 +7904,9 @@ class BaseTypeDecl(BasicDecl):
         Return the list of all subprograms that can be called with the dot-
         notation on values of this type. We look for them in the public part,
         private part and body part of the package this type is declared in.
+
+        This property doesn't implement Ada standard but the GNAT experimental
+        feature allowing dot-notation for untagged types.
         """
         scope = Var(Entity.declarative_scope)
         pkg = Var(
@@ -7916,10 +7919,12 @@ class BaseTypeDecl(BasicDecl):
             )
         )
         return Cond(
-            Not(Entity.is_tagged_type
-                # Private types can have a tagged completion
-                | Entity.private_completion._.is_tagged_type),
-            No(T.inner_env_assoc.array),
+            # Ada standard would requier to check that this type is tagged to
+            # be called with the dot-notation. We do not comply to the standard
+            # here in order to support a GNAT experimental feature which allows
+            # to use the dot-notation on untagged types too. See
+            # https://github.com/AdaCore/ada-spark-rfcs/blob/master/\
+            #   prototyped/rfc-prefixed-untagged.rst.
 
             pkg.is_null,
             No(T.inner_env_assoc.array),
@@ -19262,23 +19267,14 @@ class BaseSubpSpec(BaseFormalParamHolder):
         """
         Returns whether the subprogram containing this spec is a subprogram
         callable via the dot notation.
+
+        This property doesn't implement Ada standard but the GNAT experimental
+        feature allowing dot-notation for untagged types.
         """
+        # See also comments in BaseTypeDecl.dottable_subps
         return origin.bind(Self.origin_node, If(
             Entity.nb_max_params > 0,
-            Entity.potential_dottable_type.then(lambda t: Cond(
-                t.is_a(ClasswideTypeDecl),
-                t.cast(ClasswideTypeDecl).type_decl,
-
-                # NOTE: We are not actually implementing the correct Ada
-                # semantics here, because you can call primitives via the dot
-                # notation on private types with a tagged completion.
-                # However, since private types don't have components, this
-                # should not ever be a problem with legal Ada.
-                t.full_view.is_tagged_type,
-                t,
-
-                No(T.BaseTypeDecl.entity)
-            )),
+            Entity.potential_dottable_type._.specific_type,
             No(T.BaseTypeDecl.entity)
         ))
 

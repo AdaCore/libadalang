@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <IfStmt test.adb:9:4-11:11>
+****************************************************
+
+Expr: <CallExpr test.adb:9:7-9:12>
+  references:    test().v
+  type:          test().my_vectors.constant_reference_type
+  expected type: standard.boolean
+Expr: <Id "V" test.adb:9:7-9:8>
+  references:    test().v
+  type:          test().my_vectors.vector
+  expected type: None
+Expr: <Int test.adb:9:10-9:11>
+  references:    None
+  type:          standard.universal_int_type_
+  expected type: standard.positive
+
+
+Done.

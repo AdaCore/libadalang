@@ -1,0 +1,345 @@
+Analyzing test_valid.adb
+########################
+
+Resolving xrefs for node <SubpSpec test_valid.adb:1:1-1:21>
+***********************************************************
+
+
+Resolving xrefs for node <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+*******************************************************************************
+
+Expr: <Id "Boolean" test_valid.adb:2:24-2:31>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["X", "Y"] test_valid.adb:4:4-4:19>
+************************************************************************
+
+Expr: <Id "My_Bool" test_valid.adb:4:11-4:18>
+  references:    <DefiningName "My_Bool" test_valid.adb:2:9-2:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Z"] test_valid.adb:5:4-5:16>
+*******************************************************************
+
+Expr: <Id "Integer" test_valid.adb:5:8-5:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <IfStmt test_valid.adb:7:4-11:11>
+**********************************************************
+
+Expr: <BinOp test_valid.adb:7:7-7:18>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <Id "X" test_valid.adb:7:7-7:8>
+  references:    <DefiningName "X" test_valid.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpAnd "and" test_valid.adb:7:9-7:12>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <UnOp test_valid.adb:7:13-7:18>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpNot "not" test_valid.adb:7:13-7:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_valid.adb:7:17-7:18>
+  references:    <DefiningName "Y" test_valid.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+
+Resolving xrefs for node <NullStmt test_valid.adb:8:7-8:12>
+***********************************************************
+
+
+Resolving xrefs for node <ElsifStmtPart test_valid.adb:9:4-10:12>
+*****************************************************************
+
+Expr: <BinOp test_valid.adb:9:10-9:16>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <Id "X" test_valid.adb:9:10-9:11>
+  references:    <DefiningName "X" test_valid.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpOr "or" test_valid.adb:9:12-9:14>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_valid.adb:9:15-9:16>
+  references:    <DefiningName "Y" test_valid.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+
+Resolving xrefs for node <NullStmt test_valid.adb:10:7-10:12>
+*************************************************************
+
+
+Resolving xrefs for node <WhileLoopStmt test_valid.adb:13:4-15:13>
+******************************************************************
+
+Expr: <BinOp test_valid.adb:13:10-13:17>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <Id "X" test_valid.adb:13:10-13:11>
+  references:    <DefiningName "X" test_valid.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpAnd "and" test_valid.adb:13:12-13:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_valid.adb:13:16-13:17>
+  references:    <DefiningName "Y" test_valid.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+
+Resolving xrefs for node <NullStmt test_valid.adb:14:7-14:12>
+*************************************************************
+
+
+Resolving xrefs for node <PragmaNode test_valid.adb:17:4-17:27>
+***************************************************************
+
+Expr: <Id "Assert" test_valid.adb:17:11-17:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BinOp test_valid.adb:17:19-17:25>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <Id "X" test_valid.adb:17:19-17:20>
+  references:    <DefiningName "X" test_valid.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpOr "or" test_valid.adb:17:21-17:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_valid.adb:17:24-17:25>
+  references:    <DefiningName "Y" test_valid.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+
+Resolving xrefs for node <AssignStmt test_valid.adb:19:4-19:40>
+***************************************************************
+
+Expr: <Id "Z" test_valid.adb:19:4-19:5>
+  references:    <DefiningName "Z" test_valid.adb:5:4-5:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ParenExpr test_valid.adb:19:9-19:39>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <IfExpr test_valid.adb:19:10-19:38>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <BinOp test_valid.adb:19:13-19:24>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <Id "X" test_valid.adb:19:13-19:14>
+  references:    <DefiningName "X" test_valid.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpAnd "and" test_valid.adb:19:15-19:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <UnOp test_valid.adb:19:19-19:24>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpNot "not" test_valid.adb:19:19-19:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_valid.adb:19:23-19:24>
+  references:    <DefiningName "Y" test_valid.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <Int test_valid.adb:19:30-19:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_valid.adb:19:37-19:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ForLoopStmt test_valid.adb:21:4-23:13>
+****************************************************************
+
+
+Resolving xrefs for node <ForLoopSpec test_valid.adb:21:8-21:19>
+****************************************************************
+
+Expr: <BinOp test_valid.adb:21:13-21:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_valid.adb:21:13-21:14>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpDoubleDot ".." test_valid.adb:21:15-21:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test_valid.adb:21:18-21:19>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ExitStmt test_valid.adb:22:7-22:29>
+*************************************************************
+
+Expr: <BinOp test_valid.adb:22:17-22:28>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <Id "X" test_valid.adb:22:17-22:18>
+  references:    <DefiningName "X" test_valid.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpAnd "and" test_valid.adb:22:19-22:22>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <UnOp test_valid.adb:22:23-22:28>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+Expr: <OpNot "not" test_valid.adb:22:23-22:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_valid.adb:22:27-22:28>
+  references:    <DefiningName "Y" test_valid.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
+
+Resolving xrefs for node <EndName test_valid.adb:24:5-24:15>
+************************************************************
+
+Expr: <EndName test_valid.adb:24:5-24:15>
+  references:    <DefiningName "Test_Valid" test_valid.adb:1:11-1:21>
+  type:          None
+  expected type: None
+Expr: <Id "Test_Valid" test_valid.adb:24:5-24:15>
+  references:    <DefiningName "Test_Valid" test_valid.adb:1:11-1:21>
+  type:          None
+  expected type: None
+
+
+Analyzing test_invalid.adb
+##########################
+
+Resolving xrefs for node <SubpSpec test_invalid.adb:6:4-6:48>
+*************************************************************
+
+Expr: <Id "My_Bool" test_invalid.adb:6:41-6:48>
+  references:    <DefiningName "My_Bool" test_invalid.adb:2:9-2:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["X", "Y"] test_invalid.adb:6:18-6:32>
+**************************************************************************
+
+Expr: <Id "My_Bool" test_invalid.adb:6:25-6:32>
+  references:    <DefiningName "My_Bool" test_invalid.adb:2:9-2:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_invalid.adb:7:12-7:30>
+*****************************************************************
+
+Resolution failed for node <AspectAssoc test_invalid.adb:7:12-7:30>
+
+Resolving xrefs for node <AspectAssoc test_invalid.adb:8:12-9:53>
+*****************************************************************
+
+Resolution failed for node <AspectAssoc test_invalid.adb:8:12-9:53>
+
+Resolving xrefs for node <PragmaNode test_invalid.adb:12:4-12:35>
+*****************************************************************
+
+Resolution failed for node <PragmaNode test_invalid.adb:12:4-12:35>
+
+Resolving xrefs for node <PragmaNode test_invalid.adb:21:4-21:31>
+*****************************************************************
+
+Resolution failed for node <PragmaNode test_invalid.adb:21:4-21:31>
+
+Resolving xrefs for node <ForLoopSpec test_invalid.adb:25:8-25:36>
+******************************************************************
+
+Expr: <BinOp test_invalid.adb:25:13-25:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_invalid.adb:25:13-25:14>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpDoubleDot ".." test_invalid.adb:25:15-25:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test_invalid.adb:25:18-25:19>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ForLoopIterFilter test_invalid.adb:25:20-25:36>
+*************************************************************************
+
+Resolution failed for node <ForLoopIterFilter test_invalid.adb:25:20-25:36>
+
+Resolving xrefs for node <NullStmt test_invalid.adb:26:7-26:12>
+***************************************************************
+
+
+Resolving xrefs for node <AssignStmt test_invalid.adb:30:4-30:45>
+*****************************************************************
+
+Resolution failed for node <AssignStmt test_invalid.adb:30:4-30:45>
+
+
+Analyzing test_task.adb
+#######################
+
+Resolving xrefs for node <SelectStmt test_task.adb:12:7-18:18>
+**************************************************************
+
+Expr: <BinOp test_task.adb:12:19-12:30>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+Expr: <Id "X" test_task.adb:12:19-12:20>
+  references:    <DefiningName "X" test_task.adb:9:7-9:8>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+Expr: <OpAnd "and" test_task.adb:12:21-12:24>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <UnOp test_task.adb:12:25-12:30>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+Expr: <OpNot "not" test_task.adb:12:25-12:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test_task.adb:12:29-12:30>
+  references:    <DefiningName "Y" test_task.adb:9:10-9:11>
+  type:          <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+  expected type: <ConcreteTypeDecl ["My_Bool"] test_task.adb:2:4-2:32>
+
+Resolving xrefs for node <EntryBody ["Foo"] test_task.adb:30:7-33:15>
+*********************************************************************
+
+Resolution failed for node <EntryBody ["Foo"] test_task.adb:30:7-33:15>
+
+
+Done.

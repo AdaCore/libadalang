@@ -7902,8 +7902,7 @@ class BaseTypeDecl(BasicDecl):
     def dottable_subps():
         """
         Return the list of all subprograms that can be called with the dot-
-        notation on values of this type. We look for them in the public part,
-        private part and body part of the package this type is declared in.
+        notation on values of this type.
 
         This property doesn't implement Ada standard but the GNAT experimental
         feature allowing dot-notation for untagged types.
@@ -7926,28 +7925,45 @@ class BaseTypeDecl(BasicDecl):
             # https://github.com/AdaCore/ada-spark-rfcs/blob/master/\
             #   prototyped/rfc-prefixed-untagged.rst.
 
-            pkg.is_null,
-            No(T.inner_env_assoc.array),
-
-            Array([
+            # If we are in a package, we look for subprograms that can be
+            # called with the dot-notation in the public part, private part and
+            # body part of the package this type is declared in.
+            Not(pkg.is_null),
+            Entity.dottable_subps_in_declaratives_parts(Array([
                 pkg.public_part.cast(DeclarativePart),
                 pkg.private_part.cast(DeclarativePart),
                 pkg.body_part._.decls
-            ]).mapcat(
-                lambda dp: dp._.decls.as_array
-            ).filtermap(
-                lambda decl: Let(
-                    lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
-                        key=bd.defining_name.name_symbol,
-                        value=bd.node,
-                        metadata=T.Metadata.new(dottable_subp=True)
-                    )
-                ),
+            ])),
 
-                lambda decl:
-                decl.cast(BasicDecl)
-                ._.subp_spec_or_null._.dottable_subp_of == Entity
+            # Else, we look for subprograms in the declarative region this
+            # type is declared in.
+            Entity.dottable_subps_in_declaratives_parts(
+                Array([scope.as_entity])
             )
+        )
+
+    @langkit_property(return_type=T.inner_env_assoc.array)
+    def dottable_subps_in_declaratives_parts(
+        parts=T.DeclarativePart.entity.array
+    ):
+        """
+        Return the list of all subprograms that can be called with the
+        dot-notation on values of this type. We look for them in the
+        declarative parts array ``parts``.
+        """
+        return parts.mapcat(
+            lambda dp: dp._.decls.as_array
+        ).filtermap(
+            lambda decl: Let(
+                lambda bd=decl.cast(BasicDecl): T.inner_env_assoc.new(
+                    key=bd.defining_name.name_symbol,
+                    value=bd.node,
+                    metadata=T.Metadata.new(dottable_subp=True)
+                )
+            ),
+
+            lambda decl: decl.cast(BasicDecl)._.subp_spec_or_null
+            ._.dottable_subp_of._.base_subtype == Entity
         )
 
     @langkit_property(return_type=T.EnvRebindings, dynamic_vars=[origin])

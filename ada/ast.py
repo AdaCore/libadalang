@@ -7538,6 +7538,17 @@ class BaseTypeDecl(BasicDecl):
             allocated_type.matching_formal_type(Entity.accessed_type)
         )
 
+    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    def derives_from_std_bool_type():
+        """
+        Return whether this type (after implicit dereference) is or derives
+        from the standard Boolean type. If this type is null, return False.
+        """
+        return And(
+            Not(Self.is_null),
+            Entity.derefed_base_subtype.is_derived_type(Self.bool_type)
+        )
+
     @langkit_property(return_type=T.BaseTypeDecl.entity,
                       dynamic_vars=[default_origin()], public=True)
     def canonical_type():
@@ -10532,9 +10543,8 @@ class Pragma(AdaNode):
             ),
             Let(
                 lambda expr=Entity.args.at(0).assoc_expr:
-                Bind(expr.expected_type_var, Self.bool_type)
-                & expr.sub_equation
-                & expr.matches_expected_formal_prim_type
+                expr.sub_equation
+                & expr.expect_bool_derived_type
             ) & Entity.args.at(1)._.assoc_expr.then(
                 lambda msg:
                 Bind(msg.expected_type_var, Self.std_entity('String'))
@@ -10599,7 +10609,7 @@ class Pragma(AdaNode):
                 lambda expr:
                 Bind(expr.expected_type_var, Self.bool_type)
                 & expr.sub_equation
-                & expr.matches_expected_formal_prim_type,
+                & expr.matches_expected_formal_type,
                 default_val=LogicFalse()
             ),
 
@@ -10614,7 +10624,7 @@ class Pragma(AdaNode):
                 lambda arg:
                 Bind(arg.assoc_expr.expected_type_var, Self.bool_type)
                 & arg.assoc_expr.sub_equation
-                & arg.assoc_expr.matches_expected_formal_prim_type
+                & arg.assoc_expr.matches_expected_formal_type
             ),
 
             Entity.id.name_is("Contract_Cases"),
@@ -10632,7 +10642,7 @@ class Pragma(AdaNode):
                     lambda expr=Entity.args.at(0).assoc_expr:
                     Bind(expr.expected_type_var, Self.bool_type)
                     & expr.sub_equation
-                    & expr.matches_expected_formal_prim_type
+                    & expr.matches_expected_formal_type
                 ),
                 LogicTrue()
             ) & Let(
@@ -11128,7 +11138,7 @@ class AspectAssoc(AdaNode):
                 Bind(Self.expr.expected_type_var, Self.bool_type)
                 & env.bind(expr_equation_env,
                            Entity.expr.sub_equation)
-                & Self.expr.matches_expected_formal_prim_type
+                & Self.expr.matches_expected_formal_type
             ),
 
             Entity.id.name_is('Contract_Cases'),
@@ -12938,19 +12948,26 @@ class Expr(AdaNode):
         )
 
     @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
-    def matches_expected_formal_prim_type():
-        return Predicate(
-            BaseTypeDecl.matching_formal_prim_type,
-            Self.type_var,
-            Self.expected_type_var
-        )
-
-    @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
     def matches_expected_prefix_type():
         return Predicate(
             BaseTypeDecl.matching_prefix_type,
             Self.type_var,
             Self.expected_type_var
+        )
+
+    @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
+    def expect_bool_derived_type():
+        """
+        Construct an equation which asserts that the expected type of this
+        expression is the standard boolean type or any type that derives from
+        it.
+        """
+        return And(
+            Bind(Self.expected_type_var, Self.bool_type)
+            | Bind(Self.type_var, Self.expected_type_var,
+                   conv_prop=BaseTypeDecl.derefed_base_subtype),
+
+            Predicate(BaseTypeDecl.derives_from_std_bool_type, Self.type_var)
         )
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()],
@@ -13573,8 +13590,8 @@ class BinOp(Expr):
             Bind(Self.left.expected_type_var, Self.bool_type),
             Bind(Self.right.expected_type_var, Self.bool_type),
 
-            Self.left.matches_expected_formal_prim_type,
-            Self.right.matches_expected_formal_prim_type,
+            Self.left.expect_bool_derived_type,
+            Self.right.expect_bool_derived_type,
 
             Bind(Self.type_var, Self.left.type_var)
         )
@@ -16597,7 +16614,7 @@ class AggregateAssoc(BasicAssoc):
                     lambda e:
                     Bind(e.expected_type_var, Self.bool_type)
                     & e.sub_equation
-                    & e.matches_expected_formal_prim_type,
+                    & e.matches_expected_formal_type,
 
                     # Nothing to do for `others =>`
                     default_val=LogicTrue()
@@ -16605,7 +16622,7 @@ class AggregateAssoc(BasicAssoc):
             ),
             Bind(Entity.expr.expected_type_var, Self.bool_type),
             Entity.expr.sub_equation,
-            Entity.expr.matches_expected_formal_prim_type
+            Entity.expr.matches_expected_formal_type
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -17058,9 +17075,8 @@ class IfExpr(CondExpr):
     def xref_equation():
         return (
             # Construct sub equations for common sub exprs
-            Bind(Self.cond_expr.expected_type_var, Self.bool_type)
-            & Entity.cond_expr.sub_equation
-            & Entity.cond_expr.matches_expected_formal_prim_type
+            Entity.cond_expr.sub_equation
+            & Entity.cond_expr.expect_bool_derived_type
 
             # Construct the equation for the then branch
             & Entity.then_expr.sub_equation
@@ -17068,9 +17084,8 @@ class IfExpr(CondExpr):
             & Entity.alternatives.logic_all(
                 lambda elsif:
                 # Build the sub equations for cond and then exprs
-                Bind(elsif.cond_expr.expected_type_var, Self.bool_type)
-                & elsif.cond_expr.sub_equation
-                & elsif.cond_expr.matches_expected_formal_prim_type
+                elsif.cond_expr.sub_equation
+                & elsif.cond_expr.expect_bool_derived_type
                 & elsif.then_expr.sub_equation
             )
 
@@ -17081,8 +17096,7 @@ class IfExpr(CondExpr):
                 Entity.else_expr.sub_equation,
 
                 # If no else, then the then_expression has type bool
-                Bind(Self.then_expr.expected_type_var, Self.bool_type)
-                & Entity.then_expr.matches_expected_formal_prim_type
+                Entity.then_expr.expect_bool_derived_type
             )
 
             & Or(
@@ -19811,7 +19825,7 @@ class ForLoopIterFilter(AdaNode):
         return And(
             Bind(Self.expr.expected_type_var, Self.bool_type),
             Entity.expr.sub_equation,
-            Entity.expr.matches_expected_formal_prim_type
+            Entity.expr.matches_expected_formal_type
         )
 
     xref_entry_point = Property(True)
@@ -19835,7 +19849,7 @@ class QuantifiedExpr(Expr):
             spec_success,
             Bind(Self.expr.expected_type_var, Self.bool_type)
             & Entity.expr.sub_equation
-            & Entity.expr.matches_expected_formal_prim_type
+            & Entity.expr.matches_expected_formal_type
             & Bind(Self.type_var, Self.expr.type_var),
             LogicFalse()
         )
@@ -21915,9 +21929,8 @@ class ExitStmt(SimpleStmt):
         return And(
             Entity.cond_expr.then(
                 lambda cond:
-                Bind(cond.expected_type_var, Self.bool_type)
-                & cond.sub_equation
-                & cond.matches_expected_formal_prim_type,
+                cond.sub_equation
+                & cond.expect_bool_derived_type,
                 default_val=LogicTrue()
             ),
 
@@ -22106,9 +22119,8 @@ class IfStmt(CompositeStmt):
     @langkit_property()
     def xref_equation():
         return (
-            Bind(Self.cond_expr.expected_type_var, Self.bool_type)
-            & Entity.cond_expr.sub_equation
-            & Self.cond_expr.matches_expected_formal_prim_type
+            Entity.cond_expr.sub_equation
+            & Self.cond_expr.expect_bool_derived_type
         )
 
 
@@ -22125,9 +22137,8 @@ class ElsifStmtPart(AdaNode):
     @langkit_property()
     def xref_equation():
         return (
-            Bind(Self.cond_expr.expected_type_var, Self.bool_type)
-            & Entity.cond_expr.sub_equation
-            & Self.cond_expr.matches_expected_formal_prim_type
+            Entity.cond_expr.sub_equation
+            & Self.cond_expr.expect_bool_derived_type
         )
 
 
@@ -22166,9 +22177,8 @@ class WhileLoopSpec(LoopSpec):
     @langkit_property(return_type=Equation)
     def xref_equation():
         return And(
-            Bind(Self.expr.expected_type_var, Self.bool_type),
             Entity.expr.sub_equation,
-            Entity.expr.matches_expected_formal_prim_type
+            Entity.expr.expect_bool_derived_type
         )
 
 
@@ -22477,9 +22487,8 @@ class SelectWhenPart(AdaNode):
     def xref_equation():
         return Entity.cond_expr.then(
             lambda c: And(
-                Bind(c.expected_type_var, Self.bool_type),
                 c.sub_equation,
-                c.matches_expected_formal_prim_type
+                c.expect_bool_derived_type
             ),
             default_val=LogicTrue()
         )
@@ -22801,7 +22810,7 @@ class EntryBody(Body):
         return And(
             Bind(Self.barrier.expected_type_var, Self.bool_type),
             Entity.barrier.sub_equation,
-            Entity.barrier.matches_expected_formal_prim_type
+            Entity.barrier.matches_expected_formal_type
         )
 
 

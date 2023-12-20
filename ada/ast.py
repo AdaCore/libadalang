@@ -22052,18 +22052,36 @@ class RequeueStmt(SimpleStmt):
         name = Var(ce.then(lambda ce: ce.name,
                            default_val=Entity.call_name))
 
-        entries = Var(name.all_env_elements_internal.filter(
+        targets = Var(name.all_env_elements_internal.filter(
             # RM 9.5.4: the name shall resolve to denote a procedure or entry,
             # where either:
-            lambda n: n.cast(EntryDecl).then(lambda e: Or(
+            lambda n: n.cast(BasicDecl).then(lambda e: Or(
                 # 1. The profile is empty
                 e.subp_spec_or_null.then(lambda ss: And(
                     ss.nb_max_params == 0,
                     ss.returns.is_null
                 )),
-                # 2. The profile matches the profile of the enclosing entry
-                e.spec.match_formal_params(
-                    Entity.innermost_entry_or_accept_stmt_params
+                # 2. The profile matches the profile of the enclosing
+                # entry/accept stmt.
+                e.subp_spec_or_null.then(lambda ss: ss.match_formal_params(
+                    Entity.innermost_entry_or_accept_stmt_params,
+                    match_names=Not(e.is_a(SubpRenamingDecl))
+                )),
+                # 3. The target denotes a prefixed view of a primitive
+                # subprogram of a synchronized interface, where the first
+                # parameter of the unprefixed view of the primitive subprogram
+                # shall be a controlling parameter, and the Synchronization
+                # aspect shall be specified with synchronization_kind By_Entry
+                # for the primitive subprogram.
+                If(
+                    e.get_aspect_spec_expr('Synchronization')
+                    .cast(Name)._.name_is('By_Entry'),
+                    e.subp_spec_or_null.then(lambda ss: ss.match_formal_params(
+                        Entity.innermost_entry_or_accept_stmt_params,
+                        match_names=False,
+                        ignore_first_param=e.info.md.dottable_subp
+                    )),
+                    False
                 )
             ))
         ))
@@ -22086,7 +22104,7 @@ class RequeueStmt(SimpleStmt):
             ),
 
             # Then, bind the name to any entry that fits the bills
-            entries.logic_any(lambda e: Let(
+            targets.logic_any(lambda e: Let(
                 # If we're binding to an entry from an entry family, resolve
                 # the expression in the call expr, knowing that it can be used
                 # to resolve overloads.

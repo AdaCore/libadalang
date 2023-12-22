@@ -390,8 +390,8 @@ straightforward for people familiar with the ``GNATCOLL.Projects`` API:
       --  and the runtime (Set_Target_And_Runtime), etc.
 
       Project.Load (My_Project_Filename, Env);
-      Provider := LAL_GPR.Create_Project_Unit_Provider_Reference
-        (Project, Env);
+      Provider := LAL_GPR.Create_Project_Unit_Provider
+        (Tree => Project, Env => Env);
       Context := LAL.Create_Context (Unit_Provider => Provider);
    end;
 
@@ -424,8 +424,8 @@ from the first command-line argument:
    begin
       GPR.Initialize (Env);
       Project.Load (Project_File, Env);
-      return LAL_GPR.Create_Project_Unit_Provider_Reference
-        (Project, Env);
+      return LAL_GPR.Create_Project_Unit_Provider
+        (Tree => Project, Env => Env);
    end Load_Project;
 
 This assumes that the first command-line argument is the name of the project

@@ -1,0 +1,83 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg"] test.adb:4:4-4:30>
+***********************************************************************************
+
+Expr: <Id "Pkg" test.adb:4:26-4:29>
+  references:    <DefiningName "Pkg" pkg.ads:2:9-2:12>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Pkg"] pkg.ads:1:1-4:9 [test.adb:4:4] |>
+***************************************************************************************
+
+Resolving xrefs for node <| SubpSpec pkg.ads:3:4-3:17 [test.adb:4:4] |>
+***********************************************************************
+
+
+Resolving xrefs for node <| EndName pkg.ads:4:5-4:8 [test.adb:4:4] |>
+*********************************************************************
+
+Expr: <| EndName pkg.ads:4:5-4:8 [test.adb:4:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:4:12-4:18>
+  type:          None
+  expected type: None
+Expr: <| Id "Pkg" pkg.ads:4:5-4:8 [test.adb:4:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:4:12-4:18>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Pkg"] pkg.adb:1:1-3:9 [test.adb:4:4] |>
+********************************************************************************
+
+Resolving xrefs for node <| SubpSpec pkg.adb:2:4-2:17 [test.adb:4:4] |>
+***********************************************************************
+
+Resolving xrefs for node <| SubpSpec pkg-foo.adb:4:1-4:14 [test.adb:4:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| CallStmt pkg-foo.adb:6:4-6:28 [test.adb:4:4] |>
+***************************************************************************
+
+Expr: <| CallExpr pkg-foo.adb:6:4-6:27 [test.adb:4:4] |>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <| Id "Put_Line" pkg-foo.adb:6:4-6:12 [test.adb:4:4] |>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <| Str ""Visit Foo!"" pkg-foo.adb:6:14-6:26 [test.adb:4:4] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <| EndName pkg-foo.adb:7:5-7:8 [test.adb:4:4] |>
+*************************************************************************
+
+Expr: <| EndName pkg-foo.adb:7:5-7:8 [test.adb:4:4] |>
+  references:    <| DefiningName "Foo" pkg-foo.adb:4:11-4:14 [test.adb:4:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Foo" pkg-foo.adb:7:5-7:8 [test.adb:4:4] |>
+  references:    <| DefiningName "Foo" pkg-foo.adb:4:11-4:14 [test.adb:4:4] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| EndName pkg.adb:3:5-3:8 [test.adb:4:4] |>
+*********************************************************************
+
+Expr: <| EndName pkg.adb:3:5-3:8 [test.adb:4:4] |>
+  references:    <| DefiningName "Pkg" pkg.adb:1:14-1:17 [test.adb:4:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Pkg" pkg.adb:3:5-3:8 [test.adb:4:4] |>
+  references:    <| DefiningName "Pkg" pkg.adb:1:14-1:17 [test.adb:4:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

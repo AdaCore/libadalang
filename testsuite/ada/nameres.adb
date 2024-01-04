@@ -977,8 +977,9 @@ procedure Nameres is
                      Put_Line ("XFAIL: " & Image (Arg.P_Denoted_Value, False));
                      Put_Line ("");
                   end;
+                  return True;
                end if;
-               return True;
+               return False;
             end if;
             return False;
          end XFAIL;

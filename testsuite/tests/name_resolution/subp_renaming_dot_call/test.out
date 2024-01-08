@@ -1,0 +1,45 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpRenamingDecl ["My_Set"] test.adb:25:6-25:63>
+**************************************************************************
+
+Expr: <Id "Set" test.adb:25:59-25:62>
+  references:    <DefiningName "Set" test.adb:15:17-15:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpRenamingDecl ["My_Get"] test.adb:32:4-32:51>
+**************************************************************************
+
+Expr: <DottedName test.adb:32:43-32:50>
+  references:    <DefiningName "Get" test.adb:8:16-8:19>
+  type:          None
+  expected type: None
+Expr: <Id "Obj" test.adb:32:43-32:46>
+  references:    <DefiningName "Obj" test.adb:30:4-30:7>
+  type:          None
+  expected type: None
+Expr: <Id "Get" test.adb:32:47-32:50>
+  references:    <DefiningName "Get" test.adb:8:16-8:19>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpRenamingDecl ["My_Set"] test.adb:35:4-35:51>
+**************************************************************************
+
+Expr: <DottedName test.adb:35:43-35:50>
+  references:    <DefiningName "Set" test.adb:9:17-9:20>
+  type:          None
+  expected type: None
+Expr: <Id "Obj" test.adb:35:43-35:46>
+  references:    <DefiningName "Obj" test.adb:30:4-30:7>
+  type:          None
+  expected type: None
+Expr: <Id "Set" test.adb:35:47-35:50>
+  references:    <DefiningName "Set" test.adb:9:17-9:20>
+  type:          None
+  expected type: None
+
+
+Done.

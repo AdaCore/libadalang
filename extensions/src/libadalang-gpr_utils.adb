@@ -679,9 +679,15 @@ package body Libadalang.GPR_Utils is
             Visit (P);
          end loop;
 
-         --  TODO??? (VC07-012) What about extended projects? We should
-         --  probably use a robust implementation provided by GPR2.
+         if Self.Is_Extending then
+            for P of Self.Extended loop
+               Visit (P);
+            end loop;
+         end if;
 
+         --  TODO??? (VC07-012) This is probably not complete. We should
+         --  transition this to use a robust implementation provided by GPR2
+         --  once available.
       end Visit;
 
    begin

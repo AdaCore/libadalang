@@ -37,4 +37,10 @@ Loading multi_unit_files_2.gpr...
 <SubtypeIndication multi_unit_files.ada:4:9-4:17> resolves to:
   <ConcreteTypeDecl ["T1"] multi_unit_files.ada:8:4-8:27>
 
+== Resolutions in extending.gpr ==
+
+Loading extending.gpr...
+<SubtypeIndication ext.ads:4:8-4:13> resolves to:
+  <ConcreteTypeDecl ["T"] dep.ads:2:4-2:26>
+
 Done.

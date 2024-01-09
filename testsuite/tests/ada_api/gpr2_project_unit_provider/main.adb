@@ -116,6 +116,7 @@ begin
    Resolve ("p.gpr", "p2");
    Resolve ("multi_unit_files_1.gpr", "objects");
    Resolve ("multi_unit_files_2.gpr", "objects");
+   Resolve ("extending.gpr", "ext");
 
    Put_Line ("Done.");
 end Main;

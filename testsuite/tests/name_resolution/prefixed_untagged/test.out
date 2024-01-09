@@ -34,4 +34,128 @@ Expr: <Id "P" test.adb:28:12-28:13>
   expected type: None
 
 
+Analyzing test_access.adb
+#########################
+
+Resolving xrefs for node <CallStmt test_access.adb:13:4-13:10>
+**************************************************************
+
+Expr: <DottedName test_access.adb:13:4-13:9>
+  references:    <DefiningName "Foo" test_access.adb:6:17-6:20>
+  type:          None
+  expected type: None
+Expr: <Id "X" test_access.adb:13:4-13:5>
+  references:    <DefiningName "X" test_access.adb:11:4-11:5>
+  type:          <ConcreteTypeDecl ["T_Access"] test_access.adb:4:7-4:37>
+  expected type: <ConcreteTypeDecl ["T_Access"] test_access.adb:4:7-4:37>
+Expr: <Id "Foo" test_access.adb:13:6-13:9>
+  references:    <DefiningName "Foo" test_access.adb:6:17-6:20>
+  type:          None
+  expected type: None
+
+
+Analyzing test_array.adb
+########################
+
+Resolving xrefs for node <CallStmt test_array.adb:13:4-13:10>
+*************************************************************
+
+Expr: <DottedName test_array.adb:13:4-13:9>
+  references:    <DefiningName "Foo" test_array.adb:6:17-6:20>
+  type:          None
+  expected type: None
+Expr: <Id "X" test_array.adb:13:4-13:5>
+  references:    <DefiningName "X" test_array.adb:11:4-11:5>
+  type:          <ConcreteTypeDecl ["T_Array"] test_array.adb:4:7-4:54>
+  expected type: <ConcreteTypeDecl ["T_Array"] test_array.adb:4:7-4:54>
+Expr: <Id "Foo" test_array.adb:13:6-13:9>
+  references:    <DefiningName "Foo" test_array.adb:6:17-6:20>
+  type:          None
+  expected type: None
+
+
+Analyzing test_scalar.adb
+#########################
+
+Resolving xrefs for node <CallStmt test_scalar.adb:24:4-24:12>
+**************************************************************
+
+Expr: <DottedName test_scalar.adb:24:4-24:11>
+  references:    <DefiningName "Foo" test_scalar.adb:9:17-9:20>
+  type:          None
+  expected type: None
+Expr: <Id "X_1" test_scalar.adb:24:4-24:7>
+  references:    <DefiningName "X_1" test_scalar.adb:18:4-18:7>
+  type:          <ConcreteTypeDecl ["Enum_T"] test_scalar.adb:3:7-3:32>
+  expected type: <ConcreteTypeDecl ["Enum_T"] test_scalar.adb:3:7-3:32>
+Expr: <Id "Foo" test_scalar.adb:24:8-24:11>
+  references:    <DefiningName "Foo" test_scalar.adb:9:17-9:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test_scalar.adb:26:4-26:12>
+**************************************************************
+
+Expr: <DottedName test_scalar.adb:26:4-26:11>
+  references:    <DefiningName "Foo" test_scalar.adb:10:17-10:20>
+  type:          None
+  expected type: None
+Expr: <Id "X_2" test_scalar.adb:26:4-26:7>
+  references:    <DefiningName "X_2" test_scalar.adb:19:4-19:7>
+  type:          <ConcreteTypeDecl ["Int_T"] test_scalar.adb:4:7-4:35>
+  expected type: <ConcreteTypeDecl ["Int_T"] test_scalar.adb:4:7-4:35>
+Expr: <Id "Foo" test_scalar.adb:26:8-26:11>
+  references:    <DefiningName "Foo" test_scalar.adb:10:17-10:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test_scalar.adb:28:4-28:12>
+**************************************************************
+
+Expr: <DottedName test_scalar.adb:28:4-28:11>
+  references:    <DefiningName "Foo" test_scalar.adb:11:17-11:20>
+  type:          None
+  expected type: None
+Expr: <Id "X_3" test_scalar.adb:28:4-28:7>
+  references:    <DefiningName "X_3" test_scalar.adb:20:4-20:7>
+  type:          <ConcreteTypeDecl ["Mod_T"] test_scalar.adb:5:7-5:27>
+  expected type: <ConcreteTypeDecl ["Mod_T"] test_scalar.adb:5:7-5:27>
+Expr: <Id "Foo" test_scalar.adb:28:8-28:11>
+  references:    <DefiningName "Foo" test_scalar.adb:11:17-11:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test_scalar.adb:30:4-30:12>
+**************************************************************
+
+Expr: <DottedName test_scalar.adb:30:4-30:11>
+  references:    <DefiningName "Foo" test_scalar.adb:12:17-12:20>
+  type:          None
+  expected type: None
+Expr: <Id "X_4" test_scalar.adb:30:4-30:7>
+  references:    <DefiningName "X_4" test_scalar.adb:21:4-21:7>
+  type:          <ConcreteTypeDecl ["Fixed_T"] test_scalar.adb:6:7-6:51>
+  expected type: <ConcreteTypeDecl ["Fixed_T"] test_scalar.adb:6:7-6:51>
+Expr: <Id "Foo" test_scalar.adb:30:8-30:11>
+  references:    <DefiningName "Foo" test_scalar.adb:12:17-12:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test_scalar.adb:32:4-32:12>
+**************************************************************
+
+Expr: <DottedName test_scalar.adb:32:4-32:11>
+  references:    <DefiningName "Foo" test_scalar.adb:13:17-13:20>
+  type:          None
+  expected type: None
+Expr: <Id "X_5" test_scalar.adb:32:4-32:7>
+  references:    <DefiningName "X_5" test_scalar.adb:22:4-22:7>
+  type:          <ConcreteTypeDecl ["Float_T"] test_scalar.adb:7:7-7:32>
+  expected type: <ConcreteTypeDecl ["Float_T"] test_scalar.adb:7:7-7:32>
+Expr: <Id "Foo" test_scalar.adb:32:8-32:11>
+  references:    <DefiningName "Foo" test_scalar.adb:13:17-13:20>
+  type:          None
+  expected type: None
+
+
 Done.

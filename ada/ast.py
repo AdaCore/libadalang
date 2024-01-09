@@ -5052,15 +5052,23 @@ class TypeDef(AdaNode):
                 Entity.base_types.map(lambda bt: bt._.defining_env)
             )).concat(Entity.previous_part_env.singleton).env_group(),
 
-            Entity.match(
-                lambda ar=T.ArrayTypeDef: ar.comp_type.defining_env,
+            Self.is_a(T.ArrayTypeDef),
+            Array([
+                Entity.cast(T.ArrayTypeDef).comp_type.defining_env,
+                Entity.dottable_subps_env
+            ]).env_group(),
 
+            Self.is_a(T.AccessDef),
+            Array([
                 # An access to procedure will have a null accessed_type, hence
                 # the use of the underscore.
-                lambda ac=T.AccessDef: ac.accessed_type._.defining_env,
+                Entity.cast(T.AccessDef).accessed_type._.defining_env,
+                Entity.dottable_subps_env
+            ]).env_group(),
 
-                lambda _: EmptyEnv
-            )
+            # In any case, include the type's `dottable_subps_env` so as to
+            # fully support the universal dot notation feature.
+            Entity.dottable_subps_env
         )
 
     containing_type = Property(

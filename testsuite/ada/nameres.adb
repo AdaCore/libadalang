@@ -139,6 +139,10 @@ procedure Nameres is
       package Resolve_All is new Parse_Flag
         (App.Args.Parser, "-A", "--all", "Resolve every cross reference");
 
+      package Traverse_Generics is new Parse_Flag
+        (App.Args.Parser, "-G", "--traverse-generics",
+         "Traverse generic instantiations");
+
       package Solve_Line is new Parse_Option
         (App.Args.Parser, "-L", "--solve-line", "Only analyze line N",
          Natural, Default_Val => 0);
@@ -754,7 +758,10 @@ procedure Nameres is
       --  Decode a pragma node and run actions accordingly (trigger name
       --  resolution, output a section name, ...).
 
-      procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True);
+      procedure Resolve_Node
+        (Node                     : Ada_Node;
+         Show_Slocs               : Boolean := True;
+         In_Generic_Instantiation : Boolean := False);
       --  Run name resolution testing on Node.
       --
       --  This involves running P_Resolve_Names on Node, displaying resolved
@@ -770,7 +777,9 @@ procedure Nameres is
       --  Return whether we should use N as an entry point for name resolution
       --  testing.
 
-      procedure Resolve_Block (Block : Ada_Node);
+      procedure Resolve_Block
+        (Block                    : Ada_Node;
+         In_Generic_Instantiation : Boolean := False);
       --  Call Resolve_Node on all xref entry points (according to
       --  Is_Xref_Entry_Point) in Block except for Block itself.
 
@@ -860,7 +869,9 @@ procedure Nameres is
       -- Resolve_Block --
       -------------------
 
-      procedure Resolve_Block (Block : Ada_Node) is
+      procedure Resolve_Block
+        (Block                    : Ada_Node;
+         In_Generic_Instantiation : Boolean := False) is
 
          procedure Resolve_Entry_Point (Node : Ada_Node);
          --  Callback for tree traversal in Block
@@ -872,7 +883,9 @@ procedure Nameres is
          procedure Resolve_Entry_Point (Node : Ada_Node) is
          begin
             if Node /= Block then
-               Resolve_Node (Node);
+               Resolve_Node
+                 (Node,
+                  In_Generic_Instantiation => In_Generic_Instantiation);
             end if;
          end Resolve_Entry_Point;
 
@@ -886,7 +899,10 @@ procedure Nameres is
       -- Resolve_Node --
       ------------------
 
-      procedure Resolve_Node (Node : Ada_Node; Show_Slocs : Boolean := True) is
+      procedure Resolve_Node
+        (Node                     : Ada_Node;
+         Show_Slocs               : Boolean := True;
+         In_Generic_Instantiation : Boolean := False) is
 
          function XFAIL return Boolean;
          --  If there is an XFAIL pragma for the node being resolved, show the
@@ -1032,6 +1048,41 @@ procedure Nameres is
 
             if Output_JSON then
                Obj.Set_Field ("success", False);
+            end if;
+         end if;
+
+         --  Traverse generics instantiations
+
+         if Args.Traverse_Generics.Get then
+            if Node.Kind in Ada_Generic_Instantiation then
+               declare
+                  Generic_Decl : constant Basic_Decl :=
+                    Node.As_Generic_Instantiation.P_Designated_Generic_Decl;
+                  Generic_Body : constant Body_Node :=
+                    Generic_Decl.P_Body_Part_For_Decl;
+               begin
+                  if Verbose then
+                     Put_Title
+                       ('*', "Traversing generic node " & Generic_Decl.Image);
+                  end if;
+                  Resolve_Block (Generic_Decl.As_Ada_Node, True);
+                  if not Generic_Body.Is_Null then
+                     if Verbose then
+                        Put_Title
+                          ('*',
+                           "Traversing generic node " & Generic_Body.Image);
+                     end if;
+                     Resolve_Block (Generic_Body.As_Ada_Node, True);
+                  end if;
+               end;
+            elsif In_Generic_Instantiation and then
+               Node.Parent.Kind in Ada_Body_Stub
+               --  Body_Stub isn't an entry point, but its Subp_Spec is. So,
+               --  check if Node.Parent is a Body_Stub.
+            then
+               Resolve_Block
+                 (Node.Parent.As_Body_Stub.P_Next_Part_For_Decl.As_Ada_Node,
+                  True);
             end if;
          end if;
 

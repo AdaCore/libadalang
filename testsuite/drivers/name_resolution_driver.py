@@ -49,6 +49,9 @@ class NameResolutionDriver(BaseDriver):
 
     * ``sort_by_basename``: Boolean (false by default): whether to pass the
       ``--sort-by-basename`` switch to ``nameres``.
+
+    * ``traverse_generics``: Boolean (false by default): whether to pass the
+      ``--traverse-generics`` switch to ``nameres``.
     """
 
     perf_supported = True
@@ -133,6 +136,9 @@ class NameResolutionDriver(BaseDriver):
 
         if self.test_env.get("sort_by_basename"):
             args.append("--sort-by-basename")
+
+        if self.test_env.get("traverse_generics"):
+            args.append("--traverse-generics")
 
         # Add optional explicit list of sources to process
         args += input_sources

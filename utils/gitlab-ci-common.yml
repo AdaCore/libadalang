@@ -18,6 +18,20 @@
     - (cd /tmp && git clone --depth 1 $ANOD_GIT)
     - (cd /it/wave && anod tune --anod-dir /tmp/anod)
 
+.check_issue:
+  rules: # Launch only on merge requests
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  services:
+    - image:e3
+    - cpu:1
+  interruptible: true
+  needs: [] # Execute regardless of the other stages
+  variables:
+    GIT_STRATEGY: none # do not checkout the current repo, not needed
+  script:
+    - require_issue
+
+
 .cb:
   # Items to create continuous builders (CB).
   #

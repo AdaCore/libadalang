@@ -32,7 +32,6 @@ build_and_test:
      - mem:16
   stage: single
   script:
-    - require_issue
     - !reference [.script_snippets, setup]
 
     # Download the langkit package
@@ -66,6 +65,11 @@ build_and_test:
       - xunit_output.xml
     reports:
       junit: xunit_output.xml
+
+
+check_issue:
+  extends: .check_issue
+  stage: single
 
 
 continuous_builder:

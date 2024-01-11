@@ -479,18 +479,18 @@ class AdaNode(ASTNode):
 
     @langkit_property(public=True, return_type=T.AdaNode,
                       ignore_warn_on_node=True)
-    def call_context(context=T.LogicContext):
+    def call_context(ctx=T.LogicContext):
         """
         Assuming that Self is the error location of a semantic diagnostic and
-        that ``context`` is one of its logic contexts indicating which
-        subprogram was tried, return a node that indicates with more precision
-        which part of the subprogram caused a mismatch. For example, if Self
-        corresponds to the second actual in the ``CallExpr``, this returns the
-        second parameter of the candidate subprogram.
+        that ``ctx`` is one of its logic contexts indicating which subprogram
+        was tried, return a node that indicates with more precision which part
+        of the subprogram caused a mismatch. For example, if Self corresponds
+        to the second actual in the ``CallExpr``, this returns the second
+        parameter of the candidate subprogram.
         """
-        bd = Var(context.decl_node.cast(BasicDecl))
+        bd = Var(ctx.decl_node.cast(BasicDecl))
         return bd._.subp_spec_or_null.then(
-            lambda spec: context.ref_node.cast(Name)._.parent_callexpr.then(
+            lambda spec: ctx.ref_node.cast(Name)._.parent_callexpr.then(
                 lambda ce: If(
                     Self == ce.node,
                     spec.returns.node,
@@ -507,7 +507,7 @@ class AdaNode(ASTNode):
                 ),
                 default_val=bd.defining_name.node
             ),
-            default_val=context.decl_node.node
+            default_val=ctx.decl_node.node
         )
 
     @langkit_property(public=True)

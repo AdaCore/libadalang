@@ -191,5 +191,73 @@ Expr: <Id "False" test.adb:20:20-20:25>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
+Resolving xrefs for node <SubpSpec test.adb:24:4-24:30>
+*******************************************************
+
+
+Resolving xrefs for node <ParamSpec ["S"] test.adb:24:19-24:29>
+***************************************************************
+
+Expr: <Id "String" test.adb:24:23-24:29>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:25:12-26:51>
+***********************************************************
+
+Expr: <Id "Contract_Cases" test.adb:25:12-25:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BracketAggregate test.adb:26:9-26:51>
+  type:          None
+  expected type: None
+Expr: <Id "True" test.adb:26:10-26:14>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <RelationOp test.adb:26:18-26:50>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <CallExpr test.adb:26:18-26:31>
+  references:    <DefiningName "To_String" test.adb:23:13-23:22>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "To_String" test.adb:26:18-26:27>
+  references:    <DefiningName "To_String" test.adb:23:13-23:22>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "S" test.adb:26:29-26:30>
+  references:    <DefiningName "S" test.adb:24:19-24:20>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpEq "=" test.adb:26:32-26:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BracketAggregate test.adb:26:34-26:50>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <BinOp test.adb:26:35-26:42>
+  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int test.adb:26:35-26:36>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." test.adb:26:37-26:39>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:26:40-26:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Chr "'C'" test.adb:26:46-26:49>
+  references:    <SyntheticDefiningName "'C'" __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+
 
 Done.

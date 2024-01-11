@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:4:4-4:27>
+*************************************************************
+
+test.adb:4:19: error: no matching alternative (of 2 candidates)
+4 |    X : Integer := Foo (2);
+  |                   ^^^
+
+pkg.ads:3:38: info: expected Integer, got Boolean
+3 |    function Foo (X : Integer) return Boolean is (False);
+  |                                      ^^^^^^^
+
+pkg.ads:2:22: info: expected Boolean, got universal integer
+2 |    function Foo (X : Boolean) return Integer is (0);
+  |                      ^^^^^^^
+
+
+
+Done.

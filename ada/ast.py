@@ -45,6 +45,15 @@ dottable subprograms so that later user-queries such as
 
 imprecise_fallback = DynamicVariable('imprecise_fallback', Bool)
 
+logic_context = DynamicVariable('logic_context', T.LogicContext)
+"""
+Used inside some xref_equation properties to easily propagate the logic context
+corresponding to the candidate for which the equation is currently built. For
+example, this is used in the multiple properties building xref equation of
+``CallExpr`` nodes to propagate the currently processed candidate starting from
+``CallExpr.general_xref_equation``.
+"""
+
 UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
@@ -468,6 +477,39 @@ class AdaNode(ASTNode):
             "when", "while", "with", "xor"
         ])
 
+    @langkit_property(public=True, return_type=T.AdaNode,
+                      ignore_warn_on_node=True)
+    def call_context(context=T.LogicContext):
+        """
+        Assuming that Self is the error location of a semantic diagnostic and
+        that ``context`` is one of its logic contexts indicating which
+        subprogram was tried, return a node that indicates with more precision
+        which part of the subprogram caused a mismatch. For example, if Self
+        corresponds to the second actual in the ``CallExpr``, this returns the
+        second parameter of the candidate subprogram.
+        """
+        bd = Var(context.decl_node.cast(BasicDecl))
+        return bd._.subp_spec_or_null.then(
+            lambda spec: context.ref_node.cast(Name)._.parent_callexpr.then(
+                lambda ce: If(
+                    Self == ce.node,
+                    spec.returns.node,
+                    Self.match_formals(
+                        spec.abstract_formal_params,
+                        ce.params,
+                        bd.info.md.dottable_subp
+                    ).find(
+                        lambda pm: pm.actual.assoc.expr.node == Self
+                    ).then(
+                        lambda pm: pm.formal.formal_decl.type_expression.node,
+                        default_val=bd.defining_name.node
+                    )
+                ),
+                default_val=bd.defining_name.node
+            ),
+            default_val=context.decl_node.node
+        )
+
     @langkit_property(public=True)
     def generic_instantiations():
         """
@@ -751,7 +793,7 @@ class AdaNode(ASTNode):
     @langkit_property(return_type=Bool, external=True, call_memoizable=True,
                       dynamic_vars=[env, origin], uses_entity_info=True,
                       uses_envs=True)
-    def resolve_own_names():
+    def resolve_own_names(generate_diagnostics=Bool):
         """
         Internal helper for resolve_names. Resolve names for this node up to
         xref_entry_point and xref_stop_resolution boundaries.
@@ -759,7 +801,7 @@ class AdaNode(ASTNode):
         pass
 
     @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
-    def resolve_children_names():
+    def resolve_children_names(generate_diagnostics=Bool):
         """
         Internal helper for resolve_names, implementing the recursive logic
         needed to resolve names across xref_stop_resolution boundaries.
@@ -772,19 +814,22 @@ class AdaNode(ASTNode):
                 True,
                 If(
                     c.as_entity.xref_stop_resolution,
-                    c.as_entity.resolve_own_names,
+                    c.as_entity.resolve_own_names(generate_diagnostics),
                     True
-                ) & c.as_entity.resolve_children_names,
+                ) & c.as_entity.resolve_children_names(generate_diagnostics),
             ),
             default_val=True
         ))
 
     @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
-    def resolve_names_internal():
+    def resolve_names_internal(generate_diagnostics=Bool):
         """
         Resolves names for this node up to xref_entry_point boundaries.
         """
-        return Entity.resolve_own_names & Entity.resolve_children_names
+        return (
+            Entity.resolve_own_names(generate_diagnostics)
+            & Entity.resolve_children_names(generate_diagnostics)
+        )
 
     @langkit_property(return_type=Bool, dynamic_vars=[env, origin])
     def resolve_names_internal_with_eq(additional_equation=Equation):
@@ -793,7 +838,7 @@ class AdaNode(ASTNode):
         ``additional_equation``, up to xref_entry_point boundaries.
         """
         return ((Entity.xref_equation & additional_equation).solve
-                & Entity.resolve_children_names)
+                & Entity.resolve_children_names(False))
 
     xref_entry_point = Property(
         False,
@@ -820,7 +865,7 @@ class AdaNode(ASTNode):
         """
         return env.bind(
             Entity.xref_initial_env,
-            origin.bind(Self.origin_node, Entity.resolve_names_internal)
+            origin.bind(Self.origin_node, Entity.resolve_names_internal(False))
         )
 
     @langkit_property(return_type=T.LexicalEnv)
@@ -843,7 +888,7 @@ class AdaNode(ASTNode):
                 Entity.xref_initial_env,
                 origin.bind(
                     Self.origin_node,
-                    If(Entity.resolve_own_names, env, No(LexicalEnv))
+                    If(Entity.resolve_own_names(False), env, No(LexicalEnv))
                 )
             ),
 
@@ -869,7 +914,9 @@ class AdaNode(ASTNode):
                             # stop resolution, so re-use the parent environment
                             # to resolve Self's names.
                             Entity.xref_stop_resolution,
-                            If(Entity.resolve_own_names, res, No(LexicalEnv)),
+                            If(Entity.resolve_own_names(False),
+                               res,
+                               No(LexicalEnv)),
 
                             # Resolution succeeded but there is nothing to do
                             # on that particular node: return the parent
@@ -906,6 +953,64 @@ class AdaNode(ASTNode):
         """
         result = Var(Entity.resolve_names_from_closest_entry_point_impl)
         return result != No(LexicalEnv)
+
+    @langkit_property(return_type=T.SolverDiagnostic.array, external=True,
+                      call_memoizable=True, uses_entity_info=True,
+                      uses_envs=True)
+    def own_nameres_diagnostics():
+        """
+        Return all the diagnostics produced by ``resolve_own_names`` on this
+        node. If it was never called on this node, or if it was called without
+        diagnostic generation enabled, return an empty array.
+        """
+        pass
+
+    @langkit_property(return_type=T.SolverDiagnostic.array,
+                      dynamic_vars=[env, origin])
+    def children_nameres_diagnostics():
+        """
+        Accumulates all the diagnostics emitted on the children of this node,
+        up to ``xref_entry_point`` boundaries. This considers all children
+        nodes and not only those for which ``xref_stop_resolution`` is True,
+        so as to handle calls to ``resolve_names_internal`` that are done
+        during the construction of xref equations.
+        """
+        return Entity.children.mapcat(lambda c: c.then(
+            lambda c: If(
+                c.is_null | c.xref_entry_point,
+                No(T.SolverDiagnostic.array),
+                c.own_nameres_diagnostics.concat(
+                    c.children_nameres_diagnostics
+                )
+            ),
+        ))
+
+    @langkit_property(return_type=T.SolverDiagnostic.array, public=True)
+    def nameres_diagnostics():
+        """
+        If name resolution on this xref entry point fails, this returns all the
+        diagnostics that were produced while resolving it.
+        """
+        return env.bind(
+            Entity.xref_initial_env,
+            origin.bind(
+                Self.origin_node,
+                Let(
+                    lambda _=Entity.resolve_names_internal(True):
+                    Entity.own_nameres_diagnostics.concat(
+                        Entity.children_nameres_diagnostics
+                    )
+                )
+            )
+        )
+
+    @langkit_property(predicate_error="no such entity")
+    def missing_entity_error():
+        """
+        Used as a predicate during name resolution to emit a diagnostic
+        when an entity is not found.
+        """
+        return Not(Self.is_null)
 
     @langkit_property(return_type=T.AnalysisUnit, public=True,
                       external=True, uses_entity_info=False, uses_envs=False)
@@ -4808,7 +4913,8 @@ class BaseFormalParamHolder(AdaNode):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, logic_context])
     def call_argument_equation(param=T.BaseFormalParamDecl.entity,
                                arg=T.Expr.entity):
         """
@@ -4819,7 +4925,7 @@ class BaseFormalParamHolder(AdaNode):
         """
         param_type = Var(Entity.real_designated_type(param.type_expression))
         return And(
-            Bind(arg.expected_type_var, param_type),
+            Bind(arg.expected_type_var, param_type, logic_ctx=logic_context),
             arg.matches_expected_formal_type
         )
 
@@ -5179,7 +5285,7 @@ class VariantPart(AdaNode):
 
     @langkit_property()
     def xref_equation():
-        ignore(Var(Entity.discr_name.resolve_names_internal))
+        ignore(Var(Entity.discr_name.resolve_names_internal(False)))
 
         return Entity.variant.logic_all(
             lambda var: var.choices.logic_all(lambda c: c.match(
@@ -7109,7 +7215,8 @@ class BaseTypeDecl(BasicDecl):
             default_val=False
         )
 
-    @langkit_property(dynamic_vars=[default_origin()])
+    @langkit_property(dynamic_vars=[default_origin()],
+                      predicate_error="$Self does not allow string literals")
     def allows_string_literal():
         """
         Whether a string literal can be used to initialize a value of this
@@ -7177,18 +7284,16 @@ class BaseTypeDecl(BasicDecl):
 
     @langkit_property(dynamic_vars=[origin])
     def is_access_to(typ=T.BaseTypeDecl.entity):
-        access_type = Var(Entity)
-        return access_type.accessed_type.matching_formal_type(typ)
+        return Entity._.accessed_type.matching_formal_type(typ)
 
     @langkit_property(dynamic_vars=[origin])
-    def is_subp_access_of(entity=T.BasicDecl.entity):
+    def is_subp_access_of(other=T.BasicDecl.entity):
         """
         Returns whether self is an access type whose accessed type matches
         other.
         """
-        access_type = Var(Entity)
-        return access_type.access_def.cast(AccessToSubpDef).then(
-            lambda sa: entity.subp_spec_or_null.then(
+        return Entity._.access_def.cast(AccessToSubpDef).then(
+            lambda sa: other.subp_spec_or_null.then(
                 lambda se: sa.subp_spec.match_signature(se, False)
             )
         )
@@ -7208,7 +7313,8 @@ class BaseTypeDecl(BasicDecl):
         dynamic_vars=[default_origin()]
     )
 
-    @langkit_property(dynamic_vars=[default_origin()])
+    @langkit_property(dynamic_vars=[default_origin()],
+                      predicate_error="expected tagged type, got $Self")
     def is_tagged_type_with_deref():
         """
         Return whether Self is a tagged type after being implicitly
@@ -7464,7 +7570,8 @@ class BaseTypeDecl(BasicDecl):
             )
         )
 
-    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin],
+                      predicate_error="expected $formal_type, got $Self")
     def matching_formal_prim_type(formal_type=T.BaseTypeDecl.entity):
         return And(
             Not(formal_type.is_null),
@@ -7472,7 +7579,8 @@ class BaseTypeDecl(BasicDecl):
             Entity.matching_formal_type_impl(formal_type, True)
         )
 
-    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin],
+                      predicate_error="expected $formal_type, got $Self")
     def matching_formal_type(formal_type=T.BaseTypeDecl.entity):
         return And(
             Not(formal_type.is_null),
@@ -7532,7 +7640,8 @@ class BaseTypeDecl(BasicDecl):
             actual_type.matching_type(formal_type)
         )
 
-    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin],
+                      predicate_error="expected $expected_type, got $Self")
     def matching_assign_type(expected_type=T.BaseTypeDecl.entity):
         actual_type = Var(Entity)
         return Not(Self.is_null) & Not(expected_type.is_null) & Or(
@@ -7560,7 +7669,8 @@ class BaseTypeDecl(BasicDecl):
         )
 
     @langkit_property(return_type=Bool,
-                      dynamic_vars=[default_origin()], public=True)
+                      dynamic_vars=[default_origin()], public=True,
+                      predicate_error="expected $expected_type, got $Self")
     def matching_type(expected_type=T.BaseTypeDecl.entity):
         """
         Return whether ``self`` matches ``expected_type``.
@@ -7601,7 +7711,8 @@ class BaseTypeDecl(BasicDecl):
             allocated_type.matching_formal_type(Entity.accessed_type)
         )
 
-    @langkit_property(return_type=Bool, dynamic_vars=[origin])
+    @langkit_property(return_type=Bool, dynamic_vars=[origin],
+                      predicate_error="expected boolean type, got $Self")
     def derives_from_std_bool_type():
         """
         Return whether this type (after implicit dereference) is or derives
@@ -12983,7 +13094,8 @@ class Expr(AdaNode):
         return Predicate(
             BaseTypeDecl.matching_type,
             Self.type_var,
-            Self.expected_type_var
+            Self.expected_type_var,
+            error_location=Self
         )
 
     @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
@@ -12991,7 +13103,8 @@ class Expr(AdaNode):
         return Predicate(
             BaseTypeDecl.matching_assign_type,
             Self.type_var,
-            Self.expected_type_var
+            Self.expected_type_var,
+            error_location=Self
         )
 
     @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
@@ -12999,7 +13112,8 @@ class Expr(AdaNode):
         return Predicate(
             BaseTypeDecl.matching_formal_type,
             Self.type_var,
-            Self.expected_type_var
+            Self.expected_type_var,
+            error_location=Self
         )
 
     @langkit_property(return_type=T.Equation, dynamic_vars=[origin])
@@ -13030,7 +13144,9 @@ class Expr(AdaNode):
             | Bind(Self.type_var, Self.expected_type_var,
                    conv_prop=BaseTypeDecl.derefed_base_subtype),
 
-            Predicate(BaseTypeDecl.derives_from_std_bool_type, Self.type_var)
+            Predicate(BaseTypeDecl.derives_from_std_bool_type,
+                      Self.type_var,
+                      error_location=Self)
         )
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()],
@@ -13548,18 +13664,33 @@ class UnOp(Expr):
         return Entity.expr.sub_equation & If(
             Self.in_aspect('Depends') | Self.in_aspect('Refined_Depends'),
             LogicTrue(),
-            Or(Entity.overload_equation,
-               Bind(Self.expected_type_var, Self.expr.expected_type_var)
-               & Bind(Self.type_var, Self.expr.type_var))
+            Or(
+                Entity.overload_equation,
+                Bind(Self.expected_type_var, Self.expr.expected_type_var)
+                & Bind(
+                    Self.type_var, Self.expr.type_var,
+                    logic_ctx=T.LogicContext.new(
+                        ref_node=Entity.op,
+                        decl_node=No(T.AdaNode.entity)
+                    )
+                )
+            )
         )
 
     @langkit_property(dynamic_vars=[origin, env])
     def overload_equation():
         return Entity.op.subprograms.logic_any(
-            lambda subp: Entity.entity_eq(subp)
+            lambda subp: logic_context.bind(
+                T.LogicContext.new(
+                    ref_node=Entity.op,
+                    decl_node=subp
+                ),
+                Entity.entity_eq(subp)
+            )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, env, logic_context])
     def entity_eq(subp=T.BasicDecl.entity):
         spec = Var(subp.subp_spec_or_null)
         ps = Var(spec.unpacked_formal_params)
@@ -13570,7 +13701,8 @@ class UnOp(Expr):
             spec.call_argument_equation(ps.at(0).formal_decl, Entity.expr)
 
             # The subprogram's return type is the type of Self
-            & Bind(Self.type_var, spec.return_type)
+            & Bind(Self.type_var, spec.return_type,
+                   logic_ctx=logic_context)
 
             # The operator references the subprogram
             & Bind(Self.op.ref_var, subp)
@@ -13608,22 +13740,29 @@ class BinOp(Expr):
 
     @langkit_property()
     def xref_equation():
-        return And(
-            Entity.left.sub_equation,
-            Entity.right.sub_equation
-        ) & Cond(
-            Self.op.is_a(Op.alt_double_dot),
-            Entity.double_dot_equation,
+        return logic_context.bind(
+            T.LogicContext.new(
+                ref_node=Entity.op,
+                decl_node=No(AdaNode.entity)
+            ),
+            And(
+                Entity.left.sub_equation,
+                Entity.right.sub_equation
+            ) & Cond(
+                Self.op.is_a(Op.alt_double_dot),
+                Entity.double_dot_equation,
 
-            Self.op.is_a(Op.alt_and_then, Op.alt_or_else),
-            Self.test_eq,
+                Self.op.is_a(Op.alt_and_then, Op.alt_or_else),
+                Self.test_eq,
 
-            Entity.overload_equation
-            | Entity.no_overload_equation
-            | Entity.universal_fixed_predefined_operators_equation
+                Entity.overload_equation
+                | Entity.no_overload_equation
+                | Entity.universal_fixed_predefined_operators_equation
+            )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, env, logic_context])
     def double_dot_equation():
         return Or(
             LogicTrue(),
@@ -13659,7 +13798,8 @@ class BinOp(Expr):
             Bind(Self.type_var, Self.left.type_var)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, env, logic_context])
     def arguments_eq(spec=T.BaseSubpSpec.entity):
         ps = Var(spec.unpacked_formal_params)
         return If(
@@ -13674,12 +13814,14 @@ class BinOp(Expr):
             & spec.call_argument_equation(ps.at(1).formal_decl, Entity.right)
 
             # The subprogram's return type is the type of Self
-            & Bind(Self.type_var, spec.return_type),
+            & Bind(Self.type_var, spec.return_type,
+                   logic_ctx=logic_context),
 
             LogicFalse()
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, env, logic_context])
     def entity_eq(subp=T.BasicDecl.entity):
         spec = Var(subp.subp_spec_or_null)
         return And(
@@ -13693,10 +13835,16 @@ class BinOp(Expr):
     @langkit_property(dynamic_vars=[origin, env])
     def overload_equation():
         return Entity.op.subprograms.logic_any(
-            lambda subp: Entity.entity_eq(subp)
+            lambda subp: logic_context.bind(
+                T.LogicContext.new(
+                    ref_node=Entity.op,
+                    decl_node=subp
+                ),
+                Entity.entity_eq(subp)
+            )
         )
 
-    @langkit_property(dynamic_vars=[origin])
+    @langkit_property(dynamic_vars=[origin, logic_context])
     def no_overload_equation():
         """
         When no subprogram is found for this node's operator, use this property
@@ -13755,7 +13903,8 @@ class BinOp(Expr):
             # using one of `Entity.infer_from_*` properties.
             Predicate(AdaNode.is_not_null, Self.expected_type_var)
             & Bind(Self.expected_type_var, Self.type_var,
-                   conv_prop=BaseTypeDecl.derefed_base_subtype),
+                   conv_prop=BaseTypeDecl.derefed_base_subtype,
+                   logic_ctx=logic_context),
 
             # There is no expected type (e.g. we are in a type conversion).
             # In this case, the type of the result will be inferred from the
@@ -13793,7 +13942,8 @@ class BinOp(Expr):
         """
         return Predicate(AdaNode.is_not_null, Self.expected_type_var) | eq
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, logic_context])
     def infer_from_left_operand(dest_var=T.LogicVar):
         """
         Construct the xref equation that must bind the given variable to the
@@ -13805,10 +13955,12 @@ class BinOp(Expr):
             Predicate(BaseTypeDecl.is_not_universal_type,
                       Self.left.type_var),
             Bind(Self.left.type_var, dest_var,
-                 conv_prop=BaseTypeDecl.derefed_base_subtype),
+                 conv_prop=BaseTypeDecl.derefed_base_subtype,
+                 logic_ctx=logic_context),
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, logic_context])
     def infer_from_right_operand(dest_var=T.LogicVar):
         """
         Construct the xref equation that must bind the given variable to the
@@ -13820,10 +13972,12 @@ class BinOp(Expr):
             Predicate(BaseTypeDecl.is_not_universal_type,
                       Self.right.type_var),
             Bind(Self.right.type_var, dest_var,
-                 conv_prop=BaseTypeDecl.derefed_base_subtype),
+                 conv_prop=BaseTypeDecl.derefed_base_subtype,
+                 logic_ctx=logic_context),
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, logic_context])
     def infer_from_either_operands(dest_var=T.LogicVar):
         """
         Construct the xref equation that must bind the given variable to the
@@ -13945,10 +14099,14 @@ class ConcatOp(Expr):
                         # visible user-defined overloads of "&". NOTE: for
                         # performance reasons it is better to first try the
                         # built-in operators first.
-                        concat_subprograms.logic_any(
-                            lambda subp: Let(
-                                lambda spec=subp.subp_spec_or_null:
+                        concat_subprograms.logic_any(lambda subp: Let(
+                            lambda spec=subp.subp_spec_or_null:
 
+                            logic_context.bind(
+                                T.LogicContext.new(
+                                    ref_node=concat_operand.operator,
+                                    decl_node=subp
+                                ),
                                 And(
                                     Entity.arguments_eq(spec, left,
                                                         concat_operand, right),
@@ -13958,7 +14116,7 @@ class ConcatOp(Expr):
                                          spec)
                                 )
                             )
-                        )
+                        ))
                     )
                 )
             ))
@@ -13967,7 +14125,8 @@ class ConcatOp(Expr):
             & Bind(Self.expected_type_var, last_operand.expected_type_var)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin, env])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, env, logic_context])
     def arguments_eq(spec=T.BaseSubpSpec.entity,
                      left=T.Expr.entity,
                      op=T.ConcatOperand.entity,
@@ -13997,7 +14156,12 @@ class ConcatOp(Expr):
         When no subprogram is found for this operator, use this property to
         construct the xref equation for this node.
         """
-        return (
+        return logic_context.bind(
+            T.LogicContext.new(
+                ref_node=op.operator,
+                decl_node=No(T.AdaNode.entity)
+            ),
+
             Predicate(BaseTypeDecl.is_array_def_with_deref_or_null,
                       op.expected_type_var)
             & Predicate(BaseTypeDecl.is_array_def_with_deref, op.type_var)
@@ -14018,7 +14182,8 @@ class ConcatOp(Expr):
                 & Or(
                     # Type is determined by the LHS
                     Bind(left.type_var, op.type_var,
-                         conv_prop=T.BaseTypeDecl.derefed_base_subtype)
+                         conv_prop=T.BaseTypeDecl.derefed_base_subtype,
+                         logic_ctx=logic_context)
                     & Bind(op.type_var, left.expected_type_var)
                     & Or(
                         Bind(op.type_var, right.expected_type_var),
@@ -14027,7 +14192,8 @@ class ConcatOp(Expr):
 
                     # Type is determined by the RHS
                     Bind(right.type_var, op.type_var,
-                         conv_prop=T.BaseTypeDecl.derefed_base_subtype)
+                         conv_prop=T.BaseTypeDecl.derefed_base_subtype,
+                         logic_ctx=logic_context)
                     & Bind(op.type_var, right.expected_type_var)
                     & Or(
                         Bind(op.type_var, left.expected_type_var),
@@ -14037,7 +14203,8 @@ class ConcatOp(Expr):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[origin, logic_context])
     def array_concat_expected_type_equation(left=T.Expr.entity,
                                             op=T.ConcatOperand.entity,
                                             right=T.Expr.entity):
@@ -14064,20 +14231,24 @@ class ConcatOp(Expr):
                 #  - "&" (Array_Of_T, Array_Of_T) -> Array_Of_T.
                 NPropagate(op.type_var,
                            BaseTypeDecl.array_concat_result_type,
-                           left.type_var, right.type_var)
+                           left.type_var, right.type_var,
+                           logic_ctx=logic_context)
                 & NPropagate(left.expected_type_var,
                              BaseTypeDecl.expected_array_concat_operand_type,
-                             op.type_var, left.type_var)
+                             op.type_var, left.type_var,
+                             logic_ctx=logic_context)
                 & NPropagate(right.expected_type_var,
                              BaseTypeDecl.expected_array_concat_operand_type,
-                             op.type_var, right.type_var),
+                             op.type_var, right.type_var,
+                             logic_ctx=logic_context),
 
                 # But we need another disjunction to handle the case:
                 #  - "&" (T, T) -> Array_Of_T
                 # For this case, we necessarily need to use the type of the
                 # context even though both operands have a context-free type.
                 Bind(op.expected_type_var, op.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                     conv_prop=BaseTypeDecl.derefed_base_subtype,
+                     logic_ctx=logic_context)
                 & Self.comp_bind(op.type_var, left.expected_type_var)
                 & Self.comp_bind(op.type_var, right.expected_type_var)
                 & left.matches_expected_formal_type
@@ -14090,7 +14261,8 @@ class ConcatOp(Expr):
                 # result. This can handle the cases:
                 #  - "&" (Array_Of_T, *) -> Array_Of_T.
                 Bind(left.type_var, op.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                     conv_prop=BaseTypeDecl.derefed_base_subtype,
+                     logic_ctx=logic_context)
                 & Bind(op.type_var, left.expected_type_var),
 
                 # We need another disjunction to handle the remaining cases:
@@ -14098,7 +14270,8 @@ class ConcatOp(Expr):
                 # For both these cases, we need to use the type of the context
                 # even though LHS has a context-free type.
                 Bind(op.expected_type_var, op.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                     conv_prop=BaseTypeDecl.derefed_base_subtype,
+                     logic_ctx=logic_context)
                 & Self.comp_bind(op.type_var, left.expected_type_var)
                 & left.matches_expected_formal_type
             )
@@ -14116,7 +14289,8 @@ class ConcatOp(Expr):
                 # the result. This can handle the cases:
                 #  - "&" (*, Array_Of_T) -> Array_Of_T.
                 Bind(right.type_var, op.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                     conv_prop=BaseTypeDecl.derefed_base_subtype,
+                     logic_ctx=logic_context)
                 & Bind(op.type_var, right.expected_type_var),
 
                 # We need another disjunction to handle the remaining cases:
@@ -14124,7 +14298,8 @@ class ConcatOp(Expr):
                 # For both these cases, we need to use the type of the context
                 # even though RHS has a context-free type.
                 Bind(op.expected_type_var, op.type_var,
-                     conv_prop=BaseTypeDecl.derefed_base_subtype)
+                     conv_prop=BaseTypeDecl.derefed_base_subtype,
+                     logic_ctx=logic_context)
                 & Self.comp_bind(op.type_var, right.expected_type_var)
                 & right.matches_expected_formal_type
             )
@@ -14140,7 +14315,8 @@ class ConcatOp(Expr):
             # have an expected type (otherwise it wouldn't be valid Ada code).
             # Use it to determine the type of the operands.
             Bind(op.expected_type_var, op.type_var,
-                 conv_prop=BaseTypeDecl.derefed_base_subtype)
+                 conv_prop=BaseTypeDecl.derefed_base_subtype,
+                 logic_ctx=logic_context)
             & Or(
                 Bind(op.type_var, left.expected_type_var),
                 Self.comp_bind(op.type_var, left.expected_type_var)
@@ -14217,7 +14393,7 @@ class MembershipExpr(Expr):
                     typ.is_tagged_type,
                     Bind(Self.expr.expected_type_var, No(BaseTypeDecl.entity))
                     & Predicate(BaseTypeDecl.is_tagged_type_with_deref,
-                                Self.expr.type_var),
+                                Self.expr.type_var, error_location=Self),
 
                     # This is a simple subtype membership test, so the expected
                     # type of the tested expression is the subtype's base type.
@@ -14303,7 +14479,7 @@ class BaseAggregate(Expr):
                 # the following predicate.
                 ae.sub_equation
                 & Predicate(BaseTypeDecl.is_tagged_type_with_deref,
-                            ae.type_var)
+                            ae.type_var, error_location=ae.node)
             ),
             default_val=LogicTrue()
         ) & Entity.assocs.logic_all(
@@ -14893,6 +15069,18 @@ class Name(Expr):
         ) & Entity.parent_name(root).then(
             lambda name: name.all_args_xref_equation(root),
             default_val=LogicTrue()
+        )
+
+    @langkit_property(return_type=Equation)
+    def undefined_reference_equation():
+        """
+        Return an equation that always emits a diagnostic indicating that the
+        entity designated by this name is missing.
+        """
+        return And(
+            Bind(Self.ref_var, No(T.AdaNode.entity)),
+            Predicate(AdaNode.missing_entity_error, Self.ref_var,
+                      error_location=Self)
         )
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
@@ -16010,7 +16198,8 @@ class CallExpr(Name):
             Bind(Self.type_var, Self.name.ref_var)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, logic_context])
     def entry_equation(e=T.EntryDecl.entity, root=T.Name):
         """
         Build the xref equation in case this node represents a call to the
@@ -16044,10 +16233,11 @@ class CallExpr(Name):
             Entity.entity_equation(e, root)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, logic_context])
     def entity_equation(s=T.BasicDecl.entity, root=T.Name):
         # The called entity is the matched entity
-        return Bind(Self.name.ref_var, s.corresponding_actual) & Cond(
+        return Cond(
 
             # If s does not have any parameters, then we construct the
             # chain of name equations starting from self, with the parent
@@ -16139,7 +16329,7 @@ class CallExpr(Name):
             # without ambiguity. This allows us to use its type in order to
             # solve the rest of the expression.
             Entity.name.is_a(AttributeRef),
-            Entity.name.resolve_names_internal.then(lambda _: And(
+            Entity.name.resolve_names_internal(False).then(lambda _: And(
                 Entity.all_args_xref_equation(root),
                 Entity.name.type_val.cast(BaseTypeDecl).then(
                     lambda typ: Entity.parent_name_equation(typ, root),
@@ -16147,9 +16337,16 @@ class CallExpr(Name):
                     # If the attribute has no type, it must necessarily
                     # reference a subprogram. Therefore, handle the rest as
                     # if it was an entity call.
-                    default_val=Entity.entity_equation(
-                        Entity.name.ref_var.get_value.cast_or_raise(BasicDecl),
-                        root
+                    default_val=logic_context.bind(
+                        T.LogicContext.new(
+                            ref_node=Entity.name,
+                            decl_node=Entity.name.ref_var.get_value
+                        ),
+                        Entity.entity_equation(
+                            Entity.name.ref_var.get_value
+                            .cast_or_raise(BasicDecl),
+                            root
+                        )
                     )
                 )),
                 default_val=LogicFalse()
@@ -16160,18 +16357,25 @@ class CallExpr(Name):
 
                 # For each potential entity match, we want to express the
                 # following constraints:
-                Let(lambda subps=Entity.env_elements: And(
-                    subps.logic_any(
-                        lambda s: s.cast(EntryDecl).then(
+                Let(lambda subps=Entity.env_elements: If(
+                    subps.is_null,
+                    LogicTrue(),
+                    subps.logic_any(lambda s: logic_context.bind(
+                        T.LogicContext.new(
+                            ref_node=Entity.name,
+                            decl_node=s
+                        ),
+                        Bind(Self.name.ref_var,
+                             s.cast(BasicDecl).corresponding_actual)
+                        & s.cast(EntryDecl).then(
                             lambda e: Entity.entry_equation(e, root),
                             default_val=Entity.entity_equation(
-                                s.cast_or_raise(BasicDecl),
+                                s.cast(BasicDecl),
                                 root
                             )
                         )
-                    ),
-                    Entity.name.sub_equation
-                ))
+                    )),
+                )) & Entity.name.sub_equation
                 # TODO: Bug here: if operator equation, then parent equation is
                 # not called!
             )
@@ -16192,8 +16396,13 @@ class CallExpr(Name):
             # First handle the case where this is an access to subprogram
             typ.access_def.is_a(AccessToSubpDef),
             typ.access_def.cast(AccessToSubpDef).then(
-                lambda asd:
-                Entity.subprogram_equation(asd.subp_spec, False),
+                lambda asd: logic_context.bind(
+                    T.LogicContext.new(
+                        ref_node=Entity.name,
+                        decl_node=typ
+                    ),
+                    Entity.subprogram_equation(asd.subp_spec, False)
+                ),
                 default_val=LogicFalse(),
             ),
 
@@ -16258,14 +16467,16 @@ class CallExpr(Name):
             LogicFalse()
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, logic_context])
     def subprogram_equation(subp_spec=T.BaseFormalParamHolder.entity,
                             dottable_subp=Bool):
         return subp_spec.then(
             lambda subp_spec:
             # The type of the expression is the expr_type of the
             # subprogram.
-            Bind(Self.type_var, subp_spec.cast(BaseSubpSpec)._.return_type)
+            Bind(Self.type_var, subp_spec.cast(BaseSubpSpec)._.return_type,
+                 logic_ctx=logic_context)
 
             # This node represents a call to a subprogram which specification
             # is given by ``subp_spec``.
@@ -18552,10 +18763,9 @@ class BaseId(SingleTokNode):
 
     @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
     def base_id_xref_equation():
-        env_els = Var(Entity.env_elements)
         is_prefix = Var(Not(Self.is_suffix))
 
-        return env_els.logic_any(
+        return Entity.env_elements.then(lambda env_els: env_els.logic_any(
             lambda e:
             Bind(Self.ref_var, e.cast(BasicDecl).corresponding_actual)
             & If(
@@ -18574,7 +18784,7 @@ class BaseId(SingleTokNode):
                      conv_prop=BasicDecl.expr_type)
                 & Bind(Self.subp_spec_var, e.cast(BasicDecl).subp_spec_or_null)
             )
-        )
+        ), default_val=Entity.undefined_reference_equation)
 
 
 class Op(BaseId):
@@ -18790,7 +19000,8 @@ class StringLiteral(BaseId):
             Self.parent.is_a(Name),
             Entity.base_id_xref_equation,
             Predicate(BaseTypeDecl.allows_string_literal,
-                      Self.expected_type_var)
+                      Self.expected_type_var,
+                      error_location=Self)
             & Bind(Self.expected_type_var, Self.type_var)
         )
 
@@ -20523,7 +20734,7 @@ class AttributeRef(Name):
         # representing an int that we will use as a dimension.
         dim = Var(Entity.args.at(0)._.expr.then(
             lambda expr: Let(
-                lambda _=expr.resolve_names_internal:
+                lambda _=expr.resolve_names_internal(False):
                 expr.eval_as_int.as_int
             ), default_val=1) - 1)
 
@@ -20744,7 +20955,7 @@ class UpdateAttributeRef(Name):
         # the type of the updated value. This allows the aggregate associations
         # inside of it to be resolved independently.
         # (see AggregateAssoc.xref_equation).
-        ignore(Var(Entity.prefix.resolve_names_internal))
+        ignore(Var(Entity.prefix.resolve_names_internal(False)))
         prefix_type = Var(Entity.prefix.type_val.cast(BaseTypeDecl))
         return And(
             Bind(Entity.values.cast_or_raise(Aggregate).type_var, prefix_type),
@@ -20909,10 +21120,13 @@ class DottedName(Name):
             base
             & Bind(Self.expected_type_var, Self.suffix.expected_type_var)
             & Bind(Self.type_var, Self.suffix.type_var)
-            & Entity.env_elements.logic_any(
-                lambda e:
-                Bind(Self.suffix.ref_var, e)
-                & e.cast(BasicDecl.entity).constrain_prefix(Self.prefix)
+            & Entity.env_elements.then(
+                lambda env_els: env_els.logic_any(
+                    lambda e:
+                    Bind(Self.suffix.ref_var, e)
+                    & e.cast(BasicDecl.entity).constrain_prefix(Self.prefix)
+                ),
+                default_val=Entity.undefined_reference_equation,
             )
         )
 

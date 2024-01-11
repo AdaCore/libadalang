@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:4:4-4:15>
+*****************************************************
+
+test.adb:4:9: error: expected Integer, got Boolean
+4 |    Foo (True);
+  |         ^^^^
+
+
+
+Done.

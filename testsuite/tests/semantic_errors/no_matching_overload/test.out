@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:7:4-7:20>
+*******************************************************
+
+test.adb:7:9: error: no matching alternative (of 2 candidates)
+7 |    X := Foo (True);
+  |         ^^^
+
+test.adb:5:22: info: expected Float, got Boolean
+5 |    function Foo (X : Float) return Integer is (0);
+  |                      ^^^^^
+
+test.adb:4:22: info: expected Integer, got Boolean
+4 |    function Foo (X : Integer) return Integer is (0);
+  |                      ^^^^^^^
+
+
+
+Done.

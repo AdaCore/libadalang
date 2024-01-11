@@ -4,7 +4,10 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["V"] test.adb:5:4-13:16>
 **************************************************************
 
-Resolution failed for node <ObjectDecl ["V"] test.adb:5:4-13:16>
+test.adb:12:7: error: expected <null>, got <null>
+12 |       G'Access &
+   |       ^^^^^^^^
+
 
 
 Done.

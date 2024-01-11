@@ -15,15 +15,18 @@ with GNATCOLL.Memory; use GNATCOLL.Memory;
 with GNATCOLL.Opt_Parse;
 with GNATCOLL.VFS;    use GNATCOLL.VFS;
 
-with Langkit_Support.Adalog.Debug;   use Langkit_Support.Adalog.Debug;
+with Langkit_Support.Adalog.Debug; use Langkit_Support.Adalog.Debug;
+with Langkit_Support.Diagnostics;
+with Langkit_Support.Diagnostics.Output;
 with Langkit_Support.Lexical_Envs;
-with Langkit_Support.Slocs;          use Langkit_Support.Slocs;
-with Langkit_Support.Text;           use Langkit_Support.Text;
+with Langkit_Support.Slocs;        use Langkit_Support.Slocs;
+with Langkit_Support.Text;         use Langkit_Support.Text;
 
-with Libadalang.Analysis;  use Libadalang.Analysis;
-with Libadalang.Common;    use Libadalang.Common;
-with Libadalang.Helpers;   use Libadalang.Helpers;
-with Libadalang.Iterators; use Libadalang.Iterators;
+with Libadalang.Analysis;             use Libadalang.Analysis;
+with Libadalang.Common;               use Libadalang.Common;
+with Libadalang.Helpers;              use Libadalang.Helpers;
+with Libadalang.Iterators;            use Libadalang.Iterators;
+with Libadalang.Semantic_Diagnostics; use Libadalang.Semantic_Diagnostics;
 
 with Put_Title;
 
@@ -225,6 +228,14 @@ procedure Nameres is
 
    function Decode_Boolean_Literal (T : Text_Type) return Boolean is
      (Boolean'Wide_Wide_Value (T));
+
+   procedure Emit_Diagnostics
+     (Origin      : Ada_Node;
+      Diagnostics : Solver_Diagnostic_Array);
+   --  Process the raw nameres diagnostics by formatting them using an
+   --  aggregator and a node renderer (see the implementation). Output them
+   --  to the standard output after that.
+
    procedure Process_File
      (Job_Data : in out Job_Data_Record;
       Unit     : Analysis_Unit;
@@ -725,6 +736,56 @@ procedure Nameres is
       end if;
    end Process_Unit;
 
+   ----------------------
+   -- Emit_Diagnostics --
+   ----------------------
+
+   procedure Emit_Diagnostics
+     (Origin      : Ada_Node;
+      Diagnostics : Solver_Diagnostic_Array)
+   is
+      procedure Emit_Located_Message
+        (Message : Located_Message;
+         Style   : Langkit_Support.Diagnostics.Output.Diagnostic_Style);
+      --  Print the given location message using Langkit's ``Outputs`` package
+      --  for diagnostics.
+
+      --------------------------
+      -- Emit_Located_Message --
+      --------------------------
+
+      procedure Emit_Located_Message
+        (Message : Located_Message;
+         Style   : Langkit_Support.Diagnostics.Output.Diagnostic_Style)
+      is
+         Diag : constant Langkit_Support.Diagnostics.Diagnostic :=
+           Langkit_Support.Diagnostics.Create
+             (Message.Location.Sloc_Range, To_Text (Message.Message));
+      begin
+         Langkit_Support.Diagnostics.Output.Print_Diagnostic
+           (Diag,
+            Message.Location.Unit,
+            +Create (+Message.Location.Unit.Get_Filename).Base_Name,
+            Style);
+      end Emit_Located_Message;
+
+      Ctx_Diag : constant Contextual_Diagnostic := Build_Contextual_Diagnostics
+        (Origin,
+         Diagnostics,
+         Basic_Aggregator'Access,
+         Basic_Node_Renderer'Access);
+   begin
+      Emit_Located_Message
+        (Ctx_Diag.Error,
+         Langkit_Support.Diagnostics.Output.Default_Diagnostic_Style);
+
+      for Info_Diag of Ctx_Diag.Contexts loop
+         Emit_Located_Message
+           (Info_Diag,
+            Langkit_Support.Diagnostics.Output.Info_Diagnostic_Style);
+      end loop;
+   end Emit_Diagnostics;
+
    ------------------
    -- Process_File --
    ------------------
@@ -1037,7 +1098,7 @@ procedure Nameres is
             end if;
          else
             if not Quiet then
-               Put_Line ("Resolution failed for node " & Node.Image);
+               Emit_Diagnostics (Node, P_Nameres_Diagnostics (Node));
             end if;
 
             if XFAIL then

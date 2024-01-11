@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:13:4-13:15>
+*********************************************************
+
+test.adb:13:11: error: expected T [instance at line 7], got T [instance at line 8]
+13 |    X_1 := X_2;
+   |           ^^^
+
+
+
+Done.

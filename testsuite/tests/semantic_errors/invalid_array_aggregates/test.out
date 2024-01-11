@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["A"] test.adb:4:4-4:33>
+*************************************************************
+
+test.adb:4:27: error: expected Integer, got Boolean
+4 |    A : Arr := (1 .. 10 => True);
+  |                           ^^^^
+
+
+Resolving xrefs for node <ObjectDecl ["B"] test.adb:7:4-7:36>
+*************************************************************
+
+test.adb:7:16: error: expected Positive, got Boolean
+7 |    B : Arr := (True .. False => 2);
+  |                ^^^^
+
+
+
+Done.

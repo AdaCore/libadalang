@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:8:4-8:11>
+*******************************************************
+
+test.adb:8:9: error: expected anonymous access on Integer, got universal integer
+8 |    X := 2;
+  |         ^
+
+
+Resolving xrefs for node <AssignStmt test.adb:11:4-11:11>
+*********************************************************
+
+test.adb:11:9: error: expected anonymous array type defined at test.adb:5:8, got universal integer
+11 |    Y := 3;
+   |         ^
+
+
+Resolving xrefs for node <AssignStmt test.adb:14:4-14:11>
+*********************************************************
+
+test.adb:14:9: error: expected anonymous access on T'Class, got universal integer
+14 |    Z := 4;
+   |         ^
+
+
+
+Done.

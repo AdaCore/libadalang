@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["Y"] test.adb:5:4-5:35>
+*************************************************************
+
+test.adb:5:26: error: expected Integer, got Boolean
+5 |    Y : Integer_Access := X'Access;
+  |                          ^
+
+
+
+Done.

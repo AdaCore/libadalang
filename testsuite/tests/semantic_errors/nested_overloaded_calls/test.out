@@ -1,0 +1,37 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:7:4-7:26>
+*******************************************************
+
+test.adb:7:14: error: expected Boolean, got Integer
+7 |    X := Foo (Foo (True));
+  |              ^^^^^^^^^^
+
+
+
+Analyzing test_2.adb
+####################
+
+Resolving xrefs for node <AssignStmt test_2.adb:10:4-10:23>
+***********************************************************
+
+test_2.adb:10:14: error: no matching alternative (showing 3 out of 4 candidates)
+10 |    X := Bar (Foo (2));
+   |              ^^^
+
+test_2.adb:8:22: info: expected Duration, got Integer
+8 |    function Bar (X : Duration) return Integer is (0);
+  |                      ^^^^^^^^
+
+test_2.adb:7:22: info: expected Float, got Integer
+7 |    function Bar (X : Float) return Integer is (0);
+  |                      ^^^^^
+
+test_2.adb:8:22: info: expected Duration, got Boolean
+8 |    function Bar (X : Duration) return Integer is (0);
+  |                      ^^^^^^^^
+
+
+
+Done.

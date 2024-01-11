@@ -256,22 +256,34 @@ Expr: <Id "My_Bool" test_invalid.adb:6:25-6:32>
 Resolving xrefs for node <AspectAssoc test_invalid.adb:7:12-7:30>
 *****************************************************************
 
-Resolution failed for node <AspectAssoc test_invalid.adb:7:12-7:30>
+test_invalid.adb:7:19: error: expected Boolean, got My_Bool
+7 |       with Pre => X and not Y,
+  |                   ^
+
 
 Resolving xrefs for node <AspectAssoc test_invalid.adb:8:12-9:53>
 *****************************************************************
 
-Resolution failed for node <AspectAssoc test_invalid.adb:8:12-9:53>
+test_invalid.adb:8:46: error: expected Boolean, got My_Bool
+8 |            Contract_Cases => (X and not Y => X and not Y,
+  |                                              ^
+
 
 Resolving xrefs for node <PragmaNode test_invalid.adb:12:4-12:35>
 *****************************************************************
 
-Resolution failed for node <PragmaNode test_invalid.adb:12:4-12:35>
+test_invalid.adb:12:17: error: no such entity
+12 |    pragma Post (Foo, X and not Y);
+   |                 ^^^
+
 
 Resolving xrefs for node <PragmaNode test_invalid.adb:21:4-21:31>
 *****************************************************************
 
-Resolution failed for node <PragmaNode test_invalid.adb:21:4-21:31>
+test_invalid.adb:21:20: error: no matching operator found
+21 |    pragma Debug (X or Y, Bar);
+   |                    ^^
+
 
 Resolving xrefs for node <ForLoopSpec test_invalid.adb:25:8-25:36>
 ******************************************************************
@@ -295,7 +307,10 @@ Expr: <Int test_invalid.adb:25:18-25:19>
 Resolving xrefs for node <ForLoopIterFilter test_invalid.adb:25:20-25:36>
 *************************************************************************
 
-Resolution failed for node <ForLoopIterFilter test_invalid.adb:25:20-25:36>
+test_invalid.adb:25:25: error: expected Boolean, got My_Bool
+25 |    for K in 1 .. 3 when X and not Y loop
+   |                         ^
+
 
 Resolving xrefs for node <NullStmt test_invalid.adb:26:7-26:12>
 ***************************************************************
@@ -304,7 +319,10 @@ Resolving xrefs for node <NullStmt test_invalid.adb:26:7-26:12>
 Resolving xrefs for node <AssignStmt test_invalid.adb:30:4-30:45>
 *****************************************************************
 
-Resolution failed for node <AssignStmt test_invalid.adb:30:4-30:45>
+test_invalid.adb:30:32: error: expected Boolean, got My_Bool
+30 |    Z := (for all K in 1 ..3 => X and not Y);
+   |                                ^
+
 
 
 Analyzing test_task.adb
@@ -339,7 +357,10 @@ Expr: <Id "Y" test_task.adb:12:29-12:30>
 Resolving xrefs for node <EntryBody ["Foo"] test_task.adb:30:7-33:15>
 *********************************************************************
 
-Resolution failed for node <EntryBody ["Foo"] test_task.adb:30:7-33:15>
+test_task.adb:30:22: error: expected Boolean, got My_Bool
+30 |       entry Foo when X and not Y is
+   |                      ^
+
 
 
 Done.

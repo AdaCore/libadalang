@@ -4,7 +4,10 @@ Analyzing testuse.adb
 Resolving xrefs for node <ObjectDecl ["C"] testuse.adb:14:7-14:24>
 ******************************************************************
 
-Resolution failed for node <ObjectDecl ["C"] testuse.adb:14:7-14:24>
+testuse.adb:14:20: error: expected Float, got Integer
+14 |       C : Float := Foo;
+   |                    ^^^
+
 
 Resolving xrefs for node <UsePackageClause testuse.adb:15:7-15:13>
 ******************************************************************

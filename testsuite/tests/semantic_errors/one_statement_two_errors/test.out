@@ -1,0 +1,13 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:4:4-4:22>
+*****************************************************
+
+test.adb:4:17: error: no matching operator found
+4 |    Foo (True, 2 + 2);
+  |                 ^
+
+
+
+Done.

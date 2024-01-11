@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <IfStmt test.adb:4:4-6:11>
+***************************************************
+
+test.adb:4:7: error: expected boolean type, got Integer
+4 |    if V then
+  |       ^
+
+
+Resolving xrefs for node <ExitStmt test.adb:10:7-10:19>
+*******************************************************
+
+test.adb:10:17: error: expected boolean type, got Integer
+10 |       exit when V;
+   |                 ^
+
+
+
+Done.

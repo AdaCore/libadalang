@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:7:4-7:20>
+*****************************************************
+
+test.adb:7:9: error: no matching alternative (of 2 candidates)
+7 |    Bar (Foo (2.5));
+  |         ^^^
+
+test.adb:3:22: info: expected Boolean, got universal real
+3 |    function Foo (X : Boolean) return Boolean is (X);
+  |                      ^^^^^^^
+
+test.adb:2:22: info: expected Integer, got universal real
+2 |    function Foo (X : Integer) return Integer is (X);
+  |                      ^^^^^^^
+
+
+
+Done.

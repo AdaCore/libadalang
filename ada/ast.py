@@ -16657,7 +16657,11 @@ class AggregateAssoc(BasicAssoc):
             # as they must all refer to existing declarations.
             Entity.exprs_assoc_equation,
 
-            agg.in_aspect('Contract_Cases'),
+            # In the case of Contract_Cases aspect, only the top level
+            # aggregate should be resolved by the special equation here. All
+            # other agreggates included in the latter should use the regular
+            # resolution path.
+            agg.parent.cast(AspectAssoc)._.id.name_is('Contract_Cases'),
             Entity.contract_cases_assoc_equation,
 
             agg.is_a(T.BracketAggregate) & td._.has_aspect('Aggregate'),

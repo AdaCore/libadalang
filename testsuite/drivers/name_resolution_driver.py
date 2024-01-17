@@ -52,6 +52,9 @@ class NameResolutionDriver(BaseDriver):
 
     * ``traverse_generics``: Boolean (false by default): whether to pass the
       ``--traverse-generics`` switch to ``nameres``.
+
+    * ``runtime_name``: Name of the runtime to use when loading the project
+      (``--RTS`` nameres switch).
     """
 
     perf_supported = True
@@ -139,6 +142,10 @@ class NameResolutionDriver(BaseDriver):
 
         if self.test_env.get("traverse_generics"):
             args.append("--traverse-generics")
+
+        runtime_name = self.test_env.get("runtime_name")
+        if runtime_name:
+            args.append(f"--RTS={runtime_name}")
 
         # Add optional explicit list of sources to process
         args += input_sources

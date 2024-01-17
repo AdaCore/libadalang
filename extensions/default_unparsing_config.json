@@ -1,0 +1,10 @@
+{
+  "node_configs": {
+    "DottedName": {
+      "node": {"kind": "fill", "document": "recurse"},
+      "fields": {
+        "f_prefix": ["recurse", "softline"]
+      }
+    }
+  }
+}

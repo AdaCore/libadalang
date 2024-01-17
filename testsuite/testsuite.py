@@ -25,7 +25,7 @@ from langkit.coverage import GNATcov
 from drivers import (
     adaapi_driver, capi_driver, dda_driver, inline_pg_driver, java_driver,
     name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
-    prep_driver, python_driver
+    prep_driver, python_driver, unparser_driver,
 )
 
 
@@ -71,6 +71,7 @@ class LALTestsuite(Testsuite):
         'parser': parser_driver.ParserDriver,
         'prep': prep_driver.PrepDriver,
         'python': python_driver.PythonDriver,
+        'unparser': unparser_driver.UnparserDriver,
     }
 
     # Even though we test Libadalang only in native configurations, this allows

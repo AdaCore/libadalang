@@ -1,0 +1,438 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpSpec test.adb:6:4-6:60>
+*****************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X", "Y", "Z"] test.adb:6:17-6:37>
+***********************************************************************
+
+Expr: <Id "Integer" test.adb:6:30-6:37>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["Result"] test.adb:6:39-6:59>
+******************************************************************
+
+Expr: <Id "Boolean" test.adb:6:52-6:59>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:7:11-7:43>
+*********************************************************
+
+Expr: <Id "Depends" test.adb:7:11-7:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:7:22-7:43>
+  type:          None
+  expected type: None
+Expr: <Id "Result" test.adb:7:23-7:29>
+  references:    <DefiningName "Result" test.adb:6:39-6:45>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Aggregate test.adb:7:33-7:42>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:7:34-7:35>
+  references:    <DefiningName "X" test.adb:6:17-6:18>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Y" test.adb:7:37-7:38>
+  references:    <DefiningName "Y" test.adb:6:20-6:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Z" test.adb:7:40-7:41>
+  references:    <DefiningName "Z" test.adb:6:23-6:24>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:10:4-10:67>
+*******************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X", "Y", "Z"] test.adb:10:17-10:37>
+*************************************************************************
+
+Expr: <Id "Integer" test.adb:10:30-10:37>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["A", "B", "C", "D", "E"] test.adb:10:39-10:66>
+***********************************************************************************
+
+Expr: <Id "Integer" test.adb:10:59-10:66>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:11:11-14:35>
+***********************************************************
+
+Expr: <Id "Depends" test.adb:11:11-11:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:11:22-14:35>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:11:23-11:29>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:11:24-11:25>
+  references:    <DefiningName "A" test.adb:10:39-10:40>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "B" test.adb:11:27-11:28>
+  references:    <DefiningName "B" test.adb:10:42-10:43>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Aggregate test.adb:11:33-11:39>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:11:34-11:35>
+  references:    <DefiningName "X" test.adb:10:17-10:18>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Y" test.adb:11:37-11:38>
+  references:    <DefiningName "Y" test.adb:10:20-10:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "C" test.adb:12:23-12:24>
+  references:    <DefiningName "C" test.adb:10:45-10:46>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Aggregate test.adb:12:33-12:39>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:12:34-12:35>
+  references:    <DefiningName "X" test.adb:10:17-10:18>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Z" test.adb:12:37-12:38>
+  references:    <DefiningName "Z" test.adb:10:23-10:24>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "D" test.adb:13:23-13:24>
+  references:    <DefiningName "D" test.adb:10:48-10:49>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Null test.adb:13:33-13:37>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "E" test.adb:14:23-14:24>
+  references:    <DefiningName "E" test.adb:10:51-10:52>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Y" test.adb:14:33-14:34>
+  references:    <DefiningName "Y" test.adb:10:20-10:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:17:4-17:67>
+*******************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X", "Y", "Z"] test.adb:17:17-17:37>
+*************************************************************************
+
+Expr: <Id "Integer" test.adb:17:30-17:37>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["A", "B", "C", "D"] test.adb:17:39-17:66>
+******************************************************************************
+
+Expr: <Id "Integer" test.adb:17:59-17:66>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:18:11-20:39>
+***********************************************************
+
+Expr: <Id "Depends" test.adb:18:11-18:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:18:22-20:39>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:18:23-18:29>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:18:24-18:25>
+  references:    <DefiningName "A" test.adb:17:39-17:40>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "B" test.adb:18:27-18:28>
+  references:    <DefiningName "B" test.adb:17:42-17:43>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <UnOp test.adb:18:32-18:43>
+  type:          None
+  expected type: None
+Expr: <OpPlus "+" test.adb:18:32-18:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:18:34-18:43>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:18:35-18:36>
+  references:    <DefiningName "A" test.adb:17:39-17:40>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "X" test.adb:18:38-18:39>
+  references:    <DefiningName "X" test.adb:17:17-17:18>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Y" test.adb:18:41-18:42>
+  references:    <DefiningName "Y" test.adb:17:20-17:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "C" test.adb:19:23-19:24>
+  references:    <DefiningName "C" test.adb:17:45-17:46>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <UnOp test.adb:19:32-19:35>
+  type:          None
+  expected type: None
+Expr: <OpPlus "+" test.adb:19:32-19:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Z" test.adb:19:34-19:35>
+  references:    <DefiningName "Z" test.adb:17:23-17:24>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "D" test.adb:20:23-20:24>
+  references:    <DefiningName "D" test.adb:17:48-17:49>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <UnOp test.adb:20:32-20:38>
+  type:          None
+  expected type: None
+Expr: <OpPlus "+" test.adb:20:32-20:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Null test.adb:20:34-20:38>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:23:4-23:15>
+*******************************************************
+
+
+Resolving xrefs for node <AspectAssoc test.adb:24:11-25:46>
+***********************************************************
+
+Expr: <Id "Global" test.adb:24:11-24:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:24:22-25:46>
+  type:          None
+  expected type: None
+Expr: <Id "Input" test.adb:24:23-24:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:24:33-24:42>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:24:34-24:35>
+  references:    <DefiningName "X" test.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Y" test.adb:24:37-24:38>
+  references:    <DefiningName "Y" test.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Z" test.adb:24:40-24:41>
+  references:    <DefiningName "Z" test.adb:4:10-4:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "In_Out" test.adb:25:23-25:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:25:33-25:45>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:25:34-25:35>
+  references:    <DefiningName "A" test.adb:4:13-4:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "B" test.adb:25:37-25:38>
+  references:    <DefiningName "B" test.adb:4:16-4:17>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "C" test.adb:25:40-25:41>
+  references:    <DefiningName "C" test.adb:4:19-4:20>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "D" test.adb:25:43-25:44>
+  references:    <DefiningName "D" test.adb:4:22-4:23>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:26:11-28:39>
+***********************************************************
+
+Expr: <Id "Depends" test.adb:26:11-26:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:26:22-28:39>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:26:23-26:29>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:26:24-26:25>
+  references:    <DefiningName "A" test.adb:4:13-4:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "B" test.adb:26:27-26:28>
+  references:    <DefiningName "B" test.adb:4:16-4:17>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <UnOp test.adb:26:32-26:46>
+  type:          None
+  expected type: None
+Expr: <OpPlus "+" test.adb:26:32-26:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:26:34-26:46>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:26:35-26:36>
+  references:    <DefiningName "A" test.adb:4:13-4:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "X" test.adb:26:38-26:39>
+  references:    <DefiningName "X" test.adb:4:4-4:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Y" test.adb:26:41-26:42>
+  references:    <DefiningName "Y" test.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Z" test.adb:26:44-26:45>
+  references:    <DefiningName "Z" test.adb:4:10-4:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "C" test.adb:27:23-27:24>
+  references:    <DefiningName "C" test.adb:4:19-4:20>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <UnOp test.adb:27:32-27:35>
+  type:          None
+  expected type: None
+Expr: <OpPlus "+" test.adb:27:32-27:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test.adb:27:34-27:35>
+  references:    <DefiningName "Y" test.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "D" test.adb:28:23-28:24>
+  references:    <DefiningName "D" test.adb:4:22-4:23>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <UnOp test.adb:28:32-28:38>
+  type:          None
+  expected type: None
+Expr: <OpPlus "+" test.adb:28:32-28:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Null test.adb:28:34-28:38>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:31:4-31:46>
+*******************************************************
+
+Expr: <Id "Integer" test.adb:31:39-31:46>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["X", "Y"] test.adb:31:16-31:30>
+********************************************************************
+
+Expr: <Id "Integer" test.adb:31:23-31:30>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:32:11-32:23>
+***********************************************************
+
+Expr: <Id "Global" test.adb:32:11-32:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "G" test.adb:32:22-32:23>
+  references:    <DefiningName "G" test.adb:4:25-4:26>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:33:11-34:37>
+***********************************************************
+
+Expr: <Id "Depends" test.adb:33:11-33:18>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:33:22-34:37>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:33:23-33:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "F" test.adb:33:23-33:24>
+  references:    <DefiningName "F" test.adb:31:13-31:14>
+  type:          None
+  expected type: None
+Expr: <Id "Result" test.adb:33:25-33:31>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:33:35-33:41>
+  type:          None
+  expected type: None
+Expr: <Id "G" test.adb:33:36-33:37>
+  references:    <DefiningName "G" test.adb:4:25-4:26>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "X" test.adb:33:39-33:40>
+  references:    <DefiningName "X" test.adb:31:16-31:17>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Null test.adb:34:23-34:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Y" test.adb:34:35-34:36>
+  references:    <DefiningName "Y" test.adb:31:19-31:20>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+
+Done.

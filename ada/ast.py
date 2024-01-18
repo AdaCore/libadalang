@@ -16848,16 +16848,28 @@ class AggregateAssoc(BasicAssoc):
             # call sub_equation: If it's a name it will resolve the name. If
             # it's an aggregate it will return LogicTrue() and the content will
             # be resolved separately.
-            Entity.expr.sub_equation,
-
+            If(
+                # The ``null`` literal is a possible value for ```expr``. Do
+                # not resolve it.
+                Or(
+                    Entity.expr.is_a(T.NullLiteral),
+                    Entity.expr.cast(T.UnOp)._.expr._.is_a(T.NullLiteral)
+                ),
+                LogicTrue(),
+                Entity.expr.sub_equation
+            ),
             # Here, we go fetch the first element of the list of names. Since
             # we parse this as an aggregate, the list is elements separated by
             # pipes (alternatives_list), which will ever only have one element
-            # in this case. We make sure to only resolve Identifiers, because
-            # the ``null`` literal is also possible here and we don't want
-            # to resolve it.
-            Entity.names.at(0).cast(Identifier).as_entity.then(
-                lambda n: n.sub_equation, default_val=LogicTrue()
+            # in this case. As above, we make sure to not resolve the ``null``
+            # literal.
+            Let(
+                lambda n=Entity.names.at(0):
+                If(
+                    n.is_null | n.is_a(T.NullLiteral),
+                    LogicTrue(),
+                    n.as_entity.sub_equation
+                )
             )
         )
 

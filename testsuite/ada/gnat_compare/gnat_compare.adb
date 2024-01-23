@@ -137,7 +137,7 @@ procedure GNAT_Compare is
 
    function Convert (Arg : String) return Comparison_Set is
    begin
-      return Result : Comparison_Set := (others => False) do
+      return Result : Comparison_Set := (others => True) do
          for C of Arg loop
             declare
                Comp : constant Comparison_Type :=

@@ -1,2 +1,2 @@
-driver: gnat_compare
-project: p.gpr
+driver: gnat-compare
+project_file: p.gpr

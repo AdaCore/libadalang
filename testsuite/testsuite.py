@@ -63,7 +63,7 @@ class LALTestsuite(Testsuite):
         'ada-api': adaapi_driver.AdaAPIDriver,
         'c-api': capi_driver.CAPIDriver,
         'dda': dda_driver.DDADriver,
-        'gnat_compare': gnat_compare_driver.GNATCompareDriver,
+        'gnat-compare': gnat_compare_driver.GNATCompareDriver,
         'inline-playground': inline_pg_driver.InlinePlaygroundDriver,
         'java': java_driver.JavaDriver,
         'name-resolution': name_resolution_driver.NameResolutionDriver,

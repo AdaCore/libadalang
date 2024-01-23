@@ -2,6 +2,7 @@
 
 # default
   -b
+  bar -> Symbol(1)
   foo -> Symbol(1)
   foobar -> Symbol(2)
 

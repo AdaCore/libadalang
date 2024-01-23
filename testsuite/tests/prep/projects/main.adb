@@ -51,6 +51,7 @@ procedure Main is
                        (GPR2.Filename_Type (Filename),
                         GPR2.Path_Name.No_Resolution),
          Context  => GPR2.Context.Empty);
+      GPR2_Tree.Update_Sources (With_Runtime => True);
 
       --  Run the extraction on all the requested subprojects
 

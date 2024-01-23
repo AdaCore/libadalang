@@ -114,8 +114,8 @@ private package Libadalang.GPR_Utils is
 
    function Is_Ada_Source
      (Tree : Any_Tree; View : Any_View; Filename : String) return Boolean;
-   --  Return whether ``Filename`` is an Ada source file that belongs to the
-   --  ``View`` project.
+   --  Return whether ``Filename`` (a base name) is an Ada source file that
+   --  belongs to the ``View`` project.
 
    type Any_Unit_Part is (Unit_Spec, Unit_Body);
 

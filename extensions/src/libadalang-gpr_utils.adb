@@ -389,15 +389,38 @@ package body Libadalang.GPR_Utils is
          declare
             use type GPR1.Project_Type;
 
-            Path  : constant GNATCOLL.VFS.Virtual_File := Create (+Filename);
-            Infos : constant GPR1.File_Info_Set :=
-              Tree.GPR1_Value.Info_Set (Path);
+            --  The Info_Set function expects an absolute path: the only way
+            --  GNATCOLL.Projects gives us to find the absolute path for a
+            --  source file given its basename and the project that owns it is
+            --  to manually go through that project's source directories.
+
+            Dirs  : constant GNATCOLL.VFS.File_Array :=
+              View.GPR1_Value.Source_Dirs;
+            Found : Boolean := False;
+            Info  : GPR1.File_Info;
          begin
+            Dir_Lookup : for D of Dirs loop
+               declare
+                  Full_Filename : constant GNATCOLL.VFS.Virtual_File :=
+                    D.Create_From_Dir (+Filename);
+                  Infos         : constant GPR1.File_Info_Set :=
+                    Tree.GPR1_Value.Info_Set (Full_Filename);
+               begin
+                  for Info_Entry of Infos loop
+                     if GPR1.File_Info (Info_Entry).Project /= GPR1.No_Project
+                     then
+                        Found := True;
+                        Info := GPR1.File_Info (Info_Entry);
+                        exit Dir_Lookup;
+                     end if;
+                  end loop;
+               end;
+            end loop Dir_Lookup;
+
             return
-              (for some Info of Infos =>
-               GPR1.File_Info (Info).Project (Root_If_Not_Found => False)
-                 = View.GPR1_Value
-               and then To_Lower (GPR1.File_Info (Info).Language) = "ada");
+              Found
+              and then Info.Project = View.GPR1_Value
+              and then To_Lower (Info.Language) = "ada";
          end;
 
       when GPR2_Kind =>

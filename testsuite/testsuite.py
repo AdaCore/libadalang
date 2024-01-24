@@ -23,9 +23,9 @@ from e3.testsuite.testcase_finder import ProbingError, YAMLTestFinder
 from langkit.coverage import GNATcov
 
 from drivers import (
-    adaapi_driver, capi_driver, dda_driver, inline_pg_driver, java_driver,
-    name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
-    prep_driver, python_driver, unparser_driver,
+    adaapi_driver, capi_driver, dda_driver, gnat_compare_driver,
+    inline_pg_driver, java_driver, name_resolution_driver, navigation_driver,
+    ocaml_driver, parser_driver, prep_driver, python_driver, unparser_driver,
 )
 
 
@@ -63,6 +63,7 @@ class LALTestsuite(Testsuite):
         'ada-api': adaapi_driver.AdaAPIDriver,
         'c-api': capi_driver.CAPIDriver,
         'dda': dda_driver.DDADriver,
+        'gnat-compare': gnat_compare_driver.GNATCompareDriver,
         'inline-playground': inline_pg_driver.InlinePlaygroundDriver,
         'java': java_driver.JavaDriver,
         'name-resolution': name_resolution_driver.NameResolutionDriver,

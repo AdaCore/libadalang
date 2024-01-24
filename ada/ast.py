@@ -20080,24 +20080,13 @@ class SyntheticTypeExpr(TypeExpr):
         # However, all of Entity's rebinding may not be relevant. For example,
         # if `target_type` is the definition of `Standard.Boolean`, no
         # rebindings will ever be relevant.
-        # In order to find which rebindings are relevant, we first need to
-        # find the closest rebindable parent of `target_type`. From there, we
-        # can inspect Entity's rebindings, and retrieve them as soon as we find
-        # a parent rebinding that rebinds the closest rebindable parent of
-        # `target_type`.
-
-        # First we need to find the closest rebindable parent
-        gd = Var(Self.target_type.parents.find(
-            lambda p: p.is_a(GenericDecl)
-        ).cast(GenericDecl).as_bare_entity)
-
-        # Extract the relevant rebindings
-        relevant_rebindings = Var(gd._.unshed_rebindings(
-            Entity.info.rebindings
-        ).then(
-            lambda fixed: fixed.info.rebindings,
-            default_val=No(T.EnvRebindings)
-        ))
+        # Hence we use the built-in `shed_rebindings` construct from the type
+        # definition's lexical environment so as to only keep relevant ones.
+        relevant_rebindings = Var(
+            Self.target_type.children_env.shed_rebindings(
+                Entity.info
+            ).rebindings
+        )
 
         # Return a rebound `target_type`
         return T.BaseTypeDecl.entity.new(

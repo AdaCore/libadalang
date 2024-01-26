@@ -564,6 +564,44 @@ class AdaNode(ASTNode):
             base
         )
 
+    @langkit_property(return_type=T.Bool)
+    def is_rebound(base=T.EnvRebindings, old_env=T.LexicalEnv):
+        """
+        Return whether ``old_env`` is rebound somewhere inside the given
+        rebindings.
+        """
+        return And(
+            Not(base.is_null),
+            Or(base.old_env == old_env,
+               Self.is_rebound(base.get_parent, old_env))
+        )
+
+    @langkit_property(return_type=T.EnvRebindings)
+    def insert_rebindings(base=T.EnvRebindings, to_insert=T.EnvRebindings):
+        """
+        Append rebindings from ``to_insert`` to ``base``, stopping as soon as
+        an entry from ``to_insert`` is already rebound in ``base``, such that
+        for example ``insert_rebindings([A, C], [B, C, D]) = [A, C, D]``.
+        """
+        return Cond(
+            to_insert.is_null,
+            base,
+
+            base.is_null,
+            to_insert,
+
+            Self.is_rebound(base, to_insert.old_env),
+            base,
+
+            Self.insert_rebindings(
+                base,
+                to_insert.get_parent
+            ).append_rebinding(
+                to_insert.old_env,
+                to_insert.new_env
+            )
+        )
+
     # We mark this property as memoizable because for the moment, we only ever
     # get the first result of logic resolution, so we only ever want the result
     # of the first evaluation of this property. When we change that, we'll
@@ -5101,8 +5139,10 @@ class BaseFormalParamHolder(AdaNode):
                                 node=typ.node,
                                 info=T.entity_info.new(
                                     md=No(Metadata),
-                                    rebindings=typ.info.rebindings
-                                    .concat_rebindings(base_rebindings),
+                                    rebindings=Self.insert_rebindings(
+                                        typ.info.rebindings,
+                                        base_rebindings
+                                    ),
                                     from_rebound=typ.info.from_rebound
                                 )
                             ).designated_type
@@ -12251,7 +12291,7 @@ class GenericInstantiation(BasicDecl):
         # in this non-memoized property to avoid a false "infinite recursion"
         # property error that can happen when the computation is only done in
         # instantiation_bindings_internal.
-        ignore(Var(Self.nonbound_generic_decl))
+        ignore(Var(Self.nonbound_generic_decl_from_self))
         return Entity.instantiation_bindings_internal
 
     @langkit_property(return_type=T.inner_env_assoc.array, memoized=True,
@@ -12260,7 +12300,8 @@ class GenericInstantiation(BasicDecl):
         return If(
             Entity.is_any_formal,
             No(T.inner_env_assoc.array),
-            Self.nonbound_generic_decl._.formal_part.match_param_list(
+            Self.nonbound_generic_decl_from_self
+            ._.formal_part.match_param_list(
                 Entity.generic_inst_params, False
             ).filter(
                 lambda pm: And(
@@ -12302,8 +12343,8 @@ class GenericInstantiation(BasicDecl):
         Entity.generic_inst_params.at(0)._.expr.is_a(T.BoxExpr)
     )
 
-    nonbound_generic_decl = Property(
-        Self.as_bare_entity.generic_entity_name
+    nonbound_generic_decl_from_entity = Property(
+        Entity.generic_entity_name
         .all_env_elements_internal(
             seq=True, seq_from=Self, categories=no_prims
         ).find(
@@ -12315,8 +12356,16 @@ class GenericInstantiation(BasicDecl):
             lambda _: No(T.GenericDecl.entity)
         )._.cast(T.GenericDecl),
         doc="""
-        Return the formal package designated by the right hand part of this
-        generic package instantiation.
+        Return the generic package designated by the right hand part of this
+        generic package instantiation as seen from the current generic context.
+        """
+    )
+
+    nonbound_generic_decl_from_self = Property(
+        Self.as_bare_entity.nonbound_generic_decl_from_entity,
+        doc="""
+        Return the generic package designated by the right hand part of this
+        generic package instantiation from a bare generic context.
         """
     )
 
@@ -12401,7 +12450,7 @@ class GenericInstantiation(BasicDecl):
 
     xref_equation = Property(
         Bind(Entity.generic_entity_name.ref_var,
-             Entity.nonbound_generic_decl)
+             Entity.nonbound_generic_decl_from_self)
         & Entity.generic_entity_name.match(
             lambda dn=T.DottedName: dn.prefix.xref_no_overloading,
             lambda _: LogicTrue()
@@ -12557,7 +12606,8 @@ class GenericInstantiation(BasicDecl):
         generic instantiation. Returns null if none is provided, even if there
         is a default value.
         """
-        return Self.nonbound_generic_decl._.formal_part.match_param_list(
+        gen_decl = Var(Self.nonbound_generic_decl_from_self)
+        return gen_decl._.formal_part.match_param_list(
             Entity.generic_inst_params, False
         ).find(
             lambda pm: pm.formal.node == formal_name
@@ -12594,15 +12644,15 @@ class GenericSubpInstantiation(GenericInstantiation):
         """
         Return the subprogram decl designated by this instantiation.
         """
-        return Self.nonbound_generic_decl.then(
+        return Entity.nonbound_generic_decl_from_entity.then(
             lambda p: BasicSubpDecl.entity.new(
                 node=p.node.cast(GenericSubpDecl).subp_decl,
                 info=T.entity_info.new(
                     md=Entity.info.md,
-                    rebindings=Entity.info.rebindings
-                    # Append the rebindings from the decl
-                    .concat_rebindings(p._.decl.info.rebindings)
-                    .append_rebinding(
+                    rebindings=Self.insert_rebindings(
+                        p._.decl.info.rebindings,
+                        Entity.info.rebindings
+                    ).append_rebinding(
                         p.node.children_env, Self.instantiation_env
                     ),
                     from_rebound=p.info.from_rebound
@@ -12630,18 +12680,17 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     @langkit_property()
     def designated_package():
-        return Self.nonbound_generic_decl.then(
+        return Entity.nonbound_generic_decl_from_entity.then(
             lambda p: BasePackageDecl.entity.new(
                 node=p.node.cast(GenericPackageDecl).package_decl,
                 info=T.entity_info.new(
                     md=p.info.md,
 
                     # Take the rebindings from the current context
-                    rebindings=Entity.info.rebindings
-
-                    # Append the rebindings from the decl
-                    .concat_rebindings(p._.decl.info.rebindings)
-
+                    rebindings=Self.insert_rebindings(
+                        p._.decl.info.rebindings,
+                        Entity.info.rebindings
+                    )
                     # Append the rebindings for the current instantiation.
                     # NOTE: We use the formal env to create rebindings. There,
                     # we purposefully want the children env of the P node, with

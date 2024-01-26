@@ -1,0 +1,133 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericSubpInstantiation ["Iterate"] test.adb:27:4-27:39>
+***********************************************************************************
+
+Expr: <Id "Iterate_G" test.adb:27:29-27:38>
+  references:    <DefiningName "Iterate_G" test.adb:19:14-19:23>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericSubpDecl ["Iterate_G"] test.adb:18:4-19:32 [test.adb:27:4] |>
+***********************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:19:4-19:31 [test.adb:27:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["F"] test.adb:19:25-19:30 [test.adb:27:4] |>
+***********************************************************************************
+
+Expr: <| Id "U" test.adb:19:29-19:30 [test.adb:27:4] |>
+  references:    <DefiningName "U" test.adb:16:9-16:10>
+  type:          None
+  expected type: None
+
+Traversing generic node <| SubpBody ["Iterate_G"] test.adb:21:4-25:18 [test.adb:27:4] |>
+****************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:21:4-21:31 [test.adb:27:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["F"] test.adb:21:25-21:30 [test.adb:27:4] |>
+***********************************************************************************
+
+Expr: <| Id "U" test.adb:21:29-21:30 [test.adb:27:4] |>
+  references:    <DefiningName "U" test.adb:16:9-16:10>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| GenericSubpInstantiation ["Iterate"] test.adb:22:7-22:63 [test.adb:27:4] |>
+*******************************************************************************************************
+
+Expr: <| DottedName test.adb:22:32-22:62 [test.adb:27:4] |>
+  references:    <| DefiningName "Iterate_G" test.adb:7:17-7:26 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Internal_Address_Set" test.adb:22:32-22:52 [test.adb:27:4] |>
+  references:    <DefiningName "Internal_Address_Set" test.adb:14:12-14:32>
+  type:          None
+  expected type: None
+Expr: <| Id "Iterate_G" test.adb:22:53-22:62 [test.adb:27:4] |>
+  references:    <| DefiningName "Iterate_G" test.adb:7:17-7:26 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericSubpDecl ["Iterate_G"] test.adb:6:7-7:35 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+***************************************************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:7:7-7:34 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+*******************************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] test.adb:7:28-7:33 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+***************************************************************************************************************
+
+Expr: <| Id "T" test.adb:7:32-7:33 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+  references:    <| DefiningName "T" test.adb:4:12-4:13 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+
+Traversing generic node <| NullSubpDecl ["Iterate_G"] test.adb:11:7-11:43 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+**************************************************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:11:7-11:34 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+*********************************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] test.adb:11:28-11:33 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+*****************************************************************************************************************
+
+Expr: <| Id "T" test.adb:11:32-11:33 [test.adb:14:4, test.adb:27:4, test.adb:22:7] |>
+  references:    <| DefiningName "T" test.adb:4:12-4:13 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| CallStmt test.adb:24:7-24:44 [test.adb:27:4] |>
+***************************************************************************
+
+Expr: <| CallExpr test.adb:24:7-24:43 [test.adb:27:4] |>
+  references:    <| DefiningName "Iterate" test.adb:22:17-22:24 [test.adb:27:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Iterate" test.adb:24:7-24:14 [test.adb:27:4] |>
+  references:    <| DefiningName "Iterate" test.adb:22:17-22:24 [test.adb:27:4] |>
+  type:          None
+  expected type: None
+Expr: <| CallExpr test.adb:24:16-24:42 [test.adb:27:4] |>
+  references:    <| DefiningName "T" test.adb:4:12-4:13 [test.adb:14:4] |>
+  type:          <| ConcreteTypeDecl ["T"] test.adb:4:7-4:29 [test.adb:14:4] |>
+  expected type: <| ConcreteTypeDecl ["T"] test.adb:4:7-4:29 [test.adb:14:4] |>
+Expr: <| DottedName test.adb:24:16-24:38 [test.adb:27:4] |>
+  references:    <| DefiningName "T" test.adb:4:12-4:13 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Internal_Address_Set" test.adb:24:16-24:36 [test.adb:27:4] |>
+  references:    <DefiningName "Internal_Address_Set" test.adb:14:12-14:32>
+  type:          None
+  expected type: None
+Expr: <| Id "T" test.adb:24:37-24:38 [test.adb:27:4] |>
+  references:    <| DefiningName "T" test.adb:4:12-4:13 [test.adb:14:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "F" test.adb:24:40-24:41 [test.adb:27:4] |>
+  references:    <| DefiningName "F" test.adb:21:25-21:26 [test.adb:27:4] |>
+  type:          <ConcreteTypeDecl ["U"] test.adb:16:4-16:41>
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:25:8-25:17 [test.adb:27:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:25:8-25:17 [test.adb:27:4] |>
+  references:    <| DefiningName "Iterate_G" test.adb:21:14-21:23 [test.adb:27:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Iterate_G" test.adb:25:8-25:17 [test.adb:27:4] |>
+  references:    <| DefiningName "Iterate_G" test.adb:21:14-21:23 [test.adb:27:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

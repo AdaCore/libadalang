@@ -108,17 +108,19 @@ package body Xrefs is
    --------------------
 
    procedure Skip_Inst_Info (S : String; Cursor : in out Natural) is
-      Level : Natural := 0;
-      Dummy : Natural;
+      Level           : Natural := 0;
+      Dummy_Natural   : Natural;
+      Dummy_Character : Character;
    begin
       --  Skip generic instantiation information, if present
 
       while Cursor <= S'Last and then S (Cursor) = '[' loop
-         pragma Assert (Read_Character (S, Cursor) = '[');
-         Dummy := Read_Natural (S, Cursor);
+         Dummy_Character := Read_Character (S, Cursor);
+         pragma Assert (Dummy_Character = '[');
+         Dummy_Natural := Read_Natural (S, Cursor);
          if S (Cursor) = '|' then
             Cursor := Cursor + 1;
-            Dummy := Read_Natural (S, Cursor);
+            Dummy_Natural := Read_Natural (S, Cursor);
          end if;
          Level := Level + 1;
       end loop;
@@ -246,10 +248,19 @@ package body Xrefs is
                      Chunks   : constant Slice_Array := Split (Line);
                      Filename : constant String := Get (Line, Chunks (3));
                   begin
-                     Xrefs.Append (new Unit_Xrefs_Type'
-                                     (Unit  => File_Index (Files, Filename),
-                                      Xrefs => <>));
-                     Unit_Map.Insert (+Filename, Xrefs.Last_Index);
+                     if Unit_Map.Contains (+Filename) then
+                        --  If a package specification is a simple generic
+                        --  instantiation, the ALI file will contains two units
+                        --  associated to the same file: a body and a spec
+                        --  located in the ADS file. In that case, do not add
+                        --  it twice.
+                        null;
+                     else
+                        Xrefs.Append (new Unit_Xrefs_Type'
+                                       (Unit  => File_Index (Files, Filename),
+                                        Xrefs => <>));
+                        Unit_Map.Insert (+Filename, Xrefs.Last_Index);
+                     end if;
                   end;
 
                when 'D' =>
@@ -307,11 +318,13 @@ package body Xrefs is
                         --  is the actual xref data.
 
                         --  Skip the entity name (either regular identifier or
-                        --  "XXX")...
+                        --  "XXX" or 'X')...
                         if Line (Cursor) = '"' then
                            Cursor := Cursor + 1;
                            Skip_Until (Line, Cursor, '"');
                            Cursor := Cursor + 1;
+                        elsif Line (Cursor) = ''' then
+                           Cursor := Cursor + 3;
                         else
                            while
                              Cursor <= Line'Last

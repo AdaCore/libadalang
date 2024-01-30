@@ -213,10 +213,15 @@ package body Xrefs is
             raise Program_Error;
          end if;
 
-         --  Ignore "end of spec/body" xrefs, which point on the ending
+         --  Ignore "end of spec/body" xrefs (e/t), which point on the ending
          --  semicolon of an entity body. LAL won't support that.
+         --
+         --  Ignore "first private entity" (E) xref, which points on the first
+         --  private entity of a given package.
 
-         if Current_Xrefs /= null and then Type_Char not in 'e' | 't' then
+         if Current_Xrefs /= null
+         and then Type_Char not in 'e' | 't' | 'E'
+         then
             Current_Xrefs.Xrefs.Append
               (Xref_Type'(Ref_Sloc => (Line_Number (Line),
                                        Column_Number (Column)),

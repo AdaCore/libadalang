@@ -1,3 +1,5 @@
+pragma Ada_2022;
+
 with Libadalang.Common; use Libadalang.Common;
 
 package body Xrefs_Wrapper is
@@ -13,7 +15,10 @@ package body Xrefs_Wrapper is
    -- Subp_Body_Formal --
    ----------------------
 
-   function Subp_Body_Formal (DN : Defining_Name) return Defining_Name is
+   function Subp_Body_Formal
+     (Origin : Ada_Node with Unreferenced;
+      DN     : Defining_Name) return Defining_Name
+   is
       Subp_Body : Ada_Node;
       Subp_Decl : Basic_Subp_Decl;
       Decl      : constant Basic_Decl := DN.P_Basic_Decl;
@@ -56,7 +61,10 @@ package body Xrefs_Wrapper is
    -- Subp_Body --
    ---------------
 
-   function Subp_Body (DN : Defining_Name) return Defining_Name is
+   function Subp_Body
+     (Origin : Ada_Node with Unreferenced;
+      DN     : Defining_Name) return Defining_Name
+   is
       Decl      : constant Basic_Decl := DN.P_Basic_Decl;
    begin
       if Decl.Kind /= Ada_Subp_Body then
@@ -70,7 +78,10 @@ package body Xrefs_Wrapper is
    -- Generic_Package --
    ---------------------
 
-   function Generic_Package (DN : Defining_Name) return Defining_Name is
+   function Generic_Package
+     (Origin : Ada_Node with Unreferenced;
+      DN     : Defining_Name) return Defining_Name
+   is
       Decl      : constant Basic_Decl := DN.P_Basic_Decl;
    begin
       if Decl.Kind /= Ada_Generic_Package_Decl then
@@ -86,7 +97,10 @@ package body Xrefs_Wrapper is
    -- Generic_Subp --
    ------------------
 
-   function Generic_Subp (DN : Defining_Name) return Defining_Name is
+   function Generic_Subp
+     (Origin : Ada_Node with Unreferenced;
+      DN     : Defining_Name) return Defining_Name
+   is
       Decl      : constant Basic_Decl := DN.P_Basic_Decl;
    begin
       if Decl.Kind /= Ada_Generic_Subp_Decl then
@@ -101,10 +115,21 @@ package body Xrefs_Wrapper is
    -- Private_Type --
    ------------------
 
-   function Private_Type (DN : Defining_Name) return Defining_Name is
-      Decl      : constant Basic_Decl := DN.P_Basic_Decl;
+   function Private_Type
+     (Origin : Ada_Node;
+      DN     : Defining_Name) return Defining_Name
+   is
+      Decl        : constant Basic_Decl := DN.P_Basic_Decl;
+      Origin_Decl : constant Basic_Decl := Origin.P_Parent_Basic_Decl;
    begin
-      if Decl.Kind not in Ada_Base_Type_Decl then
+      if Decl.Kind not in Ada_Base_Type_Decl
+      or else
+        (Decl.Kind in Ada_Task_Type_Decl
+         and then
+           (Decl.P_Declarative_Scope.Is_Null
+            or else Decl.P_Declarative_Scope.Kind not in Ada_Private_Part)
+         and then Origin_Decl.Kind in Ada_Task_Type_Decl | Ada_Task_Body)
+      then
          return No_Defining_Name;
       end if;
 

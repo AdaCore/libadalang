@@ -1683,10 +1683,8 @@ class AdaNode(ASTNode):
                         lambda ppd: ppd.defining_name
                     )._or(ret),
 
-
-                    dbd.is_a(T.BaseSubpBody),
-                    dbd.cast(T.BaseSubpBody)
-                    .decl_part._or(dbd).defining_name,
+                    dbd.is_a(T.Body),
+                    dbd.cast(T.Body).decl_part._or(dbd).defining_name,
 
                     ret
                 ))
@@ -14997,9 +14995,7 @@ class Name(Expr):
             # Number decls cannot have a next part, always return None
             No(T.DefiningName.entity),
 
-            bd.then(lambda bd: bd.is_a(BasicDecl)),
-            bd.body_part_for_decl.then(lambda bpe: bpe.defining_name)
-            ._or(bd.defining_name),
+            bd.then(lambda bd: bd.is_a(BasicDecl)), dn,
 
             Entity.referenced_defining_name
         )

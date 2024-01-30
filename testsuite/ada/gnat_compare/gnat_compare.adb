@@ -284,6 +284,7 @@ procedure GNAT_Compare is
          Put_Line ("Could not locate gprbuild on the PATH");
       end if;
 
+      Args.Append (+"-c");
       Args.Append (+"-q");
       Args.Append (+"-p");
       Args.Append (+"-P" & Project_File);

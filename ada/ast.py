@@ -602,6 +602,21 @@ class AdaNode(ASTNode):
             )
         )
 
+    @langkit_property(return_type=T.Bool)
+    def has_parent_rebindings(base=T.EnvRebindings, parent=T.EnvRebindings):
+        """
+        Return whether ``parent`` is a parent of ``base``. This considers
+        the chain as a whole, i.e. ``has_parent_rebindings([A, B, C], [A, B])``
+        returns True, but both ``has_parent_rebindings([A, B, C], [B, C])`` as
+        well as ``has_parent_rebindings([A, C], [A, B])`` return False.
+        """
+        return Or(
+            base == parent,
+            parent.is_null,
+            Not(base.is_null)
+            & Self.has_parent_rebindings(base.get_parent, parent)
+        )
+
     # We mark this property as memoizable because for the moment, we only ever
     # get the first result of logic resolution, so we only ever want the result
     # of the first evaluation of this property. When we change that, we'll
@@ -2734,11 +2749,7 @@ class BasicDecl(AdaNode):
             Entity.info.rebindings == rebindings,
             Entity,
 
-            Or(
-                Entity.info.rebindings == No(T.EnvRebindings),
-                rebindings.get_parent == Entity.info.rebindings,
-            ),
-
+            Self.has_parent_rebindings(rebindings, Entity.info.rebindings),
             BasicDecl.entity.new(
                 node=Self,
                 info=T.entity_info.new(

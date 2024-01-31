@@ -13035,14 +13035,25 @@ class FormalSubpDecl(ClassicSubpDecl):
         Note that we cannot simply call ``referenced_decl`` here as this would
         cause name resolution recursions which we want to avoid at all cost.
         """
-        return origin.bind(name.node, name.cast(AttributeRef).then(
-            lambda attr: attr.attribute_subprogram,
-            default_val=name.cast(Name).all_env_elements.find(
+        return origin.bind(name.node, Cond(
+            name.is_a(AttributeRef),
+            name.cast(AttributeRef).attribute_subprogram,
+
+            name.is_a(BoxExpr),
+            # We are inside an instantiation of formal package without
+            # constraint on this function (so, a BoxExpr).
+            No(BasicDecl.entity),
+
+            name.is_a(Name),
+            name.cast(Name).all_env_elements.find(
                 lambda el: el.cast(BasicDecl)._.subp_decl_match_signature(
                     Entity
                 )
-            )
-        )).cast(BasicDecl)
+            ).cast(BasicDecl),
+
+            PropertyError(BasicDecl.entity,
+                          "invalid actual for subprogram formal")
+        ))
 
     @langkit_property(return_type=T.BasicDecl.entity)
     def corresponding_actual_impl(rb=T.EnvRebindings):

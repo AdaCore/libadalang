@@ -1,0 +1,85 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["Formal"] test.adb:16:12-16:48>
+**************************************************************************************
+
+Expr: <Id "Formal_G" test.adb:16:34-16:42>
+  references:    <DefiningName "Formal_G" test.adb:4:12-4:20>
+  type:          None
+  expected type: None
+Expr: <BoxExpr test.adb:16:44-16:46>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Formal_G"] test.adb:2:4-6:17 [test.adb:16:12] |>
+************************************************************************************************
+
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test.adb:3:12-3:32 [test.adb:16:12] |>
+*************************************************************************************************
+
+Expr: <| BoxExpr test.adb:3:29-3:31 [test.adb:16:12] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec test.adb:3:12-3:25 [test.adb:16:12] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| SubpSpec test.adb:5:7-5:20 [test.adb:16:12] |>
+**************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:6:8-6:16 [test.adb:16:12] |>
+*************************************************************************
+
+Expr: <| EndName test.adb:6:8-6:16 [test.adb:16:12] |>
+  references:    <DefiningName "Formal" test.adb:16:20-16:26>
+  type:          None
+  expected type: None
+Expr: <| Id "Formal_G" test.adb:6:8-6:16 [test.adb:16:12] |>
+  references:    <DefiningName "Formal" test.adb:16:20-16:26>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Formal_G"] test.adb:8:4-13:17 [test.adb:16:12] |>
+******************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:9:7-9:20 [test.adb:16:12] |>
+**************************************************************************
+
+
+Resolving xrefs for node <| CallStmt test.adb:11:10-11:14 [test.adb:16:12] |>
+*****************************************************************************
+
+Expr: <| Id "Foo" test.adb:11:10-11:13 [test.adb:16:12] |>
+  references:    <| DefiningName "Foo" test.adb:3:22-3:25 [test.adb:16:12] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:12:11-12:14 [test.adb:16:12] |>
+****************************************************************************
+
+Expr: <| EndName test.adb:12:11-12:14 [test.adb:16:12] |>
+  references:    <| DefiningName "Bar" test.adb:9:17-9:20 [test.adb:16:12] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Bar" test.adb:12:11-12:14 [test.adb:16:12] |>
+  references:    <| DefiningName "Bar" test.adb:9:17-9:20 [test.adb:16:12] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:13:8-13:16 [test.adb:16:12] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:13:8-13:16 [test.adb:16:12] |>
+  references:    <| DefiningName "Formal_G" test.adb:8:17-8:25 [test.adb:16:12] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Formal_G" test.adb:13:8-13:16 [test.adb:16:12] |>
+  references:    <| DefiningName "Formal_G" test.adb:8:17-8:25 [test.adb:16:12] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

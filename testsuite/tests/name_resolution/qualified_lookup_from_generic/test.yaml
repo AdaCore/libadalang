@@ -1,0 +1,3 @@
+driver: name-resolution
+traverse_generics: true
+input_sources: [test.adb]

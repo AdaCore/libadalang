@@ -18956,11 +18956,16 @@ class BaseId(SingleTokNode):
         ))
 
         return Cond(
-
             # If we're looking from the body, return a group of all the
             # relevant envs together.
             Not(package_body_env.equals(EmptyEnv))
-            & Self.is_children_env(package_body_env,
+            # Since origin or Self do not carry rebindings, `is_children_env`
+            # would always return False in instantiated generics (since
+            # `package_body_env` is a rebound environment). Fortunately, these
+            # visibility rules are not instantiation-dependent, so we can use
+            # `.env_node.children_env` on `package_body_env` to do the check on
+            # the bare non-rebound lexical envs.
+            & Self.is_children_env(package_body_env.env_node._.children_env,
                                    (origin._or(Self)).node_env),
             Array([
                 package_body_env, private_part_env, env, formals_env
@@ -18968,7 +18973,9 @@ class BaseId(SingleTokNode):
 
             # If we're looking from the private part, return a group of private
             # part + public part.
-            Self.is_children_env(private_part_env,
+            # See corresponding comment on `package_body_env` to understand why
+            # we use `.env_node.children_env`.
+            Self.is_children_env(private_part_env.env_node._.children_env,
                                  (origin._or(Self)).node_env),
             Array([private_part_env, env, formals_env]).env_group(),
 

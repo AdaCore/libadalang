@@ -1,0 +1,295 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["Inst"] test.adb:22:4-22:45>
+***********************************************************************************
+
+Expr: <Id "Gen" test.adb:22:24-22:27>
+  references:    <DefiningName "Gen" test.adb:7:12-7:15>
+  type:          None
+  expected type: None
+Expr: <Id "Package_Actual" test.adb:22:29-22:43>
+  references:    <DefiningName "Package_Actual" test.adb:20:12-20:26>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Gen"] test.adb:5:4-9:12 [test.adb:22:4] |>
+******************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Act"] test.adb:6:12-6:38 [test.adb:22:4] |>
+*****************************************************************************************************
+
+Expr: <| Id "Formal" test.adb:6:31-6:37 [test.adb:22:4] |>
+  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Formal"] formal.ads:1:1-5:12 [test.adb:20:4] |>
+***********************************************************************************************
+
+Resolving xrefs for node <| SubpSpec formal.ads:3:4-3:17 [test.adb:20:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| EndName formal.ads:5:5-5:11 [test.adb:20:4] |>
+**************************************************************************
+
+Expr: <| EndName formal.ads:5:5-5:11 [test.adb:20:4] |>
+  references:    <DefiningName "Package_Actual" test.adb:20:12-20:26>
+  type:          None
+  expected type: None
+Expr: <| Id "Formal" formal.ads:5:5-5:11 [test.adb:20:4] |>
+  references:    <DefiningName "Package_Actual" test.adb:20:12-20:26>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Formal"] formal.adb:1:1-8:12 [test.adb:20:4] |>
+****************************************************************************************
+
+Resolving xrefs for node <| ObjectDecl ["X"] formal.adb:2:4-2:16 [test.adb:20:4] |>
+***********************************************************************************
+
+Expr: <| Id "Integer" formal.adb:2:8-2:15 [test.adb:20:4] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec formal.adb:4:4-4:17 [test.adb:20:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| AssignStmt formal.adb:6:7-6:22 [test.adb:20:4] |>
+*****************************************************************************
+
+Expr: <| DottedName formal.adb:6:7-6:15 [test.adb:20:4] |>
+  references:    <| DefiningName "X" formal.adb:2:4-2:5 [test.adb:20:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| Id "Formal" formal.adb:6:7-6:13 [test.adb:20:4] |>
+  references:    <| DefiningName "Formal" formal.ads:2:9-2:15 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "X" formal.adb:6:14-6:15 [test.adb:20:4] |>
+  references:    <| DefiningName "X" formal.adb:2:4-2:5 [test.adb:20:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| Int formal.adb:6:19-6:21 [test.adb:20:4] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <| EndName formal.adb:7:8-7:11 [test.adb:20:4] |>
+**************************************************************************
+
+Expr: <| EndName formal.adb:7:8-7:11 [test.adb:20:4] |>
+  references:    <| DefiningName "Baz" formal.adb:4:14-4:17 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Baz" formal.adb:7:8-7:11 [test.adb:20:4] |>
+  references:    <| DefiningName "Baz" formal.adb:4:14-4:17 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName formal.adb:8:5-8:11 [test.adb:20:4] |>
+**************************************************************************
+
+Expr: <| EndName formal.adb:8:5-8:11 [test.adb:20:4] |>
+  references:    <| DefiningName "Formal" formal.adb:1:14-1:20 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Formal" formal.adb:8:5-8:11 [test.adb:20:4] |>
+  references:    <| DefiningName "Formal" formal.adb:1:14-1:20 [test.adb:20:4] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| SubpSpec test.adb:8:7-8:20 [test.adb:22:4] |>
+*************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:9:8-9:11 [test.adb:22:4] |>
+************************************************************************
+
+Expr: <| EndName test.adb:9:8-9:11 [test.adb:22:4] |>
+  references:    <DefiningName "Inst" test.adb:22:12-22:16>
+  type:          None
+  expected type: None
+Expr: <| Id "Gen" test.adb:9:8-9:11 [test.adb:22:4] |>
+  references:    <DefiningName "Inst" test.adb:22:12-22:16>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Gen"] test.adb:11:4-18:12 [test.adb:22:4] |>
+*************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Child_Act"] test.adb:12:7-12:42 [test.adb:22:4] |>
+************************************************************************************************************
+
+Expr: <| DottedName test.adb:12:32-12:41 [test.adb:22:4] |>
+  references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:6:12] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Act" test.adb:12:32-12:35 [test.adb:22:4] |>
+  references:    <DefiningName "Package_Actual" test.adb:20:12-20:26>
+  type:          None
+  expected type: None
+Expr: <| Id "Child" test.adb:12:36-12:41 [test.adb:22:4] |>
+  references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:6:12] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Formal.Child"] formal-child.ads:1:1-4:18 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+*****************************************************************************************************************************************
+
+Resolving xrefs for node <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+**********************************************************************************************************************************
+
+Expr: <| Id "Formal" formal-child.ads:2:9-2:15 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec formal-child.ads:3:4-3:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+***************************************************************************************************************
+
+
+Resolving xrefs for node <| EndName formal-child.ads:4:5-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+**************************************************************************************************************
+
+Expr: <| EndName formal-child.ads:4:5-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Child_Act" test.adb:12:15-12:24 [test.adb:20:4, test.adb:22:4] |>
+  type:          None
+  expected type: None
+Expr: <| DottedName formal-child.ads:4:5-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Child_Act" test.adb:12:15-12:24 [test.adb:20:4, test.adb:22:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Formal" formal-child.ads:4:5-4:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  type:          None
+  expected type: None
+Expr: <| Id "Child" formal-child.ads:4:12-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Child_Act" test.adb:12:15-12:24 [test.adb:20:4, test.adb:22:4] |>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Formal.Child"] formal-child.adb:1:1-8:18 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+**********************************************************************************************************************************
+
+Resolving xrefs for node <| DefiningName "Formal.Child" formal-child.adb:1:14-1:26 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+***********************************************************************************************************************************
+
+Expr: <| Id "Formal" formal-child.adb:1:14-1:20 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ObjectDecl ["X"] formal-child.adb:2:4-2:16 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+***********************************************************************************************************************
+
+Expr: <| Id "Integer" formal-child.adb:2:8-2:15 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec formal-child.adb:4:4-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+***************************************************************************************************************
+
+
+Resolving xrefs for node <| AssignStmt formal-child.adb:6:7-6:21 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+*****************************************************************************************************************
+
+Expr: <| DottedName formal-child.adb:6:7-6:14 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "X" formal-child.adb:2:4-2:5 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| Id "Child" formal-child.adb:6:7-6:12 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "X" formal-child.adb:6:13-6:14 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "X" formal-child.adb:2:4-2:5 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| Int formal-child.adb:6:18-6:20 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <| EndName formal-child.adb:7:8-7:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+**************************************************************************************************************
+
+Expr: <| EndName formal-child.adb:7:8-7:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Bar" formal-child.adb:4:14-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Bar" formal-child.adb:7:8-7:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Bar" formal-child.adb:4:14-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName formal-child.adb:8:5-8:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+**************************************************************************************************************
+
+Expr: <| EndName formal-child.adb:8:5-8:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Formal.Child" formal-child.adb:1:14-1:26 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <| DottedName formal-child.adb:8:5-8:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Formal.Child" formal-child.adb:1:14-1:26 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Formal" formal-child.adb:8:5-8:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  type:          None
+  expected type: None
+Expr: <| Id "Child" formal-child.adb:8:12-8:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Formal.Child" formal-child.adb:1:14-1:26 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| SubpSpec test.adb:14:7-14:20 [test.adb:22:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| CallStmt test.adb:16:10-16:24 [test.adb:22:4] |>
+****************************************************************************
+
+Expr: <| DottedName test.adb:16:10-16:23 [test.adb:22:4] |>
+  references:    <| DefiningName "Bar" formal-child.ads:3:14-3:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Child_Act" test.adb:16:10-16:19 [test.adb:22:4] |>
+  references:    <| DefiningName "Child_Act" test.adb:12:15-12:24 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Bar" test.adb:16:20-16:23 [test.adb:22:4] |>
+  references:    <| DefiningName "Bar" formal-child.ads:3:14-3:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:17:11-17:14 [test.adb:22:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:17:11-17:14 [test.adb:22:4] |>
+  references:    <| DefiningName "Foo" test.adb:14:17-14:20 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Foo" test.adb:17:11-17:14 [test.adb:22:4] |>
+  references:    <| DefiningName "Foo" test.adb:14:17-14:20 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:18:8-18:11 [test.adb:22:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:18:8-18:11 [test.adb:22:4] |>
+  references:    <| DefiningName "Gen" test.adb:11:17-11:20 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Gen" test.adb:18:8-18:11 [test.adb:22:4] |>
+  references:    <| DefiningName "Gen" test.adb:11:17-11:20 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

@@ -12314,26 +12314,29 @@ class GenericInstantiation(BasicDecl):
             Self.nonbound_generic_decl_from_self
             ._.formal_part.match_param_list(
                 Entity.generic_inst_params, False
-            ).filter(
-                lambda pm: And(
-                    Not(pm.actual.assoc.expr.is_a(BoxExpr)),
-                    # Do not put formal subprograms in the rebindings to avoid
-                    # them being eagerly resolved to an actual, as the formal
-                    # part is needed to implement correct name resolution. We
-                    # will use ``BasicDecl.corresponding_actual`` instead to
-                    # manually resolve it.
-                    Not(pm.formal.formal_decl.is_a(GenericFormalSubpDecl))
-                )
             ).map(
                 lambda i, pm: T.inner_env_assoc.new(
                     key=pm.formal.name.name_symbol,
-                    value=If(
+                    value=Cond(
+                        # Do not put formal subprograms in the rebindings to
+                        # avoid them being eagerly resolved to an actual, as
+                        # the formal part is needed to implement correct name
+                        # resolution.
+                        # We will use ``BasicDecl.corresponding_actual``
+                        # instead to manually resolve it.
+                        Or(pm.actual.assoc.expr.is_a(BoxExpr),
+                           pm.formal.formal_decl.is_a(GenericFormalSubpDecl)),
+                        No(Expr),
+
                         pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
                         Entity.actual_expr_decls.at(i),
+
                         pm.actual.assoc.expr.node
                     ),
                     metadata=T.Metadata.new()
                 )
+            ).filter(
+                lambda env_assoc: Not(env_assoc.value.is_null)
             )
         )
 

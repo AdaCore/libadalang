@@ -1679,8 +1679,13 @@ class AdaNode(ASTNode):
                     ),
 
                     dbd.is_a(T.ObjectDecl),
-                    dbd.cast(T.ObjectDecl).public_part_decl.then(
-                        lambda ppd: ppd.defining_name
+                    # Since dbd can refer to an object declaration with
+                    # multiple defining names, do not call `public_part_decl`
+                    # but directly call `previous_part_for_name(Entity)`.
+                    dbd.cast(T.ObjectDecl).previous_part_for_name(
+                        Entity.cast(T.Name).name_symbol
+                    ).then(
+                        lambda ppn: ppn.defining_name
                     )._or(ret),
 
                     dbd.is_a(T.Body),

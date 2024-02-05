@@ -4510,11 +4510,15 @@ class BaseFormalParamDecl(BasicDecl):
                       dynamic_vars=[default_imprecise_fallback()])
     def decl_param(param=T.DefiningName.entity):
         """
-        If self is a ParamSpec of a subprogram body, go fetch the equivalent
-        spec in the subprogram decl.
+        If self is a ParamSpec of a subprogram body or of an accept stmt, go
+        fetch the equivalent spec in the subprogram decl.
         """
         return Entity.get_param(
-            Entity.parent_decl.cast(T.BaseSubpBody)._.decl_part,
+            Entity.semantic_parent.match(
+                lambda body=T.BaseSubpBody: body.decl_part,
+                lambda accept=T.AcceptStmt: accept.corresponding_entry,
+                lambda _: No(T.BasicDecl.entity)
+            ),
             param.name_symbol
         )._or(param)
 

@@ -218,9 +218,12 @@ package body Xrefs is
          --
          --  Ignore "first private entity" (E) xref, which points on the first
          --  private entity of a given package.
+         --
+         --  Ignore "implicit reference" (i) xref (at least for now: we want
+         --  to support them in the future, see GitLab issue #1250).
 
          if Current_Xrefs /= null
-         and then Type_Char not in 'e' | 't' | 'E'
+         and then Type_Char not in 'e' | 't' | 'E' | 'i'
          then
             Current_Xrefs.Xrefs.Append
               (Xref_Type'(Ref_Sloc => (Line_Number (Line),

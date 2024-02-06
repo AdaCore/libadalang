@@ -18335,12 +18335,14 @@ class EndName(Name):
     env_elements_impl = Property(Entity.name.env_elements_impl)
 
     basic_decl = Property(
-        Self.parents.find(lambda p: p.is_a(T.NamedStmt)).then(
-            lambda ns:
-            ns.cast_or_raise(T.NamedStmt).decl.cast(T.BasicDecl).as_entity
-        )._or(
-            Self.parents.find(lambda p: p.is_a(T.BasicDecl))
-            .cast_or_raise(T.BasicDecl).as_entity,
+        Self.parents.find(
+            lambda p: p.is_a(T.BasicDecl, T.NamedStmt)
+        ).then(
+            lambda p: If(
+                p.is_a(T.BasicDecl),
+                p.cast(T.BasicDecl).as_entity,
+                p.cast_or_raise(T.NamedStmt).decl.as_entity
+            )
         ),
         public=True, memoized=True,
         doc="Returns this EndName's basic declaration"

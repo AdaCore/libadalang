@@ -1650,6 +1650,12 @@ class AdaNode(ASTNode):
                 lambda p: p.is_a(T.GenericDecl)
             ).cast(T.GenericDecl).decl.defining_name,
 
+            # Deferred constants case
+            bd._.is_a(T.ObjectDecl)
+            & Not(bd.cast(T.ObjectDecl).has_constant.is_null)
+            & bd.is_in_private_part,
+            Entity.cast(T.Name).enclosing_defining_name.previous_part,
+
             bd.then(lambda bd: bd.is_a(T.DiscriminantSpec)),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 

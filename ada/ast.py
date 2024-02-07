@@ -1656,8 +1656,24 @@ class AdaNode(ASTNode):
             & bd.is_in_private_part,
             Entity.cast(T.Name).enclosing_defining_name.previous_part,
 
-            bd.then(lambda bd: bd.is_a(T.DiscriminantSpec)),
-            bd.semantic_parent.cast(T.BasicDecl).defining_name,
+            # Discriminants case. There are two kinds of GNAT xrefs that apply
+            # to discrimimants. The 'd' kind, which points to the type this
+            # discriminant belongs to, and the 'r' kind, which, for a private
+            # type completion, points to the corresponding discriminant in the
+            # public view of that type. Note that 'r' references are simply
+            # documented as "reference" in GNAT and might apply to other nodes,
+            # but the discriminants case is the single occurence of that kind
+            # we found so far.
+            bd._.is_a(T.DiscriminantSpec),
+            Let(
+                lambda pd=bd.cast(T.DiscriminantSpec).parent_decl:
+                If(
+                    pd.is_in_private_part,
+                    Entity.cast(T.Name).enclosing_defining_name
+                    .previous_part._or(pd.defining_name),
+                    pd.defining_name
+                )
+            ),
 
             bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
             bd.cast(T.AbstractSubpDecl).subp_decl_spec

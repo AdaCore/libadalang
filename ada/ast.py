@@ -1663,6 +1663,9 @@ class AdaNode(ASTNode):
                 )
             ),
 
+            bd.then(lambda bd: bd.is_a(T.BaseSubpBody)),
+            bd.cast(T.BaseSubpBody).subp_spec.subp_name,
+
             Entity.cast(T.Name)._.gnat_xref_decl.then(
                 lambda ret:
                 Let(lambda dbd=ret.basic_decl: Cond(

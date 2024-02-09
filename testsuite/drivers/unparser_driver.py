@@ -39,7 +39,7 @@ class UnparserDriver(BaseDriver):
         # Run the unparser on "input.ada" for the given grammar rule and
         # unparse it with the default unparsing configuration, with a dump of
         # the Prettier document.
-        argv = ["lal_unparse", "-d"]
+        argv = ["lal_unparse", "-d", "-w", "79", "-i", "3"]
 
         rule = self.test_env.get("rule")
         if rule:

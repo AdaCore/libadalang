@@ -450,7 +450,7 @@ procedure GNAT_Compare is
          if not Ref.Is_Null then
             for Wrapper of Xrefs_Wrapper.Post_Wrappers loop
                declare
-                  Wrapped_Ref : constant Defining_Name := Wrapper (Ref);
+                  Wrapped_Ref : constant Defining_Name := Wrapper (Node, Ref);
                begin
                   if not Wrapped_Ref.Is_Null then
                      return Wrapped_Ref;

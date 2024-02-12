@@ -1,0 +1,19 @@
+== pkg.adb ==
+pkg.adb:1:14 => pkg.ads:1:9 (LAL: ok)
+pkg.adb:2:5 => pkg.ads:1:9 (LAL: ok)
+== pkg.ads ==
+pkg.ads:2:5 => pkg.ads:1:9 (LAL: ok)
+pkg.ads:3:24 => pkg.ads:1:9 (LAL: ok)
+== test.adb ==
+test.adb:1:6 => pkg.ads:1:9 (LAL: ok)
+test.adb:3:11 => test.adb:3:11 (LAL: ok)
+test.adb:6:5 => test.adb:3:11 (LAL: ok)
+
+Stats:
+GNAT xrefs have 7 entries
+LAL xrefs have:
+  * 7 OK entries (100.00%)
+  * 0 DIFFERENT entries (0.00%)
+  * 0 ERROR entries (0.00%)
+  * 0 MISSING entries (0.00%)
+  * 0 ADDITIONAL entries (0.00%)

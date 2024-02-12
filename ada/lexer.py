@@ -111,7 +111,7 @@ class Token(LexerToken):
     Integer = WithText()
 
     # Trivia
-    Comment = WithTrivia()
+    Comment = WithTrivia(comment=True)
     PrepLine = WithTrivia()
     Whitespace = WithTrivia()
 

@@ -39,7 +39,6 @@ procedure Nameres is
       Nb_Successes       : Natural  := 0;
       Nb_Fails           : Natural  := 0;
       Nb_Xfails          : Natural  := 0;
-      Nb_Exception_Fails : Natural  := 0;
       Nb_Total           : Natural  := 0;
       Processing_Time    : Duration := 0.0;
       Resolution_Speed   : Float    := 0.0;
@@ -802,10 +801,6 @@ procedure Nameres is
       --  Stats for this file, to be added to ``Job_Data`` at the end if
       --  successfully returning.
 
-      Nb_File_Fails : Natural := 0;
-      --  Number of name resolution failures not covered by XFAILs we had in
-      --  this file.
-
       Config : Config_Record renames Job_Data.Config;
 
       Empty : Boolean := True;
@@ -1164,8 +1159,7 @@ procedure Nameres is
             if XFAIL then
                Increment (Stats.Nb_Xfails);
             else
-               Increment (Stats.Nb_Exception_Fails);
-               Increment (Nb_File_Fails);
+               Increment (Stats.Nb_Fails);
             end if;
       end Resolve_Node;
 

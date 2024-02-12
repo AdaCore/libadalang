@@ -70,7 +70,7 @@ class Manage(ManageScript):
         # Keep these import statements here so that they are executed only
         # after the coverage computation actually started.
         from langkit.compile_context import (
-            AdaSourceKind, CompileCtx, LibraryEntity
+            AdaSourceKind, CacheCollectionConf, CompileCtx, LibraryEntity
         )
         from ada.lexer import ada_lexer
         from ada.grammar import ada_grammar
@@ -91,6 +91,16 @@ class Manage(ManageScript):
             documentations=libadalang_docs,
             property_exceptions={"Precondition_Failure"},
             generate_unparser=True,
+
+            # Setup a configuration of the cache collection mechanism that
+            # works well for Ada.
+            cache_collection_conf=CacheCollectionConf(
+                threshold_increment=100000,
+                decision_heuristic=LibraryEntity(
+                    "Libadalang.Implementation.Extensions",
+                    "Should_Collect_Env_Caches"
+                )
+            )
         )
 
         # Internals need to access environment hooks, the symbolizer and

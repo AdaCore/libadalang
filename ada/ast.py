@@ -1634,18 +1634,18 @@ class AdaNode(ASTNode):
                  .then(lambda dn: dn.basic_decl))
 
         return origin.bind(Self, Cond(
-            bd.then(lambda bd: bd.is_a(T.ParamSpec))
-            & bd.semantic_parent.is_a(T.SubpDecl, T.ExprFunction,
-                                      T.GenericSubpInternal,
-                                      T.BaseTypeDecl),
+            bd._.is_a(T.ParamSpec)
+            & Or(
+                bd.semantic_parent.is_a(T.BasicSubpDecl, T.ExprFunction,
+                                        T.BaseTypeDecl, T.SubpBodyStub,
+                                        T.NullSubpDecl),
+                bd.semantic_parent.cast(T.SubpBody).then(
+                    lambda body: body.previous_part_for_decl.is_null
+                )
+            ),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 
             bd.then(lambda bd: bd.is_a(T.DiscriminantSpec)),
-            bd.semantic_parent.cast(T.BasicDecl).defining_name,
-
-            bd.then(lambda bd: bd.is_a(T.ParamSpec))
-            & bd.semantic_parent.is_a(T.AbstractSubpDecl, T.FormalSubpDecl,
-                                      T.NullSubpDecl),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 
             bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),

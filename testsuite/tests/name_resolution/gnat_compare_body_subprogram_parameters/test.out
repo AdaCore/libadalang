@@ -1,0 +1,17 @@
+== test.adb ==
+test.adb:1:11 => test.adb:1:11 (LAL: ok)
+test.adb:2:13 => test.adb:2:13 (LAL: ok)
+test.adb:3:7 => test.adb:2:13 (LAL: ok)
+test.adb:4:7 => test.adb:2:13 (LAL: ok)
+test.adb:5:7 => test.adb:2:13 (LAL: ok)
+test.adb:6:7 => test.adb:2:13 (LAL: ok)
+test.adb:9:8 => test.adb:2:13 (LAL: ok)
+
+Stats:
+GNAT xrefs have 7 entries
+LAL xrefs have:
+  * 7 OK entries (100.00%)
+  * 0 DIFFERENT entries (0.00%)
+  * 0 ERROR entries (0.00%)
+  * 0 MISSING entries (0.00%)
+  * 0 ADDITIONAL entries (0.00%)

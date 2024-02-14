@@ -1645,6 +1645,11 @@ class AdaNode(ASTNode):
             ),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 
+            bd._.parent._.is_a(T.GenericFormal),
+            bd.parents.find(
+                lambda p: p.is_a(T.GenericDecl)
+            ).cast(T.GenericDecl).decl.defining_name,
+
             bd.then(lambda bd: bd.is_a(T.DiscriminantSpec)),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 

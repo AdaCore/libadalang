@@ -8,6 +8,8 @@ with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 
 with Libadalang.Common; use Libadalang.Common;
+with Libadalang.Implementation;
+with Libadalang.Public_Converters;
 
 package body Libadalang.Semantic_Diagnostics is
 
@@ -186,13 +188,25 @@ package body Libadalang.Semantic_Diagnostics is
 
          for Diag of Kept loop
             declare
-               Ctxs : constant Logic_Context_Array := Contexts (Diag);
+               use Libadalang.Implementation;
+               use Libadalang.Public_Converters;
+
+               Ctxs         : constant Logic_Context_Array := Contexts (Diag);
+               Last_Ctx     : constant Logic_Context := Ctxs (Ctxs'Last);
+               Internal_Ctx : constant Internal_Logic_Context :=
+                 (Unwrap_Entity (Ref_Node (Last_Ctx)),
+                  Unwrap_Entity (Decl_Node (Last_Ctx)));
+
+               Base_Loc       : constant Ada_Node'Class := Location (Diag);
+               Contextual_Loc : constant Ada_Node := Wrap_Node
+                 (Ada_Node_P_Call_Context
+                   (Unwrap_Node (Base_Loc),
+                    Internal_Ctx));
             begin
                Res.Contexts.Append (Render_Diagnostic
                  (Diag,
                   Render_Node,
-                  Location (Diag).P_Call_Context
-                    (Ctxs (Ctxs'Last))));
+                  Contextual_Loc));
             end;
             exit when Res.Contexts.Length >= Max_Alt_Count;
          end loop;

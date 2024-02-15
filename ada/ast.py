@@ -477,8 +477,8 @@ class AdaNode(ASTNode):
             "when", "while", "with", "xor"
         ])
 
-    @langkit_property(public=True, return_type=T.AdaNode,
-                      ignore_warn_on_node=True)
+    @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True,
+                      warn_on_unused=False)
     def call_context(ctx=T.LogicContext):
         """
         Assuming that Self is the error location of a semantic diagnostic and

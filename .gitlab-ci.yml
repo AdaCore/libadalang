@@ -46,6 +46,7 @@ build_and_test:
     - touch fingerprints/x86_64-linux.langkit_support.install.json.assume-unchanged
     - touch fingerprints/x86_64-linux.langkit.install.json.assume-unchanged
     - anod build --minimal libadalang
+    - anod build --minimal laldoc
     - anod build --minimal libadalang-doc
     - anod build --minimal libadalang_for_customers
 

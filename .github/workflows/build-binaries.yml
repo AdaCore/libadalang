@@ -94,6 +94,16 @@ jobs:
         with:
           repository: AdaCore/AdaSAT
           path: langkit/langkit/adasat
+      - name: Get prettier-ada
+        uses: actions/checkout@v3
+        with:
+          repository: AdaCore/prettier-ada
+          path: prettier-ada
+      - name: Get VSS
+        uses: actions/checkout@v3
+        with:
+          repository: reznikmm/VSS
+          path: VSS
       - name: Try to checkout langkit's branch
         shell: bash
         run: (cd langkit; git checkout ${{ github.ref }} || true)

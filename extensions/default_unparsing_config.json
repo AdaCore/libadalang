@@ -31,6 +31,61 @@
         ]
       }
     },
+    "UsePackageClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "use"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_packages"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
+    "UseTypeClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "use"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_has_all"
+          },
+          {
+            "kind": "text",
+            "text": "type"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_types"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
     "NameList":{
       "sep":["recurse", "line"]
     },

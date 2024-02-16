@@ -1,0 +1,14 @@
+description: |
+    This test checks the formatting of a use package clause having
+    a list of package names exceeding the maximal line length.
+    The packages are designated by dotted and simple names with
+    different casing.
+    It is expected to break after the comma, align on the first
+    element of the package list and keep the casing unchanged.
+    The long dotted name will be formatted as expected (namely, a
+    line break is inserted before . and the alignment is based on
+    the initial position of the first field and a line continuation
+    indentation (i.e., 2 spaces) is added before . on each new line.
+
+driver: unparser
+rule: use_clause

@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of a use package clause 
+    having a list of package names. The packages are designated
+    by dotted names or by simple names with different casing.
+    It is expected to keep them on the same line and respect
+    the initial casing.
+
+driver: unparser
+rule: use_clause

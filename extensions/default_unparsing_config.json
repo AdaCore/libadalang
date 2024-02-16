@@ -1,5 +1,39 @@
 {
   "node_configs": {
+    "WithClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_has_limited"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_private"
+          },
+          {
+            "kind": "text",
+            "text": "with"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_packages"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
+    "NameList":{
+      "sep":["recurse", "line"]
+    },
     "DottedName": {
       "node": {
         "kind": "innerRoot",

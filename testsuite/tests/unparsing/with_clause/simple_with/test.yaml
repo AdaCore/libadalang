@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of a simple with clause
+    with a dotted name ada kind used to designate the package.
+
+driver: unparser
+rule: with_clause

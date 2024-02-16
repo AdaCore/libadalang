@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a single line use type clause
+    with a dotted name ada kind used to designate the package.
+    It is expected to kee everything on the same line and keep the
+    initial casing as well.
+
+driver: unparser
+rule: use_clause

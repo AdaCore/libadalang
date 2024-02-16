@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a use type clause line
+    with an exceeding length. Dotted names and simple names are
+    used to designate the types.
+    It is expected to break after the first used type and get
+    all the types aligned afterbased on this element initial
+    position.
+
+driver: unparser
+rule: use_clause

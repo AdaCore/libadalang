@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of a use all type clause.
+    It is expected to have this formatted on the same line.
+
+driver: unparser
+rule: use_clause

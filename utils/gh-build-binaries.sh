@@ -58,10 +58,17 @@ build_archive()
   python gnatcoll-bindings/gmp/setup.py install
 
   BUILD=${DEBUG:+dev}  # Convert debug to dev
+  VSS_BUILD=${DEBUG:+development}  # Convert debug to development
+
+  make -C VSS build-libs-$LIBRARY_TYPE install-libs-$LIBRARY_TYPE PREFIX=$prefix \
+   BUILD_PROFILE=${VSS_BUILD:-release} GPRFLAGS=$TARGET_OPTION
 
   sed -i -e 's/, "-flto"//' langkit/langkit/adasat/adasat.gpr # LTO fails on GNAT from Alire
   gprbuild -p -P langkit/langkit/adasat/adasat.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod} $TARGET_OPTION
   gprinstall -p -P langkit/langkit/adasat/adasat.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod} --prefix=$prefix
+
+  gprbuild -p -P prettier-ada/prettier_ada.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod} $TARGET_OPTION
+  gprinstall -p -P prettier-ada/prettier_ada.gpr -XLIBRARY_TYPE=$LIBRARY_TYPE -XBUILD_MODE=${BUILD:-prod} --prefix=$prefix
 
   langkit/manage.py build-langkit-support --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod} --gargs="$TARGET_OPTION"
   langkit/manage.py install-langkit-support $prefix --library-types=$LIBRARY_TYPE --build-mode ${BUILD:-prod}

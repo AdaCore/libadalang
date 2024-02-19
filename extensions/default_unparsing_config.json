@@ -1,5 +1,39 @@
 {
   "node_configs": {
+    "BinOp": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_left"
+          },
+          "line",
+          {
+            "kind": "recurse_field",
+            "field": "f_op"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_right"
+            }
+          }
+        ]
+      }
+    },
+    "ParenExpr": {
+      "node": {
+        "kind": "align",
+        "width": 1,
+        "contents": {
+          "kind": "group",
+          "document": "recurse"
+        }
+      }
+    },
     "WithClause": {
       "node": {
         "kind": "group",
@@ -86,8 +120,11 @@
         ]
       }
     },
-    "NameList":{
-      "sep":["recurse", "line"]
+    "NameList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
     "DottedName": {
       "node": {
@@ -95,14 +132,19 @@
         "contents": {
           "kind": "align",
           "width": 2,
-          "contents": {"kind": "group", "document": "recurse"}
+          "contents": {
+            "kind": "group",
+            "document": "recurse"
+          }
         }
       },
       "fields": {
         "f_prefix": [
           {
             "kind": "recurse_flatten",
-            "if": ["DottedName"]
+            "if": [
+              "DottedName"
+            ]
           },
           "softline"
         ]

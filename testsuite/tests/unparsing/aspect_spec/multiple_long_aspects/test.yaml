@@ -1,0 +1,6 @@
+driver: unparser
+rule: package_decl
+descrition: |
+  When `f_aspect_assocs` with multiple aspects is long, test that: aspects are
+  indented relative to the `with` keyword with continuation line indentation;
+  each aspect is in its own line.

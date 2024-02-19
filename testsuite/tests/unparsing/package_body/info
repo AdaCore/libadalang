@@ -1,0 +1,9 @@
+`PackageBody` and `PackageDecl` configurations are very similar.
+`PackageBody` has an additional `body` keyword after the `package` keyword and
+this does not affect the configuration when compared to the `PackageDecl` one.
+`PackageBody` has an `F_Decls` field which can be considered as equivalent to
+`PackageDecl`'s `F_Public_Part`.
+`PackageBody` has an `F_Stmts` field which can be considered as equivalent to
+`PackageDecl`'s `F_Private_Part`.
+Therefore, two tests, one with statements and one without is enough. The rest
+is covered by the `PackageDecl` tests.

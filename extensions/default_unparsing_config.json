@@ -1,5 +1,57 @@
 {
   "node_configs": {
+    "AspectAssocList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
+    },
+    "AspectSpec": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              "line",
+              {
+                "kind": "text",
+                "text": "with"
+              }
+            ],
+            "id": "with_keyword"
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "align",
+              "width": 2,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  "line",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspect_assocs"
+                  }
+                ]
+              }
+            },
+            "flatContents": {
+              "kind": "group",
+              "document": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_aspect_assocs"
+                }
+              ]
+            },
+            "groupId": "with_keyword"
+          }
+        ]
+      }
+    },
     "AssignStmt": {
       "node": {
         "kind": "align",
@@ -287,6 +339,167 @@
           }
         ]
       } 
+    },
+    "PackageBody": {
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "text",
+                    "text": "package"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "text",
+                    "text": "body"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_package_name"
+                  },
+                  {
+                    "kind": "align",
+                    "width": 2,
+                    "contents": {
+                      "kind": "recurse_field",
+                      "field": "f_aspects"
+                    }
+                  }
+                ]
+              }
+            },
+            "line",
+            {
+              "kind": "text",
+              "text": "is"
+            }
+          ]
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            "hardline",
+            {
+              "kind": "recurse_field",
+              "field": "f_decls"
+            }
+          ]
+        },
+        "hardline",
+        {
+          "kind": "recurse_field",
+          "field": "f_stmts"
+        },
+        {
+          "kind": "text",
+          "text": "end"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_end_name"
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        }
+      ],
+      "fields": {
+        "f_stmts": [
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              "recurse"
+            ]
+          },
+          "hardline"
+        ]
+      }
+    },
+    "PackageDecl": {
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "text",
+                    "text": "package"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_package_name"
+                  },
+                  {
+                    "kind": "align",
+                    "width": 2,
+                    "contents": {
+                      "kind": "recurse_field",
+                      "field": "f_aspects"
+                    }
+                  }
+                ]
+              }
+            },
+            "line",
+            {
+              "kind": "text",
+              "text": "is"
+            }
+          ]
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            "hardline",
+            {
+              "kind": "recurse_field",
+              "field": "f_public_part"
+            }
+          ]
+        },
+        "hardline",
+        {
+          "kind": "recurse_field",
+          "field": "f_private_part"
+        },
+        {
+          "kind": "text",
+          "text": "end"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_end_name"
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        }
+      ],
+      "fields": {
+        "f_private_part": [
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              "recurse"
+            ]
+          },
+          "hardline"
+        ]
+      }
     },
     "ParenExpr": {
       "node": {

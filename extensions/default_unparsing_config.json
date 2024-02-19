@@ -165,6 +165,73 @@
           "recurse"
         ]
       }
-    }
+    },
+    "EnumLiteralDeclList":{
+      "sep":["recurse", "line"]
+    },
+    "EnumTypeDef":{
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "("
+           },
+           {
+             "kind" : "innerRoot",
+             "contents" : {
+               "kind": "recurse_field",
+               "field": "f_enum_literals"
+             }
+           },
+           {
+             "kind": "text",
+             "text": ")"
+           }
+        ]
+      } 
+    },
+    "ConcreteTypeDecl":{
+      "node":{
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+           {
+             "kind": "text",
+             "text": "type"
+           },
+           "whitespace",
+           {
+             "kind": "recurse_field",
+             "field": "f_name"
+           },
+           {
+             "kind": "recurse_field",
+             "field": "f_discriminants"
+           },
+           "whitespace",
+           {
+             "kind": "text",
+             "text": "is"
+           },            
+           "line",
+           {
+             "kind": "recurse_field",
+             "field": "f_type_def"
+           },
+           {
+             "kind": "recurse_field",
+             "field": "f_aspects"
+           },
+           {
+             "kind": "text",
+             "text": ";"
+           }
+          ]
+        }
+      } 
+    }     
   }
 }

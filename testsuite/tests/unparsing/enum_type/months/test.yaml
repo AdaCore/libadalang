@@ -1,0 +1,12 @@
+description: |
+    This test checks the formatting of an enumeration type
+    declaration. It is expected that the declaration line
+    breaks after the is keyword and the enumeration type
+    definition be indented by a line continuation indentation
+    (i.e., 2 spaces). The enumeration type definition should
+    break, each new line will contain an element of the list
+    and the enumeration literals should be aligned on the
+    position of the first element of the list. 
+
+driver: unparser
+rule: type_decl

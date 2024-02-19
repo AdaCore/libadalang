@@ -1,0 +1,1 @@
+type Color is (White, Red, Yellow, Green, Blue, Brown, Black, Pink, Magenta, Grey);

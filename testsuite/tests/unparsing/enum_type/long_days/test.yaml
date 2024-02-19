@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of an enumeration type
+    declaration with a very long defining name. It is
+    expected to break after is keywork and keep the enumeration
+    type definition in a single line.
+
+driver: unparser
+rule: type_decl

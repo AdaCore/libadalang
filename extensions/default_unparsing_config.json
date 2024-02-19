@@ -107,6 +107,22 @@
           "softline"
         ]
       }
+    },
+    "ReturnStmt": {
+      "node": {
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "fill",
+          "document": "recurse"
+        }
+      },
+      "fields": {
+        "f_return_expr": [
+          "line",
+          "recurse"
+        ]
+      }
     }
   }
 }

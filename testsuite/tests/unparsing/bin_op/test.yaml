@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description:
+  Test that in `BinOp` nodes, line breaks are added before the operator and
+  that the aligment of `f_right` is relative to where it starts.

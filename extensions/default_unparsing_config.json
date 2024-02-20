@@ -57,6 +57,52 @@
         ]
       }
     },
+    "CallExpr": {
+      "node": {
+        "kind": "innerRoot",
+        "contents": {
+          "kind": "align",
+          "width": 2,
+          "contents": {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "("
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_suffix"
+              },
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "CallStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_call"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
     "ConcreteTypeDecl":{
       "node":{
         "kind": "align",

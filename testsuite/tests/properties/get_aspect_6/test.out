@@ -1,0 +1,44 @@
+Working on node <ConcreteTypeDecl ["T1"] test.adb:3:7-3:26>
+===========================================================
+
+Eval 'node.p_get_aspect('String_Literal')'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:12:35-12:57> value=<Id "SLT1" test.adb:12:53-12:57> inherited=False>
+
+Eval 'node.p_get_aspect('String_Literal', True)'
+Result: <Aspect exists=False node=None value=None inherited=False>
+
+Working on node <ConcreteTypeDecl ["T2"] test.adb:7:7-7:54>
+===========================================================
+
+Eval 'node.p_get_aspect('String_Literal')'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:7:31-7:53> value=<Id "SLT2" test.adb:7:49-7:53> inherited=False>
+
+Eval 'node.p_get_aspect('String_Literal', True)'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:7:31-7:53> value=<Id "SLT2" test.adb:7:49-7:53> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T1"] test.adb:12:7-12:58>
+=============================================================
+
+Eval 'node.p_get_aspect('String_Literal')'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:12:35-12:57> value=<Id "SLT1" test.adb:12:53-12:57> inherited=False>
+
+Eval 'node.p_get_aspect('String_Literal', True)'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:12:35-12:57> value=<Id "SLT1" test.adb:12:53-12:57> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T2"] test.adb:17:7-17:30>
+=============================================================
+
+Eval 'node.p_get_aspect('String_Literal')'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:7:31-7:53> value=<Id "SLT2" test.adb:7:49-7:53> inherited=False>
+
+Eval 'node.p_get_aspect('String_Literal', True)'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:7:31-7:53> value=<Id "SLT2" test.adb:7:49-7:53> inherited=False>
+
+Working on node <ConcreteTypeDecl ["T3"] test.adb:29:7-29:25>
+=============================================================
+
+Eval 'node.p_get_aspect('String_Literal')'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:7:31-7:53> value=<Id "SLT2" test.adb:7:49-7:53> inherited=True>
+
+Eval 'node.p_get_aspect('String_Literal', True)'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:7:31-7:53> value=<Id "SLT2" test.adb:7:49-7:53> inherited=True>

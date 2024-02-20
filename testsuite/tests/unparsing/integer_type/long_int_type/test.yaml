@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a simple type declaration
+    having a long range specification. It is expected to break after
+    is keyword and the range spec breaks after the range low limit
+    and be aligned on the start position of this limit.
+    
+driver: unparser
+rule: type_decl

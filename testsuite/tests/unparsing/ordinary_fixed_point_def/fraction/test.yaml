@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of a simple fixed point type
+    declaration. It is expected the declaration be splitted on three
+    lines: first after is keyword, then before range keyword;
+    delta and range keywords should be alingned and indented with a
+    line continuation indentation (i.e., 2 spaces).
+
+driver: unparser
+rule: type_decl

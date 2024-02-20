@@ -1,0 +1,1 @@
+type Fixed_Point_Type_Decl is delta 0.125 range 0.0 .. 255.0;

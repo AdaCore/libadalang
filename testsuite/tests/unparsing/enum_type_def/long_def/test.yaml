@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of an enumeration type
+    declaration. It is expected to break after is keyword and
+    keep the enumeration type definition on a single line.
+
+driver: unparser
+rule: type_decl

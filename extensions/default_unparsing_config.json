@@ -1,5 +1,38 @@
 {
   "node_configs": {
+    "AssignStmt": {
+      "node": {
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+            [
+              {
+                "kind": "recurse_field",
+                "field": "f_dest"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": ":="
+              }
+            ],
+            "line",
+            [
+              {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              },
+              {
+                "kind": "text",
+                "text": ";"
+              }
+            ]
+          ]
+        }
+      }
+    },
     "BinOp": {
       "node": {
         "kind": "group",

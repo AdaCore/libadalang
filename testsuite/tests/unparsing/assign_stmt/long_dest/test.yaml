@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Tests that when `f_dest` does not fit in one line, a line break is added
+  after the `:=`.

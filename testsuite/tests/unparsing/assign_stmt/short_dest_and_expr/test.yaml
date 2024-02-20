@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Base test for `AssignStmt`. Tests that a whitespace is added before and after
+  `:=`.

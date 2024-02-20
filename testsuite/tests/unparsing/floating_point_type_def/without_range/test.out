@@ -1,0 +1,1 @@
+type Real is digits 8;

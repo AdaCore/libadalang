@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a simple floating point type
+    declaration. It is expected the declaration be splitted in two
+    lines after the is keyword and the new line be indented with a
+    line continuation indentation (i.e., 2 spaces).
+
+driver: unparser
+rule: type_decl

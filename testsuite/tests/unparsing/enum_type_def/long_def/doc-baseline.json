@@ -53,7 +53,8 @@
                       "command": {
                         "command": "align",
                         "alignData": {
-                          "kind": "innerRoot"
+                          "kind": "width",
+                          "n": 1
                         },
                         "alignContents": {
                           "id": 22,

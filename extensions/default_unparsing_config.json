@@ -24,6 +24,191 @@
         ]
       }
     },
+    "ConcreteTypeDecl":{
+      "node":{
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+           {
+             "kind": "text",
+             "text": "type"
+           },
+           "whitespace",
+           {
+             "kind": "recurse_field",
+             "field": "f_name"
+           },
+           {
+             "kind": "recurse_field",
+             "field": "f_discriminants"
+           },
+           "whitespace",
+           {
+             "kind": "text",
+             "text": "is"
+           },            
+           "line",
+           {
+             "kind": "recurse_field",
+             "field": "f_type_def"
+           },
+           {
+             "kind": "recurse_field",
+             "field": "f_aspects"
+           },
+           {
+             "kind": "text",
+             "text": ";"
+           }
+          ]
+        }
+      } 
+    },
+    "DecimalFixedPointDef":{
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "delta"
+          },
+          "whitespace",            
+          {
+            "kind": "recurse_field",
+            "field": "f_delta"
+          },
+          "line",
+          {
+            "kind": "text",
+            "text": "digits"
+          },
+          "whitespace",            
+          {
+            "kind": "recurse_field",
+            "field": "f_digits"
+          },
+          {
+            "kind": "recurse_field",
+             "field": "f_range"
+          }
+        ]
+      },
+      "fields": {
+        "f_range": [
+            "line",
+            {
+                "kind": "innerRoot",
+                "contents": "recurse"
+            }
+        ]            
+      }
+    },  
+    "DottedName": {
+      "node": {
+        "kind": "innerRoot",
+        "contents": {
+          "kind": "align",
+          "width": 2,
+          "contents": {
+            "kind": "group",
+            "document": "recurse"
+          }
+        }
+      },
+      "fields": {
+        "f_prefix": [
+          {
+            "kind": "recurse_flatten",
+            "if": ["DottedName"]
+          },
+          "softline"
+        ]
+      }
+    },
+    "EnumLiteralDeclList":{
+      "sep":["recurse", "line"]
+    },
+    "EnumTypeDef":{
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "("
+           },
+           {
+             "kind": "align",
+             "width": 1,
+             "contents" : {
+               "kind": "recurse_field",
+               "field": "f_enum_literals"
+             }
+           },
+           {
+             "kind": "text",
+             "text": ")"
+           }
+        ]
+      } 
+    },
+    "FloatingPointDef":{
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "digits"
+          },
+          "whitespace",            
+          {
+            "kind": "recurse_field",
+            "field": "f_num_digits"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_range"
+          }
+        ]
+      },
+      "fields": {
+        "f_range": [
+          "line",
+          {
+            "kind": "innerRoot",
+            "contents": "recurse"
+          }
+        ] 
+      }        
+    },
+    "NameList":{
+      "sep":["recurse", "line"]
+    },
+    "OrdinaryFixedPointDef":{
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "delta"
+          },
+          "whitespace",            
+          {
+            "kind": "recurse_field",
+            "field": "f_delta"
+          },
+          "line",
+          {
+            "kind" : "innerRoot",
+            "contents" : {
+              "kind": "recurse_field",
+              "field": "f_range"
+            }
+          }
+        ]
+      } 
+    },
     "ParenExpr": {
       "node": {
         "kind": "align",
@@ -34,36 +219,50 @@
         }
       }
     },
-    "WithClause": {
+    "RangeSpec":{
       "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "recurse_field",
-            "field": "f_has_limited"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_has_private"
-          },
-          {
-            "kind": "text",
-            "text": "with"
-          },
-          "whitespace",
-          {
-            "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_packages"
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "text",
+              "text": "range"
+            },
+            "whitespace",
+            {
+              "kind": "innerRoot",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_range"
+              }
             }
-          },
-          {
-            "kind": "text",
-            "text": ";"
-          }
+          ]
+        }
+      } 
+    },
+    "ReturnStmt": {
+      "node": {
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "fill",
+          "document": "recurse"
+        }
+      },
+      "fields": {
+        "f_return_expr": [
+          "line",
+          "recurse"
         ]
       }
+    },
+    "SignedIntTypeDef":{
+      "node": {
+        "kind": "recurse_field",
+        "field": "f_range"
+      } 
     },
     "UsePackageClause": {
       "node": {
@@ -120,142 +319,36 @@
         ]
       }
     },
-    "NameList":{
-      "sep":["recurse", "line"]
-    },
-    "DottedName": {
-      "node": {
-        "kind": "innerRoot",
-        "contents": {
-          "kind": "align",
-          "width": 2,
-          "contents": {
-            "kind": "group",
-            "document": "recurse"
-          }
-        }
-      },
-      "fields": {
-        "f_prefix": [
-          {
-            "kind": "recurse_flatten",
-            "if": ["DottedName"]
-          },
-          "softline"
-        ]
-      }
-    },
-    "ReturnStmt": {
-      "node": {
-        "kind": "align",
-        "width": 2,
-        "contents": {
-          "kind": "fill",
-          "document": "recurse"
-        }
-      },
-      "fields": {
-        "f_return_expr": [
-          "line",
-          "recurse"
-        ]
-      }
-    },
-    "EnumLiteralDeclList":{
-      "sep":["recurse", "line"]
-    },
-    "EnumTypeDef":{
+    "WithClause": {
       "node": {
         "kind": "group",
         "document": [
           {
+            "kind": "recurse_field",
+            "field": "f_has_limited"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_private"
+          },
+          {
             "kind": "text",
-            "text": "("
-           },
-           {
-             "kind" : "innerRoot",
-             "contents" : {
-               "kind": "recurse_field",
-               "field": "f_enum_literals"
-             }
-           },
-           {
-             "kind": "text",
-             "text": ")"
-           }
-        ]
-      } 
-    },
-    "RangeSpec":{
-      "node": {
-        "kind": "align",
-        "width": 2,
-        "contents": {
-          "kind": "group",
-          "document": [
-            {
-              "kind": "text",
-              "text": "range"
-            },
-            "whitespace",
-            {
-              "kind": "innerRoot",
-              "contents": {
-                "kind": "recurse_field",
-                "field": "f_range"
-              }
+            "text": "with"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_packages"
             }
-          ]
-        }
-      } 
-    },
-    "SignedIntTypeDef":{
-      "node": {
-        "kind": "recurse_field",
-        "field": "f_range"
-      } 
-    },
-    "ConcreteTypeDecl":{
-      "node":{
-        "kind": "align",
-        "width": 2,
-        "contents": {
-          "kind": "group",
-          "document": [
-           {
-             "kind": "text",
-             "text": "type"
-           },
-           "whitespace",
-           {
-             "kind": "recurse_field",
-             "field": "f_name"
-           },
-           {
-             "kind": "recurse_field",
-             "field": "f_discriminants"
-           },
-           "whitespace",
-           {
-             "kind": "text",
-             "text": "is"
-           },            
-           "line",
-           {
-             "kind": "recurse_field",
-             "field": "f_type_def"
-           },
-           {
-             "kind": "recurse_field",
-             "field": "f_aspects"
-           },
-           {
-             "kind": "text",
-             "text": ";"
-           }
-          ]
-        }
-      } 
-    }     
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    }
   }
 }

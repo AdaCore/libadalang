@@ -1,0 +1,1 @@
+type Decimal_Fixed_Point_Type_Decl is delta 0.01 digits 15;

@@ -1,0 +1,6 @@
+driver: unparser
+rule: stmt
+description: |
+  Base test for a `CallStmt`. Tests that if the statement is too long, the
+  underlying `CallExpr` breaks. Additionally, this test checks this behaviour
+  when the `;` is at the line length limit.

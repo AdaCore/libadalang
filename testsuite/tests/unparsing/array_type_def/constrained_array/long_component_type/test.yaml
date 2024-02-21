@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a simple constrained array
+    type declaration exceeding the maximal line length due to a
+    long component type name.
+    It is expected the declaration be splitted after is and before
+    of keywords and the new lines be indented with a line continuation
+    indentation.
+
+driver: unparser
+rule: type_decl

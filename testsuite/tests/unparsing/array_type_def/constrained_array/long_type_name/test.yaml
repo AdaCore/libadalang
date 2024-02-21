@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a simple constrained array
+    type declaration having the maximum line exceeded due to the type name.
+    It is expected the declaration be splitted on two lines and breaks after
+    the is keyword.
+
+driver: unparser
+rule: type_decl

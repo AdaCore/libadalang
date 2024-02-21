@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a simple constrained array
+    type declaration where the constraint list is specified by a subtype
+    declaration.
+    It is expected the declaration stays on a single line.
+
+driver: unparser
+rule: type_decl

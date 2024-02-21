@@ -1,0 +1,1 @@
+type Table is array (Integer range <>, Integer range <>, Integer range <>, Integer range <>) of Real;

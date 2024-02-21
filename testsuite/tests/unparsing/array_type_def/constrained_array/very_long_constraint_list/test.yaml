@@ -1,0 +1,12 @@
+description: |
+    This test checks the formatting of a simple constrained array
+    type declaration having the maximum line exceeded due to the
+    constraint list specification.
+    It is expected the declaration be splitted in multiple lines and
+    breaks after the is and of keywords and these new lines will be
+    indented with a line contination indentation (i.e., 2 spaces); the
+    constraint list will break before the double dot and the new line
+    will be aligned on the constraint low limit initial position.
+
+driver: unparser
+rule: type_decl

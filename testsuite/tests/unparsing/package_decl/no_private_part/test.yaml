@@ -1,0 +1,4 @@
+driver: unparser
+rule: package_decl
+descrition: |
+  Test when `F_Private_Part` is null.

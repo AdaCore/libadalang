@@ -1,0 +1,4 @@
+driver: unparser
+rule: package_decl
+descrition: |
+  Test when `F_End_Name` is null.

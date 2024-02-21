@@ -1,0 +1,1 @@
+package Foooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo with Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar is type Baz; private type Qux; end Foo;

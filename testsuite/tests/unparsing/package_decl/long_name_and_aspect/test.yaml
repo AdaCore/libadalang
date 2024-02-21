@@ -1,0 +1,5 @@
+driver: unparser
+rule: package_decl
+descrition: |
+  For a long `F_Package_Name` and long `F_Aspects`, test that a line break is
+  added before and after the `with` keyword.

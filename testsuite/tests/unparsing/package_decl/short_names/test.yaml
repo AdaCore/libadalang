@@ -1,0 +1,6 @@
+driver: unparser
+rule: package_decl
+descrition: |
+  For a short `F_Package_Name` and `F_Aspects`, test that they are in the same
+  line.
+  Test that `F_Public_Part` and `F_Private_Part` are indented.

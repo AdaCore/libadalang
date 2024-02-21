@@ -179,7 +179,7 @@
            {
              "kind": "text",
              "text": "is"
-           },            
+           },
            "line",
            {
              "kind": "recurse_field",
@@ -195,7 +195,7 @@
            }
           ]
         }
-      } 
+      }
     },
     "DecimalFixedPointDef":{
       "node": {
@@ -205,7 +205,7 @@
             "kind": "text",
             "text": "delta"
           },
-          "whitespace",            
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_delta"
@@ -215,7 +215,7 @@
             "kind": "text",
             "text": "digits"
           },
-          "whitespace",            
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_digits"
@@ -233,9 +233,9 @@
                 "kind": "innerRoot",
                 "contents": "recurse"
             }
-        ]            
+        ]
       }
-    },  
+    },
     "DottedName": {
       "node": {
         "kind": "innerRoot",
@@ -282,7 +282,57 @@
              "text": ")"
            }
         ]
-      } 
+      }
+    },
+    "ElsifStmtPart": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "elsif"
+              },
+              "whitespace",
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": {
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_cond_expr"
+                  }
+                }
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "then"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          },
+          "hardlineWithoutBreakParent"
+        ]
+      }
+    },
+    "ElsifExprPartList": {
+      "sep": [
+        "recurse",
+        "hardlineWithoutBreakParent"
+      ]
     },
     "FloatingPointDef":{
       "node": {
@@ -292,7 +342,7 @@
             "kind": "text",
             "text": "digits"
           },
-          "whitespace",            
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_num_digits"
@@ -310,8 +360,86 @@
             "kind": "innerRoot",
             "contents": "recurse"
           }
-        ] 
-      }        
+        ]
+      }
+    },
+    "IfStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "if"
+              },
+              "whitespace",
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_cond_expr"
+                }
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "then"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              {
+                "kind": "recurse_field",
+                "field": "f_then_stmts"
+              }
+            ]
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "recurse_field",
+            "field": "f_alternatives"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_else_stmts"
+          },
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "if"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_alternatives": {
+          "kind": "group",
+          "document": "recurse"
+        },
+        "f_else_stmts": [
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              "recurse"
+            ]
+          },
+          "hardlineWithoutBreakParent"
+        ]
+      }
     },
     "NameList":{
       "sep":["recurse", "line"]
@@ -324,7 +452,7 @@
             "kind": "text",
             "text": "delta"
           },
-          "whitespace",            
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_delta"
@@ -338,7 +466,7 @@
             }
           }
         ]
-      } 
+      }
     },
     "PackageBody": {
       "node": [
@@ -532,7 +660,7 @@
             }
           ]
         }
-      } 
+      }
     },
     "ReturnStmt": {
       "node": {
@@ -554,7 +682,7 @@
       "node": {
         "kind": "recurse_field",
         "field": "f_range"
-      } 
+      }
     },
     "UsePackageClause": {
       "node": {

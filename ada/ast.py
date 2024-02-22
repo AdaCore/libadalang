@@ -2699,7 +2699,7 @@ class BasicDecl(AdaNode):
 
     @langkit_property(return_type=Aspect, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
-    def get_aspect(name=Symbol):
+    def get_aspect(name=Symbol, previous_parts_only=(Bool, False)):
         """
         Return the aspect with name ``name`` associated to this entity.
 
@@ -2707,12 +2707,11 @@ class BasicDecl(AdaNode):
         program, either via aspect specifications, pragmas, or attributes.
 
         This will return the syntactic node corresponding to attribute
-        directly.
-
-        Note: for some aspects (e.g. Inline), Libadalang will check if they are
-        defined on any part of the entity.
+        directly. See ``DefiningName.P_Get_Aspect`` for more details.
         """
-        return Entity.defining_name_or_raise._.get_aspect(name)
+        return Entity.defining_name_or_raise._.get_aspect(
+            name, previous_parts_only
+        )
 
     @langkit_property(return_type=Bool, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
@@ -3520,7 +3519,14 @@ class BasicDecl(AdaNode):
                         # A body is not expected if the library level
                         # declaration is an imported subprogram.
                         And(b.is_a(T.BasicSubpDecl, T.GenericSubpDecl),
-                            b.as_entity.has_aspect("Import"))
+                            # Now that get_aspect looks in all parts, we must
+                            # not call has_aspect("Import") from here to avoid
+                            # infinite recursion.
+                            Not(b.as_entity.then(
+                                lambda e: e.get_aspect_assoc("Import")._or(
+                                    e.get_pragma("Import")
+                                )
+                            ).is_null))
                     ))
                 )
             )
@@ -18113,9 +18119,43 @@ class DefiningName(Name):
                                        value=atc.expr, inherited=inherited)
             ),
             No(Aspect)
-        ))._or(
-            # If nothing has been found so far, check out for any inherited
-            # aspect.
+        ))
+
+    @langkit_property(return_type=Aspect,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_aspect_on_parts(name=Symbol, inherited=Bool,
+                            previous_parts_only=Bool):
+        """
+        Return the aspect with name ``name`` associated to entity that this
+        name defines.
+
+        First, check for aspect on all parts of entity (``previous_parts_only``
+        can be used to restrict the search to entity and its previous part to
+        comply with visibility rules).
+
+        If no aspect if found on entity, recursively check for it on its
+        parents.
+        """
+        parts_to_check = Var(Cond(
+            # SPARK_Mode has its own logic (see `is_spark`). For instance, if
+            # defined on a body, it doesn't apply to the corresponding
+            # specification, and conversely. Only consider the current part
+            # when looking for it.
+            name == 'SPARK_Mode',
+            Entity.singleton,
+
+            previous_parts_only,
+            Entity.singleton.concat(Entity.all_previous_parts),
+
+            Entity.all_parts
+        ))
+        return parts_to_check.map(
+            lambda p: p.get_aspect_impl(name, inherited)
+        ).find(
+            lambda a: a.exists
+        )._or(
+            # If nothing has been found so far for entity, check out for any
+            # inherited aspect.
             Entity.basic_decl_no_internal.cast(BaseTypeDecl).then(
                 lambda bd: Let(
                     lambda typ=If(bd.is_a(T.BaseSubtypeDecl),
@@ -18124,7 +18164,10 @@ class DefiningName(Name):
                     If(
                         Or(typ.is_null, typ == bd),
                         No(T.Aspect),
-                        typ.name.get_aspect_impl(name, inherited=True)
+                        typ.name.get_aspect_on_parts(
+                            name, inherited=True,
+                            previous_parts_only=previous_parts_only
+                        )
                     )
                 )
             )
@@ -18132,7 +18175,7 @@ class DefiningName(Name):
 
     @langkit_property(return_type=Aspect, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
-    def get_aspect(name=Symbol):
+    def get_aspect(name=Symbol, previous_parts_only=(Bool, False)):
         """
         Return the aspect with name ``name`` associated to entity that this
         name defines.
@@ -18143,25 +18186,20 @@ class DefiningName(Name):
         This will return the syntactic node corresponding to attribute
         directly.
 
-        Note: for some aspects (e.g. ``Inline``), Libadalang will check if they
-        are defined on any part of the entity.
+        Note: by default, Libadalang will check if the aspect is defined on any
+        part of the entity. However, the ``previous_parts_only`` parameter can
+        be set to True to limit the search to the current entity and its
+        previous parts in order to comply with visibilily rules. That way, if
+        an aspect is defined on the private part of a type, calling this
+        property on its corresponding public view won't return the aspect
+        unlike the call on the private view.
+
+        Morover, since aspects can be inherited, if none was found for the
+        current entity, Libadalang will also search for the aspect on the
+        parents of entity (in that case the ``inherited`` field will be set
+        to ``True`` in the returned result).
         """
-        parts_to_check = Var(If(
-            name.any_of(
-                'Annotate', 'Inline', 'Obsolescent',
-                # For the following aspects, an aspect only on the body is
-                # illegal, but we don't care about illegal cases, and this
-                # allows us to auto propagate the aspect from spec to body.
-                'Ghost', 'Default_Initial_Condition'
-            ),
-            Entity.all_parts,
-            Entity.singleton
-        ))
-        return parts_to_check.map(
-            lambda p: p.get_aspect_impl(name, False)
-        ).find(
-            lambda a: a.exists
-        )
+        return Entity.get_aspect_on_parts(name, False, previous_parts_only)
 
     @langkit_property(return_type=Bool, public=True,
                       dynamic_vars=[default_imprecise_fallback()])

@@ -1,5 +1,38 @@
 {
   "node_configs": {
+    "ArrayTypeDef":{
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "array"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_indices"
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          },
+          "line",
+          {
+            "kind": "text",
+            "text": "of"
+          },  
+          {
+            "kind": "recurse_field",
+            "field": "f_component_type"
+          }
+        ]
+      }
+    },
     "AspectAssocList": {
       "sep": [
         "recurse",
@@ -154,6 +187,50 @@
           }
         ]
       }
+    },
+    "ComponentDef":{
+      "node":{
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+           {
+             "kind": "recurse_field",
+             "field": "f_has_aliased"
+           },
+           {
+             "kind": "recurse_field",
+             "field": "f_has_constant"
+           },
+           {
+             "kind": "recurse_field",
+             "field": "f_type_expr"
+           }
+          ]
+        }
+      }
+    },
+    "ConstrainedArrayIndices":{
+      "node":{
+        "kind": "align",
+        "width": 1,
+        "contents": {
+          "kind": "group",
+           "document": [
+            {
+              "kind" : "innerRoot",
+              "contents" : {
+                "kind": "recurse_field",
+                "field": "f_list"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ConstraintList":{
+      "sep":["recurse", "line"]
     },
     "ConcreteTypeDecl":{
       "node":{
@@ -682,6 +759,55 @@
       "node": {
         "kind": "recurse_field",
         "field": "f_range"
+      }
+    },
+    "UnconstrainedArrayIndices":{
+      "node":{
+        "kind": "align",
+        "width": 1,
+        "contents": {
+          "kind": "group",
+           "document": [
+            {
+              "kind" : "innerRoot",
+              "contents" : {
+                "kind": "recurse_field",
+                "field": "f_types"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "UnconstrainedArrayIndexList":{
+      "sep":["recurse", "line"]
+    },
+    "UnconstrainedArrayIndex":{
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_subtype_name"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "range"
+          },
+          {
+           "kind": "recurse_field",
+           "field": "f_lower_bound"
+          },
+          "whitespace",
+          {
+           "kind": "text",
+           "text": "<>"
+          }
+        ]
+      },
+      "fields": {
+        "f_lower_bound": ["whitespace", "recurse"]
       }
     },
     "UsePackageClause": {

@@ -1,0 +1,11 @@
+description: |
+    This test checks the formatting of a multidimensional unconstraint array
+    type declaration with a long unconstraints array index list.
+    It is expected the declaration be splitted in multiple line after
+    the is and before the of keywords and this new line be indented
+    with a line continuation indentation; the index list will be splitted as
+    well after each separator and be aligned on the list first list element
+    position.   
+
+driver: unparser
+rule: type_decl

@@ -1,0 +1,1 @@
+type Matrix     is array(Integer  range <>, Integer range <>) of Real;

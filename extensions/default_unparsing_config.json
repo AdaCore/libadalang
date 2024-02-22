@@ -313,6 +313,12 @@
         ]
       }
     },
+    "DefiningNameList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
+    },
     "DottedName": {
       "node": {
         "kind": "innerRoot",
@@ -521,6 +527,38 @@
     "NameList":{
       "sep":["recurse", "line"]
     },
+    "ModeIn": {
+      "node": [
+        {
+          "kind": "text",
+          "text": "in"
+        },
+        "whitespace"
+      ]
+    },
+    "ModeInOut": {
+      "node": [
+        {
+          "kind": "text",
+          "text": "in"
+        },
+        "whitespace",
+        {
+          "kind": "text",
+          "text": "out"
+        },
+        "whitespace"
+      ]
+    },
+    "ModeOut": {
+      "node": [
+        {
+          "kind": "text",
+          "text": "out"
+        },
+        "whitespace"
+      ]
+    },
     "OrdinaryFixedPointDef":{
       "node": {
         "kind": "group",
@@ -705,6 +743,136 @@
           "hardline"
         ]
       }
+    },
+    "Params": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 1,
+          "contents": [
+            {
+              "kind": "text",
+              "text": "("
+            },
+            {
+              "kind": "innerRoot",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_params"
+              }
+            },
+            {
+              "kind": "text",
+              "text": ")"
+            }
+          ]
+        }
+      }
+    },
+    "ParamSpec": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_ids"
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": ":"
+              },
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  "line",
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_has_aliased"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_mode"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_type_expr"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "id": "name_and_type"
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "align",
+              "width": 4,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "flatContents": {
+              "kind": "align",
+              "width": 2,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "groupId": "name_and_type"
+          }
+        ]
+      },
+      "fields": {
+        "f_default_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ":="
+          },
+          "line",
+          "recurse"
+        ]
+      }
+    },
+    "ParamSpecList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
     "ParenExpr": {
       "node": {

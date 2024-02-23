@@ -1,0 +1,4 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Test that no line breaks are added when the spec fits on one line.

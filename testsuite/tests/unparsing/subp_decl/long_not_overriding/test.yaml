@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test that when the declaration is too long, the first break happens after the
+  `f_overriding` field.

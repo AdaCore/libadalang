@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Test line breaks after the funtion name, between parameters and before the
+  return.

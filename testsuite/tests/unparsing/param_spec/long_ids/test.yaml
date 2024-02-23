@@ -1,0 +1,5 @@
+driver: unparser
+rule: param_spec
+description: |
+  Test that when the parameters identifiers list is long, a line break and
+  continuation line indentation is added after the `:`.

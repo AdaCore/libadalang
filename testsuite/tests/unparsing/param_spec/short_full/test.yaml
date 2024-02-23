@@ -1,0 +1,5 @@
+driver: unparser
+rule: param_spec
+description: |
+  Base test case for a short full (name + type + default expression)
+  `ParamSpec`.

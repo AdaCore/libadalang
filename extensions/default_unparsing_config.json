@@ -1,6 +1,6 @@
 {
   "node_configs": {
-    "ArrayTypeDef":{
+    "ArrayTypeDef": {
       "node": {
         "kind": "group",
         "document": [
@@ -25,7 +25,7 @@
           {
             "kind": "text",
             "text": "of"
-          },  
+          },
           {
             "kind": "recurse_field",
             "field": "f_component_type"
@@ -188,39 +188,39 @@
         ]
       }
     },
-    "ComponentDef":{
-      "node":{
+    "ComponentDef": {
+      "node": {
         "kind": "align",
         "width": 2,
         "contents": {
           "kind": "group",
           "document": [
-           {
-             "kind": "recurse_field",
-             "field": "f_has_aliased"
-           },
-           {
-             "kind": "recurse_field",
-             "field": "f_has_constant"
-           },
-           {
-             "kind": "recurse_field",
-             "field": "f_type_expr"
-           }
+            {
+              "kind": "recurse_field",
+              "field": "f_has_aliased"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_has_constant"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_type_expr"
+            }
           ]
         }
       }
     },
-    "ConstrainedArrayIndices":{
-      "node":{
+    "ConstrainedArrayIndices": {
+      "node": {
         "kind": "align",
         "width": 1,
         "contents": {
           "kind": "group",
-           "document": [
+          "document": [
             {
-              "kind" : "innerRoot",
-              "contents" : {
+              "kind": "innerRoot",
+              "contents": {
                 "kind": "recurse_field",
                 "field": "f_list"
               }
@@ -229,52 +229,55 @@
         }
       }
     },
-    "ConstraintList":{
-      "sep":["recurse", "line"]
+    "ConstraintList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
-    "ConcreteTypeDecl":{
-      "node":{
+    "ConcreteTypeDecl": {
+      "node": {
         "kind": "align",
         "width": 2,
         "contents": {
           "kind": "group",
           "document": [
-           {
-             "kind": "text",
-             "text": "type"
-           },
-           "whitespace",
-           {
-             "kind": "recurse_field",
-             "field": "f_name"
-           },
-           {
-             "kind": "recurse_field",
-             "field": "f_discriminants"
-           },
-           "whitespace",
-           {
-             "kind": "text",
-             "text": "is"
-           },
-           "line",
-           {
-             "kind": "recurse_field",
-             "field": "f_type_def"
-           },
-           {
-             "kind": "recurse_field",
-             "field": "f_aspects"
-           },
-           {
-             "kind": "text",
-             "text": ";"
-           }
+            {
+              "kind": "text",
+              "text": "type"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_name"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_discriminants"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "is"
+            },
+            "line",
+            {
+              "kind": "recurse_field",
+              "field": "f_type_def"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_aspects"
+            },
+            {
+              "kind": "text",
+              "text": ";"
+            }
           ]
         }
       }
     },
-    "DecimalFixedPointDef":{
+    "DecimalFixedPointDef": {
       "node": {
         "kind": "group",
         "document": [
@@ -299,19 +302,25 @@
           },
           {
             "kind": "recurse_field",
-             "field": "f_range"
+            "field": "f_range"
           }
         ]
       },
       "fields": {
         "f_range": [
-            "line",
-            {
-                "kind": "innerRoot",
-                "contents": "recurse"
-            }
+          "line",
+          {
+            "kind": "innerRoot",
+            "contents": "recurse"
+          }
         ]
       }
+    },
+    "DefiningNameList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
     "DottedName": {
       "node": {
@@ -329,35 +338,40 @@
         "f_prefix": [
           {
             "kind": "recurse_flatten",
-            "if": ["DottedName"]
+            "if": [
+              "DottedName"
+            ]
           },
           "softline"
         ]
       }
     },
-    "EnumLiteralDeclList":{
-      "sep":["recurse", "line"]
+    "EnumLiteralDeclList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
-    "EnumTypeDef":{
+    "EnumTypeDef": {
       "node": {
         "kind": "group",
         "document": [
           {
             "kind": "text",
             "text": "("
-           },
-           {
-             "kind": "align",
-             "width": 1,
-             "contents" : {
-               "kind": "recurse_field",
-               "field": "f_enum_literals"
-             }
-           },
-           {
-             "kind": "text",
-             "text": ")"
-           }
+          },
+          {
+            "kind": "align",
+            "width": 1,
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_enum_literals"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          }
         ]
       }
     },
@@ -411,7 +425,7 @@
         "hardlineWithoutBreakParent"
       ]
     },
-    "FloatingPointDef":{
+    "FloatingPointDef": {
       "node": {
         "kind": "group",
         "document": [
@@ -518,10 +532,45 @@
         ]
       }
     },
-    "NameList":{
-      "sep":["recurse", "line"]
+    "NameList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
-    "OrdinaryFixedPointDef":{
+    "ModeIn": {
+      "node": [
+        {
+          "kind": "text",
+          "text": "in"
+        },
+        "whitespace"
+      ]
+    },
+    "ModeInOut": {
+      "node": [
+        {
+          "kind": "text",
+          "text": "in"
+        },
+        "whitespace",
+        {
+          "kind": "text",
+          "text": "out"
+        },
+        "whitespace"
+      ]
+    },
+    "ModeOut": {
+      "node": [
+        {
+          "kind": "text",
+          "text": "out"
+        },
+        "whitespace"
+      ]
+    },
+    "OrdinaryFixedPointDef": {
       "node": {
         "kind": "group",
         "document": [
@@ -536,8 +585,8 @@
           },
           "line",
           {
-            "kind" : "innerRoot",
-            "contents" : {
+            "kind": "innerRoot",
+            "contents": {
               "kind": "recurse_field",
               "field": "f_range"
             }
@@ -706,6 +755,136 @@
         ]
       }
     },
+    "Params": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 1,
+          "contents": [
+            {
+              "kind": "text",
+              "text": "("
+            },
+            {
+              "kind": "innerRoot",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_params"
+              }
+            },
+            {
+              "kind": "text",
+              "text": ")"
+            }
+          ]
+        }
+      }
+    },
+    "ParamSpec": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_ids"
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": ":"
+              },
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  "line",
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_has_aliased"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_mode"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_type_expr"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "id": "name_and_type"
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "align",
+              "width": 4,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "flatContents": {
+              "kind": "align",
+              "width": 2,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "groupId": "name_and_type"
+          }
+        ]
+      },
+      "fields": {
+        "f_default_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ":="
+          },
+          "line",
+          "recurse"
+        ]
+      }
+    },
+    "ParamSpecList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
+    },
     "ParenExpr": {
       "node": {
         "kind": "align",
@@ -716,7 +895,7 @@
         }
       }
     },
-    "RangeSpec":{
+    "RangeSpec": {
       "node": {
         "kind": "align",
         "width": 2,
@@ -755,22 +934,22 @@
         ]
       }
     },
-    "SignedIntTypeDef":{
+    "SignedIntTypeDef": {
       "node": {
         "kind": "recurse_field",
         "field": "f_range"
       }
     },
-    "UnconstrainedArrayIndices":{
-      "node":{
+    "UnconstrainedArrayIndices": {
+      "node": {
         "kind": "align",
         "width": 1,
         "contents": {
           "kind": "group",
-           "document": [
+          "document": [
             {
-              "kind" : "innerRoot",
-              "contents" : {
+              "kind": "innerRoot",
+              "contents": {
                 "kind": "recurse_field",
                 "field": "f_types"
               }
@@ -779,10 +958,13 @@
         }
       }
     },
-    "UnconstrainedArrayIndexList":{
-      "sep":["recurse", "line"]
+    "UnconstrainedArrayIndexList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
-    "UnconstrainedArrayIndex":{
+    "UnconstrainedArrayIndex": {
       "node": {
         "kind": "group",
         "document": [
@@ -796,18 +978,21 @@
             "text": "range"
           },
           {
-           "kind": "recurse_field",
-           "field": "f_lower_bound"
+            "kind": "recurse_field",
+            "field": "f_lower_bound"
           },
           "whitespace",
           {
-           "kind": "text",
-           "text": "<>"
+            "kind": "text",
+            "text": "<>"
           }
         ]
       },
       "fields": {
-        "f_lower_bound": ["whitespace", "recurse"]
+        "f_lower_bound": [
+          "whitespace",
+          "recurse"
+        ]
       }
     },
     "UsePackageClause": {

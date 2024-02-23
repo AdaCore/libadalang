@@ -1,0 +1,4 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Test the line break before the function return.

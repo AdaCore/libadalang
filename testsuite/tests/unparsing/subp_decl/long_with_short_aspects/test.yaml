@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test that when no line break is added after the `with` keyword when the
+  aspects fit on the same line.

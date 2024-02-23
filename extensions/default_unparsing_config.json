@@ -594,6 +594,18 @@
         ]
       }
     },
+    "OverridingNotOverriding": {
+      "node": [
+        "recurse",
+        "hardlineWithoutBreakParent"
+      ]
+    },
+    "OverridingOverriding": {
+      "node": [
+        "recurse",
+        "hardlineWithoutBreakParent"
+      ]
+    },
     "PackageBody": {
       "node": [
         {
@@ -938,6 +950,156 @@
       "node": {
         "kind": "recurse_field",
         "field": "f_range"
+      }
+    },
+    "SubpBody": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_aspects"
+            }
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_decls"
+          },
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_decls": [
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              "recurse"
+            ]
+          },
+          "hardlineWithoutBreakParent"
+        ]
+      }
+    },
+    "SubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_aspects"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
+    "SubpSpec": {
+      "node": {
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_subp_kind"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_subp_name"
+            },
+            "line",
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_params"
+                },
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_returns"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_subp_returns": {
+          "kind": "align",
+          "width": 1,
+          "contents": {
+            "kind": "group",
+            "document": [
+              "line",
+              {
+                "kind": "text",
+                "text": "return"
+              },
+              "whitespace",
+              "recurse"
+            ]
+          }
+        }
       }
     },
     "UnconstrainedArrayIndices": {

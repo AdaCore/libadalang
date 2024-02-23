@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test that when the spec and aspects are too long, the `with` keyword is in
+  its own line.

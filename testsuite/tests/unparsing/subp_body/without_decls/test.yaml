@@ -1,0 +1,11 @@
+driver: unparser
+rule: subp_body
+description: |
+  Test that when `f_decls` is empty, there is not an empty line between `is`
+  and `begin`.
+control:
+  - [
+      XFAIL,
+      "True",
+      "https://gitlab.adacore-it.com/eng/libadalang/langkit/-/issues/760",
+    ]

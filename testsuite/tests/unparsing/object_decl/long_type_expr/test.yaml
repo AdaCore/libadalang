@@ -1,0 +1,5 @@
+driver: unparser
+rule: object_decl
+description: |
+  Test that when the type expression is long, a line break and continuation
+  line indentation is added after the `:`.

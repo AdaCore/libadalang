@@ -1,0 +1,5 @@
+driver: unparser
+rule: object_decl
+description: |
+  Base test case for a long `NoTypeObjectRenamingDecl`. Test that a line break
+  is added after the `rename` keyword.

@@ -6,6 +6,7 @@
     ADASAT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/adasat
     ANOD_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/it/anod
     AWS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/toolchain/aws
+    GNATFORMAT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/ide/gnatformat
     GPR2_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/gpr/gpr
     LANGKIT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/langkit
     LIBADALANG_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/libadalang
@@ -60,6 +61,7 @@
     - cd /tmp
     - git clone --depth 1 $ADASAT_GIT
     - git clone --depth 1 $AWS_GIT
+    - git clone --depth 1 $GNATFORMAT_GIT
     - git clone --depth 1 $GPR2_GIT
     - git clone --depth 1 $LANGKIT_GIT
     - git clone --depth 1 $LIBADALANG_GIT
@@ -70,6 +72,7 @@
     - cd /it/wave
     - anod vcs --add-repo adasat /tmp/adasat
     - anod vcs --add-repo aws /tmp/aws
+    - anod vcs --add-repo gnatformat /tmp/gnatformat
     - anod vcs --add-repo gpr2 /tmp/gpr
     - anod vcs --add-repo langkit /tmp/langkit
     - anod vcs --add-repo libadalang /tmp/libadalang

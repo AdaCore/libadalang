@@ -1,0 +1,5 @@
+driver: unparser
+rule: object_decl
+description: |
+  Base test case for a short full (name + aliased constant type + default
+  expression) `ObjectDecl`.

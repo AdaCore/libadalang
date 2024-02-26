@@ -570,6 +570,169 @@
         "whitespace"
       ]
     },
+    "NoTypeObjectRenamingDecl": {
+      "node": {
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+            [
+              {
+                "kind": "recurse_field",
+                "field": "f_ids"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_has_aliased"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_has_constant"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_mode"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_type_expr"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_default_expr"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_renaming_clause"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              },
+              {
+                "kind": "text",
+                "text": ";"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "ObjectDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_ids"
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": ":"
+              },
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  "line",
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_has_aliased"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_has_constant"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_mode"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_type_expr"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "id": "name_and_type"
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "align",
+              "width": 4,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_renaming_clause"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "flatContents": {
+              "kind": "align",
+              "width": 2,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_renaming_clause"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "groupId": "name_and_type"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_default_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ":="
+          },
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "OrdinaryFixedPointDef": {
       "node": {
         "kind": "group",
@@ -928,6 +1091,23 @@
             }
           ]
         }
+      }
+    },
+    "RenamingClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "renames"
+          },
+          "line",
+          {
+            "kind": "recurse_field",
+            "field": "f_renamed_object"
+          }
+        ]
       }
     },
     "ReturnStmt": {

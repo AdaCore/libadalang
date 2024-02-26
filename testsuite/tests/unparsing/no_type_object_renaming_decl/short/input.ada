@@ -1,0 +1,2 @@
+Foo renames
+  Bar;

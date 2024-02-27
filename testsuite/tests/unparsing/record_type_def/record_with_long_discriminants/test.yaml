@@ -1,0 +1,15 @@
+description: |
+    This test checks the formatting of a simple record type
+    declaration with long discriminants and one component.
+    It is expected to break before `(`, `is` and `record` keywords
+    and `end record` and after `record`; the `type` and `is` keywords
+    are aligned, the `record` and `end record` are indented with a
+    line continuation indentation and aligned; the component is
+    indented with a line continuation indentation relative to record
+    keyword starting point; the discriminant is indented with a line
+    continuation indentation relative to `type` keyword starting point
+    and splitted in two lines and the discriminant specs are alinged on
+    the starting position of the first element.
+    
+driver: unparser
+rule: type_decl

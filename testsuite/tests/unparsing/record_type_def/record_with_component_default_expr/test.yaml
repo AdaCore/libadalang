@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a record type declaration
+    having default expressions associated with the component declarations.
+    It is expected to break before and after `record` keyword; have `record` and
+    `end record` be indented with a line continuation indentation and aligned;
+    the component declarations are also indented with a line continuation
+    indentation relative to `record` keyword and aligned.
+
+driver: unparser
+rule: type_decl

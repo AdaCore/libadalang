@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a record type declaration
+    having discriminant and only variant part defined.
+    It is espected to break after `is` and `record` keywords; have
+    the variant part formated as a case statement and indented with
+    a line break continuation indentation; `record` and `end record`
+    be indented with a line continuation indentation and be aligned.
+
+driver: unparser
+rule: type_decl

@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of a simple record type declaration.
+    It is expected ti break after is and `record` and `end record`
+    indented by a line continuation indentation and be alingned; the
+    component declarations are also indented by a line continuation indentation
+    relative to the `record` keyword and are all aligned.
+
+driver: unparser
+rule: type_decl

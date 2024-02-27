@@ -1,0 +1,5 @@
+driver: unparser
+rule: case_stmt
+description: |
+  Test that when `f_expr` is long, a line break is added before the `is`
+  keyword.

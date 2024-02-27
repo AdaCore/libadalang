@@ -1,0 +1,5 @@
+driver: unparser
+rule: case_stmt
+description: |
+  Test that a single long statement is in its own line and that multiple
+  statements are split in their own lines.

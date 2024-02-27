@@ -1,22 +1,34 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <ObjectDecl ["X"] test.adb:10:4-10:30>
+Resolving xrefs for node <AspectAssoc test.adb:4:15-4:39>
+*********************************************************
+
+Expr: <Id "String_Literal" test.adb:4:15-4:29>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "To_Str" test.adb:4:33-4:39>
+  references:    <DefiningName "To_Str" test.adb:7:16-7:22>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:12:4-12:30>
 ***************************************************************
 
-Expr: <DottedName test.adb:10:8-10:15>
+Expr: <DottedName test.adb:12:8-12:15>
   references:    <DefiningName "Str" test.adb:3:12-3:15>
   type:          None
   expected type: None
-Expr: <Id "Pkg" test.adb:10:8-10:11>
+Expr: <Id "Pkg" test.adb:12:8-12:11>
   references:    <DefiningName "Pkg" test.adb:2:12-2:15>
   type:          None
   expected type: None
-Expr: <Id "Str" test.adb:10:12-10:15>
+Expr: <Id "Str" test.adb:12:12-12:15>
   references:    <DefiningName "Str" test.adb:3:12-3:15>
   type:          None
   expected type: None
-Expr: <Str ""Helloooo"" test.adb:10:19-10:29>
+Expr: <Str ""Helloooo"" test.adb:12:19-12:29>
   references:    None
   type:          <ConcreteTypeDecl ["Str"] test.adb:3:7-4:40>
   expected type: <ConcreteTypeDecl ["Str"] test.adb:3:7-4:40>

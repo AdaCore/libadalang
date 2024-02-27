@@ -1,0 +1,11 @@
+driver: unparser
+rule: generic_decl
+description: |
+  Test that there is no line break between the keywords `generic` and
+  `function`.
+control:
+  - [
+      XFAIL,
+      "True",
+      "https://gitlab.adacore-it.com/eng/libadalang/langkit/-/issues/760",
+    ]

@@ -1099,6 +1099,24 @@ class AdaNode(ASTNode):
         Static method. Return the standard Wide_Wide_Character type.
         """
     )
+    std_string_type = Property(
+        Self.std_entity('String').cast(T.BaseTypeDecl), public=True,
+        doc="""
+        Static method. Return the standard String type.
+        """
+    )
+    std_wide_string_type = Property(
+        Self.std_entity('Wide_String').cast(T.BaseTypeDecl), public=True,
+        doc="""
+        Static method. Return the standard Wide_String type.
+        """
+    )
+    std_wide_wide_string_type = Property(
+        Self.std_entity('Wide_Wide_String').cast(T.BaseTypeDecl),
+        public=True, doc="""
+        Static method. Return the standard Wide_Wide_String type.
+        """
+    )
 
     std_root_types = Property(
         Self.std_entity('root_types_').cast(T.PackageDecl)._.children_env,
@@ -2053,6 +2071,15 @@ class Aspect(Struct):
     inherited = UserField(Bool, doc="""
         Whether the aspect is inherited (it has been defined by a parent)
     """)
+
+
+class UserDefinedFunctionSubpSpec(Struct):
+    """
+    Structure to hold an expected subprogram specification (parameters and
+    return types only) denoted by an user defined function.
+    """
+    subp_params_types = UserField(T.BaseTypeDecl.entity.array)
+    subp_return_type = UserField(T.BaseTypeDecl.entity)
 
 
 @abstract
@@ -8660,6 +8687,48 @@ class TypeDecl(BaseTypeDecl):
             )
         )
 
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def user_defined_literal_fns(aspect=T.Symbol):
+        """
+        Return the functions detoned by the user defined literal aspect
+        ``aspect`` for this type.
+        """
+        # User-defined literal aspects denote a function with a result type of
+        # ``Entity`` and one parameter that is of type ``String`` (or
+        # ``Wide_Wide_String`` for ``String_Literal``).
+        expected_spec = Var(UserDefinedFunctionSubpSpec.new(
+            subp_params_types=If(
+                aspect == 'String_Literal',
+                Self.std_wide_wide_string_type,
+                Self.std_string_type
+            ).singleton,
+            subp_return_type=Entity
+        ))
+        # ``Real_Literal`` detoned function can be overrode by a function with
+        # a result type of ``Entity`` and two parameters that are of type
+        # ``String``.
+        expected_specs = Var(If(
+            aspect == 'Real_Literal',
+            UserDefinedFunctionSubpSpec.new(
+                subp_params_types=[Self.std_string_type, Self.std_string_type],
+                subp_return_type=Entity
+            ),
+            No(T.UserDefinedFunctionSubpSpec)
+        ).singleton.concat(expected_spec.singleton))
+
+        return Entity.get_aspect_spec_expr(aspect).then(
+            lambda a: a.cast_or_raise(T.Name)
+            .all_env_elements_internal(seq=False).filtermap(
+                lambda e: e.cast(T.BasicDecl),
+                lambda env_el:
+                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
+                    lambda ss: expected_specs.any(
+                        lambda es: ss.match_expected_user_defined_function(es)
+                    )
+                )
+            )
+        )
+
 
 class ConcreteTypeDecl(TypeDecl):
     """
@@ -10764,7 +10833,7 @@ class Pragma(AdaNode):
                 & expr.expect_bool_derived_type
             ) & Entity.args.at(1)._.assoc_expr.then(
                 lambda msg:
-                Bind(msg.expected_type_var, Self.std_entity('String'))
+                Bind(msg.expected_type_var, Self.std_string_type)
                 & msg.sub_equation
                 & msg.matches_expected_type,
                 default_val=LogicTrue()
@@ -10798,7 +10867,7 @@ class Pragma(AdaNode):
                             expr.sub_equation
                         ),
 
-                        Bind(expr.expected_type_var, Self.std_entity("String"))
+                        Bind(expr.expected_type_var, Self.std_string_type)
                         & expr.sub_equation
                         & expr.matches_expected_type
                     ),
@@ -11388,6 +11457,11 @@ class AspectAssoc(AdaNode):
             Entity.id.name_is('Stable_Properties'),
             Entity.stable_properties_assoc_equation,
 
+            Entity.id.name_symbol.any_of(
+                'Integer_Literal', 'Real_Literal', 'String_Literal'
+            ),
+            Entity.user_defined_literals_equation(target.cast(T.TypeDecl)),
+
             # Constant_Indexing and Variable_Indexing aspects name expression
             # can denotes one or more functions. Since name resolution can set
             # only one reference for a name, only keep the first function
@@ -11449,6 +11523,22 @@ class AspectAssoc(AdaNode):
                 )
             ).logic_any(
                 lambda f: Bind(i.ref_var, f)
+            )
+        )
+
+    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    def user_defined_literals_equation(target=T.TypeDecl):
+        """
+        Equation for the case where this is an aspect assoc for a
+        user-defined literal.
+        """
+        return Bind(
+            Entity.expr.cast_or_raise(T.Identifier).ref_var,
+            target.as_entity.user_defined_literal_fns(
+                Entity.id.name_symbol
+            ).at(
+                # First result in the list is the last override if any
+                0
             )
         )
 
@@ -19395,6 +19485,26 @@ class BaseSubpSpec(BaseFormalParamHolder):
             other.cast_or_raise(BaseSubpSpec), match_names
         )
 
+    @langkit_property(return_type=Bool)
+    def match_expected_user_defined_function(fn=T.UserDefinedFunctionSubpSpec):
+        """
+        Return whether UserDefinedFunctionSubpSpec's signature matches Self's.
+        """
+        return And(
+            Entity.return_type.matching_type(fn.subp_return_type),
+            Entity.unpacked_formal_params.then(
+                lambda params: And(
+                    params.length == fn.subp_params_types.length,
+                    params.filter(
+                        lambda i, p:
+                        Not(p.formal_decl.formal_type.matching_type(
+                                fn.subp_params_types.at(i)
+                        ))
+                    ).is_null
+                )
+            )
+        )
+
     @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
     def defining_env():
         """
@@ -20428,13 +20538,13 @@ class AttributeRef(Name):
             Entity.access_equation,
 
             rel_name == 'Image',
-            Entity.image_equation(Self.std_entity('String')),
+            Entity.image_equation(Self.std_string_type),
 
             rel_name == 'Wide_Image',
-            Entity.image_equation(Self.std_entity('Wide_String')),
+            Entity.image_equation(Self.std_wide_string_type),
 
             rel_name == 'Wide_Wide_Image',
-            Entity.image_equation(Self.std_entity('Wide_Wide_String')),
+            Entity.image_equation(Self.std_wide_wide_string_type),
 
             rel_name == 'Enum_Rep',
             Entity.enum_rep_equation,
@@ -20453,7 +20563,7 @@ class AttributeRef(Name):
             Entity.universal_real_equation,
 
             rel_name == 'Img',
-            Entity.img_equation(Self.std_entity('String')),
+            Entity.img_equation(Self.std_string_type),
 
             rel_name == 'Tag', Entity.tag_attr_equation,
 
@@ -20498,10 +20608,10 @@ class AttributeRef(Name):
 
             rel_name.any_of('External_Tag', 'Type_Key'),
             Entity.prefix.sub_equation
-            & Bind(Self.type_var, Self.std_entity('String')),
+            & Bind(Self.type_var, Self.std_string_type),
 
             rel_name == 'Target_Name',
-            Bind(Self.type_var, Self.std_entity('String')),
+            Bind(Self.type_var, Self.std_string_type),
 
             rel_name == 'Storage_Pool', Entity.storage_pool_equation,
 
@@ -21073,7 +21183,7 @@ class RaiseExpr(Expr):
                 lambda er: And(
                     # The expected type of that error message is always String,
                     # according to RM 11.3 - 3.1/2.
-                    Bind(er.expected_type_var, Self.std_entity('String')),
+                    Bind(er.expected_type_var, Self.std_string_type),
                     er.sub_equation
                 ),
                 default_val=LogicTrue()
@@ -22492,7 +22602,7 @@ class RaiseStmt(SimpleStmt):
                 lambda er: And(
                     # The expected type of that error message is always String,
                     # according to RM 11.3 - 3.1/2.
-                    Bind(er.expected_type_var, Self.std_entity('String')),
+                    Bind(er.expected_type_var, Self.std_string_type),
                     er.sub_equation
                 ),
                 default_val=LogicTrue()

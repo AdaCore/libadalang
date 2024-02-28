@@ -2,8 +2,12 @@ procedure Test is
    package Big_Ints is
       type Big_Int is private
          with Integer_Literal => To_Big_Int;
+      pragma Test_Block;
 
+      function To_Big_Int (X : Boolean) return Big_Int;
       function To_Big_Int (X : String) return Big_Int;
+      function To_Big_Int (X, Y : String) return Big_Int;
+      function To_Big_Int (X : String) return Integer;
 
    private
       type Big_Int is record

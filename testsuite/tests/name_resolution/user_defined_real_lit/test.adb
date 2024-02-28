@@ -2,6 +2,7 @@ procedure Test is
    package Big_Reals is
       type Big_Real is private
          with Real_Literal => To_Big_Real;
+      pragma Test_Block;
 
       function To_Big_Real (X : String) return Big_Real;
       function To_Big_Real (X, Y : String) return Big_Real;

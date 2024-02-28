@@ -131,6 +131,12 @@
         }
       }
     },
+    "BaseAssocList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
+    },
     "BinOp": {
       "node": {
         "kind": "group",
@@ -1416,6 +1422,96 @@
           "kind": "group",
           "document": "recurse"
         }
+      }
+    },
+    "PragmaArgumentAssoc": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            {
+              "kind": "recurse_field",
+              "field": "f_name"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_name": [
+          "recurse",
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "=>"
+          },
+          "line"
+        ]
+      }
+    },
+    "PragmaNode": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            {
+              "kind": "text",
+              "text": "pragma"
+            },
+            "line",
+            {
+              "kind": "group",
+              "document": {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_id"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_args"
+                  }
+                ]
+              }
+            },
+            {
+              "kind": "text",
+              "text": ";"
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_args": [
+          "line",
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              {
+                "kind": "align",
+                "width": 1,
+                "contents": "recurse"
+              },
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
+          }
+        ]
       }
     },
     "PragmaNodeList": {

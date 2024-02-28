@@ -2742,7 +2742,7 @@ class BasicDecl(AdaNode):
 
     @langkit_property(return_type=Bool, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
-    def has_aspect(name=Symbol):
+    def has_aspect(name=Symbol, previous_parts_only=(Bool, False)):
         """
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
@@ -2752,7 +2752,10 @@ class BasicDecl(AdaNode):
 
         "Aspect" is used as in RM terminology (see :rmlink:`13`).
         """
-        return Entity.defining_name_or_raise._.has_aspect(name)
+        return Entity.defining_name_or_raise._.has_aspect(
+            name,
+            previous_parts_only
+        )
 
     @langkit_property(return_type=T.Pragma.entity, public=True)
     def get_pragma(name=Symbol):
@@ -18293,17 +18296,20 @@ class DefiningName(Name):
 
     @langkit_property(return_type=Bool, public=True,
                       dynamic_vars=[default_imprecise_fallback()])
-    def has_aspect(name=Symbol):
+    def has_aspect(name=Symbol, previous_parts_only=(Bool, False)):
         """
         Returns whether the boolean aspect named ``name`` is set on the entity
         represented by this node.
+
+        Note: The ``previous_parts_only`` parameter controls how aspects are
+        retrieved. See ``DefiningName.get_aspect` for more information.
 
         Aspects are properties of entities that can be specified by the Ada
         program, either via aspect specifications, pragmas, or attributes.
 
         "Aspect" is used as in RM terminology (see :rmlink:`13.1`).
         """
-        a = Var(Entity.get_aspect(name))
+        a = Var(Entity.get_aspect(name, previous_parts_only))
 
         return a.exists & If(
             Self.is_contract_aspect(name),

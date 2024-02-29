@@ -20586,7 +20586,8 @@ class AttributeRef(Name):
                             'Has_Tagged_Values', 'Definite', 'Constrained',
                             'Initialized', 'Valid_Scalars',
                             'Unconstrained_Array', 'Library_Level',
-                            'Denorm', 'Signed_Zeros'),
+                            'Denorm', 'Signed_Zeros',
+                            'Preelaborable_Initialization'),
             Entity.prefix.sub_equation
             & Bind(Self.type_var, Self.bool_type),
 

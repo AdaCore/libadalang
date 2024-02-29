@@ -1,0 +1,5 @@
+driver: unparser
+rule: case_stmt
+description: |
+  Test that each pragma is in it's own line and that there's a `literalline`
+  between the pragma list and the case alternatives list.

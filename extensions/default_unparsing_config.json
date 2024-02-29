@@ -6,6 +6,13 @@
         "line"
       ]
     },
+    "AlternativesList": {
+      "sep": [
+        "line",
+        "recurse",
+        "whitespace"
+      ]
+    },
     "ArrayTypeDef": {
       "node": {
         "kind": "group",
@@ -193,6 +200,137 @@
           }
         ]
       }
+    },
+    "CaseStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              [
+                {
+                  "kind": "text",
+                  "text": "case"
+                },
+                "whitespace",
+                {
+                  "kind": "align",
+                  "width": 2,
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_expr"
+                  }
+                }
+              ],
+              "line",
+              {
+                "kind": "text",
+                "text": "is"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardlineWithoutBreakParent",
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_pragmas"
+                }
+              },
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_alternatives"
+                }
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "case"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_pragmas": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "recurse",
+            "hardlineWithoutBreakParent",
+            "hardlineWithoutBreakParent"
+          ]
+        }
+      }
+    },
+    "CaseStmtAlternative": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "indent",
+                "contents": [
+                  {
+                    "kind": "text",
+                    "text": "when"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "group",
+                    "document": {
+                      "kind": "recurse_field",
+                      "field": "f_choices"
+                    }
+                  }
+                ]
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "=>"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "line",
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_stmts"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CaseStmtAlternativeList": {
+      "sep": [
+        "recurse",
+        "hardlineWithoutBreakParent",
+        "hardlineWithoutBreakParent"
+      ]
     },
     "ComponentDef": {
       "node": {
@@ -1178,6 +1316,12 @@
         }
       }
     },
+    "PragmaNodeList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ]
+    },
     "RangeSpec": {
       "node": {
         "kind": "align",
@@ -1239,6 +1383,12 @@
         "kind": "recurse_field",
         "field": "f_range"
       }
+    },
+    "StmtList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ]
     },
     "SubpBody": {
       "node": {

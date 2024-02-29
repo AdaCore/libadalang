@@ -1,0 +1,6 @@
+case Foo is
+   when Bar => Qux; Qux;
+   when Baz => Quuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuux;
+   when others => null;
+end case;
+

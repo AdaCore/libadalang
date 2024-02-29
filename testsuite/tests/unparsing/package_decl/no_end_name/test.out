@@ -1,4 +1,6 @@
-package Foo with Bar is
+package Foo
+  with Bar
+is
    type Baz;
 private
    type Qux;

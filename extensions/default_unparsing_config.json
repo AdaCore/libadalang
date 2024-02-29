@@ -57,33 +57,13 @@
         "kind": "group",
         "document": [
           {
-            "kind": "group",
-            "document": [
-              "line",
-              {
-                "kind": "text",
-                "text": "with"
-              }
-            ],
-            "id": "with_keyword"
+            "kind": "text",
+            "text": "with"
           },
           {
-            "kind": "ifBreak",
-            "breakContents": {
-              "kind": "align",
-              "width": 2,
-              "contents": {
-                "kind": "group",
-                "document": [
-                  "line",
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_aspect_assocs"
-                  }
-                ]
-              }
-            },
-            "flatContents": {
+            "kind": "align",
+            "width": 2,
+            "contents": {
               "kind": "group",
               "document": [
                 "line",
@@ -92,8 +72,7 @@
                   "field": "f_aspect_assocs"
                 }
               ]
-            },
-            "groupId": "with_keyword"
+            }
           }
         ]
       }
@@ -511,12 +490,8 @@
               "field": "f_default_expr"
             },
             {
-              "kind": "align",
-              "width": 2,
-              "contents": {
-                "kind": "recurse_field",
-                "field": "f_aspects"
-              }
+              "kind": "recurse_field",
+              "field": "f_aspects"
             },
             {
               "kind": "text",
@@ -526,6 +501,10 @@
         }
       },
       "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_default_expr": [
           "whitespace",
           "recurse"
@@ -820,6 +799,63 @@
             ]
           },
           "hardlineWithoutBreakParent"
+        ]
+      }
+    },
+    "ExprFunction": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_subp_spec"
+                  },
+                  "line",
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
+                        "kind": "text",
+                        "text": "is"
+                      },
+                      "whitespace",
+                      {
+                        "kind": "indent",
+                        "contents": {
+                          "kind": "recurse_field",
+                          "field": "f_expr"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              },
+              {
+                "kind": "text",
+                "text": ";"
+              }
+            ]
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
         ]
       }
     },
@@ -1547,34 +1583,22 @@
           "kind": "group",
           "document": [
             {
-              "kind": "group",
-              "document": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "text",
-                    "text": "package"
-                  },
-                  "whitespace",
-                  {
-                    "kind": "text",
-                    "text": "body"
-                  },
-                  "whitespace",
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_package_name"
-                  },
-                  {
-                    "kind": "align",
-                    "width": 2,
-                    "contents": {
-                      "kind": "recurse_field",
-                      "field": "f_aspects"
-                    }
-                  }
-                ]
-              }
+              "kind": "text",
+              "text": "package"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "body"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_package_name"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_aspects"
             },
             "line",
             {
@@ -1612,6 +1636,14 @@
         }
       ],
       "fields": {
+        "f_aspects": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "hardline",
+            "recurse"
+          ]
+        },
         "f_stmts": [
           {
             "kind": "indent",
@@ -1630,29 +1662,17 @@
           "kind": "group",
           "document": [
             {
-              "kind": "group",
-              "document": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "text",
-                    "text": "package"
-                  },
-                  "whitespace",
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_package_name"
-                  },
-                  {
-                    "kind": "align",
-                    "width": 2,
-                    "contents": {
-                      "kind": "recurse_field",
-                      "field": "f_aspects"
-                    }
-                  }
-                ]
-              }
+              "kind": "text",
+              "text": "package"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_package_name"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_aspects"
             },
             "line",
             {
@@ -1690,6 +1710,16 @@
         }
       ],
       "fields": {
+        "f_aspects": [
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "hardline",
+              "recurse"
+            ]
+          }
+        ],
         "f_private_part": [
           {
             "kind": "indent",
@@ -2109,12 +2139,8 @@
             "field": "f_subp_spec"
           },
           {
-            "kind": "align",
-            "width": 2,
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_aspects"
-            }
+            "kind": "recurse_field",
+            "field": "f_aspects"
           },
           "hardlineWithoutBreakParent",
           {
@@ -2155,6 +2181,10 @@
         ]
       },
       "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
         "f_decls": [
           {
             "kind": "indent",
@@ -2176,21 +2206,28 @@
             "field": "f_overriding"
           },
           {
-            "kind": "recurse_field",
-            "field": "f_subp_spec"
-          },
-          {
-            "kind": "align",
-            "width": 2,
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_aspects"
-            }
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              }
+            ]
           },
           {
             "kind": "text",
             "text": ";"
           }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
         ]
       }
     },

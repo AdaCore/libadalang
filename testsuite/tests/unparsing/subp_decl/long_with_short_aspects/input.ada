@@ -1,1 +1,1 @@
-function Foo (A : Bar; B : Baz; C : Qux; D : Corge) return Freddddddddddddd with Garply;
+function Foo (A : Bar; B : Baz; C : Qux; D : Corge) return Freddddd with Garply;

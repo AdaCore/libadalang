@@ -18302,7 +18302,7 @@ class DefiningName(Name):
         represented by this node.
 
         Note: The ``previous_parts_only`` parameter controls how aspects are
-        retrieved. See ``DefiningName.get_aspect` for more information.
+        retrieved. See ``DefiningName.get_aspect`` for more information.
 
         Aspects are properties of entities that can be specified by the Ada
         program, either via aspect specifications, pragmas, or attributes.

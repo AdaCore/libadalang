@@ -1,0 +1,6 @@
+generic
+   with function Bar (Baz : Foo) return Boolean;
+   with function Baz (Qux : Foo) return Boolean;
+package Corge.Fred is
+   procedure Garply (G : Foo);
+end GNATfuzz.AFL_Seed_Data_Chunks;

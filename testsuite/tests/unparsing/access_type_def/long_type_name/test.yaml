@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a simple access type declaration
+    having a long type name.
+    It is expected the declaration be splitted after `is` keyword and
+    the new line be indented with a line continuation indentation.
+
+driver: unparser
+rule: type_decl

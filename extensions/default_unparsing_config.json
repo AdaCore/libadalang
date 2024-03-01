@@ -2049,6 +2049,33 @@
         }
       }
     },
+    "TypeAccessDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_has_not_null"
+          },
+          {
+            "kind": "text",
+            "text": "access"
+          },  
+          {
+            "kind": "recurse_field",
+            "field": "f_has_all"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_constant"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subtype_indication"
+          }
+        ]
+      }
+    },
     "UnconstrainedArrayIndices": {
       "node": {
         "kind": "align",

@@ -3,7 +3,7 @@
     "AdaNodeList": {
       "sep": [
         "recurse",
-        "line"
+        "hardline"
       ]
     },
     "AlternativesList": {
@@ -338,6 +338,68 @@
         "hardlineWithoutBreakParent"
       ]
     },
+    "ComponentDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_ids"
+               } 
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": ":"
+              },
+              "line",
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_component_def"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  },
+                  {
+                    "kind": "text",
+                    "text": ";"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "fields": {
+        "f_default_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ":="
+          },
+          "line",
+          "recurse"
+        ],
+        "f_aspects":[
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "ComponentDef": {
       "node": {
         "kind": "align",
@@ -357,6 +419,39 @@
               "kind": "recurse_field",
               "field": "f_type_expr"
             }
+          ]
+        }
+      }
+    },
+    "ComponentList": {
+      "node": {
+        "kind": "group",
+        "document": [
+           {
+             "kind": "recurse_field",
+             "field": "f_components"
+           },
+           {
+             "kind": "recurse_field",
+             "field": "f_variant_part"
+           }
+         ]
+      },
+      "fields":{
+        "f_components": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "hardlineWithoutBreakParent",
+            "recurse"
+          ]
+        },
+        "f_variant_part": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "hardlineWithoutBreakParent",
+            "recurse"
           ]
         }
       }
@@ -433,46 +528,62 @@
     },
     "ConcreteTypeDecl": {
       "node": {
-        "kind": "align",
-        "width": 2,
-        "contents": {
-          "kind": "group",
-          "document": [
-            {
-              "kind": "text",
-              "text": "type"
-            },
-            "whitespace",
-            {
-              "kind": "recurse_field",
-              "field": "f_name"
-            },
-            {
-              "kind": "recurse_field",
-              "field": "f_discriminants"
-            },
-            "whitespace",
-            {
-              "kind": "text",
-              "text": "is"
-            },
-            "line",
-            {
-              "kind": "recurse_field",
-              "field": "f_type_def"
-            },
-            {
-              "kind": "recurse_field",
-              "field": "f_aspects"
-            },
-            {
-              "kind": "text",
-              "text": ";"
-            }
-          ]
-        }
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "type"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_discriminants"
+                }
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "is"
+              }
+            ]
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_type_def"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
       }
-    },
+    },    
     "DecimalFixedPointDef": {
       "node": {
         "kind": "group",
@@ -513,6 +624,97 @@
       }
     },
     "DefiningNameList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
+    },
+    "DiscriminantSpec": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_ids"
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": ":"
+              },
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  "line",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_type_expr"
+                  }
+                ]
+              }
+            ],
+            "id": "name_and_type"
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "align",
+              "width": 4,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "flatContents": {
+              "kind": "align",
+              "width": 2,
+              "contents": {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_default_expr"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            "groupId": "name_and_type"
+          }
+        ]
+      },
+      "fields": {
+        "f_default_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": ":="
+          },
+          "line",
+          "recurse"
+        ]
+      }
+    },
+    "DiscriminantSpecList": {
       "sep": [
         "recurse",
         "line"
@@ -886,11 +1088,60 @@
         ]
       }
     },
+    "KnownDiscriminantPart": {
+      "node": {
+        "kind": "group",
+        "document": [
+          "line",    
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "align",
+            "width": 1,  
+            "contents": {
+              "kind": "group",
+              "document" : [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_discr_specs"
+                }
+              ]  
+            } 
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          }
+        ]  
+      }
+    },
     "NameList": {
       "sep": [
         "recurse",
         "line"
       ]
+    },
+    "NullRecordDef": {
+      "node": {
+        "kind": "group",
+        "document": [    
+          {
+            "kind": "text",
+            "text": "null"
+          },
+          "whitespace",    
+          {
+            "kind": "text",
+            "text": "record"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_components"
+          }  
+        ]
+      }
     },
     "ModeIn": {
       "node": [
@@ -1560,6 +1811,66 @@
         ]
       }
     },
+    "RecordDef": {
+      "node": {
+        "kind": "group",
+        "document": [    
+          "breakParent",
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [    
+              {
+                "kind": "text",
+                "text": "record"
+              },  
+              {
+                "kind": "recurse_field",
+                "field": "f_components"
+              }
+            ]
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "end"
+              },
+              "whitespace",  
+              {
+                "kind": "text",
+                "text": "record"
+              }
+            ]
+          }
+        ] 
+      }
+    },
+    "RecordTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_has_abstract"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_tagged"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_limited"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_record_def"
+          }
+        ]
+      }
+    },
     "ReturnStmt": {
       "node": {
         "kind": "align",
@@ -1847,6 +2158,101 @@
           }
         ]
       }
+    },
+    "Variant": {
+      "node": [
+        {
+          "kind": "indent",
+          "contents": {
+            "kind": "group",
+            "document": [
+              [
+                {
+                  "kind": "text",
+                  "text": "when"
+                },
+                "whitespace",
+                {
+                  "kind": "indent",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_choices"
+                  }
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "=>"
+                }
+              ],
+              {
+                "kind": "recurse_field",
+                "field": "f_components"
+              } 
+            ]
+          }
+        }
+      ]
+    },
+    "VariantList": {
+      "sep": [
+        "recurse",
+        "hardline",
+        "hardline"
+      ]
+    },
+    "VariantPart": {
+      "node": [
+        {
+          "kind": "group",
+          "document": [    
+            [
+              {
+                "kind": "text",
+                "text": "case"
+              },
+              "whitespace",
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_discr_name"
+                }
+              }
+            ],
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "is"
+            }
+          ]
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            "hardline",
+            {
+              "kind": "recurse_field",
+              "field": "f_variant"
+            }
+          ]
+        },
+        "hardlineWithoutBreakParent",
+        {
+          "kind": "text",
+          "text": "end"
+        },
+        "whitespace",
+        {
+          "kind": "text",
+          "text": "case"
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        }
+      ]
     },
     "WithClause": {
       "node": {

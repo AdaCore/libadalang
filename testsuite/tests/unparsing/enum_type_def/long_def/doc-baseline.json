@@ -1,230 +1,300 @@
 {
-  "id": 30,
+  "id": 39,
   "kind": "command",
   "command": {
-    "command": "align",
-    "alignData": {
-      "kind": "width",
-      "n": 2
-    },
-    "alignContents": {
-      "id": 29,
-      "kind": "command",
-      "command": {
-        "command": "group",
-        "id": 0,
-        "groupContents": {
-          "id": 28,
-          "kind": "list",
-          "list": [
-            {
-              "id": 0,
-              "kind": "text",
-              "text": "type Color is"
-            },
-            {
-              "id": 1,
-              "kind": "command",
-              "command": {
-                "command": "line",
-                "literal": false,
-                "soft": false,
-                "hard": false
-              }
-            },
-            {
-              "id": 26,
-              "kind": "command",
-              "command": {
-                "command": "group",
-                "id": 0,
-                "groupContents": {
-                  "id": 25,
-                  "kind": "list",
-                  "list": [
-                    {
-                      "id": 2,
-                      "kind": "text",
-                      "text": "("
-                    },
-                    {
-                      "id": 23,
-                      "kind": "command",
-                      "command": {
-                        "command": "align",
-                        "alignData": {
-                          "kind": "width",
-                          "n": 1
-                        },
-                        "alignContents": {
-                          "id": 22,
-                          "kind": "list",
-                          "list": [
-                            {
-                              "id": 3,
-                              "kind": "text",
-                              "text": "White,"
-                            },
-                            {
-                              "id": 4,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 5,
-                              "kind": "text",
-                              "text": "Red,"
-                            },
-                            {
-                              "id": 6,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 7,
-                              "kind": "text",
-                              "text": "Yellow,"
-                            },
-                            {
-                              "id": 8,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 9,
-                              "kind": "text",
-                              "text": "Green,"
-                            },
-                            {
-                              "id": 10,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 11,
-                              "kind": "text",
-                              "text": "Blue,"
-                            },
-                            {
-                              "id": 12,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 13,
-                              "kind": "text",
-                              "text": "Brown,"
-                            },
-                            {
-                              "id": 14,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 15,
-                              "kind": "text",
-                              "text": "Black,"
-                            },
-                            {
-                              "id": 16,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 17,
-                              "kind": "text",
-                              "text": "Pink,"
-                            },
-                            {
-                              "id": 18,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 19,
-                              "kind": "text",
-                              "text": "Magenta,"
-                            },
-                            {
-                              "id": 20,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
-                              "id": 21,
-                              "kind": "text",
-                              "text": "Grey"
-                            }
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "id": 24,
-                      "kind": "text",
-                      "text": ")"
-                    }
-                  ]
+    "command": "group",
+    "id": 0,
+    "groupContents": {
+      "id": 38,
+      "kind": "list",
+      "list": [
+        {
+          "id": 6,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 5,
+              "kind": "list",
+              "list": [
+                {
+                  "id": 0,
+                  "kind": "text",
+                  "text": "type Color"
                 },
-                "break": false,
-                "expandedStates": null
-              }
+                {
+                  "id": 2,
+                  "kind": "command",
+                  "command": {
+                    "command": "align",
+                    "alignData": {
+                      "kind": "width",
+                      "n": 2
+                    },
+                    "alignContents": {
+                      "id": 1,
+                      "kind": "list",
+                      "list": [
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 3,
+                  "kind": "command",
+                  "command": {
+                    "command": "line",
+                    "literal": false,
+                    "soft": false,
+                    "hard": false
+                  }
+                },
+                {
+                  "id": 4,
+                  "kind": "text",
+                  "text": "is"
+                }
+              ]
             },
-            {
-              "id": 27,
-              "kind": "text",
-              "text": ";"
-            }
-          ]
+            "break": false,
+            "expandedStates": null
+          }
         },
-        "break": false,
-        "expandedStates": null
-      }
-    }
+        {
+          "id": 36,
+          "kind": "command",
+          "command": {
+            "command": "align",
+            "alignData": {
+              "kind": "width",
+              "n": 2
+            },
+            "alignContents": {
+              "id": 35,
+              "kind": "list",
+              "list": [
+                {
+                  "id": 7,
+                  "kind": "command",
+                  "command": {
+                    "command": "line",
+                    "literal": false,
+                    "soft": false,
+                    "hard": false
+                  }
+                },
+                {
+                  "id": 34,
+                  "kind": "command",
+                  "command": {
+                    "command": "group",
+                    "id": 0,
+                    "groupContents": {
+                      "id": 33,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 32,
+                          "kind": "command",
+                          "command": {
+                            "command": "group",
+                            "id": 0,
+                            "groupContents": {
+                              "id": 31,
+                              "kind": "list",
+                              "list": [
+                                {
+                                  "id": 8,
+                                  "kind": "text",
+                                  "text": "("
+                                },
+                                {
+                                  "id": 29,
+                                  "kind": "command",
+                                  "command": {
+                                    "command": "align",
+                                    "alignData": {
+                                      "kind": "width",
+                                      "n": 1
+                                    },
+                                    "alignContents": {
+                                      "id": 28,
+                                      "kind": "list",
+                                      "list": [
+                                        {
+                                          "id": 9,
+                                          "kind": "text",
+                                          "text": "White,"
+                                        },
+                                        {
+                                          "id": 10,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 11,
+                                          "kind": "text",
+                                          "text": "Red,"
+                                        },
+                                        {
+                                          "id": 12,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 13,
+                                          "kind": "text",
+                                          "text": "Yellow,"
+                                        },
+                                        {
+                                          "id": 14,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 15,
+                                          "kind": "text",
+                                          "text": "Green,"
+                                        },
+                                        {
+                                          "id": 16,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 17,
+                                          "kind": "text",
+                                          "text": "Blue,"
+                                        },
+                                        {
+                                          "id": 18,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 19,
+                                          "kind": "text",
+                                          "text": "Brown,"
+                                        },
+                                        {
+                                          "id": 20,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 21,
+                                          "kind": "text",
+                                          "text": "Black,"
+                                        },
+                                        {
+                                          "id": 22,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 23,
+                                          "kind": "text",
+                                          "text": "Pink,"
+                                        },
+                                        {
+                                          "id": 24,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 25,
+                                          "kind": "text",
+                                          "text": "Magenta,"
+                                        },
+                                        {
+                                          "id": 26,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "line",
+                                            "literal": false,
+                                            "soft": false,
+                                            "hard": false
+                                          }
+                                        },
+                                        {
+                                          "id": 27,
+                                          "kind": "text",
+                                          "text": "Grey"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                {
+                                  "id": 30,
+                                  "kind": "text",
+                                  "text": ")"
+                                }
+                              ]
+                            },
+                            "break": false,
+                            "expandedStates": null
+                          }
+                        }
+                      ]
+                    },
+                    "break": false,
+                    "expandedStates": null
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 37,
+          "kind": "text",
+          "text": ";"
+        }
+      ]
+    },
+    "break": false,
+    "expandedStates": null
   }
 }

@@ -1,1 +1,1 @@
-type Null_Record_Def is null record; 
+type Null_Record_Def is null record;

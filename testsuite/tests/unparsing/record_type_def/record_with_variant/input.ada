@@ -6,4 +6,4 @@ type Expr (Kind : Expr_Kind_Type) is record
          when Num =>
             Val : Integer;
       end case;
-   end record;
+end record;

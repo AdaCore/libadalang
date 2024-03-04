@@ -8,7 +8,7 @@ import com.adacore.libadalang.Libadalang;
 
 public class ProjectManager {
 
-    /** The direcotry which contains the projects */
+    /** The directory which contains the projects */
     private static String projectPath;
 
     /**
@@ -99,9 +99,9 @@ public class ProjectManager {
                 }
             }
         } catch (Libadalang.ProjectManagerException e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
-            footer("Open " + gprFile);
+            footer(headerMsg);
         }
     }
 

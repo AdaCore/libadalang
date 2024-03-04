@@ -31,21 +31,21 @@ idonotexist.gpr is not a regular file
 
 --- Open agg.gpr (nosuchsubproject) ---
 no such project: nosuchsubproject
---------------------
+---------------------------------------
 
 --- Open agg.gpr (p1) ---
 File pk1.ads
   root = <CompilationUnit pk1.ads:1:1-3:9>
 File pk2.ads
   root = <CompilationUnit pk2.ads:1:1-5:9>
---------------------
+-------------------------
 
 --- Open agg.gpr (p2) ---
 File pk3_bis.ads
   root = <CompilationUnit pk3_bis.ads:1:1-6:13>
 File pk4_bis.ads
   root = <CompilationUnit pk4_bis.ads:1:1-6:13>
---------------------
+-------------------------
 
 --- Open nosuchtarget.gpr ---
 Error during project opening:

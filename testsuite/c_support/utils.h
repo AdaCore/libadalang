@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 const ada_internal_entity_info no_entity_info = { { false, NULL, NULL }, NULL, false };
@@ -51,6 +52,28 @@ token_eq_p(const ada_token *left, const ada_token *right)
   return (left->token_data == right->token_data
 	  && left->token_index == right->token_index
 	  && left->trivia_index == right->trivia_index);
+}
+
+/* Returns the base-name of the given file name. This function allocates a
+   new string for the result, it is up to the caller to free it.  */
+
+static char *
+file_basename (const char *filename)
+{
+    const char *basename;
+    char *result;
+    size_t len;
+    const char *c;
+
+    basename = filename;
+    for (c = basename; *c; ++c)
+        if (*c == '/' || *c == '\\')
+        basename = c + 1;
+
+    len = strlen (basename) + 1;
+    result = malloc (len);
+    memcpy (result, basename, len);
+    return result;
 }
 
 #endif /* UTILS_H */

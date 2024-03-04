@@ -30,7 +30,50 @@ public class ProjectManager {
     }
 
     /**
-     * Open a gpr project and list its source files
+     * Util function to display all information about a project manager.
+     */
+    private static void projectInfo(
+        Libadalang.ProjectManager project,
+        String subproject
+    ) {
+        // Display the project manager diagnostics if any
+        List<String> diagnostics = project.getDiagnostics();
+        if (diagnostics.size() > 0) {
+            System.out.println("Error during project opening:");
+            System.out.println("  " + diagnostics);
+        }
+
+        String[] files = project.getFiles(
+            Libadalang.SourceFileMode.ROOT_PROJECT,
+            subproject == null ? null : new String[] {subproject}
+        );
+
+        // Create an analysis context with the project unit provider
+        Libadalang.UnitProvider unitProvider =
+            project.getProvider(subproject);
+
+        try(
+           Libadalang.AnalysisContext context
+             = Libadalang.AnalysisContext.create(
+                   null,
+                   null,
+                   unitProvider,
+                   null,
+                   true,
+                   8
+               )
+        ) {
+            for(String file : files) {
+                Libadalang.AnalysisUnit unit
+                  = context.getUnitFromFile(file);
+                System.out.println("File " + unit.getFileName(false));
+                System.out.println("  root = " + unit.getRoot());
+            }
+        }
+    }
+
+    /**
+     * Open a gpr project and list its source files.
      *
      * @param gprFile The gpr file
      * @param lookInProjectPath If the function should look for the GPR file
@@ -64,40 +107,7 @@ public class ProjectManager {
                   ""
               )
         ) {
-            // Display the project manager diagnostics if any
-            List<String> diagnostics = project.getDiagnostics();
-            if (diagnostics.size() > 0) {
-                System.out.println("Error during project opening:");
-                System.out.println("  " + diagnostics);
-            }
-
-            String[] files = project.getFiles(
-                Libadalang.SourceFileMode.ROOT_PROJECT,
-                subproject == null ? null : new String[] {subproject}
-            );
-
-            // Create an analysis context with the project unit provider
-            Libadalang.UnitProvider unitProvider =
-                project.getProvider(subproject);
-
-            try(
-               Libadalang.AnalysisContext context
-                 = Libadalang.AnalysisContext.create(
-                       null,
-                       null,
-                       unitProvider,
-                       null,
-                       true,
-                       8
-                   )
-            ) {
-                for(String file : files) {
-                    Libadalang.AnalysisUnit unit
-                      = context.getUnitFromFile(file);
-                    System.out.println("File " + unit.getFileName(false));
-                    System.out.println("  root = " + unit.getRoot());
-                }
-            }
+            projectInfo(project, subproject);
         } catch (Libadalang.ProjectManagerException e) {
             System.out.println(e.getMessage());
         } finally {
@@ -157,6 +167,27 @@ public class ProjectManager {
     }
 
     /**
+     * Test the opening of an implicit project.
+     */
+    private static void testImplicit() {
+        String headerMsg = "Open implicit project";
+        header(headerMsg);
+        try (
+            Libadalang.ProjectManager project =
+                Libadalang.ProjectManager.createImplicit(
+                    "",
+                    ""
+                )
+        ) {
+            projectInfo(project, null);
+        } catch (Libadalang.ProjectManagerException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            footer(headerMsg);
+        }
+    }
+
+    /**
      * Run the tests
      */
     public static void main(String[] args) {
@@ -166,5 +197,6 @@ public class ProjectManager {
         testInexistant();
         testAggregate();
         testNoSuchTarget();
+        testImplicit();
     }
 }

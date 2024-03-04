@@ -73,6 +73,9 @@ package body Libadalang.Implementation.C.Extensions is
    --  Helper to load a project file from C arguments. May set Exc to a
    --  ``GNATCOLL.Projects.Invalid_Project`` exception if the project cannot be
    --  loaded: in this case it is up to the caller to re-raise it.
+   --  If ``Project_File`` is a null pointer or an empty string, use the
+   --  ``GNATCOLL.Projects.Load_Implicit_Project`` function to load the
+   --  ``_default.gpr`` project file in the current directory.
 
    function Fetch_Project
      (Tree : Project_Tree'Class; Project_Name : chars_ptr) return Project_Type;
@@ -163,7 +166,8 @@ package body Libadalang.Implementation.C.Extensions is
       Errors          : out String_Vectors.Vector;
       Exc             : out Exception_Occurrence)
    is
-      PF            : constant String := Value (Project_File);
+      PF            : constant String :=
+        (if Project_File = Null_Ptr then "" else Value (Project_File));
       Target_Value  : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
       Runtime_Value : constant String :=
@@ -195,11 +199,16 @@ package body Libadalang.Implementation.C.Extensions is
 
       Save_Occurrence (Exc, Null_Occurrence);
       begin
-         Load (Self                => Tree.all,
-               Root_Project_Path   => Create (+PF),
-               Env                 => Env,
-               Errors              => Add_GPR_Error'Access,
-               Report_Missing_Dirs => False);
+         if PF = "" then
+            Load_Implicit_Project (Self => Tree.all,
+                                   Env  => Env);
+         else
+            Load (Self                => Tree.all,
+                  Root_Project_Path   => Create (+PF),
+                  Env                 => Env,
+                  Errors              => Add_GPR_Error'Access,
+                  Report_Missing_Dirs => False);
+         end if;
       exception
          when E : Invalid_Project =>
             Save_Occurrence (Exc, E);
@@ -324,6 +333,25 @@ package body Libadalang.Implementation.C.Extensions is
       Project.all := Wrap (new GPR_Project'(Prj, Env));
       Errors.all := To_C (Err);
    end ada_gpr_project_load;
+
+   -----------------------------------
+   -- ada_gpr_project_load_implicit --
+   -----------------------------------
+
+   procedure ada_gpr_project_load_implicit
+     (Target, Runtime : chars_ptr;
+      Project         : access ada_gpr_project;
+      Errors          : access ada_string_array_ptr)
+   is
+   begin
+      ada_gpr_project_load
+        (Null_Ptr,
+         System.Null_Address,
+         Target,
+         Runtime,
+         Project,
+         Errors);
+   end ada_gpr_project_load_implicit;
 
    --------------------------
    -- ada_gpr_project_free --

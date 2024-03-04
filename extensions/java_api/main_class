@@ -279,7 +279,8 @@ nat = c_api.get_name
         }
 
         /**
-         * Create a project manager from a project file, target and runtime.
+         * Create a project manager from a project file, target and runtime. If the
+         * project file is null, then an implicit project is loaded.
          *
          * @param projectFile The GPR file to load.
          * @param scenarioVariables The scenario variables for the project, it can be null.
@@ -288,6 +289,43 @@ nat = c_api.get_name
          * @return The newly created project manager.
          */
         public static ProjectManager create(
+            final String projectFile,
+            final ScenarioVariable[] scenarioVariables,
+            final String target,
+            final String runtime
+        ) {
+            return internalCreate(
+                projectFile,
+                scenarioVariables,
+                target,
+                runtime
+            );
+        }
+
+        /**
+         * Create a project manager for an implicit project. The current directory
+         * is used as project source directory.
+         */
+        public static ProjectManager createImplicit(
+            final String target,
+            final String runtime
+        ) {
+            return internalCreate(
+                null,
+                null,
+                target,
+                runtime
+            );
+        }
+
+        /**
+         * Internal creation method to generalize project creation while
+         * presenting different API endpoints to the user.
+         *
+         * @param projectFile The GPR project file to use, if any. If null, an
+         *     implicit project will be loaded.
+         */
+        private static ProjectManager internalCreate(
             final String projectFile,
             final ScenarioVariable[] scenarioVariables,
             final String target,
@@ -313,22 +351,41 @@ nat = c_api.get_name
                     scenarioVariablesNative = WordFactory.nullPointer();
                 }
 
-                // Call the native project loading function
-                final CCharPointer projectFileNative = toCString(projectFile);
-                final CCharPointer targetNative = toCString(target);
-                final CCharPointer runtimeNative = toCString(runtime);
+                // Prepare the result pointer
                 final Pointer projectPointer = StackValue.get(SizeOf.get(VoidPointer.class));
                 projectPointer.writeWord(0, WordFactory.nullPointer());
+
+                // Create the common native arguments
+                final CCharPointer targetNative = toCString(target);
+                final CCharPointer runtimeNative = toCString(runtime);
                 final Pointer errorsPointer = StackValue.get(SizeOf.get(VoidPointer.class));
                 errorsPointer.writeWord(0, WordFactory.nullPointer());
-                NI_LIB.${nat("gpr_project_load")}(
-                    projectFileNative,
-                    scenarioVariablesNative,
-                    targetNative,
-                    runtimeNative,
-                    projectPointer,
-                    errorsPointer
-                );
+
+                // If the provided project file is null, call the implicit project loading.
+                // Otherwise, call the standard project loading.
+                if (projectFile == null) {
+                    NI_LIB.${nat("gpr_project_load_implicit")}(
+                        targetNative,
+                        runtimeNative,
+                        projectPointer,
+                        errorsPointer
+                    );
+                } else {
+                    final CCharPointer projectFileNative = toCString(projectFile);
+                    NI_LIB.${nat("gpr_project_load")}(
+                        projectFileNative,
+                        scenarioVariablesNative,
+                        targetNative,
+                        runtimeNative,
+                        projectPointer,
+                        errorsPointer
+                    );
+                    UnmanagedMemory.free(projectFileNative);
+                }
+
+                // Free the allocated strings
+                UnmanagedMemory.free(targetNative);
+                UnmanagedMemory.free(runtimeNative);
 
                 // Check the langkit exception and cast it into a project manager error
                 try {
@@ -350,11 +407,6 @@ nat = c_api.get_name
                     }
                     UnmanagedMemory.free(scenarioVariablesNative);
                 }
-
-                // Free the allocated strings
-                UnmanagedMemory.free(projectFileNative);
-                UnmanagedMemory.free(targetNative);
-                UnmanagedMemory.free(runtimeNative);
 
                 // `errorsPointer` is not allocated if an exception was raised during project file loading
                 String[] errors = new String[0];
@@ -380,8 +432,10 @@ nat = c_api.get_name
                 }
                 return res;
             } else {
+                // Call the native function from the stubs
                 final List<String> diagnostics = new ArrayList<>();
-                final PointerWrapper reference = JNI_LIB.${nat("gpr_project_load")}(
+                final PointerWrapper reference;
+                reference = JNI_LIB.${nat("gpr_project_load")}(
                     projectFile,
                     scenarioVariables,
                     target,

@@ -1,0 +1,11 @@
+Working on node <Int pkg.ads:5:9-5:10>
+======================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: True
+
+Working on node <Int pkg.ads:12:15-12:16>
+=========================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: True

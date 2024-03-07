@@ -1,0 +1,5 @@
+driver: unparser
+rule: generic_instantiation
+description: |
+  Test line breaks after the `new` keyword and the continuation line
+  indentation for `f_generic_subp_name`.

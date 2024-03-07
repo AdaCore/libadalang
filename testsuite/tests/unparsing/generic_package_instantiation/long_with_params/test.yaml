@@ -1,0 +1,6 @@
+driver: unparser
+rule: generic_instantiation
+description: |
+  Test line breaks after the `new` keyword and between `f_generic_pkg_name` and
+  `f_params`. Also test continuation line indentation for the
+  `f_generic_pkg_name`, `f_params` and each parameter of the latter.

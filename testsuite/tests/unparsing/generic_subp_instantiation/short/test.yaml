@@ -1,0 +1,5 @@
+driver: unparser
+rule: generic_instantiation
+description: |
+  Base test for a short instantiation without parameters. Test that there are
+  no line breaks.

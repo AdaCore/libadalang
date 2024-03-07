@@ -1,0 +1,1 @@
+procedure Foo is new Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar;

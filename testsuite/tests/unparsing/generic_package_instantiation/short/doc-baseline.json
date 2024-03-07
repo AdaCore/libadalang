@@ -1,0 +1,79 @@
+{
+  "id": 9,
+  "kind": "command",
+  "command": {
+    "command": "group",
+    "id": 0,
+    "groupContents": {
+      "id": 8,
+      "kind": "command",
+      "command": {
+        "command": "align",
+        "alignData": {
+          "kind": "width",
+          "n": 2
+        },
+        "alignContents": {
+          "id": 7,
+          "kind": "list",
+          "list": [
+            {
+              "id": 0,
+              "kind": "text",
+              "text": "package Foo is new"
+            },
+            {
+              "id": 1,
+              "kind": "command",
+              "command": {
+                "command": "line",
+                "literal": false,
+                "soft": false,
+                "hard": false
+              }
+            },
+            {
+              "id": 5,
+              "kind": "command",
+              "command": {
+                "command": "group",
+                "id": 0,
+                "groupContents": {
+                  "id": 4,
+                  "kind": "command",
+                  "command": {
+                    "command": "align",
+                    "alignData": {
+                      "kind": "width",
+                      "n": 2
+                    },
+                    "alignContents": {
+                      "id": 3,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 2,
+                          "kind": "text",
+                          "text": "Bar"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "break": false,
+                "expandedStates": null
+              }
+            },
+            {
+              "id": 6,
+              "kind": "text",
+              "text": ";"
+            }
+          ]
+        }
+      }
+    },
+    "break": false,
+    "expandedStates": null
+  }
+}

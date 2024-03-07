@@ -131,6 +131,12 @@
         }
       }
     },
+    "AssocList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
+    },
     "BaseAssocList": {
       "sep": [
         "recurse",
@@ -350,7 +356,7 @@
                 "document": {
                   "kind": "recurse_field",
                   "field": "f_ids"
-               } 
+                }
               },
               "whitespace",
               {
@@ -394,7 +400,7 @@
           "line",
           "recurse"
         ],
-        "f_aspects":[
+        "f_aspects": [
           "line",
           "recurse"
         ]
@@ -427,17 +433,17 @@
       "node": {
         "kind": "group",
         "document": [
-           {
-             "kind": "recurse_field",
-             "field": "f_components"
-           },
-           {
-             "kind": "recurse_field",
-             "field": "f_variant_part"
-           }
-         ]
+          {
+            "kind": "recurse_field",
+            "field": "f_components"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_variant_part"
+          }
+        ]
       },
-      "fields":{
+      "fields": {
         "f_components": {
           "kind": "ifEmpty",
           "then": "recurse",
@@ -583,7 +589,7 @@
           }
         ]
       }
-    },    
+    },
     "DecimalFixedPointDef": {
       "node": {
         "kind": "group",
@@ -916,6 +922,91 @@
         ]
       }
     },
+    "GenericSubpInstantiation": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "align",
+              "width": 2,
+              "contents": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_kind"
+                },
+                "whitespace",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subp_name"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "is"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "new"
+                },
+                "line",
+                {
+                  "kind": "group",
+                  "document": {
+                    "kind": "align",
+                    "width": 2,
+                    "contents": [
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_generic_subp_name"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_params"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_aspects"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "text",
+                  "text": ";"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "fields": {
+        "f_params": [
+          "line",
+          {
+            "kind": "align",
+            "width": 1,
+            "contents": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              "recurse",
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "GenericPackageDecl": {
       "node": {
         "kind": "group",
@@ -928,6 +1019,82 @@
           {
             "kind": "recurse_field",
             "field": "f_package_decl"
+          }
+        ]
+      }
+    },
+    "GenericPackageInstantiation": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            {
+              "kind": "text",
+              "text": "package"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_name"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "is"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "new"
+            },
+            "line",
+            {
+              "kind": "group",
+              "document": {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_generic_pkg_name"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_params"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
+                  }
+                ]
+              }
+            },
+            {
+              "kind": "text",
+              "text": ";"
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_params": [
+          "line",
+          {
+            "kind": "align",
+            "width": 1,
+            "contents": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              "recurse",
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
           }
         ]
       }
@@ -1092,29 +1259,29 @@
       "node": {
         "kind": "group",
         "document": [
-          "line",    
+          "line",
           {
             "kind": "text",
             "text": "("
           },
           {
             "kind": "align",
-            "width": 1,  
+            "width": 1,
             "contents": {
               "kind": "group",
-              "document" : [
+              "document": [
                 {
                   "kind": "recurse_field",
                   "field": "f_discr_specs"
                 }
-              ]  
-            } 
+              ]
+            }
           },
           {
             "kind": "text",
             "text": ")"
           }
-        ]  
+        ]
       }
     },
     "NameList": {
@@ -1126,12 +1293,12 @@
     "NullRecordDef": {
       "node": {
         "kind": "group",
-        "document": [    
+        "document": [
           {
             "kind": "text",
             "text": "null"
           },
-          "whitespace",    
+          "whitespace",
           {
             "kind": "text",
             "text": "record"
@@ -1139,7 +1306,7 @@
           {
             "kind": "recurse_field",
             "field": "f_components"
-          }  
+          }
         ]
       }
     },
@@ -1535,6 +1702,36 @@
         ]
       }
     },
+    "ParamAssoc": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            {
+              "kind": "recurse_field",
+              "field": "f_designator"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_r_expr"
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_designator": [
+          "recurse",
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "=>"
+          },
+          "line"
+        ]
+      }
+    },
     "Params": {
       "node": {
         "kind": "group",
@@ -1814,16 +2011,16 @@
     "RecordDef": {
       "node": {
         "kind": "group",
-        "document": [    
+        "document": [
           "breakParent",
           {
             "kind": "align",
             "width": 2,
-            "contents": [    
+            "contents": [
               {
                 "kind": "text",
                 "text": "record"
-              },  
+              },
               {
                 "kind": "recurse_field",
                 "field": "f_components"
@@ -1838,14 +2035,14 @@
                 "kind": "text",
                 "text": "end"
               },
-              "whitespace",  
+              "whitespace",
               {
                 "kind": "text",
                 "text": "record"
               }
             ]
           }
-        ] 
+        ]
       }
     },
     "RecordTypeDef": {
@@ -2060,7 +2257,7 @@
           {
             "kind": "text",
             "text": "access"
-          },  
+          },
           {
             "kind": "recurse_field",
             "field": "f_has_all"
@@ -2215,7 +2412,7 @@
               {
                 "kind": "recurse_field",
                 "field": "f_components"
-              } 
+              }
             ]
           }
         }
@@ -2232,7 +2429,7 @@
       "node": [
         {
           "kind": "group",
-          "document": [    
+          "document": [
             [
               {
                 "kind": "text",

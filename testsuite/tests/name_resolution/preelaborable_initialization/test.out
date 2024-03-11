@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AspectAssoc test.adb:7:7-7:68>
+********************************************************
+
+Expr: <Id "Preelaborable_Initializaton" test.adb:7:7-7:34>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:7:38-7:68>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "T" test.adb:7:38-7:39>
+  references:    <DefiningName "T" test.adb:4:9-4:10>
+  type:          <ConcreteTypeDecl ["T"] test.adb:4:4-4:26>
+  expected type: None
+Expr: <Id "Preelaborable_Initialization" test.adb:7:40-7:68>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

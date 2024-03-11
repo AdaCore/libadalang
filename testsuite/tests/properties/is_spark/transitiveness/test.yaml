@@ -1,0 +1,10 @@
+driver: inline-playground
+input_sources:
+  - pkg.ads
+  - pkg.adb
+  - pkg-child.ads
+  - pkg-child.adb
+  - pkg-child-baz.adb
+  - pkg-child-bazz.adb
+  - pkg-child_private_part.ads
+  - pkg-child_private_part.adb

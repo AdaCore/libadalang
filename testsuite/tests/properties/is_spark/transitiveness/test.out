@@ -1,0 +1,155 @@
+Working on node <NullStmt pkg-child-baz.adb:4:4-4:9>
+====================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: True
+
+Working on node <SubpBody ["Baz"] pkg-child-baz.adb:2:1-6:9>
+============================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: True
+
+Working on node <NullStmt pkg-child-bazz.adb:4:4-4:9>
+=====================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <SubpBody ["Bazz"] pkg-child-bazz.adb:2:1-6:10>
+===============================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <Int pkg-child.adb:4:10-4:11>
+=============================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Working on node <Id "X" pkg-child.adb:9:13-9:14>
+================================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Working on node <SubpBody ["Foo"] pkg-child.adb:2:4-14:12>
+==========================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: True
+
+Working on node <Int pkg-child.adb:19:10-19:11>
+===============================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <Id "X" pkg-child.adb:24:13-24:14>
+==================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <NullStmt pkg-child.adb:31:13-31:18>
+====================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <SubpBody ["Bar"] pkg-child.adb:17:4-37:12>
+===========================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <SubpBodyStub ["Baz"] pkg-child.adb:40:4-40:30>
+===============================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: True
+
+Working on node <SubpBodyStub ["Bazz"] pkg-child.adb:43:4-43:31>
+================================================================
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <Int pkg-child.adb:50:6-50:7>
+=============================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: False
+
+Working on node <NullStmt pkg-child_private_part.adb:4:7-4:12>
+==============================================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: False
+
+Working on node <Int pkg-child_private_part.adb:9:7-9:8>
+========================================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: False
+
+Working on node <Int pkg-child_private_part.ads:7:6-7:7>
+========================================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: False
+
+Working on node <Int pkg.adb:10:13-10:14>
+=========================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Eval 'node.p_is_subject_to_proof'
+Result: True
+
+Working on node <Int pkg.adb:20:13-20:14>
+=========================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Eval 'node.p_is_subject_to_proof'
+Result: False
+
+Working on node <NullStmt pkg.adb:26:7-26:12>
+=============================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Working on node <SubpBody ["Test"] pkg.adb:2:4-28:13>
+=====================================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Working on node <Int pkg.adb:33:6-33:7>
+=======================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Working on node <WithClause pkg.ads:1:1-1:10>
+=============================================
+
+Eval 'node.p_has_spark_mode_on'
+Exception: SPARK Mode does not apply here
+
+Working on node <Int pkg.ads:8:6-8:7>
+=====================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True
+
+Working on node <Int pkg.ads:14:6-14:7>
+=======================================
+
+Eval 'node.p_has_spark_mode_on'
+Result: True

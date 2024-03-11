@@ -1,0 +1,5 @@
+driver: c-api
+compile_units: [main.c]
+input_sources: []
+sync_trees:
+  - ../../../shared/gpr_context/simple

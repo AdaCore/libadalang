@@ -55,6 +55,14 @@ package Libadalang.Implementation.C.Extensions is
    --  possibly empty list of error messages in ``Errors``.  Raise an
    --  ``Invalid_Project`` exception on failure.
 
+   procedure ada_gpr_project_load_implicit
+     (Target, Runtime : chars_ptr;
+      Project         : access ada_gpr_project;
+      Errors          : access ada_string_array_ptr)
+     with Export, Convention => C;
+   --  Load an implicit project. On success, set ``Project`` to a newly
+   --  allocated ``ada_gpr_project``.
+
    procedure ada_gpr_project_free (Self : ada_gpr_project)
      with Export, Convention => C;
    --  Free resources allocated for ``Self``

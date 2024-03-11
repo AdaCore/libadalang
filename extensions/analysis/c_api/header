@@ -45,6 +45,15 @@ ${capi.get_name('gpr_project_load')}(
    ${str_array_type} *errors
 );
 
+${c_doc('libadalang.gpr_project_load_implicit')}
+extern void
+${capi.get_name('gpr_project_load_implicit')}(
+   const char *target,
+   const char *runtime,
+   ${project_type} *project,
+   ${str_array_type} *errors
+);
+
 ${c_doc('libadalang.gpr_project_free')}
 extern void
 ${capi.get_name('gpr_project_free')} (${project_type} self);

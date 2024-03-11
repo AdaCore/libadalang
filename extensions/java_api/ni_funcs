@@ -18,6 +18,16 @@ nat = c_api.get_name
         Pointer errors
     );
 
+    /** Function to load an implicit GPR project */
+    @CompilerDirectives.TruffleBoundary
+    @CFunction
+    public static native void ${nat("gpr_project_load_implicit")}(
+        CCharPointer target,
+        CCharPointer runtime,
+        Pointer project,
+        Pointer errors
+    );
+
     /** Free the given project */
     @CompilerDirectives.TruffleBoundary
     @CFunction

@@ -2,4 +2,6 @@ driver: java
 mode: graal_c_api
 java_path: ../
 main_class: ProjectManager
-projects_path: ../sources
+projects_path: ../sources/
+sync_trees:
+  - ../sources/src1/

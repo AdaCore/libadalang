@@ -127,22 +127,33 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
         }
     }
 
-    // Translate the arguments to C values
-    const char *project_file_c = to_c_string(env, project_file);
+    // Create the common project arguments
     const char *target_c = to_c_string(env, target);
     const char *runtime_c = to_c_string(env, runtime);
-
-    // Call the native function to create the project
     ${project_type} res = NULL;
     ${str_array_type} errors = NULL;
-    ${nat("gpr_project_load")}(
-        project_file_c,
-        scenario_variables_native,
-        target_c,
-        runtime_c,
-        &res,
-        &errors
-    );
+
+    // If the project file is null, load the project as an implicit one, else
+    // just load the project file.
+    if(project_file == NULL) {
+        ${nat("gpr_project_load_implicit")}(
+            target_c,
+            runtime_c,
+            &res,
+            &errors
+        );
+    } else {
+        const char *project_file_c = to_c_string(env, project_file);
+        ${nat("gpr_project_load")}(
+            project_file_c,
+            scenario_variables_native,
+            target_c,
+            runtime_c,
+            &res,
+            &errors
+        );
+        (*env)->ReleaseStringUTFChars(env, project_file, project_file_c);
+    }
 
     // Free the scenario variables
     if(scenario_variables_native != NULL) {
@@ -153,7 +164,6 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
     }
 
     // Free the translated strings
-    (*env)->ReleaseStringUTFChars(env, project_file, project_file_c);
     (*env)->ReleaseStringUTFChars(env, target, target_c);
     (*env)->ReleaseStringUTFChars(env, runtime, runtime_c);
 

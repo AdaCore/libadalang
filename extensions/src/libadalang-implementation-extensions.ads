@@ -142,4 +142,17 @@ package Libadalang.Implementation.Extensions is
    function Single_Tok_Node_P_Subp_Spec_Var
      (Node : Bare_Single_Tok_Node) return Logic_Var;
 
+   ------------------------
+   -- Cache Invalidation --
+   ------------------------
+
+   function Should_Collect_Env_Caches
+     (Ctx                        : Internal_Context;
+      Unit                       : Internal_Unit;
+      All_Env_Caches_Entry_Count : Long_Long_Natural) return Boolean;
+   --  Decide whether the lexical envs in the given unit should be collected
+   --  or not by combining various data we have been keeping track of about
+   --  their usage. See comments in the implementation for more details about
+   --  what is considered in the heuristics.
+
 end Libadalang.Implementation.Extensions;

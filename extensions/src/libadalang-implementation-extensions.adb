@@ -1054,4 +1054,115 @@ package body Libadalang.Implementation.Extensions is
       return Create_Internal_Solver_Diagnostic_Array (0);
    end Ada_Node_P_Own_Nameres_Diagnostics;
 
+   -------------------------------
+   -- Should_Collect_Env_Caches --
+   -------------------------------
+
+   function Should_Collect_Env_Caches
+     (Ctx                        : Internal_Context;
+      Unit                       : Internal_Unit;
+      All_Env_Caches_Entry_Count : Long_Long_Natural) return Boolean
+   is
+      Ctx_Stats  : Context_Env_Caches_Stats renames Ctx.Env_Caches_Stats;
+      Unit_Stats : Unit_Env_Caches_Stats renames Unit.Env_Caches_Stats;
+   begin
+      --  We only consider units which hold a minimal amount of cache
+      --  entries, to avoid wasting cycles collecting the same seldom-
+      --  used units which don't take much memory.
+      if Unit_Stats.Entry_Count < 100 then
+         return False;
+      end if;
+
+      declare
+         Hit_Ratio : constant Float :=
+           (if Unit_Stats.Lookup_Count = 0 then 1.0
+            else Float (Unit_Stats.Hit_Count)
+                 / Float (Unit_Stats.Lookup_Count));
+         --  Ratio of cache hits over total cache lookups since this unit was
+         --  last collected.
+
+         Lookup_Ratio : constant Float :=
+           Float (Unit_Stats.Lookup_Count)
+           / Float (Ctx_Stats.Lookup_Count
+                    - Unit_Stats.Last_Overall_Lookup_Count);
+         --  Ratio of lookups done on this unit over total lookups done on any
+         --  unit since this unit was last collected.
+
+         Recent_Lookup_Ratio : constant Float :=
+           Float (Unit_Stats.Lookup_Count
+                  - Unit_Stats.Previous_Lookup_Count)
+           / Float (Ctx_Stats.Lookup_Count
+                    - Ctx_Stats.Previous_Lookup_Count);
+         --  Ratio of lookups done on this unit over total lookups done on any
+         --  unit since last time a collection was *attempted*.
+
+         Entry_Ratio : constant Float :=
+           Float (Unit_Stats.Entry_Count)
+           / Float (All_Env_Caches_Entry_Count);
+         --  Ratio of cache entries stored in this unit over total number of
+         --  cache entries spread across all units.
+
+         Usefulness_Score : constant Float :=
+           Lookup_Ratio * Hit_Ratio * (2.0 + 5.0 * Recent_Lookup_Ratio);
+         --  Score to estimate how useful the cache entries in this unit are:
+         --  0 means that the cache entries are useless (we want to get rid of
+         --  them), and a score greater than Entry_Ratio implies that we want
+         --  to keep caches entries.
+         --
+         --  How to compute this score was deduced from trial and error, here
+         --  is how it is supposed to work:
+         --
+         --  * 0 means that this cache is useless because we haven't looked up
+         --    any of its entries. This is why Lookup_Ratio should be a
+         --    multiplicative factor for the overall expression.
+         --
+         --  * If Hit_Ratio is 0, this cache is useless because even if we
+         --    looked up its entries, we never found a relevant one. So
+         --    Hit_Ratio must be a multiplicative factor as well.
+         --
+         --  * We should favor units whose caches were used recently, even if
+         --    their lookup ratios are lower than that of another unit.
+
+         Result : constant Boolean := Usefulness_Score < Entry_Ratio;
+         --  We want to collect this unit if the usefulness of its cache
+         --  entries is lower than the proportion of total memory space needed
+         --  to store them.
+      begin
+         if Cache_Invalidation_Trace.Is_Active then
+            if Result then
+               Cache_Invalidation_Trace.Trace
+                 ("Collecting " & Trace_Image (Unit));
+            else
+               Cache_Invalidation_Trace.Trace
+                 ("Leaving alone " & Trace_Image (Unit));
+            end if;
+
+            Cache_Invalidation_Trace.Increase_Indent;
+            Cache_Invalidation_Trace.Trace
+              ("Cache entries:" & Unit_Stats.Entry_Count'Image);
+            Cache_Invalidation_Trace.Trace
+              ("Cache lookup count:" & Unit_Stats.Lookup_Count'Image);
+            Cache_Invalidation_Trace.Trace
+              ("Cache hit count:" & Unit_Stats.Hit_Count'Image);
+            Cache_Invalidation_Trace.Trace
+              ("Ratio of cache hits:"
+               & Float'Image (100.0 * Hit_Ratio));
+            Cache_Invalidation_Trace.Trace
+              ("Ratio of total cache lookups:"
+               & Float'Image (100.0 * Lookup_Ratio));
+            Cache_Invalidation_Trace.Trace
+              ("Ratio of recent cache lookups:"
+               & Float'Image (100.0 * Recent_Lookup_Ratio));
+            Cache_Invalidation_Trace.Trace
+              ("Cache usefulness:"
+               & Float'Image (100.0 * Usefulness_Score));
+            Cache_Invalidation_Trace.Trace
+              ("Ratio of entries:"
+               & Float'Image (100.0 * Entry_Ratio));
+            Cache_Invalidation_Trace.Decrease_Indent;
+         end if;
+         return Result;
+      end;
+   end Should_Collect_Env_Caches;
+
 end Libadalang.Implementation.Extensions;

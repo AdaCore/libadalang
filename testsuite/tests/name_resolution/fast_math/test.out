@@ -1,0 +1,33 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <PragmaNode test.adb:3:1-3:18>
+*******************************************************
+
+Expr: <Id "Fast_Math" test.adb:3:8-3:17>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["FM_Enabled"] test.adb:7:4-7:47>
+**********************************************************************
+
+Expr: <Id "Boolean" test.adb:7:17-7:24>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:7:28-7:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Standard" test.adb:7:28-7:36>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  type:          None
+  expected type: None
+Expr: <Id "Fast_Math" test.adb:7:37-7:46>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

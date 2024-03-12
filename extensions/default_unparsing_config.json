@@ -1213,6 +1213,57 @@
         ]
       }
     },
+    "GenericPackageRenamingDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "generic"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "package"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_name"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              {
+                "kind": "text",
+                "text": "renames"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_renames"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
     "IfStmt": {
       "node": {
         "kind": "group",

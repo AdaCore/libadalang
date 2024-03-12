@@ -9327,6 +9327,38 @@ class CompositeConstraint(Constraint):
             )
         )
 
+    @langkit_property(public=True, return_type=T.ParamActual.array)
+    def discriminant_params():
+        """
+        Returns an array of pairs, associating each discriminant to its
+        actual or default expression.
+        """
+        # Build a discriminants list with their default expressions
+        discrs = Var(
+            Entity.subtype.discriminants_list.mapcat(
+                lambda d: Let(
+                    lambda ds=d.cast(DiscriminantSpec):
+                    ds.ids.map(
+                        lambda i: ParamActual.new(
+                            param=i,
+                            actual=ds.default_expr
+                        )
+                    )
+                )
+            )
+        )
+
+        # Update the constraints expressions if some are provided
+        return Entity.constraints.then(
+            lambda c: discrs.map(
+                lambda i, dp: ParamActual.new(
+                    param=dp.param,
+                    actual=c.actual_for_param_at(dp.param, i, dp.actual)
+                )
+            ),
+            default_val=discrs
+        )
+
 
 @abstract
 @has_abstract_list
@@ -10431,6 +10463,30 @@ class TypeExpr(AdaNode):
     def canonical_type():
         return Entity.designated_type._.canonical_type
 
+    @langkit_property(return_type=T.Constraint.entity, public=True,
+                      dynamic_vars=[default_origin()])
+    def subtype_constraint():
+        """
+        Return the constraint that this type expression defines on its
+        designated subtype, if any.
+        """
+        return Entity.cast(SubtypeIndication)._.constraint._or(
+            Entity.designated_type.cast(SubtypeDecl).then(
+                lambda st: st.subtype.subtype_constraint
+            )
+        )
+
+    @langkit_property(return_type=T.ParamActual.array, public=True)
+    def discriminant_constraints():
+        """
+        If this type expression designates a constrained discriminated type,
+        return an array of pairs, associating each discriminant to its actual
+        or default expression.
+        """
+        return Entity.subtype_constraint.cast(CompositeConstraint).then(
+            lambda cc: cc.discriminant_params
+        )
+
 
 @synthetic
 class EnumLitSynthTypeExpr(TypeExpr):
@@ -10535,41 +10591,6 @@ class SubtypeIndication(TypeExpr):
                     lambda _: 0
                 )
             )
-        )
-
-    @langkit_property(public=True, return_type=ParamActual.array)
-    def subtype_constraints():
-        """
-        Returns an array of pairs, associating formal parameters to actual or
-        default expressions.
-        """
-        constraints = Var(
-            Entity.constraint._.cast(CompositeConstraint).constraints
-        )
-        # Build a discriminants list with their default expressions
-        discrs = Var(
-            Entity.designated_type_decl._.discriminants_list.mapcat(
-                lambda d: Let(
-                    lambda ds=d.cast(DiscriminantSpec):
-                    ds.ids.map(
-                        lambda i: ParamActual.new(
-                            param=i,
-                            actual=ds.default_expr
-                        )
-                    )
-                )
-            )
-        )
-
-        # Update the constraints expressions if some are provided
-        return constraints.then(
-            lambda c: discrs.map(
-                lambda i, dp: ParamActual.new(
-                    param=dp.param,
-                    actual=c.actual_for_param_at(dp.param, i, dp.actual)
-                )
-            ),
-            default_val=discrs
         )
 
     @langkit_property()

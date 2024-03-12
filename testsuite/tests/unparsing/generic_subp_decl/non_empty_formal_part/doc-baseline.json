@@ -1,21 +1,21 @@
 {
-  "id": 172,
+  "id": 169,
   "kind": "command",
   "command": {
     "command": "group",
     "id": 0,
     "groupContents": {
-      "id": 171,
+      "id": 168,
       "kind": "list",
       "list": [
         {
-          "id": 83,
+          "id": 80,
           "kind": "command",
           "command": {
             "command": "group",
             "id": 0,
             "groupContents": {
-              "id": 82,
+              "id": 79,
               "kind": "list",
               "list": [
                 {
@@ -24,18 +24,18 @@
                   "text": "generic"
                 },
                 {
-                  "id": 81,
+                  "id": 78,
                   "kind": "command",
                   "command": {
                     "command": "group",
                     "id": 0,
                     "groupContents": {
-                      "id": 80,
+                      "id": 77,
                       "kind": "command",
                       "command": {
                         "command": "indent",
                         "indentContents": {
-                          "id": 79,
+                          "id": 76,
                           "kind": "list",
                           "list": [
                             {
@@ -90,13 +90,13 @@
                               ]
                             },
                             {
-                              "id": 78,
+                              "id": 75,
                               "kind": "command",
                               "command": {
                                 "command": "group",
                                 "id": 0,
                                 "groupContents": {
-                                  "id": 77,
+                                  "id": 74,
                                   "kind": "command",
                                   "command": {
                                     "command": "align",
@@ -105,13 +105,13 @@
                                       "n": 2
                                     },
                                     "alignContents": {
-                                      "id": 76,
+                                      "id": 73,
                                       "kind": "command",
                                       "command": {
                                         "command": "group",
                                         "id": 0,
                                         "groupContents": {
-                                          "id": 75,
+                                          "id": 72,
                                           "kind": "list",
                                           "list": [
                                             {
@@ -624,29 +624,7 @@
                                             {
                                               "id": 71,
                                               "kind": "text",
-                                              "text": " is <>"
-                                            },
-                                            {
-                                              "id": 73,
-                                              "kind": "command",
-                                              "command": {
-                                                "command": "align",
-                                                "alignData": {
-                                                  "kind": "width",
-                                                  "n": 2
-                                                },
-                                                "alignContents": {
-                                                  "id": 72,
-                                                  "kind": "list",
-                                                  "list": [
-                                                  ]
-                                                }
-                                              }
-                                            },
-                                            {
-                                              "id": 74,
-                                              "kind": "text",
-                                              "text": ";"
+                                              "text": " is <>;"
                                             }
                                           ]
                                         },
@@ -675,11 +653,11 @@
           }
         },
         {
-          "id": 86,
+          "id": 83,
           "kind": "list",
           "list": [
             {
-              "id": 84,
+              "id": 81,
               "kind": "command",
               "command": {
                 "command": "line",
@@ -689,7 +667,7 @@
               }
             },
             {
-              "id": 85,
+              "id": 82,
               "kind": "command",
               "command": {
                 "command": "breakParent"
@@ -698,7 +676,7 @@
           ]
         },
         {
-          "id": 169,
+          "id": 166,
           "kind": "command",
           "command": {
             "command": "align",
@@ -707,22 +685,22 @@
               "n": 2
             },
             "alignContents": {
-              "id": 168,
+              "id": 165,
               "kind": "command",
               "command": {
                 "command": "group",
                 "id": 0,
                 "groupContents": {
-                  "id": 167,
+                  "id": 164,
                   "kind": "list",
                   "list": [
                     {
-                      "id": 87,
+                      "id": 84,
                       "kind": "text",
                       "text": "function Perform_Comparison_Check"
                     },
                     {
-                      "id": 88,
+                      "id": 85,
                       "kind": "command",
                       "command": {
                         "command": "line",
@@ -732,23 +710,23 @@
                       }
                     },
                     {
-                      "id": 166,
+                      "id": 163,
                       "kind": "command",
                       "command": {
                         "command": "group",
                         "id": 0,
                         "groupContents": {
-                          "id": 165,
+                          "id": 162,
                           "kind": "list",
                           "list": [
                             {
-                              "id": 159,
+                              "id": 156,
                               "kind": "command",
                               "command": {
                                 "command": "group",
                                 "id": 0,
                                 "groupContents": {
-                                  "id": 158,
+                                  "id": 155,
                                   "kind": "command",
                                   "command": {
                                     "command": "align",
@@ -757,16 +735,16 @@
                                       "n": 1
                                     },
                                     "alignContents": {
-                                      "id": 157,
+                                      "id": 154,
                                       "kind": "list",
                                       "list": [
                                         {
-                                          "id": 89,
+                                          "id": 86,
                                           "kind": "text",
                                           "text": "("
                                         },
                                         {
-                                          "id": 155,
+                                          "id": 152,
                                           "kind": "command",
                                           "command": {
                                             "command": "align",
@@ -774,37 +752,37 @@
                                               "kind": "innerRoot"
                                             },
                                             "alignContents": {
-                                              "id": 154,
+                                              "id": 151,
                                               "kind": "list",
                                               "list": [
                                                 {
-                                                  "id": 109,
+                                                  "id": 106,
                                                   "kind": "command",
                                                   "command": {
                                                     "command": "group",
                                                     "id": 0,
                                                     "groupContents": {
-                                                      "id": 108,
+                                                      "id": 105,
                                                       "kind": "list",
                                                       "list": [
                                                         {
-                                                          "id": 100,
+                                                          "id": 97,
                                                           "kind": "command",
                                                           "command": {
                                                             "command": "group",
                                                             "id": 1,
                                                             "groupContents": {
-                                                              "id": 99,
+                                                              "id": 96,
                                                               "kind": "list",
                                                               "list": [
                                                                 {
-                                                                  "id": 91,
+                                                                  "id": 88,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "group",
                                                                     "id": 0,
                                                                     "groupContents": {
-                                                                      "id": 90,
+                                                                      "id": 87,
                                                                       "kind": "text",
                                                                       "text": "Comparing_Value"
                                                                     },
@@ -813,12 +791,12 @@
                                                                   }
                                                                 },
                                                                 {
-                                                                  "id": 92,
+                                                                  "id": 89,
                                                                   "kind": "text",
                                                                   "text": " :"
                                                                 },
                                                                 {
-                                                                  "id": 98,
+                                                                  "id": 95,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "align",
@@ -827,11 +805,11 @@
                                                                       "n": 2
                                                                     },
                                                                     "alignContents": {
-                                                                      "id": 97,
+                                                                      "id": 94,
                                                                       "kind": "list",
                                                                       "list": [
                                                                         {
-                                                                          "id": 93,
+                                                                          "id": 90,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "line",
@@ -841,17 +819,17 @@
                                                                           }
                                                                         },
                                                                         {
-                                                                          "id": 96,
+                                                                          "id": 93,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "group",
                                                                             "id": 0,
                                                                             "groupContents": {
-                                                                              "id": 95,
+                                                                              "id": 92,
                                                                               "kind": "list",
                                                                               "list": [
                                                                                 {
-                                                                                  "id": 94,
+                                                                                  "id": 91,
                                                                                   "kind": "text",
                                                                                   "text": "Foo_Bar_Baz"
                                                                                 }
@@ -872,46 +850,19 @@
                                                           }
                                                         },
                                                         {
-                                                          "id": 107,
+                                                          "id": 104,
                                                           "kind": "command",
                                                           "command": {
                                                             "command": "ifBreak",
                                                             "ifBreakGroupId": 1,
                                                             "breakContents": {
-                                                              "id": 106,
-                                                              "kind": "command",
-                                                              "command": {
-                                                                "command": "align",
-                                                                "alignData": {
-                                                                  "kind": "width",
-                                                                  "n": 4
-                                                                },
-                                                                "alignContents": {
-                                                                  "id": 105,
-                                                                  "kind": "command",
-                                                                  "command": {
-                                                                    "command": "group",
-                                                                    "id": 0,
-                                                                    "groupContents": {
-                                                                      "id": 104,
-                                                                      "kind": "list",
-                                                                      "list": [
-                                                                      ]
-                                                                    },
-                                                                    "break": false,
-                                                                    "expandedStates": null
-                                                                  }
-                                                                }
-                                                              }
-                                                            },
-                                                            "flatContents": {
                                                               "id": 103,
                                                               "kind": "command",
                                                               "command": {
                                                                 "command": "align",
                                                                 "alignData": {
                                                                   "kind": "width",
-                                                                  "n": 2
+                                                                  "n": 4
                                                                 },
                                                                 "alignContents": {
                                                                   "id": 102,
@@ -930,6 +881,33 @@
                                                                   }
                                                                 }
                                                               }
+                                                            },
+                                                            "flatContents": {
+                                                              "id": 100,
+                                                              "kind": "command",
+                                                              "command": {
+                                                                "command": "align",
+                                                                "alignData": {
+                                                                  "kind": "width",
+                                                                  "n": 2
+                                                                },
+                                                                "alignContents": {
+                                                                  "id": 99,
+                                                                  "kind": "command",
+                                                                  "command": {
+                                                                    "command": "group",
+                                                                    "id": 0,
+                                                                    "groupContents": {
+                                                                      "id": 98,
+                                                                      "kind": "list",
+                                                                      "list": [
+                                                                      ]
+                                                                    },
+                                                                    "break": false,
+                                                                    "expandedStates": null
+                                                                  }
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         }
@@ -940,12 +918,12 @@
                                                   }
                                                 },
                                                 {
-                                                  "id": 110,
+                                                  "id": 107,
                                                   "kind": "text",
                                                   "text": ";"
                                                 },
                                                 {
-                                                  "id": 111,
+                                                  "id": 108,
                                                   "kind": "command",
                                                   "command": {
                                                     "command": "line",
@@ -955,33 +933,33 @@
                                                   }
                                                 },
                                                 {
-                                                  "id": 131,
+                                                  "id": 128,
                                                   "kind": "command",
                                                   "command": {
                                                     "command": "group",
                                                     "id": 0,
                                                     "groupContents": {
-                                                      "id": 130,
+                                                      "id": 127,
                                                       "kind": "list",
                                                       "list": [
                                                         {
-                                                          "id": 122,
+                                                          "id": 119,
                                                           "kind": "command",
                                                           "command": {
                                                             "command": "group",
                                                             "id": 1,
                                                             "groupContents": {
-                                                              "id": 121,
+                                                              "id": 118,
                                                               "kind": "list",
                                                               "list": [
                                                                 {
-                                                                  "id": 113,
+                                                                  "id": 110,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "group",
                                                                     "id": 0,
                                                                     "groupContents": {
-                                                                      "id": 112,
+                                                                      "id": 109,
                                                                       "kind": "text",
                                                                       "text": "Rule_Value"
                                                                     },
@@ -990,12 +968,12 @@
                                                                   }
                                                                 },
                                                                 {
-                                                                  "id": 114,
+                                                                  "id": 111,
                                                                   "kind": "text",
                                                                   "text": " :"
                                                                 },
                                                                 {
-                                                                  "id": 120,
+                                                                  "id": 117,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "align",
@@ -1004,11 +982,11 @@
                                                                       "n": 2
                                                                     },
                                                                     "alignContents": {
-                                                                      "id": 119,
+                                                                      "id": 116,
                                                                       "kind": "list",
                                                                       "list": [
                                                                         {
-                                                                          "id": 115,
+                                                                          "id": 112,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "line",
@@ -1018,17 +996,17 @@
                                                                           }
                                                                         },
                                                                         {
-                                                                          "id": 118,
+                                                                          "id": 115,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "group",
                                                                             "id": 0,
                                                                             "groupContents": {
-                                                                              "id": 117,
+                                                                              "id": 114,
                                                                               "kind": "list",
                                                                               "list": [
                                                                                 {
-                                                                                  "id": 116,
+                                                                                  "id": 113,
                                                                                   "kind": "text",
                                                                                   "text": "Foo_Bar_Baz"
                                                                                 }
@@ -1049,13 +1027,13 @@
                                                           }
                                                         },
                                                         {
-                                                          "id": 129,
+                                                          "id": 126,
                                                           "kind": "command",
                                                           "command": {
                                                             "command": "ifBreak",
                                                             "ifBreakGroupId": 1,
                                                             "breakContents": {
-                                                              "id": 128,
+                                                              "id": 125,
                                                               "kind": "command",
                                                               "command": {
                                                                 "command": "align",
@@ -1064,13 +1042,13 @@
                                                                   "n": 4
                                                                 },
                                                                 "alignContents": {
-                                                                  "id": 127,
+                                                                  "id": 124,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "group",
                                                                     "id": 0,
                                                                     "groupContents": {
-                                                                      "id": 126,
+                                                                      "id": 123,
                                                                       "kind": "list",
                                                                       "list": [
                                                                       ]
@@ -1082,7 +1060,7 @@
                                                               }
                                                             },
                                                             "flatContents": {
-                                                              "id": 125,
+                                                              "id": 122,
                                                               "kind": "command",
                                                               "command": {
                                                                 "command": "align",
@@ -1091,13 +1069,13 @@
                                                                   "n": 2
                                                                 },
                                                                 "alignContents": {
-                                                                  "id": 124,
+                                                                  "id": 121,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "group",
                                                                     "id": 0,
                                                                     "groupContents": {
-                                                                      "id": 123,
+                                                                      "id": 120,
                                                                       "kind": "list",
                                                                       "list": [
                                                                       ]
@@ -1117,12 +1095,12 @@
                                                   }
                                                 },
                                                 {
-                                                  "id": 132,
+                                                  "id": 129,
                                                   "kind": "text",
                                                   "text": ";"
                                                 },
                                                 {
-                                                  "id": 133,
+                                                  "id": 130,
                                                   "kind": "command",
                                                   "command": {
                                                     "command": "line",
@@ -1132,33 +1110,33 @@
                                                   }
                                                 },
                                                 {
-                                                  "id": 153,
+                                                  "id": 150,
                                                   "kind": "command",
                                                   "command": {
                                                     "command": "group",
                                                     "id": 0,
                                                     "groupContents": {
-                                                      "id": 152,
+                                                      "id": 149,
                                                       "kind": "list",
                                                       "list": [
                                                         {
-                                                          "id": 144,
+                                                          "id": 141,
                                                           "kind": "command",
                                                           "command": {
                                                             "command": "group",
                                                             "id": 1,
                                                             "groupContents": {
-                                                              "id": 143,
+                                                              "id": 140,
                                                               "kind": "list",
                                                               "list": [
                                                                 {
-                                                                  "id": 135,
+                                                                  "id": 132,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "group",
                                                                     "id": 0,
                                                                     "groupContents": {
-                                                                      "id": 134,
+                                                                      "id": 131,
                                                                       "kind": "text",
                                                                       "text": "Logic_Operator"
                                                                     },
@@ -1167,12 +1145,12 @@
                                                                   }
                                                                 },
                                                                 {
-                                                                  "id": 136,
+                                                                  "id": 133,
                                                                   "kind": "text",
                                                                   "text": " :"
                                                                 },
                                                                 {
-                                                                  "id": 142,
+                                                                  "id": 139,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "align",
@@ -1181,11 +1159,11 @@
                                                                       "n": 2
                                                                     },
                                                                     "alignContents": {
-                                                                      "id": 141,
+                                                                      "id": 138,
                                                                       "kind": "list",
                                                                       "list": [
                                                                         {
-                                                                          "id": 137,
+                                                                          "id": 134,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "line",
@@ -1195,17 +1173,17 @@
                                                                           }
                                                                         },
                                                                         {
-                                                                          "id": 140,
+                                                                          "id": 137,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "group",
                                                                             "id": 0,
                                                                             "groupContents": {
-                                                                              "id": 139,
+                                                                              "id": 136,
                                                                               "kind": "list",
                                                                               "list": [
                                                                                 {
-                                                                                  "id": 138,
+                                                                                  "id": 135,
                                                                                   "kind": "text",
                                                                                   "text": "Unbounded_String"
                                                                                 }
@@ -1226,13 +1204,13 @@
                                                           }
                                                         },
                                                         {
-                                                          "id": 151,
+                                                          "id": 148,
                                                           "kind": "command",
                                                           "command": {
                                                             "command": "ifBreak",
                                                             "ifBreakGroupId": 1,
                                                             "breakContents": {
-                                                              "id": 150,
+                                                              "id": 147,
                                                               "kind": "command",
                                                               "command": {
                                                                 "command": "align",
@@ -1241,13 +1219,13 @@
                                                                   "n": 4
                                                                 },
                                                                 "alignContents": {
-                                                                  "id": 149,
+                                                                  "id": 146,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "group",
                                                                     "id": 0,
                                                                     "groupContents": {
-                                                                      "id": 148,
+                                                                      "id": 145,
                                                                       "kind": "list",
                                                                       "list": [
                                                                       ]
@@ -1259,7 +1237,7 @@
                                                               }
                                                             },
                                                             "flatContents": {
-                                                              "id": 147,
+                                                              "id": 144,
                                                               "kind": "command",
                                                               "command": {
                                                                 "command": "align",
@@ -1268,13 +1246,13 @@
                                                                   "n": 2
                                                                 },
                                                                 "alignContents": {
-                                                                  "id": 146,
+                                                                  "id": 143,
                                                                   "kind": "command",
                                                                   "command": {
                                                                     "command": "group",
                                                                     "id": 0,
                                                                     "groupContents": {
-                                                                      "id": 145,
+                                                                      "id": 142,
                                                                       "kind": "list",
                                                                       "list": [
                                                                       ]
@@ -1298,7 +1276,7 @@
                                           }
                                         },
                                         {
-                                          "id": 156,
+                                          "id": 153,
                                           "kind": "text",
                                           "text": ")"
                                         }
@@ -1311,7 +1289,7 @@
                               }
                             },
                             {
-                              "id": 164,
+                              "id": 161,
                               "kind": "command",
                               "command": {
                                 "command": "align",
@@ -1320,17 +1298,17 @@
                                   "n": 1
                                 },
                                 "alignContents": {
-                                  "id": 163,
+                                  "id": 160,
                                   "kind": "command",
                                   "command": {
                                     "command": "group",
                                     "id": 0,
                                     "groupContents": {
-                                      "id": 162,
+                                      "id": 159,
                                       "kind": "list",
                                       "list": [
                                         {
-                                          "id": 160,
+                                          "id": 157,
                                           "kind": "command",
                                           "command": {
                                             "command": "line",
@@ -1340,7 +1318,7 @@
                                           }
                                         },
                                         {
-                                          "id": 161,
+                                          "id": 158,
                                           "kind": "text",
                                           "text": "return Boolean"
                                         }
@@ -1367,7 +1345,7 @@
           }
         },
         {
-          "id": 170,
+          "id": 167,
           "kind": "text",
           "text": ";"
         }

@@ -1,0 +1,4 @@
+driver: unparser
+rule: expr_fn
+description: |
+  Test the line break before the `is` keyword and not after the `with` keyword.

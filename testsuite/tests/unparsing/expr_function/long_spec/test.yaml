@@ -1,0 +1,4 @@
+driver: unparser
+rule: expr_fn
+description: |
+  Test the linebreak before the `is` keyword.

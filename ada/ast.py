@@ -7826,18 +7826,6 @@ class BaseTypeDecl(BasicDecl):
                 actual_type.matching_formal_prim_type(expected_type)
             ),
 
-            And(
-                Not(actual_type.get_imp_deref.is_null),
-                actual_type
-                .accessed_type.matching_assign_type(expected_type)
-            ),
-
-            And(
-                Not(expected_type.get_imp_deref.is_null),
-                expected_type
-                .accessed_type.matching_assign_type(actual_type)
-            ),
-
             Entity.matching_access_type(expected_type, True)
         )
 
@@ -7872,6 +7860,18 @@ class BaseTypeDecl(BasicDecl):
                     expected_type.is_fixed_point),
 
                 actual_type.canonical_type == expected_type.canonical_type,
+
+                And(
+                    Not(actual_type.get_imp_deref.is_null),
+                    actual_type
+                    .accessed_type.matching_type(expected_type)
+                ),
+
+                And(
+                    Not(expected_type.get_imp_deref.is_null),
+                    expected_type
+                    .accessed_type.matching_type(actual_type)
+                ),
 
                 actual_type.matching_access_type(expected_type, False)
             )
@@ -8460,17 +8460,16 @@ class TypeDecl(BaseTypeDecl):
     is_iterable_type = Property(
         Or(
             Entity.is_array,
-            Not(Entity.get_aspect_spec_expr('Iterator_Element').is_null),
+            Not(Entity.get_aspect('Iterator_Element', True).value.is_null),
             # TODO: The optional `Element` assoc must be defined, if not, a
             # type with the aspect `Iterable` only supports iteration over
             # cursors through the `for .. in` loop (W303-007).
-            Not(Entity.get_aspect_spec_expr('Iterable').is_null),
+            Not(Entity.get_aspect('Iterable', True).value.is_null),
             Entity.type_def.match(
                 lambda dtd=T.DerivedTypeDef:
                 dtd.base_type.then(lambda bt: bt.is_iterable_type),
                 lambda _: False
-            ),
-            Entity.previous_part(False).then(lambda pp: pp.is_iterable_type)
+            )
         ),
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
@@ -8480,8 +8479,8 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def iterable_comp_type():
-        ie = Var(Entity.get_aspect_spec_expr('Iterator_Element'))
-        it = Var(Entity.get_aspect_spec_expr('Iterable'))
+        ie = Var(Entity.get_aspect('Iterator_Element', True).value)
+        it = Var(Entity.get_aspect('Iterable', True).value)
 
         return imprecise_fallback.bind(False, Cond(
             Entity.is_array, Entity.comp_type,
@@ -8746,18 +8745,18 @@ class TypeDecl(BaseTypeDecl):
         )
 
     get_imp_deref = Property(
-        Entity.get_aspect_spec_expr('Implicit_Dereference')
+        Entity.get_aspect('Implicit_Dereference', True).value
     )
 
     has_ud_indexing = Property(
-        Not(Entity.get_aspect_spec_expr('Constant_Indexing').is_null)
-        | Not(Entity.get_aspect_spec_expr('Variable_Indexing').is_null)
+        Not(Entity.get_aspect('Constant_Indexing').value.is_null)
+        | Not(Entity.get_aspect('Variable_Indexing').value.is_null)
     )
 
     @langkit_property()
     def constant_indexing_fns():
         return (
-            Entity.get_aspect_spec_expr('Constant_Indexing')
+            Entity.get_aspect('Constant_Indexing', True).value
             ._.cast_or_raise(T.Name).all_env_elements_internal(seq=False)
             .filtermap(
                 lambda e: e.cast(T.BasicDecl),
@@ -8774,7 +8773,7 @@ class TypeDecl(BaseTypeDecl):
 
     @langkit_property()
     def variable_indexing_fns():
-        return Entity.get_aspect_spec_expr('Variable_Indexing').then(
+        return Entity.get_aspect('Variable_Indexing', True).value.then(
             lambda a: a.cast_or_raise(T.Name)
             .all_env_elements_internal(seq=False).filtermap(
                 lambda e: e.cast(T.BasicDecl),
@@ -18335,7 +18334,7 @@ class DefiningName(Name):
             )
         )
 
-    @langkit_property(return_type=Aspect, public=True,
+    @langkit_property(return_type=Aspect, public=True, memoized=True,
                       dynamic_vars=[default_imprecise_fallback()])
     def get_aspect(name=Symbol, previous_parts_only=(Bool, False)):
         """

@@ -1,0 +1,245 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["T"] test.adb:31:10-31:41>
+****************************************************************
+
+Expr: <Id "T_Element" test.adb:31:14-31:23>
+  references:    <DefiningName "T_Element" test.adb:5:12-5:21>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:31:27-31:40>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:20:7-21:62>
+  expected type: <ConcreteTypeDecl ["T_Element"] test.adb:5:7-5:38>
+Expr: <ExplicitDeref test.adb:31:27-31:36>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:22:7-22:61>
+  expected type: None
+Expr: <Id "Elems" test.adb:31:27-31:32>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:31:38-31:39>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["C"] test.adb:33:10-33:52>
+****************************************************************
+
+Expr: <Id "T_Constant_Reference" test.adb:33:14-33:34>
+  references:    <DefiningName "T_Constant_Reference" test.adb:20:12-20:32>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:33:38-33:51>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:20:7-21:62>
+  expected type: <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:20:7-21:62>
+Expr: <ExplicitDeref test.adb:33:38-33:47>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:22:7-22:61>
+  expected type: None
+Expr: <Id "Elems" test.adb:33:38-33:43>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:33:49-33:50>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["I"] test.adb:35:10-35:47>
+****************************************************************
+
+Expr: <Id "Integer" test.adb:35:14-35:21>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:35:25-35:46>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <ExplicitDeref test.adb:35:25-35:42>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+Expr: <CallExpr test.adb:35:25-35:38>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:20:7-21:62>
+  expected type: <ConcreteTypeDecl ["T_Element"] test.adb:5:7-5:38>
+Expr: <ExplicitDeref test.adb:35:25-35:34>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:22:7-22:61>
+  expected type: None
+Expr: <Id "Elems" test.adb:35:25-35:30>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:35:36-35:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Key" test.adb:35:43-35:46>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:38:10-38:37>
+**********************************************************
+
+Expr: <Id "I" test.adb:38:10-38:11>
+  references:    <DefiningName "I" test.adb:35:10-35:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName test.adb:38:15-38:36>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <ExplicitDeref test.adb:38:15-38:32>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+Expr: <CallExpr test.adb:38:15-38:28>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:20:7-21:62>
+  expected type: <ConcreteTypeDecl ["T_Element"] test.adb:5:7-5:38>
+Expr: <ExplicitDeref test.adb:38:15-38:24>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:22:7-22:61>
+  expected type: None
+Expr: <Id "Elems" test.adb:38:15-38:20>
+  references:    <DefiningName "Elems" test.adb:30:20-30:25>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:38:26-38:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Key" test.adb:38:33-38:36>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["T"] test.adb:46:7-46:38>
+***************************************************************
+
+Expr: <Id "T_Element" test.adb:46:11-46:20>
+  references:    <DefiningName "T_Element" test.adb:5:12-5:21>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:46:24-46:37>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:9:7-10:47>
+  expected type: <ConcreteTypeDecl ["T_Element"] test.adb:5:7-5:38>
+Expr: <ExplicitDeref test.adb:46:24-46:33>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:12:7-14:46>
+  expected type: None
+Expr: <Id "Elems" test.adb:46:24-46:29>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:46:35-46:36>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["C"] test.adb:48:7-48:49>
+***************************************************************
+
+Expr: <Id "T_Constant_Reference" test.adb:48:11-48:31>
+  references:    <DefiningName "T_Constant_Reference" test.adb:9:12-9:32>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:48:35-48:48>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:9:7-10:47>
+  expected type: <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:9:7-10:47>
+Expr: <ExplicitDeref test.adb:48:35-48:44>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:12:7-14:46>
+  expected type: None
+Expr: <Id "Elems" test.adb:48:35-48:40>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:48:46-48:47>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["I"] test.adb:50:7-50:44>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:50:11-50:18>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:50:22-50:43>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <ExplicitDeref test.adb:50:22-50:39>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+Expr: <CallExpr test.adb:50:22-50:35>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:9:7-10:47>
+  expected type: <ConcreteTypeDecl ["T_Element"] test.adb:5:7-5:38>
+Expr: <ExplicitDeref test.adb:50:22-50:31>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:12:7-14:46>
+  expected type: None
+Expr: <Id "Elems" test.adb:50:22-50:27>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:50:33-50:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Key" test.adb:50:40-50:43>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:53:7-53:34>
+*********************************************************
+
+Expr: <Id "I" test.adb:53:7-53:8>
+  references:    <DefiningName "I" test.adb:50:7-50:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName test.adb:53:12-53:33>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <ExplicitDeref test.adb:53:12-53:29>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+  expected type: <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
+Expr: <CallExpr test.adb:53:12-53:25>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["T_Constant_Reference"] test.adb:9:7-10:47>
+  expected type: <ConcreteTypeDecl ["T_Element"] test.adb:5:7-5:38>
+Expr: <ExplicitDeref test.adb:53:12-53:21>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["MyArr"] test.adb:12:7-14:46>
+  expected type: None
+Expr: <Id "Elems" test.adb:53:12-53:17>
+  references:    <DefiningName "Elems" test.adb:45:17-45:22>
+  type:          <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+  expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
+Expr: <Int test.adb:53:23-53:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Key" test.adb:53:30-53:33>
+  references:    <DefiningName "Key" test.adb:7:16-7:19>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

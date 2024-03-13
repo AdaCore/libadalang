@@ -8509,7 +8509,9 @@ class TypeDecl(BaseTypeDecl):
         If Self is a type that is iterable (i.e.: it has the Iterable aspect
         defined), return the type of the cursor in use by this iterable type.
         """
-        return Entity.get_aspect_spec_expr('Iterable').then(
+        return Entity.get_aspect(
+            'Iterable', previous_parts_only=True
+        ).value.then(
             lambda it: it.cast(T.Aggregate).assocs.unpacked_params.find(
                 lambda sa: sa.name.name_is('First')
             ).assoc.expr.cast_or_raise(T.Name).referenced_decl.expr_type

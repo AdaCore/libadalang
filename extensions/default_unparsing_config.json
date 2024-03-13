@@ -1043,6 +1043,57 @@
         ]
       }
     },
+    "GenericSubpRenamingDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "generic"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_kind"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_name"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              {
+                "kind": "text",
+                "text": "renames"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_renames"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
     "GenericPackageDecl": {
       "node": {
         "kind": "group",

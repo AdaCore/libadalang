@@ -1,0 +1,4 @@
+driver: unparser
+rule: generic_renaming_decl
+description: |
+  Test the line break before the `renames` keyword.

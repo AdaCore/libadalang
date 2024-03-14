@@ -1,5 +1,5 @@
 {
-  "id": 32,
+  "id": 33,
   "kind": "list",
   "list": [
     {
@@ -172,52 +172,62 @@
       }
     },
     {
-      "id": 27,
+      "id": 28,
       "kind": "command",
       "command": {
         "command": "indent",
         "indentContents": {
-          "id": 26,
-          "kind": "list",
-          "list": [
-            {
-              "id": 24,
+          "id": 27,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 26,
               "kind": "list",
               "list": [
                 {
-                  "id": 22,
-                  "kind": "command",
-                  "command": {
-                    "command": "line",
-                    "literal": false,
-                    "soft": false,
-                    "hard": true
-                  }
+                  "id": 24,
+                  "kind": "list",
+                  "list": [
+                    {
+                      "id": 22,
+                      "kind": "command",
+                      "command": {
+                        "command": "line",
+                        "literal": false,
+                        "soft": false,
+                        "hard": true
+                      }
+                    },
+                    {
+                      "id": 23,
+                      "kind": "command",
+                      "command": {
+                        "command": "breakParent"
+                      }
+                    }
+                  ]
                 },
                 {
-                  "id": 23,
-                  "kind": "command",
-                  "command": {
-                    "command": "breakParent"
-                  }
+                  "id": 25,
+                  "kind": "text",
+                  "text": "type Corge;"
                 }
               ]
             },
-            {
-              "id": 25,
-              "kind": "text",
-              "text": "type Corge;"
-            }
-          ]
+            "break": true,
+            "expandedStates": null
+          }
         }
       }
     },
     {
-      "id": 30,
+      "id": 31,
       "kind": "list",
       "list": [
         {
-          "id": 28,
+          "id": 29,
           "kind": "command",
           "command": {
             "command": "line",
@@ -227,7 +237,7 @@
           }
         },
         {
-          "id": 29,
+          "id": 30,
           "kind": "command",
           "command": {
             "command": "breakParent"
@@ -236,7 +246,7 @@
       ]
     },
     {
-      "id": 31,
+      "id": 32,
       "kind": "text",
       "text": "end Foo;"
     }

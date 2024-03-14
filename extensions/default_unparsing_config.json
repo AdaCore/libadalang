@@ -608,6 +608,25 @@
         ]
       }
     },
+    "DeclarativePart": {
+      "node": {
+        "kind": "recurse_field",
+        "field": "f_decls"
+      },
+      "fields": {
+        "f_decls": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": {
+            "kind": "group",
+            "document": [
+              "hardline",
+              "recurse"
+            ]
+          }
+        }
+      }
+    },
     "DefiningNameList": {
       "sep": [
         "recurse",
@@ -1226,7 +1245,6 @@
         {
           "kind": "indent",
           "contents": [
-            "hardline",
             {
               "kind": "recurse_field",
               "field": "f_public_part"
@@ -1256,7 +1274,6 @@
           {
             "kind": "indent",
             "contents": [
-              "hardline",
               "recurse"
             ]
           },
@@ -1312,6 +1329,44 @@
         "f_aspects": [
           "hardlineWithoutBreakParent",
           "recurse"
+        ]
+      }
+    },
+    "HandledStmts": {
+      "node": {
+        "kind": "group",
+        "break": true,
+        "document": [
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_exceptions"
+          }
+        ]
+      },
+      "fields": {
+        "f_exceptions": [
+          "hardline",
+          {
+            "kind": "text",
+            "text": "exception"
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              "recurse"
+            ]
+          }
         ]
       }
     },
@@ -1712,7 +1767,6 @@
         {
           "kind": "indent",
           "contents": [
-            "hardline",
             {
               "kind": "recurse_field",
               "field": "f_decls"
@@ -1747,13 +1801,7 @@
           ]
         },
         "f_stmts": [
-          {
-            "kind": "indent",
-            "contents": [
-              "hardline",
-              "recurse"
-            ]
-          },
+          "recurse",
           "hardline"
         ]
       }
@@ -1786,7 +1834,6 @@
         {
           "kind": "indent",
           "contents": [
-            "hardline",
             {
               "kind": "recurse_field",
               "field": "f_public_part"
@@ -1826,7 +1873,6 @@
           {
             "kind": "indent",
             "contents": [
-              "hardline",
               "recurse"
             ]
           },
@@ -2258,14 +2304,8 @@
             "text": "begin"
           },
           {
-            "kind": "indent",
-            "contents": [
-              "hardlineWithoutBreakParent",
-              {
-                "kind": "recurse_field",
-                "field": "f_stmts"
-              }
-            ]
+            "kind": "recurse_field",
+            "field": "f_stmts"
           },
           "hardlineWithoutBreakParent",
           {
@@ -2291,7 +2331,6 @@
           {
             "kind": "indent",
             "contents": [
-              "hardlineWithoutBreakParent",
               "recurse"
             ]
           },

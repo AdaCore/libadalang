@@ -40,6 +40,10 @@ main (void)
     }
 
     // Release the resources
+    ada_gpr_project_free (gpr);
+    abort_on_exception ();
+    ada_free_string_array (errors);
+    abort_on_exception ();
     ada_free_string_array (files);
     abort_on_exception ();
 

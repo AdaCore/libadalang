@@ -99,60 +99,13 @@
             "command": "ifBreak",
             "ifBreakGroupId": 1,
             "breakContents": {
-              "id": 22,
-              "kind": "command",
-              "command": {
-                "command": "align",
-                "alignData": {
-                  "kind": "width",
-                  "n": 4
-                },
-                "alignContents": {
-                  "id": 21,
-                  "kind": "command",
-                  "command": {
-                    "command": "group",
-                    "id": 0,
-                    "groupContents": {
-                      "id": 20,
-                      "kind": "list",
-                      "list": [
-                        {
-                          "id": 17,
-                          "kind": "text",
-                          "text": " :="
-                        },
-                        {
-                          "id": 18,
-                          "kind": "command",
-                          "command": {
-                            "command": "line",
-                            "literal": false,
-                            "soft": false,
-                            "hard": false
-                          }
-                        },
-                        {
-                          "id": 19,
-                          "kind": "text",
-                          "text": "Baaaaaaaaaaaaaaaaz"
-                        }
-                      ]
-                    },
-                    "break": false,
-                    "expandedStates": null
-                  }
-                }
-              }
-            },
-            "flatContents": {
               "id": 16,
               "kind": "command",
               "command": {
                 "command": "align",
                 "alignData": {
                   "kind": "width",
-                  "n": 2
+                  "n": 4
                 },
                 "alignContents": {
                   "id": 15,
@@ -181,6 +134,53 @@
                         },
                         {
                           "id": 13,
+                          "kind": "text",
+                          "text": "Baaaaaaaaaaaaaaaaz"
+                        }
+                      ]
+                    },
+                    "break": false,
+                    "expandedStates": null
+                  }
+                }
+              }
+            },
+            "flatContents": {
+              "id": 22,
+              "kind": "command",
+              "command": {
+                "command": "align",
+                "alignData": {
+                  "kind": "width",
+                  "n": 2
+                },
+                "alignContents": {
+                  "id": 21,
+                  "kind": "command",
+                  "command": {
+                    "command": "group",
+                    "id": 0,
+                    "groupContents": {
+                      "id": 20,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 17,
+                          "kind": "text",
+                          "text": " :="
+                        },
+                        {
+                          "id": 18,
+                          "kind": "command",
+                          "command": {
+                            "command": "line",
+                            "literal": false,
+                            "soft": false,
+                            "hard": false
+                          }
+                        },
+                        {
+                          "id": 19,
                           "kind": "text",
                           "text": "Baaaaaaaaaaaaaaaaz"
                         }

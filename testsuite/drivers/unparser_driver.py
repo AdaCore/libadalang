@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import os.path
 
-from e3.testsuite.driver.classic import TestSkip
-
 from drivers.base_driver import BaseDriver
 
 
@@ -30,12 +28,6 @@ class UnparserDriver(BaseDriver):
         )
 
     def run(self) -> None:
-        # TODO (eng/libadalang/prettier-ada#10) Prettier-ada is known to leak
-        # memory. Until this is fixed, do not bother running related tests in
-        # Valgrind mode.
-        if self.env.options.valgrind:
-            raise TestSkip("Prettier-ada is known to leak memory")
-
         # Run the unparser on "input.ada" for the given grammar rule and
         # unparse it with the default unparsing configuration, with a dump of
         # the Prettier document.

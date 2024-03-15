@@ -205,7 +205,7 @@
                                                                         "command": "ifBreak",
                                                                         "ifBreakGroupId": 1,
                                                                         "breakContents": {
-                                                                          "id": 19,
+                                                                          "id": 16,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "align",
@@ -214,13 +214,13 @@
                                                                               "n": 4
                                                                             },
                                                                             "alignContents": {
-                                                                              "id": 18,
+                                                                              "id": 15,
                                                                               "kind": "command",
                                                                               "command": {
                                                                                 "command": "group",
                                                                                 "id": 0,
                                                                                 "groupContents": {
-                                                                                  "id": 17,
+                                                                                  "id": 14,
                                                                                   "kind": "list",
                                                                                   "list": [
                                                                                   ]
@@ -232,7 +232,7 @@
                                                                           }
                                                                         },
                                                                         "flatContents": {
-                                                                          "id": 16,
+                                                                          "id": 19,
                                                                           "kind": "command",
                                                                           "command": {
                                                                             "command": "align",
@@ -241,13 +241,13 @@
                                                                               "n": 2
                                                                             },
                                                                             "alignContents": {
-                                                                              "id": 15,
+                                                                              "id": 18,
                                                                               "kind": "command",
                                                                               "command": {
                                                                                 "command": "group",
                                                                                 "id": 0,
                                                                                 "groupContents": {
-                                                                                  "id": 14,
+                                                                                  "id": 17,
                                                                                   "kind": "list",
                                                                                   "list": [
                                                                                   ]

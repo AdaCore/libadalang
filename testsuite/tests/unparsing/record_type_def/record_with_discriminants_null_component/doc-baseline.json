@@ -178,60 +178,13 @@
                                                 "command": "ifBreak",
                                                 "ifBreakGroupId": 1,
                                                 "breakContents": {
-                                                  "id": 26,
-                                                  "kind": "command",
-                                                  "command": {
-                                                    "command": "align",
-                                                    "alignData": {
-                                                      "kind": "width",
-                                                      "n": 4
-                                                    },
-                                                    "alignContents": {
-                                                      "id": 25,
-                                                      "kind": "command",
-                                                      "command": {
-                                                        "command": "group",
-                                                        "id": 0,
-                                                        "groupContents": {
-                                                          "id": 24,
-                                                          "kind": "list",
-                                                          "list": [
-                                                            {
-                                                              "id": 21,
-                                                              "kind": "text",
-                                                              "text": " :="
-                                                            },
-                                                            {
-                                                              "id": 22,
-                                                              "kind": "command",
-                                                              "command": {
-                                                                "command": "line",
-                                                                "literal": false,
-                                                                "soft": false,
-                                                                "hard": false
-                                                              }
-                                                            },
-                                                            {
-                                                              "id": 23,
-                                                              "kind": "text",
-                                                              "text": "0"
-                                                            }
-                                                          ]
-                                                        },
-                                                        "break": false,
-                                                        "expandedStates": null
-                                                      }
-                                                    }
-                                                  }
-                                                },
-                                                "flatContents": {
                                                   "id": 20,
                                                   "kind": "command",
                                                   "command": {
                                                     "command": "align",
                                                     "alignData": {
                                                       "kind": "width",
-                                                      "n": 2
+                                                      "n": 4
                                                     },
                                                     "alignContents": {
                                                       "id": 19,
@@ -260,6 +213,53 @@
                                                             },
                                                             {
                                                               "id": 17,
+                                                              "kind": "text",
+                                                              "text": "0"
+                                                            }
+                                                          ]
+                                                        },
+                                                        "break": false,
+                                                        "expandedStates": null
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                "flatContents": {
+                                                  "id": 26,
+                                                  "kind": "command",
+                                                  "command": {
+                                                    "command": "align",
+                                                    "alignData": {
+                                                      "kind": "width",
+                                                      "n": 2
+                                                    },
+                                                    "alignContents": {
+                                                      "id": 25,
+                                                      "kind": "command",
+                                                      "command": {
+                                                        "command": "group",
+                                                        "id": 0,
+                                                        "groupContents": {
+                                                          "id": 24,
+                                                          "kind": "list",
+                                                          "list": [
+                                                            {
+                                                              "id": 21,
+                                                              "kind": "text",
+                                                              "text": " :="
+                                                            },
+                                                            {
+                                                              "id": 22,
+                                                              "kind": "command",
+                                                              "command": {
+                                                                "command": "line",
+                                                                "literal": false,
+                                                                "soft": false,
+                                                                "hard": false
+                                                              }
+                                                            },
+                                                            {
+                                                              "id": 23,
                                                               "kind": "text",
                                                               "text": "0"
                                                             }

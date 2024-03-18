@@ -1,0 +1,107 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg"] test.adb:22:4-22:41>
+*************************************************************************************
+
+Expr: <Id "Pkg" test.adb:22:26-22:29>
+  references:    <DefiningName "Pkg" test.adb:10:12-10:15>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:22:31-22:39>
+  references:    <DefiningName "Seq" test.adb:3:12-3:15>
+  type:          None
+  expected type: None
+Expr: <Id "Seqs" test.adb:22:31-22:35>
+  references:    <DefiningName "Seqs" test.adb:2:12-2:16>
+  type:          None
+  expected type: None
+Expr: <Id "Seq" test.adb:22:36-22:39>
+  references:    <DefiningName "Seq" test.adb:3:12-3:15>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Pkg"] test.adb:8:4-12:12 [test.adb:22:4] |>
+*******************************************************************************************
+
+Resolving xrefs for node <| FormalTypeDecl ["Seq_T"] test.adb:9:7-9:34 [test.adb:22:4] |>
+*****************************************************************************************
+
+Expr: <| DottedName test.adb:9:25-9:33 [test.adb:22:4] |>
+  references:    <DefiningName "Seq" test.adb:3:12-3:15>
+  type:          None
+  expected type: None
+Expr: <| Id "Seqs" test.adb:9:25-9:29 [test.adb:22:4] |>
+  references:    <DefiningName "Seqs" test.adb:2:12-2:16>
+  type:          None
+  expected type: None
+Expr: <| Id "Seq" test.adb:9:30-9:33 [test.adb:22:4] |>
+  references:    <DefiningName "Seq" test.adb:3:12-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec test.adb:11:7-11:21 [test.adb:22:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:12:8-12:11 [test.adb:22:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:12:8-12:11 [test.adb:22:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:22:12-22:18>
+  type:          None
+  expected type: None
+Expr: <| Id "Pkg" test.adb:12:8-12:11 [test.adb:22:4] |>
+  references:    <DefiningName "My_Pkg" test.adb:22:12-22:18>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Pkg"] test.adb:14:4-20:12 [test.adb:22:4] |>
+*************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:15:7-15:21 [test.adb:22:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| ObjectDecl ["X"] test.adb:16:10-16:30 [test.adb:22:4] |>
+************************************************************************************
+
+Expr: <| Id "Seq_T" test.adb:16:14-16:19 [test.adb:22:4] |>
+  references:    <DefiningName "Seq" test.adb:3:12-3:15>
+  type:          None
+  expected type: None
+Expr: <| Id "No_Seq" test.adb:16:23-16:29 [test.adb:22:4] |>
+  references:    <| DefiningName "No_Seq" test.adb:5:16-5:22 [test.adb:22:4] |>
+  type:          <ConcreteTypeDecl ["Seq"] test.adb:3:7-3:31>
+  expected type: <ConcreteTypeDecl ["Seq"] test.adb:3:7-3:31>
+
+Resolving xrefs for node <| NullStmt test.adb:18:10-18:15 [test.adb:22:4] |>
+****************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:19:11-19:15 [test.adb:22:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:19:11-19:15 [test.adb:22:4] |>
+  references:    <| DefiningName "Test" test.adb:15:17-15:21 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Test" test.adb:19:11-19:15 [test.adb:22:4] |>
+  references:    <| DefiningName "Test" test.adb:15:17-15:21 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:20:8-20:11 [test.adb:22:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:20:8-20:11 [test.adb:22:4] |>
+  references:    <| DefiningName "Pkg" test.adb:14:17-14:20 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Pkg" test.adb:20:8-20:11 [test.adb:22:4] |>
+  references:    <| DefiningName "Pkg" test.adb:14:17-14:20 [test.adb:22:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

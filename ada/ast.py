@@ -5037,7 +5037,14 @@ class BaseFormalParamHolder(AdaNode):
                 # cannot come from a subprogram instantiation.
                 Self.shed_subp_rebindings(Entity.info.rebindings),
                 Entity.info.from_rebound
-            ).cast(BaseTypeDecl),
+            ).match(
+                # Since `primitive_real_type` is a node and not an entity, it
+                # may refer to a formal type, so we need to manually resolve it
+                # to an actual type using the current rebindings in case they
+                # are relevant.
+                lambda ft=FormalTypeDecl.entity: ft.get_actual,
+                lambda other: other.cast(BaseTypeDecl)
+            ),
 
             # Handle the case where the primitive is defined on an anonymous
             # access type, by returning an anonymous access type over the
@@ -8977,6 +8984,34 @@ class FormalTypeDecl(TypeDecl):
     """
     default_type = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def corresponding_actual_impl(rb=T.EnvRebindings):
+        """
+        Retrieves the actual for this formal type decl by finding the generic
+        formal part in which Self lies in Self's rebindings, and then resolving
+        the corresponding actual.
+        """
+        return Cond(
+            rb.is_null,
+            Entity,
+
+            rb.old_env == Self.parent.node_env,
+            rb.new_env.get_first(
+                Entity.defining_name.name_symbol,
+                lookup=LK.minimal, categories=no_prims
+            ).cast(BaseTypeDecl),
+
+            Entity.corresponding_actual_impl(rb.get_parent)
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def get_actual():
+        """
+        For a ``FormalTypeDecl`` we must find the actual by looking in our own
+        rebindings. See ``corresponding_actual_impl``.
+        """
+        return Entity.corresponding_actual_impl(Entity.info.rebindings)
 
     @langkit_property(return_type=Equation)
     def xref_equation():

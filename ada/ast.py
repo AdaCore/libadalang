@@ -18930,8 +18930,16 @@ class BaseId(SingleTokNode):
             # instantiation.
             pkg.unshed_rebindings(Entity.info.rebindings)
         )
-        is_inst_from_formal = Var(pkg.is_a(T.GenericPackageInstantiation) &
-                                  from_pkg.info.from_rebound)
+        is_inst_from_formal = Var(
+            # Check whether the package comes from a rebound env in order to
+            # determine if we have visibility on its formal part. Look at both
+            # ``from_pkg`` or ``pkg`` as we may have a renaming of a rebound
+            # package, or a rebound package being a package renaming, and in
+            # both cases we have visibility on the final renamed package's
+            # formal part.
+            pkg.is_a(T.GenericPackageInstantiation) &
+            (from_pkg.info.from_rebound | pkg.info.from_rebound)
+        )
 
         env = Var(If(
             bd.is_a(T.GenericPackageInstantiation) & is_inst_from_formal,

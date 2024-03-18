@@ -1,5 +1,5 @@
 {
-  "id": 38,
+  "id": 40,
   "kind": "list",
   "list": [
     {
@@ -142,121 +142,141 @@
       }
     },
     {
-      "id": 23,
+      "id": 24,
       "kind": "command",
       "command": {
         "command": "indent",
         "indentContents": {
-          "id": 22,
-          "kind": "list",
-          "list": [
-            {
-              "id": 20,
+          "id": 23,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 22,
               "kind": "list",
               "list": [
                 {
-                  "id": 18,
-                  "kind": "command",
-                  "command": {
-                    "command": "line",
-                    "literal": false,
-                    "soft": false,
-                    "hard": true
-                  }
+                  "id": 20,
+                  "kind": "list",
+                  "list": [
+                    {
+                      "id": 18,
+                      "kind": "command",
+                      "command": {
+                        "command": "line",
+                        "literal": false,
+                        "soft": false,
+                        "hard": true
+                      }
+                    },
+                    {
+                      "id": 19,
+                      "kind": "command",
+                      "command": {
+                        "command": "breakParent"
+                      }
+                    }
+                  ]
                 },
                 {
-                  "id": 19,
-                  "kind": "command",
-                  "command": {
-                    "command": "breakParent"
-                  }
+                  "id": 21,
+                  "kind": "text",
+                  "text": "type Baz;"
                 }
               ]
             },
-            {
-              "id": 21,
-              "kind": "text",
-              "text": "type Baz;"
-            }
-          ]
+            "break": true,
+            "expandedStates": null
+          }
         }
       }
     },
     {
-      "id": 26,
+      "id": 27,
       "kind": "list",
       "list": [
-        {
-          "id": 24,
-          "kind": "command",
-          "command": {
-            "command": "line",
-            "literal": false,
-            "soft": false,
-            "hard": true
-          }
-        },
         {
           "id": 25,
           "kind": "command",
           "command": {
+            "command": "line",
+            "literal": false,
+            "soft": false,
+            "hard": true
+          }
+        },
+        {
+          "id": 26,
+          "kind": "command",
+          "command": {
             "command": "breakParent"
           }
         }
       ]
     },
     {
-      "id": 27,
+      "id": 28,
       "kind": "text",
       "text": "private"
     },
     {
-      "id": 33,
+      "id": 35,
       "kind": "command",
       "command": {
         "command": "indent",
         "indentContents": {
-          "id": 32,
-          "kind": "list",
-          "list": [
-            {
-              "id": 30,
+          "id": 34,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 33,
               "kind": "list",
               "list": [
                 {
-                  "id": 28,
-                  "kind": "command",
-                  "command": {
-                    "command": "line",
-                    "literal": false,
-                    "soft": false,
-                    "hard": true
-                  }
+                  "id": 31,
+                  "kind": "list",
+                  "list": [
+                    {
+                      "id": 29,
+                      "kind": "command",
+                      "command": {
+                        "command": "line",
+                        "literal": false,
+                        "soft": false,
+                        "hard": true
+                      }
+                    },
+                    {
+                      "id": 30,
+                      "kind": "command",
+                      "command": {
+                        "command": "breakParent"
+                      }
+                    }
+                  ]
                 },
                 {
-                  "id": 29,
-                  "kind": "command",
-                  "command": {
-                    "command": "breakParent"
-                  }
+                  "id": 32,
+                  "kind": "text",
+                  "text": "type Qux;"
                 }
               ]
             },
-            {
-              "id": 31,
-              "kind": "text",
-              "text": "type Qux;"
-            }
-          ]
+            "break": true,
+            "expandedStates": null
+          }
         }
       }
     },
     {
-      "id": 36,
+      "id": 38,
       "kind": "list",
       "list": [
         {
-          "id": 34,
+          "id": 36,
           "kind": "command",
           "command": {
             "command": "line",
@@ -266,7 +286,7 @@
           }
         },
         {
-          "id": 35,
+          "id": 37,
           "kind": "command",
           "command": {
             "command": "breakParent"
@@ -275,7 +295,7 @@
       ]
     },
     {
-      "id": 37,
+      "id": 39,
       "kind": "text",
       "text": "end Foo;"
     }

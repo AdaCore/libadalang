@@ -1,0 +1,59 @@
+Working on node <ObjectDecl ["A"] test.adb:30:4-30:15>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <RangeConstraint test.adb:2:30-2:44>
+
+Working on node <ObjectDecl ["B"] test.adb:33:4-33:20>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <CompositeConstraint test.adb:7:31-7:40>
+
+Working on node <ObjectDecl ["C"] test.adb:36:4-36:20>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: None
+
+Working on node <ObjectDecl ["D"] test.adb:39:4-39:20>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <CompositeConstraint test.adb:14:35-14:44>
+
+Working on node <ObjectDecl ["E"] test.adb:42:4-42:16>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <CompositeConstraint test.adb:18:27-18:45>
+
+Working on node <ObjectDecl ["F"] test.adb:45:4-45:14>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: None
+
+Working on node <ObjectDecl ["G"] test.adb:48:4-48:16>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <CompositeConstraint test.adb:26:33-26:49>
+
+Working on node <ObjectDecl ["H"] test.adb:51:4-51:29>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <RangeConstraint test.adb:51:15-51:28>
+
+Working on node <ObjectDecl ["I"] test.adb:54:4-54:25>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <CompositeConstraint test.adb:54:16-54:24>
+
+Working on node <ObjectDecl ["J"] test.adb:57:4-57:35>
+======================================================
+
+Eval 'node.f_type_expr.p_subtype_constraint()'
+Result: <CompositeConstraint test.adb:57:18-57:34>

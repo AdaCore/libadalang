@@ -1,0 +1,3 @@
+case Fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+is when Bar => Fred, when Baz => Qux, when others => Corge
+

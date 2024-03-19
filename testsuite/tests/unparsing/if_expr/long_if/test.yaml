@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  Test that when the complete `IfExpr` does not fit in one line, then the `if`,
+  `elsif` and `else` parts are on separate lines.

@@ -1,0 +1,4 @@
+case Foo is
+  when Bar => Quuux,
+  when Baz => Quuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuux,
+  when others => Qux

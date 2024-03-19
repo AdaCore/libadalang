@@ -1,0 +1,4 @@
+driver: unparser
+rule: stmt
+description: |
+  Test the alignment of a multi line `WholeLoopSpec`.

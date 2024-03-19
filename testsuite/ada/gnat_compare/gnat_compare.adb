@@ -73,6 +73,10 @@ procedure GNAT_Compare is
       package Skip_Build is new Parse_Flag
         (App.Args.Parser, "-b", "--skip-build",
          "Skip the build of the project to process");
+
+      package Skip_GPRclean is new Parse_Flag
+        (App.Args.Parser, "-C", "--skip-gprclean",
+         "Skip the run of gprclean at the end of gnat_compare execution");
    end Args;
 
    Enabled : Comparison_Set := (others => True);
@@ -108,6 +112,9 @@ procedure GNAT_Compare is
 
    procedure Run_GPRbuild (Project_File : String);
    --  Run "gprbuild" on Project_File
+
+   procedure Run_GPRclean (Project_File : String);
+   --  Run "gprclean" on Project_File
 
    procedure Load_All_Xrefs_From_LI
      (Project      : Project_Tree'Class;
@@ -269,6 +276,15 @@ procedure GNAT_Compare is
             end if;
          end loop;
       end if;
+
+      if not Args.Skip_GPRclean.Get then
+         declare
+            Project_File : constant String :=
+               To_String (App.Args.Project_File.Get);
+         begin
+            Run_GPRclean (Project_File);
+         end;
+      end if;
    end Job_Post_Process;
 
    ------------------
@@ -305,6 +321,38 @@ procedure GNAT_Compare is
          Abort_App ("Could not spawn gprbuild");
       end if;
    end Run_GPRbuild;
+
+   ------------------
+   -- Run_GPRbuild --
+   ------------------
+
+   procedure Run_GPRclean (Project_File : String) is
+      Path    : GNAT.OS_Lib.String_Access := Locate_Exec_On_Path ("gprclean");
+      Args    : String_Vectors.Vector;
+      Success : Boolean;
+   begin
+      if Path = null then
+         Put_Line ("Could not locate gprclean on the PATH");
+      end if;
+
+      Args.Append (+"-P" & Project_File);
+      for V of App.Args.Scenario_Vars.Get loop
+         Args.Append ("-X" & V);
+      end loop;
+
+      declare
+         Spawn_Args : String_List_Access :=
+           new String_List'(To_String_List (Args));
+      begin
+         Spawn (Path.all, Spawn_Args.all, Success);
+         Free (Spawn_Args);
+         Free (Path);
+      end;
+
+      if not Success then
+         Abort_App ("Could not spawn gprclean");
+      end if;
+   end Run_GPRclean;
 
    ----------------------------
    -- Load_All_Xrefs_From_LI --

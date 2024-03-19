@@ -323,6 +323,42 @@
         "hardlineWithoutBreakParent"
       ]
     },
+    "CompilationUnit": {
+      "node": [
+        {
+          "kind": "recurse_field",
+          "field": "f_prelude"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_body"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_pragmas"
+        }
+      ],
+      "fields": {
+        "f_prelude": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "recurse",
+            "literalline",
+            "hardline"
+          ]
+        },
+        "f_pragmas": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "literalline",
+            "hardline",
+            "recurse"
+          ]
+        }
+      }
+    },
     "ComponentDecl": {
       "node": {
         "kind": "group",

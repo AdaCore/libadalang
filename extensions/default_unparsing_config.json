@@ -192,6 +192,97 @@
         ]
       }
     },
+    "CaseExpr": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "case"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "is"
+              }
+            ]
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_cases"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CaseExprAlternative": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "indent",
+                "contents": [
+                  {
+                    "kind": "text",
+                    "text": "when"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "group",
+                    "document": {
+                      "kind": "recurse_field",
+                      "field": "f_choices"
+                    }
+                  }
+                ]
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "=>"
+              }
+            ]
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_expr"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CaseExprAlternativeList": {
+      "sep": [
+        "recurse",
+        "hardline"
+      ]
+    },
     "CaseStmt": {
       "node": {
         "kind": "group",
@@ -813,6 +904,45 @@
         ]
       }
     },
+    "ElsifExprPart": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "elsif"
+          },
+          "whitespace",
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_cond_expr"
+            }
+          },
+          "line",
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "text",
+                  "text": "then"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_then_expr"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "ElsifStmtPart": {
       "node": {
         "kind": "group",
@@ -916,8 +1046,8 @@
     },
     "ElsifExprPartList": {
       "sep": [
-        "recurse",
-        "hardlineWithoutBreakParent"
+        "hardline",
+        "recurse"
       ]
     },
     "FloatingPointDef": {
@@ -1402,6 +1532,86 @@
               "hardline",
               "recurse"
             ]
+          }
+        ]
+      }
+    },
+    "IfExpr": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "if"
+              },
+              "whitespace",
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_cond_expr"
+                }
+              },
+              "line",
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "text",
+                      "text": "then"
+                    },
+                    "line",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_then_expr"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_alternatives"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_else_expr"
+          }
+        ]
+      },
+      "fields": {
+        "f_alternatives": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "line",
+            "recurse"
+          ]
+        },
+        "f_else_expr": [
+          "line",
+          {
+            "kind": "group",
+            "document": {
+              "kind": "align",
+              "width": 2,
+              "contents": [
+                {
+                  "kind": "text",
+                  "text": "else"
+                },
+                "line",
+                "recurse"
+              ]
+            }
           }
         ]
       }

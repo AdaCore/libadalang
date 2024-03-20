@@ -1,0 +1,4 @@
+driver: unparser
+rule: expr
+description: |
+  Test that each alternative is in its own line.

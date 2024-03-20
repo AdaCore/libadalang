@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  Test the line break before the `=>` token, its alignment and choices
+  alignemnt when these need to be in multiple lines.

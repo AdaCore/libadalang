@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  Test the line breaks before the `then` keyword for the `if` and `elsif`
+  parts.

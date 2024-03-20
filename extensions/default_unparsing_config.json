@@ -1079,6 +1079,18 @@
         ]
       }
     },
+    "GenericFormalObjDecl": {
+      "node": {
+        "kind": "group",
+        "document": "recurse"
+      }
+    },
+    "GenericFormalPackage": {
+      "node": {
+        "kind": "group",
+        "document": "recurse"
+      }
+    },
     "GenericFormalPart": {
       "node": {
         "kind": "group",
@@ -1121,6 +1133,12 @@
             "field": "f_decl"
           }
         ]
+      }
+    },
+    "GenericFormalTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": "recurse"
       }
     },
     "GenericSubpDecl": {

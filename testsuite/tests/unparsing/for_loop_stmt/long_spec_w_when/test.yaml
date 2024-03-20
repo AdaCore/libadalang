@@ -1,0 +1,4 @@
+driver: unparser
+rule: stmt
+description: |
+  Test the line breaks before the `of` and `when` keywords.

@@ -1,0 +1,4 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that the loop spec first breaks at the `loop` keyword.

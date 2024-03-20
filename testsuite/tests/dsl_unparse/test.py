@@ -2,7 +2,6 @@
 Test that dsl_unparse does not crash on libadalang.
 """
 import os
-from os import path as P
 import subprocess
 import sys
 
@@ -40,20 +39,4 @@ except StopIteration:
 LAL_BUILD_MODE = os.environ['LIBADALANG_BUILD_MODE'] or "dev"
 
 sys.stdout.flush()
-subprocess.check_call(
-    [
-        P.join(
-            os.environ['LIBADALANG_ROOTDIR'],
-            'langkit',
-            'contrib',
-            'lkt',
-            'build',
-            'obj-mains',
-            LAL_BUILD_MODE,
-            'lkt_parse',
-        ),
-        '-s',
-        '-f',
-        unparse_dest,
-    ]
-)
+subprocess.check_call(['lkt_parse', '-s', '-f', unparse_dest])

@@ -18676,11 +18676,13 @@ class BaseId(SingleTokNode):
             lambda p: p.is_a(GenericPackageInstantiation)
         ))
 
-        env_el = Var(Self.env_get_first_visible(
-            env,
-            lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
-            from_node=Self.origin_node,
-        )).cast(T.BasicDecl)
+        env_el = Var(
+            Self.env_get_first_visible(
+                env,
+                lookup_type=If(Self.is_prefix, LK.recursive, LK.flat),
+                from_node=Self.origin_node,
+            ).cast(T.BasicDecl)
+        )
 
         return If(
             # If first element is a package, then return the pkg env

@@ -6,6 +6,85 @@
         "hardline"
       ]
     },
+    "Aggregate": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "align",
+            "width": 1,
+            "contents": [
+              {
+                "kind": "recurse_field",
+                "field": "f_ancestor_expr"
+              },
+              {
+                "kind": "innerRoot",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_assocs"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          }
+        ]
+      },
+      "fields": {
+        "f_ancestor_expr": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "recurse",
+            {
+              "kind": "text",
+              "text": "with"
+            },
+            "line"
+          ]
+        }
+      }
+    },
+    "AggregateAssoc": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designators"
+          },
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_r_expr"
+            }
+          }
+        ]
+      },
+      "fields": {
+        "f_designators": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "recurse",
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "=>"
+            },
+            "line"
+          ]
+        }
+      }
+    },
     "AlternativesList": {
       "sep": [
         "line",

@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_body
+description: |
+  Test multiple combinations of exception handlers (short/long
+  `f_exception_name`, single/multiple `f_handled_exceptions` alternatives).

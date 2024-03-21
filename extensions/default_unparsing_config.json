@@ -833,6 +833,46 @@
         }
       }
     },
+    "DeclBlock": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "declare"
+          },
+          {
+            "kind": "indent",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_decls"
+            }
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_stmts"
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
     "DefiningNameList": {
       "sep": [
         "recurse",
@@ -886,24 +926,23 @@
         ]
       },
       "fields": {
-        "f_interfaces":{
+        "f_interfaces": {
           "kind": "ifEmpty",
           "then": "recurse",
-          "else":                 
-            {
-              "kind": "align",
-              "width": 1,
-              "contents": "recurse"
-            }
+          "else": {
+            "kind": "align",
+            "width": 1,
+            "contents": "recurse"
+          }
         },
-        "f_record_extension":{
+        "f_record_extension": {
           "kind": "ifEmpty",
           "then": "recurse",
           "else": [
             "hardlineWithoutBreakParent",
             "recurse"
-          ] 
-        } 
+          ]
+        }
       }
     },
     "DiscriminantSpec": {
@@ -1220,6 +1259,83 @@
         "hardline",
         "recurse"
       ]
+    },
+    "ExceptionHandler": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "text",
+                    "text": "when"
+                  },
+                  {
+                    "kind": "align",
+                    "width": 2,
+                    "contents": [
+                      "line",
+                      {
+                        "kind": "group",
+                        "document": [
+                          {
+                            "kind": "recurse_field",
+                            "field": "f_exception_name"
+                          },
+                          {
+                            "kind": "group",
+                            "document": {
+                              "kind": "innerRoot",
+                              "contents": {
+                                "kind": "recurse_field",
+                                "field": "f_handled_exceptions"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "=>"
+              }
+            ]
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_stmts"
+              }
+            ]
+          }
+        ]
+      },
+      "fields": {
+        "f_exception_name": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "recurse",
+            "whitespace",
+            {
+              "kind": "text",
+              "text": ":"
+            },
+            "line"
+          ]
+        }
+      }
     },
     "ExprFunction": {
       "node": {
@@ -2236,7 +2352,7 @@
           }
         ]
       }
-    },  
+    },
     "KnownDiscriminantPart": {
       "node": {
         "kind": "group",

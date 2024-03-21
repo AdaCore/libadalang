@@ -564,6 +564,64 @@ class AdaNode(ASTNode):
             base
         )
 
+    @langkit_property(return_type=T.EnvRebindings)
+    def add_rebinding(base=T.EnvRebindings,
+                      old_env=T.LexicalEnv,
+                      new_env=T.LexicalEnv):
+        """
+        Append a new entry ``old_env -> new_env`` to ``base``. This also takes
+        care of collapsing a subset of the rebindings if ``new_env`` is
+        actually inside an envinonment which is rebound by an existing entry.
+        In other words, this collapses generic formal package instantiations
+        done in a generic context where the actual package is known.
+        For example in the following snippet:
+
+        .. code:: ada
+
+            generic
+            package Interface_G is
+            end Interface_G;
+
+            generic
+                with package I is new Interface_G (<>);
+            package Pkg_G is
+            end Pkg_G;
+
+            package My_Interface is new Interface_G;
+            package My_Pkg is new Pkg_G (My_Interface);
+
+        Navigating inside ``My_Pkg`` leads us in ``Pkg_G`` with rebindings
+        ``[My_Pkg]``. From here, navigating inside the instantiation of the
+        formal package ``I`` would lead us in ``Interface_G`` with rebindings
+        ``[My_Pkg, I]``. However, ``add_rebinding`` sees that ``I`` is
+        rebound by the instantiation of ``My_Pkg`` and therefore collapses
+        the two rebindings from ``[My_Pkg, I]`` to ``[My_Interface]``.
+        """
+        parent_env = Var(new_env.env_node.node_env)
+        return Cond(
+            Or(
+                base.is_null,
+                Not(parent_env.env_node.is_a(GenericDecl)),
+                Not(Self.is_rebound(base, parent_env)),
+            ),
+            base.append_rebinding(old_env, new_env),
+
+            base.old_env == parent_env,
+            base.new_env.get_first(new_env.env_node.cast(
+                GenericPackageInstantiation
+            ).name.name_symbol, lookup=LK.minimal)
+            .cast(GenericPackageInstantiation).then(
+                lambda gpi: Self.add_rebinding(
+                    base.get_parent,
+                    gpi.nonbound_generic_decl_from_self.node.children_env,
+                    gpi.instantiation_env
+                ),
+                default_val=base.append_rebinding(old_env, new_env),
+            ),
+
+            Self.add_rebinding(base.get_parent, old_env, new_env),
+        )
+
     @langkit_property(return_type=T.Bool)
     def is_rebound(base=T.EnvRebindings, old_env=T.LexicalEnv):
         """
@@ -593,10 +651,11 @@ class AdaNode(ASTNode):
             Self.is_rebound(base, to_insert.old_env),
             base,
 
-            Self.insert_rebindings(
-                base,
-                to_insert.get_parent
-            ).append_rebinding(
+            Self.add_rebinding(
+                Self.insert_rebindings(
+                    base,
+                    to_insert.get_parent
+                ),
                 to_insert.old_env,
                 to_insert.new_env
             )
@@ -12698,11 +12757,13 @@ class GenericSubpInstantiation(GenericInstantiation):
                 node=p.node.cast(GenericSubpDecl).subp_decl,
                 info=T.entity_info.new(
                     md=Entity.info.md,
-                    rebindings=Self.insert_rebindings(
-                        p._.decl.info.rebindings,
-                        Entity.info.rebindings
-                    ).append_rebinding(
-                        p.node.children_env, Self.instantiation_env
+                    rebindings=Self.add_rebinding(
+                        Self.insert_rebindings(
+                            p.info.rebindings,
+                            Entity.info.rebindings
+                        ),
+                        p.node.children_env,
+                        Self.instantiation_env
                     ),
                     from_rebound=p.info.from_rebound
                 )
@@ -12735,19 +12796,24 @@ class GenericPackageInstantiation(GenericInstantiation):
                 info=T.entity_info.new(
                     md=p.info.md,
 
-                    # Take the rebindings from the current context
-                    rebindings=Self.insert_rebindings(
-                        p._.decl.info.rebindings,
-                        Entity.info.rebindings
-                    )
-                    # Append the rebindings for the current instantiation.
-                    # NOTE: We use the formal env to create rebindings. There,
-                    # we purposefully want the children env of the P node, with
-                    # no rebindings associated, since the rebinding indication
-                    # concerns the *naked* generic. Hence we use
-                    # p.node.children_env.
-                    .append_rebinding(p.node.children_env,
-                                      Self.instantiation_env),
+                    rebindings=Self.add_rebinding(
+                        # A subset of ``Entity``'s rebindings were used to
+                        # resolve ``p``, now use ``insert_rebindings`` to add
+                        # the rest of them.
+                        Self.insert_rebindings(
+                            p.info.rebindings,
+                            Entity.info.rebindings
+                        ),
+
+                        # Append the rebindings for the current instantiation.
+                        # NOTE: We use the formal env to create rebindings.
+                        # There, we purposefully want the children env of the
+                        # P node, with no rebindings associated, since the
+                        # rebinding indication concerns the *naked* generic.
+                        # Hence we use `p.node.children_env`.
+                        p.node.children_env,
+                        Self.instantiation_env
+                    ),
                     from_rebound=p.info.from_rebound
                 ),
             )

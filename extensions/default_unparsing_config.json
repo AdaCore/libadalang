@@ -886,6 +886,16 @@
         ]
       },
       "fields": {
+        "f_interfaces":{
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else":                 
+            {
+              "kind": "align",
+              "width": 1,
+              "contents": "recurse"
+            }
+        },
         "f_record_extension":{
           "kind": "ifEmpty",
           "then": "recurse",
@@ -1954,6 +1964,25 @@
         ]
       }
     },
+    "InterfaceTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_interface_kind"
+          },
+          {
+            "kind": "text",
+            "text": "interface"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_interfaces"
+          }
+        ]
+      }
+    },  
     "KnownDiscriminantPart": {
       "node": {
         "kind": "group",
@@ -2601,16 +2630,12 @@
     },
     "ParentList": {
       "node": {
-        "kind": "align",
-        "width": 1,
-        "contents": {
-          "kind": "group",
-          "document": [
-            "hardline",
-            "recurse"
-          ]
-        }
-      } 
+        "kind": "group",
+        "document": [
+          "hardline",
+          "recurse"
+        ]
+      }
     },
     "PragmaArgumentAssoc": {
       "node": {

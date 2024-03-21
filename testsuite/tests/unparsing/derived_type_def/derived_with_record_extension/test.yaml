@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a derived type declaration
+    with record extension.
+    It is expected the declaration breaks after `is` and `with` keywords;
+    the record extension part be indented and aligned with the `new` keyword.
+
+driver: unparser
+rule: type_decl

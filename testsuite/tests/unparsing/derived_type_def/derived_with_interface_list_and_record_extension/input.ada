@@ -1,0 +1,4 @@
+type Painted_Point is new Poooooooooooooiiiiiiiiiint1 and Poooooooooooooooooiiiiint2 and Point3 with
+  record
+    Paint : Color := White;
+  end record;

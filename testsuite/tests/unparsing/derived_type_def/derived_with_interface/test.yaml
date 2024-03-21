@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a simple derived type declaration
+    with not empty interface list and null record extension.
+    It is expected the declaration break after `is` and `with` keywords
+    and be indented relative to the type keyword.
+ 
+driver: unparser
+rule: type_decl

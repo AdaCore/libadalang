@@ -170,16 +170,6 @@
                                                           "text": "function \">\""
                                                         },
                                                         {
-                                                          "id": 13,
-                                                          "kind": "command",
-                                                          "command": {
-                                                            "command": "line",
-                                                            "literal": false,
-                                                            "soft": false,
-                                                            "hard": false
-                                                          }
-                                                        },
-                                                        {
                                                           "id": 69,
                                                           "kind": "command",
                                                           "command": {
@@ -189,6 +179,16 @@
                                                               "id": 68,
                                                               "kind": "list",
                                                               "list": [
+                                                                {
+                                                                  "id": 13,
+                                                                  "kind": "command",
+                                                                  "command": {
+                                                                    "command": "line",
+                                                                    "literal": false,
+                                                                    "soft": false,
+                                                                    "hard": false
+                                                                  }
+                                                                },
                                                                 {
                                                                   "id": 62,
                                                                   "kind": "command",
@@ -716,16 +716,6 @@
                       "text": "function Perform_Comparison_Check"
                     },
                     {
-                      "id": 87,
-                      "kind": "command",
-                      "command": {
-                        "command": "line",
-                        "literal": false,
-                        "soft": false,
-                        "hard": false
-                      }
-                    },
-                    {
                       "id": 165,
                       "kind": "command",
                       "command": {
@@ -735,6 +725,16 @@
                           "id": 164,
                           "kind": "list",
                           "list": [
+                            {
+                              "id": 87,
+                              "kind": "command",
+                              "command": {
+                                "command": "line",
+                                "literal": false,
+                                "soft": false,
+                                "hard": false
+                              }
+                            },
                             {
                               "id": 158,
                               "kind": "command",

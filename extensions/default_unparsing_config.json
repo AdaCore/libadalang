@@ -2905,6 +2905,119 @@
         "hardline"
       ]
     },
+    "ProtectedDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "indent",
+            "contents": [
+              {
+                "kind": "recurse_field",
+                "field": "f_public_part"
+              } 
+            ] 
+          },
+          "hardline",
+          {
+            "kind": "recurse_field",
+            "field": "f_private_part"
+          },
+          {
+            "kind": "text",
+            "text": "end"
+          },  
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          }
+        ]
+      },
+      "fields": {
+        "f_private_part": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            {
+              "kind": "indent",
+              "contents": "recurse"
+            },
+            "hardline"
+          ]
+        }
+      }
+    },
+    "ProtectedTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "protected"
+              },
+              {
+                "kind": "text",
+                "text": "type"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_discriminants"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              },
+              "line",  
+              {
+                "kind": "text",
+                "text": "is"
+              }
+            ]
+          },  
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_interfaces"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_definition"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_discriminants": {
+          "kind": "align",
+          "width": 2,
+          "contents": "recurse"
+        },
+        "f_aspects": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "hardline",
+            "recurse"
+          ]
+        }
+      }
+    },
     "RangeSpec": {
       "node": {
         "kind": "align",
@@ -3147,7 +3260,6 @@
               "kind": "recurse_field",
               "field": "f_subp_name"
             },
-            "line",
             {
               "kind": "group",
               "document": [
@@ -3180,6 +3292,14 @@
               "recurse"
             ]
           }
+        },
+        "f_subp_params": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "line", 
+            "recurse"
+          ]
         }
       }
     },

@@ -126,16 +126,6 @@
                                                           "text": "function Bar"
                                                         },
                                                         {
-                                                          "id": 7,
-                                                          "kind": "command",
-                                                          "command": {
-                                                            "command": "line",
-                                                            "literal": false,
-                                                            "soft": false,
-                                                            "hard": false
-                                                          }
-                                                        },
-                                                        {
                                                           "id": 40,
                                                           "kind": "command",
                                                           "command": {
@@ -145,6 +135,16 @@
                                                               "id": 39,
                                                               "kind": "list",
                                                               "list": [
+                                                                {
+                                                                  "id": 7,
+                                                                  "kind": "command",
+                                                                  "command": {
+                                                                    "command": "line",
+                                                                    "literal": false,
+                                                                    "soft": false,
+                                                                    "hard": false
+                                                                  }
+                                                                },
                                                                 {
                                                                   "id": 33,
                                                                   "kind": "command",
@@ -515,16 +515,6 @@
                                                           "text": "function Baz"
                                                         },
                                                         {
-                                                          "id": 55,
-                                                          "kind": "command",
-                                                          "command": {
-                                                            "command": "line",
-                                                            "literal": false,
-                                                            "soft": false,
-                                                            "hard": false
-                                                          }
-                                                        },
-                                                        {
                                                           "id": 88,
                                                           "kind": "command",
                                                           "command": {
@@ -534,6 +524,16 @@
                                                               "id": 87,
                                                               "kind": "list",
                                                               "list": [
+                                                                {
+                                                                  "id": 55,
+                                                                  "kind": "command",
+                                                                  "command": {
+                                                                    "command": "line",
+                                                                    "literal": false,
+                                                                    "soft": false,
+                                                                    "hard": false
+                                                                  }
+                                                                },
                                                                 {
                                                                   "id": 81,
                                                                   "kind": "command",
@@ -1072,16 +1072,6 @@
                                                   "text": "procedure Garply"
                                                 },
                                                 {
-                                                  "id": 126,
-                                                  "kind": "command",
-                                                  "command": {
-                                                    "command": "line",
-                                                    "literal": false,
-                                                    "soft": false,
-                                                    "hard": false
-                                                  }
-                                                },
-                                                {
                                                   "id": 154,
                                                   "kind": "command",
                                                   "command": {
@@ -1091,6 +1081,16 @@
                                                       "id": 153,
                                                       "kind": "list",
                                                       "list": [
+                                                        {
+                                                          "id": 126,
+                                                          "kind": "command",
+                                                          "command": {
+                                                            "command": "line",
+                                                            "literal": false,
+                                                            "soft": false,
+                                                            "hard": false
+                                                          }
+                                                        },
                                                         {
                                                           "id": 152,
                                                           "kind": "command",

@@ -287,16 +287,6 @@
                                                   "text": "procedure Garply"
                                                 },
                                                 {
-                                                  "id": 29,
-                                                  "kind": "command",
-                                                  "command": {
-                                                    "command": "line",
-                                                    "literal": false,
-                                                    "soft": false,
-                                                    "hard": false
-                                                  }
-                                                },
-                                                {
                                                   "id": 57,
                                                   "kind": "command",
                                                   "command": {
@@ -306,6 +296,16 @@
                                                       "id": 56,
                                                       "kind": "list",
                                                       "list": [
+                                                        {
+                                                          "id": 29,
+                                                          "kind": "command",
+                                                          "command": {
+                                                            "command": "line",
+                                                            "literal": false,
+                                                            "soft": false,
+                                                            "hard": false
+                                                          }
+                                                        },
                                                         {
                                                           "id": 55,
                                                           "kind": "command",

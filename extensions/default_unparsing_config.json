@@ -839,6 +839,73 @@
         "line"
       ]
     },
+    "DerivedTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_has_abstract"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_limited"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_synchronized"
+          },
+          {
+            "kind": "text",
+            "text": "new"
+          },
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_subtype_indication"
+                },
+                {
+                  "kind": "recurse_field",
+                  "field": "f_interfaces"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_record_extension"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_with_private"
+          }
+        ]
+      },
+      "fields": {
+        "f_interfaces":{
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else":                 
+            {
+              "kind": "align",
+              "width": 1,
+              "contents": "recurse"
+            }
+        },
+        "f_record_extension":{
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "hardlineWithoutBreakParent",
+            "recurse"
+          ] 
+        } 
+      }
+    },
     "DiscriminantSpec": {
       "node": {
         "kind": "group",
@@ -1897,6 +1964,25 @@
         ]
       }
     },
+    "InterfaceTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_interface_kind"
+          },
+          {
+            "kind": "text",
+            "text": "interface"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_interfaces"
+          }
+        ]
+      }
+    },  
     "KnownDiscriminantPart": {
       "node": {
         "kind": "group",
@@ -2540,6 +2626,15 @@
           "kind": "group",
           "document": "recurse"
         }
+      }
+    },
+    "ParentList": {
+      "node": {
+        "kind": "group",
+        "document": [
+          "hardline",
+          "recurse"
+        ]
       }
     },
     "PragmaArgumentAssoc": {

@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a derived type declaration with
+    non empty interface list and record extension.
+    It is expected the declaration breaks after `is` and `before `record`;
+    the interface list be splitted and aligned on the first element after
+    `new`keyword and the record extension part aligned with the `new` keyword
+    as well.
+
+driver: unparser
+rule: type_decl

@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of an interface type declaration with
+    non empty interface list.
+    It is expected the declaration break after `is` keyword and all the
+    elements of the interface list be indented and aligned relative to
+    `type` keyword with a line continuation indentation.
+ 
+driver: unparser
+rule: type_decl

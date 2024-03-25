@@ -11,9 +11,10 @@ from langkit.envs import (
 from langkit.expressions import (
     AbstractKind, AbstractProperty, And, ArrayLiteral as Array, BigIntLiteral,
     Bind, Cond, DynamicLexicalEnv, DynamicVariable, EmptyEnv, Entity, If, Let,
-    Literal, NPropagate, No, Not, Or, Property, PropertyError, RefCategories,
-    Self, String, Try, Var, current_env, direct_env, ignore, langkit_property,
-    lazy_field, named_env, new_env_assoc, no_env
+    Literal, NPropagate, No, Not, Or, PreconditionFailure, Property,
+    PropertyError, RefCategories, Self, String, Try, Var, current_env,
+    direct_env, ignore, langkit_property, lazy_field, named_env,
+    new_env_assoc, no_env
 )
 from langkit.expressions.logic import LogicFalse, LogicTrue, Predicate
 
@@ -587,6 +588,42 @@ class AdaNode(ASTNode):
                 )
             ))
         )
+
+    @langkit_property(return_type=Bool)
+    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+        """
+        Internal implementation of the ``has_spark_mode_on`` and
+        ``is_subject_to_proof`` properties. This only implements the base logic
+        for recursing up the tree: nodes that need a specific logic must
+        override it. See for example ``BasicDecl.is_spark_impl``.
+        """
+        return If(
+            Not(Entity.parent.is_null),
+            Entity.parent.is_spark_impl(include_skip_proof_annotations),
+
+            # Handle cases where this property is called on a node that is
+            # outside of a compilation unit.
+            PreconditionFailure(T.Bool, "SPARK Mode does not apply here")
+        )
+
+    @langkit_property(return_type=Bool, public=True)
+    def has_spark_mode_on():
+        """
+        Returns whether this subprogram has explicitly been set as having
+        ``Spark_Mode`` to ``On``, directly or indirectly.
+
+        Doesn't include subprograms that can be inferred by GNATprove as being
+        SPARK.
+        """
+        return Entity.is_spark_impl(False)
+
+    @langkit_property(return_type=Bool, public=True)
+    def is_subject_to_proof():
+        """
+        Returns whether this subprogram body is subject to proof in the context
+        of the SPARK/GNATprove tools.
+        """
+        return Entity.is_spark_impl(True)
 
     @langkit_property(return_type=T.LexicalEnv)
     def immediate_declarative_region():
@@ -1934,19 +1971,19 @@ class BasicDecl(AdaNode):
         with some special paths for bodies.
 
         It will also, for bodies only, determine whether there are
-        ``Skip_Proof`` annotations, if the parameter
+        ``Skip_Proof`` or ``Skip_Flow_And_Proof`` annotations, if the parameter
         ``include_skip_proof_annotations`` is True.
         """
         return Cond(
             # For bodies, and if `include_skip_proof_annotations` is True,
             # check `Skip_Proof`/`Skip_Flow_And_Proof`.
-            include_skip_proof_annotations & Not(
-                Entity.cast(BaseSubpBody)._.gnatprove_annotations.find(
-                    lambda a: a.cast(Name).name_symbol.any_of(
-                        'Skip_Proof', 'Skip_Flow_And_Proof'
-                    )
-                ).is_null
-            ),
+            include_skip_proof_annotations
+            & Entity.is_a(BaseSubpBody, SubpBodyStub)
+            & Not(Entity.cast(Body)._.gnatprove_annotations.find(
+                lambda a: a.cast(Name).name_symbol.any_of(
+                    'Skip_Proof', 'Skip_Flow_And_Proof'
+                )
+            ).is_null),
             False,
 
             # Check for the `SPARK_Mode` aspect. Only consider explicit `On`
@@ -1963,7 +2000,9 @@ class BasicDecl(AdaNode):
                 Entity.previous_part_for_decl._.is_a(T.BodyStub),
                 Entity.previous_part_for_decl,
                 Entity
-            ).declarative_scope.as_entity._.is_spark,
+            ).declarative_scope.as_entity._.is_spark_impl(
+                include_skip_proof_annotations
+            ),
             True,
 
             # Finally, check for configuration pragmas. This configuration
@@ -4243,6 +4282,67 @@ class Body(BasicDecl):
             ),
             public_scope
         )
+
+    @langkit_property(return_type=T.Expr.entity.array, memoized=True)
+    def gnatprove_annotations():
+        """
+        Get all ``GNATprove`` annotations specified for that body.
+        """
+        subp_decl_part = Var(Entity.decl_part)
+
+        # GNATprove annotations are specified in the specification, or else on
+        # the body if it doesn't have a specification.
+        aspects = Var(
+            subp_decl_part.then(
+                lambda part: part.aspects,
+                default_val=Entity.aspects
+            )._.aspect_assocs.filtermap(
+                lambda a: a.expr.cast(T.Aggregate).assocs.at(1).expr,
+                lambda a: a.id.name_is('Annotate')
+                & a.expr.is_a(T.Aggregate)
+                & a.expr.cast(T.Aggregate).assocs.at(0)
+                .expr.cast(T.Name)._.name_is('GNATprove')
+            )
+        )
+
+        # GNATprove pragmas immediately follow the specification, or the body
+        # iff it's an `ExprFunction`.
+        pragma_scope = Var(
+            subp_decl_part._or(Entity.cast(T.ExprFunction))
+        )
+
+        # List all the pragmas that appear in the same declarative scope,
+        # or in the case of a library item, the pragmas at the end of the
+        # compilation unit.
+        scope_decls = Var(
+            pragma_scope._.declarative_scope._.decls.filtermap(
+                lambda p: p.cast(Pragma),
+                lambda p: p.is_a(Pragma)
+            )._or(pragma_scope._.library_item_pragmas.map(
+                lambda p: p.node
+            ))
+        )
+
+        # Find those that are a "GNATProve" annotation
+        pragmas = Var(scope_decls.filtermap(
+            lambda d: d.args.at(1).as_entity.assoc_expr,
+            lambda d: (d > pragma_scope.node)
+            & d._.id.name_is('Annotate')
+            & d.args.at(0)._.as_entity
+            .assoc_expr.cast(T.Name)._.name_is('GNATprove')
+            & d.args.at(2)._.as_entity
+            .assoc_expr.cast(T.Name)
+            ._.name_is(Entity.defining_names.at(0).name_symbol)
+        ))
+
+        # Also look for annotations declared on the enclosing bodies
+        enclosing_subp_annotations = Var(
+            Entity.parents(with_self=False).find(
+                lambda n: n.is_a(T.BaseSubpBody)
+            ).cast(T.BaseSubpBody)._.gnatprove_annotations
+        )
+
+        return aspects.concat(pragmas).concat(enclosing_subp_annotations)
 
 
 @abstract
@@ -10310,17 +10410,6 @@ class BasicSubpDecl(BasicDecl):
         """
     )
 
-    @langkit_property(return_type=Bool, public=True)
-    def has_spark_mode_on():
-        """
-        Returns whether this subprogram has explicitly been set as having
-        ``Spark_Mode`` to ``On``, directly or indirectly.
-
-        Doesn't include subprograms that can be inferred by GNATprove as being
-        SPARK.
-        """
-        return Entity.is_spark_impl(include_skip_proof_annotations=False)
-
     @langkit_property(dynamic_vars=[default_imprecise_fallback()])
     def get_body_in_env(env=T.LexicalEnv):
         elements = Var(
@@ -11493,7 +11582,7 @@ class DeclarativePart(AdaNode):
         ).cast(T.Pragma)
 
     @langkit_property(return_type=T.Bool)
-    def is_spark():
+    def is_spark_impl(include_skip_proof_annotations=T.Bool):
         """
         Return whether this declarative part has SPARK mode set to On.
         """
@@ -11511,30 +11600,10 @@ class DeclarativePart(AdaNode):
                     ),
                     # If not pragma or aspect sets `SPARK_Mode`, have a look at
                     # the parent declarative scope.
-                    default_val=Entity.parent_declarative_part_is_spark
+                    default_val=Entity.super(include_skip_proof_annotations)
                 ),
-                default_val=Entity.parent_declarative_part_is_spark
+                default_val=Entity.super(include_skip_proof_annotations)
             )
-        )
-
-    @langkit_property(return_type=T.Bool)
-    def parent_declarative_part_is_spark():
-        """
-        Return whether the parent declarative part (if any) is in SPARK.
-        Nested declarative parts inherit SPARK mode of their parent if no mode
-        is specified for Self.
-        """
-        return Entity.parent.declarative_scope.then(
-            lambda parent_scope: parent_scope.as_entity.is_spark,
-            # Else, check if we are in a package body stmt part
-            default_val=Entity.parent.parents.find(
-                # Return the library-level package body statement part in which
-                # Self is.
-                lambda n:
-                n.is_a(T.HandledStmts)
-                & n.parent.is_a(T.PackageBody)
-                & n.parent.parent.is_a(T.LibraryItem)
-            ).cast(T.HandledStmts)._.is_spark
         )
 
 
@@ -11567,7 +11636,7 @@ class PrivatePart(DeclarativePart):
     )
 
     @langkit_property(return_type=T.Bool)
-    def is_spark():
+    def is_spark_impl(include_skip_proof_annotations=T.Bool):
         """
         Return whether this private part has SPARK mode set to On.
         """
@@ -11577,7 +11646,7 @@ class PrivatePart(DeclarativePart):
             # If not pragma sets `SPARK_Mode`, have a look at the corresponding
             # public part if any.
             default_val=Entity.parent.cast(T.PackageDecl)
-            ._.public_part.is_spark
+            ._.public_part.is_spark_impl(include_skip_proof_annotations)
         )
 
 
@@ -21530,86 +21599,6 @@ class BaseSubpBody(Body):
         )
     )
 
-    @langkit_property(return_type=T.Expr.entity.array, memoized=True)
-    def gnatprove_annotations():
-        """
-        Get all ``GNATprove`` annotations specified for that subprogram.
-        """
-        subp_decl_part = Var(Entity.decl_part)
-
-        # GNATprove annotations are specified in the specification, or else on
-        # the body if it doesn't have a specification.
-        aspects = Var(
-            subp_decl_part.then(
-                lambda part: part.aspects,
-                default_val=Entity.aspects
-            )._.aspect_assocs.filtermap(
-                lambda a: a.expr.cast(T.Aggregate).assocs.at(1).expr,
-                lambda a: a.id.name_is('Annotate')
-                & a.expr.is_a(T.Aggregate)
-                & a.expr.cast(T.Aggregate).assocs.at(0)
-                .expr.cast(T.Name)._.name_is('GNATprove')
-            )
-        )
-
-        # GNATprove pragmas immediately follow the specification, or the body
-        # iff it's an `ExprFunction`.
-        pragma_scope = Var(
-            subp_decl_part._or(Entity.cast(T.ExprFunction))
-        )
-
-        # List all the pragmas that appear in the same declarative scope,
-        # or in the case of a library item, the pragmas at the end of the
-        # compilation unit.
-        scope_decls = Var(
-            pragma_scope._.declarative_scope._.decls.filtermap(
-                lambda p: p.cast(Pragma),
-                lambda p: p.is_a(Pragma)
-            )._or(pragma_scope._.library_item_pragmas.map(
-                lambda p: p.node
-            ))
-        )
-
-        # Find those that are a "GNATProve" annotation
-        pragmas = Var(scope_decls.filtermap(
-            lambda d: d.args.at(1).as_entity.assoc_expr,
-            lambda d: (d > pragma_scope.node)
-            & d._.id.name_is('Annotate')
-            & d.args.at(0)._.as_entity
-            .assoc_expr.cast(T.Name)._.name_is('GNATprove')
-            & d.args.at(2)._.as_entity
-            .assoc_expr.cast(T.Name)
-            ._.name_is(Entity.defining_names.at(0).name_symbol)
-        ))
-
-        # Also look for annotations declared on the enclosing bodies
-        enclosing_subp_annotations = Var(
-            Entity.parents(with_self=False).find(
-                lambda n: n.is_a(T.BaseSubpBody)
-            ).cast(T.BaseSubpBody)._.gnatprove_annotations
-        )
-
-        return aspects.concat(pragmas).concat(enclosing_subp_annotations)
-
-    @langkit_property(return_type=Bool, public=True)
-    def is_subject_to_proof():
-        """
-        Returns whether this subprogram body is subject to proof in the context
-        of the SPARK/GNATprove tools.
-        """
-        return Entity.is_spark_impl(include_skip_proof_annotations=True)
-
-    @langkit_property(return_type=Bool, public=True)
-    def has_spark_mode_on():
-        """
-        Returns whether this subprogram has explicitly been set as having
-        ``Spark_Mode`` to ``On``, directly or indirectly.
-
-        Doesn't include subprograms that can be inferred by GNATprove as being
-        SPARK.
-        """
-        return Entity.is_spark_impl(include_skip_proof_annotations=False)
-
 
 class ExprFunction(BaseSubpBody):
     """
@@ -21702,7 +21691,7 @@ class HandledStmts(AdaNode):
     exceptions = Field(type=T.AdaNode.list)
 
     @langkit_property(return_type=T.Bool)
-    def is_spark():
+    def is_spark_impl(include_skip_proof_annotations=T.Bool):
         """
         Return whether this list of statement has SPARK mode set to On
         (assuming that we are in a library-level package body statements
@@ -21715,7 +21704,12 @@ class HandledStmts(AdaNode):
         ).then(
             lambda spark_mode: spark_mode.cast(T.Pragma).spark_mode_is_on,
             # Else, look at the body declarative part
-            default_val=Entity.parent.cast(T.PackageBody)._.decls.is_spark
+            default_val=Entity.parent.cast(T.PackageBody).then(
+                lambda body: body.decls.is_spark_impl(
+                    include_skip_proof_annotations
+                ),
+                default_val=Entity.super(include_skip_proof_annotations)
+            )
         )
 
 

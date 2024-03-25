@@ -141,9 +141,9 @@ class InlinePlayground(lal.App):
                 value = None
                 try:
                     value = eval(expr, None, local_env)
-                except lal.PropertyError as pe:
+                except (lal.PropertyError, lal.PreconditionFailure) as ex:
                     print('Exception: {}'.format(
-                        ' '.join(str(a) for a in pe.args)
+                        ' '.join(str(a) for a in ex.args)
                     ))
                 else:
                     # Post-process the result of pprint.pformat so that

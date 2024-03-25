@@ -1,0 +1,177 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:68:7-68:26>
+*******************************************************
+
+Expr: <CallExpr test.adb:68:7-68:25>
+  references:    <DefiningName "Ident" test.adb:66:17-66:22>
+  type:          None
+  expected type: None
+Expr: <Id "Ident" test.adb:68:7-68:12>
+  references:    <DefiningName "Ident" test.adb:66:17-66:22>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:68:14-68:24>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+Expr: <CallExpr test.adb:68:14-68:22>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+  expected type: <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+Expr: <Id "W" test.adb:68:14-68:15>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Window"] test.adb:4:7-6:41>
+  expected type: None
+Expr: <Id "X" test.adb:68:17-68:18>
+  references:    <DefiningName "X" test.adb:65:36-65:37>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <Id "Y" test.adb:68:20-68:21>
+  references:    <DefiningName "Y" test.adb:65:39-65:40>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <Id "C" test.adb:68:23-68:24>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+
+Resolving xrefs for node <CallStmt test.adb:71:7-71:31>
+*******************************************************
+
+Expr: <CallExpr test.adb:71:7-71:30>
+  references:    <DefiningName "Ident" test.adb:66:17-66:22>
+  type:          None
+  expected type: None
+Expr: <Id "Ident" test.adb:71:7-71:12>
+  references:    <DefiningName "Ident" test.adb:66:17-66:22>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:71:14-71:29>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+Expr: <CallExpr test.adb:71:14-71:27>
+  references:    <DefiningName "CRef" test.adb:24:16-24:20>
+  type:          <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+  expected type: <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+Expr: <DottedName test.adb:71:14-71:20>
+  references:    <DefiningName "CRef" test.adb:24:16-24:20>
+  type:          <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+  expected type: None
+Expr: <Id "W" test.adb:71:14-71:15>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Window"] test.adb:4:7-6:41>
+  expected type: <ConcreteTypeDecl ["Window"] test.adb:4:7-6:41>
+Expr: <Id "CRef" test.adb:71:16-71:20>
+  references:    <DefiningName "CRef" test.adb:24:16-24:20>
+  type:          <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+  expected type: None
+Expr: <Id "X" test.adb:71:22-71:23>
+  references:    <DefiningName "X" test.adb:65:36-65:37>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <Id "Y" test.adb:71:25-71:26>
+  references:    <DefiningName "Y" test.adb:65:39-65:40>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <Id "C" test.adb:71:28-71:29>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+
+Resolving xrefs for node <CallStmt test.adb:74:7-74:30>
+*******************************************************
+
+Expr: <CallExpr test.adb:74:7-74:29>
+  references:    <DefiningName "Ident" test.adb:66:17-66:22>
+  type:          None
+  expected type: None
+Expr: <Id "Ident" test.adb:74:7-74:12>
+  references:    <DefiningName "Ident" test.adb:66:17-66:22>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:74:14-74:28>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+Expr: <CallExpr test.adb:74:14-74:26>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+  expected type: <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+Expr: <Id "W" test.adb:74:14-74:15>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Window"] test.adb:4:7-6:41>
+  expected type: None
+Expr: <Str ""ABCDEF"" test.adb:74:17-74:25>
+  references:    None
+  type:          <SubtypeDecl ["Name"] test.adb:15:7-15:36>
+  expected type: <SubtypeDecl ["Name"] test.adb:15:7-15:36>
+Expr: <Id "C" test.adb:74:27-74:28>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+
+Resolving xrefs for node <AssignStmt test.adb:77:7-77:23>
+*********************************************************
+
+Expr: <DottedName test.adb:77:7-77:17>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: None
+Expr: <CallExpr test.adb:77:7-77:15>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+  expected type: <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+Expr: <Id "W" test.adb:77:7-77:8>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Window"] test.adb:4:7-6:41>
+  expected type: None
+Expr: <Id "X" test.adb:77:10-77:11>
+  references:    <DefiningName "X" test.adb:65:36-65:37>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <Id "Y" test.adb:77:13-77:14>
+  references:    <DefiningName "Y" test.adb:65:39-65:40>
+  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <Id "C" test.adb:77:16-77:17>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: None
+Expr: <Id "R" test.adb:77:21-77:22>
+  references:    <DefiningName "R" test.adb:8:22-8:23>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+
+Resolving xrefs for node <AssignStmt test.adb:80:7-80:27>
+*********************************************************
+
+Expr: <DottedName test.adb:80:7-80:21>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: None
+Expr: <CallExpr test.adb:80:7-80:19>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+  expected type: <ConcreteTypeDecl ["Pixel"] test.adb:10:7-13:18>
+Expr: <Id "W" test.adb:80:7-80:8>
+  references:    <DefiningName "W" test.adb:65:17-65:18>
+  type:          <ConcreteTypeDecl ["Window"] test.adb:4:7-6:41>
+  expected type: None
+Expr: <Str ""ABCDEF"" test.adb:80:10-80:18>
+  references:    None
+  type:          <SubtypeDecl ["Name"] test.adb:15:7-15:36>
+  expected type: <SubtypeDecl ["Name"] test.adb:15:7-15:36>
+Expr: <Id "C" test.adb:80:20-80:21>
+  references:    <DefiningName "C" test.adb:11:10-11:11>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: None
+Expr: <Id "G" test.adb:80:25-80:26>
+  references:    <DefiningName "G" test.adb:8:25-8:26>
+  type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+  expected type: <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
+
+
+Done.

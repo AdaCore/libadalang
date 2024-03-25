@@ -8756,40 +8756,84 @@ class TypeDecl(BaseTypeDecl):
     )
 
     @langkit_property()
-    def constant_indexing_fns():
-        return (
-            Entity.get_aspect('Constant_Indexing', True).value
-            ._.cast_or_raise(T.Name).all_env_elements_internal(seq=False)
-            .filtermap(
-                lambda e: e.cast(T.BasicDecl),
-                lambda env_el:
-                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                    lambda ss: origin.bind(
-                        env_el.node,
-                        ss.unpacked_formal_params.at(0)
-                        ._.formal_decl.formal_type.matching_formal_type(Entity)
-                    )
+    def indexing_fns(name=T.Name.entity):
+        """
+        Return the indexing functions locally defined for this type. If the
+        type is the one for which the aspect has been defined, then return its
+        corresponding user-defined functions. If this type is derived from a
+        type having the aspect, this property only returns any overrides
+        defined for it.
+        """
+        return name.then(
+            # Get all elements for name in self's env
+            lambda name: env.bind(
+                Entity.node_env,
+                origin.bind(
+                    Entity.origin_node,
+                    name.all_env_els_impl(seq=False)
+                )
+            )
+        ).filtermap(
+            lambda e: e.cast(T.BasicDecl),
+            lambda env_el:
+            # Unfortunately, we can't use `UserDefinedFunctionSubpSpec` (as in
+            # `user_defined_literal_fns`) here to filter candidates since user
+            # defined functions can have many parameters without any
+            # constraints on them. Only the first parameter should be a the
+            # type of Entity.
+            env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
+                lambda ss: origin.bind(
+                    env_el.node,
+                    ss.unpacked_formal_params.at(0)
+                    ._.formal_decl.formal_type.matching_formal_type(Entity)
+                )
+            )
+        ).unique
+
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def all_indexing_fns_impl(name=T.Name.entity, root_type=T.TypeDecl.entity):
+        """
+        Get all the indexing functions designated by ``name`` defined for
+        this type by recursing parent types until ``root_type``.
+        """
+        return Entity.indexing_fns(name).concat(
+            # The user indexing functions can be overriden, so recurse on all
+            # base types to get them all.
+            Entity.base_type.then(
+                lambda bt: If(
+                    Entity == root_type,
+                    No(T.BasicDecl.entity.array),
+                    bt.cast_or_raise(T.TypeDecl)
+                    .all_indexing_fns_impl(name, root_type)
                 )
             )
         )
 
-    @langkit_property()
-    def variable_indexing_fns():
-        return Entity.get_aspect('Variable_Indexing', True).value.then(
-            lambda a: a.cast_or_raise(T.Name)
-            .all_env_elements_internal(seq=False).filtermap(
-                lambda e: e.cast(T.BasicDecl),
-                lambda env_el:
-                env_el.cast_or_raise(T.BasicDecl).subp_spec_or_null.then(
-                    lambda ss: origin.bind(
-                        env_el.node,
-                        ss.unpacked_formal_params.at(0)
-                        ._.formal_decl.formal_type.matching_formal_type(Entity)
-                        & ss.return_type.is_implicit_deref
-                    )
-                )
+    @langkit_property(return_type=T.BasicDecl.entity.array)
+    def all_indexing_fns(sym=T.Symbol):
+        """
+        Return all the indexing functions defined for this type, including
+        ones defined by its parents.
+        """
+        return Entity.get_aspect(sym).value.then(
+            lambda val: Let(
+                # The indexing function's name is specified on the type for
+                # which the aspect is defined (which is returned by
+                # `get_aspect` here).
+                lambda fn_name=val.cast_or_raise(T.Name),
+                # The root type of the type derivation chain (to stop the
+                # recursion in `all_indexing_fns`).
+                root_type=val.parent.parent.cast(T.TypeDecl):
+                Entity.all_indexing_fns_impl(fn_name, root_type)
             )
         )
+
+    constant_indexing_fns = Property(
+        Entity.all_indexing_fns('Constant_Indexing')
+    )
+    variable_indexing_fns = Property(
+        Entity.all_indexing_fns('Variable_Indexing')
+    )
 
     @langkit_property(return_type=T.BasicDecl.entity.array)
     def user_defined_literal_fns(aspect=T.Symbol):
@@ -9881,6 +9925,7 @@ class BaseSubtypeDecl(BaseTypeDecl):
     has_ud_indexing = Property(
         Entity.from_type_bound.has_ud_indexing
     )
+
     constant_indexing_fns = Property(
         Entity.from_type_bound.constant_indexing_fns
     )
@@ -16680,13 +16725,23 @@ class CallExpr(Name):
             typ.constant_indexing_fns.concat(typ.variable_indexing_fns)
             .logic_any(lambda fn: Let(
                 lambda
-                formal=fn.subp_spec_or_null.unpacked_formal_params.at(1),
+                formals=fn.subp_spec_or_null.unpacked_formal_params,
                 ret_type=fn.subp_spec_or_null.return_type,
-                param=Entity.params.at(0).expr:
+                params=Entity.params:
 
-                Bind(Self.type_var, ret_type)
-                & Bind(param.expected_type_var, formal.formal_decl.formal_type)
-                & param.matches_expected_type
+                If(
+                    # The user indexing function that matches has one more
+                    # parameter than that call expression.
+                    formals.length == params.length + 1,
+                    Bind(Self.type_var, ret_type)
+                    & params.logic_all(
+                        lambda i, param:
+                        Bind(param.expr.expected_type_var,
+                             formals.at(i + 1).formal_decl.formal_type)
+                        & param.expr.matches_expected_type
+                    ),
+                    LogicFalse()
+                )
             )),
 
             LogicFalse()
@@ -16776,7 +16831,11 @@ class CallExpr(Name):
 
                 # Types with user defined indexing
                 typ.has_ud_indexing
-                & Self.suffix.cast(T.AssocList).then(lambda al: al.length == 1)
+                & Self.suffix.cast(T.AssocList).then(
+                    # All such `CallExpr`s shall have at least two parameters
+                    # (:rmlink:`4.1.6`).
+                    lambda al: al.length >= 1
+                )
             ),
 
             Entity.parent.cast(T.CallExpr).then(
@@ -18932,13 +18991,11 @@ class BaseId(SingleTokNode):
                     b.subp_spec_or_null.then(
                         lambda spec:
                         Entity.call_matches_spec(spec, pc, params, b),
-
                         # In the case of ObjectDecls/CompDecls in general,
                         # verify that the callexpr is valid for the given
                         # type designator.
                         default_val=pc.check_for_type(b.expr_type)
                     ),
-
                     lambda _: False
                 )),
 

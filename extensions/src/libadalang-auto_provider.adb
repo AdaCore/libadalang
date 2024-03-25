@@ -343,8 +343,7 @@ package body Libadalang.Auto_Provider is
          when Unit_Specification => 's',
          when Unit_Body          => 'b');
    begin
-      return Get_Symbol
-        (Provider.Keys, Find (Provider.Keys, Kind_Letter & ':' & Canon_Name));
+      return Find (Provider.Keys, Kind_Letter & ':' & Canon_Name);
    end As_Key;
 
 end Libadalang.Auto_Provider;

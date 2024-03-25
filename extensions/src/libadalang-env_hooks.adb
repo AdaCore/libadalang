@@ -199,7 +199,7 @@ package body Libadalang.Env_Hooks is
    function To_String (Name : Symbol_Type_Array) return Text_Type
    is
       (if Name'Length > 0
-       then Name (Name'First).all
+       then +Name (Name'First)
             & (if Name'Length > 1
                then "." & To_String (Name (Name'First + 1 .. Name'Last))
                else "")

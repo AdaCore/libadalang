@@ -496,7 +496,7 @@ package body Libadalang.Implementation.Extensions is
       F_Name     : constant Bare_Name := Node.Defining_Name_F_Name;
       Name_Image : constant Text_Type :=
         (if F_Name.Kind = Ada_Synthetic_Identifier
-         then F_Name.Synthetic_Identifier_Sym.all
+         then +F_Name.Synthetic_Identifier_Sym
          else Text (Node));
       Name_Part  : constant Text_Type :=
         (if Name_Image = ""
@@ -576,7 +576,8 @@ package body Libadalang.Implementation.Extensions is
    begin
       if Node.Compilation_Unit_No_Env = Empty_Env then
          Node.Compilation_Unit_No_Env :=
-            Create_Static_Lexical_Env (Empty_Env, Node);
+            Create_Static_Lexical_Env
+              (Empty_Env, Node, Node.Unit.Context.Symbols);
       end if;
       return Node.Compilation_Unit_No_Env;
    end Compilation_Unit_P_Get_Empty_Env;

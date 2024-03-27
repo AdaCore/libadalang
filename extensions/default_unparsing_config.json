@@ -2980,6 +2980,55 @@
         ]
       }
     },
+    "PackageBodyStub": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "package"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "body"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              {
+                "kind": "text",
+                "text": "separate"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
     "PackageDecl": {
       "node": [
         {
@@ -3755,6 +3804,44 @@
         ]
       }
     },
+    "SubpBodyStub": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          "line",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "text",
+            "text": "separate"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
     "SubpDecl": {
       "node": {
         "kind": "group",
@@ -3846,6 +3933,34 @@
             "recurse"
           ]
         }
+      }
+    },
+    "Subunit": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "separate"
+          },
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_name"
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "recurse_field",
+            "field": "f_body"
+          }
+        ]
       }
     },
     "TypeAccessDef": {

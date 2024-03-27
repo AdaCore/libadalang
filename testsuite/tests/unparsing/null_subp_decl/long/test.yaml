@@ -1,0 +1,5 @@
+driver: unparser
+rule: null_subp_decl
+description: |
+  Test that a line break is added before the `is` keyword and that it has the
+  same indentation as the `function` keyword.

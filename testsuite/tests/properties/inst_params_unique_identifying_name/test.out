@@ -1,0 +1,8 @@
+Working on node <GenericPackageInstantiation ["Inst"] test.adb:7:4-7:32>
+========================================================================
+
+Set 'params' to 'node.p_inst_params'
+Result: [<ParamActual param=<| DefiningName "X" test.adb:3:7-3:8 [test.adb:7:4] |> actual=<Int test.adb:7:29-7:30>>]
+
+Eval 'params[0].param.p_unique_identifying_name'
+Result: 'test().inst.x'

@@ -1,0 +1,5 @@
+driver: unparser
+rule: exception_decl
+description: |
+  Test the line breaks between the identifiers on `f_ids` as well as their
+  indentation.

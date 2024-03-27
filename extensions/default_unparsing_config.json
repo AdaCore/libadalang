@@ -1402,6 +1402,65 @@
         "recurse"
       ]
     },
+    "ExceptionDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "align",
+                  "width": 2,
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_ids"
+                  }
+                }
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": ":"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "exception"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_renames"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_renames": {
+          "kind": "align",
+          "width": 2,
+          "contents": "recurse"
+        },
+        "f_aspects": [
+          "line",
+          {
+            "kind": "group",
+            "document": "recurse"
+          }
+        ]
+      }
+    },
     "ExceptionHandler": {
       "node": {
         "kind": "group",

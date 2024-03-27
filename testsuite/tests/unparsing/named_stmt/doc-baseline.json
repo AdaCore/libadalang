@@ -1,0 +1,149 @@
+{
+  "id": 20,
+  "kind": "command",
+  "command": {
+    "command": "group",
+    "id": 0,
+    "groupContents": {
+      "id": 19,
+      "kind": "list",
+      "list": [
+        {
+          "id": 0,
+          "kind": "text",
+          "text": "Foo:"
+        },
+        {
+          "id": 1,
+          "kind": "command",
+          "command": {
+            "command": "line",
+            "literal": false,
+            "soft": false,
+            "hard": true
+          }
+        },
+        {
+          "id": 18,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 17,
+              "kind": "list",
+              "list": [
+                {
+                  "id": 2,
+                  "kind": "text",
+                  "text": "loop"
+                },
+                {
+                  "id": 12,
+                  "kind": "command",
+                  "command": {
+                    "command": "indent",
+                    "indentContents": {
+                      "id": 11,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 5,
+                          "kind": "list",
+                          "list": [
+                            {
+                              "id": 3,
+                              "kind": "command",
+                              "command": {
+                                "command": "line",
+                                "literal": false,
+                                "soft": false,
+                                "hard": true
+                              }
+                            },
+                            {
+                              "id": 4,
+                              "kind": "command",
+                              "command": {
+                                "command": "breakParent"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": 6,
+                          "kind": "text",
+                          "text": "null;"
+                        },
+                        {
+                          "id": 9,
+                          "kind": "list",
+                          "list": [
+                            {
+                              "id": 7,
+                              "kind": "command",
+                              "command": {
+                                "command": "line",
+                                "literal": false,
+                                "soft": false,
+                                "hard": true
+                              }
+                            },
+                            {
+                              "id": 8,
+                              "kind": "command",
+                              "command": {
+                                "command": "breakParent"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "id": 10,
+                          "kind": "text",
+                          "text": "null;"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "id": 15,
+                  "kind": "list",
+                  "list": [
+                    {
+                      "id": 13,
+                      "kind": "command",
+                      "command": {
+                        "command": "line",
+                        "literal": false,
+                        "soft": false,
+                        "hard": true
+                      }
+                    },
+                    {
+                      "id": 14,
+                      "kind": "command",
+                      "command": {
+                        "command": "breakParent"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": 16,
+                  "kind": "text",
+                  "text": "end loop;"
+                }
+              ]
+            },
+            "break": true,
+            "expandedStates": null
+          }
+        }
+      ]
+    },
+    "break": true,
+    "expandedStates": null
+  }
+}

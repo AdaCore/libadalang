@@ -1,0 +1,5 @@
+driver: unparser
+rule: exit_stmt
+description: |
+  Test the line break after the `when` keyword and the continuation line
+  indentation of `f_cond_expr`.

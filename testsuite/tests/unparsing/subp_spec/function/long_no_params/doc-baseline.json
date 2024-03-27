@@ -1,5 +1,5 @@
 {
-  "id": 11,
+  "id": 10,
   "kind": "command",
   "command": {
     "command": "align",
@@ -8,13 +8,13 @@
       "n": 2
     },
     "alignContents": {
-      "id": 10,
+      "id": 9,
       "kind": "command",
       "command": {
         "command": "group",
         "id": 0,
         "groupContents": {
-          "id": 9,
+          "id": 8,
           "kind": "list",
           "list": [
             {
@@ -23,27 +23,17 @@
               "text": "function Foo"
             },
             {
-              "id": 1,
-              "kind": "command",
-              "command": {
-                "command": "line",
-                "literal": false,
-                "soft": false,
-                "hard": false
-              }
-            },
-            {
-              "id": 8,
+              "id": 7,
               "kind": "command",
               "command": {
                 "command": "group",
                 "id": 0,
                 "groupContents": {
-                  "id": 7,
+                  "id": 6,
                   "kind": "list",
                   "list": [
                     {
-                      "id": 6,
+                      "id": 5,
                       "kind": "command",
                       "command": {
                         "command": "align",
@@ -52,17 +42,17 @@
                           "n": 1
                         },
                         "alignContents": {
-                          "id": 5,
+                          "id": 4,
                           "kind": "command",
                           "command": {
                             "command": "group",
                             "id": 0,
                             "groupContents": {
-                              "id": 4,
+                              "id": 3,
                               "kind": "list",
                               "list": [
                                 {
-                                  "id": 2,
+                                  "id": 1,
                                   "kind": "command",
                                   "command": {
                                     "command": "line",
@@ -72,7 +62,7 @@
                                   }
                                 },
                                 {
-                                  "id": 3,
+                                  "id": 2,
                                   "kind": "text",
                                   "text": "return Freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed"
                                 }

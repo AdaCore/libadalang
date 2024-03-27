@@ -43,16 +43,6 @@
                               "text": "function Foo"
                             },
                             {
-                              "id": 1,
-                              "kind": "command",
-                              "command": {
-                                "command": "line",
-                                "literal": false,
-                                "soft": false,
-                                "hard": false
-                              }
-                            },
-                            {
                               "id": 101,
                               "kind": "command",
                               "command": {
@@ -62,6 +52,16 @@
                                   "id": 100,
                                   "kind": "list",
                                   "list": [
+                                    {
+                                      "id": 1,
+                                      "kind": "command",
+                                      "command": {
+                                        "command": "line",
+                                        "literal": false,
+                                        "soft": false,
+                                        "hard": false
+                                      }
+                                    },
                                     {
                                       "id": 94,
                                       "kind": "command",

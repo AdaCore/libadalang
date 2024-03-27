@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a protected type declaration
+    with known discriminant and public and private part.
+    It is expected the declaration breaks before the discriminant
+    specification, after `is` keyword and be formatted by indenting
+    the discriminant specificatin, public and private part content and
+    keeping the `protected`, `is`, `private` and `end` keywords aligned.
+ 
+driver: unparser
+rule: protected_type_decl

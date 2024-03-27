@@ -1,0 +1,4 @@
+driver: unparser
+rule: package_body_stub
+descrition: |
+  Test that "is separate" and `f_aspects` are in its own lines.

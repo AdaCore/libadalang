@@ -1,0 +1,4 @@
+driver: unparser
+rule: subp_body_stub
+description: |
+  Test that no line break are added.

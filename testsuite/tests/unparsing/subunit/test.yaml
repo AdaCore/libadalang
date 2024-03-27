@@ -1,0 +1,5 @@
+driver: unparser
+rule: subunit
+description: |
+  Test that there is a hard line break between "separate(`f_name`)" and
+  `f_body` and they both have the same indentation.

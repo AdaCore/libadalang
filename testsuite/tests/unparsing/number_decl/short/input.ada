@@ -1,0 +1,1 @@
+Foo : constant := 12;

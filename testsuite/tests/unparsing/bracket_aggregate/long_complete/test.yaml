@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Test the line break after the `with` keyword and the continuation line
+  indentation of `f_assocs`.

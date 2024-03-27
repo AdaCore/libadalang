@@ -1,0 +1,10 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that no line breaks are added.
+control:
+  - [
+      "XFAIL",
+      "True",
+      "Unparser considers this as an aggregate and not a delta aggregate",
+    ]

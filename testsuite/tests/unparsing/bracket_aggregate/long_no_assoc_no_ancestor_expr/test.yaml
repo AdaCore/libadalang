@@ -1,0 +1,4 @@
+driver: unparser
+rule: stmt
+description: |
+  Test the line breaks between nodes of `f_assocs` and their indentation.

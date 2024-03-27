@@ -1,0 +1,2 @@
+Baaaaaaaaaaaaaaaaaaaaar : exception renames Fooooooooooooooooooooooooooooooooooo
+with Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz;

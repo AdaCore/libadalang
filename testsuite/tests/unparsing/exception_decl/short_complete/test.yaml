@@ -1,0 +1,4 @@
+driver: unparser
+rule: exception_decl
+description: |
+  Test that no line breaks are added.

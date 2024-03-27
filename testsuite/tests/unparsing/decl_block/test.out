@@ -1,0 +1,13 @@
+procedure Foo
+is
+begin
+   declare
+      Bar : Baz;
+   begin
+      null;
+      null;
+   exception
+      when others =>
+         null;
+   end;
+end Foo;

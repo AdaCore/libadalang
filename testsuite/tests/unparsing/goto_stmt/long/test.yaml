@@ -1,0 +1,5 @@
+driver: unparser
+rule: goto_stmt
+description: |
+  Test the line break after the `goto` keyword and the continuation line
+  indentation of `f_label_name`.

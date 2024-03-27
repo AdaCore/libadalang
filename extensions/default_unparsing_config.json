@@ -1479,6 +1479,46 @@
         }
       }
     },
+    "ExitStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "exit"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_loop_name"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_cond_expr"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_cond_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "when"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              "recurse"
+            ]
+          }
+        ]
+      }
+    },
     "ExprFunction": {
       "node": {
         "kind": "group",
@@ -1747,6 +1787,30 @@
       "node": {
         "kind": "group",
         "document": "recurse"
+      }
+    },
+    "GotoStmt": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            {
+              "kind": "text",
+              "text": "goto"
+            },
+            "line",
+            {
+              "kind": "recurse_field",
+              "field": "f_label_name"
+            },
+            {
+              "kind": "text",
+              "text": ";"
+            }
+          ]
+        }
       }
     },
     "ForLoopIterFilter": {
@@ -2563,6 +2627,26 @@
           {
             "kind": "text",
             "text": ";"
+          }
+        ]
+      }
+    },
+    "NamedStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_decl"
+          },
+          {
+            "kind": "text",
+            "text": ":"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "recurse_field",
+            "field": "f_stmt"
           }
         ]
       }

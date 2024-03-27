@@ -1,0 +1,9 @@
+=== Analysing unit:  <AnalysisUnit 'test-child.ads'> ===
+Subprogram <SubpDecl ["P"] test-child.ads:4:4-4:16> is analyzed
+
+=== Analysing unit:  <AnalysisUnit 'test.adb'> ===
+Subprogram <NullSubpDecl ["P"] test.adb:2:4-2:24> is analyzed
+
+=== Analysing unit:  <AnalysisUnit 'test.ads'> ===
+Subprogram <SubpDecl ["P"] test.ads:2:4-2:16> is skipped
+

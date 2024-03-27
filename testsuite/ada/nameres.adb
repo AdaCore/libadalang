@@ -1112,7 +1112,7 @@ procedure Nameres is
          if Args.Traverse_Generics.Get then
             if Node.Kind in Ada_Generic_Instantiation then
                declare
-                  Generic_Decl : constant Basic_Decl :=
+                  Generic_Decl : constant Libadalang.Analysis.Generic_Decl :=
                     Node.As_Generic_Instantiation.P_Designated_Generic_Decl;
                   Generic_Body : constant Body_Node :=
                     Generic_Decl.P_Body_Part_For_Decl;

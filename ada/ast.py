@@ -12286,9 +12286,9 @@ class GenericInstantiation(BasicDecl):
     )
 
     designated_generic_decl = AbstractProperty(
-        type=T.BasicDecl.entity, public=True, doc="""
+        type=T.GenericDecl.entity, public=True, doc="""
         Return the generic decl entity designated by this instantiation,
-        containing the generic context. This is equivalent to the expanded
+        including instantiation information. This is equivalent to the expanded
         generic unit in GNAT.
         """
     )
@@ -12374,8 +12374,7 @@ class GenericInstantiation(BasicDecl):
             Entity.is_any_formal,
             LogicTrue(),
 
-            Entity.designated_generic_decl.cast_or_raise(T.GenericDecl)
-            ._.formal_part.match_param_list(
+            Entity.designated_generic_decl._.formal_part.match_param_list(
                 Entity.generic_inst_params, False
             ).filter(
                 lambda pm: Not(pm.actual.assoc.expr.is_a(BoxExpr))
@@ -12577,7 +12576,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         )
 
     designated_generic_decl = Property(
-        Entity.designated_subp.parent.cast(T.BasicDecl)
+        Entity.designated_subp.parent.cast_or_raise(T.GenericDecl)
     )
 
 
@@ -12622,7 +12621,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         )
 
     designated_generic_decl = Property(
-        Entity.designated_package.parent.cast(T.BasicDecl)
+        Entity.designated_package.parent.cast_or_raise(T.GenericDecl)
     )
 
     @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])

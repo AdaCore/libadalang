@@ -1,0 +1,4 @@
+driver: unparser
+rule: number_decl
+description: |
+  Test that no line break are added.

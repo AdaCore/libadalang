@@ -2817,6 +2817,72 @@
         }
       }
     },
+    "NumberDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": {
+              "kind": "align",
+              "width": 2,
+              "contents": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_ids"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": ":"
+                },
+                "line",
+                {
+                  "kind": "text",
+                  "text": "constant"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": ":="
+                }
+              ]
+            },
+            "id": "constant_ids"
+          },
+          {
+            "kind": "ifBreak",
+            "breakContents": {
+              "kind": "align",
+              "width": 4,
+              "contents": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_expr"
+                }
+              ]
+            },
+            "flatContents": {
+              "kind": "align",
+              "width": 2,
+              "contents": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_expr"
+                }
+              ]
+            },
+            "groupId": "constant_ids"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
     "ObjectDecl": {
       "node": {
         "kind": "group",

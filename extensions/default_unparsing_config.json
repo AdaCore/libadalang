@@ -1021,6 +1021,88 @@
         ]
       }
     },
+    "EntryBody": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "entry"
+          },
+          "whitespace",  
+          {
+            "kind": "recurse_field",
+            "field": "f_entry_name"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_index_spec"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_params"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "when"
+          }, 
+          {
+            "kind": "recurse_field",
+            "field": "f_barrier"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_decls"
+          },
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_stmts"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
+        "f_decls": [
+          {
+            "kind": "indent",
+            "contents": [
+              "recurse"
+            ]
+          },
+          "hardlineWithoutBreakParent"
+        ]
+      }
+    },
     "EnumLiteralDeclList": {
       "sep": [
         "recurse",
@@ -2905,6 +2987,70 @@
         "hardline"
       ]
     },
+    "ProtectedBody": {
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "text",
+              "text": "protected"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "body"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_name"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_aspects"
+            },
+            "line",
+            {
+              "kind": "text",
+              "text": "is"
+            }
+          ]
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            {
+              "kind": "recurse_field",
+              "field": "f_decls"
+            }
+          ]
+        },
+        "hardline",
+        {
+          "kind": "text",
+          "text": "end"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_end_name"
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        }
+      ],
+      "fields": {
+        "f_aspects": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "hardline",
+            "recurse"
+          ]
+        }
+      }
+    },
     "ProtectedDef": {
       "node": {
         "kind": "group",
@@ -3140,6 +3286,63 @@
         "field": "f_range"
       }
     },
+    "SingleProtectedDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "protected"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              },
+              "line",  
+              {
+                "kind": "text",
+                "text": "is"
+              }
+            ]
+          },  
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_interfaces"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_definition"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "hardline",
+            "recurse"
+          ]
+        }
+      }
+    },  
     "StmtList": {
       "sep": [
         "recurse",

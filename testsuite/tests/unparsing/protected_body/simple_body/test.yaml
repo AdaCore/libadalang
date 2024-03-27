@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of a protected type body.
+    It is expected that the body declarations be indented.
+ 
+driver: unparser
+rule: protected_body

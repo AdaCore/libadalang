@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that there is a line break after the `delta` keyword and the alignment
+  of `f_assocs`.

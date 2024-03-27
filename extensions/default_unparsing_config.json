@@ -225,6 +225,101 @@
         ]
       }
     },
+    "BracketAggregate": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "["
+          },
+          {
+            "kind": "align",
+            "width": 1,
+            "contents": [
+              {
+                "kind": "recurse_field",
+                "field": "f_ancestor_expr"
+              },
+              {
+                "kind": "innerRoot",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_assocs"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": "]"
+          }
+        ]
+      },
+      "fields": {
+        "f_ancestor_expr": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "recurse",
+            {
+              "kind": "text",
+              "text": "with"
+            },
+            "line"
+          ]
+        }
+      }
+    },
+    "BracketDeltaAggregate": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "["
+          },
+          {
+            "kind": "align",
+            "width": 1,
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_ancestor_expr"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "with"
+                },
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "delta"
+                },
+                {
+                  "kind": "align",
+                  "width": 2,
+                  "contents": [
+                    "line",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_assocs"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "text": "]"
+          }
+        ]
+      }
+    },
     "CallExpr": {
       "node": {
         "kind": "innerRoot",
@@ -879,6 +974,53 @@
         "line"
       ]
     },
+    "DeltaAggregate": {
+      "kind": "group",
+      "document": [
+        {
+          "kind": "text",
+          "text": "("
+        },
+        {
+          "kind": "align",
+          "width": 1,
+          "contents": {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_ancestor_expr"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "with"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "delta"
+              },
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  "line",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_assocs"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "kind": "text",
+          "text": ")"
+        }
+      ]
+    },
     "DerivedTypeDef": {
       "node": {
         "kind": "group",
@@ -1068,7 +1210,7 @@
             "kind": "text",
             "text": "entry"
           },
-          "whitespace",  
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_entry_name"
@@ -1089,7 +1231,7 @@
           {
             "kind": "text",
             "text": "when"
-          }, 
+          },
           {
             "kind": "recurse_field",
             "field": "f_barrier"
@@ -3177,8 +3319,8 @@
               {
                 "kind": "recurse_field",
                 "field": "f_public_part"
-              } 
-            ] 
+              }
+            ]
           },
           "hardline",
           {
@@ -3188,7 +3330,7 @@
           {
             "kind": "text",
             "text": "end"
-          },  
+          },
           "whitespace",
           {
             "kind": "recurse_field",
@@ -3238,13 +3380,13 @@
                 "kind": "recurse_field",
                 "field": "f_aspects"
               },
-              "line",  
+              "line",
               {
                 "kind": "text",
                 "text": "is"
               }
             ]
-          },  
+          },
           {
             "kind": "group",
             "document": [
@@ -3422,13 +3564,13 @@
                 "kind": "recurse_field",
                 "field": "f_aspects"
               },
-              "line",  
+              "line",
               {
                 "kind": "text",
                 "text": "is"
               }
             ]
-          },  
+          },
           {
             "kind": "group",
             "document": [
@@ -3458,7 +3600,7 @@
           ]
         }
       }
-    },  
+    },
     "StmtList": {
       "sep": [
         "recurse",
@@ -3616,7 +3758,7 @@
           "kind": "ifEmpty",
           "then": "recurse",
           "else": [
-            "line", 
+            "line",
             "recurse"
           ]
         }

@@ -1,0 +1,4 @@
+driver: unparser
+rule: null_subp_decl
+description: |
+  Test that no line break are added.

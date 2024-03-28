@@ -2883,6 +2883,44 @@
         ]
       }
     },
+    "NullSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          "line",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "text",
+            "text": "null"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
     "ObjectDecl": {
       "node": {
         "kind": "group",

@@ -1,0 +1,4 @@
+task Parser is
+   entry Next_Lexeme (L : in Lexical_Element);
+   entry Next_Action (A : out Parser_Action);
+end;

@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of an entry declaration
+    with parameters.
+    It is expected the declaration stays on a single line.
+ 
+driver: unparser
+rule: entry_decl

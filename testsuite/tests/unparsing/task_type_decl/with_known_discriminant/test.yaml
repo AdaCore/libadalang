@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a task type declaration
+    with known discriminant and interfaces.
+    It is expected the declaration breaks before `is` and `with`
+    keywords and be formatted by indenting the interfaces list
+    elements and the declarations part; keep the `task`, `is` and
+    `end` keywords aligned.
+ 
+driver: unparser
+rule: task_type_decl

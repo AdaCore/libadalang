@@ -47,6 +47,8 @@ Expr: <Id "B" test.adb:10:33-10:34>
 Resolving xrefs for node <CallStmt test.adb:15:4-15:41>
 *******************************************************
 
+Name resolution failed as expected with:
+
 test.adb:15:37: error: no such entity
 15 |    Put_Line (Integer'Image (A + B + C));
    |                                     ^

@@ -14,7 +14,7 @@ begin
    pragma Test_Statement;
 
    I := "abc";
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    I := Foo ("abc");
    pragma Test_Statement;

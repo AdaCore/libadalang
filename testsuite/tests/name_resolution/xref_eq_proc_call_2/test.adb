@@ -12,5 +12,5 @@ begin
    pragma Test_Statement;
 
    C (12);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Lol;

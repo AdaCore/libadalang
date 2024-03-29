@@ -11,7 +11,7 @@ begin
 
       pragma Section ("Incorrect case");
       exit when Bar;
-      pragma Test_Statement;
+      pragma Test_Statement (Expect_Fail => True);
    end loop;
 
    pragma Section ("Exit with fully qualified name");

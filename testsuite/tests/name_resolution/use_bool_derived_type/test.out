@@ -272,6 +272,8 @@ test_invalid.adb:8:46: error: expected Boolean, got My_Bool
 Resolving xrefs for node <PragmaNode test_invalid.adb:12:4-12:35>
 *****************************************************************
 
+Name resolution failed as expected with:
+
 test_invalid.adb:12:17: error: no such entity
 12 |    pragma Post (Foo, X and not Y);
    |                 ^^^
@@ -279,6 +281,8 @@ test_invalid.adb:12:17: error: no such entity
 
 Resolving xrefs for node <PragmaNode test_invalid.adb:21:4-21:31>
 *****************************************************************
+
+Name resolution failed as expected with:
 
 test_invalid.adb:21:20: error: no matching operator found
 21 |    pragma Debug (X or Y, Bar);
@@ -319,6 +323,8 @@ Resolving xrefs for node <NullStmt test_invalid.adb:26:7-26:12>
 Resolving xrefs for node <AssignStmt test_invalid.adb:30:4-30:45>
 *****************************************************************
 
+Name resolution failed as expected with:
+
 test_invalid.adb:30:32: error: expected Boolean, got My_Bool
 30 |    Z := (for all K in 1 ..3 => X and not Y);
    |                                ^
@@ -356,6 +362,8 @@ Expr: <Id "Y" test_task.adb:12:29-12:30>
 
 Resolving xrefs for node <EntryBody ["Foo"] test_task.adb:30:7-33:15>
 *********************************************************************
+
+Name resolution failed as expected with:
 
 test_task.adb:30:22: error: expected Boolean, got My_Bool
 30 |       entry Foo when X and not Y is

@@ -31,7 +31,7 @@ procedure Test_Task is
       begin
          null;
       end Foo;
-      pragma Test_Statement;
+      pragma Test_Statement (Expect_Fail => True);
    end P;
 begin
    null;

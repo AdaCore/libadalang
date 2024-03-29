@@ -26,5 +26,5 @@ begin
    pragma Test_Statement;
 
    R := (3, 4, 1.0, 2.0);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Derived_Aggregate;

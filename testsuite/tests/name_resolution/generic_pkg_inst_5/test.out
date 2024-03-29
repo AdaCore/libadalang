@@ -4,6 +4,8 @@ Analyzing foo.adb
 Resolving xrefs for node <AssignStmt foo.adb:9:4-9:25>
 ******************************************************
 
+Name resolution failed as expected with:
+
 foo.adb:9:9: error: expected Opt_Type [instance at line 4], got Opt_Type [instance at line 5]
 9 |    X := Int2_Opt.Create;
   |         ^^^^^^^^^^^^^^^

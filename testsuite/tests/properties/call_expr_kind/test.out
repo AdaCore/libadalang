@@ -1,3 +1,18 @@
+Working on node <RequeueStmt family_index.adb:12:10-12:24>
+==========================================================
+
+Eval 'node.f_call_name.p_kind'
+Result: 'family_index'
+
+Working on node <CallStmt family_index.adb:23:4-23:16>
+======================================================
+
+Eval 'node.f_call.p_kind'
+Result: 'call'
+
+Eval 'node.f_call.f_name.p_kind'
+Result: 'family_index'
+
 Working on node <CallStmt kind.adb:26:7-26:14>
 ==============================================
 

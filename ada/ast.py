@@ -16276,11 +16276,13 @@ class CallExprKind(Enum):
     - ``array_slice``, ``array_index`` is when the CallExpr is in fact an
       array slice or an array subcomponent access expression, respectively.
     - ``type_conversion`` is when the CallExpr is a type conversion.
+    - ``family_index`` is for entry calls using a family index.
     """
     call = EnumValue()
     array_slice = EnumValue()
     array_index = EnumValue()
     type_conversion = EnumValue()
+    family_index = EnumValue()
 
 
 class CallExpr(Name):
@@ -16330,6 +16332,12 @@ class CallExpr(Name):
                 Entity.name.referenced_decl.is_a(T.BaseTypeDecl)
             ),
             CallExprKind.type_conversion,
+
+            # This is important to make this test *after* the check for
+            # ``is_call`` so that real entry calls are correctly flagged as
+            # such. We only want to catch family indexes here.
+            Entity.name.referenced_decl.is_a(T.EntryDecl),
+            CallExprKind.family_index,
 
             # Should not happen
             PropertyError(CallExprKind, "undetermined CallExpr kind")

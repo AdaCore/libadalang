@@ -335,6 +335,8 @@ procedure GNAT_Compare is
          Put_Line ("Could not locate gprclean on the PATH");
       end if;
 
+      Args.Append (+"-q");
+      Args.Append (+"-r");
       Args.Append (+"-P" & Project_File);
       for V of App.Args.Scenario_Vars.Get loop
          Args.Append ("-X" & V);

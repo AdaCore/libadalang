@@ -124,6 +124,20 @@ class CompletionItem(Struct):
     )
 
 
+class Aspect(Struct):
+    """
+    Composite field representing the aspect of an entity (:rmlink:`13`).
+    """
+    exists = UserField(Bool, doc="Whether the aspect is defined or not")
+    node = UserField(T.AdaNode.entity,
+                     doc="Syntactic node that defines the aspect")
+    value = UserField(T.Expr.entity,
+                      doc="Expr node defining the value of the aspect")
+    inherited = UserField(Bool, doc="""
+        Whether the aspect is inherited (it has been defined by a parent)
+    """)
+
+
 @abstract
 class AdaNode(ASTNode):
     """
@@ -589,21 +603,66 @@ class AdaNode(ASTNode):
             ))
         )
 
-    @langkit_property(return_type=Bool)
-    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+    @langkit_property(return_type=Aspect, public=True)
+    def spark_mode_aspect():
         """
-        Internal implementation of the ``has_spark_mode_on`` and
-        ``is_subject_to_proof`` properties. This only implements the base logic
-        for recursing up the tree: nodes that need a specific logic must
-        override it. See for example ``BasicDecl.is_spark_impl``.
+        Helper for the ``has_spark_mode_on`` and ``is_subject_to_proof``
+        properties.
+
+        This property will get the applicable aspect defining the SPARK_Mode
+        for the given node, recursing syntactically and taking into account
+        configuration files.
+
+        This only implements the base logic for recursing up the tree: nodes
+        that need a specific logic must override it. See for example
+        ``BasicDecl.spark_mode_aspect``.
         """
         return If(
             Not(Entity.parent.is_null),
-            Entity.parent.is_spark_impl(include_skip_proof_annotations),
+            Entity.parent.spark_mode_aspect,
 
             # Handle cases where this property is called on a node that is
             # outside of a compilation unit.
-            PreconditionFailure(T.Bool, "SPARK Mode does not apply here")
+            PreconditionFailure(Aspect, "SPARK Mode does not apply here")
+        )
+
+    @langkit_property(return_type=Bool)
+    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+        """
+        Helper for the properties ``has_spark_mode_on`` and
+        ``is_subject_to_proof``.
+
+        This property will determine if the decl or body has SPARK mode on,
+        with some special paths for bodies.
+
+        It will also, for bodies only, determine whether there are
+        ``Skip_Proof`` or ``Skip_Flow_And_Proof`` annotations, if the parameter
+        ``include_skip_proof_annotations`` is True.
+        """
+        spark_mode = Var(Entity.spark_mode_aspect)
+
+        return Cond(
+            # For bodies, and if `include_skip_proof_annotations` is True,
+            # check `Skip_Proof`/`Skip_Flow_And_Proof`.
+            include_skip_proof_annotations
+            & Not(Entity.cast(T.Body).then(
+                lambda b: b,
+                default_val=Entity.semantic_parents
+                .find(lambda n: n.is_a(Body)).cast(T.Body)
+            )._.gnatprove_annotations.find(
+                lambda a:
+                a.cast(Name).name_symbol
+                .any_of('Skip_Proof', 'Skip_Flow_And_Proof')
+            ).is_null),
+            False,
+
+            Not(spark_mode.exists), False,
+
+            spark_mode.value.then(
+                lambda mode: mode.cast(T.Name).name_is("On"),
+                # `SPARK_Mode` without value is `On` by default
+                default_val=True
+            )
         )
 
     @langkit_property(return_type=Bool, public=True)
@@ -1940,18 +1999,13 @@ class DocAnnotation(Struct):
     value = UserField(T.String, doc="Annotation value")
 
 
-class Aspect(Struct):
+class UserDefinedFunctionSubpSpec(Struct):
     """
-    Composite field representing the aspect of an entity (:rmlink:`13`).
+    Structure to hold an expected subprogram specification (parameters and
+    return types only) denoted by an user defined function.
     """
-    exists = UserField(Bool, doc="Whether the aspect is defined or not")
-    node = UserField(T.AdaNode.entity,
-                     doc="Syntactic node that defines the aspect")
-    value = UserField(T.Expr.entity,
-                      doc="Expr node defining the value of the aspect")
-    inherited = UserField(Bool, doc="""
-        Whether the aspect is inherited (it has been defined by a parent)
-    """)
+    subp_params_types = UserField(T.BaseTypeDecl.entity.array)
+    subp_return_type = UserField(T.BaseTypeDecl.entity)
 
 
 @abstract
@@ -1961,38 +2015,14 @@ class BasicDecl(AdaNode):
     associates a name with a language entity, for example a type or a variable.
     """
 
-    @langkit_property(return_type=Bool, memoized=True)
-    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+    @langkit_property(return_type=Aspect, memoized=True)
+    def spark_mode_aspect():
         """
-        Main implementation for the properties ``has_spark_mode_on`` and
-        ``is_subject_to_proof``.
-
-        This property will determine if the decl or body has SPARK mode on,
-        with some special paths for bodies.
-
-        It will also, for bodies only, determine whether there are
-        ``Skip_Proof`` or ``Skip_Flow_And_Proof`` annotations, if the parameter
-        ``include_skip_proof_annotations`` is True.
         """
         return Cond(
-            # For bodies, and if `include_skip_proof_annotations` is True,
-            # check `Skip_Proof`/`Skip_Flow_And_Proof`.
-            include_skip_proof_annotations
-            & Entity.is_a(BaseSubpBody, SubpBodyStub)
-            & Not(Entity.cast(Body)._.gnatprove_annotations.find(
-                lambda a: a.cast(Name).name_symbol.any_of(
-                    'Skip_Proof', 'Skip_Flow_And_Proof'
-                )
-            ).is_null),
-            False,
-
-            # Check for the `SPARK_Mode` aspect. Only consider explicit `On`
+            # Check for direct `SPARK_Mode` aspect definition
             Entity.has_aspect("SPARK_Mode"),
-            Entity.get_aspect("SPARK_Mode").value.then(
-                lambda mode: mode.cast(T.Name).name_is("On"),
-                # `SPARK_Mode` without value is `On` by default
-                default_val=True
-            ),
+            Entity.get_aspect("SPARK_Mode"),
 
             # If there is no aspect on this subprogram, it's `On` if the
             # enclosing subprogram or declarative region is `On`.
@@ -2000,17 +2030,16 @@ class BasicDecl(AdaNode):
                 Entity.previous_part_for_decl._.is_a(T.BodyStub),
                 Entity.previous_part_for_decl,
                 Entity
-            ).declarative_scope.as_entity._.is_spark_impl(
-                include_skip_proof_annotations
-            ),
-            True,
-
-            # Finally, check for configuration pragmas. This configuration
-            # pragma is of the form `pragma SPARK_Mode [On|Off|Auto]`.
-            Entity.enclosing_compilation_unit.spark_config_pragma.then(
-                lambda p: p.spark_mode_is_on,
-                # No configuration pragma were found
-                default_val=False
+            ).declarative_scope.as_entity._.spark_mode_aspect(
+            ).then(
+                lambda asp: asp,
+                # Finally, check for configuration pragmas
+                default_val=Entity.enclosing_compilation_unit
+                .spark_config_pragma.then(
+                    lambda p: p.as_aspect,
+                    # No configuration pragma were found
+                    default_val=No(T.Aspect)
+                )
             )
         )
 
@@ -10741,21 +10770,6 @@ class Pragma(AdaNode):
             Entity.args._.at(1)._.assoc_expr
         )
 
-    @langkit_property(return_type=T.Bool)
-    def spark_mode_is_on():
-        """
-        Return whether this pragma sets SPARK mode to On.
-        """
-        return And(
-            Entity.id.name_is('SPARK_Mode'),
-            Entity.value_expr.then(
-                # If the value is set to `On`, then SPARK mode is on
-                lambda mode: mode.cast(T.Name).name_is('On'),
-                # If no value is set, default value is `On`
-                default_val=True
-            )
-        )
-
     @langkit_property(return_type=T.Name.entity.array)
     def associated_entity_names():
         return Cond(
@@ -10917,6 +10931,16 @@ class Pragma(AdaNode):
             ),
 
             current_env()
+        )
+
+    @langkit_property(return_type=Aspect)
+    def as_aspect(inherited=(T.Bool, False)):
+        """
+        Return this pragma as an ``Aspect`` struct.
+        """
+        return Aspect.new(
+            exists=True, node=Entity,
+            value=Entity.value_expr, inherited=inherited
         )
 
     env_spec = EnvSpec(
@@ -11581,28 +11605,23 @@ class DeclarativePart(AdaNode):
             lambda decl: decl.cast(T.Pragma).id.name_is('SPARK_Mode')
         ).cast(T.Pragma)
 
-    @langkit_property(return_type=T.Bool)
-    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+    @langkit_property(return_type=Aspect)
+    def spark_mode_aspect():
         """
         Return whether this declarative part has SPARK mode set to On.
         """
         # Look if a `SPARK_Mode` pragma has been specified for that part
         return Entity.spark_mode_pragma.then(
-            # Then, is it `On` or`Off`?
-            lambda pragma: pragma.spark_mode_is_on,
-            # Else, `SPARK_Mode` can also be secified by an aspect
+            # Then, is it `On` or `Off`?
+            lambda pragma: pragma.as_aspect,
+
+            # Else, `SPARK_Mode` can also be specified by an aspect
             default_val=Entity.parent.cast(BasicDecl).then(
-                lambda bd: bd.get_aspect_assoc('SPARK_Mode').then(
-                    lambda aa: aa.expr.then(
-                        lambda mode: mode.cast(T.Name).name_is('On'),
-                        # `SPARK_Mode` without value is `On` by default
-                        default_val=True
-                    ),
-                    # If not pragma or aspect sets `SPARK_Mode`, have a look at
-                    # the parent declarative scope.
-                    default_val=Entity.super(include_skip_proof_annotations)
-                ),
-                default_val=Entity.super(include_skip_proof_annotations)
+                lambda bd: bd.get_aspect('SPARK_Mode')
+                # If not pragma or aspect sets `SPARK_Mode`, have a look at
+                # the parent declarative scope.
+                ._or(Entity.super()),
+                default_val=Entity.super()
             )
         )
 
@@ -11635,18 +11654,18 @@ class PrivatePart(DeclarativePart):
         add_env(transitive_parent=True, names=Self.env_names)
     )
 
-    @langkit_property(return_type=T.Bool)
-    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+    @langkit_property(return_type=Aspect)
+    def spark_mode_aspect():
         """
         Return whether this private part has SPARK mode set to On.
         """
         # Look if a `SPARK_Mode` pragma has been specified for that part
         return Entity.spark_mode_pragma.then(
-            lambda pragma: pragma.spark_mode_is_on,
+            lambda pragma: pragma.as_aspect,
             # If not pragma sets `SPARK_Mode`, have a look at the corresponding
             # public part if any.
             default_val=Entity.parent.cast(T.PackageDecl)
-            ._.public_part.is_spark_impl(include_skip_proof_annotations)
+            ._.public_part.spark_mode_aspect
         )
 
 
@@ -17806,9 +17825,7 @@ class DefiningName(Name):
         entity part.
         """
         return Entity.get_pragma(name).then(
-            lambda p: Aspect.new(
-                exists=True, node=p, value=p.value_expr, inherited=inherited
-            )
+            lambda p: p.as_aspect(inherited)
         )._or(Entity.basic_decl.get_aspect_assoc(name).then(
             lambda aa: Aspect.new(exists=True, node=aa,
                                   value=aa.expr, inherited=inherited)
@@ -21690,8 +21707,8 @@ class HandledStmts(AdaNode):
     stmts = Field(type=T.StmtList)
     exceptions = Field(type=T.AdaNode.list)
 
-    @langkit_property(return_type=T.Bool)
-    def is_spark_impl(include_skip_proof_annotations=T.Bool):
+    @langkit_property(return_type=Aspect)
+    def spark_mode_aspect():
         """
         Return whether this list of statement has SPARK mode set to On
         (assuming that we are in a library-level package body statements
@@ -21702,13 +21719,11 @@ class HandledStmts(AdaNode):
         ).find(
             lambda stmt: stmt.cast(T.Pragma).id.name_is('SPARK_Mode')
         ).then(
-            lambda spark_mode: spark_mode.cast(T.Pragma).spark_mode_is_on,
+            lambda spark_mode: spark_mode.cast(T.Pragma).as_aspect,
             # Else, look at the body declarative part
             default_val=Entity.parent.cast(T.PackageBody).then(
-                lambda body: body.decls.is_spark_impl(
-                    include_skip_proof_annotations
-                ),
-                default_val=Entity.super(include_skip_proof_annotations)
+                lambda body: body.decls.spark_mode_aspect,
+                default_val=Entity.semantic_parent.spark_mode_aspect
             )
         )
 

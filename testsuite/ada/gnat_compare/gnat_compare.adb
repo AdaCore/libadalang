@@ -75,7 +75,7 @@ procedure GNAT_Compare is
          "Skip the build of the project to process");
 
       package Skip_GPRclean is new Parse_Flag
-        (App.Args.Parser, "-C", "--skip-gprclean",
+        (App.Args.Parser, "-sc", "--skip-gprclean",
          "Skip the run of gprclean at the end of gnat_compare execution");
    end Args;
 

@@ -1,0 +1,52 @@
+{
+  "id": 6,
+  "kind": "command",
+  "command": {
+    "command": "group",
+    "id": 0,
+    "groupContents": {
+      "id": 5,
+      "kind": "list",
+      "list": [
+        {
+          "id": 2,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 1,
+              "kind": "list",
+              "list": [
+                {
+                  "id": 0,
+                  "kind": "text",
+                  "text": "not "
+                }
+              ]
+            },
+            "break": false,
+            "expandedStates": null
+          }
+        },
+        {
+          "id": 4,
+          "kind": "command",
+          "command": {
+            "command": "align",
+            "alignData": {
+              "kind": "innerRoot"
+            },
+            "alignContents": {
+              "id": 3,
+              "kind": "text",
+              "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            }
+          }
+        }
+      ]
+    },
+    "break": false,
+    "expandedStates": null
+  }
+}

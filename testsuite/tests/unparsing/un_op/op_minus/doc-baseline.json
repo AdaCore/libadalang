@@ -1,0 +1,36 @@
+{
+  "id": 4,
+  "kind": "command",
+  "command": {
+    "command": "group",
+    "id": 0,
+    "groupContents": {
+      "id": 3,
+      "kind": "list",
+      "list": [
+        {
+          "id": 0,
+          "kind": "text",
+          "text": "-"
+        },
+        {
+          "id": 2,
+          "kind": "command",
+          "command": {
+            "command": "align",
+            "alignData": {
+              "kind": "innerRoot"
+            },
+            "alignContents": {
+              "id": 1,
+              "kind": "text",
+              "text": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            }
+          }
+        }
+      ]
+    },
+    "break": false,
+    "expandedStates": null
+  }
+}

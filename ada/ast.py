@@ -12286,9 +12286,9 @@ class GenericInstantiation(BasicDecl):
     )
 
     designated_generic_decl = AbstractProperty(
-        type=T.BasicDecl.entity, public=True, doc="""
+        type=T.GenericDecl.entity, public=True, doc="""
         Return the generic decl entity designated by this instantiation,
-        containing the generic context. This is equivalent to the expanded
+        including instantiation information. This is equivalent to the expanded
         generic unit in GNAT.
         """
     )
@@ -12374,8 +12374,7 @@ class GenericInstantiation(BasicDecl):
             Entity.is_any_formal,
             LogicTrue(),
 
-            Entity.designated_generic_decl.cast_or_raise(T.GenericDecl)
-            ._.formal_part.match_param_list(
+            Entity.designated_generic_decl._.formal_part.match_param_list(
                 Entity.generic_inst_params, False
             ).filter(
                 lambda pm: Not(pm.actual.assoc.expr.is_a(BoxExpr))
@@ -12469,7 +12468,7 @@ class GenericInstantiation(BasicDecl):
         """
         ap = Var(Entity.generic_inst_params)
 
-        return Entity.nonbound_generic_decl._.formal_part.decls.mapcat(
+        return Entity.designated_generic_decl._.formal_part.decls.mapcat(
             # Unpack generic formals with their default expressions
             lambda d: d.match(
                 lambda t=GenericFormalPackage: ParamActual.new(
@@ -12577,7 +12576,7 @@ class GenericSubpInstantiation(GenericInstantiation):
         )
 
     designated_generic_decl = Property(
-        Entity.designated_subp.parent.cast(T.BasicDecl)
+        Entity.designated_subp.parent.cast_or_raise(T.GenericDecl)
     )
 
 
@@ -12622,7 +12621,7 @@ class GenericPackageInstantiation(GenericInstantiation):
         )
 
     designated_generic_decl = Property(
-        Entity.designated_package.parent.cast(T.BasicDecl)
+        Entity.designated_package.parent.cast_or_raise(T.GenericDecl)
     )
 
     @langkit_property(return_type=LexicalEnv, dynamic_vars=[origin])
@@ -12993,6 +12992,8 @@ class FormalSubpDecl(ClassicSubpDecl):
         Return the first visible subprogram that can match this formal subp in
         the context of an instantiation. This is used to find the matching
         subprogram in an instantiation for a formal subp with a box expr.
+        This property assumes that ``Entity`` is already in the context of the
+        given instantiation.
         """
         subps = Var(Self.env_get(
             env=inst.node_env,
@@ -13000,36 +13001,10 @@ class FormalSubpDecl(ClassicSubpDecl):
             from_node=inst.node
         ))
 
-        # Create a subp spec for the formal subprogram in the context of the
-        # instantiation, e.g. for the function ``Foo`` in ``G_Inst`` in the
-        # following code::
-        #
-        #    generic
-        #       type T is private;
-        #       function Foo (Self: T) return T;
-        #    package G is ...
-        #
-        #    package G_Inst is new G (Integer);
-        #
-        # return ``function Foo (Self : Integer) return Integer``.
-        actual_spec = Var(SubpSpec.entity.new(
-
-            node=Self.subp_spec,
-            info=T.entity_info.new(
-                md=Entity.info.md,
-                rebindings=Entity.info.rebindings
-                # Append the given generic instantiation
-                .append_rebinding(
-                    Self.parent.node_env, inst.instantiation_env
-                ),
-                from_rebound=Entity.info.from_rebound
-            )
-        ))
-
         # Search for the first subprogram that matches the instantiated profile
         found = Var(origin.bind(inst.origin_node, subps.find(
             lambda subp: subp.cast(BasicDecl).subp_spec_or_null.then(
-                lambda spec: actual_spec.match_signature(
+                lambda spec: Entity.subp_spec.match_signature(
                     other=spec,
 
                     # Names must already match due to the env_get call
@@ -17429,8 +17404,7 @@ class AssocList(BasicAssoc.list):
             lambda e=T.CallExpr: e.called_subp_spec._.abstract_formal_params,
 
             lambda i=T.GenericInstantiation:
-            i.generic_entity_name.referenced_decl.cast(T.GenericDecl)
-            ._.formal_part.abstract_formal_params,
+            i.designated_generic_decl._.formal_part.abstract_formal_params,
 
             lambda c=T.CompositeConstraint:
             c.subtype._.discriminants_list,

@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of a single task declaration
+    with entries.
+    It is expected the declaration be formatted by adding a line
+    break after `is` keyword and the entries be aligned and indented
+    as well the `task` and `end` keywords be aligned.
+ 
+driver: unparser
+rule: single_task_decl

@@ -1,0 +1,1 @@
+entry Read(V : out Item);

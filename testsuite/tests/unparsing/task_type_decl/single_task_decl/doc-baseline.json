@@ -1,0 +1,63 @@
+{
+  "id": 8,
+  "kind": "command",
+  "command": {
+    "command": "group",
+    "id": 0,
+    "groupContents": {
+      "id": 7,
+      "kind": "list",
+      "list": [
+        {
+          "id": 0,
+          "kind": "text",
+          "text": "task"
+        },
+        {
+          "id": 5,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 4,
+              "kind": "list",
+              "list": [
+                {
+                  "id": 3,
+                  "kind": "command",
+                  "command": {
+                    "command": "group",
+                    "id": 0,
+                    "groupContents": {
+                      "id": 2,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 1,
+                          "kind": "text",
+                          "text": " single_task"
+                        }
+                      ]
+                    },
+                    "break": false,
+                    "expandedStates": null
+                  }
+                }
+              ]
+            },
+            "break": false,
+            "expandedStates": null
+          }
+        },
+        {
+          "id": 6,
+          "kind": "text",
+          "text": ";"
+        }
+      ]
+    },
+    "break": false,
+    "expandedStates": null
+  }
+}

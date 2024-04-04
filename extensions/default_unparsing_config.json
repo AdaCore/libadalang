@@ -1,5 +1,111 @@
 {
   "node_configs": {
+    "AcceptStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "accept"
+          },
+          "whitespace",  
+          {
+            "kind": "recurse_field",
+            "field": "f_body_decl"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_entry_index_expr"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_params"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
+    "AcceptStmtBody": {
+      "node": [
+        {  
+          "kind": "recurse_field",
+          "field": "f_name"
+        }
+      ]
+    },
+    "AcceptStmtWithStmts": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "accept"
+          },
+          "whitespace",  
+          {
+            "kind": "recurse_field",
+            "field": "f_body_decl"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_entry_index_expr"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_params"
+          },
+          "line",
+          {
+            "kind": "text",
+            "text": "do"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_stmts"
+          },
+          "hardlineWithoutBreakParent",  
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          "whitespace",  
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_entry_index_expr": [
+          "whitespace",
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              "recurse",
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
+          }
+        ],
+        "f_params": [
+          "whitespace",
+          "recurse"
+        ]
+      }
+    },
     "AdaNodeList": {
       "sep": [
         "recurse",
@@ -1282,6 +1388,99 @@
           },
           "hardlineWithoutBreakParent"
         ]
+      }
+    },
+    "EntryDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_spec"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
+      }
+    },
+    "EntrySpec": {
+      "node": {
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "text",
+              "text": "entry"
+            },  
+            {
+              "kind": "recurse_field",
+              "field": "f_entry_name"
+            },  
+            {
+              "kind": "recurse_field",
+              "field": "f_family_type"
+            },
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_entry_params"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_family_type": [
+          "whitespace",
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              "recurse",
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
+          }
+        ],            
+        "f_entry_params": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "line",
+            "recurse"
+          ]
+        }
       }
     },
     "EnumLiteralDeclList": {
@@ -3897,6 +4096,63 @@
         }
       }
     },
+    "SingleTaskDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "task"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_task_type"
+          },  
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },  
+    "SingleTaskTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_discriminants"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_definition"
+          }  
+        ]
+      },
+      "fields": {
+        "f_aspects": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "hardline",
+            "recurse"
+          ]
+        }
+      }
+    },
     "StmtList": {
       "sep": [
         "recurse",
@@ -4124,6 +4380,210 @@
             "field": "f_body"
           }
         ]
+      }
+    },
+    "TaskBody": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "task"
+          },
+          "whitespace",  
+          {
+            "kind": "text",
+            "text": "body"
+          },
+          "whitespace",  
+          {
+            "kind": "recurse_field",
+            "field": "f_name"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_decls"
+          },
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_stmts"
+          },
+          "hardlineWithoutBreakParent",
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ],
+        "f_decls": [
+          {
+            "kind": "indent",
+            "contents": [
+              "recurse"
+            ]
+          },
+          "hardlineWithoutBreakParent"
+        ]
+      }
+    },  
+    "TaskDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "is"
+          },  
+          {
+            "kind": "recurse_field",
+            "field": "f_interfaces"
+          },
+          {
+            "kind": "indent",
+            "contents": [
+              {
+                "kind": "recurse_field",
+                "field": "f_public_part"
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "recurse_field",
+            "field": "f_private_part"
+          },
+          {
+            "kind": "text",
+            "text": "end"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_end_name"
+          }
+        ]
+      },
+      "fields": {
+        "f_interfaces": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            {
+              "kind": "indent",
+              "contents": "recurse"
+            },
+            "hardline"
+          ]
+        },
+        "f_private_part": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            {
+              "kind": "indent",
+              "contents": "recurse"
+            },
+            "hardline"
+          ]
+        },
+        "f_end_name": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "whitespace",
+            {
+              "kind": "indent",
+              "contents": "recurse"
+            }
+          ]
+        } 
+      }
+    },
+    "TaskTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "task"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "type"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_discriminants"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              }
+            ]
+          },
+          "line",
+          {
+            "kind": "recurse_field",
+            "field": "f_definition"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_discriminants": {
+          "kind": "align",
+          "width": 2,
+          "contents": "recurse"
+        },
+        "f_aspects": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "hardlineWithoutBreakParent",
+              "recurse"
+            ] 
+          }
+        }
       }
     },
     "TypeAccessDef": {

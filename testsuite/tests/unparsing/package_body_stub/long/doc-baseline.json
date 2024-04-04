@@ -1,11 +1,11 @@
 {
-  "id": 25,
+  "id": 28,
   "kind": "command",
   "command": {
     "command": "group",
     "id": 0,
     "groupContents": {
-      "id": 24,
+      "id": 27,
       "kind": "list",
       "list": [
         {
@@ -127,13 +127,13 @@
           }
         },
         {
-          "id": 22,
+          "id": 25,
           "kind": "command",
           "command": {
             "command": "group",
             "id": 0,
             "groupContents": {
-              "id": 21,
+              "id": 24,
               "kind": "list",
               "list": [
                 {
@@ -142,7 +142,7 @@
                   "text": "with"
                 },
                 {
-                  "id": 20,
+                  "id": 23,
                   "kind": "command",
                   "command": {
                     "command": "align",
@@ -151,13 +151,13 @@
                       "n": 2
                     },
                     "alignContents": {
-                      "id": 19,
+                      "id": 22,
                       "kind": "command",
                       "command": {
                         "command": "group",
                         "id": 0,
                         "groupContents": {
-                          "id": 18,
+                          "id": 21,
                           "kind": "list",
                           "list": [
                             {
@@ -171,9 +171,36 @@
                               }
                             },
                             {
-                              "id": 17,
-                              "kind": "text",
-                              "text": "Garply"
+                              "id": 20,
+                              "kind": "command",
+                              "command": {
+                                "command": "group",
+                                "id": 0,
+                                "groupContents": {
+                                  "id": 19,
+                                  "kind": "command",
+                                  "command": {
+                                    "command": "align",
+                                    "alignData": {
+                                      "kind": "width",
+                                      "n": 2
+                                    },
+                                    "alignContents": {
+                                      "id": 18,
+                                      "kind": "list",
+                                      "list": [
+                                        {
+                                          "id": 17,
+                                          "kind": "text",
+                                          "text": "Garply"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "break": false,
+                                "expandedStates": null
+                              }
                             }
                           ]
                         },
@@ -190,7 +217,7 @@
           }
         },
         {
-          "id": 23,
+          "id": 26,
           "kind": "text",
           "text": ";"
         }

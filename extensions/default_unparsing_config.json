@@ -198,6 +198,36 @@
         "whitespace"
       ]
     },
+    "AspectAssoc": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            {
+              "kind": "recurse_field",
+              "field": "f_id"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          ]
+        }
+      },
+      "fields": {
+        "f_expr": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "=>"
+          },
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "ArrayTypeDef": {
       "node": {
         "kind": "group",

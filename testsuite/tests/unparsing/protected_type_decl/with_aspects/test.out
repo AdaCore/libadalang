@@ -1,6 +1,6 @@
 protected type Worker
   (Priority_Level : System.Priority; Buffer_Parameter : access Buffer)
-  with Priority=>Prio
+  with Priority => Prio
 is
    entry Fill;
    entry Drain;

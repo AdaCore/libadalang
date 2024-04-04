@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_body
+descrition: |
+  For a AspectAssoc, test: a whitespace before '=>'; line break or whitespace
+  after '=>'.

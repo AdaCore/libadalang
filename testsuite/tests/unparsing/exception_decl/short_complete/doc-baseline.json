@@ -1,11 +1,11 @@
 {
-  "id": 24,
+  "id": 27,
   "kind": "command",
   "command": {
     "command": "group",
     "id": 0,
     "groupContents": {
-      "id": 23,
+      "id": 26,
       "kind": "list",
       "list": [
         {
@@ -113,19 +113,19 @@
           }
         },
         {
-          "id": 21,
+          "id": 24,
           "kind": "command",
           "command": {
             "command": "group",
             "id": 0,
             "groupContents": {
-              "id": 20,
+              "id": 23,
               "kind": "command",
               "command": {
                 "command": "group",
                 "id": 0,
                 "groupContents": {
-                  "id": 19,
+                  "id": 22,
                   "kind": "list",
                   "list": [
                     {
@@ -134,7 +134,7 @@
                       "text": "with"
                     },
                     {
-                      "id": 18,
+                      "id": 21,
                       "kind": "command",
                       "command": {
                         "command": "align",
@@ -143,13 +143,13 @@
                           "n": 2
                         },
                         "alignContents": {
-                          "id": 17,
+                          "id": 20,
                           "kind": "command",
                           "command": {
                             "command": "group",
                             "id": 0,
                             "groupContents": {
-                              "id": 16,
+                              "id": 19,
                               "kind": "list",
                               "list": [
                                 {
@@ -163,9 +163,36 @@
                                   }
                                 },
                                 {
-                                  "id": 15,
-                                  "kind": "text",
-                                  "text": "Baz"
+                                  "id": 18,
+                                  "kind": "command",
+                                  "command": {
+                                    "command": "group",
+                                    "id": 0,
+                                    "groupContents": {
+                                      "id": 17,
+                                      "kind": "command",
+                                      "command": {
+                                        "command": "align",
+                                        "alignData": {
+                                          "kind": "width",
+                                          "n": 2
+                                        },
+                                        "alignContents": {
+                                          "id": 16,
+                                          "kind": "list",
+                                          "list": [
+                                            {
+                                              "id": 15,
+                                              "kind": "text",
+                                              "text": "Baz"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "break": false,
+                                    "expandedStates": null
+                                  }
                                 }
                               ]
                             },
@@ -186,7 +213,7 @@
           }
         },
         {
-          "id": 22,
+          "id": 25,
           "kind": "text",
           "text": ";"
         }

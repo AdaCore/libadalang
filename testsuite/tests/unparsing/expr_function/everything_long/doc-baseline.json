@@ -1,21 +1,21 @@
 {
-  "id": 78,
+  "id": 81,
   "kind": "command",
   "command": {
     "command": "group",
     "id": 0,
     "groupContents": {
-      "id": 77,
+      "id": 80,
       "kind": "list",
       "list": [
         {
-          "id": 76,
+          "id": 79,
           "kind": "command",
           "command": {
             "command": "group",
             "id": 0,
             "groupContents": {
-              "id": 75,
+              "id": 78,
               "kind": "list",
               "list": [
                 {
@@ -545,13 +545,13 @@
                   ]
                 },
                 {
-                  "id": 73,
+                  "id": 76,
                   "kind": "command",
                   "command": {
                     "command": "group",
                     "id": 0,
                     "groupContents": {
-                      "id": 72,
+                      "id": 75,
                       "kind": "list",
                       "list": [
                         {
@@ -560,7 +560,7 @@
                           "text": "with"
                         },
                         {
-                          "id": 71,
+                          "id": 74,
                           "kind": "command",
                           "command": {
                             "command": "align",
@@ -569,13 +569,13 @@
                               "n": 2
                             },
                             "alignContents": {
-                              "id": 70,
+                              "id": 73,
                               "kind": "command",
                               "command": {
                                 "command": "group",
                                 "id": 0,
                                 "groupContents": {
-                                  "id": 69,
+                                  "id": 72,
                                   "kind": "list",
                                   "list": [
                                     {
@@ -589,9 +589,36 @@
                                       }
                                     },
                                     {
-                                      "id": 68,
-                                      "kind": "text",
-                                      "text": "Freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed"
+                                      "id": 71,
+                                      "kind": "command",
+                                      "command": {
+                                        "command": "group",
+                                        "id": 0,
+                                        "groupContents": {
+                                          "id": 70,
+                                          "kind": "command",
+                                          "command": {
+                                            "command": "align",
+                                            "alignData": {
+                                              "kind": "width",
+                                              "n": 2
+                                            },
+                                            "alignContents": {
+                                              "id": 69,
+                                              "kind": "list",
+                                              "list": [
+                                                {
+                                                  "id": 68,
+                                                  "kind": "text",
+                                                  "text": "Freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        "break": false,
+                                        "expandedStates": null
+                                      }
                                     }
                                   ]
                                 },
@@ -608,7 +635,7 @@
                   }
                 },
                 {
-                  "id": 74,
+                  "id": 77,
                   "kind": "text",
                   "text": ";"
                 }

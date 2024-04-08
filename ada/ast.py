@@ -10859,23 +10859,22 @@ class BasicSubpDecl(BasicDecl):
             Not(default_next_part.is_null),
             default_next_part,
 
-            # Self is declared in a private part
-            decl_scope.is_a(T.PrivatePart),
-            parent_decl.next_part_for_decl.then(
-                lambda np: Entity.get_body_in_env(np.children_env)
+            decl_scope.is_a(T.PrivatePart, T.PublicPart),
+            Let(
+                lambda other_part=If(
+                    decl_scope.is_a(T.PrivatePart),
+                    parent_decl.next_part_for_decl,
+                    parent_decl.decl_private_part
+                ):
+                # Search in other part
+                other_part.then(
+                    lambda op: Entity.get_body_in_env(op.children_env)
+                )
+                # If not found, search in body
+                ._or(parent_decl.body_part_for_decl.then(
+                    lambda np: Entity.get_body_in_env(np.children_env)
+                ))
             ),
-
-            # Self is declared in a public part
-            decl_scope.is_a(T.PublicPart),
-
-            # Search in private part
-            parent_decl.decl_private_part.then(
-                lambda dpp: Entity.get_body_in_env(dpp.children_env),
-            )
-            # If not found, search in body
-            ._or(parent_decl.body_part_for_decl.then(
-                lambda np: Entity.get_body_in_env(np.children_env)
-            )),
 
             # No declarative scope: Bail out!
             decl_scope.is_null, No(T.Body.entity),

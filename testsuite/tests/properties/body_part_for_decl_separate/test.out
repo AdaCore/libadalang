@@ -1,0 +1,11 @@
+Working on node <SubpDecl ["Bar"] a.adb:3:7-3:21>
+=================================================
+
+Eval 'node.p_body_part_for_decl()'
+Result: <NullSubpDecl ["Bar"] a~p.adb:3:4-3:26>
+
+Working on node <SubpDecl ["Foo"] a.adb:6:7-6:21>
+=================================================
+
+Eval 'node.p_body_part_for_decl()'
+Result: <NullSubpDecl ["Foo"] a~p.adb:4:4-4:26>

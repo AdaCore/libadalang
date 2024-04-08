@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of an anonymous array type declaration.
+    It is expected the declaration stays on a single line.
+ 
+driver: unparser
+rule: anonymous_type_decl

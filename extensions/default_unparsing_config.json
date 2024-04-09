@@ -1170,38 +1170,29 @@
     },
     "ConcreteFormalSubpDecl": {
       "node": {
-        "kind": "align",
-        "width": 2,
-        "contents": {
-          "kind": "group",
-          "document": [
-            {
-              "kind": "text",
-              "text": "with"
-            },
-            "line",
-            {
-              "kind": "recurse_field",
-              "field": "f_overriding"
-            },
-            {
-              "kind": "recurse_field",
-              "field": "f_subp_spec"
-            },
-            {
-              "kind": "recurse_field",
-              "field": "f_default_expr"
-            },
-            {
-              "kind": "recurse_field",
-              "field": "f_aspects"
-            },
-            {
-              "kind": "text",
-              "text": ";"
-            }
-          ]
-        }
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_default_expr"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
       },
       "fields": {
         "f_aspects": [
@@ -2581,13 +2572,22 @@
     },
     "GenericFormalSubpDecl": {
       "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "recurse_field",
-            "field": "f_decl"
-          }
-        ]
+        "kind": "align",
+        "width": 2,
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "text",
+              "text": "with"
+            },
+            "line",
+            {
+              "kind": "recurse_field",
+              "field": "f_decl"
+            }
+          ]
+        }
       }
     },
     "GenericFormalTypeDecl": {

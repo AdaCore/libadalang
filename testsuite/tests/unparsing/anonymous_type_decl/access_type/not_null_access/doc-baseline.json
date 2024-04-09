@@ -1,0 +1,74 @@
+{
+  "id": 8,
+  "kind": "command",
+  "command": {
+    "command": "group",
+    "id": 0,
+    "groupContents": {
+      "id": 7,
+      "kind": "list",
+      "list": [
+        {
+          "id": 1,
+          "kind": "command",
+          "command": {
+            "command": "group",
+            "id": 0,
+            "groupContents": {
+              "id": 0,
+              "kind": "list",
+              "list": [
+              ]
+            },
+            "break": false,
+            "expandedStates": null
+          }
+        },
+        {
+          "id": 6,
+          "kind": "command",
+          "command": {
+            "command": "align",
+            "alignData": {
+              "kind": "width",
+              "n": 2
+            },
+            "alignContents": {
+              "id": 5,
+              "kind": "command",
+              "command": {
+                "command": "group",
+                "id": 0,
+                "groupContents": {
+                  "id": 4,
+                  "kind": "command",
+                  "command": {
+                    "command": "group",
+                    "id": 0,
+                    "groupContents": {
+                      "id": 3,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 2,
+                          "kind": "text",
+                          "text": "not null access Bbbbbbbbbbbbbbb"
+                        }
+                      ]
+                    },
+                    "break": false,
+                    "expandedStates": null
+                  }
+                },
+                "break": false,
+                "expandedStates": null
+              }
+            }
+          }
+        }
+      ]
+    },
+    "break": false,
+    "expandedStates": null
+  }
+}

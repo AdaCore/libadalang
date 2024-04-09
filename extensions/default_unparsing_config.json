@@ -8,7 +8,7 @@
             "kind": "text",
             "text": "accept"
           },
-          "whitespace",  
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_body_decl"
@@ -30,7 +30,7 @@
     },
     "AcceptStmtBody": {
       "node": [
-        {  
+        {
           "kind": "recurse_field",
           "field": "f_name"
         }
@@ -44,7 +44,7 @@
             "kind": "text",
             "text": "accept"
           },
-          "whitespace",  
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_body_decl"
@@ -66,12 +66,12 @@
             "kind": "recurse_field",
             "field": "f_stmts"
           },
-          "hardlineWithoutBreakParent",  
+          "hardlineWithoutBreakParent",
           {
             "kind": "text",
             "text": "end"
           },
-          "whitespace",  
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_end_name"
@@ -197,6 +197,41 @@
         "recurse",
         "whitespace"
       ]
+    },
+    "AnonymousTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_discriminants"
+              }
+            ]
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_type_def"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     },
     "AspectAssoc": {
       "node": {
@@ -1464,11 +1499,11 @@
             {
               "kind": "text",
               "text": "entry"
-            },  
+            },
             {
               "kind": "recurse_field",
               "field": "f_entry_name"
-            },  
+            },
             {
               "kind": "recurse_field",
               "field": "f_family_type"
@@ -1502,7 +1537,7 @@
               }
             ]
           }
-        ],            
+        ],
         "f_entry_params": {
           "kind": "ifEmpty",
           "then": "recurse",
@@ -4137,14 +4172,14 @@
           {
             "kind": "recurse_field",
             "field": "f_task_type"
-          },  
+          },
           {
             "kind": "text",
             "text": ";"
           }
         ]
       }
-    },  
+    },
     "SingleTaskTypeDecl": {
       "node": {
         "kind": "group",
@@ -4169,7 +4204,7 @@
           {
             "kind": "recurse_field",
             "field": "f_definition"
-          }  
+          }
         ]
       },
       "fields": {
@@ -4420,12 +4455,12 @@
             "kind": "text",
             "text": "task"
           },
-          "whitespace",  
+          "whitespace",
           {
             "kind": "text",
             "text": "body"
           },
-          "whitespace",  
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_name"
@@ -4481,7 +4516,7 @@
           "hardlineWithoutBreakParent"
         ]
       }
-    },  
+    },
     "TaskDef": {
       "node": {
         "kind": "group",
@@ -4489,7 +4524,7 @@
           {
             "kind": "text",
             "text": "is"
-          },  
+          },
           {
             "kind": "recurse_field",
             "field": "f_interfaces"
@@ -4551,7 +4586,7 @@
               "contents": "recurse"
             }
           ]
-        } 
+        }
       }
     },
     "TaskTypeDecl": {
@@ -4611,7 +4646,7 @@
             "contents": [
               "hardlineWithoutBreakParent",
               "recurse"
-            ] 
+            ]
           }
         }
       }

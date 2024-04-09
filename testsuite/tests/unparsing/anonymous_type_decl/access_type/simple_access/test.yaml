@@ -1,5 +1,6 @@
 description: |
-    This test checks the formatting of a simple anonymous access type declaration.
+    This test checks the formatting of a simple anonymous
+    access type declaration.
     It is expected the declaration stays on a single line.
 
 driver: unparser

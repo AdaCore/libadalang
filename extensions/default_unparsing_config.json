@@ -198,14 +198,6 @@
         "whitespace"
       ]
     },
-    "AnonymousType": {
-      "node": [
-        {
-          "kind": "recurse_field",
-          "field": "f_type_decl"
-        }
-      ]
-    },
     "AnonymousTypeDecl": {
       "node": {
         "kind": "group",

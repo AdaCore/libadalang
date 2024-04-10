@@ -13,7 +13,7 @@ begin
    --  Sequential visibility test: This should fail because C is not declared
    --  yet.
    Put_Line (Integer'Image (A + B + C));
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    --  Renamings test: this should work
    C : Integer renames B;

@@ -4,20 +4,46 @@ Analyzing testuse.adb
 Resolving xrefs for node <ObjectDecl ["C"] testuse.adb:14:7-14:24>
 ******************************************************************
 
+Name resolution failed as expected with:
+
 testuse.adb:14:20: error: expected Float, got Integer
 14 |       C : Float := Foo;
    |                    ^^^
 
 
-Resolving xrefs for node <UsePackageClause testuse.adb:15:7-15:13>
+Resolving xrefs for node <ObjectDecl ["C"] testuse.adb:14:7-14:24>
 ******************************************************************
 
-Expr: <Id "B" testuse.adb:15:11-15:12>
+testuse.adb:14:20: error: expected Float, got Integer
+14 |       C : Float := Foo;
+   |                    ^^^
+
+
+Resolving xrefs for node <PragmaNode testuse.adb:15:7-15:51>
+************************************************************
+
+Expr: <Id "Test_Statement" testuse.adb:15:14-15:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Expect_Fail" testuse.adb:15:30-15:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "True" testuse.adb:15:45-15:49>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+
+Resolving xrefs for node <UsePackageClause testuse.adb:16:7-16:13>
+******************************************************************
+
+Expr: <Id "B" testuse.adb:16:11-16:12>
   references:    <DefiningName "B" testuse.adb:8:12-8:13>
   type:          None
   expected type: None
 
-Resolving xrefs for node <NullStmt testuse.adb:17:7-17:12>
+Resolving xrefs for node <NullStmt testuse.adb:18:7-18:12>
 **********************************************************
 
 

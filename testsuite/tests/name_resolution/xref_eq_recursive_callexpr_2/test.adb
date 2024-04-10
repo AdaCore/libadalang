@@ -27,5 +27,5 @@ begin
    pragma Test_Statement;
 
    B := Pouet (5) (8.0);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

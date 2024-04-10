@@ -11,7 +11,7 @@ procedure Test is
       F'Access &
       G'Access &
       H'Access;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 begin
    null;
 end Test;

@@ -14,5 +14,5 @@ begin
    pragma Test_Statement;
 
    V := V4;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Main;

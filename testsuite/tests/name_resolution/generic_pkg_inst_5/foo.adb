@@ -7,5 +7,5 @@ procedure Foo is
    X : Int1_Opt.Opt_Type;
 begin
    X := Int2_Opt.Create;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Foo;

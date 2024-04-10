@@ -12,5 +12,5 @@ begin
    pragma Test_Statement;
 
    P := Enum_3;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

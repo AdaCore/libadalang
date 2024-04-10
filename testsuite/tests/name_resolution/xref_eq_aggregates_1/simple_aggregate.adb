@@ -12,7 +12,7 @@ begin
    pragma Test_Statement;
 
    R := (1, 2.0);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    R := (1, Foo);
    pragma Test_Statement;

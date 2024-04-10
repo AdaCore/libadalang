@@ -12,6 +12,7 @@ procedure Testuse is
 begin
    declare
       C : Float := Foo;
+      pragma Test_Statement (Expect_Fail => True);
       use B;
    begin
       null;

@@ -10,7 +10,7 @@ procedure Test_Invalid is
    pragma Test_Block;
 
    pragma Post (Foo, X and not Y);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    procedure Bar is null;
 
@@ -19,7 +19,7 @@ procedure Test_Invalid is
 begin
    --  Only bool types are expected for the condition of a ``Debug`` pragma
    pragma Debug (X or Y, Bar);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    --  Iterator filters seem to only accept standard booleans
    for K in 1 .. 3 when X and not Y loop
@@ -28,5 +28,5 @@ begin
    pragma Test_Block;
 
    Z := (for all K in 1 ..3 => X and not Y);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test_Invalid;

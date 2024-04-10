@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of a simple incomplete type declaration.
+    It is expected the declaration stays on a single line.
+ 
+driver: unparser
+rule: incomplete_type_decl

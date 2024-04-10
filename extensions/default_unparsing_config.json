@@ -2863,6 +2863,47 @@
         ]
       }
     },
+    "IncompleteTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "type"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_name"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_discriminants"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_discriminants": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "IncompleteTaggedTypeDecl": {
       "node": {
         "kind": "group",

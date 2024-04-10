@@ -2863,6 +2863,77 @@
         ]
       }
     },
+    "IncompleteFormalTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "type"
+              },
+              {
+                "kind": "align",
+                "width": 2,
+                "contents": [
+                  "line",
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_name"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_discriminants"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_is_tagged"
+              },
+              "line",
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_default_type"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_discriminants": [
+          "line",
+          "recurse"
+        ],
+        "f_default_type": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        }
+      }
+    },
     "IncompleteTypeDecl": {
       "node": {
         "kind": "group",

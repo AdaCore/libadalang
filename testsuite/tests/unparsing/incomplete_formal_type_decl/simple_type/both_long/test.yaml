@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a simple incomplete
+    formal type declaration with long type and and default
+    type names.
+    It is expected the declaration breaks before `or` and
+    after `type` and `use` and keywords, the new lines be
+    indented and `type` and `or` keywords be aligned.
+ 
+driver: unparser
+rule: formal_type_decl

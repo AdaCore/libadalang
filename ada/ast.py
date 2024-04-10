@@ -8484,12 +8484,7 @@ class TypeDecl(BaseTypeDecl):
             # TODO: The optional `Element` assoc must be defined, if not, a
             # type with the aspect `Iterable` only supports iteration over
             # cursors through the `for .. in` loop (W303-007).
-            Not(Entity.get_aspect('Iterable', True).value.is_null),
-            Entity.type_def.match(
-                lambda dtd=T.DerivedTypeDef:
-                dtd.base_type.then(lambda bt: bt.is_iterable_type),
-                lambda _: False
-            )
+            Not(Entity.get_aspect('Iterable', True).value.is_null)
         ),
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
@@ -8515,13 +8510,8 @@ class TypeDecl(BaseTypeDecl):
             ).assoc.expr.cast_or_raise(T.Name)
             .referenced_decl.expr_type,
 
-            Entity.type_def.match(
-                lambda dtd=T.DerivedTypeDef:
-                dtd.base_type.then(lambda bt: bt.iterable_comp_type),
-                lambda _: No(T.BaseTypeDecl.entity)
-            ),
-        )._or(Entity.previous_part(False)
-              .then(lambda pp: pp.iterable_comp_type)))
+            No(T.BaseTypeDecl.entity)
+        ))
 
     @langkit_property(dynamic_vars=[origin])
     def iterable_cursor_type():
@@ -8771,8 +8761,8 @@ class TypeDecl(BaseTypeDecl):
     )
 
     has_ud_indexing = Property(
-        Not(Entity.get_aspect('Constant_Indexing').value.is_null)
-        | Not(Entity.get_aspect('Variable_Indexing').value.is_null)
+        Not(Entity.get_aspect('Constant_Indexing', True).value.is_null)
+        | Not(Entity.get_aspect('Variable_Indexing', True).value.is_null)
     )
 
     @langkit_property()
@@ -8835,7 +8825,7 @@ class TypeDecl(BaseTypeDecl):
         Return all the indexing functions defined for this type, including
         ones defined by its parents.
         """
-        return Entity.get_aspect(sym).value.then(
+        return Entity.get_aspect(sym, True).value.then(
             lambda val: Let(
                 # The indexing function's name is specified on the type for
                 # which the aspect is defined (which is returned by
@@ -18381,11 +18371,30 @@ class DefiningName(Name):
 
             Entity.all_parts
         ))
-        return parts_to_check.map(
-            lambda p: p.get_aspect_impl(name, inherited)
-        ).find(
-            lambda a: a.exists
-        )._or(
+
+        self_aspects = Var(Cond(
+            # The following aspects only support the Ada 2012 aspect
+            # association syntax, so use a faster path to avoid looking
+            # for pragmas and representation clauses for them as they are
+            # often queried during name resolution.
+            name.any_of(
+                'Implicit_Dereference', 'Constant_Indexing',
+                'Variable_Indexing', 'Iterable', 'Iterator_Element'
+            ),
+
+            parts_to_check.map(
+                lambda p: p.basic_decl.get_aspect_assoc(name).then(
+                    lambda aa: Aspect.new(exists=True, node=aa,
+                                          value=aa.expr, inherited=inherited)
+                )
+            ),
+
+            parts_to_check.map(
+                lambda p: p.get_aspect_impl(name, inherited)
+            )
+        ))
+
+        return self_aspects.find(lambda a: a.exists)._or(
             # If nothing has been found so far for entity, check out for any
             # inherited aspect.
             Entity.basic_decl_no_internal.cast(BaseTypeDecl).then(

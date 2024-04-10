@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of protected body stub.
+    It is expected the declaration breaks before `is`
+    keyword and `protected` and `is` keywords be aligned.
+ 
+driver: unparser
+rule: protected_body_stub

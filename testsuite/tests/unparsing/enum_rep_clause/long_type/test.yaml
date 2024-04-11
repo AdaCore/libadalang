@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of an enum representation
+    clause with a long type name.
+    It is expected the declaration breaks after the `use` keyword
+    and the new line be indented.
+ 
+driver: unparser
+rule: aspect_clause

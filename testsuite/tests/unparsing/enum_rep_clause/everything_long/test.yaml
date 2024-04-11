@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of an enum representation
+    clause with long type name and long aggregate.
+    It is expected the declaration breaks after `use` keyword
+    and the aggregagte be broken, one element per new line,
+    and all these new lines be indented.
+ 
+driver: unparser
+rule: aspect_clause

@@ -1583,6 +1583,49 @@
         "line"
       ]
     },
+    "EnumRepClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "for"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_type_name"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "use"
+              }
+            ]
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "align",
+              "width": 2,
+              "contents": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_aggregate"
+                },
+                {
+                  "kind": "text",
+                  "text": ";"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "EnumTypeDef": {
       "node": {
         "kind": "group",

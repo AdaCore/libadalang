@@ -7861,23 +7861,29 @@ class BaseTypeDecl(BasicDecl):
             Not(expected_type.is_null),
             Not(actual_type.is_null),
             Or(
-                And(actual_type == Self.universal_int_type,
-                    expected_type.allows_universal_int),
+                Let(lambda uit=Self.universal_int_type: Or(
+                    And(actual_type == uit,
+                        expected_type.allows_universal_int),
 
-                And(expected_type == Self.universal_int_type,
-                    actual_type.is_int_type),
+                    And(expected_type == uit,
+                        actual_type.is_int_type),
+                )),
 
-                And(actual_type == Self.universal_real_type,
-                    expected_type.allows_universal_real),
+                Let(lambda urt=Self.universal_real_type: Or(
+                    And(actual_type == urt,
+                        expected_type.allows_universal_real),
 
-                And(expected_type == Self.universal_real_type,
-                    actual_type.is_real_type),
+                    And(expected_type == urt,
+                        actual_type.is_real_type),
+                )),
 
-                And(expected_type == Self.universal_fixed_type,
-                    actual_type.is_fixed_point),
+                Let(lambda uft=Self.universal_fixed_type: Or(
+                    And(expected_type == uft,
+                        actual_type.is_fixed_point),
 
-                And(actual_type == Self.universal_fixed_type,
-                    expected_type.is_fixed_point),
+                    And(actual_type == uft,
+                        expected_type.is_fixed_point),
+                )),
 
                 actual_type.canonical_type == expected_type.canonical_type,
 

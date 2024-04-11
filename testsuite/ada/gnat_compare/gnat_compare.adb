@@ -1,11 +1,11 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO;           use Ada.Text_IO;
 
-with GNAT.OS_Lib; use GNAT.OS_Lib;
-
 with GNATCOLL.Opt_Parse;
-with GNATCOLL.Projects; use GNATCOLL.Projects;
-with GNATCOLL.VFS;      use GNATCOLL.VFS;
+with GNATCOLL.OS;
+with GNATCOLL.OS.Process; use GNATCOLL.OS.Process;
+with GNATCOLL.Projects;   use GNATCOLL.Projects;
+with GNATCOLL.VFS;        use GNATCOLL.VFS;
 
 with Langkit_Support.Slocs; use Langkit_Support.Slocs;
 with Libadalang.Analysis;   use Libadalang.Analysis;
@@ -292,32 +292,22 @@ procedure GNAT_Compare is
    ------------------
 
    procedure Run_GPRbuild (Project_File : String) is
-      Path    : GNAT.OS_Lib.String_Access := Locate_Exec_On_Path ("gprbuild");
-      Args    : String_Vectors.Vector;
-      Success : Boolean;
+      Args    : GNATCOLL.OS.Process.Argument_List;
+      Success : Integer;
    begin
-      if Path = null then
-         Put_Line ("Could not locate gprbuild on the PATH");
-      end if;
-
+      Args.Append ("gprbuild");
       Args.Append (+"-c");
       Args.Append (+"-q");
       Args.Append (+"-p");
       Args.Append (+"-P" & Project_File);
       for V of App.Args.Scenario_Vars.Get loop
-         Args.Append ("-X" & V);
+         Args.Append ("-X" & To_String (V));
       end loop;
 
-      declare
-         Spawn_Args : String_List_Access :=
-           new String_List'(To_String_List (Args));
-      begin
-         Spawn (Path.all, Spawn_Args.all, Success);
-         Free (Spawn_Args);
-         Free (Path);
-      end;
+      Success := GNATCOLL.OS.Process.Run
+        (Args, "", FS.Standin, FS.Standerr, FS.Null_FD, INHERIT);
 
-      if not Success then
+      if Success /= 0 then
          Abort_App ("Could not spawn gprbuild");
       end if;
    end Run_GPRbuild;
@@ -327,31 +317,21 @@ procedure GNAT_Compare is
    ------------------
 
    procedure Run_GPRclean (Project_File : String) is
-      Path    : GNAT.OS_Lib.String_Access := Locate_Exec_On_Path ("gprclean");
-      Args    : String_Vectors.Vector;
-      Success : Boolean;
+      Args    : GNATCOLL.OS.Process.Argument_List;
+      Success : Integer;
    begin
-      if Path = null then
-         Put_Line ("Could not locate gprclean on the PATH");
-      end if;
-
+      Args.Append ("gprclean");
       Args.Append (+"-q");
       Args.Append (+"-r");
       Args.Append (+"-P" & Project_File);
       for V of App.Args.Scenario_Vars.Get loop
-         Args.Append ("-X" & V);
+         Args.Append ("-X" & To_String (V));
       end loop;
 
-      declare
-         Spawn_Args : String_List_Access :=
-           new String_List'(To_String_List (Args));
-      begin
-         Spawn (Path.all, Spawn_Args.all, Success);
-         Free (Spawn_Args);
-         Free (Path);
-      end;
+      Success := GNATCOLL.OS.Process.Run
+        (Args, "", FS.Standin, FS.Standerr, FS.Null_FD, INHERIT);
 
-      if not Success then
+      if Success /= 0 then
          Abort_App ("Could not spawn gprclean");
       end if;
    end Run_GPRclean;

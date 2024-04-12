@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of a delay statement.
+    It is expected the statement breaks after `until` keyword
+    and the new line be indented.
+ 
+driver: unparser
+rule: delay_stmt

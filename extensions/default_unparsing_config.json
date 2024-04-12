@@ -1376,6 +1376,36 @@
         "line"
       ]
     },
+    "DelayStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "delay"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_until"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
     "DeltaAggregate": {
       "kind": "group",
       "document": [

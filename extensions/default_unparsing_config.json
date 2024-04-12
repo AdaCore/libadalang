@@ -824,6 +824,33 @@
         }
       }
     },
+    "ComponentClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_id"
+          },
+          {
+            "kind": "text",
+            "text": "at"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_position"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_range"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
     "ComponentDecl": {
       "node": {
         "kind": "group",
@@ -4368,6 +4395,79 @@
             "field": "f_record_def"
           }
         ]
+      }
+    },
+    "RecordRepClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "for"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "use"
+              }
+            ]
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "hardline",
+              {
+                "kind": "text",
+                "text": "record"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_at_expr"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_components"
+              },
+              "hardline",
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "text",
+                    "text": "end"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "text",
+                    "text": "record"
+                  },
+                  {
+                    "kind": "text",
+                    "text": ";"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "fields": {
+        "f_components": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "hardline",
+            "recurse"
+          ]
+        }
       }
     },
     "ReturnStmt": {

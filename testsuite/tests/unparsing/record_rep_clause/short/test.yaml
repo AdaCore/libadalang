@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of a record representation
+    clause.
+    It is expected the declaration breaks after `use` keyword;
+    the record part is indented, `record` and `end record`are
+    aligned and the component clauses are indented relative to
+    the `record` keyword and aligned.
+ 
+driver: unparser
+rule: aspect_clause

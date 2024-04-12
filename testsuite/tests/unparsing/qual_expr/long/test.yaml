@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of a qualified expression.
+    It is expected the declaration breaks after `'` and the new
+    line be indented.
+ 
+driver: unparser
+rule: expr

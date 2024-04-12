@@ -220,6 +220,27 @@
         }
       }
     },
+    "Allocator": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "new"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_subpool"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_type_or_expr"
+          }
+        ]
+      }
+    },
     "AlternativesList": {
       "sep": [
         "line",
@@ -4295,6 +4316,32 @@
             "recurse"
           ]
         }
+      }
+    },
+    "QualExpr": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_prefix"
+          },
+          {
+            "kind": "text",
+            "text": "'"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "softline",
+              {
+                "kind": "recurse_field",
+                "field": "f_suffix"
+              }
+            ]
+          }
+        ]
       }
     },
     "RangeSpec": {

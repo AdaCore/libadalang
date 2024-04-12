@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of a concat operation.
+    It is expected the expression breaks before each `&`
+    operator.
+ 
+driver: unparser
+rule: simple_expr

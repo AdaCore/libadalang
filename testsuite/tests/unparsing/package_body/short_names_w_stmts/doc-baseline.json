@@ -1,5 +1,5 @@
 {
-  "id": 44,
+  "id": 53,
   "kind": "list",
   "list": [
     {
@@ -169,18 +169,18 @@
       }
     },
     {
-      "id": 27,
+      "id": 36,
       "kind": "command",
       "command": {
         "command": "indent",
         "indentContents": {
-          "id": 26,
+          "id": 35,
           "kind": "command",
           "command": {
             "command": "group",
             "id": 0,
             "groupContents": {
-              "id": 25,
+              "id": 34,
               "kind": "list",
               "list": [
                 {
@@ -207,9 +207,78 @@
                   ]
                 },
                 {
-                  "id": 24,
-                  "kind": "text",
-                  "text": "type Baz;"
+                  "id": 33,
+                  "kind": "command",
+                  "command": {
+                    "command": "group",
+                    "id": 0,
+                    "groupContents": {
+                      "id": 32,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 24,
+                          "kind": "text",
+                          "text": "type"
+                        },
+                        {
+                          "id": 30,
+                          "kind": "command",
+                          "command": {
+                            "command": "align",
+                            "alignData": {
+                              "kind": "width",
+                              "n": 2
+                            },
+                            "alignContents": {
+                              "id": 29,
+                              "kind": "list",
+                              "list": [
+                                {
+                                  "id": 25,
+                                  "kind": "command",
+                                  "command": {
+                                    "command": "line",
+                                    "literal": false,
+                                    "soft": false,
+                                    "hard": false
+                                  }
+                                },
+                                {
+                                  "id": 28,
+                                  "kind": "command",
+                                  "command": {
+                                    "command": "group",
+                                    "id": 0,
+                                    "groupContents": {
+                                      "id": 27,
+                                      "kind": "list",
+                                      "list": [
+                                        {
+                                          "id": 26,
+                                          "kind": "text",
+                                          "text": "Baz"
+                                        }
+                                      ]
+                                    },
+                                    "break": false,
+                                    "expandedStates": null
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "id": 31,
+                          "kind": "text",
+                          "text": ";"
+                        }
+                      ]
+                    },
+                    "break": false,
+                    "expandedStates": null
+                  }
                 }
               ]
             },
@@ -220,11 +289,11 @@
       }
     },
     {
-      "id": 30,
+      "id": 39,
       "kind": "list",
       "list": [
         {
-          "id": 28,
+          "id": 37,
           "kind": "command",
           "command": {
             "command": "line",
@@ -234,7 +303,7 @@
           }
         },
         {
-          "id": 29,
+          "id": 38,
           "kind": "command",
           "command": {
             "command": "breakParent"
@@ -243,35 +312,35 @@
       ]
     },
     {
-      "id": 31,
+      "id": 40,
       "kind": "text",
       "text": "begin"
     },
     {
-      "id": 39,
+      "id": 48,
       "kind": "command",
       "command": {
         "command": "group",
         "id": 0,
         "groupContents": {
-          "id": 38,
+          "id": 47,
           "kind": "list",
           "list": [
             {
-              "id": 37,
+              "id": 46,
               "kind": "command",
               "command": {
                 "command": "indent",
                 "indentContents": {
-                  "id": 36,
+                  "id": 45,
                   "kind": "list",
                   "list": [
                     {
-                      "id": 34,
+                      "id": 43,
                       "kind": "list",
                       "list": [
                         {
-                          "id": 32,
+                          "id": 41,
                           "kind": "command",
                           "command": {
                             "command": "line",
@@ -281,7 +350,7 @@
                           }
                         },
                         {
-                          "id": 33,
+                          "id": 42,
                           "kind": "command",
                           "command": {
                             "command": "breakParent"
@@ -290,7 +359,7 @@
                       ]
                     },
                     {
-                      "id": 35,
+                      "id": 44,
                       "kind": "text",
                       "text": "null;"
                     }
@@ -305,11 +374,11 @@
       }
     },
     {
-      "id": 42,
+      "id": 51,
       "kind": "list",
       "list": [
         {
-          "id": 40,
+          "id": 49,
           "kind": "command",
           "command": {
             "command": "line",
@@ -319,7 +388,7 @@
           }
         },
         {
-          "id": 41,
+          "id": 50,
           "kind": "command",
           "command": {
             "command": "breakParent"
@@ -328,7 +397,7 @@
       ]
     },
     {
-      "id": 43,
+      "id": 52,
       "kind": "text",
       "text": "end Foo;"
     }

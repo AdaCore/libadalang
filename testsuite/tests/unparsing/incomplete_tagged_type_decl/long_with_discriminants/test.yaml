@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of a simple indefinite
+    incomplete tagged type declaration.
+    It is expected the declaration breaks after `type` and
+    before `is` keywords and the new line be indented; the
+    `type` and `is` keywords are aligned.
+ 
+driver: unparser
+rule: incomplete_type_decl

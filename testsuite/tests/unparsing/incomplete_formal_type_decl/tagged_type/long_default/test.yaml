@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of a simple incomplete
+    tagged formal type declaration with long default type name.
+    It is expected the declaration breaks after 'tagged` and
+    `use` keywords, the new line be indented and `type` and
+    `or` keywords be aligned.
+ 
+driver: unparser
+rule: formal_type_decl

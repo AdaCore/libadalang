@@ -1,5 +1,5 @@
 {
-  "id": 38,
+  "id": 47,
   "kind": "list",
   "list": [
     {
@@ -216,18 +216,18 @@
       }
     },
     {
-      "id": 33,
+      "id": 42,
       "kind": "command",
       "command": {
         "command": "indent",
         "indentContents": {
-          "id": 32,
+          "id": 41,
           "kind": "command",
           "command": {
             "command": "group",
             "id": 0,
             "groupContents": {
-              "id": 31,
+              "id": 40,
               "kind": "list",
               "list": [
                 {
@@ -254,9 +254,78 @@
                   ]
                 },
                 {
-                  "id": 30,
-                  "kind": "text",
-                  "text": "type Qux;"
+                  "id": 39,
+                  "kind": "command",
+                  "command": {
+                    "command": "group",
+                    "id": 0,
+                    "groupContents": {
+                      "id": 38,
+                      "kind": "list",
+                      "list": [
+                        {
+                          "id": 30,
+                          "kind": "text",
+                          "text": "type"
+                        },
+                        {
+                          "id": 36,
+                          "kind": "command",
+                          "command": {
+                            "command": "align",
+                            "alignData": {
+                              "kind": "width",
+                              "n": 2
+                            },
+                            "alignContents": {
+                              "id": 35,
+                              "kind": "list",
+                              "list": [
+                                {
+                                  "id": 31,
+                                  "kind": "command",
+                                  "command": {
+                                    "command": "line",
+                                    "literal": false,
+                                    "soft": false,
+                                    "hard": false
+                                  }
+                                },
+                                {
+                                  "id": 34,
+                                  "kind": "command",
+                                  "command": {
+                                    "command": "group",
+                                    "id": 0,
+                                    "groupContents": {
+                                      "id": 33,
+                                      "kind": "list",
+                                      "list": [
+                                        {
+                                          "id": 32,
+                                          "kind": "text",
+                                          "text": "Qux"
+                                        }
+                                      ]
+                                    },
+                                    "break": false,
+                                    "expandedStates": null
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "id": 37,
+                          "kind": "text",
+                          "text": ";"
+                        }
+                      ]
+                    },
+                    "break": false,
+                    "expandedStates": null
+                  }
                 }
               ]
             },
@@ -267,11 +336,11 @@
       }
     },
     {
-      "id": 36,
+      "id": 45,
       "kind": "list",
       "list": [
         {
-          "id": 34,
+          "id": 43,
           "kind": "command",
           "command": {
             "command": "line",
@@ -281,7 +350,7 @@
           }
         },
         {
-          "id": 35,
+          "id": 44,
           "kind": "command",
           "command": {
             "command": "breakParent"
@@ -290,7 +359,7 @@
       ]
     },
     {
-      "id": 37,
+      "id": 46,
       "kind": "text",
       "text": "end Foo;"
     }

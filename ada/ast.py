@@ -691,10 +691,12 @@ class AdaNode(ASTNode):
                 lambda b: b,
                 default_val=Entity.semantic_parents
                 .find(lambda n: n.is_a(Body)).cast(T.Body)
-            )._.gnatprove_annotations.find(
-                lambda a:
-                a.cast(Name).name_symbol
-                .any_of('Skip_Proof', 'Skip_Flow_And_Proof')
+            ).then(
+                lambda b: b.gnatprove_annotations.find(
+                    lambda a:
+                    a.cast(Name).name_symbol
+                    .any_of('Skip_Proof', 'Skip_Flow_And_Proof')
+                )
             ).is_null),
             False,
 
@@ -1748,7 +1750,7 @@ class AdaNode(ASTNode):
                  .then(lambda dn: dn.basic_decl))
 
         return origin.bind(Self, Cond(
-            bd._.is_a(T.ParamSpec)
+            bd.is_a(T.ParamSpec)
             & Or(
                 bd.semantic_parent.is_a(T.BasicSubpDecl, T.ExprFunction,
                                         T.BaseTypeDecl, T.SubpBodyStub,
@@ -1759,13 +1761,13 @@ class AdaNode(ASTNode):
             ),
             bd.semantic_parent.cast(T.BasicDecl).defining_name,
 
-            bd._.parent._.is_a(T.GenericFormal),
+            bd._.parent.is_a(T.GenericFormal),
             bd.parents.find(
                 lambda p: p.is_a(T.GenericDecl)
             ).cast(T.GenericDecl).decl.defining_name,
 
             # Deferred constants case
-            bd._.is_a(T.ObjectDecl)
+            bd.is_a(T.ObjectDecl)
             & Not(bd.cast(T.ObjectDecl).has_constant.is_null)
             & bd.is_in_private_part,
             Entity.cast(T.Name).enclosing_defining_name.previous_part,
@@ -1778,7 +1780,7 @@ class AdaNode(ASTNode):
             # documented as "reference" in GNAT and might apply to other nodes,
             # but the discriminants case is the single occurence of that kind
             # we found so far.
-            bd._.is_a(T.DiscriminantSpec),
+            bd.is_a(T.DiscriminantSpec),
             Let(
                 lambda pd=bd.cast(T.DiscriminantSpec).parent_decl:
                 If(
@@ -1789,11 +1791,11 @@ class AdaNode(ASTNode):
                 )
             ),
 
-            bd.then(lambda bd: bd.is_a(T.AbstractSubpDecl)),
+            bd.is_a(T.AbstractSubpDecl),
             bd.cast(T.AbstractSubpDecl).subp_decl_spec
             .primitive_subp_first_type.defining_name,
 
-            bd.then(lambda bd: bd.is_a(T.BasicSubpDecl)),
+            bd.is_a(T.BasicSubpDecl),
             bd.cast(T.BasicSubpDecl).subp_decl_spec
             .primitive_subp_first_type.then(
                 lambda prim_typ:
@@ -1804,7 +1806,7 @@ class AdaNode(ASTNode):
                 )
             ),
 
-            bd.then(lambda bd: bd.is_a(T.BaseSubpBody)),
+            bd.is_a(T.BaseSubpBody),
             bd.cast(T.BaseSubpBody).subp_spec.subp_name,
 
             Entity.cast(T.Name)._.gnat_xref_decl.then(
@@ -1989,24 +1991,28 @@ class AdaNode(ASTNode):
         # Fetch the BasicDecl corresponding to ``real_from_node``, so that
         # we can filter it out from ``results`` if its name matches the symbol
         # on which we want to perform an env lookup.
-        return real_from_node._.match(
-            lambda bd=BasicDecl: If(
-                bd.as_bare_entity.defining_name._.name_is(symbol),
-                bd,
-                No(BasicDecl)
+        return real_from_node.then(
+            lambda rfn: rfn.match(
+                lambda bd=BasicDecl: If(
+                    bd.as_bare_entity.defining_name._.name_is(symbol),
+                    bd,
+                    No(BasicDecl)
+                ),
+                lambda dn=DefiningName: If(
+                    dn.name_is(symbol),
+                    dn.as_bare_entity.basic_decl.node,
+                    No(BasicDecl)
+                ),
+                lambda _: No(BasicDecl)
+            ).then(
+                lambda enclosing_bd:
+                # We found that our enclosing basic decl's defining name
+                # matches the symbol on which we are doing an env lookup:
+                # filter it out of the `results` array since it cannot be
+                # legal Ada.
+                results.filter(lambda r: r.node != enclosing_bd),
+                default_val=results
             ),
-            lambda dn=DefiningName: If(
-                dn.name_is(symbol),
-                dn.as_bare_entity.basic_decl.node,
-                No(BasicDecl)
-            ),
-            lambda _: No(BasicDecl)
-        ).then(
-            lambda enclosing_bd:
-            # We found that our enclosing basic decl's defining name matches
-            # the symbol on which we are doing an env lookup: filter it out
-            # of the `results` array since it cannot be legal Ada.
-            results.filter(lambda r: r.node != enclosing_bd),
             default_val=results
         )
 
@@ -3065,8 +3071,9 @@ class BasicDecl(AdaNode):
                     Not(prefix.is_null),
                     # ``Entity`` shall be a dottable subprogram for the
                     # object's type designated by ``prefix``.
-                    prefix.expr_type._.accessed_type
-                    ._or(prefix.expr_type) == spec.dottable_subp_of,
+                    prefix.expr_type.then(
+                        lambda typ: typ.accessed_type
+                    )._or(prefix.expr_type) == spec.dottable_subp_of,
                     # Then signature profiles shall match by ignoring the first
                     # parameter of ``Entity``.
                     spec.match_signature(
@@ -5484,7 +5491,8 @@ class VariantPart(AdaNode):
             lambda var: var.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr: If(
-                    Not(e.cast(Name)._.name_designated_type.is_null),
+                    And(e.is_a(Name),
+                        Not(e.cast(Name).name_designated_type.is_null)),
 
                     e.cast(Name).xref_no_overloading,
 
@@ -5755,7 +5763,9 @@ class ComponentList(BaseFormalParamHolder):
 
         return If(
             include_discriminants,
-            Entity.type_decl._.discriminants_list(stop_recurse_at).concat(ret),
+            Entity.type_decl.then(
+                lambda decl: decl.discriminants_list(stop_recurse_at)
+            ).concat(ret),
             ret
         )
 
@@ -6655,7 +6665,7 @@ class BaseTypeDecl(BasicDecl):
         return (
             Entity.declarative_scope.cast(T.PublicPart)
             ._.parent.cast(BasePackageDecl)
-            ._.private_part._.decls._.find(
+            ._.private_part._.decls.find(
                 lambda d: d.cast(T.BaseTypeDecl).then(
                     lambda pp:
                     pp.name_symbol == Entity.name_symbol
@@ -10523,9 +10533,10 @@ class TypeExpr(AdaNode):
         """
         d = Var(Entity.designated_type)
         return If(
-            d.cast(AnonymousTypeDecl)._.type_def.cast(AccessDef).is_null,
-            d,
+            And(d.is_a(AnonymousTypeDecl),
+                d.cast(AnonymousTypeDecl).type_def.is_a(AccessDef)),
             d.accessed_type,
+            d
         )
 
     @langkit_property(return_type=BaseTypeDecl.entity, dynamic_vars=[origin],
@@ -10540,7 +10551,9 @@ class TypeExpr(AdaNode):
         Return the constraint that this type expression defines on its
         designated subtype, if any.
         """
-        return Entity.cast(SubtypeIndication)._.constraint._or(
+        return Entity.cast(SubtypeIndication).then(
+            lambda si: si.constraint
+        )._or(
             Entity.designated_type.cast(SubtypeDecl).then(
                 lambda st: st.subtype.subtype_constraint
             )
@@ -11014,12 +11027,16 @@ class Pragma(AdaNode):
                 lambda expr=Entity.args.at(0).assoc_expr:
                 expr.sub_equation
                 & expr.expect_bool_derived_type
-            ) & Entity.args.at(1)._.assoc_expr.then(
-                lambda msg:
-                Bind(msg.expected_type_var, Self.std_string_type)
-                & msg.sub_equation
-                & msg.matches_expected_type,
-                default_val=LogicTrue()
+            ) & Entity.args.at(1).then(
+                lambda arg:
+                arg.assoc_expr.then(
+                    lambda msg:
+                    Bind(msg.expected_type_var, Self.std_string_type)
+                    & msg.sub_equation
+                    & msg.matches_expected_type,
+                    default_val=LogicTrue(),
+                ),
+                default_val=LogicTrue(),
             ),
 
             Entity.id.name_is('Unreferenced'),
@@ -11276,7 +11293,7 @@ class Pragma(AdaNode):
                 # complexity so it can be very inefficient if we have a long
                 # list of pragma to process before reaching the declaration
                 # associated to them).
-                Self.parent.cast(AdaNode.list)._.then(
+                Self.parent.cast(AdaNode.list).then(
                     lambda decls: decls.filter(
                         lambda decl: decl.is_a(BasicDecl) & (decl < Self)
                     ).then(
@@ -14637,38 +14654,49 @@ class MembershipExpr(Expr):
         Bind(Self.type_var, Self.bool_type)
         & Entity.expr.sub_equation
         & Entity.membership_exprs.logic_all(
-            lambda m: m.cast(T.Name)._.name_designated_type.then(
-                # Tagged type check or subtype membership check
-                lambda typ:
-                m.cast(T.Name).xref_no_overloading
-                & Cond(
-                    # If testing a specific tagged type membership, the
-                    # expected type of the tested expression is the type at the
-                    # root of the tagged type hierarchy.
-                    # TODO: This is currently not possible to express because
-                    # of an unrelated bug (see V408-038), but we can at least
-                    # constrain the resulting type to be tagged after implicit
-                    # dereference.
-                    typ.is_tagged_type,
-                    Bind(Self.expr.expected_type_var, No(BaseTypeDecl.entity))
-                    & Predicate(BaseTypeDecl.is_tagged_type_with_deref,
-                                Self.expr.type_var, error_location=Self),
+            lambda m:
+            Let(
+                lambda typ=m.cast(T.Name)._.name_designated_type:
 
-                    # This is a simple subtype membership test, so the expected
-                    # type of the tested expression is the subtype's base type.
-                    Bind(Self.expr.expected_type_var,
-                         typ.base_subtype)
-                    & Self.expr.matches_expected_membership_type
-                ),
+                If(
+                    Not(typ.is_null),
 
-                # Regular membership check
-                default_val=And(
-                    Bind(m.expected_type_var, Self.expr.type_var),
-                    m.sub_equation,
-                    m.matches_expected_type
+                    # Tagged type check or subtype membership check
+                    m.cast(T.Name).xref_no_overloading
+                    & If(
+                        # If testing a specific tagged type membership, the
+                        # expected type of the tested expression is the type at
+                        # the root of the tagged type hierarchy.
+                        #
+                        # TODO: This is currently not possible to express
+                        # because of an unrelated bug (see V408-038), but we
+                        # can at least constrain the resulting type to be
+                        # tagged after implicit dereference.
+                        typ.is_tagged_type,
+                        Bind(
+                            Self.expr.expected_type_var,
+                            No(BaseTypeDecl.entity),
+                        )
+                        & Predicate(BaseTypeDecl.is_tagged_type_with_deref,
+                                    Self.expr.type_var, error_location=Self),
+
+                        # This is a simple subtype membership test, so the
+                        # expected type of the tested expression is the
+                        # subtype's base type.
+                        Bind(Self.expr.expected_type_var,
+                             typ.base_subtype)
+                        & Self.expr.matches_expected_membership_type
+                    ),
+
+                    # Regular membership check
+                    And(
+                        Bind(m.expected_type_var, Self.expr.type_var),
+                        m.sub_equation,
+                        m.matches_expected_type
+                    )
                 )
             )
-        ),
+        )
     )
 
 
@@ -14725,7 +14753,8 @@ class BaseAggregate(Expr):
             # designating a type as in `(Controlled with X => 2)`, or an
             # arbitrary expression as in `(Foo(1) with X => 2)`.
             lambda ae: Cond(
-                Not(ae.cast(Name)._.name_designated_type.is_null),
+                And(ae.is_a(Name),
+                    Not(ae.cast(Name).name_designated_type.is_null)),
                 ae.cast(Name).xref_no_overloading,
 
                 Self.is_a(DeltaAggregate),
@@ -14925,7 +14954,9 @@ class BaseAggregate(Expr):
         part's already populated type variable.
         """
         return Entity.ancestor_expr.then(
-            lambda ae: ae.cast(Name)._.name_designated_type._or(
+            lambda ae: ae.cast(Name).then(
+                lambda n: n.name_designated_type
+            )._or(
                 If(resolve_type,
                    ae.expression_type,
                    ae.type_val.cast(BaseTypeDecl))
@@ -16142,7 +16173,9 @@ class Name(Expr):
         ))
         offset = Var(If(is_prefix_call, 1, 0))
         call_prefix = Var(
-            Entity.cast(CallExpr)._.name._or(Entity).match(
+            Entity.cast(CallExpr).then(
+                lambda ce: ce.name
+            )._or(Entity).match(
                 lambda dn=DottedName: dn.prefix,
                 lambda ar=AttributeRef: ar.prefix,
                 lambda _: No(Expr.entity)
@@ -16298,7 +16331,9 @@ class CallExpr(Name):
 
             origin.bind(
                 Self.origin_node,
-                Not(Entity.name.expression_type._.array_def_with_deref.is_null)
+                Not(Entity.name.expression_type.then(
+                    lambda typ: typ.array_def_with_deref
+                ).is_null)
             ),
             CallExprKind.array_index,
 
@@ -16670,17 +16705,21 @@ class CallExpr(Name):
                 default_val=LogicFalse(),
             ),
 
-            Not(atd._.indices.is_null), Entity.suffix.match(
+            And(Not(atd.is_null), Not(atd.indices.is_null)),
+            Entity.suffix.match(
                 lambda _=T.AssocList: Or(
                     # Either an array slice through subtype indication
-                    Entity.params.at(0)._.expr.cast(Name).then(
-                        lambda name: If(
-                            name.name_designated_type.is_null,
-                            LogicFalse(),
-                            name.xref_no_overloading
-                            & Bind(Self.type_var, real_typ)
+                    Entity.params.at(0).then(
+                        lambda param: param.expr.cast(Name).then(
+                            lambda name: If(
+                                name.name_designated_type.is_null,
+                                LogicFalse(),
+                                name.xref_no_overloading
+                                & Bind(Self.type_var, real_typ)
+                            ),
+                            default_val=LogicFalse(),
                         ),
-                        default_val=LogicFalse()
+                        default_val=LogicFalse(),
                     ),
 
                     # Or a regular array access
@@ -17090,7 +17129,8 @@ class AggregateAssoc(BasicAssoc):
 
             Entity.designators.logic_all(
                 lambda n: n.sub_equation & If(
-                    Not(n.cast(Name)._.name_designated_type.is_null),
+                    And(n.is_a(Name),
+                        Not(n.cast(Name).name_designated_type.is_null)),
 
                     n.cast(Name).xref_no_overloading,
 
@@ -17765,7 +17805,8 @@ class CaseExpr(CondExpr):
             alt.choices.logic_all(lambda c: c.match(
                 # Expression case
                 lambda e=T.Expr: If(
-                    Not(e.cast(Name)._.name_designated_type.is_null),
+                    And(e.is_a(Name),
+                        Not(e.cast(Name).name_designated_type.is_null)),
 
                     e.cast(Name).xref_no_overloading,
 
@@ -17935,7 +17976,9 @@ class DefiningName(Name):
             )
         ))
 
-        return bd.parent.cast(Subunit)._.name.as_single_tok_node_array.map(
+        return bd.parent.cast(Subunit).then(
+            lambda su: su.name.as_single_tok_node_array
+        ).map(
             lambda t: t.text
         ).concat(fqn)._or(fqn)
 
@@ -18532,7 +18575,7 @@ class DefiningName(Name):
             # ``declarative_scope`` here, as this BasicDecl may not necessarily
             # be in a DeclarativePart, as is the case for ComponentDecls.
             # Instead, we simply look among this node's siblings.
-            bd.parent.cast(AdaNode.list)._.find(
+            bd.parent.cast(AdaNode.list).find(
                 lambda d: Entity.is_valid_pragma_for_name(name, d)
             )
 
@@ -18906,8 +18949,9 @@ class BaseId(SingleTokNode):
             # If we got a formal type declaration (i.e. a type declaration
             # of a generic formal parameter), always returns its default type
             # value if any.
-            precise.parent.cast(GenericFormalTypeDecl)._.default_type
-            ._or(precise)
+            precise.parent.cast(GenericFormalTypeDecl).then(
+                lambda gftd: gftd.default_type
+            )._or(precise)
         )
 
     @langkit_property(dynamic_vars=[env])
@@ -19842,11 +19886,14 @@ class BaseSubpSpec(BaseFormalParamHolder):
         # The ``name`` field can be null, for example if this subp spec is part
         # of an access-to-subprogram type declaration.
         bd = Var(Entity.name._.basic_decl)
-        return bd._.canonical_part.then(
-            lambda dp: If(
-                Not(follow_generic) & dp.is_a(GenericSubpInternal),
-                No(BaseSubpSpec.entity),
-                dp.subp_spec_or_null(follow_generic=follow_generic)
+        return bd.then(
+            lambda bd: bd.canonical_part.then(
+                lambda dp: If(
+                    Not(follow_generic) & dp.is_a(GenericSubpInternal),
+                    No(BaseSubpSpec.entity),
+                    dp.subp_spec_or_null(follow_generic=follow_generic)
+                ),
+                default_val=Entity
             ),
             default_val=Entity
         )
@@ -21100,11 +21147,16 @@ class AttributeRef(Name):
 
         # If the range attribute has an argument, then it's a static expression
         # representing an int that we will use as a dimension.
-        dim = Var(Entity.args.at(0)._.expr.then(
-            lambda expr: Let(
-                lambda _=expr.resolve_names_internal(False):
-                expr.eval_as_int.as_int
-            ), default_val=1) - 1)
+        dim = Var(Entity.args.at(0).then(
+            lambda arg: arg.expr.then(
+                lambda expr: Let(
+                    lambda _=expr.resolve_names_internal(False):
+                    expr.eval_as_int.as_int
+                ),
+                default_val=1,
+            ),
+            default_val=1,
+        ) - 1)
 
         return If(
             Not(typ.is_null),
@@ -21262,11 +21314,15 @@ class ReduceAttributeRef(Name):
             from_node=Self.origin_node
         ).logic_any(
             lambda subp:
-            subp.cast(BasicDecl)._.is_valid_reducer_candidate.then(
-                lambda _:
-                Entity.xref_equation_for_reducer_candidate(subp
-                                                           .cast(BasicDecl)),
-                default_val=LogicFalse()
+            subp.cast(BasicDecl).then(
+                lambda bd: bd.is_valid_reducer_candidate.then(
+                    lambda _:
+                    Entity.xref_equation_for_reducer_candidate(
+                        subp.cast(BasicDecl)
+                    ),
+                    default_val=LogicFalse(),
+                ),
+                default_val=LogicFalse(),
             )
         )
 
@@ -22948,7 +23004,8 @@ class CaseStmtAlternative(AdaNode):
             # Expression case
             lambda e=T.Expr:
             If(
-                Not(e.cast(Name)._.name_designated_type.is_null),
+                And(e.is_a(Name),
+                    Not(e.cast(Name).name_designated_type.is_null)),
 
                 e.cast(Name).xref_no_overloading,
 
@@ -23268,12 +23325,12 @@ class TaskBody(Body):
                   kind=RefKind.prioritary),
     )
 
-    task_type_decl_scope = Property(
-        Entity.task_type._.definition._.private_part.then(
-            lambda pp: pp.children_env,
-            default_val=Entity.task_type.children_env
-        )
-    )
+    task_type_decl_scope = Property(Let(
+        lambda pp=Entity.task_type._.definition._.private_part:
+        If(pp.is_null,
+           Entity.task_type.children_env,
+           pp.children_env)
+    ))
 
     @langkit_property()
     def task_type():

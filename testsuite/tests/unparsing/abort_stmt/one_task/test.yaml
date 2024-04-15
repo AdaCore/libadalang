@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of an abort statement
+    with an array element as task name.
+    It is expected the declaration stays on a single line.
+ 
+driver: unparser
+rule: abort_stmt

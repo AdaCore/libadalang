@@ -1,5 +1,34 @@
 {
   "node_configs": {
+    "AbortStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "abort"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_names"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_names": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        }
+      }
+    },
     "AcceptStmt": {
       "node": {
         "kind": "group",

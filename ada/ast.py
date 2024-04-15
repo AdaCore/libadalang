@@ -8756,9 +8756,18 @@ class TypeDecl(BaseTypeDecl):
             stop_at=Entity.previous_part._.base_types
         )
 
-    get_imp_deref = Property(
+    get_imp_deref = Property(If(
+        # Fast path: as the ``Implicit_Deference`` must refer to a
+        # discriminant, we know the aspect cannot be defined if this type
+        # doesn't have a discriminant part. Besides, if some part of a type
+        # defines a discriminant part, then the next parts will necessarily
+        # repeat it, therefore we don't need to recurse on this type's previous
+        # part. This logic is however not valid for derived types, so don't
+        # include them in the fast path.
+        Self.discriminants.is_null & Not(Self.type_def.is_a(T.DerivedTypeDef)),
+        No(T.Expr.entity),
         Entity.get_aspect('Implicit_Dereference', True).value
-    )
+    ))
 
     has_ud_indexing = Property(
         Not(Entity.get_aspect('Constant_Indexing', True).value.is_null)

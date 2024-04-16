@@ -6,5 +6,10 @@
 <ConcreteTypeDecl ["C"] test.adb:6:4-6:41> is a definite subtype
 <ConcreteTypeDecl ["CC"] test.adb:7:4-7:51> is not a definite subtype
 <ConcreteTypeDecl ["D"] test.adb:8:4-8:31> is a definite subtype
+<ConcreteTypeDecl ["E"] test.adb:10:4-15:15> is not a definite subtype
+<SubtypeIndication test.adb:17:9-17:11> is not a definite subtype
+<SubtypeIndication test.adb:18:9-18:21> is a definite subtype
+<SubtypeIndication test.adb:19:9-19:17> is a definite subtype
+<SubtypeIndication test.adb:20:9-20:10> is not a definite subtype
 
 Done

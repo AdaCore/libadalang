@@ -47,8 +47,8 @@ public class GPRContext {
             Libadalang.Text.create("pkg"),
             Libadalang.AnalysisUnitKind.UNIT_BODY
         );
-        List<Libadalang.Diagnostic> diagnostics = u.getDiagnostics();
-        if (!diagnostics.isEmpty())
+        Libadalang.Diagnostic[] diagnostics = u.getDiagnostics();
+        if (diagnostics.length != 0)
         {
             for (Libadalang.Diagnostic d : diagnostics)
                 System.out.println(d.toString());
@@ -83,9 +83,9 @@ public class GPRContext {
 
         // To show that configuration pragmas are properly detected from the
         // project, print their list.
-        Libadalang.AdaNodeArray pragmas = cu.pAllConfigPragmas();
-        for (int i = 0; i < pragmas.size(); ++i)
-            System.out.println("Config pragma: " + pragmas.get(i));
+        Libadalang.AdaNode[] pragmas = cu.pAllConfigPragmas();
+        for (Libadalang.AdaNode pragma : pragmas)
+            System.out.println("Config pragma: " + pragma);
 
         System.out.println("");
     }

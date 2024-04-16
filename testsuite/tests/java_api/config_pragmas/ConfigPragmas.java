@@ -19,8 +19,8 @@ public class ConfigPragmas {
 
     private static AnalysisUnit load(String filename) {
         AnalysisUnit u = ctx.getUnitFromFile(filename);
-        List<Diagnostic> diagnostics = u.getDiagnostics();
-        if (!diagnostics.isEmpty())
+        Diagnostic[] diagnostics = u.getDiagnostics();
+        if (diagnostics.length != 0)
         {
             for (Diagnostic d : diagnostics)
                 System.out.println(d.toString());
@@ -34,7 +34,7 @@ public class ConfigPragmas {
             System.out.println("Pragmas for " + filename + ":");
             AnalysisUnit u = load(filename);
             CompilationUnit cu = (CompilationUnit) u.getRoot();
-            AdaNodeArray pragmas;
+            AdaNode[] pragmas;
             try {
                 pragmas = cu.pAllConfigPragmas();
             } catch (LangkitException exc) {
@@ -43,8 +43,8 @@ public class ConfigPragmas {
                 );
                 continue;
             }
-            for (int i = 0; i < pragmas.size(); ++i)
-                System.out.println("Config pragma: " + pragmas.get(i));
+            for (AdaNode pragma : pragmas)
+                System.out.println("Config pragma: " + pragma);
         }
     }
 

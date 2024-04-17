@@ -7861,23 +7861,29 @@ class BaseTypeDecl(BasicDecl):
             Not(expected_type.is_null),
             Not(actual_type.is_null),
             Or(
-                And(actual_type == Self.universal_int_type,
-                    expected_type.allows_universal_int),
+                Let(lambda uit=Self.universal_int_type: Or(
+                    And(actual_type == uit,
+                        expected_type.allows_universal_int),
 
-                And(expected_type == Self.universal_int_type,
-                    actual_type.is_int_type),
+                    And(expected_type == uit,
+                        actual_type.is_int_type),
+                )),
 
-                And(actual_type == Self.universal_real_type,
-                    expected_type.allows_universal_real),
+                Let(lambda urt=Self.universal_real_type: Or(
+                    And(actual_type == urt,
+                        expected_type.allows_universal_real),
 
-                And(expected_type == Self.universal_real_type,
-                    actual_type.is_real_type),
+                    And(expected_type == urt,
+                        actual_type.is_real_type),
+                )),
 
-                And(expected_type == Self.universal_fixed_type,
-                    actual_type.is_fixed_point),
+                Let(lambda uft=Self.universal_fixed_type: Or(
+                    And(expected_type == uft,
+                        actual_type.is_fixed_point),
 
-                And(actual_type == Self.universal_fixed_type,
-                    expected_type.is_fixed_point),
+                    And(actual_type == uft,
+                        expected_type.is_fixed_point),
+                )),
 
                 actual_type.canonical_type == expected_type.canonical_type,
 
@@ -8484,12 +8490,7 @@ class TypeDecl(BaseTypeDecl):
             # TODO: The optional `Element` assoc must be defined, if not, a
             # type with the aspect `Iterable` only supports iteration over
             # cursors through the `for .. in` loop (W303-007).
-            Not(Entity.get_aspect('Iterable', True).value.is_null),
-            Entity.type_def.match(
-                lambda dtd=T.DerivedTypeDef:
-                dtd.base_type.then(lambda bt: bt.is_iterable_type),
-                lambda _: False
-            )
+            Not(Entity.get_aspect('Iterable', True).value.is_null)
         ),
         doc="""
         Whether Self is a type that is iterable in a for .. of loop
@@ -8515,13 +8516,8 @@ class TypeDecl(BaseTypeDecl):
             ).assoc.expr.cast_or_raise(T.Name)
             .referenced_decl.expr_type,
 
-            Entity.type_def.match(
-                lambda dtd=T.DerivedTypeDef:
-                dtd.base_type.then(lambda bt: bt.iterable_comp_type),
-                lambda _: No(T.BaseTypeDecl.entity)
-            ),
-        )._or(Entity.previous_part(False)
-              .then(lambda pp: pp.iterable_comp_type)))
+            No(T.BaseTypeDecl.entity)
+        ))
 
     @langkit_property(dynamic_vars=[origin])
     def iterable_cursor_type():
@@ -8766,13 +8762,22 @@ class TypeDecl(BaseTypeDecl):
             stop_at=Entity.previous_part._.base_types
         )
 
-    get_imp_deref = Property(
+    get_imp_deref = Property(If(
+        # Fast path: as the ``Implicit_Deference`` must refer to a
+        # discriminant, we know the aspect cannot be defined if this type
+        # doesn't have a discriminant part. Besides, if some part of a type
+        # defines a discriminant part, then the next parts will necessarily
+        # repeat it, therefore we don't need to recurse on this type's previous
+        # part. This logic is however not valid for derived types, so don't
+        # include them in the fast path.
+        Self.discriminants.is_null & Not(Self.type_def.is_a(T.DerivedTypeDef)),
+        No(T.Expr.entity),
         Entity.get_aspect('Implicit_Dereference', True).value
-    )
+    ))
 
     has_ud_indexing = Property(
-        Not(Entity.get_aspect('Constant_Indexing').value.is_null)
-        | Not(Entity.get_aspect('Variable_Indexing').value.is_null)
+        Not(Entity.get_aspect('Constant_Indexing', True).value.is_null)
+        | Not(Entity.get_aspect('Variable_Indexing', True).value.is_null)
     )
 
     @langkit_property()
@@ -8835,7 +8840,7 @@ class TypeDecl(BaseTypeDecl):
         Return all the indexing functions defined for this type, including
         ones defined by its parents.
         """
-        return Entity.get_aspect(sym).value.then(
+        return Entity.get_aspect(sym, True).value.then(
             lambda val: Let(
                 # The indexing function's name is specified on the type for
                 # which the aspect is defined (which is returned by
@@ -18381,11 +18386,30 @@ class DefiningName(Name):
 
             Entity.all_parts
         ))
-        return parts_to_check.map(
-            lambda p: p.get_aspect_impl(name, inherited)
-        ).find(
-            lambda a: a.exists
-        )._or(
+
+        self_aspects = Var(Cond(
+            # The following aspects only support the Ada 2012 aspect
+            # association syntax, so use a faster path to avoid looking
+            # for pragmas and representation clauses for them as they are
+            # often queried during name resolution.
+            name.any_of(
+                'Implicit_Dereference', 'Constant_Indexing',
+                'Variable_Indexing', 'Iterable', 'Iterator_Element'
+            ),
+
+            parts_to_check.map(
+                lambda p: p.basic_decl.get_aspect_assoc(name).then(
+                    lambda aa: Aspect.new(exists=True, node=aa,
+                                          value=aa.expr, inherited=inherited)
+                )
+            ),
+
+            parts_to_check.map(
+                lambda p: p.get_aspect_impl(name, inherited)
+            )
+        ))
+
+        return self_aspects.find(lambda a: a.exists)._or(
             # If nothing has been found so far for entity, check out for any
             # inherited aspect.
             Entity.basic_decl_no_internal.cast(BaseTypeDecl).then(

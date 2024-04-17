@@ -410,6 +410,60 @@
         }
       }
     },
+    "AttributeDefClause": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "for"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_attribute_expr"
+          },
+          {
+            "kind": "text",
+            "text": "use"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      }
+    },
+    "AttributeRef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_prefix"
+          },
+          {
+            "kind": "text",
+            "text": "'"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_attribute"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_args"
+          }
+        ]
+      }
+    },
     "AssocList": {
       "sep": [
         "recurse",

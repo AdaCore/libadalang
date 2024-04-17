@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of contract cases expression.
+    It is expected the declaration breaks at the end of the first
+    contract case association and the new line is aligned relative
+    to the first association.
+ 
+driver: unparser
+rule: contract_cases_expr

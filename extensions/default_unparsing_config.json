@@ -429,10 +429,13 @@
           {
             "kind": "align",
             "width": 2,
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_expr"
-            }
+            "contents": [
+              "line",
+              {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
+            ]
           },
           {
             "kind": "text",
@@ -1101,6 +1104,65 @@
       }
     },
     "ConstraintList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
+    },
+    "ContractCases": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "align",
+          "width": 1,
+          "contents": [
+            {
+              "kind": "text",
+              "text": "("
+            },
+            {
+              "kind": "innerRoot",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_contract_cases"
+              }
+            },
+            {
+              "kind": "text",
+              "text": ")"
+            }
+          ]
+        }
+      }
+    },
+    "ContractCaseAssoc": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_guard"
+          },
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "=>"
+          },
+          {
+            "kind": "align",
+            "width": 2,
+            "contents": [
+              "line",
+              {
+                "kind": "recurse_field",
+                "field": "f_consequence"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ContractCaseAssocList": {
       "sep": [
         "recurse",
         "line"

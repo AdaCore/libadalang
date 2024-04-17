@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of contract cases expression.
+    It is expected the declaration breaks after `=>` and at the
+    end of the first contract case association; first the new
+    be indented and the next one be aligned relative to the first
+    association.
+ 
+driver: unparser
+rule: contract_cases_expr

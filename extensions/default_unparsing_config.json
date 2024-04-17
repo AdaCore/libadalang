@@ -1044,6 +1044,44 @@
         }
       }
     },
+    "ConcatOp": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_first_operand"
+          },
+          "line",
+          {
+            "kind": "recurse_field",
+            "field": "f_other_operands"
+          }
+        ]
+      }
+    },
+    "ConcatOperand": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_operator"
+          },
+          "line",
+          {
+            "kind": "recurse_field",
+            "field": "f_operand"
+          }
+        ]
+      }
+    },
+    "ConcatOperandList": {
+      "sep": [
+        "line",
+        "recurse"
+      ]
+    },
     "ConstrainedArrayIndices": {
       "node": {
         "kind": "align",

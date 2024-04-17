@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of a concat operation.
+    It is expected the declaration stays on a single line.
+ 
+driver: unparser
+rule: simple_expr

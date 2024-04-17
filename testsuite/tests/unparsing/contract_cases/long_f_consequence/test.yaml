@@ -1,0 +1,7 @@
+description: |
+    This test checks the formatting of contract cases expression.
+    Test that when `f_consequences` is long, a line break and
+    continuation-line indentation is added after `=>`.
+ 
+driver: unparser
+rule: contract_cases_expr

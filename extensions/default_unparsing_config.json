@@ -426,14 +426,16 @@
             "kind": "text",
             "text": "use"
           },
-          "line",
           {
             "kind": "align",
             "width": 2,
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_expr"
-            }
+            "contents": [
+              "line",
+              {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
+            ]
           },
           {
             "kind": "text",

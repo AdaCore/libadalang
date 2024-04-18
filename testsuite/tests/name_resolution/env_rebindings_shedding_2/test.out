@@ -1,0 +1,20 @@
+Working on node <GenericPackageInstantiation ["My_Pkg"] test.adb:60:4-60:42>
+============================================================================
+
+Set 'pkg_body' to 'node.p_designated_generic_decl.p_body_part'
+Result: <| PackageBody ["Pkg"] test.adb:50:4-57:12 [test.adb:60:4] |>
+
+Set 'iter_inst' to 'pkg_body.findall(lal.GenericPackageInstantiation)[1]'
+Result: <| GenericPackageInstantiation ["Iter"] test.adb:53:10-53:53 [test.adb:60:4] |>
+
+Set 'iter_gen' to 'iter_inst.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["Iter_G"] test.adb:16:7-20:18 [test.adb:59:4, test.adb:60:4, test.adb:53:10] |>
+
+Set 'shared_formal' to 'iter_gen.find(lal.GenericPackageInstantiation)'
+Result: <| GenericPackageInstantiation ["Shared"] test.adb:17:15-17:51 [test.adb:59:4, test.adb:60:4, test.adb:53:10] |>
+
+Set 'shared_gen' to 'shared_formal.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["Shared_G"] test.adb:10:7-14:20 [test.adb:59:4, test.adb:60:4, test.adb:52:10] |>
+
+Eval 'shared_gen.p_body_part.find(lal.CallStmt).p_resolve_names'
+Result: True

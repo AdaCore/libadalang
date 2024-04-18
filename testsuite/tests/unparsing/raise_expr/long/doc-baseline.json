@@ -1,17 +1,17 @@
 {
-  "id": 8,
+  "id": 7,
   "kind": "command",
   "command": {
     "command": "group",
     "id": 0,
     "groupContents": {
-      "id": 7,
+      "id": 6,
       "kind": "list",
       "list": [
         {
           "id": 0,
           "kind": "text",
-          "text": "raise NotImplementedError"
+          "text": "raise VeeeeeeeeeeeeryyyyyyyyLoooongNotImplementedError"
         },
         {
           "id": 5,
@@ -45,7 +45,7 @@
                     {
                       "id": 2,
                       "kind": "text",
-                      "text": "with \"too bad\""
+                      "text": "with \"a looooooooooooong too bad message\""
                     }
                   ]
                 },
@@ -54,11 +54,6 @@
               }
             }
           }
-        },
-        {
-          "id": 6,
-          "kind": "text",
-          "text": ";"
         }
       ]
     },

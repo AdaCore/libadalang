@@ -1,20 +1,20 @@
 {
-  "id": 7,
+  "id": 8,
   "kind": "command",
   "command": {
     "command": "group",
     "id": 0,
     "groupContents": {
-      "id": 6,
+      "id": 7,
       "kind": "list",
       "list": [
         {
           "id": 0,
           "kind": "text",
-          "text": "raise VeeeeeeeeeeeeryyyyyyyyLoooongNotImplementedError with"
+          "text": "raise VeeeeeeeeeeeeryyyyyyyyLoooongNotImplementedError"
         },
         {
-          "id": 4,
+          "id": 5,
           "kind": "command",
           "command": {
             "command": "align",
@@ -23,30 +23,40 @@
               "n": 2
             },
             "alignContents": {
-              "id": 3,
-              "kind": "list",
-              "list": [
-                {
-                  "id": 1,
-                  "kind": "command",
-                  "command": {
-                    "command": "line",
-                    "literal": false,
-                    "soft": false,
-                    "hard": false
-                  }
+              "id": 4,
+              "kind": "command",
+              "command": {
+                "command": "group",
+                "id": 0,
+                "groupContents": {
+                  "id": 3,
+                  "kind": "list",
+                  "list": [
+                    {
+                      "id": 1,
+                      "kind": "command",
+                      "command": {
+                        "command": "line",
+                        "literal": false,
+                        "soft": false,
+                        "hard": false
+                      }
+                    },
+                    {
+                      "id": 2,
+                      "kind": "text",
+                      "text": "with \"a looooooooooooong too bad message\""
+                    }
+                  ]
                 },
-                {
-                  "id": 2,
-                  "kind": "text",
-                  "text": "\"a looooooooooooong too bad message\""
-                }
-              ]
+                "break": false,
+                "expandedStates": null
+              }
             }
           }
         },
         {
-          "id": 5,
+          "id": 6,
           "kind": "text",
           "text": ";"
         }

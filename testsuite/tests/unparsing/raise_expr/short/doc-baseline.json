@@ -1,11 +1,11 @@
 {
-  "id": 8,
+  "id": 7,
   "kind": "command",
   "command": {
     "command": "group",
     "id": 0,
     "groupContents": {
-      "id": 7,
+      "id": 6,
       "kind": "list",
       "list": [
         {
@@ -54,11 +54,6 @@
               }
             }
           }
-        },
-        {
-          "id": 6,
-          "kind": "text",
-          "text": ";"
         }
       ]
     },

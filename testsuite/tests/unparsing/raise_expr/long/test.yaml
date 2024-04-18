@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a raise expression
+    with the line length exceeded.
+    It is expected the expression breaks before the `with`
+    keyword and the new line be indented.
+ 
+driver: unparser
+rule: raise_expr

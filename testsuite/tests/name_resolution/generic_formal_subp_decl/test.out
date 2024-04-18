@@ -1,8 +1,8 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <GenericFormalSubpDecl ["FI"] test.adb:4:7-4:56>
-*************************************************************************
+Resolving xrefs for node <ConcreteFormalSubpDecl ["FI"] test.adb:4:12-4:56>
+***************************************************************************
 
 Expr: <AttributeRef test.adb:4:48-4:55>
   references:    <SyntheticDefiningName "image" test.adb:3:7-3:22>
@@ -17,8 +17,24 @@ Expr: <Id "Image" test.adb:4:50-4:55>
   type:          None
   expected type: None
 
-Resolving xrefs for node <GenericFormalSubpDecl ["FV"] test.adb:6:7-6:56>
-*************************************************************************
+Resolving xrefs for node <SubpSpec test.adb:4:12-4:44>
+******************************************************
+
+Expr: <Id "String" test.adb:4:38-4:44>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["I"] test.adb:4:25-4:29>
+*************************************************************
+
+Expr: <Id "T" test.adb:4:28-4:29>
+  references:    <DefiningName "T" test.adb:3:12-3:13>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ConcreteFormalSubpDecl ["FV"] test.adb:6:12-6:56>
+***************************************************************************
 
 Expr: <AttributeRef test.adb:6:48-6:55>
   references:    <SyntheticDefiningName "value" test.adb:3:7-3:22>
@@ -30,6 +46,22 @@ Expr: <Id "T" test.adb:6:48-6:49>
   expected type: None
 Expr: <Id "Value" test.adb:6:50-6:55>
   references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:6:12-6:44>
+******************************************************
+
+Expr: <Id "T" test.adb:6:43-6:44>
+  references:    <DefiningName "T" test.adb:3:12-3:13>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["S"] test.adb:6:25-6:34>
+*************************************************************
+
+Expr: <Id "String" test.adb:6:28-6:34>
+  references:    <DefiningName "String" __standard:105:8-105:14>
   type:          None
   expected type: None
 

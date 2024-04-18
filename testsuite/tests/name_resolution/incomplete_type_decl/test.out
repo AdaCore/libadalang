@@ -1,21 +1,5 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <GenericFormalTypeDecl ["T"] test.adb:4:7-4:14>
-************************************************************************
-
-
-Resolving xrefs for node <IncompleteTypeDecl ["T"] test.adb:11:7-11:14>
-***********************************************************************
-
-
-Resolving xrefs for node <GenericFormalTypeDecl ["T"] test.adb:19:7-19:40>
-**************************************************************************
-
-Expr: <Id "Positive" test.adb:19:31-19:39>
-  references:    <DefiningName "Positive" __standard:6:11-6:19>
-  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: None
-
 
 Done.

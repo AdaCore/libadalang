@@ -11,7 +11,7 @@ procedure What is
       type T is private;
       with package Bla is new Boo (T);
       with procedure Whatever (Self : T) is Bla.Baa;
-      pragma Test_Statement;
+      pragma Test_Block;
    package Wat is
    end Wat;
 begin

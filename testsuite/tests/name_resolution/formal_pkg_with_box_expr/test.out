@@ -1,10 +1,6 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <GenericFormalPackage ["P_Inst"] test.adb:9:7-9:52>
-****************************************************************************
-
-
 Resolving xrefs for node <GenericPackageInstantiation ["P_Inst"] test.adb:9:12-9:52>
 ************************************************************************************
 

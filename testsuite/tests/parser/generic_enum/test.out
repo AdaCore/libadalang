@@ -77,7 +77,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  AdaNodeList[6:7-7:42]
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[6:7-6:40]
 |  |  |  |  |  |  |  |  |f_decl:
-|  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[6:7-6:40]
+|  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[6:12-6:40]
 |  |  |  |  |  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[6:11-6:11]
 |  |  |  |  |  |  |  |  |  |f_subp_spec:
@@ -101,7 +101,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |f_aspects: <null>
 |  |  |  |  |  |  |  |  GenericFormalSubpDecl[7:7-7:42]
 |  |  |  |  |  |  |  |  |f_decl:
-|  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[7:7-7:42]
+|  |  |  |  |  |  |  |  |  ConcreteFormalSubpDecl[7:12-7:42]
 |  |  |  |  |  |  |  |  |  |f_overriding:
 |  |  |  |  |  |  |  |  |  |  OverridingUnspecified[7:11-7:11]
 |  |  |  |  |  |  |  |  |  |f_subp_spec:

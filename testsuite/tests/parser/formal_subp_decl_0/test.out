@@ -1,47 +1,47 @@
-AbstractFormalSubpDecl[1:1-1:71]
+AbstractFormalSubpDecl[1:1-1:66]
 |f_overriding:
-|  OverridingUnspecified[1:5-1:5]
+|  OverridingUnspecified[1:1-1:1]
 |f_subp_spec:
-|  SubpSpec[1:6-1:55]
+|  SubpSpec[1:1-1:50]
 |  |f_subp_kind:
-|  |  SubpKindFunction[1:6-1:14]
+|  |  SubpKindFunction[1:1-1:9]
 |  |f_subp_name:
-|  |  DefiningName[1:15-1:20]
+|  |  DefiningName[1:10-1:15]
 |  |  |f_name:
-|  |  |  Id[1:15-1:20]: Pouet
+|  |  |  Id[1:10-1:15]: Pouet
 |  |f_subp_params:
-|  |  Params[1:21-1:38]
+|  |  Params[1:16-1:33]
 |  |  |f_params:
-|  |  |  ParamSpecList[1:22-1:37]
-|  |  |  |  ParamSpec[1:22-1:37]
+|  |  |  ParamSpecList[1:17-1:32]
+|  |  |  |  ParamSpec[1:17-1:32]
 |  |  |  |  |f_ids:
-|  |  |  |  |  DefiningNameList[1:22-1:26]
-|  |  |  |  |  |  DefiningName[1:22-1:23]
+|  |  |  |  |  DefiningNameList[1:17-1:21]
+|  |  |  |  |  |  DefiningName[1:17-1:18]
 |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  Id[1:22-1:23]: X
-|  |  |  |  |  |  DefiningName[1:25-1:26]
+|  |  |  |  |  |  |  Id[1:17-1:18]: X
+|  |  |  |  |  |  DefiningName[1:20-1:21]
 |  |  |  |  |  |  |f_name:
-|  |  |  |  |  |  |  Id[1:25-1:26]: Y
+|  |  |  |  |  |  |  Id[1:20-1:21]: Y
 |  |  |  |  |f_has_aliased:
-|  |  |  |  |  AliasedAbsent[1:27-1:27]
+|  |  |  |  |  AliasedAbsent[1:22-1:22]
 |  |  |  |  |f_mode:
-|  |  |  |  |  ModeDefault[1:27-1:27]
+|  |  |  |  |  ModeDefault[1:22-1:22]
 |  |  |  |  |f_type_expr:
-|  |  |  |  |  SubtypeIndication[1:28-1:37]
+|  |  |  |  |  SubtypeIndication[1:23-1:32]
 |  |  |  |  |  |f_has_not_null:
-|  |  |  |  |  |  NotNullAbsent[1:27-1:27]
+|  |  |  |  |  |  NotNullAbsent[1:22-1:22]
 |  |  |  |  |  |f_name:
-|  |  |  |  |  |  Id[1:28-1:37]: Element_T
+|  |  |  |  |  |  Id[1:23-1:32]: Element_T
 |  |  |  |  |  |f_constraint: <null>
 |  |  |  |  |f_default_expr: <null>
 |  |  |  |  |f_aspects: <null>
 |  |f_subp_returns:
-|  |  SubtypeIndication[1:46-1:55]
+|  |  SubtypeIndication[1:41-1:50]
 |  |  |f_has_not_null:
-|  |  |  NotNullAbsent[1:45-1:45]
+|  |  |  NotNullAbsent[1:40-1:40]
 |  |  |f_name:
-|  |  |  Id[1:46-1:55]: Element_T
+|  |  |  Id[1:41-1:50]: Element_T
 |  |  |f_constraint: <null>
 |f_default_expr:
-|  BoxExpr[1:68-1:70]
+|  BoxExpr[1:63-1:65]
 |f_aspects: <null>

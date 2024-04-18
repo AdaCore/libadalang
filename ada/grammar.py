@@ -412,7 +412,7 @@ A.add_rules(
         A.pragma,
         GenericFormalObjDecl(A.object_decl),
         GenericFormalTypeDecl(A.formal_type_decl),
-        GenericFormalSubpDecl(A.formal_subp_decl),
+        GenericFormalSubpDecl("with", A.formal_subp_decl),
         GenericFormalPackage("with", A.generic_instantiation)
     ),
 
@@ -443,16 +443,19 @@ A.add_rules(
 
     formal_subp_decl=Or(
         AbstractFormalSubpDecl(
-            "with", Overriding.alt_unspecified(), A.subp_spec,
+            Overriding.alt_unspecified(), A.subp_spec,
             "is", res("abstract"),
             Opt(Or(A.box_expr, A.name, A.null_literal)),
             A.aspect_spec, sc()
         ),
         ConcreteFormalSubpDecl(
-            "with", Overriding.alt_unspecified(), A.subp_spec,
+            Overriding.alt_unspecified(), A.subp_spec,
             Opt("is", Or(A.box_expr, A.name, A.null_literal)),
             A.aspect_spec, ";"
         ),
+        # In the case of generic formal functions with a default expression, we
+        # just use an expression function node.
+        A.expr_fn,
     ),
 
     renaming_clause=RenamingClause("renames", A.name),

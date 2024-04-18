@@ -4528,6 +4528,39 @@
         ]
       }
     },
+    "RaiseStmt": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "raise"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_exception_name"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_error_message"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_error_message": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        }
+      }
+    },
     "RangeSpec": {
       "node": {
         "kind": "align",

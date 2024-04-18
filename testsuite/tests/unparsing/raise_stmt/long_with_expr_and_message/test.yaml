@@ -1,0 +1,8 @@
+description: |
+    This test checks the formatting of a raise statement
+    with the line length exceeded.
+    It is expected the statement breaks after `with` keyword
+    and the new line is indented.
+ 
+driver: unparser
+rule: raise_stmt

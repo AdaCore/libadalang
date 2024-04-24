@@ -18,7 +18,7 @@ Expr: <CallExpr test.adb:7:9-7:25>
   expected type: None
 Expr: <Id "Array_Type" test.adb:7:9-7:19>
   references:    <DefiningName "Array_Type" test.adb:2:9-2:19>
-  type:          <ConcreteTypeDecl ["Array_Type"] test.adb:2:4-2:59>
+  type:          None
   expected type: None
 Expr: <Id "Arr" test.adb:7:21-7:24>
   references:    <DefiningName "Arr" test.adb:4:4-4:7>

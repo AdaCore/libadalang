@@ -14,7 +14,7 @@ Expr: <CallExpr test.adb:10:9-10:31>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:10:9-10:16>
   references:    <DefiningName "Integer" __standard:4:8-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          None
   expected type: None
 Expr: <ExplicitDeref test.adb:10:18-10:30>
   references:    <DefiningName "Foo" test.adb:5:13-5:16>

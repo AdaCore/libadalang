@@ -41,7 +41,7 @@ Expr: <CallExpr test.adb:14:9-14:20>
   expected type: <ConcreteTypeDecl ["F"] test.adb:4:4-4:23>
 Expr: <Id "F" test.adb:14:9-14:10>
   references:    <DefiningName "F" test.adb:4:9-4:10>
-  type:          <ConcreteTypeDecl ["F"] test.adb:4:4-4:23>
+  type:          None
   expected type: None
 Expr: <BinOp test.adb:14:12-14:19>
   type:          <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>

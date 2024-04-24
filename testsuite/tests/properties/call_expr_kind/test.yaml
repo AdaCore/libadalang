@@ -1,2 +1,2 @@
 driver: inline-playground
-input_sources: [kind.adb, family_index.adb]
+input_sources: [kind.adb, family_index.adb, array_type.adb]

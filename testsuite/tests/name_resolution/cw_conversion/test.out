@@ -18,7 +18,7 @@ Expr: <CallExpr testcwconv.adb:8:9-8:22>
   expected type: <ClasswideTypeDecl ["T"] testcwconv.adb:2:4-2:33>
 Expr: <AttributeRef testcwconv.adb:8:9-8:16>
   references:    <DefiningName "T" testcwconv.adb:2:9-2:10>
-  type:          <ClasswideTypeDecl ["T"] testcwconv.adb:2:4-2:33>
+  type:          None
   expected type: None
 Expr: <Id "T" testcwconv.adb:8:9-8:10>
   references:    <DefiningName "T" testcwconv.adb:2:9-2:10>

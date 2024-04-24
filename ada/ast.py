@@ -16459,7 +16459,6 @@ class CallExpr(Name):
         """
         return And(
             Entity.name.subtype_indication_equation,
-            Bind(Self.name.ref_var, Self.name.type_var),
             Bind(Self.type_var, Self.name.ref_var)
         )
 

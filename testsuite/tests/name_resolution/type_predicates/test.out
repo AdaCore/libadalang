@@ -236,7 +236,7 @@ Expr: <CallExpr derived.adb:5:31-5:58>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "String" derived.adb:5:31-5:37>
   references:    <DefiningName "String" __standard:105:8-105:14>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          None
   expected type: None
 Expr: <CallExpr derived.adb:5:39-5:57>
   references:    <DefiningName "String_T" derived.adb:4:9-4:17>
@@ -306,7 +306,7 @@ Expr: <CallExpr derived.adb:13:23-13:51>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "String" derived.adb:13:23-13:29>
   references:    <DefiningName "String" __standard:105:8-105:14>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          None
   expected type: None
 Expr: <CallExpr derived.adb:13:31-13:50>
   references:    <DefiningName "String_T2" derived.adb:12:9-12:18>
@@ -388,7 +388,7 @@ Expr: <CallExpr derived.adb:23:19-23:47>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "String" derived.adb:23:19-23:25>
   references:    <DefiningName "String" __standard:105:8-105:14>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          None
   expected type: None
 Expr: <CallExpr derived.adb:23:27-23:46>
   references:    <DefiningName "String_T3" derived.adb:20:9-20:18>

@@ -166,7 +166,7 @@ Expr: <CallExpr test.adb:11:27-11:45>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "String" test.adb:11:27-11:33>
   references:    <DefiningName "String" __standard:105:8-105:14>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          None
   expected type: None
 Expr: <ConcatOp test.adb:11:35-11:44>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
@@ -237,7 +237,7 @@ Expr: <CallExpr test.adb:15:27-15:54>
   expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
 Expr: <Id "String" test.adb:15:27-15:33>
   references:    <DefiningName "String" __standard:105:8-105:14>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          None
   expected type: None
 Expr: <ConcatOp test.adb:15:35-15:53>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
@@ -316,7 +316,7 @@ Expr: <CallExpr test.adb:22:25-22:40>
   expected type: <SubtypeDecl ["T"] test.adb:18:7-18:27>
 Expr: <Id "T" test.adb:22:25-22:26>
   references:    <DefiningName "T" test.adb:18:15-18:16>
-  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  type:          None
   expected type: None
 Expr: <ConcatOp test.adb:22:28-22:39>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
@@ -361,7 +361,7 @@ Expr: <CallExpr test.adb:24:25-24:34>
   expected type: <SubtypeDecl ["T"] test.adb:18:7-18:27>
 Expr: <Id "T" test.adb:24:25-24:26>
   references:    <DefiningName "T" test.adb:18:15-18:16>
-  type:          <SubtypeDecl ["T"] test.adb:18:7-18:27>
+  type:          None
   expected type: None
 Expr: <ConcatOp test.adb:24:28-24:33>
   type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>

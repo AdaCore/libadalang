@@ -377,7 +377,7 @@ Expr: <CallExpr acc.adb:20:24-20:39>
   expected type: <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
 Expr: <Id "Real" acc.adb:20:24-20:28>
   references:    <DefiningName "Real" acc.adb:3:9-3:13>
-  type:          <ConcreteTypeDecl ["Real"] acc.adb:3:4-3:26>
+  type:          None
   expected type: None
 Expr: <DottedName acc.adb:20:29-20:38>
   references:    <DefiningName "Count" acc.adb:8:7-8:12>

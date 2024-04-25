@@ -50,7 +50,7 @@ Expr: <CallExpr test.adb:13:19-13:47>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 Expr: <Id "Integer" test.adb:13:19-13:26>
   references:    <DefiningName "Integer" __standard:4:8-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          None
   expected type: None
 Expr: <CallExpr test.adb:13:28-13:46>
   references:    <| SyntheticDefiningName "value" test.adb:4:7-4:31 [test.adb:7:4] |>

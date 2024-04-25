@@ -1,3 +1,9 @@
+Working on node <AssignStmt array_type.adb:8:4-8:17>
+====================================================
+
+Eval 'node.f_expr.p_kind'
+Result: 'type_conversion'
+
 Working on node <RequeueStmt family_index.adb:12:10-12:24>
 ==========================================================
 

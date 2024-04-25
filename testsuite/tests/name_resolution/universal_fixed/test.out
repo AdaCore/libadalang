@@ -60,7 +60,7 @@ Expr: <CallExpr test.adb:17:12-17:24>
   expected type: <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
 Expr: <Id "T1" test.adb:17:12-17:14>
   references:    <DefiningName "T1" test.adb:4:11-4:13>
-  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  type:          None
   expected type: None
 Expr: <BinOp test.adb:17:16-17:23>
   type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
@@ -91,7 +91,7 @@ Expr: <CallExpr test.adb:20:12-20:24>
   expected type: <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
 Expr: <Id "T1" test.adb:20:12-20:14>
   references:    <DefiningName "T1" test.adb:4:11-4:13>
-  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  type:          None
   expected type: None
 Expr: <BinOp test.adb:20:16-20:23>
   type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>

@@ -10484,6 +10484,13 @@ class TypeExpr(AdaNode):
     This node has no ARM correspondence.
     """
 
+    @langkit_property(public=True)
+    def is_definite_subtype():
+        """
+        Returns whether this designates a definite subtype.
+        """
+        return Entity.designated_type_decl.is_definite_subtype
+
     array_ndims = Property(
         origin.bind(Self.origin_node, Entity.designated_type.array_ndims)
     )
@@ -10642,6 +10649,13 @@ class SubtypeIndication(TypeExpr):
     designated_type = Property(
         env.bind(Entity.node_env, Entity.name.designated_type_impl)
     )
+
+    @langkit_property()
+    def is_definite_subtype():
+        return (
+            Not(Entity.constraint.is_null)
+            | Entity.designated_type_decl.is_definite_subtype
+        )
 
     @langkit_property(return_type=T.CompletionItem.array)
     def complete_items():

@@ -35,6 +35,13 @@ procedure Test is
       --% access_type.f_type_def.f_subtype_indication.p_designated_type_decl
       --% node.f_default_expr.f_prefix.p_referenced_decl()
    end record;
+
+   type T_4 is record
+      X : access procedure
+        (A : T_4  --% node.p_referenced_decl()
+         ; B : access T_4  --% node.p_referenced_decl()
+         );
+   end record;
 begin
    null;
 end Test;

@@ -10208,7 +10208,7 @@ class SyntheticObjectDecl(BasicDecl):
         synthetic object.
         """
         return And(
-            Not(origin.parent.parent.is_a(TypeAccessDef)),
+            origin.parents.find(lambda p: p.is_a(AccessDef)).is_null,
             Self.is_children_env(
                 Self.type_expr.cast(SyntheticTypeExpr)
                 .target_type.children_env,

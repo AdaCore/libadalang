@@ -1,0 +1,36 @@
+Analyzing pkg-gen__test.adb
+###########################
+
+Resolving xrefs for node <PragmaNode pkg-gen__test.adb:2:4-2:31>
+****************************************************************
+
+Expr: <Id "Assert" pkg-gen__test.adb:2:11-2:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp pkg-gen__test.adb:2:19-2:29>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef pkg-gen__test.adb:2:19-2:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+Expr: <Id "T" pkg-gen__test.adb:2:19-2:20>
+  references:    <DefiningName "T" pkg-gen.ads:2:9-2:10>
+  type:          None
+  expected type: None
+Expr: <Id "Size" pkg-gen__test.adb:2:21-2:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpEq "=" pkg-gen__test.adb:2:26-2:27>
+  references:    <SyntheticDefiningName ""="" __standard:120:24-120:37>
+  type:          None
+  expected type: None
+Expr: <Int pkg-gen__test.adb:2:28-2:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+
+
+Done.

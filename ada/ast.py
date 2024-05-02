@@ -4547,12 +4547,8 @@ class Body(BasicDecl):
                 # lookups, hence doing an infinite recursion.
                 Entity.children_env.env_parent.get(
                     Entity.name_symbol, categories=no_prims
-                ).then(
-                    lambda results:
-                    results.at(1).cast(T.GenericSubpDecl)._or(
-                        results.at(2).cast(T.GenericSubpDecl)
-                    )
-                ),
+                )._.find(lambda r: r.is_a(T.GenericSubpDecl))
+                .cast(T.GenericSubpDecl),
 
                 No(T.GenericDecl.entity)
             )

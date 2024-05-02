@@ -1,0 +1,6 @@
+project Prj is
+   package Naming is
+      for Implementation ("Pkg.Gen")
+        use "pkg-gen__test.adb";
+   end Naming;
+end Prj;

@@ -564,6 +564,118 @@ class AdaNode(ASTNode):
             base
         )
 
+    @langkit_property(return_type=T.EnvRebindings)
+    def add_rebinding(base=T.EnvRebindings,
+                      old_env=T.LexicalEnv,
+                      new_env=T.LexicalEnv):
+        """
+        Append a new entry ``old_env -> new_env`` to ``base``. This also takes
+        care of collapsing a subset of the rebindings if ``new_env`` is
+        actually inside an envinonment which is rebound by an existing entry.
+        In other words, this collapses generic formal package instantiations
+        done in a generic context where the actual package is known.
+        For example in the following snippet:
+
+        .. code:: ada
+
+            generic
+            package Interface_G is
+            end Interface_G;
+
+            generic
+                with package I is new Interface_G (<>);
+            package Pkg_G is
+            end Pkg_G;
+
+            package My_Interface is new Interface_G;
+            package My_Pkg is new Pkg_G (My_Interface);
+
+        Navigating inside ``My_Pkg`` leads us in ``Pkg_G`` with rebindings
+        ``[My_Pkg]``. From here, navigating inside the instantiation of the
+        formal package ``I`` would lead us in ``Interface_G`` with rebindings
+        ``[My_Pkg, I]``. However, ``add_rebinding`` sees that ``I`` is
+        rebound by the instantiation of ``My_Pkg`` and therefore collapses
+        the two rebindings from ``[My_Pkg, I]`` to ``[My_Interface]``.
+        """
+        parent_env = Var(new_env.env_node.node_env)
+        return Cond(
+            Or(
+                base.is_null,
+                Not(parent_env.env_node.is_a(GenericDecl)),
+                Not(Self.is_rebound(base, parent_env)),
+            ),
+            base.append_rebinding(old_env, new_env),
+
+            base.old_env == parent_env,
+            base.new_env.get_first(new_env.env_node.cast(
+                GenericPackageInstantiation
+            ).name.name_symbol, lookup=LK.minimal)
+            .cast(GenericPackageInstantiation).then(
+                lambda gpi: Self.add_rebinding(
+                    base.get_parent,
+                    gpi.nonbound_generic_decl_from_self.node.children_env,
+                    gpi.instantiation_env
+                ),
+                default_val=base.append_rebinding(old_env, new_env),
+            ),
+
+            Self.add_rebinding(base.get_parent, old_env, new_env),
+        )
+
+    @langkit_property(return_type=T.Bool)
+    def is_rebound(base=T.EnvRebindings, old_env=T.LexicalEnv):
+        """
+        Return whether ``old_env`` is rebound somewhere inside the given
+        rebindings.
+        """
+        return And(
+            Not(base.is_null),
+            Or(base.old_env == old_env,
+               Self.is_rebound(base.get_parent, old_env))
+        )
+
+    @langkit_property(return_type=T.EnvRebindings)
+    def insert_rebindings(base=T.EnvRebindings, to_insert=T.EnvRebindings):
+        """
+        Append rebindings from ``to_insert`` to ``base``, stopping as soon as
+        an entry from ``to_insert`` is already rebound in ``base``, such that
+        for example ``insert_rebindings([A, C], [B, C, D]) = [A, C, D]``.
+        """
+        return Cond(
+            to_insert.is_null,
+            base,
+
+            base.is_null,
+            to_insert,
+
+            Self.is_rebound(base, to_insert.old_env),
+            base,
+
+            Self.add_rebinding(
+                Self.insert_rebindings(
+                    base,
+                    to_insert.get_parent
+                ),
+                to_insert.old_env,
+                to_insert.new_env
+            )
+        )
+
+    @langkit_property(return_type=T.Bool)
+    def has_parent_rebindings(base=T.EnvRebindings, parent=T.EnvRebindings):
+        """
+        Return whether ``parent`` is a parent of ``base``. This considers
+        the chain as a whole, i.e. ``has_parent_rebindings([A, B, C], [A, B])``
+        returns True, but both ``has_parent_rebindings([A, B, C], [B, C])`` as
+        well as ``has_parent_rebindings([A, C], [A, B])`` return False.
+        """
+        return Or(
+            base == parent,
+            parent.is_null,
+            Not(base.is_null)
+            & Self.has_parent_rebindings(base.get_parent, parent)
+        )
+
     # We mark this property as memoizable because for the moment, we only ever
     # get the first result of logic resolution, so we only ever want the result
     # of the first evaluation of this property. When we change that, we'll
@@ -2696,11 +2808,7 @@ class BasicDecl(AdaNode):
             Entity.info.rebindings == rebindings,
             Entity,
 
-            Or(
-                Entity.info.rebindings == No(T.EnvRebindings),
-                rebindings.get_parent == Entity.info.rebindings,
-            ),
-
+            Self.has_parent_rebindings(rebindings, Entity.info.rebindings),
             BasicDecl.entity.new(
                 node=Self,
                 info=T.entity_info.new(
@@ -4988,7 +5096,14 @@ class BaseFormalParamHolder(AdaNode):
                 # cannot come from a subprogram instantiation.
                 Self.shed_subp_rebindings(Entity.info.rebindings),
                 Entity.info.from_rebound
-            ).cast(BaseTypeDecl),
+            ).match(
+                # Since `primitive_real_type` is a node and not an entity, it
+                # may refer to a formal type, so we need to manually resolve it
+                # to an actual type using the current rebindings in case they
+                # are relevant.
+                lambda ft=FormalTypeDecl.entity: ft.get_actual,
+                lambda other: other.cast(BaseTypeDecl)
+            ),
 
             # Handle the case where the primitive is defined on an anonymous
             # access type, by returning an anonymous access type over the
@@ -5101,8 +5216,10 @@ class BaseFormalParamHolder(AdaNode):
                                 node=typ.node,
                                 info=T.entity_info.new(
                                     md=No(Metadata),
-                                    rebindings=typ.info.rebindings
-                                    .concat_rebindings(base_rebindings),
+                                    rebindings=Self.insert_rebindings(
+                                        typ.info.rebindings,
+                                        base_rebindings
+                                    ),
                                     from_rebound=typ.info.from_rebound
                                 )
                             ).designated_type
@@ -8927,6 +9044,34 @@ class FormalTypeDecl(TypeDecl):
     default_type = Field(type=T.Name)
     aspects = Field(type=T.AspectSpec)
 
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def corresponding_actual_impl(rb=T.EnvRebindings):
+        """
+        Retrieves the actual for this formal type decl by finding the generic
+        formal part in which Self lies in Self's rebindings, and then resolving
+        the corresponding actual.
+        """
+        return Cond(
+            rb.is_null,
+            Entity,
+
+            rb.old_env == Self.parent.node_env,
+            rb.new_env.get_first(
+                Entity.defining_name.name_symbol,
+                lookup=LK.minimal, categories=no_prims
+            ).cast(BaseTypeDecl),
+
+            Entity.corresponding_actual_impl(rb.get_parent)
+        )
+
+    @langkit_property(return_type=T.BaseTypeDecl.entity)
+    def get_actual():
+        """
+        For a ``FormalTypeDecl`` we must find the actual by looking in our own
+        rebindings. See ``corresponding_actual_impl``.
+        """
+        return Entity.corresponding_actual_impl(Entity.info.rebindings)
+
     @langkit_property(return_type=Equation)
     def xref_equation():
         return Entity.super() & Entity.default_type.then(
@@ -12251,7 +12396,7 @@ class GenericInstantiation(BasicDecl):
         # in this non-memoized property to avoid a false "infinite recursion"
         # property error that can happen when the computation is only done in
         # instantiation_bindings_internal.
-        ignore(Var(Self.nonbound_generic_decl))
+        ignore(Var(Self.nonbound_generic_decl_from_self))
         return Entity.instantiation_bindings_internal
 
     @langkit_property(return_type=T.inner_env_assoc.array, memoized=True,
@@ -12260,28 +12405,32 @@ class GenericInstantiation(BasicDecl):
         return If(
             Entity.is_any_formal,
             No(T.inner_env_assoc.array),
-            Self.nonbound_generic_decl._.formal_part.match_param_list(
+            Self.nonbound_generic_decl_from_self
+            ._.formal_part.match_param_list(
                 Entity.generic_inst_params, False
-            ).filter(
-                lambda pm: And(
-                    Not(pm.actual.assoc.expr.is_a(BoxExpr)),
-                    # Do not put formal subprograms in the rebindings to avoid
-                    # them being eagerly resolved to an actual, as the formal
-                    # part is needed to implement correct name resolution. We
-                    # will use ``BasicDecl.corresponding_actual`` instead to
-                    # manually resolve it.
-                    Not(pm.formal.formal_decl.is_a(GenericFormalSubpDecl))
-                )
             ).map(
                 lambda i, pm: T.inner_env_assoc.new(
                     key=pm.formal.name.name_symbol,
-                    value=If(
+                    value=Cond(
+                        # Do not put formal subprograms in the rebindings to
+                        # avoid them being eagerly resolved to an actual, as
+                        # the formal part is needed to implement correct name
+                        # resolution.
+                        # We will use ``BasicDecl.corresponding_actual``
+                        # instead to manually resolve it.
+                        Or(pm.actual.assoc.expr.is_a(BoxExpr),
+                           pm.formal.formal_decl.is_a(GenericFormalSubpDecl)),
+                        No(Expr),
+
                         pm.formal.formal_decl.is_a(T.GenericFormalObjDecl),
                         Entity.actual_expr_decls.at(i),
+
                         pm.actual.assoc.expr.node
                     ),
                     metadata=T.Metadata.new()
                 )
+            ).filter(
+                lambda env_assoc: Not(env_assoc.value.is_null)
             )
         )
 
@@ -12302,8 +12451,8 @@ class GenericInstantiation(BasicDecl):
         Entity.generic_inst_params.at(0)._.expr.is_a(T.BoxExpr)
     )
 
-    nonbound_generic_decl = Property(
-        Self.as_bare_entity.generic_entity_name
+    nonbound_generic_decl_from_entity = Property(
+        Entity.generic_entity_name
         .all_env_elements_internal(
             seq=True, seq_from=Self, categories=no_prims
         ).find(
@@ -12315,8 +12464,16 @@ class GenericInstantiation(BasicDecl):
             lambda _: No(T.GenericDecl.entity)
         )._.cast(T.GenericDecl),
         doc="""
-        Return the formal package designated by the right hand part of this
-        generic package instantiation.
+        Return the generic package designated by the right hand part of this
+        generic package instantiation as seen from the current generic context.
+        """
+    )
+
+    nonbound_generic_decl_from_self = Property(
+        Self.as_bare_entity.nonbound_generic_decl_from_entity,
+        doc="""
+        Return the generic package designated by the right hand part of this
+        generic package instantiation from a bare generic context.
         """
     )
 
@@ -12401,7 +12558,7 @@ class GenericInstantiation(BasicDecl):
 
     xref_equation = Property(
         Bind(Entity.generic_entity_name.ref_var,
-             Entity.nonbound_generic_decl)
+             Entity.nonbound_generic_decl_from_self)
         & Entity.generic_entity_name.match(
             lambda dn=T.DottedName: dn.prefix.xref_no_overloading,
             lambda _: LogicTrue()
@@ -12557,7 +12714,8 @@ class GenericInstantiation(BasicDecl):
         generic instantiation. Returns null if none is provided, even if there
         is a default value.
         """
-        return Self.nonbound_generic_decl._.formal_part.match_param_list(
+        gen_decl = Var(Self.nonbound_generic_decl_from_self)
+        return gen_decl._.formal_part.match_param_list(
             Entity.generic_inst_params, False
         ).find(
             lambda pm: pm.formal.node == formal_name
@@ -12594,16 +12752,18 @@ class GenericSubpInstantiation(GenericInstantiation):
         """
         Return the subprogram decl designated by this instantiation.
         """
-        return Self.nonbound_generic_decl.then(
+        return Entity.nonbound_generic_decl_from_entity.then(
             lambda p: BasicSubpDecl.entity.new(
                 node=p.node.cast(GenericSubpDecl).subp_decl,
                 info=T.entity_info.new(
                     md=Entity.info.md,
-                    rebindings=Entity.info.rebindings
-                    # Append the rebindings from the decl
-                    .concat_rebindings(p._.decl.info.rebindings)
-                    .append_rebinding(
-                        p.node.children_env, Self.instantiation_env
+                    rebindings=Self.add_rebinding(
+                        Self.insert_rebindings(
+                            p.info.rebindings,
+                            Entity.info.rebindings
+                        ),
+                        p.node.children_env,
+                        Self.instantiation_env
                     ),
                     from_rebound=p.info.from_rebound
                 )
@@ -12630,26 +12790,30 @@ class GenericPackageInstantiation(GenericInstantiation):
 
     @langkit_property()
     def designated_package():
-        return Self.nonbound_generic_decl.then(
+        return Entity.nonbound_generic_decl_from_entity.then(
             lambda p: BasePackageDecl.entity.new(
                 node=p.node.cast(GenericPackageDecl).package_decl,
                 info=T.entity_info.new(
                     md=p.info.md,
 
-                    # Take the rebindings from the current context
-                    rebindings=Entity.info.rebindings
+                    rebindings=Self.add_rebinding(
+                        # A subset of ``Entity``'s rebindings were used to
+                        # resolve ``p``, now use ``insert_rebindings`` to add
+                        # the rest of them.
+                        Self.insert_rebindings(
+                            p.info.rebindings,
+                            Entity.info.rebindings
+                        ),
 
-                    # Append the rebindings from the decl
-                    .concat_rebindings(p._.decl.info.rebindings)
-
-                    # Append the rebindings for the current instantiation.
-                    # NOTE: We use the formal env to create rebindings. There,
-                    # we purposefully want the children env of the P node, with
-                    # no rebindings associated, since the rebinding indication
-                    # concerns the *naked* generic. Hence we use
-                    # p.node.children_env.
-                    .append_rebinding(p.node.children_env,
-                                      Self.instantiation_env),
+                        # Append the rebindings for the current instantiation.
+                        # NOTE: We use the formal env to create rebindings.
+                        # There, we purposefully want the children env of the
+                        # P node, with no rebindings associated, since the
+                        # rebinding indication concerns the *naked* generic.
+                        # Hence we use `p.node.children_env`.
+                        p.node.children_env,
+                        Self.instantiation_env
+                    ),
                     from_rebound=p.info.from_rebound
                 ),
             )
@@ -12975,14 +13139,25 @@ class FormalSubpDecl(ClassicSubpDecl):
         Note that we cannot simply call ``referenced_decl`` here as this would
         cause name resolution recursions which we want to avoid at all cost.
         """
-        return origin.bind(name.node, name.cast(AttributeRef).then(
-            lambda attr: attr.attribute_subprogram,
-            default_val=name.cast(Name).all_env_elements.find(
+        return origin.bind(name.node, Cond(
+            name.is_a(AttributeRef),
+            name.cast(AttributeRef).attribute_subprogram,
+
+            name.is_a(BoxExpr),
+            # We are inside an instantiation of formal package without
+            # constraint on this function (so, a BoxExpr).
+            No(BasicDecl.entity),
+
+            name.is_a(Name),
+            name.cast(Name).all_env_elements.find(
                 lambda el: el.cast(BasicDecl)._.subp_decl_match_signature(
                     Entity
                 )
-            )
-        )).cast(BasicDecl)
+            ).cast(BasicDecl),
+
+            PropertyError(BasicDecl.entity,
+                          "invalid actual for subprogram formal")
+        ))
 
     @langkit_property(return_type=T.BasicDecl.entity)
     def corresponding_actual_impl(rb=T.EnvRebindings):
@@ -18856,8 +19031,16 @@ class BaseId(SingleTokNode):
             # instantiation.
             pkg.unshed_rebindings(Entity.info.rebindings)
         )
-        is_inst_from_formal = Var(pkg.is_a(T.GenericPackageInstantiation) &
-                                  from_pkg.info.from_rebound)
+        is_inst_from_formal = Var(
+            # Check whether the package comes from a rebound env in order to
+            # determine if we have visibility on its formal part. Look at both
+            # ``from_pkg`` or ``pkg`` as we may have a renaming of a rebound
+            # package, or a rebound package being a package renaming, and in
+            # both cases we have visibility on the final renamed package's
+            # formal part.
+            pkg.is_a(T.GenericPackageInstantiation) &
+            (from_pkg.info.from_rebound | pkg.info.from_rebound)
+        )
 
         env = Var(If(
             bd.is_a(T.GenericPackageInstantiation) & is_inst_from_formal,
@@ -18896,11 +19079,16 @@ class BaseId(SingleTokNode):
         ))
 
         return Cond(
-
             # If we're looking from the body, return a group of all the
             # relevant envs together.
             Not(package_body_env.equals(EmptyEnv))
-            & Self.is_children_env(package_body_env,
+            # Since origin or Self do not carry rebindings, `is_children_env`
+            # would always return False in instantiated generics (since
+            # `package_body_env` is a rebound environment). Fortunately, these
+            # visibility rules are not instantiation-dependent, so we can use
+            # `.env_node.children_env` on `package_body_env` to do the check on
+            # the bare non-rebound lexical envs.
+            & Self.is_children_env(package_body_env.env_node._.children_env,
                                    (origin._or(Self)).node_env),
             Array([
                 package_body_env, private_part_env, env, formals_env
@@ -18908,7 +19096,9 @@ class BaseId(SingleTokNode):
 
             # If we're looking from the private part, return a group of private
             # part + public part.
-            Self.is_children_env(private_part_env,
+            # See corresponding comment on `package_body_env` to understand why
+            # we use `.env_node.children_env`.
+            Self.is_children_env(private_part_env.env_node._.children_env,
                                  (origin._or(Self)).node_env),
             Array([private_part_env, env, formals_env]).env_group(),
 
@@ -20080,24 +20270,13 @@ class SyntheticTypeExpr(TypeExpr):
         # However, all of Entity's rebinding may not be relevant. For example,
         # if `target_type` is the definition of `Standard.Boolean`, no
         # rebindings will ever be relevant.
-        # In order to find which rebindings are relevant, we first need to
-        # find the closest rebindable parent of `target_type`. From there, we
-        # can inspect Entity's rebindings, and retrieve them as soon as we find
-        # a parent rebinding that rebinds the closest rebindable parent of
-        # `target_type`.
-
-        # First we need to find the closest rebindable parent
-        gd = Var(Self.target_type.parents.find(
-            lambda p: p.is_a(GenericDecl)
-        ).cast(GenericDecl).as_bare_entity)
-
-        # Extract the relevant rebindings
-        relevant_rebindings = Var(gd._.unshed_rebindings(
-            Entity.info.rebindings
-        ).then(
-            lambda fixed: fixed.info.rebindings,
-            default_val=No(T.EnvRebindings)
-        ))
+        # Hence we use the built-in `shed_rebindings` construct from the type
+        # definition's lexical environment so as to only keep relevant ones.
+        relevant_rebindings = Var(
+            Self.target_type.children_env.shed_rebindings(
+                Entity.info
+            ).rebindings
+        )
 
         # Return a rebound `target_type`
         return T.BaseTypeDecl.entity.new(

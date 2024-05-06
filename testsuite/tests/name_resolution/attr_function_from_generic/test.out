@@ -1,0 +1,118 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["Origin"] test.adb:17:4-17:34>
+*************************************************************************************
+
+Expr: <Id "Level_1" test.adb:17:26-17:33>
+  references:    <DefiningName "Level_1" test.adb:9:12-9:19>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Level_1"] test.adb:8:4-15:16 [test.adb:17:4] |>
+***********************************************************************************************
+
+Resolving xrefs for node <| FormalTypeDecl ["Type_T"] test.adb:11:10-11:30 [test.adb:17:4] |>
+*********************************************************************************************
+
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Inst"] test.adb:13:10-13:46 [test.adb:17:4] |>
+********************************************************************************************************
+
+Expr: <| Id "Fail_G" test.adb:13:30-13:36 [test.adb:17:4] |>
+  references:    <DefiningName "Fail_G" test.adb:4:12-4:18>
+  type:          None
+  expected type: None
+Expr: <| Id "Type_T" test.adb:13:38-13:44 [test.adb:17:4] |>
+  references:    <| DefiningName "Type_T" test.adb:11:15-11:21 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Fail_G"] test.adb:2:4-6:15 [test.adb:17:4, test.adb:13:10] |>
+*************************************************************************************************************
+
+Resolving xrefs for node <| FormalTypeDecl ["T"] test.adb:3:7-3:22 [test.adb:17:4, test.adb:13:10] |>
+*****************************************************************************************************
+
+
+Resolving xrefs for node <| ExprFunction ["F"] test.adb:5:7-5:50 [test.adb:17:4, test.adb:13:10] |>
+***************************************************************************************************
+
+Expr: <| ParenExpr test.adb:5:38-5:49 [test.adb:17:4, test.adb:13:10] |>
+  type:          <| FormalTypeDecl ["Type_T"] test.adb:11:10-11:30 [test.adb:17:4] |>
+  expected type: <| FormalTypeDecl ["Type_T"] test.adb:11:10-11:30 [test.adb:17:4] |>
+Expr: <| CallExpr test.adb:5:39-5:48 [test.adb:17:4, test.adb:13:10] |>
+  references:    <| SyntheticDefiningName "val" test.adb:11:10-11:30 [test.adb:17:4] |>
+  type:          <| FormalTypeDecl ["Type_T"] test.adb:11:10-11:30 [test.adb:17:4] |>
+  expected type: <| FormalTypeDecl ["Type_T"] test.adb:11:10-11:30 [test.adb:17:4] |>
+Expr: <| AttributeRef test.adb:5:39-5:44 [test.adb:17:4, test.adb:13:10] |>
+  references:    <| SyntheticDefiningName "val" test.adb:11:10-11:30 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "T" test.adb:5:39-5:40 [test.adb:17:4, test.adb:13:10] |>
+  references:    <| DefiningName "Type_T" test.adb:11:15-11:21 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Val" test.adb:5:41-5:44 [test.adb:17:4, test.adb:13:10] |>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <| Int test.adb:5:46-5:47 [test.adb:17:4, test.adb:13:10] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+
+Resolving xrefs for node <| SubpSpec test.adb:5:7-5:34 [test.adb:17:4, test.adb:13:10] |>
+*****************************************************************************************
+
+Expr: <| Id "T" test.adb:5:33-5:34 [test.adb:17:4, test.adb:13:10] |>
+  references:    <| DefiningName "Type_T" test.adb:11:15-11:21 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ParamSpec ["E"] test.adb:5:19-5:24 [test.adb:17:4, test.adb:13:10] |>
+*************************************************************************************************
+
+Expr: <| Id "T" test.adb:5:23-5:24 [test.adb:17:4, test.adb:13:10] |>
+  references:    <| DefiningName "Type_T" test.adb:11:15-11:21 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:6:8-6:14 [test.adb:17:4, test.adb:13:10] |>
+****************************************************************************************
+
+Expr: <| EndName test.adb:6:8-6:14 [test.adb:17:4, test.adb:13:10] |>
+  references:    <| DefiningName "Inst" test.adb:13:18-13:22 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Fail_G" test.adb:6:8-6:14 [test.adb:17:4, test.adb:13:10] |>
+  references:    <| DefiningName "Inst" test.adb:13:18-13:22 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| EndName test.adb:14:11-14:18 [test.adb:17:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:14:11-14:18 [test.adb:17:4] |>
+  references:    <| DefiningName "Level_2" test.adb:12:15-12:22 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Level_2" test.adb:14:11-14:18 [test.adb:17:4] |>
+  references:    <| DefiningName "Level_2" test.adb:12:15-12:22 [test.adb:17:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:15:8-15:15 [test.adb:17:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:15:8-15:15 [test.adb:17:4] |>
+  references:    <DefiningName "Origin" test.adb:17:12-17:18>
+  type:          None
+  expected type: None
+Expr: <| Id "Level_1" test.adb:15:8-15:15 [test.adb:17:4] |>
+  references:    <DefiningName "Origin" test.adb:17:12-17:18>
+  type:          None
+  expected type: None
+
+
+
+Done.

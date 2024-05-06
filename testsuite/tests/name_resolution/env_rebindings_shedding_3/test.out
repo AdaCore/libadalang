@@ -1,0 +1,11 @@
+Working on node <GenericPackageInstantiation ["My_Pkg"] test.adb:45:4-45:42>
+============================================================================
+
+Set 'pkg_body' to 'node.p_designated_generic_decl.p_body_part'
+Result: <| PackageBody ["Pkg"] test.adb:30:4-42:12 [test.adb:45:4] |>
+
+Eval 'pkg_body.findall(lal.CallStmt)[0].p_resolve_names'
+Result: True
+
+Eval 'pkg_body.findall(lal.CallStmt)[1].p_resolve_names'
+Result: True

@@ -1,0 +1,362 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["My_Action"] test.adb:43:4-43:49>
+****************************************************************************************
+
+Expr: <Id "Action_G" test.adb:43:29-43:37>
+  references:    <DefiningName "Action_G" test.adb:38:12-38:20>
+  type:          None
+  expected type: None
+Expr: <Id "My_Table" test.adb:43:39-43:47>
+  references:    <DefiningName "My_Table" test.adb:42:12-42:20>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Action_G"] test.adb:36:4-39:17 [test.adb:43:4] |>
+*************************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Table"] test.adb:37:12-37:46 [test.adb:43:4] |>
+*********************************************************************************************************
+
+Expr: <| Id "Table_G" test.adb:37:33-37:40 [test.adb:43:4] |>
+  references:    <DefiningName "Table_G" test.adb:23:12-23:19>
+  type:          None
+  expected type: None
+Expr: <| BoxExpr test.adb:37:42-37:44 [test.adb:43:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Table_G"] test.adb:21:4-25:16 [test.adb:42:4] |>
+************************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Data"] test.adb:22:12-22:44 [test.adb:42:4] |>
+********************************************************************************************************
+
+Expr: <| Id "Data_G" test.adb:22:32-22:38 [test.adb:42:4] |>
+  references:    <DefiningName "Data_G" test.adb:3:12-3:18>
+  type:          None
+  expected type: None
+Expr: <| BoxExpr test.adb:22:40-22:42 [test.adb:42:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Data_G"] test.adb:2:4-8:15 [test.adb:41:4] |>
+*********************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:6:10-6:24 [test.adb:41:4] |>
+**************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:7:11-7:19 [test.adb:41:4] |>
+*************************************************************************
+
+Expr: <| EndName test.adb:7:11-7:19 [test.adb:41:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Buffer_G" test.adb:7:11-7:19 [test.adb:41:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:8:8-8:14 [test.adb:41:4] |>
+************************************************************************
+
+Expr: <| EndName test.adb:8:8-8:14 [test.adb:41:4] |>
+  references:    <DefiningName "My_Data" test.adb:41:12-41:19>
+  type:          None
+  expected type: None
+Expr: <| Id "Data_G" test.adb:8:8-8:14 [test.adb:41:4] |>
+  references:    <DefiningName "My_Data" test.adb:41:12-41:19>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Data_G"] test.adb:10:4-19:15 [test.adb:41:4] |>
+****************************************************************************************
+
+Resolving xrefs for node <| ObjectDecl ["X"] test.adb:12:10-12:27 [test.adb:41:4] |>
+************************************************************************************
+
+Expr: <| Id "Integer" test.adb:12:14-12:21 [test.adb:41:4] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <| Int test.adb:12:25-12:26 [test.adb:41:4] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <| SubpSpec test.adb:14:10-14:24 [test.adb:41:4] |>
+****************************************************************************
+
+
+Resolving xrefs for node <| AssignStmt test.adb:16:13-16:42 [test.adb:41:4] |>
+******************************************************************************
+
+Expr: <| DottedName test.adb:16:13-16:23 [test.adb:41:4] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| Id "Buffer_G" test.adb:16:13-16:21 [test.adb:41:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "X" test.adb:16:22-16:23 [test.adb:41:4] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| BinOp test.adb:16:27-16:41 [test.adb:41:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <| DottedName test.adb:16:27-16:37 [test.adb:41:4] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <| Id "Buffer_G" test.adb:16:27-16:35 [test.adb:41:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "X" test.adb:16:36-16:37 [test.adb:41:4] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <| OpPlus "+" test.adb:16:38-16:39 [test.adb:41:4] |>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <| Int test.adb:16:40-16:41 [test.adb:41:4] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <| EndName test.adb:17:14-17:18 [test.adb:41:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:17:14-17:18 [test.adb:41:4] |>
+  references:    <| DefiningName "Test" test.adb:14:20-14:24 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Test" test.adb:17:14-17:18 [test.adb:41:4] |>
+  references:    <| DefiningName "Test" test.adb:14:20-14:24 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:18:11-18:19 [test.adb:41:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:18:11-18:19 [test.adb:41:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:11:20-11:28 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Buffer_G" test.adb:18:11-18:19 [test.adb:41:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:11:20-11:28 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:19:8-19:14 [test.adb:41:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:19:8-19:14 [test.adb:41:4] |>
+  references:    <| DefiningName "Data_G" test.adb:10:17-10:23 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Data_G" test.adb:19:8-19:14 [test.adb:41:4] |>
+  references:    <| DefiningName "Data_G" test.adb:10:17-10:23 [test.adb:41:4] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| SubpSpec test.adb:24:7-24:21 [test.adb:42:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:25:8-25:15 [test.adb:42:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:25:8-25:15 [test.adb:42:4] |>
+  references:    <DefiningName "My_Table" test.adb:42:12-42:20>
+  type:          None
+  expected type: None
+Expr: <| Id "Table_G" test.adb:25:8-25:15 [test.adb:42:4] |>
+  references:    <DefiningName "My_Table" test.adb:42:12-42:20>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Table_G"] test.adb:27:4-34:16 [test.adb:42:4] |>
+*****************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Buffer"] test.adb:28:7-28:43 [test.adb:42:4] |>
+*********************************************************************************************************
+
+Expr: <| DottedName test.adb:28:29-28:42 [test.adb:42:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:22:12] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Data" test.adb:28:29-28:33 [test.adb:42:4] |>
+  references:    <DefiningName "My_Data" test.adb:41:12-41:19>
+  type:          None
+  expected type: None
+Expr: <| Id "Buffer_G" test.adb:28:34-28:42 [test.adb:42:4] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:22:12] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Buffer_G"] test.adb:4:7-7:20 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+*****************************************************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:6:10-6:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+********************************************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:7:11-7:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+*******************************************************************************************************
+
+Expr: <| EndName test.adb:7:11-7:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Buffer" test.adb:28:15-28:21 [test.adb:41:4, test.adb:42:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Buffer_G" test.adb:7:11-7:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Buffer" test.adb:28:15-28:21 [test.adb:41:4, test.adb:42:4] |>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Buffer_G"] test.adb:11:7-18:20 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+************************************************************************************************************************
+
+Resolving xrefs for node <| ObjectDecl ["X"] test.adb:12:10-12:27 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+******************************************************************************************************************
+
+Expr: <| Id "Integer" test.adb:12:14-12:21 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <| Int test.adb:12:25-12:26 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <| SubpSpec test.adb:14:10-14:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+**********************************************************************************************************
+
+
+Resolving xrefs for node <| AssignStmt test.adb:16:13-16:42 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+************************************************************************************************************
+
+Expr: <| DottedName test.adb:16:13-16:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| Id "Buffer_G" test.adb:16:13-16:21 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "X" test.adb:16:22-16:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <| BinOp test.adb:16:27-16:41 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <| DottedName test.adb:16:27-16:37 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <| Id "Buffer_G" test.adb:16:27-16:35 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "X" test.adb:16:36-16:37 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <| OpPlus "+" test.adb:16:38-16:39 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <| Int test.adb:16:40-16:41 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <| EndName test.adb:17:14-17:18 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+*********************************************************************************************************
+
+Expr: <| EndName test.adb:17:14-17:18 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Test" test.adb:14:20-14:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Test" test.adb:17:14-17:18 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Test" test.adb:14:20-14:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:18:11-18:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+*********************************************************************************************************
+
+Expr: <| EndName test.adb:18:11-18:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Buffer_G" test.adb:11:20-11:28 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Buffer_G" test.adb:18:11-18:19 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Buffer_G" test.adb:11:20-11:28 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| SubpSpec test.adb:30:7-30:21 [test.adb:42:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| CallStmt test.adb:32:10-32:22 [test.adb:42:4] |>
+****************************************************************************
+
+Expr: <| DottedName test.adb:32:10-32:21 [test.adb:42:4] |>
+  references:    <| DefiningName "Test" test.adb:6:20-6:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Buffer" test.adb:32:10-32:16 [test.adb:42:4] |>
+  references:    <| DefiningName "Buffer" test.adb:28:15-28:21 [test.adb:42:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Test" test.adb:32:17-32:21 [test.adb:42:4] |>
+  references:    <| DefiningName "Test" test.adb:6:20-6:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:33:11-33:15 [test.adb:42:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:33:11-33:15 [test.adb:42:4] |>
+  references:    <| DefiningName "Test" test.adb:30:17-30:21 [test.adb:42:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Test" test.adb:33:11-33:15 [test.adb:42:4] |>
+  references:    <| DefiningName "Test" test.adb:30:17-30:21 [test.adb:42:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:34:8-34:15 [test.adb:42:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:34:8-34:15 [test.adb:42:4] |>
+  references:    <| DefiningName "Table_G" test.adb:27:17-27:24 [test.adb:42:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Table_G" test.adb:34:8-34:15 [test.adb:42:4] |>
+  references:    <| DefiningName "Table_G" test.adb:27:17-27:24 [test.adb:42:4] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| EndName test.adb:39:8-39:16 [test.adb:43:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:39:8-39:16 [test.adb:43:4] |>
+  references:    <DefiningName "My_Action" test.adb:43:12-43:21>
+  type:          None
+  expected type: None
+Expr: <| Id "Action_G" test.adb:39:8-39:16 [test.adb:43:4] |>
+  references:    <DefiningName "My_Action" test.adb:43:12-43:21>
+  type:          None
+  expected type: None
+
+
+
+Done.

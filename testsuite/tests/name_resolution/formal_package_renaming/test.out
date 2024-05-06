@@ -1,0 +1,128 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["My_Cont"] test.adb:25:4-25:41>
+**************************************************************************************
+
+Expr: <Id "COnt" test.adb:25:27-25:31>
+  references:    <DefiningName "Cont" test.adb:10:12-10:16>
+  type:          None
+  expected type: None
+Expr: <Id "My_Ops" test.adb:25:33-25:39>
+  references:    <DefiningName "My_Ops" test.adb:24:12-24:18>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Cont"] test.adb:8:4-12:13 [test.adb:25:4] |>
+********************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Ops"] test.adb:9:12-9:41 [test.adb:25:4] |>
+*****************************************************************************************************
+
+Expr: <| Id "Op_G" test.adb:9:31-9:35 [test.adb:25:4] |>
+  references:    <DefiningName "Op_G" test.adb:4:12-4:16>
+  type:          None
+  expected type: None
+Expr: <| BoxExpr test.adb:9:37-9:39 [test.adb:25:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Op_G"] test.adb:2:4-5:13 [test.adb:24:4] |>
+*******************************************************************************************
+
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test.adb:3:12-3:32 [test.adb:24:4] |>
+************************************************************************************************
+
+Expr: <| BoxExpr test.adb:3:29-3:31 [test.adb:24:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec test.adb:3:12-3:25 [test.adb:24:4] |>
+**************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:5:8-5:12 [test.adb:24:4] |>
+************************************************************************
+
+Expr: <| EndName test.adb:5:8-5:12 [test.adb:24:4] |>
+  references:    <DefiningName "My_Ops" test.adb:24:12-24:18>
+  type:          None
+  expected type: None
+Expr: <| Id "Op_G" test.adb:5:8-5:12 [test.adb:24:4] |>
+  references:    <DefiningName "My_Ops" test.adb:24:12-24:18>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| SubpSpec test.adb:11:7-11:20 [test.adb:25:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:12:8-12:12 [test.adb:25:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:12:8-12:12 [test.adb:25:4] |>
+  references:    <DefiningName "My_Cont" test.adb:25:12-25:19>
+  type:          None
+  expected type: None
+Expr: <| Id "Cont" test.adb:12:8-12:12 [test.adb:25:4] |>
+  references:    <DefiningName "My_Cont" test.adb:25:12-25:19>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Cont"] test.adb:14:4-21:13 [test.adb:25:4] |>
+**************************************************************************************
+
+Resolving xrefs for node <| PackageRenamingDecl ["O"] test.adb:15:7-15:29 [test.adb:25:4] |>
+********************************************************************************************
+
+Expr: <| Id "Ops" test.adb:15:25-15:28 [test.adb:25:4] |>
+  references:    <DefiningName "My_Ops" test.adb:24:12-24:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec test.adb:17:7-17:20 [test.adb:25:4] |>
+***************************************************************************
+
+
+Resolving xrefs for node <| CallStmt test.adb:19:10-19:16 [test.adb:25:4] |>
+****************************************************************************
+
+Expr: <| DottedName test.adb:19:10-19:15 [test.adb:25:4] |>
+  references:    <| DefiningName "Foo" test.adb:3:22-3:25 [test.adb:24:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "O" test.adb:19:10-19:11 [test.adb:25:4] |>
+  references:    <| DefiningName "O" test.adb:15:15-15:16 [test.adb:25:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Foo" test.adb:19:12-19:15 [test.adb:25:4] |>
+  references:    <| DefiningName "Foo" test.adb:3:22-3:25 [test.adb:24:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:20:11-20:14 [test.adb:25:4] |>
+***************************************************************************
+
+Expr: <| EndName test.adb:20:11-20:14 [test.adb:25:4] |>
+  references:    <| DefiningName "Bar" test.adb:17:17-17:20 [test.adb:25:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Bar" test.adb:20:11-20:14 [test.adb:25:4] |>
+  references:    <| DefiningName "Bar" test.adb:17:17-17:20 [test.adb:25:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:21:8-21:12 [test.adb:25:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:21:8-21:12 [test.adb:25:4] |>
+  references:    <| DefiningName "Cont" test.adb:14:17-14:21 [test.adb:25:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Cont" test.adb:21:8-21:12 [test.adb:25:4] |>
+  references:    <| DefiningName "Cont" test.adb:14:17-14:21 [test.adb:25:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

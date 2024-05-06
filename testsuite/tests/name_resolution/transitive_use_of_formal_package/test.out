@@ -1,0 +1,173 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["O"] test.adb:32:4-32:40>
+********************************************************************************
+
+Expr: <DottedName test.adb:32:21-32:32>
+  references:    <| DefiningName "Operation" test.adb:12:15-12:24 [test.adb:30:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "C" test.adb:32:21-32:22>
+  references:    <DefiningName "C" test.adb:30:12-30:13>
+  type:          None
+  expected type: None
+Expr: <Id "Operation" test.adb:32:23-32:32>
+  references:    <| DefiningName "Operation" test.adb:12:15-12:24 [test.adb:30:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "S" test.adb:32:34-32:35>
+  references:    <DefiningName "S" test.adb:31:12-31:13>
+  type:          None
+  expected type: None
+Expr: <Id "F" test.adb:32:37-32:38>
+  references:    <DefiningName "F" test.adb:28:14-28:15>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Operation"] test.adb:9:7-16:21 [test.adb:30:4, test.adb:32:4] |>
+****************************************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Shared"] test.adb:10:15-10:51 [test.adb:30:4, test.adb:32:4] |>
+*************************************************************************************************************************
+
+Expr: <| Id "Shared_G" test.adb:10:37-10:45 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "Shared_G" test.adb:6:15-6:23>
+  type:          None
+  expected type: None
+Expr: <| BoxExpr test.adb:10:47-10:49 [test.adb:30:4, test.adb:32:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Shared_G"] test.adb:4:7-7:20 [test.adb:30:4, test.adb:31:4] |>
+**************************************************************************************************************
+
+Resolving xrefs for node <| FormalTypeDecl ["T"] test.adb:5:10-5:28 [test.adb:30:4, test.adb:31:4] |>
+*****************************************************************************************************
+
+
+Resolving xrefs for node <| EndName test.adb:7:11-7:19 [test.adb:30:4, test.adb:31:4] |>
+****************************************************************************************
+
+Expr: <| EndName test.adb:7:11-7:19 [test.adb:30:4, test.adb:31:4] |>
+  references:    <DefiningName "S" test.adb:31:12-31:13>
+  type:          None
+  expected type: None
+Expr: <| Id "Shared_G" test.adb:7:11-7:19 [test.adb:30:4, test.adb:31:4] |>
+  references:    <DefiningName "S" test.adb:31:12-31:13>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] test.adb:11:15-11:44 [test.adb:30:4, test.adb:32:4] |>
+*****************************************************************************************************************
+
+
+Resolving xrefs for node <| SubpSpec test.adb:11:15-11:43 [test.adb:30:4, test.adb:32:4] |>
+*******************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] test.adb:11:30-11:42 [test.adb:30:4, test.adb:32:4] |>
+**************************************************************************************************
+
+Expr: <| DottedName test.adb:11:34-11:42 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <| Id "Shared" test.adb:11:34-11:40 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "S" test.adb:31:12-31:13>
+  type:          None
+  expected type: None
+Expr: <| Id "T" test.adb:11:41-11:42 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| UsePackageClause test.adb:13:10-13:21 [test.adb:30:4, test.adb:32:4] |>
+***************************************************************************************************
+
+Expr: <| Id "Shared" test.adb:13:14-13:20 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "S" test.adb:31:12-31:13>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec test.adb:15:10-15:31 [test.adb:30:4, test.adb:32:4] |>
+*******************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] test.adb:15:25-15:30 [test.adb:30:4, test.adb:32:4] |>
+**************************************************************************************************
+
+Expr: <| Id "T" test.adb:15:29-15:30 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:16:11-16:20 [test.adb:30:4, test.adb:32:4] |>
+******************************************************************************************
+
+Expr: <| EndName test.adb:16:11-16:20 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "O" test.adb:32:12-32:13>
+  type:          None
+  expected type: None
+Expr: <| Id "Operation" test.adb:16:11-16:20 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "O" test.adb:32:12-32:13>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Operation"] test.adb:20:7-25:21 [test.adb:30:4, test.adb:32:4] |>
+**********************************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:21:10-21:31 [test.adb:30:4, test.adb:32:4] |>
+*******************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] test.adb:21:25-21:30 [test.adb:30:4, test.adb:32:4] |>
+**************************************************************************************************
+
+Expr: <| Id "T" test.adb:21:29-21:30 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| CallStmt test.adb:23:13-23:21 [test.adb:30:4, test.adb:32:4] |>
+*******************************************************************************************
+
+Expr: <| CallExpr test.adb:23:13-23:20 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "F" test.adb:28:14-28:15>
+  type:          None
+  expected type: None
+Expr: <| Id "Foo" test.adb:23:13-23:16 [test.adb:30:4, test.adb:32:4] |>
+  references:    <DefiningName "F" test.adb:28:14-28:15>
+  type:          None
+  expected type: None
+Expr: <| Id "X" test.adb:23:18-23:19 [test.adb:30:4, test.adb:32:4] |>
+  references:    <| DefiningName "X" test.adb:21:25-21:26 [test.adb:30:4, test.adb:32:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <| EndName test.adb:24:14-24:17 [test.adb:30:4, test.adb:32:4] |>
+******************************************************************************************
+
+Expr: <| EndName test.adb:24:14-24:17 [test.adb:30:4, test.adb:32:4] |>
+  references:    <| DefiningName "Bar" test.adb:21:20-21:23 [test.adb:30:4, test.adb:32:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Bar" test.adb:24:14-24:17 [test.adb:30:4, test.adb:32:4] |>
+  references:    <| DefiningName "Bar" test.adb:21:20-21:23 [test.adb:30:4, test.adb:32:4] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:25:11-25:20 [test.adb:30:4, test.adb:32:4] |>
+******************************************************************************************
+
+Expr: <| EndName test.adb:25:11-25:20 [test.adb:30:4, test.adb:32:4] |>
+  references:    <| DefiningName "Operation" test.adb:20:20-20:29 [test.adb:30:4, test.adb:32:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Operation" test.adb:25:11-25:20 [test.adb:30:4, test.adb:32:4] |>
+  references:    <| DefiningName "Operation" test.adb:20:20-20:29 [test.adb:30:4, test.adb:32:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

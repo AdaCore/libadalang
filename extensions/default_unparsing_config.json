@@ -1071,10 +1071,13 @@
             "kind": "recurse_field",
             "field": "f_operator"
           },
-          "line",
+          "whitespace",
           {
-            "kind": "recurse_field",
-            "field": "f_operand"
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_operand"
+            }
           }
         ]
       }
@@ -1083,30 +1086,6 @@
       "sep": [
         "line",
         "recurse"
-      ]
-    },
-    "ConstrainedArrayIndices": {
-      "node": {
-        "kind": "align",
-        "width": 1,
-        "contents": {
-          "kind": "group",
-          "document": [
-            {
-              "kind": "innerRoot",
-              "contents": {
-                "kind": "recurse_field",
-                "field": "f_list"
-              }
-            }
-          ]
-        }
-      }
-    },
-    "ConstraintList": {
-      "sep": [
-        "recurse",
-        "line"
       ]
     },
     "ContractCases": {
@@ -1262,6 +1241,30 @@
           }
         ]
       }
+    },
+    "ConstrainedArrayIndices": {
+      "node": {
+        "kind": "align",
+        "width": 1,
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "innerRoot",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_list"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ConstraintList": {
+      "sep": [
+        "recurse",
+        "line"
+      ]
     },
     "DecimalFixedPointDef": {
       "node": {
@@ -3770,6 +3773,30 @@
         ]
       }
     },
+    "OpAbs": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "abs"
+          },
+          "whitespace"
+        ]
+      }
+    },
+    "OpNot": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "not"
+          },
+          "whitespace"
+        ]
+      }
+    },
     "OrdinaryFixedPointDef": {
       "node": {
         "kind": "group",
@@ -4779,6 +4806,30 @@
         }
       }
     },
+    "RelationOp": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_left"
+          },
+          "line",
+          {
+            "kind": "recurse_field",
+            "field": "f_op"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_right"
+            }
+          }
+        ]
+      }
+    },
     "ReturnStmt": {
       "node": {
         "kind": "align",
@@ -5481,6 +5532,24 @@
           {
             "kind": "text",
             "text": ";"
+          }
+        ]
+      }
+    },
+    "UnOp": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_op"
+          },
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
           }
         ]
       }

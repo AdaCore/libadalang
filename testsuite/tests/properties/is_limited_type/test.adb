@@ -47,6 +47,9 @@ procedure Test is
    type Non_Limited_From_Limited_Interface is new Limited_Interface
       with null record;
    --% node.p_is_limited_type
+
+   subtype Classwide_Type is Limited_Tagged_Rec'Class;
+   --% node.p_is_limited_type
 begin
    null;
 end Test;

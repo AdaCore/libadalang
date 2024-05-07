@@ -75,3 +75,9 @@ Working on node <ConcreteTypeDecl ["Non_Limited_From_Limited_Interface"] test.ad
 
 Eval 'node.p_is_limited_type'
 Result: False
+
+Working on node <SubtypeDecl ["Classwide_Type"] test.adb:51:4-51:55>
+====================================================================
+
+Eval 'node.p_is_limited_type'
+Result: True

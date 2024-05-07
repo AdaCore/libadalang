@@ -7826,6 +7826,7 @@ class BaseTypeDecl(BasicDecl):
             lambda td=TypeDecl: td.type_def.is_limited_type,
             lambda sb=SubtypeDecl: sb.get_type.is_limited_type,
             lambda it=IncompleteTypeDecl: it.full_view.is_limited_type,
+            lambda cw=ClasswideTypeDecl: cw.type_decl.is_limited_type,
             lambda _=ProtectedTypeDecl: True,
             lambda _=TaskTypeDecl: True,
             lambda _: False

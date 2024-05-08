@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os.path
 
 from drivers.base_driver import BaseDriver
@@ -52,16 +53,25 @@ class UnparserDriver(BaseDriver):
                 return f.read()
 
         document_baseline_filename = self.test_dir(
-            self.document_baseline_filename
+            self.document_baseline_filename)
+        document_baseline = json.dumps(
+            json.loads(read_file(document_baseline_filename)),
+            indent=2,
+            sort_keys=True,
         )
-        document_baseline = read_file(document_baseline_filename)
-        document_actual = read_file(self.working_dir("doc.json"))
+        document_actual = json.dumps(
+            json.loads(read_file(self.working_dir("doc.json"))),
+            indent=2,
+            sort_keys=True,
+        )
 
-        result.extend(self.compute_diff(
-            baseline_file=document_baseline_filename,
-            baseline=document_baseline,
-            actual=document_actual,
-            failure_message="Prettier document mismatch",
-        ))
+        result.extend(
+            self.compute_diff(
+                baseline_file=document_baseline_filename,
+                baseline=document_baseline,
+                actual=document_actual,
+                failure_message="Prettier document mismatch",
+            )
+        )
 
         return result

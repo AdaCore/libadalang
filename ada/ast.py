@@ -10141,7 +10141,10 @@ class SubtypeDecl(BaseSubtypeDecl):
         add_to_env(Entity.synthetic_object_decl_env_assoc)
     )
 
-    @langkit_property(return_type=T.BaseTypeDecl.entity, dynamic_vars=[origin])
+    @langkit_property(
+        return_type=T.BaseTypeDecl.entity,
+        dynamic_vars=[default_origin()],
+    )
     def get_type():
         return Entity.subtype.designated_type.match(
             lambda st=T.SubtypeDecl: st.get_type,

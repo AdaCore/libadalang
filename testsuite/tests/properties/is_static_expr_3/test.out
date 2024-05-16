@@ -1,0 +1,8 @@
+Working on node <Str "" argument"" test.adb:6:30-6:41>
+======================================================
+
+Set 'concat_op' to 'node.parent.parent.parent'
+Result: <ConcatOp test.adb:6:18-6:41>
+
+Eval 'concat_op.p_is_static_expr()'
+Result: True

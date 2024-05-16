@@ -13872,6 +13872,17 @@ class Expr(AdaNode):
                 default_val=True
             ),
 
+            lambda co=ConcatOperand:
+            co.operand.is_static_expr
+            & co.operator.referenced_decl.then(
+                lambda decl: decl.is_static_decl,
+                default_val=True
+            ),
+
+            lambda co=ConcatOp:
+            co.first_operand.is_static_expr
+            & co.other_operands.all(lambda o: o.is_static_expr),
+
             lambda uo=UnOp:
             uo.expr.is_static_expr
             & uo.op.referenced_decl.then(

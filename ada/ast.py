@@ -7513,7 +7513,7 @@ class BaseTypeDecl(BasicDecl):
         return Entity.is_int_type | Entity.base_subtype.then(
             # We check on the base_subtype because the aspect can only be
             # specified on the type's first subtype.
-            lambda bt: Not(bt.get_aspect_spec_expr("Integer_Literal").is_null),
+            lambda bt: Not(bt.get_aspect("Integer_Literal", True).is_null),
             default_val=False
         )
 
@@ -7527,7 +7527,7 @@ class BaseTypeDecl(BasicDecl):
         return Entity.is_real_type | Entity.base_subtype.then(
             # We check on the base_subtype because the aspect can only be
             # specified on the type's first subtype.
-            lambda bt: Not(bt.get_aspect_spec_expr("Real_Literal").is_null),
+            lambda bt: Not(bt.get_aspect("Real_Literal", True).is_null),
             default_val=False
         )
 
@@ -7548,8 +7548,7 @@ class BaseTypeDecl(BasicDecl):
             Entity.is_str_type | Entity.base_subtype.then(
                 # We check on the base_subtype because the aspect can only be
                 # specified on the type's first subtype.
-                lambda bt:
-                Not(bt.get_aspect_spec_expr("String_Literal").is_null),
+                lambda bt: Not(bt.get_aspect("String_Literal", True).is_null),
                 default_val=False
             )
         )
@@ -18634,7 +18633,8 @@ class DefiningName(Name):
             # often queried during name resolution.
             name.any_of(
                 'Implicit_Dereference', 'Constant_Indexing',
-                'Variable_Indexing', 'Iterable', 'Iterator_Element'
+                'Variable_Indexing', 'Iterable', 'Iterator_Element',
+                'Integer_Literal', 'Real_Literal', 'String_Literal'
             ),
 
             parts_to_check.map(

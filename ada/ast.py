@@ -308,7 +308,7 @@ class AdaNode(ASTNode):
         """
         return If(
             dr == No(T.DiscreteRange),
-            PropertyError(
+            PreconditionFailure(
                 EvalDiscreteRange,
                 "Attempting to evaluate a null discrete range"
             ),
@@ -3433,8 +3433,8 @@ class BasicDecl(AdaNode):
         dns = Var(Entity.defining_names)
         return If(
             dns.length > 1,
-            PropertyError(DefiningName.entity,
-                          "BasicDecl with multiple defining names"),
+            PreconditionFailure(DefiningName.entity,
+                                "BasicDecl with multiple defining names"),
             dns.at(0)
         )
 
@@ -11908,7 +11908,7 @@ class AspectAssoc(AdaNode):
             lambda ar=T.AttributeRef: Self.aspect_name(ar.prefix)
                                           .concat(String("'"))
                                           .concat(ar.attribute.sym.image),
-            lambda _: PropertyError(
+            lambda _: PreconditionFailure(
                 T.String,
                 "aspect_name called on an invalid aspect name"
             ),
@@ -13810,7 +13810,7 @@ class Expr(AdaNode):
            of a concat operator will always return false. (Internal TN:
            VC08-029)
         """
-        return PropertyError(
+        return PreconditionFailure(
             T.Bool,
             "Invalid node type: expected Name, UnOp or BinOp"
         )
@@ -16314,7 +16314,7 @@ class Name(Expr):
         Return the array of SingleTokNode nodes that compose this name.
 
         Only simple name kinds are allowed: Identifier, DottedName and
-        DefiningName. Any other kind will trigger a PropertyError.
+        DefiningName. Any other kind will trigger a PreconditionFailure.
         """
         return Self.match(
             lambda dname=T.DefiningName: dname.name.as_single_tok_node_array,
@@ -16323,7 +16323,7 @@ class Name(Expr):
             dot.prefix.as_single_tok_node_array.concat(
                 dot.suffix.as_single_tok_node_array
             ),
-            lambda _: PropertyError(T.SingleTokNode.array),
+            lambda _: PreconditionFailure(T.SingleTokNode.array),
         )
 
     @langkit_property(public=True, return_type=Symbol.array)
@@ -16335,7 +16335,7 @@ class Name(Expr):
         ``['A', 'B', 'C']``.
 
         Only simple name kinds are allowed: Identifier, DottedName and
-        DefiningName. Any other kind will trigger a PropertyError.
+        DefiningName. Any other kind will trigger a PreconditionFailure.
         """
         return Self.as_single_tok_node_array.map(lambda t: t.symbol)
 
@@ -16345,7 +16345,7 @@ class Name(Expr):
         Return a canonicalized version of this name's text.
 
         Only simple name kinds are allowed: Identifier, DottedName and
-        DefiningName. Any other kind will trigger a PropertyError.
+        DefiningName. Any other kind will trigger a PreconditionFailure.
         """
         return Self.sym_join(Self.as_symbol_array, String(".")).to_symbol
 
@@ -16436,7 +16436,7 @@ class Name(Expr):
                 )
             ),
 
-            PropertyError(
+            PreconditionFailure(
                 T.ParamActual.array,
                 "this name doesn't reference a call expression"
             )
@@ -20443,7 +20443,7 @@ class EntryDecl(BasicSubpDecl):
             Entity.parent_basic_decl.match(
                 lambda st=T.SingleTaskTypeDecl.entity: st.parent_basic_decl,
                 lambda tt=T.TaskTypeDecl: tt,
-                lambda _: PropertyError(
+                lambda _: PreconditionFailure(
                     T.BasicDecl.entity,
                     "Can only be called on EntryDecl in Tasks"
                 )

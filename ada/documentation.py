@@ -3,7 +3,7 @@ import docutils.parsers.rst.roles
 from langkit.documentation import PassthroughNode
 
 
-# Passthrough some roles that we want to be handled during doc generation.
+# Passthrough some roles that we want to be handled during doc generation
 docutils.parsers.rst.roles.register_local_role(
     "rmlink", PassthroughNode.role_fn
 )

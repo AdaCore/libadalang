@@ -1,0 +1,5 @@
+driver: name-resolution
+input_sources:
+  - test_basic.adb
+  - test_complex.adb
+  - test_nested_string_expr.adb

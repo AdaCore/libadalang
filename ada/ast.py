@@ -7522,6 +7522,19 @@ class BaseTypeDecl(BasicDecl):
             default_val=False
         )
 
+    @langkit_property(predicate_error="No inferable type for expression")
+    def is_not_any_type():
+        """
+        Predicate that'll check that this type is not null. Meant to be used in
+        equations, where we know that the expression's type cannot be
+        determined if there is no expected type, as in::
+
+            Predicate(BaseTypeDecl.is_not_any_type,
+                      Self.expected_type_var,
+                      error_location=Self)
+        """
+        return Not(Self.is_null)
+
     @langkit_property(dynamic_vars=[default_origin()],
                       predicate_error="$Self does not allow string literals")
     def allows_string_literal():
@@ -19579,10 +19592,84 @@ class StringLiteral(BaseId):
             # case we don't want to constrain its type.
             Self.parent.is_a(Name),
             Entity.super(),
+
+            Bind(Self.expected_type_var, Self.type_var)
+            & Predicate(BaseTypeDecl.is_not_any_type,
+                        Self.expected_type_var,
+                        error_location=Self)
+            & Predicate(BaseTypeDecl.allows_string_literal,
+                        Self.expected_type_var,
+                        error_location=Self)
+        )
+
+
+@abstract
+class FormatStringTokNode(AdaNode):
+    """
+    Node holding a format string token.
+    """
+    token_node = True
+
+
+class FormatStringTokStart(FormatStringTokNode):
+    """
+    Node holding a formatting "start" token.
+    """
+    pass
+
+
+class FormatStringTokMid(FormatStringTokNode):
+    """
+    Node holding a formatting "middle" token.
+    """
+    pass
+
+
+class FormatStringTokEnd(FormatStringTokNode):
+    """
+    Node holding a formatting "end" token.
+    """
+    pass
+
+
+class FormatStringChunk(AdaNode):
+    """
+    Chunk of a format string literal.
+    """
+    expr = Field(type=T.Expr)
+    string_tok = Field(type=T.FormatStringTokNode)
+
+    @langkit_property()
+    def xref_equation():
+        return And(
+            Entity.expr.sub_equation,
+
+            # The RFC specifies that interpolated string expressions can be "of
+            # any type", so we explicitly bind the expected type to null.
+            Bind(Self.expr.expected_type_var, No(T.AdaNode))
+        )
+
+
+class FormatStringLiteral(Expr):
+    """
+    Interpolated string expression.
+
+    See :gnat_rm:`string-interpolation` for more details.
+    """
+
+    opening_chunk = Field(type=T.FormatStringTokStart)
+    mid_exprs = Field(type=T.FormatStringChunk.list)
+    trailing_expr = Field(type=T.FormatStringChunk)
+
+    @langkit_property()
+    def xref_equation():
+        return (
             Predicate(BaseTypeDecl.allows_string_literal,
                       Self.expected_type_var,
                       error_location=Self)
             & Bind(Self.expected_type_var, Self.type_var)
+            & Entity.trailing_expr.sub_equation
+            & Entity.mid_exprs.logic_all(lambda m: m.expr.sub_equation)
         )
 
 

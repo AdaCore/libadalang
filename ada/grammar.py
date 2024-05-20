@@ -1127,6 +1127,13 @@ A.add_rules(
     char_literal=CharLiteral(L.Char),
     string_literal=StringLiteral(L.String),
 
+    format_string_literal=FormatStringLiteral(
+        FormatStringTokStart(L.FormatStringStart),
+        List(FormatStringChunk(A.expr, FormatStringTokMid(L.FormatStringMid)),
+             empty_valid=True),
+        FormatStringChunk(A.expr, FormatStringTokEnd(L.FormatStringEnd))
+    ),
+
     defining_id=DefiningName(A.identifier),
 
     dec_literal=RealLiteral(L.Decimal),
@@ -1365,6 +1372,7 @@ A.add_rules(
     ),
 
     primary=Or(A.num_literal, A.null_literal,
+               A.format_string_literal,
                A.name, A.allocator,
                A.conditional_expr,
                A.raise_expr,

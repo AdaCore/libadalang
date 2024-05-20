@@ -105,6 +105,9 @@ class Token(LexerToken):
     # String and char literals
     String = WithText()
     Char = WithSymbol()
+    FormatStringStart = WithText()
+    FormatStringMid = WithText()
+    FormatStringEnd = WithText()
 
     With = WithText()
     Decimal = WithText()
@@ -131,6 +134,9 @@ ada_lexer = Lexer(Token)
 ada_lexer.add_patterns(
     ('bracket_char', r'(\[\"[0-9a-fA-F]+\"\])'),
     ('p_string', r'\"(\"\"|{bracket_char}|[^\n\"])*\"'),
+    ('p_format_string_start', r'f\"(\"\"|{bracket_char}|[^\n\"\{])*\{'),
+    ('p_format_string_mid', r'\}(\"\"|{bracket_char}|[^\n\"\{])*\{'),
+    ('p_format_string_end', r'\}(\"\"|{bracket_char}|[^\n\"\{])*\"'),
     ('p_percent_string', r'%(%%|{bracket_char}|[^\n%])*%'),
 
     ('digit', r"[0-9]"),
@@ -287,6 +293,10 @@ rules += [
 
     (Pattern('{p_string}'),         Token.String),
     (Pattern('{p_percent_string}'), Token.String),
+
+    (Pattern('{p_format_string_start}'), Token.FormatStringStart),
+    (Pattern('{p_format_string_mid}'),   Token.FormatStringMid),
+    (Pattern('{p_format_string_end}'),   Token.FormatStringEnd),
 
     # Identifiers
     (Pattern('{identifier}'), Token.Identifier),

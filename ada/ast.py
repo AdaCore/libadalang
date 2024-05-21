@@ -3461,8 +3461,7 @@ class BasicDecl(AdaNode):
     is_array = Property(Entity.array_ndims > 0, dynamic_vars=[origin])
 
     @langkit_property(return_type=T.BaseTypeDecl.entity,
-                      dynamic_vars=[origin],
-                      memoized=True)
+                      dynamic_vars=[origin])
     def expr_type():
         """
         Return the type declaration corresponding to this basic declaration
@@ -7024,7 +7023,7 @@ class BaseTypeDecl(BasicDecl):
             transitive_parent=False
         )
 
-    @langkit_property(memoized=True)
+    @langkit_property()
     def primitives_env():
         return EmptyEnv
 

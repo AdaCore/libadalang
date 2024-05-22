@@ -17079,7 +17079,7 @@ class CallExpr(Name):
                 # actually do more here by considering ExplicitDerefs, but
                 # this should be sufficient for the current purpose of
                 # check_for_type (e.g. to preemptively discard inadequate
-                # candidates in env_elements_baseid).
+                # candidates in env_elements_impl).
                 default_val=True
             )
         )))
@@ -18989,7 +18989,7 @@ class BaseId(SingleTokNode):
             env_el._.is_package & Not(env_el.node == bd),
             Entity.pkg_env(env_el),
 
-            Entity.env_elements_baseid.then(
+            Entity.env_elements_impl.then(
                 lambda all_env_els:
                 all_env_els.filter(lambda e: And(
                     # Exclude own generic package instantiation from the lookup
@@ -19157,10 +19157,6 @@ class BaseId(SingleTokNode):
             )._or(precise)
         )
 
-    @langkit_property(dynamic_vars=[env])
-    def env_elements_impl():
-        return Entity.env_elements_baseid
-
     @langkit_property()
     def all_env_els_impl(
             seq=(Bool, True),
@@ -19177,11 +19173,7 @@ class BaseId(SingleTokNode):
         )
 
     @langkit_property(dynamic_vars=[env], memoized=True)
-    def env_elements_baseid():
-        """
-        Decoupled implementation for env_elements_impl, specifically used by
-        designated_env when the parent is a library level package.
-        """
+    def env_elements_impl():
         items = Var(Self.env_get(
             env,
             Self.symbol,
@@ -19267,8 +19259,8 @@ class BaseId(SingleTokNode):
                           params=T.AssocList.entity, b=T.BasicDecl.entity):
         """
         Return whether the BasicDecl ``b`` should be kept during
-        ``env_elements_baseid`` items filtering. This piece of code has been
-        extracted from ``env_elements_baseid`` to improve code readability.
+        ``env_elements_impl`` items filtering. This piece of code has been
+        extracted from ``env_elements_impl`` to improve code readability.
         """
         family_type = Var(spec.cast(T.EntrySpec)._.family_type)
 
@@ -19582,9 +19574,7 @@ class StringLiteral(BaseId):
         """
         return Self.root_type_ops(Self.symbol).map(
             lambda bd: bd.cast(AdaNode.entity)
-        ).concat(
-            Entity.env_elements_baseid
-        )
+        ).concat(Entity.super())
 
     @langkit_property()
     def xref_equation():
@@ -21717,7 +21707,7 @@ class DottedName(Name):
     def env_elements_impl():
         pfx_env = Var(origin.bind(Self.origin_node,
                                   Entity.prefix.designated_env))
-        return env.bind(pfx_env, Entity.suffix.env_elements_baseid)
+        return env.bind(pfx_env, Entity.suffix.env_elements_impl)
 
     @langkit_property()
     def designated_type_impl():

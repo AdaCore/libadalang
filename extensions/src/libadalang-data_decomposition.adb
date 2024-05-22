@@ -2699,7 +2699,7 @@ package body Libadalang.Data_Decomposition is
             declare
                use GPR2.Context.Key_Value;
 
-               Name  : constant GPR2.Name_Type := Key (Cur);
+               Name  : constant GPR2.External_Name_Type := Key (Cur);
                Value : constant GPR2.Value_Type := Element (Cur);
             begin
                Args.Append ("-X" & String (Name) & "=" & String (Value));

@@ -3692,11 +3692,15 @@ class BasicDecl(AdaNode):
 
     name_symbol = Property(Self.as_bare_entity.relative_name.name_symbol)
 
-    @langkit_property(dynamic_vars=[default_imprecise_fallback()])
-    def basic_decl_next_part_for_decl():
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
+    def next_part_for_decl():
         """
-        Implementation of next_part_for_decl for basic decls, that can be
-        reused by subclasses when they override next_part_for_decl.
+        Return the next part of this declaration, if applicable.
+
+        .. note:: It is not named next_part, because BaseTypeDecl has a
+            more precise version of next_part that returns a BaseTypeDecl.
+            Probably, we want to rename the specific versions, and have the
+            root property be named next_part. (TODO R925-008)
         """
         # Fetch the library level body unit that might contain the next part
         # for this declaration.
@@ -3740,18 +3744,6 @@ class BasicDecl(AdaNode):
             lookup=LK.minimal,
             categories=no_prims
         ).cast(T.BasicDecl)
-
-    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
-    def next_part_for_decl():
-        """
-        Return the next part of this declaration, if applicable.
-
-        .. note:: It is not named next_part, because BaseTypeDecl has a
-            more precise version of next_part that returns a BaseTypeDecl.
-            Probably, we want to rename the specific versions, and have the
-            root property be named next_part. (TODO R925-008)
-        """
-        return Entity.basic_decl_next_part_for_decl()
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def body_part_for_decl():
@@ -8292,8 +8284,9 @@ class BaseTypeDecl(BasicDecl):
             # SingleTaskTypeDecl next part is its parent SingleTaskDecl next
             # part.
             lambda sttd=T.SingleTaskTypeDecl:
-            sttd.parent_basic_decl.basic_decl_next_part_for_decl,
-            lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
+            sttd.parent_basic_decl.next_part_for_decl,
+            lambda _=T.TaskTypeDecl: Entity.super(),
+            lambda _=T.ProtectedTypeDecl: Entity.super(),
             lambda _: Entity.next_part.cast(T.BasicDecl.entity)
         )
 
@@ -10354,10 +10347,6 @@ class ProtectedTypeDecl(BaseTypeDecl):
         Entity.interfaces.map(lambda i: i.name_designated_type)
     )
 
-    @langkit_property()
-    def next_part_for_decl():
-        return Entity.basic_decl_next_part_for_decl
-
     xref_entry_point = Property(True)
 
     @langkit_property()
@@ -11026,7 +11015,7 @@ class BasicSubpDecl(BasicDecl):
             lambda ds: ds.semantic_parent.cast(T.BasicDecl)
         ))
 
-        default_next_part = Var(Entity.basic_decl_next_part_for_decl)
+        default_next_part = Var(Entity.super())
 
         return Cond(
             # If __nextpart is registered in the decl's env, simply return

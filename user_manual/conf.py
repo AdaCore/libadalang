@@ -391,6 +391,11 @@ def setup(app):
         f.write(rst_content)
 
 
-# TODO: for deployment, update the following URL to an available Langkit
-# documentation site.
-extlinks = {'langkit_doc': ('http://example.org/langkit-doc/%s', None)}
+extlinks = {
+    # TODO: for deployment, update the following URL to an available Langkit
+    # documentation site.
+    'langkit_doc': ('http://example.org/langkit-doc/%s', None),
+
+    'gnat_rm': ('https://docs.adacore.com/gnat_rm-docs/html/gnat_rm'
+                '/gnat_rm/gnat_language_extensions.html#%s', None)
+}

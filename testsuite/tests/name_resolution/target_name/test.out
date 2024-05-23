@@ -113,7 +113,7 @@ Expr: <TargetName test_agg.adb:12:14-12:15>
   expected type: None
 Expr: <Id "Count" test_agg.adb:12:27-12:32>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          None
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <BinOp test_agg.adb:12:36-12:47>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>

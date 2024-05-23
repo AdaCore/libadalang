@@ -963,7 +963,13 @@ grammar ada_grammar {
         | DeltaAggregate(
             "("
             expr
-            "with" "delta" / AssocList+(aggregate_assoc, ",") ")"
+            "with" "delta"
+            /
+            # TODO: We use a ?pick parser below only to satisfy unparsing
+            # because this is actually not optional in the case of delta
+            # aggregates. See langkit#816.
+            AssocList+(AggregateAssoc(?pick(delta_choice_list "=>") expr), ",")
+            ")"
         )
         | Aggregate(
             "("
@@ -1158,6 +1164,12 @@ grammar ada_grammar {
         )
         | name |> when(Name.is_range_attribute)
     )
+    array_subcomponent_choice <- or(
+        | DottedName(array_subcomponent_choice "." direct_name)
+        | ArraySubcomponentChoiceName(array_subcomponent_choice
+                                      "(" call_suffix ")")
+        | ArraySubcomponentChoiceName(null(Name) "(" call_suffix ")")
+    )
     choice <- or(
         | discrete_range
         | discrete_subtype_indication
@@ -1165,6 +1177,15 @@ grammar ada_grammar {
         | others_designator
     )
     choice_list <- AlternativesList+(choice, "|")
+    delta_choice_list <- AlternativesList+(
+        or(
+            | array_subcomponent_choice
+            | discrete_range
+            | expr
+            | others_designator
+        ),
+        "|"
+    )
     rel_op <- or(Op.NotIn("not" "in") | Op.In("in"))
     membership_choice <- or(
         | discrete_range

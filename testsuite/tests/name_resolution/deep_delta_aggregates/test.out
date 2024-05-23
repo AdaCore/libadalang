@@ -1,0 +1,1016 @@
+Analyzing base.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["Y"] base.adb:14:7-14:76>
+***************************************************************
+
+Expr: <Id "R2" base.adb:14:11-14:13>
+  references:    <DefiningName "R2" base.adb:9:12-9:14>
+  type:          None
+  expected type: None
+Expr: <DeltaAggregate base.adb:14:17-14:75>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:9:7-11:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:9:7-11:18>
+Expr: <Id "X" base.adb:14:18-14:19>
+  references:    <DefiningName "X" base.adb:13:7-13:8>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:9:7-11:18>
+  expected type: None
+Expr: <DottedName base.adb:14:31-14:36>
+  references:    <DefiningName "F1" base.adb:7:10-7:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "G1" base.adb:14:31-14:33>
+  references:    <DefiningName "G1" base.adb:10:10-10:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:6:7-8:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:6:7-8:18>
+Expr: <Id "F1" base.adb:14:34-14:36>
+  references:    <DefiningName "F1" base.adb:7:10-7:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:14:40-14:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName base.adb:14:43-14:48>
+  references:    <DefiningName "F2" base.adb:7:14-7:16>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "G2" base.adb:14:43-14:45>
+  references:    <DefiningName "G2" base.adb:10:14-10:16>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:6:7-8:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:6:7-8:18>
+Expr: <Id "F2" base.adb:14:46-14:48>
+  references:    <DefiningName "F2" base.adb:7:14-7:16>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:14:52-14:53>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G3" base.adb:14:55-14:57>
+  references:    <DefiningName "G3" base.adb:10:18-10:20>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:6:7-8:18>
+  expected type: None
+Expr: <Aggregate base.adb:14:61-14:74>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:6:7-8:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:6:7-8:18>
+Expr: <Int base.adb:14:72-14:73>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Y"] base.adb:40:7-43:29>
+***************************************************************
+
+Expr: <Id "R3" base.adb:40:11-40:13>
+  references:    <DefiningName "R3" base.adb:34:12-34:14>
+  type:          None
+  expected type: None
+Expr: <DeltaAggregate base.adb:40:17-43:28>
+  type:          <ConcreteTypeDecl ["R3"] base.adb:34:7-37:18>
+  expected type: <ConcreteTypeDecl ["R3"] base.adb:34:7-37:18>
+Expr: <Id "X" base.adb:40:18-40:19>
+  references:    <DefiningName "X" base.adb:39:7-39:8>
+  type:          <ConcreteTypeDecl ["R3"] base.adb:34:7-37:18>
+  expected type: None
+Expr: <DottedName base.adb:41:20-41:29>
+  references:    <DefiningName "G1" base.adb:30:10-30:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+  expected type: None
+Expr: <CallExpr base.adb:41:20-41:26>
+  references:    <DefiningName "H1" base.adb:35:10-35:12>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:29:7-32:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:29:7-32:18>
+Expr: <Id "H1" base.adb:41:20-41:22>
+  references:    <DefiningName "H1" base.adb:35:10-35:12>
+  type:          <ConcreteTypeDecl ["R2_Arr"] base.adb:33:7-33:57>
+  expected type: None
+Expr: <Id "I" base.adb:41:24-41:25>
+  references:    <DefiningName "I" base.adb:22:26-22:27>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G1" base.adb:41:27-41:29>
+  references:    <DefiningName "G1" base.adb:30:10-30:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+  expected type: None
+Expr: <Aggregate base.adb:41:33-41:46>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+Expr: <Int base.adb:41:44-41:45>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName base.adb:42:20-42:32>
+  references:    <DefiningName "F2" base.adb:27:14-27:16>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName base.adb:42:20-42:29>
+  references:    <DefiningName "G1" base.adb:30:10-30:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+Expr: <CallExpr base.adb:42:20-42:26>
+  references:    <DefiningName "H1" base.adb:35:10-35:12>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:29:7-32:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:29:7-32:18>
+Expr: <Id "H1" base.adb:42:20-42:22>
+  references:    <DefiningName "H1" base.adb:35:10-35:12>
+  type:          <ConcreteTypeDecl ["R2_Arr"] base.adb:33:7-33:57>
+  expected type: None
+Expr: <Id "J" base.adb:42:24-42:25>
+  references:    <DefiningName "J" base.adb:22:29-22:30>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G1" base.adb:42:27-42:29>
+  references:    <DefiningName "G1" base.adb:30:10-30:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:26:7-28:18>
+Expr: <Id "F2" base.adb:42:30-42:32>
+  references:    <DefiningName "F2" base.adb:27:14-27:16>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:42:36-42:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "H2" base.adb:43:20-43:22>
+  references:    <DefiningName "H2" base.adb:36:10-36:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:43:26-43:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["Y"] base.adb:78:10-84:32>
+****************************************************************
+
+Expr: <Id "R3" base.adb:78:14-78:16>
+  references:    <DefiningName "R3" base.adb:63:12-63:14>
+  type:          None
+  expected type: None
+Expr: <DeltaAggregate base.adb:78:20-84:31>
+  type:          <ConcreteTypeDecl ["R3"] base.adb:63:7-66:18>
+  expected type: <ConcreteTypeDecl ["R3"] base.adb:63:7-66:18>
+Expr: <Id "X" base.adb:78:21-78:22>
+  references:    <DefiningName "X" base.adb:75:10-75:11>
+  type:          <ConcreteTypeDecl ["R3"] base.adb:63:7-66:18>
+  expected type: None
+Expr: <DottedName base.adb:79:23-79:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <CallExpr base.adb:79:23-79:29>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+Expr: <Id "H1" base.adb:79:23-79:25>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2_Arr"] base.adb:62:7-62:57>
+  expected type: None
+Expr: <Id "I" base.adb:79:27-79:28>
+  references:    <DefiningName "I" base.adb:70:23-70:24>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G1" base.adb:79:30-79:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <Aggregate base.adb:79:36-79:61>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+Expr: <Aggregate base.adb:79:47-79:60>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+Expr: <Int base.adb:79:58-79:59>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CallExpr base.adb:80:23-80:36>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+  expected type: None
+Expr: <DottedName base.adb:80:23-80:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <CallExpr base.adb:80:23-80:29>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+Expr: <Id "H1" base.adb:80:23-80:25>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2_Arr"] base.adb:62:7-62:57>
+  expected type: None
+Expr: <Id "J" base.adb:80:27-80:28>
+  references:    <DefiningName "J" base.adb:70:26-70:27>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G1" base.adb:80:30-80:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <Id "K" base.adb:80:34-80:35>
+  references:    <DefiningName "K" base.adb:70:29-70:30>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Aggregate base.adb:80:40-80:53>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+Expr: <Int base.adb:80:51-80:52>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName base.adb:81:23-81:39>
+  references:    <DefiningName "F1" base.adb:55:10-55:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <CallExpr base.adb:81:23-81:36>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+Expr: <DottedName base.adb:81:23-81:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <CallExpr base.adb:81:23-81:29>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+Expr: <Id "H1" base.adb:81:23-81:25>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2_Arr"] base.adb:62:7-62:57>
+  expected type: None
+Expr: <Id "L" base.adb:81:27-81:28>
+  references:    <DefiningName "L" base.adb:70:32-70:33>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G1" base.adb:81:30-81:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <Id "M" base.adb:81:34-81:35>
+  references:    <DefiningName "M" base.adb:70:35-70:36>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "F1" base.adb:81:37-81:39>
+  references:    <DefiningName "F1" base.adb:55:10-55:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:81:43-81:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName base.adb:82:23-82:39>
+  references:    <DefiningName "F2" base.adb:55:14-55:16>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <CallExpr base.adb:82:23-82:36>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+  expected type: <ConcreteTypeDecl ["R1"] base.adb:54:7-56:18>
+Expr: <DottedName base.adb:82:23-82:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <CallExpr base.adb:82:23-82:29>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+Expr: <Id "H1" base.adb:82:23-82:25>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2_Arr"] base.adb:62:7-62:57>
+  expected type: None
+Expr: <Id "N" base.adb:82:27-82:28>
+  references:    <DefiningName "N" base.adb:70:38-70:39>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G1" base.adb:82:30-82:32>
+  references:    <DefiningName "G1" base.adb:59:10-59:12>
+  type:          <ConcreteTypeDecl ["R1_Arr"] base.adb:57:7-57:58>
+  expected type: None
+Expr: <Id "P" base.adb:82:34-82:35>
+  references:    <DefiningName "P" base.adb:70:41-70:42>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "F2" base.adb:82:37-82:39>
+  references:    <DefiningName "F2" base.adb:55:14-55:16>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:82:43-82:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName base.adb:83:23-83:32>
+  references:    <DefiningName "G2" base.adb:60:10-60:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <CallExpr base.adb:83:23-83:29>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+  expected type: <ConcreteTypeDecl ["R2"] base.adb:58:7-61:18>
+Expr: <Id "H1" base.adb:83:23-83:25>
+  references:    <DefiningName "H1" base.adb:64:10-64:12>
+  type:          <ConcreteTypeDecl ["R2_Arr"] base.adb:62:7-62:57>
+  expected type: None
+Expr: <Id "Q" base.adb:83:27-83:28>
+  references:    <DefiningName "Q" base.adb:70:44-70:45>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "G2" base.adb:83:30-83:32>
+  references:    <DefiningName "G2" base.adb:60:10-60:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:83:36-83:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "H2" base.adb:84:23-84:25>
+  references:    <DefiningName "H2" base.adb:65:10-65:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int base.adb:84:29-84:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing arr.adb
+#################
+
+Resolving xrefs for node <AssignStmt arr.adb:13:7-17:24>
+********************************************************
+
+Expr: <Id "X" arr.adb:13:7-13:8>
+  references:    <DefiningName "X" arr.adb:11:20-11:21>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: None
+Expr: <DeltaAggregate arr.adb:13:12-17:23>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+Expr: <Id "X" arr.adb:13:13-13:14>
+  references:    <DefiningName "X" arr.adb:11:20-11:21>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: None
+Expr: <DottedName arr.adb:14:12-14:17>
+  references:    <DefiningName "F" arr.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName arr.adb:14:12-14:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+  expected type: <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+Expr: <Id "I" arr.adb:14:13-14:14>
+  references:    <DefiningName "I" arr.adb:11:39-11:40>
+  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "F" arr.adb:14:16-14:17>
+  references:    <DefiningName "F" arr.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int arr.adb:14:21-14:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName arr.adb:15:12-15:17>
+  references:    <DefiningName "G" arr.adb:4:10-4:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName arr.adb:15:12-15:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+  expected type: <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+Expr: <Id "J" arr.adb:15:13-15:14>
+  references:    <DefiningName "J" arr.adb:11:42-11:43>
+  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "G" arr.adb:15:16-15:17>
+  references:    <DefiningName "G" arr.adb:4:10-4:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int arr.adb:15:21-15:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName arr.adb:16:12-16:17>
+  references:    <DefiningName "F" arr.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName arr.adb:16:12-16:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+  expected type: <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+Expr: <Id "K" arr.adb:16:13-16:14>
+  references:    <DefiningName "K" arr.adb:11:45-11:46>
+  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "F" arr.adb:16:16-16:17>
+  references:    <DefiningName "F" arr.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int arr.adb:16:21-16:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName arr.adb:17:12-17:17>
+  references:    <DefiningName "H" arr.adb:4:13-4:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName arr.adb:17:12-17:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+  expected type: <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+Expr: <Id "L" arr.adb:17:13-17:14>
+  references:    <DefiningName "L" arr.adb:11:48-11:49>
+  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "H" arr.adb:17:16-17:17>
+  references:    <DefiningName "H" arr.adb:4:13-4:14>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int arr.adb:17:21-17:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt arr.adb:20:7-20:60>
+********************************************************
+
+Expr: <Id "X" arr.adb:20:7-20:8>
+  references:    <DefiningName "X" arr.adb:11:20-11:21>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: None
+Expr: <DeltaAggregate arr.adb:20:12-20:59>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+Expr: <ParenExpr arr.adb:20:13-20:36>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: None
+Expr: <IfExpr arr.adb:20:14-20:35>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: None
+Expr: <Id "True" arr.adb:20:17-20:21>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "X" arr.adb:20:27-20:28>
+  references:    <DefiningName "X" arr.adb:11:20-11:21>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: None
+Expr: <Id "X" arr.adb:20:34-20:35>
+  references:    <DefiningName "X" arr.adb:11:20-11:21>
+  type:          <ConcreteTypeDecl ["My_Arr"] arr.adb:7:4-7:50>
+  expected type: None
+Expr: <DottedName arr.adb:20:48-20:53>
+  references:    <DefiningName "F" arr.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName arr.adb:20:48-20:51>
+  references:    None
+  type:          <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+  expected type: <ConcreteTypeDecl ["R"] arr.adb:3:4-5:15>
+Expr: <Id "I" arr.adb:20:49-20:50>
+  references:    <DefiningName "I" arr.adb:11:39-11:40>
+  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "F" arr.adb:20:52-20:53>
+  references:    <DefiningName "F" arr.adb:4:7-4:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int arr.adb:20:57-20:58>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing test_array.adb
+########################
+
+Resolving xrefs for node <AssignStmt test_array.adb:15:4-15:38>
+***************************************************************
+
+Expr: <Id "S" test_array.adb:15:4-15:5>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <DeltaAggregate test_array.adb:15:9-15:37>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+Expr: <Id "S" test_array.adb:15:10-15:11>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test_array.adb:15:23-15:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: None
+Expr: <Int test_array.adb:15:24-15:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Aggregate test_array.adb:15:30-15:36>
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <Int test_array.adb:15:31-15:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_array.adb:15:34-15:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test_array.adb:18:4-18:35>
+***************************************************************
+
+Expr: <Id "S" test_array.adb:18:4-18:5>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <DeltaAggregate test_array.adb:18:9-18:34>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+Expr: <Id "S" test_array.adb:18:10-18:11>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <DottedName test_array.adb:18:23-18:28>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test_array.adb:18:23-18:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <Int test_array.adb:18:24-18:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "X" test_array.adb:18:27-18:28>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int test_array.adb:18:32-18:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test_array.adb:21:4-21:65>
+***************************************************************
+
+Expr: <Id "S" test_array.adb:21:4-21:5>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <DeltaAggregate test_array.adb:21:9-21:64>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+Expr: <Id "S" test_array.adb:21:10-21:11>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <DottedName test_array.adb:21:23-21:28>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test_array.adb:21:23-21:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <Int test_array.adb:21:24-21:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "X" test_array.adb:21:27-21:28>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName test_array.adb:21:31-21:36>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test_array.adb:21:31-21:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <Int test_array.adb:21:32-21:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test_array.adb:21:35-21:36>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName test_array.adb:21:40-21:46>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CallExpr test_array.adb:21:40-21:44>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <Id "S" test_array.adb:21:40-21:41>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <Int test_array.adb:21:42-21:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "X" test_array.adb:21:45-21:46>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <DottedName test_array.adb:21:48-21:53>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test_array.adb:21:48-21:51>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <Int test_array.adb:21:49-21:50>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test_array.adb:21:52-21:53>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName test_array.adb:21:57-21:63>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CallExpr test_array.adb:21:57-21:61>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <Id "S" test_array.adb:21:57-21:58>
+  references:    <DefiningName "S" test_array.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <Int test_array.adb:21:59-21:60>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test_array.adb:21:62-21:63>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test_array.adb:24:4-24:46>
+***************************************************************
+
+Expr: <Id "T" test_array.adb:24:4-24:5>
+  references:    <DefiningName "T" test_array.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Triangle"] test_array.adb:9:4-9:47>
+  expected type: None
+Expr: <DeltaAggregate test_array.adb:24:9-24:45>
+  type:          <ConcreteTypeDecl ["Triangle"] test_array.adb:9:4-9:47>
+  expected type: <ConcreteTypeDecl ["Triangle"] test_array.adb:9:4-9:47>
+Expr: <Id "T" test_array.adb:24:10-24:11>
+  references:    <DefiningName "T" test_array.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Triangle"] test_array.adb:9:4-9:47>
+  expected type: None
+Expr: <DottedName test_array.adb:24:23-24:31>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test_array.adb:24:23-24:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <ArraySubcomponentChoiceName test_array.adb:24:23-24:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <Int test_array.adb:24:24-24:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_array.adb:24:27-24:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test_array.adb:24:30-24:31>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName test_array.adb:24:35-24:44>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <CallExpr test_array.adb:24:35-24:42>
+  references:    <DefiningName "T" test_array.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <CallExpr test_array.adb:24:35-24:39>
+  references:    <DefiningName "T" test_array.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <Id "T" test_array.adb:24:35-24:36>
+  references:    <DefiningName "T" test_array.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Triangle"] test_array.adb:9:4-9:47>
+  expected type: None
+Expr: <Int test_array.adb:24:37-24:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_array.adb:24:40-24:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "X" test_array.adb:24:43-24:44>
+  references:    <DefiningName "X" test_array.adb:3:7-3:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test_array.adb:27:4-27:41>
+***************************************************************
+
+Expr: <Id "C" test_array.adb:27:4-27:5>
+  references:    <DefiningName "C" test_array.adb:13:4-13:5>
+  type:          <ConcreteTypeDecl ["Cube"] test_array.adb:12:4-12:51>
+  expected type: None
+Expr: <DeltaAggregate test_array.adb:27:9-27:40>
+  type:          <ConcreteTypeDecl ["Cube"] test_array.adb:12:4-12:51>
+  expected type: <ConcreteTypeDecl ["Cube"] test_array.adb:12:4-12:51>
+Expr: <Id "C" test_array.adb:27:10-27:11>
+  references:    <DefiningName "C" test_array.adb:13:4-13:5>
+  type:          <ConcreteTypeDecl ["Cube"] test_array.adb:12:4-12:51>
+  expected type: None
+Expr: <DottedName test_array.adb:27:23-27:34>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test_array.adb:27:23-27:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["Point"] test_array.adb:2:4-4:15>
+Expr: <ArraySubcomponentChoiceName test_array.adb:27:23-27:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Segment"] test_array.adb:6:4-6:44>
+  expected type: None
+Expr: <Int test_array.adb:27:24-27:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_array.adb:27:27-27:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_array.adb:27:30-27:31>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" test_array.adb:27:33-27:34>
+  references:    <DefiningName "Y" test_array.adb:3:10-3:11>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int test_array.adb:27:38-27:39>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing multidim.adb
+######################
+
+Resolving xrefs for node <AssignStmt multidim.adb:15:4-15:49>
+*************************************************************
+
+Expr: <Id "M" multidim.adb:15:4-15:5>
+  references:    <DefiningName "M" multidim.adb:13:4-13:5>
+  type:          <ConcreteTypeDecl ["Multi"] multidim.adb:12:4-12:54>
+  expected type: None
+Expr: <DeltaAggregate multidim.adb:15:9-15:48>
+  type:          <ConcreteTypeDecl ["Multi"] multidim.adb:12:4-12:54>
+  expected type: <ConcreteTypeDecl ["Multi"] multidim.adb:12:4-12:54>
+Expr: <Id "M" multidim.adb:15:10-15:11>
+  references:    <DefiningName "M" multidim.adb:13:4-13:5>
+  type:          <ConcreteTypeDecl ["Multi"] multidim.adb:12:4-12:54>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName multidim.adb:15:23-15:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <DottedName multidim.adb:15:23-15:38>
+  references:    <DefiningName "Y" multidim.adb:6:10-6:11>
+  type:          <ConcreteTypeDecl ["Segment"] multidim.adb:2:4-2:46>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName multidim.adb:15:23-15:36>
+  references:    None
+  type:          <ConcreteTypeDecl ["Point"] multidim.adb:5:4-7:15>
+  expected type: <ConcreteTypeDecl ["Point"] multidim.adb:5:4-7:15>
+Expr: <ArraySubcomponentChoiceName multidim.adb:15:23-15:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Triangle"] multidim.adb:9:4-9:45>
+  expected type: None
+Expr: <Int multidim.adb:15:24-15:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "True" multidim.adb:15:27-15:31>
+  references:    <DefiningName "True" __standard:3:27-3:31>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Int multidim.adb:15:34-15:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Y" multidim.adb:15:37-15:38>
+  references:    <DefiningName "Y" multidim.adb:6:10-6:11>
+  type:          <ConcreteTypeDecl ["Segment"] multidim.adb:2:4-2:46>
+  expected type: None
+Expr: <Int multidim.adb:15:40-15:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int multidim.adb:15:46-15:47>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:20:4-20:39>
+*********************************************************
+
+Expr: <Id "A" test.adb:20:4-20:5>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: None
+Expr: <DeltaAggregate test.adb:20:9-20:38>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+Expr: <Id "A" test.adb:20:10-20:11>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test.adb:20:23-20:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+  expected type: None
+Expr: <Int test.adb:20:24-20:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Aggregate test.adb:20:30-20:37>
+  type:          <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+  expected type: <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+Expr: <Int test.adb:20:31-20:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:20:33-20:34>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:20:35-20:36>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:23:4-23:45>
+*********************************************************
+
+Expr: <Id "A" test.adb:23:4-23:5>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: None
+Expr: <DeltaAggregate test.adb:23:9-23:44>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+Expr: <Id "A" test.adb:23:10-23:11>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: None
+Expr: <ArraySubcomponentChoiceName test.adb:23:23-23:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+  expected type: None
+Expr: <DottedName test.adb:23:24-23:31>
+  references:    <DefiningName "F" test.adb:5:7-5:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <CallExpr test.adb:23:24-23:29>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+  expected type: <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+Expr: <Id "A" test.adb:23:24-23:25>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: None
+Expr: <Int test.adb:23:27-23:28>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "F" test.adb:23:30-23:31>
+  references:    <DefiningName "F" test.adb:5:7-5:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Aggregate test.adb:23:36-23:43>
+  type:          <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+  expected type: <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+Expr: <Int test.adb:23:37-23:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:23:39-23:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test.adb:23:41-23:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:26:4-26:37>
+*********************************************************
+
+Expr: <Id "B" test.adb:26:4-26:5>
+  references:    <DefiningName "B" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+  expected type: None
+Expr: <DeltaAggregate test.adb:26:9-26:36>
+  type:          <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+  expected type: <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+Expr: <Id "B" test.adb:26:10-26:11>
+  references:    <DefiningName "B" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+  expected type: None
+Expr: <DottedName test.adb:26:23-26:30>
+  references:    <DefiningName "F" test.adb:5:7-5:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <CallExpr test.adb:26:23-26:28>
+  references:    <DefiningName "A" test.adb:11:7-11:8>
+  type:          <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+  expected type: <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+Expr: <Id "A" test.adb:26:23-26:24>
+  references:    <DefiningName "A" test.adb:11:7-11:8>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: None
+Expr: <Int test.adb:26:26-26:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "F" test.adb:26:29-26:30>
+  references:    <DefiningName "F" test.adb:5:7-5:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int test.adb:26:34-26:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <AssignStmt test.adb:29:4-29:39>
+*********************************************************
+
+Expr: <Id "B" test.adb:29:4-29:5>
+  references:    <DefiningName "B" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+  expected type: None
+Expr: <DeltaAggregate test.adb:29:9-29:38>
+  type:          <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+  expected type: <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+Expr: <Id "B" test.adb:29:10-29:11>
+  references:    <DefiningName "B" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+  expected type: None
+Expr: <DottedName test.adb:29:23-29:32>
+  references:    <DefiningName "F" test.adb:5:7-5:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <CallExpr test.adb:29:23-29:30>
+  references:    <DefiningName "A" test.adb:11:7-11:8>
+  type:          <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+  expected type: <ConcreteTypeDecl ["R"] test.adb:4:4-6:15>
+Expr: <Id "A" test.adb:29:23-29:24>
+  references:    <DefiningName "A" test.adb:11:7-11:8>
+  type:          <ConcreteTypeDecl ["My_Arr"] test.adb:8:4-8:50>
+  expected type: None
+Expr: <DottedName test.adb:29:26-29:29>
+  references:    <DefiningName "B" test.adb:12:7-12:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "B" test.adb:29:26-29:27>
+  references:    <DefiningName "B" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+  expected type: <ConcreteTypeDecl ["S"] test.adb:10:4-13:15>
+Expr: <Id "B" test.adb:29:28-29:29>
+  references:    <DefiningName "B" test.adb:12:7-12:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "F" test.adb:29:31-29:32>
+  references:    <DefiningName "F" test.adb:5:7-5:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Int test.adb:29:36-29:37>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Done.

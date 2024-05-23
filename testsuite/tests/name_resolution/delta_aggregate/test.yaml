@@ -1,2 +1,2 @@
 driver: name-resolution
-input_sources: [foo.adb]
+input_sources: [foo.adb, arr.adb]

@@ -93,6 +93,7 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
     jobjectArray scenario_variables,
     jstring target,
     jstring runtime,
+    jstring config_file,
     jobject diagnostics
 ) {
     // Create the scenario variable array
@@ -128,8 +129,9 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
     }
 
     // Create the common project arguments
-    const char *target_c = to_c_string(env, target);
-    const char *runtime_c = to_c_string(env, runtime);
+    const char *target_c = target == NULL ? NULL : to_c_string(env, target);
+    const char *runtime_c = runtime == NULL ? NULL : to_c_string(env, runtime);
+    const char *config_file_c = config_file == NULL ? NULL : to_c_string(env, config_file);
     ${project_type} res = NULL;
     ${str_array_type} errors = NULL;
 
@@ -139,6 +141,7 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
         ${nat("gpr_project_load_implicit")}(
             target_c,
             runtime_c,
+            config_file_c,
             &res,
             &errors
         );
@@ -149,6 +152,7 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
             scenario_variables_native,
             target_c,
             runtime_c,
+            config_file_c,
             &res,
             &errors
         );
@@ -164,8 +168,15 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
     }
 
     // Free the translated strings
-    (*env)->ReleaseStringUTFChars(env, target, target_c);
-    (*env)->ReleaseStringUTFChars(env, runtime, runtime_c);
+    if (target_c != NULL) {
+        (*env)->ReleaseStringUTFChars(env, target, target_c);
+    }
+    if (runtime_c != NULL) {
+        (*env)->ReleaseStringUTFChars(env, runtime, runtime_c);
+    }
+    if (config_file_c != NULL) {
+        (*env)->ReleaseStringUTFChars(env, config_file, config_file_c);
+    }
 
     // The `errors` pointer is not allocated if an exception was raised during
     // project file loading.

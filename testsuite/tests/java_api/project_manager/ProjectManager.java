@@ -52,13 +52,24 @@ public class ProjectManager {
         Libadalang.UnitProvider unitProvider =
             project.getProvider(subproject);
 
+        // Create an event handler
+        Libadalang.EventHandler eh = Libadalang.EventHandler.create(
+            (ctx, name, from, found, notFoundIsError) -> {
+                if (!found && notFoundIsError) {
+                    System.out.println(
+                        "Cannot find file " + new File(name).getName()
+                    );
+                }
+            },
+            null);
+
         try(
            Libadalang.AnalysisContext context
              = Libadalang.AnalysisContext.create(
                    null,
                    null,
                    unitProvider,
-                   null,
+                   eh,
                    true,
                    8
                )
@@ -68,43 +79,109 @@ public class ProjectManager {
                   = context.getUnitFromFile(file);
                 System.out.println("File " + unit.getFileName(false));
                 System.out.println("  root = " + unit.getRoot());
+                System.out.println(
+                    "  deps = " +
+                    Arrays.toString(
+                        ((Libadalang.CompilationUnit) unit.getRoot())
+                            .pUnitDependencies()
+                    )
+                );
             }
         }
+    }
+
+    /** Simply open the given GPR file and display its source files. */
+    private static void openProject(String gprFile) {
+        openProject(
+            gprFile,
+            null
+        );
+    }
+
+    /**
+     * Open the given GPR file with a subproject to use, then display its
+     * source files.
+     */
+    private static void openProject(
+        String gprFile,
+        String subproject
+    ) {
+        openProject(
+            gprFile,
+            subproject,
+            null,
+            true
+        );
+    }
+
+    /**
+     * Open a GPR project and list its source files.
+     *
+     * @param gprFile The gpr file
+     * @param subproject The subproject to use. If null, use the root project
+     *     in the given project path
+     * @param scenarioVariables Scenario variuables to apply during project
+     *     opening
+     * @param lookInProjectPath If the function should look for the GPR file
+     */
+    private static void openProject(
+        String gprFile,
+        String subproject,
+        Libadalang.ScenarioVariable[] scenarioVariables,
+        boolean lookInProjectPath
+    ) {
+        openProject(
+            gprFile,
+            subproject,
+            null,
+            scenarioVariables,
+            lookInProjectPath
+        );
     }
 
     /**
      * Open a gpr project and list its source files.
      *
      * @param gprFile The gpr file
-     * @param lookInProjectPath If the function should look for the GPR file
-     *     in the given project path
      * @param subproject The subproject to use. If null, use the root project
+     *     in the given project path
+     * @param configFile A configuration file to open the project with
+     * @param scenarioVariables Scenario variuables to apply during project
+     *     opening
+     * @param lookInProjectPath If the function should look for the GPR file
      */
     private static void openProject(
         String gprFile,
+        String subproject,
+        String configFile,
         Libadalang.ScenarioVariable[] scenarioVariables,
-        boolean lookInProjectPath,
-        String subproject
+        boolean lookInProjectPath
     ) {
-        String headerMsg = "Open " + gprFile;
+        String headerMsg = "Open " + Paths.get(gprFile).getFileName();
         if (subproject != null) {
             headerMsg += " (" + subproject + ")";
+        }
+        if (configFile != null) {
+            headerMsg += " with config " + configFile;
         }
         header(headerMsg);
 
         // Resolve the project file if needed
-        String projectFile = gprFile;
         if(lookInProjectPath) {
-            projectFile = Paths.get(projectPath, gprFile).toString();
+            gprFile = Paths.get(projectPath, gprFile).toString();
+            configFile = configFile == null ?
+                null :
+                Paths.get(projectPath, configFile).toString();
         }
 
         try(
             Libadalang.ProjectManager project
               = Libadalang.ProjectManager.create(
-                  projectFile,
+                  gprFile,
                   scenarioVariables,
-                  "",
-                  ""
+                  null,
+                  null,
+                  configFile
               )
         ) {
             projectInfo(project, subproject);
@@ -119,23 +196,23 @@ public class ProjectManager {
      * Test opening a valid project.
      */
     private static void testValid() {
-        openProject("p1.gpr", null, true, null);
+        openProject("p1.gpr");
         openProject(
             "p2.gpr",
+            null,
             new Libadalang.ScenarioVariable[] {
                 Libadalang.ScenarioVariable.create("SRC_DIR", "src2_1"),
                 Libadalang.ScenarioVariable.create("USELESS", "useless")
             },
-            true,
-            null
+            true
         );
         openProject(
             "p2.gpr",
+            null,
             new Libadalang.ScenarioVariable[] {
                 Libadalang.ScenarioVariable.create("SRC_DIR", "src2_2")
             },
-            true,
-            null
+            true
         );
     }
 
@@ -143,27 +220,27 @@ public class ProjectManager {
      * Test opening an invalid project.
      */
     private static void testInvalid() {
-        openProject("invalid.gpr", null, true, null);
+        openProject("invalid.gpr");
     }
 
     /**
      * Test opening an inexistant project.
      */
     private static void testInexistant() {
-        openProject("idonotexist.gpr", null, false, null);
+        openProject("idonotexist.gpr", null, null, false);
     }
 
     /**
      * Test opening an aggregate project.
      */
     private static void testAggregate() {
-        openProject("agg.gpr", null, true, "nosuchsubproject");
-        openProject("agg.gpr", null, true, "p1");
-        openProject("agg.gpr", null, true, "p2");
+        openProject("agg.gpr", "nosuchsubproject");
+        openProject("agg.gpr", "p1");
+        openProject("agg.gpr", "p2");
     }
 
     private static void testNoSuchTarget() {
-        openProject("nosuchtarget.gpr", null, true, null);
+        openProject("nosuchtarget.gpr");
     }
 
     /**
@@ -175,8 +252,9 @@ public class ProjectManager {
         try (
             Libadalang.ProjectManager project =
                 Libadalang.ProjectManager.createImplicit(
-                    "",
-                    ""
+                    null,
+                    null,
+                    null
                 )
         ) {
             projectInfo(project, null);
@@ -185,6 +263,47 @@ public class ProjectManager {
         } finally {
             footer(headerMsg);
         }
+    }
+
+    private static void testConfigFile() {
+        openProject(
+            "p1.gpr",
+            null,
+            "other_naming.cgpr",
+            null,
+            true
+        );
+    }
+
+    private static void testRuntimeConfigFile() {
+        openProject("calendar.gpr");
+        openProject(
+            Paths.get(projectPath, "calendar.gpr").toString(),
+            null,
+            "light_runtime.cgpr",
+            null,
+            false
+        );
+    }
+
+    private static void testEmptyConfigFile() {
+        openProject(
+            "p1.gpr",
+            null,
+            "empty.cgpr",
+            null,
+            true
+        );
+    }
+
+    private static void testInexistantConfigFile() {
+        openProject(
+            Paths.get(projectPath, "p1.gpr").toString(),
+            null,
+            "idonotexist.cgpr",
+            null,
+            false
+        );
     }
 
     /**
@@ -198,5 +317,9 @@ public class ProjectManager {
         testAggregate();
         testNoSuchTarget();
         testImplicit();
+        testConfigFile();
+        testRuntimeConfigFile();
+        testEmptyConfigFile();
+        testInexistantConfigFile();
     }
 }

@@ -1,0 +1,11 @@
+configuration project P1 is
+   for Default_Language use "Ada";
+
+   package Naming is
+      for Spec_Suffix ("Ada") use ".other";
+      for Body_Suffix ("Ada") use ".adb";
+
+      for Casing use "lowercase";
+      for Dot_Replacement use "-";
+   end Naming;
+end P1;

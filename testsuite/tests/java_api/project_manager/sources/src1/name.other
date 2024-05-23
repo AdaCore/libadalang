@@ -1,0 +1,3 @@
+package Name is
+   type Record_Type is null record;
+end Name;

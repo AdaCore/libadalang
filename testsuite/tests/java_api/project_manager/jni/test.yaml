@@ -5,3 +5,10 @@ main_class: ProjectManager
 projects_path: ../sources/
 sync_trees:
   - ../sources/src1/
+pre_python:
+  'subprocess.check_call([
+    "gprconfig",
+    "--batch",
+    "--config=Ada,,light",
+    "-o", os.path.join(test_env["working_dir"], "light_runtime.cgpr")
+  ])'

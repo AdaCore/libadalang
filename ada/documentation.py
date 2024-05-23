@@ -33,8 +33,8 @@ libadalang_docs = {
     """,
     'libadalang.gpr_project_load_implicit': """
         Load an implicit project in the current directory. This function uses
-        This function uses ``GNATCOLL.Projects.Load_Implicit_Project`` to load
-        the ``_default.gpr`` project file.
+        ``GNATCOLL.Projects.Load_Implicit_Project`` to load the
+        ``_default.gpr`` project file.
     """,
     'libadalang.gpr_project_free': """
         Free resources allocated for ``Self``.

@@ -41,6 +41,7 @@ ${capi.get_name('gpr_project_load')}(
    const ${scn_var_type} *scenario_vars,
    const char *target,
    const char *runtime,
+   const char *config_file,
    ${project_type} *project,
    ${str_array_type} *errors
 );
@@ -50,6 +51,7 @@ extern void
 ${capi.get_name('gpr_project_load_implicit')}(
    const char *target,
    const char *runtime,
+   const char *config_file,
    ${project_type} *project,
    ${str_array_type} *errors
 );

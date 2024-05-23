@@ -1,0 +1,6 @@
+== config file ==
+
+Got no exception
+
+Errors:
+   - p.gpr:1:09: no languages defined for this project

@@ -266,6 +266,17 @@ class JavaDriver(BaseDriver):
                 ))
             args.append(main_java)
 
+        # Run the "pre_python" code if there is one
+        if self.test_env.get('pre_python'):
+            exec(
+                self.test_env['pre_python'],
+                {
+                    'test_env': self.test_env,
+                    'os': os,
+                    'subprocess': subprocess
+                }
+            )
+
         # Run the test main. Mains expect a GPR project path as their only
         # argument.
         self.run_and_check(args + [project_path])

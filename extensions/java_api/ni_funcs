@@ -14,6 +14,7 @@ nat = c_api.get_name
         Pointer scenarioVariable,
         CCharPointer target,
         CCharPointer runtime,
+        CCharPointer configFile,
         Pointer project,
         Pointer errors
     );
@@ -24,6 +25,7 @@ nat = c_api.get_name
     public static native void ${nat("gpr_project_load_implicit")}(
         CCharPointer target,
         CCharPointer runtime,
+        CCharPointer configFile,
         Pointer project,
         Pointer errors
     );

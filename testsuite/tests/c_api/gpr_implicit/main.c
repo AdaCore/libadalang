@@ -17,8 +17,9 @@ main (void)
     printf ("== simple ==\n\n");
 
     ada_gpr_project_load_implicit (
-        "",
-        "",
+        NULL,
+        NULL,
+        NULL,
         &gpr,
         &errors
     );

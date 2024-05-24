@@ -3692,11 +3692,15 @@ class BasicDecl(AdaNode):
 
     name_symbol = Property(Self.as_bare_entity.relative_name.name_symbol)
 
-    @langkit_property(dynamic_vars=[default_imprecise_fallback()])
-    def basic_decl_next_part_for_decl():
+    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
+    def next_part_for_decl():
         """
-        Implementation of next_part_for_decl for basic decls, that can be
-        reused by subclasses when they override next_part_for_decl.
+        Return the next part of this declaration, if applicable.
+
+        .. note:: It is not named next_part, because BaseTypeDecl has a
+            more precise version of next_part that returns a BaseTypeDecl.
+            Probably, we want to rename the specific versions, and have the
+            root property be named next_part. (TODO R925-008)
         """
         # Fetch the library level body unit that might contain the next part
         # for this declaration.
@@ -3740,18 +3744,6 @@ class BasicDecl(AdaNode):
             lookup=LK.minimal,
             categories=no_prims
         ).cast(T.BasicDecl)
-
-    @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
-    def next_part_for_decl():
-        """
-        Return the next part of this declaration, if applicable.
-
-        .. note:: It is not named next_part, because BaseTypeDecl has a
-            more precise version of next_part that returns a BaseTypeDecl.
-            Probably, we want to rename the specific versions, and have the
-            root property be named next_part. (TODO R925-008)
-        """
-        return Entity.basic_decl_next_part_for_decl()
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()])
     def body_part_for_decl():
@@ -8292,8 +8284,9 @@ class BaseTypeDecl(BasicDecl):
             # SingleTaskTypeDecl next part is its parent SingleTaskDecl next
             # part.
             lambda sttd=T.SingleTaskTypeDecl:
-            sttd.parent_basic_decl.basic_decl_next_part_for_decl,
-            lambda ttd=T.TaskTypeDecl: ttd.basic_decl_next_part_for_decl,
+            sttd.parent_basic_decl.next_part_for_decl,
+            lambda _=T.TaskTypeDecl: Entity.super(),
+            lambda _=T.ProtectedTypeDecl: Entity.super(),
             lambda _: Entity.next_part.cast(T.BasicDecl.entity)
         )
 
@@ -10354,10 +10347,6 @@ class ProtectedTypeDecl(BaseTypeDecl):
         Entity.interfaces.map(lambda i: i.name_designated_type)
     )
 
-    @langkit_property()
-    def next_part_for_decl():
-        return Entity.basic_decl_next_part_for_decl
-
     xref_entry_point = Property(True)
 
     @langkit_property()
@@ -11026,7 +11015,7 @@ class BasicSubpDecl(BasicDecl):
             lambda ds: ds.semantic_parent.cast(T.BasicDecl)
         ))
 
-        default_next_part = Var(Entity.basic_decl_next_part_for_decl)
+        default_next_part = Var(Entity.super())
 
         return Cond(
             # If __nextpart is registered in the decl's env, simply return
@@ -17090,7 +17079,7 @@ class CallExpr(Name):
                 # actually do more here by considering ExplicitDerefs, but
                 # this should be sufficient for the current purpose of
                 # check_for_type (e.g. to preemptively discard inadequate
-                # candidates in env_elements_baseid).
+                # candidates in env_elements_impl).
                 default_val=True
             )
         )))
@@ -19000,7 +18989,7 @@ class BaseId(SingleTokNode):
             env_el._.is_package & Not(env_el.node == bd),
             Entity.pkg_env(env_el),
 
-            Entity.env_elements_baseid.then(
+            Entity.env_elements_impl.then(
                 lambda all_env_els:
                 all_env_els.filter(lambda e: And(
                     # Exclude own generic package instantiation from the lookup
@@ -19168,10 +19157,6 @@ class BaseId(SingleTokNode):
             )._or(precise)
         )
 
-    @langkit_property(dynamic_vars=[env])
-    def env_elements_impl():
-        return Entity.env_elements_baseid
-
     @langkit_property()
     def all_env_els_impl(
             seq=(Bool, True),
@@ -19188,11 +19173,7 @@ class BaseId(SingleTokNode):
         )
 
     @langkit_property(dynamic_vars=[env], memoized=True)
-    def env_elements_baseid():
-        """
-        Decoupled implementation for env_elements_impl, specifically used by
-        designated_env when the parent is a library level package.
-        """
+    def env_elements_impl():
         items = Var(Self.env_get(
             env,
             Self.symbol,
@@ -19278,8 +19259,8 @@ class BaseId(SingleTokNode):
                           params=T.AssocList.entity, b=T.BasicDecl.entity):
         """
         Return whether the BasicDecl ``b`` should be kept during
-        ``env_elements_baseid`` items filtering. This piece of code has been
-        extracted from ``env_elements_baseid`` to improve code readability.
+        ``env_elements_impl`` items filtering. This piece of code has been
+        extracted from ``env_elements_impl`` to improve code readability.
         """
         family_type = Var(spec.cast(T.EntrySpec)._.family_type)
 
@@ -19364,10 +19345,6 @@ class BaseId(SingleTokNode):
 
     @langkit_property()
     def xref_equation():
-        return Entity.base_id_xref_equation()
-
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
-    def base_id_xref_equation():
         is_prefix = Var(Not(Self.is_suffix))
 
         return Entity.env_elements.then(lambda env_els: env_els.logic_any(
@@ -19593,9 +19570,7 @@ class StringLiteral(BaseId):
         """
         return Self.root_type_ops(Self.symbol).map(
             lambda bd: bd.cast(AdaNode.entity)
-        ).concat(
-            Entity.env_elements_baseid
-        )
+        ).concat(Entity.super())
 
     @langkit_property()
     def xref_equation():
@@ -19603,7 +19578,7 @@ class StringLiteral(BaseId):
             # StringLiteral can be in a name, if it is an operator, in which
             # case we don't want to constrain its type.
             Self.parent.is_a(Name),
-            Entity.base_id_xref_equation,
+            Entity.super(),
             Predicate(BaseTypeDecl.allows_string_literal,
                       Self.expected_type_var,
                       error_location=Self)
@@ -21728,7 +21703,7 @@ class DottedName(Name):
     def env_elements_impl():
         pfx_env = Var(origin.bind(Self.origin_node,
                                   Entity.prefix.designated_env))
-        return env.bind(pfx_env, Entity.suffix.env_elements_baseid)
+        return env.bind(pfx_env, Entity.suffix.env_elements_impl)
 
     @langkit_property()
     def designated_type_impl():

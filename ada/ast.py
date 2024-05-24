@@ -1055,7 +1055,10 @@ class AdaNode(ASTNode):
                     c.as_entity.xref_stop_resolution,
                     entry_point.bind(
                         c,
-                        c.as_entity.resolve_own_names(generate_diagnostics)
+                        env.bind(
+                            Entity.xref_initial_env,
+                            c.as_entity.resolve_own_names(generate_diagnostics)
+                        )
                     ),
                     True
                 ) & c.as_entity.resolve_children_names(generate_diagnostics),

@@ -758,9 +758,7 @@ package body Libadalang.Expr_Eval is
                Typ    : constant Base_Type_Decl :=
                   AR.F_Prefix.P_Name_Designated_Type;
                Val    : constant Eval_Result :=
-                  Expr_Eval
-                    (AR.F_Prefix.P_Referenced_Decl
-                     .As_Object_Decl.F_Default_Expr);
+                  Expr_Eval (AR.F_Prefix.As_Expr);
                Result : Big_Integer;
             begin
                if Val.Kind /= String_Lit then
@@ -1284,6 +1282,9 @@ package body Libadalang.Expr_Eval is
                   return Eval_Function_Attr (AR, LAL.No_Assoc_List);
                end if;
             end;
+
+         when Ada_Qual_Expr =>
+            return Expr_Eval (E.As_Qual_Expr.F_Suffix);
 
          when Ada_Paren_Expr =>
             return Expr_Eval (E.As_Paren_Expr.F_Expr);

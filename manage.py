@@ -90,7 +90,9 @@ class Manage(ManageScript):
                                                'Canonicalize'),
             documentations=libadalang_docs,
             property_exceptions={"Precondition_Failure"},
+
             generate_unparser=True,
+            default_unparsing_config="default_unparsing_config.json",
 
             # Setup a configuration of the cache collection mechanism that
             # works well for Ada.

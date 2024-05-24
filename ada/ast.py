@@ -20738,7 +20738,7 @@ class Allocator(Expr):
         """
         return origin.bind(Self.origin_node, Entity.type_or_expr.match(
             lambda t=SubtypeIndication.entity: t.designated_type,
-            lambda q=QualExpr.entity: q.designated_type,
+            lambda q=QualExpr.entity: q.prefix.name_designated_type,
             lambda _: No(BaseTypeDecl.entity)
         ))
 
@@ -20807,18 +20807,9 @@ class QualExpr(Name):
             )
         )
 
-    # TODO: once we manage to turn prefix into a subtype indication, remove
-    # this property and update Allocator.get_allocated type to do:
-    # q.prefix.designated_type.
-    designated_type = Property(
-        env.bind(Entity.node_env,
-                 origin.bind(Self.origin_node,
-                             Entity.prefix.designated_type_impl)),
-    )
-
     @langkit_property()
     def designated_env():
-        return Entity.designated_type.defining_env
+        return Entity.prefix.name_designated_type.defining_env
 
     @langkit_property()
     def env_elements_impl():

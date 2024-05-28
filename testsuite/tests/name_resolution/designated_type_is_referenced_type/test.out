@@ -1,0 +1,14 @@
+Working on node <SubpDecl ["P"] pkg-sub.ads:2:4-2:24>
+=====================================================
+
+Set 'type_expr' to 'node.find(lal.TypeExpr)'
+Result: <SubtypeIndication pkg-sub.ads:2:21-2:22>
+
+Set 'designated_type' to 'type_expr.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:22>
+
+Set 'referenced_type' to 'type_expr.p_type_name.p_referenced_decl()'
+Result: <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:22>
+
+Eval 'designated_type is referenced_type'
+Result: True

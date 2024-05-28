@@ -5644,7 +5644,7 @@ class VariantPart(AdaNode):
                     And(e.is_a(Name),
                         Not(e.cast(Name).name_designated_type.is_null)),
 
-                    e.cast(Name).xref_no_overloading,
+                    e.cast(Name).xref_type_equation,
 
                     Bind(e.expected_type_var, Self.discr_name.type_val)
                     & e.sub_equation
@@ -9932,7 +9932,7 @@ class UnconstrainedArrayIndices(ArrayIndices):
     def xref_equation():
         return Entity.types.logic_all(
             lambda typ:
-            typ.subtype_name.xref_no_overloading
+            typ.subtype_name.xref_type_equation
             & If(typ.lower_bound.is_null,
                  LogicTrue(),
                  typ.lower_bound.sub_equation)
@@ -10679,7 +10679,7 @@ class UseTypeClause(UseClause):
     )
 
     xref_equation = Property(
-        Entity.types.logic_all(lambda p: p.xref_no_overloading)
+        Entity.types.logic_all(lambda p: p.xref_type_equation)
     )
 
 
@@ -11603,7 +11603,7 @@ class EnumRepClause(AspectClause):
     @langkit_property()
     def xref_equation():
         # TODO: resolve names in ``aggregate``
-        return Entity.type_name.xref_no_overloading
+        return Entity.type_name.xref_type_equation
 
     @langkit_property(public=True, return_type=ParamActual.array)
     def params():
@@ -11712,7 +11712,7 @@ class RecordRepClause(AspectClause):
     @langkit_property()
     def xref_equation():
         return And(
-            Entity.name.xref_no_overloading,
+            Entity.name.xref_type_equation,
             Entity.at_expr.then(
                 lambda e: e.sub_equation,
                 default_val=LogicTrue()
@@ -12641,7 +12641,7 @@ class GenericInstantiation(BasicDecl):
             ).logic_all(lambda pm: Let(
                 lambda actual_name=pm.actual.assoc.expr.cast(T.Name):
                 pm.formal.formal_decl.cast(T.GenericFormal).decl.match(
-                    lambda _=T.BaseTypeDecl: actual_name.xref_no_overloading,
+                    lambda _=T.BaseTypeDecl: actual_name.xref_type_equation,
 
                     lambda _=T.GenericPackageInstantiation:
                     actual_name.xref_no_overloading,
@@ -13185,11 +13185,11 @@ class FormalSubpDecl(ClassicSubpDecl):
             lambda _=T.BoxExpr: LogicTrue(),
 
             lambda n=T.Name: And(
-                And(n.xref_no_overloading(all_els=True),
-                    Predicate(BasicDecl.subp_decl_match_signature,
-                              n.ref_var, Entity.cast(T.BasicDecl))),
-
-                If(n.is_a(AttributeRef), n.sub_equation, LogicTrue())
+                If(n.is_a(AttributeRef),
+                   n.sub_equation,
+                   n.xref_no_overloading(all_els=True)),
+                Predicate(BasicDecl.subp_decl_match_signature,
+                          n.ref_var, Entity.cast(T.BasicDecl))
             ),
 
             lambda _: PropertyError(Equation, "Should not happen")
@@ -14930,7 +14930,7 @@ class MembershipExpr(Expr):
                     Not(typ.is_null),
 
                     # Tagged type check or subtype membership check
-                    m.cast(T.Name).xref_no_overloading
+                    m.cast(T.Name).xref_type_equation
                     & If(
                         # If testing a specific tagged type membership, the
                         # expected type of the tested expression is the type at
@@ -15023,7 +15023,7 @@ class BaseAggregate(Expr):
             lambda ae: Cond(
                 And(ae.is_a(Name),
                     Not(ae.cast(Name).name_designated_type.is_null)),
-                ae.cast(Name).xref_no_overloading,
+                ae.cast(Name).xref_type_equation,
 
                 Self.is_a(DeltaAggregate),
                 ae.sub_equation,
@@ -15762,7 +15762,7 @@ class Name(Expr):
     @langkit_property(return_type=Equation,
                       dynamic_vars=[env, origin, entry_point])
     def subtype_indication_equation():
-        return Entity.xref_no_overloading
+        return Entity.xref_type_equation
 
     @langkit_property(return_type=Bool)
     def can_designate_primitive():
@@ -16152,6 +16152,41 @@ class Name(Expr):
 
     @langkit_property(return_type=Equation,
                       dynamic_vars=[env, origin, entry_point])
+    def xref_type_equation():
+        """
+        Simple xref equation for names designating types. Doesn't try to
+        resolve overloads. Originally derived from xref_no_overloading to match
+        the behavior of designated_type properties.
+        """
+        return Entity.match(
+            lambda dn=T.DottedName:
+            dn.prefix.xref_no_overloading(
+                sequential=True, all_els=False
+            ) & env.bind(
+                dn.prefix.designated_env_no_overloading,
+                dn.suffix.xref_type_equation
+            ),
+            lambda i=T.BaseId: Bind(i.ref_var, i.designated_type_impl),
+
+            lambda ar=T.AttributeRef:
+            ar.prefix.xref_type_equation
+            & Cond(
+                ar.attribute.sym == 'Class',
+                Bind(ar.prefix.ref_var, ar.ref_var,
+                     conv_prop=BaseTypeDecl.classwide_type),
+
+                ar.attribute.sym == 'Base',
+                Bind(ar.prefix.ref_var, ar.ref_var,
+                     conv_prop=BaseTypeDecl.scalar_base_type),
+
+                LogicTrue()
+            ),
+
+            lambda _: LogicFalse()
+        )
+
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def xref_no_overloading(sequential=(Bool, True),
                             all_els=(Bool, False)):
         """
@@ -16188,24 +16223,6 @@ class Name(Expr):
                     )
                 )
             ),
-
-            # xref_no_overloading can be used to resolve type references in
-            # generic instantiations. In that case, we might encounter a 'Class
-            # attribute.
-            lambda ar=T.AttributeRef:
-            ar.prefix.xref_no_overloading(sequential, all_els)
-            & Cond(
-                ar.attribute.sym == 'Class',
-                Bind(ar.prefix.ref_var, ar.ref_var,
-                     conv_prop=BaseTypeDecl.classwide_type),
-
-                ar.attribute.sym == 'Base',
-                Bind(ar.prefix.ref_var, ar.ref_var,
-                     conv_prop=BaseTypeDecl.scalar_base_type),
-
-                LogicTrue()
-            ),
-
             lambda _: LogicFalse()
         )
 
@@ -16995,7 +17012,7 @@ class CallExpr(Name):
                             lambda name: If(
                                 name.name_designated_type.is_null,
                                 LogicFalse(),
-                                name.xref_no_overloading
+                                name.xref_type_equation
                                 & Bind(Self.type_var, real_typ)
                             ),
                             default_val=LogicFalse(),
@@ -17416,7 +17433,7 @@ class AggregateAssoc(BasicAssoc):
                     And(n.is_a(Name),
                         Not(n.cast(Name).name_designated_type.is_null)),
 
-                    n.cast(Name).xref_no_overloading,
+                    n.cast(Name).xref_type_equation,
 
                     n.cast(T.Expr).then(
                         lambda n:
@@ -18099,7 +18116,7 @@ class CaseExpr(CondExpr):
                     And(e.is_a(Name),
                         Not(e.cast(Name).name_designated_type.is_null)),
 
-                    e.cast(Name).xref_no_overloading,
+                    e.cast(Name).xref_type_equation,
 
                     Bind(e.expected_type_var, Self.expr.type_val)
                     & e.sub_equation
@@ -21405,7 +21422,7 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
             & Bind(Self.type_var, str_type),
 
-            Entity.prefix.xref_no_overloading
+            Entity.prefix.xref_type_equation
             & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
@@ -21432,7 +21449,7 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
             & Bind(Self.type_var, Self.universal_int_type),
 
-            Entity.prefix.xref_no_overloading
+            Entity.prefix.xref_type_equation
             & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
@@ -21445,7 +21462,7 @@ class AttributeRef(Name):
         """
         typ = Var(Entity.prefix.name_designated_type)
         return And(
-            Entity.prefix.xref_no_overloading,
+            Entity.prefix.xref_type_equation,
             Bind(Self.type_var, typ)
         )
 
@@ -21544,7 +21561,7 @@ class AttributeRef(Name):
             Not(typ.is_null),
 
             # Prefix is a type
-            Entity.prefix.xref_no_overloading & Cond(
+            Entity.prefix.xref_type_equation & Cond(
                 typ.is_array_def_with_deref & is_length,
                 Self.universal_int_bind(Self.type_var),
 
@@ -23396,7 +23413,7 @@ class CaseStmtAlternative(AdaNode):
                 And(e.is_a(Name),
                     Not(e.cast(Name).name_designated_type.is_null)),
 
-                e.cast(Name).xref_no_overloading,
+                e.cast(Name).xref_type_equation,
 
                 Bind(e.expected_type_var, selected_type)
                 & e.sub_equation

@@ -1,0 +1,363 @@
+Analyzing test_basic.adb
+########################
+
+Resolving xrefs for node <CallStmt test_basic.adb:12:4-12:47>
+*************************************************************
+
+Expr: <CallExpr test_basic.adb:12:4-12:46>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test_basic.adb:12:4-12:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_basic.adb:12:13-12:45>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "S" test_basic.adb:12:22-12:23>
+  references:    <DefiningName "S" test_basic.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <ConcatOp test_basic.adb:12:32-12:37>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "S" test_basic.adb:12:32-12:33>
+  references:    <DefiningName "S" test_basic.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test_basic.adb:12:34-12:37>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <OpConcat "&" test_basic.adb:12:34-12:35>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "S" test_basic.adb:12:36-12:37>
+  references:    <DefiningName "S" test_basic.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <CallStmt test_basic.adb:14:4-14:33>
+*************************************************************
+
+Expr: <CallExpr test_basic.adb:14:4-14:32>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test_basic.adb:14:4-14:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_basic.adb:14:13-14:31>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <BinOp test_basic.adb:14:24-14:29>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: None
+Expr: <Int test_basic.adb:14:24-14:25>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+Expr: <OpPlus "+" test_basic.adb:14:26-14:27>
+  references:    <SyntheticDefiningName ""+"" __standard:120:24-120:37>
+  type:          None
+  expected type: None
+Expr: <Int test_basic.adb:14:28-14:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+
+Resolving xrefs for node <CallStmt test_basic.adb:16:4-16:38>
+*************************************************************
+
+Expr: <CallExpr test_basic.adb:16:4-16:37>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test_basic.adb:16:4-16:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_basic.adb:16:13-16:36>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <QualExpr test_basic.adb:16:22-16:34>
+  references:    <DefiningName "Rec" test_basic.adb:6:9-6:12>
+  type:          <ConcreteTypeDecl ["Rec"] test_basic.adb:6:4-8:15>
+  expected type: None
+Expr: <Id "Rec" test_basic.adb:16:22-16:25>
+  references:    <DefiningName "Rec" test_basic.adb:6:9-6:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test_basic.adb:16:26-16:34>
+  type:          <ConcreteTypeDecl ["Rec"] test_basic.adb:6:4-8:15>
+  expected type: <ConcreteTypeDecl ["Rec"] test_basic.adb:6:4-8:15>
+Expr: <Int test_basic.adb:16:27-16:29>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_basic.adb:16:31-16:33>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+
+Analyzing test_complex.adb
+##########################
+
+Resolving xrefs for node <ObjectDecl ["A"] test_complex.adb:14:4-14:29>
+***********************************************************************
+
+Expr: <Id "UDS" test_complex.adb:14:8-14:11>
+  references:    <DefiningName "UDS" test_complex.adb:6:9-6:12>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_complex.adb:14:15-14:28>
+  type:          <ConcreteTypeDecl ["UDS"] test_complex.adb:6:4-9:42>
+  expected type: <ConcreteTypeDecl ["UDS"] test_complex.adb:6:4-9:42>
+Expr: <Int test_complex.adb:14:24-14:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test_complex.adb:17:4-17:45>
+***************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["S"] test_complex.adb:17:17-17:44>
+***********************************************************************
+
+Expr: <Id "String" test_complex.adb:17:21-17:27>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_complex.adb:17:31-17:44>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Int test_complex.adb:17:40-17:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["A"] test_complex.adb:21:7-21:25>
+***********************************************************************
+
+Expr: <Id "Integer" test_complex.adb:21:11-21:18>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <Int test_complex.adb:21:22-21:24>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ConcreteFormalSubpDecl ["P"] test_complex.adb:22:12-22:61>
+************************************************************************************
+
+Expr: <Null test_complex.adb:22:56-22:60>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test_complex.adb:22:12-22:52>
+****************************************************************
+
+
+Resolving xrefs for node <ParamSpec ["S"] test_complex.adb:22:25-22:51>
+***********************************************************************
+
+Expr: <Id "String" test_complex.adb:22:29-22:35>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_complex.adb:22:39-22:51>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "A" test_complex.adb:22:48-22:49>
+  references:    <DefiningName "A" test_complex.adb:21:7-21:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["S"] test_complex.adb:23:7-23:34>
+***********************************************************************
+
+Expr: <Id "String" test_complex.adb:23:11-23:17>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_complex.adb:23:21-23:33>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Id "A" test_complex.adb:23:30-23:31>
+  references:    <DefiningName "A" test_complex.adb:21:7-21:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+Resolving xrefs for node <EndName test_complex.adb:25:8-25:11>
+**************************************************************
+
+Expr: <EndName test_complex.adb:25:8-25:11>
+  references:    <DefiningName "Gen" test_complex.adb:24:12-24:15>
+  type:          None
+  expected type: None
+Expr: <Id "Gen" test_complex.adb:25:8-25:11>
+  references:    <DefiningName "Gen" test_complex.adb:24:12-24:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["SS"] test_complex.adb:32:4-32:43>
+************************************************************************
+
+Expr: <Id "String" test_complex.adb:32:9-32:15>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_complex.adb:32:19-32:42>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <QualExpr test_complex.adb:32:28-32:40>
+  references:    <DefiningName "Rec" test_complex.adb:28:9-28:12>
+  type:          <ConcreteTypeDecl ["Rec"] test_complex.adb:28:4-30:15>
+  expected type: None
+Expr: <Id "Rec" test_complex.adb:32:28-32:31>
+  references:    <DefiningName "Rec" test_complex.adb:28:9-28:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test_complex.adb:32:32-32:40>
+  type:          <ConcreteTypeDecl ["Rec"] test_complex.adb:28:4-30:15>
+  expected type: <ConcreteTypeDecl ["Rec"] test_complex.adb:28:4-30:15>
+Expr: <Int test_complex.adb:32:33-32:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_complex.adb:32:37-32:39>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["B"] test_complex.adb:35:4-35:60>
+***********************************************************************
+
+Expr: <Id "Natural" test_complex.adb:35:9-35:16>
+  references:    <DefiningName "Natural" __standard:5:11-5:18>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test_complex.adb:35:20-35:59>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+Expr: <QualExpr test_complex.adb:35:20-35:52>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "String" test_complex.adb:35:20-35:26>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test_complex.adb:35:27-35:52>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <FormatStringLiteral test_complex.adb:35:28-35:51>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <QualExpr test_complex.adb:35:37-35:49>
+  references:    <DefiningName "Rec" test_complex.adb:28:9-28:12>
+  type:          <ConcreteTypeDecl ["Rec"] test_complex.adb:28:4-30:15>
+  expected type: None
+Expr: <Id "Rec" test_complex.adb:35:37-35:40>
+  references:    <DefiningName "Rec" test_complex.adb:28:9-28:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test_complex.adb:35:41-35:49>
+  type:          <ConcreteTypeDecl ["Rec"] test_complex.adb:28:4-30:15>
+  expected type: <ConcreteTypeDecl ["Rec"] test_complex.adb:28:4-30:15>
+Expr: <Int test_complex.adb:35:42-35:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Int test_complex.adb:35:46-35:48>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Length" test_complex.adb:35:53-35:59>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Analyzing test_nested_string_expr.adb
+#####################################
+
+Resolving xrefs for node <CallStmt test_nested_string_expr.adb:7:4-7:45>
+************************************************************************
+
+Expr: <CallExpr test_nested_string_expr.adb:7:4-7:44>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test_nested_string_expr.adb:7:4-7:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_nested_string_expr.adb:7:14-7:43>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <BinOp test_nested_string_expr.adb:7:34-7:41>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: None
+Expr: <Int test_nested_string_expr.adb:7:34-7:36>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+Expr: <OpPlus "+" test_nested_string_expr.adb:7:37-7:38>
+  references:    <SyntheticDefiningName ""+"" __standard:120:24-120:37>
+  type:          None
+  expected type: None
+Expr: <Int test_nested_string_expr.adb:7:39-7:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+
+Resolving xrefs for node <CallStmt test_nested_string_expr.adb:10:4-10:52>
+**************************************************************************
+
+Expr: <CallExpr test_nested_string_expr.adb:10:4-10:51>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <Id "Put_Line" test_nested_string_expr.adb:10:4-10:12>
+  references:    <DefiningName "Put_Line" a-textio.ads:565:14-565:22>
+  type:          None
+  expected type: None
+Expr: <FormatStringLiteral test_nested_string_expr.adb:10:14-10:50>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <QualExpr test_nested_string_expr.adb:10:34-10:48>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "String" test_nested_string_expr.adb:10:34-10:40>
+  references:    <DefiningName "String" __standard:105:8-105:14>
+  type:          None
+  expected type: None
+Expr: <ParenExpr test_nested_string_expr.adb:10:41-10:48>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""lol"" test_nested_string_expr.adb:10:42-10:47>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+
+Resolving xrefs for node <CallStmt test_nested_string_expr.adb:13:4-13:43>
+**************************************************************************
+
+Name resolution failed as expected with:
+
+test_nested_string_expr.adb:13:34: error: No inferable type for expression
+13 |    Put_Line (f"Hello, 12 + 15 = {"lol"}");
+   |                                  ^^^^^
+
+
+
+Done.

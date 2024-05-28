@@ -44,6 +44,8 @@ package body Highlighter is
          Ada_Pipe | Ada_Assign            => Punctuation_Special,
          Ada_Label_Start .. Ada_Label_End => Label_Name,
          Ada_String                       => String_Literal,
+         Ada_Format_String_Start
+           .. Ada_Format_String_End       => String_Literal,
          Ada_Target                       => Operator,
          Ada_Char                         => Character_Literal,
          Ada_With                         => Keyword,

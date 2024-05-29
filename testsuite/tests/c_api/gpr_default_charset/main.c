@@ -21,7 +21,7 @@ run (const char *project_file)
   int i;
   char *charset;
 
-  ada_gpr_project_load (project_file, &scn_var_trail, NULL, NULL, &gpr,
+  ada_gpr_project_load (project_file, &scn_var_trail, NULL, NULL, NULL, &gpr,
 			&errors);
   abort_on_exception ();
 

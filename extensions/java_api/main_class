@@ -265,16 +265,16 @@ nat = c_api.get_name
          * Create a project manager for the given project file.
          *
          * @param projectFile The GPR project file to load.
-         * @return The newly created project manager.
          */
         public static ProjectManager create(
             final String projectFile
         ) {
-            return create(
+            return internalCreate(
                 projectFile,
                 null,
-                "",
-                ""
+                null,
+                null,
+                null
             );
         }
 
@@ -282,39 +282,51 @@ nat = c_api.get_name
          * Create a project manager from a project file, target and runtime. If the
          * project file is null, then an implicit project is loaded.
          *
-         * @param projectFile The GPR file to load.
-         * @param scenarioVariables The scenario variables for the project, it can be null.
-         * @param target The target to load.
-         * @param runtime The runtime to load.
-         * @return The newly created project manager.
+         * @param projectFile The GPR project file to use, if any. If null, an
+         *     implicit project will be loaded.
+         * @param scenarioVariables Scenario variables to use during the
+         *     project loading. This can be null.
+         * @param target Ada target to use. This can be null.
+         * @param runtime Ada runtime to use. This can be null.
+         * @param configFile The absolute path to a .cgpr file to use during
+         *     the project loading. This can be null.
          */
         public static ProjectManager create(
             final String projectFile,
             final ScenarioVariable[] scenarioVariables,
             final String target,
-            final String runtime
+            final String runtime,
+            final String configFile
         ) {
             return internalCreate(
                 projectFile,
                 scenarioVariables,
                 target,
-                runtime
+                runtime,
+                configFile
             );
         }
 
         /**
          * Create a project manager for an implicit project. The current directory
          * is used as project source directory.
+         *
+         * @param target Ada target to use. This can be null.
+         * @param runtime Ada runtime to use. This can be null.
+         * @param configFile The absolute path to a .cgpr file to use during
+         *     the project loading. This can be null.
          */
         public static ProjectManager createImplicit(
             final String target,
-            final String runtime
+            final String runtime,
+            final String configFile
         ) {
             return internalCreate(
                 null,
                 null,
                 target,
-                runtime
+                runtime,
+                configFile
             );
         }
 
@@ -324,19 +336,31 @@ nat = c_api.get_name
          *
          * @param projectFile The GPR project file to use, if any. If null, an
          *     implicit project will be loaded.
+         * @param scenarioVariables Scenario variables to use during the
+         *     project loading. This can be null.
+         * @param target Ada target to use. This can be null.
+         * @param runtime Ada runtime to use. This can be null.
+         * @param configFile The absolute path to a .cgpr file to use during
+         *     the project loading. This can be null.
          */
         private static ProjectManager internalCreate(
             final String projectFile,
             final ScenarioVariable[] scenarioVariables,
             final String target,
-            final String runtime
+            final String runtime,
+            final String configFile
         ) {
 
             if(ImageInfo.inImageCode()) {
-                // Create the scenario variable array
+                // Declare native values
                 final Pointer scenarioVariablesNative;
-                final int scenarioVariableNativeSize = SizeOf.get(ScenarioVariableNative.class);
+                final CCharPointer targetNative;
+                final CCharPointer runtimeNative;
+                final CCharPointer configFileNative;
+                final Pointer errorsPointer;
 
+                // Create the scenario variable array
+                final int scenarioVariableNativeSize = SizeOf.get(ScenarioVariableNative.class);
                 if(scenarioVariables != null && scenarioVariables.length > 0) {
                     final int size = scenarioVariables.length + 1;
                     scenarioVariablesNative = UnmanagedMemory.calloc(
@@ -355,10 +379,11 @@ nat = c_api.get_name
                 final Pointer projectPointer = StackValue.get(SizeOf.get(VoidPointer.class));
                 projectPointer.writeWord(0, WordFactory.nullPointer());
 
-                // Create the common native arguments
-                final CCharPointer targetNative = toCString(target);
-                final CCharPointer runtimeNative = toCString(runtime);
-                final Pointer errorsPointer = StackValue.get(SizeOf.get(VoidPointer.class));
+                // Fill the native arguments
+                targetNative = target == null ? WordFactory.nullPointer() : toCString(target);
+                runtimeNative = runtime == null ? WordFactory.nullPointer() : toCString(runtime);
+                configFileNative = configFile == null ? WordFactory.nullPointer() : toCString(configFile);
+                errorsPointer = StackValue.get(SizeOf.get(WordPointer.class));
                 errorsPointer.writeWord(0, WordFactory.nullPointer());
 
                 // If the provided project file is null, call the implicit project loading.
@@ -367,6 +392,7 @@ nat = c_api.get_name
                     NI_LIB.${nat("gpr_project_load_implicit")}(
                         targetNative,
                         runtimeNative,
+                        configFileNative,
                         projectPointer,
                         errorsPointer
                     );
@@ -377,6 +403,7 @@ nat = c_api.get_name
                         scenarioVariablesNative,
                         targetNative,
                         runtimeNative,
+                        configFileNative,
                         projectPointer,
                         errorsPointer
                     );
@@ -384,8 +411,9 @@ nat = c_api.get_name
                 }
 
                 // Free the allocated strings
-                UnmanagedMemory.free(targetNative);
-                UnmanagedMemory.free(runtimeNative);
+                if (target != null) UnmanagedMemory.free(targetNative);
+                if (runtime != null) UnmanagedMemory.free(runtimeNative);
+                if (configFile != null) UnmanagedMemory.free(configFileNative);
 
                 // Check the langkit exception and cast it into a project manager error
                 try {
@@ -440,6 +468,7 @@ nat = c_api.get_name
                     scenarioVariables,
                     target,
                     runtime,
+                    configFile,
                     diagnostics
                 );
 

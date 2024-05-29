@@ -87,7 +87,7 @@ module GPRProject = struct
   let gpr_project_load =
     foreign ~from:c_lib "${capi.get_name("gpr_project_load")}"
     (string @-> project_scenario_variable @-> string
-     @-> string @-> ptr c_type @-> ptr string_array @-> raisable void)
+     @-> string @-> string @-> ptr c_type @-> ptr string_array @-> raisable void)
 
   let gpr_project_create_preprocessor =
     foreign ~from:c_lib "${capi.get_name("gpr_project_create_preprocessor")}"
@@ -101,7 +101,8 @@ module GPRProject = struct
     (* Use allocate_n to avoid having to give it an initial value *)
     let result = allocate_n ~count:1 c_type in
     let errors = allocate_n ~count:1 string_array in
-    gpr_project_load project_file scenario_vars target runtime result errors ;
+    gpr_project_load
+      project_file scenario_vars target runtime "" result errors ;
     (* Not sure what to do with errors here as we already have an exception *)
     !@ result
 

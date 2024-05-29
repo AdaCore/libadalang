@@ -35,7 +35,7 @@ check (const char *label,
   printf("== %s ==\n\n", label);
 
   /* Load the requested project tree.  */
-  ada_gpr_project_load (root_project, &scn_var_trail, NULL, NULL, &gpr,
+  ada_gpr_project_load (root_project, &scn_var_trail, NULL, NULL, NULL, &gpr,
 			&errors);
   abort_on_exception ();
 

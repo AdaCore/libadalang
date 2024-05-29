@@ -44,11 +44,11 @@ package Libadalang.Implementation.C.Extensions is
    --  in such arrays must be a null/null association.
 
    procedure ada_gpr_project_load
-     (Project_File    : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr;
-      Project         : access ada_gpr_project;
-      Errors          : access ada_string_array_ptr)
+     (Project_File                 : chars_ptr;
+      Scenario_Vars                : System.Address;
+      Target, Runtime, Config_File : chars_ptr;
+      Project                      : access ada_gpr_project;
+      Errors                       : access ada_string_array_ptr)
      with Export, Convention => C;
    --  Load a project file with the given parameter. On success, set
    --  ``Project`` to a newly allocated ``ada_gpr_project``, as well as a
@@ -56,9 +56,9 @@ package Libadalang.Implementation.C.Extensions is
    --  ``Invalid_Project`` exception on failure.
 
    procedure ada_gpr_project_load_implicit
-     (Target, Runtime : chars_ptr;
-      Project         : access ada_gpr_project;
-      Errors          : access ada_string_array_ptr)
+     (Target, Runtime, Config_File : chars_ptr;
+      Project                      : access ada_gpr_project;
+      Errors                       : access ada_string_array_ptr)
      with Export, Convention => C;
    --  Load an implicit project. On success, set ``Project`` to a newly
    --  allocated ``ada_gpr_project``.

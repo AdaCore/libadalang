@@ -126,6 +126,7 @@ class GPRProject:
                  scenario_vars: Dict[str, str] = {},
                  target: Opt[str] = None,
                  runtime: Opt[str] = None,
+                 config_file: Opt[str] = None,
                  print_errors: bool = True):
         """
         Load a GPR project file.
@@ -152,6 +153,7 @@ class GPRProject:
         c_project_file = _coerce_bytes('project_file', project_file)
         c_target = _coerce_bytes('target', target, or_none=True)
         c_runtime = _coerce_bytes('runtime', runtime, or_none=True)
+        c_config_file = _coerce_bytes('config_file', config_file, or_none=True)
 
         if scenario_vars:
             items = scenario_vars.items()
@@ -178,6 +180,7 @@ class GPRProject:
             c_scenario_vars,
             c_target,
             c_runtime,
+            c_config_file,
             ctypes.byref(c_project),
             ctypes.byref(c_errors),
         )
@@ -375,6 +378,7 @@ class GPRProject:
         "ada_gpr_project_load",
         [ctypes.c_char_p,
          ctypes.POINTER(_c_scenario_variable),
+         ctypes.c_char_p,
          ctypes.c_char_p,
          ctypes.c_char_p,
          ctypes.POINTER(_c_type),

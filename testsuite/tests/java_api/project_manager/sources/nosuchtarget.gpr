@@ -1,3 +1,4 @@
 project Nosuchtarget is
    for Target use "nosuchtarget";
+   for Source_Dirs use ("src1");
 end Nosuchtarget;

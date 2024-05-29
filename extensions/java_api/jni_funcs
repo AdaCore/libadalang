@@ -18,6 +18,7 @@ nat = c_api.get_name
         ScenarioVariable[] scenarioVariables,
         String target,
         String runtime,
+        String configFile,
         List<String> diagnostics
     );
 

@@ -1,0 +1,3 @@
+project Calendar is
+   for Source_Dirs use ("calendar_src");
+end Calendar;

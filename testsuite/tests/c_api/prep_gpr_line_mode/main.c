@@ -27,7 +27,8 @@ run_test (int *line_mode)
     printf ("%i", *line_mode);
   printf(" ==\n\n");
 
-  ada_gpr_project_load ("foo.gpr", &scn_var_trail, NULL, NULL, &gpr, &errors);
+  ada_gpr_project_load ("foo.gpr", &scn_var_trail, NULL, NULL, NULL, &gpr,
+      &errors);
   abort_on_exception ();
   ada_free_string_array (errors);
 

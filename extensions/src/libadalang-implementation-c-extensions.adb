@@ -63,13 +63,13 @@ package body Libadalang.Implementation.C.Extensions is
    --  Add an error message to GPR_Errors
 
    procedure Load_Project
-     (Project_File    : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr;
-      Tree            : out Project_Tree_Access;
-      Env             : out Project_Environment_Access;
-      Errors          : out String_Vectors.Vector;
-      Exc             : out Exception_Occurrence);
+     (Project_File                 : chars_ptr;
+      Scenario_Vars                : System.Address;
+      Target, Runtime, Config_File : chars_ptr;
+      Tree                         : out Project_Tree_Access;
+      Env                          : out Project_Environment_Access;
+      Errors                       : out String_Vectors.Vector;
+      Exc                          : out Exception_Occurrence);
    --  Helper to load a project file from C arguments. May set Exc to a
    --  ``GNATCOLL.Projects.Invalid_Project`` exception if the project cannot be
    --  loaded: in this case it is up to the caller to re-raise it.
@@ -158,20 +158,22 @@ package body Libadalang.Implementation.C.Extensions is
    ------------------
 
    procedure Load_Project
-     (Project_File    : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr;
-      Tree            : out Project_Tree_Access;
-      Env             : out Project_Environment_Access;
-      Errors          : out String_Vectors.Vector;
-      Exc             : out Exception_Occurrence)
+     (Project_File                 : chars_ptr;
+      Scenario_Vars                : System.Address;
+      Target, Runtime, Config_File : chars_ptr;
+      Tree                         : out Project_Tree_Access;
+      Env                          : out Project_Environment_Access;
+      Errors                       : out String_Vectors.Vector;
+      Exc                          : out Exception_Occurrence)
    is
-      PF            : constant String :=
+      PF                : constant String :=
         (if Project_File = Null_Ptr then "" else Value (Project_File));
-      Target_Value  : constant String :=
+      Target_Value      : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
-      Runtime_Value : constant String :=
+      Runtime_Value     : constant String :=
         (if Runtime = Null_Ptr then "" else Value (Runtime));
+      Config_File_Value : constant String :=
+        (if Config_File = Null_Ptr then "" else Value (Config_File));
    begin
       GNAT.Task_Lock.Lock;
 
@@ -181,6 +183,9 @@ package body Libadalang.Implementation.C.Extensions is
       Tree := new Project_Tree;
       Initialize (Env);
       Env.Set_Target_And_Runtime (Target_Value, Runtime_Value);
+      if Config_File_Value /= "" then
+         Env.Set_Config_File (Create (Filesystem_String (Config_File_Value)));
+      end if;
       if Scenario_Vars /= System.Null_Address then
          declare
             Vars : ada_gpr_project_scenario_variable_array
@@ -283,11 +288,11 @@ package body Libadalang.Implementation.C.Extensions is
    --------------------------
 
    procedure ada_gpr_project_load
-     (Project_File    : chars_ptr;
-      Scenario_Vars   : System.Address;
-      Target, Runtime : chars_ptr;
-      Project         : access ada_gpr_project;
-      Errors          : access ada_string_array_ptr)
+     (Project_File                 : chars_ptr;
+      Scenario_Vars                : System.Address;
+      Target, Runtime, Config_File : chars_ptr;
+      Project                      : access ada_gpr_project;
+      Errors                       : access ada_string_array_ptr)
    is
       Prj : Project_Tree_Access;
       Env : Project_Environment_Access;
@@ -301,6 +306,7 @@ package body Libadalang.Implementation.C.Extensions is
          Scenario_Vars,
          Target,
          Runtime,
+         Config_File,
          Prj,
          Env,
          Err,
@@ -339,9 +345,9 @@ package body Libadalang.Implementation.C.Extensions is
    -----------------------------------
 
    procedure ada_gpr_project_load_implicit
-     (Target, Runtime : chars_ptr;
-      Project         : access ada_gpr_project;
-      Errors          : access ada_string_array_ptr)
+     (Target, Runtime, Config_File : chars_ptr;
+      Project                      : access ada_gpr_project;
+      Errors                       : access ada_string_array_ptr)
    is
    begin
       ada_gpr_project_load
@@ -349,6 +355,7 @@ package body Libadalang.Implementation.C.Extensions is
          System.Null_Address,
          Target,
          Runtime,
+         Config_File,
          Project,
          Errors);
    end ada_gpr_project_load_implicit;
@@ -535,6 +542,7 @@ package body Libadalang.Implementation.C.Extensions is
          Scenario_Vars,
          Target,
          Runtime,
+         Null_Ptr,
          Tree,
          Env,
          Dummy_Errors,

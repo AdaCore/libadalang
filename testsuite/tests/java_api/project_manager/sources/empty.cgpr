@@ -1,0 +1,3 @@
+configuration project P1 is
+   --  Will raise an error at project loading
+end P1;

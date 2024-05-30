@@ -40,3 +40,19 @@
     fun:nss_parse_service_list
     fun:__nss_database_lookup
 }
+
+# System.Traceback.Symbolic leaks with shared libraries
+# (eng/toolchain/gnat#912).
+{
+    ada_symbolic_trace_back_shared_lib
+    Memcheck:Leak
+    match-leak-kinds: definite
+    fun:malloc
+    fun:__gnat_malloc
+    fun:system__mmap__read
+    fun:system__object_reader__create_stream
+    fun:system__object_reader__create_stream__2
+    fun:system__dwarf_lines__open
+    fun:system__traceback__symbolic__init_module
+    fun:system__traceback__symbolic__multi_module_symbolic_traceback
+}

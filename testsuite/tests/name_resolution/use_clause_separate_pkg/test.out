@@ -1,0 +1,13 @@
+Analyzing pkg-inner.adb
+#######################
+
+Resolving xrefs for node <ObjectDecl ["X"] pkg-inner.adb:4:7-4:13>
+******************************************************************
+
+Expr: <Id "T" pkg-inner.adb:4:11-4:12>
+  references:    <DefiningName "T" pkg.adb:3:12-3:13>
+  type:          None
+  expected type: None
+
+
+Done.

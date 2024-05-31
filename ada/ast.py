@@ -23499,7 +23499,7 @@ class PackageBody(Body):
         # want to reference the envs that are "used" there.
         reference(Self.cast(AdaNode).singleton,
                   through=T.PackageBody.package_decl_uses_clauses_envs,
-                  cond=Not(Self.is_compilation_unit_root))
+                  cond=Not(Self.is_compilation_unit_root) | Self.is_subunit)
     )
 
     package_name = Field(type=T.DefiningName)

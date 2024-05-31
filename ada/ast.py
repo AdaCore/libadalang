@@ -18147,7 +18147,7 @@ class DefiningName(Name):
             lambda scel=T.SyntheticDefiningName: [scel.name_symbol.image],
             lambda n: n.as_single_tok_node_array.map(lambda t: t.text)
         ))
-        bd = Var(Entity.basic_decl_no_internal)
+        bd = Var(Entity.basic_decl)
 
         self_name = Var(def_name_array.map(
             lambda i, t: t.concat(
@@ -18267,14 +18267,7 @@ class DefiningName(Name):
         return Entity.name.all_env_els_impl(seq, seq_from, categories)
 
     basic_decl = Property(
-        Self.parents.find(lambda p: p.is_a(T.BasicDecl))
-        .cast_or_raise(T.BasicDecl).as_entity,
-        public=True, memoized=True,
-        doc="Returns this DefiningName's basic declaration"
-    )
-
-    basic_decl_no_internal = Property(
-        Entity.basic_decl.then(
+        Entity.basic_decl_internal.then(
             lambda bd: If(
                 bd.is_a(GenericPackageInternal, GenericSubpInternal,
                         SingleTaskTypeDecl),
@@ -18282,8 +18275,18 @@ class DefiningName(Name):
                 bd
             )
         ),
-        doc="Returns this DefiningName's basic declaration but discard "
-            "intermediate internal nodes."
+        public=True,
+        doc="Return this DefiningName's basic declaration, discarding internal"
+            " nodes such as Generic*Internal wrappers"
+    )
+
+    basic_decl_internal = Property(
+        Entity.parents.find(
+            lambda p: p.is_a(T.BasicDecl)
+        ).cast_or_raise(T.BasicDecl),
+        memoized=True,
+        doc="Return this DefiningName's basic declaration, but do not bypass"
+            " internal nodes (such as Generic*Internal wrappers)"
     )
 
     @langkit_property(public=True, return_type=T.RefResult.array,
@@ -18583,7 +18586,7 @@ class DefiningName(Name):
         """
         return Entity.get_pragma(name).then(
             lambda p: p.as_aspect(inherited)
-        )._or(Entity.basic_decl.get_aspect_assoc(name).then(
+        )._or(Entity.basic_decl_internal.get_aspect_assoc(name).then(
             lambda aa: Aspect.new(exists=True, node=aa,
                                   value=aa.expr, inherited=inherited)
         ))._or(Entity.get_representation_clause(name).then(
@@ -18639,7 +18642,7 @@ class DefiningName(Name):
             ),
 
             parts_to_check.map(
-                lambda p: p.basic_decl.get_aspect_assoc(name).then(
+                lambda p: p.basic_decl_internal.get_aspect_assoc(name).then(
                     lambda aa: Aspect.new(exists=True, node=aa,
                                           value=aa.expr, inherited=inherited)
                 )
@@ -18653,7 +18656,7 @@ class DefiningName(Name):
         return self_aspects.find(lambda a: a.exists)._or(
             # If nothing has been found so far for entity, check out for any
             # inherited aspect.
-            Entity.basic_decl_no_internal.cast(BaseTypeDecl).then(
+            Entity.basic_decl.cast(BaseTypeDecl).then(
                 lambda bd: Let(
                     lambda typ=If(bd.is_a(T.BaseSubtypeDecl),
                                   bd.cast(T.BaseSubtypeDecl).get_type,
@@ -18759,7 +18762,7 @@ class DefiningName(Name):
         in aspects, i.e. information that can be represented by either aspect
         specification nodes, pragma nodes or attribute definition nodes.
         """
-        bd = Var(Entity.basic_decl_no_internal.match(
+        bd = Var(Entity.basic_decl.match(
             # If Entity is an EnumLiteralDecl, search the pragma from the enum
             # type declaration node.
             lambda eld=T.EnumLiteralDecl:
@@ -18843,7 +18846,7 @@ class DefiningName(Name):
         Return whether the entity defined by this name is ghost or not.
         See SPARK RM 6.9.
         """
-        bd = Var(Entity.basic_decl_no_internal)
+        bd = Var(Entity.basic_decl)
         return Or(
             Entity.has_aspect('Ghost'),
             bd.parent_basic_decl._.is_ghost_code(),

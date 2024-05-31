@@ -19198,6 +19198,19 @@ class BaseId(SingleTokNode):
                 all_categories,
                 no_prims
             )
+        ).filter(
+            # If we are in a generic formal part, we do not necessarily have
+            # visibility on all the actuals coming from the instantiation.
+            lambda e: e.cast(AnonymousExprDecl).then(
+                lambda aed: Entity.parents.find(
+                    lambda p: p.is_a(T.GenericFormal)
+                ).then(
+                    lambda _:
+                    aed.get_formal.formal_decl.is_directly_reachable(Entity),
+                    default_val=True
+                ),
+                default_val=True
+            )
         ))
 
         # TODO: there is a big smell here: We're doing the filtering for parent

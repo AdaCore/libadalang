@@ -1,0 +1,25 @@
+Working on node <GenericSubpInstantiation ["Inst"] a.adb:14:4-14:37>
+====================================================================
+
+Set 'p' to 'node.p_inst_params'
+Result: [<ParamActual param=<| DefiningName "X" a.adb:5:7-5:8 [a.adb:14:4] |> actual=<| Id "Y" a.adb:5:25-5:26 [a.adb:14:4] |>>,
+         <ParamActual param=<| DefiningName "Y" a.adb:6:7-6:8 [a.adb:14:4] |> actual=<Id "Y" a.adb:14:34-14:35>>]
+
+Eval 'p[0].actual.p_referenced_decl()'
+Result: <ObjectDecl ["Y"] a.adb:2:4-2:22>
+
+Eval 'p[1].actual.p_referenced_decl()'
+Result: <ObjectDecl ["Y"] a.adb:2:4-2:22>
+
+Working on node <GenericSubpInstantiation ["IG"] a.adb:29:4-29:36>
+==================================================================
+
+Set 'p' to 'node.p_inst_params'
+Result: [<ParamActual param=<| DefiningName "X" a.adb:20:7-20:8 [a.adb:29:4] |> actual=<Int a.adb:29:32-29:34>>,
+         <ParamActual param=<| DefiningName "Y" a.adb:21:7-21:8 [a.adb:29:4] |> actual=<| Id "X" a.adb:21:22-21:23 [a.adb:29:4] |>>]
+
+Eval 'p[0].actual.p_referenced_decl()'
+Result: None
+
+Eval 'p[1].actual.p_referenced_decl()'
+Result: <| ObjectDecl ["X"] a.adb:20:7-20:19 [a.adb:29:4] |>

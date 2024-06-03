@@ -1,0 +1,41 @@
+Working on node <SingleTaskDecl ["My_Task"] test.adb:2:4-2:17>
+==============================================================
+
+Eval 'node.find(lal.DefiningName).p_basic_decl'
+Result: <SingleTaskDecl ["My_Task"] test.adb:2:4-2:17>
+
+Working on node <TaskBody ["My_Task"] test.adb:5:4-8:16>
+========================================================
+
+Eval 'node.find(lal.DefiningName).p_basic_decl'
+Result: <TaskBody ["My_Task"] test.adb:5:4-8:16>
+
+Working on node <TaskTypeDecl ["My_Task_Type"] test.adb:11:4-11:27>
+===================================================================
+
+Eval 'node.find(lal.DefiningName).p_basic_decl'
+Result: <TaskTypeDecl ["My_Task_Type"] test.adb:11:4-11:27>
+
+Working on node <TaskBody ["My_Task_Type"] test.adb:14:4-17:21>
+===============================================================
+
+Eval 'node.find(lal.DefiningName).p_basic_decl'
+Result: <TaskBody ["My_Task_Type"] test.adb:14:4-17:21>
+
+Working on node <GenericPackageInternal ["Pkg"] test.adb:21:4-22:12>
+====================================================================
+
+Eval 'node.find(lal.DefiningName).p_basic_decl'
+Result: <GenericPackageDecl ["Pkg"] test.adb:20:4-22:12>
+
+Working on node <GenericSubpDecl ["Foo"] test.adb:25:4-26:18>
+=============================================================
+
+Eval 'node.find(lal.DefiningName).p_basic_decl'
+Result: <GenericSubpDecl ["Foo"] test.adb:25:4-26:18>
+
+Working on node <NullSubpDecl ["Foo"] test.adb:29:4-29:26>
+==========================================================
+
+Eval 'node.find(lal.DefiningName).p_basic_decl'
+Result: <NullSubpDecl ["Foo"] test.adb:29:4-29:26>

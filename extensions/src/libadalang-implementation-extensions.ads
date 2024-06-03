@@ -40,6 +40,7 @@ package Libadalang.Implementation.Extensions is
       Generate_Diagnostics : Boolean;
       Env                  : Lexical_Env;
       Origin               : Bare_Ada_Node;
+      Entry_Point          : Bare_Ada_Node;
       E_Info               : Internal_Entity_Info := No_Entity_Info)
       return Boolean;
 

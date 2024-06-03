@@ -1,19 +1,17 @@
 {
-  "id": 33,
-  "kind": "command",
   "command": {
+    "break": false,
     "command": "group",
-    "id": 0,
+    "expandedStates": null,
     "groupContents": {
-      "id": 32,
+      "id": 31,
       "kind": "list",
       "list": [
         {
-          "id": 6,
-          "kind": "command",
           "command": {
+            "break": false,
             "command": "group",
-            "id": 0,
+            "expandedStates": null,
             "groupContents": {
               "id": 5,
               "kind": "list",
@@ -24,31 +22,30 @@
                   "text": "type Day"
                 },
                 {
-                  "id": 2,
-                  "kind": "command",
                   "command": {
-                    "command": "align",
+                    "alignContents": {
+                      "id": 1,
+                      "kind": "list",
+                      "list": []
+                    },
                     "alignData": {
                       "kind": "width",
                       "n": 2
                     },
-                    "alignContents": {
-                      "id": 1,
-                      "kind": "list",
-                      "list": [
-                      ]
-                    }
-                  }
+                    "command": "align"
+                  },
+                  "id": 2,
+                  "kind": "command"
                 },
                 {
-                  "id": 3,
-                  "kind": "command",
                   "command": {
                     "command": "line",
+                    "hard": false,
                     "literal": false,
-                    "soft": false,
-                    "hard": false
-                  }
+                    "soft": false
+                  },
+                  "id": 3,
+                  "kind": "command"
                 },
                 {
                   "id": 4,
@@ -57,199 +54,195 @@
                 }
               ]
             },
-            "break": false,
-            "expandedStates": null
-          }
+            "id": 0
+          },
+          "id": 6,
+          "kind": "command"
         },
         {
-          "id": 30,
-          "kind": "command",
           "command": {
-            "command": "align",
+            "alignContents": {
+              "id": 28,
+              "kind": "list",
+              "list": [
+                {
+                  "command": {
+                    "command": "line",
+                    "hard": false,
+                    "literal": false,
+                    "soft": false
+                  },
+                  "id": 7,
+                  "kind": "command"
+                },
+                {
+                  "command": {
+                    "break": false,
+                    "command": "group",
+                    "expandedStates": null,
+                    "groupContents": {
+                      "command": {
+                        "break": false,
+                        "command": "group",
+                        "expandedStates": null,
+                        "groupContents": {
+                          "id": 25,
+                          "kind": "list",
+                          "list": [
+                            {
+                              "id": 8,
+                              "kind": "text",
+                              "text": "("
+                            },
+                            {
+                              "command": {
+                                "alignContents": {
+                                  "id": 22,
+                                  "kind": "list",
+                                  "list": [
+                                    {
+                                      "id": 9,
+                                      "kind": "text",
+                                      "text": "Mon,"
+                                    },
+                                    {
+                                      "command": {
+                                        "command": "line",
+                                        "hard": false,
+                                        "literal": false,
+                                        "soft": false
+                                      },
+                                      "id": 10,
+                                      "kind": "command"
+                                    },
+                                    {
+                                      "id": 11,
+                                      "kind": "text",
+                                      "text": "Tue,"
+                                    },
+                                    {
+                                      "command": {
+                                        "command": "line",
+                                        "hard": false,
+                                        "literal": false,
+                                        "soft": false
+                                      },
+                                      "id": 12,
+                                      "kind": "command"
+                                    },
+                                    {
+                                      "id": 13,
+                                      "kind": "text",
+                                      "text": "Wed,"
+                                    },
+                                    {
+                                      "command": {
+                                        "command": "line",
+                                        "hard": false,
+                                        "literal": false,
+                                        "soft": false
+                                      },
+                                      "id": 14,
+                                      "kind": "command"
+                                    },
+                                    {
+                                      "id": 15,
+                                      "kind": "text",
+                                      "text": "Thu,"
+                                    },
+                                    {
+                                      "command": {
+                                        "command": "line",
+                                        "hard": false,
+                                        "literal": false,
+                                        "soft": false
+                                      },
+                                      "id": 16,
+                                      "kind": "command"
+                                    },
+                                    {
+                                      "id": 17,
+                                      "kind": "text",
+                                      "text": "Fri,"
+                                    },
+                                    {
+                                      "command": {
+                                        "command": "line",
+                                        "hard": false,
+                                        "literal": false,
+                                        "soft": false
+                                      },
+                                      "id": 18,
+                                      "kind": "command"
+                                    },
+                                    {
+                                      "id": 19,
+                                      "kind": "text",
+                                      "text": "Sat,"
+                                    },
+                                    {
+                                      "command": {
+                                        "command": "line",
+                                        "hard": false,
+                                        "literal": false,
+                                        "soft": false
+                                      },
+                                      "id": 20,
+                                      "kind": "command"
+                                    },
+                                    {
+                                      "id": 21,
+                                      "kind": "text",
+                                      "text": "Sun"
+                                    }
+                                  ]
+                                },
+                                "alignData": {
+                                  "kind": "width",
+                                  "n": 1
+                                },
+                                "command": "align"
+                              },
+                              "id": 23,
+                              "kind": "command"
+                            },
+                            {
+                              "id": 24,
+                              "kind": "text",
+                              "text": ")"
+                            }
+                          ]
+                        },
+                        "id": 0
+                      },
+                      "id": 26,
+                      "kind": "command"
+                    },
+                    "id": 0
+                  },
+                  "id": 27,
+                  "kind": "command"
+                }
+              ]
+            },
             "alignData": {
               "kind": "width",
               "n": 2
             },
-            "alignContents": {
-              "id": 29,
-              "kind": "list",
-              "list": [
-                {
-                  "id": 7,
-                  "kind": "command",
-                  "command": {
-                    "command": "line",
-                    "literal": false,
-                    "soft": false,
-                    "hard": false
-                  }
-                },
-                {
-                  "id": 28,
-                  "kind": "command",
-                  "command": {
-                    "command": "group",
-                    "id": 0,
-                    "groupContents": {
-                      "id": 27,
-                      "kind": "list",
-                      "list": [
-                        {
-                          "id": 26,
-                          "kind": "command",
-                          "command": {
-                            "command": "group",
-                            "id": 0,
-                            "groupContents": {
-                              "id": 25,
-                              "kind": "list",
-                              "list": [
-                                {
-                                  "id": 8,
-                                  "kind": "text",
-                                  "text": "("
-                                },
-                                {
-                                  "id": 23,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "align",
-                                    "alignData": {
-                                      "kind": "width",
-                                      "n": 1
-                                    },
-                                    "alignContents": {
-                                      "id": 22,
-                                      "kind": "list",
-                                      "list": [
-                                        {
-                                          "id": 9,
-                                          "kind": "text",
-                                          "text": "Mon,"
-                                        },
-                                        {
-                                          "id": 10,
-                                          "kind": "command",
-                                          "command": {
-                                            "command": "line",
-                                            "literal": false,
-                                            "soft": false,
-                                            "hard": false
-                                          }
-                                        },
-                                        {
-                                          "id": 11,
-                                          "kind": "text",
-                                          "text": "Tue,"
-                                        },
-                                        {
-                                          "id": 12,
-                                          "kind": "command",
-                                          "command": {
-                                            "command": "line",
-                                            "literal": false,
-                                            "soft": false,
-                                            "hard": false
-                                          }
-                                        },
-                                        {
-                                          "id": 13,
-                                          "kind": "text",
-                                          "text": "Wed,"
-                                        },
-                                        {
-                                          "id": 14,
-                                          "kind": "command",
-                                          "command": {
-                                            "command": "line",
-                                            "literal": false,
-                                            "soft": false,
-                                            "hard": false
-                                          }
-                                        },
-                                        {
-                                          "id": 15,
-                                          "kind": "text",
-                                          "text": "Thu,"
-                                        },
-                                        {
-                                          "id": 16,
-                                          "kind": "command",
-                                          "command": {
-                                            "command": "line",
-                                            "literal": false,
-                                            "soft": false,
-                                            "hard": false
-                                          }
-                                        },
-                                        {
-                                          "id": 17,
-                                          "kind": "text",
-                                          "text": "Fri,"
-                                        },
-                                        {
-                                          "id": 18,
-                                          "kind": "command",
-                                          "command": {
-                                            "command": "line",
-                                            "literal": false,
-                                            "soft": false,
-                                            "hard": false
-                                          }
-                                        },
-                                        {
-                                          "id": 19,
-                                          "kind": "text",
-                                          "text": "Sat,"
-                                        },
-                                        {
-                                          "id": 20,
-                                          "kind": "command",
-                                          "command": {
-                                            "command": "line",
-                                            "literal": false,
-                                            "soft": false,
-                                            "hard": false
-                                          }
-                                        },
-                                        {
-                                          "id": 21,
-                                          "kind": "text",
-                                          "text": "Sun"
-                                        }
-                                      ]
-                                    }
-                                  }
-                                },
-                                {
-                                  "id": 24,
-                                  "kind": "text",
-                                  "text": ")"
-                                }
-                              ]
-                            },
-                            "break": false,
-                            "expandedStates": null
-                          }
-                        }
-                      ]
-                    },
-                    "break": false,
-                    "expandedStates": null
-                  }
-                }
-              ]
-            }
-          }
+            "command": "align"
+          },
+          "id": 29,
+          "kind": "command"
         },
         {
-          "id": 31,
+          "id": 30,
           "kind": "text",
           "text": ";"
         }
       ]
     },
-    "break": false,
-    "expandedStates": null
-  }
+    "id": 0
+  },
+  "id": 32,
+  "kind": "command"
 }

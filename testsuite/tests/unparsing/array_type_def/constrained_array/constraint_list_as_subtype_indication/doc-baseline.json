@@ -1,19 +1,17 @@
 {
-  "id": 29,
-  "kind": "command",
   "command": {
+    "break": false,
     "command": "group",
-    "id": 0,
+    "expandedStates": null,
     "groupContents": {
-      "id": 28,
+      "id": 26,
       "kind": "list",
       "list": [
         {
-          "id": 6,
-          "kind": "command",
           "command": {
+            "break": false,
             "command": "group",
-            "id": 0,
+            "expandedStates": null,
             "groupContents": {
               "id": 5,
               "kind": "list",
@@ -24,31 +22,30 @@
                   "text": "type Schedule"
                 },
                 {
-                  "id": 2,
-                  "kind": "command",
                   "command": {
-                    "command": "align",
+                    "alignContents": {
+                      "id": 1,
+                      "kind": "list",
+                      "list": []
+                    },
                     "alignData": {
                       "kind": "width",
                       "n": 2
                     },
-                    "alignContents": {
-                      "id": 1,
-                      "kind": "list",
-                      "list": [
-                      ]
-                    }
-                  }
+                    "command": "align"
+                  },
+                  "id": 2,
+                  "kind": "command"
                 },
                 {
-                  "id": 3,
-                  "kind": "command",
                   "command": {
                     "command": "line",
+                    "hard": false,
                     "literal": false,
-                    "soft": false,
-                    "hard": false
-                  }
+                    "soft": false
+                  },
+                  "id": 3,
+                  "kind": "command"
                 },
                 {
                   "id": 4,
@@ -57,176 +54,166 @@
                 }
               ]
             },
-            "break": false,
-            "expandedStates": null
-          }
+            "id": 0
+          },
+          "id": 6,
+          "kind": "command"
         },
         {
-          "id": 26,
-          "kind": "command",
           "command": {
-            "command": "align",
+            "alignContents": {
+              "id": 23,
+              "kind": "list",
+              "list": [
+                {
+                  "command": {
+                    "command": "line",
+                    "hard": false,
+                    "literal": false,
+                    "soft": false
+                  },
+                  "id": 7,
+                  "kind": "command"
+                },
+                {
+                  "command": {
+                    "break": false,
+                    "command": "group",
+                    "expandedStates": null,
+                    "groupContents": {
+                      "command": {
+                        "break": false,
+                        "command": "group",
+                        "expandedStates": null,
+                        "groupContents": {
+                          "id": 20,
+                          "kind": "list",
+                          "list": [
+                            {
+                              "id": 8,
+                              "kind": "text",
+                              "text": "array ("
+                            },
+                            {
+                              "command": {
+                                "alignContents": {
+                                  "command": {
+                                    "break": false,
+                                    "command": "group",
+                                    "expandedStates": null,
+                                    "groupContents": {
+                                      "command": {
+                                        "alignContents": {
+                                          "id": 9,
+                                          "kind": "text",
+                                          "text": "My_Enum_Of_Days"
+                                        },
+                                        "alignData": {
+                                          "kind": "innerRoot"
+                                        },
+                                        "command": "align"
+                                      },
+                                      "id": 10,
+                                      "kind": "command"
+                                    },
+                                    "id": 0
+                                  },
+                                  "id": 11,
+                                  "kind": "command"
+                                },
+                                "alignData": {
+                                  "kind": "width",
+                                  "n": 1
+                                },
+                                "command": "align"
+                              },
+                              "id": 12,
+                              "kind": "command"
+                            },
+                            {
+                              "id": 13,
+                              "kind": "text",
+                              "text": ")"
+                            },
+                            {
+                              "command": {
+                                "command": "line",
+                                "hard": false,
+                                "literal": false,
+                                "soft": false
+                              },
+                              "id": 14,
+                              "kind": "command"
+                            },
+                            {
+                              "id": 15,
+                              "kind": "text",
+                              "text": "of"
+                            },
+                            {
+                              "command": {
+                                "alignContents": {
+                                  "command": {
+                                    "break": false,
+                                    "command": "group",
+                                    "expandedStates": null,
+                                    "groupContents": {
+                                      "id": 17,
+                                      "kind": "list",
+                                      "list": [
+                                        {
+                                          "id": 16,
+                                          "kind": "text",
+                                          "text": " Integer"
+                                        }
+                                      ]
+                                    },
+                                    "id": 0
+                                  },
+                                  "id": 18,
+                                  "kind": "command"
+                                },
+                                "alignData": {
+                                  "kind": "width",
+                                  "n": 2
+                                },
+                                "command": "align"
+                              },
+                              "id": 19,
+                              "kind": "command"
+                            }
+                          ]
+                        },
+                        "id": 0
+                      },
+                      "id": 21,
+                      "kind": "command"
+                    },
+                    "id": 0
+                  },
+                  "id": 22,
+                  "kind": "command"
+                }
+              ]
+            },
             "alignData": {
               "kind": "width",
               "n": 2
             },
-            "alignContents": {
-              "id": 25,
-              "kind": "list",
-              "list": [
-                {
-                  "id": 7,
-                  "kind": "command",
-                  "command": {
-                    "command": "line",
-                    "literal": false,
-                    "soft": false,
-                    "hard": false
-                  }
-                },
-                {
-                  "id": 24,
-                  "kind": "command",
-                  "command": {
-                    "command": "group",
-                    "id": 0,
-                    "groupContents": {
-                      "id": 23,
-                      "kind": "list",
-                      "list": [
-                        {
-                          "id": 22,
-                          "kind": "command",
-                          "command": {
-                            "command": "group",
-                            "id": 0,
-                            "groupContents": {
-                              "id": 21,
-                              "kind": "list",
-                              "list": [
-                                {
-                                  "id": 8,
-                                  "kind": "text",
-                                  "text": "array ("
-                                },
-                                {
-                                  "id": 13,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "align",
-                                    "alignData": {
-                                      "kind": "width",
-                                      "n": 1
-                                    },
-                                    "alignContents": {
-                                      "id": 12,
-                                      "kind": "command",
-                                      "command": {
-                                        "command": "group",
-                                        "id": 0,
-                                        "groupContents": {
-                                          "id": 11,
-                                          "kind": "command",
-                                          "command": {
-                                            "command": "align",
-                                            "alignData": {
-                                              "kind": "innerRoot"
-                                            },
-                                            "alignContents": {
-                                              "id": 10,
-                                              "kind": "list",
-                                              "list": [
-                                                {
-                                                  "id": 9,
-                                                  "kind": "text",
-                                                  "text": "My_Enum_Of_Days"
-                                                }
-                                              ]
-                                            }
-                                          }
-                                        },
-                                        "break": false,
-                                        "expandedStates": null
-                                      }
-                                    }
-                                  }
-                                },
-                                {
-                                  "id": 14,
-                                  "kind": "text",
-                                  "text": ")"
-                                },
-                                {
-                                  "id": 15,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "line",
-                                    "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
-                                  "id": 16,
-                                  "kind": "text",
-                                  "text": "of"
-                                },
-                                {
-                                  "id": 20,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "align",
-                                    "alignData": {
-                                      "kind": "width",
-                                      "n": 2
-                                    },
-                                    "alignContents": {
-                                      "id": 19,
-                                      "kind": "command",
-                                      "command": {
-                                        "command": "group",
-                                        "id": 0,
-                                        "groupContents": {
-                                          "id": 18,
-                                          "kind": "list",
-                                          "list": [
-                                            {
-                                              "id": 17,
-                                              "kind": "text",
-                                              "text": " Integer"
-                                            }
-                                          ]
-                                        },
-                                        "break": false,
-                                        "expandedStates": null
-                                      }
-                                    }
-                                  }
-                                }
-                              ]
-                            },
-                            "break": false,
-                            "expandedStates": null
-                          }
-                        }
-                      ]
-                    },
-                    "break": false,
-                    "expandedStates": null
-                  }
-                }
-              ]
-            }
-          }
+            "command": "align"
+          },
+          "id": 24,
+          "kind": "command"
         },
         {
-          "id": 27,
+          "id": 25,
           "kind": "text",
           "text": ";"
         }
       ]
     },
-    "break": false,
-    "expandedStates": null
-  }
+    "id": 0
+  },
+  "id": 27,
+  "kind": "command"
 }

@@ -23495,7 +23495,7 @@ class PackageBody(Body):
         # Since the reference to the package decl is non transitive, we still
         # want to reference the envs that are "used" there.
         reference(Self.cast(AdaNode).singleton,
-                  through=T.PackageBody.package_decl_uses_clauses_envs,
+                  through=T.PackageBody.package_decl_use_clauses_envs,
                   cond=Not(Self.is_compilation_unit_root) | Self.is_subunit)
     )
 
@@ -23511,17 +23511,17 @@ class PackageBody(Body):
     declarative_parts = Property(Entity.decls.singleton)
 
     @langkit_property()
-    def package_decl_uses_clauses_envs():
+    def package_decl_use_clauses_envs():
         """
         Return the environments for the use clauses of the package decl of this
         body. Used because they need to be explicitly referenced.
         """
-        pd = Var(imprecise_fallback.bind(
+        return imprecise_fallback.bind(
             False, Entity.decl_part.cast_or_raise(T.BasePackageDecl)
-        ))
-
-        return Array([pd.public_part.use_clauses_envs,
-                      pd.private_part._.use_clauses_envs]).env_group()
+        ).then(lambda pd: Array([
+            pd.public_part.use_clauses_envs,
+            pd.private_part._.use_clauses_envs
+        ]).env_group())
 
 
 class TaskBody(Body):

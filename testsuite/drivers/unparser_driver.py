@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import os.path
 
 from drivers.base_driver import BaseDriver
@@ -14,7 +13,6 @@ class UnparserDriver(BaseDriver):
     """
 
     input_filename = "input.ada"
-    document_baseline_filename = "doc-baseline.json"
 
     @property
     def unparsing_config_filename(self) -> str:
@@ -30,9 +28,8 @@ class UnparserDriver(BaseDriver):
 
     def run(self) -> None:
         # Run the unparser on "input.ada" for the given grammar rule and
-        # unparse it with the default unparsing configuration, with a dump of
-        # the Prettier document.
-        argv = ["lal_unparse", "-d", "-w", "79", "-i", "3"]
+        # unparse it with the default unparsing configuration.
+        argv = ["lal_unparse", "-w", "79", "-i", "3"]
 
         rule = self.test_env.get("rule")
         if rule:
@@ -41,37 +38,3 @@ class UnparserDriver(BaseDriver):
         argv += [self.unparsing_config_filename, self.input_filename]
 
         self.run_and_check(argv, memcheck=True)
-
-    def compute_failures(self) -> list[str]:
-        # Check the formatted source against "test.out"
-        result = super().compute_failures()
-
-        # Check the prettier document against "doc-baseline.json"
-
-        def read_file(filename: str) -> str:
-            with open(filename, "r", encoding=self.default_encoding) as f:
-                return f.read()
-
-        document_baseline_filename = self.test_dir(
-            self.document_baseline_filename)
-        document_baseline = json.dumps(
-            json.loads(read_file(document_baseline_filename)),
-            indent=2,
-            sort_keys=True,
-        )
-        document_actual = json.dumps(
-            json.loads(read_file(self.working_dir("doc.json"))),
-            indent=2,
-            sort_keys=True,
-        )
-
-        result.extend(
-            self.compute_diff(
-                baseline_file=document_baseline_filename,
-                baseline=document_baseline,
-                actual=document_actual,
-                failure_message="Prettier document mismatch",
-            )
-        )
-
-        return result

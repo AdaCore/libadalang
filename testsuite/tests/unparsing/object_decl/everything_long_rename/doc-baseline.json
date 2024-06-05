@@ -1,37 +1,35 @@
 {
-  "id": 30,
-  "kind": "command",
   "command": {
+    "break": false,
     "command": "group",
-    "id": 0,
+    "expandedStates": null,
     "groupContents": {
-      "id": 29,
+      "id": 27,
       "kind": "list",
       "list": [
         {
-          "id": 10,
-          "kind": "command",
           "command": {
+            "break": false,
             "command": "group",
-            "id": 1,
+            "expandedStates": null,
             "groupContents": {
               "id": 9,
               "kind": "list",
               "list": [
                 {
-                  "id": 1,
-                  "kind": "command",
                   "command": {
+                    "break": false,
                     "command": "group",
-                    "id": 0,
+                    "expandedStates": null,
                     "groupContents": {
                       "id": 0,
                       "kind": "text",
                       "text": "Fooooooooooooooooo"
                     },
-                    "break": false,
-                    "expandedStates": null
-                  }
+                    "id": 0
+                  },
+                  "id": 1,
+                  "kind": "command"
                 },
                 {
                   "id": 2,
@@ -39,34 +37,26 @@
                   "text": " :"
                 },
                 {
-                  "id": 8,
-                  "kind": "command",
                   "command": {
-                    "command": "align",
-                    "alignData": {
-                      "kind": "width",
-                      "n": 2
-                    },
                     "alignContents": {
                       "id": 7,
                       "kind": "list",
                       "list": [
                         {
-                          "id": 3,
-                          "kind": "command",
                           "command": {
                             "command": "line",
+                            "hard": false,
                             "literal": false,
-                            "soft": false,
-                            "hard": false
-                          }
+                            "soft": false
+                          },
+                          "id": 3,
+                          "kind": "command"
                         },
                         {
-                          "id": 6,
-                          "kind": "command",
                           "command": {
+                            "break": false,
                             "command": "group",
-                            "id": 0,
+                            "expandedStates": null,
                             "groupContents": {
                               "id": 5,
                               "kind": "list",
@@ -78,162 +68,160 @@
                                 }
                               ]
                             },
-                            "break": false,
-                            "expandedStates": null
-                          }
+                            "id": 0
+                          },
+                          "id": 6,
+                          "kind": "command"
                         }
                       ]
-                    }
-                  }
+                    },
+                    "alignData": {
+                      "kind": "width",
+                      "n": 2
+                    },
+                    "command": "align"
+                  },
+                  "id": 8,
+                  "kind": "command"
                 }
               ]
             },
-            "break": false,
-            "expandedStates": null
-          }
+            "id": 1
+          },
+          "id": 10,
+          "kind": "command"
         },
         {
-          "id": 27,
-          "kind": "command",
           "command": {
-            "command": "ifBreak",
-            "ifBreakGroupId": 1,
             "breakContents": {
-              "id": 18,
-              "kind": "command",
               "command": {
-                "command": "align",
+                "alignContents": {
+                  "command": {
+                    "break": false,
+                    "command": "group",
+                    "expandedStates": null,
+                    "groupContents": {
+                      "command": {
+                        "break": false,
+                        "command": "group",
+                        "expandedStates": null,
+                        "groupContents": {
+                          "id": 14,
+                          "kind": "list",
+                          "list": [
+                            {
+                              "id": 11,
+                              "kind": "text",
+                              "text": " renames"
+                            },
+                            {
+                              "command": {
+                                "command": "line",
+                                "hard": false,
+                                "literal": false,
+                                "soft": false
+                              },
+                              "id": 12,
+                              "kind": "command"
+                            },
+                            {
+                              "id": 13,
+                              "kind": "text",
+                              "text": "Baaaaaaaaaaaaaaaz"
+                            }
+                          ]
+                        },
+                        "id": 0
+                      },
+                      "id": 15,
+                      "kind": "command"
+                    },
+                    "id": 0
+                  },
+                  "id": 16,
+                  "kind": "command"
+                },
                 "alignData": {
                   "kind": "width",
                   "n": 4
                 },
-                "alignContents": {
-                  "id": 17,
-                  "kind": "command",
-                  "command": {
-                    "command": "group",
-                    "id": 0,
-                    "groupContents": {
-                      "id": 16,
-                      "kind": "list",
-                      "list": [
-                        {
-                          "id": 15,
-                          "kind": "command",
-                          "command": {
-                            "command": "group",
-                            "id": 0,
-                            "groupContents": {
-                              "id": 14,
-                              "kind": "list",
-                              "list": [
-                                {
-                                  "id": 11,
-                                  "kind": "text",
-                                  "text": " renames"
-                                },
-                                {
-                                  "id": 12,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "line",
-                                    "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
-                                  "id": 13,
-                                  "kind": "text",
-                                  "text": "Baaaaaaaaaaaaaaaz"
-                                }
-                              ]
-                            },
-                            "break": false,
-                            "expandedStates": null
-                          }
-                        }
-                      ]
-                    },
-                    "break": false,
-                    "expandedStates": null
-                  }
-                }
-              }
+                "command": "align"
+              },
+              "id": 17,
+              "kind": "command"
             },
+            "command": "ifBreak",
             "flatContents": {
-              "id": 26,
-              "kind": "command",
               "command": {
-                "command": "align",
+                "alignContents": {
+                  "command": {
+                    "break": false,
+                    "command": "group",
+                    "expandedStates": null,
+                    "groupContents": {
+                      "command": {
+                        "break": false,
+                        "command": "group",
+                        "expandedStates": null,
+                        "groupContents": {
+                          "id": 21,
+                          "kind": "list",
+                          "list": [
+                            {
+                              "id": 18,
+                              "kind": "text",
+                              "text": " renames"
+                            },
+                            {
+                              "command": {
+                                "command": "line",
+                                "hard": false,
+                                "literal": false,
+                                "soft": false
+                              },
+                              "id": 19,
+                              "kind": "command"
+                            },
+                            {
+                              "id": 20,
+                              "kind": "text",
+                              "text": "Baaaaaaaaaaaaaaaz"
+                            }
+                          ]
+                        },
+                        "id": 0
+                      },
+                      "id": 22,
+                      "kind": "command"
+                    },
+                    "id": 0
+                  },
+                  "id": 23,
+                  "kind": "command"
+                },
                 "alignData": {
                   "kind": "width",
                   "n": 2
                 },
-                "alignContents": {
-                  "id": 25,
-                  "kind": "command",
-                  "command": {
-                    "command": "group",
-                    "id": 0,
-                    "groupContents": {
-                      "id": 24,
-                      "kind": "list",
-                      "list": [
-                        {
-                          "id": 23,
-                          "kind": "command",
-                          "command": {
-                            "command": "group",
-                            "id": 0,
-                            "groupContents": {
-                              "id": 22,
-                              "kind": "list",
-                              "list": [
-                                {
-                                  "id": 19,
-                                  "kind": "text",
-                                  "text": " renames"
-                                },
-                                {
-                                  "id": 20,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "line",
-                                    "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
-                                  "id": 21,
-                                  "kind": "text",
-                                  "text": "Baaaaaaaaaaaaaaaz"
-                                }
-                              ]
-                            },
-                            "break": false,
-                            "expandedStates": null
-                          }
-                        }
-                      ]
-                    },
-                    "break": false,
-                    "expandedStates": null
-                  }
-                }
-              }
-            }
-          }
+                "command": "align"
+              },
+              "id": 24,
+              "kind": "command"
+            },
+            "ifBreakGroupId": 1
+          },
+          "id": 25,
+          "kind": "command"
         },
         {
-          "id": 28,
+          "id": 26,
           "kind": "text",
           "text": ";"
         }
       ]
     },
-    "break": false,
-    "expandedStates": null
-  }
+    "id": 0
+  },
+  "id": 28,
+  "kind": "command"
 }

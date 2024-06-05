@@ -1,19 +1,17 @@
 {
-  "id": 17,
-  "kind": "command",
   "command": {
+    "break": false,
     "command": "group",
-    "id": 0,
+    "expandedStates": null,
     "groupContents": {
-      "id": 16,
+      "id": 15,
       "kind": "list",
       "list": [
         {
-          "id": 6,
-          "kind": "command",
           "command": {
+            "break": false,
             "command": "group",
-            "id": 0,
+            "expandedStates": null,
             "groupContents": {
               "id": 5,
               "kind": "list",
@@ -24,31 +22,30 @@
                   "text": "type Real"
                 },
                 {
-                  "id": 2,
-                  "kind": "command",
                   "command": {
-                    "command": "align",
+                    "alignContents": {
+                      "id": 1,
+                      "kind": "list",
+                      "list": []
+                    },
                     "alignData": {
                       "kind": "width",
                       "n": 2
                     },
-                    "alignContents": {
-                      "id": 1,
-                      "kind": "list",
-                      "list": [
-                      ]
-                    }
-                  }
+                    "command": "align"
+                  },
+                  "id": 2,
+                  "kind": "command"
                 },
                 {
-                  "id": 3,
-                  "kind": "command",
                   "command": {
                     "command": "line",
+                    "hard": false,
                     "literal": false,
-                    "soft": false,
-                    "hard": false
-                  }
+                    "soft": false
+                  },
+                  "id": 3,
+                  "kind": "command"
                 },
                 {
                   "id": 4,
@@ -57,82 +54,78 @@
                 }
               ]
             },
-            "break": false,
-            "expandedStates": null
-          }
+            "id": 0
+          },
+          "id": 6,
+          "kind": "command"
         },
         {
-          "id": 14,
-          "kind": "command",
           "command": {
-            "command": "align",
+            "alignContents": {
+              "id": 12,
+              "kind": "list",
+              "list": [
+                {
+                  "command": {
+                    "command": "line",
+                    "hard": false,
+                    "literal": false,
+                    "soft": false
+                  },
+                  "id": 7,
+                  "kind": "command"
+                },
+                {
+                  "command": {
+                    "break": false,
+                    "command": "group",
+                    "expandedStates": null,
+                    "groupContents": {
+                      "command": {
+                        "break": false,
+                        "command": "group",
+                        "expandedStates": null,
+                        "groupContents": {
+                          "id": 9,
+                          "kind": "list",
+                          "list": [
+                            {
+                              "id": 8,
+                              "kind": "text",
+                              "text": "digits 8"
+                            }
+                          ]
+                        },
+                        "id": 0
+                      },
+                      "id": 10,
+                      "kind": "command"
+                    },
+                    "id": 0
+                  },
+                  "id": 11,
+                  "kind": "command"
+                }
+              ]
+            },
             "alignData": {
               "kind": "width",
               "n": 2
             },
-            "alignContents": {
-              "id": 13,
-              "kind": "list",
-              "list": [
-                {
-                  "id": 7,
-                  "kind": "command",
-                  "command": {
-                    "command": "line",
-                    "literal": false,
-                    "soft": false,
-                    "hard": false
-                  }
-                },
-                {
-                  "id": 12,
-                  "kind": "command",
-                  "command": {
-                    "command": "group",
-                    "id": 0,
-                    "groupContents": {
-                      "id": 11,
-                      "kind": "list",
-                      "list": [
-                        {
-                          "id": 10,
-                          "kind": "command",
-                          "command": {
-                            "command": "group",
-                            "id": 0,
-                            "groupContents": {
-                              "id": 9,
-                              "kind": "list",
-                              "list": [
-                                {
-                                  "id": 8,
-                                  "kind": "text",
-                                  "text": "digits 8"
-                                }
-                              ]
-                            },
-                            "break": false,
-                            "expandedStates": null
-                          }
-                        }
-                      ]
-                    },
-                    "break": false,
-                    "expandedStates": null
-                  }
-                }
-              ]
-            }
-          }
+            "command": "align"
+          },
+          "id": 13,
+          "kind": "command"
         },
         {
-          "id": 15,
+          "id": 14,
           "kind": "text",
           "text": ";"
         }
       ]
     },
-    "break": false,
-    "expandedStates": null
-  }
+    "id": 0
+  },
+  "id": 16,
+  "kind": "command"
 }

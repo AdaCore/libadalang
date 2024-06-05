@@ -1,20 +1,12 @@
 {
-  "id": 62,
-  "kind": "command",
   "command": {
+    "break": false,
     "command": "group",
-    "id": 0,
+    "expandedStates": null,
     "groupContents": {
-      "id": 61,
-      "kind": "command",
       "command": {
-        "command": "align",
-        "alignData": {
-          "kind": "width",
-          "n": 2
-        },
         "alignContents": {
-          "id": 60,
+          "id": 57,
           "kind": "list",
           "list": [
             {
@@ -23,32 +15,24 @@
               "text": "package Foo is new"
             },
             {
-              "id": 1,
-              "kind": "command",
               "command": {
                 "command": "line",
+                "hard": false,
                 "literal": false,
-                "soft": false,
-                "hard": false
-              }
+                "soft": false
+              },
+              "id": 1,
+              "kind": "command"
             },
             {
-              "id": 58,
-              "kind": "command",
               "command": {
+                "break": false,
                 "command": "group",
-                "id": 0,
+                "expandedStates": null,
                 "groupContents": {
-                  "id": 57,
-                  "kind": "command",
                   "command": {
-                    "command": "align",
-                    "alignData": {
-                      "kind": "width",
-                      "n": 2
-                    },
                     "alignContents": {
-                      "id": 56,
+                      "id": 53,
                       "kind": "list",
                       "list": [
                         {
@@ -57,26 +41,19 @@
                           "text": "Baaaaaaaaaar"
                         },
                         {
-                          "id": 3,
-                          "kind": "command",
                           "command": {
                             "command": "line",
+                            "hard": false,
                             "literal": false,
-                            "soft": false,
-                            "hard": false
-                          }
+                            "soft": false
+                          },
+                          "id": 3,
+                          "kind": "command"
                         },
                         {
-                          "id": 55,
-                          "kind": "command",
                           "command": {
-                            "command": "align",
-                            "alignData": {
-                              "kind": "width",
-                              "n": 1
-                            },
                             "alignContents": {
-                              "id": 54,
+                              "id": 51,
                               "kind": "list",
                               "list": [
                                 {
@@ -85,406 +62,411 @@
                                   "text": "("
                                 },
                                 {
+                                  "command": {
+                                    "break": false,
+                                    "command": "group",
+                                    "expandedStates": null,
+                                    "groupContents": {
+                                      "command": {
+                                        "alignContents": {
+                                          "id": 5,
+                                          "kind": "text",
+                                          "text": "Qux"
+                                        },
+                                        "alignData": {
+                                          "kind": "width",
+                                          "n": 2
+                                        },
+                                        "command": "align"
+                                      },
+                                      "id": 6,
+                                      "kind": "command"
+                                    },
+                                    "id": 0
+                                  },
+                                  "id": 7,
+                                  "kind": "command"
+                                },
+                                {
                                   "id": 8,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "group",
-                                    "id": 0,
-                                    "groupContents": {
-                                      "id": 7,
-                                      "kind": "command",
-                                      "command": {
-                                        "command": "align",
-                                        "alignData": {
-                                          "kind": "width",
-                                          "n": 2
-                                        },
-                                        "alignContents": {
-                                          "id": 6,
-                                          "kind": "list",
-                                          "list": [
-                                            {
-                                              "id": 5,
-                                              "kind": "text",
-                                              "text": "Qux"
-                                            }
-                                          ]
-                                        }
-                                      }
-                                    },
-                                    "break": false,
-                                    "expandedStates": null
-                                  }
+                                  "kind": "text",
+                                  "text": ","
                                 },
                                 {
+                                  "command": {
+                                    "command": "line",
+                                    "hard": false,
+                                    "literal": false,
+                                    "soft": false
+                                  },
                                   "id": 9,
+                                  "kind": "command"
+                                },
+                                {
+                                  "command": {
+                                    "break": false,
+                                    "command": "group",
+                                    "expandedStates": null,
+                                    "groupContents": {
+                                      "command": {
+                                        "alignContents": {
+                                          "id": 10,
+                                          "kind": "text",
+                                          "text": "\"-j\""
+                                        },
+                                        "alignData": {
+                                          "kind": "width",
+                                          "n": 2
+                                        },
+                                        "command": "align"
+                                      },
+                                      "id": 11,
+                                      "kind": "command"
+                                    },
+                                    "id": 0
+                                  },
+                                  "id": 12,
+                                  "kind": "command"
+                                },
+                                {
+                                  "id": 13,
                                   "kind": "text",
                                   "text": ","
                                 },
                                 {
-                                  "id": 10,
-                                  "kind": "command",
                                   "command": {
                                     "command": "line",
+                                    "hard": false,
                                     "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
+                                    "soft": false
+                                  },
                                   "id": 14,
-                                  "kind": "command",
+                                  "kind": "command"
+                                },
+                                {
                                   "command": {
+                                    "break": false,
                                     "command": "group",
-                                    "id": 0,
+                                    "expandedStates": null,
                                     "groupContents": {
-                                      "id": 13,
-                                      "kind": "command",
                                       "command": {
-                                        "command": "align",
+                                        "alignContents": {
+                                          "id": 15,
+                                          "kind": "text",
+                                          "text": "\"--jobs\""
+                                        },
                                         "alignData": {
                                           "kind": "width",
                                           "n": 2
                                         },
-                                        "alignContents": {
-                                          "id": 12,
-                                          "kind": "list",
-                                          "list": [
-                                            {
-                                              "id": 11,
-                                              "kind": "text",
-                                              "text": "\"-j\""
-                                            }
-                                          ]
-                                        }
-                                      }
+                                        "command": "align"
+                                      },
+                                      "id": 16,
+                                      "kind": "command"
                                     },
-                                    "break": false,
-                                    "expandedStates": null
-                                  }
+                                    "id": 0
+                                  },
+                                  "id": 17,
+                                  "kind": "command"
                                 },
                                 {
-                                  "id": 15,
+                                  "id": 18,
                                   "kind": "text",
                                   "text": ","
                                 },
                                 {
-                                  "id": 16,
-                                  "kind": "command",
                                   "command": {
                                     "command": "line",
+                                    "hard": false,
                                     "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
+                                    "soft": false
+                                  },
+                                  "id": 19,
+                                  "kind": "command"
                                 },
                                 {
-                                  "id": 20,
-                                  "kind": "command",
                                   "command": {
-                                    "command": "group",
-                                    "id": 0,
-                                    "groupContents": {
-                                      "id": 19,
-                                      "kind": "command",
-                                      "command": {
-                                        "command": "align",
-                                        "alignData": {
-                                          "kind": "width",
-                                          "n": 2
-                                        },
-                                        "alignContents": {
-                                          "id": 18,
-                                          "kind": "list",
-                                          "list": [
-                                            {
-                                              "id": 17,
-                                              "kind": "text",
-                                              "text": "\"--jobs\""
-                                            }
-                                          ]
-                                        }
-                                      }
-                                    },
                                     "break": false,
-                                    "expandedStates": null
-                                  }
-                                },
-                                {
-                                  "id": 21,
-                                  "kind": "text",
-                                  "text": ","
-                                },
-                                {
-                                  "id": 22,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "line",
-                                    "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
-                                  "id": 28,
-                                  "kind": "command",
-                                  "command": {
                                     "command": "group",
-                                    "id": 0,
+                                    "expandedStates": null,
                                     "groupContents": {
-                                      "id": 27,
-                                      "kind": "command",
                                       "command": {
-                                        "command": "align",
-                                        "alignData": {
-                                          "kind": "width",
-                                          "n": 2
-                                        },
                                         "alignContents": {
-                                          "id": 26,
+                                          "id": 23,
                                           "kind": "list",
                                           "list": [
                                             {
-                                              "id": 23,
+                                              "id": 20,
                                               "kind": "text",
                                               "text": "Garply =>"
                                             },
                                             {
-                                              "id": 24,
-                                              "kind": "command",
                                               "command": {
                                                 "command": "line",
+                                                "hard": false,
                                                 "literal": false,
-                                                "soft": false,
-                                                "hard": false
-                                              }
+                                                "soft": false
+                                              },
+                                              "id": 21,
+                                              "kind": "command"
                                             },
                                             {
-                                              "id": 25,
+                                              "id": 22,
                                               "kind": "text",
                                               "text": "Natural"
                                             }
                                           ]
-                                        }
-                                      }
-                                    },
-                                    "break": false,
-                                    "expandedStates": null
-                                  }
-                                },
-                                {
-                                  "id": 29,
-                                  "kind": "text",
-                                  "text": ","
-                                },
-                                {
-                                  "id": 30,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "line",
-                                    "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
-                                  "id": 36,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "group",
-                                    "id": 0,
-                                    "groupContents": {
-                                      "id": 35,
-                                      "kind": "command",
-                                      "command": {
-                                        "command": "align",
+                                        },
                                         "alignData": {
                                           "kind": "width",
                                           "n": 2
                                         },
+                                        "command": "align"
+                                      },
+                                      "id": 24,
+                                      "kind": "command"
+                                    },
+                                    "id": 0
+                                  },
+                                  "id": 25,
+                                  "kind": "command"
+                                },
+                                {
+                                  "id": 26,
+                                  "kind": "text",
+                                  "text": ","
+                                },
+                                {
+                                  "command": {
+                                    "command": "line",
+                                    "hard": false,
+                                    "literal": false,
+                                    "soft": false
+                                  },
+                                  "id": 27,
+                                  "kind": "command"
+                                },
+                                {
+                                  "command": {
+                                    "break": false,
+                                    "command": "group",
+                                    "expandedStates": null,
+                                    "groupContents": {
+                                      "command": {
                                         "alignContents": {
-                                          "id": 34,
+                                          "id": 31,
                                           "kind": "list",
                                           "list": [
                                             {
-                                              "id": 31,
+                                              "id": 28,
                                               "kind": "text",
                                               "text": "Corge =>"
                                             },
                                             {
-                                              "id": 32,
-                                              "kind": "command",
                                               "command": {
                                                 "command": "line",
+                                                "hard": false,
                                                 "literal": false,
-                                                "soft": false,
-                                                "hard": false
-                                              }
+                                                "soft": false
+                                              },
+                                              "id": 29,
+                                              "kind": "command"
                                             },
                                             {
-                                              "id": 33,
+                                              "id": 30,
                                               "kind": "text",
                                               "text": "1"
                                             }
                                           ]
-                                        }
-                                      }
-                                    },
-                                    "break": false,
-                                    "expandedStates": null
-                                  }
-                                },
-                                {
-                                  "id": 37,
-                                  "kind": "text",
-                                  "text": ","
-                                },
-                                {
-                                  "id": 38,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "line",
-                                    "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
-                                  "id": 44,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "group",
-                                    "id": 0,
-                                    "groupContents": {
-                                      "id": 43,
-                                      "kind": "command",
-                                      "command": {
-                                        "command": "align",
+                                        },
                                         "alignData": {
                                           "kind": "width",
                                           "n": 2
                                         },
+                                        "command": "align"
+                                      },
+                                      "id": 32,
+                                      "kind": "command"
+                                    },
+                                    "id": 0
+                                  },
+                                  "id": 33,
+                                  "kind": "command"
+                                },
+                                {
+                                  "id": 34,
+                                  "kind": "text",
+                                  "text": ","
+                                },
+                                {
+                                  "command": {
+                                    "command": "line",
+                                    "hard": false,
+                                    "literal": false,
+                                    "soft": false
+                                  },
+                                  "id": 35,
+                                  "kind": "command"
+                                },
+                                {
+                                  "command": {
+                                    "break": false,
+                                    "command": "group",
+                                    "expandedStates": null,
+                                    "groupContents": {
+                                      "command": {
                                         "alignContents": {
-                                          "id": 42,
+                                          "id": 39,
                                           "kind": "list",
                                           "list": [
                                             {
-                                              "id": 39,
+                                              "id": 36,
                                               "kind": "text",
                                               "text": "Fred =>"
                                             },
                                             {
-                                              "id": 40,
-                                              "kind": "command",
                                               "command": {
                                                 "command": "line",
+                                                "hard": false,
                                                 "literal": false,
-                                                "soft": false,
-                                                "hard": false
-                                              }
+                                                "soft": false
+                                              },
+                                              "id": 37,
+                                              "kind": "command"
                                             },
                                             {
-                                              "id": 41,
+                                              "id": 38,
                                               "kind": "text",
                                               "text": "\"Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaax\""
                                             }
                                           ]
-                                        }
-                                      }
-                                    },
-                                    "break": false,
-                                    "expandedStates": null
-                                  }
-                                },
-                                {
-                                  "id": 45,
-                                  "kind": "text",
-                                  "text": ","
-                                },
-                                {
-                                  "id": 46,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "line",
-                                    "literal": false,
-                                    "soft": false,
-                                    "hard": false
-                                  }
-                                },
-                                {
-                                  "id": 52,
-                                  "kind": "command",
-                                  "command": {
-                                    "command": "group",
-                                    "id": 0,
-                                    "groupContents": {
-                                      "id": 51,
-                                      "kind": "command",
-                                      "command": {
-                                        "command": "align",
+                                        },
                                         "alignData": {
                                           "kind": "width",
                                           "n": 2
                                         },
+                                        "command": "align"
+                                      },
+                                      "id": 40,
+                                      "kind": "command"
+                                    },
+                                    "id": 0
+                                  },
+                                  "id": 41,
+                                  "kind": "command"
+                                },
+                                {
+                                  "id": 42,
+                                  "kind": "text",
+                                  "text": ","
+                                },
+                                {
+                                  "command": {
+                                    "command": "line",
+                                    "hard": false,
+                                    "literal": false,
+                                    "soft": false
+                                  },
+                                  "id": 43,
+                                  "kind": "command"
+                                },
+                                {
+                                  "command": {
+                                    "break": false,
+                                    "command": "group",
+                                    "expandedStates": null,
+                                    "groupContents": {
+                                      "command": {
                                         "alignContents": {
-                                          "id": 50,
+                                          "id": 47,
                                           "kind": "list",
                                           "list": [
                                             {
-                                              "id": 47,
+                                              "id": 44,
                                               "kind": "text",
                                               "text": "Bar =>"
                                             },
                                             {
-                                              "id": 48,
-                                              "kind": "command",
                                               "command": {
                                                 "command": "line",
+                                                "hard": false,
                                                 "literal": false,
-                                                "soft": false,
-                                                "hard": false
-                                              }
+                                                "soft": false
+                                              },
+                                              "id": 45,
+                                              "kind": "command"
                                             },
                                             {
-                                              "id": 49,
+                                              "id": 46,
                                               "kind": "text",
                                               "text": "Bar_Foo"
                                             }
                                           ]
-                                        }
-                                      }
+                                        },
+                                        "alignData": {
+                                          "kind": "width",
+                                          "n": 2
+                                        },
+                                        "command": "align"
+                                      },
+                                      "id": 48,
+                                      "kind": "command"
                                     },
-                                    "break": false,
-                                    "expandedStates": null
-                                  }
+                                    "id": 0
+                                  },
+                                  "id": 49,
+                                  "kind": "command"
                                 },
                                 {
-                                  "id": 53,
+                                  "id": 50,
                                   "kind": "text",
                                   "text": ")"
                                 }
                               ]
-                            }
-                          }
+                            },
+                            "alignData": {
+                              "kind": "width",
+                              "n": 1
+                            },
+                            "command": "align"
+                          },
+                          "id": 52,
+                          "kind": "command"
                         }
                       ]
-                    }
-                  }
+                    },
+                    "alignData": {
+                      "kind": "width",
+                      "n": 2
+                    },
+                    "command": "align"
+                  },
+                  "id": 54,
+                  "kind": "command"
                 },
-                "break": false,
-                "expandedStates": null
-              }
+                "id": 0
+              },
+              "id": 55,
+              "kind": "command"
             },
             {
-              "id": 59,
+              "id": 56,
               "kind": "text",
               "text": ";"
             }
           ]
-        }
-      }
+        },
+        "alignData": {
+          "kind": "width",
+          "n": 2
+        },
+        "command": "align"
+      },
+      "id": 58,
+      "kind": "command"
     },
-    "break": false,
-    "expandedStates": null
-  }
+    "id": 0
+  },
+  "id": 59,
+  "kind": "command"
 }

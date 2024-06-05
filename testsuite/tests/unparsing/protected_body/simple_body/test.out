@@ -4,6 +4,7 @@ protected body Shared_Array is
    begin
       return Table (N);
    end Component;
+
    procedure Set_Component (N : in Index; E : in Item)
    is
    begin

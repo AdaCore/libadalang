@@ -4,6 +4,7 @@ protected body Resource is
    begin
       Busy := True;
    end Seize;
+
    procedure Release
    is
    begin

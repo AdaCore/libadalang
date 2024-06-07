@@ -1327,17 +1327,20 @@ class AdaNode(ASTNode):
         """
     )
     universal_int_type = Property(
-        Self.std_entity('Universal_Int_Type_'), public=True, doc="""
+        Self.std_entity('Universal_Int_Type_').cast(T.BaseTypeDecl),
+        public=True, doc="""
         Static method. Return the standard Universal Integer type.
         """
     )
     universal_real_type = Property(
-        Self.std_entity('Universal_Real_Type_'), public=True, doc="""
+        Self.std_entity('Universal_Real_Type_').cast(T.BaseTypeDecl),
+        public=True, doc="""
         Static method. Return the standard Universal Real type.
         """
     )
     universal_fixed_type = Property(
-        Self.std_entity('Universal_Fixed_Type_'), public=False, doc="""
+        Self.std_entity('Universal_Fixed_Type_').cast(T.BaseTypeDecl),
+        public=False, doc="""
         Static method. Return the standard Universal Fixed type.
         """
     )
@@ -6177,6 +6180,19 @@ class RealTypeDef(TypeDef):
 
         return defaults.concat(specials)
 
+    @langkit_property(memoized=True)
+    def universal_fixed_predefined_operators():
+        """
+        Return the predefined multiplication operators for the
+        universal_fixed type (:rmlink:`4.5.5` 18-19).
+        """
+        uf = Var(Self.universal_fixed_type.node)
+
+        return [
+            Self.create_binop_assoc('"*"', uf, uf, uf),
+            Self.create_binop_assoc('"/"', uf, uf, uf)
+        ]
+
 
 class EvalDiscreteRange(Struct):
     """
@@ -6224,7 +6240,7 @@ class TypeAttributesRepository(AdaNode):
     @lazy_field(return_type=T.SyntheticTypeExpr, ignore_warn_on_node=True)
     def universal_int_type_expr():
         return SyntheticTypeExpr.new(
-            target_type=Self.universal_int_type.cast(BaseTypeDecl).node
+            target_type=Self.universal_int_type.node
         )
 
     @lazy_field(return_type=T.SyntheticFormalParamDecl,
@@ -6249,7 +6265,7 @@ class TypeAttributesRepository(AdaNode):
         return SyntheticFormalParamDecl.new(
             param_name='Value',
             param_type=SyntheticTypeExpr.new(
-                target_type=Self.universal_real_type.cast(BaseTypeDecl).node
+                target_type=Self.universal_real_type.node
             )
         )
 
@@ -6963,13 +6979,15 @@ class BaseTypeDecl(BasicDecl):
         ))
 
         # Also add this types' predefined operators to the list of primitives
-        predefined_ops = Var(Self.cast(TypeDecl)._.predefined_operators.map(
-            lambda assoc: T.inner_env_assoc.new(
-                key=assoc.key,
-                value=assoc.value,
-                metadata=T.Metadata.new(primitive=Self)
+        predefined_ops = Var(
+            Self.cast(TypeDecl)._.as_bare_entity.predefined_operators.map(
+                lambda assoc: T.inner_env_assoc.new(
+                    key=assoc.key,
+                    value=assoc.value,
+                    metadata=T.Metadata.new(primitive=Self)
+                )
             )
-        ))
+        )
 
         return enum_lits.concat(prim_subps).concat(predefined_ops)
 
@@ -8838,15 +8856,20 @@ class TypeDecl(BaseTypeDecl):
         type declarations and do not have their own operators
         (:rmlink:`3.4.1` - 7).
         """
-        return If(
-            Self.as_bare_entity.is_universal_type,
+        return Cond(
+            Entity.any_of(Self.universal_int_type, Self.universal_real_type),
             No(T.env_assoc.array),
+
+            Entity == Self.universal_fixed_type,
+            Self.type_def.cast(T.RealTypeDef)
+            .universal_fixed_predefined_operators,
+
             Self.type_def.predefined_operators
         )
 
     env_spec = EnvSpec(
         add_to_env_kv(Entity.name_symbol, Self),
-        add_to_env(Self.predefined_operators),
+        add_to_env(Self.as_entity.predefined_operators),
         add_env(),
         handle_children(),
 
@@ -11984,7 +12007,7 @@ class NumberDecl(BasicDecl):
     def expr_type():
         return If(Entity.expr.expression_type.is_int_type,
                   Self.universal_int_type,
-                  Self.universal_real_type).cast(BaseTypeDecl.entity)
+                  Self.universal_real_type)
 
     xref_entry_point = Property(True)
 

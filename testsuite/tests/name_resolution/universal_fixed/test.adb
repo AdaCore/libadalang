@@ -19,4 +19,18 @@ begin
 
      X3 := T1 (X1 / X2);  -- This is the operation defined on universal_fixed
      pragma Test_Statement;
+
+     -- All the operation below use the universal fixed operator
+
+     X3 := Standard."*" (X1, X1);
+     pragma Test_Statement;
+
+     X3 := Standard."*" (X1, X2);
+     pragma Test_Statement;
+
+     X3 := T1 (Standard."*" (X1, X1));
+     pragma Test_Statement;
+
+     X2 := T2 (Standard."*" (X1, X2));
+     pragma Test_Statement;
 end Test;

@@ -102,7 +102,7 @@ jobs:
       - name: Get VSS
         uses: actions/checkout@v3
         with:
-          repository: reznikmm/VSS
+          repository: AdaCore/VSS
           path: VSS
       - name: Try to checkout langkit's branch
         shell: bash
@@ -134,6 +134,9 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{secrets.GHA_CACHE_ACCESS_KEY_ID}}
           AWS_SECRET_ACCESS_KEY: ${{secrets.GHA_CACHE_SECRET}}
           AWS_DEFAULT_REGION: eu-west-1
+        shell: bash
         run: |
-            aws s3 cp . s3://adacore-gha-tray-eu-west-1/libadalang/ --recursive --exclude "*" --include "*.tar.gz" --sse=AES256
+            for file in *.tar.gz ; do
+               aws s3 cp "$file" s3://adacore-gha-tray-eu-west-1/libadalang/ --sse=AES256
+            done
             aws s3 ls s3://adacore-gha-tray-eu-west-1/libadalang/

@@ -16011,33 +16011,29 @@ class Name(Expr):
         """
         Return whether two names match each other.
 
-        This compares the symbol for Identifier and StringLiteral nodes. We
-        consider that there is no match for all other node kinds.
+        This only handles Identifiers, SyntheticIdentifiers, StringLiteral,
+        DefiningName and DottedName nodes: it always returns False for any
+        other node kind.
         """
-        return Self.match(
-            lambda id=SyntheticIdentifier: n.cast(Identifier).then(
-                # We only need to check the case where `n` is an `Identifier`
-                # as `SyntheticIdentifier`s can only be compared to those
-                # when matching formals (see AdaNode.match_formals). This case
-                # will happen when the formal comes from a synthetic operator
-                # definition, and the actual from a call with a named
-                # parameter (which will necessarily be an `Identifier`).
-                lambda other_id: id.sym.equals(other_id.sym)
+        return Cond(
+            Or(
+                Self.is_a(Identifier, SyntheticIdentifier)
+                & n.is_a(Identifier, SyntheticIdentifier),
+                Self.is_a(StringLiteral) & n.is_a(StringLiteral),
             ),
-            lambda id=Identifier: n.cast(Identifier).then(
-                lambda other_id: id.sym.equals(other_id.sym)
-            ),
-            lambda sl=StringLiteral: n.cast(StringLiteral).then(
-                lambda other_sl: sl.sym.equals(other_sl.sym)
-            ),
-            lambda dn=DottedName: n.cast(DottedName).then(
-                lambda sn: And(
-                    sn.prefix.matches(dn.prefix),
-                    sn.suffix.matches(dn.suffix)
-                )
-            ),
-            lambda di=DefiningName: n.matches(di.name),
-            lambda _: False
+            Self.name_symbol.equals(n.name_symbol),
+
+            Self.is_a(DefiningName),
+            Self.cast(DefiningName).name.matches(n),
+
+            n.is_a(DefiningName),
+            Self.matches(n.cast(DefiningName).name),
+
+            Self.is_a(DottedName) & n.is_a(DottedName),
+            Self.cast(DottedName).prefix.matches(n.cast(DottedName).prefix)
+            & Self.cast(DottedName).suffix.matches(n.cast(DottedName).suffix),
+
+            False
         )
 
     @langkit_property(public=True)

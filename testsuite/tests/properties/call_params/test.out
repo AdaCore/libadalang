@@ -375,6 +375,26 @@ Result: [<ParamActual param=<DefiningName "S" dot.adb:10:21-10:22> actual=<Id "X
          <ParamActual param=<DefiningName "V" dot.adb:10:28-10:29> actual=<Int dot.adb:54:10-54:11>>,
          <ParamActual param=<DefiningName "W" dot.adb:10:46-10:47> actual=<Int dot.adb:54:18-54:19>>]
 
+Working on node <AssignStmt operators.adb:6:4-6:37>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
+Result: [<ParamActual param=<SyntheticDefiningName "left" operators.adb:2:14-2:31> actual=<Id "X" operators.adb:6:22-6:23>>,
+         <ParamActual param=<SyntheticDefiningName "right" operators.adb:2:14-2:31> actual=<Id "Y" operators.adb:6:34-6:35>>]
+
+Working on node <AssignStmt operators.adb:9:4-9:37>
+===================================================
+
+Eval 'node.f_expr.p_call_params'
+Result: [<ParamActual param=<SyntheticDefiningName "left" operators.adb:2:14-2:31> actual=<Id "Y" operators.adb:9:34-9:35>>,
+         <ParamActual param=<SyntheticDefiningName "right" operators.adb:2:14-2:31> actual=<Id "X" operators.adb:9:23-9:24>>]
+
+Working on node <AssignStmt operators.adb:12:4-12:26>
+=====================================================
+
+Eval 'node.f_expr.p_call_params'
+Result: [<ParamActual param=<SyntheticDefiningName "right" operators.adb:2:14-2:31> actual=<Id "Y" operators.adb:12:23-12:24>>]
+
 Working on node <AssignStmt pkg.adb:32:7-32:15>
 ===============================================
 

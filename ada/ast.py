@@ -55,6 +55,16 @@ example, this is used in the multiple properties building xref equation of
 ``CallExpr.general_xref_equation``.
 """
 
+entry_point = DynamicVariable('entry_point', T.AdaNode)
+"""
+Variable that propagates the original node on which xref_equation was called by
+one of the `resolve_*_names` routines. This can then be used when building an
+equation that binds a non-local variable to know whether it is behind the
+current entry point (in which case it already has a value) or if it is after
+it, in which case we can reference the variable directly.
+See ``AdaNode.bind_to_non_local``.
+"""
+
 UnitSpecification = AnalysisUnitKind.unit_specification
 UnitBody = AnalysisUnitKind.unit_body
 
@@ -954,7 +964,8 @@ class AdaNode(ASTNode):
         pass
 
     @langkit_property(kind=AbstractKind.abstract_runtime_check,
-                      return_type=Equation, dynamic_vars=[env, origin],
+                      return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point],
                       # xref_equation is only called from the external property
                       # resolve_own_names, so we need to ignore the warning.
                       warn_on_unused=False)
@@ -975,7 +986,7 @@ class AdaNode(ASTNode):
     )
     stop_resolution_equation = Property(
         LogicTrue(),
-        dynamic_vars=[env, origin]
+        dynamic_vars=[env, origin, entry_point]
     )
 
     @langkit_property()
@@ -987,7 +998,32 @@ class AdaNode(ASTNode):
         """
         return Entity.children_env
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation, dynamic_vars=[entry_point])
+    def bind_to_non_local(dest=LogicVar,
+                          outer_node=T.AdaNode,
+                          node_var=LogicVar):
+        """
+        This property can be used when an xref_equation needs to bind one of
+        Self's logic vars (given in ``dest``) to one of ``outer_node``'s logic
+        vars given in ``node_var``, when ``outer_node`` is a node that is not a
+        children of Self. Indeed, due to the stop_resolution mechanism, binding
+        to such a variable directly may not have the expected effect: if there
+        is a "stop_resolution" boundary between the current node and the outer
+        node, then the outer node's variable already has a value when we
+        construct the current node's equation, hence using it in an equation
+        will reset its content instead of binding to its value. This property
+        basically checks whether this is the case or not in order to create an
+        equation that either assigns ``dest`` to the known value or that binds
+        it to the given variable.
+        """
+        return If(
+            outer_node.parents.contains(entry_point),
+            Bind(dest, node_var),
+            Bind(dest, node_var.get_value)
+        )
+
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def sub_equation():
         """
         Wrapper for xref_equation, meant to be used inside of xref_equation
@@ -1001,8 +1037,8 @@ class AdaNode(ASTNode):
                   Entity.xref_equation)
 
     @langkit_property(return_type=Bool, external=True, call_memoizable=True,
-                      dynamic_vars=[env, origin], uses_entity_info=True,
-                      uses_envs=True)
+                      dynamic_vars=[env, origin, entry_point],
+                      uses_entity_info=True, uses_envs=True)
     def resolve_own_names(generate_diagnostics=Bool):
         """
         Internal helper for resolve_names. Resolve names for this node up to
@@ -1024,7 +1060,10 @@ class AdaNode(ASTNode):
                 True,
                 If(
                     c.as_entity.xref_stop_resolution,
-                    c.as_entity.resolve_own_names(generate_diagnostics),
+                    entry_point.bind(
+                        c,
+                        c.as_entity.resolve_own_names(generate_diagnostics)
+                    ),
                     True
                 ) & c.as_entity.resolve_children_names(generate_diagnostics),
             ),
@@ -1036,7 +1075,8 @@ class AdaNode(ASTNode):
         """
         Resolves names for this node up to xref_entry_point boundaries.
         """
-        return (
+        return entry_point.bind(
+            Self,
             Entity.resolve_own_names(generate_diagnostics)
             & Entity.resolve_children_names(generate_diagnostics)
         )
@@ -1047,8 +1087,9 @@ class AdaNode(ASTNode):
         Resolves names in this node with an additional constraint given by
         ``additional_equation``, up to xref_entry_point boundaries.
         """
-        return ((Entity.xref_equation & additional_equation).solve
-                & Entity.resolve_children_names(False))
+        eq = Var(entry_point.bind(Self, Entity.xref_equation)
+                 & additional_equation)
+        return eq.solve & Entity.resolve_children_names(False)
 
     xref_entry_point = Property(
         False,
@@ -1098,7 +1139,12 @@ class AdaNode(ASTNode):
                 Entity.xref_initial_env,
                 origin.bind(
                     Self.origin_node,
-                    If(Entity.resolve_own_names(False), env, No(LexicalEnv))
+                    entry_point.bind(
+                        Self,
+                        If(Entity.resolve_own_names(False),
+                           env,
+                           No(LexicalEnv))
+                    )
                 )
             ),
 
@@ -1124,9 +1170,12 @@ class AdaNode(ASTNode):
                             # stop resolution, so re-use the parent environment
                             # to resolve Self's names.
                             Entity.xref_stop_resolution,
-                            If(Entity.resolve_own_names(False),
-                               res,
-                               No(LexicalEnv)),
+                            entry_point.bind(
+                                Self,
+                                If(Entity.resolve_own_names(False),
+                                   res,
+                                   No(LexicalEnv))
+                            ),
 
                             # Resolution succeeded but there is nothing to do
                             # on that particular node: return the parent
@@ -11829,7 +11878,8 @@ class AspectAssoc(AdaNode):
             | LogicTrue()
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def stable_properties_assoc_equation():
         """
         Equation for the case where this is an aspect assoc for a
@@ -11874,7 +11924,8 @@ class AspectAssoc(AdaNode):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def user_defined_literals_equation(target=T.TypeDecl):
         """
         Equation for the case where this is an aspect assoc for a
@@ -15533,7 +15584,8 @@ class Name(Expr):
             Entity.all_env_elements_internal.at(0).cast(T.BasicDecl)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def all_args_xref_equation(root=T.Name):
         """
         Constructs the xref equations for all the argument lists of CallExprs
@@ -15565,7 +15617,8 @@ class Name(Expr):
                       error_location=Self)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def bottom_up_name_equation():
         return Self.innermost_name.as_entity.match(
             lambda ce=T.CallExpr: ce.general_xref_equation(Self),
@@ -15601,7 +15654,8 @@ class Name(Expr):
             Self
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def parent_name_equation(typ=T.BaseTypeDecl.entity, root=T.Name):
         """
         Construct the xref equation for the chain of parent nested names.
@@ -15682,7 +15736,8 @@ class Name(Expr):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def subtype_indication_equation():
         return Entity.xref_no_overloading
 
@@ -16072,7 +16127,8 @@ class Name(Expr):
         type=T.Symbol,
     )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def xref_no_overloading(sequential=(Bool, True),
                             all_els=(Bool, False)):
         """
@@ -16460,11 +16516,20 @@ class TargetName(Name):
         Self.assign_statement.dest.as_entity.relative_name
     )
 
+    designated_env = Property(
+        Self.assign_statement.dest.as_entity.designated_env
+    )
+
     @langkit_property()
     def xref_equation():
+        # Since we are binding Self's variables to the corresponding variables
+        # of an outer node, we use the ``bind_to_non_local`` constructor, which
+        # will handle correctly the case where the current node and the outer
+        # node are across a stop_resolution boundary.
+        dest = Var(Entity.assign_statement.dest)
         return And(
-            Bind(Self.type_var, Self.assign_statement.dest.type_var),
-            Bind(Self.ref_var, Self.assign_statement.dest.ref_var)
+            Self.bind_to_non_local(Self.type_var, dest, dest.type_var),
+            Self.bind_to_non_local(Self.ref_var, dest, dest.ref_var)
         )
 
 
@@ -16675,7 +16740,8 @@ class CallExpr(Name):
     def xref_equation():
         return Entity.bottom_up_name_equation
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def type_conv_self_xref_equation():
         """
         Helper for xref_equation and stop_resolution_equation, handles the
@@ -16688,7 +16754,7 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=Equation,
-                      dynamic_vars=[env, origin, logic_context])
+                      dynamic_vars=[env, origin, entry_point, logic_context])
     def entry_equation(e=T.EntryDecl.entity, root=T.Name):
         """
         Build the xref equation in case this node represents a call to the
@@ -16723,7 +16789,7 @@ class CallExpr(Name):
         )
 
     @langkit_property(return_type=Equation,
-                      dynamic_vars=[env, origin, logic_context])
+                      dynamic_vars=[env, origin, entry_point, logic_context])
     def entity_equation(s=T.BasicDecl.entity, root=T.Name):
         # The called entity is the matched entity
         return Cond(
@@ -16792,7 +16858,8 @@ class CallExpr(Name):
         Entity.super()
     ))
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def general_xref_equation(root=T.Name):
         """
         Helper for xref_equation, handles construction of the equation in
@@ -16870,7 +16937,8 @@ class CallExpr(Name):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def subscriptable_type_equation(typ=T.BaseTypeDecl.entity):
         """
         Construct an equation verifying if Self is conformant to the type
@@ -17182,7 +17250,8 @@ class AggregateAssoc(BasicAssoc):
             Entity.array_assoc_equation(atd, mra)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def container_aggregate_equation(td=BaseTypeDecl.entity):
         """
         Equation for the case where this is an aggregate assoc for a
@@ -17210,7 +17279,8 @@ class AggregateAssoc(BasicAssoc):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def record_assoc_equation():
         """
         Equation for the case where this is an aggregate assoc for a record
@@ -17294,7 +17364,8 @@ class AggregateAssoc(BasicAssoc):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def array_assoc_equation(atd=ArrayTypeDef.entity,
                              mra=MultidimAggregateInfo):
         """
@@ -17334,7 +17405,8 @@ class AggregateAssoc(BasicAssoc):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def globals_assoc_equation():
         """
         Equation for the case where this is an aggregate assoc for a Globals
@@ -17345,7 +17417,8 @@ class AggregateAssoc(BasicAssoc):
         # by solve.
         return Entity.expr.sub_equation
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def depends_assoc_equation():
         """
         Equation for the case where this is an aggregate assoc for a Depends
@@ -17381,7 +17454,8 @@ class AggregateAssoc(BasicAssoc):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def test_case_assoc_equation():
         """
         Equation for the case where this is an aggregate assoc for a Test_Case
@@ -17399,7 +17473,8 @@ class AggregateAssoc(BasicAssoc):
             LogicTrue()
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def contract_cases_assoc_equation():
         """
         Equation for the case where this is an aggregate assoc for a
@@ -17423,7 +17498,8 @@ class AggregateAssoc(BasicAssoc):
             Entity.expr.matches_expected_formal_type
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def exprs_assoc_equation():
         """
         Return the xref equation for the case where this is an aggregate assoc
@@ -17533,7 +17609,8 @@ class IteratedAssoc(BasicAssoc):
             LogicFalse()
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def xref_equation_for_reduce():
         """
         Equation specialization for ``ValueSequence`` name resolution (part of
@@ -17785,7 +17862,8 @@ class ExplicitDeref(Name):
     def xref_equation():
         return Entity.bottom_up_name_equation
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def general_xref_equation(root=(T.Name, No(T.Name))):
         return And(
             Entity.all_args_xref_equation(root),
@@ -17905,7 +17983,7 @@ class IfExpr(CondExpr):
             )
         )
 
-    @langkit_property(dynamic_vars=[env, origin])
+    @langkit_property(dynamic_vars=[env, origin, entry_point])
     def expected_type_equation():
         """
         Return the equation to use in the case where the expected type for this
@@ -17941,7 +18019,7 @@ class IfExpr(CondExpr):
             )
         )
 
-    @langkit_property(dynamic_vars=[env, origin])
+    @langkit_property(dynamic_vars=[env, origin, entry_point])
     def no_expected_type_equation():
         """
         Return the equation to use when the expected type is not known, for
@@ -20859,7 +20937,8 @@ class QualExpr(Name):
 
     is_constant = Property(True)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def general_xref_equation(root=(T.Name, No(T.Name))):
         return And(
             Entity.xref_equation,
@@ -21135,7 +21214,8 @@ class AttributeRef(Name):
             PropertyError(Equation, "Unhandled attribute")
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def attribute_subprogram_equation():
         """
         Equation for type attributes that denote functions.
@@ -21145,7 +21225,8 @@ class AttributeRef(Name):
             & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def type_class_equation():
         """
         Implementation of the Type_Class attribute, provided for compatibility
@@ -21160,7 +21241,8 @@ class AttributeRef(Name):
 
         return Entity.prefix.xref_equation & Bind(Self.type_var, typ)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def storage_pool_equation():
         """
         Equation for the Storage_Pool attribute.
@@ -21174,7 +21256,8 @@ class AttributeRef(Name):
 
         return Entity.prefix.xref_equation & Bind(Self.type_var, typ)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def order_equation():
         """
         Equation for the Bit_Order/[Default_]Scalar_Storage_Order attributes.
@@ -21188,7 +21271,8 @@ class AttributeRef(Name):
 
         return Entity.prefix.xref_equation & Bind(Self.type_var, typ)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def bind_to_prefix_eq():
         return And(
             Bind(Self.prefix.expected_type_var, Self.expected_type_var),
@@ -21196,7 +21280,8 @@ class AttributeRef(Name):
             Bind(Self.type_var, Self.prefix.type_var),
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def result_attr_equation():
         # We find the containing declaration (a function declaration or an
         # access-to-function type) starting the bound env's node instead of
@@ -21220,7 +21305,8 @@ class AttributeRef(Name):
             Bind(Entity.prefix.ref_var, containing_decl)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def tag_attr_equation():
         tag_type = Var(
             Entity
@@ -21237,7 +21323,8 @@ class AttributeRef(Name):
             & Bind(Self.type_var, tag_type)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def address_equation():
         # Just like in access_equation, handle subprograms first, otherwise
         # paramless subprograms could match the normal path and therefore be
@@ -21249,7 +21336,8 @@ class AttributeRef(Name):
             Entity.prefix.sub_equation
         ) & Bind(Self.type_var, Entity.system_address_type)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def identity_equation():
         # NOTE: We don't verify that the prefix designates an exception
         # declaration, because that's legality, not name resolution.
@@ -21259,14 +21347,16 @@ class AttributeRef(Name):
                  conv_prop=BasicDecl.identity_type)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def universal_real_equation():
         return (
             Self.universal_real_bind(Self.type_var)
             & Entity.prefix.sub_equation
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def universal_int_equation():
         typ = Var(Entity.prefix.name_designated_type)
 
@@ -21281,7 +21371,8 @@ class AttributeRef(Name):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def image_equation(str_type=T.AdaNode.entity):
         typ = Var(Entity.prefix.name_designated_type)
         return If(
@@ -21295,7 +21386,8 @@ class AttributeRef(Name):
             & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def img_equation(str_type=T.AdaNode.entity):
         return (
             # Prefix is an expression, bind prefix's ref var to it
@@ -21305,7 +21397,8 @@ class AttributeRef(Name):
             & Bind(Self.type_var, str_type)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def enum_rep_equation():
         typ = Var(Entity.prefix.name_designated_type)
 
@@ -21320,7 +21413,8 @@ class AttributeRef(Name):
             & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def self_type_equation():
         """
         Assuming the prefix of this attribute designates a type T, return
@@ -21332,7 +21426,8 @@ class AttributeRef(Name):
             Bind(Self.type_var, typ)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def access_equation():
         return Or(
             # Access to statically known subprogram
@@ -21389,7 +21484,8 @@ class AttributeRef(Name):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def size_equation():
         typ = Var(Entity.prefix.name_designated_type)
         return If(
@@ -21402,7 +21498,8 @@ class AttributeRef(Name):
             & Self.universal_int_bind(Self.type_var)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def array_attr_equation():
         is_length = Var(Entity.attribute.name_is('Length'))
         typ = Var(Entity.prefix.name_designated_type)
@@ -21461,7 +21558,8 @@ class AttributeRef(Name):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def subtype_attr_equation():
         """
         Generates the xref equation for a an attribute that is defined on any
@@ -21472,7 +21570,8 @@ class AttributeRef(Name):
             Self.universal_int_bind(Self.type_var)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def to_address_equation():
         """
         Return the xref equation for the ``To_Address`` attribute.
@@ -21491,7 +21590,8 @@ class AttributeRef(Name):
             Bind(Self.ref_var, to_address_subp)
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def index_equation():
         """
         Return the xref equation for the ``Index`` attribute.
@@ -21502,7 +21602,8 @@ class AttributeRef(Name):
         )
         return Entity.prefix.sub_equation & Bind(Self.type_var, typ)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def storage_equation():
         """
         Return the xref equation for the ``Has_Same_Storage`` and
@@ -21539,7 +21640,8 @@ class ValueSequence(AdaNode):
     # supported.
     iter_assoc = Field(type=T.IteratedAssoc)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def xref_equation():
         """
         Return the nameres equation for this ValueSequence.
@@ -21558,7 +21660,8 @@ class ReduceAttributeRef(Name):
     ref_var = Property(Self.r_ref_var)
     r_ref_var = UserField(type=LogicVar, public=False)
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def xref_equation():
         """
         Return the nameres equation for the Reduce attribute:
@@ -21588,7 +21691,8 @@ class ReduceAttributeRef(Name):
             )
         )
 
-    @langkit_property(return_type=Equation, dynamic_vars=[env, origin])
+    @langkit_property(return_type=Equation,
+                      dynamic_vars=[env, origin, entry_point])
     def xref_equation_for_reducer_candidate(subp=T.BasicDecl.entity):
         """
         Build the equation for a reducer candidate.

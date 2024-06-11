@@ -947,6 +947,7 @@ package body Libadalang.Implementation.Extensions is
       Generate_Diagnostics : Boolean;
       Env                  : Lexical_Env;
       Origin               : Bare_Ada_Node;
+      Entry_Point          : Bare_Ada_Node;
       E_Info               : Internal_Entity_Info := No_Entity_Info)
       return Boolean
    is
@@ -996,7 +997,9 @@ package body Libadalang.Implementation.Extensions is
             Exc_Id          => Ada.Exceptions.Null_Id,
             Exc_Msg         => null);
       begin
-         R := Dispatcher_Ada_Node_P_Xref_Equation (Node, Env, Origin, E_Info);
+         R := Dispatcher_Ada_Node_P_Xref_Equation
+           (Node, Env, Origin, Entry_Point, E_Info);
+
          if Generate_Diagnostics then
             V.Return_Value := Solve_With_Diagnostics (R, Node);
          else

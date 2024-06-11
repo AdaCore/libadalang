@@ -1,3 +1,3 @@
 driver: name-resolution
-input_sources: [test_target.adb]
+input_sources: [test_target.adb, test_agg.adb]
 with_default_project: False

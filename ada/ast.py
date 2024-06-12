@@ -21261,7 +21261,7 @@ class AttributeRef(Name):
         Equation for type attributes that denote functions.
         """
         return (
-            Entity.prefix.xref_no_overloading
+            Entity.prefix.xref_type_equation
             & Bind(Self.ref_var, Entity.attribute_subprogram)
         )
 

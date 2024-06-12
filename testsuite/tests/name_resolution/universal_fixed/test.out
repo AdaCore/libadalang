@@ -109,5 +109,149 @@ Expr: <Id "X2" test.adb:20:21-20:23>
   type:          <ConcreteTypeDecl ["T2"] test.adb:5:6-5:55>
   expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
 
+Resolving xrefs for node <AssignStmt test.adb:25:6-25:34>
+*********************************************************
+
+Expr: <Id "X3" test.adb:25:6-25:8>
+  references:    <DefiningName "X3" test.adb:9:6-9:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: None
+Expr: <CallExpr test.adb:25:12-25:33>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+Expr: <DottedName test.adb:25:12-25:24>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "Standard" test.adb:25:12-25:20>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  type:          None
+  expected type: None
+Expr: <Str ""*"" test.adb:25:21-25:24>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "X1" test.adb:25:26-25:28>
+  references:    <DefiningName "X1" test.adb:7:6-7:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+Expr: <Id "X1" test.adb:25:30-25:32>
+  references:    <DefiningName "X1" test.adb:7:6-7:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+
+Resolving xrefs for node <AssignStmt test.adb:28:6-28:34>
+*********************************************************
+
+Expr: <Id "X3" test.adb:28:6-28:8>
+  references:    <DefiningName "X3" test.adb:9:6-9:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: None
+Expr: <CallExpr test.adb:28:12-28:33>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+Expr: <DottedName test.adb:28:12-28:24>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "Standard" test.adb:28:12-28:20>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  type:          None
+  expected type: None
+Expr: <Str ""*"" test.adb:28:21-28:24>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "X1" test.adb:28:26-28:28>
+  references:    <DefiningName "X1" test.adb:7:6-7:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+Expr: <Id "X2" test.adb:28:30-28:32>
+  references:    <DefiningName "X2" test.adb:8:6-8:8>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:5:6-5:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+
+Resolving xrefs for node <AssignStmt test.adb:31:6-31:39>
+*********************************************************
+
+Expr: <Id "X3" test.adb:31:6-31:8>
+  references:    <DefiningName "X3" test.adb:9:6-9:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: None
+Expr: <CallExpr test.adb:31:12-31:38>
+  references:    <DefiningName "T1" test.adb:4:11-4:13>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+Expr: <Id "T1" test.adb:31:12-31:14>
+  references:    <DefiningName "T1" test.adb:4:11-4:13>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:31:16-31:37>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <DottedName test.adb:31:16-31:28>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "Standard" test.adb:31:16-31:24>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  type:          None
+  expected type: None
+Expr: <Str ""*"" test.adb:31:25-31:28>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "X1" test.adb:31:30-31:32>
+  references:    <DefiningName "X1" test.adb:7:6-7:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+Expr: <Id "X1" test.adb:31:34-31:36>
+  references:    <DefiningName "X1" test.adb:7:6-7:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+
+Resolving xrefs for node <AssignStmt test.adb:34:6-34:39>
+*********************************************************
+
+Expr: <Id "X2" test.adb:34:6-34:8>
+  references:    <DefiningName "X2" test.adb:8:6-8:8>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:5:6-5:55>
+  expected type: None
+Expr: <CallExpr test.adb:34:12-34:38>
+  references:    <DefiningName "T2" test.adb:5:11-5:13>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:5:6-5:55>
+  expected type: <ConcreteTypeDecl ["T2"] test.adb:5:6-5:55>
+Expr: <Id "T2" test.adb:34:12-34:14>
+  references:    <DefiningName "T2" test.adb:5:11-5:13>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:34:16-34:37>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <DottedName test.adb:34:16-34:28>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "Standard" test.adb:34:16-34:24>
+  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  type:          None
+  expected type: None
+Expr: <Str ""*"" test.adb:34:25-34:28>
+  references:    <SyntheticDefiningName ""*"" __standard:118:33-118:61>
+  type:          <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+  expected type: None
+Expr: <Id "X1" test.adb:34:30-34:32>
+  references:    <DefiningName "X1" test.adb:7:6-7:8>
+  type:          <ConcreteTypeDecl ["T1"] test.adb:4:6-4:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+Expr: <Id "X2" test.adb:34:34-34:36>
+  references:    <DefiningName "X2" test.adb:8:6-8:8>
+  type:          <ConcreteTypeDecl ["T2"] test.adb:5:6-5:55>
+  expected type: <ConcreteTypeDecl ["Universal_Fixed_Type_"] __standard:118:3-118:62>
+
 
 Done.

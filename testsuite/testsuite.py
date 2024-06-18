@@ -337,6 +337,8 @@ class LALTestsuite(Testsuite):
                   + compute_stats(entry.info["time"], float, format_time))
             print("  memory: "
                   + compute_stats(entry.info["memory"], int, format_memory))
+            if "callgrind" in entry.info:
+                print("  callgrind's Ir: " + entry.info["callgrind"])
 
 
 if __name__ == '__main__':

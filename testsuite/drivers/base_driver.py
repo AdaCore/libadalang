@@ -318,6 +318,17 @@ class BaseDriver(DiffTestDriver):
                 self.result.info["time"] = " ".join(time_list)
                 self.result.info["memory"] = " ".join(memory_list)
 
+            elif mode == "callgrind":
+                result = run("valgrind", "--tool=callgrind")
+                # Callgrind outputs the number of executed instructions in its
+                # trace. Search for the line containing "Collected".
+                ir = "0"
+                for line in result.splitlines():
+                    if "Collected" in line:
+                        ir = line.split()[-1]
+                        break
+                self.result.info["callgrind"] = ir
+
             elif self.env.perf_no_profile:
                 # If we are asked for this testsuite run not to compute
                 # profiles, skip to the next mode.

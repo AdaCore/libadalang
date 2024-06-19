@@ -457,7 +457,9 @@ package body Xrefs is
             return False;
 
          else
-            return L_Xref.Ref_Sloc < R_Xref.Ref_Sloc;
+            return (if L_Xref.Ref_Sloc = R_Xref.Ref_Sloc
+                    then L_Xref.Entity_Sloc < R_Xref.Entity_Sloc
+                    else L_Xref.Ref_Sloc < R_Xref.Ref_Sloc);
          end if;
       end Before;
 

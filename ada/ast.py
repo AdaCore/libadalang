@@ -163,10 +163,7 @@ class AdaNode(ASTNode):
     Root node class for the Ada syntax tree.
     """
 
-    annotations = Annotations(
-        generic_list_type='AdaList',
-        warn_on_node=True
-    )
+    annotations = Annotations(generic_list_type='AdaList')
 
     @langkit_property(
         return_type=T.Bool, external=True, uses_entity_info=False,
@@ -180,18 +177,17 @@ class AdaNode(ASTNode):
             lambda p: p.is_a(T.DeclarativePart)
         ).cast(T.DeclarativePart),
         doc="Return the scope of definition of this basic declaration.",
-        ignore_warn_on_node=True,
         public=True
     )
 
-    @langkit_property(ignore_warn_on_node=True)
+    @langkit_property()
     def owning_unit_kind():
         """
         Return the kind of the compilation unit owning this node.
         """
         return Self.unit.root.cast_or_raise(T.CompilationUnit).unit_kind
 
-    @langkit_property(ignore_warn_on_node=True)
+    @langkit_property()
     def withed_unit_helper(unit_name=T.Name):
         """
         Static method helper. Fetch the unit designated by unit_name. Return
@@ -338,8 +334,7 @@ class AdaNode(ASTNode):
         """
         return sep.join(syms.map(lambda s: s.image))
 
-    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True,
-                      public=True)
+    @langkit_property(return_type=T.CompilationUnit, public=True)
     def enclosing_compilation_unit():
         """
         Return the compilation unit containing this node.
@@ -502,8 +497,7 @@ class AdaNode(ASTNode):
             "when", "while", "with", "xor"
         ])
 
-    @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True,
-                      warn_on_unused=False)
+    @langkit_property(return_type=T.AdaNode, warn_on_unused=False)
     def call_context(ctx=T.LogicContext):
         """
         Assuming that Self is the error location of a semantic diagnostic and
@@ -893,7 +887,7 @@ class AdaNode(ASTNode):
         """
         pass
 
-    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
+    @langkit_property(return_type=T.CompilationUnit)
     def designated_compilation_unit(name=T.Symbol.array,
                                     kind=AnalysisUnitKind,
                                     load_if_needed=(Bool, True),
@@ -910,7 +904,7 @@ class AdaNode(ASTNode):
 
         return Self.compilation_unit_with_name(designated_analysis_unit, name)
 
-    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
+    @langkit_property(return_type=T.CompilationUnit)
     def compilation_unit_with_name(unit=T.AnalysisUnit, name=T.Symbol.array):
         """
         Helper for ``designated_compilation_unit``. From a given analysis unit,
@@ -936,8 +930,7 @@ class AdaNode(ASTNode):
                                     "Unexpected analysis unit root")
         )
 
-    @langkit_property(return_type=T.BasicDecl, uses_entity_info=False,
-                      ignore_warn_on_node=True)
+    @langkit_property(return_type=T.BasicDecl, uses_entity_info=False)
     def get_unit_root_decl(name=Symbol.array, kind=AnalysisUnitKind,
                            load_if_needed=(Bool, True),
                            not_found_is_error=(Bool, True),
@@ -1778,7 +1771,7 @@ class AdaNode(ASTNode):
         return Self.parent.then(lambda p: p.children_env,
                                 default_val=Self.children_env)
 
-    @langkit_property(ignore_warn_on_node=True, public=True)
+    @langkit_property(public=True)
     def top_level_decl(unit=AnalysisUnit):
         """
         Static method. Get the top-level decl in ``unit``.  This is the body of
@@ -1997,7 +1990,7 @@ class AdaNode(ASTNode):
             )
         ))
 
-    @langkit_property(return_type=T.AdaNode, ignore_warn_on_node=True)
+    @langkit_property(return_type=T.AdaNode)
     def env_get_real_from_node(from_node=T.AdaNode):
         """
         Static property. Finds the closest parent which is a ``BaseSubpSpec`` /
@@ -2076,7 +2069,7 @@ class AdaNode(ASTNode):
         """
         return Bind(type_var, Self.universal_real_type)
 
-    @langkit_property(ignore_warn_on_node=True)
+    @langkit_property()
     def origin_node():
         """
         Return a null node iff we are in the definition of an aspect clause
@@ -2194,8 +2187,7 @@ class AdaNode(ASTNode):
             )
         )
 
-    @langkit_property(return_type=T.DefiningName, memoized=True,
-                      ignore_warn_on_node=True)
+    @langkit_property(return_type=T.DefiningName, memoized=True)
     def synthesize_defining_name(sym=T.Symbol):
         """
         Synthesizes a defining name and its inner identifier using the given
@@ -3453,7 +3445,7 @@ class BasicDecl(AdaNode):
     )
 
     defining_name = Property(
-        Entity.defining_names.at(0), public=True, ignore_warn_on_node=True,
+        Entity.defining_names.at(0), public=True,
         doc="""
         Get the name of this declaration. If this declaration has several
         names, it will return the first one.
@@ -4603,7 +4595,7 @@ class Body(BasicDecl):
     def is_subunit():
         return Self.parent.is_a(T.Subunit)
 
-    @langkit_property(ignore_warn_on_node=True, public=True)
+    @langkit_property(public=True)
     def subunit_root():
         """
         If self is a subunit, return the body in which it is rooted.
@@ -6233,34 +6225,31 @@ class TypeAttributesRepository(AdaNode):
     """
     base_type = UserField(type=T.BaseTypeDecl, public=False)
 
-    @lazy_field(return_type=T.SyntheticTypeExpr, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.SyntheticTypeExpr)
     def base_type_expr():
         return SyntheticTypeExpr.new(target_type=Self.base_type)
 
-    @lazy_field(return_type=T.SyntheticTypeExpr, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.SyntheticTypeExpr)
     def universal_int_type_expr():
         return SyntheticTypeExpr.new(
             target_type=Self.universal_int_type.node
         )
 
-    @lazy_field(return_type=T.SyntheticFormalParamDecl,
-                ignore_warn_on_node=True)
+    @lazy_field(return_type=T.SyntheticFormalParamDecl)
     def base_type_param():
         return SyntheticFormalParamDecl.new(
             param_name='Value',
             param_type=Self.base_type_expr
         )
 
-    @lazy_field(return_type=T.SyntheticFormalParamDecl,
-                ignore_warn_on_node=True)
+    @lazy_field(return_type=T.SyntheticFormalParamDecl)
     def universal_int_param():
         return SyntheticFormalParamDecl.new(
             param_name='Value',
             param_type=Self.universal_int_type_expr
         )
 
-    @lazy_field(return_type=T.SyntheticFormalParamDecl,
-                ignore_warn_on_node=True)
+    @lazy_field(return_type=T.SyntheticFormalParamDecl)
     def universal_real_param():
         return SyntheticFormalParamDecl.new(
             param_name='Value',
@@ -6269,8 +6258,7 @@ class TypeAttributesRepository(AdaNode):
             )
         )
 
-    @lazy_field(return_type=T.SyntheticFormalParamDecl,
-                ignore_warn_on_node=True)
+    @lazy_field(return_type=T.SyntheticFormalParamDecl)
     def root_stream_param():
         return SyntheticFormalParamDecl.new(
             param_name='S',
@@ -6279,7 +6267,7 @@ class TypeAttributesRepository(AdaNode):
             )
         )
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def succ():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Succ",
@@ -6287,7 +6275,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def pred():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Pred",
@@ -6295,7 +6283,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def min():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Min",
@@ -6304,7 +6292,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def max():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Max",
@@ -6313,7 +6301,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def round():
         # As defined in :rmlink:`3.5.10`
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
@@ -6322,7 +6310,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def rounding():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Rounding",
@@ -6330,7 +6318,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def unbiased_rounding():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Unbiased_Rounding",
@@ -6338,7 +6326,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def ceiling():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Ceiling",
@@ -6346,7 +6334,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def floor():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Floor",
@@ -6354,7 +6342,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def truncation():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Truncation",
@@ -6362,7 +6350,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def machine():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Machine",
@@ -6370,7 +6358,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def machine_rounding():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Machine_Rounding",
@@ -6378,7 +6366,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def fraction():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Fraction",
@@ -6386,7 +6374,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def exponent():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Exponent",
@@ -6394,7 +6382,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.universal_int_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def copy_sign():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Copy_Sign",
@@ -6403,7 +6391,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def remainder():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Remainder",
@@ -6412,7 +6400,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def adjacent():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Adjacent",
@@ -6421,7 +6409,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def scaling():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Scaling",
@@ -6430,7 +6418,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def compose():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Compose",
@@ -6439,7 +6427,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def leading_part():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Leading_Part",
@@ -6448,7 +6436,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def mod():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Mod",
@@ -6456,7 +6444,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def value():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Value",
@@ -6470,7 +6458,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def wide_value():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Wide_Value",
@@ -6484,7 +6472,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def wide_wide_value():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Wide_Wide_Value",
@@ -6498,7 +6486,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def fixed_value():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Fixed_Value",
@@ -6506,7 +6494,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def integer_value():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Integer_Value",
@@ -6514,7 +6502,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def pos():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Pos",
@@ -6523,7 +6511,7 @@ class TypeAttributesRepository(AdaNode):
         ))
 
     # We can't name it just `val` as this is a keyword in LKT
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def val_attr():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Val",
@@ -6531,7 +6519,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def enum_rep():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Enum_Rep",
@@ -6539,7 +6527,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.universal_int_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def enum_val():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Enum_Val",
@@ -6547,7 +6535,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def read():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Read",
@@ -6556,7 +6544,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=No(TypeExpr)
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def write():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Write",
@@ -6565,7 +6553,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=No(TypeExpr)
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def input():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Input",
@@ -6573,7 +6561,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=Self.base_type_expr
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def output():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Output",
@@ -6582,7 +6570,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=No(TypeExpr)
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def image():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Image",
@@ -6592,7 +6580,7 @@ class TypeAttributesRepository(AdaNode):
             )
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def wide_image():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Wide_Image",
@@ -6603,7 +6591,7 @@ class TypeAttributesRepository(AdaNode):
             )
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def wide_wide_image():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Wide_Wide_Image",
@@ -6614,7 +6602,7 @@ class TypeAttributesRepository(AdaNode):
             )
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def put_image():
         return SyntheticSubpDecl.new(spec=SyntheticBinarySpec.new(
             subp_symbol="Put_Image",
@@ -6628,7 +6616,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=No(TypeExpr)
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def asm_input():
         input_type = Var(
             Self.get_unit_root_decl(['System', 'Machine_Code'],
@@ -6649,7 +6637,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=SyntheticTypeExpr.new(target_type=input_type)
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def asm_output():
         output_type = Var(
             Self.get_unit_root_decl(['System', 'Machine_Code'],
@@ -6670,7 +6658,7 @@ class TypeAttributesRepository(AdaNode):
             return_type_expr=SyntheticTypeExpr.new(target_type=output_type)
         ))
 
-    @lazy_field(return_type=T.BasicSubpDecl, ignore_warn_on_node=True)
+    @lazy_field(return_type=T.BasicSubpDecl)
     def model():
         return SyntheticSubpDecl.new(spec=SyntheticUnarySpec.new(
             subp_symbol="Model",
@@ -6720,8 +6708,7 @@ class BaseTypeDecl(BasicDecl):
     def anonymous_access_type_or_null():
         return Entity._.anonymous_access_type
 
-    @lazy_field(return_type=T.TypeAttributesRepository,
-                ignore_warn_on_node=True)
+    @lazy_field(return_type=T.TypeAttributesRepository)
     def attributes_repo():
         return TypeAttributesRepository.new(base_type=Self)
 
@@ -8121,14 +8108,11 @@ class BaseTypeDecl(BasicDecl):
             False, Entity.canonical_part.cast(T.BaseTypeDecl)
         )
 
-    @langkit_property(memoized=True, memoize_in_populate=True,
-                      ignore_warn_on_node=True)
+    @langkit_property(memoized=True, memoize_in_populate=True)
     def classwide_type_node():
         return T.ClasswideTypeDecl.new(name=Self.name)
 
-    @langkit_property(
-        memoized=True, memoize_in_populate=True, ignore_warn_on_node=True
-    )
+    @langkit_property(memoized=True, memoize_in_populate=True)
     def scalar_base_subtype_node():
         """
         Helper for scalar_base_subtype. Return the interned node for the
@@ -12569,8 +12553,7 @@ class GenericInstantiation(BasicDecl):
             )
         ).cast(BasicDecl.entity)
 
-    @lazy_field(return_type=T.AnonymousExprDecl.array,
-                ignore_warn_on_node=True)
+    @lazy_field(return_type=T.AnonymousExprDecl.array)
     def actual_expr_decls():
         return Self.match(
             lambda subp=T.GenericSubpInstantiation: subp.params,
@@ -15650,7 +15633,7 @@ class Name(Expr):
             lambda _: LogicFalse(),
         )
 
-    @langkit_property(return_type=T.Name, ignore_warn_on_node=True)
+    @langkit_property(return_type=T.Name)
     def innermost_name():
         """
         Helper property. Return the innermost name following the name chain.
@@ -16073,7 +16056,7 @@ class Name(Expr):
     def name_designated_type_env():
         return Entity.name_designated_type._.primitives_env
 
-    @langkit_property(return_type=T.CompilationUnit, ignore_warn_on_node=True)
+    @langkit_property(return_type=T.CompilationUnit)
     def referenced_unit(kind=AnalysisUnitKind,
                         not_found_is_error=(Bool, True)):
         """
@@ -16548,8 +16531,7 @@ class TargetName(Name):
 
     assign_statement = Property(
         Self.parents.find(lambda p: p.is_a(T.AssignStmt))
-        .cast_or_raise(T.AssignStmt),
-        ignore_warn_on_node=True
+        .cast_or_raise(T.AssignStmt)
     )
 
     relative_name = Property(
@@ -22150,8 +22132,7 @@ class CompilationUnit(AdaNode):
             lambda u: u.node != Self
         )
 
-    @langkit_property(public=True, return_type=BasicDecl,
-                      ignore_warn_on_node=True)
+    @langkit_property(public=True, return_type=BasicDecl)
     def decl():
         """
         Get the root basic decl defined in this compilation unit.
@@ -22403,9 +22384,6 @@ class CompilationUnit(AdaNode):
         return_type=T.BodyStub,
         memoized=True,
         memoize_in_populate=True,
-        # This properly works at a syntactic level only, so it does not need to
-        # deal with entities.
-        ignore_warn_on_node=True,
         # At the time of its introduction, this property was used only by
         # AdaNode.can_reach, which was an external property.
         warn_on_unused=False,
@@ -22458,9 +22436,6 @@ class CompilationUnit(AdaNode):
         external=True,
         uses_entity_info=False,
         uses_envs=False,
-        # This properly works at a syntactic level only, so it does not need to
-        # deal with entities.
-        ignore_warn_on_node=True,
     )
     def stub_for_impl(su=T.Subunit):
         """
@@ -23959,9 +23934,6 @@ class Subunit(AdaNode):
         # At the time of its introduction, this property was used only by
         # AdaNode.can_reach, which was an external property.
         warn_on_unused=False,
-        # This properly works at a syntactic level only, so it does not need to
-        # deal with entities.
-        ignore_warn_on_node=True,
     )
     def stub():
         """

@@ -1,0 +1,47 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:16:4-16:34>
+*********************************************************
+
+Expr: <Id "X" test.adb:16:4-16:5>
+  references:    <DefiningName "X" test.adb:12:4-12:5>
+  type:          <ConcreteTypeDecl ["Any_Root_Access"] test.adb:6:4-6:46>
+  expected type: None
+Expr: <Allocator test.adb:16:9-16:33>
+  type:          <ConcreteTypeDecl ["Any_Root_Access"] test.adb:6:4-6:46>
+  expected type: <ConcreteTypeDecl ["Any_Root_Access"] test.adb:6:4-6:46>
+Expr: <QualExpr test.adb:16:13-16:33>
+  references:    <DefiningName "Root" test.adb:2:9-2:13>
+  type:          <ClasswideTypeDecl ["Root"] test.adb:2:4-4:15>
+  expected type: None
+Expr: <AttributeRef test.adb:16:13-16:25>
+  references:    <DefiningName "Root" test.adb:2:9-2:13>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:16:13-16:19>
+  references:    <DefiningName "Root" test.adb:2:9-2:13>
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:16:13-16:14>
+  references:    <DefiningName "P" test.adb:1:11-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Root" test.adb:16:15-16:19>
+  references:    <DefiningName "Root" test.adb:2:9-2:13>
+  type:          None
+  expected type: None
+Expr: <Id "Class" test.adb:16:20-16:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:16:26-16:33>
+  type:          <ClasswideTypeDecl ["Root"] test.adb:2:4-4:15>
+  expected type: <ClasswideTypeDecl ["Root"] test.adb:2:4-4:15>
+Expr: <Id "Param" test.adb:16:27-16:32>
+  references:    <DefiningName "Param" test.adb:10:4-10:9>
+  type:          <ClasswideTypeDecl ["Root"] test.adb:2:4-4:15>
+  expected type: <ClasswideTypeDecl ["Root"] test.adb:2:4-4:15>
+
+
+Done.

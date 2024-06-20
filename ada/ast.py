@@ -11347,6 +11347,22 @@ class Pragma(AdaNode):
                 & proc.sub_equation
             ),
 
+            Entity.id.name_is("Annotate"),
+            # For the Annotate pragma, the first two identifiers are not
+            # analyzed. The rest are arbitrary expressions (see
+            # `Expr.annotate_argument_equation`). Optionally, a final
+            # association `Entity => <name>` can be given, where `name`
+            # must resolve to a local declaration.
+            Entity.args.logic_all(lambda i, arg: Cond(
+                i < 2,
+                LogicTrue(),
+
+                arg.cast(PragmaArgumentAssoc)._.name._.name_is("Entity"),
+                arg.assoc_expr.cast_or_raise(Name).xref_no_overloading,
+
+                arg.assoc_expr.annotate_argument_equation
+            )),
+
             Entity.args.logic_all(
                 # In the default case, we try to resolve every associated
                 # expression, but we never fail, in order to not generate
@@ -11412,6 +11428,17 @@ class Pragma(AdaNode):
                     name.singleton,
                     No(T.Name.entity.array)
                 )
+            ),
+
+            Entity.id.name_is('Annotate'),
+            # For pragma Annotate, the associated name is given by an
+            # `Entity => <name>` association, if any.
+            Entity.args.find(
+                lambda a:
+                a.cast(PragmaArgumentAssoc)._.name._.name_is('Entity')
+            ).then(
+                lambda a:
+                a.cast(PragmaArgumentAssoc).expr.cast(Name)._.singleton
             ),
 
             No(T.Name.entity.array),
@@ -11877,6 +11904,18 @@ class AspectAssoc(AdaNode):
             Entity.id.name_is('Variable_Indexing'),
             Bind(Entity.expr.cast_or_raise(T.Identifier).ref_var,
                  target.cast(TypeDecl).as_entity.variable_indexing_fns.at(0)),
+
+            # For the Annotate aspect, the first two identifiers are not
+            # analyzed. The rest are arbitrary expressions (see
+            # `Expr.annotate_argument_equation`).
+            Entity.id.name_is('Annotate'),
+            Entity.expr.cast(T.BaseAggregate).assocs.unpacked_params.logic_all(
+                lambda i, sa: If(
+                    i < 2,
+                    LogicTrue(),
+                    sa.assoc.expr.annotate_argument_equation
+                )
+            ),
 
             # Default resolution: For the moment we didn't encode specific
             # resolution rules for every aspect, so by default at least try to
@@ -13663,6 +13702,27 @@ class Expr(AdaNode):
             Predicate(BaseTypeDecl.derives_from_std_bool_type,
                       Self.type_var,
                       error_location=Self)
+        )
+
+    @langkit_property(return_type=T.Equation,
+                      dynamic_vars=[env, origin, entry_point])
+    def annotate_argument_equation():
+        """
+        Build the xref_equation for this expression in the context of an
+        ``Annotate`` aspect argument, which requires it to either be of any of
+        the standard String types, or to be a general non-ambiguous expression.
+        Hence, we try here to resolve it using corresponding expected types.
+        Note that we don't even check that the expected and actual types match
+        in order to allow the same kind of flexibility that GNAT has.
+        """
+        return And(
+            Entity.sub_equation,
+            Self.expected_type_var.domain([
+                No(BaseTypeDecl.entity),
+                Self.std_string_type,
+                Self.std_wide_string_type,
+                Self.std_wide_wide_string_type
+            ])
         )
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()],

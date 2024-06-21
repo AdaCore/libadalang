@@ -1,0 +1,1 @@
+[<Aspect exists=True node=<PragmaNode pkg.ads:1:1-1:41> value=<Id "My_Tool" pkg.ads:1:18-1:25> inherited=False>, <Aspect exists=True node=<PragmaNode test.adc:1:1-1:41> value=<Id "My_Tool" test.adc:1:18-1:25> inherited=False>]

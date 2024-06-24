@@ -14613,13 +14613,23 @@ class BaseId: SingleTokNode implements TokenNode {
                 }
             )
         ).do(
-            (precise) =>
-            # If we got a formal type declaration (i.e. a type declaration
-            # of a generic formal parameter), always returns its default type
-            # value if any.
-            precise.parent.as[GenericFormalTypeDecl].do(
-                (gftd) => gftd.default_type()
-            ) or? precise
+            (type) =>
+            # When the type is a generic formal type, if we are resolving it
+            # from it's instantiation, that means that no actual has been given
+            # for that formal (name resolution directly calls
+            # resolve_generic_actual on actuals names), therefore the designated
+            # type should be the default one if any. On the other hand, outside
+            # it's own instantion context, the designated type is the formal
+            # type, whether it has a default value or not.
+            type.parent.as[GenericFormalTypeDecl].do(
+                (formal_decl) =>
+                    if formal_decl.generic_instantiations.any(
+                        (inst) => inst.designated_generic_decl.node ==
+                        formal_decl.parent_decl.node
+                    )
+                    then formal_decl.default_type or? type
+                    else type
+            ) or? type
         )
 
     @with_dynvars(env, origin)

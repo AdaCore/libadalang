@@ -2979,8 +2979,7 @@ class BasicDecl(AdaNode):
         Aspects are properties of entities that can be specified by the Ada
         program, either via aspect specifications, pragmas, or attributes.
 
-        This will return the syntactic node corresponding to attribute
-        directly. See ``DefiningName.P_Get_Aspect`` for more details.
+        See ``DefiningName.P_Get_Aspect`` for more details.
         """
         return Entity.defining_name_or_raise._.get_aspect(
             name, previous_parts_only
@@ -18879,9 +18878,6 @@ class DefiningName(Name):
 
         Aspects are properties of entities that can be specified by the Ada
         program, either via aspect specifications, pragmas, or attributes.
-
-        This will return the syntactic node corresponding to attribute
-        directly.
 
         Note: by default, Libadalang will check if the aspect is defined on any
         part of the entity. However, the ``previous_parts_only`` parameter can

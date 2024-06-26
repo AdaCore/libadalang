@@ -270,5 +270,25 @@ Expr: <Int test.adb:22:14-22:15>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
 
+Resolving xrefs for node <PragmaNode test.adb:27:4-27:47>
+*********************************************************
+
+Expr: <Id "Annotate" test.adb:27:11-27:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "My_Tool" test.adb:27:21-27:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "My_Command" test.adb:27:30-27:40>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Baz" test.adb:27:42-27:45>
+  references:    <DefiningName "Baz" test.adb:25:13-25:16>
+  type:          None
+  expected type: None
+
 
 Done.

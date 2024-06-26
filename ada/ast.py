@@ -13760,15 +13760,24 @@ class Expr(AdaNode):
         Hence, we try here to resolve it using corresponding expected types.
         Note that we don't even check that the expected and actual types match
         in order to allow the same kind of flexibility that GNAT has.
+        GNAT also allows direct references to subprograms (even though they are
+        not valid expressions per-se), so we also fallback to resolving the
+        first visible declaration of the given name.
         """
-        return And(
-            Entity.sub_equation,
-            Self.expected_type_var.domain([
-                No(BaseTypeDecl.entity),
-                Self.std_string_type,
-                Self.std_wide_string_type,
-                Self.std_wide_wide_string_type
-            ])
+        return Or(
+            And(
+                Entity.sub_equation,
+                Self.expected_type_var.domain([
+                    No(BaseTypeDecl.entity),
+                    Self.std_string_type,
+                    Self.std_wide_string_type,
+                    Self.std_wide_wide_string_type
+                ])
+            ),
+            Entity.cast(Name).then(
+                lambda name: name.xref_no_overloading,
+                default_val=LogicFalse()
+            )
         )
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()],

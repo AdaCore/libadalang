@@ -21,6 +21,11 @@ procedure Test is
          "foo" & Wide_Wide_Character'Val (16#2665#),
          2 + 2);
    pragma Test_Block;
+
+   function Baz (X : Integer) return Integer is (X);
+   -- allow references to arbitrary declartations
+   pragma Annotate (My_Tool, My_Command, Baz);
+   pragma Test_Statement;
 begin
    null;
 end Test;

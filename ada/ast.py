@@ -16158,7 +16158,11 @@ class Name(Expr):
         """
         return Entity.name_designated_type.is_static_decl
 
-    @langkit_property(memoized=True)
+    # ATTENTION: As for Name.use_package_name_designated_env this property must
+    # not be memoized because of an unsoundness issue between infinite
+    # recursion guards in lexical envs and memoized properties. See
+    # libadalang#1307.
+    @langkit_property(memoized=False)
     def name_designated_type_env():
         return Entity.name_designated_type._.primitives_env
 

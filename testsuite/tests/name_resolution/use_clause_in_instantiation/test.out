@@ -1,0 +1,43 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericSubpInstantiation ["F"] test.adb:17:4-17:27>
+*****************************************************************************
+
+Expr: <DottedName test.adb:17:22-17:26>
+  references:    <| DefiningName "GF" test.adb:3:24-3:26 [test.adb:16:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:17:22-17:23>
+  references:    <DefiningName "P" test.adb:16:12-16:13>
+  type:          None
+  expected type: None
+Expr: <Id "GF" test.adb:17:24-17:26>
+  references:    <| DefiningName "GF" test.adb:3:24-3:26 [test.adb:16:4] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericSubpDecl ["GF"] test.adb:3:7-3:42 [test.adb:16:4, test.adb:17:4] |>
+*****************************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:3:15-3:41 [test.adb:16:4, test.adb:17:4] |>
+*****************************************************************************************
+
+Expr: <| Id "Boolean" test.adb:3:34-3:41 [test.adb:16:4, test.adb:17:4] |>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Traversing generic node <| ExprFunction ["GF"] test.adb:13:7-13:44 [test.adb:16:4, test.adb:17:4] |>
+****************************************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:13:7-13:33 [test.adb:16:4, test.adb:17:4] |>
+******************************************************************************************
+
+Expr: <| Id "Boolean" test.adb:13:26-13:33 [test.adb:16:4, test.adb:17:4] |>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+
+
+Done.

@@ -10,50 +10,120 @@ package body Highlighter is
 
    Basic_Highlights : constant
      array (LALCO.Token_Kind) of Highlight_Type
-     := (Ada_Termination                  => Text,
-         Ada_Lexing_Failure               => Text,
-         Ada_Identifier                   => Identifier,
-         Ada_All .. Ada_Return
-           | Ada_Elsif | Ada_Reverse
-           | Ada_End .. Ada_Select
+     := (Ada_Char                        => Character_Literal,
+         Ada_Comment                     => Comment,
+         Ada_Decimal | Ada_Integer       => Integer_Literal,
+         Ada_Identifier                  => Identifier,
+         Ada_Label_End | Ada_Label_Start => Label_Name,
+         Ada_Prep_Line                   => Preprocessor_Directive,
+         Ada_Subtype | Ada_Record        => Keyword_Type,
+         Ada_Tick                        => Punctuation,
+
+         Ada_Lexing_Failure
+           | Ada_Termination
+           | Ada_Whitespace
+         => Text,
+
+         Ada_Format_String_End
+           | Ada_Format_String_Mid
+           | Ada_Format_String_Start
+           | Ada_String
+         => String_Literal,
+
+         Ada_Abort
+           | Ada_Accept
+           | Ada_All
+           | Ada_At
+           | Ada_Begin
+           | Ada_Body
+           | Ada_Case
+           | Ada_Declare
+           | Ada_Delay
+           | Ada_Diamond
+           | Ada_Do
+           | Ada_Else
+           | Ada_Elsif
+           | Ada_End
+           | Ada_Entry
            | Ada_Exception
-           | Ada_Separate | Ada_Exit | Ada_Others
-           | Ada_For | Ada_Out | Ada_Function | Ada_At
-           | Ada_Generic .. Ada_Body
-           | Ada_Then .. Ada_In
-           | Ada_Is .. Ada_Declare
-           | Ada_Delay | Ada_When | Ada_Loop | Ada_While
-           | Ada_Renames | Ada_Do
+           | Ada_Exit
+           | Ada_For
+           | Ada_Function
+           | Ada_Generic
+           | Ada_Goto
+           | Ada_If
+           | Ada_In
+           | Ada_Is
+           | Ada_Loop
+           | Ada_New
+           | Ada_Null
+           | Ada_Others
+           | Ada_Out
+           | Ada_Package
+           | Ada_Pragma
+           | Ada_Procedure
+           | Ada_Raise
+           | Ada_Renames
+           | Ada_Return
+           | Ada_Reverse
+           | Ada_Select
+           | Ada_Separate
+           | Ada_Task
+           | Ada_Terminate
+           | Ada_Then
+           | Ada_Type
+           | Ada_Use
+           | Ada_When
+           | Ada_While
+           | Ada_With
          => Keyword,
 
-         Ada_Subtype | Ada_Record => Keyword_Type,
-
-           Ada_Access | Ada_Array | Ada_Constant
-           | Ada_Delta | Ada_Digits | Ada_Limited | Ada_Of | Ada_Private
+         Ada_Access
+           | Ada_Array
+           | Ada_Constant
+           | Ada_Delta
+           | Ada_Digits
+           | Ada_Limited
+           | Ada_Of
+           | Ada_Private
            | Ada_Range
          => Keyword_Special,
 
-         Ada_Par_Close .. Ada_Dot         => Punctuation_Special,
-         Ada_Diamond                      => Keyword,
-         Ada_Abs | Ada_And | Ada_Mod | Ada_Not | Ada_Or | Ada_Rem
-           | Ada_Xor
-           | Ada_Lte .. Ada_Divide
-         => Operator,
+         Ada_Assign
+           | Ada_Brack_Close
+           | Ada_Brack_Open
+           | Ada_Colon
+           | Ada_Comma
+           | Ada_Dot
+           | Ada_Doubledot
+           | Ada_Par_Close
+           | Ada_Par_Open
+           | Ada_Pipe
+           | Ada_Semicolon
+         => Punctuation_Special,
 
-         Ada_Tick                         => Punctuation,
-         Ada_Pipe | Ada_Assign            => Punctuation_Special,
-         Ada_Label_Start .. Ada_Label_End => Label_Name,
-         Ada_String                       => String_Literal,
-         Ada_Format_String_Start
-           .. Ada_Format_String_End       => String_Literal,
-         Ada_Target                       => Operator,
-         Ada_Char                         => Character_Literal,
-         Ada_With                         => Keyword,
-         Ada_Decimal                      => Integer_Literal,
-         Ada_Integer                      => Integer_Literal,
-         Ada_Comment                      => Comment,
-         Ada_Whitespace                   => Text,
-         Ada_Prep_Line                    => Preprocessor_Directive);
+         Ada_Abs
+           | Ada_Amp
+           | Ada_And
+           | Ada_Arrow
+           | Ada_Divide
+           | Ada_Equal
+           | Ada_Gt
+           | Ada_Gte
+           | Ada_Lt
+           | Ada_Lte
+           | Ada_Minus
+           | Ada_Mod
+           | Ada_Mult
+           | Ada_Not
+           | Ada_Notequal
+           | Ada_Or
+           | Ada_Plus
+           | Ada_Power
+           | Ada_Rem
+           | Ada_Target
+           | Ada_Xor
+         => Operator);
    --  For each token kind, associate a default highlighting type
 
    procedure Highlight_Name

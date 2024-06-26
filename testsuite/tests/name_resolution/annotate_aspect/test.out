@@ -1,0 +1,274 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <PragmaNode test.adb:3:4-11:22>
+********************************************************
+
+Expr: <Id "Annotate" test.adb:3:11-3:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "My_Tool" test.adb:4:7-4:14>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "My_Command" test.adb:5:7-5:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""foo"" test.adb:6:7-6:12>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOp test.adb:7:7-7:20>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""foo"" test.adb:7:7-7:12>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test.adb:7:13-7:20>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" test.adb:7:13-7:14>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""bar"" test.adb:7:15-7:20>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOp test.adb:8:7-8:44>
+  type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+  expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+Expr: <Str ""foo"" test.adb:8:7-8:12>
+  references:    None
+  type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+  expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+Expr: <ConcatOperand test.adb:8:13-8:44>
+  type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+  expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+Expr: <OpConcat "&" test.adb:8:13-8:14>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:8:15-8:44>
+  references:    <SyntheticDefiningName "val" __standard:22:3-22:32>
+  type:          <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
+  expected type: <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
+Expr: <AttributeRef test.adb:8:15-8:33>
+  references:    <SyntheticDefiningName "val" __standard:22:3-22:32>
+  type:          None
+  expected type: None
+Expr: <Id "Wide_Character" test.adb:8:15-8:29>
+  references:    <DefiningName "Wide_Character" __standard:22:8-22:22>
+  type:          None
+  expected type: None
+Expr: <Id "Val" test.adb:8:30-8:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:8:35-8:43>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <ConcatOp test.adb:9:7-9:49>
+  type:          <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+Expr: <Str ""foo"" test.adb:9:7-9:12>
+  references:    None
+  type:          <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+Expr: <ConcatOperand test.adb:9:13-9:49>
+  type:          <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+Expr: <OpConcat "&" test.adb:9:13-9:14>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:9:15-9:49>
+  references:    <SyntheticDefiningName "val" __standard:23:3-23:37>
+  type:          <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>
+Expr: <AttributeRef test.adb:9:15-9:38>
+  references:    <SyntheticDefiningName "val" __standard:23:3-23:37>
+  type:          None
+  expected type: None
+Expr: <Id "Wide_Wide_Character" test.adb:9:15-9:34>
+  references:    <DefiningName "Wide_Wide_Character" __standard:23:8-23:27>
+  type:          None
+  expected type: None
+Expr: <Id "Val" test.adb:9:35-9:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:9:40-9:48>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <BinOp test.adb:10:7-10:12>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: None
+Expr: <Int test.adb:10:7-10:8>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+Expr: <OpPlus "+" test.adb:10:9-10:10>
+  references:    <SyntheticDefiningName ""+"" __standard:120:24-120:37>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:10:11-10:12>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+Expr: <Id "Entity" test.adb:11:7-11:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Foo" test.adb:11:17-11:20>
+  references:    <DefiningName "Foo" test.adb:2:13-2:16>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:14:4-14:45>
+*******************************************************
+
+Expr: <Id "Integer" test.adb:14:38-14:45>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["X"] test.adb:14:18-14:29>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:14:22-14:29>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:15:12-22:16>
+***********************************************************
+
+Expr: <Id "Annotate" test.adb:15:12-15:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:16:9-22:16>
+  type:          None
+  expected type: None
+Expr: <Id "My_Tool" test.adb:16:10-16:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "My_Command" test.adb:17:10-17:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""foo"" test.adb:18:10-18:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOp test.adb:19:10-19:23>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <Str ""foo"" test.adb:19:10-19:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOperand test.adb:19:16-19:23>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <OpConcat "&" test.adb:19:16-19:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""bar"" test.adb:19:18-19:23>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+Expr: <ConcatOp test.adb:20:10-20:47>
+  type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+  expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+Expr: <Str ""foo"" test.adb:20:10-20:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+  expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+Expr: <ConcatOperand test.adb:20:16-20:47>
+  type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+  expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+Expr: <OpConcat "&" test.adb:20:16-20:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:20:18-20:47>
+  references:    <SyntheticDefiningName "val" __standard:22:3-22:32>
+  type:          <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
+  expected type: <ConcreteTypeDecl ["Wide_Character"] __standard:22:3-22:32>
+Expr: <AttributeRef test.adb:20:18-20:36>
+  references:    <SyntheticDefiningName "val" __standard:22:3-22:32>
+  type:          None
+  expected type: None
+Expr: <Id "Wide_Character" test.adb:20:18-20:32>
+  references:    <DefiningName "Wide_Character" __standard:22:8-22:22>
+  type:          None
+  expected type: None
+Expr: <Id "Val" test.adb:20:33-20:36>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:20:38-20:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <ConcatOp test.adb:21:10-21:52>
+  type:          <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+Expr: <Str ""foo"" test.adb:21:10-21:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+Expr: <ConcatOperand test.adb:21:16-21:52>
+  type:          <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+Expr: <OpConcat "&" test.adb:21:16-21:17>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:21:18-21:52>
+  references:    <SyntheticDefiningName "val" __standard:23:3-23:37>
+  type:          <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_Character"] __standard:23:3-23:37>
+Expr: <AttributeRef test.adb:21:18-21:41>
+  references:    <SyntheticDefiningName "val" __standard:23:3-23:37>
+  type:          None
+  expected type: None
+Expr: <Id "Wide_Wide_Character" test.adb:21:18-21:37>
+  references:    <DefiningName "Wide_Wide_Character" __standard:23:8-23:27>
+  type:          None
+  expected type: None
+Expr: <Id "Val" test.adb:21:38-21:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:21:43-21:51>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+Expr: <BinOp test.adb:22:10-22:15>
+  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  expected type: None
+Expr: <Int test.adb:22:10-22:11>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+Expr: <OpPlus "+" test.adb:22:12-22:13>
+  references:    <SyntheticDefiningName ""+"" __standard:120:24-120:37>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:22:14-22:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+
+
+Done.

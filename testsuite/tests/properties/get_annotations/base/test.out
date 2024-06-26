@@ -1,0 +1,24 @@
+Working on node <SubpDecl ["Foo"] test.adb:2:4-4:48>
+====================================================
+
+Eval 'node.p_get_annotations()'
+Result: [<Aspect exists=True node=<PragmaNode test.adb:12:4-12:59> value=<Id "My_Tool" test.adb:12:21-12:28> inherited=False>,
+         <Aspect exists=True node=<PragmaNode test.adb:13:4-13:59> value=<Id "My_Tool" test.adb:13:21-13:28> inherited=False>,
+         <Aspect exists=True node=<AspectAssoc test.adb:3:12-3:47> value=<Id "My_Tool" test.adb:3:25-3:32> inherited=False>,
+         <Aspect exists=True node=<AspectAssoc test.adb:4:12-4:47> value=<Id "My_Tool" test.adb:4:25-4:32> inherited=False>]
+
+Working on node <ConcreteTypeDecl ["Base"] test.adb:16:7-17:52>
+===============================================================
+
+Eval 'node.p_get_annotations()'
+Result: [<Aspect exists=True node=<PragmaNode test.adb:24:7-24:63> value=<Id "My_Tool" test.adb:24:24-24:31> inherited=False>,
+         <Aspect exists=True node=<AspectAssoc test.adb:17:15-17:51> value=<Id "My_Tool" test.adb:17:28-17:35> inherited=False>]
+
+Working on node <ConcreteTypeDecl ["Der"] test.adb:20:7-21:51>
+==============================================================
+
+Eval 'node.p_get_annotations()'
+Result: [<Aspect exists=True node=<PragmaNode test.adb:28:7-28:62> value=<Id "My_Tool" test.adb:28:24-28:31> inherited=False>,
+         <Aspect exists=True node=<AspectAssoc test.adb:21:15-21:50> value=<Id "My_Tool" test.adb:21:28-21:35> inherited=False>,
+         <Aspect exists=True node=<PragmaNode test.adb:24:7-24:63> value=<Id "My_Tool" test.adb:24:24-24:31> inherited=True>,
+         <Aspect exists=True node=<AspectAssoc test.adb:17:15-17:51> value=<Id "My_Tool" test.adb:17:28-17:35> inherited=True>]

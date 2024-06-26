@@ -2899,16 +2899,51 @@ class BasicDecl(AdaNode):
             )
         ).env_group()
 
+    @langkit_property(return_type=T.AdaNode.list.entity.array)
+    def pragma_regions():
+        """
+        Return an array of AdaNode list corresponding to declarative parts in
+        which to look for pragmas associated to this entity.
+        """
+        # First look in the scope where Self is declared. We don't use
+        # ``declarative_scope`` here, as this BasicDecl may not necessarily
+        # be in a DeclarativePart, as is the case for ComponentDecls.
+        # Instead, we simply look among this node's siblings.
+        enclosing_scope = Var(Entity.parent.cast(AdaNode.list)._.singleton)
+
+        # Then, if entity is declared in the public part of a package or
+        # protected def, corresponding pragma might be in the private part.
+        private_scope = Var(Entity.declarative_scope.cast(T.PublicPart).then(
+            lambda pp: pp.parent.match(
+                lambda pkg=T.BasePackageDecl: pkg.private_part,
+                lambda ptd=T.ProtectedDef: ptd.private_part,
+                lambda _: No(T.PrivatePart)
+            )._.decls.as_entity.singleton
+        ))
+
+        # Finally, look inside decl, in the first declarative region of decl
+        inner_scope = Var(Entity.declarative_parts.at(0)._.decls.singleton)
+        return enclosing_scope.concat(private_scope).concat(inner_scope)
+
     aspects = AbstractField(type=T.AspectSpec, doc="""
         Return the list of aspects that are attached to this node.
     """)
+
+    @langkit_property(return_type=T.AspectSpec.entity)
+    def get_aspect_spec():
+        """
+        Return the actual AspectSpec to use for this entity. This is typically
+        overriden by internal nodes that act as wrappers around the concrete
+        nodes on which the aspects are defined.
+        """
+        return Entity.aspects
 
     @langkit_property(return_type=T.AspectAssoc.entity, public=True)
     def get_aspect_assoc(name=Symbol):
         """
         Return the aspect with name ``name`` for this entity.
         """
-        return Entity.aspects._.aspect_assocs.find(
+        return Entity.get_aspect_spec._.aspect_assocs.find(
             lambda asp: asp.aspect_name(asp.id) == name.image
         )
 
@@ -2944,8 +2979,7 @@ class BasicDecl(AdaNode):
         Aspects are properties of entities that can be specified by the Ada
         program, either via aspect specifications, pragmas, or attributes.
 
-        This will return the syntactic node corresponding to attribute
-        directly. See ``DefiningName.P_Get_Aspect`` for more details.
+        See ``DefiningName.P_Get_Aspect`` for more details.
         """
         return Entity.defining_name_or_raise._.get_aspect(
             name, previous_parts_only
@@ -2995,6 +3029,18 @@ class BasicDecl(AdaNode):
         Return the at clause associated to this declaration.
         """
         return Entity.defining_name_or_raise._.get_at_clause()
+
+    @langkit_property(return_type=Aspect.array, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_annotations():
+        """
+        Return all the ``Annotate`` aspects defined on this entity, both
+        through pragmas and aspect specifications. For a type declaration,
+        this also includes all annotations defined on its from a base type,
+        when relevant (the field ``inherited`` will be set for those).
+        See ``DefiningName.P_Get_Annotations`` for more details.
+        """
+        return Entity.defining_name_or_raise._.get_annotations
 
     @langkit_property(public=True)
     def is_imported():
@@ -8628,8 +8674,8 @@ class ClasswideTypeDecl(BaseTypeDecl):
     is_in_public_part = Property(Entity.type_decl.is_in_public_part)
 
     @langkit_property()
-    def get_aspect_assoc(name=Symbol):
-        return Entity.type_decl.get_aspect_assoc(name)
+    def get_aspect_spec():
+        return Entity.type_decl.get_aspect_spec
 
     is_interface_type = Property(Entity.type_decl.is_interface_type)
 
@@ -11347,6 +11393,22 @@ class Pragma(AdaNode):
                 & proc.sub_equation
             ),
 
+            Entity.id.name_is("Annotate"),
+            # For the Annotate pragma, the first two identifiers are not
+            # analyzed. The rest are arbitrary expressions (see
+            # `Expr.annotate_argument_equation`). Optionally, a final
+            # association `Entity => <name>` can be given, where `name`
+            # must resolve to a local declaration.
+            Entity.args.logic_all(lambda i, arg: Cond(
+                i < 2,
+                LogicTrue(),
+
+                arg.cast(PragmaArgumentAssoc)._.name._.name_is("Entity"),
+                arg.assoc_expr.cast_or_raise(Name).xref_no_overloading,
+
+                arg.assoc_expr.annotate_argument_equation
+            )),
+
             Entity.args.logic_all(
                 # In the default case, we try to resolve every associated
                 # expression, but we never fail, in order to not generate
@@ -11412,6 +11474,17 @@ class Pragma(AdaNode):
                     name.singleton,
                     No(T.Name.entity.array)
                 )
+            ),
+
+            Entity.id.name_is('Annotate'),
+            # For pragma Annotate, the associated name is given by an
+            # `Entity => <name>` association, if any.
+            Entity.args.find(
+                lambda a:
+                a.cast(PragmaArgumentAssoc)._.name._.name_is('Entity')
+            ).then(
+                lambda a:
+                a.cast(PragmaArgumentAssoc).expr.cast(Name)._.singleton
             ),
 
             No(T.Name.entity.array),
@@ -11877,6 +11950,18 @@ class AspectAssoc(AdaNode):
             Entity.id.name_is('Variable_Indexing'),
             Bind(Entity.expr.cast_or_raise(T.Identifier).ref_var,
                  target.cast(TypeDecl).as_entity.variable_indexing_fns.at(0)),
+
+            # For the Annotate aspect, the first two identifiers are not
+            # analyzed. The rest are arbitrary expressions (see
+            # `Expr.annotate_argument_equation`).
+            Entity.id.name_is('Annotate'),
+            Entity.expr.cast(T.BaseAggregate).assocs.unpacked_params.logic_all(
+                lambda i, sa: If(
+                    i < 2,
+                    LogicTrue(),
+                    sa.assoc.expr.annotate_argument_equation
+                )
+            ),
 
             # Default resolution: For the moment we didn't encode specific
             # resolution rules for every aspect, so by default at least try to
@@ -13388,10 +13473,10 @@ class GenericDecl(BasicDecl):
     annotations = Annotations(rebindable=True)
 
     @langkit_property()
-    def get_aspect_assoc(name=Symbol):
+    def get_aspect_spec():
         # The aspect is actually on the Generic*Internal node, so forward
         # the call to it.
-        return Entity.decl.get_aspect_assoc(name)
+        return Entity.decl.get_aspect_spec
 
     @langkit_property()
     def next_part_for_decl():
@@ -13663,6 +13748,27 @@ class Expr(AdaNode):
             Predicate(BaseTypeDecl.derives_from_std_bool_type,
                       Self.type_var,
                       error_location=Self)
+        )
+
+    @langkit_property(return_type=T.Equation,
+                      dynamic_vars=[env, origin, entry_point])
+    def annotate_argument_equation():
+        """
+        Build the xref_equation for this expression in the context of an
+        ``Annotate`` aspect argument, which requires it to either be of any of
+        the standard String types, or to be a general non-ambiguous expression.
+        Hence, we try here to resolve it using corresponding expected types.
+        Note that we don't even check that the expected and actual types match
+        in order to allow the same kind of flexibility that GNAT has.
+        """
+        return And(
+            Entity.sub_equation,
+            Self.expected_type_var.domain([
+                No(BaseTypeDecl.entity),
+                Self.std_string_type,
+                Self.std_wide_string_type,
+                Self.std_wide_wide_string_type
+            ])
         )
 
     @langkit_property(public=True, dynamic_vars=[default_imprecise_fallback()],
@@ -18773,9 +18879,6 @@ class DefiningName(Name):
         Aspects are properties of entities that can be specified by the Ada
         program, either via aspect specifications, pragmas, or attributes.
 
-        This will return the syntactic node corresponding to attribute
-        directly.
-
         Note: by default, Libadalang will check if the aspect is defined on any
         part of the entity. However, the ``previous_parts_only`` parameter can
         be set to True to limit the search to the current entity and its
@@ -18784,7 +18887,7 @@ class DefiningName(Name):
         property on its corresponding public view won't return the aspect
         unlike the call on the private view.
 
-        Morover, since aspects can be inherited, if none was found for the
+        Moreover, since aspects can be inherited, if none was found for the
         current entity, Libadalang will also search for the aspect on the
         parents of entity (in that case the ``inherited`` field will be set
         to ``True`` in the returned result).
@@ -18843,6 +18946,25 @@ class DefiningName(Name):
             )
         )
 
+    @langkit_property(return_type=T.Pragma.entity)
+    def find_valid_pragma_for_name(name=Symbol,
+                                   regions=AdaNode.list.entity.array,
+                                   region_index=(Int, 0)):
+        """
+        Given an array of regions in which to look for pragmas for this entity,
+        search through all of them in sequence until finding a pragma of the
+        given name. This is functionnally equivalent to flattening the array of
+        regions and then finding the pragma, but this implementation avoids
+        eagerly creating the big flattened array of nodes.
+        """
+        return regions.at(region_index).then(
+            lambda r: r.find(
+                lambda d: Entity.is_valid_pragma_for_name(name, d)
+            ).cast(Pragma)._or(Entity.find_valid_pragma_for_name(
+                name, regions, region_index + 1
+            ))
+        )
+
     @langkit_property(return_type=T.Pragma.entity, public=True)
     def get_pragma(name=Symbol):
         """
@@ -18863,34 +18985,10 @@ class DefiningName(Name):
         # First look at library level pragmas if Self is a library item
         return bd.library_item_pragmas.then(
             # Check pragma's name
-            lambda plist: plist.find(lambda p: p.id.name_is(name)),
+            lambda plist: plist.find(lambda p: p.id.name_is(name))
         )._or(
-            # First look in the scope where Self is declared. We don't use
-            # ``declarative_scope`` here, as this BasicDecl may not necessarily
-            # be in a DeclarativePart, as is the case for ComponentDecls.
-            # Instead, we simply look among this node's siblings.
-            bd.parent.cast(AdaNode.list).find(
-                lambda d: Entity.is_valid_pragma_for_name(name, d)
-            )
-
-            # Then, if entity is declared in the public part of a package or
-            # protected def, corresponding pragma might be in the private part.
-            ._or(bd.declarative_scope.cast(T.PublicPart).then(
-                lambda pp: pp.parent.match(
-                    lambda pkg=T.BasePackageDecl: pkg.private_part,
-                    lambda ptd=T.ProtectedDef: ptd.private_part,
-                    lambda _: No(T.PrivatePart)
-                )._.decls.as_entity.find(
-                    lambda d: Entity.is_valid_pragma_for_name(name, d)
-                )
-            ))
-
-            # Then, look inside decl, in the first declarative region of decl
-            ._or(bd.declarative_parts.at(0)._.decls.find(
-                lambda d: Entity.is_valid_pragma_for_name(name, d)
-            ))
-
-            .cast(T.Pragma)
+            # Else check in the surrounding regions of this entity
+            Entity.find_valid_pragma_for_name(name, bd.pragma_regions)
         )
 
     @langkit_property(return_type=T.AttributeDefClause.entity, public=True,
@@ -18921,6 +19019,101 @@ class DefiningName(Name):
                 lambda p: p.name.referenced_defining_name == Entity
             )
         ).cast(AtClause.entity)
+
+    @langkit_property(return_type=Aspect.array,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_annotations_impl():
+        """
+        Return all the ``Annotate`` aspects associated to this specific entity
+        part.
+        """
+        bd = Var(Entity.basic_decl_internal)
+
+        # Gather aspects defined by pragmas
+        pragmas = Var(bd.match(
+            # If Entity is an EnumLiteralDecl, search the pragma from the enum
+            # type declaration node.
+            lambda eld=T.EnumLiteralDecl:
+            eld.parent.parent.parent.cast_or_raise(T.BasicDecl),
+            lambda o: o
+        ).pragma_regions.mapcat(
+            lambda r: r.filtermap(
+                lambda d: Aspect.new(
+                    exists=True, inherited=False, node=d,
+                    value=d.cast(Pragma).args.at(0).assoc_expr
+                ),
+                lambda d: Entity.is_valid_pragma_for_name('Annotate', d)
+            )
+        ))
+
+        # But also those defined with aspect associations
+        aspects = Var(bd.get_aspect_spec._.aspect_assocs.filtermap(
+            lambda asp: Aspect.new(
+                exists=True, inherited=False, node=asp,
+                value=asp.expr.cast(BaseAggregate).assocs.at(0).expr
+            ),
+            lambda asp: asp.id.name_is('Annotate')
+        ))
+
+        return pragmas.concat(aspects)
+
+    @langkit_property(return_type=Aspect.array, public=True,
+                      dynamic_vars=[default_imprecise_fallback()])
+    def get_annotations():
+        """
+        Return all the ``Annotate`` aspects defined on this entity, both
+        through pragmas and aspect specifications. For a type declaration,
+        this also includes all annotations defined on its base type,
+        when relevant (the field ``inherited`` will be set for those).
+
+        The ``value`` field of each returned ``Aspect`` will be set to be the
+        identifier that designates the tool which is concerned by the
+        annotation.
+
+        Note: Libadalang will look for the ``Annotate`` aspects on any part of
+        the entity.
+        """
+        self_annotations = Var(Entity.all_parts.mapcat(
+            lambda p: p.get_annotations_impl
+        ))
+
+        inherited_annotations = Var(Entity.basic_decl.cast(BaseTypeDecl).then(
+            lambda bd: Let(
+                lambda typ=If(bd.is_a(T.BaseSubtypeDecl),
+                              bd.cast(T.BaseSubtypeDecl).get_type,
+                              bd.base_type):
+                If(
+                    Or(typ.is_null, typ == bd),
+                    No(T.Aspect.array),
+                    typ.name.get_annotations.map(lambda a: T.Aspect.new(
+                        exists=a.exists,
+                        node=a.node,
+                        value=a.value,
+                        inherited=True
+                    ))
+                )
+            )
+        ))
+
+        config_annotations = Var(
+            Entity.enclosing_compilation_unit.config_pragmas('Annotate').map(
+                lambda p: Aspect.new(
+                    exists=True, inherited=False, node=p,
+                    value=p.args.at(0).assoc_expr
+                )
+            )
+        )
+
+        # We use `.unique` because for declarations split in multiple parts,
+        # a pragma Annotate may be associated to all of them, and since
+        # we concatenate aspects from all parts, we might end up with the
+        # same pragma multiple times. Also, since we recursively look on base
+        # types, we might end up with the same configuration pragmas.
+        return self_annotations.concat(
+            inherited_annotations
+        ).concat(
+            config_annotations
+        ).unique
 
     @langkit_property(public=True, return_type=T.Bool)
     def is_imported():

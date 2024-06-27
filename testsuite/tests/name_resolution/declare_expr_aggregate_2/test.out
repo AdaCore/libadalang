@@ -1,0 +1,11 @@
+Working on node <ExprFunction ["F"] test.adb:6:4-10:21>
+=======================================================
+
+Eval 'node.findall(lal.AggregateAssoc)[0].f_r_expr.p_referenced_decl()'
+Result: <ObjectDecl ["I"] test.adb:8:9-8:35>
+
+Working on node <ExprFunction ["H"] test.adb:16:4-19:52>
+========================================================
+
+Eval 'node.findall(lal.AggregateAssoc)[-1].f_r_expr.p_referenced_decl()'
+Result: <ObjectDecl ["K"] test.adb:18:9-18:35>

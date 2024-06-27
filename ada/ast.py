@@ -1115,74 +1115,6 @@ class AdaNode(ASTNode):
             origin.bind(Self.origin_node, Entity.resolve_names_internal(False))
         )
 
-    @langkit_property(return_type=T.LexicalEnv)
-    def resolve_names_from_closest_entry_point_impl():
-        """
-        Implementation helper for ``resolve_names_from_closest_entry_point``.
-        Instead of returning a Boolean, it returns a LexicalEnv, which is
-        either None (indicating that resolution failed), or contains the
-        lexical environment which the children of that node should bind when
-        resolving their own names. This allows propagating the initial env
-        we got from ``Entity.xref_initial_env`` on the closest xref entry
-        point.
-        """
-        return If(
-            # This is the closest entry point: resolve its names and return
-            # its `xref_initial_env` if resolution succeeded, so that children
-            # will be able to use it to resolve their own names.
-            Entity.xref_entry_point,
-            env.bind(
-                Entity.xref_initial_env,
-                origin.bind(
-                    Self.origin_node,
-                    entry_point.bind(
-                        Self,
-                        If(Entity.resolve_own_names(False),
-                           env,
-                           No(LexicalEnv))
-                    )
-                )
-            ),
-
-            Let(
-                # Recurse in order to resolve names from the closest entry
-                # point: `res` will contain the environment to use if we need
-                # to resolve names inside Self, or None if resolution failed.
-                lambda
-                res=Entity.parent
-                ._.resolve_names_from_closest_entry_point_impl:
-
-                env.bind(
-                    res,
-                    origin.bind(
-                        Self.origin_node,
-                        Cond(
-                            # Resolution failed for the parent, so return None
-                            # as well.
-                            res == No(T.LexicalEnv),
-                            res,
-
-                            # Resolution succeeded for the parent and this is a
-                            # stop resolution, so re-use the parent environment
-                            # to resolve Self's names.
-                            Entity.xref_stop_resolution,
-                            entry_point.bind(
-                                Self,
-                                If(Entity.resolve_own_names(False),
-                                   res,
-                                   No(LexicalEnv))
-                            ),
-
-                            # Resolution succeeded but there is nothing to do
-                            # on that particular node: return the parent
-                            # environment, so that deeper children can use it.
-                            res
-                        )
-                    )
-                )
-            )
-        )
-
     @langkit_property(return_type=Bool)
     def resolve_names_from_closest_entry_point():
         """
@@ -1206,8 +1138,44 @@ class AdaNode(ASTNode):
         of a discriminant association without triggering an infinite recursion,
         as both are on different "paths".
         """
-        result = Var(Entity.resolve_names_from_closest_entry_point_impl)
-        return result != No(LexicalEnv)
+        return If(
+            # This is the closest entry point: resolve its names and stop the
+            # recursion.
+            Entity.xref_entry_point,
+            env.bind(
+                Entity.xref_initial_env,
+                origin.bind(
+                    Self.origin_node,
+                    entry_point.bind(
+                        Self,
+                        Entity.resolve_own_names(False)
+                    )
+                )
+            ),
+
+            # Otherwise, recurse on the parent
+            Entity.parent._.resolve_names_from_closest_entry_point.then(
+                lambda _: env.bind(
+                    Entity.xref_initial_env,
+                    origin.bind(
+                        Self.origin_node,
+                        If(
+                            # Resolution succeeded for the parent and this is a
+                            # stop resolution, so resolve own names as well.
+                            Entity.xref_stop_resolution,
+                            entry_point.bind(
+                                Self,
+                                Entity.resolve_own_names(False)
+                            ),
+
+                            # Resolution succeeded and there is nothing to do
+                            # on that particular node: return successfully.
+                            True
+                        )
+                    )
+                )
+            )
+        )
 
     @langkit_property(return_type=T.SolverDiagnostic.array, external=True,
                       call_memoizable=True, uses_entity_info=True,

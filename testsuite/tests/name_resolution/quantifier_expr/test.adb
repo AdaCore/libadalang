@@ -8,6 +8,17 @@ procedure Test is
         (for some E of S2 => E < 0);
       pragma Test_Statement;
    end Foo;
+
+   procedure Bar (S : Sequence) is
+      E : Integer;
+   begin
+      --  The `E` defined below should not leak in the outer scope
+      pragma Assert (for all E of S => True);
+      --  So the references to `E` below should refer to the object declared
+      --  in the procedure.
+      E := E + 1;
+      pragma Test_Statement;
+   end Bar;
 begin
    null;
 end Test;

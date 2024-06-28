@@ -62,5 +62,28 @@ Expr: <Int test.adb:8:34-8:35>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
 
+Resolving xrefs for node <AssignStmt test.adb:19:7-19:18>
+*********************************************************
+
+Expr: <Id "E" test.adb:19:7-19:8>
+  references:    <DefiningName "E" test.adb:13:7-13:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <BinOp test.adb:19:12-19:17>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "E" test.adb:19:12-19:13>
+  references:    <DefiningName "E" test.adb:13:7-13:8>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test.adb:19:14-19:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:19:16-19:17>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
 
 Done.

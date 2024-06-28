@@ -21084,11 +21084,16 @@ class QuantifiedExpr(Expr):
         return If(
             spec_success,
             Bind(Self.expr.expected_type_var, Self.bool_type)
-            & Entity.expr.sub_equation
+            & env.bind(
+                Entity.children_env,
+                Entity.expr.sub_equation
+            )
             & Entity.expr.matches_expected_formal_type
             & Bind(Self.type_var, Self.expr.type_var),
             LogicFalse()
         )
+
+    env_spec = EnvSpec(add_env())
 
 
 class Allocator(Expr):

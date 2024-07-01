@@ -19,10 +19,11 @@ with GNATCOLL.Strings;  use GNATCOLL.Strings;
 with Langkit_Support.Slocs;  use Langkit_Support.Slocs;
 with Langkit_Support.Text;   use Langkit_Support.Text;
 
-with Libadalang.Common;    use Libadalang.Common;
-with Libadalang.GPR_Utils; use Libadalang.GPR_Utils;
-with Libadalang.PP_Impl;   use Libadalang.PP_Impl;
-with Libadalang.PP_Lexer;  use Libadalang.PP_Lexer;
+with Libadalang.Common;           use Libadalang.Common;
+with Libadalang.GPR_Utils;        use Libadalang.GPR_Utils;
+with Libadalang.PP_Impl;          use Libadalang.PP_Impl;
+with Libadalang.PP_Lexer;         use Libadalang.PP_Lexer;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 package body Libadalang.Preprocessing is
 
@@ -730,11 +731,11 @@ package body Libadalang.Preprocessing is
       Default_Config : out File_Config;
       File_Configs   : out File_Config_Maps.Map) is
    begin
+      Check_Source_Info (Tree);
+
       Extract_Preprocessor_Data_From_Project
-        (Tree           => (Kind       => GPR2_Kind,
-                            GPR2_Value => Tree'Unrestricted_Access),
-         View           => (Kind       => GPR2_Kind,
-                            GPR2_Value => Project),
+        (Tree           => (Kind => GPR2_Kind, GPR2_Value => Tree),
+         View           => (Kind => GPR2_Kind, GPR2_Value => Project),
          Default_Config => Default_Config,
          File_Configs   => File_Configs);
    end Extract_Preprocessor_Data_From_Project;

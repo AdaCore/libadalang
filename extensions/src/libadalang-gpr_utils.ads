@@ -29,8 +29,7 @@ private package Libadalang.GPR_Utils is
    type Any_Tree (Kind : Project_Kind := Project_Kind'First) is record
       case Kind is
          when GPR1_Kind => GPR1_Value : GPR1.Project_Tree_Access;
-         when GPR2_Kind =>
-           GPR2_Value : access constant GPR2.Project.Tree.Object;
+         when GPR2_Kind => GPR2_Value : GPR2.Project.Tree.Object;
       end case;
    end record;
 

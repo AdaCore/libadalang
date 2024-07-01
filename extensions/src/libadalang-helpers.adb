@@ -19,10 +19,7 @@ with GNAT.Traceback.Symbolic;
 with GNATCOLL.File_Paths;
 with GNATCOLL.Strings; use GNATCOLL.Strings;
 with GNATCOLL.VFS;     use GNATCOLL.VFS;
-with GPR2.Containers;
-with GPR2.Context;
-with GPR2.Path_Name;
-with GPR2.Project.Configuration;
+with GPR2.Options;
 with GPR2.Project.View;
 with GPR2.Project.View.Set;
 
@@ -510,8 +507,7 @@ package body Libadalang.Helpers is
 
                if Use_GPR2 then
                   App_Ctx.Provider :=
-                    (Kind         => GPR2_Project_File,
-                     GPR2_Project => GPR2_Project.Reference);
+                    (Kind => GPR2_Project_File, GPR2_Project => GPR2_Project);
                else
                   App_Ctx.Provider :=
                     (Kind => Project_File, Project => Project);
@@ -823,8 +819,8 @@ package body Libadalang.Helpers is
       Target, RTS, Config_File : String := "";
       Project                  : in out GPR2.Project.Tree.Object)
    is
-      Ctx   : GPR2.Context.Object;
-      Error : Boolean := False;
+      Options : GPR2.Options.Object;
+      Error   : Boolean := False;
 
       procedure Set_Scenario_Var (Name, Value : String);
       --  Set the given scenario variable in ``Ctx``
@@ -835,7 +831,7 @@ package body Libadalang.Helpers is
 
       procedure Set_Scenario_Var (Name, Value : String) is
       begin
-         Ctx.Include (GPR2.Name_Type (Name), Value);
+         Options.Add_Switch (GPR2.Options.X, Name & "=" & Value);
       end Set_Scenario_Var;
 
    begin
@@ -845,42 +841,28 @@ package body Libadalang.Helpers is
       Iterate_Scenario_Vars (Scenario_Vars, Set_Scenario_Var'Access);
 
       --  Load the project tree with either a config file (if given) or the
-      --  requested target/runtime , and beware of loading errors
+      --  requested target/runtime, and beware of loading errors
 
-      declare
-         PF      : constant GPR2.Path_Name.Object :=
-           GPR2.Path_Name.Create_File
-             (GPR2.Filename_Type (Project_File), GPR2.Path_Name.No_Resolution);
-         RTS_Map : GPR2.Containers.Lang_Value_Map;
       begin
-         if Config_File = "" then
-            if RTS /= "" then
-               RTS_Map.Include (GPR2.Ada_Language, RTS);
+         Options.Add_Switch (GPR2.Options.P, Project_File);
+
+         if Config_File /= "" then
+            if Target /= "" or else RTS /= "" then
+               Abort_App
+                 ("--config not allowed if --target or --RTS are passed");
             end if;
-            Project.Load_Autoconf
-              (Filename          => PF,
-               Context           => Ctx,
-               Target            => GPR2.Optional_Name_Type (Target),
-               Language_Runtimes => RTS_Map);
-
-         elsif Target /= "" or else RTS /= "" then
-            Abort_App ("--config not allowed if --target or --RTS are passed");
-
-         else
-            declare
-               F      : constant GPR2.Path_Name.Object :=
-                 GPR2.Path_Name.Create_File (GPR2.Filename_Type (Config_File));
-               Config : constant GPR2.Project.Configuration.Object :=
-                 GPR2.Project.Configuration.Load (F);
-            begin
-               Project.Load
-                 (Filename => PF,
-                  Context  => Ctx,
-                  Config   => Config);
-            end;
+            Options.Add_Switch (GPR2.Options.Config, Config_File);
          end if;
 
-         Project.Update_Sources (With_Runtime => True);
+         if Target /= "" then
+            Options.Add_Switch (GPR2.Options.Target, Target);
+         end if;
+
+         if RTS /= "" then
+            Options.Add_Switch (GPR2.Options.RTS, RTS);
+         end if;
+
+         Error := not Project.Load (Options);
       exception
          when Exc : GPR2.Project_Error =>
             Error := True;
@@ -888,14 +870,17 @@ package body Libadalang.Helpers is
               ("Loading failed: " & Exception_Message (Exc));
       end;
 
+      Error := Error or else not Update_Sources (Project);
+
       --  Whether the project loaded successfully or not, print messages since
       --  they may contain warnings. If there was an error, abort the App.
 
+      Error := Error or else Project.Log_Messages.Has_Error;
       Project.Log_Messages.Output_Messages
         (Information => False,
          Warning     => True,
          Error       => True);
-      if Error or else Project.Log_Messages.Has_Error then
+      if Error then
          Abort_App;
       end if;
 

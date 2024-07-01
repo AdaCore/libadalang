@@ -2,8 +2,7 @@ with Ada.Exceptions;                  use Ada.Exceptions;
 with Ada.Strings.Wide_Wide_Unbounded; use Ada.Strings.Wide_Wide_Unbounded;
 with Ada.Text_IO;                     use Ada.Text_IO;
 
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 
 with Langkit_Support.Diagnostics; use Langkit_Support.Diagnostics;
@@ -29,10 +28,14 @@ procedure Main is
    ------------------
 
    function Load_Project (File : String) return Unit_Provider_Reference is
+      Options : GPR2.Options.Object;
    begin
-      Tree.Load_Autoconf
-        (Filename => GPR2.Path_Name.Create_File (GPR2.Filename_Type (File)),
-         Context  => GPR2.Context.Empty);
+      Options.Add_Switch (GPR2.Options.P, File);
+      if not Tree.Load (Options, With_Runtime => True)
+         or else not Update_Sources (Tree)
+      then
+         raise Program_Error;
+      end if;
       return Create_Project_Unit_Provider (Tree, Tree.Root_Project);
    end Load_Project;
 

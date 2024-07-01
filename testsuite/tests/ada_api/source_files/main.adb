@@ -8,8 +8,8 @@ with Ada.Text_IO;             use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Log;
+with GPR2.Options;
 with GPR2.Project.Tree;
 with GPR2.Project.View.Set;
 
@@ -24,6 +24,7 @@ procedure Main is
    Tree : Project_Tree_Access;
 
    GPR2_Tree : GPR2.Project.Tree.Object;
+   Log       : GPR2.Log.Object;
 
    type Project_Name_Array is array (Positive range <>) of Unbounded_String;
 
@@ -67,15 +68,18 @@ procedure Main is
    ----------
 
    procedure Load (Filename : String) is
+      Options : GPR2.Options.Object;
    begin
       Initialize (Env);
       Tree := new Project_Tree;
       Tree.Load (Create (+Filename), Env);
-      GPR2_Tree.Load_Autoconf
-        (Filename => GPR2.Path_Name.Create_File
-                       (GPR2.Filename_Type (Filename),
-                        GPR2.Path_Name.No_Resolution),
-         Context  => GPR2.Context.Empty);
+
+      Options.Add_Switch (GPR2.Options.P, Filename);
+      if not GPR2_Tree.Load (Options, With_Runtime => True)
+         or else not Update_Sources (GPR2_Tree)
+      then
+         raise Program_Error;
+      end if;
    end Load;
 
    ------------
@@ -134,11 +138,26 @@ procedure Main is
             use type Filename_Vectors.Vector;
 
             Has_Runtime  : Boolean := False;
-            GPR1_Sources : constant Filename_Vectors.Vector :=
+            GPR1_Sources : Filename_Vectors.Vector :=
               Source_Files (Tree.all, Mode, GPR1_Prjs);
             GPR2_Sources : constant Filename_Vectors.Vector :=
               Source_Files (GPR2_Tree, Mode, GPR2_Prjs);
          begin
+            --  Remove the "memtrack.adb" runtime unit from GPR1 sources: it is
+            --  not supposed to be there, but we have no hope to get this fixed
+            --  at this point.
+
+            for I in reverse 1 .. GPR1_Sources.Last_Index loop
+               declare
+                  Simple_Name : constant String :=
+                    Ada.Directories.Simple_Name (To_String (GPR1_Sources (I)));
+               begin
+                  if Simple_Name = "memtrack.adb" then
+                     GPR1_Sources.Delete (I);
+                  end if;
+               end;
+            end loop;
+
             for F of GPR1_Sources loop
                declare
                   Simple_Name : constant String :=
@@ -156,6 +175,14 @@ procedure Main is
             end if;
 
             if GPR1_Sources /= GPR2_Sources then
+               Put_Line ("With GPR1:");
+               for F of GPR1_Sources loop
+                  Put_Line ("  " & To_String (F));
+               end loop;
+               Put_Line ("With GPR2:");
+               for F of GPR2_Sources loop
+                  Put_Line ("  " & To_String (F));
+               end loop;
                raise Program_Error with "got different sources with GPR2";
             end if;
          end;

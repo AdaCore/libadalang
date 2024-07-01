@@ -4,8 +4,7 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
 with GNATCOLL.Traces;
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 
 with Libadalang.Analysis;         use Libadalang.Analysis;
@@ -19,15 +18,19 @@ procedure Main is
 
    type Context_Array is array (Positive range <>) of Analysis_Context;
 
-   Tree : GPR2.Project.Tree.Object;
-   PAPs : GPR2_Provider_And_Projects_Array_Access;
+   Options : GPR2.Options.Object;
+   Tree    : GPR2.Project.Tree.Object;
+   PAPs    : GPR2_Provider_And_Projects_Array_Access;
 
 begin
    GNATCOLL.Traces.Parse_Config ("LIBADALANG.PROJECT_PROVIDER=yes");
    Put_Line ("Loading the project:");
-   Tree.Load_Autoconf
-     (Filename => GPR2.Path_Name.Create_File ("ap1.gpr"),
-      Context  => GPR2.Context.Empty);
+   Options.Add_Switch (GPR2.Options.P, "ap1.gpr");
+   if not Tree.Load (Options, With_Runtime => True)
+      or else not Update_Sources (Tree)
+   then
+      raise Program_Error;
+   end if;
    PAPs := Create_Project_Unit_Providers (Tree);
 
    declare

@@ -1,11 +1,10 @@
 with Ada.Text_IO; use Ada.Text_IO;
 
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 
-with Libadalang.Analysis;      use Libadalang.Analysis;
-with Libadalang.Preprocessing; use Libadalang.Preprocessing;
+with Libadalang.Analysis;         use Libadalang.Analysis;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 procedure Main is
 
@@ -53,12 +52,15 @@ procedure Main is
 
    --  Create a context from the example project
 
-   Tree : GPR2.Project.Tree.Object;
+   Options : GPR2.Options.Object;
+   Tree    : GPR2.Project.Tree.Object;
 begin
-   Tree.Load_Autoconf
-     (Filename => GPR2.Path_Name.Create_File
-                    ("p.gpr", GPR2.Path_Name.No_Resolution),
-      Context  => GPR2.Context.Empty);
+   Options.Add_Switch (GPR2.Options.P, "p.gpr");
+   if not Tree.Load (Options, With_Runtime => True)
+      or else not Update_Sources (Tree)
+   then
+      raise Program_Error;
+   end if;
    Ctx := Create_Context_From_Project (Tree);
 
    --  As a sanity check, first make sure that preprocessing is active

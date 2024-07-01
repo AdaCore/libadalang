@@ -12,8 +12,11 @@ with GNAT.Task_Lock;
 
 with GNATCOLL.Strings; use GNATCOLL.Strings;
 with GNATCOLL.VFS;     use GNATCOLL.VFS;
-with GPR2.Project.Unit_Info;
-with GPR2.Unit;
+with GPR2.Build.Compilation_Unit;
+pragma Warnings (Off, "not referenced");
+with GPR2.Build.Source.Sets;
+pragma Warnings (On, "not referenced");
+with GPR2.Log;
 
 with Libadalang.GPR_Utils;      use Libadalang.GPR_Utils;
 with Libadalang.Implementation; use Libadalang.Implementation;
@@ -42,7 +45,7 @@ package body Libadalang.Project_Provider is
             GPR1_Env              : Prj.Project_Environment_Access;
             GPR1_Is_Project_Owner : Boolean;
          when GPR2_Kind =>
-            GPR2_Tree : access GPR2.Project.Tree.Object;
+            GPR2_Tree : GPR2.Project.Tree.Object;
       end case;
    end record;
 
@@ -201,9 +204,15 @@ package body Libadalang.Project_Provider is
       Unit_File : constant access US.Unbounded_String :=
         (case Part is
          when Unit_Spec => FFU.Spec_File'Access,
-         when Unit_Body     => FFU.Body_File'Access);
+         when Unit_Body => FFU.Body_File'Access);
    begin
-      pragma Assert (Unit_File.all = US.Null_Unbounded_String);
+      --  TODO (eng/gpr/gpr-issues#227) Once this bug is resolved, assert that
+      --  Unit_File.all is empty.
+
+      if Unit_File.all /= US.Null_Unbounded_String then
+         return;
+      end if;
+
       Unit_File.all :=
         (if File = ""
          then US.Null_Unbounded_String
@@ -366,8 +375,7 @@ package body Libadalang.Project_Provider is
                GPR1_Is_Project_Owner => False);
 
          when GPR2_Kind =>
-            Data :=
-              (Kind => GPR2_Kind, GPR2_Tree => Tree.GPR2_Value.Reference);
+            Data := (Kind => GPR2_Kind, GPR2_Tree => Tree.GPR2_Value);
       end case;
       Provider.Projects := Views;
       return LAL.Create_Unit_Provider_Reference (Provider);
@@ -498,6 +506,16 @@ package body Libadalang.Project_Provider is
          Trace.Decrease_Indent;
       end if;
 
+      --  For GPR2, make sure that all projects are namespace roots
+
+      if Tree.Kind = GPR2_Kind then
+         for Item of Partition loop
+            for P of Item.Projects loop
+               pragma Assert (P.GPR2_Value.Is_Namespace_Root);
+            end loop;
+         end loop;
+      end if;
+
       --  The partition is ready: turn each part into a unit provider and
       --  return the list.
 
@@ -568,6 +586,18 @@ package body Libadalang.Project_Provider is
       if Is_Aggregate_Project (Actual_View) then
          raise Unsupported_View_Error with
             "selected project is aggregate and has more than one sub-project";
+      end if;
+
+      --  Make sure we have a namespace root for GPR2, as only these can be
+      --  queried for units. If needed, take the first namespace root: all
+      --  namespace roots could do, as they all give access to the same sources
+      --  for the requested closure.
+
+      if Tree.Kind = GPR2_Kind
+         and then not Actual_View.GPR2_Value.Is_Namespace_Root
+      then
+         Actual_View.GPR2_Value :=
+           Actual_View.GPR2_Value.Namespace_Roots.First_Element;
       end if;
 
       declare
@@ -718,13 +748,8 @@ package body Libadalang.Project_Provider is
 
       when GPR2_Kind =>
          declare
-            procedure Set (SUI : GPR2.Unit.Source_Unit_Identifier);
+            procedure Set (SUI : GPR2.Build.Compilation_Unit.Unit_Location);
             --  Set ``Filename`` and ``PLE_Root_Index`` from ``SUI``'s
-
-            function Lookup (View : GPR2.Project.View.Object) return Boolean;
-            --  If ``View`` contains the requested unit, return ``True`` and
-            --  set ``Filename`` to the corresponding filename. Return
-            --  ``False`` otherwise.
 
             Unit_Name : constant GPR2.Name_Type := GPR2.Name_Type (Str_Name);
 
@@ -732,64 +757,42 @@ package body Libadalang.Project_Provider is
             -- Set --
             ---------
 
-            procedure Set (SUI : GPR2.Unit.Source_Unit_Identifier) is
+            procedure Set (SUI : GPR2.Build.Compilation_Unit.Unit_Location) is
                use type GPR2.Unit_Index;
             begin
                --  GPR2 sets the CU index to 0 when there is no "at N" clause
                --  in the project file. This is equivalont to "at 1", which is
                --  what we need here since PLE_Root_Index is a Positive.
 
-               Filename := US.To_Unbounded_String (SUI.Source.Value);
+               Filename := US.To_Unbounded_String (String (SUI.Source.Value));
                PLE_Root_Index :=
                  (if SUI.Index = 0 then 1 else Positive (SUI.Index));
             end Set;
-
-            ------------
-            -- Lookup --
-            ------------
-
-            function Lookup (View : GPR2.Project.View.Object) return Boolean is
-               Unit : constant GPR2.Project.Unit_Info.Object :=
-                 View.Unit (Unit_Name);
-            begin
-               if Unit.Is_Defined then
-                  case Kind is
-                     when Unit_Specification =>
-                        if Unit.Has_Spec then
-                           Set (Unit.Spec);
-                           return True;
-                        end if;
-                     when Unit_Body =>
-                        if Unit.Has_Body then
-                           Set (Unit.Main_Body);
-                           return True;
-                        end if;
-                  end case;
-               end if;
-
-               return False;
-            end Lookup;
-
-            Tree : GPR2.Project.Tree.Object renames
-              Provider.Data.GPR2_Tree.all;
          begin
-            --  Look for all the requested unit in the closure of all the
-            --  projects that this provider handles.
+            --  Look for the requested unit in all the projects that this
+            --  provider handles.
 
             for View of Provider.Projects loop
-               for V of Closure (View.GPR2_Value) loop
-                  if Lookup (V) then
-                     return;
+               declare
+                  Unit : constant GPR2.Build.Compilation_Unit.Object :=
+                    View.GPR2_Value.Unit (Unit_Name);
+               begin
+                  if Unit.Is_Defined then
+                     case Kind is
+                        when Unit_Specification =>
+                           if Unit.Has_Part (GPR2.S_Spec) then
+                              Set (Unit.Spec);
+                              return;
+                           end if;
+                        when Unit_Body =>
+                           if Unit.Has_Part (GPR2.S_Body) then
+                              Set (Unit.Main_Body);
+                              return;
+                           end if;
+                     end case;
                   end if;
-               end loop;
+               end;
             end loop;
-
-            --  Also look in the runtime project, if any
-
-            if Tree.Has_Runtime_Project and then Lookup (Tree.Runtime_Project)
-            then
-               return;
-            end if;
          end;
       end case;
 
@@ -1085,9 +1088,11 @@ package body Libadalang.Project_Provider is
             when Default =>
 
                --  Go through all projects except externally built ones
+               --  except the runtime.
 
                for V of Closure (View) loop
-                  if not V.Is_Externally_Built then
+                  if not V.Is_Externally_Built and then not V.Is_Runtime
+                  then
                      Include (V);
                   end if;
                end loop;
@@ -1104,7 +1109,10 @@ package body Libadalang.Project_Provider is
                --  Go through the whole project sub tree
 
                for V of Closure (View) loop
-                  Include (V);
+                  if Mode = Whole_Project_With_Runtime or else not V.Is_Runtime
+                  then
+                     Include (V);
+                  end if;
                end loop;
          end case;
       end Process;
@@ -1124,7 +1132,7 @@ package body Libadalang.Project_Provider is
       end Include;
 
    begin
-      --  Include sources from all the requested projects themselves
+      --  Include sources from all the requested projects
 
       if Projects.Is_Empty then
          Process (Tree.Root_Project);
@@ -1132,14 +1140,6 @@ package body Libadalang.Project_Provider is
          for P of Projects loop
             Process (P);
          end loop;
-      end if;
-
-      --  Only then, if requested, get runtime sources: they are common to all
-      --  subprojects.
-
-      if Mode = Whole_Project_With_Runtime and then Tree.Has_Runtime_Project
-      then
-         Include (Tree.Runtime_Project);
       end if;
 
       --  Return the sorted list of source files. Sorting gets the output
@@ -1150,6 +1150,46 @@ package body Libadalang.Project_Provider is
       end return;
    end Source_Files;
 
+   -----------------------
+   -- Check_Source_Info --
+   -----------------------
+
+   procedure Check_Source_Info (Tree : GPR2.Project.Tree.Object) is
+      function Is_Empty_Aggregate
+        (View : GPR2.Project.View.Object) return Boolean
+      is (View.Kind in GPR2.Aggregate_Kind and then View.Aggregated.Is_Empty);
+   begin
+      --  There is one case where it is actually expected that there is no
+      --  runtime: an aggregate project with no aggregated projects.
+
+      if not Tree.Has_Runtime_Project
+         and then not Is_Empty_Aggregate (Tree.Root_Project)
+      then
+         raise Runtime_Missing_Error;
+      end if;
+
+      if Tree.Source_Option not in GPR2.Source_Info_Option then
+         raise Source_Info_Missing_Error;
+      end if;
+   end Check_Source_Info;
+
+   --------------------
+   -- Update_Sources --
+   --------------------
+
+   function Update_Sources (Tree : GPR2.Project.Tree.Object) return Boolean is
+      Messages : GPR2.Log.Object;
+   begin
+      return Result : Boolean do
+         Tree.Update_Sources (Messages => Messages);
+         Result := not Messages.Has_Error;
+         Messages.Output_Messages
+           (Information => False,
+            Warning     => True,
+            Error       => True);
+      end return;
+   end Update_Sources;
+
    -----------------------------------
    -- Create_Project_Unit_Providers --
    -----------------------------------
@@ -1158,10 +1198,14 @@ package body Libadalang.Project_Provider is
      (Tree : GPR2.Project.Tree.Object)
       return GPR2_Provider_And_Projects_Array_Access
    is
-      Result : Any_Provider_And_Projects_Array_Access :=
-        Create_Project_Unit_Providers
-          ((Kind => GPR2_Kind, GPR2_Value => Tree.Reference));
+      Result : Any_Provider_And_Projects_Array_Access;
    begin
+      Check_Source_Info (Tree);
+
+      Result :=
+        Create_Project_Unit_Providers
+          ((Kind => GPR2_Kind, GPR2_Value => Tree));
+
       --  Convert Result (GPR library agnostic data structure) into the return
       --  type (GPR2-specific data structure).
 
@@ -1196,9 +1240,11 @@ package body Libadalang.Project_Provider is
    is
       Dummy : Project_Unit_Provider_Access;
    begin
+      Check_Source_Info (Tree);
+
       return Result : LAL.Unit_Provider_Reference do
          Create_Project_Unit_Provider
-           (Tree         => (Kind => GPR2_Kind, GPR2_Value => Tree.Reference),
+           (Tree         => (Kind => GPR2_Kind, GPR2_Value => Tree),
             View         => (Kind => GPR2_Kind, GPR2_Value => Project),
             Provider     => Dummy,
             Provider_Ref => Result);
@@ -1257,7 +1303,7 @@ package body Libadalang.Project_Provider is
       return String is
    begin
       return Default_Charset_From_Project
-        (Tree => (Kind => GPR2_Kind, GPR2_Value => Tree'Unrestricted_Access),
+        (Tree => (Kind => GPR2_Kind, GPR2_Value => Tree),
          View => (Kind => GPR2_Kind, GPR2_Value => Project));
    end Default_Charset_From_Project;
 

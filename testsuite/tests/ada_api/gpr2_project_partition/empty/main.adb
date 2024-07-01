@@ -2,20 +2,23 @@
 
 with Ada.Text_IO; use Ada.Text_IO;
 
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 procedure Main is
-   Tree : GPR2.Project.Tree.Object;
-   PAPs : GPR2_Provider_And_Projects_Array_Access;
+   Options : GPR2.Options.Object;
+   Tree    : GPR2.Project.Tree.Object;
+   PAPs    : GPR2_Provider_And_Projects_Array_Access;
 begin
    Put_Line ("Loading the project:");
-   Tree.Load_Autoconf
-     (Filename => GPR2.Path_Name.Create_File ("ap.gpr"),
-      Context  => GPR2.Context.Empty);
+   Options.Add_Switch (GPR2.Options.P, "ap.gpr");
+   if not Tree.Load (Options, With_Runtime => True)
+      or else not Update_Sources (Tree)
+   then
+      raise Program_Error;
+   end if;
    PAPs := Create_Project_Unit_Providers (Tree);
    for I in PAPs'Range loop
       Put ("  *");

@@ -6,15 +6,15 @@ with Ada.Text_IO;             use Ada.Text_IO;
 
 with GNATCOLL.Projects; use GNATCOLL.Projects;
 with GNATCOLL.VFS;      use GNATCOLL.VFS;
-with GPR2.Context;
-with GPR2.Path_Name;
+with GPR2.Options;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 
 with Langkit_Support.Text; use Langkit_Support.Text;
 
-with Libadalang.Analysis;       use Libadalang.Analysis;
-with Libadalang.Config_Pragmas; use Libadalang.Config_Pragmas;
+with Libadalang.Analysis;         use Libadalang.Analysis;
+with Libadalang.Config_Pragmas;   use Libadalang.Config_Pragmas;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 procedure Projects is
 
@@ -78,15 +78,17 @@ procedure Projects is
       --  Make sure we get the same mapping when loading from a GPR2 project
 
       declare
+         Options      : GPR2.Options.Object;
          Tree         : GPR2.Project.Tree.Object;
          View         : GPR2.Project.View.Object := GPR2.Project.View.Undefined;
          GPR2_Mapping : Config_Pragmas_Mapping;
       begin
-         Tree.Load_Autoconf
-           (Filename => GPR2.Path_Name.Create_File
-                          (GPR2.Filename_Type (Root_Project),
-                           GPR2.Path_Name.No_Resolution),
-            Context  => GPR2.Context.Empty);
+         Options.Add_Switch (GPR2.Options.P, Root_Project);
+         if not Tree.Load (Options, With_Runtime => True)
+            or else not Update_Sources (Tree)
+         then
+            raise Program_Error;
+         end if;
          if Project /= "" then
             for V of Tree.Ordered_Views loop
                if To_Lower (String (V.Name)) = To_Lower (Project) then

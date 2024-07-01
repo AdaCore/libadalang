@@ -14,14 +14,18 @@ with GNATCOLL.Mmap;
 with GNATCOLL.OS.FS;
 with GNATCOLL.OS.Process;
 with GNATCOLL.VFS;
+pragma Warnings (Off, "not referenced");
+with GPR2.Build.Source.Sets;
+pragma Warnings (On, "not referenced");
 with GPR2.Containers;
 with GPR2.Context;
 with GPR2.Path_Name;
 with GPR2.Path_Name.Set;
 
-with Libadalang.Auto_Provider; use Libadalang.Auto_Provider;
-with Libadalang.Common;        use Libadalang.Common;
-with Libadalang.GPR_Utils;     use Libadalang.GPR_Utils;
+with Libadalang.Auto_Provider;    use Libadalang.Auto_Provider;
+with Libadalang.Common;           use Libadalang.Common;
+with Libadalang.GPR_Utils;        use Libadalang.GPR_Utils;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 package body Libadalang.Data_Decomposition is
 
@@ -2682,6 +2686,8 @@ package body Libadalang.Data_Decomposition is
 
       Args : Argument_List;
    begin
+      Check_Source_Info (Tree);
+
       Args.Append ("gprbuild");
       Args.Append ("-c");
       Args.Append ("-P" & String (Tree.Root_Project.Path_Name.Value));
@@ -2785,6 +2791,8 @@ package body Libadalang.Data_Decomposition is
       --  Look for JSON files for all Ada sources
 
       declare
+         use type GPR2.Language_Id;
+
          Actual_View   : constant GPR2.Project.View.Object :=
            (if View.Is_Defined then View else Tree.Root_Project);
          Loaded_Subdir : constant GPR2.Filename_Optional := Tree.Subdirs;
@@ -2800,7 +2808,8 @@ package body Libadalang.Data_Decomposition is
 
             Obj_Dir := V.Object_Directory;
             if Loaded_Subdir'Length > 0 then
-               pragma Assert (Obj_Dir.Simple_Name = Loaded_Subdir);
+               pragma Assert
+                 (V.Is_Runtime or else Obj_Dir.Simple_Name = Loaded_Subdir);
                Obj_Dir := Obj_Dir.Containing_Directory;
             end if;
             if Subdirs'Length > 0 then
@@ -2810,7 +2819,7 @@ package body Libadalang.Data_Decomposition is
             Trace.Trace ("Object directory: " & String (Obj_Dir.Value));
 
             for S of V.Sources loop
-               if S.Is_Ada then
+               if S.Language = GPR2.Ada_Language then
                   Trace.Trace
                     ("Processing Ada source: " & String (S.Path_Name.Value));
                   Repinfo_File :=

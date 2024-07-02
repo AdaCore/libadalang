@@ -62,7 +62,7 @@
     - git clone --depth 1 $ADASAT_GIT
     - git clone --depth 1 $AWS_GIT
     - git clone --depth 1 $GNATFORMAT_GIT
-    - git clone --depth 1 $GPR2_GIT -b master
+    - git clone --depth 1 $GPR2_GIT
     - git clone --depth 1 $LANGKIT_GIT
     - git clone --depth 1 $LIBADALANG_GIT
     - git clone --depth 1 $LIBADALANG_TOOLS_GIT

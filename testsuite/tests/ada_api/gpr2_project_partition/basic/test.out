@@ -1,9 +1,9 @@
 Loading the project:
-[LIBADALANG.PROJECT_PROVIDER] Trying to partition AP1
-   [LIBADALANG.PROJECT_PROVIDER] Found conflicting source files for unit P1 in P3 and <P1, P2>
-[LIBADALANG.PROJECT_PROVIDER] Input project partitioned into:
-   [LIBADALANG.PROJECT_PROVIDER] Part 1: <P1, P2>
-   [LIBADALANG.PROJECT_PROVIDER] Part 2: <P3>
+[LIBADALANG.PROJECT_PROVIDER.PARTITION] Trying to partition AP1
+   [LIBADALANG.PROJECT_PROVIDER.PARTITION] Found conflicting source files for unit P1 in P3 and <P1, P2>
+[LIBADALANG.PROJECT_PROVIDER.PARTITION] Input project partitioned into:
+   [LIBADALANG.PROJECT_PROVIDER.PARTITION] Part 1: <P1, P2>
+   [LIBADALANG.PROJECT_PROVIDER.PARTITION] Part 2: <P3>
   * P1 P2
   * P3
 

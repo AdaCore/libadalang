@@ -1,0 +1,196 @@
+lexer ada_lexer {
+    val bracket_char = p"(\\[\\\"[0-9a-fA-F]+\\\"\\])"
+    val p_string = p"\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"])*\\\""
+    val p_format_string_start = p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
+    val p_format_string_mid = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
+    val p_format_string_end = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
+    val p_percent_string = p"%(%%|{bracket_char}|[^\\n%])*%"
+    val digit = p"[0-9]"
+    val extended_digit = p"[0-9a-zA-Z]"
+    val integer = p"({digit}(_?{digit})*)"
+    val exponent = p"([eE](\\+?|-){integer})"
+    val decimal_literal = p"{integer}(\\.?{integer})?{exponent}?"
+    val integer_literal = p"{integer}{exponent}?"
+    val base = p"{integer}"
+    val based_integer = p"{extended_digit}(_?{extended_digit})*"
+    val based_decimal_literal = p"{base}[#:]{based_integer}(\\.{based_integer})?[#:]{exponent}?"
+    val based_integer_literal = p"{base}[#:]{based_integer}[#:]{exponent}?"
+    val ws = p"[ ]*"
+
+    # TODO: handle Unicode properties in Langkit and switch back to
+    # \p{ID_Start} and \p{ID_Continue}.
+    val identifier = p"[\\$_]?(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|{bracket_char})(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|\\p{Nd}|\\p{Mn}|\\p{Mc}|_|{bracket_char})*"
+
+
+    @unparsing_spacing(with=alphanumericals)
+    family alphanumericals {
+        Access
+        Delta
+        Digits
+        Mod
+        Range
+    }
+
+    # Blanks and trivia
+    @trivia() Whitespace <- p"[ \\t\\r\\n\\f\\v]+"
+    @with_unparsing_newline @trivia(comment=true) Comment <- p"--(.?)+"
+    @with_unparsing_newline @trivia() PrepLine <- p"#(.?)+"
+
+    # Those keywords can also be attributes, which is why they have special
+    # handling, for example as in A'Access.
+    match no_case("access") {
+        if previous_token is Tick then send(Identifier, 6)
+        else send(Access, 6)
+    }
+    match no_case("range") {
+        if previous_token is Tick then send(Identifier, 5)
+        else send(Range, 5)
+    }
+    match no_case("digits") {
+        if previous_token is Tick then send(Identifier, 6)
+        else send(Digits, 6)
+    }
+    match no_case("delta") {
+        if previous_token is Tick then send(Identifier, 5)
+        else send(Delta, 5)
+    }
+    match no_case("mod") {
+        if previous_token is Tick then send(Identifier, 3)
+        else send(Mod, 3)
+    }
+
+    # Keywords
+    @unparsing_spacing(with=alphanumericals)
+    family alphanumericals {
+        Abort <- no_case("abort")
+        Else <- no_case("else")
+        New <- no_case("new")
+        Return <- no_case("return")
+        Abs <- no_case("abs")
+        Elsif <- no_case("elsif")
+        Not <- no_case("not")
+        Reverse <- no_case("reverse")
+        End <- no_case("end")
+        @symbol() Null <- no_case("null")
+        Accept <- no_case("accept")
+        Entry <- no_case("entry")
+        Select <- no_case("select")
+        Exception <- no_case("exception")
+        Of <- no_case("of")
+        Separate <- no_case("separate")
+        Exit <- no_case("exit")
+        Or <- no_case("or")
+        All <- no_case("all")
+        Others <- no_case("others")
+        Subtype <- no_case("subtype")
+        And <- no_case("and")
+        For <- no_case("for")
+        Out <- no_case("out")
+        Array <- no_case("array")
+        Function <- no_case("function")
+        At <- no_case("at")
+        Generic <- no_case("generic")
+        Package <- no_case("package")
+        Task <- no_case("task")
+        Begin <- no_case("begin")
+        Goto <- no_case("goto")
+        Pragma <- no_case("pragma")
+        Terminate <- no_case("terminate")
+        Body <- no_case("body")
+        Private <- no_case("private")
+        Then <- no_case("then")
+        If <- no_case("if")
+        Procedure <- no_case("procedure")
+        Type <- no_case("type")
+        Case <- no_case("case")
+        In <- no_case("in")
+        Constant <- no_case("constant")
+        Is <- no_case("is")
+        Raise <- no_case("raise")
+        Use <- no_case("use")
+        Declare <- no_case("declare")
+        Delay <- no_case("delay")
+        Limited <- no_case("limited")
+        Record <- no_case("record")
+        When <- no_case("when")
+        Loop <- no_case("loop")
+        Rem <- no_case("rem")
+        While <- no_case("while")
+        Renames <- no_case("renames")
+        With <- no_case("with")
+        Do <- no_case("do")
+        Xor <- no_case("xor")
+    }
+
+    # Punctuation
+    ParOpen <- "("
+    ParClose <- ")"
+    BrackOpen <- "["
+    BrackClose <- "]"
+    Semicolon <- ";"
+    Colon <- ":"
+    Comma <- ","
+    Doubledot <- ".."
+    Assign <- ":="
+    Dot <- "."
+    Diamond <- "<>"
+    Lte <- "<="
+    Gte <- ">="
+    Arrow <- "=>"
+    Equal <- "="
+    Lt <- "<"
+    Gt <- ">"
+    Plus <- "+"
+    Minus <- "-"
+    Power <- "**"
+    Mult <- "*"
+    Amp <- "&"
+    Notequal <- "/="
+    Divide <- "/"
+    Tick <- "'"
+    Pipe <- or(
+        | "|"
+        | "!"
+    )
+    LabelStart <- "<<"
+    LabelEnd <- ">>"
+    Target <- "@"
+
+    # Literals
+    @unparsing_spacing(with=alphanumericals)
+    family alphanumericals {
+        Integer <- or(
+            | p"{integer_literal}"
+            | p"{based_integer_literal}"
+        )
+        Decimal <- or(
+            | p"{decimal_literal}"
+            | p"{based_decimal_literal}"
+        )
+    }
+
+    String <- or(
+        | p"{p_string}"
+        | p"{p_percent_string}"
+    )
+    FormatStringStart <- p"{p_format_string_start}"
+    FormatStringMid <- p"{p_format_string_mid}"
+    FormatStringEnd <- p"{p_format_string_end}"
+
+    # Identifiers
+    @unparsing_spacing(with=alphanumericals)
+    family alphanumericals {
+        @symbol() Identifier <- p"{identifier}"
+    }
+
+    @symbol() Char <- p"'{bracket_char}'"
+
+    # Attribute vs character literal quirk: A character literal is match via
+    # '.'. However, this sequence of characters can happen in other cases, like
+    # a qualified expression with a char as parameter: A'Class'('b'). In those
+    # cases, we need to send the tick token, rather than the char token.
+    match p"'.'" {
+        if previous_token is Identifier then send(Tick, 1)
+        else send(Char, 3)
+    }
+}

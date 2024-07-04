@@ -139,7 +139,7 @@ class AdaNode implements Node[AdaNode] {
     elif current_env.is_null then false
     else node.is_children_env(parent, current_env.env_parent)
 
-    |" Return Entity with an empty metadata field.
+    |" Return self with an empty metadata field.
     fun without_md(): Entity[AdaNode] = Entity[AdaNode](
         node=self.node, info=EntityInfo(
             md=null[Metadata], rebindings=self.info.rebindings, from_rebound=self.info.from_rebound
@@ -1198,7 +1198,7 @@ class AdaNode implements Node[AdaNode] {
                     elif dbd is ObjectDecl then (
                         # Since dbd can refer to an object declaration with
                         # multiple defining names, do not call `public_part_decl`
-                        # but directly call `previous_part_for_name(Entity)`.
+                        # but directly call `previous_part_for_name(self)`.
                         dbd.as[ObjectDecl].previous_part_for_name(self.as[Name].name_symbol()).do((ppn) => ppn.defining_name()) or? ret
                     )
                     elif dbd is Body then (dbd.as[Body].decl_part() or? dbd).defining_name()
@@ -2354,10 +2354,10 @@ class BaseSubpSpec: BaseFormalParamHolder {
     |" If match_name is False, then the name of subprogram will not be
     |" checked.
     |"
-    |" If use_entity_info is True and Entity's metadata has values for fields
+    |" If use_entity_info is True and self's metadata has values for fields
     |" ``primitive`` and ``primitive_real_type`` (e.g. if it was retrieved
     |" from a primitive_env), those will be taken into account and
-    |" match_signature will return True if ``other`` overrides ``Entity``.
+    |" match_signature will return True if ``other`` overrides ``self``.
     |"
     |" If ignore_first_param is True, do the signature match by ignoring the
     |" node's first parameter. This can be used for example when matching a
@@ -2408,7 +2408,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
         val decl_scope = (
             if node.parent is GenericSubpInternal then (
                 # Get the scope of the generic instantiation (if any) when
-                # Entity comes from a generic subprogram.
+                # self comes from a generic subprogram.
                 self.generic_instantiations()?[0]?.parent?.parent
             ) else node.parent.parent.parent.as_entity
         ).as[DeclarativePart].node;
@@ -2536,7 +2536,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
     |" the result of the ``candidate_primitive_*`` properties is an
     |" approximation.
     fun as_primitive_subp_type(typ: Entity[BaseTypeDecl]): Entity[BaseTypeDecl] =
-        # `Entity.name` can be null for access-to-subprogram specifications
+        # `self.name` can be null for access-to-subprogram specifications
         self.name().do(
             (name) => typ?.primitives_env().get(name.name_symbol()).any((b) => b.node == name.basic_decl().node).do(
                 (_) => # This is node is indeed a primitive if we can find it in `typ`'s
@@ -3525,16 +3525,16 @@ class BasicDecl: AdaNode {
         prevs & [self] & nexts
     }
 
-    |" Put ``rebindings`` back on ``Entity`` if ``Entity`` is rebound
+    |" Put ``rebindings`` back on ``self`` if ``self`` is rebound
     |" somewhere in the chain of rebindings. Ensure coherency, e.g. that if
-    |" Entity already has some rebindings, the one that we add are a superset
+    |" self already has some rebindings, the one that we add are a superset
     |" of the one it already has.
     fun unshed_rebindings(rebindings: EnvRebindings): Entity[BasicDecl] = if rebindings == null[EnvRebindings] then self
     elif rebindings.old_env.env_node == node then self.unshed_rebindings_helper(rebindings)
     else self.unshed_rebindings(rebindings.get_parent)
 
-    |" Put ``rebindings`` on ``Entity`` if needed. Ensure coherency, e.g. that
-    |" if Entity already has some rebindings, the one that we add are a
+    |" Put ``rebindings`` on ``self`` if needed. Ensure coherency, e.g. that
+    |" if self already has some rebindings, the one that we add are a
     |" superset of the one it already has.
     fun unshed_rebindings_helper(rebindings: EnvRebindings): Entity[BasicDecl] =
         # If the rebindings are already the same, just return the entity as
@@ -3751,7 +3751,7 @@ class BasicDecl: AdaNode {
             # Even if the above expression is True, we may not have visibility
             # according to Ada rules: in LAL, library-level child packages'
             # parent environments are defined to be their parent packages'
-            # private part. The expression below filters out cases where Entity
+            # private part. The expression below filters out cases where self
             # is declared in the private part of a library-level package and
             # from_node lies in the public part of a child package.
             from_node.enclosing_compilation_unit().has_private_view(from_node.node)
@@ -3777,13 +3777,13 @@ class BasicDecl: AdaNode {
     )
 
     |" Predicate to check whether ``other`` is a valid subprogram renaming
-    |" of ``Entity``.
+    |" of ``self``.
     |"
     |" In case ``other`` is a subprogram renaming of a prefixed view call of
-    |" ``Entity``, subprograms profiles are not fully conformant. The first
-    |" parameter of ``Entity`` has to be ignored when comparing it to
+    |" ``self``, subprograms profiles are not fully conformant. The first
+    |" parameter of ``self`` has to be ignored when comparing it to
     |" ``other``, and the object designated by ``prefix`` shall be of the type
-    |" of the first parameter of ``Entity``.
+    |" of the first parameter of ``self``.
     |"
     |" If ``prefix`` doesn't designate an object (but a package for example),
     |" the ``subp_decl_match_signature`` predicate will match.
@@ -3803,14 +3803,14 @@ class BasicDecl: AdaNode {
         # Then, check for a renaming of a prefixed view call
         self.subp_spec_or_null().do(
             (spec) => not prefix.is_null and (
-                # ``Entity`` shall be a dottable subprogram for the
+                # ``self`` shall be a dottable subprogram for the
                 # object's type designated by ``prefix``.
                 (
                     prefix.expr_type().do((typ) => typ.accessed_type()) or? prefix.expr_type()
                 ) == spec.dottable_subp_of()
             ) and (
                 # Then signature profiles shall match by ignoring the first
-                # parameter of ``Entity``.
+                # parameter of ``self``.
                 spec.match_signature(
                     other.subp_spec_or_null().as![SubpSpec], false, ignore_first_param=true
                 )
@@ -3819,13 +3819,13 @@ class BasicDecl: AdaNode {
     )
 
     |" Actual implementation of ``base_subp_declarations`` that already
-    |" assumes Entity is a subprogram.
+    |" assumes self is a subprogram.
     @with_dynvars(imprecise_fallback)
     fun base_subp_declarations_impl(): Array[Entity[BasicDecl]] = {
         val parent = self.canonical_part().parent_basic_decl();
         val task_or_protected = parent is ProtectedTypeDecl | TaskTypeDecl;
         # We use `without_md` below because we don't want to take into
-        # account Entity's metadata, as the result of this property
+        # account self's metadata, as the result of this property
         # shouldn't depend upon how this node was retrieved.
         val spec = self.without_md().as[BasicDecl].subp_spec_or_null();
         # Retrieve an environment that contains all the candidate subprograms
@@ -3884,7 +3884,7 @@ class BasicDecl: AdaNode {
         if self.is_subprogram() then self.base_subp_declarations_impl() else null[Array[Entity[BasicDecl]]]
 
     |" Actual implementation of ``root_subp_declarations`` that already
-    |" assumes Entity is a subprogram.
+    |" assumes self is a subprogram.
     @with_dynvars(origin, imprecise_fallback)
     fun root_subp_declarations_impl(): Array[Entity[BasicDecl]] = {
         # Get all the parent overrides defined for this subprogram. That is,
@@ -4292,9 +4292,9 @@ class BasicDecl: AdaNode {
 
     |" Implementation helper for ``CompilationUnit.is_preelaborable``.
     |"
-    |" Return whether ``Entity`` has aspects that make it preelaborable.
+    |" Return whether ``self`` has aspects that make it preelaborable.
     |"
-    |" If ``from_body``, consider that ``Entity`` is a spec and that we are
+    |" If ``from_body``, consider that ``self`` is a spec and that we are
     |" computing whether its body is preelaborable.
     fun does_aspects_make_preelaborable(from_body: Bool): Bool = {
         bind imprecise_fallback = false;
@@ -5666,7 +5666,7 @@ class BaseTypeDecl: BasicDecl {
             self.base_types().any((bt) => bt.is_derived_type(other_type))
         ) or (
             # If both types are classwide, then we also recurse on base types
-            # for the specific type of ``Entity``. While this goes further than
+            # for the specific type of ``self``. While this goes further than
             # the ARM definition of what is a derived type, it is a useful
             # complement.
             entity_can.is_classwide() and other_can.is_classwide() and entity_can.as[ClasswideTypeDecl].type_decl().base_types().any((bt) => bt.is_derived_type(other_type))
@@ -5923,7 +5923,7 @@ class BaseTypeDecl: BasicDecl {
             val td = cwt.type_decl();
 
             td.next_part().do(
-                (np) => # Sometimes `next_part` returns Entity itself, so check
+                (np) => # Sometimes `next_part` returns self itself, so check
                 # that to avoid an infinite loop.
                 if td == np then cwt else np.classwide_type()
             )
@@ -7004,7 +7004,7 @@ class TypeDecl: BaseTypeDecl {
                 # `user_defined_literal_fns`) here to filter candidates since user
                 # defined functions can have many parameters without any
                 # constraints on them. Only the first parameter should be a the
-                # type of Entity.
+                # type of self.
                 ss.unpacked_formal_params()?[0]?.formal_decl().formal_type().matching_formal_type(self)
             }
         )
@@ -7044,13 +7044,13 @@ class TypeDecl: BaseTypeDecl {
     |" ``aspect`` for this type.
     fun user_defined_literal_fns(aspect: Symbol): Array[Entity[BasicDecl]] = {
         # User-defined literal aspects denote a function with a result type of
-        # ``Entity`` and one parameter that is of type ``String`` (or
+        # ``self`` and one parameter that is of type ``String`` (or
         # ``Wide_Wide_String`` for ``String_Literal``).
         val expected_spec = UserDefinedFunctionSubpSpec(
             subp_params_types=[if aspect == s"String_Literal" then node.std_wide_wide_string_type() else node.std_string_type()], subp_return_type=self
         );
         # ``Real_Literal`` detoned function can be overrode by a function with
-        # a result type of ``Entity`` and two parameters that are of type
+        # a result type of ``self`` and two parameters that are of type
         # ``String``.
         val expected_specs = [if aspect == s"Real_Literal" then UserDefinedFunctionSubpSpec(
             subp_params_types=[node.std_string_type(), node.std_string_type()], subp_return_type=self
@@ -7200,7 +7200,7 @@ class BasicSubpDecl: BasicDecl {
             bind origin = self_spec.origin_node();
 
             elements.find(
-                (ent) => # Discard the rebindings of Entity before trying to match
+                (ent) => # Discard the rebindings of self before trying to match
                 # against the tentative body, as those do not carry that info.
                 ent.node.as_bare_entity.as[Body]?.formal_param_holder_or_null().match_other(self_spec, true)
             ).as[Body]
@@ -7371,7 +7371,7 @@ class FormalSubpDecl: ClassicSubpDecl {
     |" Return the first visible subprogram that can match this formal subp in
     |" the context of an instantiation. This is used to find the matching
     |" subprogram in an instantiation for a formal subp with a box expr.
-    |" This property assumes that ``Entity`` is already in the context of the
+    |" This property assumes that ``self`` is already in the context of the
     |" given instantiation.
     fun designated_subprogram_from(inst: Entity[GenericInstantiation]): Entity[BasicDecl] = {
         val subps = node.env_get(
@@ -7831,7 +7831,7 @@ class Body: BasicDecl {
     |"     an infinite recursion.
     @with_dynvars(imprecise_fallback=false)
     fun previous_part_internal(): Entity[BasicDecl] =
-        # Use self.as_bare_entity and not Entity as a prefix for the following
+        # Use self.as_bare_entity and not self as a prefix for the following
         # call to unbound_previous_part. The reasoning is that the previous
         # part of a given Body is a static concept that does not depend on a
         # particular context, and thus should not be impacted by an entity's
@@ -9091,7 +9091,7 @@ class GenericPackageInstantiation: GenericInstantiation {
         (p) => Entity[BasePackageDecl](
             node=p.node.as[GenericPackageDecl].package_decl, info=EntityInfo(
                 md=p.info.md, rebindings=node.add_rebinding(
-                    # A subset of ``Entity``'s rebindings were used to
+                    # A subset of ``self``'s rebindings were used to
                     # resolve ``p``, now use ``insert_rebindings`` to add
                     # the rest of them.
                     node.insert_rebindings(p.info.rebindings, self.info.rebindings), # Append the rebindings for the current instantiation.
@@ -9135,7 +9135,7 @@ class GenericPackageInstantiation: GenericInstantiation {
         # resolving "use A", we need to lookup G. However, since U is
         # already being visited, our lexical env mechanism preventing
         # infinite recursion returns an empty vector, which in turn makes
-        # ``Entity.designated_package`` be null here.
+        # ``self.designated_package`` be null here.
         # Fortunately, returning EmptyEnv in this case is fine, because
         # there would be no way for U to be found through A anyways.
         if dp.is_null then
@@ -9806,7 +9806,7 @@ class CompilationUnit: AdaNode {
 
     |" Implementation helper for ``is_preelaborable``.
     |"
-    |" Return whether ``Entity`` or its spec (if any) make it preelaborable.
+    |" Return whether ``self`` or its spec (if any) make it preelaborable.
     |" ``from_body`` has the same semantics as in
     |" ``does_aspects_make_preelaborate``.
     @with_dynvars(imprecise_fallback=false)
@@ -11222,7 +11222,7 @@ class BinOp: Expr {
                 # type but not inferrable from the context (as in an operand of a
                 # comparison operator `(A + B) = 2`. The latter simply means
                 # that the expected type itself will be inferred from the operands
-                # using one of `Entity.infer_from_*` properties.
+                # using one of `self.infer_from_*` properties.
                 %predicate(AdaNode.is_not_null, node.expected_type_var()) and %eq(node.expected_type_var(), node.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype, logic_ctx=logic_context)
             ) or (
                 # There is no expected type (e.g. we are in a type conversion).
@@ -11902,7 +11902,7 @@ class Name: Expr {
         if node.parent is DottedName and node.is_suffix() then self.parent.as[DottedName].first_corresponding_decl() else self.all_env_elements_internal()?[0].as[BasicDecl]
 
     |" Constructs the xref equations for all the argument lists of CallExprs
-    |" appearing between ``Entity`` and ``root``. This is done in a single
+    |" appearing between ``self`` and ``root``. This is done in a single
     |" distinct pass instead of directly inside the ``parent_name_equation``
     |" & co. properties as we were accidentally duplicating the construction
     |" of xref equations for some arguments lists and fixing this inside these
@@ -13847,7 +13847,7 @@ class DefiningName: Name {
     @exported
     fun get_pragma(name: Symbol): Entity[Pragma] = {
         val bd = match self.basic_decl() {
-            # If Entity is an EnumLiteralDecl, search the pragma from the enum
+            # If self is an EnumLiteralDecl, search the pragma from the enum
             # type declaration node.
             case eld: EnumLiteralDecl => eld.parent.parent.parent.as![BasicDecl]
             case o => o
@@ -13893,7 +13893,7 @@ class DefiningName: Name {
         val bd = self.basic_decl_internal();
         # Gather aspects defined by pragmas
         val pragmas = match bd {
-            # If Entity is an EnumLiteralDecl, search the pragma from the enum
+            # If self is an EnumLiteralDecl, search the pragma from the enum
             # type declaration node.
             case eld: EnumLiteralDecl => eld.parent.parent.parent.as![BasicDecl]
             case o => o
@@ -14180,7 +14180,7 @@ class DottedName: Name {
         self.prefix.is_constant() or self.suffix.is_constant()
 }
 
-|" Entity name in ``end ...;`` syntactic constructs.
+|" self name in ``end ...;`` syntactic constructs.
 class EndName: Name {
     @parse_field name: Name
 
@@ -16941,7 +16941,7 @@ class ArrayTypeDef: TypeDef {
         # This does not seem to cause any problem for now in practice, but in
         # theory it could hide user-defined operators in certain circumstances.
         # TODO: This could be fixed by filtering out invalid operators when
-        # resolving names, somewhere the Entity info is available.
+        # resolving names, somewhere the self info is available.
         [node.create_binop_assoc(
             s"\"<\"", self_type, self_type, bool_type
         ), node.create_binop_assoc(
@@ -17717,9 +17717,9 @@ class SyntheticTypeExpr: TypeExpr {
     @with_dynvars(origin)
     fun designated_type(): Entity[BaseTypeDecl] = {
         # The `target_type` field stores the bare designated BaseTypeDecl,
-        # but Entity may be carrying rebindings that need to be put back on
+        # but self may be carrying rebindings that need to be put back on
         # the bare node.
-        # However, all of Entity's rebinding may not be relevant. For example,
+        # However, all of self's rebinding may not be relevant. For example,
         # if `target_type` is the definition of `Standard.Boolean`, no
         # rebindings will ever be relevant.
         # Hence we use the built-in `shed_rebindings` construct from the type
@@ -17861,7 +17861,7 @@ class Variant: AdaNode {
         val discr_specs = self.parents(with_self=false).find((p) => p is ConcreteTypeDecl).as![ConcreteTypeDecl].discriminants.as![KnownDiscriminantPart].discr_specs;
         val discr_symbol = self.parent.parent.as![VariantPart].discr_name.symbol;
 
-        # Then, get the default expression that applies to Entity's variant
+        # Then, get the default expression that applies to self's variant
         # part discriminant.
         discr_specs.find(
             (d) => d.defining_names().any((n) => n.name_is(discr_symbol))

@@ -121,7 +121,7 @@ grammar ada_grammar {
         )
         | NullRecordDef(
             "null" "record" ComponentList(
-                null(ASTList[AdaNode, AdaNode]) null(VariantPart)
+                null(ASTList[AdaNode]) null(VariantPart)
             )
         )
     )

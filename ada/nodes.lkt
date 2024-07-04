@@ -158,6 +158,12 @@ class AdaNode implements Node[AdaNode] {
         bind origin = node.origin_node();
 
         self.complete_items().filter(
+            # This property filters out `SyntheticSubpDecl` and
+            # `SyntheticObjectDecl` items because they are of no use for
+            # completion. This is not entirely true for `SyntheticObjectDecl`
+            # since they can be useful in type predicate aspects (yet not
+            # implemented since no likely helpful). Additional filtering can be
+            # done in `complete_items`.
             (n) => not n.decl is SyntheticSubpDecl | SyntheticObjectDecl
         ).to_iterator()
     }
@@ -304,6 +310,10 @@ class AdaNode implements Node[AdaNode] {
         not base.is_null and node.has_parent_rebindings(base.get_parent, parent)
     )
 
+    # We mark this property as memoizable because for the moment, we only ever
+    # get the first result of logic resolution, so we only ever want the result
+    # of the first evaluation of this property. When we change that, we'll
+    # probably change the solving API anyway.
     @call_memoizable
     fun logic_val(from_node: Entity[AdaNode], lvar: LogicVar): LogicValResult = {
         val success = from_node.resolve_names_from_closest_entry_point();
@@ -381,7 +391,9 @@ class AdaNode implements Node[AdaNode] {
         ).is_null then false
         elif not spark_mode.exists then false
         else spark_mode.value.do(
-            (mode) => mode.as[Name].name_is(s"On"), default_val=true
+            (mode) => mode.as[Name].name_is(s"On"),
+            # `SPARK_Mode` without value is `On` by default
+            default_val=true
         )
     }
 
@@ -398,6 +410,13 @@ class AdaNode implements Node[AdaNode] {
     @exported
     fun is_subject_to_proof(): Bool = self.is_spark_impl(true)
 
+    # TODO (S917-027): re-enable this protection or remove it once we
+    # moved forward on memoization soundness issues in Langkit.
+    # This comment was associated with the following previous libadalang DSL:
+    #    call_non_memoizable_because=(
+    #        None and
+    #        'Getting an analysis unit cannot appear in a memoized context'
+    #    )
     |" Return the analysis unit for the given ``kind`` corresponding to this
     |" Name. Return null if ``load_if_needed`` is false and the unit is not
     |" loaded yet.
@@ -1305,7 +1324,12 @@ class AdaNode implements Node[AdaNode] {
                 case dn: DefiningName => if dn.name_is(symbol) then dn.as_bare_entity.basic_decl().node else null[BasicDecl]
                 case _ => null[BasicDecl]
             }.do(
-                (enclosing_bd) => results.filter((r) => r.node != enclosing_bd), default_val=results
+                (enclosing_bd) =>
+                # We found that our enclosing basic decl's defining name
+                # matches the symbol on which we are doing an env lookup:
+                # filter it out of the `results` array since it cannot be
+                # legal Ada.
+                results.filter((r) => r.node != enclosing_bd), default_val=results
             ), default_val=results
         )
     }
@@ -1447,6 +1471,8 @@ class AdaNode implements Node[AdaNode] {
     |" If you want completely precise resolution, you must call that on the
     |" outermost node that supports xref_equation.
     @with_dynvars(env, origin, entry_point)
+    # xref_equation is only called from the external property
+    # resolve_own_names, so we need to ignore the warning.
     @ignored
     fun xref_equation(): Equation = raise[Equation] PropertyError("Property AdaNode.xref_equation not implemented")
 
@@ -1855,8 +1881,15 @@ class AspectAssoc: AdaNode {
     |" Equation for the case where this is an aspect assoc for a
     |" user-defined literal.
     @with_dynvars(env, origin, entry_point)
-    fun user_defined_literals_equation(target: TypeDecl): Equation =
-        %eq(self.expr.as![Identifier].ref_var(), target.as_entity.user_defined_literal_fns(self.id.name_symbol())?[0])
+    fun user_defined_literals_equation(target: TypeDecl): Equation = %eq(
+        self.expr.as![Identifier].ref_var(),
+        target.as_entity.user_defined_literal_fns(
+            self.id.name_symbol()
+        )?[
+            # First result in the list is the last override if any
+            0
+        ]
+    )
 
     |" Return the string representation of the given name, which must be a
     |" Name that can appear in an aspect association id.
@@ -2853,6 +2886,7 @@ class GenericFormalPart: BaseFormalParamHolder {
 class BaseRecordDef: AdaNode {
     @parse_field components: ComponentList
 
+    # TODO: If base subtype is from a formal type, then False
     fun comps(): Entity[ComponentList] = self.components
 }
 
@@ -3215,8 +3249,12 @@ class BasicDecl: AdaNode {
     else (
         if self.previous_part_for_decl().do((v1) => v1 is BodyStub) then self.previous_part_for_decl() else self
     ).declarative_scope().as_entity?.spark_mode_aspect().do(
-        (asp) => asp, default_val=self.enclosing_compilation_unit().spark_config_pragma().do(
-            (p) => p.as_aspect(), default_val=null[Aspect]
+        (asp) => asp,
+        # Finally, check for configuration pragmas
+        default_val=self.enclosing_compilation_unit().spark_config_pragma().do(
+            (p) => p.as_aspect(),
+            # No configuration pragma were found
+            default_val=null[Aspect]
         )
     )
 
@@ -3875,6 +3913,7 @@ class BasicDecl: AdaNode {
         base_types.filter(
             (t) => not base_types.any((u) => t != u and t.is_derived_type(u))
         ).map(
+            # Get back the subprograms declared on the base types
             (root_type) => base_decls.find(
                 (d) => d.info.md.primitive == root_type.node
             )
@@ -4242,6 +4281,8 @@ class BasicDecl: AdaNode {
         self.defining_name_or_raise().unique_identifying_name_impl(suffix=self.fqn_extra_suffix())
 
     fun custom_id_text(): String = self.subp_spec_or_null().do(
+        # For subprograms, we'll compute their profiles as the unique
+        # identifying text.
         (ss) => "(" & ss.returns().do((_) => "(") & ss.unpacked_formal_params().do(
             (ufp) => ", ".join(ufp.map(
                 (p) => p.formal_decl().type_expression().custom_id_text()
@@ -4846,6 +4887,8 @@ class BasePackageDecl: BasicDecl {
     }
 }
 
+# Implementation note: This exists so that we can insert an environment to
+# distinguish between formal parameters and the package's contents.
 |" This class denotes the internal package contained by a GenericPackageDecl.
 class GenericPackageInternal: BasePackageDecl {
     |" Return whether this is a top-level element.
@@ -4988,7 +5031,12 @@ class BaseTypeDecl: BasicDecl {
         ).do(
             (t) => Entity[BaseTypeDecl](
                 node=t.as[BaseTypeDecl], info=EntityInfo(
-                    md=null[Metadata], rebindings=self.info.rebindings, from_rebound=false
+                    # Do not propagate the "metadata" and "from_rebound"
+                    # information to the next part, as these only apply to
+                    # the original part.
+                    md=null[Metadata],
+                    rebindings=self.info.rebindings,
+                    from_rebound=false
                 )
             )
         )
@@ -5252,8 +5300,18 @@ class BaseTypeDecl: BasicDecl {
     |" (``SubtypeDecl``, ``TypeDecl``).
     @lazy
     synthetic_object_decl_env_assoc: EnvAssoc = EnvAssoc(
-        key=node.name_symbol(), value=SyntheticObjectDecl(
-            name=node.name, type_expr=node.as_bare_entity.type_expression().node or? SyntheticTypeExpr(target_type=node)
+        key=node.name_symbol(),
+        # This synthetic object declaration is used for resolving the
+        # references to its own derived/subtype identifier that can be used
+        # in predicates as object references. This virtual object only
+        # lives in the scope of the derived/subtype declaration, and has
+        # the same name and type than the declaration it derives from.
+        value=SyntheticObjectDecl(
+            name=node.name,
+            # A `SubtypeDecl` has a type expression that we can reuse On
+            # the contrary, we have to embed the TypeDecl into a synthetic
+            # `TypeExpr` for `TypeDecl`s.
+            type_expr=node.as_bare_entity.type_expression().node or? SyntheticTypeExpr(target_type=node)
         ), dest_env=DesignatedEnv(
             kind=DesignatedEnvKind.current_env, env_name=null[Symbol], direct_env=null[LexicalEnv[AdaNode]]
         ), metadata=null[Metadata]
@@ -5412,7 +5470,11 @@ class BaseTypeDecl: BasicDecl {
     |" type.
     @with_dynvars(origin)
     fun cursor_type(): Entity[BaseTypeDecl] =
-        self.children_env().get_first(s"Cursor").as![BaseTypeDecl] or? self.as[TypeDecl].iterable_cursor_type()
+        # For containers and user defined iterator types, cursor type
+        # is defined by the `Cursor` type declaration.
+        self.children_env().get_first(s"Cursor").as![BaseTypeDecl]
+        # Check out cursor type for types with `Iterable` aspect
+        or? self.as[TypeDecl].iterable_cursor_type()
 
     fun is_not_root_int_type(): Bool =
         not node.is_null and self != node.root_int_type()
@@ -5575,7 +5637,10 @@ class BaseTypeDecl: BasicDecl {
         self.array_def_with_deref().do((ad) => ad.index_type(dim))
 
     @with_dynvars(origin)
-    fun expr_type(): Entity[BaseTypeDecl] = self
+    fun expr_type(): Entity[BaseTypeDecl] =
+        # A BaseTypeDecl in an expression context corresponds to a type
+        # conversion, so its type is itself.
+        self
 
     |" Whether Self is derived from other_type.
     @exported
@@ -6189,6 +6254,7 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin=null[AdaNode])
     fun is_char_type(): Bool = false
 
+    # TODO: Not clear if the below origin.bind is correct, investigate later
     |" Return the classwide type for this type, if applicable
     @exported
     fun classwide_type(): Entity[ClasswideTypeDecl] = {
@@ -6412,6 +6478,7 @@ class DiscreteBaseSubtypeDecl: BaseSubtypeDecl {
     @parse_field @null_field aspects: AspectSpec
 
     @with_dynvars(imprecise_fallback=false)
+    # TODO: If base subtype is from a formal type, then False
     fun is_static_decl(): Bool = true
 
     @with_dynvars(origin=null[AdaNode])
@@ -6512,8 +6579,14 @@ class ClasswideTypeDecl: BaseTypeDecl {
 
     @with_dynvars(origin=null[AdaNode])
     fun canonical_type(): Entity[BaseTypeDecl] =
-        self.type_decl().canonical_type().do((t) => t.classwide_type() or? t)
+        self.type_decl().canonical_type().do(
+            # The canonical type should be classwide whenever it makes sense
+            # (e.g. if the canonical type is a tagged record type.) Otherwise
+            # return a non-classwide type.
+            (t) => t.classwide_type() or? t
+        )
 
+    # We don't want to add the classwide type to the environment
     env_spec {
     }
 }
@@ -6579,7 +6652,12 @@ class ProtectedTypeDecl: BaseTypeDecl {
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv[AdaNode] = self.definition.private_part.do(
-        (pp) => [self.children_env(), pp.children_env()].env_group(), default_val=self.children_env()
+        (pp) =>
+        # Include private_part's env unconditionally. This is safe since
+        # ProtectedTypeDecl can't be overloaded, thus wrong name resolution
+        # can only occur on invalid Ada code.
+        [self.children_env(), pp.children_env()].env_group(),
+        default_val=self.children_env()
     )
 
     @with_dynvars(origin)
@@ -6755,7 +6833,12 @@ class TypeDecl: BaseTypeDecl {
                 self.type_def.defining_env().get_first(
                     imp_deref.as[Name].name_symbol(), categories=RefCategories(inherited_primitives=false, _=true)
                 )
-            }.as![BaseFormalParamDecl].formal_type().accessed_type()
+            }
+
+            # We cast to BaseFormalParamDecl. Following Ada's legality rule,
+            # you need to implicit deref on a discriminant, but I see no reason
+            # to enforce that here.
+            .as![BaseFormalParamDecl].formal_type().accessed_type()
         )
     }
 
@@ -7052,6 +7135,8 @@ class AnonymousTypeDecl: TypeDecl {
 
     fun xref_entry_point(): Bool = false
 
+    # We don't want to add anonymous type declarations to the lexical
+    # environments, so we reset the env spec.
     env_spec {
     }
 }
@@ -7526,17 +7611,18 @@ class Body: BasicDecl {
         match self.body_scope(true).get(
             self.name_symbol(), categories=RefCategories(inherited_primitives=false, _=true)
         )?[0] {
-            case gpd: GenericPackageDecl => [gpd.children_env(), gpd.package_decl.children_env()].env_group()
-
+            case gpd: GenericPackageDecl =>
             # For generic package decls, we regroup the formal part & the
             # package decl itself, since the reference will be
             # non-transitive.
+            [gpd.children_env(), gpd.package_decl.children_env()].env_group()
             case pd: BasicDecl => pd.children_env()
             case _ => raise[LexicalEnv[AdaNode]] PropertyError()
         }.do(
             (public_part) => public_part.get(
                 s"__privatepart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
             )?[0].do(
+                # If there is a private part, group it with the rest
                 (pp) => [pp.children_env(), public_part].env_group(), default_val=public_part
             )
         )
@@ -8215,6 +8301,8 @@ class SubpBodyStub: BodyStub {
 
     fun defining_names(): Array[Entity[DefiningName]] =
         [self.subp_spec.name()]
+    # Note that we don't have to override the defining_env property here since
+    # what we put in lexical environment is their SubpSpec child.
 
     fun type_expression(): Entity[TypeExpr] = self.subp_spec.returns()
 
@@ -8710,6 +8798,7 @@ class GenericSubpDecl: GenericDecl {
 
     fun decl(): Entity[BasicDecl] = self.subp_decl
 
+    # Overriding properties forwarding to internal subp decl
     fun is_imported(): Bool = self.subp_decl.is_imported()
 
     @with_dynvars(imprecise_fallback=false)
@@ -9049,7 +9138,25 @@ class GenericPackageInstantiation: GenericInstantiation {
         # ``Entity.designated_package`` be null here.
         # Fortunately, returning EmptyEnv in this case is fine, because
         # there would be no way for U to be found through A anyways.
-        if dp.is_null then null[LexicalEnv[AdaNode]] else [if node.is_formal() or inst_from_formal then [dp.children_env(), dp.parent.children_env()].env_group() else dp.children_env(), self.children_env()].env_group()
+        if dp.is_null then
+            null[LexicalEnv[AdaNode]]
+        else [
+            if node.is_formal() or inst_from_formal then
+                [dp.children_env(), dp.parent.children_env()].env_group()
+            else
+                dp.children_env(),
+            # The environment of the instantiation needs to be available,
+            # because library unit generic package instantiations can be
+            # nested, and so need to be available, such as in::
+            #
+            #     --  a.ads
+            #     package A is new Gen_A;
+            #
+            #     --  a-b.ads
+            #     package A.B is new A.Gen_B;
+            #
+            self.children_env()
+        ].env_group()
     }
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
@@ -9433,7 +9540,11 @@ class SingleProtectedDecl: BasicDecl {
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv[AdaNode] = self.definition.private_part.do(
-        (pp) => [self.children_env(), pp.children_env()].env_group(), default_val=self.children_env()
+        (pp) =>
+        # Include private_part's env unconditionally. This is safe since
+        # SingleProtectedDecl can't be overloaded, thus wrong name
+        # resolution can only occur on invalid Ada code.
+        [self.children_env(), pp.children_env()].env_group(), default_val=self.children_env()
     )
 
     fun xref_entry_point(): Bool = true
@@ -9619,15 +9730,23 @@ class CompilationUnit: AdaNode {
     |" ``include_privates`` is True.
     @exported
     @memoized
-    fun imported_units(include_privates: Bool = true): Array[Entity[CompilationUnit]] = node.withed_units(include_privates) & (
-        node.decl().as[BaseSubpBody].do(
-            (subp) => subp.as_bare_entity.subp_previous_part().do(
-                (pp) => [pp.enclosing_compilation_unit().as_bare_entity]
+    fun imported_units(include_privates: Bool = true): Array[Entity[CompilationUnit]] =
+        node.withed_units(include_privates) & (
+            # Library-level subprogram bodies are handled specially here,
+            # as their parent environment is *not* their corresponding spec in
+            # our implementation (unlike for the rest of the library-level
+            # declarations).
+            node.decl().as[BaseSubpBody].do(
+                # We call subp_previous_part directly to avoid unnecessary
+                # detours in which code that raises property errors could
+                # be accidentally added.
+                (subp) => subp.as_bare_entity.subp_previous_part().do(
+                    (pp) => [pp.enclosing_compilation_unit().as_bare_entity]
+                )
+            ) or? node.decl()?.node_env()?.env_node.do(
+                (n) => [n.enclosing_compilation_unit().as_bare_entity]
             )
-        ) or? node.decl()?.node_env()?.env_node.do(
-            (n) => [n.enclosing_compilation_unit().as_bare_entity]
         )
-    )
 
     |" Return the list of units that are only visible in private parts of this
     |" compilation units. Note that this is not equivalent to the list of
@@ -9672,7 +9791,10 @@ class CompilationUnit: AdaNode {
     @memoized
     fun unit_dependencies(): Array[Entity[CompilationUnit]] = node.unit_dependencies_helper(
         null[Array[Entity[CompilationUnit]]], [self]
-    ).unique().filter((u) => u.node != node)
+    ).unique().filter(
+        # Remove Self from the list of dependencies
+        (u) => u.node != node
+    )
 
     |" Get the root basic decl defined in this compilation unit.
     @exported
@@ -9856,6 +9978,8 @@ class CompilationUnit: AdaNode {
     |" implementation is in ``CompilationUnit.stub_for_impl``. Memoizing this
     |" property is very important for performance.
     @memoized
+    # At the time of its introduction, this property was used only by
+    # AdaNode.can_reach, which was an external property.
     @ignored
     fun stub_for(su: Subunit): BodyStub = node.stub_for_impl(su)
 
@@ -10117,10 +10241,16 @@ class DeclarativePart: AdaNode {
     fun spark_mode_aspect(): Aspect =
         # Look if a `SPARK_Mode` pragma has been specified for that part
         self.spark_mode_pragma().do(
-            (pragma) => pragma.as_aspect(), default_val=self.parent.as[BasicDecl].do(
-                (bd) => # Then, is it `On` or `Off`?
-                # Else, `SPARK_Mode` can also be specified by an aspect
-                bd.get_aspect(s"SPARK_Mode") or? self.super(), default_val=self.super()
+            # Then, is it `On` or `Off`?
+            (pragma) => pragma.as_aspect(),
+
+            # Else, `SPARK_Mode` can also be specified by an aspect
+            default_val=self.parent.as[BasicDecl].do(
+                (bd) => bd.get_aspect(s"SPARK_Mode")
+                # If not pragma or aspect sets `SPARK_Mode`, have a look at
+                # the parent declarative scope.
+                or? self.super(),
+                default_val=self.super()
             )
         )
 }
@@ -10143,7 +10273,10 @@ class PrivatePart: DeclarativePart {
     fun spark_mode_aspect(): Aspect =
         # Look if a `SPARK_Mode` pragma has been specified for that part
         self.spark_mode_pragma().do(
-            (pragma) => pragma.as_aspect(), default_val=self.parent.as[PackageDecl]?.public_part.spark_mode_aspect()
+            (pragma) => pragma.as_aspect(),
+            # If not pragma sets `SPARK_Mode`, have a look at the corresponding
+            # public part if any.
+            default_val=self.parent.as[PackageDecl]?.public_part.spark_mode_aspect()
         )
 
     env_spec {
@@ -10319,7 +10452,12 @@ class Expr: AdaNode {
             # The controlling operand is the LHS of the assignment.
             # This only applies to the RHS of the assign statement
             a.expr == self
-        ) and self.expected_expression_type().is_classwide(), default_val=self.parent_candidate_dispatching_call()?.is_dispatching_call()
+        ) and self.expected_expression_type().is_classwide(),
+
+        # If we're an argument of an enclosing dispatching call, then
+        # RM 3.9.2 (18/2) applies: The controlling tag value of this
+        # call is the controlling tag value of the enclosing call.
+        default_val=self.parent_candidate_dispatching_call()?.is_dispatching_call()
     )
 
     |" Common logic for the implementation of is_dispatching_call on the
@@ -10861,7 +10999,10 @@ class Aggregate: BaseAggregate {
         # Named container case: `Add_Named` should be specified
         val key_type = self.add_named_param_at(1);
 
-        key_type or? self.universal_int_type()
+        key_type
+        # If add_named is not specified, key_type is the universal integer
+        # type used for indexed aggregates.
+        or? self.universal_int_type()
     }
 }
 
@@ -12044,6 +12185,10 @@ class Name: Expr {
     fun is_static_subtype(): Bool =
         self.name_designated_type().is_static_decl()
 
+    # ATTENTION: As for Name.use_package_name_designated_env this property must
+    # not be memoized because of an unsoundness issue between infinite
+    # recursion guards in lexical envs and memoized properties. See
+    # libadalang#1307.
     fun name_designated_type_env(): LexicalEnv[AdaNode] =
         self.name_designated_type()?.primitives_env()
 
@@ -12075,6 +12220,9 @@ class Name: Expr {
     @exported
     fun name_matches(n: Entity[Name]): Bool = node.matches(n.node)
 
+    # ATTENTION: this property must not be memoized because of an unsoundness
+    # issue between infinite recursion guards in lexical envs and memoized
+    # properties. See VC13-023.
     |" Assuming Self is a name that is the direct child of a
     |" UsePackageClause's package name list, return the memoized designated
     |" environment for it.
@@ -12871,6 +13019,8 @@ class CallExpr: Name {
     fun env_elements_impl(): Array[Entity[AdaNode]] =
         self.name.env_elements_impl()
 
+    # CallExpr can appear in type expressions: they are used to create implicit
+    # subtypes for discriminated records or arrays.
     @with_dynvars(env, origin)
     fun designated_type_impl(): Entity[BaseTypeDecl] = {
         # Retrieve the type designated by the prefix
@@ -13049,6 +13199,8 @@ class CallExpr: Name {
                 }
             )
         } and self.name.sub_equation()
+        # TODO: Bug here: if operator equation, then parent equation is
+        # not called!
     )
 
     |" Construct an equation verifying if Self is conformant to the type
@@ -13196,15 +13348,29 @@ class CallExpr: Name {
                     # All such `CallExpr`s shall have at least two parameters
                     # (:rmlink:`4.1.6`).
                     self.parent.as[CallExpr].do(
-                        (ce) => # Since the result type of Self is ``typ``, the result type of
+                        (ce) =>
+                        # Since the result type of Self is ``typ``, the result type of
                         # its parent CallExpr (if it exists) must be the component type
                         # of ``typ``, except in case of an array slice.
                         # Note: we use subscript=True because a CallExpr will
                         # dereference implicitly.
                         ce.check_for_type(
-                            if self.check_array_slice(typ) then typ else # TODO: see comment in Name.parent_name_equation
-                            if typ.is_iterable_type() then typ.iterable_comp_type() else typ.comp_type(is_subscript=true)
-                        ), default_val=true
+                            if self.check_array_slice(typ) then
+                                typ
+                            else
+                                # TODO: see comment in Name.parent_name_equation
+                                if typ.is_iterable_type() then
+                                    typ.iterable_comp_type()
+                                else
+                                    typ.comp_type(is_subscript=true)
+                        ),
+
+                        # We are done if the parent is not a CallExpr. We could
+                        # actually do more here by considering ExplicitDerefs,
+                        # but this should be sufficient for the current purpose
+                        # of check_for_type (e.g. to preemptively discard
+                        # inadequate candidates in env_elements_impl).
+                        default_val=true
                     )
                 )
             )
@@ -13269,7 +13435,9 @@ class DefiningName: Name {
     |" Implementation of canonical_fully_qualified_name.
     fun canonical_fully_qualified_name_impl(include_profile: Bool, suffix: String): String = ".".join(self.fully_qualified_name_impl(
         include_profile=include_profile, suffix=suffix
-    ).map((t) => t.to_symbol).map((t) => t.image()))
+    )
+    # Map to symbol & back to canonicalize
+    .map((t) => t.to_symbol).map((t) => t.image()))
 
     |" Implementation for unique_identifying_name.
     fun unique_identifying_name_impl(suffix: String): String = match self.basic_decl() {
@@ -13826,18 +13994,25 @@ class DefiningName: Name {
         # equation here.
         self.name.as[DottedName].do(
             (dn) => {
+                # In case this name denotes a package/library level
+                # task/procedure name, it must be resolved as seen from the
+                # standard package (same logic as for EndName).
                 bind env = self.std_env();
 
                 dn.prefix.xref_equation()
             }, default_val=%true
         )
 
+    # There are names to resolve in a defining name only if its name field is
+    # a dotted name, in which case we must resolve its prefix.
     fun xref_entry_point(): Bool = node.name is DottedName
 }
 
 |" Synthetic DefiningName.
 @synthetic
 class SyntheticDefiningName: DefiningName {
+    # It is not possible to override Name.relative_name (which name_symbol is
+    # defined in terms of), so we override name_symbol directly.
     fun name_symbol(): Symbol = node.name.name_symbol()
 
     fun as_symbol_array(): Array[Symbol] = [node.name_symbol()]
@@ -14035,6 +14210,9 @@ class EndName: Name {
     fun xref_equation(): Equation = self.parent.as[AcceptStmtWithStmts].do(
         (stmt) => %eq(node.ref_var(), stmt.designated_entry()), default_val=%eq(node.ref_var(), self.basic_decl())
     ) and self.name.as[DottedName].do(
+        # Also resolve the prefix of the dotted name, in case this
+        # subprogram/package is a child unit: the fully qualified name must
+        # be resolved as seen from the standard package.
         (dn) => {
             bind env = self.std_env();
 
@@ -14073,6 +14251,7 @@ class ExplicitDeref: Name {
             bind origin = node.origin_node();
 
             env_els.filter(
+                # Env elements for access derefs need to be of an access type
                 (e) => e.as[BasicDecl]?.expr_type().do((t) => t.is_access_type())
             )
         }
@@ -14404,7 +14583,11 @@ class BaseId: SingleTokNode implements TokenNode {
             }
         )
     ).do(
-        (precise) => precise.parent.as[GenericFormalTypeDecl].do((gftd) => gftd.default_type()) or? precise
+        (precise) =>
+        # If we got a formal type declaration (i.e. a type declaration
+        # of a generic formal parameter), always returns its default type
+        # value if any.
+        precise.parent.as[GenericFormalTypeDecl].do((gftd) => gftd.default_type()) or? precise
     )
 
     @with_dynvars(env, origin)
@@ -14476,7 +14659,11 @@ class BaseId: SingleTokNode implements TokenNode {
                         )
                         case _ => false
                     }
-                ), default_val=items.filter((e) => not e is BaseTypeDecl)
+                ),
+
+                # Discard BaseTypeDecls when resolving a CallExpr that cannot
+                # be a type conversion.
+                default_val=items.filter((e) => not e is BaseTypeDecl)
             )
         }
     }
@@ -14595,6 +14782,19 @@ class CharLiteral: BaseId implements TokenNode {
 @with_abstract_list
 @repr_name("Id")
 class Identifier: BaseId implements TokenNode {
+
+    # Some attributes return functions in Ada. However, LAL incorrectly parses
+    # an "AttributeRef with arguments" as something magical rather than a
+    # regular call (which is why AttributeRef has an `args` field.
+    #
+    # Additionally, resolution for a number of them was implemented as "magic
+    # attributes" rather than built-in functions. This is wrong and needs to be
+    # fixed (see S910-057). However, for the moment, we parse them as
+    # ``AttributeRef (pfx, attr, args)``, and resolve them specially
+    # rather than  ``CallExpr (AttrRef (pfx, attr), args)``.
+    #
+    # For other args, we deactivate this parsing, so that they're correctly
+    # parsed as ``CallExpr (AttrRef (pfx, attr), args)``.
     fun is_attr_with_args(): Bool =
         node.symbol in s"First" | s"Last" | s"Range" | s"Length" | s"Has_Same_Storage" | s"Overlaps_Storage"
 
@@ -15032,8 +15232,11 @@ class HandledStmts: AdaNode {
         self.stmts.take_while((stmt) => stmt is Pragma).find(
             (stmt) => stmt.as[Pragma].id.name_is(s"SPARK_Mode")
         ).do(
-            (spark_mode) => spark_mode.as[Pragma].as_aspect(), default_val=self.parent.as[PackageBody].do(
-                (body) => body.decls.spark_mode_aspect(), default_val=self.semantic_parent().spark_mode_aspect()
+            (spark_mode) => spark_mode.as[Pragma].as_aspect(),
+            # Else, look at the body declarative part
+            default_val=self.parent.as[PackageBody].do(
+                (body) => body.decls.spark_mode_aspect(),
+                default_val=self.semantic_parent().spark_mode_aspect()
             )
         )
 }
@@ -15123,6 +15326,9 @@ class ForLoopSpec: LoopSpec {
             )
         }
 
+    # This spec is not a complete resolution context when part of an iterated
+    # component association: we must know the type of the enclosing aggregate
+    # to determine the type of the iteration variable in case of a `for I in`.
     fun xref_entry_point(): Bool = not node.is_iterated_assoc_spec()
 }
 
@@ -15212,6 +15418,10 @@ class PpIfDirective: PpDirective {
     @parse_field @nullable then_kw: PpThenKw
 }
 
+# Unparsers require to have a single sequence of tokens for a given node.
+# We need parsers for ``PpIfDirective`` and ``PpElseDirective`` to accept
+# both ``[els]if X then`` and ``[els]if X`` syntax forms, so we have to
+# create a (possible null) ``then_kw`` field for both.
 |" ``then`` keyword in preprocessor directives.
 class PpThenKw: AdaNode {
 }
@@ -16028,6 +16238,8 @@ class Subunit: AdaNode {
     |" in all lexical env lookups, its implementation cannot do lookups itself
     |" as it would trigger infinite recursions. Libadalang users can use
     |" ``BasicDecl.previous_part_for_decl`` instead.
+    # At the time of its introduction, this property was used only by
+    # AdaNode.can_reach, which was an external property.
     @ignored
     fun stub(): BodyStub = {
         # Look for the declaration list that is supposed to contain the stub
@@ -16344,6 +16556,7 @@ class TypeAttributesRepository: AdaNode {
         )
     )
 
+    # We can't name it just `val` as this is a keyword in LKT
     @lazy
     val_attr: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
@@ -16544,6 +16757,16 @@ class TypeDef: AdaNode {
 
     @with_dynvars(origin, dottable_type)
     fun dottable_subps_env(): LexicalEnv[AdaNode] =
+        # Return the environment containing all subprograms that can be called
+        # with the dot-notation on values of the type which this is defined.
+        # It is important to rebind the env with our current rebindings,
+        # so that subsequent calls to env.get on this env return those
+        # subprograms with the adequate rebindings.
+        # Note that we also set the ``primitive`` and ``primitive_real_type``
+        # metadata field (without checking that they are actual primitives)
+        # so that user queries such as ``primitive_subp_tagged_type`` return a
+        # precise type. This is OK because those fields are not used for
+        # name resolution in any case. (see TODO in ``real_designated_type``).
         [self.containing_type().dottable_subps_env().rebind_env(self.info.rebindings)].env_group(
             with_md=dottable_type.do(
                 (t) => Metadata(
@@ -16642,6 +16865,8 @@ class AccessToSubpDef: AccessDef {
     @with_dynvars(origin)
     fun accessed_type(): Entity[BaseTypeDecl] = self.subp_spec.return_type()
 
+    # We need to add an env to contain the subp_spec's parameters, so that they
+    # don't leak in the external scope.
     env_spec {
         add_env()
     }
@@ -16694,7 +16919,7 @@ class ArrayTypeDef: TypeDef {
     fun array_ndims(): Int = node.indices.ndims()
 
     fun is_limited_type(): Bool = {
-        bind origin = null[AdaNode];
+        bind origin = null[AdaNode]; # We want full visibility
 
         self.comp_type().is_limited_type()
     }
@@ -16931,6 +17156,8 @@ class InterfaceTypeDef: TypeDef {
     @with_dynvars(origin=null[AdaNode])
     fun is_task_type(): Bool = self.interface_kind is InterfaceKind.Task
 
+    # All four interface kinds declare limited types. Also, limitedness is not
+    # inherited from parent interfaces (ARM 7.5 6.2/2).
     fun is_limited_type(): Bool = not node.interface_kind.is_null
 
     fun base_interfaces(): Array[Entity[BaseTypeDecl]] =
@@ -17370,6 +17597,11 @@ class AnonymousType: TypeExpr {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.type_decl.sub_equation()
 
+    # TODO: This implementation is not satisfying, because the formatting will
+    # be the original source formatting, but will do for the moment.
+    # Ideally we would compute a properly formatted version of the anonymous
+    # type declaration. Using unparsing in order to avoid duplicating logic
+    # between parsing/unparsing.
     fun custom_id_text(): String = self.type_decl.text()
 }
 
@@ -17397,6 +17629,10 @@ class SubtypeIndication: TypeExpr {
     @parse_field name: Name
     @parse_field @nullable constraint: Constraint
 
+    # The name for this type has to be evaluated in the context of the
+    # SubtypeIndication node itself: we don't want to use whatever lexical
+    # environment the caller is using. However we need to inherit the
+    # visibility (origin node) of the caller.
     @with_dynvars(origin)
     fun designated_type(): Entity[BaseTypeDecl] = {
         bind env = self.node_env();
@@ -17439,7 +17675,10 @@ class SubtypeIndication: TypeExpr {
         val rc = self.constraint.as![RangeConstraint];
 
         rc.do(
-            (r) => r.range.range.discrete_range(), default_val=self.designated_type_decl().discrete_range()
+            (r) => r.range.range.discrete_range(),
+            # If no additional range constraint is specified, the range is
+            # that of the indicated subtype.
+            default_val=self.designated_type_decl().discrete_range()
         )
     }
 
@@ -17598,6 +17837,8 @@ class UseTypeClause: UseClause {
 |" The value sequence of a reduction expression (see ``ReduceAttributeRef``).
 |" Ada 2022, RM 4.5.10.
 class ValueSequence: AdaNode {
+    # NOTE: add chunk and aspect specification fields when parallel keyword is
+    # supported.
     @parse_field iter_assoc: IteratedAssoc
 
     |" Return the nameres equation for this ValueSequence.
@@ -17738,16 +17979,24 @@ enum class WithPrivate: AdaNode {
 
 @metadata
 struct Metadata {
+    |" Whether the stored element is a subprogram accessed through
+    |" the dot notation
     dottable_subp: Bool = false
+    |" The type for which this subprogram is a primitive, if any
     @used_in_equality primitive: AdaNode = null[AdaNode]
+    |" The type for which this subprogram is a primitive, if any
     @used_in_equality primitive_real_type: AdaNode = null[AdaNode]
 }
 
 |" Composite field representing the aspect of an entity (:rmlink:`13`).
 struct Aspect {
+    |" Whether the aspect is defined or not
     exists: Bool
+    |" Syntactic node that defines the aspect
     node: Entity[AdaNode]
+    |" Expr node defining the value of the aspect
     value: Entity[Expr]
+    |" Whether the aspect is inherited (it has been defined by a parent)
     inherited: Bool
 }
 
@@ -17755,7 +18004,9 @@ struct CompletionItem {
     decl: Entity[BasicDecl]
     is_dot_call: Bool = false
     is_visible: Bool = true
+    |" The higher the weight, the more relevant the completion item is
     weight: Int = 0
+    # See `AdaNode.complete_item_weight` for implementation details.
 }
 
 |" Represent the range of a discrete type or subtype. The bounds are not
@@ -17774,7 +18025,9 @@ struct DiscriminantValues {
 
 |" Documentation annotation.
 struct DocAnnotation {
+    |" Annotation key
     key: String
+    |" Annotation value
     value: String
 }
 
@@ -17803,8 +18056,11 @@ struct LogicValResult {
 |" Struct enclosing information about aggregates for multidimensional array
 |" types.
 struct MultidimAggregateInfo {
+    |" the top level aggregate
     agg: Entity[BaseAggregate]
+    |" the type of the array
     typ: Entity[BaseTypeDecl]
+    |" the rank of the original sub-aggregate
     rank: Int
 }
 
@@ -17827,6 +18083,7 @@ struct SingleActual {
 |"
 |" Each value relates to one ParamAssoc.
 struct ParamMatch {
+    |" Whether the matched ParamAssoc a ParamSpec.
     has_matched: Bool
     actual: SingleActual
     formal: Entity[DefiningName]
@@ -17861,8 +18118,15 @@ struct Shape {
 |" be used as part of an environment in the eval_as_*_in_env property. See
 |" the declaration of those properties for more details.
 struct Substitution {
+    |" The declaration to substitute.
     from_decl: Entity[BasicDecl]
+
+    # TODO: once we can call expr_eval from the DSL and get an actual
+    # discriminated type, use that type instead of BigInt.
+    # For now however, we only ever need to do BigInt substitutions.
+    |" The value by which to substitute the declaration.
     to_value: BigInt
+    |" The type of the substituted value.
     value_type: Entity[BaseTypeDecl]
 }
 

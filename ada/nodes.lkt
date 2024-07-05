@@ -3293,10 +3293,10 @@ class BasicDecl: AdaNode {
 
         node.is_compilation_unit_root() or (
             (is_decl or (allow_bodies and is_body)) and node.node_env().env_node.do(
-                (node) => node.as[BasicDecl].do(
+                (env_node) => env_node.as[BasicDecl].do(
                     (p) => if node == p then true else p.has_top_level_env_name_impl(
                         allow_bodies=allow_bodies and not node is BaseSubpBody and not p is BaseSubpBody
-                    ), default_val=node is PrivatePart and node.parent.as[BasicDecl].do(
+                    ), default_val=env_node is PrivatePart and env_node.parent.as[BasicDecl].do(
                         (bd) => bd.has_top_level_env_name_impl(allow_bodies)
                     )
                 ), default_val=true
@@ -3371,8 +3371,8 @@ class BasicDecl: AdaNode {
         # property is typically called in env specs before add_env() in order
         # to understand where we should create this children_env).
         node.children_env().env_node.do(
-            (node) => node.as[BasicDecl].do(
-                (bd) => bd.has_top_level_env_name_impl(allow_bodies=true), default_val=node is PrivatePart and node.parent.as[BasicDecl].do(
+            (env_node) => env_node.as[BasicDecl].do(
+                (bd) => bd.has_top_level_env_name_impl(allow_bodies=true), default_val=env_node is PrivatePart and env_node.parent.as[BasicDecl].do(
                     (bd) => bd.has_top_level_env_name_impl(allow_bodies=true)
                 )
             ), default_val=true
@@ -15570,7 +15570,7 @@ class Pragma: AdaNode {
             (parent) => parent.children_env().get(
                 name.name_symbol(), lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
             ).map(
-                (node) => node.as[BasicDecl].wrap_public_reference().defining_names().find(
+                (decl) => decl.as[BasicDecl].wrap_public_reference().defining_names().find(
                     (dn) => # Find the scope in which this pragma lies by fetching the closest
                     # lexical scope. We don't use ``declarative_scope`` here, as some
                     # decls do not lie in a DeclarativePart, such as ComponentDecls.

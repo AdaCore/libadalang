@@ -72,15 +72,18 @@ class Manage(ManageScript):
         from langkit.compile_context import (
             AdaSourceKind, CacheCollectionConf, CompileCtx, LibraryEntity
         )
-        from ada.lexer import ada_lexer
-        from ada.grammar import ada_grammar
         from ada.documentation import libadalang_docs
+
+        # Give Liblktlang access to our Lkt files
+        os.environ["LKT_PATH"] = os.path.join(os.path.dirname(__file__), "ada")
 
         ctx = CompileCtx(
             lang_name='Ada',
             short_name='lal',
-            lexer=ada_lexer,
-            grammar=ada_grammar,
+            lexer=None,
+            grammar=None,
+            types_from_lkt=True,
+            lkt_file=os.path.join(os.path.dirname(__file__), "ada", "nodes.lkt"),
             default_charset='iso-8859-1',
             verbosity=args.verbosity,
             default_unit_provider=LibraryEntity(

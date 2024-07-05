@@ -1,6 +1,0 @@
-driver: python
-use_testsuite_python: true
-timeout: 600
-control:
-- [SKIP, "restricted_env",
-   "Assumes \"langkit\" checked out and built in the Libadalang repository"]

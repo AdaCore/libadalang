@@ -1,0 +1,1221 @@
+@with_lexer(ada_lexer)
+grammar ada_grammar {
+    parent_list <- ParentList+(static_name, "and")
+    protected_type_decl <- ProtectedTypeDecl(
+        @Identifier("protected")
+        "type"
+        defining_id
+        ?discriminant_part
+        aspect_spec
+        "is" ?pick("new" parent_list "with") protected_def !";"
+    )
+    protected_op <- or(subp_decl | entry_decl | aspect_clause | pragma)
+    protected_el <- or(protected_op | component_decl)
+    protected_def <- ProtectedDef(
+        PublicPart(DeclList*(protected_op))
+        ?pick("private"
+        PrivatePart(DeclList*(protected_el)))
+        pick("end" ?EndName(identifier))
+    )
+    protected_decl <- SingleProtectedDecl(
+        @Identifier("protected")
+        defining_id
+        aspect_spec
+        "is" ?pick("new" parent_list "with") protected_def !";"
+    )
+    task_item <- or(entry_decl | aspect_clause | pragma)
+    task_def <- TaskDef(
+        "is"
+        ?pick("new"
+        parent_list
+        "with")
+        PublicPart(DeclList*(task_item))
+        ?pick("private"
+        PrivatePart(DeclList*(task_item))) pick("end" ?EndName(identifier))
+    )
+    task_type_decl <- TaskTypeDecl(
+        "task"
+        "type"
+        /
+        defining_id ?discriminant_part aspect_spec ?task_def !";"
+    )
+    subtype_decl <- SubtypeDecl(
+        "subtype"
+        defining_id "is" subtype_indication aspect_spec !";"
+    )
+    interface_type_def <- InterfaceTypeDef(
+        ?or(
+            | InterfaceKind.Limited("limited")
+            | InterfaceKind.Task("task")
+            | InterfaceKind.Protected(@Identifier("protected"))
+            | InterfaceKind.Synchronized(@Identifier("synchronized"))
+        ) @Identifier("interface") ?pick("and" parent_list)
+    )
+    unconstrained_index <- UnconstrainedArrayIndex(
+        subtype_name "range" ?pick(simple_expr "..") "<>"
+    )
+    array_type_def <- ArrayTypeDef(
+        "array" "(" or(
+            | UnconstrainedArrayIndices(list+(unconstrained_index, ","))
+            | ConstrainedArrayIndices(constraint_list)
+        ) ")" "of" component_def
+    )
+    discrete_subtype_definition <- or(discrete_range | subtype_indication)
+    constraint_list <- ConstraintList+(discrete_subtype_definition, ",")
+    signed_int_type_def <- SignedIntTypeDef(range_spec)
+    mod_int_type_def <- ModIntTypeDef("mod" sexpr_or_box)
+    derived_type_def <- DerivedTypeDef(
+        Abstract(@Identifier("abstract"))
+        Limited("limited")
+        Synchronized(@Identifier("synchronized"))
+        "new"
+        subtype_indication
+        ?pick("and"
+        parent_list)
+        ?pick("with" record_def) WithPrivate("with" "private")
+    )
+
+    # This rule combines, for practicality, alternatives possible only for
+    # index constraints, with alternatives possible only for discriminant
+    # constraints. As a results, it allows parsing stuff like `A => 1 .. 2`
+    # which is not a valid constraint.
+    composite_constraint_assoc <- CompositeConstraintAssoc(
+        # Only valid for discriminant constraints
+        ?pick(DiscriminantChoiceList+(identifier, "|") "=>")
+
+        # Only valid for index constraints
+        / or(
+            | discrete_range
+            | discrete_subtype_indication
+            | expr
+        )
+    )
+
+    composite_constraint <- CompositeConstraint(
+        "(" AssocList+(composite_constraint_assoc, ",") ")"
+    )
+    digits_constraint <- DigitsConstraint("digits" simple_expr ?range_spec)
+    delta_constraint <- DeltaConstraint("delta" simple_expr ?range_spec)
+    range_constraint <- RangeConstraint(RangeSpec("range"
+    or(discrete_range | name)))
+    constraint <- or(
+        | digits_constraint
+        | delta_constraint
+        | range_constraint
+        | composite_constraint
+    )
+    discriminant_spec <- DiscriminantSpec(
+        list+(defining_id, ",")
+        ":" type_expr ?pick(":=" expr) ?aspect_spec
+    )
+    discr_spec_list <- list+(discriminant_spec, ";")
+    discriminant_part <- or(
+        | KnownDiscriminantPart("(" discr_spec_list ")")
+        | UnknownDiscriminantPart("(" "<>" ")")
+    )
+    enum_literal_decl <- EnumLiteralDecl(or(defining_id | DefiningName(char_literal)))
+    formal_discrete_type_def <- FormalDiscreteTypeDef("(" "<>" ")")
+    record_def <- or(
+        | RecordDef(
+            "record" component_list "end" / "record"
+        )
+        | NullRecordDef(
+            "null" "record" ComponentList(
+                null(ASTList[AdaNode]) null(VariantPart)
+            )
+        )
+    )
+    range_spec <- RangeSpec("range" or(discrete_range | name | box_expr))
+    real_type_def <- or(
+        | floating_point_def
+        | decimal_fixed_point_def
+        | ordinary_fixed_point_def
+    )
+    sexpr_or_box <- or(simple_expr | box_expr)
+    ordinary_fixed_point_def <- OrdinaryFixedPointDef("delta"
+    sexpr_or_box ?range_spec)
+    decimal_fixed_point_def <- DecimalFixedPointDef(
+        "delta" sexpr_or_box "digits" sexpr_or_box ?range_spec
+    )
+    floating_point_def <- FloatingPointDef("digits" sexpr_or_box ?range_spec)
+    record_type_def <- RecordTypeDef(
+        Abstract(@Identifier("abstract"))
+        Tagged(@Identifier("tagged")) Limited("limited") record_def
+    )
+    access_def <- or(
+        | AccessToSubpDef(
+            NotNull("not"
+            "null")
+            "access" Protected(@Identifier("protected")) subp_spec
+        )
+        | TypeAccessDef(
+            NotNull("not"
+            "null")
+            "access" All("all") Constant("constant") subtype_indication
+        )
+    )
+    enum_type_def <- EnumTypeDef("(" list+(enum_literal_decl, ",") ")")
+    type_def <- or(
+        | record_type_def
+        | real_type_def
+        | derived_type_def
+        | signed_int_type_def
+        | mod_int_type_def
+        | array_type_def
+        | interface_type_def
+        | access_def
+        | formal_discrete_type_def
+        | enum_type_def
+    )
+    variant <- Variant("when" choice_list "=>" component_list)
+    anonymous_type_decl <- AnonymousTypeDecl(
+        null(DefiningName)
+        null(DiscriminantPart) or(array_type_def | access_def)
+    )
+    incomplete_type_decl <- or(
+        | IncompleteTaggedTypeDecl(
+            "type"
+            defining_id
+            ?discriminant_part
+            "is"
+            Abstract(@Identifier("abstract")) @Identifier("tagged") ";"
+        )
+        | IncompleteTypeDecl("type" defining_id ?discriminant_part ";")
+    )
+    type_decl <- or(
+        | ConcreteTypeDecl(
+            "type" defining_id ?discriminant_part "is" or(
+                | type_def
+                | PrivateTypeDef(
+                    Abstract(@Identifier("abstract"))
+                    Tagged(@Identifier("tagged"))
+                    Limited("limited") "private"
+                )
+            ) aspect_spec !";"
+        )
+        | incomplete_type_decl
+    )
+    variant_part <- VariantPart(
+        "case"
+        / identifier "is" list+(variant) "end" "case" !";"
+    )
+    component_def <- ComponentDef(
+        Aliased(@Identifier("aliased")) Constant("constant") type_expr
+    )
+    component_item <- or(
+        | NullComponentDecl("null" !";")
+        | component_decl
+        | aspect_clause
+        | pragma
+    )
+    component_decl <- ComponentDecl(
+        list+(defining_id, ",")
+        ":" component_def ?pick(":=" expr) aspect_spec !";"
+    )
+    component_list <- ComponentList(list*(component_item) ?variant_part)
+    generic_decl <- or(
+        | GenericSubpDecl(
+            generic_formal_part
+            GenericSubpInternal(subp_spec aspect_spec) !";"
+        )
+        | GenericPackageDecl(
+            generic_formal_part GenericPackageInternal(
+                "package"
+                defining_name
+                aspect_spec
+                "is"
+                PublicPart(basic_decls.dont_skip(or("private" | "end")))
+                ?pick("private"
+                PrivatePart(basic_decls.dont_skip("end")))
+                pick("end" ?EndName(static_name)) !";"
+            )
+        )
+    )
+    generic_formal_part <- GenericFormalPart(
+        "generic" list*(or(generic_formal_decl | use_clause))
+    )
+    generic_formal_decl <- or(
+        | pragma
+        | GenericFormalObjDecl(object_decl)
+        | GenericFormalTypeDecl(formal_type_decl)
+        | GenericFormalSubpDecl("with" formal_subp_decl)
+        | GenericFormalPackage("with" generic_instantiation)
+    )
+    formal_type_decl <- or(
+        | FormalTypeDecl(
+            "type" defining_id ?discriminant_part "is" or(
+                | type_def
+                | PrivateTypeDef(
+                    Abstract(@Identifier("abstract"))
+                    Tagged(@Identifier("tagged"))
+                    Limited("limited") "private"
+                )
+            ) ?pick("or" "use" name) aspect_spec !";"
+        )
+        | IncompleteFormalTypeDecl(
+            "type"
+            defining_id
+            ?discriminant_part
+            ?pick("is"
+            Tagged(@Identifier("tagged"))) ?pick("or" "use" name) ";"
+        )
+    )
+    formal_subp_decl <- or(
+        | AbstractFormalSubpDecl(
+            Overriding.Unspecified()
+            subp_spec
+            "is"
+            @Identifier("abstract")
+            ?or(box_expr | name | null_literal) aspect_spec !";"
+        )
+        | ConcreteFormalSubpDecl(
+            Overriding.Unspecified()
+            subp_spec
+            ?pick("is"
+            or(box_expr | name | null_literal)) aspect_spec ";"
+        )
+        # In the case of generic formal functions with a default expression, we
+        # just use an expression function node.
+        | expr_fn
+    )
+    renaming_clause <- RenamingClause("renames" name)
+    generic_renaming_decl <- or(
+        | GenericPackageRenamingDecl(
+            "generic"
+            "package"
+            defining_name "renames" static_name aspect_spec ";"
+        )
+        | GenericSubpRenamingDecl(
+            "generic" or(
+                | SubpKind.Procedure("procedure")
+                | SubpKind.Function("function")
+            ) defining_name "renames" static_name aspect_spec ";"
+        )
+    )
+    generic_instantiation <- or(
+        | GenericPackageInstantiation(
+            "package"
+            defining_name
+            "is"
+            "new"
+            /
+            static_name
+            ?pick("("
+            / AssocList+(param_assoc, ",") ")") aspect_spec !";"
+        )
+        | GenericSubpInstantiation(
+            overriding_indicator or(
+                | SubpKind.Procedure("procedure")
+                | SubpKind.Function("function")
+            )
+            defining_name
+            "is"
+            "new"
+            /
+            static_name
+            ?pick("("
+            / AssocList+(param_assoc, ",") ")") aspect_spec !";"
+        )
+    )
+    exception_decl <- ExceptionDecl(
+        defining_id_list
+        ":" "exception" ?renaming_clause aspect_spec !";"
+    )
+    basic_decls <- list*(or(basic_decl | skip(ErrorDecl)))
+    package_renaming_decl <- PackageRenamingDecl(
+        "package" defining_name renaming_clause aspect_spec !";"
+    )
+    package_decl <- PackageDecl(
+        "package"
+        defining_name
+        aspect_spec
+        "is"
+        PublicPart(basic_decls.dont_skip(or("private" | "end")))
+        ?pick("private"
+        PrivatePart(basic_decls.dont_skip("end")))
+        pick("end" ?EndName(static_name)) !";"
+    )
+    basic_decl <- or(
+        | null_subp_decl
+        | abstract_subp_decl
+        | expr_fn
+        | subp_renaming_decl
+        | body_stub
+        | generic_instantiation
+        | body
+        | simple_subp_decl
+        | type_decl
+        | task_type_decl
+        | protected_type_decl
+        | subtype_decl
+        | object_decl
+        | single_task_decl
+        | protected_decl
+        | number_decl
+        | package_decl
+        | aspect_clause
+        | use_clause
+        | exception_decl
+        | package_renaming_decl
+        | generic_renaming_decl
+        | generic_decl
+        | pragma
+    )
+    object_decl <- or(sub_object_decl | no_type_object_renaming_decl)
+    sub_object_decl <- ObjectDecl(
+        defining_id_list
+        ":"
+        Aliased(@Identifier("aliased"))
+        Constant("constant")
+        ?mode
+        type_expr
+        / ?pick(":=" expr) ?renaming_clause aspect_spec ";"
+    )
+    no_type_object_renaming_decl <- NoTypeObjectRenamingDecl(
+        defining_id_list
+        null(Aliased)
+        null(Constant)
+        null(Mode)
+        null(TypeExpr) null(Expr) renaming_clause aspect_spec ";"
+    )
+    ext_ret_stmt_object_decl <- ExtendedReturnStmtObjectDecl(
+        defining_id_list
+        ":"
+        Aliased(@Identifier("aliased"))
+        Constant("constant")
+        ?mode
+        type_expr ?pick(":=" expr) ?renaming_clause aspect_spec
+    )
+    defining_id_list <- list+(defining_id, ",")
+    number_decl <- NumberDecl(
+        defining_id_list ":" "constant" / ":=" simple_expr !";"
+    )
+    contract_case_assoc <- ContractCaseAssoc(or(expr | others_designator)
+    "=>" expr)
+    contract_cases_expr <- ContractCases("("
+    list+(contract_case_assoc, ",") ")")
+    abstract_state_decl <- or(
+        | AbstractStateDecl(defining_name aspect_spec)
+        | ParenAbstractStateDecl("(" abstract_state_decl ")")
+    )
+    multi_abstract_state_decl <- or(
+        | abstract_state_decl
+        | MultiAbstractStateDecl(
+            "(" AbstractStateDeclList+(abstract_state_decl, ",") ")"
+        )
+    )
+    aspect_assoc <- or(
+        | AspectAssoc(
+            Identifier(@Identifier("Abstract_State")) ?pick("=>" or(
+                | null_literal
+                | AbstractStateDeclExpr(multi_abstract_state_decl)
+            ))
+        )
+        | AspectAssoc(
+            name ?pick("=>" or(expr | contract_cases_expr))
+        )
+    )
+    aspect_spec <- ?AspectSpec("with" / list+(aspect_assoc, ","))
+    single_task_decl <- SingleTaskDecl(
+        "task" / SingleTaskTypeDecl(
+            defining_id null(DiscriminantPart) aspect_spec ?task_def
+        ) !";"
+    )
+    overriding_indicator <- or(
+        | Overriding.Overriding(@Identifier("overriding"))
+        | Overriding.NotOverriding("not" @Identifier("overriding"))
+        | Overriding.Unspecified()
+    )
+    entry_decl <- EntryDecl(
+        overriding_indicator EntrySpec(
+            "entry" defining_id ?pick("(" or(
+                | constrained_subtype_indication
+                | discrete_range
+                | subtype_indication
+            ) ")") ?param_specs
+        ) aspect_spec !";"
+    )
+    component_clause <- ComponentClause(
+        identifier "at" simple_expr range_spec !";"
+    )
+    aspect_clause <- or(
+        | EnumRepClause(
+            "for" static_name "use" regular_aggregate / ";"
+        )
+        | RecordRepClause(
+            "for"
+            static_name
+            "use"
+            "record"
+            ?pick("at"
+            "mod"
+            simple_expr
+            !";")
+            list*(or(component_clause | pragma)) "end" "record" !";"
+        )
+        | AtClause(
+            "for" direct_name "use" "at" expr ";"
+        )
+        # We put AttributeDefClause last, because it's the most general rule,
+        # and that will allow us to get the best error recovery.
+        | AttributeDefClause("for" name "use" / expr ";")
+    )
+    param_spec <- ParamSpec(
+        list+(defining_id, ",")
+        ":"
+        Aliased(@Identifier("aliased"))
+        ?mode type_expr ?pick(":=" expr) aspect_spec
+    )
+    param_specs <- Params("(" / list+(param_spec, ";") ")")
+    subp_spec <- SubpSpec(
+        or(
+            | SubpKind.Procedure("procedure")
+            | SubpKind.Function("function")
+        ) ?defining_name ?param_specs ?pick("return" type_expr)
+    )
+    expr_fn <- ExprFunction(
+        overriding_indicator
+        subp_spec "is" or(paren_expr | aggregate) aspect_spec !";"
+    )
+    null_subp_decl <- NullSubpDecl(
+        overriding_indicator
+        subp_spec "is" "null" aspect_spec !";"
+    )
+    abstract_subp_decl <- AbstractSubpDecl(
+        overriding_indicator
+        subp_spec "is" @Identifier("abstract") aspect_spec !";"
+    )
+    subp_renaming_decl <- SubpRenamingDecl(
+        overriding_indicator
+        subp_spec renaming_clause aspect_spec !";"
+    )
+    simple_subp_decl <- SubpDecl(
+        overriding_indicator subp_spec aspect_spec !";"
+    )
+    subp_decl <- or(
+        | null_subp_decl
+        | abstract_subp_decl
+        | expr_fn
+        | subp_renaming_decl
+        | simple_subp_decl
+    )
+    with_clause <- WithClause(
+        Limited("limited")
+        Private("private") "with" list+(static_name, ",") !";"
+    )
+    context_item <- or(with_clause | use_clause | pragma)
+    use_clause <- or(use_package_clause | use_type_clause)
+    use_package_clause <- UsePackageClause("use"
+    list+(static_name, ",") !";")
+    use_type_clause <- UseTypeClause(
+        "use" All("all") "type" list+(name, ",") !";"
+    )
+    subtype_indication <- SubtypeIndication(
+        NotNull("not" "null") subtype_name ?constraint
+    )
+    # Rule used to disambiguate in some situations where a
+    # discrete_subtype_indication is supposed to be accepted, but using the
+    # general subtype_indication rule will not do:
+    #
+    # 1. for loop specs where you can do::
+    #
+    #     for A in Integer range 1 .. 12 loop
+    #     end loop;
+    #
+    # 2. slices where you can do::
+    #
+    #     A (Integer range 1 .. 12)
+    #
+    # In those cases, using even the constrained_subtype_indication rule
+    # will parse expressions as subtype indications sometimes, and even
+    # cause parsing errors.
+    discrete_subtype_indication <- DiscreteSubtypeIndication(
+        # In our efforts to improve incomplete parsing for better parsing
+        # recovery, we added `Cut` parsers in all the `DottedName` that were
+        # not using it already. Unfortunately, one of these `DottedName` did
+        # not behave correctly with a `Cut` parser because of the rules used
+        # in `call_suffix`.
+        #
+        # Indeed, this rule parses slices and call params making the following
+        # code impossible to parse with a `Cut` in the `subtype_name`` rule,
+        # hence the `StopCut` below.
+        #
+        # Here is an example of code that do not parse without `StopCut`::
+        #
+        #     Call (X.all)
+        #           ^^ `X.` is parsed as an incomplete subtype_name
+        #             ^^^ then `all` doesn't match the expected next token
+        #
+        # with the corresponding parsers stack::
+        #
+        #     name (consumes `Call (`` in a `CallExpr`)
+        #     | call_suffix
+        #       | discrete_subtype_indication (consumes `X.` if no `StopCut`)
+        #     then, `name` expects `)` but next token is `all`.
+        NotNull("not" "null") stop_cut(subtype_name) range_constraint
+    )
+
+    constrained_subtype_indication <- ConstrainedSubtypeIndication(
+        NotNull("not" "null") subtype_name constraint
+    )
+    type_expr <- or(
+        # NOTE: Anonymous arrays are accepted where type expressions are
+        # accepted. This means that you can define a function that returns an
+        # anonymous array and it will be parsed correctly.
+        | anonymous_type
+        | subtype_indication
+    )
+    anonymous_type <- AnonymousType(anonymous_type_decl)
+    mode <- or(
+        | Mode.InOut("in" "out")
+        | Mode.In("in")
+        | Mode.Out("out")
+        | Mode.Default()
+    )
+
+    ###########
+    # Pragmas #
+    ###########
+
+    pragma_argument <- PragmaArgumentAssoc(
+        ?pick(or(
+            # Enables parsing ``Post'Class => Ignore``, for example
+            | AttributeRef(identifier "'" identifier null(AssocList))
+            | identifier
+        ) "=>") expr
+    )
+    pragma <- Pragma(
+        "pragma"
+        /
+        identifier
+        ?pick("("
+        /
+        list+(or(pragma_argument | contract_case_assoc), ",") ")") !";"
+    )
+    subunit <- Subunit(
+        "separate" "(" static_name ")" or(
+            | subp_body
+            | package_body
+            | task_body
+            | protected_body
+        )
+    )
+    library_unit_body <- or(subp_body | package_body)
+    library_unit_renaming_decl <- or(package_renaming_decl | generic_renaming_decl)
+    library_item <- LibraryItem(
+        Private("private") or(
+            | null_subp_decl
+            | abstract_subp_decl
+            | expr_fn
+            | subp_renaming_decl
+            | generic_instantiation
+            | library_unit_body
+            | simple_subp_decl
+            | library_unit_renaming_decl
+            | generic_decl
+            | package_decl
+            | skip(ErrorDecl)
+        )
+    )
+    |" Parse a compilation unit.
+    @entry_point compilation_unit <- CompilationUnit(
+        list*(context_item)
+        or(subunit | library_item)
+        # Eventual pragmas attached to the body
+        list*(pragma)
+    )
+    |" Parse an Ada source file.
+    # This is the main rule. The root node will then be either:
+    # * A CompilationUnit node.
+    # * A list of CompilationUnit nodes.
+    # * A list of pragmas.
+    @main_rule compilation <- or(
+        # Special case for No_Body files and gnat.adc
+        | pick(list+(pragma) @Termination)
+
+        # One compilation unit case
+        | pick(compilation_unit @Termination)
+
+        # Several compilation units case
+        | pick(list*(compilation_unit) @Termination)
+    )
+    decl_part <- DeclarativePart(basic_decls)
+    entry_body <- EntryBody(
+        "entry" defining_id ?EntryIndexSpec(
+            "("
+            "for"
+            defining_id
+            "in" discrete_subtype_definition ?aspect_spec ")"
+        )
+        EntryCompletionFormalParams(?param_specs)
+        aspect_spec
+        "when"
+        expr
+        "is"
+        /
+        recov_decl_part
+        "begin" handled_stmts pick("end" ?EndName(static_name)) !";"
+    )
+    protected_body <- ProtectedBody(
+        @Identifier("protected")
+        "body"
+        defining_name
+        aspect_spec
+        "is"
+        decl_part.dont_skip("end")
+        pick("end" ?EndName(static_name)) !";"
+    )
+    protected_body_stub <- ProtectedBodyStub(
+        @Identifier("protected")
+        "body" defining_name "is" "separate" aspect_spec !";"
+    )
+    task_body <- TaskBody(
+        "task"
+        "body"
+        defining_name
+        aspect_spec
+        "is"
+        /
+        recov_decl_part
+        "begin" handled_stmts pick("end" ?EndName(static_name)) !";"
+    )
+    task_body_stub <- TaskBodyStub(
+        "task"
+        "body" defining_name "is" "separate" aspect_spec !";"
+    )
+    package_body_stub <- PackageBodyStub(
+        "package"
+        "body" defining_name "is" "separate" aspect_spec !";"
+    )
+    package_body <- PackageBody(
+        "package"
+        "body"
+        /
+        defining_name
+        aspect_spec
+        "is"
+        decl_part.dont_skip(or("begin" | "end"))
+        ?pick("begin"
+        handled_stmts) pick("end" ?EndName(static_name)) ";"
+    )
+    terminate_alternative <- TerminateAlternative("terminate" !";")
+    select_stmt <- SelectStmt(
+        "select" / list+(SelectWhenPart(
+            ?pick("when"
+            expr "=>") stmts.dont_skip(or("else" | "then" | "end" | "or"))
+        ), "or")
+        ?pick("else"
+        stmts.dont_skip(or("end" | "then")))
+        ?pick("then"
+        "abort" stmts.dont_skip("end")) "end" "select" ";"
+    )
+    accept_stmt <- or(
+        | AcceptStmt(
+            "accept"
+            AcceptStmtBody(DefiningName(identifier))
+            ?pick("("
+            expr ")") EntryCompletionFormalParams(?param_specs) ";"
+        )
+        | AcceptStmtWithStmts(
+            "accept"
+            AcceptStmtBody(DefiningName(identifier))
+            ?pick("("
+            expr
+            ")")
+            EntryCompletionFormalParams(?param_specs)
+            "do" handled_stmts pick("end" ?EndName(identifier)) !";"
+        )
+    )
+    case_alt <- CaseStmtAlternative(
+        "when" / choice_list "=>" stmts.dont_skip(or("when" | "end"))
+    )
+    case_stmt <- CaseStmt(
+        "case"
+        /
+        expr
+        "is" list*(pragma) list+(case_alt) "end" "case" ";"
+    )
+    ext_return_stmt <- ExtendedReturnStmt(
+        "return"
+        ext_ret_stmt_object_decl
+        / ?pick("do" / handled_stmts "end" "return") ";"
+    )
+    iblock_stmt <- or(
+        | BeginBlock(
+            "begin"
+            / handled_stmts pick("end" ?EndName(identifier)) !";"
+        )
+        | DeclBlock(
+            "declare"
+            /
+            recov_decl_part
+            "begin"
+            handled_stmts pick("end" ?EndName(identifier)) !";"
+        )
+    )
+    block_stmt <- or(
+        | iblock_stmt
+        | NamedStmt(NamedStmtDecl(defining_id) ":" iblock_stmt)
+    )
+    while_loop_spec <- WhileLoopSpec("while" / expr)
+    iloop_stmt <- or(
+        | ForLoopStmt(
+            "for"
+            /
+            for_loop_param_spec
+            "loop"
+            stmts.dont_skip("end")
+            "end" "loop" ?EndName(identifier) ";"
+        )
+        | WhileLoopStmt(
+            while_loop_spec
+            "loop"
+            stmts.dont_skip("end")
+            "end" "loop" ?EndName(identifier) ";"
+        )
+        | LoopStmt(
+            null(LoopSpec)
+            "loop"
+            /
+            stmts.dont_skip("end")
+            "end" "loop" ?EndName(identifier) ";"
+        )
+    )
+    loop_stmt <- or(
+        | iloop_stmt
+        | NamedStmt(NamedStmtDecl(defining_id) ":" iloop_stmt)
+    )
+    compound_stmt <- or(
+        | if_stmt
+        | block_stmt
+        | loop_stmt
+        | ext_return_stmt
+        | case_stmt
+        | accept_stmt
+        | select_stmt
+    )
+    elsif_part <- ElsifStmtPart(
+        "elsif"
+        / expr "then" stmts.dont_skip(or("elsif" | "else" | "end"))
+    )
+    if_stmt <- IfStmt(
+        "if"
+        /
+        expr
+        "then"
+        stmts.dont_skip(or("elsif" | "else" | "end"))
+        list*(elsif_part)
+        ?pick("else" stmts.dont_skip("end")) "end" "if" ";"
+    )
+    raise_stmt <- or(
+        | RaiseStmt("raise" name ?pick("with" expr) !";")
+        | RaiseStmt("raise" null(Name) null(Expr) !";")
+    )
+    delay_stmt <- DelayStmt(
+        "delay" Until(@Identifier("until")) expr !";"
+    )
+    abort_stmt <- AbortStmt("abort" list+(name, ",") !";")
+    body <- or(
+        | subp_body
+        | package_body
+        | task_body
+        | protected_body
+        | entry_body
+    )
+    body_stub <- or(
+        | subp_body_stub
+        | package_body_stub
+        | task_body_stub
+        | protected_body_stub
+    )
+    subp_body_stub <- SubpBodyStub(
+        overriding_indicator
+        subp_spec "is" "separate" aspect_spec !";"
+    )
+    recov_decl_part <- decl_part.dont_skip(or(
+        | "begin"
+        | "end"
+        | "if"
+        | "for"
+        | "while"
+        | "loop"
+        | "declare"
+        | "accept"
+        | "select"
+        | "case"
+    ))
+    subp_body <- SubpBody(
+        overriding_indicator
+        subp_spec
+        aspect_spec
+        "is"
+        /
+        recov_decl_part
+        "begin" handled_stmts pick("end" ?EndName(static_name)) ";"
+    )
+    handled_stmts <- HandledStmts(
+        stmts.dont_skip(or("exception" | "end"))
+        ?pick("exception" list+(or(exception_handler | pragma)))
+    )
+    exception_handler <- ExceptionHandler(
+        "when"
+        ?pick(defining_id
+        ":")
+        AlternativesList+(or(name | others_designator), "|")
+        "=>" stmts.dont_skip(or("when" | "pragma" | "end"))
+    )
+    stmts <- StmtList*(or(stmt | label | skip(ErrorStmt)))
+    label <- Label("<<" / LabelDecl(defining_id) ">>")
+    |" Parse a statement, a pragma, or a compound statement (trailing semicolon included).
+    @entry_point stmt <- or(compound_stmt | simple_stmt)
+    call_stmt <- CallStmt(name !";")
+    simple_stmt <- or(
+        | null_stmt
+        | assignment_stmt
+        | goto_stmt
+        | exit_stmt
+        | return_stmt
+        | requeue_stmt
+        | simple_decl_stmt
+        | call_stmt
+        | abort_stmt
+        | delay_stmt
+        | raise_stmt
+        | terminate_alternative
+        | pragma
+    )
+    simple_decl_stmt <- SimpleDeclStmt(object_decl)
+    null_stmt <- NullStmt(@Null !";")
+    assignment_stmt <- AssignStmt(name ":=" / expr !";")
+    goto_stmt <- GotoStmt("goto" / static_name !";")
+    exit_stmt <- ExitStmt(
+        "exit" / ?static_name ?pick("when" expr) !";"
+    )
+    return_stmt <- ReturnStmt("return" ?expr !";")
+    requeue_stmt <- RequeueStmt(
+        @Identifier("requeue") name Abort("with" "abort") !";"
+    )
+    identifier <- Identifier(@Identifier)
+    char_literal <- CharLiteral(@Char)
+    string_literal <- StringLiteral(@String)
+    format_string_literal <- FormatStringLiteral(
+        FormatStringTokStart(@FormatStringStart)
+        list*(FormatStringChunk(expr
+        FormatStringTokMid(@FormatStringMid)))
+        FormatStringChunk(expr FormatStringTokEnd(@FormatStringEnd))
+    )
+    defining_id <- DefiningName(identifier)
+    dec_literal <- RealLiteral(@Decimal)
+    int_literal <- IntLiteral(@Integer)
+    num_literal <- or(dec_literal | int_literal)
+    null_literal <- NullLiteral(@Null)
+    allocator <- Allocator(
+        "new"
+        / ?pick("(" name ")") or(qualified_name | subtype_indication)
+    )
+    for_loop_param_spec <- ForLoopSpec(
+        ForLoopVarDecl(defining_id
+        ?pick(":"
+        type_expr))
+        or(IterType.In("in") | IterType.Of("of")) Reverse("reverse") or(
+            | discrete_range
+            | discrete_subtype_indication
+            | name
+        ) ?ForLoopIterFilter("when" expr)
+    )
+    quantified_expr <- QuantifiedExpr(
+        "for" or(
+            | Quantifier.All("all")
+            | Quantifier.Some(@Identifier("some"))
+        ) for_loop_param_spec "=>" or(expr | discrete_range)
+    )
+    case_expr <- CaseExpr(
+        "case" expr "is" list+(case_expr_alt, ",")
+    )
+    case_expr_alt <- CaseExprAlternative("when" choice_list "=>" expr)
+    raise_expr <- or(
+        | RaiseExpr("raise" name ?pick("with" expr))
+        | RaiseExpr("raise" null(Name) null(Expr))
+    )
+    if_expr <- IfExpr(
+        "if"
+        expr
+        "then"
+        expr
+        list*(ElsifExprPart("elsif"
+        expr "then" expr)) ?pick("else" expr)
+    )
+    conditional_expr <- or(if_expr | case_expr | quantified_expr)
+    box_expr <- BoxExpr("<>")
+    others_designator <- OthersDesignator("others")
+    iterated_assoc <- IteratedAssoc(
+        "for" / for_loop_param_spec ?pick("use" expr) "=>" expr
+    )
+    aggregate_assoc <- or(
+        | iterated_assoc
+        | AggregateAssoc(?pick(choice_list "=>") or(box_expr | expr))
+    )
+    regular_aggregate <- or(
+        | NullRecordAggregate(
+            "("
+            ?pick(expr "with") "null" "record" null(AssocList) ")"
+        )
+        | DeltaAggregate(
+            "("
+            expr
+            "with" "delta" / AssocList+(aggregate_assoc, ",") ")"
+        )
+        | Aggregate(
+            "("
+            / ?pick(expr "with") AssocList+(aggregate_assoc, ",") ")"
+        )
+    )
+    bracket_aggregate <- or(
+        | BracketDeltaAggregate(
+            "["
+            expr
+            "with" "delta" / AssocList+(aggregate_assoc, ",") "]"
+        )
+        | BracketAggregate(
+            "["
+            / ?pick(expr "with") AssocList*(aggregate_assoc, ",") "]"
+        )
+    )
+    aggregate <- or(regular_aggregate | bracket_aggregate)
+    direct_name <- or(identifier | string_literal | char_literal)
+    param_assoc <- ParamAssoc(
+        ?pick(or(identifier | others_designator | string_literal)
+        "=>" /) or(expr | box_expr)
+    )
+    call_suffix <- or(
+        # Slice via discrete subtype
+        | discrete_subtype_indication
+
+        # Regular slice
+        | discrete_range
+
+        # Regular parameter list
+        | AssocList+(param_assoc, ",")
+    )
+    attr_suffix <- AssocList+(param_assoc, ",")
+
+    # TODO: Those two rules exist only to be able to specifically parse
+    # qualified expressions in the context of allocators, because using the
+    # more general "name" rule will create an ambiguity::
+    #
+    #     new A (B);  --  Is this a call expression or a subtype indication ?
+    #
+    # We cannot just put the subtype_indication rule first because it will
+    # generate correct parses for qualified expressions, and the underlying
+    # allocator rule will fail::
+    #
+    #    new A'(12);
+    #    --  ^ This is a valid type indication
+    #
+    # It would be nice to find a better way to handle this.
+    #
+    # - One way would be to allow left recursion across several rules, so that
+    # we can have a unique rule for qualified_name.
+    #
+    # - One other way would be to allow "longest_parse" behavior for Or
+    # parsers, so that we can use A.subtype_indication | A.name in allocator.
+    qualified_name <- QualExpr(
+        qual_name_internal "'" or(paren_expr | aggregate)
+    )
+    qual_name_internal <- or(
+        | DottedName(qual_name_internal "." / direct_name)
+        # Attributes, needed because of 'Class: A'Class'(...)
+        | AttributeRef(
+            qual_name_internal "'" identifier null(AssocList)
+        )
+        | direct_name
+    )
+
+    value_sequence <- ValueSequence(
+        # Since parallel keyword is not supported yet, the following optional
+        # parts are not parsed (RM 4.5.10):
+        # - ``[parallel[(chunk_specification)] [aspect_specification]]``.
+        "[" iterated_assoc "]"
+    )
+    name <- or(
+        | CallExpr(name "(" / call_suffix ")")
+        | ExplicitDeref(name "." "all")
+        | DottedName(name "." / direct_name)
+
+        # Special case for 'Update
+        | UpdateAttributeRef(
+            name
+            "'" Identifier(@Identifier("Update")) update_attr_aggregate
+        )
+
+        # Special case for 'Reduce
+        | ReduceAttributeRef(
+            or(name | value_sequence)
+            "'" Identifier(@Identifier("Reduce")) "(" attr_suffix ")"
+        )
+
+        # General Attributes
+        | AttributeRef(
+            name
+            "'"
+            identifier |> when(Identifier.is_attr_with_args)
+            ?pick("(" attr_suffix ")")
+        )
+
+        # Class attribute
+        | AttributeRef(name "'" identifier null(AssocList))
+
+        | QualExpr(name "'" or(paren_expr | aggregate))
+
+        | direct_name_or_target_name
+    )
+    defining_name <- DefiningName(static_name)
+    direct_name_or_target_name <- or(direct_name | target_name)
+    target_name <- TargetName("@")
+    update_attr_aggregate <- or(
+        | regular_aggregate
+        | Aggregate(
+            "(" / null(Expr) update_attr_content ")"
+        )
+    )
+    update_attr_content <- AssocList+(multidim_array_assoc, ",")
+    multidim_array_assoc <- MultiDimArrayAssoc(
+        AlternativesList+(aggregate, "|") "=>" expr
+    )
+
+    # This rule is separate from name, and doesn't accept CallExprs, because
+    # since the langkit parsing engine is eager, accepting CallExprs will
+    # always eat the type constraints.
+    subtype_name <- or(
+        | DottedName(subtype_name "." / direct_name)
+        | AttributeRef(
+            subtype_name "'" identifier ?pick("(" attr_suffix ")")
+        )
+        | direct_name
+    )
+    static_name <- or(
+        | DottedName(static_name "." / direct_name)
+        | direct_name
+    )
+    primary <- or(
+        | num_literal
+        | null_literal
+        | format_string_literal
+        | name
+        | allocator
+        | conditional_expr
+        | raise_expr
+        | paren_expr
+        | declare_expr
+        | aggregate
+    )
+    paren_expr <- ParenExpr("(" expr ")")
+    declare_expr <- DeclExpr(
+        "declare" list*(or(object_decl | pragma)) "begin" expr
+    )
+    factor <- or(
+        | UnOp(or(Op.Abs("abs") | Op.Not("not")) / primary)
+        | BinOp(primary Op.Pow("**") / primary)
+        | primary
+    )
+    term <- or(
+        | BinOp(
+            term or(
+                | Op.Mult("*")
+                | Op.Div("/")
+                | Op.Mod("mod")
+                | Op.Rem("rem")
+            ) / factor
+        )
+        | factor
+    )
+    unop_term <- or(
+        | UnOp(or(Op.Plus("+") | Op.Minus("-")) / term)
+        | term
+    )
+    add_term <- or(
+        | BinOp(
+            add_term or(Op.Plus("+") | Op.Minus("-")) / term
+        )
+        | unop_term
+    )
+    simple_expr <- or(
+        | ConcatOp(
+            add_term list+(ConcatOperand(Op.Concat("&") add_term))
+        )
+        | add_term
+    )
+    boolean_op <- or(
+        | Op.Xor("xor")
+        | Op.AndThen("and" "then")
+        | Op.And("and")
+        | Op.OrElse("or" "else")
+        | Op.Or("or")
+    )
+    discrete_range <- or(
+        | BinOp(
+            simple_expr Op.DoubleDot("..") or(simple_expr | box_expr)
+        )
+        | name |> when(Name.is_range_attribute)
+    )
+    choice <- or(
+        | discrete_range
+        | discrete_subtype_indication
+        | expr
+        | others_designator
+    )
+    choice_list <- AlternativesList+(choice, "|")
+    rel_op <- or(Op.NotIn("not" "in") | Op.In("in"))
+    membership_choice <- or(
+        | discrete_range
+        | DiscreteSubtypeName(discrete_subtype_indication)
+        | simple_expr
+    )
+    membership_choice_list <- ExprAlternativesList+(membership_choice, "|")
+    relation <- or(
+        | RelationOp(
+            relation or(
+                | Op.Eq("=")
+                | Op.Neq("/=")
+                | Op.Lt("<")
+                | Op.Lte("<=")
+                | Op.Gt(">")
+                | Op.Gte(">=")
+            ) / simple_expr
+        )
+        | MembershipExpr(relation rel_op membership_choice_list)
+        | simple_expr
+    )
+    |" Parse an expression.
+    @entry_point expr <- or(
+        | BinOp(expr boolean_op / relation)
+        | relation
+    )
+    |" Parse a preprocessor directive.
+    @entry_point pp_directive <- or(
+        | PpIfDirective("if" / pp_expr pp_then)
+        | PpElsifDirective("elsif" / pp_expr pp_then)
+        | PpElseDirective("else")
+        | PpEndIfDirective("end" "if" ";")
+    )
+    pp_then <- ?PpThenKw("then")
+    pp_expr <- or(
+        | BinOp(pp_expr boolean_op / pp_term)
+        | pp_term
+    )
+    pp_term <- or(
+        | ParenExpr("(" pp_expr ")")
+        | UnOp(Op.Not("not") pp_expr)
+        | BinOp(
+            identifier or(
+                | Op.Eq("=")
+                | Op.Lt("<")
+                | Op.Lte("<=")
+                | Op.Gt(">")
+                | Op.Gte(">=")
+            ) or(string_literal | int_literal | identifier)
+        )
+        | AttributeRef(identifier "'" identifier null(AssocList))
+        | identifier
+    )
+}

@@ -4576,6 +4576,7 @@ class AbstractStateDecl: BasicDecl {
 |" the expression of the actual through the ``expr`` field.
 @synthetic
 class AnonymousExprDecl: BasicDecl {
+    |" Return the expression wrapped by this declaration.
     @parse_field expr: Expr
     @parse_field @null_field aspects: AspectSpec
 
@@ -9667,6 +9668,7 @@ class CaseStmtAlternative: AdaNode {
 |" Root node for all Ada analysis units (:rmlink:`10.1.1`).
 @ple_unit_root
 class CompilationUnit: AdaNode {
+    |" ``with``, ``use`` or ``pragma`` statements.
     @parse_field prelude: ASTList[AdaNode]
     @parse_field body: AdaNode
     @parse_field pragmas: ASTList[Pragma]

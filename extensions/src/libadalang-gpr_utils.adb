@@ -745,4 +745,33 @@ package body Libadalang.GPR_Utils is
       return Result;
    end Closure;
 
+   -----------------------
+   -- Unit_Location_For --
+   -----------------------
+
+   function Unit_Location_For
+     (Self : GPR2.Project.View.Object;
+      Name : String;
+      Kind : Analysis_Unit_Kind)
+      return GPR2.Build.Compilation_Unit.Unit_Location
+   is
+      Unit : constant GPR2.Build.Compilation_Unit.Object :=
+        Self.Unit (GPR2.Name_Type (Name));
+   begin
+      if Unit.Is_Defined then
+         case Kind is
+            when Unit_Specification =>
+               if Unit.Has_Part (GPR2.S_Spec) then
+                  return Unit.Spec;
+               end if;
+            when Unit_Body =>
+               if Unit.Has_Part (GPR2.S_Body) then
+                  return Unit.Main_Body;
+               end if;
+         end case;
+      end if;
+
+      return GPR2.Build.Compilation_Unit.No_Unit;
+   end Unit_Location_For;
+
 end Libadalang.GPR_Utils;

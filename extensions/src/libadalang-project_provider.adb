@@ -747,53 +747,33 @@ package body Libadalang.Project_Provider is
          end;
 
       when GPR2_Kind =>
-         declare
-            procedure Set (SUI : GPR2.Build.Compilation_Unit.Unit_Location);
-            --  Set ``Filename`` and ``PLE_Root_Index`` from ``SUI``'s
 
-            Unit_Name : constant GPR2.Name_Type := GPR2.Name_Type (Str_Name);
+         --  Look for the requested unit in all the projects that this
+         --  provider handles.
 
-            ---------
-            -- Set --
-            ---------
-
-            procedure Set (SUI : GPR2.Build.Compilation_Unit.Unit_Location) is
+         for View of Provider.Projects loop
+            declare
+               use type GPR2.Build.Compilation_Unit.Unit_Location;
                use type GPR2.Unit_Index;
+
+               Unit : constant GPR2.Build.Compilation_Unit.Unit_Location :=
+                 Unit_Location_For (View.GPR2_Value, Str_Name, Kind);
             begin
-               --  GPR2 sets the CU index to 0 when there is no "at N" clause
-               --  in the project file. This is equivalont to "at 1", which is
-               --  what we need here since PLE_Root_Index is a Positive.
+               if Unit /= GPR2.Build.Compilation_Unit.No_Unit then
 
-               Filename := US.To_Unbounded_String (String (SUI.Source.Value));
-               PLE_Root_Index :=
-                 (if SUI.Index = 0 then 1 else Positive (SUI.Index));
-            end Set;
-         begin
-            --  Look for the requested unit in all the projects that this
-            --  provider handles.
+                  --  GPR2 sets the CU index to 0 when there is no "at N"
+                  --  clause in the project file. This is equivalont to "at
+                  --  1", which is what we need here since PLE_Root_Index is
+                  --  a Positive.
 
-            for View of Provider.Projects loop
-               declare
-                  Unit : constant GPR2.Build.Compilation_Unit.Object :=
-                    View.GPR2_Value.Unit (Unit_Name);
-               begin
-                  if Unit.Is_Defined then
-                     case Kind is
-                        when Unit_Specification =>
-                           if Unit.Has_Part (GPR2.S_Spec) then
-                              Set (Unit.Spec);
-                              return;
-                           end if;
-                        when Unit_Body =>
-                           if Unit.Has_Part (GPR2.S_Body) then
-                              Set (Unit.Main_Body);
-                              return;
-                           end if;
-                     end case;
-                  end if;
-               end;
-            end loop;
-         end;
+                  Filename :=
+                    US.To_Unbounded_String (String (Unit.Source.Value));
+                  PLE_Root_Index :=
+                    (if Unit.Index = 0 then 1 else Positive (Unit.Index));
+                  return;
+               end if;
+            end;
+         end loop;
       end case;
 
       --  If we reach this point, we have not found a unit handled by this

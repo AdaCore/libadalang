@@ -745,4 +745,63 @@ package body Libadalang.GPR_Utils is
       return Result;
    end Closure;
 
+   -----------------------
+   -- Unit_Location_For --
+   -----------------------
+
+   function Unit_Location_For
+     (Self : GPR2.Project.View.Object;
+      Name : String;
+      Kind : Analysis_Unit_Kind)
+      return GPR2.Build.Compilation_Unit.Unit_Location
+   is
+      use type GPR2.Name_Type;
+
+      Req_Name : constant GPR2.Name_Type := GPR2.Name_Type (Name);
+      Unit     : constant GPR2.Build.Compilation_Unit.Object :=
+        Self.Unit (Req_Name);
+   begin
+      if Unit.Is_Defined then
+
+         --  If we got a unit, but not the one we requested, we are likely
+         --  requesting a subunit: in that case, extract the subunit name and
+         --  request it separately.
+
+         if Req_Name = Unit.Name then
+            case Kind is
+               when Unit_Specification =>
+                  if Unit.Has_Part (GPR2.S_Spec) then
+                     return Unit.Spec;
+                  end if;
+               when Unit_Body =>
+                  if Unit.Has_Part (GPR2.S_Body) then
+                     return Unit.Main_Body;
+                  end if;
+            end case;
+
+         else
+            pragma Assert (Kind = Unit_Body);
+            declare
+               --  Requested unit name is "[ROOT].[SEP]", the name of the unit
+               --  we got is "[ROOT]": skip it plus the "dot" to extract only
+               --  the "[SEP]" part.
+
+               Prefix_Last : constant Positive :=
+                 Req_Name'First + Unit.Name'Length;
+
+               pragma Assert
+                 (Req_Name (Req_Name'First .. Prefix_Last)
+                  = GPR2."&" (Unit.Name, "."));
+               Subunit_Name : constant GPR2.Name_Type :=
+                 Req_Name (Prefix_Last + 1 .. Req_Name'Last);
+            begin
+               return
+                 Unit.Get (GPR2.S_Separate, Subunit_Name);
+            end;
+         end if;
+      end if;
+
+      return GPR2.Build.Compilation_Unit.No_Unit;
+   end Unit_Location_For;
+
 end Libadalang.GPR_Utils;

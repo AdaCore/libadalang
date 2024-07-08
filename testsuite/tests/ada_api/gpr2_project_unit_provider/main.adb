@@ -14,7 +14,6 @@ with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis;         use Libadalang.Analysis;
 with Libadalang.Common;           use Libadalang.Common;
-with Libadalang.Iterators;        use Libadalang.Iterators;
 with Libadalang.Project_Provider; use Libadalang.Project_Provider;
 
 procedure Main is
@@ -79,7 +78,49 @@ procedure Main is
    -- Resolve --
    -------------
 
-   procedure Resolve (Project : String; Unit_Name : Text_Type) is
+   procedure Resolve
+     (Project   : String;
+      Unit_Name : Text_Type;
+      Kind      : Analysis_Unit_Kind := Unit_Specification)
+   is
+      function Process (N : Ada_Node'Class) return Visit_Status;
+      --  If ``N`` has a reference whose resolution must be tested, do it
+
+      -------------
+      -- Process --
+      -------------
+
+      function Process (N : Ada_Node'Class) return Visit_Status is
+         Ref, Decl : Ada_Node;
+      begin
+         Ref := N.As_Ada_Node;
+         case N.Kind is
+            when Ada_Object_Decl =>
+               Ref :=
+                 N
+                 .As_Object_Decl
+                 .F_Type_Expr
+                 .As_Ada_Node;
+               Decl :=
+                 Ref
+                 .As_Subtype_Indication
+                 .P_Designated_Type_Decl_From (N.As_Ada_Node)
+                 .As_Ada_Node;
+
+            when Ada_Subp_Body_Stub =>
+               Decl := Ref.As_Subp_Body_Stub.P_Next_Part_For_Decl.As_Ada_Node;
+
+            when others =>
+               Ref := No_Ada_Node;
+         end case;
+
+         if not Ref.Is_Null then
+            Put_Line (Ref.Image & " resolves to:");
+            Put_Line ("  " & Decl.Image);
+         end if;
+
+         return Into;
+      end Process;
    begin
       Put_Line ("== Resolutions in " & Project & " ==");
       New_Line;
@@ -87,18 +128,9 @@ procedure Main is
          Ctx  : constant Analysis_Context :=
             Create_Context (Unit_Provider => Load_Project (Project));
          Unit : constant Analysis_Unit :=
-            Get_From_Provider (Ctx, Unit_Name, Unit_Specification);
-         Root : constant Ada_Node := Unit.Root;
-
-         Subtype_Ind : constant Subtype_Indication := Find_First
-           (Root, Kind_Is (Ada_Subtype_Indication)).As_Subtype_Indication;
-         Res_Type    : constant Ada_Node_Array :=
-            Subtype_Ind.F_Name.P_Matching_Nodes;
+            Get_From_Provider (Ctx, Unit_Name, Kind);
       begin
-         Put_Line (Subtype_Ind.Image & " resolves to:");
-         for E of Res_Type loop
-            Put_Line ("  " & E.Image);
-         end loop;
+         Unit.Root.Traverse (Process'Access);
       end;
       New_Line;
    end Resolve;
@@ -116,6 +148,7 @@ begin
    New_Line;
 
    Resolve ("p.gpr", "p2");
+   Resolve ("p.gpr", "p3", Unit_Body);
    Resolve ("multi_unit_files_1.gpr", "objects");
    Resolve ("multi_unit_files_2.gpr", "objects");
    Resolve ("extending.gpr", "ext");

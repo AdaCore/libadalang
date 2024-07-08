@@ -14583,32 +14583,44 @@ class BaseId: SingleTokNode implements TokenNode {
     fun parent_scope(): LexicalEnv = env
 
     @with_dynvars(env, origin)
-    fun designated_type_impl(): Entity[BaseTypeDecl] = node.env_get_first_visible(
-        env, from_node=node.origin_node(), lookup_type=if node.is_prefix() then LookupKind.recursive else LookupKind.minimal
-    ).do(
-        (env_el) => env_el.as[BaseTypeDecl].do(
-            (t) => if origin.is_null then {
-                bind origin = node.origin_node();
-
-                t.most_visible_forward_part_for_name(t.name_symbol(), seq=false)
-            } else t.most_visible_part(), default_val=env_el
+    fun designated_type_impl(): Entity[BaseTypeDecl] =
+        node.env_get_first_visible(
+            env, from_node=node.origin_node(),
+            lookup_type=if node.is_prefix()
+                then LookupKind.recursive
+                else LookupKind.minimal
         ).do(
-            (v1) => match v1 {
-                case t: BaseTypeDecl => t
-                case tb: TaskBody => tb.task_type()
-                case pb: ProtectedBody => pb.protected_type()
-                case tbs: TaskBodyStub => tbs.body_part_for_decl().as[TaskBody].task_type()
-                case pbs: ProtectedBodyStub => pbs.body_part_for_decl().as[ProtectedBody].protected_type()
-                case _ => null[Entity[BaseTypeDecl]]
-            }
+            (env_el) => env_el.as[BaseTypeDecl].do(
+                (t) => if origin.is_null then {
+                    bind origin = node.origin_node();
+
+                    t.most_visible_forward_part_for_name(
+                        t.name_symbol(), seq=false
+                    )
+                } else t.most_visible_part(),
+                default_val=env_el
+            ).do(
+                (v1) => match v1 {
+                    case t: BaseTypeDecl => t
+                    case tb: TaskBody => tb.task_type()
+                    case pb: ProtectedBody => pb.protected_type()
+                    case tbs: TaskBodyStub =>
+                        tbs.body_part_for_decl().as[TaskBody].task_type()
+                    case pbs: ProtectedBodyStub =>
+                        pbs.body_part_for_decl().as[ProtectedBody]
+                        .protected_type()
+                    case _ => null[Entity[BaseTypeDecl]]
+                }
+            )
+        ).do(
+            (precise) =>
+            # If we got a formal type declaration (i.e. a type declaration
+            # of a generic formal parameter), always returns its default type
+            # value if any.
+            precise.parent.as[GenericFormalTypeDecl].do(
+                (gftd) => gftd.default_type()
+            ) or? precise
         )
-    ).do(
-        (precise) =>
-        # If we got a formal type declaration (i.e. a type declaration
-        # of a generic formal parameter), always returns its default type
-        # value if any.
-        precise.parent.as[GenericFormalTypeDecl].do((gftd) => gftd.default_type()) or? precise
-    )
 
     @with_dynvars(env, origin)
     fun all_env_els_impl(seq: Bool = true, seq_from: AdaNode = null[AdaNode], categories: RefCategories = RefCategories(_=true)): Array[Entity[AdaNode]] = node.env_get(

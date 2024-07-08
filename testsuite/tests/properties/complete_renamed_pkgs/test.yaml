@@ -1,0 +1,8 @@
+driver: inline-playground
+input_sources:
+  - test_1.adb
+  - test_2.adb
+  - test_3.adb
+  - test_4.adb
+  - test_5.adb
+  - test_6.adb

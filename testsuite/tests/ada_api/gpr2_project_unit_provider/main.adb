@@ -107,6 +107,9 @@ procedure Main is
                  .P_Designated_Type_Decl_From (N.As_Ada_Node)
                  .As_Ada_Node;
 
+            when Ada_Subp_Body_Stub =>
+               Decl := Ref.As_Subp_Body_Stub.P_Next_Part_For_Decl.As_Ada_Node;
+
             when others =>
                Ref := No_Ada_Node;
          end case;
@@ -145,6 +148,7 @@ begin
    New_Line;
 
    Resolve ("p.gpr", "p2");
+   Resolve ("p.gpr", "p3", Unit_Body);
    Resolve ("multi_unit_files_1.gpr", "objects");
    Resolve ("multi_unit_files_2.gpr", "objects");
    Resolve ("extending.gpr", "ext");

@@ -1,0 +1,3 @@
+package P3 is
+   procedure P;
+end P3;

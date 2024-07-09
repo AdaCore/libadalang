@@ -8232,7 +8232,9 @@ class SubpRenamingDecl: BaseSubpBody {
 class BodyStub: Body {
     @with_dynvars(imprecise_fallback=false)
     fun next_part_for_decl(): Entity[BasicDecl] = node.get_unit_root_decl(
-        self.fully_qualified_name_array(), AnalysisUnitKind.unit_body, process_parents=false
+        self.syntactic_fully_qualified_name(),
+        AnalysisUnitKind.unit_body,
+        process_parents=false
     ).as_entity
 
     |" Return the syntactic fully qualified name to refer to this body.
@@ -8259,7 +8261,11 @@ class BodyStub: Body {
             case b: TaskBody => b
             case _ => raise[Body] PropertyError("invalid body stub")
         };
-        val cu = if top_body.parent is LibraryItem or top_body.parent is Subunit then top_body.parent.parent.as[CompilationUnit] else raise[CompilationUnit] PropertyError("invalid body stub");
+
+        val cu = if top_body.parent is LibraryItem | Subunit then
+            top_body.parent.parent.as[CompilationUnit]
+        else
+            raise[CompilationUnit] PropertyError("invalid body stub");
 
         cu.syntactic_fully_qualified_name() & rel_name
     }

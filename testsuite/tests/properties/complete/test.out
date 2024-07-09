@@ -485,7 +485,7 @@ Working on node <CallStmt private.adb:16:4-18:1>
 ================================================
 
 Eval 'list(node.f_call.p_complete)'
-Result: [<CompletionItem decl=<PackageBody ["Q"] private.adb:8:4-13:10> is_dot_call=False is_visible=True weight=0>,
+Result: [<CompletionItem decl=<PackageBody ["Q"] private.adb:8:4-13:10> is_dot_call=False is_visible=False weight=0>,
          <CompletionItem decl=<SubpDecl ["P"] private.adb:3:7-3:33> is_dot_call=False is_visible=True weight=75>]
 
 Working on node <ObjectDecl ["A"] subtype_indication.adb:2:4-2:10>

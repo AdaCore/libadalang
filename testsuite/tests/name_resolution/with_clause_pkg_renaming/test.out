@@ -21,5 +21,85 @@ Expr: <Id "Child" main.adb:1:25-1:30>
   type:          None
   expected type: None
 
+Resolving xrefs for node <CallStmt main.adb:6:4-6:17>
+*****************************************************
+
+Expr: <DottedName main.adb:6:4-6:16>
+  references:    <DefiningName "Foo" test.ads:2:14-2:17>
+  type:          None
+  expected type: None
+Expr: <Id "Renaming" main.adb:6:4-6:12>
+  references:    <DefiningName "Renaming" renaming.ads:3:9-3:17>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" main.adb:6:13-6:16>
+  references:    <DefiningName "Foo" test.ads:2:14-2:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt main.adb:8:4-8:13>
+*****************************************************
+
+Expr: <DottedName main.adb:8:4-8:12>
+  references:    <DefiningName "Foo" test.ads:2:14-2:17>
+  type:          None
+  expected type: None
+Expr: <Id "Test" main.adb:8:4-8:8>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" main.adb:8:9-8:12>
+  references:    <DefiningName "Foo" test.ads:2:14-2:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt main.adb:11:4-11:23>
+*******************************************************
+
+Expr: <DottedName main.adb:11:4-11:22>
+  references:    <DefiningName "Bar" test-child.ads:2:14-2:17>
+  type:          None
+  expected type: None
+Expr: <DottedName main.adb:11:4-11:18>
+  references:    <DefiningName "Test.Child" test-child.ads:1:9-1:19>
+  type:          None
+  expected type: None
+Expr: <Id "Renaming" main.adb:11:4-11:12>
+  references:    <DefiningName "Renaming" renaming.ads:3:9-3:17>
+  type:          None
+  expected type: None
+Expr: <Id "Child" main.adb:11:13-11:18>
+  references:    <DefiningName "Test.Child" test-child.ads:1:9-1:19>
+  type:          None
+  expected type: None
+Expr: <Id "Bar" main.adb:11:19-11:22>
+  references:    <DefiningName "Bar" test-child.ads:2:14-2:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt main.adb:13:4-13:19>
+*******************************************************
+
+Expr: <DottedName main.adb:13:4-13:18>
+  references:    <DefiningName "Bar" test-child.ads:2:14-2:17>
+  type:          None
+  expected type: None
+Expr: <DottedName main.adb:13:4-13:14>
+  references:    <DefiningName "Test.Child" test-child.ads:1:9-1:19>
+  type:          None
+  expected type: None
+Expr: <Id "Test" main.adb:13:4-13:8>
+  references:    <DefiningName "Test" test.ads:1:9-1:13>
+  type:          None
+  expected type: None
+Expr: <Id "Child" main.adb:13:9-13:14>
+  references:    <DefiningName "Test.Child" test-child.ads:1:9-1:19>
+  type:          None
+  expected type: None
+Expr: <Id "Bar" main.adb:13:15-13:18>
+  references:    <DefiningName "Bar" test-child.ads:2:14-2:17>
+  type:          None
+  expected type: None
+
 
 Done.

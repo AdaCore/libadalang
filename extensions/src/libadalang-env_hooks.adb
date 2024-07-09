@@ -455,14 +455,6 @@ package body Libadalang.Env_Hooks is
 
             Prepare_Nameres (Unit, PLE_Root_Index);
 
-            --  We're on the last portion of the name: return
-
-            if Is_Last then
-               return;
-            end if;
-
-            --  Else, recurse
-
             declare
                Internal_Name : Symbol_Type_Array_Access :=
                  Create_Symbol_Type_Array (Internal_Symbol_Type_Array (Name));
@@ -491,7 +483,7 @@ package body Libadalang.Env_Hooks is
                        Basic_Decl_P_Fully_Qualified_Name_Array
                          (Unwrap_Node (Target));
                      New_Index     : constant Positive :=
-                       Resolved_Name.Items'Last + 1;
+                       Resolved_Name.Items'Last;
                   begin
                      --  .. and make the next call to step consider the renamed
                      --  package.
@@ -500,6 +492,18 @@ package body Libadalang.Env_Hooks is
                        (Name  => Symbol_Type_Array (Resolved_Name.Items)
                                  & Name (Index + 1 .. Name'Last),
                         Index => New_Index);
+
+                     --  However if that was the last part of the name, we
+                     --  still want to return the renaming unit, and not
+                     --  renamed one. In theory we could have returned before
+                     --  resolving the renaming because we already had the unit
+                     --  we wanted to return, but if we did that we would not
+                     --  have updated the `Referenced_Units` vector to include
+                     --  the fact that `From_Unit` references the renamed unit.
+                     if Is_Last then
+                        Unit := Unwrap_Unit (Comp_Unit.Unit);
+                     end if;
+
                      Free (Resolved_Name);
                   exception
                      when Precondition_Failure | Property_Error =>
@@ -507,8 +511,12 @@ package body Libadalang.Env_Hooks is
                         raise;
                   end;
                else
-                  --  Else, just resolve the next portion of the given name
+                  --  We're on the last portion of the name: return
+                  if Is_Last then
+                     return;
+                  end if;
 
+                  --  Else, just resolve the next portion of the given name
                   Step (Name, Index + 1);
                end if;
 

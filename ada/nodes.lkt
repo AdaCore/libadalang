@@ -930,7 +930,7 @@ class AdaNode implements Node[AdaNode] {
                 other_entity.as[GenericPackageInstantiation]?.info.from_rebound
             ) or other_entity.as[PackageRenamingDecl]?.info.from_rebound or (
                 # The node is not an unit root
-                not other_entity.as[BasicDecl].is_compilation_unit_root()
+                not other_entity.as[BasicDecl]?.is_compilation_unit_root()
             ) or (
                 # Else, check with visibility
                 node.has_with_visibility(other_entity.node.unit())
@@ -1422,7 +1422,10 @@ class AdaNode implements Node[AdaNode] {
     fun complete_items(): Array[CompletionItem] =
         node.env_get_public(node.children_env(), null[Symbol]).map(
             (n) => CompletionItem(
-                decl=n.as[BasicDecl], is_dot_call=n.info.md.dottable_subp, is_visible=node.has_with_visibility(n.unit()), weight=self.complete_item_weight(n.as[BasicDecl])
+                decl=n.as[BasicDecl],
+                is_dot_call=n.info.md.dottable_subp,
+                is_visible=node.has_visibility(n),
+                weight=self.complete_item_weight(n.as[BasicDecl])
             )
         )
 
@@ -1519,7 +1522,10 @@ class AlternativesList: ASTList[AdaNode] {
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = node.children_env().get(null[Symbol]).map(
         (n) => CompletionItem(
-            decl=n.as[BasicDecl], is_dot_call=n.info.md.dottable_subp, is_visible=node.has_with_visibility(n.unit()), weight=match n {
+            decl=n.as[BasicDecl],
+            is_dot_call=n.info.md.dottable_subp,
+            is_visible=node.has_visibility(n),
+            weight=match n {
                 case eld: EnumLiteralDecl => if self.enum_type() == eld.enum_type() then 100 else 0
                 case _ => 0
             }
@@ -14041,42 +14047,52 @@ class DottedName: Name {
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = {
         bind origin = node.origin_node();
-
-        {
-            bind env = node.node_env();
-
-            {
-                bind no_visibility = true;
-
-                # In completion we always want to return everything, and flag
-                # invisible things as invisible, so we set the "no_visibility" flag
-                # to True.
-                node.env_get_public(
-                    self.prefix.designated_env(), null[Symbol], LookupKind.flat
-                ).filtermap(
-                    (n) => CompletionItem(
-                        decl=n.as[BasicDecl], is_dot_call=n.info.md.dottable_subp, is_visible=(
-                            # Dottable subprograms are always visible
-                            n.info.md.dottable_subp
-                        ) or (
-                            # Else check visibility on the unit containing n
-                            node.has_with_visibility(n.unit())
-                        ), weight=self.complete_item_weight(n.as[BasicDecl])
-                    ), (n) => (
-                        # Filter elements that are coming from a body that is not
-                        # visible. This can happen with dottable subprograms
-                        # defined in bodies.
-                        # NOTE: We also filter `PrivatePart`s here as they are
-                        # useless from the completion point of view.
-                        # Order matters here, `has_visibility` below should not
-                        # be called with n being a PrivatePart.
-                        not n is PrivatePart
-                    ) and (
-                        n.owning_unit_kind() == AnalysisUnitKind.unit_specification or node.has_visibility(n)
-                    )
-                )
-            }
-        }
+        bind env = node.node_env();
+        val complete_env = {
+            bind no_visibility = true;
+            self.prefix.designated_env()
+        };
+        val visible_env = {
+            bind no_visibility = false;
+            self.prefix.designated_env()
+        };
+        # In completion we always want to return everything, and flag invisible
+        # things as invisible, so we first query `complete_env` to discover all
+        # possible items, and then check whether they are actually visible by
+        # querying `visible_env`.
+        node.env_get_public(
+            complete_env, null[Symbol], LookupKind.flat
+        ).filtermap(
+            (n) => CompletionItem(
+                decl=n.as[BasicDecl],
+                is_dot_call=n.info.md.dottable_subp,
+                is_visible=(
+                    # Dottable subprograms are always visible
+                    n.info.md.dottable_subp
+                ) or (
+                    # Else check visibility on the unit containing n
+                    node.has_visibility(n)
+                    and node.env_get_public(
+                        visible_env,
+                        n.as[BasicDecl].name_symbol,
+                        LookupKind.flat
+                    ).contains(n)
+                ),
+                weight=self.complete_item_weight(n.as[BasicDecl])
+            ), (n) => (
+                # Filter elements that are coming from a body that is not
+                # visible. This can happen with dottable subprograms
+                # defined in bodies.
+                # NOTE: We also filter `PrivatePart`s here as they are
+                # useless from the completion point of view.
+                # Order matters here, `has_visibility` below should not
+                # be called with n being a PrivatePart.
+                not n is PrivatePart
+            ) and (
+                n.owning_unit_kind() == AnalysisUnitKind.unit_specification
+                or node.has_visibility(n)
+            )
+        )
     }
 
     @with_dynvars(origin)
@@ -17652,7 +17668,10 @@ class SubtypeIndication: TypeExpr {
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = self.children_env().get(null[Symbol]).map(
         (n) => CompletionItem(
-            decl=n.as[BasicDecl], is_dot_call=n.info.md.dottable_subp, is_visible=node.has_with_visibility(n.unit()), weight=match n {
+            decl=n.as[BasicDecl],
+            is_dot_call=n.info.md.dottable_subp,
+            is_visible=node.has_visibility(n),
+            weight=match n {
                 case btd: BaseTypeDecl => # Do not promote self as a possible completion for
                 # itself::
                 #

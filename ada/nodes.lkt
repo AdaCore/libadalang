@@ -8112,23 +8112,25 @@ class BaseSubpBody: Body {
             s"__nextpart", node, dest_env=node.previous_part_env_name().do(
                 (name) => DesignatedEnv(
                     kind=DesignatedEnvKind.named_env, env_name=name, direct_env=null[LexicalEnv]
-                ), default_val=# Due to overloading, it's not possible to find the previous
+                ),
+                # Due to overloading, it's not possible to find the previous
                 # part of a non-library item subprogram at this stage if it
                 # has a top level env name (e.g. a subprogram declared in a
                 # package), since its body could be defined in another unit.
-                if node.has_top_level_env_name() then DesignatedEnv(
+                default_val=if node.has_top_level_env_name() then DesignatedEnv(
                     kind=DesignatedEnvKind.none, env_name=null[Symbol], direct_env=null[LexicalEnv]
                 ) else {
                     bind env = node.default_initial_env();
 
-                    self.body_scope(follow_private=false, force_decl=true)
-                }.do(
-                    (non_null_env) => DesignatedEnv(
-                        kind=DesignatedEnvKind.direct_env, env_name=null[Symbol], direct_env=non_null_env
-                    ), default_val=DesignatedEnv(
-                        kind=DesignatedEnvKind.current_env, env_name=null[Symbol], direct_env=null[LexicalEnv]
+                    self.body_scope(follow_private=false, force_decl=true).do(
+                        (non_null_env) => DesignatedEnv(
+                            kind=DesignatedEnvKind.direct_env, env_name=null[Symbol], direct_env=non_null_env
+                        ),
+                        default_val=DesignatedEnv(
+                            kind=DesignatedEnvKind.current_env, env_name=null[Symbol], direct_env=null[LexicalEnv]
+                        )
                     )
-                )
+                }
             )
         )
         do(node.populate_dependent_units())

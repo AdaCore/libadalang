@@ -1,0 +1,59 @@
+Working on node <SubpDecl ["Foo"] test.adb:4:7-4:21>
+====================================================
+
+Eval 'node.p_parent_basic_decl'
+Result: <GenericPackageDecl ["Pkg"] test.adb:2:4-7:12>
+
+Eval 'node.p_parent_basic_decl.p_parent_basic_decl'
+Result: <SubpBody ["Test"] test.adb:1:1-37:10>
+
+Working on node <NullSubpDecl ["Foo"] test.adb:10:7-10:29>
+==========================================================
+
+Eval 'node.p_parent_basic_decl'
+Result: <PackageBody ["Pkg"] test.adb:9:4-13:12>
+
+Eval 'node.p_parent_basic_decl.p_parent_basic_decl'
+Result: <SubpBody ["Test"] test.adb:1:1-37:10>
+
+Working on node <GenericPackageInstantiation ["My_Pkg"] test.adb:15:4-15:30>
+============================================================================
+
+Set 'pkg_spec' to 'node.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["Pkg"] test.adb:2:4-7:12 [test.adb:15:4] |>
+
+Set 'pkg_body' to 'pkg_spec.p_body_part'
+Result: <| PackageBody ["Pkg"] test.adb:9:4-13:12 [test.adb:15:4] |>
+
+Eval 'pkg_spec.p_parent_basic_decl'
+Result: <GenericPackageInstantiation ["My_Pkg"] test.adb:15:4-15:30>
+
+Eval 'pkg_body.p_parent_basic_decl'
+Result: <GenericPackageInstantiation ["My_Pkg"] test.adb:15:4-15:30>
+
+Set 'foo_spec' to 'pkg_spec.find(lal.SubpDecl)'
+Result: <| SubpDecl ["Foo"] test.adb:4:7-4:21 [test.adb:15:4] |>
+
+Eval 'foo_spec.p_parent_basic_decl'
+Result: <| GenericPackageDecl ["Pkg"] test.adb:2:4-7:12 [test.adb:15:4] |>
+
+Set 'foo_body' to 'pkg_body.find(lal.NullSubpDecl)'
+Result: <| NullSubpDecl ["Foo"] test.adb:10:7-10:29 [test.adb:15:4] |>
+
+Eval 'foo_body.p_parent_basic_decl'
+Result: <| PackageBody ["Pkg"] test.adb:9:4-13:12 [test.adb:15:4] |>
+
+Working on node <GenericSubpInstantiation ["My_Bar"] test.adb:30:4-30:32>
+=========================================================================
+
+Set 'bar_decl' to 'node.p_designated_generic_decl'
+Result: <| GenericSubpDecl ["Bar"] test.adb:25:4-26:18 [test.adb:30:4] |>
+
+Eval 'bar_decl.p_parent_basic_decl'
+Result: <GenericSubpInstantiation ["My_Bar"] test.adb:30:4-30:32>
+
+Set 'bar_body' to 'bar_decl.p_body_part()'
+Result: <| NullSubpDecl ["Bar"] test.adb:28:4-28:26 [test.adb:30:4] |>
+
+Eval 'bar_body.p_parent_basic_decl'
+Result: <GenericSubpInstantiation ["My_Bar"] test.adb:30:4-30:32>

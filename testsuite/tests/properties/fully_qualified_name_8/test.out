@@ -1,0 +1,20 @@
+Working on node <GenericPackageInstantiation ["Inst"] test.adb:20:4-20:28>
+==========================================================================
+
+Set 'gen_body' to 'node.p_designated_generic_decl.p_body_part'
+Result: <| PackageBody ["Gen"] test.adb:7:4-18:12 [test.adb:20:4] |>
+
+Eval 'gen_body.p_fully_qualified_name'
+Result: 'Test.Inst'
+
+Set 'inner' to 'gen_body.findall(lal.SubpBody)[0]'
+Result: <| SubpBody ["Inner"] test.adb:8:7-11:17 [test.adb:20:4] |>
+
+Set 'visible' to 'gen_body.findall(lal.SubpBody)[1]'
+Result: <| SubpBody ["Visible"] test.adb:13:7-16:19 [test.adb:20:4] |>
+
+Eval 'inner.p_fully_qualified_name'
+Result: 'Test.Inst.Inner'
+
+Eval 'visible.p_fully_qualified_name'
+Result: 'Test.Inst.Visible'

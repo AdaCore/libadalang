@@ -1,0 +1,73 @@
+Working on node <GenericPackageInstantiation ["M"] inner.adb:16:4-16:24>
+========================================================================
+
+Set 'obj' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] inner.adb:8:10-8:16 [inner.adb:16:4] |>
+
+Eval 'obj.f_type_expr.p_designated_type_decl'
+Result: <| FormalTypeDecl ["T"] inner.adb:6:10-6:44 [inner.adb:16:4] |>
+
+Set 'insts' to 'node.p_designated_generic_decl.findall(lal.GenericInstantiation)'
+Result: [<| GenericPackageInstantiation ["My_Pkg_1"] inner.adb:11:7-11:35 [inner.adb:16:4] |>,
+         <| GenericPackageInstantiation ["My_Pkg_2"] inner.adb:13:7-13:50 [inner.adb:16:4] |>]
+
+Set 'gens' to '[inst.p_designated_generic_decl for inst in insts]'
+Result: [<| GenericPackageDecl ["Pkg"] inner.adb:5:7-9:15 [inner.adb:16:4, inner.adb:11:7] |>,
+         <| GenericPackageDecl ["Pkg"] inner.adb:5:7-9:15 [inner.adb:16:4, inner.adb:13:7] |>]
+
+Set 'objs' to '[gen.find(lal.ObjectDecl) for gen in gens]'
+Result: [<| ObjectDecl ["X"] inner.adb:8:10-8:16 [inner.adb:16:4, inner.adb:11:7] |>,
+         <| ObjectDecl ["X"] inner.adb:8:10-8:16 [inner.adb:16:4, inner.adb:13:7] |>]
+
+Eval '[obj.f_type_expr.p_designated_type_decl for obj in objs]'
+Result: [<ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>,
+         <ConcreteTypeDecl ["Long_Integer"] __standard:9:3-9:69>]
+
+Working on node <GenericPackageInstantiation ["M"] inner2.adb:17:4-17:24>
+=========================================================================
+
+Set 'obj' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] inner2.adb:9:13-9:19 [inner2.adb:17:4] |>
+
+Eval 'obj.f_type_expr.p_designated_type_decl'
+Result: <| FormalTypeDecl ["T"] inner2.adb:5:10-5:44 [inner2.adb:17:4] |>
+
+Set 'insts' to 'node.p_designated_generic_decl.findall(lal.GenericInstantiation)'
+Result: [<| GenericPackageInstantiation ["My_Pkg_1"] inner2.adb:13:7-13:35 [inner2.adb:17:4] |>,
+         <| GenericPackageInstantiation ["My_Nested"] inner2.adb:14:7-14:48 [inner2.adb:17:4] |>]
+
+Set 'gens' to '[inst.p_designated_generic_decl for inst in insts]'
+Result: [<| GenericPackageDecl ["Pkg"] inner2.adb:4:7-11:15 [inner2.adb:17:4, inner2.adb:13:7] |>,
+         <| GenericPackageDecl ["Nested"] inner2.adb:7:10-10:21 [inner2.adb:17:4, inner2.adb:13:7, inner2.adb:14:7] |>]
+
+Set 'objs' to '[gen.find(lal.ObjectDecl) for gen in gens]'
+Result: [<| ObjectDecl ["X"] inner2.adb:9:13-9:19 [inner2.adb:17:4, inner2.adb:13:7] |>,
+         <| ObjectDecl ["X"] inner2.adb:9:13-9:19 [inner2.adb:17:4, inner2.adb:13:7, inner2.adb:14:7] |>]
+
+Eval '[obj.f_type_expr.p_designated_type_decl for obj in objs]'
+Result: [<ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>,
+         <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>]
+
+Working on node <ObjectDecl ["X"] test.adb:5:7-5:13>
+====================================================
+
+Eval 'node.f_type_expr.p_designated_type_decl'
+Result: <FormalTypeDecl ["T"] test.adb:3:7-3:41>
+
+Working on node <GenericPackageInstantiation ["My_Pkg_1"] test.adb:9:4-9:32>
+============================================================================
+
+Set 'obj' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] test.adb:5:7-5:13 [test.adb:9:4] |>
+
+Eval 'obj.f_type_expr.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Working on node <GenericPackageInstantiation ["My_Pkg_2"] test.adb:13:4-13:47>
+==============================================================================
+
+Set 'obj' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] test.adb:5:7-5:13 [test.adb:13:4] |>
+
+Eval 'obj.f_type_expr.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["Long_Integer"] __standard:9:3-9:69>

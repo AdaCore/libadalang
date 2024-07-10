@@ -148,10 +148,7 @@ lexer ada_lexer {
     Notequal <- "/="
     Divide <- "/"
     Tick <- "'"
-    Pipe <- or(
-        | "|"
-        | "!"
-    )
+    Pipe <- or("|" | "!")
     LabelStart <- "<<"
     LabelEnd <- ">>"
     Target <- "@"
@@ -159,20 +156,11 @@ lexer ada_lexer {
     # Literals
     @unparsing_spacing(with=alphanumericals)
     family alphanumericals {
-        Integer <- or(
-            | p"{integer_literal}"
-            | p"{based_integer_literal}"
-        )
-        Decimal <- or(
-            | p"{decimal_literal}"
-            | p"{based_decimal_literal}"
-        )
+        Integer <- or(p"{integer_literal}" | p"{based_integer_literal}")
+        Decimal <- or(p"{decimal_literal}" | p"{based_decimal_literal}")
     }
 
-    String <- or(
-        | p"{p_string}"
-        | p"{p_percent_string}"
-    )
+    String <- or(p"{p_string}" | p"{p_percent_string}")
     FormatStringStart <- p"{p_format_string_start}"
     FormatStringMid <- p"{p_format_string_mid}"
     FormatStringEnd <- p"{p_format_string_end}"

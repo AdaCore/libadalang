@@ -515,6 +515,7 @@ package body Libadalang.Env_Hooks is
                   --  We're on the last portion of the name: return
 
                   if Is_Last then
+                     Dec_Ref (Internal_Name);
                      return;
                   end if;
 

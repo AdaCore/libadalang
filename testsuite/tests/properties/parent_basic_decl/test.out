@@ -37,13 +37,13 @@ Result: <GenericPackageInstantiation ["My_Pkg"] gen.adb:16:4-16:32>
 Set 'internal' to 'decl.f_package_decl'
 Result: <| GenericPackageInternal ["Pkg_G"] gen.adb:3:4-5:14 [gen.adb:16:4] |>
 
-Eval 'internal.p_parent_basic_decl'
+Eval 'internal.p_parent_basic_decl.p_parent_basic_decl'
 Result: <GenericPackageInstantiation ["My_Pkg"] gen.adb:16:4-16:32>
 
 Set 'obj' to 'internal.find(lal.ObjectDecl)'
 Result: <| ObjectDecl ["X"] gen.adb:4:7-4:19 [gen.adb:16:4] |>
 
-Eval 'obj.p_parent_basic_decl'
+Eval 'obj.p_parent_basic_decl.p_parent_basic_decl'
 Result: <GenericPackageInstantiation ["My_Pkg"] gen.adb:16:4-16:32>
 
 Working on node <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
@@ -61,13 +61,13 @@ Result: <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
 Set 'internal' to 'decl.f_subp_decl'
 Result: <| GenericSubpInternal ["Subp_G"] gen.adb:11:4-11:34 [gen.adb:25:4] |>
 
-Eval 'internal.p_parent_basic_decl'
+Eval 'internal.p_parent_basic_decl.p_parent_basic_decl'
 Result: <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
 
 Set 'param' to 'decl.find(lal.ParamSpec)'
 Result: <| ParamSpec ["X"] gen.adb:11:22-11:33 [gen.adb:25:4] |>
 
-Eval 'param.p_parent_basic_decl'
+Eval 'param.p_parent_basic_decl.p_parent_basic_decl'
 Result: <GenericSubpInstantiation ["My_Subp"] gen.adb:25:4-25:36>
 
 Working on node <SubpDecl ["Foo"] test.adb:8:4-10:19>

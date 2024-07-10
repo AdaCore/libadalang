@@ -347,7 +347,8 @@ class AdaNode implements Node[AdaNode] {
     |"
     |" .. note:: If the parent BasicDecl of the given node is a generic
     |"     declaration, this call will return the instantiation from which
-    |"     the node was retrieved instead, if any.
+    |"     the node was retrieved instead, if any. This also applies to bodies
+    |"     of generic declarations.
     |"
     |" .. note:: When called on a subunit's body, this property will return
     |"     its corresponding body stub.
@@ -360,13 +361,24 @@ class AdaNode implements Node[AdaNode] {
         # call parent_basic_decl on the parent type, to avoid getting the
         # type itself as a parent_basic_decl (since some types introduce a
         # scope).
-        if self is ClasswideTypeDecl | DiscreteBaseSubtypeDecl | SynthAnonymousTypeDecl then self.semantic_parent().parent_basic_decl() else self.as[GenericDecl].do((gd) => gd.decl().get_instantiation()) or? self.semantic_parent().do(
-            (sp) => if sp is GenericDecl then sp.as[GenericDecl].do(
-                (gd) => gd.decl().get_instantiation() or? gd
+        if self is ClasswideTypeDecl
+                   | DiscreteBaseSubtypeDecl
+                   | SynthAnonymousTypeDecl then
+            self.semantic_parent().parent_basic_decl()
+        else {
+            val gen_decl = self.as[GenericDecl];
+            val gen_body = self.as[Body]?.decl_part.do(
+                (dp) => dp.as[GenericDecl] or? dp.parent.as[GenericDecl]
+            );
+            (gen_decl or? gen_body).do(
+                (gd) => gd.decl().get_instantiation()
+            ) or? self.semantic_parent().do((sp) =>
+                if sp is GenericSubpInternal | GenericPackageInternal then
+                    sp.parent_basic_decl()
+                else
+                    sp.as[BasicDecl] or? sp.parent_basic_decl()
             )
-            elif sp is GenericSubpInternal | GenericPackageInternal then sp.parent_basic_decl()
-            else sp.as[BasicDecl] or? sp.parent_basic_decl()
-        )
+        }
 
     |" Helper for the properties ``has_spark_mode_on`` and
     |" ``is_subject_to_proof``.
@@ -13426,22 +13438,25 @@ class DefiningName: Name {
             case n => n.as_single_tok_node_array().map((t) => t.text())
         };
         val bd = self.basic_decl();
-        val self_name = def_name_array.map(
-            (t, i) => t & (
-                if include_profile then bd.custom_id_text() else ""
-            ) & (
-                if i == def_name_array.length() - 1 then suffix else ""
-            )
+        val self_name = def_name_array.map((t, i) =>
+            t
+            & (if include_profile then bd.custom_id_text() else "")
+            & (if i == def_name_array.length() - 1 then suffix else "")
         );
         val parent_decl = bd.parent_basic_decl();
-        val is_generic = bd is GenericDecl;
-        val is_instantiated = is_generic and parent_decl is GenericInstantiation;
-        val fqn = if not is_instantiated and bd.is_compilation_unit_root() then self_name else parent_decl?.fully_qualified_name_string_array(include_profile=include_profile).do(
-            (fqn) => # If we were on an instantiated generic declaration, we don't
-            # want to include the name of the generic but the name of the
-            # instance (which is `fqn`).
-            if is_instantiated then fqn else fqn & self_name
-        );
+        val is_instantiated = (bd is GenericDecl | Body)
+            and parent_decl is GenericInstantiation;
+        val fqn = if not is_instantiated and bd.is_compilation_unit_root() then
+            self_name
+        else
+            parent_decl?.fully_qualified_name_string_array(
+                include_profile=include_profile
+            ).do((fqn) =>
+                # If we were on an instantiated generic declaration, we don't
+                # want to include the name of the generic but the name of the
+                # instance (which is `fqn`).
+                if is_instantiated then fqn else fqn & self_name
+            );
 
         bd.parent.as[Subunit].do(
             (su) => su.name.as_single_tok_node_array()

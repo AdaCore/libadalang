@@ -500,6 +500,7 @@ package body Libadalang.Env_Hooks is
                      --  we wanted to return, but if we did that we would not
                      --  have updated the `Referenced_Units` vector to include
                      --  the fact that `From_Unit` references the renamed unit.
+
                      if Is_Last then
                         Unit := Unwrap_Unit (Comp_Unit.Unit);
                      end if;
@@ -512,11 +513,14 @@ package body Libadalang.Env_Hooks is
                   end;
                else
                   --  We're on the last portion of the name: return
+
                   if Is_Last then
+                     Dec_Ref (Internal_Name);
                      return;
                   end if;
 
                   --  Else, just resolve the next portion of the given name
+
                   Step (Name, Index + 1);
                end if;
 

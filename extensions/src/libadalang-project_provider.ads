@@ -27,8 +27,15 @@ package Libadalang.Project_Provider is
    package LAL renames Libadalang.Analysis;
    package Prj renames GNATCOLL.Projects;
 
-   Trace : constant GNATCOLL.Traces.Trace_Handle := GNATCOLL.Traces.Create
-     ("LIBADALANG.PROJECT_PROVIDER", GNATCOLL.Traces.From_Config);
+   Trace : constant GNATCOLL.Traces.Trace_Handle :=
+     GNATCOLL.Traces.Create
+       ("LIBADALANG.PROJECT_PROVIDER", GNATCOLL.Traces.From_Config);
+   Partition_Trace : constant GNATCOLL.Traces.Trace_Handle :=
+     GNATCOLL.Traces.Create
+       ("LIBADALANG.PROJECT_PROVIDER.PARTITION", GNATCOLL.Traces.From_Config);
+   Resolution_Trace : constant GNATCOLL.Traces.Trace_Handle :=
+     GNATCOLL.Traces.Create
+       ("LIBADALANG.PROJECT_PROVIDER.RESOLUTION", GNATCOLL.Traces.From_Config);
 
    Unsupported_View_Error : exception;
    --  See the ``Create_Project_Unit_Provider`` functions below

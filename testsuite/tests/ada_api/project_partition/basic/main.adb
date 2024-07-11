@@ -23,7 +23,7 @@ procedure Main is
    PAPs : Provider_And_Projects_Array_Access;
 
 begin
-   GNATCOLL.Traces.Parse_Config ("LIBADALANG.PROJECT_PROVIDER=yes");
+   GNATCOLL.Traces.Parse_Config ("LIBADALANG.PROJECT_PROVIDER.PARTITION=yes");
    Put_Line ("Loading the project:");
    Initialize (Env);
    Load (Tree.all, Create (+"ap1.gpr"), Env);

@@ -302,8 +302,8 @@ package body Libadalang.Project_Provider is
                and then Unit_Files.Reference (Prj_Pos).Element.all
                         /= Part.Unit_Files.Reference (Part_Pos).Element.all
             then
-               if Trace.Is_Active then
-                  Trace.Trace
+               if Partition_Trace.Is_Active then
+                  Partition_Trace.Trace
                     ("Found conflicting source files for unit "
                      & To_String (Unit_Name) & " in " & Name (Project)
                      & " and " & Part_Image (Part));
@@ -390,7 +390,8 @@ package body Libadalang.Project_Provider is
    is
       Partition : Aggregate_Part_Vectors.Vector;
    begin
-      Trace.Increase_Indent ("Trying to partition " & Name (Root (Tree)));
+      Partition_Trace.Increase_Indent
+        ("Trying to partition " & Name (Root (Tree)));
 
       if Is_Aggregate_Project (Root (Tree)) then
 
@@ -488,22 +489,23 @@ package body Libadalang.Project_Provider is
          end;
       end if;
 
-      Trace.Decrease_Indent;
+      Partition_Trace.Decrease_Indent;
 
       --  For debuggability, log how the Tree was partitioned
 
-      if Trace.Is_Active then
-         Trace.Increase_Indent ("Input project partitioned into:");
+      if Partition_Trace.Is_Active then
+         Partition_Trace.Increase_Indent ("Input project partitioned into:");
          for Cur in Partition.Iterate loop
             declare
                N    : constant Positive :=
                   Aggregate_Part_Vectors.To_Index (Cur);
                Part : Aggregate_Part renames Partition.Element (N).all;
             begin
-               Trace.Trace ("Part" & N'Image & ": " & Part_Image (Part));
+               Partition_Trace.Trace
+                 ("Part" & N'Image & ": " & Part_Image (Part));
             end;
          end loop;
-         Trace.Decrease_Indent;
+         Partition_Trace.Decrease_Indent;
       end if;
 
       --  For GPR2, make sure that all projects are namespace roots
@@ -693,6 +695,27 @@ package body Libadalang.Project_Provider is
       Filename       : in out US.Unbounded_String;
       PLE_Root_Index : in out Natural)
    is
+      function Request_Image return String
+      is (Kind'Image & " of unit " & Image (Name, With_Quotes => True));
+
+      procedure Trace_Found;
+      --  Assuming that we found the requested unit, log information about it
+      --  to the project provider trace.
+
+      -----------------
+      -- Trace_Found --
+      -----------------
+
+      procedure Trace_Found is
+      begin
+         if Resolution_Trace.Is_Active then
+            Resolution_Trace.Trace
+              (Request_Image & " is located in "
+               & US.To_String (Filename)
+               & " at" & PLE_Root_Index'Image);
+         end if;
+      end Trace_Found;
+
       Str_Name  : constant String :=
         Libadalang.Unit_Files.Unit_String_Name (Name);
    begin
@@ -732,6 +755,7 @@ package body Libadalang.Project_Provider is
                         if Fullname'Length /= 0 then
                            GNAT.Task_Lock.Unlock;
                            Filename := US.To_Unbounded_String (Fullname);
+                           Trace_Found;
                            return;
                         end if;
                      end;
@@ -770,6 +794,7 @@ package body Libadalang.Project_Provider is
                     US.To_Unbounded_String (String (Unit.Source.Value));
                   PLE_Root_Index :=
                     (if Unit.Index = 0 then 1 else Positive (Unit.Index));
+                  Trace_Found;
                   return;
                end if;
             end;
@@ -779,6 +804,9 @@ package body Libadalang.Project_Provider is
       --  If we reach this point, we have not found a unit handled by this
       --  provider that matches the requested name/kind.
 
+      if Resolution_Trace.Is_Active then
+         Resolution_Trace.Trace ("No unit found for " & Request_Image);
+      end if;
       Filename := US.Null_Unbounded_String;
       PLE_Root_Index := 1;
    end Get_Unit_Location;

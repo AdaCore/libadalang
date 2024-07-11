@@ -280,7 +280,7 @@ class AdaNode implements Node[AdaNode] {
             new_env.env_node.as[GenericPackageInstantiation].name.name_symbol(), lookup=LookupKind.minimal
         ).as[GenericPackageInstantiation].do(
             (gpi) => node.add_rebinding(
-                base.get_parent, gpi.nonbound_generic_decl_from_self().node.children_env(), gpi.instantiation_env()
+                base.get_parent, gpi.nonbound_generic_decl_from_self().node.children_env(), gpi.instantiation_env
             ), default_val=base.append_rebinding(old_env, new_env)
         )
         else node.add_rebinding(base.get_parent, old_env, new_env)
@@ -4976,48 +4976,48 @@ class BaseTypeDecl: BasicDecl {
     |" Return the synthetic declaration of the built-in subprogram denoted by
     |" the given attribute name and defined on this type.
     fun synthesize_attribute_subprogram(attr_name: Symbol): Entity[BasicSubpDecl] = {
-        val repo = node.attributes_repo();
-        val subp = if attr_name == s"succ" then repo.succ()
-        elif attr_name == s"pred" then repo.pred()
-        elif attr_name == s"min" then repo.min()
-        elif attr_name == s"max" then repo.max()
-        elif attr_name == s"round" then repo.round()
-        elif attr_name == s"rounding" then repo.rounding()
-        elif attr_name == s"unbiased_rounding" then repo.unbiased_rounding()
-        elif attr_name == s"ceiling" then repo.ceiling()
-        elif attr_name == s"floor" then repo.floor()
-        elif attr_name == s"truncation" then repo.truncation()
-        elif attr_name == s"machine" then repo.machine()
-        elif attr_name == s"machine_rounding" then repo.machine_rounding()
-        elif attr_name == s"fraction" then repo.fraction()
-        elif attr_name == s"exponent" then repo.exponent()
-        elif attr_name == s"copy_sign" then repo.copy_sign()
-        elif attr_name == s"remainder" then repo.remainder()
-        elif attr_name == s"adjacent" then repo.adjacent()
-        elif attr_name == s"scaling" then repo.scaling()
-        elif attr_name == s"compose" then repo.compose()
-        elif attr_name == s"leading_part" then repo.leading_part()
-        elif attr_name == s"mod" then repo.mod()
-        elif attr_name == s"image" then repo.image()
-        elif attr_name == s"wide_image" then repo.wide_image()
-        elif attr_name == s"wide_wide_image" then repo.wide_wide_image()
-        elif attr_name == s"put_image" then repo.put_image()
-        elif attr_name == s"value" then repo.value()
-        elif attr_name == s"wide_value" then repo.wide_value()
-        elif attr_name == s"wide_wide_value" then repo.wide_wide_value()
-        elif attr_name == s"fixed_value" then repo.fixed_value()
-        elif attr_name == s"integer_value" then repo.integer_value()
-        elif attr_name == s"pos" then repo.pos()
-        elif attr_name == s"val" then repo.val_attr()
-        elif attr_name == s"enum_rep" then repo.enum_rep()
-        elif attr_name == s"enum_val" then repo.enum_val()
-        elif attr_name == s"read" then repo.read()
-        elif attr_name == s"write" then repo.write()
-        elif attr_name == s"input" then repo.input()
-        elif attr_name == s"output" then repo.output()
-        elif attr_name == s"asm_input" then repo.asm_input()
-        elif attr_name == s"asm_output" then repo.asm_output()
-        elif attr_name == s"model" then repo.model()
+        val repo = node.attributes_repo;
+        val subp = if attr_name == s"succ" then repo.succ
+        elif attr_name == s"pred" then repo.pred
+        elif attr_name == s"min" then repo.min
+        elif attr_name == s"max" then repo.max
+        elif attr_name == s"round" then repo.round
+        elif attr_name == s"rounding" then repo.rounding
+        elif attr_name == s"unbiased_rounding" then repo.unbiased_rounding
+        elif attr_name == s"ceiling" then repo.ceiling
+        elif attr_name == s"floor" then repo.floor
+        elif attr_name == s"truncation" then repo.truncation
+        elif attr_name == s"machine" then repo.machine
+        elif attr_name == s"machine_rounding" then repo.machine_rounding
+        elif attr_name == s"fraction" then repo.fraction
+        elif attr_name == s"exponent" then repo.exponent
+        elif attr_name == s"copy_sign" then repo.copy_sign
+        elif attr_name == s"remainder" then repo.remainder
+        elif attr_name == s"adjacent" then repo.adjacent
+        elif attr_name == s"scaling" then repo.scaling
+        elif attr_name == s"compose" then repo.compose
+        elif attr_name == s"leading_part" then repo.leading_part
+        elif attr_name == s"mod" then repo.mod
+        elif attr_name == s"image" then repo.image
+        elif attr_name == s"wide_image" then repo.wide_image
+        elif attr_name == s"wide_wide_image" then repo.wide_wide_image
+        elif attr_name == s"put_image" then repo.put_image
+        elif attr_name == s"value" then repo.value
+        elif attr_name == s"wide_value" then repo.wide_value
+        elif attr_name == s"wide_wide_value" then repo.wide_wide_value
+        elif attr_name == s"fixed_value" then repo.fixed_value
+        elif attr_name == s"integer_value" then repo.integer_value
+        elif attr_name == s"pos" then repo.pos
+        elif attr_name == s"val" then repo.val_attr
+        elif attr_name == s"enum_rep" then repo.enum_rep
+        elif attr_name == s"enum_val" then repo.enum_val
+        elif attr_name == s"read" then repo.read
+        elif attr_name == s"write" then repo.write
+        elif attr_name == s"input" then repo.input
+        elif attr_name == s"output" then repo.output
+        elif attr_name == s"asm_input" then repo.asm_input
+        elif attr_name == s"asm_output" then repo.asm_output
+        elif attr_name == s"model" then repo.model
         else null[BasicSubpDecl];
 
         Entity[BasicSubpDecl](
@@ -5166,7 +5166,7 @@ class BaseTypeDecl: BasicDecl {
     |" Return the environment containing the primitives for self, rebound
     |" using the given rebindings.
     fun own_primitives_env(with_rebindings: EnvRebindings): LexicalEnv =
-        self.direct_primitives_env().rebind_env(with_rebindings)
+        self.direct_primitives_env.rebind_env(with_rebindings)
 
     |" Return the environments containing the primitives for self and its
     |" previous parts, if there are some. All returned environments are
@@ -6539,7 +6539,7 @@ class SubtypeDecl: BaseSubtypeDecl {
         # subtype environment, so we add a children environement here, just to
         # hold this object.
         add_env(transitive_parent=true)
-        add_to_env(self.synthetic_object_decl_env_assoc())
+        add_to_env(self.synthetic_object_decl_env_assoc)
     }
 }
 
@@ -6626,7 +6626,7 @@ class IncompleteTypeDecl: BaseTypeDecl {
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv =
-        [node.children_env(), node.dottable_subps_env()].env_group()
+        [node.children_env(), node.dottable_subps_env].env_group()
 
     @with_dynvars(origin=null[AdaNode])
     fun discriminants_list(@ignored stop_recurse_at: Entity[BaseTypeDecl] = null[Entity[BaseTypeDecl]]): Array[Entity[BaseFormalParamDecl]] =
@@ -7099,7 +7099,7 @@ class TypeDecl: BaseTypeDecl {
         # useful or not, for example by checking if `Predicate` aspect is
         # specified on this type. However, it is not as easy because there can
         # `Predicate` pragmas defined *after* this.
-        add_to_env(self.synthetic_object_decl_env_assoc())
+        add_to_env(self.synthetic_object_decl_env_assoc)
         # Make sure the reference to the primitives env is created *AFTER* the
         # synthetic type predicate object has been added to self's env: since
         # this object has the same name as the type, it is indirectly used to
@@ -8883,7 +8883,7 @@ class GenericInstantiation: BasicDecl {
                 # We will use ``BasicDecl.corresponding_actual``
                 # instead to manually resolve it.
                 if pm.actual.assoc.expr() is BoxExpr or pm.formal.formal_decl() is GenericFormalSubpDecl then null[Expr]
-                elif pm.formal.formal_decl() is GenericFormalObjDecl then self.actual_expr_decls()?[i]
+                elif pm.formal.formal_decl() is GenericFormalObjDecl then self.actual_expr_decls?[i]
                 else pm.actual.assoc.expr().node, metadata=Metadata()
             )
         ).filter(
@@ -9127,7 +9127,7 @@ class GenericPackageInstantiation: GenericInstantiation {
                     # P node, with no rebindings associated, since the
                     # rebinding indication concerns the *naked* generic.
                     # Hence we use `p.node.children_env`.
-                    p.node.children_env(), node.instantiation_env()
+                    p.node.children_env(), node.instantiation_env
                 ), from_rebound=p.info.from_rebound
             )
         )
@@ -9221,7 +9221,7 @@ class GenericSubpInstantiation: GenericInstantiation {
         (p) => Entity[BasicSubpDecl](
             node=p.node.as[GenericSubpDecl].subp_decl, info=EntityInfo(
                 md=self.info.md, rebindings=node.add_rebinding(
-                    node.insert_rebindings(p.info.rebindings, self.info.rebindings), p.node.children_env(), node.instantiation_env()
+                    node.insert_rebindings(p.info.rebindings, self.info.rebindings), p.node.children_env(), node.instantiation_env
                 ), from_rebound=p.info.from_rebound
             )
         )
@@ -16395,12 +16395,12 @@ class TypeAttributesRepository: AdaNode {
 
     @lazy
     base_type_param: SyntheticFormalParamDecl = SyntheticFormalParamDecl(
-        param_name=s"Value", param_type=node.base_type_expr()
+        param_name=s"Value", param_type=node.base_type_expr
     )
 
     @lazy
     universal_int_param: SyntheticFormalParamDecl = SyntheticFormalParamDecl(
-        param_name=s"Value", param_type=node.universal_int_type_expr()
+        param_name=s"Value", param_type=node.universal_int_type_expr
     )
 
     @lazy
@@ -16420,28 +16420,28 @@ class TypeAttributesRepository: AdaNode {
     @lazy
     succ: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Succ", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Succ", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     pred: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Pred", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Pred", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     min: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Min", left_param=node.base_type_param(), right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Min", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     max: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Max", left_param=node.base_type_param(), right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Max", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
@@ -16449,119 +16449,119 @@ class TypeAttributesRepository: AdaNode {
     round: BasicSubpDecl = # As defined in :rmlink:`3.5.10`
     SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Round", right_param=node.universal_real_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Round", right_param=node.universal_real_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     rounding: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Rounding", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Rounding", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     unbiased_rounding: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Unbiased_Rounding", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Unbiased_Rounding", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     ceiling: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Ceiling", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Ceiling", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     floor: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Floor", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Floor", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     truncation: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Truncation", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Truncation", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     machine: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Machine", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Machine", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     machine_rounding: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Machine_Rounding", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Machine_Rounding", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     fraction: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Fraction", right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Fraction", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     exponent: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Exponent", right_param=node.base_type_param(), return_type_expr=node.universal_int_type_expr()
+            subp_symbol=s"Exponent", right_param=node.base_type_param, return_type_expr=node.universal_int_type_expr
         )
     )
 
     @lazy
     copy_sign: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Copy_Sign", left_param=node.base_type_param(), right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Copy_Sign", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     remainder: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Remainder", left_param=node.base_type_param(), right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Remainder", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     adjacent: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Adjacent", left_param=node.base_type_param(), right_param=node.base_type_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Adjacent", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     scaling: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Scaling", left_param=node.base_type_param(), right_param=node.universal_int_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Scaling", left_param=node.base_type_param, right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     compose: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Compose", left_param=node.base_type_param(), right_param=node.universal_int_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Compose", left_param=node.base_type_param, right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     leading_part: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Leading_Part", left_param=node.base_type_param(), right_param=node.universal_int_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Leading_Part", left_param=node.base_type_param, right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     mod: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Mod", right_param=node.universal_int_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Mod", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
     )
 
@@ -16572,7 +16572,7 @@ class TypeAttributesRepository: AdaNode {
                 param_name=s"Val", param_type=SyntheticTypeExpr(
                     target_type=node.std_entity(s"String").as[BaseTypeDecl].node
                 )
-            ), return_type_expr=node.base_type_expr()
+            ), return_type_expr=node.base_type_expr
         )
     )
 
@@ -16583,7 +16583,7 @@ class TypeAttributesRepository: AdaNode {
                 param_name=s"Val", param_type=SyntheticTypeExpr(
                     target_type=node.std_entity(s"Wide_String").as[BaseTypeDecl].node
                 )
-            ), return_type_expr=node.base_type_expr()
+            ), return_type_expr=node.base_type_expr
         )
     )
 
@@ -16594,28 +16594,28 @@ class TypeAttributesRepository: AdaNode {
                 param_name=s"Val", param_type=SyntheticTypeExpr(
                     target_type=node.std_entity(s"Wide_Wide_String").as[BaseTypeDecl].node
                 )
-            ), return_type_expr=node.base_type_expr()
+            ), return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     fixed_value: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Fixed_Value", right_param=node.universal_int_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Fixed_Value", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     integer_value: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Integer_Value", right_param=node.universal_real_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Integer_Value", right_param=node.universal_real_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     pos: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Pos", right_param=node.base_type_param(), return_type_expr=node.universal_int_type_expr()
+            subp_symbol=s"Pos", right_param=node.base_type_param, return_type_expr=node.universal_int_type_expr
         )
     )
 
@@ -16623,56 +16623,56 @@ class TypeAttributesRepository: AdaNode {
     @lazy
     val_attr: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Val", right_param=node.universal_int_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Val", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     enum_rep: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Enum_Rep", right_param=node.base_type_param(), return_type_expr=node.universal_int_type_expr()
+            subp_symbol=s"Enum_Rep", right_param=node.base_type_param, return_type_expr=node.universal_int_type_expr
         )
     )
 
     @lazy
     enum_val: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Enum_Val", right_param=node.universal_int_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Enum_Val", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     read: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Read", left_param=node.root_stream_param(), right_param=node.base_type_param(), return_type_expr=null[TypeExpr]
+            subp_symbol=s"Read", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr]
         )
     )
 
     @lazy
     write: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Write", left_param=node.root_stream_param(), right_param=node.base_type_param(), return_type_expr=null[TypeExpr]
+            subp_symbol=s"Write", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr]
         )
     )
 
     @lazy
     input: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Input", right_param=node.root_stream_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Input", right_param=node.root_stream_param, return_type_expr=node.base_type_expr
         )
     )
 
     @lazy
     output: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticBinarySpec(
-            subp_symbol=s"Output", left_param=node.root_stream_param(), right_param=node.base_type_param(), return_type_expr=null[TypeExpr]
+            subp_symbol=s"Output", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr]
         )
     )
 
     @lazy
     image: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Image", right_param=node.base_type_param(), return_type_expr=SyntheticTypeExpr(
+            subp_symbol=s"Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(
                 target_type=node.std_entity(s"String").as[BaseTypeDecl].node
             )
         )
@@ -16681,7 +16681,7 @@ class TypeAttributesRepository: AdaNode {
     @lazy
     wide_image: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Wide_Image", right_param=node.base_type_param(), return_type_expr=SyntheticTypeExpr(
+            subp_symbol=s"Wide_Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(
                 target_type=node.std_entity(s"Wide_String").as[BaseTypeDecl].node
             )
         )
@@ -16690,7 +16690,7 @@ class TypeAttributesRepository: AdaNode {
     @lazy
     wide_wide_image: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Wide_Wide_Image", right_param=node.base_type_param(), return_type_expr=SyntheticTypeExpr(
+            subp_symbol=s"Wide_Wide_Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(
                 target_type=node.std_entity(s"Wide_Wide_String").as[BaseTypeDecl].node
             )
         )
@@ -16703,7 +16703,7 @@ class TypeAttributesRepository: AdaNode {
                 param_name=s"Buffer", param_type=SyntheticTypeExpr(
                     target_type=node.root_buffer_type().classwide_type().node
                 )
-            ), right_param=node.base_type_param(), return_type_expr=null[TypeExpr]
+            ), right_param=node.base_type_param, return_type_expr=null[TypeExpr]
         )
     )
 
@@ -16721,7 +16721,7 @@ class TypeAttributesRepository: AdaNode {
                     param_name=s"S", param_type=SyntheticTypeExpr(
                         target_type=node.std_entity(s"String").as[BaseTypeDecl].node
                     )
-                ), right_param=node.base_type_param(), return_type_expr=SyntheticTypeExpr(target_type=input_type)
+                ), right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(target_type=input_type)
             )
         )
     }
@@ -16740,7 +16740,7 @@ class TypeAttributesRepository: AdaNode {
                     param_name=s"S", param_type=SyntheticTypeExpr(
                         target_type=node.std_entity(s"String").as[BaseTypeDecl].node
                     )
-                ), right_param=node.base_type_param(), return_type_expr=SyntheticTypeExpr(target_type=output_type)
+                ), right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(target_type=output_type)
             )
         )
     }
@@ -16748,7 +16748,7 @@ class TypeAttributesRepository: AdaNode {
     @lazy
     model: BasicSubpDecl = SyntheticSubpDecl(
         spec=SyntheticUnarySpec(
-            subp_symbol=s"Model", right_param=node.universal_real_param(), return_type_expr=node.base_type_expr()
+            subp_symbol=s"Model", right_param=node.universal_real_param, return_type_expr=node.base_type_expr
         )
     )
 }
@@ -16783,7 +16783,7 @@ class TypeDef: AdaNode {
         # A "record" or "private" type def may be the completion of a
         # previous type declaration, so we need to include the defining
         # env of its previous part as well.
-        if node is RecordTypeDef | PrivateTypeDef then [self.children_env(), self.dottable_subps_env(), self.previous_part_env()].env_group()
+        if node is RecordTypeDef | PrivateTypeDef then [self.children_env(), self.dottable_subps_env, self.previous_part_env()].env_group()
         # Same for "derived" and "interface" type definitions, but we also
         # need to include the defining environments of their base types.
         elif node is DerivedTypeDef | InterfaceTypeDef then (
@@ -16791,7 +16791,7 @@ class TypeDef: AdaNode {
             # envs in the result, so that most-overridden subprograms will be
             # considered first during name resolution.
             (
-                [self.children_env(), self.dottable_subps_env()] & {
+                [self.children_env(), self.dottable_subps_env] & {
                     bind dottable_type = dottable_type or? node.parent;
 
                     self.base_types().map((bt) => bt?.defining_env())
@@ -16800,13 +16800,13 @@ class TypeDef: AdaNode {
         )
         # Continue propagating the original `dottable_type`, or start
         # propagating self if it's not set yet.
-        elif node is ArrayTypeDef then [self.as[ArrayTypeDef].comp_type().defining_env(), self.dottable_subps_env()].env_group()
-        elif node is AccessDef then [self.as[AccessDef].accessed_type()?.defining_env(), self.dottable_subps_env()].env_group()
+        elif node is ArrayTypeDef then [self.as[ArrayTypeDef].comp_type().defining_env(), self.dottable_subps_env].env_group()
+        elif node is AccessDef then [self.as[AccessDef].accessed_type()?.defining_env(), self.dottable_subps_env].env_group()
         # An access to procedure will have a null accessed_type, hence
         # the use of the underscore.
         # In any case, include the type's `dottable_subps_env` so as to
         # fully support the universal dot notation feature.
-        else self.dottable_subps_env()
+        else self.dottable_subps_env
 
     |" Return the TypeDecl containing this TypeDef
     fun containing_type(): Entity[TypeDecl] = self.parent.as![TypeDecl]
@@ -16830,7 +16830,7 @@ class TypeDef: AdaNode {
         # so that user queries such as ``primitive_subp_tagged_type`` return a
         # precise type. This is OK because those fields are not used for
         # name resolution in any case. (see TODO in ``real_designated_type``).
-        [self.containing_type().dottable_subps_env().rebind_env(self.info.rebindings)].env_group(
+        [self.containing_type().dottable_subps_env.rebind_env(self.info.rebindings)].env_group(
             with_md=dottable_type.do(
                 (t) => Metadata(
                     primitive=node.parent, primitive_real_type=t

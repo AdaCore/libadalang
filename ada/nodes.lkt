@@ -12267,7 +12267,10 @@ class Name: Expr {
 
             dn.suffix.xref_type_equation()
         }
-        case i: BaseId => %eq(i.ref_var(), i.designated_type_impl())
+        case i: BaseId => i.designated_type_impl.do(
+            (type) => %eq(i.ref_var(), type),
+            default_val=self.undefined_reference_equation()
+        )
         case ar: AttributeRef => ar.prefix.xref_type_equation() and (
             if ar.attribute.sym() == s"Class" then %eq(ar.prefix.ref_var(), ar.ref_var(), conv_prop=BaseTypeDecl.classwide_type)
             elif ar.attribute.sym() == s"Base" then %eq(ar.prefix.ref_var(), ar.ref_var(), conv_prop=BaseTypeDecl.scalar_base_type)

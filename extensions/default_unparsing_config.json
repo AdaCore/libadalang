@@ -2580,13 +2580,18 @@
                 "kind": "recurse_field",
                 "field": "f_iter_expr"
               },
-              "line",
               {
                 "kind": "recurse_field",
                 "field": "f_iter_filter"
               }
             ]
           }
+        ]
+      },
+      "fields": {
+        "f_iter_filter": [
+          "line",
+          "recurse"
         ]
       }
     },

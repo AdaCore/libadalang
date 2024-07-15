@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test that no line break is added after the `f_overriding` fields when the
+  declaration fits in one line.

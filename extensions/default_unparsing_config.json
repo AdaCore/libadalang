@@ -29,6 +29,44 @@
         }
       }
     },
+    "AbstractSubpDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          "line",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          {
+            "kind": "text",
+            "text": "abstract"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardlineWithoutBreakParent",
+          "recurse"
+        ]
+      }
+    },
     "AcceptStmt": {
       "node": {
         "kind": "group",
@@ -228,7 +266,6 @@
             "kind": "text",
             "text": "new"
           },
-          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_subpool"
@@ -237,6 +274,20 @@
           {
             "kind": "recurse_field",
             "field": "f_type_or_expr"
+          }
+        ]
+      },
+      "fields": {
+        "f_subpool": [
+          "whitespace",
+          {
+            "kind": "text",
+            "text": "("
+          },
+          "recurse",
+          {
+            "kind": "text",
+            "text": ")"
           }
         ]
       }
@@ -617,8 +668,11 @@
                 "text": "("
               },
               {
-                "kind": "recurse_field",
-                "field": "f_suffix"
+                "kind": "innerRoot",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_suffix"
+                }
               },
               {
                 "kind": "text",
@@ -1043,6 +1097,59 @@
           "else": [
             "hardlineWithoutBreakParent",
             "recurse"
+          ]
+        }
+      }
+    },
+    "CompositeConstraint": {
+      "node": {
+        "kind": "group",
+        "document": [
+          "line",
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_constraints"
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          }
+        ]
+      }
+    },
+    "CompositeConstraintAssoc": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_ids"
+          },
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_constraint_expr"
+            }
+          }
+        ]
+      },
+      "fields": {
+        "f_ids": {
+          "kind": "align",
+          "width": 2,
+          "contents": [
+            "recurse",
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "=>"
+            },
+            "line"
           ]
         }
       }
@@ -2476,13 +2583,18 @@
                 "kind": "recurse_field",
                 "field": "f_iter_expr"
               },
-              "line",
               {
                 "kind": "recurse_field",
                 "field": "f_iter_filter"
               }
             ]
           }
+        ]
+      },
+      "fields": {
+        "f_iter_filter": [
+          "line",
+          "recurse"
         ]
       }
     },

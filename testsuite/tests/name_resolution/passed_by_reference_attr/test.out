@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["B"] test.adb:2:4-2:47>
+*************************************************************
+
+Expr: <Id "Boolean" test.adb:2:8-2:15>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:2:19-2:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Integer" test.adb:2:19-2:26>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Passed_By_Reference" test.adb:2:27-2:46>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

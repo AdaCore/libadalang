@@ -668,8 +668,11 @@
                 "text": "("
               },
               {
-                "kind": "recurse_field",
-                "field": "f_suffix"
+                "kind": "innerRoot",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_suffix"
+                }
               },
               {
                 "kind": "text",

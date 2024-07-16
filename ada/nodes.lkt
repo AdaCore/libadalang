@@ -6571,6 +6571,14 @@ class ClasswideTypeDecl: BaseTypeDecl {
     @with_dynvars(origin)
     fun is_iterable_type(): Bool = self.type_decl().is_iterable_type()
 
+    fun has_ud_indexing(): Bool = self.type_decl.has_ud_indexing
+
+    fun constant_indexing_fns(): Array[Entity[BasicDecl]] =
+        self.type_decl.constant_indexing_fns
+
+    fun variable_indexing_fns(): Array[Entity[BasicDecl]] =
+        self.type_decl.variable_indexing_fns
+
     fun is_task_type(): Bool = self.type_decl().is_task_type()
 
     @with_dynvars(origin)

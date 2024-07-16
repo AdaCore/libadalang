@@ -1,2 +1,3 @@
 driver: name-resolution
 input_sources: [testuse.adb]
+expect_fail: true

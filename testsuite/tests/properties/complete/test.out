@@ -110,10 +110,10 @@ Result: [<CompletionItem decl=<ParamSpec ["D"] case.adb:12:18-12:26> is_dot_call
          <CompletionItem decl=<ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<PackageDecl ["Standard"] __standard:1:1-130:14> is_dot_call=False is_visible=True weight=0>]
 
-Working on node <AlternativesList case.adb:23:15-23:18>
-=======================================================
+Working on node <CaseStmt case.adb:22:7-26:4>
+=============================================
 
-Eval 'list(node.p_complete)'
+Eval 'list(node.f_alternatives[0].f_choices.p_complete)'
 Result: [<CompletionItem decl=<ParamSpec ["D"] case.adb:20:18-20:26> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<EnumLiteralDecl ["F"] case.adb:2:32-2:33> is_dot_call=False is_visible=True weight=100>,
          <CompletionItem decl=<EnumLiteralDecl ["M"] case.adb:2:18-2:19> is_dot_call=False is_visible=True weight=100>,
@@ -943,10 +943,10 @@ Result: [<CompletionItem decl=<ObjectDecl ["A"] subtype_indication.adb:2:4-2:10>
          <CompletionItem decl=<ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44> is_dot_call=False is_visible=True weight=100>,
          <CompletionItem decl=<PackageDecl ["Standard"] __standard:1:1-130:14> is_dot_call=False is_visible=True weight=50>]
 
-Working on node <ParamSpecList subtype_indication.adb:30:17-30:22>
-==================================================================
+Working on node <Id "B" subtype_indication.adb:30:20-30:21>
+===========================================================
 
-Eval 'list(node[0].f_type_expr.f_name.p_complete)'
+Eval 'list(node.p_complete)'
 Result: [<CompletionItem decl=<ParamSpec ["D"] subtype_indication.adb:30:17-30:21> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ObjectDecl ["A"] subtype_indication.adb:2:4-2:10> is_dot_call=False is_visible=True weight=0>,
          <CompletionItem decl=<ObjectDecl ["B"] subtype_indication.adb:10:4-10:10> is_dot_call=False is_visible=True weight=0>,

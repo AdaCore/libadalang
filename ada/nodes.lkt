@@ -1502,43 +1502,89 @@ class AdaNode implements Node[AdaNode] {
 
     |" Static method. For each ParamAssoc in a AssocList, return whether we
     |" could find a matching formal in self, and whether this formal is
-    |" optional (i.e. has a default value).
+    |" optional (i.e. has a default value). When match_others is true, try to
+    |" match unmatched formals with OthersDesignator if any.
     fun match_formals(
         formal_params: Array[Entity[BaseFormalParamDecl]],
         params: Entity[AssocList],
-        is_dottable_subp: Bool
+        is_dottable_subp: Bool,
+        match_others: Bool = true
     ): Array[ParamMatch] = {
         val unpacked_formals = node.unpack_formals(formal_params);
 
-        params.do(
-            (p) =>
-            p.unpacked_params().imap(
-                (a, i) =>
-                if a.name.is_null
-                then {
-                    val idx = if is_dottable_subp then i + 1 else i;
+        val matched_formals =
+            params.do(
+                (p) =>
+                p.unpacked_params().imap(
+                    (a, i) =>
+                    if a.name.is_null
+                    then {
+                        val idx = if is_dottable_subp then i + 1 else i;
 
-                    # Positional parameter case: if this parameter has no
-                    # name association, make sure we have enough formals.
-                    unpacked_formals?[idx].do(
-                        (sp) =>
-                        ParamMatch(has_matched=true, actual=a, formal=sp)
-                    )
-                }
-                else (
-                    # Named parameter case: make sure the designator is
-                    # actually a name and that there is a corresponding
-                    # formal.
-                    a.name.do(
-                        (id) =>
-                        unpacked_formals.find((p) => p.name.matches(id)).do(
+                        # Positional parameter case: if this parameter has no
+                        # name association, make sure we have enough formals.
+                        unpacked_formals?[idx].do(
                             (sp) =>
                             ParamMatch(has_matched=true, actual=a, formal=sp)
                         )
+                    }
+                    else (
+                        # Named parameter case: make sure the designator is
+                        # actually a name and that there is a corresponding
+                        # formal.
+                        a.name.do(
+                            (id) =>
+                            unpacked_formals.find((p) => p.name.matches(id))
+                            .do(
+                                (sp) =>
+                                ParamMatch(
+                                    has_matched=true,
+                                    actual=a,
+                                    formal=sp
+                                )
+                            )
+                        )
                     )
                 )
+            );
+
+        # If some matches are missing, search for OthersDesignator and
+        # match all unmatched formals to it.
+        if match_others and matched_formals.any((m) => not m.has_matched)
+        then {
+            val od_assoc =
+                params.find((p) => p.names()?[0] is OthersDesignator);
+
+            od_assoc.do(
+                (od) => {
+                    val unmatched_formals =
+                        unpacked_formals.filter(
+                            (f) =>
+                            matched_formals.find(
+                                (m) => f.name.matches(m.actual.name)
+                            )
+                            .is_null
+                        );
+
+                    matched_formals.filter((mf) => mf.has_matched)
+                    & unmatched_formals.map(
+                        (uf) =>
+                        ParamMatch(
+                            has_matched=true,
+                            actual=SingleActual(
+                                name=null[Identifier],
+                                assoc=od
+                            ),
+                            formal=uf
+                        )
+                    )
+                },
+                default_val=matched_formals
             )
-        )
+        }
+        else
+        # All formals have matched, nothing more to do
+            matched_formals
     }
 
     |" Assuming that self is a choice expression (such as what can appear in
@@ -3819,7 +3865,15 @@ class ComponentList: BaseFormalParamHolder {
         val discriminants = td.discriminants_list(stop_recurse_at);
         # Get param matches for discriminants only
         val discriminants_matches =
-            node.match_formals(discriminants, assocs, false).filter(
+            node.match_formals(
+                discriminants,
+                assocs,
+                false,
+                # All discriminants should be matched before calling
+                # abstract_formal_params_impl below.
+                match_others=true
+            )
+            .filter(
                 (pm) =>
                 not pm.formal.is_null
                 and discriminants.contains(pm.formal.formal_decl())
@@ -14513,13 +14567,21 @@ class BaseAggregate: Expr {
     |" Return the list of all discriminants specified by this aggregate,
     |" together with the actual used for it.
     |"
+    |" When match_others is true, unspecified discriminants are matched with
+    |" OthersDesignator value if any.
+    |"
     |" .. attention::
     |"     This property is part of the name resolution algorithm for
     |"     AggregateAssocs. More details under ``all_discriminants``.
     @memoized
     @with_dynvars(origin)
-    fun matched_discriminants(): Array[ParamMatch] =
-        node.match_formals(self.all_discriminants(), self.assocs, false)
+    fun matched_discriminants(match_others: Bool = true): Array[ParamMatch] =
+        node.match_formals(
+            self.all_discriminants(),
+            self.assocs,
+            false,
+            match_others
+        )
 
     |" Return the list of all components specified by this aggregate,
     |" together with the actual used for it.
@@ -14540,11 +14602,11 @@ class BaseAggregate: Expr {
     |"     AggregateAssocs. More details under ``all_discriminants``.
     @with_dynvars(origin, env)
     fun first_unmatched_formal(): Entity[DefiningName] = {
+        val matched_discr = self.matched_discriminants(match_others=false);
         # Try to find an unmatched discriminant first
         val unmatched_discr =
             node.unpack_formals(self.all_discriminants()).find(
-                (f) =>
-                not self.matched_discriminants().any((m) => m.formal == f)
+                (f) => not matched_discr.any((m) => m.formal == f)
             );
 
         if not unmatched_discr.is_null then unmatched_discr

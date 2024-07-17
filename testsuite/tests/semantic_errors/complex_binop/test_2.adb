@@ -4,5 +4,5 @@ procedure Test is
    X : Integer;
 begin
    X := Foo (2 + 2, 2 + True);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

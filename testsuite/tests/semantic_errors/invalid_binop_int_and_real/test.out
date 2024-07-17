@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["X"] test.adb:2:4-2:27>
 *************************************************************
 
+Name resolution failed as expected with:
+
 test.adb:2:21: error: no matching operator found
 2 |    X : Integer := 2 + 2.4;
   |                     ^
@@ -11,6 +13,8 @@ test.adb:2:21: error: no matching operator found
 
 Resolving xrefs for node <IfStmt test.adb:5:4-7:11>
 ***************************************************
+
+Name resolution failed as expected with:
 
 test.adb:5:9: error: no matching operator found
 5 |    if X < 4.5 then

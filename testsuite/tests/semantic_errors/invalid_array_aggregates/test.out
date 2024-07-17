@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["A"] test.adb:4:4-4:33>
 *************************************************************
 
+Name resolution failed as expected with:
+
 test.adb:4:27: error: expected Integer, got Boolean
 4 |    A : Arr := (1 .. 10 => True);
   |                           ^^^^
@@ -11,6 +13,8 @@ test.adb:4:27: error: expected Integer, got Boolean
 
 Resolving xrefs for node <ObjectDecl ["B"] test.adb:7:4-7:36>
 *************************************************************
+
+Name resolution failed as expected with:
 
 test.adb:7:16: error: expected Positive, got Boolean
 7 |    B : Arr := (True .. False => 2);

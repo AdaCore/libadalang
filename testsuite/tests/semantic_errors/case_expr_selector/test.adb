@@ -6,5 +6,5 @@ begin
    R := (case Foo (3) is
       when True => 1,
       when False => 2);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

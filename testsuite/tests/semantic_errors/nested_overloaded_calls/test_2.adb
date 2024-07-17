@@ -8,5 +8,5 @@ procedure Test_2 is
    function Bar (X : Duration) return Integer is (0);
 begin
    X := Bar (Foo (2));
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test_2;

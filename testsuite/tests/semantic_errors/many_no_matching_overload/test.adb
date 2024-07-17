@@ -22,5 +22,5 @@ procedure Test is
    function Foo (X : T9) return Integer is (0);
 begin
    X := Foo (0);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

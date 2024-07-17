@@ -11,5 +11,5 @@ procedure Test is
    X_2 : Pkg_2.T;
 begin
    X_1 := X_2;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

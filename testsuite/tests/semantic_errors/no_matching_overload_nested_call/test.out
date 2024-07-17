@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <CallStmt test.adb:7:4-7:20>
 *****************************************************
 
+Name resolution failed as expected with:
+
 test.adb:7:9: error: no matching alternative (of 2 candidates)
 7 |    Bar (Foo (2.5));
   |         ^^^

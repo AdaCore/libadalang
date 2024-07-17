@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt test.adb:16:4-16:22>
 *********************************************************
 
+Name resolution failed as expected with:
+
 test.adb:16:9: error: no matching alternative (of 2 candidates)
 16 |    X := R.Foo (True);
    |         ^^^^^
@@ -19,6 +21,8 @@ test.adb:8:35: info: expected Float, got Boolean
 
 Resolving xrefs for node <AssignStmt test.adb:19:4-19:15>
 *********************************************************
+
+Name resolution failed as expected with:
 
 test.adb:19:9: error: expected Integer, got Float
 19 |    X := R.Bar;

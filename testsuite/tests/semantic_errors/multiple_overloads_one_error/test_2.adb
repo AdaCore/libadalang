@@ -10,5 +10,5 @@ procedure Test_2 is
    function Bar (X, Y : Integer) return Integer is (X + Y);
 begin
    X := Bar (Foo (True), Foo (2));
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test_2;

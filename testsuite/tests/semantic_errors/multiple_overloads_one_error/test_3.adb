@@ -10,7 +10,7 @@ procedure Test_3 is
      (Foo (True),
       Bar (Foo (2), 2 + 2, True),
       "Hello world");
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 begin
    null;
 end Test_3;

@@ -10,7 +10,7 @@ procedure Test is
    function Foo (X : Boolean) return Rec2 is (Y => 2);
 
    V : Integer := Foo (3).Y;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 begin
    null;
 end Test;

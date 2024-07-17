@@ -27,8 +27,8 @@ procedure Subtype_Indication is
    F : Ba;
    --% list(node.f_type_expr.f_name.p_complete)
 
-   procedure P (D: B;
-  --% list(node[0].f_type_expr.f_name.p_complete)
+   procedure P (D: B
+   --% list(node.p_complete)
 
    type T is record
       A : B;

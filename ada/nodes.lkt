@@ -12647,7 +12647,13 @@ class AttributeRef: Name {
         elif rel_name == s"Result" then self.result_attr_equation()
         elif rel_name in s"Old" | s"Loop_Entry" then self.bind_to_prefix_eq()
         elif rel_name in s"Class" | s"Base" then self.prefix.sub_equation()
-        elif rel_name in s"Valid" | s"Machine_Overflows" | s"Machine_Rounds" | s"Has_Access_Values" | s"Has_Discriminants" | s"Has_Tagged_Values" | s"Definite" | s"Constrained" | s"Initialized" | s"Valid_Scalars" | s"Unconstrained_Array" | s"Library_Level" | s"Preelaborable_Initialization" | s"Denorm" | s"Signed_Zeros" | s"Fast_Math" then self.prefix.sub_equation() and %eq(node.type_var(), node.bool_type())
+        elif rel_name in s"Valid" | s"Machine_Overflows" | s"Machine_Rounds"
+            | s"Has_Access_Values" | s"Has_Discriminants" | s"Has_Tagged_Values"
+            | s"Definite" | s"Constrained" | s"Initialized" | s"Valid_Scalars"
+            | s"Unconstrained_Array" | s"Library_Level"
+            | s"Preelaborable_Initialization" | s"Denorm" | s"Signed_Zeros"
+            | s"Fast_Math" | s"Passed_By_Reference" then
+            self.prefix.sub_equation() and %eq(node.type_var(), node.bool_type())
         # In the case of the ``Enabled`` attribute, the prefix is supposed
         # to be a check name, so it's not even an entity that has source
         # existence. In that case, we just bind the type of the expr to

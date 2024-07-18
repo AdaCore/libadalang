@@ -62,7 +62,8 @@ package body Libadalang.Helpers is
      (Project_File             : String;
       Scenario_Vars            : Unbounded_String_Array := Empty_Array;
       Target, RTS, Config_File : String := "";
-      Project                  : in out GPR2.Project.Tree.Object);
+      Project                  : in out GPR2.Project.Tree.Object;
+      Absent_Dir_Error         : GPR2.Error_Level := GPR2.Warning);
    --  Same as the corresponding overloaded procedure in the package spec, but
    --  for GPR2.
 
@@ -434,7 +435,10 @@ package body Libadalang.Helpers is
                      Target,
                      RTS,
                      Config_File,
-                     GPR2_Project);
+                     GPR2_Project,
+                     (if GPR_Absent_Dir_Warning
+                      then GPR2.Warning
+                      else GPR2.No_Error));
                   UFP := Project_To_Provider (GPR2_Project);
                else
                   Load_Project
@@ -444,7 +448,8 @@ package body Libadalang.Helpers is
                      RTS,
                      Config_File,
                      Project,
-                     Env);
+                     Env,
+                     GPR_Absent_Dir_Warning);
                   UFP := Project_To_Provider (Project);
                end if;
 
@@ -740,7 +745,8 @@ package body Libadalang.Helpers is
       Scenario_Vars            : Unbounded_String_Array := Empty_Array;
       Target, RTS, Config_File : String := "";
       Project                  : out Project_Tree_Access;
-      Env                      : out Project_Environment_Access)
+      Env                      : out Project_Environment_Access;
+      Report_Missing_Dirs      : Boolean := True)
    is
       procedure Cleanup;
       --  Cleanup helpers for error handling
@@ -797,9 +803,10 @@ package body Libadalang.Helpers is
       --  the project in a unit provider.
       begin
          Project.Load
-           (Root_Project_Path => Create (+Project_File),
-            Env               => Env,
-            Errors            => Print_Error'Access);
+           (Root_Project_Path   => Create (+Project_File),
+            Env                 => Env,
+            Errors              => Print_Error'Access,
+            Report_Missing_Dirs => Report_Missing_Dirs);
       exception
          when Invalid_Project =>
             Libadalang.Project_Provider.Trace.Trace ("Loading failed");
@@ -817,7 +824,8 @@ package body Libadalang.Helpers is
      (Project_File             : String;
       Scenario_Vars            : Unbounded_String_Array := Empty_Array;
       Target, RTS, Config_File : String := "";
-      Project                  : in out GPR2.Project.Tree.Object)
+      Project                  : in out GPR2.Project.Tree.Object;
+      Absent_Dir_Error         : GPR2.Error_Level := GPR2.Warning)
    is
       Options : GPR2.Options.Object;
       Error   : Boolean := False;
@@ -862,7 +870,8 @@ package body Libadalang.Helpers is
             Options.Add_Switch (GPR2.Options.RTS, RTS);
          end if;
 
-         Error := not Project.Load (Options);
+         Error := not Project.Load
+           (Options, Absent_Dir_Error => Absent_Dir_Error);
       exception
          when Exc : GPR2.Project_Error =>
             Error := True;

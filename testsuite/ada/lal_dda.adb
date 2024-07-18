@@ -65,11 +65,12 @@ procedure LAL_DDA is
    procedure App_Setup (Context : App_Context; Jobs : App_Job_Context_Array);
    procedure Process_Unit (Context : App_Job_Context; Unit : Analysis_Unit);
    package App is new Libadalang.Helpers.App
-     (Name         => "lal_dda",
-      Description  =>
+     (Name                   => "lal_dda",
+      Description            =>
         "Exercize Libadalang's Data_Decomposition API on type declarations",
-      App_Setup    => App_Setup,
-      Process_Unit => Process_Unit);
+      GPR_Absent_Dir_Warning => False,
+      App_Setup              => App_Setup,
+      Process_Unit           => Process_Unit);
 
    package Args is
       use GNATCOLL.Opt_Parse;

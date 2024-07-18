@@ -30,7 +30,8 @@ package Libadalang.Helpers is
       Scenario_Vars            : Unbounded_String_Array := Empty_Array;
       Target, RTS, Config_File : String := "";
       Project                  : out Project_Tree_Access;
-      Env                      : out Project_Environment_Access);
+      Env                      : out Project_Environment_Access;
+      Report_Missing_Dirs      : Boolean := True);
    --  Load ``Project_File`` using scenario variables given in
    --  ``Scenario_Vars``, and given ``Target``, ``RTS` and ``Config_File``.
    --  Populate ``Project`` and ``Env`` accordingly.
@@ -45,6 +46,8 @@ package Libadalang.Helpers is
    --  See ``GNATCOLL.Projects.Set_Target_And_Runtime`` as well as
    --  ``GNATCOLL.Projects.Set_Config_File`` for more details about the use of
    --  ``Target``, ``RTS`` and ``Config_File``.
+   --
+   --  ``Report_Missing_Dirs`` is passed to ``GNATCOLL.Projects.Load``.
 
    function Project_To_Provider
      (Project : Project_Tree_Access) return Unit_Provider_Reference;
@@ -181,6 +184,10 @@ package Libadalang.Helpers is
       --
       --  Finally, once all jobs are done, the main task calls
       --  App_Post_Process.
+
+      GPR_Absent_Dir_Warning : Boolean := True;
+      --  Whether missing directories in loaded GPR projects should be reported
+      --  as warnings, or ignored.
 
       with procedure App_Setup
         (Context : App_Context; Jobs : App_Job_Context_Array) is null;

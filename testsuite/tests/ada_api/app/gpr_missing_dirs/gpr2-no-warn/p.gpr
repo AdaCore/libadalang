@@ -1,0 +1,4 @@
+project P is
+   for Source_Files use ("p.ads");
+   for Object_Dir use "obj-p";
+end P;

@@ -30,9 +30,10 @@ procedure Navigate is
      (Context : Libadalang.Helpers.App_Job_Context; Unit : LAL.Analysis_Unit);
 
    package App is new Libadalang.Helpers.App
-     (Name         => "navigate",
-      Description  => "Navigate between AST nodes (spec/body/...).",
-      Process_Unit => Process_File);
+     (Name                   => "navigate",
+      Description            => "Navigate between AST nodes (spec/body/...).",
+      GPR_Absent_Dir_Warning => False,
+      Process_Unit           => Process_File);
 
    package Args is
       use GNATCOLL.Opt_Parse;

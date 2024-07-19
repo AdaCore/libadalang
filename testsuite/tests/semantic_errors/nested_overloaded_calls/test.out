@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt test.adb:7:4-7:26>
 *******************************************************
 
+Name resolution failed as expected with:
+
 test.adb:7:14: error: expected Boolean, got Integer
 7 |    X := Foo (Foo (True));
   |              ^^^^^^^^^^
@@ -15,6 +17,8 @@ Analyzing test_2.adb
 
 Resolving xrefs for node <AssignStmt test_2.adb:10:4-10:23>
 ***********************************************************
+
+Name resolution failed as expected with:
 
 test_2.adb:10:14: error: no matching alternative (showing 3 out of 4 candidates)
 10 |    X := Bar (Foo (2));

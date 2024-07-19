@@ -3,7 +3,7 @@ procedure Test is
 
    X : aliased Boolean := True;
    Y : Integer_Access := X'Access;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 begin
    null;
 end Test;

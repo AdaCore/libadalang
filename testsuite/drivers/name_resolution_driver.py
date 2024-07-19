@@ -55,6 +55,9 @@ class NameResolutionDriver(BaseDriver):
 
     * ``runtime_name``: Name of the runtime to use when loading the project
       (``--RTS`` nameres switch).
+
+    * ``expect_fail``: Do not abort the nameres application if failures are
+       expected during resolution.
     """
 
     perf_supported = True
@@ -128,7 +131,7 @@ class NameResolutionDriver(BaseDriver):
         # just on nameres-specific pragmas) and display only error messages,
         # not traceback (for test output stability).
         if self.test_env.get("batch"):
-            args += ["--all", "--no-traceback"]
+            args += ["--all", "--no-traceback", "--no-abort-on-failures"]
 
             # In perf mode, we need nameres not to print anything
             if not self.perf_mode:
@@ -146,6 +149,9 @@ class NameResolutionDriver(BaseDriver):
         runtime_name = self.test_env.get("runtime_name")
         if runtime_name:
             args.append(f"--RTS={runtime_name}")
+
+        if self.test_env.get("expect_fail"):
+            args.append("--no-abort-on-failures")
 
         # Add optional explicit list of sources to process
         args += input_sources

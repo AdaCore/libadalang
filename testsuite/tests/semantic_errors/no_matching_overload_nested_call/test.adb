@@ -5,5 +5,5 @@ procedure Test is
    procedure Bar (X : Integer) is null;
 begin
    Bar (Foo (2.5));
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

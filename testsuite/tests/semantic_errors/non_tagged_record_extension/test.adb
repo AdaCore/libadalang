@@ -6,5 +6,5 @@ procedure Test is
    X, Y : T;
 begin
    X := (Y with V => 1);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

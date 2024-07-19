@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt test.adb:12:4-12:35>
 *********************************************************
 
+Name resolution failed as expected with:
+
 test.adb:12:26: error: expected Integer, got Boolean
 12 |    X := Bar (Foo (True), Foo (2));
    |                          ^^^^^^^
@@ -11,6 +13,8 @@ test.adb:12:26: error: expected Integer, got Boolean
 
 Resolving xrefs for node <AssignStmt test.adb:15:4-15:35>
 *********************************************************
+
+Name resolution failed as expected with:
 
 test.adb:15:26: error: expected Integer, got Boolean
 15 |    X := Bar (Foo (True), Baz (2));
@@ -24,6 +28,8 @@ Analyzing test_2.adb
 Resolving xrefs for node <AssignStmt test_2.adb:12:4-12:35>
 ***********************************************************
 
+Name resolution failed as expected with:
+
 test_2.adb:12:26: error: expected Integer, got Boolean
 12 |    X := Bar (Foo (True), Foo (2));
    |                          ^^^^^^^
@@ -35,6 +41,8 @@ Analyzing test_3.adb
 
 Resolving xrefs for node <ObjectDecl ["X"] test_3.adb:9:4-12:22>
 ****************************************************************
+
+Name resolution failed as expected with:
 
 test_3.adb:11:7: error: expected Boolean, got Integer
 11 |       Bar (Foo (2), 2 + 2, True),

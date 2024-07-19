@@ -155,6 +155,11 @@ procedure Nameres is
          Help => "Only output failures on stdout. Note that this triggers"
                  & " failures logging even when --quiet is passed.");
 
+      package No_Abort_On_Failures is new Parse_Flag
+        (App.Args.Parser, Long => "--no-abort-on-failures",
+         Help => "Expected name resolution failures: do not call Abort_App"
+                 & " if some name resolution failed");
+
       package Imprecise_Fallback is new Parse_Flag
         (App.Args.Parser, Long => "--imprecise-fallback",
          Help => "Activate fallback mechanism for name resolution");
@@ -1447,7 +1452,8 @@ procedure Nameres is
    is
       pragma Unreferenced (Context);
 
-      Watermark : GNATCOLL.Memory.Watermark_Info;
+      Watermark  : GNATCOLL.Memory.Watermark_Info;
+      App_Failed : Boolean := False;
    begin
       --  Measure time and memory before post-processing
 
@@ -1469,7 +1475,17 @@ procedure Nameres is
          end;
       end if;
 
+      for Job of Jobs loop
+         for File_Stats of Job_Data (Job.ID).Stats.File_Stats loop
+            App_Failed := App_Failed or File_Stats.Nb_Fails > 0;
+         end loop;
+      end loop;
+
       Free (Job_Data);
+
+      if App_Failed and then not Args.No_Abort_On_Failures.Get then
+         Abort_App ("Name resolution failed.");
+      end if;
 
       Put_Line ("Done.");
    end App_Post_Process;

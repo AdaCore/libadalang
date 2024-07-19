@@ -6,5 +6,5 @@ procedure Foo is
    pragma Test_Statement;
 begin
    Bar;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Foo;

@@ -4,5 +4,5 @@ procedure Test is
    function Foo (X : Integer; Y : Boolean) return Integer is (0);
 begin
    X := Foo (2);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

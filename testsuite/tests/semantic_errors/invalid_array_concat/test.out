@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["V"] test.adb:3:4-3:27>
 *************************************************************
 
+Name resolution failed as expected with:
+
 test.adb:3:23: error: no matching operator found
 3 |    V : String := "ab" & X;
   |                       ^

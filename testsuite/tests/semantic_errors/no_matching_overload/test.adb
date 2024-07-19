@@ -5,5 +5,5 @@ procedure Test is
    function Foo (X : Float) return Integer is (0);
 begin
    X := Foo (True);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

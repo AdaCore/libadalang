@@ -14,8 +14,8 @@ procedure Test is
    R : Pkg.T := (null record);
 begin
    X := R.Foo (True);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    X := R.Bar;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

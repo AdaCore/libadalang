@@ -5,11 +5,11 @@ procedure Test is
    B : Boolean := True;
 begin
    A (2) := B;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    B := A (2);
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 
    A (B) := 2;
-   pragma Test_Statement;
+   pragma Test_Statement (Expect_Fail => True);
 end Test;

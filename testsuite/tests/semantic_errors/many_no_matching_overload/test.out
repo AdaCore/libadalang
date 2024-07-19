@@ -4,6 +4,8 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt test.adb:24:4-24:17>
 *********************************************************
 
+Name resolution failed as expected with:
+
 test.adb:24:9: error: no matching alternative (showing 3 out of 9 candidates)
 24 |    X := Foo (0);
    |         ^^^

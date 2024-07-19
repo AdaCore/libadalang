@@ -7795,7 +7795,9 @@ class Body: BasicDecl {
         ) else {
             bind origin = node.origin_node();
 
-            self.defining_name().all_env_els_impl()
+            self.defining_name().all_env_els_impl(
+                categories=RefCategories(inherited_primitives=false, _=true)
+            )
         }
     ).map(
         (e) => match e {

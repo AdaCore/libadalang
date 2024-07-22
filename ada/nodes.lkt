@@ -367,7 +367,7 @@ class AdaNode implements Node[AdaNode] {
             self.semantic_parent().parent_basic_decl()
         else {
             val gen_decl = self.as[GenericDecl];
-            val gen_body = self.as[Body]?.decl_part.do(
+            val gen_body = self.as[Body]?.decl_part().do(
                 (dp) => dp.as[GenericDecl] or? dp.parent.as[GenericDecl]
             );
             (gen_decl or? gen_body).do(
@@ -6571,13 +6571,13 @@ class ClasswideTypeDecl: BaseTypeDecl {
     @with_dynvars(origin)
     fun is_iterable_type(): Bool = self.type_decl().is_iterable_type()
 
-    fun has_ud_indexing(): Bool = self.type_decl.has_ud_indexing
+    fun has_ud_indexing(): Bool = self.type_decl().has_ud_indexing()
 
     fun constant_indexing_fns(): Array[Entity[BasicDecl]] =
-        self.type_decl.constant_indexing_fns
+        self.type_decl().constant_indexing_fns()
 
     fun variable_indexing_fns(): Array[Entity[BasicDecl]] =
-        self.type_decl.variable_indexing_fns
+        self.type_decl().variable_indexing_fns()
 
     fun is_task_type(): Bool = self.type_decl().is_task_type()
 
@@ -12275,7 +12275,7 @@ class Name: Expr {
 
             dn.suffix.xref_type_equation()
         }
-        case i: BaseId => i.designated_type_impl.do(
+        case i: BaseId => i.designated_type_impl().do(
             (type) => %eq(i.ref_var(), type),
             default_val=self.undefined_reference_equation()
         )
@@ -12960,12 +12960,12 @@ class AttributeRef: Name {
     |" Return the xref equation for the ``Deref`` attribute.
     @with_dynvars(env, origin, entry_point)
     fun deref_equation(): Equation =
-        self.prefix.xref_type_equation
-        and %eq(node.type_var, node.prefix.ref_var)
+        self.prefix.xref_type_equation()
+        and %eq(node.type_var(), node.prefix.ref_var())
         and self.args?[0].do(
-            (arg) => arg.expr.sub_equation
-            and %eq(arg.expr.expected_type_var, node.system_address_type)
-            and arg.expr.matches_expected_type,
+            (arg) => arg.expr().sub_equation()
+            and %eq(arg.expr().expected_type_var(), node.system_address_type())
+            and arg.expr().matches_expected_type(),
             default_val=%false
         )
 
@@ -14127,7 +14127,7 @@ class DottedName: Name {
                     node.has_visibility(n)
                     and node.env_get_public(
                         visible_env,
-                        n.as[BasicDecl].name_symbol,
+                        n.as[BasicDecl].name_symbol(),
                         LookupKind.flat
                     ).contains(n)
                 ),
@@ -14674,11 +14674,11 @@ class BaseId: SingleTokNode implements TokenNode {
             # type, whether it has a default value or not.
             type.parent.as[GenericFormalTypeDecl].do(
                 (formal_decl) =>
-                    if formal_decl.generic_instantiations.any(
-                        (inst) => inst.designated_generic_decl.node ==
-                        formal_decl.parent_decl.node
+                    if formal_decl.generic_instantiations().any(
+                        (inst) => inst.designated_generic_decl().node ==
+                        formal_decl.parent_decl().node
                     )
-                    then formal_decl.default_type or? type
+                    then formal_decl.default_type() or? type
                     else type
             ) or? type
         )
@@ -16814,7 +16814,7 @@ class TypeDef: AdaNode {
         # A "record" or "private" type def may be the completion of a
         # previous type declaration, so we need to include the defining
         # env of its previous part as well.
-        if node is RecordTypeDef | PrivateTypeDef then [self.children_env(), self.dottable_subps_env, self.previous_part_env()].env_group()
+        if node is RecordTypeDef | PrivateTypeDef then [self.children_env(), self.dottable_subps_env(), self.previous_part_env()].env_group()
         # Same for "derived" and "interface" type definitions, but we also
         # need to include the defining environments of their base types.
         elif node is DerivedTypeDef | InterfaceTypeDef then (
@@ -16822,7 +16822,7 @@ class TypeDef: AdaNode {
             # envs in the result, so that most-overridden subprograms will be
             # considered first during name resolution.
             (
-                [self.children_env(), self.dottable_subps_env] & {
+                [self.children_env(), self.dottable_subps_env()] & {
                     bind dottable_type = dottable_type or? node.parent;
 
                     self.base_types().map((bt) => bt?.defining_env())
@@ -16831,13 +16831,13 @@ class TypeDef: AdaNode {
         )
         # Continue propagating the original `dottable_type`, or start
         # propagating self if it's not set yet.
-        elif node is ArrayTypeDef then [self.as[ArrayTypeDef].comp_type().defining_env(), self.dottable_subps_env].env_group()
-        elif node is AccessDef then [self.as[AccessDef].accessed_type()?.defining_env(), self.dottable_subps_env].env_group()
+        elif node is ArrayTypeDef then [self.as[ArrayTypeDef].comp_type().defining_env(), self.dottable_subps_env()].env_group()
+        elif node is AccessDef then [self.as[AccessDef].accessed_type()?.defining_env(), self.dottable_subps_env()].env_group()
         # An access to procedure will have a null accessed_type, hence
         # the use of the underscore.
         # In any case, include the type's `dottable_subps_env` so as to
         # fully support the universal dot notation feature.
-        else self.dottable_subps_env
+        else self.dottable_subps_env()
 
     |" Return the TypeDecl containing this TypeDef
     fun containing_type(): Entity[TypeDecl] = self.parent.as![TypeDecl]

@@ -871,7 +871,9 @@ package body Libadalang.Helpers is
          end if;
 
          Error := not Project.Load
-           (Options, Absent_Dir_Error => Absent_Dir_Error);
+           (Options,
+            With_Runtime     => True,
+            Absent_Dir_Error => Absent_Dir_Error);
       exception
          when Exc : GPR2.Project_Error =>
             Error := True;

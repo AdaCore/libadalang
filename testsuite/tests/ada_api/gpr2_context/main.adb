@@ -51,7 +51,7 @@ procedure Main is
       --  Load the requested tree and fetch the requested project (if any)
 
       Options.Add_Switch (GPR2.Options.P, Root_Project);
-      if not Tree.Load (Options) then
+      if not Tree.Load (Options, With_Runtime => True) then
          raise Program_Error;
       elsif Tree.Has_Messages then
          Tree.Log_Messages.Output_Messages (Information => False);

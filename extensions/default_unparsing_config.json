@@ -20,8 +20,7 @@
       },
       "fields": {
         "f_names": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "line",
             "recurse"
@@ -189,7 +188,7 @@
           },
           {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": [
               {
                 "kind": "recurse_field",
@@ -212,8 +211,7 @@
       },
       "fields": {
         "f_ancestor_expr": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "recurse",
             {
@@ -244,8 +242,7 @@
       },
       "fields": {
         "f_designators": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "recurse",
             "whitespace",
@@ -317,8 +314,7 @@
             ]
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               {
                 "kind": "group",
@@ -338,8 +334,7 @@
       "node": {
         "kind": "group",
         "document": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             {
               "kind": "recurse_field",
@@ -412,8 +407,7 @@
             "text": "with"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": {
               "kind": "group",
               "document": [
@@ -430,8 +424,7 @@
     },
     "AssignStmt": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "group",
           "document": [
@@ -478,8 +471,7 @@
             "text": "use"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -564,7 +556,7 @@
           },
           {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": [
               {
                 "kind": "recurse_field",
@@ -587,8 +579,7 @@
       },
       "fields": {
         "f_ancestor_expr": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "recurse",
             {
@@ -610,7 +601,7 @@
           },
           {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": {
               "kind": "group",
               "document": [
@@ -629,8 +620,7 @@
                   "text": "delta"
                 },
                 {
-                  "kind": "align",
-                  "width": 2,
+                  "kind": "continuationLineIndent",
                   "contents": [
                     "line",
                     {
@@ -652,35 +642,37 @@
     "CallExpr": {
       "node": {
         "kind": "innerRoot",
-        "contents": {
-          "kind": "align",
-          "width": 2,
-          "contents": {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "recurse_field",
-                "field": "f_name"
-              },
-              "line",
-              {
-                "kind": "text",
-                "text": "("
-              },
-              {
-                "kind": "innerRoot",
-                "contents": {
+        "contents": [
+          {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
                   "kind": "recurse_field",
-                  "field": "f_suffix"
+                  "field": "f_name"
+                },
+                "line",
+                {
+                  "kind": "text",
+                  "text": "("
+                },
+                {
+                  "kind": "align",
+                  "width": " ",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_suffix"
+                  }
+                },
+                {
+                  "kind": "text",
+                  "text": ")"
                 }
-              },
-              {
-                "kind": "text",
-                "text": ")"
-              }
-            ]
+              ]
+            }
           }
-        }
+        ]
       }
     },
     "CallStmt": {
@@ -722,8 +714,7 @@
             ]
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "hardline",
               {
@@ -767,8 +758,7 @@
             ]
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -803,8 +793,7 @@
                 },
                 "whitespace",
                 {
-                  "kind": "align",
-                  "width": 2,
+                  "kind": "continuationLineIndent",
                   "contents": {
                     "kind": "recurse_field",
                     "field": "f_expr"
@@ -1004,8 +993,7 @@
               },
               "line",
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   {
                     "kind": "recurse_field",
@@ -1047,8 +1035,7 @@
     },
     "ComponentDef": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "group",
           "document": [
@@ -1141,7 +1128,7 @@
       "fields": {
         "f_ids": {
           "kind": "align",
-          "width": 2,
+          "width": "  ",
           "contents": [
             "recurse",
             "whitespace",
@@ -1200,7 +1187,7 @@
         "kind": "group",
         "document": {
           "kind": "align",
-          "width": 1,
+          "width": " ",
           "contents": [
             {
               "kind": "text",
@@ -1235,8 +1222,7 @@
             "text": "=>"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -1308,8 +1294,7 @@
                 "field": "f_name"
               },
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "recurse_field",
                   "field": "f_discriminants"
@@ -1323,8 +1308,7 @@
             ]
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -1352,7 +1336,7 @@
     "ConstrainedArrayIndices": {
       "node": {
         "kind": "align",
-        "width": 1,
+        "width": " ",
         "contents": {
           "kind": "group",
           "document": [
@@ -1490,8 +1474,7 @@
             "field": "f_has_until"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -1516,7 +1499,7 @@
         },
         {
           "kind": "align",
-          "width": 1,
+          "width": " ",
           "contents": {
             "kind": "group",
             "document": [
@@ -1535,8 +1518,7 @@
                 "text": "delta"
               },
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   "line",
                   {
@@ -1606,7 +1588,7 @@
           "then": "recurse",
           "else": {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": "recurse"
           }
         },
@@ -1640,8 +1622,7 @@
                 "text": ":"
               },
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   "line",
                   {
@@ -1656,25 +1637,26 @@
           {
             "kind": "ifBreak",
             "breakContents": {
-              "kind": "align",
-              "width": 4,
+              "kind": "continuationLineIndent",
               "contents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_default_expr"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_aspects"
-                  }
-                ]
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_default_expr"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_aspects"
+                    }
+                  ]
+                }
               }
             },
             "flatContents": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": {
                 "kind": "group",
                 "document": [
@@ -1715,8 +1697,7 @@
       "node": {
         "kind": "innerRoot",
         "contents": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": {
             "kind": "group",
             "document": "recurse"
@@ -1853,8 +1834,7 @@
     },
     "EntrySpec": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "group",
           "document": [
@@ -1941,8 +1921,7 @@
           {
             "kind": "group",
             "document": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": [
                 "line",
                 {
@@ -1969,7 +1948,7 @@
           },
           {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": {
               "kind": "recurse_field",
               "field": "f_enum_literals"
@@ -1992,8 +1971,7 @@
           },
           "whitespace",
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": {
               "kind": "recurse_field",
               "field": "f_cond_expr"
@@ -2001,8 +1979,7 @@
           },
           "line",
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": {
               "kind": "group",
               "document": [
@@ -2034,8 +2011,7 @@
               },
               "whitespace",
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "group",
                   "document": {
@@ -2081,8 +2057,7 @@
               {
                 "kind": "group",
                 "document": {
-                  "kind": "align",
-                  "width": 2,
+                  "kind": "continuationLineIndent",
                   "contents": {
                     "kind": "recurse_field",
                     "field": "f_ids"
@@ -2117,8 +2092,7 @@
       },
       "fields": {
         "f_renames": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": "recurse"
         },
         "f_aspects": [
@@ -2145,8 +2119,7 @@
                     "text": "when"
                   },
                   {
-                    "kind": "align",
-                    "width": 2,
+                    "kind": "continuationLineIndent",
                     "contents": [
                       "line",
                       {
@@ -2193,8 +2166,7 @@
       },
       "fields": {
         "f_exception_name": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "recurse",
             "whitespace",
@@ -2237,8 +2209,7 @@
             "text": "when"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               "recurse"
@@ -2324,8 +2295,7 @@
                 "text": ":"
               },
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   "line",
                   {
@@ -2357,29 +2327,30 @@
           {
             "kind": "ifBreak",
             "breakContents": {
-              "kind": "align",
-              "width": 4,
+              "kind": "continuationLineIndent",
               "contents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_default_expr"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_renaming_clause"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_aspects"
-                  }
-                ]
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_default_expr"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_renaming_clause"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_aspects"
+                    }
+                  ]
+                }
               }
             },
             "flatContents": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": {
                 "kind": "group",
                 "document": [
@@ -2521,8 +2492,7 @@
       "node": {
         "kind": "group",
         "document": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             {
               "kind": "text",
@@ -2566,8 +2536,7 @@
             "field": "f_var_decl"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -2687,8 +2656,7 @@
     },
     "GenericFormalSubpDecl": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "group",
           "document": [
@@ -2742,8 +2710,7 @@
           {
             "kind": "group",
             "document": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": [
                 {
                   "kind": "recurse_field",
@@ -2768,8 +2735,7 @@
                 {
                   "kind": "group",
                   "document": {
-                    "kind": "align",
-                    "width": 2,
+                    "kind": "continuationLineIndent",
                     "contents": [
                       {
                         "kind": "recurse_field",
@@ -2800,7 +2766,7 @@
           "line",
           {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": [
               {
                 "kind": "text",
@@ -2835,8 +2801,7 @@
             "field": "f_name"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -2887,8 +2852,7 @@
       "node": {
         "kind": "group",
         "document": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             {
               "kind": "text",
@@ -2913,8 +2877,7 @@
             {
               "kind": "group",
               "document": {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   {
                     "kind": "recurse_field",
@@ -2943,7 +2906,7 @@
           "line",
           {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": [
               {
                 "kind": "text",
@@ -2979,8 +2942,7 @@
                     "field": "f_package_name"
                   },
                   {
-                    "kind": "align",
-                    "width": 2,
+                    "kind": "continuationLineIndent",
                     "contents": {
                       "kind": "recurse_field",
                       "field": "f_aspects"
@@ -3054,8 +3016,7 @@
             "field": "f_name"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -3137,8 +3098,7 @@
               },
               "whitespace",
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "recurse_field",
                   "field": "f_cond_expr"
@@ -3146,8 +3106,7 @@
               },
               "line",
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "group",
                   "document": [
@@ -3189,8 +3148,7 @@
           {
             "kind": "group",
             "document": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": [
                 {
                   "kind": "text",
@@ -3217,8 +3175,7 @@
               },
               "whitespace",
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "recurse_field",
                   "field": "f_cond_expr"
@@ -3294,8 +3251,7 @@
                 "text": "type"
               },
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   "line",
                   {
@@ -3344,8 +3300,7 @@
           "recurse"
         ],
         "f_default_type": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "line",
             "recurse"
@@ -3362,8 +3317,7 @@
             "text": "type"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -3403,8 +3357,7 @@
             "text": "type"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "line",
               {
@@ -3479,7 +3432,7 @@
           },
           {
             "kind": "align",
-            "width": 1,
+            "width": " ",
             "contents": {
               "kind": "group",
               "document": [
@@ -3620,8 +3573,7 @@
     },
     "NoTypeObjectRenamingDecl": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "group",
           "document": [
@@ -3674,8 +3626,7 @@
           {
             "kind": "group",
             "document": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": [
                 {
                   "kind": "recurse_field",
@@ -3703,19 +3654,20 @@
           {
             "kind": "ifBreak",
             "breakContents": {
-              "kind": "align",
-              "width": 4,
-              "contents": [
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_expr"
-                }
-              ]
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  "line",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_expr"
+                  }
+                ]
+              }
             },
             "flatContents": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": [
                 "line",
                 {
@@ -3791,8 +3743,7 @@
                 "text": ":"
               },
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   "line",
                   {
@@ -3824,29 +3775,30 @@
           {
             "kind": "ifBreak",
             "breakContents": {
-              "kind": "align",
-              "width": 4,
+              "kind": "continuationLineIndent",
               "contents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_default_expr"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_renaming_clause"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_aspects"
-                  }
-                ]
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_default_expr"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_renaming_clause"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_aspects"
+                    }
+                  ]
+                }
               }
             },
             "flatContents": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": {
                 "kind": "group",
                 "document": [
@@ -4004,8 +3956,7 @@
       ],
       "fields": {
         "f_aspects": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "hardline",
             "recurse"
@@ -4121,8 +4072,7 @@
       "fields": {
         "f_aspects": [
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "hardline",
               "recurse"
@@ -4144,8 +4094,7 @@
       "node": {
         "kind": "group",
         "document": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             {
               "kind": "recurse_field",
@@ -4175,7 +4124,7 @@
         "kind": "group",
         "document": {
           "kind": "align",
-          "width": 1,
+          "width": " ",
           "contents": [
             {
               "kind": "text",
@@ -4216,8 +4165,7 @@
                 "text": ":"
               },
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   "line",
                   {
@@ -4245,25 +4193,26 @@
           {
             "kind": "ifBreak",
             "breakContents": {
-              "kind": "align",
-              "width": 4,
+              "kind": "continuationLineIndent",
               "contents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_default_expr"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_aspects"
-                  }
-                ]
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_default_expr"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_aspects"
+                    }
+                  ]
+                }
               }
             },
             "flatContents": {
-              "kind": "align",
-              "width": 2,
+              "kind": "continuationLineIndent",
               "contents": {
                 "kind": "group",
                 "document": [
@@ -4303,7 +4252,7 @@
     "ParenExpr": {
       "node": {
         "kind": "align",
-        "width": 1,
+        "width": " ",
         "contents": {
           "kind": "group",
           "document": "recurse"
@@ -4323,8 +4272,7 @@
       "node": {
         "kind": "group",
         "document": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             {
               "kind": "recurse_field",
@@ -4353,8 +4301,7 @@
       "node": {
         "kind": "group",
         "document": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             {
               "kind": "text",
@@ -4364,8 +4311,7 @@
             {
               "kind": "group",
               "document": {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": [
                   {
                     "kind": "recurse_field",
@@ -4397,7 +4343,7 @@
               },
               {
                 "kind": "align",
-                "width": 1,
+                "width": " ",
                 "contents": "recurse"
               },
               {
@@ -4470,8 +4416,7 @@
       ],
       "fields": {
         "f_aspects": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "hardline",
             "recurse"
@@ -4627,13 +4572,11 @@
       },
       "fields": {
         "f_discriminants": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": "recurse"
         },
         "f_aspects": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "hardline",
             "recurse"
@@ -4654,8 +4597,7 @@
             "text": "'"
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "softline",
               {
@@ -4687,8 +4629,7 @@
       },
       "fields": {
         "f_error_message": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": {
             "kind": "group",
             "document": [
@@ -4728,8 +4669,7 @@
       },
       "fields": {
         "f_error_message": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": {
             "kind": "group",
             "document": [
@@ -4747,8 +4687,7 @@
     },
     "RangeSpec": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "group",
           "document": [
@@ -4791,8 +4730,7 @@
         "document": [
           "breakParent",
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               {
                 "kind": "text",
@@ -4868,8 +4806,7 @@
             ]
           },
           {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "hardline",
               {
@@ -4909,8 +4846,7 @@
       },
       "fields": {
         "f_components": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "hardline",
             "recurse"
@@ -4944,8 +4880,7 @@
     },
     "ReturnStmt": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "fill",
           "document": "recurse"
@@ -5012,8 +4947,7 @@
       },
       "fields": {
         "f_aspects": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "hardline",
             "recurse"
@@ -5069,8 +5003,7 @@
       },
       "fields": {
         "f_aspects": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": [
             "hardline",
             "recurse"
@@ -5222,8 +5155,7 @@
     },
     "SubpSpec": {
       "node": {
-        "kind": "align",
-        "width": 2,
+        "kind": "continuationLineIndent",
         "contents": {
           "kind": "group",
           "document": [
@@ -5255,7 +5187,7 @@
       "fields": {
         "f_subp_returns": {
           "kind": "align",
-          "width": 1,
+          "width": " ",
           "contents": {
             "kind": "group",
             "document": [
@@ -5493,16 +5425,14 @@
       },
       "fields": {
         "f_discriminants": {
-          "kind": "align",
-          "width": 2,
+          "kind": "continuationLineIndent",
           "contents": "recurse"
         },
         "f_aspects": {
           "kind": "ifEmpty",
           "then": "recurse",
           "else": {
-            "kind": "align",
-            "width": 2,
+            "kind": "continuationLineIndent",
             "contents": [
               "hardlineWithoutBreakParent",
               "recurse"
@@ -5541,7 +5471,7 @@
     "UnconstrainedArrayIndices": {
       "node": {
         "kind": "align",
-        "width": 1,
+        "width": " ",
         "contents": {
           "kind": "group",
           "document": [
@@ -5720,8 +5650,7 @@
               },
               "whitespace",
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "recurse_field",
                   "field": "f_discr_name"
@@ -5782,8 +5711,7 @@
             "kind": "group",
             "document": [
               {
-                "kind": "align",
-                "width": 2,
+                "kind": "continuationLineIndent",
                 "contents": {
                   "kind": "recurse_field",
                   "field": "f_spec"

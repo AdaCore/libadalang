@@ -4,7 +4,7 @@ package Foo is new
      "-j",
      "--jobs",
      Garply => Natural,
-     Corge => 1,
-     Fred =>
+     Corge  => 1,
+     Fred   =>
        "Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaax",
-     Bar => Bar_Foo);
+     Bar    => Bar_Foo);

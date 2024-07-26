@@ -11,13 +11,10 @@ with Ada.Containers.Vectors;
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Projects;
 with GNATCOLL.Strings;    use GNATCOLL.Strings;
-with GPR2.Build.Compilation_Unit;
 with GPR2.Project.Registry.Attribute;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 with GPR2.Project.View.Vector;
-
-with Libadalang.Common; use Libadalang.Common;
 
 private package Libadalang.GPR_Utils is
 
@@ -205,16 +202,5 @@ private package Libadalang.GPR_Utils is
    function Closure
      (Self : GPR2.Project.View.Object) return GPR2.Project.View.Vector.Object;
    --  Return the list of all views reachable from ``Self``, self included
-
-   function Unit_Location_For
-     (Self : GPR2.Project.View.Object;
-      Name : String;
-      Kind : Analysis_Unit_Kind)
-      return GPR2.Build.Compilation_Unit.Unit_Location;
-   --  Look in ``Self`` for the location of the ``Name``/``Kind`` unit and
-   --  return it. Return ``No_Unit`` if it is not found.
-   --
-   --  TODO??? (eng/gpr/gpr-issues#338) Remove this function once an equivalent
-   --  one is included in LibGPR2.
 
 end Libadalang.GPR_Utils;

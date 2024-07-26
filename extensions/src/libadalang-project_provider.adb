@@ -781,7 +781,9 @@ package body Libadalang.Project_Provider is
                use type GPR2.Unit_Index;
 
                Unit : constant GPR2.Build.Compilation_Unit.Unit_Location :=
-                 Unit_Location_For (View.GPR2_Value, Str_Name, Kind);
+                 View.GPR2_Value.Unit_Part
+                   (Name    => GPR2.Name_Type (Str_Name),
+                    Is_Spec => Kind = Unit_Specification);
             begin
                if Unit /= GPR2.Build.Compilation_Unit.No_Unit then
 

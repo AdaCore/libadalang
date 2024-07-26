@@ -1165,16 +1165,8 @@ package body Libadalang.Project_Provider is
    -----------------------
 
    procedure Check_Source_Info (Tree : GPR2.Project.Tree.Object) is
-      function Is_Empty_Aggregate
-        (View : GPR2.Project.View.Object) return Boolean
-      is (View.Kind in GPR2.Aggregate_Kind and then View.Aggregated.Is_Empty);
    begin
-      --  There is one case where it is actually expected that there is no
-      --  runtime: an aggregate project with no aggregated projects.
-
-      if not Tree.Has_Runtime_Project
-         and then not Is_Empty_Aggregate (Tree.Root_Project)
-      then
+      if not Tree.Runtime_Requested then
          raise Runtime_Missing_Error;
       end if;
 

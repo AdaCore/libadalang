@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_spec
+description: |
+  Test the alignemnt of the `:` and `:=` tokens on `ParamSpec` nodes.
+  Also test continuation line indentation when they're followed by a line
+  break.

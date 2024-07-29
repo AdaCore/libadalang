@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Tests that if the statement is too long, the underlying `CallExpr` breaks.
+  Additionally, this that if the `f_suffix` fits, it does not break.

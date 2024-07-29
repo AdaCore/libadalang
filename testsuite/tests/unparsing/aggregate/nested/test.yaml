@@ -1,0 +1,6 @@
+description: |
+    This test checks the formatting of a qualified expression inside another
+    qualified expression.
+
+driver: unparser
+rule: expr

@@ -1,1 +1,3 @@
-VeeeeeeeeeeeeeeeeeeeerrrrrrrrrrryLooooooooooooooooooooonnnnnnnngQualName'[Val1,Val2]
+VeeeeeeeeeeeeeeeeeeeerrrrrrrrrrryLooooooooooooooooooooonnnnnnnngQualName'
+  [Val_11111111111111111111111111111,
+   Val22222222222222222222222222222222222222]

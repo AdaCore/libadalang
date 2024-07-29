@@ -1,7 +1,8 @@
 description: |
     This test checks the formatting of a qualified expression.
     It is expected the declaration breaks after `'` and the new
-    line be indented.
- 
+    line be indented. It is also expected that the indentation of the aggregate
+    members is relative to the `(` token.
+
 driver: unparser
 rule: expr

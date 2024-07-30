@@ -349,7 +349,7 @@ package body Libadalang.GPR_Utils is
                 (Attribute.GPR1_List_Value.all, Index);
          begin
             if Values = null then
-               return (1 .. 0 => <>);
+               return [1 .. 0 => <>];
             else
                return Result : XString_Array (Values.all'Range) do
                   for I in Result'Range loop

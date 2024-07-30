@@ -22,7 +22,7 @@ procedure Navigate is
    package X renames GNATCOLL.Strings;
 
    type Enabled_Kinds_Type is array (LALCO.Ada_Node_Kind_Type) of Boolean;
-   All_Kinds : constant Enabled_Kinds_Type := (others => True);
+   All_Kinds : constant Enabled_Kinds_Type := [others => True];
 
    function String_To_Kinds (List : String) return Enabled_Kinds_Type;
 
@@ -205,7 +205,7 @@ procedure Navigate is
    ------------------
 
    function String_To_Kinds (List : String) return Enabled_Kinds_Type is
-      Enabled_Kinds : Enabled_Kinds_Type := (others => False);
+      Enabled_Kinds : Enabled_Kinds_Type := [others => False];
 
       Names : constant X.XString_Array := X.To_XString (List).Split (",");
    begin

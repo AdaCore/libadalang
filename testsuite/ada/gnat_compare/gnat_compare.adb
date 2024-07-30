@@ -79,17 +79,17 @@ procedure GNAT_Compare is
          "Skip the run of gprclean at the end of gnat_compare execution");
    end Args;
 
-   Enabled : Comparison_Set := (others => True);
+   Enabled : Comparison_Set := [others => True];
    --  For each kind of xrefs difference, determine whether we should report it
 
-   Count_Enabled : Comparison_Set := (others => True);
+   Count_Enabled : Comparison_Set := [others => True];
    --  For each kind of xrefs difference, say whether we should compute stats
    --  about it.
 
    GNAT_Xref_Count : Natural := 0;
    --  Number of Xrefs entries in GNAT (total)
 
-   Counts : array (Comparison_Type) of Natural := (others => 0);
+   Counts : array (Comparison_Type) of Natural := [others => 0];
    --  For each kind of xrefs difference, hit count
 
    Show_Nodes     : Boolean := False;
@@ -144,7 +144,7 @@ procedure GNAT_Compare is
 
    function Convert (Arg : String) return Comparison_Set is
    begin
-      return Result : Comparison_Set := (others => True) do
+      return Result : Comparison_Set := [others => True] do
          for C of Arg loop
             declare
                Comp : constant Comparison_Type :=

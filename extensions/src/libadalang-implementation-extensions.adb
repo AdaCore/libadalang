@@ -209,16 +209,16 @@ package body Libadalang.Implementation.Extensions is
       Context : constant Internal_Context := Node.Unit.Context;
 
       Ada_Text_IO_Symbol_Array : constant Internal_Symbol_Type_Array :=
-        (1 => Lookup_Symbol (Context, "ada"),
-         2 => Lookup_Symbol (Context, "text_io"));
+        [1 => Lookup_Symbol (Context, "ada"),
+         2 => Lookup_Symbol (Context, "text_io")];
 
       Ada_Text_IO_Special_Packages : constant Internal_Symbol_Type_Array :=
-        (Lookup_Symbol (Context, "integer_io"),
+        [Lookup_Symbol (Context, "integer_io"),
          Lookup_Symbol (Context, "modular_io"),
          Lookup_Symbol (Context, "float_io"),
          Lookup_Symbol (Context, "fixed_io"),
          Lookup_Symbol (Context, "decimal_io"),
-         Lookup_Symbol (Context, "enumeration_io"));
+         Lookup_Symbol (Context, "enumeration_io")];
 
       function Is_Special_Unit_Name
         (Symbols : Internal_Symbol_Type_Array) return Boolean;
@@ -303,12 +303,12 @@ package body Libadalang.Implementation.Extensions is
         (Root : Bare_Ada_Node) return CU_Array is
       begin
          if Root = null then
-            return (1 .. 0 => <>);
+            return [1 .. 0 => <>];
          end if;
 
          case Unit_Files.Root_Nodes (Root.Kind) is
             when Ada_Compilation_Unit =>
-               return (1 => Bare_Compilation_Unit (Root));
+               return [Bare_Compilation_Unit (Root)];
             when Ada_Compilation_Unit_List =>
                declare
                   List : constant Bare_Compilation_Unit_List :=
@@ -322,7 +322,7 @@ package body Libadalang.Implementation.Extensions is
                   return Res;
                end;
             when Ada_Pragma_Node_List =>
-               return (1 .. 0 => <>);
+               return [1 .. 0 => <>];
          end case;
       end All_Compilation_Units_From;
 

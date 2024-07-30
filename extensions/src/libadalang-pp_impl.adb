@@ -1034,7 +1034,8 @@ package body Libadalang.PP_Impl is
       --  Forward parsing diagnostics to the preprocessors'
 
       for D of U.Diagnostics loop
-         Diagnostics.Append ((Outer_Sloc_Range (D.Sloc_Range), D.Message));
+         Diagnostics.Append
+           (Diagnostic'(Outer_Sloc_Range (D.Sloc_Range), D.Message));
       end loop;
 
       --  Try to keep running even if parsing partially failed

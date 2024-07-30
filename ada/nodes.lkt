@@ -5227,71 +5227,83 @@ class BaseTypeDecl: BasicDecl {
     |" defined on this type. Predefined operators are included in the result
     |" iff ``include_predefined_operators`` is True. It defaults to False.
     @exported
-    fun get_primitives(only_inherited: Bool = false, include_predefined_operators: Bool = false): Array[Entity[BasicDecl]] = {
-        val prim_env = if only_inherited then self.parent_primitives_env() else self.primitives_env();
-        val all_prims = prim_env.get(null[Symbol]).map((t) => t.as[BasicDecl]);
-        val bds = if include_predefined_operators then all_prims else all_prims.filter((p) => not p is SyntheticSubpDecl);
+    fun get_primitives(
+        only_inherited: Bool = false,
+        include_predefined_operators: Bool = false
+    ): Array[Entity[BasicDecl]] = {
+        val prim_env = if only_inherited then
+            self.parent_primitives_env()
+        else
+            self.primitives_env();
 
-        # Make sure to return only one instance of each primitive: the most
-        # "overriding" one.
-        bds.filter(
-            (a, i) => {
+        # First gather the set of names that primitives of this type can have
+        val all_prim_names = prim_env.get(null[Symbol]).map(
+            (t) => t.as[BasicDecl].defining_name().name_symbol()
+        ).unique();
+
+        # Next, for each of these names, we only want to keep the
+        # "most overriding" ones.
+        all_prim_names.mapcat((name) => {
+            val all_prims = prim_env.get(name).map((t) => t.as[BasicDecl]);
+            val bds = if include_predefined_operators then
+                all_prims
+            else
+                all_prims.filter((p) => not p is SyntheticSubpDecl);
+
+            bds.filter((a, i) => {
                 val a_spec = a.subp_spec_or_null();
-                val a_prim = a.info.md.primitive.as_bare_entity.as[BaseTypeDecl];
+                val a_prim =
+                    a.info.md.primitive.as_bare_entity.as[BaseTypeDecl];
 
-                bds.all(
-                    (b, j) => {
-                        val b_prim = b.info.md.primitive.as[BaseTypeDecl];
+                # Only keep primitive a if it is the "most overriding" one.
+                # So, the logic below checks that there isn't a primitive b
+                # that overrides it.
+                not bds.any((b, j) => {
+                    val b_prim = b.info.md.primitive.as[BaseTypeDecl];
 
-                        (
-                            # Note that we don't want to use `match_name=True` in the
-                            # call to `match_signature` below because it also compares
-                            # the name of the parameters which we don't want to take
-                            # into account here. Therefore, we first compare the names
-                            # of the subprogram separately.
-                            not a.defining_name().node.matches(b.defining_name().node)
-                        ) or (
-                            # If two primitives have the same signature...
-                            {
-                                bind origin = b.origin_node();
+                    (i != j) and {
+                        # If two primitives have the same signature...
+                        bind origin = b.origin_node();
 
-                                not a_spec.match_signature(
-                                    b.subp_spec_or_null(), match_name=false, use_entity_info=true
-                                )
-                            }
-                        ) or {
-                            val b_prim_ent = b_prim.as_bare_entity;
+                        a_spec.match_signature(
+                            b.subp_spec_or_null(),
+                            match_name=false,
+                            use_entity_info=true
+                        )
+                    } and {
+                        val b_prim_ent = b_prim.as_bare_entity;
 
-                            # Test if the type of the first primitive (a) derives
-                            # from the type of the second primitive (b)...
-                            if a_prim.has_base_type(b_prim_ent.node) then (
-                                # Case a derives from b...
-                                # If b also derives from a, it means the types are
-                                # equal: both primitives are in fact the same
-                                # subprogram, but the first one is the declaration and
-                                # the second one is the body. In that case we decide to
-                                # keep the body.
-                                # Else if b does not derive from a, it means the
-                                # primitive on a overrides the primitive on b, so
-                                # return True.
-                                i >= j or not b_prim_ent.has_base_type(a_prim.node)
-                            ) else (
-                                # Case a does *not* derive from b...
-                                # If b also does not derive from a, the two base types
-                                # are unrelated, it means that the primitives are
-                                # merged in a single one (remember their signature
-                                # match). We keep the one that is inherited first with
-                                # respect to the list of parents.
-                                # But if b derives from a, we return False as we don't
-                                # want to keep this primitive: we will keep the most
-                                # inherited one (defined on b) later instead.
-                                i <= j and not b_prim_ent.has_base_type(a_prim.node)
-                            )
-                        }
+                        # Test if the type of the first primitive (a) derives
+                        # from the type of the second primitive (b)...
+                        if a_prim.has_base_type(b_prim_ent.node) then (
+                            # Case a derives from b...
+                            # If b also derives from a, it means the types are
+                            # equal: both primitives are in fact the same
+                            # subprogram, but the first one is the declaration
+                            # and the second one is the body. In that case we
+                            # decide to keep the body.
+                            # Else if b does not derive from a, it means the
+                            # primitive on a overrides the primitive on b, so
+                            # return False.
+                            i < j and b_prim_ent.has_base_type(a_prim.node)
+                        ) else (
+                            # Case a does *not* derive from b...
+                            # If b also does not derive from a, the two base
+                            # types are unrelated, it means that the primitives
+                            # are merged in a single one (remember their
+                            # signature match). We keep the one that is
+                            # inherited first with respect to the list of
+                            # parents.
+                            # But if b derives from a, we return True as we
+                            # don't want to keep this primitive: we will keep
+                            # the most inherited one (defined on b) later
+                            # instead.
+                            i > j or b_prim_ent.has_base_type(a_prim.node)
+                        )
                     }
-                )
-            }
-        )
+                })
+            })
+        })
     }
 
     |" Return whether this type is an array type.

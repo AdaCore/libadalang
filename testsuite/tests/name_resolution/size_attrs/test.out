@@ -101,14 +101,14 @@ Expr: <Id "Max_Size_In_Storage_Elements" test.adb:23:11-23:39>
   type:          None
   expected type: None
 
-Resolving xrefs for node <AssignStmt test.adb:26:4-26:21>
+Resolving xrefs for node <AssignStmt test.adb:26:4-26:40>
 *********************************************************
 
 Expr: <Id "I" test.adb:26:4-26:5>
   references:    <DefiningName "I" test.adb:9:4-9:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
-Expr: <AttributeRef test.adb:26:9-26:20>
+Expr: <AttributeRef test.adb:26:9-26:39>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
@@ -116,27 +116,47 @@ Expr: <Id "R" test.adb:26:9-26:10>
   references:    <DefiningName "R" test.adb:2:9-2:10>
   type:          None
   expected type: None
-Expr: <Id "VADS_Size" test.adb:26:11-26:20>
+Expr: <Id "Max_Alignment_For_Allocation" test.adb:26:11-26:39>
   references:    None
   type:          None
   expected type: None
 
-Resolving xrefs for node <AssignStmt test.adb:29:4-29:31>
+Resolving xrefs for node <AssignStmt test.adb:29:4-29:21>
 *********************************************************
 
 Expr: <Id "I" test.adb:29:4-29:5>
   references:    <DefiningName "I" test.adb:9:4-9:5>
   type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
-Expr: <AttributeRef test.adb:29:9-29:30>
+Expr: <AttributeRef test.adb:29:9-29:20>
   references:    None
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
   expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-Expr: <Id "R_Access" test.adb:29:9-29:17>
+Expr: <Id "R" test.adb:29:9-29:10>
+  references:    <DefiningName "R" test.adb:2:9-2:10>
+  type:          None
+  expected type: None
+Expr: <Id "VADS_Size" test.adb:29:11-29:20>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AssignStmt test.adb:32:4-32:31>
+*********************************************************
+
+Expr: <Id "I" test.adb:32:4-32:5>
+  references:    <DefiningName "I" test.adb:9:4-9:5>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <AttributeRef test.adb:32:9-32:30>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "R_Access" test.adb:32:9-32:17>
   references:    <DefiningName "R_Access" test.adb:6:9-6:17>
   type:          None
   expected type: None
-Expr: <Id "Storage_Size" test.adb:29:18-29:30>
+Expr: <Id "Storage_Size" test.adb:32:18-32:30>
   references:    None
   type:          None
   expected type: None

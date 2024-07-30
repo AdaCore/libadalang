@@ -12783,7 +12783,7 @@ class AttributeRef: Name {
         # Attributes that simply return subprograms
         elif rel_name in s"Succ" | s"Pred" | s"Min" | s"Max" | s"Ceiling" | s"Floor" | s"Rounding" | s"Unbiased_Rounding" | s"Leading_Part" | s"Truncation" | s"Exponent" | s"Fraction" | s"Copy_Sign" | s"Remainder" | s"Adjacent" | s"Machine" | s"Machine_Rounding" | s"Scaling" | s"Compose" | s"Mod" | s"Value" | s"Wide_Value" | s"Wide_Wide_Value" | s"Fixed_Value" | s"Integer_Value" | s"Pos" | s"Val" | s"Enum_Val" | s"Write" | s"Read" | s"Output" | s"Input" | s"Put_Image" | s"Asm_Input" | s"Asm_Output" | s"Model" | s"Round" then self.attribute_subprogram_equation()
         elif rel_name in s"Size" | s"VADS_Size" then self.size_equation()
-        elif rel_name in s"Max_Size_In_Storage_Elements"
+        elif rel_name in s"Max_Size_In_Storage_Elements" | s"Max_Alignment_For_Allocation"
             | s"Aft" | s"Object_Size" | s"Value_Size" | s"Storage_Size"
             | s"Scale"
             then self.subtype_attr_equation()

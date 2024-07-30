@@ -5077,17 +5077,22 @@
             "field": "f_overriding"
           },
           {
-            "kind": "recurse_field",
-            "field": "f_subp_spec"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_aspects"
-          },
-          "hardlineWithoutBreakParent",
-          {
-            "kind": "text",
-            "text": "is"
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "is"
+              }
+            ]
           },
           {
             "kind": "recurse_field",
@@ -5101,7 +5106,7 @@
             "kind": "recurse_field",
             "field": "f_stmts"
           },
-          "hardlineWithoutBreakParent",
+          "hardline",
           {
             "kind": "text",
             "text": "end"
@@ -5118,7 +5123,7 @@
       },
       "fields": {
         "f_aspects": [
-          "hardline",
+          "line",
           "recurse"
         ],
         "f_decls": [

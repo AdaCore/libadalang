@@ -1,0 +1,3 @@
+function Foo (A : Bar; B : Baz; C : Qux; D : Corge) return Freeeeeeeeeeeeeeed is begin
+   null;
+end;

@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_body
+description: |
+  Test a `SubpBody` whose `f_subp_spec` and `is` token do not fit on one
+  line.

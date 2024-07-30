@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that the `begin`, `expection` and `end` keywords are aligned.
+  Also test that `f_stmts.f_stmts` and `f_stmts.f_exceptions` are aligned.

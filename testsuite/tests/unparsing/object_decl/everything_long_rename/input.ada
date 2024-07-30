@@ -1,3 +1,1 @@
-Fooooooooooooooooo :
-  aliased constant Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa renames Baaaaaaaaaaaaaaaz;
-
+Fooooooooooooooooo : aliased constant Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa renames Baaaaaaaaaaaaaaaz;

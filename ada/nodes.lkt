@@ -12838,6 +12838,7 @@ class AttributeRef: Name {
         elif rel_name == s"Abort_Signal" then %eq(node.ref_var(), node.std_entity(s"abort_signal_")) and %eq(node.type_var(), null[Entity[BaseTypeDecl]])
         elif rel_name in s"Has_Same_Storage" | s"Overlaps_Storage" then self.storage_equation()
         elif rel_name == s"Deref" then self.deref_equation()
+        elif rel_name == s"Mechanism_Code" then self.mechanism_code_equation()
         else raise[Equation] PropertyError("Unhandled attribute")
     }
 
@@ -13114,6 +13115,18 @@ class AttributeRef: Name {
             and %eq(arg.expr().expected_type_var(), node.system_address_type())
             and arg.expr().matches_expected_type(),
             default_val=%false
+        )
+
+    |" Return the xref equation for the ``Mechanism_Code`` attribute.
+    @with_dynvars(env, origin, entry_point)
+    fun mechanism_code_equation(): Equation =
+        self.prefix.xref_no_overloading()
+        and self.universal_int_bind(node.type_var())
+        and self.args?[0].do(
+            (arg) => arg.expr().sub_equation()
+            and self.universal_int_bind(arg.expr().expected_type_var())
+            and arg.expr().matches_expected_type(),
+            default_val=%true
         )
 
     |" Return the xref equation for the ``Has_Same_Storage`` and
@@ -15128,6 +15141,7 @@ class Identifier: BaseId implements TokenNode {
     fun is_attr_with_args(): Bool =
         node.symbol in s"First" | s"Last" | s"Range" | s"Length"
         | s"Has_Same_Storage" | s"Overlaps_Storage" | s"Deref"
+        | s"Mechanism_Code"
 
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = self.parent.complete_items()

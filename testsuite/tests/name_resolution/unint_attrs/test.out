@@ -545,7 +545,27 @@ Expr: <Id "Stream_Size" test_unint_attrs.adb:41:40-41:51>
   type:          None
   expected type: None
 
-Resolving xrefs for node <NullStmt test_unint_attrs.adb:43:7-43:12>
+Resolving xrefs for node <ObjectDecl ["Y"] test_unint_attrs.adb:42:7-42:43>
+***************************************************************************
+
+Expr: <Id "Integer" test_unint_attrs.adb:42:21-42:28>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test_unint_attrs.adb:42:32-42:42>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "Volt" test_unint_attrs.adb:42:32-42:36>
+  references:    <DefiningName "Volt" test_unint_attrs.adb:9:9-9:13>
+  type:          None
+  expected type: None
+Expr: <Id "Scale" test_unint_attrs.adb:42:37-42:42>
+  references:    None
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <NullStmt test_unint_attrs.adb:44:7-44:12>
 *******************************************************************
 
 

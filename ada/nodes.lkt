@@ -6613,6 +6613,9 @@ class SubtypeDecl: BaseSubtypeDecl {
         case t => t
     }
 
+    fun get_imp_deref(): Entity[Expr] =
+       self.get_type().get_imp_deref()
+
     fun discrete_range(): DiscreteRange = self.subtype.discrete_range()
 
     @with_dynvars(env, origin, entry_point)

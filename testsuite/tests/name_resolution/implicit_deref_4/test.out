@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["B"] test.adb:12:7-12:31>
+***************************************************************
+
+Expr: <Id "Boolean" test.adb:12:11-12:18>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:12:22-12:30>
+  references:    <DefiningName "Get" test.adb:9:13-9:16>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <Id "Get" test.adb:12:22-12:25>
+  references:    <DefiningName "Get" test.adb:9:13-9:16>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: None
+Expr: <Id "DB" test.adb:12:27-12:29>
+  references:    <DefiningName "DB" test.adb:11:17-11:19>
+  type:          <SubtypeDecl ["Sub_Connection"] test.adb:7:4-7:41>
+  expected type: <ClasswideTypeDecl ["Database"] test.adb:2:4-2:40>
+
+
+Done.

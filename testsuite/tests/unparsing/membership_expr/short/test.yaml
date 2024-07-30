@@ -1,0 +1,4 @@
+driver: unparser
+rule: expr_fn
+description: |
+  Test that no line breaks are added when `MembershipExpr`s fits on the line.

@@ -2294,6 +2294,13 @@
         ]
       }
     },
+    "ExprAlternativesList": {
+      "sep": [
+        "line",
+        "recurse",
+        "whitespace"
+      ]
+    },
     "ExprFunction": {
       "node": {
         "kind": "group",
@@ -3614,6 +3621,55 @@
             "field": "f_components"
           }
         ]
+      }
+    },
+    "MembershipExpr": {
+      "node": {
+        "kind": "innerRoot",
+        "contents": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_expr"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                }
+              ],
+              "id": "expr_with_op"
+            },
+            {
+              "kind": "ifBreak",
+              "flatContents": {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  "line",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_membership_exprs"
+                  }
+                ]
+              },
+              "breakContents": [
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_membership_exprs"
+                  }
+                }
+              ],
+              "groupId": "expr_with_op"
+            }
+          ]
+        }
       }
     },
     "ModeIn": {

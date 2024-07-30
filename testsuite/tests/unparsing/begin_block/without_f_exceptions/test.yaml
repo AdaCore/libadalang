@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that the `begin` and `end` keywords are aligned and `f_stmts.f_stmts` is
+  indented.

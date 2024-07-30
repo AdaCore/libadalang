@@ -5590,7 +5590,7 @@ class BaseTypeDecl: BasicDecl {
         # is defined by the `Cursor` type declaration.
         self.children_env().get_first(s"Cursor").as![BaseTypeDecl]
         # Check out cursor type for types with `Iterable` aspect
-        or? self.as[TypeDecl].iterable_cursor_type()
+        or? self.iterable_cursor_type()
 
     fun is_not_root_int_type(): Bool =
         not node.is_null and self != node.root_int_type()
@@ -6446,6 +6446,10 @@ class BaseTypeDecl: BasicDecl {
     fun iterable_comp_type(): Entity[BaseTypeDecl] =
         null[Entity[BaseTypeDecl]]
 
+    @with_dynvars(origin)
+    fun iterable_cursor_type(): Entity[BaseTypeDecl] =
+        null[Entity[BaseTypeDecl]]
+
     |" Return the canonical type declaration for this type declaration. For
     |" subtypes, it will return the base type declaration.
     @exported
@@ -6565,6 +6569,10 @@ class BaseSubtypeDecl: BaseTypeDecl {
     @with_dynvars(origin)
     fun iterable_comp_type(): Entity[BaseTypeDecl] =
         self.get_type().iterable_comp_type()
+
+    @with_dynvars(origin)
+    fun iterable_cursor_type(): Entity[BaseTypeDecl] =
+        self.get_type().iterable_cursor_type()
 
     @with_dynvars(origin=null[AdaNode])
     fun is_record_type(): Bool = self.get_type().is_record_type()

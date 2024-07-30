@@ -174,18 +174,92 @@ Expr: <Id "True" test_result_attr.adb:15:29-15:33>
   type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
   expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
 
-Resolving xrefs for node <NullStmt test_result_attr.adb:18:4-18:9>
+Resolving xrefs for node <ConcreteTypeDecl ["T3"] test_result_attr.adb:17:4-17:46>
+**********************************************************************************
+
+
+Resolving xrefs for node <ComponentDecl ["A"] test_result_attr.adb:17:22-17:34>
+*******************************************************************************
+
+Expr: <Id "Integer" test_result_attr.adb:17:26-17:33>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ExprFunction ["Expr"] test_result_attr.adb:19:4-20:33>
+********************************************************************************
+
+Expr: <Aggregate test_result_attr.adb:19:31-19:39>
+  type:          <ConcreteTypeDecl ["T3"] test_result_attr.adb:17:4-17:46>
+  expected type: <ConcreteTypeDecl ["T3"] test_result_attr.adb:17:4-17:46>
+Expr: <Id "A" test_result_attr.adb:19:32-19:33>
+  references:    <DefiningName "A" test_result_attr.adb:17:22-17:23>
+  type:          None
+  expected type: None
+Expr: <Int test_result_attr.adb:19:37-19:38>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <SubpSpec test_result_attr.adb:19:4-19:27>
+*******************************************************************
+
+Expr: <Id "T3" test_result_attr.adb:19:25-19:27>
+  references:    <DefiningName "T3" test_result_attr.adb:17:9-17:11>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test_result_attr.adb:20:7-20:32>
+**********************************************************************
+
+Expr: <Id "Post" test_result_attr.adb:20:7-20:11>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp test_result_attr.adb:20:15-20:32>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <DottedName test_result_attr.adb:20:15-20:28>
+  references:    <DefiningName "A" test_result_attr.adb:17:22-17:23>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <AttributeRef test_result_attr.adb:20:15-20:26>
+  references:    None
+  type:          <ConcreteTypeDecl ["T3"] test_result_attr.adb:17:4-17:46>
+  expected type: <ConcreteTypeDecl ["T3"] test_result_attr.adb:17:4-17:46>
+Expr: <Id "Expr" test_result_attr.adb:20:15-20:19>
+  references:    <DefiningName "Expr" test_result_attr.adb:19:13-19:17>
+  type:          None
+  expected type: None
+Expr: <Id "Result" test_result_attr.adb:20:20-20:26>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "A" test_result_attr.adb:20:27-20:28>
+  references:    <DefiningName "A" test_result_attr.adb:17:22-17:23>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpEq "=" test_result_attr.adb:20:29-20:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test_result_attr.adb:20:31-20:32>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <NullStmt test_result_attr.adb:22:4-22:9>
 ******************************************************************
 
 
-Resolving xrefs for node <EndName test_result_attr.adb:19:5-19:21>
+Resolving xrefs for node <EndName test_result_attr.adb:23:5-23:21>
 ******************************************************************
 
-Expr: <EndName test_result_attr.adb:19:5-19:21>
+Expr: <EndName test_result_attr.adb:23:5-23:21>
   references:    <DefiningName "Test_Result_Attr" test_result_attr.adb:1:11-1:27>
   type:          None
   expected type: None
-Expr: <Id "Test_Result_Attr" test_result_attr.adb:19:5-19:21>
+Expr: <Id "Test_Result_Attr" test_result_attr.adb:23:5-23:21>
   references:    <DefiningName "Test_Result_Attr" test_result_attr.adb:1:11-1:27>
   type:          None
   expected type: None

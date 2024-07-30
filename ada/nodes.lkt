@@ -12760,8 +12760,13 @@ class AttributeRef: Name {
 
     @with_dynvars(env, origin, no_visibility=false)
     fun designated_env(): LexicalEnv =
-        if self.is_access_attr() or self.attribute.name_is(s"Old") then self.prefix.designated_env()
-        elif self.attribute.name_is(s"Result") then node.parents().find((p) => p is BasicSubpDecl | SubpBody).as_entity.as[BasicDecl].subp_spec_or_null().return_type().defining_env()
+        if self.is_access_attr() or self.attribute.name_is(s"Old") then
+            self.prefix.designated_env()
+        elif self.attribute.name_is(s"Result") then
+            node.parents().find(
+                (p) => p is BasicSubpDecl | BaseSubpBody
+            ).as_entity.as[BasicDecl].subp_spec_or_null().return_type()
+            .defining_env()
         else null[LexicalEnv]
 
     |" Return the subprogram declaration referred by this attribute name,

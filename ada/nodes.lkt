@@ -12791,7 +12791,8 @@ class AttributeRef: Name {
         elif rel_name == s"Enum_Rep" then self.enum_rep_equation()
         elif rel_name in s"Invalid_Value" | s"First_Valid" | s"Last_Valid" then self.self_type_equation()
         elif rel_name == s"Identity" then self.identity_equation()
-        elif rel_name == s"Address" then self.address_equation()
+        elif rel_name in s"Address" | s"Code_Address" then
+            self.address_equation()
         elif rel_name in s"Small" | s"Model_Small" | s"Safe_Small" | s"Epsilon" | s"Model_Epsilon" | s"Large" | s"Safe_Large" | s"Delta" | s"Safe_First" | s"Safe_Last" then self.universal_real_equation()
         elif rel_name == s"Img" then self.img_equation(node.std_string_type())
         elif rel_name == s"Tag" then self.tag_attr_equation()

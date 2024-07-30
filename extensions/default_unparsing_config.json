@@ -239,8 +239,11 @@
           "field": "f_designators"
         },
         {
-          "kind": "recurse_field",
-          "field": "f_r_expr"
+          "kind": "innerRoot",
+          "contents": {
+            "kind": "recurse_field",
+            "field": "f_r_expr"
+          }
         }
       ],
       "fields": {

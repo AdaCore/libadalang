@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  Test that `f_has_not_null`, `f_has_protected` and `f_subp_spec` do not have
+  line breaks between them. Also test that `f_subp_spec` has its parameters
+  correctly indented.

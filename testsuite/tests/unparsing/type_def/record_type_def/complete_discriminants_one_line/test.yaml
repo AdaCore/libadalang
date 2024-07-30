@@ -1,0 +1,6 @@
+driver: unparser
+rule: type_decl
+description: |
+  This test checks that `f_discriminants` are kept on the same line and
+  "`f_has_abstract` `f_has_tagged` `f_has_limited` `f_record_def`" are on a
+  seprate line.

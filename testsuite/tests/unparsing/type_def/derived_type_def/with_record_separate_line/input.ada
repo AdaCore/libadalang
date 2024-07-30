@@ -1,0 +1,1 @@
+type Foo is new Bar and Baz and Corge and Garply and Fred and Fnoord with record A : B; end record;

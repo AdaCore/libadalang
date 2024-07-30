@@ -1,0 +1,9 @@
+driver: unparser
+rule: type_decl
+description: |
+    This test checks the formatting of a derived type declaration with
+    non empty interface list, non empty discriminats and record extension.
+    It is expected the declaration breaks after `is abstract limited` and
+    `before `with record`.
+    The interface list be splitted in multiple lines and continuation line
+    indented.

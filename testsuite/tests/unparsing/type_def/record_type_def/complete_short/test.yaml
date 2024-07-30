@@ -1,0 +1,6 @@
+driver: unparser
+rule: type_decl
+description:
+  This test checks that there are no line breaks between `f_discriminants`,
+  `f_has_abstract`, `f_has_tagged`, `f_has_limited` and `f_record_def` if they
+  all fit on the same line.

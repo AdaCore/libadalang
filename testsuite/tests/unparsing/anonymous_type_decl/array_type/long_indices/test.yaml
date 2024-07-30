@@ -1,0 +1,10 @@
+description: |
+    This test checks the formatting of an anonymous array type declaration with
+    multiple indices.
+    It is expected the declaration breaks before `of` keywords and the new
+    line to have the same indentation as the `array` keyword.
+    Is is also expected that the indices have continuation line indentation
+    relative to where the `array` keyword ends.
+
+driver: unparser
+rule: anonymous_type_decl

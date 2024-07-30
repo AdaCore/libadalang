@@ -1,5 +1,4 @@
-procedure Main
-is
+procedure Main is
    AAAAAAAAAAAAAAAA             : Baaaaaar             := Bar;
    BBBBBBBBBBBBBBBBBBBB         :
      Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz       :=

@@ -1,6 +1,5 @@
 separate(Parent)
-procedure Inner
-is
+procedure Inner is
 begin
    Foo;
 end Inner;

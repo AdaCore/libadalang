@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_body
+description: |
+  Test that, if the `f_subp_spec` of a `SubpBody` breaks, then a line break is
+  added before `f_aspects` and the `is` token.

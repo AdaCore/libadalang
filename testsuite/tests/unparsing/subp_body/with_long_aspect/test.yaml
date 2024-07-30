@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_body
+description: |
+  Test that when a `SubpBody` has an non null `f_aspects`, a line break is
+  added before the `is` token.

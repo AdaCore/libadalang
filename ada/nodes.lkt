@@ -2975,6 +2975,7 @@ class AggregateAssoc: BasicAssoc {
         elif agg.parent.as[AspectAssoc]?.id.name_is(s"Contract_Cases") then self.contract_cases_assoc_equation()
         elif agg is BracketAggregate and td?.has_aspect(s"Aggregate") then self.container_aggregate_equation(td)
         elif agg.parent is AspectClause | AspectAssoc | PragmaArgumentAssoc then %true
+        elif agg is DeltaAggregate then self.delta_aggregate_assoc_equation()
         elif atd.is_null then self.record_assoc_equation()
         else self.array_assoc_equation(atd, mra)
     }
@@ -2992,6 +2993,90 @@ class AggregateAssoc: BasicAssoc {
             if entity_name.is_null then %true else %eq(entity_name.expected_type_var(), key_type) and entity_name.as_entity.sub_equation() and entity_name.matches_expected_type()
         )
     }
+
+    |" Equation for the case where this is an aggregate assoc for a delta
+    |" aggregate. This is an Ada 2022 feature (:rmlink:`4.3.4`). This equation
+    |" also supports the so called "deep" delta aggregates, a GNAT
+    |" experimental feature.
+    @with_dynvars(env, origin, entry_point)
+    fun delta_aggregate_assoc_equation(): Equation = {
+        val agg = self.base_aggregate();
+        val agg_type = agg.type_val().as[BaseTypeDecl];
+
+        # Determine whether this is a delta array aggregate rather than a deep
+        # delta aggregate by checking whether any alternative designates a
+        # position in an array.
+        val positional_assoc = agg_type.is_array() and not self.names().any(
+            # leftmost_name returns null if n starts with
+            # ArraySubcomponentChoiceName (which denotes a deep aggregate).
+            (n) => n.as[Name]?.leftmost_name().is_null
+        );
+
+        val agg_components = (not agg_type.is_array()).do(
+            (_) => node.unpack_formals(agg.all_components())
+        );
+
+        # If this is a record delta aggregate, try to match the components
+        # corresponding to these names in order to correctly set the
+        # environments from which they should be resolved.
+        val matches = self.names().map(
+            (n) => if n is Name then
+                # Get the leftmost name to match a component with if any
+                n.as[Name].leftmost_name().do(
+                    (id) => agg_components.find(
+                        (c) => c.name.matches(id)
+                    )
+                )
+            # If not a Name, there can be no component match (can be a BinOp
+            # denoting a range in an array for example.)
+            else null[Expr].as_entity
+        );
+
+        self.names().logic_all(
+            (n, i) => {
+                # Resolve the name from the matched component if any
+                bind env = matches[i].do(
+                    (l) => l.children_env(),
+                    default_val=env
+                );
+
+                n.as[Expr].as_entity.sub_equation()
+            } and (
+                # Check that all alternatives resolve to the same type
+                if i > 0 then
+                    %predicate(BaseTypeDecl.matching_type,
+                               n.as[Expr].type_var(),
+                               self.names()[0].as[Expr].type_var(),
+                               error_location=node)
+                else %true
+            ) and (
+                # We cannot set the expected type of the alternative in case the
+                # aggregate is a record aggregate or a deep one (both record and
+                # array) because the expected type of the alternative can be any
+                # one of the record components (including those from parents).
+                # Only simple array aggregate associations's alternatives can
+                # have an expected type (i.e., the alternative designates a
+                # position or a range).
+                if positional_assoc then
+                    %eq(n.as[Expr].expected_type_var(),
+                        agg_type.index_type(0))
+                    and n.as[Expr].matches_expected_type()
+                else %true
+            )
+        ) and (
+            # Set the expected type of the expression only once since all the
+            # alternatives should have the same type.
+            if positional_assoc then
+                %eq(self.expr().expected_type_var(), agg_type.comp_type())
+            else
+                %eq(self.expr().expected_type_var(),
+                    self.names()[0].as[Expr].type_var())
+        ) and (
+            # Build the equation for the expression
+            self.expr().sub_equation() and self.expr().matches_expected_type()
+        )
+    }
+
 
     |" Equation for the case where this is an aggregate assoc for a record
     |" type.
@@ -11999,6 +12084,34 @@ class Name: Expr {
         else node
     }
 
+    |" Returns the leftmost name following the name chain.
+    |" For example, given::
+    |"
+    |"     A (B) (C) (D)  -- Case 1: CallExpr
+    |"     (A) (B)        -- Case 2: ArraySubcomponentChoiceName
+    |"     A.B.C (D).E    -- Case 3: DottedName
+    |"     A              -- Case 4: Identifier
+    |"     A'First        -- Case 5: AttributeRef
+    |"
+    |" ``self.leftmost_name`` will return:
+    |"
+    |"   - A for Case 1,
+    |"   - null for Case 2,
+    |"   - A for Case 3,
+    |"   - A for Case 4,
+    |"   - A for Case 5.
+    |"
+    |" This property has been introduced to resolve deep delta aggregates so it
+    |" may not be useful in other context as is. Do not make it exported.
+    fun leftmost_name(): Name = match node {
+        case ce: CallExpr => ce.name.leftmost_name()
+        case ascn: ArraySubcomponentChoiceName =>
+            ascn.name?.leftmost_name()
+        case dn: DottedName => dn.prefix.leftmost_name()
+        case ar: AttributeRef => ar.prefix.leftmost_name()
+        case _ => node
+    }
+
     |" Construct the xref equation for the chain of parent nested names.
     @with_dynvars(env, origin, entry_point)
     fun parent_name_equation(typ: Entity[BaseTypeDecl], root: Name): Equation = {
@@ -13255,7 +13368,18 @@ class CallExpr: Name {
             }
         ), default_val=%false
     )
-    else self.all_args_xref_equation(root) and (
+    else {
+        # If we are resolving this CallExpr from a DeltaAggregate, env is the
+        # one of the aggregate type, so we need to bind env to self's env to
+        # resolve the CallExpr params (array indicies).
+        bind env = if entry_point.as[AggregateAssoc]?.as_entity
+            .base_aggregate() is DeltaAggregate
+        then
+            self.children_env()
+        else env;
+
+        self.all_args_xref_equation(root)
+    } and (
         # For each potential entity match, we want to express the
         # following constraints:
         {
@@ -14264,6 +14388,85 @@ class DottedName: Name {
         # suffix does.
         self.prefix.is_constant() or self.suffix.is_constant()
 }
+
+
+|" Name for an array subcomponent choice of a deep delta aggregate.
+class ArraySubcomponentChoiceName: Name {
+    # This node can basically be seen as a CallExpr where `name` can be a null
+    # node.
+
+    # The name field can be null when the ArraySubcomponentChoiceName is of the
+    # form "(suffix)" (where suffix is a list of expression: "expr{, expr}"
+    # representing the indexes of a mono- or multi-dimentional array, or a
+    # range). When the node is of the form of "name (suffix)", name can only be
+    # another ArraySubcomponentChoiceName or a DottedName.
+    @parse_field @nullable name: Name
+    @parse_field suffix: AdaNode
+
+    fun suffix_exprs(): Array[Entity[Expr]] =
+        self.suffix.as![AssocList].map(
+            (a) => a.as![ParamAssoc].expr()
+        )
+
+    |" Return the corresponding delta aggregate's ancestor expression type.
+    @memoized
+    fun delta_aggregate_ancestor_expr_type(): Entity[BaseTypeDecl] =
+        node.parents(with_self=false).find(
+            (p) => p is DeltaAggregate
+        ).as[DeltaAggregate].ancestor_expr.as_bare_entity.expression_type()
+
+    fun ref_var(): LogicVar =
+        node.as_bare_entity.delta_aggregate_ancestor_expr_type().name.ref_var()
+
+    fun name_symbol(): Symbol =
+        node.name.do(
+            (n) => n.name_symbol()
+        )
+
+    fun xref_equation(): Equation =
+        # Resolve name if any
+        self.name.do(
+            (n) => n.sub_equation(), default_val=%true
+        ) and (
+            self.suffix_exprs().logic_all(
+            # Resolve all suffix's indexes/range independently
+            (a, i) => a.sub_equation()
+            and %eq(a.expected_type_var(),
+                    node.delta_aggregate_ancestor_expr_type().index_type(i))
+            and a.matches_expected_type()
+        )) and (
+            # Self's type is bound to the component type of Self's name
+            # designated type if any (if name is null, the type is given by the
+            # delta aggregate itself).
+            if self.name is DottedName
+            then %eq(self.name.type_var(), self.type_var(),
+                     conv_prop=BaseTypeDecl.comp_type)
+            else %eq(self.type_var(),
+                     self.name.do(
+                         (n) => n.name_designated_type().comp_type(),
+                         default_val=
+                         node.delta_aggregate_ancestor_expr_type().comp_type()
+                     )
+                )
+        )
+
+    fun designated_type_impl(): Entity[BaseTypeDecl] =
+        self.name.do(
+            (n) => n.designated_type_impl(),
+            default_val=node.delta_aggregate_ancestor_expr_type().comp_type()
+        )
+
+    fun designated_env(): LexicalEnv =
+        self.name.do(
+            (n) => n.name_designated_type().defining_env(),
+            default_val={
+                bind include_ud_indexing = false;
+
+                node.delta_aggregate_ancestor_expr_type().defining_env()
+            }
+        )
+}
+
 
 |" self name in ``end ...;`` syntactic constructs.
 class EndName: Name {

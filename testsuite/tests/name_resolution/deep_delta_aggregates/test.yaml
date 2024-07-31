@@ -1,0 +1,2 @@
+driver: name-resolution
+input_sources: [base.adb, arr.adb, test_array.adb, multidim.adb, test.adb]

@@ -75,7 +75,7 @@ Expr: <Id "P" test_brack_aggr.adb:15:19-15:20>
   expected type: None
 Expr: <Id "Y" test_brack_aggr.adb:15:32-15:33>
   references:    <DefiningName "Y" test_brack_aggr.adb:10:10-10:11>
-  type:          None
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Int test_brack_aggr.adb:15:37-15:39>
   references:    None
@@ -98,7 +98,7 @@ Expr: <Id "P" test_brack_aggr.adb:18:19-18:20>
   expected type: None
 Expr: <Id "Y" test_brack_aggr.adb:18:32-18:33>
   references:    <DefiningName "Y" test_brack_aggr.adb:10:10-10:11>
-  type:          None
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
   expected type: None
 Expr: <Int test_brack_aggr.adb:18:37-18:39>
   references:    None

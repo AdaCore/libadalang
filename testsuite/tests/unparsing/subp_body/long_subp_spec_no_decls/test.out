@@ -1,0 +1,9 @@
+function To_Source_Location_Range
+  (Self : Langkit_Text_Document'Class; A_Range : LSP.Structures.A_Range)
+   return Langkit_Support.Slocs.Source_Location_Range is
+begin
+   return
+     Langkit_Support.Slocs.Make_Range
+       (Self.To_Source_Location (A_Range.start),
+        Self.To_Source_Location (A_Range.an_end));
+end To_Source_Location_Range;

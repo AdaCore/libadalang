@@ -203,6 +203,23 @@ begin
       null;
    end;
 
+   --  Floating point ranges
+   declare
+      type T is digits 8 range 0.0 .. 1.0;
+      type U is digits 2;
+
+      T_First : T := T'First;
+      T_Last  : T := T'Last;
+
+      U_First : U := U'First;
+      U_Last  : U := U'Last;
+
+      Float_First : Float := Float'First;
+      Float_Last  : Float := Float'Last;
+   begin
+      null;
+   end;
+
    --  Invalid decimal fixed point defs
    declare
       type T is delta 1 digits 2;

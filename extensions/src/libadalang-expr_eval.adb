@@ -493,6 +493,48 @@ package body Libadalang.Expr_Eval is
                return Eval_Range_Attr
                  (D.As_Ordinary_Fixed_Point_Def.F_Range.F_Range.As_Ada_Node,
                   A);
+            when Ada_Floating_Point_Def =>
+               declare
+                  Def : constant LAL.Floating_Point_Def :=
+                     D.As_Floating_Point_Def;
+
+                  Rng : constant LAL.Range_Spec := Def.F_Range;
+               begin
+                  --  If a range has been specified we simply recurse on it,
+                  --  otherwise we need to manually compute its bounds using
+                  --  the `digits` value specified for that type definition.
+                  if Rng.Is_Null then
+                     declare
+                        Digits_Res : constant Eval_Result :=
+                           Expr_Eval (Def.F_Num_Digits);
+
+                        Digits_Val : constant Integer :=
+                          (if Digits_Res.Kind in Int
+                           then To_Integer (Digits_Res.Int_Result)
+                           else raise Property_Error with
+                              "digits must be an integer");
+
+                        Bound : constant Double :=
+                          (if Digits_Val > 0
+                           then (10.0 ** (4 * Digits_Val))
+                           else raise Property_Error with
+                              "digits must be positive");
+                     begin
+                        return Result : Eval_Result :=
+                          (Kind        => Real,
+                           Expr_Type   => D.Parent.As_Base_Type_Decl,
+                           Real_Result => <>)
+                        do
+                           Result.Real_Result.Set
+                             (case A is
+                              when Range_First => -Bound,
+                              when Range_Last => Bound);
+                        end return;
+                     end;
+                  else
+                     return Eval_Range_Attr (Rng.F_Range.As_Ada_Node, A);
+                  end if;
+               end;
 
             when others =>
                raise Property_Error with

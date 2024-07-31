@@ -1,0 +1,6 @@
+driver: unparser
+rule: type_decl
+description:
+  This test checks that long `f_discriminants` are formatted in multiple lines.
+  It also checks that `is` is in its own line followed by
+  "`f_has_abstract` `f_has_tagged` `f_has_limited` `f_record_def`".

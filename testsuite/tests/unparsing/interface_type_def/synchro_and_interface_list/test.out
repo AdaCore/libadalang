@@ -1,4 +1,0 @@
-type Combo_Sync_Interface is
-  synchronized interface and
-  My_Interface_1 and
-  My_Interface_2;

@@ -1,7 +1,7 @@
 description: |
     This test checks the formatting of an anonymous array type declaration.
     It is expected the declaration breaks before `of` keywords and the new
-    line be indented.
- 
+    line to have the same indentation as the `array` keyword.
+
 driver: unparser
 rule: anonymous_type_decl

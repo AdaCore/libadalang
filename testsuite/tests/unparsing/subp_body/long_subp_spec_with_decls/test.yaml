@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_body
+description: |
+  For a `SubpBody` node whose `f_decls` is not empty, null `f_aspects` and
+  `f_subp_spec` breaks, test that a line break is added before the `is`.

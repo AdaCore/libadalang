@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_body
+description: |
+  For a `SubpBody` node whose `f_decls` is empty, null `f_aspects` and
+  `f_subp_spec` breaks, test that the `is` is added to the end of
+  `f_subp_spec` if it fits.

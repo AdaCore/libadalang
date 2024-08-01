@@ -3173,12 +3173,12 @@
               {
                 "kind": "recurse_field",
                 "field": "f_renames"
-              },
-              {
-                "kind": "recurse_field",
-                "field": "f_aspects"
               }
             ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
           },
           {
             "kind": "text",
@@ -3188,7 +3188,7 @@
       },
       "fields": {
         "f_aspects": [
-          "hardlineWithoutBreakParent",
+          "line",
           "recurse"
         ]
       }
@@ -4304,6 +4304,43 @@
         ]
       }
     },
+    "PackageRenamingDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "package"
+          },
+          "whitespace",
+          {
+            "kind": "recurse_field",
+            "field": "f_name"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_renames"
+            }
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "ParamAssoc": {
       "node": [
         {
@@ -4925,12 +4962,12 @@
       "node": {
         "kind": "group",
         "document": [
-          "whitespace",
+          "line",
           {
             "kind": "text",
             "text": "renames"
           },
-          "line",
+          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_renamed_object"

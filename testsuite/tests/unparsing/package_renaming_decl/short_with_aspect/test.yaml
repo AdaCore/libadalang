@@ -1,4 +1,4 @@
 driver: unparser
-rule: generic_renaming_decl
+rule: package_renaming_decl
 description: |
   Test that no line break is added before the `with` keyword.

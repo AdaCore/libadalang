@@ -1889,6 +1889,19 @@ class AspectAssoc: AdaNode {
             )
         elif self.id.name_is(s"Implicit_Dereference") then
             self.implicit_dereference_equation(target.as[TypeDecl])
+        # For the Model_Of aspect, the RHS must either denote a type
+        # declaration or a subprogram with a matching profile, depending
+        # on the kind of entity this aspect is attached to.
+        elif self.id.name_is(s"Model_Of") then
+            if target is BaseTypeDecl then
+                self.expr.as![Name].xref_type_equation()
+            else
+                self.expr.as![Name].xref_no_overloading(all_els=true)
+                and %predicate(
+                    BasicDecl.subp_decl_match_signature,
+                    self.expr.as![Name].ref_var(),
+                    target.as[BasicDecl].as_entity
+                )
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
         # name resolve the expression.

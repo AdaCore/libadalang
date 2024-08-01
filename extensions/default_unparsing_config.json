@@ -5833,8 +5833,14 @@
             "field": "f_has_constant"
           },
           {
-            "kind": "recurse_field",
-            "field": "f_subtype_indication"
+            "kind": "continuationLineIndent",
+            "contents": [
+              "line",
+              {
+                "kind": "recurse_field",
+                "field": "f_subtype_indication"
+              }
+            ]
           }
         ]
       }

@@ -1,0 +1,6 @@
+driver: unparser
+rule: stmt
+description: |
+  This test checks that `QuantifiedExpr` nodes:
+  - do not line break is they fit in the line
+  - line breaks before the `=>` token if they don't fit in the line

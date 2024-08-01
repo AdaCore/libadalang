@@ -4835,6 +4835,39 @@
         ]
       }
     },
+    "QuantifiedExpr": {
+      "node": {
+        "kind": "group",
+        "document": {
+          "kind": "innerRoot",
+          "contents": [
+            {
+              "kind": "text",
+              "text": "for"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_quantifier"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_loop_spec"
+            },
+            "line",
+            {
+              "kind": "text",
+              "text": "=>"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          ]
+        }
+      }
+    },
     "QualExpr": {
       "node": {
         "kind": "group",

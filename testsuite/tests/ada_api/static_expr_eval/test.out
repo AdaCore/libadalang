@@ -242,6 +242,18 @@ Expr <ObjectDecl ["V_First"] test.adb:200:7-200:30> evaluated to Real -3/2
 
 Expr <ObjectDecl ["V_Last"] test.adb:201:7-201:29> evaluated to Real 3/2
 
+Expr <ObjectDecl ["T_First"] test.adb:211:7-211:30> evaluated to Real 0
+
+Expr <ObjectDecl ["T_Last"] test.adb:212:7-212:29> evaluated to Real 1
+
+Expr <ObjectDecl ["U_First"] test.adb:214:7-214:30> evaluated to Real -100000000
+
+Expr <ObjectDecl ["U_Last"] test.adb:215:7-215:29> evaluated to Real 100000000
+
+Expr <ObjectDecl ["Float_First"] test.adb:217:7-217:42> evaluated to Real -340282346638528859811704183484516925440
+
+Expr <ObjectDecl ["Float_Last"] test.adb:218:7-218:41> evaluated to Real 340282346638528859811704183484516925440
+
 Property_Error: delta must be real
 
 Property_Error: digits must be an integer
@@ -258,14 +270,14 @@ Property_Error: Unsupported type discrepancy
 
 Property_Error: Unsupported type discrepancy
 
-Expr <ObjectDecl ["Times_RI"] test.adb:227:7-227:35> evaluated to Real 7
+Expr <ObjectDecl ["Times_RI"] test.adb:244:7-244:35> evaluated to Real 7
 
-Expr <ObjectDecl ["Times_IR"] test.adb:228:7-228:35> evaluated to Real 15/2
+Expr <ObjectDecl ["Times_IR"] test.adb:245:7-245:35> evaluated to Real 15/2
 
-Expr <ObjectDecl ["Div_RI"] test.adb:229:7-229:35> evaluated to Real 7/4
+Expr <ObjectDecl ["Div_RI"] test.adb:246:7-246:35> evaluated to Real 7/4
 
 Property_Error: Unsupported type discrepancy
 
-Expr <ObjectDecl ["Pow"] test.adb:231:7-231:36> evaluated to Real 625/16
+Expr <ObjectDecl ["Pow"] test.adb:248:7-248:36> evaluated to Real 625/16
 
 Done.

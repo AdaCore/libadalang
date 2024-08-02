@@ -1,0 +1,6 @@
+driver: unparser
+rule: type_decl
+description: |
+  This test checks the formatting of a constrained array that has multiple
+  long constraints. It is expected the constraint list to be splitted in
+  multiple lines.

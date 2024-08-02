@@ -55,6 +55,10 @@ procedure Test is
 
    procedure My_Put_Line (S : String) is null;
 
+   subtype Sub_List is List;
+
+   My_Sub_List : Sub_List := (S => "Subwou");
+
 begin
 
    for E of My_List loop
@@ -74,6 +78,11 @@ begin
 
    for E in reverse My_List loop
       My_Put_Line (Get_Element (My_List, E)'Image);
+   end loop;
+   pragma Test_Block;
+
+   for E in My_Sub_List loop
+     My_Put_Line (Get_Element (My_Sub_List, E)'Image);
    end loop;
    pragma Test_Block;
 

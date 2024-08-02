@@ -5590,7 +5590,7 @@ class BaseTypeDecl: BasicDecl {
         # is defined by the `Cursor` type declaration.
         self.children_env().get_first(s"Cursor").as![BaseTypeDecl]
         # Check out cursor type for types with `Iterable` aspect
-        or? self.as[TypeDecl].iterable_cursor_type()
+        or? self.iterable_cursor_type()
 
     fun is_not_root_int_type(): Bool =
         not node.is_null and self != node.root_int_type()
@@ -6446,6 +6446,10 @@ class BaseTypeDecl: BasicDecl {
     fun iterable_comp_type(): Entity[BaseTypeDecl] =
         null[Entity[BaseTypeDecl]]
 
+    @with_dynvars(origin)
+    fun iterable_cursor_type(): Entity[BaseTypeDecl] =
+        null[Entity[BaseTypeDecl]]
+
     |" Return the canonical type declaration for this type declaration. For
     |" subtypes, it will return the base type declaration.
     @exported
@@ -6566,6 +6570,10 @@ class BaseSubtypeDecl: BaseTypeDecl {
     fun iterable_comp_type(): Entity[BaseTypeDecl] =
         self.get_type().iterable_comp_type()
 
+    @with_dynvars(origin)
+    fun iterable_cursor_type(): Entity[BaseTypeDecl] =
+        self.get_type().iterable_cursor_type()
+
     @with_dynvars(origin=null[AdaNode])
     fun is_record_type(): Bool = self.get_type().is_record_type()
 
@@ -6612,6 +6620,9 @@ class SubtypeDecl: BaseSubtypeDecl {
         case st: SubtypeDecl => st.get_type()
         case t => t
     }
+
+    fun get_imp_deref(): Entity[Expr] =
+       self.get_type().get_imp_deref()
 
     fun discrete_range(): DiscreteRange = self.subtype.discrete_range()
 
@@ -12749,8 +12760,13 @@ class AttributeRef: Name {
 
     @with_dynvars(env, origin, no_visibility=false)
     fun designated_env(): LexicalEnv =
-        if self.is_access_attr() or self.attribute.name_is(s"Old") then self.prefix.designated_env()
-        elif self.attribute.name_is(s"Result") then node.parents().find((p) => p is BasicSubpDecl | SubpBody).as_entity.as[BasicDecl].subp_spec_or_null().return_type().defining_env()
+        if self.is_access_attr() or self.attribute.name_is(s"Old") then
+            self.prefix.designated_env()
+        elif self.attribute.name_is(s"Result") then
+            node.parents().find(
+                (p) => p is BasicSubpDecl | BaseSubpBody
+            ).as_entity.as[BasicDecl].subp_spec_or_null().return_type()
+            .defining_env()
         else null[LexicalEnv]
 
     |" Return the subprogram declaration referred by this attribute name,
@@ -12767,7 +12783,10 @@ class AttributeRef: Name {
         # Attributes that simply return subprograms
         elif rel_name in s"Succ" | s"Pred" | s"Min" | s"Max" | s"Ceiling" | s"Floor" | s"Rounding" | s"Unbiased_Rounding" | s"Leading_Part" | s"Truncation" | s"Exponent" | s"Fraction" | s"Copy_Sign" | s"Remainder" | s"Adjacent" | s"Machine" | s"Machine_Rounding" | s"Scaling" | s"Compose" | s"Mod" | s"Value" | s"Wide_Value" | s"Wide_Wide_Value" | s"Fixed_Value" | s"Integer_Value" | s"Pos" | s"Val" | s"Enum_Val" | s"Write" | s"Read" | s"Output" | s"Input" | s"Put_Image" | s"Asm_Input" | s"Asm_Output" | s"Model" | s"Round" then self.attribute_subprogram_equation()
         elif rel_name in s"Size" | s"VADS_Size" then self.size_equation()
-        elif rel_name in s"Max_Size_In_Storage_Elements" | s"Aft" | s"Object_Size" | s"Value_Size" | s"Storage_Size" then self.subtype_attr_equation()
+        elif rel_name in s"Max_Size_In_Storage_Elements" | s"Max_Alignment_For_Allocation"
+            | s"Aft" | s"Object_Size" | s"Value_Size" | s"Storage_Size"
+            | s"Scale"
+            then self.subtype_attr_equation()
         elif rel_name in s"Access" | s"Unchecked_Access" | s"Unrestricted_Access" then self.access_equation()
         elif rel_name == s"Image" then self.image_equation(node.std_string_type())
         elif rel_name == s"Wide_Image" then self.image_equation(node.std_wide_string_type())
@@ -12775,7 +12794,8 @@ class AttributeRef: Name {
         elif rel_name == s"Enum_Rep" then self.enum_rep_equation()
         elif rel_name in s"Invalid_Value" | s"First_Valid" | s"Last_Valid" then self.self_type_equation()
         elif rel_name == s"Identity" then self.identity_equation()
-        elif rel_name == s"Address" then self.address_equation()
+        elif rel_name in s"Address" | s"Code_Address" then
+            self.address_equation()
         elif rel_name in s"Small" | s"Model_Small" | s"Safe_Small" | s"Epsilon" | s"Model_Epsilon" | s"Large" | s"Safe_Large" | s"Delta" | s"Safe_First" | s"Safe_Last" then self.universal_real_equation()
         elif rel_name == s"Img" then self.img_equation(node.std_string_type())
         elif rel_name == s"Tag" then self.tag_attr_equation()
@@ -12818,6 +12838,7 @@ class AttributeRef: Name {
         elif rel_name == s"Abort_Signal" then %eq(node.ref_var(), node.std_entity(s"abort_signal_")) and %eq(node.type_var(), null[Entity[BaseTypeDecl]])
         elif rel_name in s"Has_Same_Storage" | s"Overlaps_Storage" then self.storage_equation()
         elif rel_name == s"Deref" then self.deref_equation()
+        elif rel_name == s"Mechanism_Code" then self.mechanism_code_equation()
         else raise[Equation] PropertyError("Unhandled attribute")
     }
 
@@ -13094,6 +13115,18 @@ class AttributeRef: Name {
             and %eq(arg.expr().expected_type_var(), node.system_address_type())
             and arg.expr().matches_expected_type(),
             default_val=%false
+        )
+
+    |" Return the xref equation for the ``Mechanism_Code`` attribute.
+    @with_dynvars(env, origin, entry_point)
+    fun mechanism_code_equation(): Equation =
+        self.prefix.xref_no_overloading()
+        and self.universal_int_bind(node.type_var())
+        and self.args?[0].do(
+            (arg) => arg.expr().sub_equation()
+            and self.universal_int_bind(arg.expr().expected_type_var())
+            and arg.expr().matches_expected_type(),
+            default_val=%true
         )
 
     |" Return the xref equation for the ``Has_Same_Storage`` and
@@ -15108,6 +15141,7 @@ class Identifier: BaseId implements TokenNode {
     fun is_attr_with_args(): Bool =
         node.symbol in s"First" | s"Last" | s"Range" | s"Length"
         | s"Has_Same_Storage" | s"Overlaps_Storage" | s"Deref"
+        | s"Mechanism_Code"
 
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = self.parent.complete_items()

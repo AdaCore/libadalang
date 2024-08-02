@@ -23,6 +23,9 @@ begin
    I := R'Max_Size_In_Storage_Elements;
    pragma Test_Statement;
 
+   I := R'Max_Alignment_For_Allocation;
+   pragma Test_Statement;
+
    I := R'VADS_Size;
    pragma Test_Statement;
 

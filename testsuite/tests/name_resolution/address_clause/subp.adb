@@ -16,7 +16,10 @@ procedure Subp is
          for C'Address use X.A;
          pragma Test_Statement;
       begin
-         null;
+         if C'Code_Address /= C'Address then
+            raise;
+         end if;
+         pragma Test_Statement;
       end;
    end P;
 begin

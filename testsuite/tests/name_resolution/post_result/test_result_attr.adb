@@ -14,6 +14,10 @@ procedure Test_Result_Attr is
 
    pragma Post (T2'Result = True);
 
+   type T3 is record A : Integer; end record;
+
+   function Expr return T3 is (A => 8) with
+      Post => Expr'Result.A = 8;
 begin
    null;
 end Test_Result_Attr;

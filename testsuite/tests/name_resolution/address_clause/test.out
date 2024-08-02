@@ -61,5 +61,40 @@ Expr: <Id "A" subp.adb:16:30-16:31>
   type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
   expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
 
+Resolving xrefs for node <IfStmt subp.adb:19:10-21:17>
+******************************************************
+
+Expr: <RelationOp subp.adb:19:13-19:40>
+  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+Expr: <AttributeRef subp.adb:19:13-19:27>
+  references:    None
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+Expr: <Id "C" subp.adb:19:13-19:14>
+  references:    <DefiningName "C" subp.adb:13:20-13:21>
+  type:          None
+  expected type: None
+Expr: <Id "Code_Address" subp.adb:19:15-19:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <OpNeq "/=" subp.adb:19:28-19:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <AttributeRef subp.adb:19:31-19:40>
+  references:    None
+  type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+  expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
+Expr: <Id "C" subp.adb:19:31-19:32>
+  references:    <DefiningName "C" subp.adb:13:20-13:21>
+  type:          None
+  expected type: None
+Expr: <Id "Address" subp.adb:19:33-19:40>
+  references:    None
+  type:          None
+  expected type: None
+
 
 Done.

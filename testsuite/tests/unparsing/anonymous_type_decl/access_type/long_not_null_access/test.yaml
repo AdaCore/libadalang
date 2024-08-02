@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_decl
+description: |
+  This test checks the formatting of a long not null anonymous access type
+  declaration. It is expected a line break after the `access` token and that
+  `f_subtype_indication` is continuation line indented.

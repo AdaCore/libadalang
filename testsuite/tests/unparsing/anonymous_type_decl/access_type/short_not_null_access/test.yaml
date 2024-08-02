@@ -1,0 +1,5 @@
+driver: unparser
+rule: subp_decl
+description: |
+  This test checks the formatting of a simple not null anonymous access type
+  declaration. It is expected the declaration stays on a single line.

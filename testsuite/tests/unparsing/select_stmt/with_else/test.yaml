@@ -1,0 +1,6 @@
+driver: unparser
+rule: subp_body
+description: |
+  Test a `SelectStmt` node with a non null `f_else_stmts`.
+  It is expected that the `else` keyword is in its own line with the same
+  indentation as the `select` keyword.

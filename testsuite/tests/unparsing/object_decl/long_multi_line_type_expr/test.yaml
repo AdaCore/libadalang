@@ -1,0 +1,7 @@
+driver: unparser
+rule: object_decl
+description: |
+  Test that when `f_type_expr` is long, a line break and continuation line
+  indentation is added after the `:`.
+  Also test that if `f_type_expr` is multi line, its indentation is relative
+  to where it starts.

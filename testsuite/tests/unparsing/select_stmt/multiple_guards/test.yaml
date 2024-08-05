@@ -1,0 +1,6 @@
+driver: unparser
+rule: task_body
+description: |
+  Test a `SelectStmt` node with an `f_guards` of multiple guards.
+  It is expected that the `or` keywords are on their own lines with the same
+  indentation as the `select` keyword.

@@ -1,4 +1,5 @@
 Foo :=
-  (Baaaar with
+  (Baaaar
+   with
      Qux   => Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
      Baaaz => Bazzzzzzzz);

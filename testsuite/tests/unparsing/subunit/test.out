@@ -1,4 +1,4 @@
-separate(Parent)
+separate (Parent)
 procedure Inner is
 begin
    Foo;

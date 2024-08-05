@@ -1,0 +1,7 @@
+driver: unparser
+rule: stmt
+description: |
+  Test a `SelectStmt` node with a single element `f_guards` and single line
+  `AcceptStmt`.
+  It is expected that the `or` keyword is in its own line with the same
+  indentation as the `select` keyword.

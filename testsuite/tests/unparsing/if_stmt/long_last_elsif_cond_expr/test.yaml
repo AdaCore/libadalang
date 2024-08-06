@@ -1,0 +1,5 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that if the last `ElsifStmtPart` is long, it first breaks before the
+  `then` keyword and then the underlying `f_cond_expr` field.

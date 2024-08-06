@@ -1,0 +1,4 @@
+driver: unparser
+rule: subtype_decl
+description: |
+  Test that a `SubtypeDecl` first breaks before the `f_subtype`

@@ -6008,6 +6008,56 @@
         }
       }
     },
+    "SubtypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "subtype"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  "line",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_subtype"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "SubtypeIndication": {
       "node": {
         "kind": "group",

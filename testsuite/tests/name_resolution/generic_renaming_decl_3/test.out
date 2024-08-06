@@ -5,7 +5,7 @@ Resolving xrefs for node <GenericSubpInstantiation ["Equals"] test.adb:6:4-6:41>
 ********************************************************************************
 
 Expr: <Id "Gen" test.adb:6:27-6:30>
-  references:    <DefiningName "Test_2" test_2.ads:3:10-3:16>
+  references:    <DefiningName "Gen" test.adb:4:21-4:24>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:6:32-6:39>

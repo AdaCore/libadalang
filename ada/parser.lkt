@@ -283,13 +283,13 @@ grammar ada_grammar {
         | GenericPackageRenamingDecl(
             "generic"
             "package"
-            defining_name "renames" static_name aspect_spec ";"
+            defining_name renaming_clause aspect_spec ";"
         )
         | GenericSubpRenamingDecl(
             "generic" or(
                 | SubpKind.Procedure("procedure")
                 | SubpKind.Function("function")
-            ) defining_name "renames" static_name aspect_spec ";"
+            ) defining_name renaming_clause aspect_spec ";"
         )
     )
     generic_instantiation <- or(

@@ -5241,8 +5241,16 @@
                 "kind": "text",
                 "text": "with"
               },
-              "whitespace",
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    "line",
               "recurse"
+                  ]
+                }
+              }
             ]
           }
         }

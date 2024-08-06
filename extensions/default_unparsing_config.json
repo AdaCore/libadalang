@@ -3786,11 +3786,12 @@
             "kind": "recurse_field",
             "field": "f_decl"
           },
+          "whitespace",
           {
             "kind": "text",
             "text": ":"
           },
-          "hardlineWithoutBreakParent",
+          "hardline",
           {
             "kind": "recurse_field",
             "field": "f_stmt"

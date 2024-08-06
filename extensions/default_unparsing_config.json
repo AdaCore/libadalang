@@ -614,29 +614,29 @@
               "kind": "group",
               "document": [
                 {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "recurse_field",
-            "field": "f_left"
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_left"
                     }
                   ]
-          },
-          "line",
-          {
-            "kind": "recurse_field",
-            "field": "f_op"
-          },
-          "whitespace",
-          {
-            "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_right"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                },
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  }
+                }
+              ]
             }
-          }
-        ]
-      }
           ]
         },
         "matchers": [
@@ -1758,6 +1758,42 @@
           {
             "kind": "text",
             "text": ";"
+          }
+        ]
+      }
+    },
+    "DeclExpr": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "declare"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_decls"
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
+            ]
           }
         ]
       }
@@ -3583,8 +3619,8 @@
                 "contents": {
                   "kind": "group",
                   "document": {
-                  "kind": "recurse_field",
-                  "field": "f_cond_expr"
+                    "kind": "recurse_field",
+                    "field": "f_cond_expr"
                   }
                 }
               },
@@ -3649,14 +3685,14 @@
               "recurse"
             ],
             "else": [
-          {
-            "kind": "indent",
-            "contents": [
-              "hardlineWithoutBreakParent",
-              "recurse"
-            ]
-          },
-          "hardlineWithoutBreakParent"
+              {
+                "kind": "indent",
+                "contents": [
+                  "hardlineWithoutBreakParent",
+                  "recurse"
+                ]
+              },
+              "hardlineWithoutBreakParent"
             ]
           }
         ]
@@ -4945,10 +4981,7 @@
     },
     "ParenExpr": {
       "node": {
-        "kind": "align",
-        "width": " ",
-        "contents": {
-          "kind": "group",
+        "kind": "group",
         "document": [
           {
             "kind": "text",
@@ -5439,7 +5472,7 @@
                   "kind": "group",
                   "document": [
                     "line",
-              "recurse"
+                    "recurse"
                   ]
                 }
               }
@@ -5502,21 +5535,21 @@
                         {
                           "kind": "group",
                           "document": [
-                        {
-                          "kind": "text",
-                          "text": "("
-                        },
-                        {
-                          "kind": "align",
-                          "width": " ",
-                          "contents": {
-                            "kind": "recurse_field",
-                            "field": "f_args"
-                          }
-                        },
-                        {
-                          "kind": "text",
-                          "text": ")"
+                            {
+                              "kind": "text",
+                              "text": "("
+                            },
+                            {
+                              "kind": "align",
+                              "width": " ",
+                              "contents": {
+                                "kind": "recurse_field",
+                                "field": "f_args"
+                              }
+                            },
+                            {
+                              "kind": "text",
+                              "text": ")"
                             }
                           ]
                         }
@@ -5681,24 +5714,24 @@
             "document": []
           },
           {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "recurse_field",
-            "field": "f_left"
-          },
-          "line",
-          {
-            "kind": "recurse_field",
-            "field": "f_op"
-          },
-          "whitespace",
-          {
-            "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_right"
-            }
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_left"
+              },
+              "line",
+              {
+                "kind": "recurse_field",
+                "field": "f_op"
+              },
+              "whitespace",
+              {
+                "kind": "innerRoot",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_right"
+                }
               }
             ]
           }

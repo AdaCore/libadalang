@@ -3958,6 +3958,25 @@
         "whitespace"
       ]
     },
+    "ModIntTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "mod"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          }
+        ]
+      }
+    },
     "NoTypeObjectRenamingDecl": {
       "node": {
         "kind": "continuationLineIndent",

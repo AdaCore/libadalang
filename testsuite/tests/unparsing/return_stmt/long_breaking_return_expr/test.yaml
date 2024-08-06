@@ -1,0 +1,5 @@
+driver: unparser
+rule: return_stmt
+description: |
+  Test the `ReturnStmt` on the line length limit.
+  It is expected that tit breaks after the `return` keyword.

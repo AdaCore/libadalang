@@ -5508,7 +5508,7 @@
       "node": {
         "kind": "continuationLineIndent",
         "contents": {
-          "kind": "fill",
+          "kind": "group",
           "document": "recurse"
         }
       },

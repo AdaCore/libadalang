@@ -5250,6 +5250,66 @@
         }
       }
     },
+    "ReduceAttributeRef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_prefix"
+          },
+          {
+            "kind": "text",
+            "text": "'"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "group",
+              "document": [
+                "softline",
+                {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_attribute"
+                    },
+                    {
+                      "kind": "continuationLineIndent",
+                      "contents": [
+                        "line",
+                        {
+                          "kind": "group",
+                          "document": [
+                        {
+                          "kind": "text",
+                          "text": "("
+                        },
+                        {
+                          "kind": "align",
+                          "width": " ",
+                          "contents": {
+                            "kind": "recurse_field",
+                            "field": "f_args"
+                          }
+                        },
+                        {
+                          "kind": "text",
+                          "text": ")"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     "RenamingClause": {
       "node": {
         "kind": "group",
@@ -6366,6 +6426,29 @@
               "kind": "recurse_field",
               "field": "f_expr"
             }
+          }
+        ]
+      }
+    },
+    "ValueSequence": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "["
+          },
+          {
+            "kind": "align",
+            "width": " ",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_iter_assoc"
+            }
+          },
+          {
+            "kind": "text",
+            "text": "]"
           }
         ]
       }

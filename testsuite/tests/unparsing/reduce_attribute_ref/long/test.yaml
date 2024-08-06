@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  This tests checks the indentation when all possible line breaks of a
+  `ReduceAttributeRef` are active.

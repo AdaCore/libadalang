@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  This tests checks that a `ReduceAttributeRef` is first broken before the
+  `Reduce` attribute.

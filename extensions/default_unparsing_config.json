@@ -601,26 +601,179 @@
     },
     "BinOp": {
       "node": {
-        "kind": "group",
-        "document": [
+        "kind": "ifKind",
+        "field": "f_op",
+        "default": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": []
+            },
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_left"
+                    }
+                  ]
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                },
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "matchers": [
           {
-            "kind": "recurse_field",
-            "field": "f_left"
+            "kind": "OpAnd",
+            "document": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_left"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                },
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  }
+                }
+              ]
+            }
           },
-          "line",
           {
-            "kind": "recurse_field",
-            "field": "f_op"
+            "kind": "OpAndThen",
+            "document": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_left"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                },
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  }
+                }
+              ]
+            }
           },
-          "whitespace",
           {
-            "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_right"
+            "kind": "OpOr",
+            "document": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_left"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                },
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "kind": "OpOrElse",
+            "document": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_left"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                },
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "kind": "OpXor",
+            "document": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_left"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_op"
+                },
+                "whitespace",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  }
+                }
+              ]
             }
           }
         ]
+      },
+      "fields": {
+        "f_left": {
+          "kind": "recurse_flatten",
+          "if": [
+            "BinOp"
+          ]
+        }
       }
     },
     "BracketAggregate": {
@@ -1609,6 +1762,42 @@
         ]
       }
     },
+    "DeclExpr": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "declare"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_decls"
+              }
+            ]
+          },
+          "hardline",
+          {
+            "kind": "text",
+            "text": "begin"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              "hardline",
+              {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "DeclList": {
       "sep": [
         "recurse",
@@ -2258,8 +2447,7 @@
                 "field": "f_stmts"
               }
             ]
-          },
-          "hardlineWithoutBreakParent"
+          }
         ]
       }
     },
@@ -2267,6 +2455,12 @@
       "sep": [
         "recurse",
         "line"
+      ]
+    },
+    "ElsifStmtPartList": {
+      "sep": [
+        "recurse",
+        "hardlineWithoutBreakParent"
       ]
     },
     "ExceptionDecl": {
@@ -3423,8 +3617,11 @@
               {
                 "kind": "continuationLineIndent",
                 "contents": {
-                  "kind": "recurse_field",
-                  "field": "f_cond_expr"
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_cond_expr"
+                  }
                 }
               },
               "line",
@@ -3470,18 +3667,34 @@
       },
       "fields": {
         "f_alternatives": {
-          "kind": "group",
-          "document": "recurse"
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            "recurse",
+            "hardlineWithoutBreakParent"
+          ]
         },
         "f_else_stmts": [
           {
-            "kind": "indent",
-            "contents": [
-              "hardlineWithoutBreakParent",
-              "recurse"
-            ]
+            "kind": "text",
+            "text": "else"
           },
-          "hardlineWithoutBreakParent"
+          {
+            "kind": "ifEmpty",
+            "then": [
+              "recurse"
+            ],
+            "else": [
+              {
+                "kind": "indent",
+                "contents": [
+                  "hardlineWithoutBreakParent",
+                  "recurse"
+                ]
+              },
+              "hardlineWithoutBreakParent"
+            ]
+          }
         ]
       }
     },
@@ -3786,11 +3999,12 @@
             "kind": "recurse_field",
             "field": "f_decl"
           },
+          "whitespace",
           {
             "kind": "text",
             "text": ":"
           },
-          "hardlineWithoutBreakParent",
+          "hardline",
           {
             "kind": "recurse_field",
             "field": "f_stmt"
@@ -3956,6 +4170,25 @@
         "recurse",
         "whitespace"
       ]
+    },
+    "ModIntTypeDef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "mod"
+          },
+          "whitespace",
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          }
+        ]
+      }
     },
     "NoTypeObjectRenamingDecl": {
       "node": {
@@ -4748,12 +4981,24 @@
     },
     "ParenExpr": {
       "node": {
-        "kind": "align",
-        "width": " ",
-        "contents": {
-          "kind": "group",
-          "document": "recurse"
-        }
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "innerRoot",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          },
+          {
+            "kind": "text",
+            "text": ")"
+          }
+        ]
       }
     },
     "ParentList": {
@@ -5221,8 +5466,16 @@
                 "kind": "text",
                 "text": "with"
               },
-              "whitespace",
-              "recurse"
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    "line",
+                    "recurse"
+                  ]
+                }
+              }
             ]
           }
         }
@@ -5248,6 +5501,66 @@
             }
           ]
         }
+      }
+    },
+    "ReduceAttributeRef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_prefix"
+          },
+          {
+            "kind": "text",
+            "text": "'"
+          },
+          {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "group",
+              "document": [
+                "softline",
+                {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_attribute"
+                    },
+                    {
+                      "kind": "continuationLineIndent",
+                      "contents": [
+                        "line",
+                        {
+                          "kind": "group",
+                          "document": [
+                            {
+                              "kind": "text",
+                              "text": "("
+                            },
+                            {
+                              "kind": "align",
+                              "width": " ",
+                              "contents": {
+                                "kind": "recurse_field",
+                                "field": "f_args"
+                              }
+                            },
+                            {
+                              "kind": "text",
+                              "text": ")"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "RenamingClause": {
@@ -5397,21 +5710,30 @@
         "kind": "group",
         "document": [
           {
-            "kind": "recurse_field",
-            "field": "f_left"
+            "kind": "group",
+            "document": []
           },
-          "line",
           {
-            "kind": "recurse_field",
-            "field": "f_op"
-          },
-          "whitespace",
-          {
-            "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_right"
-            }
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_left"
+              },
+              "line",
+              {
+                "kind": "recurse_field",
+                "field": "f_op"
+              },
+              "whitespace",
+              {
+                "kind": "innerRoot",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_right"
+                }
+              }
+            ]
           }
         ]
       }
@@ -5420,7 +5742,7 @@
       "node": {
         "kind": "continuationLineIndent",
         "contents": {
-          "kind": "fill",
+          "kind": "group",
           "document": "recurse"
         }
       },
@@ -5928,6 +6250,56 @@
         }
       }
     },
+    "SubtypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "subtype"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  "line",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_subtype"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "SubtypeIndication": {
       "node": {
         "kind": "group",
@@ -6366,6 +6738,29 @@
               "kind": "recurse_field",
               "field": "f_expr"
             }
+          }
+        ]
+      }
+    },
+    "ValueSequence": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "["
+          },
+          {
+            "kind": "align",
+            "width": " ",
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_iter_assoc"
+            }
+          },
+          {
+            "kind": "text",
+            "text": "]"
           }
         ]
       }

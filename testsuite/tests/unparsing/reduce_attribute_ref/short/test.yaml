@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  Test that when a `ReduceAttributeRef` fits in a single line, it does not
+  break.

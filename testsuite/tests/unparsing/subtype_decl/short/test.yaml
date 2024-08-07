@@ -1,0 +1,4 @@
+driver: unparser
+rule: subtype_decl
+description: |
+  Test that no line breaks are added when the `SubtypeDecl` fits on one line.

@@ -1,0 +1,5 @@
+driver: unparser
+rule: if_stmt
+descrition: |
+  Test that the expression inside a `ParenExpr` has a continuation line
+  indentation of 1.

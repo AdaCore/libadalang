@@ -1,0 +1,7 @@
+driver: unparser
+rule: raise_stmt
+description: |
+  This test checks the formatting of a `RaiseExpr` that has a long
+  `f_error_message` which consists of concatenations.
+  It is expected `f_error_message` to be continuation line indented relative to
+  `with`.

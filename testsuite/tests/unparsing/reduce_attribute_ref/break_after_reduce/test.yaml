@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr
+description: |
+  This tests checks that a `ReduceAttributeRef` first tries to break after the
+  `Reduce` attribute and not the `f_args` field.

@@ -1,0 +1,4 @@
+driver: unparser
+rule: type_decl
+description: |
+  Test the line break before the `ModIntTypeDef`.

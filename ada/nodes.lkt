@@ -12748,10 +12748,11 @@ class AttributeRef: Name {
 
     @with_dynvars(env)
     fun env_elements_impl(): Array[Entity[AdaNode]] =
-        if node.attribute.sym() == s"Unrestricted_Access" then (
+        if node.is_access_attr() then (
             # We need to implement env_elements_impl for this attribute to
-            # handle the `X'Unrestricted_Access.all` pattern, because the
-            # ExplicitDeref node expects it to return the declarations of `X`.
+            # handle the `X'[Unchecked|Unrestricted_]Access.all` pattern,
+            # because the ExplicitDeref node expects it to return the
+            # declarations of `X`.
             self.prefix.env_elements_impl()
         )
         else null[Array[Entity[AdaNode]]]

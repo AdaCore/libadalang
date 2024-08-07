@@ -3227,12 +3227,6 @@
           {
             "kind": "continuationLineIndent",
             "contents": [
-              "line",
-              {
-                "kind": "text",
-                "text": "renames"
-              },
-              "whitespace",
               {
                 "kind": "recurse_field",
                 "field": "f_renames"
@@ -3441,18 +3435,10 @@
           },
           {
             "kind": "continuationLineIndent",
-            "contents": [
-              "line",
-              {
-                "kind": "text",
-                "text": "renames"
-              },
-              "whitespace",
-              {
-                "kind": "recurse_field",
-                "field": "f_renames"
-              }
-            ]
+            "contents": {
+              "kind": "recurse_field",
+              "field": "f_renames"
+            }
           },
           {
             "kind": "recurse_field",

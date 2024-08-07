@@ -8993,7 +8993,7 @@ class GenericInstantiation: BasicDecl {
 
     @memoized
     fun instantiation_bindings_internal(): Array[InnerEnvAssoc] =
-        if self.is_any_formal() then null[Array[InnerEnvAssoc]] else node.nonbound_generic_decl_from_self()?.formal_part.match_param_list(self.generic_inst_params(), false).map(
+        if self.is_any_formal() then null[Array[InnerEnvAssoc]] else node.nonbound_generic_decl_from_self().as![GenericDecl].formal_part.match_param_list(self.generic_inst_params(), false).map(
             (pm, i) => InnerEnvAssoc(
                 key=pm.formal.name.name_symbol(), value=# Do not put formal subprograms in the rebindings to
                 # avoid them being eagerly resolved to an actual, as
@@ -9023,7 +9023,10 @@ class GenericInstantiation: BasicDecl {
 
     |" Return the generic package designated by the right hand part of this
     |" generic package instantiation as seen from the current generic context.
-    fun nonbound_generic_decl_from_entity(): Entity[GenericDecl] =
+    |"
+    |" See nonbound_generic_decl_from_self property below for follow_renaming
+    |" parameter documentation.
+    fun nonbound_generic_decl_from_entity(follow_renaming : Bool = true): Entity[BasicDecl] =
         self.generic_entity_name().all_env_elements_internal(
             seq=true, seq_from=node, categories=RefCategories(inherited_primitives=false, _=true)
         ).find((e) => node.has_visibility(e)).do(
@@ -9033,16 +9036,20 @@ class GenericInstantiation: BasicDecl {
 
                     b.decl_part()
                 }
-                case rd: GenericRenamingDecl => rd.resolve()
+                case rd: GenericRenamingDecl => if follow_renaming then rd.resolve() else rd
                 case d: BasicDecl => d
-                case _ => null[Entity[GenericDecl]]
-            }.as[GenericDecl]
+                case _ => null[Entity[BasicDecl]]
+            }
         )
 
     |" Return the generic package designated by the right hand part of this
     |" generic package instantiation from a bare generic context.
-    fun nonbound_generic_decl_from_self(): Entity[GenericDecl] =
-        node.as_bare_entity.nonbound_generic_decl_from_entity()
+    |"
+    |" By default, this property follows renaming declarations to return the
+    |" designated generic declaration. Set follow_renaming to false in order to
+    |" return the renaming declaration instead if any.
+    fun nonbound_generic_decl_from_self(follow_renaming : Bool = true) : Entity[BasicDecl] =
+        node.as_bare_entity.nonbound_generic_decl_from_entity(follow_renaming)
 
     |" Return the generic decl entity designated by this instantiation,
     |" including instantiation information. This is equivalent to the expanded
@@ -9114,7 +9121,7 @@ class GenericInstantiation: BasicDecl {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-        %eq(self.generic_entity_name().ref_var(), self.nonbound_generic_decl_from_self()) and match self.generic_entity_name() {
+        %eq(self.generic_entity_name().ref_var(), self.nonbound_generic_decl_from_self(false)) and match self.generic_entity_name() {
             case dn: DottedName => dn.prefix.xref_no_overloading()
             case _ => %true
         }
@@ -9191,7 +9198,7 @@ class GenericInstantiation: BasicDecl {
     |" generic instantiation. Returns null if none is provided, even if there
     |" is a default value.
     fun actual_for_formal(formal_name: DefiningName): Entity[Expr] = {
-        val gen_decl = node.nonbound_generic_decl_from_self();
+        val gen_decl = node.nonbound_generic_decl_from_self().as[GenericDecl];
 
         gen_decl?.formal_part.match_param_list(self.generic_inst_params(), false).find((pm) => pm.formal.node == formal_name).do((pm) => pm.actual.assoc.expr())
     }
@@ -9380,7 +9387,7 @@ class GenericRenamingDecl: BasicDecl {
 |" Declaration for a generic package renaming (:rmlink:`8.5.5`).
 class GenericPackageRenamingDecl: GenericRenamingDecl {
     @parse_field name: DefiningName
-    @parse_field renames: Name
+    @parse_field renames: RenamingClause
     @parse_field aspects: AspectSpec
 
     fun defining_names(): Array[Entity[DefiningName]] = [self.name]
@@ -9388,7 +9395,7 @@ class GenericPackageRenamingDecl: GenericRenamingDecl {
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv = self.resolve().defining_env()
 
-    fun renaming_name(): Entity[Name] = self.renames
+    fun renaming_name(): Entity[Name] = self.renames.renamed_object
 
     env_spec {
         do(node.env_hook())
@@ -9409,12 +9416,12 @@ class GenericPackageRenamingDecl: GenericRenamingDecl {
 class GenericSubpRenamingDecl: GenericRenamingDecl {
     @parse_field kind: SubpKind
     @parse_field name: DefiningName
-    @parse_field renames: Name
+    @parse_field renames: RenamingClause
     @parse_field aspects: AspectSpec
 
     fun defining_names(): Array[Entity[DefiningName]] = [self.name]
 
-    fun renaming_name(): Entity[Name] = self.renames
+    fun renaming_name(): Entity[Name] = self.renames.renamed_object
 
     env_spec {
         do(node.env_hook())

@@ -1,0 +1,59 @@
+Working on node <GenericPackageInternal ["O"] test_pkg.adb:4:4-5:10>
+====================================================================
+
+Set 'pkg_name' to 'node.f_package_name'
+Result: <DefiningName "O" test_pkg.adb:4:12-4:13>
+
+Eval 'pkg_name.p_find_all_references([node.unit], follow_renamings=True)'
+Result: [<RefResult ref=<Id "O" test_pkg.adb:5:8-5:9> kind=precise>,
+         <RefResult ref=<Id "O" test_pkg.adb:10:30-10:31> kind=precise>,
+         <RefResult ref=<Id "R" test_pkg.adb:13:21-13:22> kind=precise>]
+
+Eval 'pkg_name.p_find_all_references([node.unit], follow_renamings=False)'
+Result: [<RefResult ref=<Id "O" test_pkg.adb:5:8-5:9> kind=precise>,
+         <RefResult ref=<Id "O" test_pkg.adb:10:30-10:31> kind=precise>]
+
+Working on node <GenericPackageRenamingDecl ["R"] test_pkg.adb:10:4-10:32>
+==========================================================================
+
+Eval 'node.f_name.p_find_all_references([node.unit])'
+Result: [<RefResult ref=<Id "R" test_pkg.adb:13:21-13:22> kind=precise>]
+
+Working on node <GenericPackageInstantiation ["K"] test_pkg.adb:13:4-13:33>
+===========================================================================
+
+Eval 'node.f_generic_pkg_name.p_gnat_xref()'
+Result: <DefiningName "R" test_pkg.adb:10:20-10:21>
+
+Eval 'node.f_generic_pkg_name.p_referenced_decl()'
+Result: <GenericPackageRenamingDecl ["R"] test_pkg.adb:10:4-10:32>
+
+Working on node <GenericSubpDecl ["O"] test_subp.adb:2:4-4:24>
+==============================================================
+
+Set 'subp_name' to 'node.p_defining_names[0]'
+Result: <DefiningName "O" test_subp.adb:4:14-4:15>
+
+Eval 'subp_name.p_find_all_references([node.unit], follow_renamings=True)'
+Result: [<RefResult ref=<Id "O" test_subp.adb:9:14-9:15> kind=precise>,
+         <RefResult ref=<Id "O" test_subp.adb:14:32-14:33> kind=precise>,
+         <RefResult ref=<Id "R" test_subp.adb:17:23-17:24> kind=precise>]
+
+Eval 'subp_name.p_find_all_references([node.unit], follow_renamings=False)'
+Result: [<RefResult ref=<Id "O" test_subp.adb:9:14-9:15> kind=precise>,
+         <RefResult ref=<Id "O" test_subp.adb:14:32-14:33> kind=precise>]
+
+Working on node <GenericSubpRenamingDecl ["R"] test_subp.adb:14:4-14:34>
+========================================================================
+
+Eval 'node.f_name.p_find_all_references([node.unit])'
+Result: [<RefResult ref=<Id "R" test_subp.adb:17:23-17:24> kind=precise>]
+
+Working on node <GenericSubpInstantiation ["K"] test_subp.adb:17:4-17:35>
+=========================================================================
+
+Eval 'node.f_generic_subp_name.p_gnat_xref()'
+Result: <DefiningName "R" test_subp.adb:14:22-14:23>
+
+Eval 'node.f_generic_subp_name.p_referenced_decl()'
+Result: <GenericSubpRenamingDecl ["R"] test_subp.adb:14:4-14:34>

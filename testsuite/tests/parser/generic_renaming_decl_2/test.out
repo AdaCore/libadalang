@@ -4,5 +4,7 @@ GenericPackageRenamingDecl[1:1-1:29]
 |  |f_name:
 |  |  Id[1:17-1:18]: A
 |f_renames:
-|  Id[1:27-1:28]: B
+|  RenamingClause[1:19-1:28]
+|  |f_renamed_object:
+|  |  Id[1:27-1:28]: B
 |f_aspects: <null>

@@ -4325,6 +4325,9 @@
             "field": "f_overriding"
           },
           {
+            "kind": "group",
+            "document": [
+          {
             "kind": "recurse_field",
             "field": "f_subp_spec"
           },
@@ -4344,12 +4347,14 @@
           {
             "kind": "text",
             "text": ";"
+              }
+            ]
           }
         ]
       },
       "fields": {
         "f_aspects": [
-          "hardlineWithoutBreakParent",
+          "line",
           "recurse"
         ]
       }

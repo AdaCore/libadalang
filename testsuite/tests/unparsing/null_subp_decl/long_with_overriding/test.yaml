@@ -1,0 +1,6 @@
+driver: unparser
+rule: null_subp_decl
+description: |
+  On a `NullSubpSecl` whose `f_overriding` is not `OverridingAbsent`, test
+  that a line break is added before the `is` keyword and that it has the same
+  indentation as the `function` keyword.

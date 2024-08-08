@@ -1,6 +1,5 @@
 protected body Resource is
-   entry Seize when not Busy
-   is
+   entry Seize when not Busy is
    begin
       Busy := True;
    end Seize;

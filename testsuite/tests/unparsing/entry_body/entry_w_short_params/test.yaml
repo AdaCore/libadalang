@@ -1,0 +1,5 @@
+driver: unparser
+rule: entry_body
+description:
+  This test checks the formatting of a short `EntryBody` with `f_params`.
+  It is expected that the entire spec fits in a single line.

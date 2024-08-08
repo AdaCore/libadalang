@@ -2107,6 +2107,15 @@
         "kind": "group",
         "document": [
           {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
             "kind": "text",
             "text": "entry"
           },
@@ -2122,12 +2131,20 @@
           {
             "kind": "recurse_field",
             "field": "f_params"
+                      }
+                    ]
           },
           {
             "kind": "recurse_field",
             "field": "f_aspects"
           },
-          "whitespace",
+                  {
+                    "kind": "continuationLineIndent",
+                    "contents": [
+                      "line",
+                      {
+                        "kind": "group",
+                        "document": [
           {
             "kind": "text",
             "text": "when"
@@ -2135,16 +2152,30 @@
           {
             "kind": "recurse_field",
             "field": "f_barrier"
-          },
-          "hardlineWithoutBreakParent",
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "line",
           {
             "kind": "text",
             "text": "is"
+              }
+            ]
           },
+          {
+            "kind": "indent",
+            "contents": [
           {
             "kind": "recurse_field",
             "field": "f_decls"
+              }
+            ]
           },
+          "hardlineWithoutBreakParent",
           {
             "kind": "text",
             "text": "begin"
@@ -2170,18 +2201,9 @@
       },
       "fields": {
         "f_aspects": [
-          "hardline",
-          "recurse"
-        ],
-        "f_decls": [
-          {
-            "kind": "indent",
-            "contents": [
+          "line",
               "recurse"
             ]
-          },
-          "hardlineWithoutBreakParent"
-        ]
       }
     },
     "EntryCompletionFormalParams": {

@@ -1,0 +1,185 @@
+Analyzing pkg.ads
+#################
+
+Resolving xrefs for node <GenericPackageInstantiation ["My_Impl"] pkg.ads:12:7-12:55>
+*************************************************************************************
+
+Expr: <DottedName pkg.ads:12:30-12:38>
+  references:    <| DefiningName "Gen" trait.ads:7:12-7:15 [pkg.ads:5:9] |>
+  type:          None
+  expected type: None
+Expr: <Id "Impl" pkg.ads:12:30-12:34>
+  references:    <DefiningName "Impl" pkg.ads:5:17-5:21>
+  type:          None
+  expected type: None
+Expr: <Id "Gen" pkg.ads:12:35-12:38>
+  references:    <| DefiningName "Gen" trait.ads:7:12-7:15 [pkg.ads:5:9] |>
+  type:          None
+  expected type: None
+Expr: <Id "My_Trait_Impl" pkg.ads:12:40-12:53>
+  references:    <DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Gen"] trait.ads:5:4-9:12 [pkg.ads:5:9, pkg.ads:12:7] |>
+*******************************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Impl"] trait.ads:6:12-6:54 [pkg.ads:5:9, pkg.ads:12:7] |>
+*******************************************************************************************************************
+
+Expr: <| DottedName trait.ads:6:32-6:48 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "Trait" trait_impl.ads:5:12-5:17>
+  type:          None
+  expected type: None
+Expr: <| Id "Trait_Impl" trait.ads:6:32-6:42 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "Trait_Impl" trait_impl.ads:1:9-1:19>
+  type:          None
+  expected type: None
+Expr: <| Id "Trait" trait.ads:6:43-6:48 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "Trait" trait_impl.ads:5:12-5:17>
+  type:          None
+  expected type: None
+Expr: <| BoxExpr trait.ads:6:50-6:52 [pkg.ads:5:9, pkg.ads:12:7] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Trait"] trait_impl.ads:2:4-6:14 [pkg.ads:5:9, pkg.ads:11:7] |>
+**************************************************************************************************************
+
+Resolving xrefs for node <| FormalTypeDecl ["T"] trait_impl.ads:3:7-3:25 [pkg.ads:5:9, pkg.ads:11:7] |>
+*******************************************************************************************************
+
+
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] trait_impl.ads:4:12-4:34 [pkg.ads:5:9, pkg.ads:11:7] |>
+******************************************************************************************************************
+
+
+Resolving xrefs for node <| SubpSpec trait_impl.ads:4:12-4:33 [pkg.ads:5:9, pkg.ads:11:7] |>
+********************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] trait_impl.ads:4:27-4:32 [pkg.ads:5:9, pkg.ads:11:7] |>
+***************************************************************************************************
+
+Expr: <| Id "T" trait_impl.ads:4:31-4:32 [pkg.ads:5:9, pkg.ads:11:7] |>
+  references:    <DefiningName "T" pkg.ads:8:12-8:13>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName trait_impl.ads:6:8-6:13 [pkg.ads:5:9, pkg.ads:11:7] |>
+******************************************************************************************
+
+Expr: <| EndName trait_impl.ads:6:8-6:13 [pkg.ads:5:9, pkg.ads:11:7] |>
+  references:    <| DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28 [pkg.ads:5:9] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Trait" trait_impl.ads:6:8-6:13 [pkg.ads:5:9, pkg.ads:11:7] |>
+  references:    <| DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28 [pkg.ads:5:9] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| SubpSpec trait.ads:8:7-8:33 [pkg.ads:5:9, pkg.ads:12:7] |>
+**************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] trait.ads:8:22-8:32 [pkg.ads:5:9, pkg.ads:12:7] |>
+**********************************************************************************************
+
+Expr: <| DottedName trait.ads:8:26-8:32 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "T" pkg.ads:8:12-8:13>
+  type:          None
+  expected type: None
+Expr: <| Id "Impl" trait.ads:8:26-8:30 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28>
+  type:          None
+  expected type: None
+Expr: <| Id "T" trait.ads:8:31-8:32 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "T" pkg.ads:8:12-8:13>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName trait.ads:9:8-9:11 [pkg.ads:5:9, pkg.ads:12:7] |>
+*************************************************************************************
+
+Expr: <| EndName trait.ads:9:8-9:11 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "My_Impl" pkg.ads:12:15-12:22>
+  type:          None
+  expected type: None
+Expr: <| Id "Gen" trait.ads:9:8-9:11 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "My_Impl" pkg.ads:12:15-12:22>
+  type:          None
+  expected type: None
+
+Traversing generic node <| PackageBody ["Gen"] trait.adb:2:4-7:12 [pkg.ads:5:9, pkg.ads:12:7] |>
+************************************************************************************************
+
+Resolving xrefs for node <| SubpSpec trait.adb:3:7-3:33 [pkg.ads:5:9, pkg.ads:12:7] |>
+**************************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] trait.adb:3:22-3:32 [pkg.ads:5:9, pkg.ads:12:7] |>
+**********************************************************************************************
+
+Expr: <| DottedName trait.adb:3:26-3:32 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "T" pkg.ads:8:12-8:13>
+  type:          None
+  expected type: None
+Expr: <| Id "Impl" trait.adb:3:26-3:30 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28>
+  type:          None
+  expected type: None
+Expr: <| Id "T" trait.adb:3:31-3:32 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "T" pkg.ads:8:12-8:13>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| CallStmt trait.adb:5:10-5:23 [pkg.ads:5:9, pkg.ads:12:7] |>
+***************************************************************************************
+
+Expr: <| CallExpr trait.adb:5:10-5:22 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "Foo" pkg.ads:10:17-10:20>
+  type:          None
+  expected type: None
+Expr: <| DottedName trait.adb:5:10-5:18 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "Foo" pkg.ads:10:17-10:20>
+  type:          None
+  expected type: None
+Expr: <| Id "Impl" trait.adb:5:10-5:14 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28>
+  type:          None
+  expected type: None
+Expr: <| Id "Foo" trait.adb:5:15-5:18 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <DefiningName "Foo" pkg.ads:10:17-10:20>
+  type:          None
+  expected type: None
+Expr: <| Id "X" trait.adb:5:20-5:21 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <| DefiningName "X" trait.adb:3:22-3:23 [pkg.ads:5:9, pkg.ads:12:7] |>
+  type:          <FormalTypeDecl ["T"] pkg.ads:8:7-8:25>
+  expected type: <FormalTypeDecl ["T"] pkg.ads:8:7-8:25>
+
+Resolving xrefs for node <| EndName trait.adb:6:11-6:14 [pkg.ads:5:9, pkg.ads:12:7] |>
+**************************************************************************************
+
+Expr: <| EndName trait.adb:6:11-6:14 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <| DefiningName "Foo" trait.adb:3:17-3:20 [pkg.ads:5:9, pkg.ads:12:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Foo" trait.adb:6:11-6:14 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <| DefiningName "Foo" trait.adb:3:17-3:20 [pkg.ads:5:9, pkg.ads:12:7] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName trait.adb:7:8-7:11 [pkg.ads:5:9, pkg.ads:12:7] |>
+*************************************************************************************
+
+Expr: <| EndName trait.adb:7:8-7:11 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <| DefiningName "Gen" trait.adb:2:17-2:20 [pkg.ads:5:9, pkg.ads:12:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Gen" trait.adb:7:8-7:11 [pkg.ads:5:9, pkg.ads:12:7] |>
+  references:    <| DefiningName "Gen" trait.adb:2:17-2:20 [pkg.ads:5:9, pkg.ads:12:7] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

@@ -1856,12 +1856,26 @@ class AspectAssoc: AdaNode {
         elif self.id.name_is(s"Annotate") then self.expr.as[BaseAggregate].assocs.unpacked_params().logic_all(
             (sa, i) => if i < 2 then %true else sa.assoc.expr().annotate_argument_equation()
         )
+        elif self.id.name_is(s"Implicit_Dereference") then
+            self.implicit_dereference_equation(target.as[TypeDecl])
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
         # name resolve the expression.
         else self.expr.do(
             (e) => e.sub_equation(), default_val=%true
         ) or %true
+    }
+
+    |" Equation for the case where this is an aspect assoc for an
+    |" Implicit_Dereference aspect.
+    @with_dynvars(env, origin, entry_point)
+    fun implicit_dereference_equation(target: TypeDecl): Equation = {
+        val id = self.expr.as![Identifier];
+        val discr = target.as_entity.discriminants_list().find(
+            (l) => l.defining_names().any((n) => n.name_is(id.symbol))
+        );
+
+        %eq(id.ref_var(), discr)
     }
 
     |" Equation for the case where this is an aspect assoc for a

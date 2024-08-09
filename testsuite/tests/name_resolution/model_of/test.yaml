@@ -1,0 +1,3 @@
+driver: name-resolution
+input_sources: [models.ads]
+project_file: prj.gpr

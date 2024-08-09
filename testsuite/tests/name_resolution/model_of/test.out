@@ -1,0 +1,269 @@
+Analyzing models.ads
+####################
+
+Resolving xrefs for node <SubpSpec models.ads:4:4-4:37>
+*******************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X"] models.ads:4:25-4:36>
+***************************************************************
+
+Expr: <Id "Integer" models.ads:4:29-4:36>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc models.ads:5:12-5:31>
+***********************************************************
+
+Expr: <Id "Model_Of" models.ads:5:12-5:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:5:24-5:31>
+  references:    <DefiningName "Foo" pkg.ads:4:14-4:17>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:5:24-5:27>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" models.ads:5:28-5:31>
+  references:    <DefiningName "Foo" pkg.ads:4:14-4:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec models.ads:8:4-8:35>
+*******************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X"] models.ads:8:25-8:34>
+***************************************************************
+
+Expr: <DottedName models.ads:8:29-8:34>
+  references:    <DefiningName "T" pkg.ads:2:9-2:10>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:8:29-8:32>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "T" models.ads:8:33-8:34>
+  references:    <DefiningName "T" pkg.ads:2:9-2:10>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc models.ads:9:12-9:31>
+***********************************************************
+
+Expr: <Id "Model_Of" models.ads:9:12-9:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:9:24-9:31>
+  references:    <DefiningName "Foo" pkg.ads:5:14-5:17>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:9:24-9:27>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" models.ads:9:28-9:31>
+  references:    <DefiningName "Foo" pkg.ads:5:14-5:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec models.ads:12:4-12:51>
+*********************************************************
+
+Expr: <Id "Boolean" models.ads:12:44-12:51>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["X"] models.ads:12:24-12:35>
+*****************************************************************
+
+Expr: <Id "Boolean" models.ads:12:28-12:35>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc models.ads:13:12-13:37>
+*************************************************************
+
+Expr: <Id "Model_Of" models.ads:13:12-13:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:13:24-13:37>
+  references:    <DefiningName "Bar" pkg.ads:10:16-10:19>
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:13:24-13:33>
+  references:    <DefiningName "Inner" pkg.ads:8:12-8:17>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:13:24-13:27>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Inner" models.ads:13:28-13:33>
+  references:    <DefiningName "Inner" pkg.ads:8:12-8:17>
+  type:          None
+  expected type: None
+Expr: <Id "Bar" models.ads:13:34-13:37>
+  references:    <DefiningName "Bar" pkg.ads:10:16-10:19>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec models.ads:16:4-16:37>
+*********************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X"] models.ads:16:25-16:36>
+*****************************************************************
+
+Expr: <Id "Integer" models.ads:16:29-16:36>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc models.ads:17:12-17:35>
+*************************************************************
+
+Expr: <Id "Model_of" models.ads:17:12-17:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:17:24-17:35>
+  references:    <DefiningName "Baz" pkg.ads:16:17-16:20>
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:17:24-17:31>
+  references:    <DefiningName "Gen" pkg.ads:15:12-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:17:24-17:27>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Gen" models.ads:17:28-17:31>
+  references:    <DefiningName "Gen" pkg.ads:15:12-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "Baz" models.ads:17:32-17:35>
+  references:    <DefiningName "Baz" pkg.ads:16:17-16:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec models.ads:20:4-20:39>
+*********************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X"] models.ads:20:25-20:38>
+*****************************************************************
+
+Expr: <DottedName models.ads:20:29-20:38>
+  references:    <DefiningName "F" pkg.ads:14:12-14:13>
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:20:29-20:36>
+  references:    <DefiningName "Gen" pkg.ads:15:12-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:20:29-20:32>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Gen" models.ads:20:33-20:36>
+  references:    <DefiningName "Gen" pkg.ads:15:12-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "F" models.ads:20:37-20:38>
+  references:    <DefiningName "F" pkg.ads:14:12-14:13>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc models.ads:21:12-21:35>
+*************************************************************
+
+Expr: <Id "Model_of" models.ads:21:12-21:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:21:24-21:35>
+  references:    <DefiningName "Baz" pkg.ads:17:17-17:20>
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:21:24-21:31>
+  references:    <DefiningName "Gen" pkg.ads:15:12-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:21:24-21:27>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Gen" models.ads:21:28-21:31>
+  references:    <DefiningName "Gen" pkg.ads:15:12-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "Baz" models.ads:21:32-21:35>
+  references:    <DefiningName "Baz" pkg.ads:17:17-17:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <SubpSpec models.ads:24:4-24:44>
+*********************************************************
+
+
+Resolving xrefs for node <ParamSpec ["X"] models.ads:24:32-24:43>
+*****************************************************************
+
+Expr: <Id "Integer" models.ads:24:36-24:43>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc models.ads:25:12-25:38>
+*************************************************************
+
+Expr: <Id "Model_Of" models.ads:25:12-25:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:25:24-25:38>
+  references:    <DefiningName "Gen_Proc_1" pkg.ads:22:14-22:24>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:25:24-25:27>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "Gen_Proc_1" models.ads:25:28-25:38>
+  references:    <DefiningName "Gen_Proc_1" pkg.ads:22:14-22:24>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc models.ads:29:12-29:29>
+*************************************************************
+
+Expr: <Id "Model_Of" models.ads:29:12-29:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName models.ads:29:24-29:29>
+  references:    <DefiningName "T" pkg.ads:2:9-2:10>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" models.ads:29:24-29:27>
+  references:    <DefiningName "Pkg" pkg.ads:1:9-1:12>
+  type:          None
+  expected type: None
+Expr: <Id "T" models.ads:29:28-29:29>
+  references:    <DefiningName "T" pkg.ads:2:9-2:10>
+  type:          None
+  expected type: None
+
+
+Done.

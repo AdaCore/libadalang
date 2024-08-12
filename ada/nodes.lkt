@@ -14477,9 +14477,11 @@ class DottedName: Name {
                 base and %eq(node.expected_type_var(), node.suffix.expected_type_var())
             ) and %eq(node.type_var(), node.suffix.type_var())
         ) and self.env_elements().do(
-            (env_els) => env_els.logic_any(
-                (e) => %eq(node.suffix.ref_var(), e) and e.as[BasicDecl].constrain_prefix(node.prefix)
-            ), default_val=self.undefined_reference_equation()
+            (env_els) => env_els.logic_any((e) => {
+                val actual = e.as[BasicDecl].corresponding_actual();
+                %eq(node.suffix.ref_var(), actual)
+                and actual.constrain_prefix(node.prefix)
+            }), default_val=self.undefined_reference_equation()
         )
     }
 

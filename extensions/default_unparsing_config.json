@@ -1186,7 +1186,8 @@
         {
           "kind": "recurse_field",
           "field": "f_pragmas"
-        }
+        },
+        "hardline"
       ],
       "fields": {
         "f_prelude": {

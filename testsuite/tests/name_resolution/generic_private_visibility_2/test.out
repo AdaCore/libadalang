@@ -1,0 +1,29 @@
+Working on node <GenericPackageInstantiation ["Err"] test.adb:39:4-40:34>
+=========================================================================
+
+Set 'gen_pkg' to 'node.p_designated_generic_decl'
+Result: <| GenericPackageDecl ["Indefinite_Vectors"] test.adb:27:4-37:27 [test.adb:39:4] |>
+
+Set 'sort_inst' to 'gen_pkg.find(lal.GenericSubpInstantiation)'
+Result: <| GenericSubpInstantiation ["Sort"] test.adb:34:7-36:42 [test.adb:39:4] |>
+
+Set 'gen_sort' to 'sort_inst.p_designated_generic_decl'
+Result: <| GenericSubpDecl ["Generic_Array_Sort"] test.adb:13:4-16:58 [test.adb:39:4, test.adb:34:7] |>
+
+Set 'gen_sort_body' to 'gen_sort.p_body_part()'
+Result: <| SubpBody ["Generic_Array_Sort"] test.adb:18:4-25:27 [test.adb:39:4, test.adb:34:7] |>
+
+Set 'constr_sort_inst' to 'gen_sort_body.find(lal.GenericSubpInstantiation)'
+Result: <| GenericSubpInstantiation ["Sort"] test.adb:20:7-22:41 [test.adb:39:4, test.adb:34:7] |>
+
+Set 'gen_constr_sort' to 'constr_sort_inst.p_designated_generic_decl'
+Result: <| GenericSubpDecl ["Generic_Constrained_Array_Sort"] test.adb:2:4-5:62 [test.adb:39:4, test.adb:34:7, test.adb:20:7] |>
+
+Set 'sort_body' to 'gen_constr_sort.p_body_part()'
+Result: <| SubpBody ["Generic_Constrained_Array_Sort"] test.adb:7:4-11:39 [test.adb:39:4, test.adb:34:7, test.adb:20:7] |>
+
+Set 'e_decl' to 'sort_body.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["E"] test.adb:8:7-8:33 [test.adb:39:4, test.adb:34:7, test.adb:20:7] |>
+
+Eval 'e_decl.f_default_expr.p_expression_type'
+Result: <| ConcreteTypeDecl ["Element_Access"] test.adb:32:7-32:50 [test.adb:39:4] |>

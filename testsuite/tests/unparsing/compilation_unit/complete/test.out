@@ -6,3 +6,4 @@ package Baz is
 end Baz;
 
 pragma Corge;
+

@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr_fn
+description: |
+  Test the line breaks after `f_overriding` and before the `is` keyword on a
+  long `ExprFunction`.

@@ -1,4 +1,5 @@
 driver: unparser
 rule: expr_fn
 description: |
-  Test that there are no line breaks.
+  Test the line breaks before the `is` and `with` keywords on an
+  `ExprFunction` that could fit in a single line.

@@ -2669,43 +2669,36 @@
           },
           {
             "kind": "group",
+            "document": {
+              "kind": "recurse_field",
+              "field": "f_subp_spec"
+            }
+          },
+          "hardline",
+          {
+            "kind": "group",
             "document": [
               {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_subp_spec"
-                  },
-                  "line",
-                  {
-                    "kind": "group",
-                    "document": [
-                      {
-                        "kind": "text",
-                        "text": "is"
-                      },
-                      "whitespace",
-                      {
-                        "kind": "indent",
-                        "contents": {
-                          "kind": "recurse_field",
-                          "field": "f_expr"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "kind": "recurse_field",
-                "field": "f_aspects"
-              },
-              {
                 "kind": "text",
-                "text": ";"
+                "text": "is"
+              },
+              "whitespace",
+              {
+                "kind": "indent",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_expr"
+                }
               }
             ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
           }
         ]
       },

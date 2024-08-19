@@ -15,26 +15,22 @@ main (void)
 
     printf ("== config file ==\n\n");
 
-    ada_gpr_project_load (
-        "simple/p.gpr",
-        &scn_var_trail,
-        NULL,
-        NULL,
-        "empty.cgpr",
-        &gpr,
-        &errors
-    );
+    ada_gpr_project_load ("simple/p.gpr", &scn_var_trail, NULL, NULL,
+			  "empty.cgpr", &gpr, &errors);
 
-    print_exception(false);
-    if (errors->length > 0) {
-        printf("Errors:\n");
-        for (int i = 0 ; i < errors->length; i++) {
-            printf("   - %s\n", errors->c_ptr[i]);
-        }
-    }
+    print_exception (false);
+    if (errors->length > 0)
+      {
+        printf ("Errors:\n");
+        for (int i = 0 ; i < errors->length; i++)
+	  {
+	    printf ("   - %s\n", errors->c_ptr[i]);
+	  }
+      }
 
     ada_gpr_project_free (gpr);
     abort_on_exception ();
     ada_free_string_array (errors);
     abort_on_exception ();
+    return 0;
 }

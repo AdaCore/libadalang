@@ -14962,12 +14962,30 @@ class BaseId: SingleTokNode implements TokenNode {
         ).do(
             (env_el) => env_el.as[BaseTypeDecl].do(
                 (t) => if origin.is_null then {
+                    # When no origin is given (e.g. we are resolving from an
+                    # aspect), try to find a more complete definition of `t`
+                    # as seen from the reference if any, otherwise use `t`.
                     bind origin = node.origin_node();
 
                     t.most_visible_forward_part_for_name(
                         t.name_symbol(), seq=false
                     )
-                } else t.most_visible_part(),
+                }
+                else if self.info.from_rebound then
+                    # When the type was resolved from a formal using generic
+                    # instance information, try to find a more complete
+                    # definition from the origin if possible, otherwise `t`
+                    # will be used.
+                    t.most_visible_forward_part_for_name(
+                        t.name_symbol(), seq=false
+                    )
+                else
+                    # Otherwise, `t` itself might not actually be a visible
+                    # part of the type as seen from `origin`. So, check amongst
+                    # the previous and next part of `t` to find the most
+                    # complete part, or return null if the type is not at all
+                    # visible.
+                    t.most_visible_part(),
                 default_val=env_el
             ).do(
                 (v1) => match v1 {

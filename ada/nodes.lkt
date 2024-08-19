@@ -3015,12 +3015,19 @@ class AggregateAssoc: BasicAssoc {
         # If we're part of a multidim aggregate, then take the root aggregate's
         # type. Else, this is a regular aggregate. In this case grab the type
         # in type_val.
-        val td = if not mra.is_null then mra.typ else self.base_aggregate().type_val().as[BaseTypeDecl];
+        val td = if not mra.is_null then
+            mra.typ
+        else
+            self.base_aggregate().type_val().as[BaseTypeDecl];
+
         val atd = td?.array_def();
 
-        if agg.in_aspect(s"Global") or agg.in_aspect(s"Refined_Global") then self.globals_assoc_equation()
-        elif agg.in_aspect(s"Depends") or agg.in_aspect(s"Refined_Depends") then self.depends_assoc_equation()
-        elif agg.in_aspect(s"Test_Case") then self.test_case_assoc_equation()
+        if agg.in_aspect(s"Global") or agg.in_aspect(s"Refined_Global") then
+            self.globals_assoc_equation()
+        elif agg.in_aspect(s"Depends") or agg.in_aspect(s"Refined_Depends")
+            then self.depends_assoc_equation()
+        elif agg.in_aspect(s"Test_Case") then
+            self.test_case_assoc_equation()
         elif agg.in_aspect(s"Refined_State") then (
             # Simply resolve all names present in the Refined_State aspect,
             # as they must all refer to existing declarations.
@@ -3030,12 +3037,18 @@ class AggregateAssoc: BasicAssoc {
         # aggregate should be resolved by the special equation here. All
         # other agreggates included in the latter should use the regular
         # resolution path.
-        elif agg.parent.as[AspectAssoc]?.id.name_is(s"Contract_Cases") then self.contract_cases_assoc_equation()
-        elif agg is BracketAggregate and td?.has_aspect(s"Aggregate") then self.container_aggregate_equation(td)
-        elif agg.parent is AspectClause | AspectAssoc | PragmaArgumentAssoc then %true
-        elif agg is DeltaAggregate then self.delta_aggregate_assoc_equation()
-        elif atd.is_null then self.record_assoc_equation()
-        else self.array_assoc_equation(atd, mra)
+        elif agg.parent.as[AspectAssoc]?.id.name_is(s"Contract_Cases") then
+            self.contract_cases_assoc_equation()
+        elif agg is BracketAggregate and td?.has_aspect(s"Aggregate") then
+            self.container_aggregate_equation(td)
+        elif agg.parent is AspectClause | AspectAssoc | PragmaArgumentAssoc
+            then %true
+        elif agg is DeltaAggregate then
+            self.delta_aggregate_assoc_equation()
+        elif atd.is_null then
+            self.record_assoc_equation()
+        else
+            self.array_assoc_equation(atd, mra)
     }
 
     |" Equation for the case where this is an aggregate assoc for a
@@ -10964,21 +10977,17 @@ class BaseAggregate: Expr {
         # containing expression can leverage the knowledge that self is an
         # aggregate, by accepting only type that can be represented by an
         # aggregate (e.g. records and arrays).
-        val type_constraint = # In the following cases, the aggregate is not a real expression:
-        # it's merely re-used as a pure syntactic construct to aggregate
-        # information.
-        if (
-            (
-                (
-                    (
-                        (
-                            (
-                                node.in_aspect(s"Global") or node.in_aspect(s"Refined_Global")
-                            ) or node.in_aspect(s"Depends")
-                        ) or node.in_aspect(s"Refined_Depends")
-                    ) or node.in_aspect(s"Test_Case")
-                ) or node.in_aspect(s"Refined_State")
-            ) or node.in_aspect(s"Aggregate")
+        val type_constraint = if (
+            # In the following cases, the aggregate is not a real expression:
+            # it's merely re-used as a pure syntactic construct to aggregate
+            # information.
+            node.in_aspect(s"Global")
+            or node.in_aspect(s"Refined_Global")
+            or node.in_aspect(s"Depends")
+            or node.in_aspect(s"Refined_Depends")
+            or node.in_aspect(s"Test_Case")
+            or node.in_aspect(s"Refined_State")
+            or node.in_aspect(s"Aggregate")
         ) or (
             # Careful: normal aggregates can appear inside a contract_cases
             # aspect's expression, so we must only special case the direct

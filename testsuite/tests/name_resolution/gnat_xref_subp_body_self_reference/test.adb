@@ -1,4 +1,4 @@
-procedure P is
+procedure Test is
 begin
    null;
-end P;
+end Test;

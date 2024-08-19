@@ -1,6 +1,5 @@
-== config file ==
-
+empty.cgpr:5:08: undefined attribute "unknown_attribute"
 Got no exception
 
 Errors:
-   - p.gpr:1:09: no languages defined for this project
+   - empty.cgpr:5:08: undefined attribute "unknown_attribute"

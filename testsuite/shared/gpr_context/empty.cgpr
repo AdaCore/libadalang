@@ -1,3 +1,6 @@
 configuration project Default is
+
    --  Will raise an error at project loading
+
+   for Unknown_Attribute use "foo";
 end Default;

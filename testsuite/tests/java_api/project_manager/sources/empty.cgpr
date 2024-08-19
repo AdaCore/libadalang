@@ -1,3 +1,6 @@
-configuration project P1 is
+configuration project Default is
+
    --  Will raise an error at project loading
-end P1;
+
+   for Unknown_Attribute use "foo";
+end Default;

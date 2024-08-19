@@ -13,12 +13,14 @@ main (void)
     ada_string_array_ptr errors;
     ada_gpr_project_scenario_variable scn_var_trail = {NULL, NULL};
 
-    printf ("== config file ==\n\n");
-
     ada_gpr_project_load ("simple/p.gpr", &scn_var_trail, NULL, NULL,
 			  "empty.cgpr", &gpr, &errors);
+    if (print_exception (false))
+      return 0;
 
-    print_exception (false);
+    /* This is supposed to be dead code (the project loading is supposed to
+       abort with a fatal error), but just in case it does not, print the
+       errors we get.  */
     if (errors->length > 0)
       {
         printf ("Errors:\n");

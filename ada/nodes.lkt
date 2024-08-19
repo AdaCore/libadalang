@@ -4016,6 +4016,17 @@ class BasicDecl: AdaNode {
         ), default_val=false
     )
 
+    |" Predicate to check whether ``other``, is a valid renaming of ``self``,
+    |" an explicit dereference of an access to a subprogram object.
+    @with_dynvars(origin)
+    fun access_to_subp_decl_match_signature(other: Entity[BasicDecl]): Bool = (
+        self.expr_type().access_def().as[AccessToSubpDef].subp_spec.do(
+            (spec) => spec.match_signature(
+                other.subp_spec_or_null().as![SubpSpec], false
+            ), default_val=false
+        )
+    )
+
     |" Predicate to check whether ``other`` is a valid subprogram renaming
     |" of ``self``.
     |"
@@ -8500,11 +8511,30 @@ class SubpRenamingDecl: BaseSubpBody {
                 # renaming of an entry decl with a family member specified,
                 # so use sub_equation.
                 case ce: CallExpr => ce.sub_equation()
+                case ed: ExplicitDeref => ed.general_xref_equation(renamed_object.node)
 
                 # On the other cases, prefix is a simple identifier
                 case o => o.xref_no_overloading(all_els=true)
             } and (
-                if renamed_object is DottedName then %predicate(BasicDecl.subp_renaming_decl_match_signature, renamed_object.ref_var(), renamed_object.as[DottedName].prefix.ref_var(), self.as[BasicDecl]) else %predicate(BasicDecl.subp_decl_match_signature, renamed_object.ref_var(), self.as[BasicDecl])
+                if renamed_object is DottedName then
+                    %predicate(
+                        BasicDecl.subp_renaming_decl_match_signature,
+                        renamed_object.ref_var(),
+                        renamed_object.as[DottedName].prefix.ref_var(),
+                        self.as[BasicDecl]
+                    )
+                elif renamed_object is ExplicitDeref then
+                    %predicate(
+                        BasicDecl.access_to_subp_decl_match_signature,
+                        renamed_object.ref_var(),
+                        self.as[BasicDecl]
+                    )
+                else
+                    %predicate(
+                        BasicDecl.subp_decl_match_signature,
+                        renamed_object.ref_var(),
+                        self.as[BasicDecl]
+                    )
             )
         ) or (
             # Operators might be built-in, so if we cannot find a reference,

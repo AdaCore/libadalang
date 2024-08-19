@@ -1,0 +1,17 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpRenamingDecl ["Renamed_G"] test.adb:5:4-5:59>
+***************************************************************************
+
+Expr: <ExplicitDeref test.adb:5:45-5:58>
+  references:    <DefiningName "G_Pointer" test.adb:3:4-3:13>
+  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  expected type: None
+Expr: <Id "G_Pointer" test.adb:5:45-5:54>
+  references:    <DefiningName "G_Pointer" test.adb:3:4-3:13>
+  type:          <ConcreteTypeDecl ["String_Function"] test.adb:2:4-2:58>
+  expected type: <ConcreteTypeDecl ["String_Function"] test.adb:2:4-2:58>
+
+
+Done.

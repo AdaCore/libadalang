@@ -3,3 +3,8 @@
 <CompilationUnit test_foo.adb:1:1-7:5> does not have restriction No_Elaboration_Code
 <CompilationUnit foo-do_stuff.adb:2:1-6:14> has restriction No_Elaboration_Code
 <CompilationUnit pkg.ads:1:1-2:9> does not have restriction No_Elaboration_Code
+<CompilationUnit t.ads:1:1-4:36> has restriction No_Elaboration_Code
+<CompilationUnit t.adb:1:1-3:7> has restriction No_Elaboration_Code
+<CompilationUnit t-s.adb:1:1-5:7> has restriction No_Elaboration_Code
+<CompilationUnit t-u.ads:1:1-3:9> has restriction No_Elaboration_Code
+<CompilationUnit t-v.ads:1:1-2:9> has restriction No_Elaboration_Code

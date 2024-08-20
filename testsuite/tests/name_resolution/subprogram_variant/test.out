@@ -1,0 +1,228 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <SubpSpec test.adb:5:4-5:46>
+*****************************************************
+
+Expr: <Id "Boolean" test.adb:5:39-5:46>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["I"] test.adb:5:19-5:30>
+*************************************************************
+
+Expr: <Id "Integer" test.adb:5:23-5:30>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:7:9-7:51>
+********************************************************
+
+Expr: <Id "Subprogram_Variant" test.adb:7:9-7:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:7:31-7:51>
+  type:          None
+  expected type: None
+Expr: <Id "Increases" test.adb:7:32-7:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <BinOp test.adb:7:45-7:50>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "I" test.adb:7:45-7:46>
+  references:    <DefiningName "I" test.adb:5:19-5:20>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test.adb:7:47-7:48>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:7:49-7:50>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <SubpSpec test.adb:10:4-10:46>
+*******************************************************
+
+Expr: <Id "Boolean" test.adb:10:39-10:46>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["I"] test.adb:10:19-10:30>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:10:23-10:30>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:12:9-12:54>
+**********************************************************
+
+Expr: <Id "Subprogram_Variant" test.adb:12:9-12:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:12:31-12:54>
+  type:          None
+  expected type: None
+Expr: <Id "Decreases" test.adb:12:32-12:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <UnOp test.adb:12:45-12:53>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <OpMinus "-" test.adb:12:45-12:46>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <ParenExpr test.adb:12:46-12:53>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <BinOp test.adb:12:47-12:52>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "I" test.adb:12:47-12:48>
+  references:    <DefiningName "I" test.adb:10:19-10:20>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <OpPlus "+" test.adb:12:49-12:50>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:12:51-12:52>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <SubpSpec test.adb:15:4-15:54>
+*******************************************************
+
+Expr: <Id "Boolean" test.adb:15:47-15:54>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["I"] test.adb:15:27-15:38>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:15:31-15:38>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:17:9-17:65>
+**********************************************************
+
+Expr: <Id "Subprogram_Variant" test.adb:17:9-17:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:17:31-17:65>
+  type:          None
+  expected type: None
+Expr: <Id "Decreases" test.adb:17:32-17:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:17:46-17:64>
+  references:    <DefiningName "To_Big_Integer" a-nbnbin.ads:49:13-49:27>
+  type:          <SubtypeDecl ["Valid_Big_Integer"] a-nbnbin.ads:35:4-37:52>
+  expected type: <ConcreteTypeDecl ["Big_Integer"] a-nbnbin.ads:26:4-28:40>
+Expr: <Id "To_Big_Integer" test.adb:17:46-17:60>
+  references:    <DefiningName "To_Big_Integer" a-nbnbin.ads:49:13-49:27>
+  type:          <SubtypeDecl ["Valid_Big_Integer"] a-nbnbin.ads:35:4-37:52>
+  expected type: None
+Expr: <Id "I" test.adb:17:62-17:63>
+  references:    <DefiningName "I" test.adb:15:27-15:28>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <SubpSpec test.adb:20:4-20:50>
+*******************************************************
+
+Expr: <Id "Boolean" test.adb:20:43-20:50>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["I", "J"] test.adb:20:20-20:34>
+********************************************************************
+
+Expr: <Id "Integer" test.adb:20:27-20:34>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:22:9-22:63>
+**********************************************************
+
+Expr: <Id "Subprogram_Variant" test.adb:22:9-22:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:22:31-22:63>
+  type:          None
+  expected type: None
+Expr: <Id "Increases" test.adb:22:32-22:41>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:22:45-22:46>
+  references:    <DefiningName "I" test.adb:20:20-20:21>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+Expr: <Id "Decreases" test.adb:22:48-22:57>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "J" test.adb:22:61-22:62>
+  references:    <DefiningName "J" test.adb:20:23-20:24>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+Resolving xrefs for node <SubpSpec test.adb:25:4-25:52>
+*******************************************************
+
+Expr: <Id "Boolean" test.adb:25:45-25:52>
+  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["I"] test.adb:25:25-25:36>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:25:29-25:36>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AspectAssoc test.adb:27:9-27:48>
+**********************************************************
+
+Expr: <Id "Subprogram_Variant" test.adb:27:9-27:27>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:27:31-27:48>
+  type:          None
+  expected type: None
+Expr: <Id "Structural" test.adb:27:32-27:42>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:27:46-27:47>
+  references:    <DefiningName "I" test.adb:25:25-25:26>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: None
+
+
+Done.

@@ -1,5 +1,5 @@
 driver: ada-api
 main: main.adb
-argv: [-Pp.gpr]
+argv: [-Pp.gpr, --gpr2]
 control:
   - [XFAIL, "valgrind", "Pending resolution of eng/gpr/gpr-issues#350"]

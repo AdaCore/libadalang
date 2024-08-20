@@ -1,17 +1,16 @@
 == nosuchgpr.gpr ==
 Got an exception (EXCEPTION_PROJECT_ERROR):
-  fatal error, cannot load the project tree
+  <working-dir>/nosuchgpr.gpr: fatal error, cannot load the project tree
 nosuchgpr.gpr: error: project file "<working-dir>/nosuchgpr.gpr" not found
 
 == nosuchtarget.gpr ==
 Got no exception
 
 error: kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
-error: nosuchtarget.gpr: warning: there are no sources of language "Ada" in this project
 
 == missingdep.gpr ==
 Got an exception (EXCEPTION_PROJECT_ERROR):
-  fatal error, cannot load the project tree
+  <working-dir>/missingdep.gpr: fatal error, cannot load the project tree
 missingdep.gpr:1:06: error: imported project file "foo.gpr" not found
 
 Done.

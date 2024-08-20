@@ -1,3 +1,5 @@
-Got an exception (EXCEPTION_PROJECT_ERROR):
-  fatal error, cannot load the project tree
-empty.cgpr:5:08: error: unrecognized attribute "Unknown_Attribute"
+empty.cgpr:5:08: undefined attribute "unknown_attribute"
+Got no exception
+
+Errors:
+   - empty.cgpr:5:08: undefined attribute "unknown_attribute"

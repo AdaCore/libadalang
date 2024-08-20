@@ -33,7 +33,7 @@ Preprocessor output on foo.adb:
 == Normal (no_such_project) ==
 
 Error while creating the preprocessor:
-  InvalidProject: no such project: no_such_project
+  ProjectError: no such project: no_such_project
 
 == No such file ==
 

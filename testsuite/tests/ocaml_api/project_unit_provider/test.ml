@@ -27,8 +27,9 @@ let () =
                   project_file |> GPRProject.create_unit_provider ~project : UnitProvider.t) ;
     (* These exceptions come from GNATCOLL and contain no message but a
      *  reference to a sloc in gnatcoll-project.adb, so not worth testing. *)
-    with InvalidProject s ->
-      Format.printf "@[<v>got InvalidProject %s@ @ @]" (format_exc_message s)
+    with
+      | ProjectError s ->
+        Format.printf "@[<v>got ProjectError %s@ @ @]" (format_exc_message s)
   in
   (* Try to load a project file that is not valid *)
   load_project "invalid.gpr" ;

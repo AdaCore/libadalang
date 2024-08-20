@@ -1,18 +1,18 @@
 == nosuchgpr.gpr:  ==
 
 --- BEFORE loading
-Got an exception: InvalidProject: gnatcoll-projects.adb:7668
-nosuchgpr.gpr is not a regular file
+Got an exception: ProjectError: fatal error, cannot load the project tree
+nosuchgpr.gpr: error: project file "<working-dir>/nosuchgpr.gpr" not found
 
 == nosuchtarget.gpr:  ==
 
 --- BEFORE loading
 Errors while loading nosuchtarget.gpr:
-Could not locate exec nosuchtarget-gnatls
+kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
 --- AFTER loading
 
 Errors:
-Could not locate exec nosuchtarget-gnatls
+kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
 
 == nosuchtarget.gpr: print_errors=False ==
 
@@ -20,22 +20,22 @@ Could not locate exec nosuchtarget-gnatls
 --- AFTER loading
 
 Errors:
-Could not locate exec nosuchtarget-gnatls
+kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
 
 == nosuchtarget.gpr: print_errors=True ==
 
 --- BEFORE loading
 Errors while loading nosuchtarget.gpr:
-Could not locate exec nosuchtarget-gnatls
+kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
 --- AFTER loading
 
 Errors:
-Could not locate exec nosuchtarget-gnatls
+kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
 
 == missingdep.gpr:  ==
 
 --- BEFORE loading
-Got an exception: InvalidProject: gnatcoll-projects.adb:7714
-missingdep.gpr:1:06: imported project file "foo" not found
+Got an exception: ProjectError: fatal error, cannot load the project tree
+missingdep.gpr:1:06: error: imported project file "foo.gpr" not found
 
 Done

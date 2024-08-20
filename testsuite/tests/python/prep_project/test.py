@@ -19,7 +19,7 @@ def check(label: str,
 
     try:
         fr = prj.create_preprocessor(project_name)
-    except (lal.FileReadError, lal.InvalidProject, lal.SyntaxError) as exc:
+    except (lal.FileReadError, lal.ProjectError, lal.SyntaxError) as exc:
         print("Error while creating the preprocessor:")
         print(f"  {type(exc).__name__}: {exc}")
         print("")

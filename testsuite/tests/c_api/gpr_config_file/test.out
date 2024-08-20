@@ -1,6 +1,3 @@
-== config file ==
-
-Got no exception
-
-Errors:
-   - p.gpr:1:09: no languages defined for this project
+Got an exception (EXCEPTION_PROJECT_ERROR):
+  fatal error, cannot load the project tree
+empty.cgpr:5:08: error: unrecognized attribute "Unknown_Attribute"

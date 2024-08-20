@@ -7,11 +7,7 @@ from e3.fs import sync_tree
 from e3.testsuite.control import YAMLTestControlCreator
 from e3.testsuite.driver.classic import (TestAbortWithError,
                                          TestAbortWithFailure, TestSkip)
-from e3.testsuite.driver.diff import (
-    DiffTestDriver,
-    PatternSubstitute,
-    Substitute,
-)
+from e3.testsuite.driver.diff import DiffTestDriver, Substitute
 
 from drivers.valgrind import Valgrind
 
@@ -106,12 +102,12 @@ class BaseDriver(DiffTestDriver):
 
         # Erase line numbers from exception messages referencing
         # gnatcoll-projects.adb.
-        pattern = r"gnatcoll-projects\.adb:\d+"
-        repl = "gnatcoll-projects.adb:XXX:"
+        pattern = self.working_dir()
+        repl = "<working-dir>"
         if self.default_encoding == "binary":
             pattern = pattern.encode("ascii")
             repl = repl.encode("ascii")
-        result.append(PatternSubstitute(pattern, repl))
+        result.append(Substitute(pattern, repl))
 
         # If requested, canonicalize Windows-style directory separators to
         # Unix-style.

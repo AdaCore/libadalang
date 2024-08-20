@@ -1,1 +1,1 @@
-doesnotexist.gpr is not a regular file
+doesnotexist.gpr: error: project file "<working-dir>/doesnotexist.gpr" not found

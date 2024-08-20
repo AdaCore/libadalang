@@ -14,6 +14,11 @@ with GNAT.Task_Lock;
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Projects;   use GNATCOLL.Projects;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
+with GPR2.Message.Reporter;
+with GPR2.Options;
+with GPR2.Project.Tree;
+with GPR2.Project.View;
+with GPR2.Project.View.Set;
 
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
@@ -21,24 +26,21 @@ with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Auto_Provider;     use Libadalang.Auto_Provider;
 with Libadalang.Config_Pragmas;    use Libadalang.Config_Pragmas;
 with Libadalang.GPR_Impl;          use Libadalang.GPR_Impl;
+with Libadalang.GPR_Utils;         use Libadalang.GPR_Utils;
 with Libadalang.Preprocessing;     use Libadalang.Preprocessing;
 with Libadalang.Project_Provider;  use Libadalang.Project_Provider;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 
 package body Libadalang.Implementation.C.Extensions is
 
-   type GPR_Project is record
-      Tree : Project_Tree_Access;
-      Env  : Project_Environment_Access;
-   end record;
-   type GPR_Project_Access is access all GPR_Project;
-   pragma No_Strict_Aliasing (GPR_Project_Access);
+   type GPR2_Tree_Access is access all GPR2.Project.Tree.Object;
+   pragma No_Strict_Aliasing (GPR2_Tree_Access);
    procedure Free is new Ada.Unchecked_Deallocation
-     (GPR_Project, GPR_Project_Access);
+     (GPR2.Project.Tree.Object, GPR2_Tree_Access);
    function Wrap is new Ada.Unchecked_Conversion
-     (GPR_Project_Access, ada_gpr_project);
+     (GPR2_Tree_Access, ada_gpr_project);
    function Unwrap is new Ada.Unchecked_Conversion
-     (ada_gpr_project, GPR_Project_Access);
+     (ada_gpr_project, GPR2_Tree_Access);
 
    function To_C_Provider
      (Provider : Unit_Provider_Reference) return ada_unit_provider
@@ -55,19 +57,11 @@ package body Libadalang.Implementation.C.Extensions is
    function To_C (Self : String_Vectors.Vector) return ada_string_array_ptr;
    --  Convert a list of strings to the corresponding C value
 
-   GPR_Errors : String_Vectors.Vector;
-   --  List of error messages emitted when loading a GPR file (used only in
-   --  Load_Project's critical section).
-
-   procedure Add_GPR_Error (Message : String);
-   --  Add an error message to GPR_Errors
-
    procedure Load_Project
      (Project_File                 : chars_ptr;
       Scenario_Vars                : System.Address;
       Target, Runtime, Config_File : chars_ptr;
-      Tree                         : out Project_Tree_Access;
-      Env                          : out Project_Environment_Access;
+      Tree                         : out GPR2.Project.Tree.Object;
       Errors                       : out String_Vectors.Vector;
       Exc                          : out Exception_Occurrence);
    --  Helper to load a project file from C arguments. May set Exc to a
@@ -78,22 +72,33 @@ package body Libadalang.Implementation.C.Extensions is
    --  ``_default.gpr`` project file in the current directory.
 
    function Fetch_Project
-     (Tree : Project_Tree'Class; Project_Name : chars_ptr) return Project_Type;
+     (Tree         : GPR2.Project.Tree.Object;
+      Project_Name : chars_ptr) return GPR2.Project.View.Object;
    --  Helper to fetch the sub-project in ``Tree`` that is called
    --  ``Project_Name``. If that project is unknown, raise a
-   --  `GNATCOLL.Projects.Invalid_Project`` exception. If ``Project_Name`` is
-   --  null or an empty string, return ``No_Project``.
+   --  ``GPR2.Project_Error`` exception. If ``Project_Name`` is null or an
+   --  empty string, return ``Undefined``.
 
-   function Create_Unit_Provider
-     (Tree             : Project_Tree_Access;
-      Env              : Project_Environment_Access;
-      Project          : chars_ptr;
-      Is_Project_Owner : Boolean) return ada_unit_provider;
-   --  Helper to create a unit provider from a loaded project file.  May
-   --  propagate a ``GNATCOLL.Projects.Invalid_Project`` exception if a
-   --  specific sub-project is requested but does not exist, or an
-   --  ``Unsupported_View_Error`` exception if the requested project contains
-   --  conflicting source files.
+   ---------------------------
+   -- GPR2 Message Reporter --
+   ---------------------------
+
+   --  The following declares a singleton GPR2 message reporter (a global data
+   --  structure, see eng/gpr/gpr-issues#354) whose only purpose is to store
+   --  reported message to a global vector. This allows us to gather all
+   --  emitted messages during project loading. Since global resources are
+   --  involved, usage of this singleton/vector needs to be protected by
+   --  GNAT.Task_Lock.
+
+   type GPR2_Reporter_Type is new GPR2.Message.Reporter.Object
+   with null record;
+
+   overriding procedure Report
+     (Self : GPR2_Reporter_Type; Message : GPR2.Message.Object);
+   overriding procedure Report (Self : GPR2_Reporter_Type; Message : String);
+
+   GPR2_Reporter          : GPR2_Reporter_Type;
+   GPR2_Reporter_Messages : String_Vectors.Vector;
 
    -------------------------
    -- Scenario_Vars_Count --
@@ -132,27 +137,6 @@ package body Libadalang.Implementation.C.Extensions is
       end return;
    end To_C;
 
-   -------------------
-   -- Add_GPR_Error --
-   -------------------
-
-   procedure Add_GPR_Error (Message : String) is
-      Last : Natural := Message'Last;
-   begin
-      if Message = "" then
-         return;
-      end if;
-
-      --  Strip the potential trailing newline that GNATCOLL.Projects sometimes
-      --  add.
-
-      if Message (Last) = ASCII.LF then
-         Last := Last - 1;
-      end if;
-      GPR_Errors.Append
-        (To_Unbounded_String (Message (Message'First .. Last)));
-   end Add_GPR_Error;
-
    ------------------
    -- Load_Project --
    ------------------
@@ -161,31 +145,39 @@ package body Libadalang.Implementation.C.Extensions is
      (Project_File                 : chars_ptr;
       Scenario_Vars                : System.Address;
       Target, Runtime, Config_File : chars_ptr;
-      Tree                         : out Project_Tree_Access;
-      Env                          : out Project_Environment_Access;
+      Tree                         : out GPR2.Project.Tree.Object;
       Errors                       : out String_Vectors.Vector;
       Exc                          : out Exception_Occurrence)
    is
-      PF                : constant String :=
+      Project_File_Value : constant String :=
         (if Project_File = Null_Ptr then "" else Value (Project_File));
-      Target_Value      : constant String :=
+      Target_Value       : constant String :=
         (if Target = Null_Ptr then "" else Value (Target));
-      Runtime_Value     : constant String :=
+      Runtime_Value      : constant String :=
         (if Runtime = Null_Ptr then "" else Value (Runtime));
-      Config_File_Value : constant String :=
+      Config_File_Value  : constant String :=
         (if Config_File = Null_Ptr then "" else Value (Config_File));
+
+      Options : GPR2.Options.Object;
    begin
-      GNAT.Task_Lock.Lock;
-
-      --  Initialize the environment (target, runtime, externals) before
-      --  loading the project.
-
-      Tree := new Project_Tree;
-      Initialize (Env);
-      Env.Set_Target_And_Runtime (Target_Value, Runtime_Value);
-      if Config_File_Value /= "" then
-         Env.Set_Config_File (Create (Filesystem_String (Config_File_Value)));
+      if Project_File_Value = "" then
+         Options.Add_Switch (GPR2.Options.No_Project);
+      else
+         Options.Add_Switch (GPR2.Options.P, Project_File_Value);
       end if;
+
+      if Target_Value /= "" then
+         Options.Add_Switch (GPR2.Options.Target, Target_Value);
+      end if;
+
+      if Runtime_Value /= "" then
+         Options.Add_Switch (GPR2.Options.RTS, Runtime_Value);
+      end if;
+
+      if Config_File_Value /= "" then
+         Options.Add_Switch (GPR2.Options.Config, Config_File_Value);
+      end if;
+
       if Scenario_Vars /= System.Null_Address then
          declare
             Vars : ada_gpr_project_scenario_variable_array
@@ -194,40 +186,59 @@ package body Libadalang.Implementation.C.Extensions is
                     Address => Scenario_Vars;
          begin
             for V of Vars loop
-               Change_Environment (Env.all, Value (V.Name), Value (V.Value));
+               declare
+                  Var_Name  : constant String := Value (V.Name);
+                  Var_Value : constant String := Value (V.Value);
+               begin
+                  Options.Add_Switch
+                    (GPR2.Options.X, Var_Name & "=" & Var_Value);
+               end;
             end loop;
          end;
       end if;
 
-      --  Try to load the project and propagate exceptions/error messages to
-      --  Exc/Errors.
+      --  Load the project tree and include source information.
+      --
+      --  The processing of messages involves a global data structure
+      --  (GPR2.Message.Register_Reporter), so run this in a critical section.
 
-      Save_Occurrence (Exc, Null_Occurrence);
       begin
-         if PF = "" then
-            Load_Implicit_Project (Self => Tree.all,
-                                   Env  => Env);
-         else
-            Load (Self                => Tree.all,
-                  Root_Project_Path   => Create (+PF),
-                  Env                 => Env,
-                  Errors              => Add_GPR_Error'Access,
-                  Report_Missing_Dirs => False);
-         end if;
-      exception
-         when E : Invalid_Project =>
-            Save_Occurrence (Exc, E);
-            Free (Tree);
-            Free (Env);
-      end;
-      Errors.Move (GPR_Errors);
+         GNAT.Task_Lock.Lock;
+         GPR2.Message.Reporter.Register_Reporter (GPR2_Reporter);
+         GPR2_Reporter_Messages.Clear;
 
-      GNAT.Task_Lock.Unlock;
+         --  Never complain about missing directories: most of the time for
+         --  users, this is noise about object directories.
 
-   exception
-      when others =>
+         begin
+            if not Tree.Load
+              (Options,
+               Absent_Dir_Error => GPR2.No_Error,
+               With_Runtime     => True)
+            then
+               raise GPR2.Project_Error with
+                 "fatal error, cannot load the project tree";
+            end if;
+
+            --  Now load information for all source files
+
+            Tree.Update_Sources;
+         exception
+            when E : GPR2.Project_Error =>
+               Save_Occurrence (Exc, E);
+         end;
+
          GNAT.Task_Lock.Unlock;
-         raise;
+      exception
+         when others =>
+            GNAT.Task_Lock.Unlock;
+            raise;
+      end;
+
+      --  Forward warnings and errors sent to the GPR2 message reporter
+      --  to Errors.
+
+      Errors.Append_Vector (GPR2_Reporter_Messages);
    end Load_Project;
 
    -------------------
@@ -235,40 +246,37 @@ package body Libadalang.Implementation.C.Extensions is
    -------------------
 
    function Fetch_Project
-     (Tree : Project_Tree'Class; Project_Name : chars_ptr) return Project_Type
+     (Tree         : GPR2.Project.Tree.Object;
+      Project_Name : chars_ptr) return GPR2.Project.View.Object
    is
       Name : constant String :=
         (if Project_Name = Null_Ptr then "" else Value (Project_Name));
    begin
-      return Result : Project_Type := No_Project do
+      return Result : GPR2.Project.View.Object do
          if Name /= "" then
-            Result := Tree.Project_From_Name (Name);
-            if Result = No_Project then
-               Result := Tree.Project_From_Path (Create (+Name));
-            end if;
-            if Result = No_Project then
-               raise GNATCOLL.Projects.Invalid_Project
-                  with "no such project: " & Name;
-            end if;
+            Result := Lookup (Tree, Name);
          end if;
       end return;
    end Fetch_Project;
 
-   --------------------------
-   -- Create_Unit_Provider --
-   --------------------------
+   ------------
+   -- Report --
+   ------------
 
-   function Create_Unit_Provider
-     (Tree             : Project_Tree_Access;
-      Env              : Project_Environment_Access;
-      Project          : chars_ptr;
-      Is_Project_Owner : Boolean) return ada_unit_provider
-   is
-      Prj : constant Project_Type := Fetch_Project (Tree.all, Project);
+   overriding procedure Report
+     (Self : GPR2_Reporter_Type; Message : GPR2.Message.Object) is
    begin
-      return To_C_Provider
-        (Create_Project_Unit_Provider (Tree, Prj, Env, Is_Project_Owner));
-   end Create_Unit_Provider;
+      GPR2_Reporter_Messages.Append (To_Unbounded_String (Message.Format));
+   end Report;
+
+   ------------
+   -- Report --
+   ------------
+
+   overriding procedure Report (Self : GPR2_Reporter_Type; Message : String) is
+   begin
+      GPR2_Reporter_Messages.Append (To_Unbounded_String (Message));
+   end Report;
 
    ---------------------------
    -- ada_free_string_array --
@@ -294,21 +302,20 @@ package body Libadalang.Implementation.C.Extensions is
       Project                      : access ada_gpr_project;
       Errors                       : access ada_string_array_ptr)
    is
-      Prj : Project_Tree_Access;
-      Env : Project_Environment_Access;
+      P   : GPR2_Tree_Access;
       Err : String_Vectors.Vector;
       Exc : Exception_Occurrence;
    begin
       Clear_Last_Exception;
 
+      P := new GPR2.Project.Tree.Object;
       Load_Project
         (Project_File,
          Scenario_Vars,
          Target,
          Runtime,
          Config_File,
-         Prj,
-         Env,
+         P.all,
          Err,
          Exc);
       if Exception_Identity (Exc) /= Null_Id then
@@ -325,18 +332,17 @@ package body Libadalang.Implementation.C.Extensions is
                   Append (Message, ASCII.LF);
                   Append (Message, Error_Message);
                end loop;
-               Raise_Exception (Exception_Identity (Exc), To_String (Message));
-            exception
-               when E : others =>
-                  Set_Last_Exception (E);
+               Set_Last_Exception
+                 (Exception_Identity (Exc), To_String (Message));
             end;
          else
             Set_Last_Exception (Exc);
          end if;
+         Free (P);
          return;
       end if;
 
-      Project.all := Wrap (new GPR_Project'(Prj, Env));
+      Project.all := Wrap (P);
       Errors.all := To_C (Err);
    end ada_gpr_project_load;
 
@@ -365,12 +371,9 @@ package body Libadalang.Implementation.C.Extensions is
    --------------------------
 
    procedure ada_gpr_project_free (Self : ada_gpr_project) is
-      Var_Self : GPR_Project_Access := Unwrap (Self);
+      Var_Self : GPR2_Tree_Access := Unwrap (Self);
    begin
       Clear_Last_Exception;
-      Var_Self.Tree.Unload;
-      Free (Var_Self.Tree);
-      Free (Var_Self.Env);
       Free (Var_Self);
    end ada_gpr_project_free;
 
@@ -382,12 +385,15 @@ package body Libadalang.Implementation.C.Extensions is
      (Self    : ada_gpr_project;
       Project : chars_ptr) return ada_unit_provider
    is
-      P : constant GPR_Project_Access := Unwrap (Self);
+      P   : constant GPR2_Tree_Access := Unwrap (Self);
+      Prj : GPR2.Project.View.Object;
    begin
       Clear_Last_Exception;
-      return Create_Unit_Provider (P.Tree, P.Env, Project, False);
+
+      Prj := Fetch_Project (P.all, Project);
+      return To_C_Provider (Create_Project_Unit_Provider (P.all, Prj));
    exception
-      when Exc : Unsupported_View_Error | GNATCOLL.Projects.Invalid_Project =>
+      when Exc : Unsupported_View_Error | GPR2.Project_Error =>
          Set_Last_Exception (Exc);
          return ada_unit_provider (System.Null_Address);
    end ada_gpr_project_create_unit_provider;
@@ -444,12 +450,9 @@ package body Libadalang.Implementation.C.Extensions is
       Projects_Data   : access chars_ptr;
       Projects_Length : int) return ada_string_array_ptr
    is
-      type Project_Array_Access is access all GNATCOLL.Projects.Project_Array;
-      procedure Free is new Ada.Unchecked_Deallocation
-        (GNATCOLL.Projects.Project_Array, Project_Array_Access);
-
+      P        : constant GPR2_Tree_Access := Unwrap (Self);
       M        : Source_Files_Mode;
-      Projects : Project_Array_Access;
+      Projects : GPR2.Project.View.Set.Object;
       Result   : Filename_Vectors.Vector;
    begin
       Clear_Last_Exception;
@@ -466,22 +469,18 @@ package body Libadalang.Implementation.C.Extensions is
 
       --  Decode the ``Projects_Data``/``Projects_Length`` argument
 
-      if Projects_Data = null then
-         Projects := new GNATCOLL.Projects.Project_Array (1 .. 0);
-      else
+      if Projects_Data /= null then
          declare
             Projects_Array : array (1 .. Natural (Projects_Length))
                              of chars_ptr
             with Import, Address => Projects_Data.all'Address;
          begin
-            Projects :=
-              new GNATCOLL.Projects.Project_Array (Projects_Array'Range);
             for I in Projects_Array'Range loop
-               Projects.all (I) :=
-                 Fetch_Project (Unwrap (Self).Tree.all, Projects_Array (I));
+               Projects.Include
+                 (Fetch_Project (P.all, Projects_Array (I)));
             end loop;
          exception
-            when Exc : GNATCOLL.Projects.Invalid_Project =>
+            when Exc : GPR2.Project_Error =>
                Set_Last_Exception (Exc);
                return null;
          end;
@@ -489,9 +488,7 @@ package body Libadalang.Implementation.C.Extensions is
 
       --  Compute the list of source files
 
-      Result := Source_Files (Unwrap (Self).Tree.all, M, Projects.all);
-
-      Free (Projects);
+      Result := Source_Files (P.all, M, Projects);
 
       --  Convert the vector to the C API result
 
@@ -514,8 +511,9 @@ package body Libadalang.Implementation.C.Extensions is
    begin
       Clear_Last_Exception;
       declare
-         Tree : Project_Tree'Class renames Unwrap (Self).Tree.all;
-         Prj  : constant Project_Type := Fetch_Project (Tree, Project);
+         Tree : GPR2.Project.Tree.Object renames Unwrap (Self).all;
+         Prj  : constant GPR2.Project.View.Object :=
+           Fetch_Project (Tree, Project);
       begin
          return New_String (Default_Charset_From_Project (Tree, Prj));
       end;
@@ -530,12 +528,18 @@ package body Libadalang.Implementation.C.Extensions is
       Scenario_Vars         : System.Address;
       Target, Runtime       : chars_ptr) return ada_unit_provider
    is
-      Tree         : Project_Tree_Access;
-      Env          : Project_Environment_Access;
-      Dummy_Errors : String_Vectors.Vector;
+      Tree : GPR2.Project.Tree.Object;
+      View : GPR2.Project.View.Object;
+
       Exc          : Exception_Occurrence;
+      Dummy_Errors : String_Vectors.Vector;
+
+      Project_Value : constant String :=
+        (if Project = Null_Ptr then "" else Value (Project));
    begin
       Clear_Last_Exception;
+
+      --  Load the project tree
 
       Load_Project
         (Project_File,
@@ -544,23 +548,25 @@ package body Libadalang.Implementation.C.Extensions is
          Runtime,
          Null_Ptr,
          Tree,
-         Env,
          Dummy_Errors,
          Exc);
       if Exception_Identity (Exc) /= Null_Id then
          Reraise_Occurrence (Exc);
       end if;
 
-      return Create_Unit_Provider (Tree, Env, Project, True);
+      --  Fetch the requested sub-project, if any
+
+      if Project_Value /= "" then
+         View := Lookup (Tree, Project_Value);
+      end if;
+
+      --  Create the unit provider
+
+      return To_C_Provider (Create_Project_Unit_Provider (Tree, View));
 
    exception
-      when Exc : Unsupported_View_Error | GNATCOLL.Projects.Invalid_Project =>
+      when Exc : Unsupported_View_Error | GPR2.Project_Error =>
          Set_Last_Exception (Exc);
-         if Tree /= null then
-            Tree.Unload;
-            Free (Tree);
-            Free (Env);
-         end if;
          return ada_unit_provider (System.Null_Address);
    end ada_create_project_unit_provider;
 
@@ -576,18 +582,16 @@ package body Libadalang.Implementation.C.Extensions is
       With_Trivia   : int;
       Tab_Stop      : int)
    is
-      GPR : GPR_Project renames Unwrap (Self).all;
-      P   : Project_Type;
+      Tree : GPR2.Project.Tree.Object renames Unwrap (Self).all;
+      View : GPR2.Project.View.Object;
    begin
       Clear_Last_Exception;
 
-      P := Fetch_Project (GPR.Tree.all, Project);
+      View := Fetch_Project (Tree, Project);
       Initialize_Context_From_Project
         (Context          => Context,
-         Tree             => GPR.Tree,
-         Project          => P,
-         Env              => GPR.Env,
-         Is_Project_Owner => False,
+         Tree             => Tree,
+         Project          => View,
          Event_Handler    => Unwrap_Private_Event_Handler (Event_Handler),
          With_Trivia      => With_Trivia /= 0,
          Tab_Stop         => Natural (Tab_Stop));
@@ -664,19 +668,19 @@ package body Libadalang.Implementation.C.Extensions is
       Project   : chars_ptr;
       Line_Mode : access int) return ada_file_reader
    is
-      P              : Project_Type;
+      P              : GPR2.Project.View.Object;
       Default_Config : File_Config;
       File_Configs   : File_Config_Maps.Map;
    begin
       Clear_Last_Exception;
 
-      P := Fetch_Project (Unwrap (Self).Tree.all, Project);
+      P := Fetch_Project (Unwrap (Self).all, Project);
 
       --  Load preprocessor data from the given project, then create the file
       --  reader from that data.
 
       Extract_Preprocessor_Data_From_Project
-        (Unwrap (Self).Tree.all, P, Default_Config, File_Configs);
+        (Unwrap (Self).all, P, Default_Config, File_Configs);
 
       --  If requested, force the line mode
 

@@ -15,7 +15,7 @@ Source buffer for pkg(spec):
 
 == agg.gpr - nosuchproject ==
 
-Got an exception (EXCEPTION_INVALID_PROJECT):
+Got an exception (EXCEPTION_PROJECT_ERROR):
   no such project: nosuchproject
 
 == p1.gpr - <none> ==

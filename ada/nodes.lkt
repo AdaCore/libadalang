@@ -10138,12 +10138,29 @@ class CompilationUnit: AdaNode {
         if name == s"No_Elaboration_Code" then match node.body {
             # For library items, restriction No_Elaboration_Code can appear
             # in the body or in the spec.
-            case _: LibraryItem => node.self_restrictions().contains(name) or node.other_part()?.self_restrictions().contains(name)
+            case li: LibraryItem => node.self_restrictions().contains(name)
+                or node.other_part()?.self_restrictions().contains(name)
+                # Pragma No_Elaboration_Code_All establishes the restriction
+                # No_Elaboration_Code for the current unit and any extended main
+                # source units (body and subunits).
+                or {
+                    val spec = li.item.as_bare_entity.do(
+                        (i) => if i is Body then
+                            i.as[Body].decl_part()
+                        else
+                            i
+                    );
 
+                    not spec.is_null and spec.defining_name().has_aspect(
+                        s"No_Elaboration_Code_All"
+                    )
+                }
             # For subunits, restriction must appear in the root unit, so
             # we only check that.
             case su: Subunit => su.root_unit()?.has_restriction(name)
-            case _ => raise[Bool] PropertyError("Unexpected CompilationUnit.f_body attribute")
+            case _ => raise[Bool] PropertyError(
+                "Unexpected CompilationUnit.f_body attribute"
+            )
         }
         else raise[Bool] PropertyError("Unsupported restriction")
 

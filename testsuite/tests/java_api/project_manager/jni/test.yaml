@@ -12,3 +12,4 @@ pre_python:
     "--config=Ada,,light",
     "-o", os.path.join(test_env["working_dir"], "light_runtime.cgpr")
   ])'
+canonicalize_directory_separators: true

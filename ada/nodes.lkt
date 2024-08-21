@@ -15940,12 +15940,18 @@ class Pragma: AdaNode {
         )
         elif self.id.name_symbol() in s"Import" | s"Export" | s"Interface" | s"Convention" | s"Pack" | s"Pure" | s"Preelaborate" | s"Elaborate_Body" | s"Inline" | s"Volatile" then self.associated_entity_names().logic_all((n) => n.xref_no_overloading())
         elif self.id.name_is(s"Warnings") then self.args.logic_all(
-            (arg) => arg.assoc_expr().do(
-                (expr) => if expr is Identifier then if (
-                    expr.as[Identifier]?.name_symbol() in s"On" | s"Off" | s"GNAT" | s"GNATprove"
-                ) then %true else expr.sub_equation() else (
-                    %eq(expr.expected_type_var(), node.std_string_type()) and expr.sub_equation()
-                ) and expr.matches_expected_type(), default_val=%true
+            (arg) => arg.assoc_expr().do((expr) =>
+                if expr is Identifier then (
+                    if expr.as[Identifier].name_symbol() in
+                        s"On" | s"Off" | s"GNAT" | s"GNATprove"
+                    then %true
+                    else expr.as[Identifier].xref_no_overloading()
+                ) else (
+                    %eq(expr.expected_type_var(), node.std_string_type())
+                    and expr.sub_equation()
+                    and expr.matches_expected_type()
+                ),
+                default_val=%true
             )
         )
         # Pragmas we want to deliberately not resolve, either because there

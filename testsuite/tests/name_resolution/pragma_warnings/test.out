@@ -69,5 +69,41 @@ Expr: <Id "Off" test.adb:8:21-8:24>
   type:          None
   expected type: None
 
+Resolving xrefs for node <PragmaNode test.adb:13:4-13:35>
+*********************************************************
+
+Expr: <Id "Warnings" test.adb:13:11-13:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "GNAT" test.adb:13:21-13:25>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Off" test.adb:13:27-13:30>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:13:32-13:33>
+  references:    <DefiningName "P" test.adb:11:14-11:15>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <PragmaNode test.adb:15:4-15:28>
+*********************************************************
+
+Expr: <Id "Warnings" test.adb:15:11-15:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "On" test.adb:15:21-15:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "F" test.adb:15:25-15:26>
+  references:    <DefiningName "F" test.adb:12:13-12:14>
+  type:          None
+  expected type: None
+
 
 Done.

@@ -83,28 +83,19 @@ File name.other
   deps = [<CompilationUnit __standard:1:1-130:14>]
 -------------------------------------------------
 
---- Open calendar.gpr ---
-File main.adb
-  root = <CompilationUnit main.adb:1:1-8:10>
-  deps = [<CompilationUnit ada.ads:16:1-20:9>, <CompilationUnit a-calend.ads:36:1-413:18>, <CompilationUnit a-calfor.ads:22:1-223:29>, <CompilationUnit __standard:1:1-130:14>, <CompilationUnit a-catizo.ads:19:1-35:29>]
+--- Open for_cgpr.gpr ---
+Error during project opening:
+  [for_cgpr.gpr: warning: there are no sources of language "Ada" in this project]
 -------------------------
 
---- Open calendar.gpr with config light_runtime.cgpr ---
-File main.adb
-  root = <CompilationUnit main.adb:1:1-8:10>
-Cannot find file a-calend.ads
-Cannot find file a-calend.ads
-Cannot find file a-calend.ads
-Cannot find file a-calend.ads
-Cannot find file a-calfor.ads
-Cannot find file a-calend.ads
-Cannot find file a-calend.ads
-Cannot find file a-calend.ads
-Cannot find file a-calend.ads
-Cannot find file a-calfor.ads
-Cannot find file a-calend.ads
-  deps = [<CompilationUnit ada.ads:16:1-20:9>, <CompilationUnit __standard:1:1-130:14>]
---------------------------------------------------------
+--- Open for_cgpr.gpr with config custom.cgpr ---
+File bar.1.ada
+  root = <CompilationUnit bar.1.ada:1:1-3:9>
+  deps = [<CompilationUnit __standard:1:1-130:14>]
+File foo.1.ada
+  root = <CompilationUnit foo.1.ada:1:1-5:9>
+  deps = [<CompilationUnit bar.1.ada:1:1-3:9>, <CompilationUnit __standard:1:1-130:14>]
+-------------------------------------------------
 
 --- Open p1.gpr with config empty.cgpr ---
 fatal error, cannot load the project tree

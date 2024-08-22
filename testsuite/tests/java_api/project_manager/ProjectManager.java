@@ -275,12 +275,12 @@ public class ProjectManager {
         );
     }
 
-    private static void testRuntimeConfigFile() {
-        openProject("calendar.gpr");
+    private static void testValidConfigFile() {
+        openProject("for_cgpr.gpr");
         openProject(
-            Paths.get(projectPath, "calendar.gpr").toString(),
+            Paths.get(projectPath, "for_cgpr.gpr").toString(),
             null,
-            "light_runtime.cgpr",
+            "custom.cgpr",
             null,
             false
         );
@@ -318,7 +318,7 @@ public class ProjectManager {
         testNoSuchTarget();
         testImplicit();
         testConfigFile();
-        testRuntimeConfigFile();
+        testValidConfigFile();
         testEmptyConfigFile();
         testInexistantConfigFile();
     }

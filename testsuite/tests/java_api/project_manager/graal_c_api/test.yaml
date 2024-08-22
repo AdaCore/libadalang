@@ -5,11 +5,17 @@ main_class: ProjectManager
 projects_path: ../sources/
 sync_trees:
   - ../sources/src1/
-pre_python:
-  'subprocess.check_call([
-    "gprconfig",
-    "--batch",
-    "--config=Ada,,light",
-    "-o", os.path.join(test_env["working_dir"], "light_runtime.cgpr")
-  ])'
+setup_script: |
+    import subprocess
+
+    self.shell(
+        [
+            "gprconfig",
+            "--batch",
+            "--config=Ada,,light",
+            "-o",
+            "light_runtime.cgpr",
+        ],
+        analyze_output=False,
+    )
 canonicalize_directory_separators: true

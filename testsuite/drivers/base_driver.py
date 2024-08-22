@@ -90,6 +90,11 @@ class BaseDriver(DiffTestDriver):
         if self.env.build.os.name == "windows" and windows_baseline_file:
             self.test_env.setdefault("baseline_file", windows_baseline_file)
 
+        # Run custom Python setup code from the "test.yaml" file, if present
+        setup_script = self.test_env.get("setup_script")
+        if setup_script:
+            exec(setup_script, {"self": self})
+
     @property
     def baseline(self) -> Tuple[Optional[str], Union[str, bytes], bool]:
         # In perf mode, our purpose is to measure performance, not to check

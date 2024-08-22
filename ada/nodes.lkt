@@ -12891,17 +12891,6 @@ class AttributeRef: Name {
 
     fun has_context_free_type(): Bool = not node.is_access_attr()
 
-    @with_dynvars(env)
-    fun env_elements_impl(): Array[Entity[AdaNode]] =
-        if node.is_access_attr() then (
-            # We need to implement env_elements_impl for this attribute to
-            # handle the `X'[Unchecked|Unrestricted_]Access.all` pattern,
-            # because the ExplicitDeref node expects it to return the
-            # declarations of `X`.
-            self.prefix.env_elements_impl()
-        )
-        else null[Array[Entity[AdaNode]]]
-
     fun is_access_attr(): Bool =
         node.attribute.name_symbol() in s"Access" | s"Unchecked_Access" | s"Unrestricted_Access"
 
@@ -13138,46 +13127,53 @@ class AttributeRef: Name {
     @with_dynvars(env, origin, entry_point)
     fun access_equation(): Equation = (
         # Access to statically known subprogram
-        (
-            self.prefix.xref_no_overloading(all_els=true) and %predicate(BaseTypeDecl.is_subp_access_of, node.type_var(), node.prefix.ref_var())
-        ) and %eq(node.type_var(), node.expected_type_var())
+        self.prefix.xref_no_overloading(all_els=true)
+        and %predicate(
+            BaseTypeDecl.is_subp_access_of,
+            node.type_var(), node.prefix.ref_var()
+        )
+        and %eq(node.type_var(), node.expected_type_var())
     ) or (
         # Access to object
         self.prefix.sub_equation() and (
-            (
-                # If the expected type is known, use it to infer the prefix's
-                # expected type, and also use it as the actual type of the
-                # access attribute which avoids synthesizing an anonymous
-                # access type.
-                # Note: We use the `accessed_type_no_call` conversion property
-                # here in case `self.type_var` holds an access-to-
-                # subprogram type so that we don't propagate its
-                # return type to the prefix of the 'Access attribute.
-                (
-                    %eq(node.expected_type_var(), node.type_var()) and %eq(node.expected_type_var(), node.prefix.expected_type_var(), conv_prop=BaseTypeDecl.accessed_type_no_call)
-                ) and (
-                    (
-                        # Either the expected type of the prefix is None, meaning
-                        # the conversion property above was applied on a subprogram
-                        # access (for which we cannot retrieve the dereferenced
-                        # type). In that case type should be None as well.
-                        %eq(node.prefix.expected_type_var(), node.prefix.type_var()) and %eq(node.prefix.type_var(), null[Entity[BaseTypeDecl]])
-                    ) or (
-                        # Or it's an object access and so the actual type must
-                        # match the expected type we inferred above.
-                        self.prefix.matches_expected_formal_type()
-                    )
-                )
-            ) or (
-                # If this `X'Access` is the prefix of a DottedName, we may be
-                # resolving an implicit dereference. In that case, our expected
-                # type is also the expected type of the prefix `X`, and we
-                # should synthesize an anonymous access type for the actual
-                # type of `X'Access`.
-                if node.parent is DottedName and node.is_prefix() then (
-                    %eq(node.prefix.expected_type_var(), node.expected_type_var()) and self.prefix.matches_expected_formal_type()
-                ) and %eq(node.prefix.type_var(), node.type_var(), conv_prop=BaseTypeDecl.anonymous_access_type_or_null) else %false
+            # If the expected type is known, use it to infer the prefix's
+            # expected type, and also use it as the actual type of the
+            # access attribute which avoids synthesizing an anonymous
+            # access type.
+            # Note: We use the `accessed_type_no_call` conversion property
+            # here in case `self.type_var` holds an access-to-
+            # subprogram type so that we don't propagate its
+            # return type to the prefix of the 'Access attribute.
+            %eq(node.expected_type_var(), node.type_var())
+            and %eq(node.expected_type_var(), node.prefix.expected_type_var(),
+                    conv_prop=BaseTypeDecl.accessed_type_no_call)
+            and (
+                # Either the expected type of the prefix is None, meaning
+                # the conversion property above was applied on a subprogram
+                # access (for which we cannot retrieve the dereferenced
+                # type). In that case type should be None as well.
+                %eq(node.prefix.expected_type_var(), node.prefix.type_var())
+                and %eq(node.prefix.type_var(), null[Entity[BaseTypeDecl]])
+
+                # Or it's an object access and so the actual type must
+                # match the expected type we inferred above.
+                or self.prefix.matches_expected_formal_type()
             )
+            or
+            # If this `X'Access` is the prefix of a DottedName, we may be
+            # resolving an implicit dereference. In that case, our expected
+            # type is also the expected type of the prefix `X`, and we
+            # should synthesize an anonymous access type for the actual
+            # type of `X'Access`.
+            if node.parent is DottedName and node.is_prefix() then
+                %eq(node.prefix.expected_type_var(), node.expected_type_var())
+                and self.prefix.matches_expected_formal_type()
+                and %eq(node.prefix.type_var(), node.type_var(),
+                        conv_prop=BaseTypeDecl.anonymous_access_type_or_null)
+            elif node.parent is ExplicitDeref then
+                %eq(node.prefix.type_var(), node.type_var(),
+                    conv_prop=BaseTypeDecl.anonymous_access_type_or_null)
+            else %false
         )
     )
 
@@ -14713,19 +14709,8 @@ class ExplicitDeref: Name {
         self.prefix.designated_env()
 
     @with_dynvars(env)
-    fun env_elements_impl(): Array[Entity[AdaNode]] = {
-        val prefix = self.prefix;
-        val env_els = prefix.env_elements_impl();
-
-        if prefix.as[AttributeRef]?.is_access_attr() then env_els else {
-            bind origin = node.origin_node();
-
-            env_els.filter(
-                # Env elements for access derefs need to be of an access type
-                (e) => e.as[BasicDecl]?.expr_type().do((t) => t.is_access_type())
-            )
-        }
-    }
+    fun env_elements_impl(): Array[Entity[AdaNode]] =
+        self.prefix.env_elements_impl()
 
     @with_dynvars(env, origin)
     fun eq_for_type(typ: Entity[BaseTypeDecl]): Equation = if typ.is_access_type() then (
@@ -14737,13 +14722,32 @@ class ExplicitDeref: Name {
 
     @with_dynvars(env, origin, entry_point)
     fun general_xref_equation(root: Name = null[Name]): Equation =
-        self.all_args_xref_equation(root) and self.prefix.sub_equation() and self.env_elements().logic_any(
-            (el) => el.as[BasicDecl].expr_type().do(
-                (typ) => (
-                    %eq(node.ref_var(), el) and %eq(node.ref_var(), node.prefix.ref_var())
-                ) and self.parent_name_equation(
-                    if self.prefix.as[AttributeRef]?.is_access_attr() then typ.anonymous_access_type() else typ, root
-                ), default_val=%false
+        # Attribute ref case: we can always resolve the AttributeRef first
+        # without ambiguity. This allows us to use its type in order to
+        # solve the rest of the expression.
+        self.all_args_xref_equation(root)
+        and if self.prefix is AttributeRef then
+            self.prefix.resolve_names_internal(false).do(
+                (_) => self.prefix.type_val().as[BaseTypeDecl].do(
+                    (typ) => (
+                        %eq(node.prefix.expected_type_var(), typ)
+                        and %eq(node.prefix.type_var(), typ)
+                        and self.parent_name_equation(typ, root)
+                    ),
+                    default_val=%false
+                ),
+                default_val=%false
+            )
+        else (
+            self.prefix.sub_equation()
+            and self.env_elements().logic_any(
+                (el) => el.as[BasicDecl].expr_type().do(
+                    (typ) => (
+                        %eq(node.prefix.ref_var(), el)
+                        and self.parent_name_equation(typ, root)
+                    ),
+                    default_val=%false
+                )
             )
         )
 

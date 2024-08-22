@@ -1087,7 +1087,7 @@ class AdaNode implements Node[AdaNode] {
         val unpacked_formals = node.unpack_formals(formal_params);
 
         params.do(
-            (p) => p.unpacked_params().map(
+            (p) => p.unpacked_params().imap(
                 (a, i) => if a.name.is_null then {
                     val idx = if is_dottable_subp then i + 1 else i;
 
@@ -1893,7 +1893,7 @@ class AspectAssoc: AdaNode {
         # analyzed. The rest are arbitrary expressions (see
         # `Expr.annotate_argument_equation`).
         elif self.id.name_is(s"Annotate") then
-            self.expr.as[BaseAggregate].assocs.unpacked_params().logic_all(
+            self.expr.as[BaseAggregate].assocs.unpacked_params().ilogic_all(
                 (sa, i) => if i < 2 then %true
                            else sa.assoc.expr().annotate_argument_equation()
             )
@@ -2055,7 +2055,7 @@ class EnumRepClause: AspectClause {
         # Get the representation clause actuals
         val ra = self.aggregate.assocs;
 
-        el.map(
+        el.imap(
             (l, i) => ParamActual(
                 param=l.name, actual=ra.actual_for_param_at(l.name, i)
             )
@@ -2215,7 +2215,7 @@ class BaseFormalParamHolder: AdaNode {
     fun corresponding_actual_param(name: Entity[DefiningName]): Entity[DefiningName] = {
         val actual_spec = self.corresponding_actual();
 
-        if self == actual_spec then name else self.unpacked_formal_params().mapcat(
+        if self == actual_spec then name else self.unpacked_formal_params().imapcat(
             (param, i) => if param.node == name.node then [actual_spec.unpacked_formal_params()?[i]] else null[Array[Entity[DefiningName]]]
         )?[0]
     }
@@ -2361,15 +2361,15 @@ class BaseFormalParamHolder: AdaNode {
         # Check that there is the same number of formals and that each
         # formal matches.
         val self_params = self.unpacked_formal_params().do(
-            (params) => if ignore_first_param then params.filter((e, i) => i != 0) else params
+            (params) => if ignore_first_param then params.ifilter((e, i) => i != 0) else params
         );
         val other_params = other.unpacked_formal_params();
         val self_types = self.param_types().do(
-            (types) => if ignore_first_param then types.filter((e, i) => i != 0) else types
+            (types) => if ignore_first_param then types.ifilter((e, i) => i != 0) else types
         );
         val other_types = other.param_types();
 
-        self_params.length() == other_params.length() and self_types.length() == other_types.length() and self_params.all(
+        self_params.length() == other_params.length() and self_types.length() == other_types.length() and self_params.iall(
             (p, i) => (
                 not match_names or p.name.matches(other_params?[i].name.node)
             ) and self_types?[i]?.matching_type(other_types?[i])
@@ -2467,7 +2467,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
     |" Return whether UserDefinedFunctionSubpSpec's signature matches self's.
     fun match_expected_user_defined_function(fn: UserDefinedFunctionSubpSpec): Bool =
         self.return_type().matching_type(fn.subp_return_type) and self.unpacked_formal_params().do(
-            (params) => params.length() == fn.subp_params_types.length() and params.filter(
+            (params) => params.length() == fn.subp_params_types.length() and params.ifilter(
                 (p, i) => not p.formal_decl().formal_type().matching_type(fn.subp_params_types?[i])
             ).is_null
         )
@@ -3115,7 +3115,7 @@ class AggregateAssoc: BasicAssoc {
             else null[Expr].as_entity
         );
 
-        self.names().logic_all(
+        self.names().ilogic_all(
             (n, i) => {
                 # Resolve the name from the matched component if any
                 bind env = matches[i].do(
@@ -5445,7 +5445,7 @@ class BaseTypeDecl: BasicDecl {
             else
                 all_prims.filter((p) => not p is SyntheticSubpDecl);
 
-            bds.filter((a, i) => {
+            bds.ifilter((a, i) => {
                 val a_spec = a.subp_spec_or_null();
                 val a_prim =
                     a.info.md.primitive.as_bare_entity.as[BaseTypeDecl];
@@ -5453,7 +5453,7 @@ class BaseTypeDecl: BasicDecl {
                 # Only keep primitive a if it is the "most overriding" one.
                 # So, the logic below checks that there isn't a primitive b
                 # that overrides it.
-                not bds.any((b, j) => {
+                not bds.iany((b, j) => {
                     val b_prim = b.info.md.primitive.as[BaseTypeDecl];
 
                     (i != j) and {
@@ -9103,7 +9103,7 @@ class GenericInstantiation: BasicDecl {
 
     @memoized
     fun instantiation_bindings_internal(): Array[InnerEnvAssoc] =
-        if self.is_any_formal() then null[Array[InnerEnvAssoc]] else node.nonbound_generic_decl_from_self().as![GenericDecl].formal_part.match_param_list(self.generic_inst_params(), false).map(
+        if self.is_any_formal() then null[Array[InnerEnvAssoc]] else node.nonbound_generic_decl_from_self().as![GenericDecl].formal_part.match_param_list(self.generic_inst_params(), false).imap(
             (pm, i) => InnerEnvAssoc(
                 key=pm.formal.name.name_symbol(), value=# Do not put formal subprograms in the rebindings to
                 # avoid them being eagerly resolved to an actual, as
@@ -9296,7 +9296,7 @@ class GenericInstantiation: BasicDecl {
                 case _: UseClause => null[Array[ParamActual]]
                 case _ => raise[Array[ParamActual]] PropertyError("unexpected declaration in generic formal part")
             }
-        ).map(
+        ).imap(
             (dp, i) => ParamActual(
                 param=dp.param, actual=# Update actuals from instantiation params
                 ap.actual_for_param_at(dp.param, i, dp.actual)
@@ -10389,7 +10389,7 @@ class CompositeConstraint: Constraint {
     fun xref_equation(): Equation = {
         val typ = self.subtype();
 
-        if self.is_index_constraint() then self.constraints.logic_all(
+        if self.is_index_constraint() then self.constraints.ilogic_all(
             (c, i) => {
                 val ex = c.as[CompositeConstraintAssoc].constraint_expr;
 
@@ -10448,7 +10448,7 @@ class CompositeConstraint: Constraint {
 
         # Update the constraints expressions if some are provided
         self.constraints.do(
-            (c) => discrs.map(
+            (c) => discrs.imap(
                 (dp, i) => ParamActual(
                     param=dp.param, actual=c.actual_for_param_at(dp.param, i, dp.actual)
                 )
@@ -11606,7 +11606,7 @@ class ConcatOp: Expr {
                     # should follow in the corresponding order, with the rightmost
                     # operand having its equation last. This allows optimal resolution
                     # (performance-wise) until eng/libadalang/langkit#725 is addressed.
-                    self.other_operands.logic_all(
+                    self.other_operands.ilogic_all(
                         (_, index) => {
                             val pos = operand_count - index - 1;
 
@@ -12745,7 +12745,7 @@ class Name: Expr {
         if is_call then # Create an array of pairs from the subprogram formals and
         # default expressions.
         {
-            val dparams = fparams.mapcat(
+            val dparams = fparams.imapcat(
                 (p, i) => p.defining_names().map(
                     (n) => ParamActual(
                         param=n, actual=# Handling dot notation (first actual is
@@ -12758,7 +12758,7 @@ class Name: Expr {
             # Create a new array by updating the actuals if the call
             # expression provides some.
             aparams.do(
-                (ap) => dparams.map(
+                (ap) => dparams.imap(
                     (dp, i) => ParamActual(
                         param=actual_formals?[i], actual=# Search if a named param expression exists for
                         # this formal param in the call assoc list.
@@ -13592,7 +13592,7 @@ class CallExpr: Name {
                 )
             ) or (
                 # Or a regular array access
-                self.params()?.logic_all(
+                self.params()?.ilogic_all(
                     (pa, i) => atd.indices.constrain_index_expr(pa.expr(), i)
                 ) and %eq(node.type_var(), atd.comp_type())
             )
@@ -13628,7 +13628,7 @@ class CallExpr: Name {
 
                 # The user indexing function that matches has one more
                 # parameter than that call expression.
-                if formals.length() == params.length() + 1 then %eq(node.type_var(), ret_type) and params.logic_all(
+                if formals.length() == params.length() + 1 then %eq(node.type_var(), ret_type) and params.ilogic_all(
                     (param, i) => %eq(param.expr().expected_type_var(), formals?[i + 1].formal_decl().formal_type()) and param.expr().matches_expected_type()
                 ) else %false
             }
@@ -13772,7 +13772,7 @@ class DefiningName: Name {
             case n => n.as_single_tok_node_array().map((t) => t.text())
         };
         val bd = self.basic_decl();
-        val self_name = def_name_array.map((t, i) =>
+        val self_name = def_name_array.imap((t, i) =>
             t
             & (if include_profile then bd.custom_id_text() else "")
             & (if i == def_name_array.length() - 1 then suffix else "")
@@ -14596,7 +14596,7 @@ class ArraySubcomponentChoiceName: Name {
         self.name.do(
             (n) => n.sub_equation(), default_val=%true
         ) and (
-            self.suffix_exprs().logic_all(
+            self.suffix_exprs().ilogic_all(
             # Resolve all suffix's indexes/range independently
             (a, i) => a.sub_equation()
             and %eq(a.expected_type_var(),
@@ -16015,7 +16015,7 @@ class Pragma: AdaNode {
             # `Expr.annotate_argument_equation`). Optionally, a final
             # association `Entity => <name>` can be given, where `name`
             # must resolve to a local declaration.
-            self.args.logic_all(
+            self.args.ilogic_all(
                 (arg, i) => if i < 2 then %true
                 elif arg.as[PragmaArgumentAssoc]?.name?.name_is(s"Entity") then arg.assoc_expr().as![Name].xref_no_overloading()
                 else arg.assoc_expr().annotate_argument_equation()
@@ -18304,7 +18304,7 @@ class UsePackageClause: UseClause {
     |" It is very important for this property to be memoized, as it is used a
     |" lot during lexical environment lookups.
     fun designated_envs(): Array[LexicalEnv] =
-        node.packages.map((_, i) => self.designated_env(i))
+        node.packages.imap((_, i) => self.designated_env(i))
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =

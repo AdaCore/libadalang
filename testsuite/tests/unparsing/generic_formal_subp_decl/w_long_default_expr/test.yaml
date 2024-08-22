@@ -1,0 +1,5 @@
+driver: unparser
+rule: generic_formal_decl
+description: |
+  Test that a linebreak is added before `f_default_expr` and that its indented
+  relative to the `f_subp_spec`.

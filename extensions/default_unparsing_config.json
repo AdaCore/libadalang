@@ -6200,7 +6200,6 @@
               "kind": "recurse_field",
               "field": "f_subp_kind"
             },
-            "whitespace",
             {
               "kind": "recurse_field",
               "field": "f_subp_name"
@@ -6222,6 +6221,10 @@
         }
       },
       "fields": {
+        "f_subp_name": [
+          "whitespace",
+          "recurse"
+        ],
         "f_subp_returns": {
           "kind": "align",
           "width": " ",

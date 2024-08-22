@@ -35,6 +35,9 @@ class UnparserDriver(BaseDriver):
         if rule:
             argv += ["-r", rule]
 
-        argv += [self.unparsing_config_filename, self.input_filename]
+        # Even though we are using the default unparsing configuration, pass
+        # the JSON file explicitly so that one does not need to rebuild
+        # Liblktlang in order to test a change in that configuration.
+        argv += ["-c", self.unparsing_config_filename, self.input_filename]
 
         self.run_and_check(argv, memcheck=True)

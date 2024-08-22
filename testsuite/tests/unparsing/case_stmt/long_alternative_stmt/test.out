@@ -6,5 +6,6 @@ case Foo is
    when Baz =>
       Quuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuux;
 
-   when others => null;
+   when others =>
+      null;
 end case;

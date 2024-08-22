@@ -7,7 +7,9 @@ case Fox is
      Quuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuux
        ("Corge");
 
-   when A => null;
+   when A =>
+      null;
 
-   when B => null;
+   when B =>
+      null;
 end case;

@@ -1521,12 +1521,17 @@
             "field": "f_overriding"
           },
           {
-            "kind": "recurse_field",
-            "field": "f_subp_spec"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_default_expr"
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_default_expr"
+              }
+            ]
           },
           {
             "kind": "recurse_field",
@@ -1543,10 +1548,21 @@
           "hardline",
           "recurse"
         ],
-        "f_default_expr": [
-          "whitespace",
-          "recurse"
-        ]
+        "f_default_expr": {
+          "kind": "group",
+          "document": [
+            "line",
+            {
+              "kind": "text",
+              "text": "is"
+            },
+            "whitespace",
+            {
+              "kind": "innerRoot",
+              "contents": "recurse"
+            }
+          ]
+        }
       }
     },
     "ConcreteTypeDecl": {

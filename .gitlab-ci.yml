@@ -2,70 +2,34 @@ include:
   - local: utils/gitlab-ci-common.yml
 
 
-variables:
-  UPSTREAM_PROJECT : eng/libadalang/langkit
-  UPSTREAM_PACKAGE_NAME: langkit.tar.gz
-  UPSTREAM_PACKAGE: $CI_PROJECT_DIR/$UPSTREAM_PACKAGE_NAME
-
-  PACKAGE_REPOSITORY_PROJECT: eng/libadalang/ci-packages
-
 stages:
   - single
 
 
 build_and_test:
-  # This job works with the latest package containing the upstream project
   extends: .basic
   rules:
-    # Do not trigger it from branches that start with "sync/": these are tested
-    # from the Langkit CI.
-    - if: $CI_COMMIT_BRANCH =~ /^sync\//
-      when: never
-    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^sync\//
-      when: never
-
     # Run this for merge requests only
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   services:
-     - image:sandbox
-     - cpu:8
+     - image:pe-base
+     - cpu:16
      - mem:16
   stage: single
   script:
-    - !reference [.script_snippets, setup]
-
-    # Download the langkit package
-    - download_generic_package $PACKAGE_REPOSITORY_PROJECT $UPSTREAM_PACKAGE_NAME
-    - tar zxf $UPSTREAM_PACKAGE -C /
-    - rm $UPSTREAM_PACKAGE
-
-    # Build
-    - cd /it/wave
-    - mkdir -p fingerprints
-    - anod vcs --add-repo libadalang $CI_PROJECT_DIR
-    - touch fingerprints/x86_64-linux.langkit_support.install.json.assume-unchanged
-    - touch fingerprints/x86_64-linux.langkit.install.json.assume-unchanged
-    - anod build --minimal libadalang
-    - anod build --minimal laldoc
-    - anod build --minimal libadalang-doc
-    - anod build --minimal libadalang_for_customers
-
-    # Run the testsuite
-    - anod test --minimal libadalang
-
-    # Produce a XUnit report for GitLab
-    - e3-testsuite-report
-        --failure-exit-code 1
-        --xunit-output $CI_PROJECT_DIR/xunit_output.xml
-        --xunit-name Libadalang
-        x86_64-linux/libadalang_test/results/new/;
-
+    - require_issue
+    # We frequently push coupled changes to Libadalang and Langkit: when this
+    # happens, it is no longer possible to build Libadalang with Langkit's
+    # production package for that day. To solve this problem,
+    # always pretend that we have Langkit changes in the pipe: Langkit is
+    # fairly fast to build anyway.
+    - generic_anod_ci --add-dep eng/libadalang/langkit
+    - . /tmp/ci_env.sh
+    - anod test libadalang $ACI_TRACK_QUALIFIER
+    - testsuite_reports
   artifacts:
-    when: always
-    paths:
-      - xunit_output.xml
     reports:
-      junit: xunit_output.xml
+      junit: xunit-*.xml
 
 
 check_issue:

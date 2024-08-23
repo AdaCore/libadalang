@@ -14881,7 +14881,9 @@ class BaseId: SingleTokNode implements TokenNode {
     @with_dynvars(env)
     fun scope(): LexicalEnv = {
         val elt = env.get_first(
-            node, lookup=if node.is_prefix() then LookupKind.recursive else LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
+            node.symbol,
+            lookup=if node.is_prefix() then LookupKind.recursive else LookupKind.flat,
+            categories=RefCategories(inherited_primitives=false, _=true)
         );
         val ret = if not elt.is_null and elt.node is BasicDecl then elt.children_env() else null[LexicalEnv];
 

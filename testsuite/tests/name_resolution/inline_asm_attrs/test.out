@@ -21,11 +21,11 @@ Expr: <Id "Inputs" test.adb:9:9-9:15>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:9:20-9:54>
-  references:    interfaces.asm_input
+  references:    interfaces.asm_input((standard.string, interfaces.unsigned_32) -> system.machine_code.asm_input_operand)
   type:          system.machine_code.asm_input_operand
   expected type: system.machine_code.asm_input_operand
 Expr: <AttributeRef test.adb:9:20-9:41>
-  references:    interfaces.asm_input
+  references:    interfaces.asm_input((standard.string, interfaces.unsigned_32) -> system.machine_code.asm_input_operand)
   type:          None
   expected type: None
 Expr: <Id "Unsigned_32" test.adb:9:20-9:31>
@@ -49,11 +49,11 @@ Expr: <Id "Outputs" test.adb:10:9-10:16>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:10:20-10:57>
-  references:    interfaces.asm_output
+  references:    interfaces.asm_output((standard.string, interfaces.unsigned_32) -> system.machine_code.asm_output_operand)
   type:          system.machine_code.asm_output_operand
   expected type: system.machine_code.asm_output_operand
 Expr: <AttributeRef test.adb:10:20-10:42>
-  references:    interfaces.asm_output
+  references:    interfaces.asm_output((standard.string, interfaces.unsigned_32) -> system.machine_code.asm_output_operand)
   type:          None
   expected type: None
 Expr: <Id "Unsigned_32" test.adb:10:20-10:31>

@@ -1761,6 +1761,12 @@
             "text": ";"
           }
         ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
       }
     },
     "DeclExpr": {
@@ -2203,6 +2209,10 @@
       "fields": {
         "f_aspects": [
           "line",
+          "recurse"
+        ],
+        "f_end_name": [
+          "whitespace",
           "recurse"
         ]
       }
@@ -3054,6 +3064,12 @@
             "text": ";"
           }
         ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
       }
     },
     "GenericFormalPart": {
@@ -3415,6 +3431,10 @@
         }
       ],
       "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ],
         "f_private_part": [
           {
             "kind": "indent",
@@ -3981,6 +4001,12 @@
             "kind": "text",
             "text": ";"
           }
+        ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
         ]
       }
     },
@@ -4653,6 +4679,10 @@
             "recurse"
           ]
         },
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ],
         "f_stmts": [
           "recurse",
           "hardline"
@@ -4769,6 +4799,10 @@
               "recurse"
             ]
           }
+        ],
+        "f_end_name": [
+          "whitespace",
+          "recurse"
         ],
         "f_private_part": [
           {
@@ -5158,7 +5192,11 @@
             "hardline",
             "recurse"
           ]
-        }
+        },
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
       }
     },
     "ProtectedBodyStub": {
@@ -5232,7 +5270,6 @@
             "kind": "text",
             "text": "end"
           },
-          "whitespace",
           {
             "kind": "recurse_field",
             "field": "f_end_name"
@@ -5250,7 +5287,11 @@
             },
             "hardline"
           ]
-        }
+        },
+        "f_end_name": [
+          "whitespace",
+          "recurse"
+        ]
       }
     },
     "ProtectedTypeDecl": {
@@ -6115,6 +6156,10 @@
             ]
           },
           "hardlineWithoutBreakParent"
+        ],
+        "f_end_name": [
+          "whitespace",
+          "recurse"
         ]
       }
     },
@@ -6438,6 +6483,10 @@
             ]
           },
           "hardlineWithoutBreakParent"
+        ],
+        "f_end_name": [
+          "whitespace",
+          "recurse"
         ]
       }
     },
@@ -6922,6 +6971,12 @@
             "kind": "text",
             "text": ";"
           }
+        ]
+      },
+      "fields": {
+        "f_end_name": [
+          "whitespace",
+          "recurse"
         ]
       }
     },

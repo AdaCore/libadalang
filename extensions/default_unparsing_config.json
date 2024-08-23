@@ -1074,20 +1074,14 @@
           {
             "kind": "indent",
             "contents": [
-              "hardlineWithoutBreakParent",
+              "hardline",
               {
-                "kind": "group",
-                "document": {
-                  "kind": "recurse_field",
-                  "field": "f_pragmas"
-                }
+                "kind": "recurse_field",
+                "field": "f_pragmas"
               },
               {
-                "kind": "group",
-                "document": {
-                  "kind": "recurse_field",
-                  "field": "f_alternatives"
-                }
+                "kind": "recurse_field",
+                "field": "f_alternatives"
               }
             ]
           },
@@ -1113,64 +1107,58 @@
           "then": "recurse",
           "else": [
             "recurse",
-            "hardlineWithoutBreakParent",
-            "hardlineWithoutBreakParent"
+            "hardline",
+            "hardline"
           ]
         }
       }
     },
     "CaseStmtAlternative": {
-      "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "indent",
-                "contents": [
-                  {
-                    "kind": "text",
-                    "text": "when"
-                  },
-                  "whitespace",
-                  {
-                    "kind": "group",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_choices"
-                    }
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "indent",
+              "contents": [
+                {
+                  "kind": "text",
+                  "text": "when"
+                },
+                "whitespace",
+                {
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_choices"
                   }
-                ]
-              },
-              "line",
-              {
-                "kind": "text",
-                "text": "=>"
-              }
-            ]
-          },
-          {
-            "kind": "indent",
-            "contents": [
-              "line",
-              {
-                "kind": "group",
-                "document": {
-                  "kind": "recurse_field",
-                  "field": "f_stmts"
                 }
-              }
-            ]
-          }
-        ]
-      }
+              ]
+            },
+            "line",
+            {
+              "kind": "text",
+              "text": "=>"
+            }
+          ]
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            "hardline",
+            {
+              "kind": "recurse_field",
+              "field": "f_stmts"
+            }
+          ]
+        }
+      ]
     },
     "CaseStmtAlternativeList": {
       "sep": [
         "recurse",
-        "hardlineWithoutBreakParent",
-        "hardlineWithoutBreakParent"
+        "hardline",
+        "hardline"
       ]
     },
     "CompilationUnit": {

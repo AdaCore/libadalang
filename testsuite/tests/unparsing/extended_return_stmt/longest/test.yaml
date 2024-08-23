@@ -1,0 +1,4 @@
+driver: unparser
+rule: stmt
+description: |
+  Test that there is a line break before and after `f_decl`.

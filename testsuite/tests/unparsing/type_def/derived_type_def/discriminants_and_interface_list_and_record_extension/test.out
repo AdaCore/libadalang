@@ -7,6 +7,6 @@ is abstract limited
   and Poooooooooooooooooiiiiint2
   and Point3
 with record
-   Paint_1   : Color   := White;
+   Paint_1   : Color := White;
    Paint_222 : Color_X := White;
 end record;

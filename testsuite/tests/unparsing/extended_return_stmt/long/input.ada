@@ -1,5 +1,4 @@
-return Foo : Bar := Bazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-do
+return Foo : Bar := Bazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz do
    null;
    null;
 end return;

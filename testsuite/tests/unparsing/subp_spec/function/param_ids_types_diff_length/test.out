@@ -1,8 +1,8 @@
 function Foo
-  (AAAAAAAAAAAAAAAA             : Baaaaaar              := Bar;
+  (AAAAAAAAAAAAAAAA             : Baaaaaar := Bar;
    BBBBBBBBBBBBBBBBBBBB         :
      Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz :=
        Bazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-   CCCCCCCCCCCCCCCCCCCCCCCCCCCC : Quuuuuuuuuuuuuuuuuux  := Qux;
+   CCCCCCCCCCCCCCCCCCCCCCCCCCCC : Quuuuuuuuuuuuuuuuuux := Qux;
    DDDDDDDDDDDDDDD              : Corge)
    return Freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed

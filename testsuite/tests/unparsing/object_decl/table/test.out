@@ -1,7 +1,7 @@
 procedure Main is
-   AAAAAAAAAAAAAAAA             : Baaaaaar             := Bar;
+   AAAAAAAAAAAAAAAA             : Baaaaaar := Bar;
    BBBBBBBBBBBBBBBBBBBB         :
-     Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz       :=
+     Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz :=
        Bazzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
    CCCCCCCCCCCCCCCCCCCCCCCCCCCC : Quuuuuuuuuuuuuuuuuux := Qux;
    DDDDDDDDDDDDDDD              : Corge;

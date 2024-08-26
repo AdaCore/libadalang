@@ -180,7 +180,7 @@ class AdaNode implements Node[AdaNode] {
         # Promote declarations that returns a value
         item.expr_type().do(
             (_) => # Return value type of item matches name's type
-            if name.referenced_decl()?.type_expression()?.designated_type_decl().matching_assign_type(td) and te_not_null then 100
+            if (name.referenced_decl()?.type_expression()?.designated_type_decl().matching_assign_type(td) and te_not_null) then 100
             # Re-try with best-effort resolution (for incomplete code)
             elif {
                 bind imprecise_fallback = true;
@@ -233,7 +233,7 @@ class AdaNode implements Node[AdaNode] {
 
     fun generic_instantiations_internal(r: EnvRebindings): Array[Entity[GenericInstantiation]] =
         if r == null[EnvRebindings] then null[Array[Entity[GenericInstantiation]]] else {
-            val head = r.new_env.env_node.as![GenericInstantiation].as_bare_entity;
+            val head = (r.new_env.env_node.as![GenericInstantiation].as_bare_entity);
             val tail = node.generic_instantiations_internal(r.get_parent);
 
             [head] & tail
@@ -417,13 +417,13 @@ class AdaNode implements Node[AdaNode] {
 
         # For bodies, and if `include_skip_proof_annotations` is True,
         # check `Skip_Proof`/`Skip_Flow_And_Proof`.
-        if include_skip_proof_annotations and not self.as[Body].do(
+        if (include_skip_proof_annotations and not self.as[Body].do(
             (b) => b, default_val=self.semantic_parents().find((n) => n is Body).as[Body]
         ).do(
             (b) => b.gnatprove_annotations().find(
                 (a) => a.as[Name].name_symbol() in s"Skip_Proof" | s"Skip_Flow_And_Proof"
             )
-        ).is_null then false
+        ).is_null) then false
         elif not spark_mode.exists then false
         else spark_mode.value.do(
             (mode) => mode.as[Name].name_is(s"On"),
@@ -566,12 +566,9 @@ class AdaNode implements Node[AdaNode] {
             if c.xref_entry_point() then true else (
                 if c.as_entity.xref_stop_resolution() then {
                     bind entry_point = c;
+                    bind env = self.xref_initial_env();
 
-                    {
-                        bind env = self.xref_initial_env();
-
-                        c.as_entity.resolve_own_names(generate_diagnostics)
-                    }
+                    c.as_entity.resolve_own_names(generate_diagnostics)
                 } else true
             ) and c.as_entity.resolve_children_names(generate_diagnostics), default_val=true
         )
@@ -14975,12 +14972,13 @@ class BaseId: SingleTokNode implements TokenNode {
     fun designated_env_no_overloading(): LexicalEnv = node.env_get_first_visible(
         env, lookup_type=if node.is_prefix() then LookupKind.recursive else LookupKind.flat, from_node=node.origin_node()
     ).as[BasicDecl].do(
-        (bd) => # Getting back an ObjectDecl necessarily means we are dealing with
+        # Getting back an ObjectDecl necessarily means we are dealing with
         # incorrect Ada code, because `designated_env_no_overloading` is
         # always called in context where we expect a package/type
         # declaration. In that case we now directly return an empty result,
         # in order to avoid cases of invalid code that trigger infinite
         # recursions (e.g. `Foo : Foo.T;`).
+        (bd) =>
         if bd is ObjectDecl then node.empty_env()
         elif bd?.is_package() then self.pkg_env(bd)
         else {
@@ -17988,13 +17986,13 @@ class OrdinaryFixedPointDef: RealTypeDef {
 
     |" Build an equation for an ordinary fixed point type definition.
     @with_dynvars(env, origin, entry_point)
-    fun xref_equation(): Equation = (
+    fun xref_equation(): Equation =
         # As per RM 3.5.9, the delta expression is expected to be of any
         # real type.
         self.universal_real_bind(self.delta.expected_type_var())
-    ) and self.delta.sub_equation() and self.delta.matches_expected_type() and (
-        if node.range.is_null then %true else self.range.sub_equation()
-    )
+        and self.delta.sub_equation()
+        and self.delta.matches_expected_type()
+        and (if node.range.is_null then %true else self.range.sub_equation())
 
     @memoized
     fun predefined_operators(): Array[EnvAssoc] = {
@@ -18467,6 +18465,7 @@ class Variant: AdaNode {
     |" Check if any choice in the choice list matches expr's value.
     fun matches(expr: Entity[Expr]): Bool = {
         # Statically evaluate expr
+
         val expr_val = (
             # If expr is a box expr, `expr_val` is the value of the default
             # expression of the given discriminant (:rmlink:`4.3.1`).
@@ -18495,9 +18494,7 @@ class VariantPart: AdaNode {
             (var) => var.choices.logic_all(
                 (c) => match c {
                     # Expression case
-                    case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else (
-                        %eq(e.expected_type_var(), node.discr_name.type_val()) and e.sub_equation()
-                    ) and e.matches_expected_type()
+                    case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else %eq(e.expected_type_var(), node.discr_name.type_val()) and e.sub_equation() and e.matches_expected_type()
 
                     # SubtypeIndication case (``when Color range Red .. Blue``)
                     case t: SubtypeIndication => t.xref_equation()
@@ -18517,11 +18514,11 @@ class VariantPart: AdaNode {
         ).do(
             (d) => d.actual.assoc.expr(), default_val=self.parents().find((n) => n is ConcreteTypeDecl).as[ConcreteTypeDecl].discriminants.abstract_formal_params().find(
                 (d) => not d.as[DiscriminantSpec].defining_names().filter(
-                    (n) => # If the discriminant is found in aggregate params we are looking
+                    # If the discriminant is found in aggregate params we are looking
                     # for, then take its actual's expression.
                     # Else, take the default expression of the this variant's related
                     # discriminant specification.
-                    n.name.name_is(node.discr_name.symbol)
+                    (n) => n.name.name_is(node.discr_name.symbol)
                 ).is_null
             ).as[DiscriminantSpec].default_expr
         );

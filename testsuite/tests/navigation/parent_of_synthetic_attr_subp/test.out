@@ -2,7 +2,7 @@ Working on node <ObjectDecl ["X"] test.adb:3:4-3:26>
 ====================================================
 
 Eval 'node.f_default_expr.p_called_subp_spec.parent'
-Result: <SyntheticSubpDecl [""] __standard:4:3-4:54>
+Result: <SyntheticSubpDecl ["image"] __standard:4:3-4:54>
 
 Eval 'node.f_default_expr.p_called_subp_spec.parent.parent'
 Result: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>

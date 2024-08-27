@@ -1,0 +1,21 @@
+Analyzing test.ads
+##################
+
+Resolving xrefs for node <SubpRenamingDecl ["Foo1"] test.ads:6:4-6:65>
+**********************************************************************
+
+Expr: <DottedName test.ads:6:57-6:64>
+  references:    <DefiningName "Bar" test.ads:3:16-3:19>
+  type:          None
+  expected type: None
+Expr: <Id "Int" test.ads:6:57-6:60>
+  references:    <DefiningName "Int" test.ads:2:12-2:15>
+  type:          None
+  expected type: None
+Expr: <Id "Bar" test.ads:6:61-6:64>
+  references:    <DefiningName "Bar" test.ads:3:16-3:19>
+  type:          None
+  expected type: None
+
+
+Done.

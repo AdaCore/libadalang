@@ -1229,23 +1229,36 @@ class AdaNode implements Node[AdaNode] {
     }
 
     |" Static property. Finds the closest parent which is a ``BaseSubpSpec`` /
-    |" ``GenericInstantiation`` / ``ComponentDecl``. Is used by ``env_get``
-    |" to implement correct visibility rules for those. See documentation on
-    |" that property.
-    fun env_get_real_from_node(from_node: AdaNode): AdaNode = if from_node.is_null then from_node else {
-        val c = from_node.parents().find(
-            (n) => n is GenericInstantiation | BaseSubpSpec | ComponentDecl
-        );
+    |" ``GenericInstantiation`` / ``ComponentDecl`` / ``RenamingClause``.
+    |" Is used by ``env_get`` to implement correct visibility rules for those.
+    |" See documentation on that property.
+    fun env_get_real_from_node(from_node: AdaNode): AdaNode =
+        if from_node.is_null then
+            from_node
+        else {
+            val c = from_node.parents().find((n) =>
+                n is GenericInstantiation | BaseSubpSpec | ComponentDecl
+                    | RenamingClause
+            );
 
-        if c.is_null then from_node
-        # A generic instantiation may have referenced environments,
-        # therefore we don't want the lookup origin to be done on
-        # the instantiation node directly, otherwise these references
-        # will not be visited, as they won't be considered reachable.
-        elif c is GenericInstantiation then c.as[GenericInstantiation].as_bare_entity.defining_name().node
-        elif c is BaseSubpSpec then c.as[BaseSubpSpec].as_bare_entity.name().node
-        else c
-    }
+            if c.is_null then
+                from_node
+            elif c is GenericInstantiation then
+                # A generic instantiation may have referenced environments,
+                # therefore we don't want the lookup origin to be done on
+                # the instantiation node directly, otherwise these references
+                # will not be visited, as they won't be considered reachable.
+                c.as[GenericInstantiation].as_bare_entity.defining_name().node
+            elif c is BaseSubpSpec then
+                c.as[BaseSubpSpec].as_bare_entity.name().node
+            elif c is RenamingClause then
+                # By querying from the parent of the renaming clause, we
+                # prevent a SubpRenamingDecl's renamed object from  having
+                # visibility over its own parameters.
+                c.as[RenamingClause].parent
+            else
+                c
+        }
 
     |" Static property. Create an entity from the arguments with a null
     |" metadata.

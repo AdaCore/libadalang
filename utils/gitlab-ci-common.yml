@@ -2,22 +2,7 @@
 
 .basic:
   interruptible: true
-  variables:
-    ADASAT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/adasat
-    ANOD_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/it/anod
-    AWS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/toolchain/aws
-    GNATFORMAT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/ide/gnatformat
-    GPR2_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/gpr/gpr
-    LANGKIT_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/langkit
-    LIBADALANG_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/libadalang/libadalang
-    LIBADALANG_TOOLS_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/ide/libadalang-tools
-    TEMPLATES_PARSER_GIT: https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/eng/toolchain/templates-parser
 
-.script_snippets:
-  setup:
-    # Use the latest Anod specs
-    - (cd /tmp && git clone --depth 1 $ANOD_GIT)
-    - (cd /it/wave && anod tune --anod-dir /tmp/anod)
 
 .check_issue:
   rules: # Launch only on merge requests
@@ -54,29 +39,17 @@
      - cpu:16
      - mem:16
   script:
-    - !reference [.script_snippets, setup]
-
-    # Get up-to-date sources for the continuous build: anod specs, LAL
-    # repositories and unstabilized projects using LAL.
-    - cd /tmp
-    - git clone --depth 1 $ADASAT_GIT
-    - git clone --depth 1 $AWS_GIT
-    - git clone --depth 1 $GNATFORMAT_GIT
-    - git clone --depth 1 $GPR2_GIT
-    - git clone --depth 1 $LANGKIT_GIT
-    - git clone --depth 1 $LIBADALANG_GIT
-    - git clone --depth 1 $LIBADALANG_TOOLS_GIT
-    - git clone --depth 1 $TEMPLATES_PARSER_GIT
-
-    # Make the sandbox use these sources over nightly source packages
-    - cd /it/wave
-    - anod vcs --add-repo adasat /tmp/adasat
-    - anod vcs --add-repo aws /tmp/aws
-    - anod vcs --add-repo gnatformat /tmp/gnatformat
-    - anod vcs --add-repo gpr2 /tmp/gpr
-    - anod vcs --add-repo langkit /tmp/langkit
-    - anod vcs --add-repo libadalang /tmp/libadalang
-    - anod vcs --add-repo libadalang-tools /tmp/libadalang-tools
-    - anod vcs --add-repo templates_parser /tmp/templates-parser
-
-    - anod run --plan /tmp/libadalang/utils/gitlab-cb.plan run_cb --smart-rebuild
+    - generic_anod_ci
+        --continuous-builder-mode
+        --add-dep eng/gpr/gpr
+        --add-dep eng/ide/gnatformat
+        --add-dep eng/ide/libadalang-tools
+        --add-dep eng/libadalang/adasat
+        --add-dep eng/libadalang/langkit
+        --add-dep eng/libadalang/libadalang
+        --add-dep eng/toolchain/templates-parser
+    - . /tmp/ci_env.sh
+    - anod run
+        --plan /it/gitlab-runner/builds/eng/libadalang/libadalang/utils/gitlab-cb.plan
+        --smart-rebuild
+        run_cb

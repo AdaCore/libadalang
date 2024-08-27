@@ -16841,327 +16841,338 @@ class TypeAttributesRepository: AdaNode {
     base_type: BaseTypeDecl
 
     @lazy
-    base_type_expr: SyntheticTypeExpr =
-        SyntheticTypeExpr(target_type=node.base_type)
-
-    @lazy
-    universal_int_type_expr: SyntheticTypeExpr = SyntheticTypeExpr(
-        target_type=node.universal_int_type().node
-    )
-
-    @lazy
-    base_type_param: SyntheticFormalParamDecl = SyntheticFormalParamDecl(
-        param_name=s"Value", param_type=node.base_type_expr
-    )
-
-    @lazy
-    universal_int_param: SyntheticFormalParamDecl = SyntheticFormalParamDecl(
-        param_name=s"Value", param_type=node.universal_int_type_expr
-    )
-
-    @lazy
-    universal_real_param: SyntheticFormalParamDecl = SyntheticFormalParamDecl(
-        param_name=s"Value", param_type=SyntheticTypeExpr(
-            target_type=node.universal_real_type().node
+    base_type_expr: NodeBuilder[SyntheticTypeExpr] =
+        SyntheticTypeExpr.builder(
+            target_type=node.base_type.to_builder()
         )
-    )
 
     @lazy
-    root_stream_param: SyntheticFormalParamDecl = SyntheticFormalParamDecl(
-        param_name=s"S", param_type=SyntheticTypeExpr(
-            target_type=node.root_stream_type().anonymous_access_type().node
+    universal_int_type_expr: NodeBuilder[SyntheticTypeExpr] =
+        SyntheticTypeExpr.builder(
+            target_type=node.universal_int_type().node.to_builder()
         )
-    )
 
     @lazy
-    succ: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    universal_real_type_expr: NodeBuilder[SyntheticTypeExpr] =
+        SyntheticTypeExpr.builder(
+            target_type=node.universal_real_type().node.to_builder()
+        )
+
+    @lazy
+    base_type_param: NodeBuilder[SyntheticFormalParamDecl] =
+        SyntheticFormalParamDecl.builder(
+            param_name=s"Value", param_type=node.base_type_expr
+        )
+
+    @lazy
+    universal_int_param: NodeBuilder[SyntheticFormalParamDecl] =
+        SyntheticFormalParamDecl.builder(
+            param_name=s"Value", param_type=node.universal_int_type_expr
+        )
+
+    @lazy
+    universal_real_param: NodeBuilder[SyntheticFormalParamDecl] =
+        SyntheticFormalParamDecl.builder(
+            param_name=s"Value", param_type=node.universal_real_type_expr
+        )
+
+    @lazy
+    root_stream_param: NodeBuilder[SyntheticFormalParamDecl] =
+        SyntheticFormalParamDecl.builder(
+            param_name=s"S", param_type=SyntheticTypeExpr.builder(
+                target_type=node.root_stream_type().anonymous_access_type().node.to_builder()
+            )
+        )
+
+    @lazy
+    succ: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Succ", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    pred: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    pred: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Pred", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    min: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    min: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Min", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    max: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    max: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Max", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
     round: BasicSubpDecl = # As defined in :rmlink:`3.5.10`
-    SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Round", right_param=node.universal_real_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    rounding: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    rounding: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Rounding", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    unbiased_rounding: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    unbiased_rounding: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Unbiased_Rounding", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    ceiling: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    ceiling: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Ceiling", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    floor: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    floor: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Floor", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    truncation: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    truncation: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Truncation", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    machine: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    machine: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Machine", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    machine_rounding: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    machine_rounding: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Machine_Rounding", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    fraction: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    fraction: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Fraction", right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    exponent: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    exponent: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Exponent", right_param=node.base_type_param, return_type_expr=node.universal_int_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    copy_sign: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    copy_sign: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Copy_Sign", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    remainder: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    remainder: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Remainder", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    adjacent: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    adjacent: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Adjacent", left_param=node.base_type_param, right_param=node.base_type_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    scaling: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    scaling: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Scaling", left_param=node.base_type_param, right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    compose: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    compose: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Compose", left_param=node.base_type_param, right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    leading_part: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
+    leading_part: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
             subp_symbol=s"Leading_Part", left_param=node.base_type_param, right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    mod: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    mod: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Mod", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    value: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
-            subp_symbol=s"Value", right_param=SyntheticFormalParamDecl(
-                param_name=s"Val", param_type=SyntheticTypeExpr(
-                    target_type=node.std_entity(s"String").as[BaseTypeDecl].node
+    value: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
+            subp_symbol=s"Value", right_param=SyntheticFormalParamDecl.builder(
+                param_name=s"Val", param_type=SyntheticTypeExpr.builder(
+                    target_type=node.std_entity(s"String").as[BaseTypeDecl].node.to_builder()
                 )
             ), return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    wide_value: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
-            subp_symbol=s"Wide_Value", right_param=SyntheticFormalParamDecl(
-                param_name=s"Val", param_type=SyntheticTypeExpr(
-                    target_type=node.std_entity(s"Wide_String").as[BaseTypeDecl].node
+    wide_value: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
+            subp_symbol=s"Wide_Value", right_param=SyntheticFormalParamDecl.builder(
+                param_name=s"Val", param_type=SyntheticTypeExpr.builder(
+                    target_type=node.std_entity(s"Wide_String").as[BaseTypeDecl].node.to_builder()
                 )
             ), return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    wide_wide_value: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
-            subp_symbol=s"Wide_Wide_Value", right_param=SyntheticFormalParamDecl(
-                param_name=s"Val", param_type=SyntheticTypeExpr(
-                    target_type=node.std_entity(s"Wide_Wide_String").as[BaseTypeDecl].node
+    wide_wide_value: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
+            subp_symbol=s"Wide_Wide_Value", right_param=SyntheticFormalParamDecl.builder(
+                param_name=s"Val", param_type=SyntheticTypeExpr.builder(
+                    target_type=node.std_entity(s"Wide_Wide_String").as[BaseTypeDecl].node.to_builder()
                 )
             ), return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    fixed_value: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    fixed_value: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Fixed_Value", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    integer_value: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    integer_value: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Integer_Value", right_param=node.universal_real_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    pos: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    pos: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Pos", right_param=node.base_type_param, return_type_expr=node.universal_int_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     # We can't name it just `val` as this is a keyword in LKT
     @lazy
-    val_attr: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    val_attr: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Val", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    enum_rep: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    enum_rep: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Enum_Rep", right_param=node.base_type_param, return_type_expr=node.universal_int_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    enum_val: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    enum_val: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Enum_Val", right_param=node.universal_int_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    read: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
-            subp_symbol=s"Read", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr]
+    read: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
+            subp_symbol=s"Read", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr].to_builder()
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    write: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
-            subp_symbol=s"Write", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr]
+    write: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
+            subp_symbol=s"Write", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr].to_builder()
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    input: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    input: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Input", right_param=node.root_stream_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    output: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
-            subp_symbol=s"Output", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr]
+    output: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
+            subp_symbol=s"Output", left_param=node.root_stream_param, right_param=node.base_type_param, return_type_expr=null[TypeExpr].to_builder()
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    image: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
-            subp_symbol=s"Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(
-                target_type=node.std_entity(s"String").as[BaseTypeDecl].node
+    image: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
+            subp_symbol=s"Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr.builder(
+                target_type=node.std_entity(s"String").as[BaseTypeDecl].node.to_builder()
             )
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    wide_image: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
-            subp_symbol=s"Wide_Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(
-                target_type=node.std_entity(s"Wide_String").as[BaseTypeDecl].node
+    wide_image: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
+            subp_symbol=s"Wide_Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr.builder(
+                target_type=node.std_entity(s"Wide_String").as[BaseTypeDecl].node.to_builder()
             )
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    wide_wide_image: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
-            subp_symbol=s"Wide_Wide_Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(
-                target_type=node.std_entity(s"Wide_Wide_String").as[BaseTypeDecl].node
+    wide_wide_image: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
+            subp_symbol=s"Wide_Wide_Image", right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr.builder(
+                target_type=node.std_entity(s"Wide_Wide_String").as[BaseTypeDecl].node.to_builder()
             )
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
-    put_image: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticBinarySpec(
-            subp_symbol=s"Put_Image", left_param=SyntheticFormalParamDecl(
-                param_name=s"Buffer", param_type=SyntheticTypeExpr(
-                    target_type=node.root_buffer_type().classwide_type().node
+    put_image: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticBinarySpec.builder(
+            subp_symbol=s"Put_Image", left_param=SyntheticFormalParamDecl.builder(
+                param_name=s"Buffer", param_type=SyntheticTypeExpr.builder(
+                    target_type=node.root_buffer_type().classwide_type().node.to_builder()
                 )
-            ), right_param=node.base_type_param, return_type_expr=null[TypeExpr]
+            ), right_param=node.base_type_param, return_type_expr=null[TypeExpr].to_builder()
         )
-    )
+    ).build(parent=node.base_type)
 
     @lazy
     asm_input: BasicSubpDecl = {
@@ -17171,16 +17182,16 @@ class TypeAttributesRepository: AdaNode {
             s"Asm_Input_Operand", lookup=LookupKind.flat
         ).node.as[BaseTypeDecl];
 
-        SyntheticSubpDecl(
-            spec=SyntheticBinarySpec(
-                subp_symbol=s"Asm_Input", left_param=SyntheticFormalParamDecl(
-                    param_name=s"S", param_type=SyntheticTypeExpr(
-                        target_type=node.std_entity(s"String").as[BaseTypeDecl].node
+        SyntheticSubpDecl.builder(
+            spec=SyntheticBinarySpec.builder(
+                subp_symbol=s"Asm_Input", left_param=SyntheticFormalParamDecl.builder(
+                    param_name=s"S", param_type=SyntheticTypeExpr.builder(
+                        target_type=node.std_entity(s"String").as[BaseTypeDecl].node.to_builder()
                     )
-                ), right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(target_type=input_type)
+                ), right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr.builder(target_type=input_type.to_builder())
             )
         )
-    }
+    }.build(parent=node.base_type)
 
     @lazy
     asm_output: BasicSubpDecl = {
@@ -17190,23 +17201,23 @@ class TypeAttributesRepository: AdaNode {
             s"Asm_Output_Operand", lookup=LookupKind.flat
         ).node.as[BaseTypeDecl];
 
-        SyntheticSubpDecl(
-            spec=SyntheticBinarySpec(
-                subp_symbol=s"Asm_Output", left_param=SyntheticFormalParamDecl(
-                    param_name=s"S", param_type=SyntheticTypeExpr(
-                        target_type=node.std_entity(s"String").as[BaseTypeDecl].node
+        SyntheticSubpDecl.builder(
+            spec=SyntheticBinarySpec.builder(
+                subp_symbol=s"Asm_Output", left_param=SyntheticFormalParamDecl.builder(
+                    param_name=s"S", param_type=SyntheticTypeExpr.builder(
+                        target_type=node.std_entity(s"String").as[BaseTypeDecl].node.to_builder()
                     )
-                ), right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr(target_type=output_type)
+                ), right_param=node.base_type_param, return_type_expr=SyntheticTypeExpr.builder(target_type=output_type.to_builder())
             )
         )
-    }
+    }.build(parent=node.base_type)
 
     @lazy
-    model: BasicSubpDecl = SyntheticSubpDecl(
-        spec=SyntheticUnarySpec(
+    model: BasicSubpDecl = SyntheticSubpDecl.builder(
+        spec=SyntheticUnarySpec.builder(
             subp_symbol=s"Model", right_param=node.universal_real_param, return_type_expr=node.base_type_expr
         )
-    )
+    ).build(parent=node.base_type)
 }
 
 |" Base class for type definitions (:rmlink:`3.2.1`).
@@ -18104,6 +18115,11 @@ class TypeExpr: AdaNode {
     @exported
     fun is_definite_subtype(): Bool =
         self.designated_type_decl().is_definite_subtype()
+
+    fun custom_id_text(): String = {
+        bind origin = node;
+        self.designated_type().canonical_fully_qualified_name()
+    }
 }
 
 |" Container for inline anonymous array and access types declarations.
@@ -18213,12 +18229,6 @@ class SubtypeIndication: TypeExpr {
         self.constraint.do(
             (c) => c.is_static(), default_val=self.designated_type().is_static_decl()
         )
-    }
-
-    fun custom_id_text(): String = {
-        bind origin = node;
-
-        self.designated_type().canonical_fully_qualified_name()
     }
 }
 

@@ -1446,6 +1446,7 @@ class AdaNode implements Node[AdaNode] {
     |" Custom Unique identifying text used to recognize this node. Not
     |" applicable to all nodes, but on AdaNode because it spans more than one
     |" hierarchy of node types.
+    @ignored
     fun custom_id_text(): String = ""
 
     |" Internal method used by ``complete`` to get the array of possible

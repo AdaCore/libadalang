@@ -7,6 +7,7 @@ nosuchgpr.gpr: error: project file "<working-dir>/nosuchgpr.gpr" not found
 Got no exception
 
 error: kb: warning: can't find a toolchain for the following configuration: language 'Ada', target 'nosuchtarget', default runtime
+error: nosuchtarget.gpr: warning: there are no sources of language "Ada" in this project
 
 == missingdep.gpr ==
 Got an exception (EXCEPTION_PROJECT_ERROR):

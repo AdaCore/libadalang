@@ -2,11 +2,11 @@ Working on node <ConcreteTypeDecl ["U"] test.adb:7:7-7:44>
 ==========================================================
 
 Set 'prims' to 'node.p_get_primitives(include_predefined_operators=True)'
-Result: [<SyntheticSubpDecl [""] test.adb:3:17-3:35>,
-         <SyntheticSubpDecl [""] test.adb:3:17-3:35>]
+Result: [<SyntheticSubpDecl [""=""] test.adb:3:17-3:35>,
+         <SyntheticSubpDecl [""/=""] test.adb:3:17-3:35>]
 
 Set 'eq_op' to 'prims[0]'
-Result: <SyntheticSubpDecl [""] test.adb:3:17-3:35>
+Result: <SyntheticSubpDecl [""=""] test.adb:3:17-3:35>
 
 Eval 'eq_op.p_base_subp_declarations()'
 Result: []

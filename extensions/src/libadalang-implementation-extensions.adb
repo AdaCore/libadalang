@@ -441,22 +441,21 @@ package body Libadalang.Implementation.Extensions is
          end if;
 
          case Node.Kind is
-            when Ada_Synthetic_Defining_Name =>
-               return Text (Node);
-            when others =>
-               null;
-         end case;
-
-         case Env_Hooks.Defining_Name_Nodes (Node.Kind) is
             when Ada_Base_Id =>
                return Text (Node);
+
+            when Ada_Synthetic_Identifier =>
+               return Image (Node.Synthetic_Identifier_Sym);
 
             when Ada_Dotted_Name =>
                return (Name_Image (Node.Dotted_Name_F_Prefix)
                        & "." & Name_Image (Node.Dotted_Name_F_Suffix));
 
-            when Ada_Defining_Name =>
+            when Ada_Defining_Name_Range =>
                return Name_Image (Node.Defining_Name_F_Name);
+
+            when others =>
+               raise Constraint_Error with "Unexpected node kind";
          end case;
       end Name_Image;
 

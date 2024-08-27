@@ -38,7 +38,7 @@ Working on node <ObjectDecl ["A"] test.adb:28:4-28:30>
 ======================================================
 
 Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit [""] __standard:22:3-22:32>
+Result: <SyntheticCharEnumLit ["'a'"] __standard:22:3-22:32>
 
 Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'a'(() -> standard.wide_character.'a')"
@@ -50,7 +50,7 @@ Working on node <ObjectDecl ["E"] test.adb:33:4-33:25>
 ======================================================
 
 Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit [""] __standard:21:3-21:27>
+Result: <SyntheticCharEnumLit ["'\xe9'"] __standard:21:3-21:27>
 
 Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'\xe9'(() -> standard.character.'\xe9')"
@@ -62,7 +62,7 @@ Working on node <ObjectDecl ["EM"] test.adb:38:4-38:36>
 =======================================================
 
 Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit [""] __standard:23:3-23:37>
+Result: <SyntheticCharEnumLit ["'!'"] __standard:23:3-23:37>
 
 Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'!'(() -> standard.wide_wide_character.'!')"

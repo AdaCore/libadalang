@@ -1,0 +1,6 @@
+description: |
+    This test checks that comments for components in record variants have the
+    correct level of indentation.
+
+driver: unparser
+rule: type_decl

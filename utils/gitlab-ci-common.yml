@@ -50,6 +50,6 @@
         --add-dep eng/toolchain/templates-parser
     - . /tmp/ci_env.sh
     - anod run
-        --plan /it/gitlab-runner/builds/eng/libadalang/libadalang/utils/gitlab-cb.plan
+        --plan /tmp/checkouts/libadalang/utils/gitlab-cb.plan
         --smart-rebuild
         run_cb

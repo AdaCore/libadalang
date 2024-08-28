@@ -22,18 +22,21 @@ project Nameres is
       for Executable ("nameres.adb") use "lal_nameres";
    end Builder;
 
+   Common_Ada_Cargs := ("-g", "-gnatX");
+
    package Compiler is
       --  Nameres is using GNATCOLL.Memory to track memory usage:
       --  -gnatg is needed to compile it. Other options are useful for
       --  performance.
-      for Switches ("s-memory.adb") use ("-g", "-O2", "-gnatpg");
+      for Switches ("s-memory.adb") use Common_Ada_Cargs & ("-O2", "-gnatpg");
 
       case Build_Mode is
          when "dev" =>
-            for Default_Switches ("Ada") use ("-g", "-O0", "-gnata");
+            for Default_Switches ("Ada") use
+              Common_Ada_Cargs & ("-O0", "-gnata");
 
          when "prod" =>
-            for Default_Switches ("Ada") use ("-g", "-Ofast");
+            for Default_Switches ("Ada") use Common_Ada_Cargs & ("-Ofast");
       end case;
    end Compiler;
 

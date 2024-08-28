@@ -629,7 +629,7 @@ package body Libadalang.Data_Decomposition is
 
          Artificial_Components.Insert (Repr.Name, Position, Inserted);
          if Inserted then
-            Result.Append ((No_Defining_Name, Repr));
+            Result.Append (Component_Association'(No_Defining_Name, Repr));
          end if;
          return Inserted;
       end Register_Artificial;
@@ -716,7 +716,7 @@ package body Libadalang.Data_Decomposition is
                      --  ``DN``.
 
                      elsif Symbolize (Coll, DN.Text) = Repr.Name then
-                        Result.Append ((DN, Repr));
+                        Result.Append (Component_Association'(DN, Repr));
                         exit Search;
                      end if;
                   end;
@@ -1983,7 +1983,7 @@ package body Libadalang.Data_Decomposition is
       --  we never need extra parens to disambiguate.
 
       Priorities : constant array (Opcode) of Natural :=
-        (Cond_Expr      => 1,
+        [Cond_Expr      => 1,
 
          Plus_Expr      => 4,
          Minus_Expr     => 4,
@@ -2016,7 +2016,7 @@ package body Libadalang.Data_Decomposition is
          Abs_Expr       => 7,
          Truth_Not_Expr => 7,
          Discrim_Val    => 7,
-         Literal        => 7);
+         Literal        => 7];
 
       procedure Dump (Node : Expr_Node_Access; Outer_Priority : Natural);
       --  Dump the ``Node`` subexpression. ``Outer_Priority`` is the priority
@@ -2663,7 +2663,7 @@ package body Libadalang.Data_Decomposition is
       Directory    : String) return Repinfo_Collection is
    begin
       return Load_From_Directories
-        (Name_Pattern, (1 => To_Unbounded_String (Directory)));
+        (Name_Pattern, [To_Unbounded_String (Directory)]);
    end Load_From_Directory;
 
    -----------------------

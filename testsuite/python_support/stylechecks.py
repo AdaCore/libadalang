@@ -19,6 +19,7 @@ root_dir = join(python_support_dir, '..', '..')
 dirs = ['ada', 'contrib', 'testsuite', 'utils']
 excludes = ['tmp', 'doc',
             join('contrib', 'highlight', 'obj'),
+            join('contrib', 'gnatx_project', 'obj'),
             join('contrib', 'AdaEurope2018', 'obj'),
             in_shared('gpr_context', 'simple', 'pkg.adb'),
             in_shared('gpr_context', 'utf-8', 'pkg.adb'),

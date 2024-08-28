@@ -25,8 +25,8 @@ package body Libadalang.Env_Hooks is
 
    Text_IO_Subpackages :
      constant array (Positive range <>) of access constant Text_Type
-       := (Integer_IO'Access, Modular_IO'Access, Float_IO'Access,
-           Fixed_IO'Access, Decimal_IO'Access, Enumeration_IO'Access);
+       := [Integer_IO'Access, Modular_IO'Access, Float_IO'Access,
+           Fixed_IO'Access, Decimal_IO'Access, Enumeration_IO'Access];
 
    --  The content of the following string literal has been generated running
    --  GNAT with flag -gnatS, and then post-processed by hand.
@@ -181,7 +181,7 @@ package body Libadalang.Env_Hooks is
 
       case Defining_Name_Nodes (Name.Kind) is
          when Ada_Base_Id =>
-            return (1 => Get_Symbol (Name));
+            return [Get_Symbol (Name)];
 
          when Ada_Dotted_Name =>
             return Name_To_Symbols (Name.Dotted_Name_F_Prefix)

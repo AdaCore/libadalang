@@ -71,7 +71,7 @@ package body Libadalang.Unit_Files is
                      Lower : constant Wide_Wide_Character :=
                         Ada.Wide_Wide_Characters.Handling.To_Lower (C);
                   begin
-                     Append (Result, To_UTF8 ((1 => Lower)));
+                     Append (Result, To_UTF8 ([Lower]));
                   end;
             end case;
          end;

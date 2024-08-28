@@ -224,7 +224,7 @@ package body Libadalang.Expr_Eval is
 
    function Expr_Eval (E : LAL.Expr) return Eval_Result is
    begin
-      return Expr_Eval_In_Env (E, (1 .. 0 => <>));
+      return Expr_Eval_In_Env (E, [1 .. 0 => <>]);
    end Expr_Eval;
 
    ----------------------

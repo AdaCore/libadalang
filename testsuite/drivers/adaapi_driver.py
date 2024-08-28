@@ -55,7 +55,7 @@ class AdaAPIDriver(BaseDriver):
 
                 package Compiler is
                     for Default_Switches ("Ada") use
-                      ("-g", "-O0", "-gnata", "-gnatwa");
+                      ("-g", "-O0", "-gnata", "-gnatwa", "-gnatX");
                 end Compiler;
             end Gen;
             """)

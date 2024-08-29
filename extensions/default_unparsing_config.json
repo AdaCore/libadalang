@@ -258,19 +258,40 @@
       }
     },
     "AggregateAssoc": {
-      "node": [
-        {
-          "kind": "recurse_field",
-          "field": "f_designators"
-        },
-        {
-          "kind": "innerRoot",
-          "contents": {
+      "node": {
+        "kind": "ifKind",
+        "field": "f_designators",
+        "default": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designators"
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "continuationLineIndent",
+              "contents": [
+                "softline",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_r_expr"
+                }
+              ]
+            }
+          }
+        ],
+        "null": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designators"
+          },
+          {
             "kind": "recurse_field",
             "field": "f_r_expr"
           }
-        }
-      ],
+        ],
+        "matchers": []
+      },
       "fields": {
         "f_designators": [
           "recurse",
@@ -279,14 +300,7 @@
             "kind": "tableSeparator",
             "text": "=>"
           },
-          {
-            "kind": "ifBreak",
-            "flatContents": "whitespace",
-            "breakContents": {
-              "kind": "continuationLineIndent",
-              "contents": "line"
-            }
-          }
+          "whitespace"
         ]
       }
     },
@@ -360,31 +374,33 @@
       }
     },
     "AspectAssoc": {
-      "node": {
-        "kind": "group",
-        "document": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            {
-              "kind": "recurse_field",
-              "field": "f_id"
-            },
-            {
-              "kind": "recurse_field",
-              "field": "f_expr"
-            }
-          ]
+      "node": [
+        {
+          "kind": "recurse_field",
+          "field": "f_id"
+        },
+        {
+          "kind": "recurse_field",
+          "field": "f_expr"
         }
-      },
+      ],
       "fields": {
         "f_expr": [
           "whitespace",
           {
-            "kind": "text",
+            "kind": "tableSeparator",
             "text": "=>"
           },
-          "line",
-          "recurse"
+          {
+            "kind": "group",
+            "document": {
+              "kind": "continuationLineIndent",
+              "contents": [
+                "line",
+                "recurse"
+              ]
+            }
+          }
         ]
       }
     },
@@ -4875,22 +4891,40 @@
       }
     },
     "ParamAssoc": {
-      "node": [
-        {
-          "kind": "recurse_field",
-          "field": "f_designator"
-        },
-        {
-          "kind": "innerRoot",
-          "contents": {
+      "node": {
+        "kind": "ifKind",
+        "field": "f_designator",
+        "default": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designator"
+          },
+          {
             "kind": "group",
             "document": {
-              "kind": "recurse_field",
-              "field": "f_r_expr"
+              "kind": "continuationLineIndent",
+              "contents": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_r_expr"
+                }
+              ]
             }
           }
-        }
-      ],
+        ],
+        "null": [
+          {
+            "kind": "recurse_field",
+            "field": "f_designator"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_r_expr"
+          }
+        ],
+        "matchers": []
+      },
       "fields": {
         "f_designator": [
           "recurse",
@@ -4898,14 +4932,6 @@
           {
             "kind": "tableSeparator",
             "text": "=>"
-          },
-          {
-            "kind": "ifBreak",
-            "flatContents": "whitespace",
-            "breakContents": {
-              "kind": "continuationLineIndent",
-              "contents": "line"
-            }
           }
         ]
       }

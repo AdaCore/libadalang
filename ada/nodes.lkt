@@ -1529,6 +1529,19 @@ class AdaNode implements Node[AdaNode] {
     |"     nested.
     @exported
     fun xref_entry_point(): Bool = false
+
+    |" Return whether this node is a ``UsePackageClause`` that follows a
+    |" ``WithClause`` for the same unit.
+    @exported
+    fun matching_with_use_clause(): Bool =
+        node.as[UsePackageClause].do(
+            (uc) => self.previous_sibling().as[WithClause].do(
+               (wc) =>
+                  uc.packages.length() == wc.packages.length()
+                  and uc.packages[0].as_symbol_array()
+                      == wc.packages[0].as_symbol_array()
+            )
+        )
 }
 
 |" Qualifier for the ``abort`` keyword.

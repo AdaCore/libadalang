@@ -1,0 +1,48 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:7:4-7:48>
+*************************************************************
+
+Expr: <Id "A" test.adb:7:8-7:9>
+  references:    <DefiningName "A" test.adb:3:9-3:10>
+  type:          None
+  expected type: None
+Expr: <ExplicitDeref test.adb:7:13-7:47>
+  references:    None
+  type:          <ConcreteTypeDecl ["A"] test.adb:3:4-3:45>
+  expected type: <ConcreteTypeDecl ["A"] test.adb:3:4-3:45>
+Expr: <AttributeRef test.adb:7:13-7:43>
+  references:    None
+  type:          <SynthAnonymousTypeDecl ["A"] test.adb:3:4-3:45>
+  expected type: <SynthAnonymousTypeDecl ["A"] test.adb:3:4-3:45>
+Expr: <CallExpr test.adb:7:13-7:23>
+  references:    <DefiningName "Y" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["A"] test.adb:3:4-3:45>
+  expected type: None
+Expr: <Id "Y" test.adb:7:13-7:14>
+  references:    <DefiningName "Y" test.adb:6:4-6:5>
+  type:          <ConcreteTypeDecl ["U"] test.adb:4:4-4:32>
+  expected type: None
+Expr: <BinOp test.adb:7:16-7:22>
+  type:          None
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Int test.adb:7:16-7:17>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <OpDoubleDot ".." test.adb:7:18-7:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:7:21-7:22>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+Expr: <Id "Unrestricted_Access" test.adb:7:24-7:43>
+  references:    None
+  type:          None
+  expected type: None
+
+
+Done.

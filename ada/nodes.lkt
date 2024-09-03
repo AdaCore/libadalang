@@ -14741,13 +14741,14 @@ class ExplicitDeref: Name {
         else (
             self.prefix.sub_equation()
             and self.env_elements().logic_any(
-                (el) => el.as[BasicDecl].expr_type().do(
-                    (typ) => (
+                (el) => {
+                    val typ = el.as[BasicDecl].expr_type();
+                    if typ?.is_access_type() then
                         %eq(node.prefix.ref_var(), el)
                         and self.parent_name_equation(typ, root)
-                    ),
-                    default_val=%false
-                )
+                    else
+                        %false
+                }
             )
         )
 

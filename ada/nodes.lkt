@@ -1031,7 +1031,7 @@ class AdaNode implements Node[AdaNode] {
     |" its generic declaration. Return an empty environment if this is not
     |" the body of a generic decl.
     fun use_clauses_in_generic_formal_part(): LexicalEnv = {
-        val gen_decl = node.as_bare_entity.as[Body]?.safe_generic_decl_part();
+        val gen_decl = self.as[Body]?.safe_generic_decl_part();
 
         gen_decl.do(
             (gd) => gd.formal_part.use_clauses_envs(), default_val=node.empty_env()

@@ -140,6 +140,8 @@ class GPRProject:
             native platform if left to None.
         :param runtime: Name of the runtime for the project to load. Use the
             default runtime for the selected target if left to None.
+        :param config_file: Name of the GPR configuration file for the project
+            to load. Use autoconfiguration if left to None.
         :param print_errors: Whether to print non-critical error messages
             emitted during project loading on the standard error stream. See
             the ``errors`` method to have programmatic access to the list of

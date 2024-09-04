@@ -41,6 +41,16 @@ let () =
     ~scenario_vars:[("SRC_DIR", "src1")]
     "p.gpr"
 
+(* Test loading GPR files with unavailable toolchain *)
+let () =
+  let check ada_only =
+    ignore (GPRProject.load ~ada_only:ada_only "foo.gpr");
+  in
+    Format.printf "@[<v>foo.gpr: All languages@ @]";
+    check false;
+    Format.printf "@[<v>foo.gpr: Ada only@ @]";
+    check true
+
 (* Test that the unit provider correclty works and Libadalang is able to
  * get the reference of a node that is declared in another unit *)
 

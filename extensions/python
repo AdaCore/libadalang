@@ -127,6 +127,7 @@ class GPRProject:
                  target: Opt[str] = None,
                  runtime: Opt[str] = None,
                  config_file: Opt[str] = None,
+                 ada_only: bool = False,
                  print_errors: bool = True):
         """
         Load a GPR project file.
@@ -142,6 +143,8 @@ class GPRProject:
             default runtime for the selected target if left to None.
         :param config_file: Name of the GPR configuration file for the project
             to load. Use autoconfiguration if left to None.
+        :param ada_only: Whether to restrict GPR file loading to the Ada
+            language.
         :param print_errors: Whether to print non-critical error messages
             emitted during project loading on the standard error stream. See
             the ``errors`` method to have programmatic access to the list of
@@ -183,6 +186,7 @@ class GPRProject:
             c_target,
             c_runtime,
             c_config_file,
+            int(ada_only),
             ctypes.byref(c_project),
             ctypes.byref(c_errors),
         )
@@ -383,6 +387,7 @@ class GPRProject:
          ctypes.c_char_p,
          ctypes.c_char_p,
          ctypes.c_char_p,
+         ctypes.c_int,
          ctypes.POINTER(_c_type),
          ctypes.POINTER(_c_string_array_ptr)],
         None,

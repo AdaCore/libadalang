@@ -404,6 +404,7 @@ nat = c_api.get_name
                         targetNative,
                         runtimeNative,
                         configFileNative,
+                        0,
                         projectPointer,
                         errorsPointer
                     );

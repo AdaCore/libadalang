@@ -47,12 +47,18 @@ package Libadalang.Implementation.C.Extensions is
      (Project_File                 : chars_ptr;
       Scenario_Vars                : System.Address;
       Target, Runtime, Config_File : chars_ptr;
+      Ada_Only                     : int;
       Project                      : access ada_gpr_project;
       Errors                       : access ada_string_array_ptr)
      with Export, Convention => C;
-   --  Load a project file with the given parameter. On success, set
-   --  ``Project`` to a newly allocated ``ada_gpr_project``, as well as a
-   --  possibly empty list of error messages in ``Errors``.  Raise an
+   --  Load the ``Project_File`` GPR file with the given scenario variables,
+   --  target, runtime and GPR configuration file (all optional).
+   --
+   --  If ``Ada_Only`` is true, call ``Restrict_Autoconf_To_Languages`` to
+   --  make GPR only consider the Ada language.
+   --
+   --  On success, set ``Project`` to a newly allocated ``ada_gpr_project``, as
+   --  well as a possibly empty list of error messages in ``Errors``.  Raise an
    --  ``Invalid_Project`` exception on failure.
 
    procedure ada_gpr_project_load_implicit

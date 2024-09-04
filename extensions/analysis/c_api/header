@@ -42,6 +42,7 @@ ${capi.get_name('gpr_project_load')}(
    const char *target,
    const char *runtime,
    const char *config_file,
+   int ada_only,
    ${project_type} *project,
    ${str_array_type} *errors
 );

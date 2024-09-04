@@ -1,0 +1,3 @@
+project Foo is
+   for Languages use ("Ada", "Fortran");
+end Foo;

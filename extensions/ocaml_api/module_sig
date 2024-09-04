@@ -17,6 +17,7 @@ module GPRProject : sig
     ?scenario_vars:(string * string) list
     -> ?target:string
     -> ?runtime:string
+    -> ?ada_only:bool
     -> string
     -> t
 

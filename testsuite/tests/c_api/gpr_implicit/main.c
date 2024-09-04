@@ -16,13 +16,7 @@ main (void)
 
     printf ("== simple ==\n\n");
 
-    ada_gpr_project_load_implicit (
-        NULL,
-        NULL,
-        NULL,
-        &gpr,
-        &errors
-    );
+    ada_gpr_project_load_implicit (NULL, NULL, NULL, &gpr, &errors);
     abort_on_exception ();
 
     // Dislpay all files in the project

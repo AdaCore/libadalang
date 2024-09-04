@@ -14,7 +14,7 @@ main (void)
     ada_gpr_project_scenario_variable scn_var_trail = {NULL, NULL};
 
     ada_gpr_project_load ("simple/p.gpr", &scn_var_trail, NULL, NULL,
-			  "empty.cgpr", &gpr, &errors);
+			  "empty.cgpr", 0, &gpr, &errors);
     if (print_exception (false))
       return 0;
 

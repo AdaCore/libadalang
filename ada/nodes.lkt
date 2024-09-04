@@ -4331,15 +4331,16 @@ class BasicDecl: AdaNode {
         ).as[BaseTypeDecl].classwide_type().as[BaseTypeDecl];
         val params = self.subp_spec_or_null()?.unpacked_formal_params();
 
-        {
-            bind origin = node.origin_node();
+        bind origin = node.origin_node();
 
-            (
-                node.is_subprogram() and params?[0].formal_decl().formal_type().is_access_to(root_stream_type)
-            ) and (
-                if return_obj then self.subp_spec_or_null().return_type().matching_formal_type(typ) else params?[1].formal_decl().formal_type().matching_formal_type(typ)
-            )
-        }
+        node.is_subprogram()
+        and params?[0].formal_decl().formal_type().is_access_to(root_stream_type)
+        and (
+            if return_obj then
+                self.subp_spec_or_null().return_type().matching_formal_type(typ)
+            else
+                params?[1].formal_decl().formal_type().matching_formal_type(typ)
+        )
     }
 
     |" Return whether this subprogram has the correct profile to be given
@@ -5805,7 +5806,7 @@ class BaseTypeDecl: BasicDecl {
 
     @with_dynvars(origin)
     fun is_access_to(typ: Entity[BaseTypeDecl]): Bool =
-        self?.accessed_type().matching_formal_type(typ)
+        self?.accessed_type()?.matching_formal_type(typ)
 
     |" Returns whether self is an access type whose accessed type matches
     |" other.

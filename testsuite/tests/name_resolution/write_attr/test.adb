@@ -11,6 +11,8 @@ procedure Test is
    procedure Write (Stream : access Root_Stream_Type'Class; Item : D2) is null;
    procedure Write
      (Stream : access Root_Stream_Type'Class; Item : Float) is null;
+   procedure Write
+     (S : Integer; Item : Float);  -- independent overload
 
    for D1'Write use Write;
    pragma Test_Statement;

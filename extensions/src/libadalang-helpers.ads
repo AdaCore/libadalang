@@ -8,9 +8,8 @@ with Ada.Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with GNATCOLL.Opt_Parse;
-with GNATCOLL.Projects;  use GNATCOLL.Projects;
-with GNATCOLL.Traces;    use GNATCOLL.Traces;
-with GNATCOLL.Utils;     use GNATCOLL.Utils;
+with GNATCOLL.Traces; use GNATCOLL.Traces;
+with GNATCOLL.Utils;  use GNATCOLL.Utils;
 with GPR2.Project.Tree;
 
 with Libadalang.Project_Provider;
@@ -29,12 +28,10 @@ package Libadalang.Helpers is
      (Project_File             : String;
       Scenario_Vars            : Unbounded_String_Array := Empty_Array;
       Target, RTS, Config_File : String := "";
-      Project                  : out Project_Tree_Access;
-      Env                      : out Project_Environment_Access;
-      Report_Missing_Dirs      : Boolean := True);
-   --  Load ``Project_File`` using scenario variables given in
+      Project                  : out GPR2.Project.Tree.Object;
+      Absent_Dir_Error         : GPR2.Error_Level := GPR2.Warning);
+   --  Load ``Project_File`` into ``Project`` using scenario variables given in
    --  ``Scenario_Vars``, and given ``Target``, ``RTS` and ``Config_File``.
-   --  Populate ``Project`` and ``Env`` accordingly.
    --
    --  ``Scenario_Vars`` should be an array of strings of the format
    --  ``<Var>=<Val>``. If the format is incorrect, ``Abort_App`` will be
@@ -43,14 +40,14 @@ package Libadalang.Helpers is
    --  If ``Config_File`` is not empty, then ``Target`` and ``RTS`` should be
    --  empty.
    --
-   --  See ``GNATCOLL.Projects.Set_Target_And_Runtime`` as well as
-   --  ``GNATCOLL.Projects.Set_Config_File`` for more details about the use of
-   --  ``Target``, ``RTS`` and ``Config_File``.
+   --  See ``GPR2.Options`` as well as for more details about the use of
+      --  ``Target``, ``RTS`` and ``Config_File``.
    --
-   --  ``Report_Missing_Dirs`` is passed to ``GNATCOLL.Projects.Load``.
+   --   ``Absent_Dir_Error`` controls how missing output directories should be
+   --   reported.
 
    function Project_To_Provider
-     (Project : Project_Tree_Access) return Unit_Provider_Reference;
+     (Project : GPR2.Project.Tree.Object) return Unit_Provider_Reference;
    --  Try to create a unit provider out of ``Project``. If not possible, call
    --  ``Abort_App``.
 
@@ -76,11 +73,9 @@ package Libadalang.Helpers is
    --
    --  * Default (look in the current directory);
    --  * Project_File (from a GPR project file);
-   --  * Auto_Dir (files in a list of directories);
-   --  * GPR2_Project_File (from a GPR file, loaded with GPR2).
+   --  * Auto_Dir (files in a list of directories).
 
-   type Source_Provider_Kind is
-     (Default, Project_File, Auto_Dir, GPR2_Project_File);
+   type Source_Provider_Kind is (Default, Project_File, Auto_Dir);
    type Source_Provider
      (Kind : Source_Provider_Kind := Source_Provider_Kind'First) is
    record
@@ -88,11 +83,9 @@ package Libadalang.Helpers is
          when Default =>
             null;
          when Project_File =>
-            Project : GNATCOLL.Projects.Project_Tree_Access;
+            Project : GPR2.Project.Tree.Object;
          when Auto_Dir =>
             Dirs, Found_Files : String_Vectors.Vector;
-         when GPR2_Project_File =>
-            GPR2_Project : GPR2.Project.Tree.Object;
       end case;
    end record;
 
@@ -286,11 +279,6 @@ package Libadalang.Helpers is
             Help          => "Name of the configuration project file. If"
                              & " passed, this file must exist and neither"
                              & " --target nor --RTS must be passed.");
-         package GPR2 is new Parse_Flag
-           (Parser, Long => "--gpr2",
-            Help         => "Internal option (will be removed without notice"
-                            & " in the future). Use GPR2 to process project"
-                            & " files (GNATCOLL.Projects is the default)");
 
          package Auto_Dirs is new Parse_Option_List
            (Parser, "-A", "--auto-dir",

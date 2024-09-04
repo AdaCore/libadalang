@@ -200,7 +200,15 @@
         "split": [
           "empty_line"
         ],
-        "must_break": true
+        "must_break": true,
+        "join": {
+          "predicate": "p_matching_with_use_clause",
+          "template": [
+            "recurse_left",
+            {"kind": "tableSeparator", "text": ""},
+            {"kind": "group", "document": ["line", "recurse_right"]}
+          ]
+        }
       }
     },
     "Aggregate": {

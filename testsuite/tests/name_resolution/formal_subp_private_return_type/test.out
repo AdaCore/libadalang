@@ -1,0 +1,14 @@
+Working on node <GenericSubpInstantiation ["Foo"] test.adb:31:7-31:48>
+======================================================================
+
+Set 'foo' to 'node.p_designated_generic_decl.p_body_part()'
+Result: <| SubpBody ["Foo"] test.adb:16:7-20:15 [test.adb:27:7, test.adb:31:7] |>
+
+Set 'obj' to 'foo.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] test.adb:17:10-17:33 [test.adb:27:7, test.adb:31:7] |>
+
+Eval 'obj.p_resolve_names'
+Result: True
+
+Eval 'obj.f_type_expr.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["T"] test.adb:25:7-25:29>

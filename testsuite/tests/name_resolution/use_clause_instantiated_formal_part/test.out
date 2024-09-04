@@ -1,0 +1,14 @@
+Working on node <GenericPackageInstantiation ["Impl"] test.adb:25:4-25:38>
+==========================================================================
+
+Set 'impl_body' to 'node.p_designated_generic_decl.p_body_part'
+Result: <| PackageBody ["Impl_G"] test.adb:16:4-22:15 [test.adb:25:4] |>
+
+Set 'obj' to 'impl_body.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] test.adb:18:10-18:28 [test.adb:25:4] |>
+
+Eval 'obj.p_resolve_names'
+Result: True
+
+Eval 'obj.f_type_expr.p_designated_type_decl'
+Result: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>

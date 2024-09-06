@@ -26,8 +26,8 @@ run (const char *project_file, const char *subproject)
 	  project_file,
 	  subproject == NULL ? "<none>" : subproject);
 
-  ada_gpr_project_load (project_file, &scn_var_trail, NULL, NULL, NULL, &gpr,
-			&errors);
+  ada_gpr_project_load (project_file, &scn_var_trail, NULL, NULL, NULL, 0,
+			&gpr, &errors);
   abort_on_exception ();
 
   for (i = 0; i < errors->length; ++i)

@@ -6,6 +6,8 @@ does_not_exist.gpr: error: project file "<working-dir>/does_not_exist.gpr" not f
 
 got ProjectError no such project: does_not_exist
 
+foo.gpr: All languages
+foo.gpr: Ada only
 For SRC_DIR=src1
 <SubtypeIndication p2.ads:4:8-4:22> resolves to:
   <ConcreteTypeDecl ["Record_Type"] p1.ads:2:4-2:36>

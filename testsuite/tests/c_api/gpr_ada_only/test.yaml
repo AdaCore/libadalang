@@ -1,0 +1,4 @@
+driver: c-api
+compile_units: [main.c]
+input_sources: []
+canonicalize_native_target: true

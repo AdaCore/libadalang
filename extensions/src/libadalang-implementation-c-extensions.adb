@@ -14,6 +14,7 @@ with GNAT.Task_Lock;
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Projects;   use GNATCOLL.Projects;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
+with GPR2.Containers;
 with GPR2.Message.Reporter;
 with GPR2.Options;
 with GPR2.Project.Tree;
@@ -299,6 +300,7 @@ package body Libadalang.Implementation.C.Extensions is
      (Project_File                 : chars_ptr;
       Scenario_Vars                : System.Address;
       Target, Runtime, Config_File : chars_ptr;
+      Ada_Only                     : int;
       Project                      : access ada_gpr_project;
       Errors                       : access ada_string_array_ptr)
    is
@@ -309,6 +311,14 @@ package body Libadalang.Implementation.C.Extensions is
       Clear_Last_Exception;
 
       P := new GPR2.Project.Tree.Object;
+      if Ada_Only /= 0 then
+         declare
+            Langs : GPR2.Containers.Language_Set;
+         begin
+            Langs.Include (GPR2.Ada_Language);
+            P.Restrict_Autoconf_To_Languages (Langs);
+         end;
+      end if;
       Load_Project
         (Project_File,
          Scenario_Vars,
@@ -362,6 +372,7 @@ package body Libadalang.Implementation.C.Extensions is
          Target,
          Runtime,
          Config_File,
+         0,
          Project,
          Errors);
    end ada_gpr_project_load_implicit;

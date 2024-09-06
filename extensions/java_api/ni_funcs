@@ -15,6 +15,7 @@ nat = c_api.get_name
         CCharPointer target,
         CCharPointer runtime,
         CCharPointer configFile,
+        int adaOnly,
         Pointer project,
         Pointer errors
     );

@@ -20,8 +20,8 @@ run (const char *project_file)
 
   printf ("== %s ==\n", project_file);
 
-  ada_gpr_project_load (project_file, &scn_var_trail, NULL, NULL, NULL, &gpr,
-			&errors);
+  ada_gpr_project_load (project_file, &scn_var_trail, NULL, NULL, NULL, 0,
+			&gpr, &errors);
   had_exception = print_exception (false);
 
   if (had_exception)

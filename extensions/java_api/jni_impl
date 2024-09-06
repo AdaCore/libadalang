@@ -132,6 +132,7 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
     const char *target_c = target == NULL ? NULL : to_c_string(env, target);
     const char *runtime_c = runtime == NULL ? NULL : to_c_string(env, runtime);
     const char *config_file_c = config_file == NULL ? NULL : to_c_string(env, config_file);
+    const int ada_only = 0;
     ${project_type} res = NULL;
     ${str_array_type} errors = NULL;
 
@@ -153,6 +154,7 @@ ${api.jni_func_sig("gpr_project_load", "jobject")}(
             target_c,
             runtime_c,
             config_file_c,
+            ada_only,
             &res,
             &errors
         );

@@ -41,38 +41,38 @@ Expr: <| Id "Trait" trait.ads:6:43-6:48 [pkg.ads:5:9, pkg.ads:12:7] |>
 Expr: <| BoxExpr trait.ads:6:50-6:52 [pkg.ads:5:9, pkg.ads:12:7] |>
   type:          None
   expected type: None
-Traversing generic node <| GenericPackageDecl ["Trait"] trait_impl.ads:2:4-6:14 [pkg.ads:5:9, pkg.ads:11:7] |>
-**************************************************************************************************************
+Traversing generic node <| GenericPackageDecl ["Trait"] trait_impl.ads:2:4-6:14 [pkg.ads:11:7] |>
+*************************************************************************************************
 
-Resolving xrefs for node <| FormalTypeDecl ["T"] trait_impl.ads:3:7-3:25 [pkg.ads:5:9, pkg.ads:11:7] |>
-*******************************************************************************************************
-
-
-Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] trait_impl.ads:4:12-4:34 [pkg.ads:5:9, pkg.ads:11:7] |>
-******************************************************************************************************************
+Resolving xrefs for node <| FormalTypeDecl ["T"] trait_impl.ads:3:7-3:25 [pkg.ads:11:7] |>
+******************************************************************************************
 
 
-Resolving xrefs for node <| SubpSpec trait_impl.ads:4:12-4:33 [pkg.ads:5:9, pkg.ads:11:7] |>
-********************************************************************************************
+Resolving xrefs for node <| ConcreteFormalSubpDecl ["Foo"] trait_impl.ads:4:12-4:34 [pkg.ads:11:7] |>
+*****************************************************************************************************
 
 
-Resolving xrefs for node <| ParamSpec ["X"] trait_impl.ads:4:27-4:32 [pkg.ads:5:9, pkg.ads:11:7] |>
-***************************************************************************************************
+Resolving xrefs for node <| SubpSpec trait_impl.ads:4:12-4:33 [pkg.ads:11:7] |>
+*******************************************************************************
 
-Expr: <| Id "T" trait_impl.ads:4:31-4:32 [pkg.ads:5:9, pkg.ads:11:7] |>
+
+Resolving xrefs for node <| ParamSpec ["X"] trait_impl.ads:4:27-4:32 [pkg.ads:11:7] |>
+**************************************************************************************
+
+Expr: <| Id "T" trait_impl.ads:4:31-4:32 [pkg.ads:11:7] |>
   references:    <DefiningName "T" pkg.ads:8:12-8:13>
   type:          None
   expected type: None
 
-Resolving xrefs for node <| EndName trait_impl.ads:6:8-6:13 [pkg.ads:5:9, pkg.ads:11:7] |>
-******************************************************************************************
+Resolving xrefs for node <| EndName trait_impl.ads:6:8-6:13 [pkg.ads:11:7] |>
+*****************************************************************************
 
-Expr: <| EndName trait_impl.ads:6:8-6:13 [pkg.ads:5:9, pkg.ads:11:7] |>
-  references:    <| DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28 [pkg.ads:5:9] |>
+Expr: <| EndName trait_impl.ads:6:8-6:13 [pkg.ads:11:7] |>
+  references:    <DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28>
   type:          None
   expected type: None
-Expr: <| Id "Trait" trait_impl.ads:6:8-6:13 [pkg.ads:5:9, pkg.ads:11:7] |>
-  references:    <| DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28 [pkg.ads:5:9] |>
+Expr: <| Id "Trait" trait_impl.ads:6:8-6:13 [pkg.ads:11:7] |>
+  references:    <DefiningName "My_Trait_Impl" pkg.ads:11:15-11:28>
   type:          None
   expected type: None
 

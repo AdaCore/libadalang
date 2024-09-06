@@ -272,18 +272,41 @@ class AdaNode implements Node[AdaNode] {
     |" ``[My_Pkg, I]``. However, ``add_rebinding`` sees that ``I`` is
     |" rebound by the instantiation of ``My_Pkg`` and therefore collapses
     |" the two rebindings from ``[My_Pkg, I]`` to ``[My_Interface]``.
-    fun add_rebinding(base: EnvRebindings, old_env: LexicalEnv, new_env: LexicalEnv): EnvRebindings = {
+    fun add_rebinding(base: EnvRebindings,
+                      old_env: LexicalEnv,
+                      new_env: LexicalEnv): EnvRebindings = {
         val parent_env = new_env.env_node.node_env();
 
-        if base.is_null or not parent_env.env_node is GenericDecl or not node.is_rebound(base, parent_env) then base.append_rebinding(old_env, new_env)
-        elif base.old_env == parent_env then base.new_env.get_first(
-            new_env.env_node.as[GenericPackageInstantiation].name.name_symbol(), lookup=LookupKind.minimal
-        ).as[GenericPackageInstantiation].do(
-            (gpi) => node.add_rebinding(
-                base.get_parent, gpi.nonbound_generic_decl_from_self().node.children_env(), gpi.instantiation_env
-            ), default_val=base.append_rebinding(old_env, new_env)
-        )
-        else node.add_rebinding(base.get_parent, old_env, new_env)
+        if (
+            base.is_null
+            or not parent_env.env_node is GenericDecl
+            or not node.is_rebound(base, parent_env)
+        ) then
+            base.append_rebinding(old_env, new_env)
+        elif base.old_env == parent_env then
+            base.new_env.get_first(
+                new_env.env_node.as[GenericPackageInstantiation].name.name_symbol(),
+                lookup=LookupKind.minimal
+            ).as[GenericPackageInstantiation].do(
+                (gpi) => {
+                    val gen_env = gpi.nonbound_generic_decl_from_self().node.children_env();
+                    val info = EntityInfo(
+                        md=null[Metadata],
+                        rebindings=node.add_rebinding(
+                            base.get_parent,
+                            gen_env,
+                            gpi.instantiation_env
+                        ),
+                        from_rebound=false
+                    );
+                    # Collapsing may make some entries irrelevant, so shed
+                    # rebindings at this point to remove those.
+                    gen_env.shed_rebindings(info).rebindings
+                },
+                default_val=base.append_rebinding(old_env, new_env)
+            )
+        else
+            node.add_rebinding(base.get_parent, old_env, new_env)
     }
 
     |" Return whether ``old_env`` is rebound somewhere inside the given
@@ -4331,15 +4354,16 @@ class BasicDecl: AdaNode {
         ).as[BaseTypeDecl].classwide_type().as[BaseTypeDecl];
         val params = self.subp_spec_or_null()?.unpacked_formal_params();
 
-        {
-            bind origin = node.origin_node();
+        bind origin = node.origin_node();
 
-            (
-                node.is_subprogram() and params?[0].formal_decl().formal_type().is_access_to(root_stream_type)
-            ) and (
-                if return_obj then self.subp_spec_or_null().return_type().matching_formal_type(typ) else params?[1].formal_decl().formal_type().matching_formal_type(typ)
-            )
-        }
+        node.is_subprogram()
+        and params?[0].formal_decl().formal_type().is_access_to(root_stream_type)
+        and (
+            if return_obj then
+                self.subp_spec_or_null().return_type().matching_formal_type(typ)
+            else
+                params?[1].formal_decl().formal_type().matching_formal_type(typ)
+        )
     }
 
     |" Return whether this subprogram has the correct profile to be given
@@ -5805,7 +5829,7 @@ class BaseTypeDecl: BasicDecl {
 
     @with_dynvars(origin)
     fun is_access_to(typ: Entity[BaseTypeDecl]): Bool =
-        self?.accessed_type().matching_formal_type(typ)
+        self?.accessed_type()?.matching_formal_type(typ)
 
     |" Returns whether self is an access type whose accessed type matches
     |" other.

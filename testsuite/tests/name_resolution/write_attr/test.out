@@ -1,26 +1,6 @@
 Analyzing test.adb
 ##################
 
-Resolving xrefs for node <AttributeDefClause test.adb:15:4-15:27>
-*****************************************************************
-
-Expr: <AttributeRef test.adb:15:8-15:16>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Id "D1" test.adb:15:8-15:10>
-  references:    <DefiningName "D1" test.adb:6:9-6:11>
-  type:          <ConcreteTypeDecl ["D1"] test.adb:6:4-6:21>
-  expected type: None
-Expr: <Id "Write" test.adb:15:11-15:16>
-  references:    None
-  type:          None
-  expected type: None
-Expr: <Id "Write" test.adb:15:21-15:26>
-  references:    <DefiningName "Write" test.adb:9:14-9:19>
-  type:          None
-  expected type: None
-
 Resolving xrefs for node <AttributeDefClause test.adb:17:4-17:27>
 *****************************************************************
 
@@ -28,15 +8,35 @@ Expr: <AttributeRef test.adb:17:8-17:16>
   references:    None
   type:          None
   expected type: None
-Expr: <Id "D2" test.adb:17:8-17:10>
-  references:    <DefiningName "D2" test.adb:7:9-7:11>
-  type:          <ConcreteTypeDecl ["D2"] test.adb:7:4-7:22>
+Expr: <Id "D1" test.adb:17:8-17:10>
+  references:    <DefiningName "D1" test.adb:6:9-6:11>
+  type:          <ConcreteTypeDecl ["D1"] test.adb:6:4-6:21>
   expected type: None
 Expr: <Id "Write" test.adb:17:11-17:16>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Write" test.adb:17:21-17:26>
+  references:    <DefiningName "Write" test.adb:9:14-9:19>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AttributeDefClause test.adb:19:4-19:27>
+*****************************************************************
+
+Expr: <AttributeRef test.adb:19:8-19:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "D2" test.adb:19:8-19:10>
+  references:    <DefiningName "D2" test.adb:7:9-7:11>
+  type:          <ConcreteTypeDecl ["D2"] test.adb:7:4-7:22>
+  expected type: None
+Expr: <Id "Write" test.adb:19:11-19:16>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Write" test.adb:19:21-19:26>
   references:    <DefiningName "Write" test.adb:11:14-11:19>
   type:          None
   expected type: None

@@ -1,0 +1,116 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericPackageInstantiation ["Inner"] test.adb:28:7-28:41>
+************************************************************************************
+
+Expr: <DottedName test.adb:28:28-28:40>
+  references:    <| DefiningName "Inner_G" test.adb:20:15-20:22 [test.adb:26:12] |>
+  type:          None
+  expected type: None
+Expr: <Id "Base" test.adb:28:28-28:32>
+  references:    <DefiningName "Base" test.adb:26:20-26:24>
+  type:          None
+  expected type: None
+Expr: <Id "Inner_G" test.adb:28:33-28:40>
+  references:    <| DefiningName "Inner_G" test.adb:20:15-20:22 [test.adb:26:12] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Inner_G"] test.adb:19:7-22:19 [test.adb:26:12, test.adb:28:7] |>
+****************************************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Itf"] test.adb:21:10-21:47 [test.adb:26:12, test.adb:28:7] |>
+***********************************************************************************************************************
+
+Expr: <| Id "Interface_G" test.adb:21:29-21:40 [test.adb:26:12, test.adb:28:7] |>
+  references:    <DefiningName "Interface_G" test.adb:12:12-12:23>
+  type:          None
+  expected type: None
+Expr: <| Id "Vec" test.adb:21:42-21:45 [test.adb:26:12, test.adb:28:7] |>
+  references:    <| DefiningName "Vec" test.adb:17:15-17:18 [test.adb:26:12] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Interface_G"] test.adb:10:4-13:20 [test.adb:26:12, test.adb:28:7, test.adb:21:10] |>
+************************************************************************************************************************************
+
+Resolving xrefs for node <| GenericPackageInstantiation ["Vec"] test.adb:11:12-11:44 [test.adb:26:12, test.adb:28:7, test.adb:21:10] |>
+***************************************************************************************************************************************
+
+Expr: <| Id "Vectors" test.adb:11:31-11:38 [test.adb:26:12, test.adb:28:7, test.adb:21:10] |>
+  references:    <DefiningName "Vectors" test.adb:3:12-3:19>
+  type:          None
+  expected type: None
+Expr: <| BoxExpr test.adb:11:40-11:42 [test.adb:26:12, test.adb:28:7, test.adb:21:10] |>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericPackageDecl ["Vectors"] test.adb:2:4-8:16 [test.adb:26:12, test.adb:17:7] |>
+**************************************************************************************************************
+
+Resolving xrefs for node <| ConcreteTypeDecl ["U"] test.adb:4:7-4:29 [test.adb:26:12, test.adb:17:7] |>
+*******************************************************************************************************
+
+
+Resolving xrefs for node <| ConcreteTypeDecl ["U_Acc"] test.adb:5:7-5:30 [test.adb:26:12, test.adb:17:7] |>
+***********************************************************************************************************
+
+Expr: <| Id "U" test.adb:5:28-5:29 [test.adb:26:12, test.adb:17:7] |>
+  references:    <| DefiningName "U" test.adb:4:12-4:13 [test.adb:26:12, test.adb:17:7] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ObjectDecl ["N"] test.adb:7:7-7:35 [test.adb:26:12, test.adb:17:7] |>
+*************************************************************************************************
+
+Expr: <| Id "U_Acc" test.adb:7:20-7:25 [test.adb:26:12, test.adb:17:7] |>
+  references:    <| DefiningName "U_Acc" test.adb:5:12-5:17 [test.adb:26:12, test.adb:17:7] |>
+  type:          None
+  expected type: None
+Expr: <| Allocator test.adb:7:29-7:34 [test.adb:26:12, test.adb:17:7] |>
+  type:          <| ConcreteTypeDecl ["U_Acc"] test.adb:5:7-5:30 [test.adb:26:12, test.adb:17:7] |>
+  expected type: <| ConcreteTypeDecl ["U_Acc"] test.adb:5:7-5:30 [test.adb:26:12, test.adb:17:7] |>
+Expr: <| Id "U" test.adb:7:33-7:34 [test.adb:26:12, test.adb:17:7] |>
+  references:    <| DefiningName "U" test.adb:4:12-4:13 [test.adb:26:12, test.adb:17:7] |>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| EndName test.adb:8:8-8:15 [test.adb:26:12, test.adb:17:7] |>
+****************************************************************************************
+
+Expr: <| EndName test.adb:8:8-8:15 [test.adb:26:12, test.adb:17:7] |>
+  references:    <| DefiningName "Vec" test.adb:17:15-17:18 [test.adb:26:12] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Vectors" test.adb:8:8-8:15 [test.adb:26:12, test.adb:17:7] |>
+  references:    <| DefiningName "Vec" test.adb:17:15-17:18 [test.adb:26:12] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| EndName test.adb:13:8-13:19 [test.adb:26:12, test.adb:28:7, test.adb:21:10] |>
+**********************************************************************************************************
+
+Expr: <| EndName test.adb:13:8-13:19 [test.adb:26:12, test.adb:28:7, test.adb:21:10] |>
+  references:    <| DefiningName "Itf" test.adb:21:18-21:21 [test.adb:26:12, test.adb:28:7] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Interface_G" test.adb:13:8-13:19 [test.adb:26:12, test.adb:28:7, test.adb:21:10] |>
+  references:    <| DefiningName "Itf" test.adb:21:18-21:21 [test.adb:26:12, test.adb:28:7] |>
+  type:          None
+  expected type: None
+
+
+Resolving xrefs for node <| EndName test.adb:22:11-22:18 [test.adb:26:12, test.adb:28:7] |>
+*******************************************************************************************
+
+Expr: <| EndName test.adb:22:11-22:18 [test.adb:26:12, test.adb:28:7] |>
+  references:    <DefiningName "Inner" test.adb:28:15-28:20>
+  type:          None
+  expected type: None
+Expr: <| Id "Inner_G" test.adb:22:11-22:18 [test.adb:26:12, test.adb:28:7] |>
+  references:    <DefiningName "Inner" test.adb:28:15-28:20>
+  type:          None
+  expected type: None
+
+
+
+Done.

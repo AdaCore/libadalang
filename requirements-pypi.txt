@@ -1,8 +1,6 @@
 autopep8==1.5.2
 coverage==5.1
 docutils==0.16
--e git+https://github.com/AdaCore/e3-core.git#egg=e3-core
--e git+https://github.com/AdaCore/e3-testsuite.git#egg=e3-testsuite
 funcy==1.14
 Mako==1.1.2
 sphinx-rtd-theme==0.4.3

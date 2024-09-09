@@ -13225,7 +13225,7 @@ class AttributeRef: Name {
             # type of `X'Access`.
             if node.parent is DottedName and node.is_prefix() then
                 %eq(node.prefix.expected_type_var(), node.expected_type_var())
-                and self.prefix.matches_expected_formal_type()
+                and self.prefix.matches_expected_prefix_type()
                 and %eq(node.prefix.type_var(), node.type_var(),
                         conv_prop=BaseTypeDecl.anonymous_access_type_or_null)
             elif node.parent is ExplicitDeref then

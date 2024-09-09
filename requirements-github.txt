@@ -1,0 +1,2 @@
+-e git+https://github.com/AdaCore/e3-core.git#egg=e3-core
+-e git+https://github.com/AdaCore/e3-testsuite.git#egg=e3-testsuite

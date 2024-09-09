@@ -2,7 +2,7 @@ autopep8==1.5.2
 coverage==5.1
 docutils==0.16
 funcy==1.14
-Mako==1.1.2
+Mako==1.2.2
 sphinx-rtd-theme==0.4.3
 yapf==0.30.0
 pycodestyle

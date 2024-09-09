@@ -6844,8 +6844,8 @@
             "field": "f_op"
           },
           {
-            "kind": "innerRoot",
-            "contents": {
+            "kind": "group",
+            "document": {
               "kind": "recurse_field",
               "field": "f_expr"
             }

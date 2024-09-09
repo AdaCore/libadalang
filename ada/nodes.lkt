@@ -179,8 +179,9 @@ class AdaNode implements Node[AdaNode] {
 
         # Promote declarations that returns a value
         item.expr_type().do(
-            (_) => # Return value type of item matches name's type
-            if name.referenced_decl()?.type_expression()?.designated_type_decl().matching_assign_type(td) and te_not_null then 100
+            (_) =>
+            # Return value type of item matches name's type
+            if (name.referenced_decl()?.type_expression()?.designated_type_decl().matching_assign_type(td) and te_not_null) then 100
             # Re-try with best-effort resolution (for incomplete code)
             elif {
                 bind imprecise_fallback = true;
@@ -233,7 +234,7 @@ class AdaNode implements Node[AdaNode] {
 
     fun generic_instantiations_internal(r: EnvRebindings): Array[Entity[GenericInstantiation]] =
         if r == null[EnvRebindings] then null[Array[Entity[GenericInstantiation]]] else {
-            val head = r.new_env.env_node.as![GenericInstantiation].as_bare_entity;
+            val head = (r.new_env.env_node.as![GenericInstantiation].as_bare_entity);
             val tail = node.generic_instantiations_internal(r.get_parent);
 
             [head] & tail
@@ -417,13 +418,13 @@ class AdaNode implements Node[AdaNode] {
 
         # For bodies, and if `include_skip_proof_annotations` is True,
         # check `Skip_Proof`/`Skip_Flow_And_Proof`.
-        if include_skip_proof_annotations and not self.as[Body].do(
+        if (include_skip_proof_annotations and not self.as[Body].do(
             (b) => b, default_val=self.semantic_parents().find((n) => n is Body).as[Body]
         ).do(
             (b) => b.gnatprove_annotations().find(
                 (a) => a.as[Name].name_symbol() in s"Skip_Proof" | s"Skip_Flow_And_Proof"
             )
-        ).is_null then false
+        ).is_null) then false
         elif not spark_mode.exists then false
         else spark_mode.value.do(
             (mode) => mode.as[Name].name_is(s"On"),
@@ -561,17 +562,15 @@ class AdaNode implements Node[AdaNode] {
     @with_dynvars(env, origin)
     fun resolve_children_names(generate_diagnostics: Bool): Bool = node.children.all(
         (c) => c.do(
-            (c) => # Only resolve nodes that have xref_stop_resolution set, and do not
+            # Only resolve nodes that have xref_stop_resolution set, and do not
             # recursively explore nodes that are xref entry points.
+            (c) =>
             if c.xref_entry_point() then true else (
                 if c.as_entity.xref_stop_resolution() then {
                     bind entry_point = c;
+                    bind env = self.xref_initial_env();
 
-                    {
-                        bind env = self.xref_initial_env();
-
-                        c.as_entity.resolve_own_names(generate_diagnostics)
-                    }
+                    c.as_entity.resolve_own_names(generate_diagnostics)
                 } else true
             ) and c.as_entity.resolve_children_names(generate_diagnostics), default_val=true
         )
@@ -606,12 +605,9 @@ class AdaNode implements Node[AdaNode] {
     @call_memoizable
     fun resolve_names(): Bool = {
         bind env = self.xref_initial_env();
+        bind origin = node.origin_node();
 
-        {
-            bind origin = node.origin_node();
-
-            self.resolve_names_internal(false)
-        }
+        self.resolve_names_internal(false)
     }
 
     |" Resolve names from the closest entry point up to this node. Note that
@@ -638,37 +634,28 @@ class AdaNode implements Node[AdaNode] {
         # recursion.
         if self.xref_entry_point() then {
             bind env = self.xref_initial_env();
+            bind origin = node.origin_node();
+            bind entry_point = node;
 
-            {
-                bind origin = node.origin_node();
-
-                {
-                    bind entry_point = node;
-
-                    self.resolve_own_names(false)
-                }
-            }
+            self.resolve_own_names(false)
         } else (
             # Otherwise, recurse on the parent
             self.parent?.resolve_names_from_closest_entry_point().do(
                 (_) => {
                     bind env = self.xref_initial_env();
+                    bind origin = node.origin_node();
 
-                    {
-                        bind origin = node.origin_node();
+                    # Resolution succeeded for the parent and this is a
+                    # stop resolution, so resolve own names as well.
+                    if self.xref_stop_resolution() then {
+                        bind entry_point = node;
 
-                        # Resolution succeeded for the parent and this is a
-                        # stop resolution, so resolve own names as well.
-                        if self.xref_stop_resolution() then {
-                            bind entry_point = node;
-
-                            self.resolve_own_names(false)
-                        } else (
-                            # Resolution succeeded and there is nothing to do
-                            # on that particular node: return successfully.
-                            true
-                        )
-                    }
+                        self.resolve_own_names(false)
+                    } else (
+                        # Resolution succeeded and there is nothing to do
+                        # on that particular node: return successfully.
+                        true
+                    )
                 }
             )
         )
@@ -697,16 +684,11 @@ class AdaNode implements Node[AdaNode] {
     @exported
     fun nameres_diagnostics(): Array[SolverDiagnostic] = {
         bind env = self.xref_initial_env();
+        bind origin = node.origin_node();
 
-        {
-            bind origin = node.origin_node();
+        val _ = self.resolve_names_internal(true);
 
-            {
-                val _ = self.resolve_names_internal(true);
-
-                self.own_nameres_diagnostics() & self.children_nameres_diagnostics()
-            }
-        }
+        self.own_nameres_diagnostics() & self.children_nameres_diagnostics()
     }
 
     |" Used as a predicate during name resolution to emit a diagnostic
@@ -874,8 +856,8 @@ class AdaNode implements Node[AdaNode] {
     fun parent_has_with_visibility(refd_unit: AnalysisUnit, self_cu: CompilationUnit, has_private_view: Bool): Bool = {
         val should_have_private_view = has_private_view or self_cu.has_private_view(node);
 
-        self_cu.decl().as_bare_entity.semantic_parent().do(
-            (parent) => # In our implementation, the semantic parent of a child package
+        self_cu.decl().as_bare_entity.semantic_parent().do((parent) =>
+            # In our implementation, the semantic parent of a child package
             # is always the private part of the parent package (see note in
             # ``PackageDecl``'s ``env_spec``). But if we are not supposed
             # to have view on the private part, we must perform the query
@@ -941,12 +923,12 @@ class AdaNode implements Node[AdaNode] {
                 (b) => if b.is_library_item() then b.defining_name().referenced_unit(
                     AnalysisUnitKind.unit_specification, not_found_is_error=false
                 ).do(
-                    (u) => # A subprogram renaming can appear as a top-level
+                    # A subprogram renaming can appear as a top-level
                     # library item of a unit specification, in which case
                     # the `referenced_unit` call above will return `cu`.
                     # In that case, we must not perform the recursive call,
                     # otherwise we will get an infinite recursion.
-                    if cu == u then false else u?.has_with_visibility(refd_unit, omit_privacy_check=true)
+                    (u) => if cu == u then false else u?.has_with_visibility(refd_unit, omit_privacy_check=true)
                 ) else false
             )
         ) or (
@@ -1145,7 +1127,8 @@ class AdaNode implements Node[AdaNode] {
     fun choice_match(value: BigInt): Bool = match self {
         # If choice is a binop, it is either a range, or a static
         # arithmetic expression.
-        case bo: BinOp => # If choice is a range, then check that val is in the range
+        case bo: BinOp =>
+        # If choice is a range, then check that val is in the range
         if bo.op is Op.DoubleDot then value >= bo.left.eval_as_int() and value <= bo.right.eval_as_int() else value == bo.eval_as_int()
 
         # If choice is a name, it is either a subtype name, either a
@@ -1159,12 +1142,9 @@ class AdaNode implements Node[AdaNode] {
                 }, default_val=true
             ) and {
                 bind origin = node;
+                bind imprecise_fallback = false;
 
-                {
-                    bind imprecise_fallback = false;
-
-                    dt.satisfies_type_predicates(value)
-                }
+                dt.satisfies_type_predicates(value)
             }, default_val=value == n.eval_as_int()
         )
 
@@ -1177,12 +1157,9 @@ class AdaNode implements Node[AdaNode] {
             }, default_val=true
         ) and {
             bind origin = node;
+            bind imprecise_fallback = false;
 
-            {
-                bind imprecise_fallback = false;
-
-                st.designated_type().satisfies_type_predicates(value)
-            }
+            st.designated_type().satisfies_type_predicates(value)
         }
 
         # If it is an expr, then just check for equality
@@ -1623,11 +1600,12 @@ class AssocList: ASTList[BasicAssoc] {
         val up = self.unpacked_params();
 
         up.find(
-            (p) => # Search expression for parameter `param` if a named one exists
-            p.name?.matches(param.name.node)
+            # Search expression for parameter `param` if a named one exists
+            (p) => p.name?.matches(param.name.node)
         ).do(
-            (a) => a.assoc.expr(), default_val=# Otherwise, get the parameter using its position if any
-            if up?[pos].is_null or not up?[pos].assoc.names().is_null then (
+            (a) => a.assoc.expr(),
+            # Otherwise, get the parameter using its position if any
+            default_val=if up?[pos].is_null or not up?[pos].assoc.names().is_null then (
                 # None was found, either by name or by position, return
                 # default expression.
                 default_expr
@@ -1672,16 +1650,13 @@ class AssocList: ASTList[BasicAssoc] {
                 case c: CompositeConstraint => c.subtype()?.discriminants_list()
                 case a: BaseAggregate => {
                     bind origin = node;
+                    bind env = node.node_env();
 
-                    {
-                        bind env = node.node_env();
-
-                        a.expression_type().record_def()?.components.abstract_formal_params_for_assocs(
-                            self, # Do not get ancestor_expr's components if `a` is an
-                            # extended aggregate.
-                            stop_recurse_at=a.ancestor_expr_type()
-                        )
-                    }
+                    a.expression_type().record_def()?.components.abstract_formal_params_for_assocs(
+                        self, # Do not get ancestor_expr's components if `a` is an
+                        # extended aggregate.
+                        stop_recurse_at=a.ancestor_expr_type()
+                    )
                 }
                 case _ => null[Array[Entity[BaseFormalParamDecl]]]
             }
@@ -1698,9 +1673,9 @@ class AssocList: ASTList[BasicAssoc] {
         );
         val default_subp_matches = params.do(
             (_) => params.filtermap(
-                (p) => # Append implicit actuals of formal subprograms that have a
-                # default value (box expression of explicit reference).
-                {
+                (p) => {
+                    # Append implicit actuals of formal subprograms that have a
+                    # default value (box expression of explicit reference).
                     val decl = p.as[GenericFormalSubpDecl];
                     val subp = p.as[GenericFormalSubpDecl].decl.as[FormalSubpDecl];
 
@@ -1996,8 +1971,8 @@ class AspectAssoc: AdaNode {
             case _ => [null[Entity[Expr]]]
         }.map(
             (e) => e.as[UnOp].do(
-                (uo) => # Ignore the `not` keyword (useless for nameres)
-                if uo.op is Op.Not then uo.expr else e, default_val=e
+                # Ignore the `not` keyword (useless for nameres)
+                (uo) => if uo.op is Op.Not then uo.expr else e, default_val=e
             )
         ).map((e) => e.as![Identifier]);
         # Names defined by the assoc can only be `Identifier`s
@@ -2373,7 +2348,8 @@ class BaseFormalParamHolder: AdaNode {
         val md = self.info.md;
 
         typ.designated_type()?.without_md().as[BaseTypeDecl].do(
-            (t) => # Subprograms retrieved through ``dottable_subps_env``
+            (t) =>
+            # Subprograms retrieved through ``dottable_subps_env``
             # already have their base type rebindings set, so we don't
             # need to adjust it.
             # TODO: we should however compute the real_type just like we
@@ -2675,12 +2651,12 @@ class BaseSubpSpec: BaseFormalParamHolder {
         # `self.name` can be null for access-to-subprogram specifications
         self.name().do(
             (name) => typ?.primitives_env().get(name.name_symbol()).any((b) => b.node == name.basic_decl().node).do(
-                (_) => # This is node is indeed a primitive if we can find it in `typ`'s
+                # This is node is indeed a primitive if we can find it in `typ`'s
                 # primitives env.
                 # If seen from an inherited primitive, make sure the returned
                 # type corresponds to the derived type and not the base type
                 # by using `real_type`.
-                self.real_type(typ)
+                (_) => self.real_type(typ)
             )
         )
 
@@ -3655,8 +3631,8 @@ class BasicDecl: AdaNode {
         else (
             self_env.env_node.as[BasicDecl] or? self_env.env_node.as[PrivatePart]?.parent.as[BasicDecl]
         ).do(
-            (bd) => # Recurse and append the basic decl's name
-            bd.env_spec_fully_qualified_name_impl(self_env=bd.node_env()) & "." & node.name_symbol().image()
+            # Recurse and append the basic decl's name
+            (bd) => bd.env_spec_fully_qualified_name_impl(self_env=bd.node_env()) & "." & node.name_symbol().image()
         )
 
     |" Return a the fully qualified name of this declaration to be used by
@@ -3941,9 +3917,10 @@ class BasicDecl: AdaNode {
 
         if designated_decl.node == node.parent then Entity[GenericInstantiation](
             node=inst_node, info=EntityInfo(
-                md=Metadata(), rebindings=# Since we return the instantiation itself, remove
+                md=Metadata(),
+                # Since we return the instantiation itself, remove
                 # it from its rebindings.
-                node.remove_rebindings(
+                rebindings=node.remove_rebindings(
                     self.info.rebindings, designated_decl.info.rebindings
                 ), from_rebound=self.info.from_rebound
             )
@@ -4212,8 +4189,8 @@ class BasicDecl: AdaNode {
         val derivations = prim_type?.find_all_derived_types(units);
 
         derivations.mapcat(
-            (t) => # Get all primitives that are named just like self
-            {
+            (t) => {
+                # Get all primitives that are named just like self
                 val prims = t.primitives_env().get(self.name_symbol()).map((p) => p.as![BasicDecl]);
 
                 # Retrieve self among the primitives, so that it carries
@@ -4610,8 +4587,8 @@ class BasicDecl: AdaNode {
         # The standard package is the only library item that does not have
         # a named parent.
         if defining_name.text().to_symbol == s"standard" then null[Symbol]
-        elif node.is_library_item() then child_name.do(
-            (n) => # If this declaration's name is a dotted name, use the prefix
+        elif node.is_library_item() then child_name.do((n) =>
+            # If this declaration's name is a dotted name, use the prefix
             # to retrieve the name of its parent.
             if private_part then (n.prefix.text() & ".__privatepart").to_symbol else n.prefix.text().to_symbol, default_val=s"standard"
         )
@@ -5347,11 +5324,12 @@ class BaseTypeDecl: BasicDecl {
         val is_derived_tagged = node.as_bare_entity.as[TypeDecl]?.is_derived_tagged_type();
         val decl_parts = scope?.parent.as_bare_entity.do(
             (v1) => match v1 {
-                case pkg_decl: BasePackageDecl => pkg_decl.public_part.decls.as_array() & pkg_decl.private_part?.decls.as_array()
-
+                case pkg_decl: BasePackageDecl =>
                 # self is declared in a package scope, we should check all the
                 # declarative parts of it.
-                case _ => # self is not declared in a package scope: the only way that there
+                pkg_decl.public_part.decls.as_array() & pkg_decl.private_part?.decls.as_array()
+                case _ =>
+                # self is not declared in a package scope: the only way that there
                 # can be a primitive of self here is if self is a derived tagged
                 # type.
                 if is_derived_tagged then node.parent.parent.as[DeclarativePart].do(
@@ -6185,24 +6163,24 @@ class BaseTypeDecl: BasicDecl {
     @memoized
     fun next_part(): Entity[BaseTypeDecl] = match self {
         case itd: IncompleteTypeDecl => itd.declarative_scope().do(
-            (s) => # The next part of a (non-private) incomplete type declaration must
+            # The next part of a (non-private) incomplete type declaration must
             # either be in the same declarative scope...
-            itd.find_next_part_in(s.as_entity)
+            (s) => itd.find_next_part_in(s.as_entity)
         ) or? self.is_in_private_part().do(
             (_) => self.declarative_scope().parent.as![BasePackageDecl].as_entity.body_part().do(
-                (p) => # Or in the particular case of taft-amendment types where the
+                # Or in the particular case of taft-amendment types where the
                 # incomplete decl is in the private part of the package spec,
                 # the next part can be found in the package's body (RM 3.10.1).
-                itd.find_next_part_in(p.decls)
+                (p) => itd.find_next_part_in(p.decls)
             )
         )
         case cwt: ClasswideTypeDecl => {
             val td = cwt.type_decl();
 
             td.next_part().do(
-                (np) => # Sometimes `next_part` returns self itself, so check
+                # Sometimes `next_part` returns self itself, so check
                 # that to avoid an infinite loop.
-                if td == np then cwt else np.classwide_type()
+                (np) => if td == np then cwt else np.classwide_type()
             )
         }
         case _ => if self.is_private() and not self.is_generic_formal() then self.private_completion() else null[Entity[BaseTypeDecl]]
@@ -7284,13 +7262,10 @@ class TypeDecl: BaseTypeDecl {
     fun indexing_fns(name: Entity[Name]): Array[Entity[BasicDecl]] = name.do(
         (name) => {
             bind env = self.node_env();
+            bind origin = self.origin_node();
 
-            {
-                bind origin = self.origin_node();
-
-                # Get all elements for name in self's env
-                name.all_env_els_impl(seq=false)
-            }
+            # Get all elements for name in self's env
+            name.all_env_els_impl(seq=false)
         }
     ).filtermap(
         (e) => e.as[BasicDecl], (e) => e.as![BasicDecl].subp_spec_or_null().do(
@@ -7309,8 +7284,8 @@ class TypeDecl: BaseTypeDecl {
 
     |" Get all the indexing functions designated by ``name`` defined for
     |" this type by recursing parent types until ``root_type``.
-    fun all_indexing_fns_impl(name: Entity[Name], root_type: Entity[TypeDecl]): Array[Entity[BasicDecl]] = self.indexing_fns(name) & self.base_type().do(
-        (bt) => # The user indexing functions can be overriden, so recurse on all
+    fun all_indexing_fns_impl(name: Entity[Name], root_type: Entity[TypeDecl]): Array[Entity[BasicDecl]] = self.indexing_fns(name) & self.base_type().do((bt) =>
+        # The user indexing functions can be overriden, so recurse on all
         # base types to get them all.
         if self == root_type then null[Array[Entity[BasicDecl]]] else bt.as![TypeDecl].all_indexing_fns_impl(name, root_type)
     )
@@ -7318,10 +7293,10 @@ class TypeDecl: BaseTypeDecl {
     |" Return all the indexing functions defined for this type, including
     |" ones defined by its parents.
     fun all_indexing_fns(sym: Symbol): Array[Entity[BasicDecl]] = self.get_aspect(sym, true).value.do(
-        (value) => # The indexing function's name is specified on the type for
-        # which the aspect is defined (which is returned by
-        # `get_aspect` here).
-        {
+        (value) => {
+            # The indexing function's name is specified on the type for
+            # which the aspect is defined (which is returned by
+            # `get_aspect` here).
             val fn_name = value.as![Name];
             # The root type of the type derivation chain (to stop the
             # recursion in `all_indexing_fns`).
@@ -7496,8 +7471,8 @@ class BasicSubpDecl: BasicDecl {
         val precise = {
             bind origin = self_spec.origin_node();
 
-            elements.find(
-                (ent) => # Discard the rebindings of self before trying to match
+            elements.find((ent) =>
+                # Discard the rebindings of self before trying to match
                 # against the tentative body, as those do not carry that info.
                 ent.node.as_bare_entity.as[Body]?.formal_param_holder_or_null().match_other(self_spec, true)
             ).as[Body]
@@ -7526,8 +7501,8 @@ class BasicSubpDecl: BasicDecl {
             other_part.do(
                 (op) => self.get_body_in_env(op.children_env())
             ) or? parent_decl.body_part_for_decl().do(
-                (np) => # If not found, search in body
-                self.get_body_in_env(np.children_env())
+                # If not found, search in body
+                (np) => self.get_body_in_env(np.children_env())
             )
         }
         # No declarative scope: Bail out!
@@ -8003,9 +7978,9 @@ class Body: BasicDecl {
         # If this is a library-level subprogram, the previous part can be
         # found by fetching the compilation unit spec.
         elif parent is CompilationUnit then parent.as[CompilationUnit].other_part().do(
-            (cu) => # Make sure the previous part is at least a subprogram,
+            # Make sure the previous part is at least a subprogram,
             # and not an arbitrary declaration.
-            if cu.decl() is BasicSubpDecl | GenericSubpDecl then [cu.decl().as[AdaNode].as_entity] else null[Array[Entity[AdaNode]]]
+            (cu) => if cu.decl() is BasicSubpDecl | GenericSubpDecl then [cu.decl().as[AdaNode].as_entity] else null[Array[Entity[AdaNode]]]
         )
         # If this subprogram's parent is a BodyStub, this subprogram is
         # necessarily a Subunit and the stub is thus its previous part.
@@ -9177,13 +9152,14 @@ class GenericInstantiation: BasicDecl {
     fun instantiation_bindings_internal(): Array[InnerEnvAssoc] =
         if self.is_any_formal() then null[Array[InnerEnvAssoc]] else node.nonbound_generic_decl_from_self().as![GenericDecl].formal_part.match_param_list(self.generic_inst_params(), false).imap(
             (pm, i) => InnerEnvAssoc(
-                key=pm.formal.name.name_symbol(), value=# Do not put formal subprograms in the rebindings to
+                key=pm.formal.name.name_symbol(),
+                # Do not put formal subprograms in the rebindings to
                 # avoid them being eagerly resolved to an actual, as
                 # the formal part is needed to implement correct name
                 # resolution.
                 # We will use ``BasicDecl.corresponding_actual``
                 # instead to manually resolve it.
-                if pm.actual.assoc.expr() is BoxExpr or pm.formal.formal_decl() is GenericFormalSubpDecl then null[Expr]
+                value=if pm.actual.assoc.expr() is BoxExpr or pm.formal.formal_decl() is GenericFormalSubpDecl then null[Expr]
                 elif pm.formal.formal_decl() is GenericFormalObjDecl then self.actual_expr_decls?[i]
                 else pm.actual.assoc.expr().node, metadata=Metadata()
             )
@@ -9290,12 +9266,9 @@ class GenericInstantiation: BasicDecl {
         self.defining_name().name.as[DottedName]?.prefix.do(
             (parent_name) => {
                 bind origin = node;
+                bind env = self.children_env();
 
-                {
-                    bind env = self.children_env();
-
-                    parent_name.designated_env_no_overloading()
-                }
+                parent_name.designated_env_no_overloading()
             }, default_val=node.empty_env()
         )
 
@@ -9344,8 +9317,8 @@ class GenericInstantiation: BasicDecl {
         val ap = self.generic_inst_params();
 
         self.designated_generic_decl()?.formal_part.decls.mapcat(
-            (d) => # Unpack generic formals with their default expressions
-            match d {
+            # Unpack generic formals with their default expressions
+            (d) => match d {
                 case t: GenericFormalPackage => [ParamActual(
                     param=t.decl.as[GenericPackageInstantiation].name, actual=null[Entity[Expr]]
                 )]
@@ -9370,8 +9343,9 @@ class GenericInstantiation: BasicDecl {
             }
         ).imap(
             (dp, i) => ParamActual(
-                param=dp.param, actual=# Update actuals from instantiation params
-                ap.actual_for_param_at(dp.param, i, dp.actual)
+                param=dp.param,
+                # Update actuals from instantiation params
+                actual=ap.actual_for_param_at(dp.param, i, dp.actual)
             )
         )
     }
@@ -10054,10 +10028,10 @@ class CompilationUnit: AdaNode {
     @memoized
     fun withed_units(include_privates: Bool = true): Array[Entity[CompilationUnit]] =
         node.top_level_with_package_clauses(include_privates).mapcat(
-            (p) => # Try to fetch the compilation unit in a spec file first. If this
+            # Try to fetch the compilation unit in a spec file first. If this
             # fails, the "with" must designate a body without spec (e.g. a
             # library-level procedure).
-            node.referenced_units_in(p.as_bare_entity)
+            (p) => node.referenced_units_in(p.as_bare_entity)
         ).unique()
 
     |" Return all the compilation units that are directly imported by this
@@ -10166,9 +10140,10 @@ class CompilationUnit: AdaNode {
             )
             case pkg_decl: PackageDecl => pkg_decl.does_aspects_make_preelaborable(from_body)
             case gen_pkg_decl: GenericPackageDecl => gen_pkg_decl.package_decl.does_aspects_make_preelaborable(from_body)
-            case pkg_body: PackageBody => # Elaboration control pragmas cannot appear in package
-            # bodies, so recurse on the corresponding package spec.
-            pkg_body.decl_part().unit().root.as_bare_entity.as![CompilationUnit].is_preelaborable_impl(from_body=true)
+            case pkg_body: PackageBody =>
+                # Elaboration control pragmas cannot appear in package
+                # bodies, so recurse on the corresponding package spec.
+                pkg_body.decl_part().unit().root.as_bare_entity.as![CompilationUnit].is_preelaborable_impl(from_body=true)
             case _ => false
         }
         case _ => false
@@ -11130,7 +11105,8 @@ class BaseAggregate: Expr {
 
         (
             type_constraint and self.ancestor_expr.do(
-                (ae) => # We have an ancestor part, which can be either a subtype mark
+                (ae) =>
+                # We have an ancestor part, which can be either a subtype mark
                 # designating a type as in `(Controlled with X => 2)`, or an
                 # arbitrary expression as in `(Foo(1) with X => 2)`.
                 if ae is Name and not ae.as[Name].name_designated_type().is_null then ae.as[Name].xref_type_equation()
@@ -11160,15 +11136,17 @@ class BaseAggregate: Expr {
         # Nested aggregates of a multidimensional array have no types, so we're
         # searching for the first aggregate with a type inside type_val.
         self.type_val().as[BaseTypeDecl].do(
-            (tv) => # If we have a multidimensional array type here, return all the
+            (tv) =>
+            # If we have a multidimensional array type here, return all the
             # needed info (rank, root aggregate and type of the array).
             if tv.array_ndims() > 1 then MultidimAggregateInfo(agg=self, typ=tv, rank=r) else (
                 # If we're here, we found a type, and it's not a multidim
                 # array: Stop there.
                 null[MultidimAggregateInfo]
-            ), default_val=# If we're here, there is a parent aggregate and no type_val:
+            ),
+            # If we're here, there is a parent aggregate and no type_val:
             # recurse up.
-            self.parent.parent.parent.as[Aggregate]?.multidim_root_aggregate(r + 1)
+            default_val=self.parent.parent.parent.as[Aggregate]?.multidim_root_aggregate(r + 1)
         )
 
     |" Return the list of all discriminants that must be associated by this
@@ -12233,14 +12211,11 @@ class Name: Expr {
     |" ``categories`` parameter for internal uses.
     fun all_env_elements_internal(seq: Bool = true, seq_from: AdaNode = null[AdaNode], categories: RefCategories = RefCategories(_=true)): Array[Entity[AdaNode]] = {
         bind origin = node.origin_node();
+        bind env = self.node_env();
 
-        {
-            bind env = self.node_env();
-
-            self.all_env_els_impl(
-                seq=seq, seq_from=seq_from, categories=categories
-            )
-        }
+        self.all_env_els_impl(
+            seq=seq, seq_from=seq_from, categories=categories
+        )
     }
 
     |" Return all elements in self's scope that are lexically named like self.
@@ -12537,9 +12512,9 @@ class Name: Expr {
             (res) => RefdDecl(
                 decl=res.decl?.wrap_public_reference(), kind=res.kind
             ).do(
-                (res) => # Never return a null node with a Precise result: this
+                # Never return a null node with a Precise result: this
                 # indicates that it should be a no_ref (e.g. builtin operator).
-                if res.decl.is_null and res.kind == RefResultKind.precise then null[RefdDecl] else res
+                (res) => if res.decl.is_null and res.kind == RefResultKind.precise then null[RefdDecl] else res
             )
         )
 
@@ -12549,12 +12524,9 @@ class Name: Expr {
     @exported
     fun name_designated_type(): Entity[BaseTypeDecl] = {
         bind env = self.node_env();
+        bind origin = node.origin_node();
 
-        {
-            bind origin = node.origin_node();
-
-            self.designated_type_impl()
-        }
+        self.designated_type_impl()
     }
 
     |" Returns whether self denotes a static subtype or not.
@@ -12718,12 +12690,9 @@ class Name: Expr {
         # Handle out/inout param case
         case p: ParamAssoc => if {
             bind env = node.node_env();
+            bind origin = node.origin_node();
 
-            {
-                bind origin = node.origin_node();
-
-                p.parent.parent.as[CallExpr]?.is_type_conversion()
-            }
+            p.parent.parent.as[CallExpr]?.is_type_conversion()
         } then p.parent.parent.as[CallExpr].is_write_reference() else p.get_params().any(
             (m) => m.basic_decl().as[ParamSpec]?.mode?.is_writable()
         )
@@ -12820,9 +12789,10 @@ class Name: Expr {
             val dparams = fparams.imapcat(
                 (p, i) => p.defining_names().map(
                     (n) => ParamActual(
-                        param=n, actual=# Handling dot notation (first actual is
+                        param=n,
+                        # Handling dot notation (first actual is
                         # denoted by the prefix of the dot call).
-                        if is_prefix_call and i == 0 then call_prefix else p.as[ParamSpec]?.default_expr
+                        actual=if is_prefix_call and i == 0 then call_prefix else p.as[ParamSpec]?.default_expr
                     )
                 )
             );
@@ -12832,11 +12802,12 @@ class Name: Expr {
             aparams.do(
                 (ap) => dparams.imap(
                     (dp, i) => ParamActual(
-                        param=actual_formals?[i], actual=# Search if a named param expression exists for
+                        param=actual_formals?[i],
+                        # Search if a named param expression exists for
                         # this formal param in the call assoc list.
                         # Handling dot notation (do not update first
                         # actual).
-                        if is_prefix_call and i == 0 then dp.actual else ap.actual_for_param_at(dp.param, i - offset, dp.actual)
+                        actual=if is_prefix_call and i == 0 then dp.actual else ap.actual_for_param_at(dp.param, i - offset, dp.actual)
                     )
                 ), default_val=dparams
             )
@@ -14034,7 +14005,8 @@ class DefiningName: Name {
             )
         ).mapcat(
             (f) => f.ref.parents().find((p) => p is RenamingClause).parent.as![BasicDecl].do(
-                (bd) => # Get the all renaming clauses *for which the renamed
+                (bd) =>
+                # Get the all renaming clauses *for which the renamed
                 # entity is self* (it is possible to find a reference
                 # inside a renaming clause but that this clause does not
                 # rename self, such as `X` in  `... renames X.Y`, in which
@@ -14178,9 +14150,9 @@ class DefiningName: Name {
         );
 
         self_aspects.find((a) => a.exists) or? self.basic_decl().as[BaseTypeDecl].do(
-            (bd) => # If nothing has been found so far for entity, check out for any
-            # inherited aspect.
-            {
+            (bd) => {
+                # If nothing has been found so far for entity, check out for
+                # any inherited aspect.
                 val typ = if bd is BaseSubtypeDecl then bd.as[BaseSubtypeDecl].get_type() else bd.base_type();
 
                 if typ.is_null or typ == bd then null[Aspect] else typ.name.get_aspect_on_parts(
@@ -14289,8 +14261,8 @@ class DefiningName: Name {
         # First look at library level pragmas if self is a library item
         bd.library_item_pragmas().do(
             (plist) => plist.find(
-                (p) => # Check pragma's name
-                p.id.name_is(name)
+                # Check pragma's name
+                (p) => p.id.name_is(name)
             )
         ) or? # Else check in the surrounding regions of this entity
         self.find_valid_pragma_for_name(name, bd.pragma_regions())
@@ -14975,12 +14947,13 @@ class BaseId: SingleTokNode implements TokenNode {
     fun designated_env_no_overloading(): LexicalEnv = node.env_get_first_visible(
         env, lookup_type=if node.is_prefix() then LookupKind.recursive else LookupKind.flat, from_node=node.origin_node()
     ).as[BasicDecl].do(
-        (bd) => # Getting back an ObjectDecl necessarily means we are dealing with
+        # Getting back an ObjectDecl necessarily means we are dealing with
         # incorrect Ada code, because `designated_env_no_overloading` is
         # always called in context where we expect a package/type
         # declaration. In that case we now directly return an empty result,
         # in order to avoid cases of invalid code that trigger infinite
         # recursions (e.g. `Foo : Foo.T;`).
+        (bd) =>
         if bd is ObjectDecl then node.empty_env()
         elif bd?.is_package() then self.pkg_env(bd)
         else {
@@ -15053,7 +15026,8 @@ class BaseId: SingleTokNode implements TokenNode {
         val package_body_env = private_part_env.get(
             s"__nextpart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
         )?[0].do(
-            (pb) => # If the package is implemented as a separate, we need to
+            (pb) =>
+            # If the package is implemented as a separate, we need to
             # jump through one more link to get to the body.
             if pb is PackageBodyStub then pb.children_env().get(
                 s"__nextpart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
@@ -15179,9 +15153,9 @@ class BaseId: SingleTokNode implements TokenNode {
         ).filter(
             (e) => e.as[AnonymousExprDecl].do(
                 (aed) => self.parents().find((p) => p is GenericFormal).do(
-                    (_) => # If we are in a generic formal part, we do not necessarily have
+                    # If we are in a generic formal part, we do not necessarily have
                     # visibility on all the actuals coming from the instantiation.
-                    aed.get_formal().formal_decl().is_directly_reachable(self), default_val=true
+                    (_) => aed.get_formal().formal_decl().is_directly_reachable(self), default_val=true
                 ), default_val=true
             )
         );
@@ -15227,10 +15201,11 @@ class BaseId: SingleTokNode implements TokenNode {
                         # Type conversion case
                         case _: BaseTypeDecl => params.length() == 1
                         case b: BasicDecl => b.subp_spec_or_null().do(
-                            (spec) => self.call_matches_spec(spec, pc, params, b), default_val=# In the case of ObjectDecls/CompDecls in general,
+                            (spec) => self.call_matches_spec(spec, pc, params, b),
+                            # In the case of ObjectDecls/CompDecls in general,
                             # verify that the callexpr is valid for the given
                             # type designator.
-                            pc.check_for_type(b.expr_type())
+                            default_val=pc.check_for_type(b.expr_type())
                         )
                         case _ => false
                     }
@@ -15493,8 +15468,8 @@ enum class Op: BaseId implements TokenNode {
         %false
 
     @with_dynvars(imprecise_fallback=false)
-    fun is_dispatching_call(): Bool = self.referenced_decl().do(
-        (decl) => # TODO: It's a bit of a shame to not have a base class for
+    fun is_dispatching_call(): Bool = self.referenced_decl().do((decl) =>
+        # TODO: It's a bit of a shame to not have a base class for
         # operators?
         match self.parents().find((n) => n is BinOp | ConcatOp | UnOp).as![Expr] {
             # TODO: Not supported on ConcatOps yet. It would return false
@@ -15860,7 +15835,8 @@ class ForLoopSpec: LoopSpec {
     fun xref_equation(): Equation =
         self.var_decl.sub_equation() and match node.loop_type {
             # This is a for .. in
-            case _: IterType.In => # Let's handle the different possibilities
+            case _: IterType.In =>
+            # Let's handle the different possibilities
             match self.iter_expr {
                 # Anonymous range case: for I in 1 .. 100
                 case binop: BinOp => (
@@ -16130,10 +16106,10 @@ class Pragma: AdaNode {
         elif self.id.name_is(s"Inline") then self.args.map((a) => a.assoc_expr().as[Name])
         elif self.id.name_symbol() in s"Pack" | s"Pure" | s"Preelaborate" | s"Elaborate_Body" | s"Volatile" | s"Volatile_Components" | s"Unchecked_Union" | s"Atomic" | s"Atomic_Components" | s"No_Return" | s"Discard_Names" | s"Independent" | s"Independent_Components" | s"Asynchronous" | s"Interrupt_Handler" | s"Attach_Handler" | s"Predicate" then self.args?[0]?.assoc_expr().as[Name].do((v1) => [v1])
         elif self.id.name_is(s"Obsolescent") then self.args?[0]?.assoc_expr().as[Name].do(
-            (name) => # Pragma Obsolescent can have a StringLiteral as a first
+            # Pragma Obsolescent can have a StringLiteral as a first
             # argument, in which case there is no associated entity with
             # it.
-            if not name is StringLiteral then [name] else null[Array[Entity[Name]]]
+            (name) => if not name is StringLiteral then [name] else null[Array[Entity[Name]]]
         )
         elif self.id.name_is(s"Annotate") then (
             # For pragma Annotate, the associated name is given by an
@@ -16151,8 +16127,8 @@ class Pragma: AdaNode {
             (parent) => parent.children_env().get(
                 name.name_symbol(), lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
             ).map(
-                (decl) => decl.as[BasicDecl].wrap_public_reference().defining_names().find(
-                    (dn) => # Find the scope in which this pragma lies by fetching the closest
+                (decl) => decl.as[BasicDecl].wrap_public_reference().defining_names().find((dn) =>
+                    # Find the scope in which this pragma lies by fetching the closest
                     # lexical scope. We don't use ``declarative_scope`` here, as some
                     # decls do not lie in a DeclarativePart, such as ComponentDecls.
                     # Get entities in it
@@ -16342,8 +16318,8 @@ class Stmt: AdaNode {
             case ass: AssignStmt => ass.dest.failsafe_referenced_def_name()
             case call: CallStmt => call.call.failsafe_referenced_def_name()
             case _ => null[RefdDef]
-        }.do(
-            (res) => # Sometimes name resolution errors are materialized by None
+        }.do((res) =>
+            # Sometimes name resolution errors are materialized by None
             # being returned from the queries instead of a property error.
             # But None doesn't necessarily mean there was an error, so we
             # explicitly handle the error cases by raising an exception as
@@ -16720,10 +16696,10 @@ class RequeueStmt: SimpleStmt {
         ) and (
             # Then, bind the name to any entry that fits the bills
             targets.logic_any(
-                (e) => # If we're binding to an entry from an entry family, resolve
-                # the expression in the call expr, knowing that it can be used
-                # to resolve overloads.
-                {
+                (e) => {
+                    # If we're binding to an entry from an entry family,
+                    # resolve the expression in the call expr, knowing that it
+                    # can be used to resolve overloads.
                     val fam_type = e.as[EntryDecl]?.spec.family_type.as[SubtypeIndication]?.designated_type();
                     val first_param = ce?.params()?[0]?.expr();
 
@@ -17988,13 +17964,13 @@ class OrdinaryFixedPointDef: RealTypeDef {
 
     |" Build an equation for an ordinary fixed point type definition.
     @with_dynvars(env, origin, entry_point)
-    fun xref_equation(): Equation = (
+    fun xref_equation(): Equation =
         # As per RM 3.5.9, the delta expression is expected to be of any
         # real type.
         self.universal_real_bind(self.delta.expected_type_var())
-    ) and self.delta.sub_equation() and self.delta.matches_expected_type() and (
-        if node.range.is_null then %true else self.range.sub_equation()
-    )
+        and self.delta.sub_equation()
+        and self.delta.matches_expected_type()
+        and (if node.range.is_null then %true else self.range.sub_equation())
 
     @memoized
     fun predefined_operators(): Array[EnvAssoc] = {
@@ -18253,7 +18229,8 @@ class SubtypeIndication: TypeExpr {
             is_dot_call=n.info.md.dottable_subp,
             is_visible=node.has_visibility(n),
             weight=match n {
-                case btd: BaseTypeDecl => # Do not promote self as a possible completion for
+                case btd: BaseTypeDecl =>
+                # Do not promote self as a possible completion for
                 # itself::
                 #
                 #     type My_Type is new M
@@ -18379,12 +18356,9 @@ class UsePackageClause: UseClause {
 
         {
             bind env = self.node_env();
+            bind origin = pkg.origin_node();
 
-            {
-                bind origin = pkg.origin_node();
-
-                pkg.as_bare_entity.designated_env()
-            }
+            pkg.as_bare_entity.designated_env()
         }
     }
 
@@ -18467,6 +18441,7 @@ class Variant: AdaNode {
     |" Check if any choice in the choice list matches expr's value.
     fun matches(expr: Entity[Expr]): Bool = {
         # Statically evaluate expr
+
         val expr_val = (
             # If expr is a box expr, `expr_val` is the value of the default
             # expression of the given discriminant (:rmlink:`4.3.1`).
@@ -18495,9 +18470,7 @@ class VariantPart: AdaNode {
             (var) => var.choices.logic_all(
                 (c) => match c {
                     # Expression case
-                    case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else (
-                        %eq(e.expected_type_var(), node.discr_name.type_val()) and e.sub_equation()
-                    ) and e.matches_expected_type()
+                    case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else %eq(e.expected_type_var(), node.discr_name.type_val()) and e.sub_equation() and e.matches_expected_type()
 
                     # SubtypeIndication case (``when Color range Red .. Blue``)
                     case t: SubtypeIndication => t.xref_equation()
@@ -18517,11 +18490,11 @@ class VariantPart: AdaNode {
         ).do(
             (d) => d.actual.assoc.expr(), default_val=self.parents().find((n) => n is ConcreteTypeDecl).as[ConcreteTypeDecl].discriminants.abstract_formal_params().find(
                 (d) => not d.as[DiscriminantSpec].defining_names().filter(
-                    (n) => # If the discriminant is found in aggregate params we are looking
+                    # If the discriminant is found in aggregate params we are looking
                     # for, then take its actual's expression.
                     # Else, take the default expression of the this variant's related
                     # discriminant specification.
-                    n.name.name_is(node.discr_name.symbol)
+                    (n) => n.name.name_is(node.discr_name.symbol)
                 ).is_null
             ).as[DiscriminantSpec].default_expr
         );

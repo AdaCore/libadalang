@@ -13,4 +13,7 @@ procedure Test is
 begin
    Q.Proc (Obj'Access);
    pragma Test_Statement;
+
+   Obj'Access.Proc;
+   pragma Test_Statement;
 end Test;

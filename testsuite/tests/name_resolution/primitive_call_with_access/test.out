@@ -33,5 +33,29 @@ Expr: <Id "Access" test.adb:14:16-14:22>
   type:          None
   expected type: None
 
+Resolving xrefs for node <CallStmt test.adb:17:4-17:20>
+*******************************************************
+
+Expr: <DottedName test.adb:17:4-17:19>
+  references:    <DefiningName "Proc" test.adb:5:17-5:21>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:17:4-17:14>
+  references:    None
+  type:          <SynthAnonymousTypeDecl ["U"] test.adb:9:7-9:42>
+  expected type: <AnonymousTypeDecl ["None"] test.adb:5:27-5:35>
+Expr: <Id "Obj" test.adb:17:4-17:7>
+  references:    <DefiningName "Obj" test.adb:12:4-12:7>
+  type:          <ConcreteTypeDecl ["U"] test.adb:9:7-9:42>
+  expected type: <AnonymousTypeDecl ["None"] test.adb:5:27-5:35>
+Expr: <Id "Access" test.adb:17:8-17:14>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Proc" test.adb:17:15-17:19>
+  references:    <DefiningName "Proc" test.adb:5:17-5:21>
+  type:          None
+  expected type: None
+
 
 Done.

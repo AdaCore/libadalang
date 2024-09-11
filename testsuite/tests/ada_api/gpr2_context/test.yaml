@@ -2,5 +2,3 @@ driver: ada-api
 main: main.adb
 sync_trees:
   - ../../../shared/gpr_context
-control:
-  - [XFAIL, "valgrind", "Pending resolution of eng/gpr/gpr-issues#43"]

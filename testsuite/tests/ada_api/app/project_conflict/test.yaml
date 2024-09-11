@@ -2,5 +2,3 @@ driver: ada-api
 main: main.adb
 argv: [-Pagg.gpr]
 status_code: 1
-control:
-    - [XFAIL, "valgrind", "W320-022: GNATCOLL.Projects leaks no longer fixed"]

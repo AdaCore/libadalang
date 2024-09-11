@@ -3,5 +3,3 @@ compile_units: [main.c]
 input_sources: []
 sync_trees:
   - ../../../shared/gpr_context
-control:
-  - [XFAIL, "valgrind", "W320-022: GNATCOLL.Projects leaks no longer fixed"]

@@ -55,7 +55,7 @@ package body Libadalang.Semantic_Diagnostics is
    is
       Last_Index : Natural := 1;
       Result     : Unbounded_Wide_Wide_String :=
-        To_Unbounded_Text (Template (Diag));
+        To_Unbounded_Text (Message_Template (Diag));
       Actual_Loc : constant Ada_Node :=
         (if Refined_Loc.Is_Null
          then Location (Diag).As_Ada_Node

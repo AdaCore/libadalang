@@ -731,10 +731,7 @@ package body Libadalang.Helpers is
       --  they may contain warnings. If there was an error, abort the App.
 
       Error := Error or else Project.Log_Messages.Has_Error;
-      Project.Log_Messages.Output_Messages
-        (Information => False,
-         Warning     => True,
-         Error       => True);
+
       if Error then
          Abort_App;
       end if;

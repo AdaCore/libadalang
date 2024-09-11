@@ -1,2 +1,2 @@
 driver: python
-input_sources: [test.adb]
+input_sources: [test.adb, stype.adb]

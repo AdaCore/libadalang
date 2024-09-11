@@ -18261,14 +18261,17 @@ class SubtypeIndication: TypeExpr {
         )
     }
 
-    |" Returns whether self denotes a static subtype or not.
+    |" Returns whether self denotes a static subtype or not (i.e. determinable
+    |" at compile time, see :rmlink:`4.9`).
     @exported
     @with_dynvars(imprecise_fallback=false)
     fun is_static_subtype(): Bool = {
         bind origin = node.origin_node();
 
-        self.constraint.do(
-            (c) => c.is_static(), default_val=self.designated_type().is_static_decl()
+        not self.semantic_parent().as[BasicDecl].has_aspect(s"Dynamic_Predicate")
+        and self.constraint.do(
+            (c) => c.is_static(),
+            default_val=self.designated_type().is_static_decl()
         )
     }
 }

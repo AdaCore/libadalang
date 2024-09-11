@@ -16,4 +16,10 @@
 <SubtypeDecl ["Float_ST_3"] test.adb:24:4-24:61> is a static decl
 <SubtypeDecl ["Float_ST_4"] test.adb:25:4-25:73> is not a static decl
 
+== stype.adb ==
+<ConcreteTypeDecl ["T"] stype.adb:2:5-2:41> is not a static decl
+<SubtypeDecl ["U1"] stype.adb:6:8-6:28> is not a static decl
+<SubtypeDecl ["U2"] stype.adb:10:8-10:31> is a static decl
+<SubtypeDecl ["U3"] stype.adb:15:8-15:64> is not a static decl
+
 Done

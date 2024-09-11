@@ -17,7 +17,6 @@ build_and_test:
      - mem:16
   stage: single
   script:
-    - require_issue
     # We frequently push coupled changes to Libadalang and Langkit: when this
     # happens, it is no longer possible to build Libadalang with Langkit's
     # production package for that day. To solve this problem,

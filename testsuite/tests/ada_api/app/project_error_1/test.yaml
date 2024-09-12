@@ -2,3 +2,4 @@ driver: ada-api
 main: main.adb
 argv: [-Pdoesnotexist.gpr]
 status_code: 1
+canonicalize_directory_separators: true

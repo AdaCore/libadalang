@@ -9,6 +9,7 @@ dynvar include_ud_indexing: Bool
 dynvar dottable_type: AdaNode
 dynvar imprecise_fallback: Bool
 dynvar logic_context: LogicContext
+dynvar error_location: AdaNode
 dynvar entry_point: AdaNode
 
 |" Kind for the result of a cross reference operation.
@@ -11146,7 +11147,10 @@ class BaseAggregate: Expr {
                 # 4.3.2 - 4/2 specifies "If the ancestor_part is an expression,
                 # it is expected to be of any tagged type", hence we also add
                 # the following predicate.
-                else ae.sub_equation() %and %predicate(BaseTypeDecl.is_tagged_type_with_deref, ae.type_var(), error_location=ae.node), default_val=%true
+                else ae.sub_equation() %and {
+                    bind error_location=ae.node;
+                    %predicate(BaseTypeDecl.is_tagged_type_with_deref, ae.type_var(), error_location=error_location)
+                }, default_val=%true
             )
         ) %and self.assocs.logic_all((assoc) => assoc.sub_equation())
     }

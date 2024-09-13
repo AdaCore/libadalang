@@ -15718,9 +15718,13 @@ class UnOp: Expr {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.expr.sub_equation() %and (
         if node.in_aspect(s"Depends") or node.in_aspect(s"Refined_Depends") then %true else self.overload_equation() %or (
-            %eq(node.expected_type_var(), node.expr.expected_type_var()) %and %eq(node.type_var(), node.expr.type_var(), logic_ctx=LogicContext(
-                ref_node=self.op, decl_node=null[Entity[AdaNode]]
-            ))
+            %eq(node.expected_type_var(), node.expr.expected_type_var())
+            %and {
+                bind logic_context=LogicContext(
+                    ref_node=self.op, decl_node=null[Entity[AdaNode]]
+                );
+                %eq(node.type_var(), node.expr.type_var(), logic_ctx=logic_context)
+            }
         )
     )
 

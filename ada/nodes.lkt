@@ -538,7 +538,7 @@ class AdaNode implements Node[AdaNode] {
     |" it to the given variable.
     @with_dynvars(entry_point)
     fun bind_to_non_local(dest: LogicVar, outer_node: AdaNode, node_var: LogicVar): Equation =
-        if outer_node.parents().contains(entry_point) then %eq(dest, node_var) else %eq(dest, node_var.get_value())
+        if outer_node.parents().contains(entry_point) then dest <-> node_var else dest <- node_var.get_value()
 
     |" Wrapper for xref_equation, meant to be used inside of xref_equation
     |" when you want to get the sub equation of a sub expression. It is
@@ -1279,21 +1279,21 @@ class AdaNode implements Node[AdaNode] {
 
     @with_dynvars(origin)
     fun comp_bind(left: LogicVar, right: LogicVar): Equation =
-        %eq(right, left, conv_prop=BaseTypeDecl.comp_type)
+        right <- BaseTypeDecl.comp_type%(left)
 
     |" Static method. Return an equation that will bind type_var to any
     |" integer value, corresponding to the notion of universal_integer in the
     |" Ada RM (see :rmlink:`3.4.1`).
     @with_dynvars(origin)
     fun universal_int_bind(type_var: LogicVar): Equation =
-        %eq(type_var, node.universal_int_type())
+        type_var <- node.universal_int_type()
 
     |" Static method. Return an equation that will bind type_var to any real
     |" value, corresponding to the notion of universal_real in the Ada RM (see
     |" :rmlink:`3.4.1`).
     @with_dynvars(origin)
     fun universal_real_bind(type_var: LogicVar): Equation =
-        %eq(type_var, node.universal_real_type())
+        type_var <- node.universal_real_type()
 
     |" Return a null node iff we are in the definition of an aspect clause
     |" where sequential lookup needs to be deactivated. Return self otherwise.
@@ -1771,14 +1771,14 @@ class ConstrainedArrayIndices: ArrayIndices {
 
     @with_dynvars(origin)
     fun constrain_index_expr(index_expr: Entity[Expr], dim: Int): Equation =
-        %eq(index_expr.expected_type_var(), self.index_type(dim)) %and index_expr.matches_expected_type()
+        index_expr.expected_type_var() <- self.index_type(dim) %and index_expr.matches_expected_type()
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.list.logic_all(
         (index) => index.sub_equation() %and index.as[Expr].do(
             (expr) => (
-                %predicate(AdaNode.is_not_null, expr.type_var()) %and %predicate(BaseTypeDecl.is_discrete_type, expr.type_var())
-            ) %and %predicate(BaseTypeDecl.is_not_root_int_type, expr.type_var()), default_val=%true
+                AdaNode.is_not_null%(expr.type_var()) %and BaseTypeDecl.is_discrete_type%(expr.type_var())
+            ) %and BaseTypeDecl.is_not_root_int_type%(expr.type_var()), default_val=%true
         )
     )
 
@@ -1814,7 +1814,7 @@ class UnconstrainedArrayIndices: ArrayIndices {
 
     @with_dynvars(origin)
     fun constrain_index_expr(index_expr: Entity[Expr], dim: Int): Equation =
-        %eq(index_expr.expected_type_var(), self.index_type(dim)) %and index_expr.matches_expected_type()
+        index_expr.expected_type_var() <- self.index_type(dim) %and index_expr.matches_expected_type()
 
     @with_dynvars(origin)
     fun index_type(dim: Int): Entity[BaseTypeDecl] =
@@ -1869,7 +1869,7 @@ class AspectAssoc: AdaNode {
                     self.node_env();
 
 
-            %eq(node.expr.expected_type_var(), node.bool_type())
+            node.expr.expected_type_var() <- node.bool_type()
             %and self.expr.sub_equation()
             %and node.expr.matches_expected_formal_type()
         }
@@ -1881,11 +1881,8 @@ class AspectAssoc: AdaNode {
         elif self.id.name_is(s"Put_Image") then
             self.expr.as![Name].xref_no_overloading(
                 sequential=false, all_els=true
-            ) %and %predicate(
-                BasicDecl.is_put_image_subprogram_for_type,
-                self.expr.as[Name].ref_var(),
-                target.as![BaseTypeDecl].as_entity
-            )
+            ) %and BasicDecl.is_put_image_subprogram_for_type%(self.expr.as[Name].ref_var(),
+                target.as![BaseTypeDecl].as_entity)
         # Global aspect. Depends is always an aggregate, so doesn't need an
         # entry.
         elif self.id.name_is(s"Global")
@@ -1908,11 +1905,9 @@ class AspectAssoc: AdaNode {
         # only one reference for a name, only keep the first function
         # returned by constant_indexing_fns and variable_indexing_fns.
         elif self.id.name_is(s"Constant_Indexing") then
-            %eq(self.expr.as![Identifier].ref_var(),
-                target.as[TypeDecl].as_entity.constant_indexing_fns()?[0])
+            self.expr.as![Identifier].ref_var() <- target.as[TypeDecl].as_entity.constant_indexing_fns()?[0]
         elif self.id.name_is(s"Variable_Indexing") then
-            %eq(self.expr.as![Identifier].ref_var(),
-                target.as[TypeDecl].as_entity.variable_indexing_fns()?[0])
+            self.expr.as![Identifier].ref_var() <- target.as[TypeDecl].as_entity.variable_indexing_fns()?[0]
         # For the Annotate aspect, the first two identifiers are not
         # analyzed. The rest are arbitrary expressions (see
         # `Expr.annotate_argument_equation`).
@@ -1931,11 +1926,8 @@ class AspectAssoc: AdaNode {
                 self.expr.as![Name].xref_type_equation()
             else
                 self.expr.as![Name].xref_no_overloading(all_els=true)
-                %and %predicate(
-                    BasicDecl.subp_decl_match_signature,
-                    self.expr.as![Name].ref_var(),
-                    target.as[BasicDecl].as_entity
-                )
+                %and BasicDecl.subp_decl_match_signature%(self.expr.as![Name].ref_var(),
+                    target.as[BasicDecl].as_entity)
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
         # name resolve the expression.
@@ -1953,7 +1945,7 @@ class AspectAssoc: AdaNode {
             (l) => l.defining_names().any((n) => n.name_is(id.symbol))
         );
 
-        %eq(id.ref_var(), discr)
+        id.ref_var() <- discr
     }
 
     |" Equation for the case where this is an aspect assoc for a
@@ -1984,22 +1976,19 @@ class AspectAssoc: AdaNode {
                     # It can only refer to a SubpDecl or an ExprFunction
                     f is SubpDecl | ExprFunction
                 ) and i.denotes_the_property_function(f.as[BasicDecl].subp_spec_or_null())
-            ).logic_any((f) => %eq(i.ref_var(), f))
+            ).logic_any((f) => i.ref_var() <- f)
         )
     }
 
     |" Equation for the case where this is an aspect assoc for a
     |" user-defined literal.
     @with_dynvars(env, origin, entry_point)
-    fun user_defined_literals_equation(target: TypeDecl): Equation = %eq(
-        self.expr.as![Identifier].ref_var(),
-        target.as_entity.user_defined_literal_fns(
+    fun user_defined_literals_equation(target: TypeDecl): Equation = self.expr.as![Identifier].ref_var() <- target.as_entity.user_defined_literal_fns(
             self.id.name_symbol()
         )?[
             # First result in the list is the last override if any
             0
         ]
-    )
 
     |" Return the string representation of the given name, which must be a
     |" Name that can appear in an aspect association id.
@@ -2046,16 +2035,16 @@ class AttributeDefClause: AspectClause {
         val rel_name = attr.attribute.name_symbol();
 
         if rel_name in s"Read" | s"Write" | s"Input" | s"Output" then (
-            self.expr.as![Name].xref_no_overloading(all_els=true) %and %predicate(BasicDecl.is_stream_subprogram_for_type, self.expr.as[Name].ref_var(), attr.prefix.name_designated_type(), rel_name == s"Input")
+            self.expr.as![Name].xref_no_overloading(all_els=true) %and BasicDecl.is_stream_subprogram_for_type%(self.expr.as[Name].ref_var(), attr.prefix.name_designated_type(), rel_name == s"Input")
         ) %and attr.prefix.sub_equation()
         elif rel_name in s"Put_Image" then (
-            self.expr.as![Name].xref_no_overloading(all_els=true) %and %predicate(BasicDecl.is_put_image_subprogram_for_type, self.expr.as[Name].ref_var(), attr.prefix.name_designated_type())
+            self.expr.as![Name].xref_no_overloading(all_els=true) %and BasicDecl.is_put_image_subprogram_for_type%(self.expr.as[Name].ref_var(), attr.prefix.name_designated_type())
         ) %and attr.prefix.sub_equation()
         else (
             self.expr.sub_equation() %and attr.sub_equation()
         ) %and (
-            if rel_name == s"External_Tag" then %eq(node.expr.expected_type_var(), node.std_entity(s"String"))
-            elif rel_name == s"Address" then %eq(node.expr.expected_type_var(), self.system_address_type())
+            if rel_name == s"External_Tag" then node.expr.expected_type_var() <- node.std_entity(s"String")
+            elif rel_name == s"Address" then node.expr.expected_type_var() <- self.system_address_type()
             else %true
         )
     }
@@ -2377,7 +2366,7 @@ class BaseFormalParamHolder: AdaNode {
     fun call_argument_equation(param: Entity[BaseFormalParamDecl], arg: Entity[Expr]): Equation = {
         val param_type = self.real_designated_type(param.type_expression());
 
-        %eq(arg.expected_type_var(), param_type) %and arg.matches_expected_formal_type()
+        arg.expected_type_var() <- param_type %and arg.matches_expected_formal_type()
     }
 
     |" Check whether self's params match other's.
@@ -3097,8 +3086,8 @@ class AggregateAssoc: BasicAssoc {
         val element_type = aggregate_aspect.element_type();
         val key_type = aggregate_aspect.key_type();
 
-        %eq(self.expr().expected_type_var(), element_type) %and self.expr().sub_equation() %and self.expr().matches_expected_type() %and (
-            if entity_name.is_null then %true else %eq(entity_name.expected_type_var(), key_type) %and entity_name.as_entity.sub_equation() %and entity_name.matches_expected_type()
+        self.expr().expected_type_var() <- element_type %and self.expr().sub_equation() %and self.expr().matches_expected_type() %and (
+            if entity_name.is_null then %true else entity_name.expected_type_var() <- key_type %and entity_name.as_entity.sub_equation() %and entity_name.matches_expected_type()
         )
     }
 
@@ -3152,8 +3141,7 @@ class AggregateAssoc: BasicAssoc {
             } %and (
                 # Check that all alternatives resolve to the same type
                 if i > 0 then
-                    {bind error_location = node; %predicate(BaseTypeDecl.matching_type,
-                               n.as[Expr].type_var(),
+                    {bind error_location = node; BaseTypeDecl.matching_type%(n.as[Expr].type_var(),
                                self.names()[0].as[Expr].type_var())}
                 else %true
             ) %and (
@@ -3165,8 +3153,7 @@ class AggregateAssoc: BasicAssoc {
                 # have an expected type (i.e., the alternative designates a
                 # position or a range).
                 if positional_assoc then
-                    %eq(n.as[Expr].expected_type_var(),
-                        agg_type.index_type(0))
+                    n.as[Expr].expected_type_var() <- agg_type.index_type(0)
                     %and n.as[Expr].matches_expected_type()
                 else %true
             )
@@ -3174,10 +3161,9 @@ class AggregateAssoc: BasicAssoc {
             # Set the expected type of the expression only once since all the
             # alternatives should have the same type.
             if positional_assoc then
-                %eq(self.expr().expected_type_var(), agg_type.comp_type())
+                self.expr().expected_type_var() <- agg_type.comp_type()
             else
-                %eq(self.expr().expected_type_var(),
-                    self.names()[0].as[Expr].type_var())
+                self.expr().expected_type_var() <-> self.names()[0].as[Expr].type_var()
         ) %and (
             # Build the equation for the expression
             self.expr().sub_equation() %and self.expr().matches_expected_type()
@@ -3214,10 +3200,10 @@ class AggregateAssoc: BasicAssoc {
                 # If expr is a box expr do not resolve it since it doesn't have
                 # a name nor type.
                 if is_box_expr then %true else (
-                    %eq(match_var.actual.assoc.expr().expected_type_var(), match_var.formal.formal_decl().type_expression().designated_type()) %and match_var.actual.assoc.expr().sub_equation()
+                    match_var.actual.assoc.expr().expected_type_var() <- match_var.formal.formal_decl().type_expression().designated_type() %and match_var.actual.assoc.expr().sub_equation()
                 ) %and match_var.actual.assoc.expr().matches_expected_assign_type()
             ) %and match_var.actual.name.do(
-                (n) => %eq(n.ref_var(), match_var.formal.formal_decl()), default_val=%true
+                (n) => n.ref_var() <- match_var.formal.formal_decl(), default_val=%true
             )
         ) else (
             # Since all the formals designated by "others" should have the same
@@ -3226,7 +3212,7 @@ class AggregateAssoc: BasicAssoc {
             # expression associated to "others".
             if is_box_expr then %true else agg.first_unmatched_formal().do(
                 (unmatched_formal) => (
-                    %eq(self.expr().expected_type_var(), unmatched_formal.formal_decl().type_expression().designated_type()) %and self.expr().sub_equation()
+                    self.expr().expected_type_var() <- unmatched_formal.formal_decl().type_expression().designated_type() %and self.expr().sub_equation()
                 ) %and self.expr().matches_expected_type(), default_val=%true
             )
         )
@@ -3241,7 +3227,7 @@ class AggregateAssoc: BasicAssoc {
         if mra.is_null or mra.rank == atd.array_ndims() - 1 then (
             # .. Then we want to match the component type
             (
-                %eq(self.expr().expected_type_var(), atd.comp_type()) %and self.expr().sub_equation()
+                self.expr().expected_type_var() <- atd.comp_type() %and self.expr().sub_equation()
             ) %and self.expr().matches_expected_type()
         ) else (
             # .. Else we're on an intermediate dimension of a
@@ -3251,7 +3237,7 @@ class AggregateAssoc: BasicAssoc {
     ) %and self.designators.logic_all(
         (n) => n.sub_equation() %and (
             if n is Name and not n.as[Name].name_designated_type().is_null then n.as[Name].xref_type_equation() else n.as[Expr].do(
-                (n) => %eq(n.expected_type_var(), atd.index_type(mra.rank)) %and n.matches_expected_type(), default_val=%true
+                (n) => n.expected_type_var() <- atd.index_type(mra.rank) %and n.matches_expected_type(), default_val=%true
             )
         )
     )
@@ -3304,12 +3290,12 @@ class AggregateAssoc: BasicAssoc {
     fun contract_cases_assoc_equation(): Equation = self.designators.logic_all(
         (d) => d.as[Expr].do(
             (e) => (
-                %eq(e.expected_type_var(), node.bool_type()) %and e.sub_equation()
+                e.expected_type_var() <- node.bool_type() %and e.sub_equation()
             ) %and e.matches_expected_formal_type(), default_val=%true
         )
     ) %and (
         # Nothing to do for `others =>`
-        %eq(self.expr().expected_type_var(), node.bool_type())
+        self.expr().expected_type_var() <- node.bool_type()
     ) %and self.expr().sub_equation() %and self.expr().matches_expected_formal_type()
 
     |" Equation for the case where this is an aggregate assoc for a
@@ -3320,12 +3306,8 @@ class AggregateAssoc: BasicAssoc {
             if name.name_symbol() in s"Increases" | s"Decreases" then (
                 # For a numeric subprogram variant, the expression must
                 # be of any discrete type, or the `Big_Integer` type.
-                %predicate(
-                    BaseTypeDecl.is_discrete_type,
-                    self.expr().type_var()
-                ) %or (
-                    %eq(self.expr().expected_type_var(),
-                        self.big_integer_type())
+                BaseTypeDecl.is_discrete_type%(self.expr().type_var()) %or (
+                    self.expr().expected_type_var() <- self.big_integer_type()
                     %and self.expr().matches_expected_type()
                 )
             ) %and self.expr().sub_equation()
@@ -3405,7 +3387,7 @@ class IteratedAssoc: BasicAssoc {
         # array (taking dimension into account) which we are building an
         # aggregate for.
         val spec_success = self.spec.resolve_names_internal_with_eq(
-            if node.spec.loop_type is IterType.In then %eq(self.spec.iter_expr.as[Expr].expected_type_var(), index_type) %and self.spec.iter_expr.as[Expr].matches_expected_type() else %true
+            if node.spec.loop_type is IterType.In then self.spec.iter_expr.as[Expr].expected_type_var() <- index_type %and self.spec.iter_expr.as[Expr].matches_expected_type() else %true
         );
 
         if spec_success then # If the array is monodimensional, or we're on the last
@@ -3414,13 +3396,13 @@ class IteratedAssoc: BasicAssoc {
             # .. Then we want to match the component type
             (
                 (
-                    self.expr().sub_equation() %and %eq(self.expr().expected_type_var(), comp_type)
+                    self.expr().sub_equation() %and self.expr().expected_type_var() <- comp_type
                 ) %and self.expr().matches_expected_type()
             ) %and (
                 # .. As well as the key expression if it exists
                 self.key_expr.do(
                     (ke) => (
-                        ke.sub_equation() %and %eq(ke.expected_type_var(), index_type)
+                        ke.sub_equation() %and ke.expected_type_var() <- index_type
                     ) %and ke.matches_expected_type(), default_val=%true
                 )
             )
@@ -3440,11 +3422,11 @@ class IteratedAssoc: BasicAssoc {
         val expected_typ = self.parent.as[ValueSequence].iter_assoc.expr().expected_type_var();
         # See self.xref_equation for more details
         val spec_success = self.spec.resolve_names_internal_with_eq(
-            if node.spec.loop_type is IterType.In then %eq(self.spec.iter_expr.as[Expr].expected_type_var(), expected_typ) %and self.spec.iter_expr.as[Expr].matches_expected_type() else %true
+            if node.spec.loop_type is IterType.In then self.spec.iter_expr.as[Expr].expected_type_var() <-> expected_typ %and self.spec.iter_expr.as[Expr].matches_expected_type() else %true
         );
 
         if spec_success then (
-            self.expr().sub_equation() %and %eq(self.expr().expected_type_var(), expected_typ)
+            self.expr().sub_equation() %and self.expr().expected_type_var() <-> expected_typ
         ) %and self.expr().matches_expected_type() else %false
     }
 }
@@ -3503,7 +3485,7 @@ class BasicDecl: AdaNode {
         # If self is a dottable subprogram, then we want to constrain the
         # prefix so that it's type is the type of the first parameter of
         # self.
-        if self.info.md.dottable_subp then %eq(prefix.expected_type_var(), self.subp_spec_or_null().unpacked_formal_params()?[0]?.formal_decl().formal_type()) %and prefix.matches_expected_prefix_type() else %true
+        if self.info.md.dottable_subp then prefix.expected_type_var() <- self.subp_spec_or_null().unpacked_formal_params()?[0]?.formal_decl().formal_type() %and prefix.matches_expected_prefix_type() else %true
 
     |" Helper for AdaNode.env_hook. Handle library-level unit decl nodes.
     fun env_hook_basic_decl(): Bool =
@@ -4940,7 +4922,7 @@ class ComponentDecl: BaseFormalParamDecl {
         if node.parents().any((p) => p is ProtectedDef) then %true else (
             # The expected type of the prefix is the record type of this
             # component.
-            %eq(prefix.expected_type_var(), self.container_type()) %and prefix.matches_expected_prefix_type()
+            prefix.expected_type_var() <- self.container_type() %and prefix.matches_expected_prefix_type()
         )
 
     |" Return the defining container type for this component declaration.
@@ -4953,7 +4935,7 @@ class ComponentDecl: BaseFormalParamDecl {
 
         self.component_def.type_expr.sub_equation() %and self.default_expr.do(
             (de) => (
-                %eq(de.expected_type_var(), typ) %and de.sub_equation()
+                de.expected_type_var() <- typ %and de.sub_equation()
             ) %and de.matches_expected_assign_type(), default_val=%true
         )
     }
@@ -4988,7 +4970,7 @@ class DiscriminantSpec: BaseFormalParamDecl {
     fun xref_equation(): Equation =
         self.type_expr.sub_equation() %and self.default_expr.do(
             (de) => (
-                %eq(de.expected_type_var(), self.expr_type()) %and de.sub_equation()
+                de.expected_type_var() <- self.expr_type() %and de.sub_equation()
             ) %and de.matches_expected_assign_type(), default_val=%true
         )
 
@@ -5059,8 +5041,8 @@ class ParamSpec: BaseFormalParamDecl {
         # is the enclosing subprogram and must:
         #  - not have a type.
         #  - not have a called subp spec.
-        %eq(prefix.type_var(), null[Entity[BaseTypeDecl]]) %and prefix.as[Name].do(
-            (name) => %eq(name.subp_spec_var(), null[Entity[BaseFormalParamHolder]]), default_val=%false
+        prefix.type_var() <- null[Entity[BaseTypeDecl]] %and prefix.as[Name].do(
+            (name) => name.subp_spec_var() <- null[Entity[BaseFormalParamHolder]], default_val=%false
         )
 
     @with_dynvars(env, origin, entry_point)
@@ -5069,7 +5051,7 @@ class ParamSpec: BaseFormalParamDecl {
 
         self.type_expr.sub_equation() %and self.default_expr.do(
             (de) => (
-                %eq(de.expected_type_var(), typ) %and de.sub_equation()
+                de.expected_type_var() <- typ %and de.sub_equation()
             ) %and de.matches_expected_assign_type(), default_val=%true
         )
     }
@@ -7601,7 +7583,7 @@ class FormalSubpDecl: ClassicSubpDecl {
             case _: BoxExpr => %true
             case n: Name => (
                 if n is AttributeRef then n.sub_equation() else n.xref_no_overloading(all_els=true)
-            ) %and %predicate(BasicDecl.subp_decl_match_signature, n.ref_var(), self.as[BasicDecl])
+            ) %and BasicDecl.subp_decl_match_signature%(n.ref_var(), self.as[BasicDecl])
             case _ => raise[Equation] PropertyError("Should not happen")
         }, default_val=%true
     )
@@ -8461,7 +8443,7 @@ class ExprFunction: BaseSubpBody {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-        %eq(self.expr.expected_type_var(), self.subp_spec.return_type()) %and self.expr.sub_equation()
+        self.expr.expected_type_var() <- self.subp_spec.return_type() %and self.expr.sub_equation()
     ) %and node.expr.matches_expected_assign_type()
 
     fun xref_entry_point(): Bool = true
@@ -8497,7 +8479,7 @@ class SubpRenamingDecl: BaseSubpBody {
             if renamed_object is CharLiteral then (
                 # If the renamed object is a char literal, simply resolves its
                 # equation.
-                %eq(renamed_object.expected_type_var(), self.subp_spec.return_type()) %and renamed_object.sub_equation()
+                renamed_object.expected_type_var() <- self.subp_spec.return_type() %and renamed_object.sub_equation()
             )
             elif renamed_object is AttributeRef then (
                 # If the renamed object is an attribute ref, do normal
@@ -8515,24 +8497,15 @@ class SubpRenamingDecl: BaseSubpBody {
                 case o => o.xref_no_overloading(all_els=true)
             } %and (
                 if renamed_object is DottedName then
-                    %predicate(
-                        BasicDecl.subp_renaming_decl_match_signature,
-                        renamed_object.ref_var(),
+                    BasicDecl.subp_renaming_decl_match_signature%(renamed_object.ref_var(),
                         renamed_object.as[DottedName].prefix.ref_var(),
-                        self.as[BasicDecl]
-                    )
+                        self.as[BasicDecl])
                 elif renamed_object is ExplicitDeref then
-                    %predicate(
-                        BasicDecl.access_to_subp_decl_match_signature,
-                        renamed_object.ref_var(),
-                        self.as[BasicDecl]
-                    )
+                    BasicDecl.access_to_subp_decl_match_signature%(renamed_object.ref_var(),
+                        self.as[BasicDecl])
                 else
-                    %predicate(
-                        BasicDecl.subp_decl_match_signature,
-                        renamed_object.ref_var(),
-                        self.as[BasicDecl]
-                    )
+                    BasicDecl.subp_decl_match_signature%(renamed_object.ref_var(),
+                        self.as[BasicDecl])
             )
         ) %or (
             # Operators might be built-in, so if we cannot find a reference,
@@ -8683,7 +8656,7 @@ class EntryBody: Body {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        %eq(node.barrier.expected_type_var(), node.bool_type()) %and self.barrier.sub_equation() %and self.barrier.matches_expected_formal_type()
+        node.barrier.expected_type_var() <- node.bool_type() %and self.barrier.sub_equation() %and self.barrier.matches_expected_formal_type()
 
     env_spec {
         do(node.env_hook())
@@ -9304,7 +9277,7 @@ class GenericInstantiation: BasicDecl {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-        %eq(self.generic_entity_name().ref_var(), self.nonbound_generic_decl_from_self(false)) %and match self.generic_entity_name() {
+        self.generic_entity_name().ref_var() <- self.nonbound_generic_decl_from_self(false) %and match self.generic_entity_name() {
             case dn: DottedName => dn.prefix.xref_no_overloading()
             case _ => %true
         }
@@ -9319,14 +9292,14 @@ class GenericInstantiation: BasicDecl {
                     case _: BaseTypeDecl => actual_name.xref_type_equation()
                     case _: GenericPackageInstantiation => actual_name.xref_no_overloading()
                     case subp_decl: Entity[FormalSubpDecl] => if actual_name is AttributeRef then actual_name.sub_equation() else (
-                        actual_name.xref_no_overloading(all_els=true) %and %predicate(BasicDecl.subp_decl_match_signature, actual_name.ref_var(), subp_decl.as[BasicDecl])
+                        actual_name.xref_no_overloading(all_els=true) %and BasicDecl.subp_decl_match_signature%(actual_name.ref_var(), subp_decl.as[BasicDecl])
                     ) %or %true
                     case obj_decl: ObjectDecl => (
-                        %eq(pm.actual.assoc.expr().expected_type_var(), obj_decl.expr_type()) %and pm.actual.assoc.expr().sub_equation()
+                        pm.actual.assoc.expr().expected_type_var() <- obj_decl.expr_type() %and pm.actual.assoc.expr().sub_equation()
                     ) %and pm.actual.assoc.expr().matches_expected_assign_type()
                     case _ => %true
                 } %and pm.actual.name.do(
-                    (n) => %eq(n.ref_var(), pm.formal.node.as_bare_entity.basic_decl()), default_val=%true
+                    (n) => n.ref_var() <- pm.formal.node.as_bare_entity.basic_decl(), default_val=%true
                 )
             }
         )
@@ -9668,7 +9641,7 @@ class NumberDecl: BasicDecl {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
         (
-            %eq(node.expr.expected_type_var(), node.universal_int_type()) %or %eq(node.expr.expected_type_var(), node.universal_real_type())
+            node.expr.expected_type_var() <- node.universal_int_type() %or node.expr.expected_type_var() <- node.universal_real_type()
         ) %and self.expr.sub_equation()
     ) %and self.expr.matches_expected_type()
 
@@ -9725,12 +9698,12 @@ class ObjectDecl: BasicDecl {
         (
             self.type_expr.sub_equation() %and self.default_expr.do(
                 (de) => (
-                    %eq(de.expected_type_var(), typ) %and de.sub_equation()
+                    de.expected_type_var() <- typ %and de.sub_equation()
                 ) %and de.matches_expected_assign_type(), default_val=%true
             )
         ) %and self.renaming_clause.do(
             (rc) => (
-                %eq(rc.renamed_object.expected_type_var(), typ) %and rc.renamed_object.sub_equation()
+                rc.renamed_object.expected_type_var() <- typ %and rc.renamed_object.sub_equation()
             ) %and rc.renamed_object.matches_expected_assign_type(), default_val=%true
         )
     }
@@ -9989,7 +9962,7 @@ class CaseStmtAlternative: AdaNode {
             (c) => match c {
                 # Expression case
                 case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else (
-                    %eq(e.expected_type_var(), selected_type) %and e.sub_equation()
+                    e.expected_type_var() <- selected_type %and e.sub_equation()
                 ) %and e.matches_expected_type()
 
                 # SubtypeIndication case (``when Color range Red .. Blue``)
@@ -10487,7 +10460,7 @@ class CompositeConstraint: Constraint {
                 # on its operands' types (e.g. whether it's a universal
                 # type or not).
                 ex.as[Expr].do(
-                    (e) => %eq(e.expected_type_var(), typ.index_type(i).base_subtype()), default_val=%true
+                    (e) => e.expected_type_var() <- typ.index_type(i).base_subtype(), default_val=%true
                 ) %and ex.sub_equation()
             }
         ) else (
@@ -10497,10 +10470,10 @@ class CompositeConstraint: Constraint {
             ).logic_all(
                 (pm) => (
                     (
-                        %eq(pm.actual.assoc.expr().expected_type_var(), pm.formal.formal_decl().formal_type()) %and pm.actual.assoc.expr().sub_equation()
+                        pm.actual.assoc.expr().expected_type_var() <- pm.formal.formal_decl().formal_type() %and pm.actual.assoc.expr().sub_equation()
                     ) %and pm.actual.assoc.expr().matches_expected_formal_type()
                 ) %and pm.actual.name.do(
-                    (name) => %eq(name.ref_var(), pm.formal.formal_decl()), default_val=%true
+                    (name) => name.ref_var() <- pm.formal.formal_decl(), default_val=%true
                 )
             )
         )
@@ -10570,7 +10543,7 @@ class RangeConstraint: Constraint {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        %eq(node.range.range.expected_type_var(), self.subtype().base_subtype()) %and self.range.sub_equation() %and self.range.range.matches_expected_type()
+        node.range.range.expected_type_var() <- self.subtype().base_subtype() %and self.range.sub_equation() %and self.range.range.matches_expected_type()
 }
 
 |" List of declarations (:rmlink:`3.11`).
@@ -10693,31 +10666,31 @@ class Expr: AdaNode {
 
     @with_dynvars(origin)
     fun matches_expected_type(): Equation =
-        {bind error_location = node; %predicate(BaseTypeDecl.matching_type, node.type_var(), node.expected_type_var())}
+        {bind error_location = node; BaseTypeDecl.matching_type%(node.type_var(), node.expected_type_var())}
 
     @with_dynvars(origin)
     fun matches_expected_assign_type(): Equation =
-        {bind error_location = node; %predicate(BaseTypeDecl.matching_assign_type, node.type_var(), node.expected_type_var())}
+        {bind error_location = node; BaseTypeDecl.matching_assign_type%(node.type_var(), node.expected_type_var())}
 
     @with_dynvars(origin)
     fun matches_expected_formal_type(): Equation =
-        {bind error_location = node; %predicate(BaseTypeDecl.matching_formal_type, node.type_var(), node.expected_type_var())}
+        {bind error_location = node; BaseTypeDecl.matching_formal_type%(node.type_var(), node.expected_type_var())}
 
     @with_dynvars(origin)
     fun matches_expected_membership_type(): Equation =
-        %predicate(BaseTypeDecl.matching_membership_type, node.type_var(), node.expected_type_var())
+        BaseTypeDecl.matching_membership_type%(node.type_var(), node.expected_type_var())
 
     @with_dynvars(origin)
     fun matches_expected_prefix_type(): Equation =
-        %predicate(BaseTypeDecl.matching_prefix_type, node.type_var(), node.expected_type_var())
+        BaseTypeDecl.matching_prefix_type%(node.type_var(), node.expected_type_var())
 
     |" Construct an equation which asserts that the expected type of this
     |" expression is the standard boolean type or any type that derives from
     |" it.
     @with_dynvars(origin)
     fun expect_bool_derived_type(): Equation = (
-        %eq(node.expected_type_var(), node.bool_type()) %or %eq(node.expected_type_var(), node.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
-    ) %and {bind error_location = node; %predicate(BaseTypeDecl.derives_from_std_bool_type, node.type_var())}
+        node.expected_type_var() <- node.bool_type() %or node.expected_type_var() <- BaseTypeDecl.derefed_base_subtype%(node.type_var())
+    ) %and {bind error_location = node; BaseTypeDecl.derives_from_std_bool_type%(node.type_var())}
 
     |" Build the xref_equation for this expression in the context of an
     |" ``Annotate`` aspect argument, which requires it to either be of any of
@@ -11089,8 +11062,8 @@ class Allocator: Expr {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-        self.type_or_expr.sub_equation() %and %eq(node.expected_type_var(), node.type_var())
-    ) %and %predicate(BaseTypeDecl.matching_allocator_type, node.type_var(), self.get_allocated_type())
+        self.type_or_expr.sub_equation() %and node.expected_type_var() <-> node.type_var()
+    ) %and BaseTypeDecl.matching_allocator_type%(node.type_var(), self.get_allocated_type())
 }
 
 |" Base class for aggregates (:rmlink:`4.3`).
@@ -11128,7 +11101,7 @@ class BaseAggregate: Expr {
         ) then %true else {
             bind origin = node.origin_node();
 
-            %predicate(BaseTypeDecl.is_array_or_rec, node.expected_type_var()) %and %eq(node.expected_type_var(), node.type_var())
+            BaseTypeDecl.is_array_or_rec%(node.expected_type_var()) %and node.expected_type_var() <-> node.type_var()
         };
 
         (
@@ -11146,7 +11119,7 @@ class BaseAggregate: Expr {
                 # the following predicate.
                 else ae.sub_equation() %and {
                     bind error_location=ae.node;
-                    %predicate(BaseTypeDecl.is_tagged_type_with_deref, ae.type_var())
+                    BaseTypeDecl.is_tagged_type_with_deref%(ae.type_var())
                 }, default_val=%true
             )
         ) %and self.assocs.logic_all((assoc) => assoc.sub_equation())
@@ -11412,9 +11385,9 @@ class BinOp: Expr {
     @with_dynvars(origin, env, logic_context)
     fun double_dot_equation(): Equation = (
         (
-            %true %or {bind logic_context = null[LogicContext]; %eq(node.expected_type_var(), node.root_int_type())} %or {bind logic_context = null[LogicContext]; %eq(node.expected_type_var(), node.int_type())}
+            %true %or {bind logic_context = null[LogicContext]; node.expected_type_var() <- node.root_int_type()} %or {bind logic_context = null[LogicContext]; node.expected_type_var() <- node.int_type()}
         ) %and (
-            %predicate(AdaNode.is_not_null, node.expected_type_var()) %and {bind logic_context = null[LogicContext]; %eq(node.expected_type_var(), node.type_var())} %and {bind logic_context = null[LogicContext]; %eq(node.type_var(), node.left.expected_type_var())} %and {bind logic_context = null[LogicContext]; %eq(node.type_var(), node.right.expected_type_var())} %and node.left.matches_expected_formal_type() %and node.right.matches_expected_formal_type()
+            AdaNode.is_not_null%(node.expected_type_var()) %and {bind logic_context = null[LogicContext]; node.expected_type_var() <-> node.type_var()} %and {bind logic_context = null[LogicContext]; node.type_var() <-> node.left.expected_type_var()} %and {bind logic_context = null[LogicContext]; node.type_var() <-> node.right.expected_type_var()} %and node.left.matches_expected_formal_type() %and node.right.matches_expected_formal_type()
         )
     ) %and node.use_expected_type_or(
         # In some cases the expected type is given explicitly, so we can
@@ -11429,7 +11402,7 @@ class BinOp: Expr {
 
     @with_dynvars(origin)
     fun test_eq(): Equation =
-        %eq(node.left.expected_type_var(), node.bool_type()) %and %eq(node.right.expected_type_var(), node.bool_type()) %and node.left.expect_bool_derived_type() %and node.right.expect_bool_derived_type() %and %eq(node.type_var(), node.left.type_var())
+        node.left.expected_type_var() <- node.bool_type() %and node.right.expected_type_var() <- node.bool_type() %and node.left.expect_bool_derived_type() %and node.right.expect_bool_derived_type() %and node.type_var() <-> node.left.type_var()
 
     @with_dynvars(origin, env, logic_context)
     fun arguments_eq(spec: Entity[BaseSubpSpec]): Equation = {
@@ -11446,7 +11419,7 @@ class BinOp: Expr {
                 )
             ) %and (
                 # The subprogram's return type is the type of self
-                %eq(node.type_var(), spec.return_type())
+                node.type_var() <- spec.return_type()
             )
         ) else %false
     }
@@ -11457,8 +11430,8 @@ class BinOp: Expr {
 
         self.arguments_eq(spec) %and (
             # The operator references the subprogram
-            {bind logic_context = null[LogicContext]; %eq(node.op.ref_var(), subp)}
-        ) %and {bind logic_context = null[LogicContext]; %eq(node.op.subp_spec_var(), spec)}
+            {bind logic_context = null[LogicContext]; node.op.ref_var() <- subp}
+        ) %and {bind logic_context = null[LogicContext]; node.op.subp_spec_var() <- spec}
     }
 
     @with_dynvars(origin, env)
@@ -11476,8 +11449,8 @@ class BinOp: Expr {
     fun universal_fixed_predefined_operators_equation(): Equation = if node.op is Op.Mult | Op.Div then (
         (
             (
-                %eq(node.type_var(), node.universal_fixed_type()) %and %eq(node.left.expected_type_var(), node.universal_fixed_type())
-            ) %and %eq(node.right.expected_type_var(), node.universal_fixed_type())
+                node.type_var() <- node.universal_fixed_type() %and node.left.expected_type_var() <- node.universal_fixed_type()
+            ) %and node.right.expected_type_var() <- node.universal_fixed_type()
         ) %and node.left.matches_expected_formal_type()
     ) %and node.right.matches_expected_formal_type() else %false
 
@@ -11486,7 +11459,7 @@ class BinOp: Expr {
     |" by using the additional equation given as argument (typically this
     |" equation will try to infer the type from one of the operands).
     fun use_expected_type_or(eq: Equation): Equation =
-        %predicate(AdaNode.is_not_null, node.expected_type_var()) %or eq
+        AdaNode.is_not_null%(node.expected_type_var()) %or eq
 
     |" Construct the xref equation that must bind the given variable to the
     |" type of this binary operation's operands, assuming we are dealing with
@@ -11494,7 +11467,7 @@ class BinOp: Expr {
     |" ``function "op" (X : T, Y : U) return T`` (we want to infer ``T``).
     @with_dynvars(origin, logic_context)
     fun infer_from_left_operand(dest_var: LogicVar): Equation =
-        %predicate(BaseTypeDecl.is_not_universal_type, node.left.type_var()) %and %eq(dest_var, node.left.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
+        BaseTypeDecl.is_not_universal_type%(node.left.type_var()) %and dest_var <- BaseTypeDecl.derefed_base_subtype%(node.left.type_var())
 
     |" Construct the xref equation that must bind the given variable to the
     |" type of this binary operation's operands, assuming we are dealing with
@@ -11502,7 +11475,7 @@ class BinOp: Expr {
     |" ``function "op" (X : U, Y : T) return T`` (we want to infer ``T``).
     @with_dynvars(origin, logic_context)
     fun infer_from_right_operand(dest_var: LogicVar): Equation =
-        %predicate(BaseTypeDecl.is_not_universal_type, node.right.type_var()) %and %eq(dest_var, node.right.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
+        BaseTypeDecl.is_not_universal_type%(node.right.type_var()) %and dest_var <- BaseTypeDecl.derefed_base_subtype%(node.right.type_var())
 
     |" Construct the xref equation that must bind the given variable to the
     |" type of this binary operation's operands, assuming we are dealing with
@@ -11539,21 +11512,21 @@ class BinOp: Expr {
             if node.op is Op.Mult | Op.Div then (
                 # `function "op" (X, Y : T) return T`
                 (
-                    {bind logic_context = null[LogicContext]; %eq(node.type_var(), node.left.expected_type_var())} %and {bind logic_context = null[LogicContext]; %eq(node.type_var(), node.right.expected_type_var())}
+                    {bind logic_context = null[LogicContext]; node.type_var() <-> node.left.expected_type_var()} %and {bind logic_context = null[LogicContext]; node.type_var() <-> node.right.expected_type_var()}
                 ) %and node.use_expected_type_or(
                     self.infer_from_either_operands(node.type_var())
                 )
             ) %or (
                 # `function "op" (X : Integer, Y : T) return T`
                 (
-                    {bind logic_context = null[LogicContext]; %eq(node.left.expected_type_var(), node.int_type())} %and {bind logic_context = null[LogicContext]; %eq(node.right.expected_type_var(), node.type_var())}
+                    {bind logic_context = null[LogicContext]; node.left.expected_type_var() <- node.int_type()} %and {bind logic_context = null[LogicContext]; node.right.expected_type_var() <-> node.type_var()}
                 ) %and node.use_expected_type_or(
                     self.infer_from_right_operand(node.type_var())
                 )
             ) %or (
                 # `function "op" (X : T, Y : Integer) return T`
                 (
-                    {bind logic_context = null[LogicContext]; %eq(node.right.expected_type_var(), node.int_type())} %and {bind logic_context = null[LogicContext]; %eq(node.left.expected_type_var(), node.type_var())}
+                    {bind logic_context = null[LogicContext]; node.right.expected_type_var() <- node.int_type()} %and {bind logic_context = null[LogicContext]; node.left.expected_type_var() <-> node.type_var()}
                 ) %and node.use_expected_type_or(
                     self.infer_from_left_operand(node.type_var())
                 )
@@ -11561,14 +11534,14 @@ class BinOp: Expr {
             # For power operators, we must only handle the shape
             # `function "op" (X : T, Y : Integer) return T`.
             elif node.op is Op.Pow then (
-                {bind logic_context = null[LogicContext]; %eq(node.right.expected_type_var(), node.int_type())} %and {bind logic_context = null[LogicContext]; %eq(node.left.expected_type_var(), node.type_var())}
+                {bind logic_context = null[LogicContext]; node.right.expected_type_var() <- node.int_type()} %and {bind logic_context = null[LogicContext]; node.left.expected_type_var() <-> node.type_var()}
             ) %and node.use_expected_type_or(
                 self.infer_from_left_operand(node.type_var())
             )
             # For other operators, we only need to handle the shape
             # `function "op" (X, Y : T) return T`.
             else (
-                {bind logic_context = null[LogicContext]; %eq(node.type_var(), node.left.expected_type_var())} %and {bind logic_context = null[LogicContext]; %eq(node.type_var(), node.right.expected_type_var())}
+                {bind logic_context = null[LogicContext]; node.type_var() <-> node.left.expected_type_var()} %and {bind logic_context = null[LogicContext]; node.type_var() <-> node.right.expected_type_var()}
             ) %and node.use_expected_type_or(
                 self.infer_from_either_operands(node.type_var())
             )
@@ -11582,13 +11555,13 @@ class BinOp: Expr {
                 # comparison operator `(A + B) = 2`. The latter simply means
                 # that the expected type itself will be inferred from the operands
                 # using one of `self.infer_from_*` properties.
-                %predicate(AdaNode.is_not_null, node.expected_type_var()) %and %eq(node.type_var(), node.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
+                AdaNode.is_not_null%(node.expected_type_var()) %and node.type_var() <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
             ) %or (
                 # There is no expected type (e.g. we are in a type conversion).
                 # In this case, the type of the result will be inferred from the
                 # type of operands: we know that at least one of them has a
                 # context-free type (otherwise this wouldn't be valid Ada code).
-                {bind logic_context = null[LogicContext]; %eq(node.expected_type_var(), null[Entity[BaseTypeDecl]])}
+                {bind logic_context = null[LogicContext]; node.expected_type_var() <- null[Entity[BaseTypeDecl]]}
             )
         )
     ) %and (
@@ -11605,7 +11578,7 @@ class RelationOp: BinOp {
     fun no_overload_equation(): Equation = (
         (
             (
-                {bind logic_context = null[LogicContext]; %eq(node.type_var(), node.bool_type())} %and {bind logic_context = null[LogicContext]; %eq(node.left.expected_type_var(), node.right.expected_type_var())}
+                {bind logic_context = null[LogicContext]; node.type_var() <- node.bool_type()} %and {bind logic_context = null[LogicContext]; node.left.expected_type_var() <-> node.right.expected_type_var()}
             ) %and self.infer_from_either_operands(node.left.expected_type_var())
         ) %and node.left.matches_expected_formal_type()
     ) %and node.right.matches_expected_formal_type()
@@ -11618,7 +11591,7 @@ class RelationOp: BinOp {
 class BoxExpr: Expr {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        %eq(node.type_var(), node.expected_type_var())
+        node.type_var() <-> node.expected_type_var()
 }
 
 |" Alternative in a ``case`` expression (``when ... => ...``).
@@ -11716,7 +11689,7 @@ class ConcatOp: Expr {
                                                     ref_node=concat_operand.operator, decl_node=subp
                                                 );
 
-                                                self.arguments_eq(spec, left, concat_operand, right) %and {bind logic_context = null[LogicContext]; %eq(concat_operand.operator.ref_var(), subp)} %and {bind logic_context = null[LogicContext]; %eq(concat_operand.operator.subp_spec_var(), spec)}
+                                                self.arguments_eq(spec, left, concat_operand, right) %and {bind logic_context = null[LogicContext]; concat_operand.operator.ref_var() <- subp} %and {bind logic_context = null[LogicContext]; concat_operand.operator.subp_spec_var() <- spec}
                                             }
                                         }
                                     )
@@ -11727,9 +11700,9 @@ class ConcatOp: Expr {
                 )
             ) %and (
                 # Just propagate last operand's type/expected_type to self
-                %eq(node.type_var(), last_operand.type_var())
+                node.type_var() <-> last_operand.type_var()
             )
-        ) %and %eq(node.expected_type_var(), last_operand.expected_type_var())
+        ) %and node.expected_type_var() <-> last_operand.expected_type_var()
     }
 
     @with_dynvars(origin, env, logic_context)
@@ -11745,7 +11718,7 @@ class ConcatOp: Expr {
                 )
             ) %and (
                 # The subprogram's return type is the type of op
-                {bind logic_context = null[LogicContext]; %eq(op.type_var(), spec.return_type())}
+                {bind logic_context = null[LogicContext]; op.type_var() <- spec.return_type()}
             )
         ) else %false
     }
@@ -11759,12 +11732,12 @@ class ConcatOp: Expr {
         );
 
         (
-            %predicate(BaseTypeDecl.is_array_def_with_deref_or_null, op.expected_type_var()) %and %predicate(BaseTypeDecl.is_array_def_with_deref, op.type_var())
+            BaseTypeDecl.is_array_def_with_deref_or_null%(op.expected_type_var()) %and BaseTypeDecl.is_array_def_with_deref%(op.type_var())
         ) %and (
             (
                 # If the expected is not null, use it to infer self's type
                 # and the type of the operands.
-                %predicate(AdaNode.is_not_null, op.expected_type_var()) %and self.array_concat_expected_type_equation(left, op, right)
+                AdaNode.is_not_null%(op.expected_type_var()) %and self.array_concat_expected_type_equation(left, op, right)
             ) %or (
                 # If the expected type is null (e.g. we are in a type
                 # conversion), we must infer self's type from the operands.
@@ -11773,20 +11746,20 @@ class ConcatOp: Expr {
                 # Make sure to propagate the base type of the inferred type so
                 # that concatenation between compatible array subtypes works
                 # as expected.
-                {bind logic_context = null[LogicContext]; %eq(op.expected_type_var(), null[BaseTypeDecl])} %and (
+                {bind logic_context = null[LogicContext]; op.expected_type_var() <- null[BaseTypeDecl]} %and (
                     (
                         # Type is determined by the LHS
                         (
-                            %eq(op.type_var(), left.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and {bind logic_context = null[LogicContext]; %eq(op.type_var(), left.expected_type_var())}
+                            op.type_var() <- BaseTypeDecl.derefed_base_subtype%(left.type_var()) %and {bind logic_context = null[LogicContext]; op.type_var() <-> left.expected_type_var()}
                         ) %and (
-                            {bind logic_context = null[LogicContext]; %eq(op.type_var(), right.expected_type_var())} %or node.comp_bind(op.type_var(), right.expected_type_var())
+                            {bind logic_context = null[LogicContext]; op.type_var() <-> right.expected_type_var()} %or node.comp_bind(op.type_var(), right.expected_type_var())
                         )
                     ) %or (
                         # Type is determined by the RHS
                         (
-                            %eq(op.type_var(), right.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and {bind logic_context = null[LogicContext]; %eq(op.type_var(), right.expected_type_var())}
+                            op.type_var() <- BaseTypeDecl.derefed_base_subtype%(right.type_var()) %and {bind logic_context = null[LogicContext]; op.type_var() <-> right.expected_type_var()}
                         ) %and (
-                            {bind logic_context = null[LogicContext]; %eq(op.type_var(), left.expected_type_var())} %or node.comp_bind(op.type_var(), left.expected_type_var())
+                            {bind logic_context = null[LogicContext]; op.type_var() <-> left.expected_type_var()} %or node.comp_bind(op.type_var(), left.expected_type_var())
                         )
                     )
                 )
@@ -11814,8 +11787,8 @@ class ConcatOp: Expr {
             #  - "&" (T, Array_Of_T) -> Array_Of_T
             #  - "&" (Array_Of_T, Array_Of_T) -> Array_Of_T.
             (
-                %propagate(op.type_var(), BaseTypeDecl.array_concat_result_type, left.type_var(), right.type_var()) %and %propagate(left.expected_type_var(), BaseTypeDecl.expected_array_concat_operand_type, op.type_var(), left.type_var())
-            ) %and %propagate(right.expected_type_var(), BaseTypeDecl.expected_array_concat_operand_type, op.type_var(), right.type_var())
+                op.type_var() <- BaseTypeDecl.array_concat_result_type%(left.type_var(), right.type_var()) %and left.expected_type_var() <- BaseTypeDecl.expected_array_concat_operand_type%(op.type_var(), left.type_var())
+            ) %and right.expected_type_var() <- BaseTypeDecl.expected_array_concat_operand_type%(op.type_var(), right.type_var())
         ) %or (
             # But we need another disjunction to handle the case:
             #  - "&" (T, T) -> Array_Of_T
@@ -11824,7 +11797,7 @@ class ConcatOp: Expr {
             (
                 (
                     (
-                        %eq(op.type_var(), op.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and node.comp_bind(op.type_var(), left.expected_type_var())
+                        op.type_var() <- BaseTypeDecl.derefed_base_subtype%(op.expected_type_var()) %and node.comp_bind(op.type_var(), left.expected_type_var())
                     ) %and node.comp_bind(op.type_var(), right.expected_type_var())
                 ) %and left.matches_expected_formal_type()
             ) %and right.matches_expected_formal_type()
@@ -11835,20 +11808,20 @@ class ConcatOp: Expr {
                     # Left operand has a context free, use to infer the type of the
                     # result. This can handle the cases:
                     #  - "&" (Array_Of_T, *) -> Array_Of_T.
-                    %eq(op.type_var(), left.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and {bind logic_context = null[LogicContext]; %eq(op.type_var(), left.expected_type_var())}
+                    op.type_var() <- BaseTypeDecl.derefed_base_subtype%(left.type_var()) %and {bind logic_context = null[LogicContext]; op.type_var() <-> left.expected_type_var()}
                 ) %or (
                     # We need another disjunction to handle the remaining cases:
                     #  - "&" (T, *) -> Array_Of_T
                     # For both these cases, we need to use the type of the context
                     # even though LHS has a context-free type.
                     (
-                        %eq(op.type_var(), op.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and node.comp_bind(op.type_var(), left.expected_type_var())
+                        op.type_var() <- BaseTypeDecl.derefed_base_subtype%(op.expected_type_var()) %and node.comp_bind(op.type_var(), left.expected_type_var())
                     ) %and left.matches_expected_formal_type()
                 )
             ) %and (
                 # The type of op has been inferred from the LHS, use it to
                 # determine the type of the RHS.
-                {bind logic_context = null[LogicContext]; %eq(op.type_var(), right.expected_type_var())} %or node.comp_bind(op.type_var(), right.expected_type_var())
+                {bind logic_context = null[LogicContext]; op.type_var() <-> right.expected_type_var()} %or node.comp_bind(op.type_var(), right.expected_type_var())
             )
         ) %and right.matches_expected_formal_type()
         elif right_ctx_free then (
@@ -11857,20 +11830,20 @@ class ConcatOp: Expr {
                     # Right operand has a context free, use to infer the type of
                     # the result. This can handle the cases:
                     #  - "&" (*, Array_Of_T) -> Array_Of_T.
-                    %eq(op.type_var(), right.type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and {bind logic_context = null[LogicContext]; %eq(op.type_var(), right.expected_type_var())}
+                    op.type_var() <- BaseTypeDecl.derefed_base_subtype%(right.type_var()) %and {bind logic_context = null[LogicContext]; op.type_var() <-> right.expected_type_var()}
                 ) %or (
                     # We need another disjunction to handle the remaining cases:
                     #  - "&" (*, T) -> Array_Of_T
                     # For both these cases, we need to use the type of the context
                     # even though RHS has a context-free type.
                     (
-                        %eq(op.type_var(), op.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and node.comp_bind(op.type_var(), right.expected_type_var())
+                        op.type_var() <- BaseTypeDecl.derefed_base_subtype%(op.expected_type_var()) %and node.comp_bind(op.type_var(), right.expected_type_var())
                     ) %and right.matches_expected_formal_type()
                 )
             ) %and (
                 # The type of op has been inferred from the RHS, use it to
                 # determine the type of the LHS.
-                {bind logic_context = null[LogicContext]; %eq(op.type_var(), left.expected_type_var())} %or node.comp_bind(op.type_var(), left.expected_type_var())
+                {bind logic_context = null[LogicContext]; op.type_var() <-> left.expected_type_var()} %or node.comp_bind(op.type_var(), left.expected_type_var())
             )
         ) %and left.matches_expected_formal_type()
         # None of the operands have a context-free type, so we necessarily
@@ -11879,11 +11852,11 @@ class ConcatOp: Expr {
         else (
             (
                 (
-                    %eq(op.type_var(), op.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype) %and (
-                        {bind logic_context = null[LogicContext]; %eq(op.type_var(), left.expected_type_var())} %or node.comp_bind(op.type_var(), left.expected_type_var())
+                    op.type_var() <- BaseTypeDecl.derefed_base_subtype%(op.expected_type_var()) %and (
+                        {bind logic_context = null[LogicContext]; op.type_var() <-> left.expected_type_var()} %or node.comp_bind(op.type_var(), left.expected_type_var())
                     )
                 ) %and (
-                    {bind logic_context = null[LogicContext]; %eq(op.type_var(), right.expected_type_var())} %or node.comp_bind(op.type_var(), right.expected_type_var())
+                    {bind logic_context = null[LogicContext]; op.type_var() <-> right.expected_type_var()} %or node.comp_bind(op.type_var(), right.expected_type_var())
                 )
             ) %and left.matches_expected_formal_type()
         ) %and right.matches_expected_formal_type()
@@ -11924,7 +11897,7 @@ class CaseExpr: CondExpr {
         # We solve self.expr separately because it is not dependent on the rest
         # of the semres.
         val _ = self.expr.resolve_names_internal_with_eq(
-            %predicate(BaseTypeDecl.is_discrete_type, node.expr.type_var())
+            BaseTypeDecl.is_discrete_type%(node.expr.type_var())
         );
 
         self.cases.logic_all(
@@ -11936,7 +11909,7 @@ class CaseExpr: CondExpr {
                                 (c) => match c {
                                     # Expression case
                                     case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else (
-                                        %eq(e.expected_type_var(), node.expr.type_val()) %and e.sub_equation()
+                                        e.expected_type_var() <- node.expr.type_val() %and e.sub_equation()
                                     ) %and e.matches_expected_type()
 
                                     # SubtypeIndication case (``when Color range Red .. Blue``)
@@ -11946,16 +11919,16 @@ class CaseExpr: CondExpr {
                                 }
                             ) %and (
                                 # Equations for the dependent expressions
-                                %eq(node.type_var(), alt.expr.expected_type_var())
+                                node.type_var() <-> alt.expr.expected_type_var()
                             )
-                        ) %and %eq(alt.expr.expected_type_var(), node.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
+                        ) %and alt.expr.expected_type_var() <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
                     ) %and alt.expr.sub_equation()
                 ) %and alt.expr.matches_expected_type()
             ) %and (
                 if alt.expr.has_context_free_type() then (
                     (
-                        %predicate(BaseTypeDecl.is_not_universal_type, alt.expr.type_var()) %and %eq(alt.expr.expected_type_var(), alt.expr.type_var(), conv_prop=BaseTypeDecl.base_subtype)
-                    ) %and %eq(alt.expr.expected_type_var(), node.expected_type_var())
+                        BaseTypeDecl.is_not_universal_type%(alt.expr.type_var()) %and alt.expr.expected_type_var() <- BaseTypeDecl.base_subtype%(alt.expr.type_var())
+                    ) %and alt.expr.expected_type_var() <-> node.expected_type_var()
                 ) %or %true else %true
             )
         )
@@ -12002,9 +11975,9 @@ class IfExpr: CondExpr {
         )
     ) %and (
         (
-            %predicate(AdaNode.is_not_null, node.expected_type_var()) %and self.expected_type_equation()
+            AdaNode.is_not_null%(node.expected_type_var()) %and self.expected_type_equation()
         ) %or (
-            %eq(node.expected_type_var(), null[BaseTypeDecl]) %and self.no_expected_type_equation()
+            node.expected_type_var() <- null[BaseTypeDecl] %and self.no_expected_type_equation()
         )
     )
 
@@ -12014,23 +11987,23 @@ class IfExpr: CondExpr {
     @with_dynvars(env, origin, entry_point)
     fun expected_type_equation(): Equation = (
         (
-            %eq(node.type_var(), node.then_expr.expected_type_var()) %and (
+            node.type_var() <-> node.then_expr.expected_type_var() %and (
                 if not node.else_expr.is_null then (
                     (
                         (
-                            %eq(node.type_var(), node.else_expr.expected_type_var()) %and %eq(node.else_expr.expected_type_var(), node.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
-                        ) %and %eq(node.then_expr.expected_type_var(), node.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
+                            node.type_var() <-> node.else_expr.expected_type_var() %and node.else_expr.expected_type_var() <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
+                        ) %and node.then_expr.expected_type_var() <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
                     ) %and self.else_expr.matches_expected_formal_type()
                 ) %and self.then_expr.matches_expected_formal_type() else %true
             )
         ) %and self.alternatives.logic_all(
             (elsif) => (
-                %eq(node.type_var(), elsif.then_expr.expected_type_var()) %and %eq(elsif.then_expr.expected_type_var(), node.expected_type_var(), conv_prop=BaseTypeDecl.derefed_base_subtype)
+                node.type_var() <-> elsif.then_expr.expected_type_var() %and elsif.then_expr.expected_type_var() <- BaseTypeDecl.derefed_base_subtype%(node.expected_type_var())
             ) %and elsif.then_expr.matches_expected_formal_type()
         )
     ) %and self.dependent_exprs().filter((e) => e.has_context_free_type()).logic_all(
         (e) => (
-            %predicate(BaseTypeDecl.is_not_universal_type, e.type_var()) %and %eq(e.expected_type_var(), e.type_var(), conv_prop=BaseTypeDecl.base_subtype)
+            BaseTypeDecl.is_not_universal_type%(e.type_var()) %and e.expected_type_var() <- BaseTypeDecl.base_subtype%(e.type_var())
         ) %or %true
     )
 
@@ -12041,8 +12014,8 @@ class IfExpr: CondExpr {
     @with_dynvars(env, origin, entry_point)
     fun no_expected_type_equation(): Equation =
         self.dependent_exprs().filter((e) => e.has_context_free_type()).logic_all(
-            (e) => %predicate(BaseTypeDecl.is_universal_type, e.type_var()) %or (
-                %predicate(AdaNode.is_not_null, e.type_var()) %and %eq(node.type_var(), e.type_var(), conv_prop=BaseTypeDecl.base_subtype)
+            (e) => BaseTypeDecl.is_universal_type%(e.type_var()) %or (
+                AdaNode.is_not_null%(e.type_var()) %and node.type_var() <- BaseTypeDecl.base_subtype%(e.type_var())
             )
         )
 }
@@ -12068,7 +12041,7 @@ class DeclExpr: Expr {
         bind env = self.children_env();
 
         self.expr.sub_equation()
-    } %and %eq(node.expr.expected_type_var(), node.expected_type_var()) %and %eq(node.expr.type_var(), node.type_var())
+    } %and node.expr.expected_type_var() <-> node.expected_type_var() %and node.expr.type_var() <-> node.type_var()
 
     env_spec {
         add_env()
@@ -12088,10 +12061,7 @@ class FormatStringLiteral: Expr {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-         {bind error_location = node; %predicate(
-             BaseTypeDecl.allows_string_literal,
-             node.expected_type_var()
-         )} %and %eq(node.expected_type_var(), node.type_var())
+         {bind error_location = node; BaseTypeDecl.allows_string_literal%(node.expected_type_var())} %and node.expected_type_var() <-> node.type_var()
          %and self.trailing_expr.do(
             (te) => te.sub_equation(),
             default_val=%true
@@ -12110,7 +12080,7 @@ class MembershipExpr: Expr {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-        %eq(node.type_var(), node.bool_type()) %and self.expr.sub_equation()
+        node.type_var() <- node.bool_type() %and self.expr.sub_equation()
     ) %and self.membership_exprs.logic_all(
         (m) => {
             val typ = m.as[Name]?.name_designated_type();
@@ -12126,16 +12096,16 @@ class MembershipExpr: Expr {
                     # because of an unrelated bug (see V408-038), but we
                     # can at least constrain the resulting type to be
                     # tagged after implicit dereference.
-                    if typ.is_tagged_type() then %eq(node.expr.expected_type_var(), null[Entity[BaseTypeDecl]]) %and {bind error_location = node; %predicate(BaseTypeDecl.is_tagged_type_with_deref, node.expr.type_var())} else (
+                    if typ.is_tagged_type() then node.expr.expected_type_var() <- null[Entity[BaseTypeDecl]] %and {bind error_location = node; BaseTypeDecl.is_tagged_type_with_deref%(node.expr.type_var())} else (
                         # This is a simple subtype membership test, so the
                         # expected type of the tested expression is the
                         # subtype's base type.
-                        %eq(node.expr.expected_type_var(), typ.base_subtype()) %and node.expr.matches_expected_membership_type()
+                        node.expr.expected_type_var() <- typ.base_subtype() %and node.expr.matches_expected_membership_type()
                     )
                 )
             ) else (
                 # Regular membership check
-                %eq(m.expected_type_var(), node.expr.type_var()) %and m.sub_equation() %and m.matches_expected_type()
+                m.expected_type_var() <-> node.expr.type_var() %and m.sub_equation() %and m.matches_expected_type()
             )
         }
     )
@@ -12281,7 +12251,7 @@ class Name: Expr {
     |" Return an equation that always emits a diagnostic indicating that the
     |" entity designated by this name is missing.
     fun undefined_reference_equation(): Equation =
-        %eq(node.ref_var(), null[Entity[AdaNode]]) %and {bind error_location = node; %predicate(AdaNode.missing_entity_error, node.ref_var())}
+        node.ref_var() <- null[Entity[AdaNode]] %and {bind error_location = node; AdaNode.missing_entity_error%(node.ref_var())}
 
     @with_dynvars(env, origin, entry_point)
     fun bottom_up_name_equation(): Equation = match node.innermost_name().as_entity {
@@ -12358,9 +12328,9 @@ class Name: Expr {
                 # If ``typ`` is an access to subprogram, it means self (an
                 # ExplicitDeref) is actually a call to that subprogram. So,
                 # bind its subp_spec_var to the subprogram spec of the access.
-                %eq(node.subp_spec_var(), as_subp_access?.subp_spec)
+                node.subp_spec_var() <- as_subp_access?.subp_spec
             )
-            case _ => %eq(node.type_var(), null[Entity[AdaNode]].node)
+            case _ => node.type_var() <- null[Entity[AdaNode]].node
         } %and self.parent_name(root).do(
             (pn) => if node is ExplicitDeref and not as_subp_access.is_null then (
                 # If self is an explicit deref of a subprogram access type,
@@ -12629,12 +12599,12 @@ class Name: Expr {
             dn.suffix.xref_type_equation()
         }
         case i: BaseId => i.designated_type_impl().do(
-            (type) => %eq(i.ref_var(), type),
+            (type) => i.ref_var() <- type,
             default_val=self.undefined_reference_equation()
         )
         case ar: AttributeRef => ar.prefix.xref_type_equation() %and (
-            if ar.attribute.sym() == s"Class" then %eq(ar.ref_var(), ar.prefix.ref_var(), conv_prop=BaseTypeDecl.classwide_type)
-            elif ar.attribute.sym() == s"Base" then %eq(ar.ref_var(), ar.prefix.ref_var(), conv_prop=BaseTypeDecl.scalar_base_type)
+            if ar.attribute.sym() == s"Class" then ar.ref_var() <- BaseTypeDecl.classwide_type%(ar.prefix.ref_var())
+            elif ar.attribute.sym() == s"Base" then ar.ref_var() <- BaseTypeDecl.scalar_base_type%(ar.prefix.ref_var())
             else %true
         )
         case _ => %false
@@ -12654,9 +12624,9 @@ class Name: Expr {
         }
         case i: BaseId => if all_els and node.is_suffix() then %domain(i.ref_var(), node.env_get(
             env, i.name_symbol(), from_node=if sequential then self.node else null[Name], lookup=if node.is_prefix() then LookupKind.recursive else LookupKind.flat
-        ).filter((e) => node.has_visibility(e))) else %eq(i.ref_var(), i.env_get_first_visible(
+        ).filter((e) => node.has_visibility(e))) else i.ref_var() <- i.env_get_first_visible(
             env, from_node=if sequential then self.node else null[Name], lookup_type=if node.is_prefix() then LookupKind.recursive else LookupKind.flat
-        ))
+        )
         case _ => %false
     }
 
@@ -13012,20 +12982,20 @@ class AttributeRef: Name {
             | s"Unconstrained_Array" | s"Library_Level"
             | s"Preelaborable_Initialization" | s"Denorm" | s"Signed_Zeros"
             | s"Fast_Math" | s"Passed_By_Reference" then
-            self.prefix.sub_equation() %and %eq(node.type_var(), node.bool_type())
+            self.prefix.sub_equation() %and node.type_var() <- node.bool_type()
         # In the case of the ``Enabled`` attribute, the prefix is supposed
         # to be a check name, so it's not even an entity that has source
         # existence. In that case, we just bind the type of the expr to
         # bool.
-        elif rel_name == s"Enabled" then %eq(node.type_var(), node.bool_type())
+        elif rel_name == s"Enabled" then node.type_var() <- node.bool_type()
         elif rel_name in s"Width" | s"Component_Size" | s"Position" | s"Mantissa" | s"Model_Mantissa" | s"Machine_Mantissa" | s"Fore" | s"Aft" | s"Digits" | s"Modulus" | s"Word_Size" | s"Wchar_T_Size" | s"Max_Integer_Size" | s"Address_Size" | s"Maximum_Alignment" | s"System_Allocator_Alignment" | s"Finalization_Size" | s"Descriptor_Size" | s"Alignment" | s"First_Bit" | s"Last_Bit" | s"Default_Bit_Order" | s"Range_Length" | s"Storage_Unit" | s"Stream_Size" | s"Small_Numerator" | s"Small_Denominator" | s"Machine_Emin" | s"Machine_Emax" | s"Model_Emin" then self.prefix.sub_equation() %and node.universal_int_bind(node.type_var())
-        elif rel_name in s"External_Tag" | s"Type_Key" then self.prefix.sub_equation() %and %eq(node.type_var(), node.std_string_type())
-        elif rel_name == s"Target_Name" then %eq(node.type_var(), node.std_string_type())
+        elif rel_name in s"External_Tag" | s"Type_Key" then self.prefix.sub_equation() %and node.type_var() <- node.std_string_type()
+        elif rel_name == s"Target_Name" then node.type_var() <- node.std_string_type()
         elif rel_name == s"Storage_Pool" then self.storage_pool_equation()
         elif rel_name in s"Bit_Order" | s"Scalar_Storage_Order" | s"Default_Scalar_Storage_Order" then self.order_equation()
         elif rel_name == s"Type_Class" then self.type_class_equation()
         # Task attributes (RM 9.9)
-        elif rel_name in s"Callable" | s"Terminated" then self.prefix.sub_equation() %and %eq(node.type_var(), node.bool_type())
+        elif rel_name in s"Callable" | s"Terminated" then self.prefix.sub_equation() %and node.type_var() <- node.bool_type()
         # Entry attributes (RM 9.9)
         elif rel_name == s"Count" then match self.prefix {
             # If prefix is a CallExpr, use sub_equation to resolve the
@@ -13035,11 +13005,11 @@ class AttributeRef: Name {
             # On the other cases, prefix is a simple identifier
             case o => o.xref_no_overloading()
         } %and node.universal_int_bind(node.type_var())
-        elif rel_name == s"Caller" then self.prefix.xref_no_overloading() %and %eq(node.type_var(), node.task_id_type())
+        elif rel_name == s"Caller" then self.prefix.xref_no_overloading() %and node.type_var() <- node.task_id_type()
         elif rel_name == s"Machine_Radix" then self.universal_int_equation()
         elif rel_name == s"To_Address" then self.to_address_equation()
         elif rel_name == s"Index" then self.index_equation()
-        elif rel_name == s"Abort_Signal" then %eq(node.ref_var(), node.std_entity(s"abort_signal_")) %and %eq(node.type_var(), null[Entity[BaseTypeDecl]])
+        elif rel_name == s"Abort_Signal" then node.ref_var() <- node.std_entity(s"abort_signal_") %and node.type_var() <- null[Entity[BaseTypeDecl]]
         elif rel_name in s"Has_Same_Storage" | s"Overlaps_Storage" then self.storage_equation()
         elif rel_name == s"Deref" then self.deref_equation()
         elif rel_name == s"Mechanism_Code" then self.mechanism_code_equation()
@@ -13049,7 +13019,7 @@ class AttributeRef: Name {
     |" Equation for type attributes that denote functions.
     @with_dynvars(env, origin, entry_point)
     fun attribute_subprogram_equation(): Equation =
-        self.prefix.xref_type_equation() %and %eq(node.ref_var(), self.attribute_subprogram())
+        self.prefix.xref_type_equation() %and node.ref_var() <- self.attribute_subprogram()
 
     |" Implementation of the Type_Class attribute, provided for compatibility
     |" with DEC 83.
@@ -13059,7 +13029,7 @@ class AttributeRef: Name {
             [s"System", s"Aux_DEC"], AnalysisUnitKind.unit_specification
         )?.children_env().get_first(s"Type_Class", lookup=LookupKind.flat).as[BaseTypeDecl];
 
-        self.prefix.xref_equation() %and %eq(node.type_var(), typ)
+        self.prefix.xref_equation() %and node.type_var() <- typ
     }
 
     |" Equation for the Storage_Pool attribute.
@@ -13071,7 +13041,7 @@ class AttributeRef: Name {
             s"Root_Storage_Pool", lookup=LookupKind.flat
         ).as[BaseTypeDecl].classwide_type();
 
-        self.prefix.xref_equation() %and %eq(node.type_var(), typ)
+        self.prefix.xref_equation() %and node.type_var() <- typ
     }
 
     |" Equation for the Bit_Order/[Default_]Scalar_Storage_Order attributes.
@@ -13081,12 +13051,12 @@ class AttributeRef: Name {
             [s"System"], AnalysisUnitKind.unit_specification
         )?.children_env().get_first(s"Bit_Order", lookup=LookupKind.flat).as[BaseTypeDecl];
 
-        self.prefix.xref_equation() %and %eq(node.type_var(), typ)
+        self.prefix.xref_equation() %and node.type_var() <- typ
     }
 
     @with_dynvars(env, origin, entry_point)
     fun bind_to_prefix_eq(): Equation =
-        %eq(node.prefix.expected_type_var(), node.expected_type_var()) %and self.prefix.sub_equation() %and %eq(node.type_var(), node.prefix.type_var())
+        node.prefix.expected_type_var() <-> node.expected_type_var() %and self.prefix.sub_equation() %and node.type_var() <-> node.prefix.type_var()
 
     @with_dynvars(env, origin, entry_point)
     fun result_attr_equation(): Equation = {
@@ -13102,7 +13072,7 @@ class AttributeRef: Name {
             case bd: BasicDecl => bd.subp_spec_or_null()
         }.do((ss) => ss.return_type());
 
-        %eq(node.type_var(), returns) %and %eq(self.prefix.ref_var(), containing_decl)
+        node.type_var() <- returns %and self.prefix.ref_var() <- containing_decl
     }
 
     @with_dynvars(env, origin, entry_point)
@@ -13116,7 +13086,7 @@ class AttributeRef: Name {
             self.prefix.xref_equation()
         ) %and (
             # Type of self is String
-            %eq(node.type_var(), tag_type)
+            node.type_var() <- tag_type
         )
     }
 
@@ -13127,15 +13097,15 @@ class AttributeRef: Name {
         # considered called.
         (
             (
-                self.prefix.xref_no_overloading() %and %predicate(BasicDecl.is_subprogram, node.prefix.ref_var())
+                self.prefix.xref_no_overloading() %and BasicDecl.is_subprogram%(node.prefix.ref_var())
             ) %or self.prefix.sub_equation()
-        ) %and %eq(node.type_var(), self.system_address_type())
+        ) %and node.type_var() <- self.system_address_type()
 
     @with_dynvars(env, origin, entry_point)
     fun identity_equation(): Equation =
         # NOTE: We don't verify that the prefix designates an exception
         # declaration, because that's legality, not name resolution.
-        self.prefix.sub_equation() %and %eq(node.type_var(), node.prefix.ref_var(), conv_prop=BasicDecl.identity_type)
+        self.prefix.sub_equation() %and node.type_var() <- BasicDecl.identity_type%(node.prefix.ref_var())
 
     @with_dynvars(env, origin, entry_point)
     fun universal_real_equation(): Equation =
@@ -13149,7 +13119,7 @@ class AttributeRef: Name {
             self.prefix.sub_equation() %and node.universal_int_bind(node.type_var())
         ) %and self.args.logic_all(
             (arg) => (
-                %eq(arg.expr().expected_type_var(), typ) %and arg.expr().sub_equation()
+                arg.expr().expected_type_var() <- typ %and arg.expr().sub_equation()
             ) %and arg.expr().matches_expected_type()
         )
     }
@@ -13160,8 +13130,8 @@ class AttributeRef: Name {
 
         if typ.is_null then (
             # If prefix is not a type, then it is an expression
-            self.prefix.sub_equation() %and %eq(node.type_var(), str_type)
-        ) else self.prefix.xref_type_equation() %and %eq(node.ref_var(), self.attribute_subprogram())
+            self.prefix.sub_equation() %and node.type_var() <- str_type
+        ) else self.prefix.xref_type_equation() %and node.ref_var() <- self.attribute_subprogram()
     }
 
     @with_dynvars(env, origin, entry_point)
@@ -13170,7 +13140,7 @@ class AttributeRef: Name {
         self.prefix.xref_equation()
     ) %and (
         # Type of self is String
-        %eq(node.type_var(), str_type)
+        node.type_var() <- str_type
     )
 
     @with_dynvars(env, origin, entry_point)
@@ -13179,8 +13149,8 @@ class AttributeRef: Name {
 
         if typ.is_null then (
             # If prefix is not a type, then it is an expression
-            self.prefix.sub_equation() %and %eq(node.type_var(), node.universal_int_type())
-        ) else self.prefix.xref_type_equation() %and %eq(node.ref_var(), self.attribute_subprogram())
+            self.prefix.sub_equation() %and node.type_var() <- node.universal_int_type()
+        ) else self.prefix.xref_type_equation() %and node.ref_var() <- self.attribute_subprogram()
     }
 
     |" Assuming the prefix of this attribute designates a type T, return
@@ -13189,18 +13159,15 @@ class AttributeRef: Name {
     fun self_type_equation(): Equation = {
         val typ = self.prefix.name_designated_type();
 
-        self.prefix.xref_type_equation() %and %eq(node.type_var(), typ)
+        self.prefix.xref_type_equation() %and node.type_var() <- typ
     }
 
     @with_dynvars(env, origin, entry_point)
     fun access_equation(): Equation = (
         # Access to statically known subprogram
         self.prefix.xref_no_overloading(all_els=true)
-        %and %predicate(
-            BaseTypeDecl.is_subp_access_of,
-            node.type_var(), node.prefix.ref_var()
-        )
-        %and %eq(node.type_var(), node.expected_type_var())
+        %and BaseTypeDecl.is_subp_access_of%(node.type_var(), node.prefix.ref_var())
+        %and node.type_var() <-> node.expected_type_var()
     ) %or (
         # Access to object
         self.prefix.sub_equation() %and (
@@ -13212,16 +13179,15 @@ class AttributeRef: Name {
             # here in case `self.type_var` holds an access-to-
             # subprogram type so that we don't propagate its
             # return type to the prefix of the 'Access attribute.
-            %eq(node.expected_type_var(), node.type_var())
-            %and %eq(node.prefix.expected_type_var(), node.expected_type_var(),
-                    conv_prop=BaseTypeDecl.accessed_type_no_call)
+            node.expected_type_var() <-> node.type_var()
+            %and node.prefix.expected_type_var() <- BaseTypeDecl.accessed_type_no_call%(node.expected_type_var())
             %and (
                 # Either the expected type of the prefix is None, meaning
                 # the conversion property above was applied on a subprogram
                 # access (for which we cannot retrieve the dereferenced
                 # type). In that case type should be None as well.
-                %eq(node.prefix.expected_type_var(), node.prefix.type_var())
-                %and %eq(node.prefix.type_var(), null[Entity[BaseTypeDecl]])
+                node.prefix.expected_type_var() <-> node.prefix.type_var()
+                %and node.prefix.type_var() <- null[Entity[BaseTypeDecl]]
 
                 # Or it's an object access and so the actual type must
                 # match the expected type we inferred above.
@@ -13234,13 +13200,11 @@ class AttributeRef: Name {
             # should synthesize an anonymous access type for the actual
             # type of `X'Access`.
             if node.parent is DottedName and node.is_prefix() then
-                %eq(node.prefix.expected_type_var(), node.expected_type_var())
+                node.prefix.expected_type_var() <-> node.expected_type_var()
                 %and self.prefix.matches_expected_prefix_type()
-                %and %eq(node.type_var(), node.prefix.type_var(),
-                        conv_prop=BaseTypeDecl.anonymous_access_type_or_null)
+                %and node.type_var() <- BaseTypeDecl.anonymous_access_type_or_null%(node.prefix.type_var())
             elif node.parent is ExplicitDeref then
-                %eq(node.type_var(), node.prefix.type_var(),
-                    conv_prop=BaseTypeDecl.anonymous_access_type_or_null)
+                node.type_var() <- BaseTypeDecl.anonymous_access_type_or_null%(node.prefix.type_var())
             else %false
         )
     )
@@ -13249,7 +13213,7 @@ class AttributeRef: Name {
     fun size_equation(): Equation = {
         val typ = self.prefix.name_designated_type();
 
-        if not typ.is_null then %eq(node.prefix.ref_var(), typ) %and node.universal_int_bind(node.type_var()) else self.prefix.sub_equation() %and node.universal_int_bind(node.type_var())
+        if not typ.is_null then node.prefix.ref_var() <- typ %and node.universal_int_bind(node.type_var()) else self.prefix.sub_equation() %and node.universal_int_bind(node.type_var())
     }
 
     @with_dynvars(env, origin, entry_point)
@@ -13273,20 +13237,20 @@ class AttributeRef: Name {
             self.prefix.xref_type_equation() %and (
                 if typ.is_array_def_with_deref() and is_length then node.universal_int_bind(node.type_var())
                 # If it's an array, take the appropriate index type
-                elif typ.is_array_def_with_deref() then %eq(node.type_var(), typ.index_type(dim))
+                elif typ.is_array_def_with_deref() then node.type_var() <- typ.index_type(dim)
                 # If it's a discrete type, then bind to the discrete type
-                elif typ.is_discrete_type() or (typ.is_real_type() and not is_length) then %eq(node.type_var(), typ)
+                elif typ.is_discrete_type() or (typ.is_real_type() and not is_length) then node.type_var() <- typ
                 else %false
             )
         ) else # Prefix is not a type: In that case we have permission to resolve
         # prefix separately.
         {
             val res = self.prefix.resolve_names_internal_with_eq(
-                %predicate(BaseTypeDecl.is_array_def_with_deref, self.prefix.type_var())
+                BaseTypeDecl.is_array_def_with_deref%(self.prefix.type_var())
             );
             val pfx_typ = self.prefix.type_val().as[BaseTypeDecl];
 
-            if res then if is_length then node.universal_int_bind(node.type_var()) else %eq(node.type_var(), pfx_typ.index_type(dim)) else %false
+            if res then if is_length then node.universal_int_bind(node.type_var()) else node.type_var() <- pfx_typ.index_type(dim) else %false
         }
     }
 
@@ -13294,7 +13258,7 @@ class AttributeRef: Name {
     |" subtype and that evaluates to an universal integer.
     @with_dynvars(env, origin, entry_point)
     fun subtype_attr_equation(): Equation =
-        %eq(node.prefix.ref_var(), self.prefix.name_designated_type()) %and node.universal_int_bind(node.type_var())
+        node.prefix.ref_var() <- self.prefix.name_designated_type() %and node.universal_int_bind(node.type_var())
 
     |" Return the xref equation for the ``To_Address`` attribute.
     @with_dynvars(env, origin, entry_point)
@@ -13305,7 +13269,7 @@ class AttributeRef: Name {
             [s"System", s"Storage_Elements"], AnalysisUnitKind.unit_specification
         )?.children_env().get_first(s"To_Address", lookup=LookupKind.minimal).as[BasicSubpDecl];
 
-        self.prefix.sub_equation() %and %eq(node.ref_var(), to_address_subp)
+        self.prefix.sub_equation() %and node.ref_var() <- to_address_subp
     }
 
     |" Return the xref equation for the ``Index`` attribute.
@@ -13313,17 +13277,17 @@ class AttributeRef: Name {
     fun index_equation(): Equation = {
         val typ = env.get_first(self.prefix.name_symbol()).as![EntryDecl].family_type();
 
-        self.prefix.sub_equation() %and %eq(node.type_var(), typ)
+        self.prefix.sub_equation() %and node.type_var() <- typ
     }
 
     |" Return the xref equation for the ``Deref`` attribute.
     @with_dynvars(env, origin, entry_point)
     fun deref_equation(): Equation =
         self.prefix.xref_type_equation()
-        %and %eq(node.type_var(), node.prefix.ref_var())
+        %and node.type_var() <-> node.prefix.ref_var()
         %and self.args?[0].do(
             (arg) => arg.expr().sub_equation()
-            %and %eq(arg.expr().expected_type_var(), node.system_address_type())
+            %and arg.expr().expected_type_var() <- node.system_address_type()
             %and arg.expr().matches_expected_type(),
             default_val=%false
         )
@@ -13347,7 +13311,7 @@ class AttributeRef: Name {
         # Prefix denotes an object
         self.prefix.sub_equation() %and (
             # The attribute return a boolean value
-            %eq(node.type_var(), node.bool_type())
+            node.type_var() <- node.bool_type()
         )
     ) %and (
         # The only one argument of the attribute can be of any type
@@ -13518,7 +13482,7 @@ class CallExpr: Name {
     |" recursion on the argument.
     @with_dynvars(env, origin, entry_point)
     fun type_conv_self_xref_equation(): Equation =
-        self.name.subtype_indication_equation() %and %eq(node.type_var(), node.name.ref_var())
+        self.name.subtype_indication_equation() %and node.type_var() <-> node.name.ref_var()
 
     |" Build the xref equation in case this node represents a call to the
     |" given entry declaration.
@@ -13526,7 +13490,7 @@ class CallExpr: Name {
     fun entry_equation(e: Entity[EntryDecl], root: Name): Equation = if e.has_family() then (
         # Handle calls to entry families
         e.family_type().do(
-            (ft) => {bind logic_context = null[LogicContext]; %eq(self.params()?[0].expr().expected_type_var(), ft)} %and self.params()?[0].expr().matches_expected_type(), default_val=%true
+            (ft) => {bind logic_context = null[LogicContext]; self.params()?[0].expr().expected_type_var() <- ft} %and self.params()?[0].expr().matches_expected_type(), default_val=%true
         ) %and (
             # If the family type is None, it means it is an anonymous range
             # in which case we don't need to constrain it further.
@@ -13587,7 +13551,7 @@ class CallExpr: Name {
         # Type conversion case
         (
             (
-                self.type_conv_self_xref_equation() %and %eq(self.params()?[0].expr().expected_type_var(), null[Entity[BaseTypeDecl]])
+                self.type_conv_self_xref_equation() %and self.params()?[0].expr().expected_type_var() <- null[Entity[BaseTypeDecl]]
             ) %and self.all_args_xref_equation(root)
         ) %and self.parent_name(root).do(
             (pn) => pn.parent_name_equation(self.name.name_designated_type(), root), default_val=%true
@@ -13633,7 +13597,7 @@ class CallExpr: Name {
                 (s) => {
                     bind logic_context = LogicContext(ref_node=self.name, decl_node=s);
 
-                    {bind logic_context = null[LogicContext]; %eq(node.name.ref_var(), s.as[BasicDecl].corresponding_actual())} %and s.as[EntryDecl].do(
+                    {bind logic_context = null[LogicContext]; node.name.ref_var() <- s.as[BasicDecl].corresponding_actual()} %and s.as[EntryDecl].do(
                         (e) => self.entry_equation(e, root), default_val=self.entity_equation(s.as[BasicDecl], root)
                     )
                 }
@@ -13665,14 +13629,14 @@ class CallExpr: Name {
                 # Either an array slice through subtype indication
                 self.params()?[0].do(
                     (param) => param.expr().as[Name].do(
-                        (name) => if name.name_designated_type().is_null then %false else name.xref_type_equation() %and %eq(node.type_var(), real_typ), default_val=%false
+                        (name) => if name.name_designated_type().is_null then %false else name.xref_type_equation() %and node.type_var() <- real_typ, default_val=%false
                     ), default_val=%false
                 )
             ) %or (
                 # Or a regular array access
                 self.params()?.ilogic_all(
                     (pa, i) => atd.indices.constrain_index_expr(pa.expr(), i)
-                ) %and %eq(node.type_var(), atd.comp_type())
+                ) %and node.type_var() <- atd.comp_type()
             )
 
             # Explicit slice access
@@ -13681,18 +13645,18 @@ class CallExpr: Name {
                     (
                         (
                             atd.indices.constrain_index_expr(bo.left, 0) %and atd.indices.constrain_index_expr(bo.right, 0)
-                        ) %and %eq(bo.expected_type_var(), bo.right.expected_type_var())
-                    ) %and %eq(node.type_var(), real_typ)
+                        ) %and bo.expected_type_var() <-> bo.right.expected_type_var()
+                    ) %and node.type_var() <- real_typ
                 ) %and bo.left.sub_equation()
             ) %and bo.right.sub_equation()
 
             # Range attribute
             case ar: AttributeRef => (
                 ar.sub_equation() %and atd.indices.constrain_index_expr(ar, 0)
-            ) %and %eq(node.type_var(), real_typ)
+            ) %and node.type_var() <- real_typ
 
             # Subtype indication
-            case st: SubtypeIndication => st.sub_equation() %and %eq(node.type_var(), real_typ)
+            case st: SubtypeIndication => st.sub_equation() %and node.type_var() <- real_typ
             case _ => %false
         }
         # Type has user defined indexing
@@ -13706,8 +13670,8 @@ class CallExpr: Name {
 
                 # The user indexing function that matches has one more
                 # parameter than that call expression.
-                if formals.length() == params.length() + 1 then %eq(node.type_var(), ret_type) %and params.ilogic_all(
-                    (param, i) => %eq(param.expr().expected_type_var(), formals?[i + 1].formal_decl().formal_type()) %and param.expr().matches_expected_type()
+                if formals.length() == params.length() + 1 then node.type_var() <- ret_type %and params.ilogic_all(
+                    (param, i) => param.expr().expected_type_var() <- formals?[i + 1].formal_decl().formal_type() %and param.expr().matches_expected_type()
                 ) else %false
             }
         )
@@ -13719,10 +13683,10 @@ class CallExpr: Name {
         (subp_spec) => (
             # The type of the expression is the expr_type of the
             # subprogram.
-            %eq(node.type_var(), subp_spec.as[BaseSubpSpec]?.return_type()) %and (
+            node.type_var() <- subp_spec.as[BaseSubpSpec]?.return_type() %and (
                 # This node represents a call to a subprogram which specification
                 # is given by ``subp_spec``.
-                {bind logic_context = null[LogicContext]; %eq(node.subp_spec_var(), subp_spec)}
+                {bind logic_context = null[LogicContext]; node.subp_spec_var() <- subp_spec}
             )
         ) %and (
             # For each parameter, the type of the expression matches
@@ -13733,13 +13697,13 @@ class CallExpr: Name {
                 ) %and (
                     # Bind actuals designators to parameters if there
                     # are designators.
-                    if pm.actual.name.is_null then %true else {bind logic_context = null[LogicContext]; %eq(pm.actual.name.ref_var(), {
+                    if pm.actual.name.is_null then %true else {bind logic_context = null[LogicContext]; pm.actual.name.ref_var() <- {
                         val n = subp_spec.corresponding_actual_param(pm.formal).formal_decl();
 
                         self.entity_no_md(
                             n.node, n.info.rebindings, n.info.from_rebound
                         )
-                    })}
+                    }}
                 ) else %false
             )
         ), default_val=%false
@@ -14619,12 +14583,12 @@ class DottedName: Name {
 
         if not self.designated_type_impl().is_null then base else (
             (
-                base %and %eq(node.expected_type_var(), node.suffix.expected_type_var())
-            ) %and %eq(node.type_var(), node.suffix.type_var())
+                base %and node.expected_type_var() <-> node.suffix.expected_type_var()
+            ) %and node.type_var() <-> node.suffix.type_var()
         ) %and self.env_elements().do(
             (env_els) => env_els.logic_any((e) => {
                 val actual = e.as[BasicDecl].corresponding_actual();
-                %eq(node.suffix.ref_var(), actual)
+                node.suffix.ref_var() <- actual
                 %and actual.constrain_prefix(node.prefix)
             }), default_val=self.undefined_reference_equation()
         )
@@ -14678,23 +14642,19 @@ class ArraySubcomponentChoiceName: Name {
             self.suffix_exprs().ilogic_all(
             # Resolve all suffix's indexes/range independently
             (a, i) => a.sub_equation()
-            %and %eq(a.expected_type_var(),
-                    node.delta_aggregate_ancestor_expr_type().index_type(i))
+            %and a.expected_type_var() <- node.delta_aggregate_ancestor_expr_type().index_type(i)
             %and a.matches_expected_type()
         )) %and (
             # Self's type is bound to the component type of Self's name
             # designated type if any (if name is null, the type is given by the
             # delta aggregate itself).
             if self.name is DottedName
-            then %eq(self.type_var(), self.name.type_var(),
-                     conv_prop=BaseTypeDecl.comp_type)
-            else %eq(self.type_var(),
-                     self.name.do(
+            then self.type_var() <- BaseTypeDecl.comp_type%(self.name.type_var())
+            else self.type_var() <- self.name.do(
                          (n) => n.name_designated_type().comp_type(),
                          default_val=
                          node.delta_aggregate_ancestor_expr_type().comp_type()
                      )
-                )
         )
 
     fun designated_type_impl(): Entity[BaseTypeDecl] =
@@ -14743,7 +14703,7 @@ class EndName: Name {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.parent.as[AcceptStmtWithStmts].do(
-        (stmt) => %eq(node.ref_var(), stmt.designated_entry()), default_val=%eq(node.ref_var(), self.basic_decl())
+        (stmt) => node.ref_var() <- stmt.designated_entry(), default_val=node.ref_var() <- self.basic_decl()
     ) %and self.name.as[DottedName].do(
         # Also resolve the prefix of the dotted name, in case this
         # subprogram/package is a child unit: the fully qualified name must
@@ -14783,8 +14743,8 @@ class ExplicitDeref: Name {
 
     @with_dynvars(env, origin)
     fun eq_for_type(typ: Entity[BaseTypeDecl]): Equation = if typ.is_access_type() then (
-        %eq(node.prefix.expected_type_var(), typ) %and self.prefix.matches_expected_type()
-    ) %and %eq(node.type_var(), typ.accessed_type()) else %false
+        node.prefix.expected_type_var() <- typ %and self.prefix.matches_expected_type()
+    ) %and node.type_var() <- typ.accessed_type() else %false
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.bottom_up_name_equation()
@@ -14799,8 +14759,8 @@ class ExplicitDeref: Name {
             self.prefix.resolve_names_internal(false).do(
                 (_) => self.prefix.type_val().as[BaseTypeDecl].do(
                     (typ) => (
-                        %eq(node.prefix.expected_type_var(), typ)
-                        %and %eq(node.prefix.type_var(), typ)
+                        node.prefix.expected_type_var() <- typ
+                        %and node.prefix.type_var() <- typ
                         %and self.parent_name_equation(typ, root)
                     ),
                     default_val=%false
@@ -14813,7 +14773,7 @@ class ExplicitDeref: Name {
                 (el) => {
                     val typ = el.as[BasicDecl].expr_type();
                     if typ?.is_access_type() then
-                        %eq(node.prefix.ref_var(), el)
+                        node.prefix.ref_var() <- el
                         %and self.parent_name_equation(typ, root)
                     else
                         %false
@@ -14853,7 +14813,7 @@ class QualExpr: Name {
         (
             (
                 self.prefix.xref_type_equation() %and self.suffix.sub_equation()
-            ) %and %eq(node.suffix.expected_type_var(), node.prefix.ref_var())
+            ) %and node.suffix.expected_type_var() <-> node.prefix.ref_var()
         ) %and self.suffix.matches_expected_type()
     ) %and (
         # A qualified expression that appears as a statement
@@ -14863,7 +14823,7 @@ class QualExpr: Name {
         # more flexible than Ada since we allow any type to be code
         # statements whereas Ada restricts that to types defined in
         # package `System.Machine_Code` (see :rmlink:`13.8`).
-        if self.parent is CallStmt then %true else %eq(node.type_var(), node.prefix.ref_var())
+        if self.parent is CallStmt then %true else node.type_var() <-> node.prefix.ref_var()
     )
 
     @with_dynvars(env, origin, no_visibility=false)
@@ -14918,8 +14878,8 @@ class ReduceAttributeRef: Name {
         val value_type = param_types?[1];
 
         self.prefix.as[ValueSequence].do(
-            (vs) => %eq(vs.iter_assoc.expr().expected_type_var(), value_type) %and vs.iter_assoc.expr().matches_expected_type(), default_val=%true
-        ) %and self.prefix.sub_equation() %and %eq(node.type_var(), accum_type) %and %eq(reducer.ref_var(), subp) %and %eq(initial_value_expression.expected_type_var(), accum_type) %and initial_value_expression.sub_equation() %and initial_value_expression.matches_expected_formal_type()
+            (vs) => vs.iter_assoc.expr().expected_type_var() <- value_type %and vs.iter_assoc.expr().matches_expected_type(), default_val=%true
+        ) %and self.prefix.sub_equation() %and node.type_var() <- accum_type %and reducer.ref_var() <- subp %and initial_value_expression.expected_type_var() <- accum_type %and initial_value_expression.sub_equation() %and initial_value_expression.matches_expected_formal_type()
     }
 }
 
@@ -15322,16 +15282,16 @@ class BaseId: SingleTokNode implements TokenNode {
 
         self.env_elements().do(
             (env_els) => env_els.logic_any(
-                (e) => %eq(node.ref_var(), e.as[BasicDecl].corresponding_actual()) %and (
+                (e) => node.ref_var() <- e.as[BasicDecl].corresponding_actual() %and (
                     # If this BaseId refers to an enclosing subprogram and is
                     # the prefix of a dotted name, then it is not a call.
-                    if is_prefix and e.as[BaseSubpBody]?.in_scope() then %eq(node.type_var(), null[Entity[BaseTypeDecl]]) else (
+                    if is_prefix and e.as[BaseSubpBody]?.in_scope() then node.type_var() <- null[Entity[BaseTypeDecl]] else (
                         # If this BaseId represents a call, the called subprogram will
                         # be held in self.ref_var, in which case subp_spec_or_null will
                         # return the specification of the called subprogram. If ref_var
                         # does not contain a subprogram, this BaseId cannot be a call,
                         # and subp_spec_or_null would indeed return null in this case.
-                        %eq(node.type_var(), node.ref_var(), conv_prop=BasicDecl.expr_type) %and %eq(node.subp_spec_var(), e.as[BasicDecl].subp_spec_or_null())
+                        node.type_var() <- BasicDecl.expr_type%(node.ref_var()) %and node.subp_spec_var() <- e.as[BasicDecl].subp_spec_or_null()
                     )
                 )
             ), default_val=self.undefined_reference_equation()
@@ -15351,7 +15311,7 @@ class CharLiteral: BaseId implements TokenNode {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        %predicate(BaseTypeDecl.is_non_null_char_type, node.expected_type_var()) %and %eq(node.expected_type_var(), node.type_var()) %and (
+        BaseTypeDecl.is_non_null_char_type%(node.expected_type_var()) %and node.expected_type_var() <-> node.type_var() %and (
             # Ada RM 4.2 (3): since the expected type of the `CharLiteral` is
             # known in this case (the predicates above let us through), we can
             # use it to determine what the literal refers to. Hackish: we use
@@ -15362,7 +15322,7 @@ class CharLiteral: BaseId implements TokenNode {
             {
                 bind origin = node;
 
-                %eq(node.ref_var(), node.type_var(), conv_prop=BaseTypeDecl.corresponding_char_literal)
+                node.ref_var() <- BaseTypeDecl.corresponding_char_literal%(node.type_var())
             }
         )
 }
@@ -15541,8 +15501,8 @@ class StringLiteral: BaseId implements TokenNode {
         # StringLiteral can be in a name, if it is an operator, in which
         # case we don't want to constrain its type.
         if node.parent is Name then self.super() else (
-            %eq(node.expected_type_var(), node.type_var()) %and {bind error_location = node; %predicate(BaseTypeDecl.is_not_any_type, node.expected_type_var())}
-        ) %and {bind error_location = node; %predicate(BaseTypeDecl.allows_string_literal, node.expected_type_var())}
+            node.expected_type_var() <-> node.type_var() %and {bind error_location = node; BaseTypeDecl.is_not_any_type%(node.expected_type_var())}
+        ) %and {bind error_location = node; BaseTypeDecl.allows_string_literal%(node.expected_type_var())}
 }
 
 |" The ``null`` literal (:rmlink:`4.4`).
@@ -15552,7 +15512,7 @@ class NullLiteral: SingleTokNode implements TokenNode {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        %predicate(BaseTypeDecl.is_access_type_predicate, node.expected_type_var()) %and %eq(node.expected_type_var(), node.type_var())
+        BaseTypeDecl.is_access_type_predicate%(node.expected_type_var()) %and node.expected_type_var() <-> node.type_var()
 }
 
 |" Base class for number literals (:rmlink:`2.4`).
@@ -15638,7 +15598,7 @@ class UpdateAttributeRef: Name {
         val _ = self.prefix.resolve_names_internal(false);
         val prefix_type = self.prefix.type_val().as[BaseTypeDecl];
 
-        %eq(self.values.as![Aggregate].type_var(), prefix_type) %and %eq(node.type_var(), prefix_type)
+        self.values.as![Aggregate].type_var() <- prefix_type %and node.type_var() <- prefix_type
     }
 }
 
@@ -15650,8 +15610,8 @@ class ParenExpr: Expr {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-        self.expr.sub_equation() %and %eq(node.expr.expected_type_var(), node.expected_type_var())
-    ) %and %eq(node.expr.type_var(), node.type_var())
+        self.expr.sub_equation() %and node.expr.expected_type_var() <-> node.expected_type_var()
+    ) %and node.expr.type_var() <-> node.type_var()
 }
 
 |" Quantified expression (:rmlink:`4.5.8`).
@@ -15668,13 +15628,13 @@ class QuantifiedExpr: Expr {
 
         if spec_success then (
             (
-                %eq(node.expr.expected_type_var(), node.bool_type()) %and {
+                node.expr.expected_type_var() <- node.bool_type() %and {
                     bind env = self.children_env();
 
                     self.expr.sub_equation()
                 }
             ) %and self.expr.matches_expected_formal_type()
-        ) %and %eq(node.type_var(), node.expr.type_var()) else %false
+        ) %and node.type_var() <-> node.expr.type_var() else %false
     }
 
     env_spec {
@@ -15691,11 +15651,11 @@ class RaiseExpr: Expr {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        self.exception_name.sub_equation() %and %eq(node.expected_type_var(), node.type_var()) %and self.error_message.do(
+        self.exception_name.sub_equation() %and node.expected_type_var() <-> node.type_var() %and self.error_message.do(
             (er) => (
                 # The expected type of that error message is always String,
                 # according to RM 11.3 - 3.1/2.
-                %eq(er.expected_type_var(), node.std_string_type())
+                er.expected_type_var() <- node.std_string_type()
             ) %and er.sub_equation(), default_val=%true
         )
 }
@@ -15714,12 +15674,12 @@ class UnOp: Expr {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.expr.sub_equation() %and (
         if node.in_aspect(s"Depends") or node.in_aspect(s"Refined_Depends") then %true else self.overload_equation() %or (
-            %eq(node.expected_type_var(), node.expr.expected_type_var())
+            node.expected_type_var() <-> node.expr.expected_type_var()
             %and {
                 bind logic_context=LogicContext(
                     ref_node=self.op, decl_node=null[Entity[AdaNode]]
                 );
-                %eq(node.type_var(), node.expr.type_var())
+                node.type_var() <-> node.expr.type_var()
             }
         )
     )
@@ -15745,13 +15705,13 @@ class UnOp: Expr {
                 (
                     spec.call_argument_equation(ps?[0].formal_decl(), self.expr) %and (
                         # The subprogram's return type is the type of self
-                        %eq(node.type_var(), spec.return_type())
+                        node.type_var() <- spec.return_type()
                     )
                 ) %and (
                     # The operator references the subprogram
-                    {bind logic_context = null[LogicContext]; %eq(node.op.ref_var(), subp)}
+                    {bind logic_context = null[LogicContext]; node.op.ref_var() <- subp}
                 )
-            ) %and {bind logic_context = null[LogicContext]; %eq(node.op.subp_spec_var(), spec)}
+            ) %and {bind logic_context = null[LogicContext]; node.op.subp_spec_var() <- spec}
         ) else %false
     }
 
@@ -15778,7 +15738,7 @@ class ForLoopIterFilter: AdaNode {
             (spec) => if spec.is_iterated_assoc_spec() then spec.resolve_names_from_closest_entry_point() else true
         );
 
-        %eq(node.expr.expected_type_var(), node.bool_type()) %and self.expr.sub_equation() %and self.expr.matches_expected_formal_type()
+        node.expr.expected_type_var() <- node.bool_type() %and self.expr.sub_equation() %and self.expr.matches_expected_formal_type()
     }
 
     fun xref_entry_point(): Bool = true
@@ -15793,7 +15753,7 @@ class FormatStringChunk: AdaNode {
     fun xref_equation(): Equation = self.expr.sub_equation() %and (
         # The RFC specifies that interpolated string expressions can be "of
         # any type", so we explicitly bind the expected type to null.
-        %eq(node.expr.expected_type_var(), null[AdaNode])
+        node.expr.expected_type_var() <- null[AdaNode]
     )
 }
 
@@ -15891,25 +15851,25 @@ class ForLoopSpec: LoopSpec {
                     binop.sub_equation() %and (
                         # The default type, if there is no other determined type, is
                         # Integer.
-                        %predicate(BaseTypeDecl.is_not_root_int_type, binop.type_var())
+                        BaseTypeDecl.is_not_root_int_type%(binop.type_var())
                     )
-                ) %and %eq(node.var_decl.id.type_var(), binop.type_var())
+                ) %and node.var_decl.id.type_var() <-> binop.type_var()
 
                 # Subtype indication case: the induction variable is of the
                 # type.
-                case t: SubtypeIndication => t.sub_equation() %and %eq(node.var_decl.id.type_var(), t.designated_type().canonical_type())
-                case r: AttributeRef => r.sub_equation() %and %eq(node.var_decl.id.type_var(), r.type_var())
+                case t: SubtypeIndication => t.sub_equation() %and node.var_decl.id.type_var() <- t.designated_type().canonical_type()
+                case r: AttributeRef => r.sub_equation() %and node.var_decl.id.type_var() <-> r.type_var()
 
                 # Name case: Either the name is a subtype indication, or an
                 # attribute on a subtype indication, in which case the logic is
                 # the same as above, either it's an expression that yields an
                 # iterator.
                 case t: Name => t.sub_equation() %and t.name_designated_type().do(
-                    (typ) => %eq(node.var_decl.id.type_var(), typ.canonical_type()), default_val=(
+                    (typ) => node.var_decl.id.type_var() <- typ.canonical_type(), default_val=(
                         # Make sure null is not a possible value to avoid a
                         # null dereference in the subsequent predicate.
-                        %predicate(AdaNode.is_not_null, t.type_var())
-                    ) %and %predicate(BaseTypeDecl.is_iterator_type, t.type_var()) %and %eq(node.var_decl.id.type_var(), t.type_var(), conv_prop=BaseTypeDecl.cursor_type)
+                        AdaNode.is_not_null%(t.type_var())
+                    ) %and BaseTypeDecl.is_iterator_type%(t.type_var()) %and node.var_decl.id.type_var() <- BaseTypeDecl.cursor_type%(t.type_var())
                 )
                 case _ => %true
             }
@@ -15920,10 +15880,10 @@ class ForLoopSpec: LoopSpec {
                 (iter_expr) => (
                     (
                         self.var_decl.id_type.do(
-                            (typ) => %eq(iter_expr.expected_type_var(), typ.designated_type()), default_val=%true
+                            (typ) => iter_expr.expected_type_var() <- typ.designated_type(), default_val=%true
                         ) %and iter_expr.sub_equation()
-                    ) %and %predicate(AdaNode.is_not_null, iter_expr.type_var())
-                ) %and %eq(node.var_decl.id.type_var(), iter_expr.type_var(), conv_prop=BaseTypeDecl.iterable_comp_type_or_null), default_val=%false
+                    ) %and AdaNode.is_not_null%(iter_expr.type_var())
+                ) %and node.var_decl.id.type_var() <- BaseTypeDecl.iterable_comp_type_or_null%(iter_expr.type_var()), default_val=%false
             )
         }
 
@@ -16051,7 +16011,7 @@ class Pragma: AdaNode {
         } %and self.args?[1].do(
             (arg) => arg.assoc_expr().do(
                 (msg) => (
-                    %eq(msg.expected_type_var(), node.std_string_type()) %and msg.sub_equation()
+                    msg.expected_type_var() <- node.std_string_type() %and msg.sub_equation()
                 ) %and msg.matches_expected_type(), default_val=%true
             ), default_val=%true
         )
@@ -16067,7 +16027,7 @@ class Pragma: AdaNode {
                     then %true
                     else expr.as[Identifier].xref_no_overloading()
                 ) else (
-                    %eq(expr.expected_type_var(), node.std_string_type())
+                    expr.expected_type_var() <- node.std_string_type()
                     %and expr.sub_equation()
                     %and expr.matches_expected_type()
                 ),
@@ -16082,7 +16042,7 @@ class Pragma: AdaNode {
         elif self.id.name_symbol() in s"Style_Checks" | s"Import_Function" | s"Import_Procedure" then %true
         elif self.id.name_symbol() in s"Pre" | s"Post" | s"Pre'Class" | s"Post'Class" | s"Precondition" | s"Postcondition" | s"Precondition'Class" | s"Postcondition'Class" | s"Initial_Condition" then self.args?[0].assoc_expr().do(
             (expr) => (
-                %eq(expr.expected_type_var(), node.bool_type()) %and expr.sub_equation()
+                expr.expected_type_var() <- node.bool_type() %and expr.sub_equation()
             ) %and expr.matches_expected_formal_type(), default_val=%false
         )
         elif self.id.name_is(s"Test_Case") then self.args.filter(
@@ -16091,7 +16051,7 @@ class Pragma: AdaNode {
             )
         ).logic_all(
             (arg) => (
-                %eq(arg.assoc_expr().expected_type_var(), node.bool_type()) %and arg.assoc_expr().sub_equation()
+                arg.assoc_expr().expected_type_var() <- node.bool_type() %and arg.assoc_expr().sub_equation()
             ) %and arg.assoc_expr().matches_expected_formal_type()
         )
         elif self.id.name_is(s"Contract_Cases") then self.args?[0].assoc_expr().as[BaseAggregate].assocs.logic_all(
@@ -16104,13 +16064,13 @@ class Pragma: AdaNode {
                 val expr = self.args?[0].assoc_expr();
 
                 (
-                    %eq(expr.expected_type_var(), node.bool_type()) %and expr.sub_equation()
+                    expr.expected_type_var() <- node.bool_type() %and expr.sub_equation()
                 ) %and expr.matches_expected_formal_type()
             } else %true
         ) %and {
             val proc = self.args?[self.args.length() - 1]?.assoc_expr();
 
-            %eq(proc.type_var(), null[Entity[BaseTypeDecl]]) %and proc.sub_equation()
+            proc.type_var() <- null[Entity[BaseTypeDecl]] %and proc.sub_equation()
         }
         elif self.id.name_is(s"Annotate") then (
             # For the Annotate pragma, the first two identifiers are not
@@ -16407,12 +16367,12 @@ class AcceptStmt: CompositeStmt {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        %eq(node.body_decl.name.ref_var(), self.designated_entry()) %and self.entry_index_expr.do(
+        node.body_decl.name.ref_var() <- self.designated_entry() %and self.entry_index_expr.do(
             (e) => (
                 # :rmlink:`9.5.2`: The expected type for entry_index_expr is
                 # that of the type defined by the definition of the
                 # corresponding entry declaration.
-                %eq(e.expected_type_var(), self.designated_entry().family_type())
+                e.expected_type_var() <- self.designated_entry().family_type()
             ) %and e.sub_equation(), default_val=%true
         )
 
@@ -16503,10 +16463,10 @@ class CaseStmt: CompositeStmt {
             # First make sure null is not a possible value for the type of
             # the expression so as to avoid a null check in subsequent
             # predicates.
-            %predicate(AdaNode.is_not_null, node.expr.type_var())
+            AdaNode.is_not_null%(node.expr.type_var())
         ) %and (
             # Then make sure it is a discrete type
-            %predicate(BaseTypeDecl.is_discrete_type, node.expr.type_var())
+            BaseTypeDecl.is_discrete_type%(node.expr.type_var())
         )
     )
 }
@@ -16578,7 +16538,7 @@ class AbortStmt: SimpleStmt {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.names.logic_all(
-        (name) => name.sub_equation() %and %predicate(BaseTypeDecl.is_task_type, name.type_var())
+        (name) => name.sub_equation() %and BaseTypeDecl.is_task_type%(name.type_var())
     )
 }
 
@@ -16594,7 +16554,7 @@ class AssignStmt: SimpleStmt {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
         (
-            self.dest.sub_equation() %and %eq(node.expr.expected_type_var(), node.dest.type_var(), conv_prop=BaseTypeDecl.derefed_type)
+            self.dest.sub_equation() %and node.expr.expected_type_var() <- BaseTypeDecl.derefed_type%(node.dest.type_var())
         ) %and self.expr.sub_equation()
     ) %and node.expr.matches_expected_assign_type()
 }
@@ -16606,7 +16566,7 @@ class CallStmt: SimpleStmt {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.call.sub_equation() %and (
         # Call statements can have no return value
-        %eq(node.call.type_var(), null[Entity[AdaNode]])
+        node.call.type_var() <- null[Entity[AdaNode]]
     )
 }
 
@@ -16617,7 +16577,7 @@ class DelayStmt: SimpleStmt {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.expr.sub_equation() %and (
-        if node.has_until.as_bool() then %true else %eq(node.expr.expected_type_var(), node.std_entity(s"Duration")) %and self.expr.matches_expected_type()
+        if node.has_until.as_bool() then %true else node.expr.expected_type_var() <- node.std_entity(s"Duration") %and self.expr.matches_expected_type()
     )
 }
 
@@ -16669,7 +16629,7 @@ class RaiseStmt: SimpleStmt {
         (er) => (
             # The expected type of that error message is always String,
             # according to RM 11.3 - 3.1/2.
-            %eq(er.expected_type_var(), node.std_string_type())
+            er.expected_type_var() <- node.std_string_type()
         ) %and er.sub_equation(), default_val=%true
     )
 }
@@ -16753,7 +16713,7 @@ class RequeueStmt: SimpleStmt {
 
                     first_param.do(
                         (p) => p.sub_equation() %and fam_type.do(
-                            (eft) => %eq(p.expected_type_var(), eft) %and p.matches_expected_type(), default_val=%true
+                            (eft) => p.expected_type_var() <- eft %and p.matches_expected_type(), default_val=%true
                         ), default_val=%true
                     )
                 }
@@ -16773,7 +16733,7 @@ class ReturnStmt: SimpleStmt {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = self.return_expr.do(
         (rexpr) => (
-            %eq(rexpr.expected_type_var(), self.subp().subp_spec.returns().designated_type()) %and rexpr.sub_equation()
+            rexpr.expected_type_var() <- self.subp().subp_spec.returns().designated_type() %and rexpr.sub_equation()
         ) %and rexpr.matches_expected_assign_type(), default_val=%true
     )
 }
@@ -16885,7 +16845,7 @@ class Subunit: AdaNode {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        %eq(node.name.ref_var(), self.body_root()) %and (
+        node.name.ref_var() <- self.body_root() %and (
             # Bind the parent unit's name to the enclosing body for this
             # subunit.
             self.name.as[DottedName].do(
@@ -18521,7 +18481,7 @@ class VariantPart: AdaNode {
             (var) => var.choices.logic_all(
                 (c) => match c {
                     # Expression case
-                    case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else %eq(e.expected_type_var(), node.discr_name.type_val()) %and e.sub_equation() %and e.matches_expected_type()
+                    case e: Expr => if e is Name and not e.as[Name].name_designated_type().is_null then e.as[Name].xref_type_equation() else e.expected_type_var() <- node.discr_name.type_val() %and e.sub_equation() %and e.matches_expected_type()
 
                     # SubtypeIndication case (``when Color range Red .. Blue``)
                     case t: SubtypeIndication => t.xref_equation()
@@ -18570,7 +18530,7 @@ class WithClause: AdaNode {
     |" a name in a with clause), return an xref equation that binds every
     |" part of the name to its corresponding library-level declarations.
     fun child_unit_xref_equation(name: Name): Equation = {
-        val self_eq = %eq(name.ref_var(), node.withed_unit_helper(name)?.decl());
+        val self_eq = name.ref_var() <- node.withed_unit_helper(name)?.decl();
 
         self_eq %and name.as[DottedName].do(
             (dn) => self.child_unit_xref_equation(dn.prefix), default_val=%true

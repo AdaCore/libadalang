@@ -898,11 +898,18 @@ grammar ada_grammar {
     identifier <- Identifier(@Identifier)
     char_literal <- CharLiteral(@Char)
     string_literal <- StringLiteral(@String)
-    format_string_literal <- FormatStringLiteral(
-        FormatStringTokStart(@FormatStringStart)
-        list*(FormatStringChunk(expr
-        FormatStringTokMid(@FormatStringMid)))
-        FormatStringChunk(expr FormatStringTokEnd(@FormatStringEnd))
+    format_string_literal <- or(
+        # A regular string interpolation
+        FormatStringLiteral(
+            FormatStringTokStart(@FormatStringStart)
+            list*(FormatStringChunk(expr
+            FormatStringTokMid(@FormatStringMid)))
+            FormatStringChunk(expr FormatStringTokEnd(@FormatStringEnd)))
+        # Special case of string interpolation without expressions to expand
+        | FormatStringLiteral(
+            FormatStringTokString(@FormatStringString)
+            null(ASTList[FormatStringChunk]) null(FormatStringChunk)
+        )
     )
     defining_id <- DefiningName(identifier)
     dec_literal <- RealLiteral(@Decimal)

@@ -12080,13 +12080,21 @@ class DeclExpr: Expr {
 class FormatStringLiteral: Expr {
     @parse_field opening_chunk: FormatStringTokStart
     @parse_field mid_exprs: ASTList[FormatStringChunk]
-    @parse_field trailing_expr: FormatStringChunk
+    # This field is null when no expressions to expand are given in the
+    # interpolated string, for example with `f"a dummy interpolated string"`.
+    @parse_field @nullable trailing_expr: FormatStringChunk
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = (
-        (
-            %predicate(BaseTypeDecl.allows_string_literal, node.expected_type_var(), error_location=node) and %eq(node.expected_type_var(), node.type_var())
-        ) and self.trailing_expr.sub_equation()
+         %predicate(
+             BaseTypeDecl.allows_string_literal,
+             node.expected_type_var(),
+             error_location=node
+         ) and %eq(node.expected_type_var(), node.type_var())
+         and self.trailing_expr.do(
+            (te) => te.sub_equation(),
+            default_val=%true
+         )
     ) and self.mid_exprs.logic_all((m) => m.expr.sub_equation())
 }
 
@@ -15799,6 +15807,11 @@ class FormatStringTokMid: FormatStringTokNode implements TokenNode {
 
 |" Node holding a formatting "start" token.
 class FormatStringTokStart: FormatStringTokNode implements TokenNode {
+}
+
+|" Node holding a formatting "string" token. This token is used when the
+|" corresponding interpolated string doesn't have any expression to expand.
+class FormatStringTokString: FormatStringTokStart implements TokenNode {
 }
 
 |" List of statements, with optional exception handlers (:rmlink:`11.2`).

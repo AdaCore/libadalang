@@ -27,6 +27,7 @@ package body Highlighter is
          Ada_Format_String_End
            | Ada_Format_String_Mid
            | Ada_Format_String_Start
+           | Ada_Format_String_String
            | Ada_String
          => String_Literal,
 

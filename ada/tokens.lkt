@@ -4,9 +4,10 @@ lexer ada_lexer {
     val p_format_string_start = p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
     val p_format_string_mid = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
     val p_format_string_end = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
-    # String literal that can be used in interpolated strings (a simple literal
-    # without expressions to expand).
+
+    # Simple format string literal without expressions to expand
     val p_format_string_string = p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
+
     val p_percent_string = p"%(%%|{bracket_char}|[^\\n%])*%"
     val digit = p"[0-9]"
     val extended_digit = p"[0-9a-zA-Z]"

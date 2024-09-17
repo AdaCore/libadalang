@@ -12080,6 +12080,7 @@ class DeclExpr: Expr {
 class FormatStringLiteral: Expr {
     @parse_field opening_chunk: FormatStringTokStart
     @parse_field mid_exprs: ASTList[FormatStringChunk]
+
     # This field is null when no expressions to expand are given in the
     # interpolated string, for example with `f"a dummy interpolated string"`.
     @parse_field @nullable trailing_expr: FormatStringChunk

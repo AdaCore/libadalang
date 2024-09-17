@@ -899,13 +899,14 @@ grammar ada_grammar {
     char_literal <- CharLiteral(@Char)
     string_literal <- StringLiteral(@String)
     format_string_literal <- or(
-        # A regular string interpolation
+        # String interpolation with interpolated expressions
         FormatStringLiteral(
             FormatStringTokStart(@FormatStringStart)
-            list*(FormatStringChunk(expr
-            FormatStringTokMid(@FormatStringMid)))
-            FormatStringChunk(expr FormatStringTokEnd(@FormatStringEnd)))
-        # Special case of string interpolation without expressions to expand
+            list*(FormatStringChunk(expr FormatStringTokMid(@FormatStringMid)))
+            FormatStringChunk(expr FormatStringTokEnd(@FormatStringEnd))
+        )
+
+        # String interpolation without interpolated expressions
         | FormatStringLiteral(
             FormatStringTokString(@FormatStringString)
             null(ASTList[FormatStringChunk]) null(FormatStringChunk)

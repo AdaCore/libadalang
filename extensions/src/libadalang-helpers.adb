@@ -672,7 +672,6 @@ package body Libadalang.Helpers is
       Absent_Dir_Error         : GPR2.Error_Level := GPR2.Warning)
    is
       Options : GPR2.Options.Object;
-      Error   : Boolean := False;
 
       procedure Set_Scenario_Var (Name, Value : String);
       --  Set the given scenario variable in ``Ctx``
@@ -695,43 +694,31 @@ package body Libadalang.Helpers is
       --  Load the project tree with either a config file (if given) or the
       --  requested target/runtime, and beware of loading errors
 
-      begin
-         Options.Add_Switch (GPR2.Options.P, Project_File);
+      Options.Add_Switch (GPR2.Options.P, Project_File);
 
-         if Config_File /= "" then
-            if Target /= "" or else RTS /= "" then
-               Abort_App
-                 ("--config not allowed if --target or --RTS are passed");
-            end if;
-            Options.Add_Switch (GPR2.Options.Config, Config_File);
+      if Config_File /= "" then
+         if Target /= "" or else RTS /= "" then
+            Abort_App
+              ("--config not allowed if --target or --RTS are passed");
          end if;
+         Options.Add_Switch (GPR2.Options.Config, Config_File);
+      end if;
 
-         if Target /= "" then
-            Options.Add_Switch (GPR2.Options.Target, Target);
-         end if;
+      if Target /= "" then
+         Options.Add_Switch (GPR2.Options.Target, Target);
+      end if;
 
-         if RTS /= "" then
-            Options.Add_Switch (GPR2.Options.RTS, RTS);
-         end if;
+      if RTS /= "" then
+         Options.Add_Switch (GPR2.Options.RTS, RTS);
+      end if;
 
-         Error := not Project.Load
-           (Options,
-            With_Runtime         => True,
-            Artifacts_Info_Level => GPR2.Sources_Units,
-            Absent_Dir_Error     => Absent_Dir_Error);
-      exception
-         when Exc : GPR2.Project_Error =>
-            Error := True;
-            Libadalang.Project_Provider.Trace.Trace
-              ("Loading failed: " & Exception_Message (Exc));
-      end;
-
-      --  Whether the project loaded successfully or not, print messages since
-      --  they may contain warnings. If there was an error, abort the App.
-
-      Error := Error or else Project.Log_Messages.Has_Error;
-
-      if Error then
+      if not Project.Load
+        (Options,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units,
+         Absent_Dir_Error     => Absent_Dir_Error)
+      then
+         Libadalang.Project_Provider.Trace.Trace ("Loading failed");
          Abort_App;
       end if;
 

@@ -16,7 +16,6 @@ with GPR2.Build.Compilation_Unit;
 pragma Warnings (Off, "not referenced");
 with GPR2.Build.Source.Sets;
 pragma Warnings (On, "not referenced");
-with GPR2.Log;
 
 with Libadalang.GPR_Utils;      use Libadalang.GPR_Utils;
 with Libadalang.Implementation; use Libadalang.Implementation;

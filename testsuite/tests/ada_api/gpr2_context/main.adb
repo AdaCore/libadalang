@@ -51,10 +51,11 @@ procedure Main is
       --  Load the requested tree and fetch the requested project (if any)
 
       Options.Add_Switch (GPR2.Options.P, Root_Project);
-      if not Tree.Load (Options, With_Runtime => True) then
-         raise Program_Error;
-      end if;
-      if not Update_Sources (Tree) then
+      if not Tree.Load
+        (Options,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units)
+      then
          raise Program_Error;
       end if;
       if Project /= "" then

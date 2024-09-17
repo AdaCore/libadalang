@@ -170,11 +170,6 @@ package Libadalang.Project_Provider is
    --  project loaded. Raise ``Source_Missing_Info_Error`` if it does not have
    --  source information loaded.
 
-   function Update_Sources (Tree : GPR2.Project.Tree.Object) return Boolean;
-   --  Call ``GPR2.Project.Tree.Update_Sources``, print potential
-   --  warnings/errors. Return ``True`` if there was no error, ``False``
-   --  otherwise.
-
    type GPR2_Provider_And_Projects is record
       Provider : LAL.Unit_Provider_Reference;
       Projects : GPR2.Project.View.Vector.Object;

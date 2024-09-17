@@ -1174,15 +1174,6 @@ package body Libadalang.Project_Provider is
       end if;
    end Check_Source_Info;
 
-   --------------------
-   -- Update_Sources --
-   --------------------
-
-   function Update_Sources (Tree : GPR2.Project.Tree.Object) return Boolean is
-   begin
-      return Tree.Update_Sources;
-   end Update_Sources;
-
    -----------------------------------
    -- Create_Project_Unit_Providers --
    -----------------------------------

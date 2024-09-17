@@ -84,8 +84,10 @@ procedure Projects is
          GPR2_Mapping : Config_Pragmas_Mapping;
       begin
          Options.Add_Switch (GPR2.Options.P, Root_Project);
-         if not Tree.Load (Options, With_Runtime => True)
-            or else not Update_Sources (Tree)
+         if not Tree.Load
+           (Options,
+            With_Runtime         => True,
+            Artifacts_Info_Level => GPR2.Sources_Units)
          then
             raise Program_Error;
          end if;

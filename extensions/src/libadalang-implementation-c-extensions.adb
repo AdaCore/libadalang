@@ -217,17 +217,14 @@ package body Libadalang.Implementation.C.Extensions is
          begin
             if not Tree.Load
               (Options,
-               Reporter         => GPR2_Reporter,
-               Absent_Dir_Error => GPR2.No_Error,
-               With_Runtime     => True)
+               With_Runtime         => True,
+               Reporter             => GPR2_Reporter,
+               Artifacts_Info_Level => GPR2.Sources_Units,
+               Absent_Dir_Error     => GPR2.No_Error)
             then
                raise GPR2.Project_Error with
                  "fatal error, cannot load the project tree";
             end if;
-
-            --  Now load information for all source files
-
-            Tree.Update_Sources;
          exception
             when E : GPR2.Project_Error =>
                Save_Occurrence (Exc, E);

@@ -716,16 +716,15 @@ package body Libadalang.Helpers is
 
          Error := not Project.Load
            (Options,
-            With_Runtime     => True,
-            Absent_Dir_Error => Absent_Dir_Error);
+            With_Runtime         => True,
+            Artifacts_Info_Level => GPR2.Sources_Units,
+            Absent_Dir_Error     => Absent_Dir_Error);
       exception
          when Exc : GPR2.Project_Error =>
             Error := True;
             Libadalang.Project_Provider.Trace.Trace
               ("Loading failed: " & Exception_Message (Exc));
       end;
-
-      Error := Error or else not Update_Sources (Project);
 
       --  Whether the project loaded successfully or not, print messages since
       --  they may contain warnings. If there was an error, abort the App.

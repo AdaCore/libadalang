@@ -39,8 +39,10 @@ procedure Main is
          Put_Line ("   Targetting subproject " & Project);
       end if;
       Options.Add_Switch (GPR2.Options.P, File);
-      if not Tree.Load (Options, With_Runtime => True)
-         or else not Update_Sources (Tree)
+      if not Tree.Load
+        (Options,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units)
       then
          raise Program_Error;
       end if;

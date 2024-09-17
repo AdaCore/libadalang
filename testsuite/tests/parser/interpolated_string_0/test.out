@@ -1,0 +1,26 @@
+FormatStringLiteral[1:1-1:20]
+|f_opening_chunk:
+|  FormatStringTokStart[1:1-1:5]: f"a{
+|f_mid_exprs:
+|  FormatStringChunkList[1:5-1:17]
+|  |  FormatStringChunk[1:5-1:9]
+|  |  |f_expr:
+|  |  |  Id[1:5-1:6]: A
+|  |  |f_string_tok:
+|  |  |  FormatStringTokMid[1:6-1:9]: }B{
+|  |  FormatStringChunk[1:9-1:13]
+|  |  |f_expr:
+|  |  |  Id[1:9-1:10]: B
+|  |  |f_string_tok:
+|  |  |  FormatStringTokMid[1:10-1:13]: }C{
+|  |  FormatStringChunk[1:13-1:17]
+|  |  |f_expr:
+|  |  |  Id[1:13-1:14]: C
+|  |  |f_string_tok:
+|  |  |  FormatStringTokMid[1:14-1:17]: }D{
+|f_trailing_expr:
+|  FormatStringChunk[1:17-1:20]
+|  |f_expr:
+|  |  Id[1:17-1:18]: D
+|  |f_string_tok:
+|  |  FormatStringTokEnd[1:18-1:20]: }"

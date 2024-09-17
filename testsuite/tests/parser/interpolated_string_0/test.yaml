@@ -1,0 +1,2 @@
+driver: parser
+rule: format_string_literal

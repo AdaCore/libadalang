@@ -1,0 +1,6 @@
+FormatStringLiteral[1:1-1:7]
+|f_opening_chunk:
+|  FormatStringTokString[1:1-1:7]: f"lol"
+|f_mid_exprs:
+|  FormatStringChunkList[1:7-1:7]: <empty list>
+|f_trailing_expr: <null>

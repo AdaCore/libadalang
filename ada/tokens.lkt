@@ -4,6 +4,10 @@ lexer ada_lexer {
     val p_format_string_start = p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
     val p_format_string_mid = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
     val p_format_string_end = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
+
+    # Simple format string literal without expressions to expand
+    val p_format_string_string = p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
+
     val p_percent_string = p"%(%%|{bracket_char}|[^\\n%])*%"
     val digit = p"[0-9]"
     val extended_digit = p"[0-9a-zA-Z]"
@@ -161,6 +165,7 @@ lexer ada_lexer {
     }
 
     String <- or(p"{p_string}" | p"{p_percent_string}")
+    FormatStringString <- p"{p_format_string_string}"
     FormatStringStart <- p"{p_format_string_start}"
     FormatStringMid <- p"{p_format_string_mid}"
     FormatStringEnd <- p"{p_format_string_end}"

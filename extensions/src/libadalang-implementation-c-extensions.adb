@@ -9,10 +9,9 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 
-with GNAT.Task_Lock;
-
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Projects;   use GNATCOLL.Projects;
+with GNATCOLL.Refcount;   use GNATCOLL.Refcount;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
 with GPR2.Containers;
 with GPR2.Message;
@@ -85,25 +84,22 @@ package body Libadalang.Implementation.C.Extensions is
    -- GPR2 Message Reporter --
    ---------------------------
 
-   --  The following declares a singleton GPR2 message reporter (a global data
-   --  structure, see eng/gpr/gpr-issues#354) whose only purpose is to store
-   --  reported message to a global vector. This allows us to gather all
-   --  emitted messages during project loading. Since global resources are
-   --  involved, usage of this singleton/vector needs to be protected by
-   --  GNAT.Task_Lock.
+   package String_Vector_Refs is new GNATCOLL.Refcount.Shared_Pointers
+     (String_Vectors.Vector);
 
-   type GPR2_Reporter_Type is new GPR2.Reporter.Object
-   with record
-      Messages : String_Vectors.Vector;
+   --  Custom GPR2 reporter that intercepts all the messages sent to it so that
+   --  we can hand them over the C API.
+
+   type GPR2_Reporter_Type is new GPR2.Reporter.Object with record
+      Messages : String_Vector_Refs.Ref;
    end record;
 
    overriding procedure Internal_Report
      (Self : in out GPR2_Reporter_Type; Message : GPR2.Message.Object);
-   overriding function Verbosity
-     (Self : GPR2_Reporter_Type) return GPR2.Reporter.Verbosity_Level is
-        (GPR2.Reporter.Regular);
 
-   GPR2_Reporter          : GPR2_Reporter_Type;
+   overriding function Verbosity
+     (Self : GPR2_Reporter_Type) return GPR2.Reporter.Verbosity_Level
+   is (GPR2.Reporter.Regular);
 
    -------------------------
    -- Scenario_Vars_Count --
@@ -204,21 +200,18 @@ package body Libadalang.Implementation.C.Extensions is
 
       --  Load the project tree and include source information.
       --
-      --  The processing of messages involves a global data structure
-      --  (GPR2.Message.Register_Reporter), so run this in a critical section.
+      --  Never complain about missing directories: most of the time for
+      --  users, this is noise about object directories.
 
+      declare
+         Reporter : GPR2_Reporter_Type;
       begin
-         GNAT.Task_Lock.Lock;
-         GPR2_Reporter.Messages.Clear;
-
-         --  Never complain about missing directories: most of the time for
-         --  users, this is noise about object directories.
-
          begin
+            Reporter.Messages.Set (String_Vectors.Empty_Vector);
             if not Tree.Load
               (Options,
                With_Runtime         => True,
-               Reporter             => GPR2_Reporter,
+               Reporter             => Reporter,
                Artifacts_Info_Level => GPR2.Sources_Units,
                Absent_Dir_Error     => GPR2.No_Error)
             then
@@ -230,19 +223,11 @@ package body Libadalang.Implementation.C.Extensions is
                Save_Occurrence (Exc, E);
          end;
 
-         GNAT.Task_Lock.Unlock;
-      exception
-         when others =>
-            GNAT.Task_Lock.Unlock;
-            raise;
+         --  Forward warnings and errors sent to the GPR2 message reporter
+         --  to Errors.
+
+         Errors.Append_Vector (Reporter.Messages.Get);
       end;
-
-      --  Forward warnings and errors sent to the GPR2 message reporter
-      --  to Errors.
-
-      Errors.Append_Vector
-        (GPR2_Reporter_Type (Tree.Reporter.Element.all).Messages);
-      GPR2_Reporter_Type (Tree.Reporter.Element.all).Messages.Clear;
    end Load_Project;
 
    -------------------
@@ -270,7 +255,7 @@ package body Libadalang.Implementation.C.Extensions is
    overriding procedure Internal_Report
      (Self : in out GPR2_Reporter_Type; Message : GPR2.Message.Object) is
    begin
-      Self.Messages.Append (To_Unbounded_String (Message.Format));
+      Self.Messages.Get.Append (To_Unbounded_String (Message.Format));
    end Internal_Report;
 
    ---------------------------

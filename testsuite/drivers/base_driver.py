@@ -332,7 +332,7 @@ class BaseDriver(DiffTestDriver):
                 # Callgrind outputs the number of executed instructions in its
                 # trace. Search for the line containing "Collected".
                 ir = "0"
-                for line in result.splitlines():
+                for line in reversed(result.splitlines()):
                     if "Collected" in line:
                         ir = line.split()[-1]
                         break

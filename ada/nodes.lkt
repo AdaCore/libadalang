@@ -48,7 +48,7 @@ class AdaNode implements Node[AdaNode] {
 
     |" Return the kind of the compilation unit owning this node.
     fun owning_unit_kind(): AnalysisUnitKind =
-        node.unit().root.as![CompilationUnit].unit_kind()
+        node.unit.root.as![CompilationUnit].unit_kind()
 
     |" Static method helper. Fetch the unit designated by unit_name. Return
     |" the compilation unit node.
@@ -275,7 +275,7 @@ class AdaNode implements Node[AdaNode] {
     fun add_rebinding(base: EnvRebindings,
                       old_env: LexicalEnv,
                       new_env: LexicalEnv): EnvRebindings = {
-        val parent_env = new_env.env_node.node_env();
+        val parent_env = new_env.env_node.node_env;
 
         if (
             base.is_null
@@ -289,7 +289,7 @@ class AdaNode implements Node[AdaNode] {
                 lookup=LookupKind.minimal
             ).as[GenericPackageInstantiation].do(
                 (gpi) => {
-                    val gen_env = gpi.nonbound_generic_decl_from_self().node.children_env();
+                    val gen_env = gpi.nonbound_generic_decl_from_self().node.children_env;
                     val info = EntityInfo(
                         md=null[Metadata],
                         rebindings=node.add_rebinding(
@@ -358,7 +358,7 @@ class AdaNode implements Node[AdaNode] {
     |"     this property will return null.
     @exported
     fun semantic_parent(): Entity[AdaNode] =
-        self.semantic_parent_helper(self.node_env())
+        self.semantic_parent_helper(self.node_env)
 
     |" Recursively call ``semantic_parent`` to get all the semantic parents
     |" of this node.
@@ -522,7 +522,7 @@ class AdaNode implements Node[AdaNode] {
     |" Return the environment to bind initially during the construction of the
     |" xref equation for this node. Note that this only makes sense if this
     |" node is an xref entry point.
-    fun xref_initial_env(): LexicalEnv = self.children_env()
+    fun xref_initial_env(): LexicalEnv = self.children_env
 
     |" This property can be used when an xref_equation needs to bind one of
     |" self's logic vars (given in ``dest``) to one of ``outer_node``'s logic
@@ -714,12 +714,12 @@ class AdaNode implements Node[AdaNode] {
         node.standard_unit().root.as[CompilationUnit].body.as[LibraryItem].item.as_bare_entity
 
     |" Get the children env of the Standard package.
-    fun std_env(): LexicalEnv = node.std().children_env()
+    fun std_env(): LexicalEnv = node.std().children_env
 
     |" Static property. Return an entity from the standard package with name ``sym``.
     @exported
     fun std_entity(sym: Symbol): Entity[AdaNode] =
-        node.unit().root.std_entity_implem(sym)
+        node.unit.root.std_entity_implem(sym)
 
     @memoized
     fun std_entity_implem(sym: Symbol): Entity[AdaNode] = node.std_env().get_first(
@@ -783,7 +783,7 @@ class AdaNode implements Node[AdaNode] {
     |" Static method. Return the package containing the definitions of the
     |" root types.
     fun std_root_types(): LexicalEnv =
-        node.std_entity(s"root_types_").as[PackageDecl]?.children_env()
+        node.std_entity(s"root_types_").as[PackageDecl]?.children_env
 
     |" Static method. Return the root_integer type.
     fun root_int_type(): Entity[BaseTypeDecl] = node.std_root_types().get_first(
@@ -798,7 +798,7 @@ class AdaNode implements Node[AdaNode] {
     |" Static method. Return the System.Address type.
     fun system_address_type(): Entity[BaseTypeDecl] = node.get_unit_root_decl(
         [s"System"], AnalysisUnitKind.unit_specification
-    )?.children_env().get_first(s"Address", lookup=LookupKind.flat).as[BaseTypeDecl]
+    )?.children_env.get_first(s"Address", lookup=LookupKind.flat).as[BaseTypeDecl]
 
     |" See ``root_type_ops``.
     @memoized
@@ -812,29 +812,29 @@ class AdaNode implements Node[AdaNode] {
     |" used for fast-access to predefined operator on root types.
     fun root_type_ops(sym: Symbol): Array[Entity[BasicDecl]] =
         # Typical strategy for memoizing "static" functions
-        node.unit().root.root_type_ops_impl(sym)
+        node.unit.root.root_type_ops_impl(sym)
 
     |" Return the type Ada.Exceptions.Exception_Id.
     fun exc_id_type(): Entity[BaseTypeDecl] = node.get_unit_root_decl(
         [s"Ada", s"Exceptions"], AnalysisUnitKind.unit_specification
-    )?.children_env().get_first(s"Exception_Id", lookup=LookupKind.flat).as[BaseTypeDecl]
+    )?.children_env.get_first(s"Exception_Id", lookup=LookupKind.flat).as[BaseTypeDecl]
 
     |" Return the type Ada.Task_Identification.Task_Id.
     fun task_id_type(): Entity[BaseTypeDecl] = node.get_unit_root_decl(
         [s"Ada", s"Task_Identification"], AnalysisUnitKind.unit_specification
-    )?.children_env().get_first(s"Task_Id", lookup=LookupKind.flat).as[BaseTypeDecl]
+    )?.children_env.get_first(s"Task_Id", lookup=LookupKind.flat).as[BaseTypeDecl]
 
     |" Return the type Ada.Strings.Text_Buffers.Root_Buffer_Type
     fun root_buffer_type(): Entity[BaseTypeDecl] = node.get_unit_root_decl(
         [s"Ada", s"Strings", s"Text_Buffers"], AnalysisUnitKind.unit_specification
-    )?.children_env().get_first(
+    )?.children_env.get_first(
         s"Root_Buffer_Type", lookup=LookupKind.flat
     ).as[BaseTypeDecl]
 
     |" Return the type Ada.Streams.Root_Stream_Type
     fun root_stream_type(): Entity[BaseTypeDecl] = node.get_unit_root_decl(
         [s"Ada", s"Streams"], AnalysisUnitKind.unit_specification
-    )?.children_env().get_first(
+    )?.children_env.get_first(
         s"Root_Stream_Type", lookup=LookupKind.flat
     ).as[BaseTypeDecl].classwide_type().as[BaseTypeDecl]
 
@@ -842,7 +842,7 @@ class AdaNode implements Node[AdaNode] {
     fun big_integer_type(): Entity[BaseTypeDecl] = node.get_unit_root_decl(
         [s"Ada", s"Numerics", s"Big_Numbers", s"Big_Integers"],
         AnalysisUnitKind.unit_specification
-    )?.children_env().get_first(
+    )?.children_env.get_first(
         s"Big_Integer", lookup=LookupKind.flat
     ).as[BaseTypeDecl]
 
@@ -875,7 +875,7 @@ class AdaNode implements Node[AdaNode] {
     |" same visibility privileges of private parts (i.e. they can see "private
     |" with"s).
     fun has_private_part_parent(barrier: AdaNode): Bool = node is PrivatePart or (
-        node != barrier and node.node_env().env_node.do(
+        node != barrier and node.node_env.env_node.do(
             (parent) => parent.has_private_part_parent(barrier), default_val=true
         )
     )
@@ -886,7 +886,7 @@ class AdaNode implements Node[AdaNode] {
     |" private part.
     fun has_private_with_visibility(self_cu: CompilationUnit, refd_unit: AnalysisUnit): Bool = (
         # If the referenced unit is ourself, we don't need further checks
-        node.unit() == refd_unit
+        node.unit == refd_unit
     ) or (
         # If we have view on "private with"s, we don't need further checks
         self_cu.has_private_view(node)
@@ -905,7 +905,7 @@ class AdaNode implements Node[AdaNode] {
 
         (
             # First, check whether this unit "with"s the referenced unit
-            refd_unit.is_referenced_from(node.unit()) and (
+            refd_unit.is_referenced_from(node.unit) and (
                 omit_privacy_check or node.has_private_with_visibility(cu, refd_unit)
             )
         ) or (
@@ -957,7 +957,7 @@ class AdaNode implements Node[AdaNode] {
                 not other_entity.as[BasicDecl]?.is_compilation_unit_root()
             ) or (
                 # Else, check with visibility
-                node.has_with_visibility(other_entity.node.unit())
+                node.has_with_visibility(other_entity.node.unit)
             )
         )
 
@@ -1057,7 +1057,7 @@ class AdaNode implements Node[AdaNode] {
         val gen_decl = node.as_bare_entity.as[Body]?.safe_generic_decl_part();
 
         gen_decl.do(
-            (gd) => gd.node.children_env(), default_val=node.empty_env()
+            (gd) => gd.node.children_env, default_val=node.empty_env()
         )
     }
 
@@ -1068,7 +1068,7 @@ class AdaNode implements Node[AdaNode] {
     |" Provide the default lexical environment to use in EnvSpec's
     |" initial_env.
     fun default_initial_env(): LexicalEnv = node.parent.do(
-        (p) => p.children_env(), default_val=node.children_env()
+        (p) => p.children_env, default_val=node.children_env
     )
 
     |" Static method. Get the top-level decl in ``unit``.  This is the body of
@@ -1079,7 +1079,7 @@ class AdaNode implements Node[AdaNode] {
 
     |" Static method. DefiningName for all parameters.
     fun unpack_formals(formal_params: Array[Entity[BaseFormalParamDecl]]): Array[Entity[DefiningName]] =
-        node.unit().root.unpack_formals_impl(formal_params)
+        node.unit.root.unpack_formals_impl(formal_params)
 
     fun unpack_formals_impl(formal_params: Array[Entity[BaseFormalParamDecl]]): Array[Entity[DefiningName]] =
         formal_params.mapcat((spec) => spec.defining_names())
@@ -1453,7 +1453,7 @@ class AdaNode implements Node[AdaNode] {
     |" order to specialize the completion.
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] =
-        node.env_get_public(node.children_env(), null[Symbol]).map(
+        node.env_get_public(node.children_env, null[Symbol]).map(
             (n) => CompletionItem(
                 decl=n.as[BasicDecl],
                 is_dot_call=n.info.md.dottable_subp,
@@ -1534,7 +1534,7 @@ class AdaNode implements Node[AdaNode] {
     @exported
     fun matching_with_use_clause(): Bool =
         node.as[UsePackageClause].do(
-            (uc) => self.previous_sibling().as[WithClause].do(
+            (uc) => self.previous_sibling.as[WithClause].do(
                (wc) =>
                   uc.packages.length() == wc.packages.length()
                   and uc.packages[0].as_symbol_array()
@@ -1566,7 +1566,7 @@ class AlternativesList: ASTList[AdaNode] {
 
     |" Return possible completions at this point in the file.
     @with_dynvars(origin)
-    fun complete_items(): Array[CompletionItem] = node.children_env().get(null[Symbol]).map(
+    fun complete_items(): Array[CompletionItem] = node.children_env.get(null[Symbol]).map(
         (n) => CompletionItem(
             decl=n.as[BasicDecl],
             is_dot_call=n.info.md.dottable_subp,
@@ -1649,7 +1649,7 @@ class AssocList: ASTList[BasicAssoc] {
                 case c: CompositeConstraint => c.subtype()?.discriminants_list()
                 case a: BaseAggregate => {
                     bind origin = node;
-                    bind env = node.node_env();
+                    bind env = node.node_env;
 
                     a.expression_type().record_def()?.components.abstract_formal_params_for_assocs(
                         self, # Do not get ancestor_expr's components if `a` is an
@@ -1864,9 +1864,9 @@ class AspectAssoc: AdaNode {
                 if self.id.name_symbol() in s"Pre" | s"Post" and
                    target.as[TypeDecl]?.type_def is AccessToSubpDef
                 then
-                    target.as[TypeDecl].type_def.children_env()
+                    target.as[TypeDecl].type_def.children_env
                 else
-                    self.node_env();
+                    self.node_env;
 
 
             node.expr.expected_type_var() <- node.bool_type()
@@ -3133,7 +3133,7 @@ class AggregateAssoc: BasicAssoc {
             (n, i) => {
                 # Resolve the name from the matched component if any
                 bind env = matches[i].do(
-                    (l) => l.children_env(),
+                    (l) => l.children_env,
                     default_val=env
                 );
 
@@ -3511,7 +3511,7 @@ class BasicDecl: AdaNode {
         val is_body = node is Body;
 
         node.is_compilation_unit_root() or (
-            (is_decl or (allow_bodies and is_body)) and node.node_env().env_node.do(
+            (is_decl or (allow_bodies and is_body)) and node.node_env.env_node.do(
                 (env_node) => env_node.as[BasicDecl].do(
                     (p) => if node == p then true else p.has_top_level_env_name_impl(
                         allow_bodies=allow_bodies and not node is BaseSubpBody and not p is BaseSubpBody
@@ -3589,7 +3589,7 @@ class BasicDecl: AdaNode {
         # env. That's because self does not have yet have a children env (this
         # property is typically called in env specs before add_env() in order
         # to understand where we should create this children_env).
-        node.children_env().env_node.do(
+        node.children_env.env_node.do(
             (env_node) => env_node.as[BasicDecl].do(
                 (bd) => bd.has_top_level_env_name_impl(allow_bodies=true), default_val=env_node is PrivatePart and env_node.parent.as[BasicDecl].do(
                     (bd) => bd.has_top_level_env_name_impl(allow_bodies=true)
@@ -3606,13 +3606,13 @@ class BasicDecl: AdaNode {
         )
         # For internal nodes, ignore them and recurse on their parent,
         # which are the real declarations.
-        elif node is GenericPackageInternal | GenericSubpInternal then node.parent.as[BasicDecl].env_spec_fully_qualified_name_impl(self_env=node.parent.node_env())
+        elif node is GenericPackageInternal | GenericSubpInternal then node.parent.as[BasicDecl].env_spec_fully_qualified_name_impl(self_env=node.parent.node_env)
         # Find the enclosing BasicDecl
         else (
             self_env.env_node.as[BasicDecl] or? self_env.env_node.as[PrivatePart]?.parent.as[BasicDecl]
         ).do(
             # Recurse and append the basic decl's name
-            (bd) => bd.env_spec_fully_qualified_name_impl(self_env=bd.node_env()) & "." & node.name_symbol().image()
+            (bd) => bd.env_spec_fully_qualified_name_impl(self_env=bd.node_env) & "." & node.name_symbol().image()
         )
 
     |" Return a the fully qualified name of this declaration to be used by
@@ -3622,7 +3622,7 @@ class BasicDecl: AdaNode {
     fun env_spec_fully_qualified_name(): String =
         # Gotcha: at this point, self.children_env actual refers to its parent
         # env. See similar notice in BasicDecl.has_top_level_env_name.
-        node.env_spec_fully_qualified_name_impl(node.children_env())
+        node.env_spec_fully_qualified_name_impl(node.children_env)
 
     |" Return the name that this BasicDecl should use to create its lexical
     |" environment. An empty name is returned if it shouldn't use a named
@@ -3777,7 +3777,7 @@ class BasicDecl: AdaNode {
 
     @memoized
     fun immediate_declarative_region(): LexicalEnv = (self.all_previous_parts() & [self]).mapcat(
-        (part) => part.declarative_parts().map((p) => p.children_env())
+        (part) => part.declarative_parts().map((p) => p.children_env)
     ).env_group()
 
     |" Return an array of AdaNode list corresponding to declarative parts in
@@ -3946,7 +3946,7 @@ class BasicDecl: AdaNode {
 
     |" Return whether self can be found in a single env query from the given
     |" ``origin`` node.
-    fun is_directly_reachable(origin: Entity[AdaNode]): Bool = origin.node.node_env().get(
+    fun is_directly_reachable(origin: Entity[AdaNode]): Bool = origin.node.node_env.get(
         node.name_symbol(), categories=RefCategories(inherited_primitives=false, _=true)
     ).contains(node.as_bare_entity)
 
@@ -4065,7 +4065,7 @@ class BasicDecl: AdaNode {
         # of the parent interfaces, and add the subprogram defined in the
         # scope of the protected or task type.
         if task_or_protected then (
-            parent.as[BaseTypeDecl].base_types().map((bt) => bt.full_view().primitives_env()) & [parent.children_env()]
+            parent.as[BaseTypeDecl].base_types().map((bt) => bt.full_view().primitives_env()) & [parent.children_env]
         ).env_group() else (
             # For classical types, we can simply fetch the primitives_env
             spec.candidate_primitive_subp_tagged_type(canonicalize=false).do((t) => t.full_view().primitives_env())
@@ -4317,7 +4317,7 @@ class BasicDecl: AdaNode {
     fun is_stream_subprogram_for_type(typ: Entity[BaseTypeDecl], return_obj: Bool): Bool = {
         val root_stream_type = self.get_unit_root_decl(
             [s"Ada", s"Streams"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(
+        )?.children_env.get_first(
             s"Root_Stream_Type", lookup=LookupKind.flat
         ).as[BaseTypeDecl].classwide_type().as[BaseTypeDecl];
         val params = self.subp_spec_or_null()?.unpacked_formal_params();
@@ -4445,12 +4445,12 @@ class BasicDecl: AdaNode {
         # A null origin means any "find the most complete part"
         elif origin.is_null then np.most_visible_forward_part_for_name(sym, seq)
         # The query is sequential and origin can't see the next part
-        elif (seq and origin.unit() == np.unit()) and origin <= np.node then self
+        elif (seq and origin.unit == np.unit) and origin <= np.node then self
         # If the entity is not a package declaration, we only need to check
         # if its lexical env is one of the parents of origin's env.
         elif not (
             np.is_in_private_part() or np.is_in_public_part()
-        ) then if origin.node_env().get(
+        ) then if origin.node_env.get(
             sym, categories=RefCategories(inherited_primitives=false, _=true)
         ).contains(node.as_bare_entity) then np.most_visible_forward_part_for_name(sym, seq) else self
         # Otherwise this is a package declaration, so we can use the
@@ -4577,11 +4577,11 @@ class BasicDecl: AdaNode {
 
         # The standard package is the only library item that does not have
         # a named parent.
-        if defining_name.text().to_symbol == s"standard" then null[Symbol]
+        if defining_name.text.to_symbol == s"standard" then null[Symbol]
         elif node.is_library_item() then child_name.do((n) =>
             # If this declaration's name is a dotted name, use the prefix
             # to retrieve the name of its parent.
-            if private_part then (n.prefix.text() & ".__privatepart").to_symbol else n.prefix.text().to_symbol, default_val=s"standard"
+            if private_part then (n.prefix.text & ".__privatepart").to_symbol else n.prefix.text.to_symbol, default_val=s"standard"
         )
         # If it's not a dotted name, its parent is the standard package
         # This declaration
@@ -4725,7 +4725,7 @@ class BasicDecl: AdaNode {
             )
         };
 
-        self.children_env().get_first(
+        self.children_env.get_first(
             s"__nextpart", lookup=LookupKind.minimal, categories=RefCategories(inherited_primitives=false, _=true)
         ).as[BasicDecl]
     }
@@ -5094,7 +5094,7 @@ class BasePackageDecl: BasicDecl {
     fun defining_names(): Array[Entity[DefiningName]] = [self.package_name]
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
-    fun defining_env(): LexicalEnv = self.children_env()
+    fun defining_env(): LexicalEnv = self.children_env
 
     |" Return the PackageBody corresponding to this node.
     @exported
@@ -5718,7 +5718,7 @@ class BaseTypeDecl: BasicDecl {
     fun cursor_type(): Entity[BaseTypeDecl] =
         # For containers and user defined iterator types, cursor type
         # is defined by the `Cursor` type declaration.
-        self.children_env().get_first(s"Cursor").as![BaseTypeDecl]
+        self.children_env.get_first(s"Cursor").as![BaseTypeDecl]
         # Check out cursor type for types with `Iterable` aspect
         or? self.iterable_cursor_type()
 
@@ -6865,7 +6865,7 @@ class IncompleteTypeDecl: BaseTypeDecl {
     |" Searches for the next part of self inside the given declarative part.
     |" Since self is an IncompleteTypeDecl, the next part will necessarily be
     |" the first type declaration of the same name that is not self.
-    fun find_next_part_in(decl_part: Entity[DeclarativePart]): Entity[BaseTypeDecl] = decl_part.children_env().get(
+    fun find_next_part_in(decl_part: Entity[DeclarativePart]): Entity[BaseTypeDecl] = decl_part.children_env.get(
         node.name_symbol(), lookup=LookupKind.minimal, categories=RefCategories(inherited_primitives=false, _=true)
     ).find(
         (t) => t.as[BaseTypeDecl].do((btd) => self != btd)
@@ -6873,7 +6873,7 @@ class IncompleteTypeDecl: BaseTypeDecl {
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv =
-        [node.children_env(), node.dottable_subps_env].env_group()
+        [node.children_env, node.dottable_subps_env].env_group()
 
     @with_dynvars(origin=null[AdaNode])
     fun discriminants_list(@ignored stop_recurse_at: Entity[BaseTypeDecl] = null[Entity[BaseTypeDecl]]): Array[Entity[BaseFormalParamDecl]] =
@@ -6922,8 +6922,8 @@ class ProtectedTypeDecl: BaseTypeDecl {
         # Include private_part's env unconditionally. This is safe since
         # ProtectedTypeDecl can't be overloaded, thus wrong name resolution
         # can only occur on invalid Ada code.
-        [self.children_env(), pp.children_env()].env_group(),
-        default_val=self.children_env()
+        [self.children_env, pp.children_env].env_group(),
+        default_val=self.children_env
     )
 
     @with_dynvars(origin)
@@ -6967,7 +6967,7 @@ class TaskTypeDecl: BaseTypeDecl {
         node.top_level_env_name().do((fqn) => [fqn.to_symbol])
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
-    fun defining_env(): LexicalEnv = self.children_env()
+    fun defining_env(): LexicalEnv = self.children_env
 
     @memoized
     fun primitives_env(): LexicalEnv =
@@ -7032,7 +7032,7 @@ class TypeDecl: BaseTypeDecl {
             if self.is_array() then self.comp_type()
             elif not ie.is_null then ie.as[Name].do(
                 (name) => {
-                    bind env = name.node_env();
+                    bind env = name.node_env;
 
                     name.designated_type_impl()
                 }
@@ -7252,7 +7252,7 @@ class TypeDecl: BaseTypeDecl {
     |" defined for it.
     fun indexing_fns(name: Entity[Name]): Array[Entity[BasicDecl]] = name.do(
         (name) => {
-            bind env = self.node_env();
+            bind env = self.node_env;
             bind origin = self.origin_node();
 
             # Get all elements for name in self's env
@@ -7350,7 +7350,7 @@ class TypeDecl: BaseTypeDecl {
         # hide the type and avoid infinite recursions in invalid Ada code such
         # as ``type X is new X``. See nameres test `invalid_self_reference`.
         reference(
-            [node.as[AdaNode]], TypeDecl.refined_parent_primitives_env, kind=transitive, dest_env=node.node_env(), cond=node.type_def is DerivedTypeDef | InterfaceTypeDef, category="inherited_primitives"
+            [node.as[AdaNode]], TypeDecl.refined_parent_primitives_env, kind=transitive, dest_env=node.node_env, cond=node.type_def is DerivedTypeDef | InterfaceTypeDef, category="inherited_primitives"
         )
     }
 }
@@ -7423,7 +7423,7 @@ class FormalTypeDecl: TypeDecl {
     |" formal part in which self lies in self's rebindings, and then resolving
     |" the corresponding actual.
     fun corresponding_actual_impl(rb: EnvRebindings): Entity[BaseTypeDecl] = if rb.is_null then self
-    elif rb.old_env == node.parent.node_env() then rb.new_env.get_first(
+    elif rb.old_env == node.parent.node_env then rb.new_env.get_first(
         self.defining_name().name_symbol(), lookup=LookupKind.minimal, categories=RefCategories(inherited_primitives=false, _=true)
     ).as[BaseTypeDecl]
     else self.corresponding_actual_impl(rb.get_parent)
@@ -7490,17 +7490,17 @@ class BasicSubpDecl: BasicDecl {
 
             # Search in other part
             other_part.do(
-                (op) => self.get_body_in_env(op.children_env())
+                (op) => self.get_body_in_env(op.children_env)
             ) or? parent_decl.body_part_for_decl().do(
                 # If not found, search in body
-                (np) => self.get_body_in_env(np.children_env())
+                (np) => self.get_body_in_env(np.children_env)
             )
         }
         # No declarative scope: Bail out!
         elif decl_scope.is_null then null[Entity[Body]]
         # self is declared in any other declarative scope. Search for decl
         # in it directly.
-        else self.get_body_in_env(decl_scope.children_env())
+        else self.get_body_in_env(decl_scope.children_env)
     }
 
     @with_dynvars(origin)
@@ -7621,7 +7621,7 @@ class FormalSubpDecl: ClassicSubpDecl {
     fun corresponding_actual_impl(rb: EnvRebindings): Entity[BasicDecl] =
         if rb.is_null then
             self
-        elif rb.old_env == node.parent.node_env() then
+        elif rb.old_env == node.parent.node_env then
             rb.new_env.env_node.as[GenericInstantiation].do(
                 (inst) => Entity[GenericInstantiation](
                     node=inst, info=EntityInfo(
@@ -7659,7 +7659,7 @@ class FormalSubpDecl: ClassicSubpDecl {
     |" given instantiation.
     fun designated_subprogram_from(inst: Entity[GenericInstantiation]): Entity[BasicDecl] = {
         val subps = node.env_get(
-            env=inst.node_env(), symbol=self.defining_name().name_symbol(), from_node=inst.node
+            env=inst.node_env, symbol=self.defining_name().name_symbol(), from_node=inst.node
         );
         # Search for the first subprogram that matches the instantiated profile
         val found = {
@@ -7777,7 +7777,7 @@ class EnumLiteralDecl: BasicSubpDecl {
         val rep_clause = enum_type.get_enum_representation_clause();
         # Equivalent of 'Pos: the 0-based position of this enum literal in the
         # type declaration.
-        val pos = node.child_index();
+        val pos = node.child_index;
 
         if rep_clause.is_null then (
             # If there is no representation clause for this enum, so 'Enum_Rep
@@ -7811,7 +7811,7 @@ class EnumLiteralDecl: BasicSubpDecl {
     env_spec {
         add_to_env_kv(
             node.name_symbol(), node, dest_env=DesignatedEnv(
-                kind=DesignatedEnvKind.direct_env, env_name=null[Symbol], direct_env=self.enum_type().node_env()
+                kind=DesignatedEnvKind.direct_env, env_name=null[Symbol], direct_env=self.enum_type().node_env
             )
         )
         # We add an env here so that parent_basic_decl/semantic_parent on the
@@ -7899,15 +7899,15 @@ class Body: BasicDecl {
             # For generic package decls, we regroup the formal part & the
             # package decl itself, since the reference will be
             # non-transitive.
-            [gpd.children_env(), gpd.package_decl.children_env()].env_group()
-            case pd: BasicDecl => pd.children_env()
+            [gpd.children_env, gpd.package_decl.children_env].env_group()
+            case pd: BasicDecl => pd.children_env
             case _ => raise[LexicalEnv] PropertyError()
         }.do(
             (public_part) => public_part.get(
                 s"__privatepart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
             )?[0].do(
                 # If there is a private part, group it with the rest
-                (pp) => [pp.children_env(), public_part].env_group(), default_val=public_part
+                (pp) => [pp.children_env, public_part].env_group(), default_val=public_part
             )
         )
     }
@@ -7917,12 +7917,12 @@ class Body: BasicDecl {
     fun in_scope(): Bool = not origin.is_null and (
         (
             # Either origin and self are in the same unit
-            origin.unit() == node.unit() and not origin.parents().find((p) => node == p).is_null
+            origin.unit == node.unit and not origin.parents().find((p) => node == p).is_null
         ) or (
             # Either origin is nested in a subprogam subunit of self
             origin.enclosing_compilation_unit().body.as[Subunit].do(
                 (su) => su.bodies_root().any(
-                    (br) => br is BaseSubpBody and br.unit() == node.unit()
+                    (br) => br is BaseSubpBody and br.unit == node.unit
                 )
             )
         )
@@ -8123,7 +8123,7 @@ class Body: BasicDecl {
         # particular context, and thus should not be impacted by an entity's
         # metadata. In particular, this addresses T610-028.
         {
-            bind env = node.node_env();
+            bind env = node.node_env;
 
             node.as_bare_entity.unbound_previous_part().node.as_entity
         }
@@ -8159,7 +8159,7 @@ class Body: BasicDecl {
             # will be the separate declaration. NOTE: We don't use
             # decl_part/previous_part on purpose: They can cause env
             # lookups, hence doing an infinite recursion.
-            self.children_env().env_parent.get(
+            self.children_env.env_parent.get(
                 self.name_symbol(), categories=RefCategories(inherited_primitives=false, _=true)
             )?.find((r) => r is GenericSubpDecl).as[GenericSubpDecl]
         )
@@ -8189,7 +8189,7 @@ class Body: BasicDecl {
         # this is a subunit, the scope is the same as the scope of the
         # corresponding "is separate" decl, hence: the defining env of this
         # top-level package body.
-        if not node.subunit_root().is_null then node.subunit_root().children_env()
+        if not node.subunit_root().is_null then node.subunit_root().children_env
         # In case this is a library level subprogram that has no spec
         # (which is legal), we'll register this body in the parent
         # scope.
@@ -8205,11 +8205,11 @@ class Body: BasicDecl {
         elif node.is_compilation_unit_root() or force_decl then self.defining_name().scope()
         # The rest of cases are nested declarations: In that case we want
         # to take the parent's env.
-        else node.parent.children_env();
+        else node.parent.children_env;
         # If this the corresponding decl is a generic, go grab the internal
         # package decl.
         val public_scope = scope.env_node.as[GenericPackageDecl].do(
-            (gen_pkg_decl) => gen_pkg_decl.package_decl.children_env(), default_val=scope
+            (gen_pkg_decl) => gen_pkg_decl.package_decl.children_env, default_val=scope
         );
 
         # If the package has a private part, then get the private part,
@@ -8219,7 +8219,7 @@ class Body: BasicDecl {
         ) then public_scope.get(
             s"__privatepart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
         )?[0].do(
-            (pp) => pp.children_env(), default_val=public_scope
+            (pp) => pp.children_env, default_val=public_scope
         ) else public_scope
     }
 
@@ -8302,7 +8302,7 @@ class AcceptStmtBody: Body {
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv =
-        node.parent.as[AcceptStmt].children_env()
+        node.parent.as[AcceptStmt].children_env
 
     fun accept_stmt_previous_part(): Entity[EntryDecl] =
         self.parent.as![AcceptStmt].corresponding_entry()
@@ -8323,8 +8323,8 @@ class BaseSubpBody: Body {
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv =
-        if self.in_scope() then [if self.subp_spec_or_null()?.paramless(self.info.md.dottable_subp, can_be=true) then [self.children_env(), self.subp_spec.defining_env()].env_group() else self.children_env(), self.decl_part().do(
-            (decl) => decl.as[GenericSubpDecl]?.formal_part?.children_env()
+        if self.in_scope() then [if self.subp_spec_or_null()?.paramless(self.info.md.dottable_subp, can_be=true) then [self.children_env, self.subp_spec.defining_env()].env_group() else self.children_env, self.decl_part().do(
+            (decl) => decl.as[GenericSubpDecl]?.formal_part?.children_env
         )].env_group() else (
             # For bodies corresponding to generic declaration, add the
             # declaration's formal_part env to the body one, as for
@@ -8692,7 +8692,7 @@ class PackageBody: Body {
     fun defining_names(): Array[Entity[DefiningName]] = [self.package_name]
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
-    fun defining_env(): LexicalEnv = self.children_env()
+    fun defining_env(): LexicalEnv = self.children_env
 
     fun declarative_parts(): Array[Entity[DeclarativePart]] = [self.decls]
 
@@ -8817,14 +8817,14 @@ class TaskBody: Body {
     fun defining_names(): Array[Entity[DefiningName]] = [self.name]
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
-    fun defining_env(): LexicalEnv = self.children_env()
+    fun defining_env(): LexicalEnv = self.children_env
 
     fun declarative_parts(): Array[Entity[DeclarativePart]] = [self.decls]
 
     fun task_type_decl_scope(): LexicalEnv = {
         val pp = self.task_type()?.definition?.private_part;
 
-        if pp.is_null then self.task_type().children_env() else pp.children_env()
+        if pp.is_null then self.task_type().children_env else pp.children_env
     }
 
     fun task_type(): Entity[TaskTypeDecl] = {
@@ -8945,7 +8945,7 @@ class ExceptionHandler: BasicDecl {
     @with_dynvars(origin)
     fun expr_type(): Entity[BaseTypeDecl] = self.get_unit_root_decl(
         [s"Ada", s"Exceptions"], AnalysisUnitKind.unit_specification
-    )?.children_env().get_first(
+    )?.children_env.get_first(
         s"Exception_Occurrence", lookup=LookupKind.flat
     ).as[BaseTypeDecl]
 
@@ -9267,7 +9267,7 @@ class GenericInstantiation: BasicDecl {
         self.defining_name().name.as[DottedName]?.prefix.do(
             (parent_name) => {
                 bind origin = node;
-                bind env = self.children_env();
+                bind env = self.children_env;
 
                 parent_name.designated_env_no_overloading()
             }, default_val=node.empty_env()
@@ -9410,7 +9410,7 @@ class GenericPackageInstantiation: GenericInstantiation {
                     # P node, with no rebindings associated, since the
                     # rebinding indication concerns the *naked* generic.
                     # Hence we use `p.node.children_env`.
-                    p.node.children_env(), node.instantiation_env
+                    p.node.children_env, node.instantiation_env
                 ), from_rebound=p.info.from_rebound
             )
         )
@@ -9452,9 +9452,9 @@ class GenericPackageInstantiation: GenericInstantiation {
             null[LexicalEnv]
         else [
             if node.is_formal() or inst_from_formal then
-                [dp.children_env(), dp.parent.children_env()].env_group()
+                [dp.children_env, dp.parent.children_env].env_group()
             else
-                dp.children_env(),
+                dp.children_env,
             # The environment of the instantiation needs to be available,
             # because library unit generic package instantiations can be
             # nested, and so need to be available, such as in::
@@ -9465,7 +9465,7 @@ class GenericPackageInstantiation: GenericInstantiation {
             #     --  a-b.ads
             #     package A.B is new A.Gen_B;
             #
-            self.children_env()
+            self.children_env
         ].env_group()
     }
 
@@ -9504,7 +9504,7 @@ class GenericSubpInstantiation: GenericInstantiation {
         (p) => Entity[BasicSubpDecl](
             node=p.node.as[GenericSubpDecl].subp_decl, info=EntityInfo(
                 md=self.info.md, rebindings=node.add_rebinding(
-                    node.insert_rebindings(p.info.rebindings, self.info.rebindings), p.node.children_env(), node.instantiation_env
+                    node.insert_rebindings(p.info.rebindings, self.info.rebindings), p.node.children_env, node.instantiation_env
                 ), from_rebound=p.info.from_rebound
             )
         )
@@ -9616,7 +9616,7 @@ class NamedStmtDecl: BasicDecl {
 
     @with_dynvars(origin, include_ud_indexing=false, dottable_type=null[AdaNode])
     fun defining_env(): LexicalEnv =
-        node.parent.as[NamedStmt].stmt.children_env()
+        node.parent.as[NamedStmt].stmt.children_env
 }
 
 |" Declaration for a static constant number (:rmlink:`3.3.2`).
@@ -9710,13 +9710,13 @@ class ObjectDecl: BasicDecl {
 
     @with_dynvars(imprecise_fallback=false)
     fun next_part_for_name(sym: Symbol): Entity[BasicDecl] =
-        if self.is_in_public_part() and node.has_constant.as_bool() then node.declarative_scope().parent.as_entity.as[BasePackageDecl].private_part?.children_env().get_first(
+        if self.is_in_public_part() and node.has_constant.as_bool() then node.declarative_scope().parent.as_entity.as[BasePackageDecl].private_part?.children_env.get_first(
             sym, lookup=LookupKind.minimal, categories=RefCategories(inherited_primitives=false, _=true)
         ).as[BasicDecl] else null[Entity[BasicDecl]]
 
     @with_dynvars(imprecise_fallback=false)
     fun previous_part_for_name(sym: Symbol): Entity[BasicDecl] =
-        if self.is_in_private_part() and node.has_constant.as_bool() then node.declarative_scope().parent.as_entity.as[BasePackageDecl].public_part.children_env().get_first(
+        if self.is_in_private_part() and node.has_constant.as_bool() then node.declarative_scope().parent.as_entity.as[BasePackageDecl].public_part.children_env.get_first(
             sym, lookup=LookupKind.minimal, categories=RefCategories(inherited_primitives=false, _=true)
         ).as[BasicDecl] else null[Entity[BasicDecl]]
 
@@ -9787,7 +9787,7 @@ class PackageRenamingDecl: BasicDecl {
         # to determine the primitives of a type), which in turn can cause
         # infinite recursions if those queries need to resolve this package
         # renaming as well.
-        val node_env = self.node_env();
+        val node_env = self.node_env;
         val _ = node_env.get(
             s"__dummy", categories=RefCategories(inherited_primitives=false, _=true)
         );
@@ -9854,7 +9854,7 @@ class SingleProtectedDecl: BasicDecl {
         # Include private_part's env unconditionally. This is safe since
         # SingleProtectedDecl can't be overloaded, thus wrong name
         # resolution can only occur on invalid Ada code.
-        [self.children_env(), pp.children_env()].env_group(), default_val=self.children_env()
+        [self.children_env, pp.children_env].env_group(), default_val=self.children_env
     )
 
     fun xref_entry_point(): Bool = true
@@ -9941,7 +9941,7 @@ class SyntheticObjectDecl: BasicDecl {
     |" synthetic object.
     fun is_referred_by(origin: AdaNode): Bool =
         origin.parents().find((p) => p is AccessDef).is_null and node.is_children_env(
-            node.type_expr.as[SyntheticTypeExpr].target_type.children_env(), origin.children_env()
+            node.type_expr.as[SyntheticTypeExpr].target_type.children_env, origin.children_env
         )
 }
 
@@ -10054,7 +10054,7 @@ class CompilationUnit: AdaNode {
                 (subp) => subp.as_bare_entity.subp_previous_part().do(
                     (pp) => [pp.enclosing_compilation_unit().as_bare_entity]
                 )
-            ) or? node.decl()?.node_env()?.env_node.do(
+            ) or? node.decl()?.node_env?.env_node.do(
                 (n) => [n.enclosing_compilation_unit().as_bare_entity]
             )
         )
@@ -10077,7 +10077,7 @@ class CompilationUnit: AdaNode {
             val public_imports = node.imported_units(include_privates=false);
 
             all_imports.filtermap(
-                (cu) => cu.unit(), (cu) => not public_imports.contains(cu)
+                (cu) => cu.unit, (cu) => not public_imports.contains(cu)
             )
         } else null[Array[AnalysisUnit]]
 
@@ -10144,7 +10144,7 @@ class CompilationUnit: AdaNode {
             case pkg_body: PackageBody =>
                 # Elaboration control pragmas cannot appear in package
                 # bodies, so recurse on the corresponding package spec.
-                pkg_body.decl_part().unit().root.as_bare_entity.as![CompilationUnit].is_preelaborable_impl(from_body=true)
+                pkg_body.decl_part().unit.root.as_bare_entity.as![CompilationUnit].is_preelaborable_impl(from_body=true)
             case _ => false
         }
         case _ => false
@@ -10332,7 +10332,7 @@ class CompilationUnit: AdaNode {
         ) or (
             # Otherwise (this compilation unit declares a package), check
             # whether `origin` lies in a private part.
-            origin.has_private_part_parent(decl.children_env().env_node)
+            origin.has_private_part_parent(decl.children_env.env_node)
         )
     }
 }
@@ -10954,7 +10954,7 @@ class Expr: AdaNode {
     |" before overloading analysis.
     @exported
     fun matching_nodes(): Array[Entity[AdaNode]] = {
-        bind env = node.node_env();
+        bind env = node.node_env;
 
         self.env_elements()
     }
@@ -12038,7 +12038,7 @@ class DeclExpr: Expr {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
-        bind env = self.children_env();
+        bind env = self.children_env;
 
         self.expr.sub_equation()
     } %and node.expr.expected_type_var() <-> node.expected_type_var() %and node.expr.type_var() <-> node.type_var()
@@ -12220,7 +12220,7 @@ class Name: Expr {
     |" ``categories`` parameter for internal uses.
     fun all_env_elements_internal(seq: Bool = true, seq_from: AdaNode = null[AdaNode], categories: RefCategories = RefCategories(_=true)): Array[Entity[AdaNode]] = {
         bind origin = node.origin_node();
-        bind env = self.node_env();
+        bind env = self.node_env;
 
         self.all_env_els_impl(
             seq=seq, seq_from=seq_from, categories=categories
@@ -12532,7 +12532,7 @@ class Name: Expr {
     |" names.
     @exported
     fun name_designated_type(): Entity[BaseTypeDecl] = {
-        bind env = self.node_env();
+        bind env = self.node_env;
         bind origin = node.origin_node();
 
         self.designated_type_impl()
@@ -12586,7 +12586,7 @@ class Name: Expr {
     |" UsePackageClause's package name list, return the memoized designated
     |" environment for it.
     fun use_package_name_designated_env(): LexicalEnv =
-        self.parent.parent.as![UsePackageClause].designated_env(node.child_index())
+        self.parent.parent.as![UsePackageClause].designated_env(node.child_index)
 
     |" Simple xref equation for names designating types. Doesn't try to
     |" resolve overloads. Originally derived from xref_no_overloading to match
@@ -12698,7 +12698,7 @@ class Name: Expr {
 
         # Handle out/inout param case
         case p: ParamAssoc => if {
-            bind env = node.node_env();
+            bind env = node.node_env;
             bind origin = node.origin_node();
 
             p.parent.parent.as[CallExpr]?.is_type_conversion()
@@ -13027,7 +13027,7 @@ class AttributeRef: Name {
     fun type_class_equation(): Equation = {
         val typ = self.get_unit_root_decl(
             [s"System", s"Aux_DEC"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(s"Type_Class", lookup=LookupKind.flat).as[BaseTypeDecl];
+        )?.children_env.get_first(s"Type_Class", lookup=LookupKind.flat).as[BaseTypeDecl];
 
         self.prefix.xref_equation() %and node.type_var() <- typ
     }
@@ -13037,7 +13037,7 @@ class AttributeRef: Name {
     fun storage_pool_equation(): Equation = {
         val typ = self.get_unit_root_decl(
             [s"System", s"Storage_Pools"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(
+        )?.children_env.get_first(
             s"Root_Storage_Pool", lookup=LookupKind.flat
         ).as[BaseTypeDecl].classwide_type();
 
@@ -13049,7 +13049,7 @@ class AttributeRef: Name {
     fun order_equation(): Equation = {
         val typ = self.get_unit_root_decl(
             [s"System"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(s"Bit_Order", lookup=LookupKind.flat).as[BaseTypeDecl];
+        )?.children_env.get_first(s"Bit_Order", lookup=LookupKind.flat).as[BaseTypeDecl];
 
         self.prefix.xref_equation() %and node.type_var() <- typ
     }
@@ -13079,7 +13079,7 @@ class AttributeRef: Name {
     fun tag_attr_equation(): Equation = {
         val tag_type = self.get_unit_root_decl(
             [s"Ada", s"Tags"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(s"Tag", lookup=LookupKind.flat).as[BaseTypeDecl];
+        )?.children_env.get_first(s"Tag", lookup=LookupKind.flat).as[BaseTypeDecl];
 
         (
             # Prefix is an expression, bind prefix's ref var to it
@@ -13267,7 +13267,7 @@ class AttributeRef: Name {
         # attributes that return functions.
         val to_address_subp = self.get_unit_root_decl(
             [s"System", s"Storage_Elements"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(s"To_Address", lookup=LookupKind.minimal).as[BasicSubpDecl];
+        )?.children_env.get_first(s"To_Address", lookup=LookupKind.minimal).as[BasicSubpDecl];
 
         self.prefix.sub_equation() %and node.ref_var() <- to_address_subp
     }
@@ -13583,7 +13583,7 @@ class CallExpr: Name {
         bind env = if entry_point.as[AggregateAssoc]?.as_entity
             .base_aggregate() is DeltaAggregate
         then
-            self.children_env()
+            self.children_env
         else env;
 
         self.all_args_xref_equation(root)
@@ -13811,7 +13811,7 @@ class DefiningName: Name {
     fun fully_qualified_name_impl(include_profile: Bool, suffix: String): Array[String] = {
         val def_name_array = match node {
             case scel: SyntheticDefiningName => [scel.name_symbol().image()]
-            case n => n.as_single_tok_node_array().map((t) => t.text())
+            case n => n.as_single_tok_node_array().map((t) => t.text)
         };
         val bd = self.basic_decl();
         val self_name = def_name_array.imap((t, i) =>
@@ -13836,7 +13836,7 @@ class DefiningName: Name {
 
         bd.parent.as[Subunit].do(
             (su) => su.name.as_single_tok_node_array()
-        ).map((t) => t.text()) & fqn or? fqn
+        ).map((t) => t.text) & fqn or? fqn
     }
 
     |" Implementation of canonical_fully_qualified_name.
@@ -14447,7 +14447,7 @@ class DottedName: Name {
     @with_dynvars(origin)
     fun complete_items(): Array[CompletionItem] = {
         bind origin = node.origin_node();
-        bind env = node.node_env();
+        bind env = node.node_env;
         val complete_env = {
             bind no_visibility = true;
             self.prefix.designated_env()
@@ -14933,12 +14933,12 @@ class BaseId: SingleTokNode implements TokenNode {
             lookup=if node.is_prefix() then LookupKind.recursive else LookupKind.flat,
             categories=RefCategories(inherited_primitives=false, _=true)
         );
-        val ret = if not elt.is_null and elt.node is BasicDecl then elt.children_env() else null[LexicalEnv];
+        val ret = if not elt.is_null and elt.node is BasicDecl then elt.children_env else null[LexicalEnv];
 
         # If this the corresponding decl is a generic, go grab the internal
         # package decl.
         ret.env_node.as[GenericPackageDecl].do(
-            (gen_pkg_decl) => gen_pkg_decl.package_decl.children_env(), default_val=ret
+            (gen_pkg_decl) => gen_pkg_decl.package_decl.children_env, default_val=ret
         )
     }
 
@@ -15020,7 +15020,7 @@ class BaseId: SingleTokNode implements TokenNode {
         val private_part_env = env.get(
             s"__privatepart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
         )?[0].do(
-            (pp) => pp.children_env(), default_val=env
+            (pp) => pp.children_env, default_val=env
         );
         val package_body_env = private_part_env.get(
             s"__nextpart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
@@ -15028,12 +15028,12 @@ class BaseId: SingleTokNode implements TokenNode {
             (pb) =>
             # If the package is implemented as a separate, we need to
             # jump through one more link to get to the body.
-            if pb is PackageBodyStub then pb.children_env().get(
+            if pb is PackageBodyStub then pb.children_env.get(
                 s"__nextpart", lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
-            )?[0].do((pb) => pb.children_env()) else pb.children_env(), default_val=null[LexicalEnv]
+            )?[0].do((pb) => pb.children_env) else pb.children_env, default_val=null[LexicalEnv]
         );
         val formals_env = bd.as[GenericPackageDecl].do(
-            (pkg_g) => pkg_g.formal_part.children_env(), default_val=null[LexicalEnv]
+            (pkg_g) => pkg_g.formal_part.children_env, default_val=null[LexicalEnv]
         );
 
         # If we're looking from the body, return a group of all the
@@ -15046,7 +15046,7 @@ class BaseId: SingleTokNode implements TokenNode {
             # `.env_node.children_env` on `package_body_env` to do the check on
             # the bare non-rebound lexical envs.
             node.is_children_env(
-                package_body_env.env_node?.children_env(), (origin or? node).node_env()
+                package_body_env.env_node?.children_env, (origin or? node).node_env
             )
         ) then [package_body_env, private_part_env, env, formals_env].env_group()
         # If we're looking from the private part, return a group of private
@@ -15054,7 +15054,7 @@ class BaseId: SingleTokNode implements TokenNode {
         # See corresponding comment on `package_body_env` to understand why
         # we use `.env_node.children_env`.
         elif node.is_children_env(
-            private_part_env.env_node?.children_env(), (origin or? node).node_env()
+            private_part_env.env_node?.children_env, (origin or? node).node_env
         ) then [private_part_env, env, formals_env].env_group()
         # If we're not looking from the private part, we could be looking
         # from the public part of a generic package decl. In such a case
@@ -15436,7 +15436,7 @@ enum class Op: BaseId implements TokenNode {
     |" first in the list, so as to implement the "preference" behavior
     |" described in :rmlink:`8.6` - 29 in BinOp and UnOp xref_equation.
     fun subprograms_for_symbol(sym: Symbol, from_node: Entity[AdaNode]): Array[Entity[BasicDecl]] = node.root_type_ops(sym) & node.env_get(
-        from_node.node_env(), sym, from_node=from_node.node
+        from_node.node_env, sym, from_node=from_node.node
     ).filtermap(
         (e) => e.as![BasicDecl], (e) => e.as![BasicDecl].is_subprogram() and (
             # Note: here we explicitly filter out synthesized operators
@@ -15629,7 +15629,7 @@ class QuantifiedExpr: Expr {
         if spec_success then (
             (
                 node.expr.expected_type_var() <- node.bool_type() %and {
-                    bind env = self.children_env();
+                    bind env = self.children_env;
 
                     self.expr.sub_equation()
                 }
@@ -16132,7 +16132,7 @@ class Pragma: AdaNode {
 
     fun associated_entities_helper(): Array[Entity[DefiningName]] = self.associated_entity_names().mapcat(
         (name) => self.semantic_parent().do(
-            (parent) => parent.children_env().get(
+            (parent) => parent.children_env.get(
                 name.name_symbol(), lookup=LookupKind.flat, categories=RefCategories(inherited_primitives=false, _=true)
             ).map(
                 (decl) => decl.as[BasicDecl].wrap_public_reference().defining_names().find((dn) =>
@@ -16148,7 +16148,7 @@ class Pragma: AdaNode {
         ).filter(
             (ent) => (
                 # Only get entities that are after self in the *same* source
-                ent.unit() == node.unit()
+                ent.unit == node.unit
             ) and ent.node < node
         )
     )
@@ -16221,7 +16221,7 @@ class Pragma: AdaNode {
         )
         elif node.as_bare_entity.id.name_symbol() in s"Pre" | s"Post" | s"Pre'Class" | s"Post'Class" | s"Precondition" | s"Postcondition" | s"Precondition'Class" | s"Postcondition'Class" | s"Test_Case" | s"Contract_Cases" | s"Predicate" then node.as_bare_entity.associated_entities()?[0].do(
             (ent) => DesignatedEnv(
-                kind=DesignatedEnvKind.direct_env, env_name=null[Symbol], direct_env=ent.children_env()
+                kind=DesignatedEnvKind.direct_env, env_name=null[Symbol], direct_env=ent.children_env
             ), default_val=DesignatedEnv(
                 kind=DesignatedEnvKind.current_env, env_name=null[Symbol], direct_env=null[LexicalEnv]
             )
@@ -16360,7 +16360,7 @@ class AcceptStmt: CompositeStmt {
     @exported
     @with_dynvars(origin=null[AdaNode])
     fun corresponding_entry(): Entity[EntryDecl] = {
-        bind env = self.node_env();
+        bind env = self.node_env;
 
         self.designated_entry()
     }
@@ -16448,7 +16448,7 @@ class DeclBlock: BlockStmt {
     @parse_field @nullable end_name: EndName
 
     fun immediate_declarative_region(): LexicalEnv =
-        self.children_env()
+        self.children_env
 }
 
 |" ``case`` statement (:rmlink:`5.4`).
@@ -16850,7 +16850,7 @@ class Subunit: AdaNode {
             # subunit.
             self.name.as[DottedName].do(
                 (dn) => {
-                    bind env = node.body.node_env();
+                    bind env = node.body.node_env;
 
                     dn.prefix.xref_no_overloading()
                 }, default_val=%true
@@ -17226,7 +17226,7 @@ class TypeAttributesRepository: AdaNode {
     asm_input: BasicSubpDecl = {
         val input_type = node.get_unit_root_decl(
             [s"System", s"Machine_Code"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(
+        )?.children_env.get_first(
             s"Asm_Input_Operand", lookup=LookupKind.flat
         ).node.as[BaseTypeDecl];
 
@@ -17245,7 +17245,7 @@ class TypeAttributesRepository: AdaNode {
     asm_output: BasicSubpDecl = {
         val output_type = node.get_unit_root_decl(
             [s"System", s"Machine_Code"], AnalysisUnitKind.unit_specification
-        )?.children_env().get_first(
+        )?.children_env.get_first(
             s"Asm_Output_Operand", lookup=LookupKind.flat
         ).node.as[BaseTypeDecl];
 
@@ -17298,7 +17298,7 @@ class TypeDef: AdaNode {
         # A "record" or "private" type def may be the completion of a
         # previous type declaration, so we need to include the defining
         # env of its previous part as well.
-        if node is RecordTypeDef | PrivateTypeDef then [self.children_env(), self.dottable_subps_env(), self.previous_part_env()].env_group()
+        if node is RecordTypeDef | PrivateTypeDef then [self.children_env, self.dottable_subps_env(), self.previous_part_env()].env_group()
         # Same for "derived" and "interface" type definitions, but we also
         # need to include the defining environments of their base types.
         elif node is DerivedTypeDef | InterfaceTypeDef then (
@@ -17306,7 +17306,7 @@ class TypeDef: AdaNode {
             # envs in the result, so that most-overridden subprograms will be
             # considered first during name resolution.
             (
-                [self.children_env(), self.dottable_subps_env()] & {
+                [self.children_env, self.dottable_subps_env()] & {
                     bind dottable_type = dottable_type or? node.parent;
 
                     self.base_types().map((bt) => bt?.defining_env())
@@ -17631,7 +17631,7 @@ class DerivedTypeDef: TypeDef {
         # We want to make discriminants accessible, so need to evaluate this in
         # self's children_env.
         {
-            bind env = self.children_env();
+            bind env = self.children_env;
 
             self.subtype_indication.xref_equation() %and self.interfaces.logic_all((ifc) => ifc.xref_equation())
         }
@@ -18185,7 +18185,7 @@ class AnonymousType: TypeExpr {
     # Ideally we would compute a properly formatted version of the anonymous
     # type declaration. Using unparsing in order to avoid duplicating logic
     # between parsing/unparsing.
-    fun custom_id_text(): String = self.type_decl.text()
+    fun custom_id_text(): String = self.type_decl.text
 }
 
 |" Synthetic node. Represents the type expression for an enum literal.
@@ -18218,7 +18218,7 @@ class SubtypeIndication: TypeExpr {
     # visibility (origin node) of the caller.
     @with_dynvars(origin)
     fun designated_type(): Entity[BaseTypeDecl] = {
-        bind env = self.node_env();
+        bind env = self.node_env;
 
         self.name.designated_type_impl()
     }
@@ -18231,7 +18231,7 @@ class SubtypeIndication: TypeExpr {
     |" type declaration. PackageDecls have a medium weight in order to provide
     |" completion of fully qualified names.
     @with_dynvars(origin)
-    fun complete_items(): Array[CompletionItem] = self.children_env().get(null[Symbol]).map(
+    fun complete_items(): Array[CompletionItem] = self.children_env.get(null[Symbol]).map(
         (n) => CompletionItem(
             decl=n.as[BasicDecl],
             is_dot_call=n.info.md.dottable_subp,
@@ -18308,7 +18308,7 @@ class SyntheticTypeExpr: TypeExpr {
         # rebindings will ever be relevant.
         # Hence we use the built-in `shed_rebindings` construct from the type
         # definition's lexical environment so as to only keep relevant ones.
-        val relevant_rebindings = node.target_type.children_env().shed_rebindings(self.info).rebindings;
+        val relevant_rebindings = node.target_type.children_env.shed_rebindings(self.info).rebindings;
 
         # Return a rebound `target_type`
         Entity[BaseTypeDecl](
@@ -18366,7 +18366,7 @@ class UsePackageClause: UseClause {
         val pkg = node.packages?[index];
 
         {
-            bind env = self.node_env();
+            bind env = self.node_env;
             bind origin = pkg.origin_node();
 
             pkg.as_bare_entity.designated_env()

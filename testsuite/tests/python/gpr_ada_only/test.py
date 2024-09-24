@@ -2,7 +2,7 @@ import libadalang as lal
 
 
 for ada_only in [False, True]:
-    print("== {} ==".format("All languages" if ada_only else "Ada only"))
+    print("== {} ==".format("Ada only" if ada_only else "All languages"))
     print("")
 
     try:

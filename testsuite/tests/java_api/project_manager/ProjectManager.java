@@ -157,12 +157,33 @@ public class ProjectManager {
         Libadalang.ScenarioVariable[] scenarioVariables,
         boolean lookInProjectPath
     ) {
+        openProject(
+            gprFile,
+            subproject,
+            configFile,
+            scenarioVariables,
+            lookInProjectPath,
+            false
+        );
+    }
+
+    private static void openProject(
+        String gprFile,
+        String subproject,
+        String configFile,
+        Libadalang.ScenarioVariable[] scenarioVariables,
+        boolean lookInProjectPath,
+        boolean adaOnly
+    ) {
         String headerMsg = "Open " + Paths.get(gprFile).getFileName();
         if (subproject != null) {
             headerMsg += " (" + subproject + ")";
         }
         if (configFile != null) {
             headerMsg += " with config " + configFile;
+        }
+        if (adaOnly) {
+            headerMsg += " | Ada only";
         }
         header(headerMsg);
 
@@ -181,7 +202,8 @@ public class ProjectManager {
                   scenarioVariables,
                   null,
                   null,
-                  configFile
+                  configFile,
+                  adaOnly
               )
         ) {
             projectInfo(project, subproject);
@@ -254,7 +276,8 @@ public class ProjectManager {
                 Libadalang.ProjectManager.createImplicit(
                     null,
                     null,
-                    null
+                    null,
+                    false
                 )
         ) {
             projectInfo(project, null);
@@ -306,6 +329,25 @@ public class ProjectManager {
         );
     }
 
+    private static void testAdaOnly() {
+        openProject(
+            "ada_only.gpr",
+            null,
+            null,
+            null,
+            true,
+            true
+        );
+        openProject(
+            "ada_only.gpr",
+            null,
+            null,
+            null,
+            true,
+            false
+        );
+    }
+
     /**
      * Run the tests
      */
@@ -321,5 +363,6 @@ public class ProjectManager {
         testValidConfigFile();
         testEmptyConfigFile();
         testInexistantConfigFile();
+        testAdaOnly();
     }
 }

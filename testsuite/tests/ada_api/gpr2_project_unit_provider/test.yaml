@@ -1,2 +1,8 @@
 driver: ada-api
 main: main.adb
+control:
+    - [
+        XFAIL,
+        valgrind,
+        "eng/gpr/gpr-issues#406: GPR2 slowness, test times out"
+    ]

@@ -1,0 +1,4 @@
+project Ada_Only is
+   for Languages use ("Ada", "Fortran");
+   for Source_Dirs use ("calendar_src");
+end Ada_Only;

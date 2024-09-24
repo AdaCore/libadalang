@@ -107,3 +107,17 @@ fatal error, cannot load the project tree
 idonotexist.cgpr: error: project file "<working-dir>/idonotexist.cgpr" not found
 ------------------------------------------------
 
+--- Open ada_only.gpr | Ada only ---
+File main.adb
+  root = <CompilationUnit main.adb:1:1-8:10>
+  deps = [<CompilationUnit ada.ads:16:1-20:9>, <CompilationUnit a-calend.ads:36:1-413:18>, <CompilationUnit a-calfor.ads:22:1-223:29>, <CompilationUnit __standard:1:1-130:14>, <CompilationUnit a-catizo.ads:19:1-35:29>]
+------------------------------------
+
+--- Open ada_only.gpr ---
+Error during project opening:
+  [kb: warning: can't find a toolchain for the following configuration: language 'Fortran', target 'x86_64-linux', default runtime]
+File main.adb
+  root = <CompilationUnit main.adb:1:1-8:10>
+  deps = [<CompilationUnit ada.ads:16:1-20:9>, <CompilationUnit a-calend.ads:36:1-413:18>, <CompilationUnit a-calfor.ads:22:1-223:29>, <CompilationUnit __standard:1:1-130:14>, <CompilationUnit a-catizo.ads:19:1-35:29>]
+-------------------------
+

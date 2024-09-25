@@ -134,6 +134,13 @@ package Libadalang.Implementation.Extensions is
    function String_Literal_P_Denoted_Value
      (Node : Bare_String_Literal) return String_Type;
 
+   ----------------------------
+   -- Format_String_Tok_Node --
+   ----------------------------
+
+   function Format_String_Tok_Node_P_Denoted_Value
+     (Node : Bare_Format_String_Tok_Node) return String_Type;
+
    ----------
    -- Expr --
    ----------

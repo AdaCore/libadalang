@@ -1,0 +1,14 @@
+Working on node <SubpBody ["Test"] test.adb:1:1-10:10>
+======================================================
+
+Set 'fstn' to 'node.findall(lal.FormatStringTokNode)'
+Result: [<FormatStringTokString test.adb:5:28-5:34>,
+         <FormatStringTokStart test.adb:6:9-6:15>,
+         <FormatStringTokMid test.adb:6:16-6:23>,
+         <FormatStringTokEnd test.adb:6:24-6:26>,
+         <FormatStringTokString test.adb:7:9-7:13>,
+         <FormatStringTokString test.adb:8:9-8:16>,
+         <FormatStringTokString test.adb:9:9-9:14>]
+
+Eval '[n.p_denoted_value for n in fstn]'
+Result: ['fff', 'I: ', ', J: ', '', 'I', 'M}J}', '\\n']

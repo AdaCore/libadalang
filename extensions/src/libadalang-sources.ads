@@ -8,6 +8,8 @@ with GNATCOLL.GMP.Rational_Numbers;
 
 with Langkit_Support.Symbols; use Langkit_Support.Symbols;
 
+with Libadalang.Common;
+
 --  General helpers to deal with sources text decoding
 
 package Libadalang.Sources is
@@ -35,9 +37,14 @@ package Libadalang.Sources is
    --  Raise a Libadalang.Common.Property_Error if Text is not a valid
    --  literal.
 
-   function Decode_String_Literal (Text : Text_Type) return Text_Type;
-   --  Turn Text, a valid Ada string literal, into the signified string. Raise
-   --  a Libadalang.Common.Property_Error if Text is not a valid literal.
+   function Decode_String_Literal
+     (Text : Text_Type;
+      Kind : Common.Ada_Node_Kind_Type :=
+          Common.Ada_String_Literal) return Text_Type;
+   --  Turn Text, a valid Ada string literal, into the signified string (this
+   --  function can also decode interpolated string chunks by setting Kind to
+   --  Ada_Format_String_[End|Mid|Start|String]). Raise a
+   --  Libadalang.Common.Property_Error if Text is not a valid literal.
 
    -------------------------------
    -- Numeric literals handling --

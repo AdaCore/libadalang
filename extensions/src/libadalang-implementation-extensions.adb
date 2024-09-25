@@ -860,6 +860,19 @@ package body Libadalang.Implementation.Extensions is
       return Create_String (Sources.Decode_String_Literal (N_Text));
    end String_Literal_P_Denoted_Value;
 
+   --------------------------------------------
+   -- Format_String_Tok_Node_P_Denoted_Value --
+   --------------------------------------------
+
+   function Format_String_Tok_Node_P_Denoted_Value
+     (Node : Bare_Format_String_Tok_Node) return String_Type
+   is
+      N_Text : constant Text_Type := Text (Node);
+      N_Kind : constant Ada_Node_Kind_Type := Node.Kind;
+   begin
+      return Create_String (Sources.Decode_String_Literal (N_Text, N_Kind));
+   end Format_String_Tok_Node_P_Denoted_Value;
+
    package Alloc_Logic_Var_Array is new
      Langkit_Support.Bump_Ptr.Array_Alloc
        (Element_T  => Logic_Var_Record,

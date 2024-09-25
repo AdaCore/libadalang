@@ -20935,6 +20935,10 @@ class FormatStringChunk: AdaNode {
 |" Node holding a format string token.
 @abstract
 class FormatStringTokNode: AdaNode implements TokenNode {
+    |" Return the value that this literal denotes.
+    @exported
+    @external()
+    fun denoted_value(): String
 }
 
 |" Node holding a formatting "end" token.

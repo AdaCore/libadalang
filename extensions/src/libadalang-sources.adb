@@ -184,7 +184,10 @@ package body Libadalang.Sources is
    -- Decode_String_Literal --
    ---------------------------
 
-   function Decode_String_Literal (Text : Text_Type) return Text_Type is
+   function Decode_String_Literal
+     (Text : Text_Type;
+      Kind : Common.Ada_Node_Kind_Type :=
+         Common.Ada_String_Literal) return Text_Type is
 
       Result : Text_Type (Text'Range);
       Last   : Natural := Result'First - 1;
@@ -211,29 +214,67 @@ package body Libadalang.Sources is
          Result (Last) := C;
       end Put;
 
-      Delimiter         : Character_Type;
-      Last_Is_Delimiter : Boolean := False;
-      I                 : Natural;
+      Start_Delimiter, End_Delimiter : Character_Type;
+      Last_Is_Delimiter              : Boolean := False;
+      I                              : Natural;
    begin
       --  TODO: handle brackets encoding
 
-      --  Ensure we have valid delimiters at the start and the end of the input
-      --  text, and ensure they are the same delimiters.
+      if Text'Length < 2 then
+         Error;
+      end if;
 
-      if Text'Length < 2
-         or else Text (Text'First) not in '"' | '%'
-         or else Text (Text'First) /= Text (Text'Last)
+      I := Text'First + 1;
+
+      --  Set literal delimiters depending on node kind
+
+      case Kind is
+      when Common.Ada_String_Literal =>
+         if Text (Text'First) not in '"' | '%' then
+            Error;
+         end if;
+         Start_Delimiter := Text (Text'First);
+         End_Delimiter := Start_Delimiter;
+      when Common.Ada_Format_String_Tok_Start =>
+         Start_Delimiter := 'f';
+         End_Delimiter := '{';
+         if Text (I) /= '"' then
+            Error;
+         else
+            I := I + 1;
+         end if;
+      when Common.Ada_Format_String_Tok_Mid =>
+         Start_Delimiter := '}';
+         End_Delimiter := '{';
+      when Common.Ada_Format_String_Tok_End =>
+         Start_Delimiter := '}';
+         End_Delimiter := '"';
+      when Common.Ada_Format_String_Tok_String =>
+         Start_Delimiter := 'f';
+         End_Delimiter := '"';
+         if Text (I) /= '"' then
+            Error;
+         else
+            I := I + 1;
+         end if;
+      when others =>
+         Error;
+      end case;
+
+      --  Ensure we have valid delimiters at the start and the end of the input
+      --  text.
+
+      if Text (Text'First) /= Start_Delimiter
+         or else Text (Text'Last) /= End_Delimiter
       then
          Error;
       end if;
-      Delimiter := Text (Text'First);
 
-      I := Text'First + 1;
       while I < Text'Last loop
          declare
             C : constant Character_Type := Text (I);
          begin
-            if C = Delimiter then
+            if C = End_Delimiter then
                if Last_Is_Delimiter then
                   Put (C);
                   Last_Is_Delimiter := False;

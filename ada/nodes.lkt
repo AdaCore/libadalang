@@ -20930,6 +20930,18 @@ class FormatStringChunk: AdaNode {
         # The RFC specifies that interpolated string expressions can be "of
         # any type", so we explicitly bind the expected type to null.
         %and node.expr.expected_type_var() <- null[AdaNode]
+
+    |" Return the Image subprogram declaration referred by this format string
+    |" chunk expression.
+    @exported
+    fun image_subprogram(): Entity[BasicDecl] = {
+        val expr_type = self.expr.expression_type();
+
+        expr_type.get_aspect(s"Put_Image").value.as[Name].do(
+            (pi) => pi.referenced_decl(),
+            default_val=expr_type.synthesize_attribute_subprogram(s"Image")
+        )
+    }
 }
 
 |" Node holding a format string token.

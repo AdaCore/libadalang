@@ -1,0 +1,10 @@
+Working on node <SubpBody ["Test"] test.adb:6:1-33:10>
+======================================================
+
+Set 'fstn' to 'node.findall(lal.FormatStringChunk)'
+Result: [<FormatStringChunk test.adb:32:29-32:39>,
+         <FormatStringChunk test.adb:32:39-32:53>]
+
+Eval '[n.p_image_subprogram for n in fstn]'
+Result: [<SubpBody ["My_Put_Image"] test.adb:17:4-27:21>,
+         <SyntheticSubpDecl ["image"] in Standard>]

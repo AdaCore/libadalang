@@ -1,5 +1,5 @@
-import tokens
 import parser
+import tokens
 
 dynvar env: LexicalEnv
 |" Origin for this property's request. See :ref:`The origin parameter` for more
@@ -676,7 +676,7 @@ class AdaNode implements Node[AdaNode] {
 
     # TODO (S917-027): re-enable this protection or remove it once we
     # moved forward on memoization soundness issues in Langkit.
-    # This comment was associated with the following previous libadalang DSL:
+    # This comment was associated with the following previous libadalang DSL::
     #    call_non_memoizable_because=(
     #        None and
     #        'Getting an analysis unit cannot appear in a memoized context'
@@ -1371,9 +1371,9 @@ class AdaNode implements Node[AdaNode] {
             )
             or? n.all_env_elements()?[0]
 
-        # We first try to find a type
-        # If it's an attribute, it might be a reference to a function
-        # If all that didn't work, find something else
+        # We first try to find a type.  If it's an attribute, it might be a
+        # reference to a function.  If all that didn't work, find something
+        # else.
         case _ => null[Entity[AdaNode]]
     }
 
@@ -4191,7 +4191,7 @@ class AggregateAssoc: BasicAssoc {
                     .leftmost_name()
                     .do((id) => agg_components.find((c) => c.name.matches(id)))
                 # If not a Name, there can be no component match (can be a
-                # BinOp denoting a range in an array for example.)
+                # BinOp denoting a range in an array for example).
                 else null[Expr].as_entity
             );
 
@@ -6127,8 +6127,8 @@ class BasicDecl: AdaNode {
                 else n.prefix.text.to_symbol,
                 default_val=s"standard"
             )
-        # If it's not a dotted name, its parent is the standard package
-        # This declaration
+        # If it's not a dotted name, its parent is the standard package This
+        # declaration.
         else null[Symbol]
     }
 
@@ -7580,11 +7580,9 @@ class BaseTypeDecl: BasicDecl {
         self.is_int_type()
         or self.base_subtype().do(
             (bt) =>
-            not # We check on the base_subtype because the aspect can only be
+            # We check on the base_subtype because the aspect can only be
             # specified on the type's first subtype.
-            bt
-            .get_aspect(s"Integer_Literal", true)
-            .is_null,
+            not bt.get_aspect(s"Integer_Literal", true).is_null,
             default_val=false
         )
 
@@ -7596,11 +7594,9 @@ class BaseTypeDecl: BasicDecl {
         self.is_real_type()
         or self.base_subtype().do(
             (bt) =>
-            not # We check on the base_subtype because the aspect can only be
+            # We check on the base_subtype because the aspect can only be
             # specified on the type's first subtype.
-            bt
-            .get_aspect(s"Real_Literal", true)
-            .is_null,
+            not bt.get_aspect(s"Real_Literal", true).is_null,
             default_val=false
         )
 
@@ -13298,12 +13294,12 @@ class CompilationUnit: AdaNode {
         val current_unit = node.local_config_pragmas();
         # Then get pragmas in related units
         val related_units =
-        # If self is a spec, we need to look at its body, and conversely.
+        # If self is a spec, we need to look at its body, and conversely
             if include_other_part and node.body is LibraryItem
             then node.other_part()?.local_config_pragmas()
-            # If self is a sub-unit, we need to look at all subunits up in
-            # the chain, the root body, and the corresponding spec.
 
+            # If self is a sub-unit, we need to look at all subunits up in the
+            # chain, the root body, and the corresponding spec.
             elif node.body is Subunit
             then
                 node.body.as[Subunit].root_unit()?.sources_config_pragmas(
@@ -13984,8 +13980,8 @@ class Expr: AdaNode {
             (a) =>
             (
                 # If we're the RHS of an assignment, RM 3.9.2 (18.1/2) applies:
-                # The controlling operand is the LHS of the assignment.
-                # This only applies to the RHS of the assign statement
+                # The controlling operand is the LHS of the assignment.  This
+                # only applies to the RHS of the assign statement.
                 a.expr == self
             )
             and self.expected_expression_type().is_classwide(),
@@ -15613,7 +15609,7 @@ class CaseExpr: CondExpr {
                                             %and e.matches_expected_type()
 
                                     # SubtypeIndication case (``when Color
-                                    # range Red .. Blue``)
+                                    # range Red .. Blue``).
                                     case t: SubtypeIndication =>
                                         t.xref_equation()
                                     case _: OthersDesignator => %true
@@ -16823,9 +16819,9 @@ class Name: Expr {
             formal_spec?.corresponding_actual().unpacked_formal_params();
 
         if is_call
-        then # Create an array of pairs from the subprogram formals and
-        # default expressions.
-        {
+        then {
+            # Create an array of pairs from the subprogram formals and default
+            # expressions.
             val dparams =
                 fparams.imapcat(
                     (p, i) =>
@@ -17546,9 +17542,9 @@ class AttributeRef: Name {
                 else %false
             )
         )
-        else # Prefix is not a type: In that case we have permission to resolve
+        # Prefix is not a type: In that case we have permission to resolve
         # prefix separately.
-        {
+        else {
             val res =
                 self.prefix.resolve_names_internal_with_eq(
                     BaseTypeDecl.is_array_def_with_deref%(self
@@ -21000,8 +20996,7 @@ class ForLoopSpec: LoopSpec {
                     case _ => %true
                 }
 
-            # should never happen
-            # This is a for .. of
+            # Should never happen: this is a for .. of.
             case _: IterType.Of =>
                 self.iter_expr.as[Expr].do(
                     (iter_expr) =>
@@ -21512,8 +21507,8 @@ class Pragma: AdaNode {
                     or? [enclosing_program_unit]
                 )
                 else (
-                    # Or else to the closest parent subprogram
-                    # Or else it's necessarily a program unit pragma
+                    # Or else to the closest parent subprogram.  Or else it's
+                    # necessarily a program unit pragma.
                     [enclosing_program_unit]
                 )
             )
@@ -22115,8 +22110,8 @@ class RequeueStmt: SimpleStmt {
                     (
                         # RM 9.5.4: the name shall resolve to denote a
                         # procedure or entry, where either:
-                        ##
-                        # 1. The profile is empty
+                        #
+                        # 1. The profile is empty.
                         e.subp_spec_or_null().do(
                             (ss) =>
                             ss.nb_max_params() == 0 and ss.returns().is_null
@@ -22357,7 +22352,7 @@ class Subunit: AdaNode {
     fun xref_equation(): Equation =
         node.name.ref_var()
         <- self.body_root()
-        # Bind the parent unit's name to the enclosing body for this subunit.
+        # Bind the parent unit's name to the enclosing body for this subunit
         %and self.name.as[DottedName].do(
             (dn) => {
                 bind env = node.body.node_env;
@@ -24297,11 +24292,11 @@ class EnumLitSynthTypeExpr: TypeExpr {
     fun custom_id_text(): String = {
         bind origin = node;
 
-        self.designated_type().canonical_fully_qualified_name() & "."
-        & # The custom_id_text is the combination of the enum type name and of
+        self.designated_type().canonical_fully_qualified_name()
+        & "."
+        # The custom_id_text is the combination of the enum type name and of
         # the enum literal name.
-        self
-        .sym_join(
+        & self.sym_join(
             self.parent.as[EnumLiteralDecl].defining_name().as_symbol_array(),
             ""
         )

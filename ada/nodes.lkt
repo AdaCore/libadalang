@@ -2,7 +2,9 @@ import tokens
 import parser
 
 dynvar env: LexicalEnv
-|" Origin for this property's request. See :ref:`The origin parameter` for more details
+|" Origin for this property's request. See :ref:`The origin parameter` for more
+|" details
+
 dynvar origin: AdaNode
 dynvar no_visibility: Bool
 dynvar include_ud_indexing: Bool
@@ -732,19 +734,20 @@ class AdaNode implements Node[AdaNode] {
         unit.root.do(
             (v1) =>
             match v1 {
-                # If the root of the analysis unit is a single compilation unit,
-                # it is necessarily the one we look for.
+                # If the root of the analysis unit is a single compilation
+                # unit, it is necessarily the one we look for.
                 case single: CompilationUnit => single
 
-                # If the root of the analysis unit comprises multiple compilation
-                # units, look for the one with a matching fully qualified name.
+                # If the root of the analysis unit comprises multiple
+                # compilation units, look for the one with a matching fully
+                # qualified name.
                 case multi: ASTList[CompilationUnit] =>
                     multi.find(
                         (c) => c.syntactic_fully_qualified_name() == name
                     )
 
-                # If the root is a PragmaNodeList (`pragma No_Body` case), there is
-                # no compilation unit for `name`.
+                # If the root is a PragmaNodeList (`pragma No_Body` case),
+                # there is no compilation unit for `name`.
                 case _: ASTList[Pragma] => null[CompilationUnit]
                 case _ =>
                     raise[CompilationUnit] PropertyError(
@@ -836,8 +839,8 @@ class AdaNode implements Node[AdaNode] {
         node.children.all(
             (c) =>
             c.do(
-                # Only resolve nodes that have xref_stop_resolution set, and do not
-                # recursively explore nodes that are xref entry points.
+                # Only resolve nodes that have xref_stop_resolution set, and do
+                # not recursively explore nodes that are xref entry points.
                 (c) =>
                 if c.xref_entry_point() then true
                 else
@@ -1018,7 +1021,8 @@ class AdaNode implements Node[AdaNode] {
     |" Get the children env of the Standard package.
     fun std_env(): LexicalEnv = node.std().children_env
 
-    |" Static property. Return an entity from the standard package with name ``sym``.
+    |" Static property. Return an entity from the standard package with name
+    |" ``sym``.
     @exported
     fun std_entity(sym: Symbol): Entity[AdaNode] =
         node.unit.root.std_entity_implem(sym)
@@ -1336,8 +1340,8 @@ class AdaNode implements Node[AdaNode] {
         )
         and (
             (
-                # The node is a generic package instantiation coming from a formal
-                # package.
+                # The node is a generic package instantiation coming from a
+                # formal package.
                 other_entity.as[GenericPackageInstantiation]?.info.from_rebound
             )
             or other_entity.as[PackageRenamingDecl]?.info.from_rebound
@@ -1695,8 +1699,9 @@ class AdaNode implements Node[AdaNode] {
                         elif dbd is ObjectDecl
                         then (
                             # Since dbd can refer to an object declaration with
-                            # multiple defining names, do not call `public_part_decl`
-                            # but directly call `previous_part_for_name(self)`.
+                            # multiple defining names, do not call
+                            # `public_part_decl` but directly call
+                            # `previous_part_for_name(self)`.
                             dbd.as[ObjectDecl].previous_part_for_name(
                                 self.as[Name].name_symbol()
                             )
@@ -2301,8 +2306,9 @@ class AssocList: ASTList[BasicAssoc] {
                             a.expression_type().record_def()
                             ?.components
                             .abstract_formal_params_for_assocs(
-                                self, # Do not get ancestor_expr's components if `a` is an
-                                # extended aggregate.
+                                self,
+                                # Do not get ancestor_expr's components if `a`
+                                # is an extended aggregate.
                                 stop_recurse_at=a.ancestor_expr_type()
                             )
                         }
@@ -2326,8 +2332,9 @@ class AssocList: ASTList[BasicAssoc] {
                 (_) =>
                 params.filtermap(
                     (p) => {
-                        # Append implicit actuals of formal subprograms that have a
-                        # default value (box expression of explicit reference).
+                        # Append implicit actuals of formal subprograms that
+                        # have a default value (box expression of explicit
+                        # reference).
                         val decl = p.as[GenericFormalSubpDecl];
                         val subp =
                             p
@@ -2351,16 +2358,14 @@ class AssocList: ASTList[BasicAssoc] {
                         (fd) =>
                         fd.decl.as[FormalSubpDecl].do(
                             (subp) =>
-                            (
-                                # Generate a new match for formal subprogram which
-                                # have a default value.
-                                subp.default_expr is BoxExpr | Name
-                            )
-                            and (
-                                # unless they have already have an explicit match
-                                not explicit_matches.any(
-                                    (m) => m.param == subp.defining_name()
-                                )
+                            # Generate a new match for formal subprogram
+                            # which have a default value.
+                            subp
+                            .default_expr is BoxExpr
+                            | Name
+                            # unless they have already have an explicit match
+                            and not explicit_matches.any(
+                                (m) => m.param == subp.defining_name()
                             )
                         )
                     )
@@ -3081,14 +3086,14 @@ class BaseFormalParamHolder: AdaNode {
         then
             match
                 self.entity_no_md(
-                    self.info.md.primitive_real_type
-                    or? typ
-                    .node, # This primitive might come from a subprogram instantiation,
-                    # in which case we don't want to plug its rebindings to the
-                    # type itself. So simply remove all rebindings at the surface
-                    # that correspond to subprogram instantiations. We cannot
-                    # mistakenly remove relevant rebindings, since a derived type
-                    # cannot come from a subprogram instantiation.
+                    self.info.md.primitive_real_type or? typ.node,
+                    # This primitive might come from a subprogram
+                    # instantiation, in which case we don't want to plug its
+                    # rebindings to the type itself. So simply remove all
+                    # rebindings at the surface that correspond to subprogram
+                    # instantiations. We cannot mistakenly remove relevant
+                    # rebindings, since a derived type cannot come from a
+                    # subprogram instantiation.
                     node.shed_subp_rebindings(self.info.rebindings),
                     self.info.from_rebound
                 )
@@ -3591,11 +3596,12 @@ class BaseSubpSpec: BaseFormalParamHolder {
                 (b) => b.node == name.basic_decl().node
             )
             .do(
-                # This is node is indeed a primitive if we can find it in `typ`'s
-                # primitives env.
+                # This is node is indeed a primitive if we can find it in
+                # `typ`'s primitives env.
+                #
                 # If seen from an inherited primitive, make sure the returned
-                # type corresponds to the derived type and not the base type
-                # by using `real_type`.
+                # type corresponds to the derived type and not the base type by
+                # using `real_type`.
                 (_) => self.real_type(typ)
             )
         )
@@ -3915,7 +3921,8 @@ class ComponentList: BaseFormalParamHolder {
                                 .do(
                                     (cc) => cc.constraints,
                                     default_val=assocs
-                                ), # In case of extension aggregate, discriminants
+                                ),
+                                # In case of extension aggregate, discriminants
                                 # are not constrained by any subtype
                                 # indication, then match the discriminants with
                                 # the AssocList of the aggregate.
@@ -4193,8 +4200,8 @@ class AggregateAssoc: BasicAssoc {
                     .as[Name]
                     .leftmost_name()
                     .do((id) => agg_components.find((c) => c.name.matches(id)))
-                # If not a Name, there can be no component match (can be a BinOp
-                # denoting a range in an array for example.)
+                # If not a Name, there can be no component match (can be a
+                # BinOp denoting a range in an array for example.)
                 else null[Expr].as_entity
             );
 
@@ -4218,13 +4225,13 @@ class AggregateAssoc: BasicAssoc {
                 else %true
             )
             %and (
-                # We cannot set the expected type of the alternative in case the
-                # aggregate is a record aggregate or a deep one (both record and
-                # array) because the expected type of the alternative can be any
-                # one of the record components (including those from parents).
-                # Only simple array aggregate associations's alternatives can
-                # have an expected type (i.e., the alternative designates a
-                # position or a range).
+                # We cannot set the expected type of the alternative in case
+                # the aggregate is a record aggregate or a deep one (both
+                # record and array) because the expected type of the
+                # alternative can be any one of the record components
+                # (including those from parents).  Only simple array aggregate
+                # associations's alternatives can have an expected type (i.e.,
+                # the alternative designates a position or a range).
                 if positional_assoc
                 then
                     n.as[Expr].expected_type_var()<-agg_type.index_type(0)
@@ -4286,8 +4293,8 @@ class AggregateAssoc: BasicAssoc {
             matches.logic_all(
                 (match_var) =>
                 (
-                    # If expr is a box expr do not resolve it since it doesn't have
-                    # a name nor type.
+                    # If expr is a box expr do not resolve it since it doesn't
+                    # have a name nor type.
                     if is_box_expr then %true
                     else
                         (
@@ -5352,12 +5359,13 @@ class BasicDecl: AdaNode {
         then
             node.is_directly_reachable(from_node)
             and (
-                # Even if the above expression is True, we may not have visibility
-                # according to Ada rules: in LAL, library-level child packages'
-                # parent environments are defined to be their parent packages'
-                # private part. The expression below filters out cases where self
-                # is declared in the private part of a library-level package and
-                # from_node lies in the public part of a child package.
+                # Even if the above expression is True, we may not have
+                # visibility according to Ada rules: in LAL, library-level
+                # child packages' parent environments are defined to be their
+                # parent packages' private part. The expression below filters
+                # out cases where self is declared in the private part of a
+                # library-level package and from_node lies in the public part
+                # of a child package.
                 from_node.enclosing_compilation_unit().has_private_view(
                     from_node.node
                 )
@@ -5384,7 +5392,8 @@ class BasicDecl: AdaNode {
         # Unhandled case: raise PropertyError
         else
             raise[Bool] PropertyError(
-                "Only package-level declaration support visibility checks for now."
+                |" Only package-level declaration support visibility checks for
+                |" now."
             )
 
     @with_dynvars(origin)
@@ -5472,7 +5481,8 @@ class BasicDecl: AdaNode {
         val spec = self.without_md().as[BasicDecl].subp_spec_or_null();
         # Retrieve an environment that contains all the candidate subprograms
         # that can be base declarations of this one.
-        val prims_env = # If we are in a task or protected type, accumulate the primitives
+        val prims_env =
+        # If we are in a task or protected type, accumulate the primitives
         # of the parent interfaces, and add the subprogram defined in the
         # scope of the protected or task type.
             if task_or_protected
@@ -5761,9 +5771,9 @@ class BasicDecl: AdaNode {
                     )
                     and (
                         if return_type.is_null
-                        then # If it is a procedure, the first param mode should
-                        # be `in out` while the second one should be `in`.
-                        {
+                        then {
+                            # If it is a procedure, the first param mode should
+                            # be `in out` while the second one should be `in`.
                             val param_modes = spec.param_modes();
 
                             param_modes?[0] is Mode.InOut
@@ -6266,9 +6276,10 @@ class BasicDecl: AdaNode {
                     AnalysisUnitKind.unit_body,
                     not_found_is_error=not (
                         (
-                            # Body not mandatory if the library level declaration
-                            # is a package (regular, generic, or instantiated). We
-                            # don't try to be more precise than that.
+                            # Body not mandatory if the library level
+                            # declaration is a package (regular, generic, or
+                            # instantiated). We don't try to be more precise
+                            # than that.
                             b is BasePackageDecl
                             | GenericPackageDecl
                             | GenericInstantiation
@@ -6281,9 +6292,9 @@ class BasicDecl: AdaNode {
                             # declaration is an imported subprogram.
                             b is BasicSubpDecl | GenericSubpDecl
                             and (
-                                # Now that get_aspect looks in all parts, we must
-                                # not call has_aspect("Import") from here to avoid
-                                # infinite recursion.
+                                # Now that get_aspect looks in all parts, we
+                                # must not call has_aspect("Import") from here
+                                # to avoid infinite recursion.
                                 not b.as_entity.do(
                                     (e) =>
                                     e.get_aspect_assoc(s"Import")
@@ -7016,17 +7027,17 @@ class BaseTypeDecl: BasicDecl {
                 (v1) =>
                 match v1 {
                     case pkg_decl: BasePackageDecl =>
-                    # self is declared in a package scope, we should check all the
-                    # declarative parts of it.
+                    # self is declared in a package scope, we should check all
+                    # the declarative parts of it.
                         pkg_decl
                         .public_part
                         .decls
                         .as_array()
                         & pkg_decl.private_part?.decls.as_array()
                     case _ =>
-                    # self is not declared in a package scope: the only way that there
-                    # can be a primitive of self here is if self is a derived tagged
-                    # type.
+                    # self is not declared in a package scope: the only way
+                    # that there can be a primitive of self here is if self is
+                    # a derived tagged type.
                         if is_derived_tagged
                         then
                             node.parent.parent.as[DeclarativePart].do(
@@ -7056,12 +7067,14 @@ class BaseTypeDecl: BasicDecl {
                         node.as_bare_entity
                     )
                     and (
-                        # For candidate primitives not declared in a package decl,
-                        # we must further check if they are overriding a parent
-                        # primitive.
-                        # This check is not done in `candidate_type_for_primitive`
-                        # because it may cause infinite recursions if the parent
-                        # type is declared in the same scope as self.
+                        # For candidate primitives not declared in a package
+                        # decl, we must further check if they are overriding a
+                        # parent primitive.
+                        #
+                        # This check is not done in
+                        # `candidate_type_for_primitive` because it may cause
+                        # infinite recursions if the parent type is declared in
+                        # the same scope as self.
                         if not scope.parent is BasePackageDecl
                         then {
                             bind origin = spec.origin_node();
@@ -7248,9 +7261,9 @@ class BaseTypeDecl: BasicDecl {
                             .as_bare_entity
                             .as[BaseTypeDecl];
 
-                        # Only keep primitive a if it is the "most overriding" one.
-                        # So, the logic below checks that there isn't a primitive b
-                        # that overrides it.
+                        # Only keep primitive a if it is the "most overriding"
+                        # one.  So, the logic below checks that there isn't a
+                        # primitive b that overrides it.
                         not bds.iany(
                             (b, j) => {
                                 val b_prim =
@@ -7258,7 +7271,8 @@ class BaseTypeDecl: BasicDecl {
 
                                 (i != j)
                                 and {
-                                    # If two primitives have the same signature...
+                                    # If two primitives have the same
+                                    # signature...
                                     bind origin = b.origin_node();
 
                                     a_spec.match_signature(
@@ -7270,19 +7284,21 @@ class BaseTypeDecl: BasicDecl {
                                 and {
                                     val b_prim_ent = b_prim.as_bare_entity;
 
-                                    # Test if the type of the first primitive (a) derives
-                                    # from the type of the second primitive (b)...
+                                    # Test if the type of the first primitive
+                                    # (a) derives from the type of the second
+                                    # primitive (b)...
                                     if a_prim.has_base_type(b_prim_ent.node)
                                     then (
-                                        # Case a derives from b...
-                                        # If b also derives from a, it means the types are
-                                        # equal: both primitives are in fact the same
-                                        # subprogram, but the first one is the declaration
-                                        # and the second one is the body. In that case we
-                                        # decide to keep the body.
-                                        # Else if b does not derive from a, it means the
-                                        # primitive on a overrides the primitive on b, so
-                                        # return False.
+                                        # Case a derives from b...  If b also
+                                        # derives from a, it means the types
+                                        # are equal: both primitives are in
+                                        # fact the same subprogram, but the
+                                        # first one is the declaration and the
+                                        # second one is the body. In that case
+                                        # we decide to keep the body.  Else if
+                                        # b does not derive from a, it means
+                                        # the primitive on a overrides the
+                                        # primitive on b, so return False.
                                         i < j
                                         and b_prim_ent.has_base_type(
                                             a_prim.node
@@ -7290,16 +7306,17 @@ class BaseTypeDecl: BasicDecl {
                                     )
                                     else (
                                         # Case a does *not* derive from b...
-                                        # If b also does not derive from a, the two base
-                                        # types are unrelated, it means that the primitives
-                                        # are merged in a single one (remember their
-                                        # signature match). We keep the one that is
-                                        # inherited first with respect to the list of
-                                        # parents.
-                                        # But if b derives from a, we return True as we
-                                        # don't want to keep this primitive: we will keep
-                                        # the most inherited one (defined on b) later
-                                        # instead.
+                                        # If b also does not derive from a, the
+                                        # two base types are unrelated, it
+                                        # means that the primitives are merged
+                                        # in a single one (remember their
+                                        # signature match). We keep the one
+                                        # that is inherited first with respect
+                                        # to the list of parents.  But if b
+                                        # derives from a, we return True as we
+                                        # don't want to keep this primitive: we
+                                        # will keep the most inherited one
+                                        # (defined on b) later instead.
                                         i > j
                                         or b_prim_ent.has_base_type(
                                             a_prim.node
@@ -7630,11 +7647,9 @@ class BaseTypeDecl: BasicDecl {
             self.is_str_type()
             or self.base_subtype().do(
                 (bt) =>
-                not # We check on the base_subtype because the aspect can only be
+                # We check on the base_subtype because the aspect can only be
                 # specified on the type's first subtype.
-                bt
-                .get_aspect(s"String_Literal", true)
-                .is_null,
+                not bt.get_aspect(s"String_Literal", true).is_null,
                 default_val=false
             )
         )
@@ -7864,8 +7879,8 @@ class BaseTypeDecl: BasicDecl {
                 )
             )
             or (
-                # Dot notation: The prefix can be a value type and the formal an
-                # access type to this value type.
+                # Dot notation: The prefix can be a value type and the formal
+                # an access type to this value type.
                 cont_type.accessed_type().do(
                     (at) => self.matching_formal_prim_type(at)
                 )
@@ -8098,8 +8113,8 @@ class BaseTypeDecl: BasicDecl {
     fun next_part(): Entity[BaseTypeDecl] = match self {
         case itd: IncompleteTypeDecl =>
             itd.declarative_scope().do(
-                # The next part of a (non-private) incomplete type declaration must
-                # either be in the same declarative scope...
+                # The next part of a (non-private) incomplete type declaration
+                # must either be in the same declarative scope...
                 (s) => itd.find_next_part_in(s.as_entity)
             )
             or? self.is_in_private_part().do(
@@ -8110,9 +8125,10 @@ class BaseTypeDecl: BasicDecl {
                 .as_entity
                 .body_part()
                 .do(
-                    # Or in the particular case of taft-amendment types where the
-                    # incomplete decl is in the private part of the package spec,
-                    # the next part can be found in the package's body (RM 3.10.1).
+                    # Or in the particular case of taft-amendment types where
+                    # the incomplete decl is in the private part of the package
+                    # spec, the next part can be found in the package's body
+                    # (RM 3.10.1).
                     (p) => itd.find_next_part_in(p.decls)
                 )
             )
@@ -9413,11 +9429,11 @@ class TypeDecl: BaseTypeDecl {
                 (ss) => {
                     bind origin = e.node;
 
-                    # Unfortunately, we can't use `UserDefinedFunctionSubpSpec` (as in
-                    # `user_defined_literal_fns`) here to filter candidates since user
-                    # defined functions can have many parameters without any
-                    # constraints on them. Only the first parameter should be a the
-                    # type of self.
+                    # Unfortunately, we can't use `UserDefinedFunctionSubpSpec`
+                    # (as in `user_defined_literal_fns`) here to filter
+                    # candidates since user defined functions can have many
+                    # parameters without any constraints on them. Only the
+                    # first parameter should be a the type of self.
                     ss.unpacked_formal_params()?[0]?.formal_decl()
                     .formal_type()
                     .matching_formal_type(self)
@@ -9930,7 +9946,8 @@ class FormalSubpDecl: ClassicSubpDecl {
                 subp.as[BasicDecl].subp_spec_or_null().do(
                     (spec) =>
                     self.subp_spec.match_signature(
-                        other=spec, # Names must already match due to the env_get call
+                        other=spec,
+                        # Names must already match due to the env_get call
                         match_name=false
                     )
                 )
@@ -10332,12 +10349,13 @@ class Body: BasicDecl {
                         (sp) =>
                         not sp.is_null and sp.node != node
                         and match sp {
-                            # If this body completes a generic subprogram, then we
-                            # just return it (no need to match the signature).
+                            # If this body completes a generic subprogram, then
+                            # we just return it (no need to match the
+                            # signature).
                             case _: GenericSubpDecl => true
 
-                            # A formal subprogram cannot be the previous part of any
-                            # subprogram.
+                            # A formal subprogram cannot be the previous part
+                            # of any subprogram.
                             case _: FormalSubpDecl => false
                             case subp_decl: BasicSubpDecl =>
                                 {
@@ -10345,8 +10363,9 @@ class Body: BasicDecl {
 
                                     subp_decl.subp_decl_spec().match_signature(
                                         self.subp_spec_or_null().as[SubpSpec],
-                                        true, # We set use_entity_info to False so as to not
-                                        # match base subprograms.
+                                        true,
+                                        # We set use_entity_info to False so as
+                                        # to not match base subprograms.
                                         use_entity_info=false
                                     )
                                 }
@@ -10356,8 +10375,9 @@ class Body: BasicDecl {
 
                                     subp_stub.subp_spec.match_signature(
                                         self.subp_spec_or_null().as[SubpSpec],
-                                        true, # We set use_entity_info to False so as to not
-                                        # match base subprograms.
+                                        true,
+                                        # We set use_entity_info to False so as
+                                        # to not match base subprograms.
                                         use_entity_info=false
                                     )
                                 }
@@ -10576,7 +10596,8 @@ class Body: BasicDecl {
         follow_private: Bool,
         force_decl: Bool = false
     ): LexicalEnv = {
-        val scope = # Subunits always appear at the top-level in package bodies. So if
+        val scope =
+        # Subunits always appear at the top-level in package bodies. So if
         # this is a subunit, the scope is the same as the scope of the
         # corresponding "is separate" decl, hence: the defining env of this
         # top-level package body.
@@ -12228,10 +12249,11 @@ class GenericPackageInstantiation: GenericInstantiation {
                         node.insert_rebindings(
                             p.info.rebindings,
                             self.info.rebindings
-                        ), # Append the rebindings for the current instantiation.
+                        ),
+                        # Append the rebindings for the current instantiation.
                         # NOTE: We use the formal env to create rebindings.
-                        # There, we purposefully want the children env of the
-                        # P node, with no rebindings associated, since the
+                        # There, we purposefully want the children env of the P
+                        # node, with no rebindings associated, since the
                         # rebinding indication concerns the *naked* generic.
                         # Hence we use `p.node.children_env`.
                         p.node.children_env,
@@ -13161,24 +13183,19 @@ class CompilationUnit: AdaNode {
                         from_body
                     )
                 case subp_body: SubpBody =>
-                    (
-                        # Subprogram bodies can have elaboration pragmas, so look
-                        # for them, first.
-                        subp_body.does_aspects_make_preelaborable(
-                            from_body=false
-                        )
-                    )
-                    or (
-                        # Otherwise recurse on the corresponding procedure spec (if
-                        # any).
-                        subp_body.decl_part().do(
-                            (dp) =>
-                            dp
-                            .parent
-                            .parent
-                            .as![CompilationUnit]
-                            .is_preelaborable_impl(from_body=true)
-                        )
+                # Subprogram bodies can have elaboration pragmas, so
+                # look for them, first.
+                    subp_body
+                    .does_aspects_make_preelaborable(from_body=false)
+                    # Otherwise recurse on the corresponding procedure spec (if
+                    # any).
+                    or subp_body.decl_part().do(
+                        (dp) =>
+                        dp
+                        .parent
+                        .parent
+                        .as![CompilationUnit]
+                        .is_preelaborable_impl(from_body=true)
                     )
                 case pkg_decl: PackageDecl =>
                     pkg_decl.does_aspects_make_preelaborable(from_body)
@@ -13250,9 +13267,9 @@ class CompilationUnit: AdaNode {
                 case li: LibraryItem =>
                     node.self_restrictions().contains(name)
                     or node.other_part()?.self_restrictions().contains(name)
-                    # Pragma No_Elaboration_Code_All establishes the restriction
-                    # No_Elaboration_Code for the current unit and any extended main
-                    # source units (body and subunits).
+                    # Pragma No_Elaboration_Code_All establishes the
+                    # restriction No_Elaboration_Code for the current unit and
+                    # any extended main source units (body and subunits).
                     or {
                         val spec =
                             li.item.as_bare_entity.do(
@@ -13304,8 +13321,8 @@ class CompilationUnit: AdaNode {
         # First get pragmas in the prelude
         val current_unit = node.local_config_pragmas();
         # Then get pragmas in related units
-        val related_units = # If self is a spec, we need to look at its body, and
-        # conversely.
+        val related_units =
+        # If self is a spec, we need to look at its body, and conversely.
             if include_other_part and node.body is LibraryItem
             then node.other_part()?.local_config_pragmas()
             # If self is a sub-unit, we need to look at all subunits up in
@@ -14365,25 +14382,23 @@ class BaseAggregate: Expr {
         # aggregate (e.g. records and arrays).
         val type_constraint =
             if
-                (
-                    # In the following cases, the aggregate is not a real expression:
-                    # it's merely re-used as a pure syntactic construct to aggregate
-                    # information.
-                    node.in_aspect(s"Global")
-                    or node.in_aspect(s"Refined_Global")
-                    or node.in_aspect(s"Depends")
-                    or node.in_aspect(s"Refined_Depends")
-                    or node.in_aspect(s"Test_Case")
-                    or node.in_aspect(s"Refined_State")
-                    or node.in_aspect(s"Aggregate")
-                    or node.in_aspect(s"Subprogram_Variant")
-                )
-                or (
-                    # Careful: normal aggregates can appear inside a contract_cases
-                    # aspect's expression, so we must only special case the direct
-                    # aggregate of that aspect.
-                    node.is_contract_cases_base_aggregate()
-                )
+            # In the following cases, the aggregate is not a real
+            # expression: it's merely re-used as a pure syntactic
+            # construct to aggregate information.
+                node
+                .in_aspect(s"Global")
+                or node.in_aspect(s"Refined_Global")
+                or node.in_aspect(s"Depends")
+                or node.in_aspect(s"Refined_Depends")
+                or node.in_aspect(s"Test_Case")
+                or node.in_aspect(s"Refined_State")
+                or node.in_aspect(s"Aggregate")
+                or node.in_aspect(s"Subprogram_Variant")
+
+                # Careful: normal aggregates can appear inside a contract_cases
+                # aspect's expression, so we must only special case the direct
+                # aggregate of that aspect.
+                or node.is_contract_cases_base_aggregate()
             then %true
             else {
                 bind origin = node.origin_node();
@@ -15003,23 +15018,25 @@ class BinOp: Expr {
             )
             %and (
                 (
-                    # We have an expected type: we can directly infer the actual type
-                    # of the result, and of the operands using the equations above.
-                    # Note that there is a difference between not having an expected
-                    # type at all (as in a type conversion), and having an expected
-                    # type but not inferrable from the context (as in an operand of a
-                    # comparison operator `(A + B) = 2`. The latter simply means
-                    # that the expected type itself will be inferred from the operands
-                    # using one of `self.infer_from_*` properties.
+                    # We have an expected type: we can directly infer the
+                    # actual type of the result, and of the operands using the
+                    # equations above.  Note that there is a difference between
+                    # not having an expected type at all (as in a type
+                    # conversion), and having an expected type but not
+                    # inferrable from the context (as in an operand of a
+                    # comparison operator `(A + B) = 2`. The latter simply
+                    # means that the expected type itself will be inferred from
+                    # the operands using one of `self.infer_from_*` properties.
                     AdaNode.is_not_null%(node.expected_type_var())
                     %and node.type_var()<-BaseTypeDecl
                     .derefed_base_subtype%(node.expected_type_var())
                 )
                 %or (
-                    # There is no expected type (e.g. we are in a type conversion).
-                    # In this case, the type of the result will be inferred from the
-                    # type of operands: we know that at least one of them has a
-                    # context-free type (otherwise this wouldn't be valid Ada code).
+                    # There is no expected type (e.g. we are in a type
+                    # conversion).  In this case, the type of the result will
+                    # be inferred from the type of operands: we know that at
+                    # least one of them has a context-free type (otherwise this
+                    # wouldn't be valid Ada code).
                     {
                         bind logic_context = null[LogicContext];
                         node.expected_type_var()<-null[Entity[BaseTypeDecl]]
@@ -15140,12 +15157,13 @@ class ConcatOp: Expr {
                 )
                 %and (
                     # Build the equations for the concatenations themselves.
-                    # WARNING: for now, the equations should appear in the order
-                    # below, that is: the equation constraining the leftmost
-                    # operand should be first, and equations for successive operands
-                    # should follow in the corresponding order, with the rightmost
-                    # operand having its equation last. This allows optimal resolution
-                    # (performance-wise) until eng/libadalang/langkit#725 is addressed.
+                    # WARNING: for now, the equations should appear in the
+                    # order below, that is: the equation constraining the
+                    # leftmost operand should be first, and equations for
+                    # successive operands should follow in the corresponding
+                    # order, with the rightmost operand having its equation
+                    # last. This allows optimal resolution (performance-wise)
+                    # until eng/libadalang/langkit#725 is addressed.
                     self.other_operands.ilogic_all(
                         (_, index) => {
                             val pos = operand_count - index - 1;
@@ -15159,10 +15177,11 @@ class ConcatOp: Expr {
                                 val right = self.other_operands?[pos].operand;
 
                                 (
-                                    # TODO: this is implementation is actually not correct
-                                    # w.r.t. visibility (eng/libadalang/libadalang#1138).
-                                    # First, try to resolve this operator using built-in
-                                    # operators only.
+                                    # TODO: this is implementation is actually
+                                    # not correct w.r.t. visibility
+                                    # (eng/libadalang/libadalang#1138).  First,
+                                    # try to resolve this operator using
+                                    # built-in operators only.
                                     self.operator_no_subprogram_equation(
                                         left,
                                         concat_operand,
@@ -15170,9 +15189,10 @@ class ConcatOp: Expr {
                                     )
                                 )
                                 %or (
-                                    # If that didn't work, try to resolve it by considering
-                                    # visible user-defined overloads of "&". NOTE: for
-                                    # performance reasons it is better to first try the
+                                    # If that didn't work, try to resolve it by
+                                    # considering visible user-defined
+                                    # overloads of "&". NOTE: for performance
+                                    # reasons it is better to first try the
                                     # built-in operators first.
                                     concat_subprograms.logic_any(
                                         (subp) => {
@@ -15406,9 +15426,9 @@ class ConcatOp: Expr {
             (
                 (
                     (
-                        # Left operand has a context free, use to infer the type of the
-                        # result. This can handle the cases:
-                        #  - "&" (Array_Of_T, *) -> Array_Of_T.
+                        # Left operand has a context free, use to infer the
+                        # type of the result. This can handle the cases: - "&"
+                        # (Array_Of_T, *) -> Array_Of_T.
                         op.type_var()<-BaseTypeDecl.derefed_base_subtype%(left
                         .type_var())
                         %and {
@@ -15417,10 +15437,10 @@ class ConcatOp: Expr {
                         }
                     )
                     %or (
-                        # We need another disjunction to handle the remaining cases:
-                        #  - "&" (T, *) -> Array_Of_T
-                        # For both these cases, we need to use the type of the context
-                        # even though LHS has a context-free type.
+                        # We need another disjunction to handle the remaining
+                        # cases: - "&" (T, *) -> Array_Of_T For both these
+                        # cases, we need to use the type of the context even
+                        # though LHS has a context-free type.
                         (
                             op.type_var()<-BaseTypeDecl
                             .derefed_base_subtype%(op.expected_type_var())
@@ -15451,9 +15471,9 @@ class ConcatOp: Expr {
             (
                 (
                     (
-                        # Right operand has a context free, use to infer the type of
-                        # the result. This can handle the cases:
-                        #  - "&" (*, Array_Of_T) -> Array_Of_T.
+                        # Right operand has a context free, use to infer the
+                        # type of the result. This can handle the cases: - "&"
+                        # (*, Array_Of_T) -> Array_Of_T.
                         op.type_var()<-BaseTypeDecl.derefed_base_subtype%(right
                         .type_var())
                         %and {
@@ -15462,10 +15482,10 @@ class ConcatOp: Expr {
                         }
                     )
                     %or (
-                        # We need another disjunction to handle the remaining cases:
-                        #  - "&" (*, T) -> Array_Of_T
-                        # For both these cases, we need to use the type of the context
-                        # even though RHS has a context-free type.
+                        # We need another disjunction to handle the remaining
+                        # cases: - "&" (*, T) -> Array_Of_T For both these
+                        # cases, we need to use the type of the context even
+                        # though RHS has a context-free type.
                         (
                             op.type_var()<-BaseTypeDecl
                             .derefed_base_subtype%(op.expected_type_var())
@@ -15594,7 +15614,8 @@ class CaseExpr: CondExpr {
                                             )
                                             %and e.matches_expected_type()
 
-                                    # SubtypeIndication case (``when Color range Red .. Blue``)
+                                    # SubtypeIndication case (``when Color
+                                    # range Red .. Blue``)
                                     case t: SubtypeIndication =>
                                         t.xref_equation()
                                     case _: OthersDesignator => %true
@@ -16160,7 +16181,8 @@ class Name: Expr {
                 dottable_subp=false,
                 can_be=true
             );
-        val comp_type = # TODO: Try to perform this test directly in comp_type. We can't do
+        val comp_type =
+        # TODO: Try to perform this test directly in comp_type. We can't do
         # it at the moment since iterable_comp_type can call comp_type,
         # leading to an infinite recursion.
             if typ?.is_iterable_type() then typ?.iterable_comp_type()
@@ -16174,9 +16196,10 @@ class Name: Expr {
                 case ed: ExplicitDeref =>
                     ed.as_entity.eq_for_type(typ)
                     %and (
-                        # If ``typ`` is an access to subprogram, it means self (an
-                        # ExplicitDeref) is actually a call to that subprogram. So,
-                        # bind its subp_spec_var to the subprogram spec of the access.
+                        # If ``typ`` is an access to subprogram, it means self
+                        # (an ExplicitDeref) is actually a call to that
+                        # subprogram. So, bind its subp_spec_var to the
+                        # subprogram spec of the access.
                         node.subp_spec_var()<-as_subp_access?.subp_spec
                     )
                 case _ => node.type_var()<-null[Entity[AdaNode]].node
@@ -16332,17 +16355,15 @@ class Name: Expr {
             if
                 not generic_context_node.is_null
                 and (
-                    (
-                        # The referenced node is the generic declaration inside of
-                        # which we are.
-                        generic_context_node == entity.node
-                    )
-                    or (
-                        # The referenced node is the generic body inside of which we
-                        # are.
-                        generic_context_node
-                        == entity.as[Body]?.decl_part()?.node
-                    )
+                    # The referenced node is the generic declaration inside
+                    # of which we are.
+                    generic_context_node
+                    == entity
+                    .node
+                    # The referenced node is the generic body inside of which
+                    # we are.
+                    or generic_context_node
+                    == entity.as[Body]?.decl_part()?.node
                 )
             then (
                 # Add back the rebindings if the conditions are satisfied
@@ -16412,7 +16433,8 @@ class Name: Expr {
                 RefdDecl(decl=res.decl?.wrap_public_reference(), kind=res.kind)
                 .do(
                     # Never return a null node with a Precise result: this
-                    # indicates that it should be a no_ref (e.g. builtin operator).
+                    # indicates that it should be a no_ref (e.g. builtin
+                    # operator).
                     (res) =>
                     if res.decl.is_null and res.kind == RefResultKind.precise
                     then null[RefdDecl]
@@ -17946,9 +17968,9 @@ class CallExpr: Name {
             )
         else
             {
-                # If we are resolving this CallExpr from a DeltaAggregate, env is the
-                # one of the aggregate type, so we need to bind env to self's env to
-                # resolve the CallExpr params (array indicies).
+                # If we are resolving this CallExpr from a DeltaAggregate, env
+                # is the one of the aggregate type, so we need to bind env to
+                # self's env to resolve the CallExpr params (array indicies).
                 bind env =
                     if
                         entry_point
@@ -18128,8 +18150,8 @@ class CallExpr: Name {
                 # subprogram.
                 node.type_var()<-subp_spec.as[BaseSubpSpec]?.return_type()
                 %and (
-                    # This node represents a call to a subprogram which specification
-                    # is given by ``subp_spec``.
+                    # This node represents a call to a subprogram which
+                    # specification is given by ``subp_spec``.
                     {
                         bind logic_context = null[LogicContext];
                         node.subp_spec_var()<-subp_spec
@@ -18234,11 +18256,11 @@ class CallExpr: Name {
                     # (:rmlink:`4.1.6`).
                     self.parent.as[CallExpr].do(
                         (ce) =>
-                        # Since the result type of self is ``typ``, the result type of
-                        # its parent CallExpr (if it exists) must be the component type
-                        # of ``typ``, except in case of an array slice.
-                        # Note: we use subscript=True because a CallExpr will
-                        # dereference implicitly.
+                        # Since the result type of self is ``typ``, the result
+                        # type of its parent CallExpr (if it exists) must be
+                        # the component type of ``typ``, except in case of an
+                        # array slice.  Note: we use subscript=True because a
+                        # CallExpr will dereference implicitly.
                         ce
                         .check_for_type(
                             if self.check_array_slice(typ) then typ
@@ -18317,9 +18339,9 @@ class DefiningName: Name {
                 )
                 .do(
                     (fqn) =>
-                    # If we were on an instantiated generic declaration, we don't
-                    # want to include the name of the generic but the name of the
-                    # instance (which is `fqn`).
+                    # If we were on an instantiated generic declaration, we
+                    # don't want to include the name of the generic but the
+                    # name of the instance (which is `fqn`).
                     if is_instantiated
                     then fqn
                     else fqn & self_name
@@ -18402,7 +18424,8 @@ class DefiningName: Name {
     ): Array[Entity[AdaNode]] =
         self.name.all_env_els_impl(seq, seq_from, categories)
 
-    |" Return this DefiningName's basic declaration, discarding internal nodes such as Generic*Internal wrappers
+    |" Return this DefiningName's basic declaration, discarding internal nodes
+    |" such as Generic*Internal wrappers.
     @exported
     fun basic_decl(): Entity[BasicDecl] =
         self.basic_decl_internal().do(
@@ -18415,7 +18438,8 @@ class DefiningName: Name {
             else bd
         )
 
-    |" Return this DefiningName's basic declaration, but do not bypass internal nodes (such as Generic*Internal wrappers)
+    |" Return this DefiningName's basic declaration, but do not bypass
+    |" internal nodes (such as Generic*Internal wrappers).
     @memoized
     fun basic_decl_internal(): Entity[BasicDecl] =
         self.parents().find((p) => p is BasicDecl).as![BasicDecl]
@@ -18736,17 +18760,19 @@ class DefiningName: Name {
         inherited: Bool,
         previous_parts_only: Bool
     ): Aspect = {
-        val parts_to_check = # SPARK_Mode has its own logic (see `is_spark`). For instance, if
+        val parts_to_check =
+        # SPARK_Mode has its own logic (see `is_spark`). For instance, if
         # defined on a body, it doesn't apply to the corresponding
         # specification, and conversely. Only consider the current part
         # when looking for it.
             if name == s"SPARK_Mode" then [self]
             elif previous_parts_only then [self] & self.all_previous_parts()
             else self.all_parts();
-        val self_aspects = # The following aspects only support the Ada 2012 aspect
-        # association syntax, so use a faster path to avoid looking
-        # for pragmas and representation clauses for them as they are
-        # often queried during name resolution.
+        val self_aspects =
+        # The following aspects only support the Ada 2012 aspect
+        # association syntax, so use a faster path to avoid looking for
+        # pragmas and representation clauses for them as they are often
+        # queried during name resolution.
             if
                 name in s"Implicit_Dereference"
                     | s"Constant_Indexing"
@@ -18835,19 +18861,20 @@ class DefiningName: Name {
         and (
             if node.is_contract_aspect(name)
             then (
-                # We don't want to evaluate the predicate condition to determine
-                # if its present.
+                # We don't want to evaluate the predicate condition to
+                # determine if its present.
                 true
             )
             else
                 a.value.do(
                     (value) =>
-                    (
-                        # Only check the value of the expression if it is determined to
-                        # be of a boolean type, so we don't erroneously try to cast a
-                        # value to bool when it would be wrong.
-                        value.expression_type() != node.bool_type()
-                    )
+                    # Only check the value of the expression if it is
+                    # determined to be of a boolean type, so we don't
+                    # erroneously try to cast a value to bool when it would
+                    # be wrong.
+                    value
+                    .expression_type()
+                    != node.bool_type()
                     or value.eval_as_int() == 1b,
                     default_val=true
                 )
@@ -18958,8 +18985,8 @@ class DefiningName: Name {
         # Gather aspects defined by pragmas
         val pragmas =
             match bd {
-                # If self is an EnumLiteralDecl, search the pragma from the enum
-                # type declaration node.
+                # If self is an EnumLiteralDecl, search the pragma from the
+                # enum type declaration node.
                 case eld: EnumLiteralDecl =>
                     eld.parent.parent.parent.as![BasicDecl]
                 case o => o
@@ -19771,7 +19798,8 @@ class BaseId: SingleTokNode implements TokenNode {
                 all_env_els.filter(
                     (e) =>
                     (
-                        # Exclude own generic package instantiation from the lookup
+                        # Exclude own generic package instantiation from the
+                        # lookup.
                         e.node != bd
                     )
                     and node.has_visibility(e)
@@ -19869,12 +19897,13 @@ class BaseId: SingleTokNode implements TokenNode {
         if
             package_body_env != null[LexicalEnv]
             and (
-                # Since origin or self do not carry rebindings, `is_children_env`
-                # would always return False in instantiated generics (since
-                # `package_body_env` is a rebound environment). Fortunately, these
-                # visibility rules are not instantiation-dependent, so we can use
-                # `.env_node.children_env` on `package_body_env` to do the check on
-                # the bare non-rebound lexical envs.
+                # Since origin or self do not carry rebindings,
+                # `is_children_env` would always return False in instantiated
+                # generics (since `package_body_env` is a rebound environment).
+                # Fortunately, these visibility rules are not
+                # instantiation-dependent, so we can use
+                # `.env_node.children_env` on `package_body_env` to do the
+                # check on the bare non-rebound lexical envs.
                 node.is_children_env(
                     package_body_env.env_node?.children_env,
                     (origin or? node).node_env
@@ -19973,10 +20002,10 @@ class BaseId: SingleTokNode implements TokenNode {
             # When the type is a generic formal type, if we are resolving it
             # from it's instantiation, that means that no actual has been given
             # for that formal (name resolution directly calls
-            # resolve_generic_actual on actuals names), therefore the designated
-            # type should be the default one if any. On the other hand, outside
-            # it's own instantion context, the designated type is the formal
-            # type, whether it has a default value or not.
+            # resolve_generic_actual on actuals names), therefore the
+            # designated type should be the default one if any. On the other
+            # hand, outside it's own instantion context, the designated type is
+            # the formal type, whether it has a default value or not.
             type
             .parent
             .as[GenericFormalTypeDecl]
@@ -20019,9 +20048,8 @@ class BaseId: SingleTokNode implements TokenNode {
                 env,
                 node.symbol,
                 lookup=if node.is_prefix() then LookupKind.recursive
-                else
-                    LookupKind
-                    .flat, # If we are in an aspect, then lookup is not sequential
+                else LookupKind.flat,
+                # If we are in an aspect, then lookup is not sequential
                 from_node=node.origin_node(),
                 categories=if node.can_designate_primitive()
                 then RefCategories(_=true)
@@ -20032,8 +20060,9 @@ class BaseId: SingleTokNode implements TokenNode {
                 e.as[AnonymousExprDecl].do(
                     (aed) =>
                     self.parents().find((p) => p is GenericFormal).do(
-                        # If we are in a generic formal part, we do not necessarily have
-                        # visibility on all the actuals coming from the instantiation.
+                        # If we are in a generic formal part, we do not
+                        # necessarily have visibility on all the actuals coming
+                        # from the instantiation.
                         (_) =>
                         aed.get_formal().formal_decl().is_directly_reachable(
                             self
@@ -20054,16 +20083,17 @@ class BaseId: SingleTokNode implements TokenNode {
             if pc.is_null
             then (
                 # If it is not the main id in a CallExpr: either the name
-                # designates something else than a subprogram, either it designates
-                # a subprogram that accepts no explicit argument. So filter out
-                # other subprograms.
+                # designates something else than a subprogram, either it
+                # designates a subprogram that accepts no explicit argument. So
+                # filter out other subprograms.
                 items.filter((e) => e.as![BasicDecl].can_be_paramless())
                 & (
-                    # If there is a subp_spec, check that it corresponds to
-                    # a parameterless subprogram.
-                    # Make sure that the enclosing body is in the list of items in
-                    # case this name is the prefix of a qualified name refering to
-                    # local variables.
+                    # If there is a subp_spec, check that it corresponds to a
+                    # parameterless subprogram.
+                    #
+                    # Make sure that the enclosing body is in the list of items
+                    # in case this name is the prefix of a qualified name
+                    # refering to local variables.
                     if is_prefix
                     then
                         self.semantic_parents().find(
@@ -20105,9 +20135,9 @@ class BaseId: SingleTokNode implements TokenNode {
                                         params,
                                         b
                                     ),
-                                    # In the case of ObjectDecls/CompDecls in general,
-                                    # verify that the callexpr is valid for the given
-                                    # type designator.
+                                    # In the case of ObjectDecls/CompDecls in
+                                    # general, verify that the callexpr is
+                                    # valid for the given type designator.
                                     default_val=pc.check_for_type(
                                         b.expr_type()
                                     )
@@ -20116,8 +20146,8 @@ class BaseId: SingleTokNode implements TokenNode {
                         }
                     ),
 
-                    # Discard BaseTypeDecls when resolving a CallExpr that cannot
-                    # be a type conversion.
+                    # Discard BaseTypeDecls when resolving a CallExpr that
+                    # cannot be a type conversion.
                     default_val=items.filter((e) => not e is BaseTypeDecl)
                 )
         }
@@ -20150,7 +20180,8 @@ class BaseId: SingleTokNode implements TokenNode {
             # not relevant.
             real_pc.is_null
             or (
-                # Either the subprogram/entry is matching the CallExpr's parameters
+                # Either the subprogram/entry is matching the CallExpr's
+                # parameters.
                 spec.is_matching_param_list(
                     real_params,
                     b.info.md.dottable_subp
@@ -20220,11 +20251,13 @@ class BaseId: SingleTokNode implements TokenNode {
                     if is_prefix and e.as[BaseSubpBody]?.in_scope()
                     then node.type_var()<-null[Entity[BaseTypeDecl]]
                     else (
-                        # If this BaseId represents a call, the called subprogram will
-                        # be held in self.ref_var, in which case subp_spec_or_null will
-                        # return the specification of the called subprogram. If ref_var
-                        # does not contain a subprogram, this BaseId cannot be a call,
-                        # and subp_spec_or_null would indeed return null in this case.
+                        # If this BaseId represents a call, the called
+                        # subprogram will be held in self.ref_var, in which
+                        # case subp_spec_or_null will return the specification
+                        # of the called subprogram. If ref_var does not contain
+                        # a subprogram, this BaseId cannot be a call, and
+                        # subp_spec_or_null would indeed return null in this
+                        # case.
                         node.type_var()<-BasicDecl.expr_type%(node.ref_var())
                         %and node.subp_spec_var()<-e
                         .as[BasicDecl]
@@ -20924,8 +20957,8 @@ class ForLoopSpec: LoopSpec {
                         (
                             binop.sub_equation()
                             %and (
-                                # The default type, if there is no other determined type, is
-                                # Integer.
+                                # The default type, if there is no other
+                                # determined type, is Integer.
                                 BaseTypeDecl.is_not_root_int_type%(binop
                                 .type_var())
                             )
@@ -20943,17 +20976,18 @@ class ForLoopSpec: LoopSpec {
                         %and node.var_decl.id.type_var()<->r.type_var()
 
                     # Name case: Either the name is a subtype indication, or an
-                    # attribute on a subtype indication, in which case the logic is
-                    # the same as above, either it's an expression that yields an
-                    # iterator.
+                    # attribute on a subtype indication, in which case the
+                    # logic is the same as above, either it's an expression
+                    # that yields an iterator.
                     case t: Name =>
                         t.sub_equation()
                         %and t.name_designated_type().do(
                             (typ) =>
                             node.var_decl.id.type_var()<-typ.canonical_type(),
                             default_val=(
-                                # Make sure null is not a possible value to avoid a
-                                # null dereference in the subsequent predicate.
+                                # Make sure null is not a possible value to
+                                # avoid a null dereference in the subsequent
+                                # predicate.
                                 AdaNode.is_not_null%(t.type_var())
                             )
                             %and BaseTypeDecl.is_iterator_type%(t.type_var())
@@ -21379,12 +21413,13 @@ class Pragma: AdaNode {
                     decl.as[BasicDecl].wrap_public_reference().defining_names()
                     .find(
                         (dn) =>
-                        # Find the scope in which this pragma lies by fetching the closest
-                        # lexical scope. We don't use ``declarative_scope`` here, as some
-                        # decls do not lie in a DeclarativePart, such as ComponentDecls.
-                        # Get entities in it
-                        # Map to the public view, to work on the instantiation nodes
-                        # instead of the Generic*Internal nodes.
+                        # Find the scope in which this pragma lies by fetching
+                        # the closest lexical scope. We don't use
+                        # ``declarative_scope`` here, as some decls do not lie
+                        # in a DeclarativePart, such as ComponentDecls.  Get
+                        # entities in it Map to the public view, to work on the
+                        # instantiation nodes instead of the Generic*Internal
+                        # nodes.
                         dn
                         .name_is(name.name_symbol())
                     )
@@ -21392,10 +21427,11 @@ class Pragma: AdaNode {
             )
             .filter(
                 (ent) =>
-                (
-                    # Only get entities that are after self in the *same* source
-                    ent.unit == node.unit
-                )
+                # Only get entities that are after self in the *same*
+                # source.
+                ent
+                .unit
+                == node.unit
                 and ent.node < node
             )
         )
@@ -21453,14 +21489,15 @@ class Pragma: AdaNode {
                         self.id.name_is(s"Obsolescent")
                     )
                 then (
-                    # in which case they are attached to the closest declaration
-                    # above it. We could have used a call to previous_sibling here
-                    # to find the closest declaration above it but since
-                    # declarations are in lists we can directly search it in the
-                    # parent list to save time (previous_sibling has a linear
-                    # complexity so it can be very inefficient if we have a long
-                    # list of pragma to process before reaching the declaration
-                    # associated to them).
+                    # in which case they are attached to the closest
+                    # declaration above it. We could have used a call to
+                    # previous_sibling here to find the closest declaration
+                    # above it but since declarations are in lists we can
+                    # directly search it in the parent list to save time
+                    # (previous_sibling has a linear complexity so it can be
+                    # very inefficient if we have a long list of pragma to
+                    # process before reaching the declaration associated to
+                    # them).
                     node.parent.as[ASTList[AdaNode]].do(
                         (decls) =>
                         decls.filter(
@@ -22075,8 +22112,9 @@ class RequeueStmt: SimpleStmt {
                 n.as[BasicDecl].do(
                     (e) =>
                     (
-                        # RM 9.5.4: the name shall resolve to denote a procedure or entry,
-                        # where either:
+                        # RM 9.5.4: the name shall resolve to denote a
+                        # procedure or entry, where either:
+                        ##
                         # 1. The profile is empty
                         e.subp_spec_or_null().do(
                             (ss) =>
@@ -22096,11 +22134,12 @@ class RequeueStmt: SimpleStmt {
                     )
                     or (
                         # 3. The target denotes a prefixed view of a primitive
-                        # subprogram of a synchronized interface, where the first
-                        # parameter of the unprefixed view of the primitive subprogram
-                        # shall be a controlling parameter, and the Synchronization
-                        # aspect shall be specified with synchronization_kind By_Entry
-                        # for the primitive subprogram.
+                        # subprogram of a synchronized interface, where the
+                        # first parameter of the unprefixed view of the
+                        # primitive subprogram shall be a controlling
+                        # parameter, and the Synchronization aspect shall be
+                        # specified with synchronization_kind By_Entry for the
+                        # primitive subprogram.
                         if
                             e.get_aspect_spec_expr(s"Synchronization")
                             .as[Name]
@@ -23351,9 +23390,9 @@ class DerivedTypeDef: TypeDef {
             self.base_type().do(
                 (bt) =>
                 (
-                    # We want full visibility
-                    # Note that we don't recurse on interfaces, because limitedness is
-                    # not inherited from those (ARM 7.5 6.2/2).
+                    # We want full visibility.  Note that we don't recurse on
+                    # interfaces, because limitedness is not inherited from
+                    # those (ARM 7.5 6.2/2).
                     not bt.is_interface_type()
                 )
                 and bt.is_limited_type()
@@ -23528,8 +23567,8 @@ class InterfaceTypeDef: TypeDef {
     fun is_task_type(): Bool =
         self.interface_kind is InterfaceKind.Task
 
-        # All four interface kinds declare limited types. Also, limitedness is not
-        # inherited from parent interfaces (ARM 7.5 6.2/2).
+        # All four interface kinds declare limited types. Also, limitedness is
+        # not inherited from parent interfaces (ARM 7.5 6.2/2).
     fun is_limited_type(): Bool = not node.interface_kind.is_null
 
     fun base_interfaces(): Array[Entity[BaseTypeDecl]] =
@@ -24583,10 +24622,10 @@ class VariantPart: AdaNode {
                 .find(
                     (d) =>
                     not d.as[DiscriminantSpec].defining_names().filter(
-                        # If the discriminant is found in aggregate params we are looking
-                        # for, then take its actual's expression.
-                        # Else, take the default expression of the this variant's related
-                        # discriminant specification.
+                        # If the discriminant is found in aggregate params we
+                        # are looking for, then take its actual's expression.
+                        # Else, take the default expression of the this
+                        # variant's related discriminant specification.
                         (n) => n.name.name_is(node.discr_name.symbol)
                     )
                     .is_null

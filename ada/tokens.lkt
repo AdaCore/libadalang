@@ -1,12 +1,15 @@
 lexer ada_lexer {
     val bracket_char = p"(\\[\\\"[0-9a-fA-F]+\\\"\\])"
     val p_string = p"\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"])*\\\""
-    val p_format_string_start = p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
+    val p_format_string_start =
+        p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
     val p_format_string_mid = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\{"
-    val p_format_string_end = p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
+    val p_format_string_end =
+        p"\\}(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
 
     # Simple format string literal without expressions to expand
-    val p_format_string_string = p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
+    val p_format_string_string =
+        p"f\\\"(\\\"\\\"|{bracket_char}|[^\\n\\\"\\{])*\\\""
 
     val p_percent_string = p"%(%%|{bracket_char}|[^\\n%])*%"
     val digit = p"[0-9]"
@@ -17,13 +20,15 @@ lexer ada_lexer {
     val integer_literal = p"{integer}{exponent}?"
     val base = p"{integer}"
     val based_integer = p"{extended_digit}(_?{extended_digit})*"
-    val based_decimal_literal = p"{base}[#:]{based_integer}(\\.{based_integer})?[#:]{exponent}?"
+    val based_decimal_literal =
+        p"{base}[#:]{based_integer}(\\.{based_integer})?[#:]{exponent}?"
     val based_integer_literal = p"{base}[#:]{based_integer}[#:]{exponent}?"
     val ws = p"[ ]*"
 
     # TODO: handle Unicode properties in Langkit and switch back to
     # \p{ID_Start} and \p{ID_Continue}.
-    val identifier = p"[\\$_]?(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|{bracket_char})(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|\\p{Nd}|\\p{Mn}|\\p{Mc}|_|{bracket_char})*"
+    val identifier =
+        p"[\\$_]?(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|{bracket_char})(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|\\p{Nd}|\\p{Mn}|\\p{Mc}|_|{bracket_char})*"
 
 
     @unparsing_spacing(with=alphanumericals)
@@ -36,9 +41,14 @@ lexer ada_lexer {
     }
 
     # Blanks and trivia
-    @trivia() Whitespace <- p"[ \\t\\r\\n\\f\\v]+"
-    @with_unparsing_newline @trivia(comment=true) Comment <- p"--(.?)+"
-    @with_unparsing_newline @trivia() PrepLine <- p"#(.?)+"
+    @trivia()
+    Whitespace <- p"[ \\t\\r\\n\\f\\v]+"
+    @with_unparsing_newline
+    @trivia(comment=true)
+    Comment <- p"--(.?)+"
+    @with_unparsing_newline
+    @trivia()
+    PrepLine <- p"#(.?)+"
 
     # Those keywords can also be attributes, which is why they have special
     # handling, for example as in A'Access.
@@ -75,7 +85,8 @@ lexer ada_lexer {
         Not <- no_case("not")
         Reverse <- no_case("reverse")
         End <- no_case("end")
-        @symbol() Null <- no_case("null")
+        @symbol()
+        Null <- no_case("null")
         Accept <- no_case("accept")
         Entry <- no_case("entry")
         Select <- no_case("select")
@@ -173,10 +184,12 @@ lexer ada_lexer {
     # Identifiers
     @unparsing_spacing(with=alphanumericals)
     family alphanumericals {
-        @symbol() Identifier <- p"{identifier}"
+        @symbol()
+        Identifier <- p"{identifier}"
     }
 
-    @symbol() Char <- p"'{bracket_char}'"
+    @symbol()
+    Char <- p"'{bracket_char}'"
 
     # Attribute vs character literal quirk: A character literal is match via
     # '.'. However, this sequence of characters can happen in other cases, like

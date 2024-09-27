@@ -925,8 +925,9 @@ class AdaNode implements Node[AdaNode] {
 
             self.resolve_own_names(false)
         }
-        else (
-            # Otherwise, recurse on the parent
+
+        # Otherwise, recurse on the parent
+        else
             self.parent?.resolve_names_from_closest_entry_point().do(
                 (_) => {
                     bind env = self.xref_initial_env();
@@ -940,14 +941,12 @@ class AdaNode implements Node[AdaNode] {
 
                         self.resolve_own_names(false)
                     }
-                    else (
-                        # Resolution succeeded and there is nothing to do
-                        # on that particular node: return successfully.
-                        true
-                    )
+
+                    # Resolution succeeded and there is nothing to do
+                    # on that particular node: return successfully.
+                    else true
                 }
             )
-        )
 
     |" Return all the diagnostics produced by ``resolve_own_names`` on this
     |" node. If it was never called on this node, or if it was called without
@@ -1249,19 +1248,16 @@ class AdaNode implements Node[AdaNode] {
         self_cu: CompilationUnit,
         refd_unit: AnalysisUnit
     ): Bool =
-        (
-            # If the referenced unit is ourself, we don't need further checks
-            node.unit == refd_unit
-        )
-        or (
-            # If we have view on "private with"s, we don't need further checks
-            self_cu.has_private_view(node)
-        )
-        or (
-            # But if we don't, so we must return False if the referenced unit
-            # is only visible from private parts.
-            not self_cu.privately_imported_units().contains(refd_unit)
-        )
+        # If the referenced unit is ourself, we don't need further checks
+        node.unit
+        == refd_unit
+
+        # If we have view on "private with"s, we don't need further checks
+        or self_cu.has_private_view(node)
+
+        # But if we don't, so we must return False if the referenced unit
+        # is only visible from private parts.
+        or not self_cu.privately_imported_units().contains(refd_unit)
 
     |" Return whether self's unit has ``with visibility`` on ``refd_unit``.
     |"
@@ -2106,11 +2102,11 @@ class AdaNode implements Node[AdaNode] {
     @exported
     fun spark_mode_aspect(): Aspect =
         if not self.parent.is_null then self.parent.spark_mode_aspect()
-        else (
-            # Handle cases where this property is called on a node that is
-            # outside of a compilation unit.
+
+        # Handle cases where this property is called on a node that is outside
+        # of a compilation unit.
+        else
             raise[Aspect] PreconditionFailure("SPARK Mode does not apply here")
-        )
 
     |" Return the immediate declarative region (:rmlink:`8.1`)
     |" corresponding to this node, that is, the concatenation of the
@@ -5305,26 +5301,23 @@ class BasicDecl: AdaNode {
     |" referenced_env to the generic formal part of a given entity.
     fun should_ref_generic_formals(
 
-    ): Bool = # We want to reference the generic formal env if:
-        (
-            # 1. This potential generic body is not a compilation unit root. In
-            # that case, the parent is the lexical parent of the body (eg the
-            # containing entity), and we need to reference the formals.
-            not node.is_compilation_unit_root()
-        )
-        or (
-            # 2. This potential generic body is a subunit. In that case,
-            # similarly, the parent is the lexical parent of the stub part, and
-            # we need to reference the generic formals.
-            node.parent is Subunit
-        )
-        or (
-            # 3. This is the declaration of a subprogram body. In that case,
-            # we should add a reference to the generic formals even for
-            # library-level subprograms, because their parent is not their
-            # declaration.
-            node is BaseSubpBody
-        )
+    ): Bool =
+        # We want to reference the generic formal env if:
+        #
+        # 1. This potential generic body is not a compilation unit root. In
+        # that case, the parent is the lexical parent of the body (eg the
+        # containing entity), and we need to reference the formals.
+        not node.is_compilation_unit_root()
+
+        # 2. This potential generic body is a subunit. In that case, similarly,
+        # the parent is the lexical parent of the stub part, and we need to
+        # reference the generic formals.
+        or node.parent is Subunit
+
+        # 3. This is the declaration of a subprogram body. In that case, we
+        # should add a reference to the generic formals even for library-level
+        # subprograms, because their parent is not their declaration.
+        or node is BaseSubpBody
 
     |" Return whether self can be found in a single env query from the given
     |" ``origin`` node.
@@ -5409,15 +5402,13 @@ class BasicDecl: AdaNode {
     |" an explicit dereference of an access to a subprogram object.
     @with_dynvars(origin)
     fun access_to_subp_decl_match_signature(other: Entity[BasicDecl]): Bool =
-        (
-            self.expr_type().access_def().as[AccessToSubpDef].subp_spec.do(
-                (spec) =>
-                spec.match_signature(
-                    other.subp_spec_or_null().as![SubpSpec],
-                    false
-                ),
-                default_val=false
-            )
+        self.expr_type().access_def().as[AccessToSubpDef].subp_spec.do(
+            (spec) =>
+            spec.match_signature(
+                other.subp_spec_or_null().as![SubpSpec],
+                false
+            ),
+            default_val=false
         )
 
     |" Predicate to check whether ``other`` is a valid subprogram renaming
@@ -5444,35 +5435,29 @@ class BasicDecl: AdaNode {
         prefix: Entity[BasicDecl],
         other: Entity[BasicDecl]
     ): Bool =
-        (
-            # Check first for a regular subprogram renaming
-            self.subp_decl_match_signature(other)
-        )
-        or (
-            # Then, check for a renaming of a prefixed view call
-            self.subp_spec_or_null().do(
-                (spec) =>
-                not prefix.is_null
-                and (
-                    # ``self`` shall be a dottable subprogram for the
-                    # object's type designated by ``prefix``.
-                    (
-                        prefix.expr_type().do((typ) => typ.accessed_type())
-                        or? prefix.expr_type()
-                    )
-                    == spec.dottable_subp_of()
-                )
-                and (
-                    # Then signature profiles shall match by ignoring the first
-                    # parameter of ``self``.
-                    spec.match_signature(
-                        other.subp_spec_or_null().as![SubpSpec],
-                        false,
-                        ignore_first_param=true
-                    )
-                ),
-                default_val=false
+        # Check first for a regular subprogram renaming
+        self.subp_decl_match_signature(other)
+
+        # Then, check for a renaming of a prefixed view call
+        or self.subp_spec_or_null().do(
+            (spec) =>
+            not prefix
+            .is_null
+            # ``self`` shall be a dottable subprogram for the
+            # object's type designated by ``prefix``.
+            and (
+                prefix.expr_type().do((typ) => typ.accessed_type())
+                or? prefix.expr_type()
             )
+            == spec.dottable_subp_of()
+            # Then signature profiles shall match by ignoring the first
+            # parameter of ``self``.
+            and spec.match_signature(
+                other.subp_spec_or_null().as![SubpSpec],
+                false,
+                ignore_first_param=true
+            ),
+            default_val=false
         )
 
     |" Actual implementation of ``base_subp_declarations`` that already
@@ -6538,12 +6523,12 @@ class ComponentDecl: BaseFormalParamDecl {
         # ProtectedTypeDecl, do not constrain the equation further since
         # they do not have a type.
         if node.parents().any((p) => p is ProtectedDef) then %true
-        else (
-            # The expected type of the prefix is the record type of this
-            # component.
+
+        # The expected type of the prefix is the record type of this
+        # component.
+        else
             prefix.expected_type_var()<-self.container_type()
             %and prefix.matches_expected_prefix_type()
-        )
 
     |" Return the defining container type for this component declaration.
     fun container_type(): Entity[BaseTypeDecl] =
@@ -9116,13 +9101,13 @@ class TypeDecl: BaseTypeDecl {
     @with_dynvars(origin)
     fun is_iterable_type(): Bool =
         self.is_array()
-        or not self.get_aspect(s"Iterator_Element", true).value.is_null
-        or (
-            # TODO: The optional `Element` assoc must be defined, if not, a
-            # type with the aspect `Iterable` only supports iteration over
-            # cursors through the `for .. in` loop (W303-007).
-            not self.get_aspect(s"Iterable", true).value.is_null
-        )
+        or not self.get_aspect(s"Iterator_Element", true)
+        .value
+        .is_null
+        # TODO: The optional `Element` assoc must be defined, if not, a
+        # type with the aspect `Iterable` only supports iteration over
+        # cursors through the `for .. in` loop (W303-007).
+        or not self.get_aspect(s"Iterable", true).value.is_null
 
     @with_dynvars(origin)
     fun iterable_comp_type(): Entity[BaseTypeDecl] = {
@@ -10042,10 +10027,9 @@ class EntryDecl: BasicSubpDecl {
         # For tasks, get the corresponding accept statement's body
         if self.parent_basic_decl() is SingleTaskTypeDecl | TaskTypeDecl
         then self.accept_stmts()?[0]?.body_decl
-        else (
-            # For protected entries, call the superclass ``next_part_for_decl``
-            self.super()
-        )
+
+        # For protected entries, call the superclass ``next_part_for_decl``
+        else self.super()
 
     env_spec {
         add_to_env_kv(self.name_symbol(), node)
@@ -10808,27 +10792,25 @@ class BaseSubpBody: Body {
                 )
             ]
             .env_group()
-        else (
-            # For bodies corresponding to generic declaration, add the
-            # declaration's formal_part env to the body one, as for
-            # example in:
-            #
-            # .. code:: ada
-            #   procedure Gen_Proc is
-            #      C : constant T := Gen_Proc.F;
-            #   begin
-            #      null;
-            #   end Gen_Proc;
-            #
-            # with `F` being a `Gen_Proc` formal's function:
-            #
-            # .. code ada
-            #   generic
-            #     type T is private;
-            #     with function F return T is <>;
-            #   procedure Gen_Proc;
-            self.subp_spec.defining_env()
-        )
+        # For bodies corresponding to generic declaration, add the
+        # declaration's formal_part env to the body one, as for
+        # example in:
+        #
+        # .. code:: ada
+        #   procedure Gen_Proc is
+        #      C : constant T := Gen_Proc.F;
+        #   begin
+        #      null;
+        #   end Gen_Proc;
+        #
+        # with `F` being a `Gen_Proc` formal's function:
+        #
+        # .. code ada
+        #   generic
+        #     type T is private;
+        #     with function F return T is <>;
+        #   procedure Gen_Proc;
+        else self.subp_spec.defining_env()
 
     fun type_expression(): Entity[TypeExpr] = self.subp_spec.returns()
 
@@ -11715,10 +11697,8 @@ class ForLoopVarDecl: BasicDecl {
             then node.id.type_val().as![BaseTypeDecl]
             else self.id.expression_type()
         )
-        else (
-            # If there is a type annotation, just return it
-            self.id_type.designated_type()
-        )
+        # If there is a type annotation, just return it
+        else self.id_type.designated_type()
 
     fun is_constant_object(): Bool = {
         # TODO: add support for Constant/Variable_Indexing
@@ -11728,18 +11708,16 @@ class ForLoopVarDecl: BasicDecl {
         # constant.
         if loop_spec.loop_type is IterType.Of
         then loop_spec.iter_expr.as![Name].is_constant()
-        else (
-            # IterType.alt_in loops are always constant
-            true
-        )
+
+        # IterType.alt_in loops are always constant
+        else true
     }
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         self.id.sub_equation()
-        %and (
-            if self.id_type.is_null then %true else self.id_type.sub_equation()
-        )
+        %and if self.id_type.is_null then %true
+        else self.id_type.sub_equation()
 
     env_spec {
         add_to_env_kv(node.name_symbol(), node)
@@ -12051,59 +12029,51 @@ class GenericInstantiation: BasicDecl {
                 case _ => %true
             }
         )
-        %and (
-            if self.is_any_formal() then %true
-            else
-                self.designated_generic_decl()?.formal_part.match_param_list(
-                    self.generic_inst_params(),
-                    false
-                )
-                .filter((pm) => not pm.actual.assoc.expr() is BoxExpr)
-                .logic_all(
-                    (pm) => {
-                        val actual_name = pm.actual.assoc.expr().as[Name];
+        %and if self.is_any_formal() then %true
+        else
+            self.designated_generic_decl()?.formal_part.match_param_list(
+                self.generic_inst_params(),
+                false
+            )
+            .filter((pm) => not pm.actual.assoc.expr() is BoxExpr)
+            .logic_all(
+                (pm) => {
+                    val actual_name = pm.actual.assoc.expr().as[Name];
 
-                        match pm.formal.formal_decl().as[GenericFormal].decl {
-                            case _: BaseTypeDecl =>
-                                actual_name.xref_type_equation()
-                            case _: GenericPackageInstantiation =>
-                                actual_name.xref_no_overloading()
-                            case subp_decl: Entity[FormalSubpDecl] =>
-                                if actual_name is AttributeRef
-                                then actual_name.sub_equation()
-                                else
-                                    (
-                                        actual_name.xref_no_overloading(
-                                            all_els=true
-                                        )
-                                        %and BasicDecl
-                                        .subp_decl_match_signature%(actual_name
-                                        .ref_var(),
-                                        subp_decl.as[BasicDecl])
-                                    )
-                                    %or %true
-                            case obj_decl: ObjectDecl =>
-                                (
-                                    pm.actual.assoc.expr()
-                                    .expected_type_var()<-obj_decl.expr_type()
-                                    %and pm.actual.assoc.expr().sub_equation()
-                                )
-                                %and pm.actual.assoc.expr()
-                                .matches_expected_assign_type()
-                            case _ => %true
-                        }
-                        %and pm.actual.name.do(
-                            (n) =>
-                            n.ref_var()<-pm
-                            .formal
-                            .node
-                            .as_bare_entity
-                            .basic_decl(),
-                            default_val=%true
-                        )
+                    match pm.formal.formal_decl().as[GenericFormal].decl {
+                        case _: BaseTypeDecl =>
+                            actual_name.xref_type_equation()
+                        case _: GenericPackageInstantiation =>
+                            actual_name.xref_no_overloading()
+                        case subp_decl: Entity[FormalSubpDecl] =>
+                            if actual_name is AttributeRef
+                            then actual_name.sub_equation()
+                            else
+                                actual_name.xref_no_overloading(all_els=true)
+                                %and BasicDecl
+                                .subp_decl_match_signature%(actual_name
+                                .ref_var(),
+                                subp_decl.as[BasicDecl])
+                                %or %true
+                        case obj_decl: ObjectDecl =>
+                            pm.actual.assoc.expr()
+                            .expected_type_var()<-obj_decl.expr_type()
+                            %and pm.actual.assoc.expr().sub_equation()
+                            %and pm.actual.assoc.expr()
+                            .matches_expected_assign_type()
+                        case _ => %true
                     }
-                )
-        )
+                    %and pm.actual.name.do(
+                        (n) =>
+                        n.ref_var()<-pm
+                        .formal
+                        .node
+                        .as_bare_entity
+                        .basic_decl(),
+                        default_val=%true
+                    )
+                }
+            )
 
     fun initial_env_name(): Symbol =
         if node.is_library_item() then node.child_decl_initial_env_name()
@@ -12608,22 +12578,18 @@ class ObjectDecl: BasicDecl {
 
     fun is_constant_object(): Bool =
         self.has_constant.do((c) => c.as_bool())
-        or (
-            # A GenericFormalObjDecl is constant if the Mode is `in`
-            self.mode.do(
-                (m) =>
-                node.parent is GenericFormalObjDecl
-                and m is Mode.In | Mode.Default
-            )
+
+        # A GenericFormalObjDecl is constant if the Mode is `in`
+        or self.mode.do(
+            (m) =>
+            node.parent is GenericFormalObjDecl and m is Mode.In | Mode.Default
         )
-        or (
-            # Renaming clause is constant if the renamed object is constant
-            self.renaming_clause?.renamed_object.is_constant()
-        )
-        or (
-            # Constant if the object is protected
-            self.type_expr.designated_type_decl() is ProtectedTypeDecl
-        )
+
+        # Renaming clause is constant if the renamed object is constant
+        or self.renaming_clause?.renamed_object.is_constant()
+
+        # Constant if the object is protected
+        or self.type_expr.designated_type_decl() is ProtectedTypeDecl
 
     @with_dynvars(imprecise_fallback=false)
     fun is_static_decl(): Bool =
@@ -17337,14 +17303,11 @@ class AttributeRef: Name {
             .get_first(s"Tag", lookup=LookupKind.flat)
             .as[BaseTypeDecl];
 
-        (
-            # Prefix is an expression, bind prefix's ref var to it
-            self.prefix.xref_equation()
-        )
-        %and (
-            # Type of self is String
-            node.type_var()<-tag_type
-        )
+        # Prefix is an expression, bind prefix's ref var to it
+        self.prefix.xref_equation()
+
+        # Type of self is String
+        %and node.type_var()<-tag_type
     }
 
     @with_dynvars(env, origin, entry_point)
@@ -17411,10 +17374,10 @@ class AttributeRef: Name {
             # Prefix is an expression, bind prefix's ref var to it
             self.prefix.xref_equation()
         )
-        %and (
-            # Type of self is String
-            node.type_var()<-str_type
-        )
+        %and
+        # Type of self is String
+        node
+        .type_var()<-str_type
 
     @with_dynvars(env, origin, entry_point)
     fun enum_rep_equation(): Equation = {
@@ -17634,18 +17597,14 @@ class AttributeRef: Name {
     |" ``Overlaps_Storage`` attributes.
     @with_dynvars(env, origin, entry_point)
     fun storage_equation(): Equation =
-        (
-            # Prefix denotes an object
-            self.prefix.sub_equation()
-            %and (
-                # The attribute return a boolean value
-                node.type_var()<-node.bool_type()
-            )
-        )
-        %and (
-            # The only one argument of the attribute can be of any type
-            self.args?[0].sub_equation()
-        )
+        # Prefix denotes an object
+        self.prefix.sub_equation()
+
+        # The attribute return a boolean value
+        %and node.type_var()<-node.bool_type()
+
+        # The only one argument of the attribute can be of any type
+        %and self.args?[0].sub_equation()
 
     fun called_formal_subp_spec(): Entity[BaseFormalParamHolder] = {
         val rel_name = self.attribute.name_symbol();
@@ -17872,13 +17831,11 @@ class CallExpr: Name {
                 )
             )
         )
-        else (
-            # The parent name can be null if the entry declaration has no
-            # parameter section besides the family type section.
-            # If this entry decl declares no family we can treat it the same
-            # way as a subprogram call.
-            self.entity_equation(e, root)
-        )
+        # The parent name can be null if the entry declaration has no
+        # parameter section besides the family type section.
+        # If this entry decl declares no family we can treat it the same
+        # way as a subprogram call.
+        else self.entity_equation(e, root)
 
     @with_dynvars(env, origin, entry_point, logic_context)
     fun entity_equation(
@@ -17921,11 +17878,9 @@ class CallExpr: Name {
     @with_dynvars(env, origin)
     fun is_type_conversion(): Bool =
         not self.name is QualExpr
-        and (
-            # Directly call designated_type_impl instead of
-            # name_designated_type to propagate self's origin.
-            not self.name.designated_type_impl().is_null
-        )
+        # Directly call designated_type_impl instead of
+        # name_designated_type to propagate self's origin.
+        and not self.name.designated_type_impl().is_null
 
     @with_dynvars(env, origin)
     fun xref_stop_resolution(): Bool =
@@ -18753,20 +18708,18 @@ class DefiningName: Name {
                 )
             )
         )
-        or? (
-            if name == s"Address"
-            then
-                self.get_at_clause().do(
-                    (atc) =>
-                    Aspect(
-                        exists=true,
-                        node=atc,
-                        value=atc.expr,
-                        inherited=inherited
-                    )
+        or? if name == s"Address"
+        then
+            self.get_at_clause().do(
+                (atc) =>
+                Aspect(
+                    exists=true,
+                    node=atc,
+                    value=atc.expr,
+                    inherited=inherited
                 )
-            else null[Aspect]
-        )
+            )
+        else null[Aspect]
 
     |" Return the aspect with name ``name`` associated to entity that this
     |" name defines.
@@ -19412,19 +19365,17 @@ class ArraySubcomponentChoiceName: Name {
                 %and a.matches_expected_type()
             )
         )
-        %and (
-            # Self's type is bound to the component type of Self's name
-            # designated type if any (if name is null, the type is given by the
-            # delta aggregate itself).
-            if self.name is DottedName
-            then self.type_var()<-BaseTypeDecl.comp_type%(self.name.type_var())
-            else
-                self.type_var()<-self.name.do(
-                    (n) => n.name_designated_type().comp_type(),
-                    default_val=node.delta_aggregate_ancestor_expr_type()
-                    .comp_type()
-                )
-        )
+        # Self's type is bound to the component type of Self's name
+        # designated type if any (if name is null, the type is given by the
+        # delta aggregate itself).
+        %and if self.name is DottedName
+        then self.type_var()<-BaseTypeDecl.comp_type%(self.name.type_var())
+        else
+            self.type_var()<-self.name.do(
+                (n) => n.name_designated_type().comp_type(),
+                default_val=node.delta_aggregate_ancestor_expr_type()
+                .comp_type()
+            )
 
     fun designated_type_impl(): Entity[BaseTypeDecl] =
         self.name.do(
@@ -19553,7 +19504,7 @@ class ExplicitDeref: Name {
                 ),
                 default_val=%false
             )
-        else (
+        else
             self.prefix.sub_equation()
             %and self.env_elements().logic_any(
                 (el) => {
@@ -19565,7 +19516,6 @@ class ExplicitDeref: Name {
                     else %false
                 }
             )
-        )
 
     fun is_constant(): Bool =
     # The dereference expression is constant if its access type is
@@ -19604,27 +19554,17 @@ class QualExpr: Name {
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        (
-            (
-                (
-                    self.prefix.xref_type_equation()
-                    %and self.suffix.sub_equation()
-                )
-                %and node.suffix.expected_type_var()<->node.prefix.ref_var()
-            )
-            %and self.suffix.matches_expected_type()
-        )
-        %and (
-            # A qualified expression that appears as a statement
-            # denotes a machine code insertion, in GNAT, it is parsed
-            # as a parameterless procedure call. In that case,
-            # self.type_var shouldn't denote any type. Note that we are
-            # more flexible than Ada since we allow any type to be code
-            # statements whereas Ada restricts that to types defined in
-            # package `System.Machine_Code` (see :rmlink:`13.8`).
-            if self.parent is CallStmt then %true
-            else node.type_var()<->node.prefix.ref_var()
-        )
+        self.prefix.xref_type_equation() %and self.suffix.sub_equation()
+        %and node.suffix.expected_type_var()<->node.prefix.ref_var()
+        %and self.suffix.matches_expected_type()
+        # A qualified expression that appears as a statement denotes a machine
+        # code insertion, in GNAT, it is parsed as a parameterless procedure
+        # call. In that case, self.type_var shouldn't denote any type. Note
+        # that we are more flexible than Ada since we allow any type to be code
+        # statements whereas Ada restricts that to types defined in package
+        # `System.Machine_Code` (see :rmlink:`13.8`).
+        %and if self.parent is CallStmt then %true
+        else node.type_var()<->node.prefix.ref_var()
 
     @with_dynvars(env, origin, no_visibility=false)
     fun designated_env(): LexicalEnv =
@@ -20311,21 +20251,20 @@ class CharLiteral: BaseId implements TokenNode {
     fun xref_equation(): Equation =
         BaseTypeDecl.is_non_null_char_type%(node.expected_type_var())
         %and node.expected_type_var()<->node.type_var()
-        %and (
-            # Ada RM 4.2 (3): since the expected type of the `CharLiteral` is
-            # known in this case (the predicates above let us through), we can
-            # use it to determine what the literal refers to. Hackish: we use
-            # the `origin` dynamic variable to pass an additional argument to
-            # the conversion property ``corresponding_char_literal``.
-            # TODO: fix this once we can pass explicit parameters to conversion
-            # properties.
-            {
-                bind origin = node;
+        # Ada RM 4.2 (3): since the expected type of the `CharLiteral` is known
+        # in this case (the predicates above let us through), we can use it to
+        # determine what the literal refers to. Hackish: we use the `origin`
+        # dynamic variable to pass an additional argument to the conversion
+        # property ``corresponding_char_literal``.
+        #
+        # TODO: fix this once we can pass explicit parameters to conversion
+        # properties.
+        %and {
+            bind origin = node;
 
-                node.ref_var()<-BaseTypeDecl.corresponding_char_literal%(node
-                .type_var())
-            }
-        )
+            node.ref_var()<-BaseTypeDecl.corresponding_char_literal%(node
+            .type_var())
+        }
 }
 
 |" Regular identifier (:rmlink:`2.3`).
@@ -20757,23 +20696,22 @@ class UnOp: Expr {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         self.expr.sub_equation()
-        %and (
-            if node.in_aspect(s"Depends") or node.in_aspect(s"Refined_Depends")
-            then %true
-            else
-                self.overload_equation()
-                %or (
-                    node.expected_type_var()<->node.expr.expected_type_var()
-                    %and {
-                        bind logic_context =
-                            LogicContext(
-                                ref_node=self.op,
-                                decl_node=null[Entity[AdaNode]]
-                            );
-                        node.type_var()<->node.expr.type_var()
-                    }
-                )
-        )
+        %and if
+            node.in_aspect(s"Depends") or node.in_aspect(s"Refined_Depends")
+        then %true
+        else
+            self.overload_equation()
+            %or (
+                node.expected_type_var()<->node.expr.expected_type_var()
+                %and {
+                    bind logic_context =
+                        LogicContext(
+                            ref_node=self.op,
+                            decl_node=null[Entity[AdaNode]]
+                        );
+                    node.type_var()<->node.expr.type_var()
+                }
+            )
 
     @with_dynvars(origin, env)
     fun overload_equation(): Equation =
@@ -20875,11 +20813,9 @@ class FormatStringChunk: AdaNode {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         self.expr.sub_equation()
-        %and (
-            # The RFC specifies that interpolated string expressions can be "of
-            # any type", so we explicitly bind the expected type to null.
-            node.expr.expected_type_var()<-null[AdaNode]
-        )
+        # The RFC specifies that interpolated string expressions can be "of
+        # any type", so we explicitly bind the expected type to null.
+        %and node.expr.expected_type_var()<-null[AdaNode]
 }
 
 |" Node holding a format string token.
@@ -21645,26 +21581,25 @@ class RangeSpec: AdaNode {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         self.range.xref_equation()
-        %and (
-            # Ada RM says that for component clauses and signed int type
-            # definitions, the expected type is any integer type.
-            if node.parent is ComponentClause | SignedIntTypeDef
-            then
-                node.universal_int_bind(node.range.expected_type_var())
-                %and self.range.matches_expected_type()
-            # In the following cases, expressions from the range specification are
-            # expected to be of any real type, the types need not be the same.
+        # Ada RM says that for component clauses and signed int type
+        # definitions, the expected type is any integer type.
+        %and if node.parent is ComponentClause | SignedIntTypeDef
+        then
+            node.universal_int_bind(node.range.expected_type_var())
+            %and self.range.matches_expected_type()
 
-            elif
-                node.parent is DeltaConstraint
-                | DigitsConstraint
-                | OrdinaryFixedPointDef
-                | DecimalFixedPointDef
-            then
-                node.universal_real_bind(node.range.expected_type_var())
-                %and self.range.matches_expected_type()
-            else %true
-        )
+        # In the following cases, expressions from the range specification are
+        # expected to be of any real type, the types need not be the same.
+        elif
+            node.parent is DeltaConstraint
+            | DigitsConstraint
+            | OrdinaryFixedPointDef
+            | DecimalFixedPointDef
+        then
+            node.universal_real_bind(node.range.expected_type_var())
+            %and self.range.matches_expected_type()
+
+        else %true
 }
 
 |" Renaming clause, used everywhere renamings are valid.
@@ -21708,31 +21643,28 @@ class Stmt: AdaNode {
     |" Return whether this statement is ghost code or not. See SPARK RM 6.9.
     @exported
     fun is_ghost_code(): Bool =
-        (
-            # Either this statement is part of a ghost declaration like a ghost
-            # package or function.
-            self.parent_basic_decl().do((bd) => bd.is_ghost_code())
-        )
-        or (
-            # Either it's an implicitly ghost statement, because it's assigning
-            # to a ghost variable, or calling a ghost procedure.
-            match self {
-                case ass: AssignStmt => ass.dest.failsafe_referenced_def_name()
-                case call: CallStmt => call.call.failsafe_referenced_def_name()
-                case _ => null[RefdDef]
-            }
-            .do(
-                (res) =>
-                # Sometimes name resolution errors are materialized by None
-                # being returned from the queries instead of a property error.
-                # But None doesn't necessarily mean there was an error, so we
-                # explicitly handle the error cases by raising an exception as
-                # we don't want errors to be silently ignored, and we use the
-                # null coalescing operator to handle the legitimate cases.
-                if res.kind == RefResultKind.error
-                then raise[Bool] PropertyError("Name resolution error")
-                else res.def_name?.is_ghost_code()
-            )
+        # Either this statement is part of a ghost declaration like a ghost
+        # package or function.
+        self.parent_basic_decl().do((bd) => bd.is_ghost_code())
+
+        # Either it's an implicitly ghost statement, because it's assigning
+        # to a ghost variable, or calling a ghost procedure.
+        or match self {
+            case ass: AssignStmt => ass.dest.failsafe_referenced_def_name()
+            case call: CallStmt => call.call.failsafe_referenced_def_name()
+            case _ => null[RefdDef]
+        }
+        .do(
+            (res) =>
+            # Sometimes name resolution errors are materialized by None
+            # being returned from the queries instead of a property error.
+            # But None doesn't necessarily mean there was an error, so we
+            # explicitly handle the error cases by raising an exception as
+            # we don't want errors to be silently ignored, and we use the
+            # null coalescing operator to handle the legitimate cases.
+            if res.kind == RefResultKind.error
+            then raise[Bool] PropertyError("Name resolution error")
+            else res.def_name?.is_ghost_code()
         )
 }
 
@@ -22024,10 +21956,8 @@ class CallStmt: SimpleStmt {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         self.call.sub_equation()
-        %and (
-            # Call statements can have no return value
-            node.call.type_var()<-null[Entity[AdaNode]]
-        )
+        # Call statements can have no return value
+        %and node.call.type_var()<-null[Entity[AdaNode]]
 }
 
 |" ``delay`` statement (:rmlink:`9.6`).
@@ -22040,12 +21970,10 @@ class DelayStmt: SimpleStmt {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         self.expr.sub_equation()
-        %and (
-            if node.has_until.as_bool() then %true
-            else
-                node.expr.expected_type_var()<-node.std_entity(s"Duration")
-                %and self.expr.matches_expected_type()
-        )
+        %and if node.has_until.as_bool() then %true
+        else
+            node.expr.expected_type_var()<-node.std_entity(s"Duration")
+            %and self.expr.matches_expected_type()
 }
 
 |" ``exit`` statement (:rmlink:`5.7`).
@@ -22388,17 +22316,14 @@ class Subunit: AdaNode {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         node.name.ref_var()<-self.body_root()
-        %and (
-            # Bind the parent unit's name to the enclosing body for this
-            # subunit.
-            self.name.as[DottedName].do(
-                (dn) => {
-                    bind env = node.body.node_env;
+        # Bind the parent unit's name to the enclosing body for this subunit.
+        %and self.name.as[DottedName].do(
+            (dn) => {
+                bind env = node.body.node_env;
 
-                    dn.prefix.xref_no_overloading()
-                },
-                default_val=%true
-            )
+                dn.prefix.xref_no_overloading()
+            },
+            default_val=%true
         )
 }
 
@@ -23938,25 +23863,19 @@ class FloatingPointDef: RealTypeDef {
     |" Build an equation for a floating point type definition.
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
-        (
-            # As per RM 3.5.7, the num_digits expression is expected to be of
-            # any integer type.
-            self.universal_int_bind(self.num_digits.expected_type_var())
-        )
+        # As per RM 3.5.7, the num_digits expression is expected to be of any
+        # integer type.
+        self.universal_int_bind(self.num_digits.expected_type_var())
         %and self.num_digits.sub_equation()
         %and self.num_digits.matches_expected_type()
-        %and (
-            # Expressions from the range specification are expected to be of
-            # any real type, the types need not be the same.
-            self.range.do(
-                (r) =>
-                (
-                    self.universal_real_bind(r.range.expected_type_var())
-                    %and r.range.sub_equation()
-                )
-                %and r.range.matches_expected_type(),
-                default_val=%true
-            )
+        # Expressions from the range specification are expected to be of
+        # any real type, the types need not be the same.
+        %and self.range.do(
+            (r) =>
+            self.universal_real_bind(r.range.expected_type_var())
+            %and r.range.sub_equation()
+            %and r.range.matches_expected_type(),
+            default_val=%true
         )
 }
 

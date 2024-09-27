@@ -14,8 +14,6 @@ Setup
 To generate and build the library itself, you'll need to go through the
 following steps:
 
-* Make sure you have a working Python 3.9 or 3.10 installation.
-
 * Install the GNAT tools and compiler. If do not have access to GNAT Pro, you
   can find public editions of the Ada toolchain on your distribution repository
   (as for example `here <https://packages.debian.org/sid/gnat>`_ for Debian) or
@@ -29,16 +27,6 @@ following steps:
 
 * Build and install the AdaSAT library. You can find its sources on its `GitHub
   repository <https://github.com/AdaCore/adasat>`_.
-
-* Install every Python dependency. We recommend creating a `virtual environment
-  <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
-  and installing them inside of it, this way:
-
-  .. code-block:: sh
-
-     $ python -mvenv env
-     $ source env/bin/activate
-     $ pip install -r REQUIREMENTS.dev
 
 * Install Langkit, build and install ``Langkit_Support``. Get Langkit's sources
   on `GitHub <https://github.com/AdaCore/langkit>`_, making sure you use the
@@ -57,6 +45,16 @@ following steps:
      # Install it. Replace $PREFIX below with the directory where you want to
      # install the langkit_support.gpr project.
      $ python manage.py install-langkit-support --library-types=static,static-pic,relocatable $PREFIX
+
+* Install every Python dependency. We recommend creating a `virtual environment
+  <https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
+  and installing them inside of it, this way:
+
+  .. code-block:: sh
+
+     $ python -mvenv env
+     $ source env/bin/activate
+     $ pip install -r REQUIREMENTS.dev
 
 For GNATcoll, AdaSAT and Langkit, make sure to install the version that
 corresponds to the version of Libadalang that is built. For instance, build all

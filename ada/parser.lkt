@@ -7,41 +7,47 @@ grammar ada_grammar {
         defining_id
         ?discriminant_part
         aspect_spec
-        "is" ?pick("new" parent_list "with") protected_def !";"
+        "is"
+        ?pick("new" parent_list "with")
+        protected_def
+        !";"
     )
     protected_op <- or(subp_decl | entry_decl | aspect_clause | pragma)
     protected_el <- or(protected_op | component_decl)
     protected_def <- ProtectedDef(
         PublicPart(DeclList*(protected_op))
-        ?pick("private"
-        PrivatePart(DeclList*(protected_el)))
+        ?pick("private" PrivatePart(DeclList*(protected_el)))
         pick("end" ?EndName(identifier))
     )
     protected_decl <- SingleProtectedDecl(
         @Identifier("protected")
         defining_id
         aspect_spec
-        "is" ?pick("new" parent_list "with") protected_def !";"
+        "is"
+        ?pick("new" parent_list "with")
+        protected_def
+        !";"
     )
     task_item <- or(entry_decl | aspect_clause | pragma)
     task_def <- TaskDef(
         "is"
-        ?pick("new"
-        parent_list
-        "with")
+        ?pick("new" parent_list "with")
         PublicPart(DeclList*(task_item))
-        ?pick("private"
-        PrivatePart(DeclList*(task_item))) pick("end" ?EndName(identifier))
+        ?pick("private" PrivatePart(DeclList*(task_item)))
+        pick("end" ?EndName(identifier))
     )
     task_type_decl <- TaskTypeDecl(
         "task"
         "type"
         /
-        defining_id ?discriminant_part aspect_spec ?task_def !";"
+        defining_id
+        ?discriminant_part
+        aspect_spec
+        ?task_def
+        !";"
     )
     subtype_decl <- SubtypeDecl(
-        "subtype"
-        defining_id "is" subtype_indication aspect_spec !";"
+        "subtype" defining_id "is" subtype_indication aspect_spec !";"
     )
     interface_type_def <- InterfaceTypeDef(
         ?or(
@@ -49,16 +55,23 @@ grammar ada_grammar {
             | InterfaceKind.Task("task")
             | InterfaceKind.Protected(@Identifier("protected"))
             | InterfaceKind.Synchronized(@Identifier("synchronized"))
-        ) @Identifier("interface") ?pick("and" parent_list)
+        )
+        @Identifier("interface")
+        ?pick("and" parent_list)
     )
     unconstrained_index <- UnconstrainedArrayIndex(
         subtype_name "range" ?pick(simple_expr "..") "<>"
     )
     array_type_def <- ArrayTypeDef(
-        "array" "(" or(
+        "array"
+        "("
+        or(
             | UnconstrainedArrayIndices(list+(unconstrained_index, ","))
             | ConstrainedArrayIndices(constraint_list)
-        ) ")" "of" component_def
+        )
+        ")"
+        "of"
+        component_def
     )
     discrete_subtype_definition <- or(discrete_range | subtype_indication)
     constraint_list <- ConstraintList+(discrete_subtype_definition, ",")
@@ -70,9 +83,9 @@ grammar ada_grammar {
         Synchronized(@Identifier("synchronized"))
         "new"
         subtype_indication
-        ?pick("and"
-        parent_list)
-        ?pick("with" record_def) WithPrivate("with" "private")
+        ?pick("and" parent_list)
+        ?pick("with" record_def)
+        WithPrivate("with" "private")
     )
 
     # This rule combines, for practicality, alternatives possible only for
@@ -84,11 +97,8 @@ grammar ada_grammar {
         ?pick(DiscriminantChoiceList+(identifier, "|") "=>")
 
         # Only valid for index constraints
-        / or(
-            | discrete_range
-            | discrete_subtype_indication
-            | expr
-        )
+        /
+        or(| discrete_range | discrete_subtype_indication | expr)
     )
 
     composite_constraint <- CompositeConstraint(
@@ -96,8 +106,9 @@ grammar ada_grammar {
     )
     digits_constraint <- DigitsConstraint("digits" simple_expr ?range_spec)
     delta_constraint <- DeltaConstraint("delta" simple_expr ?range_spec)
-    range_constraint <- RangeConstraint(RangeSpec("range"
-    or(discrete_range | name)))
+    range_constraint <- RangeConstraint(
+        RangeSpec("range" or(discrete_range | name))
+    )
     constraint <- or(
         | digits_constraint
         | delta_constraint
@@ -105,24 +116,23 @@ grammar ada_grammar {
         | composite_constraint
     )
     discriminant_spec <- DiscriminantSpec(
-        list+(defining_id, ",")
-        ":" type_expr ?pick(":=" expr) ?aspect_spec
+        list+(defining_id, ",") ":" type_expr ?pick(":=" expr) ?aspect_spec
     )
     discr_spec_list <- list+(discriminant_spec, ";")
     discriminant_part <- or(
         | KnownDiscriminantPart("(" discr_spec_list ")")
         | UnknownDiscriminantPart("(" "<>" ")")
     )
-    enum_literal_decl <- EnumLiteralDecl(or(defining_id | DefiningName(char_literal)))
+    enum_literal_decl <- EnumLiteralDecl(
+        or(defining_id | DefiningName(char_literal))
+    )
     formal_discrete_type_def <- FormalDiscreteTypeDef("(" "<>" ")")
     record_def <- or(
-        | RecordDef(
-            "record" component_list "end" / "record"
-        )
+        | RecordDef("record" component_list "end" / "record")
         | NullRecordDef(
-            "null" "record" ComponentList(
-                null(ASTList[AdaNode]) null(VariantPart)
-            )
+            "null"
+            "record"
+            ComponentList(null(ASTList[AdaNode]) null(VariantPart))
         )
     )
     range_spec <- RangeSpec("range" or(discrete_range | name | box_expr))
@@ -132,26 +142,32 @@ grammar ada_grammar {
         | ordinary_fixed_point_def
     )
     sexpr_or_box <- or(simple_expr | box_expr)
-    ordinary_fixed_point_def <- OrdinaryFixedPointDef("delta"
-    sexpr_or_box ?range_spec)
+    ordinary_fixed_point_def <- OrdinaryFixedPointDef(
+        "delta" sexpr_or_box ?range_spec
+    )
     decimal_fixed_point_def <- DecimalFixedPointDef(
         "delta" sexpr_or_box "digits" sexpr_or_box ?range_spec
     )
     floating_point_def <- FloatingPointDef("digits" sexpr_or_box ?range_spec)
     record_type_def <- RecordTypeDef(
         Abstract(@Identifier("abstract"))
-        Tagged(@Identifier("tagged")) Limited("limited") record_def
+        Tagged(@Identifier("tagged"))
+        Limited("limited")
+        record_def
     )
     access_def <- or(
         | AccessToSubpDef(
-            NotNull("not"
-            "null")
-            "access" Protected(@Identifier("protected")) subp_spec
+            NotNull("not" "null")
+            "access"
+            Protected(@Identifier("protected"))
+            subp_spec
         )
         | TypeAccessDef(
-            NotNull("not"
-            "null")
-            "access" All("all") Constant("constant") subtype_indication
+            NotNull("not" "null")
+            "access"
+            All("all")
+            Constant("constant")
+            subtype_indication
         )
     )
     enum_type_def <- EnumTypeDef("(" list+(enum_literal_decl, ",") ")")
@@ -170,7 +186,8 @@ grammar ada_grammar {
     variant <- Variant("when" choice_list "=>" component_list)
     anonymous_type_decl <- AnonymousTypeDecl(
         null(DefiningName)
-        null(DiscriminantPart) or(array_type_def | access_def)
+        null(DiscriminantPart)
+        or(array_type_def | access_def)
     )
     incomplete_type_decl <- or(
         | IncompleteTaggedTypeDecl(
@@ -178,26 +195,34 @@ grammar ada_grammar {
             defining_id
             ?discriminant_part
             "is"
-            Abstract(@Identifier("abstract")) @Identifier("tagged") ";"
+            Abstract(@Identifier("abstract"))
+            @Identifier("tagged")
+            ";"
         )
         | IncompleteTypeDecl("type" defining_id ?discriminant_part ";")
     )
     type_decl <- or(
         | ConcreteTypeDecl(
-            "type" defining_id ?discriminant_part "is" or(
+            "type"
+            defining_id
+            ?discriminant_part
+            "is"
+            or(
                 | type_def
                 | PrivateTypeDef(
                     Abstract(@Identifier("abstract"))
                     Tagged(@Identifier("tagged"))
-                    Limited("limited") "private"
+                    Limited("limited")
+                    "private"
                 )
-            ) aspect_spec !";"
+            )
+            aspect_spec
+            !";"
         )
         | incomplete_type_decl
     )
     variant_part <- VariantPart(
-        "case"
-        / identifier "is" list+(variant) "end" "case" !";"
+        "case" / identifier "is" list+(variant) "end" "case" !";"
     )
     component_def <- ComponentDef(
         Aliased(@Identifier("aliased")) Constant("constant") type_expr
@@ -210,24 +235,28 @@ grammar ada_grammar {
     )
     component_decl <- ComponentDecl(
         list+(defining_id, ",")
-        ":" component_def ?pick(":=" expr) aspect_spec !";"
+        ":"
+        component_def
+        ?pick(":=" expr)
+        aspect_spec
+        !";"
     )
     component_list <- ComponentList(list*(component_item) ?variant_part)
     generic_decl <- or(
         | GenericSubpDecl(
-            generic_formal_part
-            GenericSubpInternal(subp_spec aspect_spec) !";"
+            generic_formal_part GenericSubpInternal(subp_spec aspect_spec) !";"
         )
         | GenericPackageDecl(
-            generic_formal_part GenericPackageInternal(
+            generic_formal_part
+            GenericPackageInternal(
                 "package"
                 defining_name
                 aspect_spec
                 "is"
                 PublicPart(basic_decls.dont_skip(or("private" | "end")))
-                ?pick("private"
-                PrivatePart(basic_decls.dont_skip("end")))
-                pick("end" ?EndName(static_name)) !";"
+                ?pick("private" PrivatePart(basic_decls.dont_skip("end")))
+                pick("end" ?EndName(static_name))
+                !";"
             )
         )
     )
@@ -243,21 +272,30 @@ grammar ada_grammar {
     )
     formal_type_decl <- or(
         | FormalTypeDecl(
-            "type" defining_id ?discriminant_part "is" or(
+            "type"
+            defining_id
+            ?discriminant_part
+            "is"
+            or(
                 | type_def
                 | PrivateTypeDef(
                     Abstract(@Identifier("abstract"))
                     Tagged(@Identifier("tagged"))
-                    Limited("limited") "private"
+                    Limited("limited")
+                    "private"
                 )
-            ) ?pick("or" "use" name) aspect_spec !";"
+            )
+            ?pick("or" "use" name)
+            aspect_spec
+            !";"
         )
         | IncompleteFormalTypeDecl(
             "type"
             defining_id
             ?discriminant_part
-            ?pick("is"
-            Tagged(@Identifier("tagged"))) ?pick("or" "use" name) ";"
+            ?pick("is" Tagged(@Identifier("tagged")))
+            ?pick("or" "use" name)
+            ";"
         )
     )
     formal_subp_decl <- or(
@@ -266,13 +304,16 @@ grammar ada_grammar {
             subp_spec
             "is"
             @Identifier("abstract")
-            ?or(box_expr | name | null_literal) aspect_spec !";"
+            ?or(box_expr | name | null_literal)
+            aspect_spec
+            !";"
         )
         | ConcreteFormalSubpDecl(
             Overriding.Unspecified()
             subp_spec
-            ?pick("is"
-            or(box_expr | name | null_literal)) aspect_spec ";"
+            ?pick("is" or(box_expr | name | null_literal))
+            aspect_spec
+            ";"
         )
         # In the case of generic formal functions with a default expression, we
         # just use an expression function node.
@@ -281,15 +322,18 @@ grammar ada_grammar {
     renaming_clause <- RenamingClause("renames" name)
     generic_renaming_decl <- or(
         | GenericPackageRenamingDecl(
-            "generic"
-            "package"
-            defining_name renaming_clause aspect_spec ";"
+            "generic" "package" defining_name renaming_clause aspect_spec ";"
         )
         | GenericSubpRenamingDecl(
-            "generic" or(
+            "generic"
+            or(
                 | SubpKind.Procedure("procedure")
                 | SubpKind.Function("function")
-            ) defining_name renaming_clause aspect_spec ";"
+            )
+            defining_name
+            renaming_clause
+            aspect_spec
+            ";"
         )
     )
     generic_instantiation <- or(
@@ -300,11 +344,13 @@ grammar ada_grammar {
             "new"
             /
             static_name
-            ?pick("("
-            / AssocList+(param_assoc, ",") ")") aspect_spec !";"
+            ?pick("(" / AssocList+(param_assoc, ",") ")")
+            aspect_spec
+            !";"
         )
         | GenericSubpInstantiation(
-            overriding_indicator or(
+            overriding_indicator
+            or(
                 | SubpKind.Procedure("procedure")
                 | SubpKind.Function("function")
             )
@@ -313,13 +359,13 @@ grammar ada_grammar {
             "new"
             /
             static_name
-            ?pick("("
-            / AssocList+(param_assoc, ",") ")") aspect_spec !";"
+            ?pick("(" / AssocList+(param_assoc, ",") ")")
+            aspect_spec
+            !";"
         )
     )
     exception_decl <- ExceptionDecl(
-        defining_id_list
-        ":" "exception" ?renaming_clause aspect_spec !";"
+        defining_id_list ":" "exception" ?renaming_clause aspect_spec !";"
     )
     basic_decls <- list*(or(basic_decl | skip(ErrorDecl)))
     package_renaming_decl <- PackageRenamingDecl(
@@ -331,9 +377,9 @@ grammar ada_grammar {
         aspect_spec
         "is"
         PublicPart(basic_decls.dont_skip(or("private" | "end")))
-        ?pick("private"
-        PrivatePart(basic_decls.dont_skip("end")))
-        pick("end" ?EndName(static_name)) !";"
+        ?pick("private" PrivatePart(basic_decls.dont_skip("end")))
+        pick("end" ?EndName(static_name))
+        !";"
     )
     basic_decl <- or(
         | null_subp_decl
@@ -369,14 +415,22 @@ grammar ada_grammar {
         Constant("constant")
         ?mode
         type_expr
-        / ?pick(":=" expr) ?renaming_clause aspect_spec ";"
+        /
+        ?pick(":=" expr)
+        ?renaming_clause
+        aspect_spec
+        ";"
     )
     no_type_object_renaming_decl <- NoTypeObjectRenamingDecl(
         defining_id_list
         null(Aliased)
         null(Constant)
         null(Mode)
-        null(TypeExpr) null(Expr) renaming_clause aspect_spec ";"
+        null(TypeExpr)
+        null(Expr)
+        renaming_clause
+        aspect_spec
+        ";"
     )
     ext_ret_stmt_object_decl <- ExtendedReturnStmtObjectDecl(
         defining_id_list
@@ -384,16 +438,21 @@ grammar ada_grammar {
         Aliased(@Identifier("aliased"))
         Constant("constant")
         ?mode
-        type_expr ?pick(":=" expr) ?renaming_clause aspect_spec
+        type_expr
+        ?pick(":=" expr)
+        ?renaming_clause
+        aspect_spec
     )
     defining_id_list <- list+(defining_id, ",")
     number_decl <- NumberDecl(
         defining_id_list ":" "constant" / ":=" simple_expr !";"
     )
-    contract_case_assoc <- ContractCaseAssoc(or(expr | others_designator)
-    "=>" expr)
-    contract_cases_expr <- ContractCases("("
-    list+(contract_case_assoc, ",") ")")
+    contract_case_assoc <- ContractCaseAssoc(
+        or(expr | others_designator) "=>" expr
+    )
+    contract_cases_expr <- ContractCases(
+        "(" list+(contract_case_assoc, ",") ")"
+    )
     abstract_state_decl <- or(
         | AbstractStateDecl(defining_name aspect_spec)
         | ParenAbstractStateDecl("(" abstract_state_decl ")")
@@ -406,20 +465,25 @@ grammar ada_grammar {
     )
     aspect_assoc <- or(
         | AspectAssoc(
-            Identifier(@Identifier("Abstract_State")) ?pick("=>" or(
-                | null_literal
-                | AbstractStateDeclExpr(multi_abstract_state_decl)
-            ))
+            Identifier(@Identifier("Abstract_State"))
+            ?pick(
+                "=>"
+                or(
+                    | null_literal
+                    | AbstractStateDeclExpr(multi_abstract_state_decl)
+                )
+            )
         )
-        | AspectAssoc(
-            name ?pick("=>" or(expr | contract_cases_expr))
-        )
+        | AspectAssoc(name ?pick("=>" or(expr | contract_cases_expr)))
     )
     aspect_spec <- ?AspectSpec("with" / list+(aspect_assoc, ","))
     single_task_decl <- SingleTaskDecl(
-        "task" / SingleTaskTypeDecl(
+        "task"
+        /
+        SingleTaskTypeDecl(
             defining_id null(DiscriminantPart) aspect_spec ?task_def
-        ) !";"
+        )
+        !";"
     )
     overriding_indicator <- or(
         | Overriding.Overriding(@Identifier("overriding"))
@@ -427,35 +491,41 @@ grammar ada_grammar {
         | Overriding.Unspecified()
     )
     entry_decl <- EntryDecl(
-        overriding_indicator EntrySpec(
-            "entry" defining_id ?pick("(" or(
-                | constrained_subtype_indication
-                | discrete_range
-                | subtype_indication
-            ) ")") ?param_specs
-        ) aspect_spec !";"
+        overriding_indicator
+        EntrySpec(
+            "entry"
+            defining_id
+            ?pick(
+                "("
+                or(
+                    | constrained_subtype_indication
+                    | discrete_range
+                    | subtype_indication
+                )
+                ")"
+            )
+            ?param_specs
+        )
+        aspect_spec
+        !";"
     )
     component_clause <- ComponentClause(
         identifier "at" simple_expr range_spec !";"
     )
     aspect_clause <- or(
-        | EnumRepClause(
-            "for" static_name "use" regular_aggregate / ";"
-        )
+        | EnumRepClause("for" static_name "use" regular_aggregate / ";")
         | RecordRepClause(
             "for"
             static_name
             "use"
             "record"
-            ?pick("at"
-            "mod"
-            simple_expr
-            !";")
-            list*(or(component_clause | pragma)) "end" "record" !";"
+            ?pick("at" "mod" simple_expr !";")
+            list*(or(component_clause | pragma))
+            "end"
+            "record"
+            !";"
         )
-        | AtClause(
-            "for" direct_name "use" "at" expr ";"
-        )
+        | AtClause("for" direct_name "use" "at" expr ";")
         # We put AttributeDefClause last, because it's the most general rule,
         # and that will allow us to get the best error recovery.
         | AttributeDefClause("for" name "use" / expr ";")
@@ -464,30 +534,39 @@ grammar ada_grammar {
         list+(defining_id, ",")
         ":"
         Aliased(@Identifier("aliased"))
-        ?mode type_expr ?pick(":=" expr) aspect_spec
+        ?mode
+        type_expr
+        ?pick(":=" expr)
+        aspect_spec
     )
     param_specs <- Params("(" / list+(param_spec, ";") ")")
     subp_spec <- SubpSpec(
-        or(
-            | SubpKind.Procedure("procedure")
-            | SubpKind.Function("function")
-        ) ?defining_name ?param_specs ?pick("return" type_expr)
+        or(| SubpKind.Procedure("procedure") | SubpKind.Function("function"))
+        ?defining_name
+        ?param_specs
+        ?pick("return" type_expr)
     )
     expr_fn <- ExprFunction(
         overriding_indicator
-        subp_spec "is" or(paren_expr | aggregate) aspect_spec !";"
+        subp_spec
+        "is"
+        or(paren_expr | aggregate)
+        aspect_spec
+        !";"
     )
     null_subp_decl <- NullSubpDecl(
-        overriding_indicator
-        subp_spec "is" "null" aspect_spec !";"
+        overriding_indicator subp_spec "is" "null" aspect_spec !";"
     )
     abstract_subp_decl <- AbstractSubpDecl(
         overriding_indicator
-        subp_spec "is" @Identifier("abstract") aspect_spec !";"
+        subp_spec
+        "is"
+        @Identifier("abstract")
+        aspect_spec
+        !";"
     )
     subp_renaming_decl <- SubpRenamingDecl(
-        overriding_indicator
-        subp_spec renaming_clause aspect_spec !";"
+        overriding_indicator subp_spec renaming_clause aspect_spec !";"
     )
     simple_subp_decl <- SubpDecl(
         overriding_indicator subp_spec aspect_spec !";"
@@ -501,12 +580,14 @@ grammar ada_grammar {
     )
     with_clause <- WithClause(
         Limited("limited")
-        Private("private") "with" list+(static_name, ",") !";"
+        Private("private")
+        "with"
+        list+(static_name, ",")
+        !";"
     )
     context_item <- or(with_clause | use_clause | pragma)
     use_clause <- or(use_package_clause | use_type_clause)
-    use_package_clause <- UsePackageClause("use"
-    list+(static_name, ",") !";")
+    use_package_clause <- UsePackageClause("use" list+(static_name, ",") !";")
     use_type_clause <- UseTypeClause(
         "use" All("all") "type" list+(name, ",") !";"
     )
@@ -552,7 +633,9 @@ grammar ada_grammar {
         #     | call_suffix
         #       | discrete_subtype_indication (consumes `X.` if no `StopCut`)
         #     then, `name` expects `)` but next token is `all`.
-        NotNull("not" "null") stop_cut(subtype_name) range_constraint
+        NotNull("not" "null")
+        stop_cut(subtype_name)
+        range_constraint
     )
 
     constrained_subtype_indication <- ConstrainedSubtypeIndication(
@@ -578,32 +661,38 @@ grammar ada_grammar {
     ###########
 
     pragma_argument <- PragmaArgumentAssoc(
-        ?pick(or(
-            # Enables parsing ``Post'Class => Ignore``, for example
-            | AttributeRef(identifier "'" identifier null(AssocList))
-            | identifier
-        ) "=>") expr
+        ?pick(
+            or(
+                # Enables parsing ``Post'Class => Ignore``, for example
+                | AttributeRef(identifier "'" identifier null(AssocList))
+                | identifier
+            )
+            "=>"
+        )
+        expr
     )
     pragma <- Pragma(
         "pragma"
         /
         identifier
-        ?pick("("
-        /
-        list+(or(pragma_argument | contract_case_assoc), ",") ")") !";"
+        ?pick("(" / list+(or(pragma_argument | contract_case_assoc), ",") ")")
+        !";"
     )
     subunit <- Subunit(
-        "separate" "(" static_name ")" or(
-            | subp_body
-            | package_body
-            | task_body
-            | protected_body
-        )
+        "separate"
+        "("
+        static_name
+        ")"
+        or(| subp_body | package_body | task_body | protected_body)
     )
     library_unit_body <- or(subp_body | package_body)
-    library_unit_renaming_decl <- or(package_renaming_decl | generic_renaming_decl)
+    library_unit_renaming_decl <- or(
+        package_renaming_decl
+        | generic_renaming_decl
+    )
     library_item <- LibraryItem(
-        Private("private") or(
+        Private("private")
+        or(
             | null_subp_decl
             | abstract_subp_decl
             | expr_fn
@@ -618,7 +707,8 @@ grammar ada_grammar {
         )
     )
     |" Parse a compilation unit.
-    @entry_point compilation_unit <- CompilationUnit(
+    @entry_point
+    compilation_unit <- CompilationUnit(
         list*(context_item)
         or(subunit | library_item)
         # Eventual pragmas attached to the body
@@ -629,7 +719,8 @@ grammar ada_grammar {
     # * A CompilationUnit node.
     # * A list of CompilationUnit nodes.
     # * A list of pragmas.
-    @main_rule compilation <- or(
+    @main_rule
+    compilation <- or(
         # Special case for No_Body files and gnat.adc
         | pick(list+(pragma) @Termination)
 
@@ -641,11 +732,16 @@ grammar ada_grammar {
     )
     decl_part <- DeclarativePart(basic_decls)
     entry_body <- EntryBody(
-        "entry" defining_id ?EntryIndexSpec(
+        "entry"
+        defining_id
+        ?EntryIndexSpec(
             "("
             "for"
             defining_id
-            "in" discrete_subtype_definition ?aspect_spec ")"
+            "in"
+            discrete_subtype_definition
+            ?aspect_spec
+            ")"
         )
         EntryCompletionFormalParams(?param_specs)
         aspect_spec
@@ -654,7 +750,10 @@ grammar ada_grammar {
         "is"
         /
         recov_decl_part
-        "begin" handled_stmts pick("end" ?EndName(static_name)) !";"
+        "begin"
+        handled_stmts
+        pick("end" ?EndName(static_name))
+        !";"
     )
     protected_body <- ProtectedBody(
         @Identifier("protected")
@@ -663,11 +762,17 @@ grammar ada_grammar {
         aspect_spec
         "is"
         decl_part.dont_skip("end")
-        pick("end" ?EndName(static_name)) !";"
+        pick("end" ?EndName(static_name))
+        !";"
     )
     protected_body_stub <- ProtectedBodyStub(
         @Identifier("protected")
-        "body" defining_name "is" "separate" aspect_spec !";"
+        "body"
+        defining_name
+        "is"
+        "separate"
+        aspect_spec
+        !";"
     )
     task_body <- TaskBody(
         "task"
@@ -677,15 +782,16 @@ grammar ada_grammar {
         "is"
         /
         recov_decl_part
-        "begin" handled_stmts pick("end" ?EndName(static_name)) !";"
+        "begin"
+        handled_stmts
+        pick("end" ?EndName(static_name))
+        !";"
     )
     task_body_stub <- TaskBodyStub(
-        "task"
-        "body" defining_name "is" "separate" aspect_spec !";"
+        "task" "body" defining_name "is" "separate" aspect_spec !";"
     )
     package_body_stub <- PackageBodyStub(
-        "package"
-        "body" defining_name "is" "separate" aspect_spec !";"
+        "package" "body" defining_name "is" "separate" aspect_spec !";"
     )
     package_body <- PackageBody(
         "package"
@@ -695,62 +801,71 @@ grammar ada_grammar {
         aspect_spec
         "is"
         decl_part.dont_skip(or("begin" | "end"))
-        ?pick("begin"
-        handled_stmts) pick("end" ?EndName(static_name)) ";"
+        ?pick("begin" handled_stmts)
+        pick("end" ?EndName(static_name))
+        ";"
     )
     terminate_alternative <- TerminateAlternative("terminate" !";")
     select_stmt <- SelectStmt(
-        "select" / list+(SelectWhenPart(
-            ?pick("when"
-            expr "=>") stmts.dont_skip(or("else" | "then" | "end" | "or"))
-        ), "or")
-        ?pick("else"
-        stmts.dont_skip(or("end" | "then")))
-        ?pick("then"
-        "abort" stmts.dont_skip("end")) "end" "select" ";"
+        "select"
+        /
+        list+(
+            SelectWhenPart(
+                ?pick("when" expr "=>")
+                stmts.dont_skip(or("else" | "then" | "end" | "or"))
+            ),
+            "or"
+        )
+        ?pick("else" stmts.dont_skip(or("end" | "then")))
+        ?pick("then" "abort" stmts.dont_skip("end"))
+        "end"
+        "select"
+        ";"
     )
     accept_stmt <- or(
         | AcceptStmt(
             "accept"
             AcceptStmtBody(DefiningName(identifier))
-            ?pick("("
-            expr ")") EntryCompletionFormalParams(?param_specs) ";"
+            ?pick("(" expr ")")
+            EntryCompletionFormalParams(?param_specs)
+            ";"
         )
         | AcceptStmtWithStmts(
             "accept"
             AcceptStmtBody(DefiningName(identifier))
-            ?pick("("
-            expr
-            ")")
+            ?pick("(" expr ")")
             EntryCompletionFormalParams(?param_specs)
-            "do" handled_stmts pick("end" ?EndName(identifier)) !";"
+            "do"
+            handled_stmts
+            pick("end" ?EndName(identifier))
+            !";"
         )
     )
     case_alt <- CaseStmtAlternative(
         "when" / choice_list "=>" stmts.dont_skip(or("when" | "end"))
     )
     case_stmt <- CaseStmt(
-        "case"
-        /
-        expr
-        "is" list*(pragma) list+(case_alt) "end" "case" ";"
+        "case" / expr "is" list*(pragma) list+(case_alt) "end" "case" ";"
     )
     ext_return_stmt <- ExtendedReturnStmt(
         "return"
         ext_ret_stmt_object_decl
-        / ?pick("do" / handled_stmts "end" "return") ";"
+        /
+        ?pick("do" / handled_stmts "end" "return")
+        ";"
     )
     iblock_stmt <- or(
         | BeginBlock(
-            "begin"
-            / handled_stmts pick("end" ?EndName(identifier)) !";"
+            "begin" / handled_stmts pick("end" ?EndName(identifier)) !";"
         )
         | DeclBlock(
             "declare"
             /
             recov_decl_part
             "begin"
-            handled_stmts pick("end" ?EndName(identifier)) !";"
+            handled_stmts
+            pick("end" ?EndName(identifier))
+            !";"
         )
     )
     block_stmt <- or(
@@ -765,20 +880,29 @@ grammar ada_grammar {
             for_loop_param_spec
             "loop"
             stmts.dont_skip("end")
-            "end" "loop" ?EndName(identifier) ";"
+            "end"
+            "loop"
+            ?EndName(identifier)
+            ";"
         )
         | WhileLoopStmt(
             while_loop_spec
             "loop"
             stmts.dont_skip("end")
-            "end" "loop" ?EndName(identifier) ";"
+            "end"
+            "loop"
+            ?EndName(identifier)
+            ";"
         )
         | LoopStmt(
             null(LoopSpec)
             "loop"
             /
             stmts.dont_skip("end")
-            "end" "loop" ?EndName(identifier) ";"
+            "end"
+            "loop"
+            ?EndName(identifier)
+            ";"
         )
     )
     loop_stmt <- or(
@@ -795,8 +919,7 @@ grammar ada_grammar {
         | select_stmt
     )
     elsif_part <- ElsifStmtPart(
-        "elsif"
-        / expr "then" stmts.dont_skip(or("elsif" | "else" | "end"))
+        "elsif" / expr "then" stmts.dont_skip(or("elsif" | "else" | "end"))
     )
     if_stmt <- IfStmt(
         "if"
@@ -805,15 +928,16 @@ grammar ada_grammar {
         "then"
         stmts.dont_skip(or("elsif" | "else" | "end"))
         list*(elsif_part)
-        ?pick("else" stmts.dont_skip("end")) "end" "if" ";"
+        ?pick("else" stmts.dont_skip("end"))
+        "end"
+        "if"
+        ";"
     )
     raise_stmt <- or(
         | RaiseStmt("raise" name ?pick("with" expr) !";")
         | RaiseStmt("raise" null(Name) null(Expr) !";")
     )
-    delay_stmt <- DelayStmt(
-        "delay" Until(@Identifier("until")) expr !";"
-    )
+    delay_stmt <- DelayStmt("delay" Until(@Identifier("until")) expr !";")
     abort_stmt <- AbortStmt("abort" list+(name, ",") !";")
     body <- or(
         | subp_body
@@ -829,8 +953,7 @@ grammar ada_grammar {
         | protected_body_stub
     )
     subp_body_stub <- SubpBodyStub(
-        overriding_indicator
-        subp_spec "is" "separate" aspect_spec !";"
+        overriding_indicator subp_spec "is" "separate" aspect_spec !";"
     )
     recov_decl_part <- decl_part.dont_skip(or(
         | "begin"
@@ -851,7 +974,10 @@ grammar ada_grammar {
         "is"
         /
         recov_decl_part
-        "begin" handled_stmts pick("end" ?EndName(static_name)) ";"
+        "begin"
+        handled_stmts
+        pick("end" ?EndName(static_name))
+        ";"
     )
     handled_stmts <- HandledStmts(
         stmts.dont_skip(or("exception" | "end"))
@@ -859,15 +985,16 @@ grammar ada_grammar {
     )
     exception_handler <- ExceptionHandler(
         "when"
-        ?pick(defining_id
-        ":")
+        ?pick(defining_id ":")
         AlternativesList+(or(name | others_designator), "|")
-        "=>" stmts.dont_skip(or("when" | "pragma" | "end"))
+        "=>"
+        stmts.dont_skip(or("when" | "pragma" | "end"))
     )
     stmts <- StmtList*(or(stmt | label | skip(ErrorStmt)))
     label <- Label("<<" / LabelDecl(defining_id) ">>")
     |" Parse a statement, a pragma, or a compound statement (trailing semicolon included).
-    @entry_point stmt <- or(compound_stmt | simple_stmt)
+    @entry_point
+    stmt <- or(compound_stmt | simple_stmt)
     call_stmt <- CallStmt(name !";")
     simple_stmt <- or(
         | null_stmt
@@ -888,9 +1015,7 @@ grammar ada_grammar {
     null_stmt <- NullStmt(@Null !";")
     assignment_stmt <- AssignStmt(name ":=" / expr !";")
     goto_stmt <- GotoStmt("goto" / static_name !";")
-    exit_stmt <- ExitStmt(
-        "exit" / ?static_name ?pick("when" expr) !";"
-    )
+    exit_stmt <- ExitStmt("exit" / ?static_name ?pick("when" expr) !";")
     return_stmt <- ReturnStmt("return" ?expr !";")
     requeue_stmt <- RequeueStmt(
         @Identifier("requeue") name Abort("with" "abort") !";"
@@ -909,7 +1034,8 @@ grammar ada_grammar {
         # String interpolation without interpolated expressions
         | FormatStringLiteral(
             FormatStringTokString(@FormatStringString)
-            null(ASTList[FormatStringChunk]) null(FormatStringChunk)
+            null(ASTList[FormatStringChunk])
+            null(FormatStringChunk)
         )
     )
     defining_id <- DefiningName(identifier)
@@ -918,28 +1044,23 @@ grammar ada_grammar {
     num_literal <- or(dec_literal | int_literal)
     null_literal <- NullLiteral(@Null)
     allocator <- Allocator(
-        "new"
-        / ?pick("(" name ")") or(qualified_name | subtype_indication)
+        "new" / ?pick("(" name ")") or(qualified_name | subtype_indication)
     )
     for_loop_param_spec <- ForLoopSpec(
-        ForLoopVarDecl(defining_id
-        ?pick(":"
-        type_expr))
-        or(IterType.In("in") | IterType.Of("of")) Reverse("reverse") or(
-            | discrete_range
-            | discrete_subtype_indication
-            | name
-        ) ?ForLoopIterFilter("when" expr)
+        ForLoopVarDecl(defining_id ?pick(":" type_expr))
+        or(IterType.In("in") | IterType.Of("of"))
+        Reverse("reverse")
+        or(| discrete_range | discrete_subtype_indication | name)
+        ?ForLoopIterFilter("when" expr)
     )
     quantified_expr <- QuantifiedExpr(
-        "for" or(
-            | Quantifier.All("all")
-            | Quantifier.Some(@Identifier("some"))
-        ) for_loop_param_spec "=>" or(expr | discrete_range)
+        "for"
+        or(| Quantifier.All("all") | Quantifier.Some(@Identifier("some")))
+        for_loop_param_spec
+        "=>"
+        or(expr | discrete_range)
     )
-    case_expr <- CaseExpr(
-        "case" expr "is" list+(case_expr_alt, ",")
-    )
+    case_expr <- CaseExpr("case" expr "is" list+(case_expr_alt, ","))
     case_expr_alt <- CaseExprAlternative("when" choice_list "=>" expr)
     raise_expr <- or(
         | RaiseExpr("raise" name ?pick("with" expr))
@@ -950,8 +1071,8 @@ grammar ada_grammar {
         expr
         "then"
         expr
-        list*(ElsifExprPart("elsif"
-        expr "then" expr)) ?pick("else" expr)
+        list*(ElsifExprPart("elsif" expr "then" expr))
+        ?pick("else" expr)
     )
     conditional_expr <- or(if_expr | case_expr | quantified_expr)
     box_expr <- BoxExpr("<>")
@@ -965,13 +1086,13 @@ grammar ada_grammar {
     )
     regular_aggregate <- or(
         | NullRecordAggregate(
-            "("
-            ?pick(expr "with") "null" "record" null(AssocList) ")"
+            "(" ?pick(expr "with") "null" "record" null(AssocList) ")"
         )
         | DeltaAggregate(
             "("
             expr
-            "with" "delta"
+            "with"
+            "delta"
             /
             # TODO: We use a ?pick parser below only to satisfy unparsing
             # because this is actually not optional in the case of delta
@@ -980,26 +1101,22 @@ grammar ada_grammar {
             ")"
         )
         | Aggregate(
-            "("
-            / ?pick(expr "with") AssocList+(aggregate_assoc, ",") ")"
+            "(" / ?pick(expr "with") AssocList+(aggregate_assoc, ",") ")"
         )
     )
     bracket_aggregate <- or(
         | BracketDeltaAggregate(
-            "["
-            expr
-            "with" "delta" / AssocList+(aggregate_assoc, ",") "]"
+            "[" expr "with" "delta" / AssocList+(aggregate_assoc, ",") "]"
         )
         | BracketAggregate(
-            "["
-            / ?pick(expr "with") AssocList*(aggregate_assoc, ",") "]"
+            "[" / ?pick(expr "with") AssocList*(aggregate_assoc, ",") "]"
         )
     )
     aggregate <- or(regular_aggregate | bracket_aggregate)
     direct_name <- or(identifier | string_literal | char_literal)
     param_assoc <- ParamAssoc(
-        ?pick(or(identifier | others_designator | string_literal)
-        "=>" /) or(expr | box_expr)
+        ?pick(or(identifier | others_designator | string_literal) "=>" /)
+        or(expr | box_expr)
     )
     call_suffix <- or(
         # Slice via discrete subtype
@@ -1039,9 +1156,7 @@ grammar ada_grammar {
     qual_name_internal <- or(
         | DottedName(qual_name_internal "." / direct_name)
         # Attributes, needed because of 'Class: A'Class'(...)
-        | AttributeRef(
-            qual_name_internal "'" identifier null(AssocList)
-        )
+        | AttributeRef(qual_name_internal "'" identifier null(AssocList))
         | direct_name
     )
 
@@ -1049,7 +1164,9 @@ grammar ada_grammar {
         # Since parallel keyword is not supported yet, the following optional
         # parts are not parsed (RM 4.5.10):
         # - ``[parallel[(chunk_specification)] [aspect_specification]]``.
-        "[" iterated_assoc "]"
+        "["
+        iterated_assoc
+        "]"
     )
     name <- or(
         | CallExpr(name "(" / call_suffix ")")
@@ -1058,14 +1175,17 @@ grammar ada_grammar {
 
         # Special case for 'Update
         | UpdateAttributeRef(
-            name
-            "'" Identifier(@Identifier("Update")) update_attr_aggregate
+            name "'" Identifier(@Identifier("Update")) update_attr_aggregate
         )
 
         # Special case for 'Reduce
         | ReduceAttributeRef(
             or(name | value_sequence)
-            "'" Identifier(@Identifier("Reduce")) "(" attr_suffix ")"
+            "'"
+            Identifier(@Identifier("Reduce"))
+            "("
+            attr_suffix
+            ")"
         )
 
         # General Attributes
@@ -1088,9 +1208,7 @@ grammar ada_grammar {
     target_name <- TargetName("@")
     update_attr_aggregate <- or(
         | regular_aggregate
-        | Aggregate(
-            "(" / null(Expr) update_attr_content ")"
-        )
+        | Aggregate("(" / null(Expr) update_attr_content ")")
     )
     update_attr_content <- AssocList+(multidim_array_assoc, ",")
     multidim_array_assoc <- MultiDimArrayAssoc(
@@ -1102,9 +1220,7 @@ grammar ada_grammar {
     # always eat the type constraints.
     subtype_name <- or(
         | DottedName(subtype_name "." / direct_name)
-        | AttributeRef(
-            subtype_name "'" identifier ?pick("(" attr_suffix ")")
-        )
+        | AttributeRef(subtype_name "'" identifier ?pick("(" attr_suffix ")"))
         | direct_name
     )
     static_name <- or(
@@ -1134,29 +1250,20 @@ grammar ada_grammar {
     )
     term <- or(
         | BinOp(
-            term or(
-                | Op.Mult("*")
-                | Op.Div("/")
-                | Op.Mod("mod")
-                | Op.Rem("rem")
-            ) / factor
+            term
+            or(| Op.Mult("*") | Op.Div("/") | Op.Mod("mod") | Op.Rem("rem"))
+            /
+            factor
         )
         | factor
     )
-    unop_term <- or(
-        | UnOp(or(Op.Plus("+") | Op.Minus("-")) / term)
-        | term
-    )
+    unop_term <- or(| UnOp(or(Op.Plus("+") | Op.Minus("-")) / term) | term)
     add_term <- or(
-        | BinOp(
-            add_term or(Op.Plus("+") | Op.Minus("-")) / term
-        )
+        | BinOp(add_term or(Op.Plus("+") | Op.Minus("-")) / term)
         | unop_term
     )
     simple_expr <- or(
-        | ConcatOp(
-            add_term list+(ConcatOperand(Op.Concat("&") add_term))
-        )
+        | ConcatOp(add_term list+(ConcatOperand(Op.Concat("&") add_term)))
         | add_term
     )
     boolean_op <- or(
@@ -1167,15 +1274,14 @@ grammar ada_grammar {
         | Op.Or("or")
     )
     discrete_range <- or(
-        | BinOp(
-            simple_expr Op.DoubleDot("..") or(simple_expr | box_expr)
-        )
+        | BinOp(simple_expr Op.DoubleDot("..") or(simple_expr | box_expr))
         | name |> when(Name.is_range_attribute)
     )
     array_subcomponent_choice <- or(
         | DottedName(array_subcomponent_choice "." direct_name)
-        | ArraySubcomponentChoiceName(array_subcomponent_choice
-                                      "(" call_suffix ")")
+        | ArraySubcomponentChoiceName(
+            array_subcomponent_choice "(" call_suffix ")"
+        )
         | ArraySubcomponentChoiceName(null(Name) "(" call_suffix ")")
     )
     choice <- or(
@@ -1203,46 +1309,47 @@ grammar ada_grammar {
     membership_choice_list <- ExprAlternativesList+(membership_choice, "|")
     relation <- or(
         | RelationOp(
-            relation or(
+            relation
+            or(
                 | Op.Eq("=")
                 | Op.Neq("/=")
                 | Op.Lt("<")
                 | Op.Lte("<=")
                 | Op.Gt(">")
                 | Op.Gte(">=")
-            ) / simple_expr
+            )
+            /
+            simple_expr
         )
         | MembershipExpr(relation rel_op membership_choice_list)
         | simple_expr
     )
     |" Parse an expression.
-    @entry_point expr <- or(
-        | BinOp(expr boolean_op / relation)
-        | relation
-    )
+    @entry_point
+    expr <- or(| BinOp(expr boolean_op / relation) | relation)
     |" Parse a preprocessor directive.
-    @entry_point pp_directive <- or(
+    @entry_point
+    pp_directive <- or(
         | PpIfDirective("if" / pp_expr pp_then)
         | PpElsifDirective("elsif" / pp_expr pp_then)
         | PpElseDirective("else")
         | PpEndIfDirective("end" "if" ";")
     )
     pp_then <- ?PpThenKw("then")
-    pp_expr <- or(
-        | BinOp(pp_expr boolean_op / pp_term)
-        | pp_term
-    )
+    pp_expr <- or(| BinOp(pp_expr boolean_op / pp_term) | pp_term)
     pp_term <- or(
         | ParenExpr("(" pp_expr ")")
         | UnOp(Op.Not("not") pp_expr)
         | BinOp(
-            identifier or(
+            identifier
+            or(
                 | Op.Eq("=")
                 | Op.Lt("<")
                 | Op.Lte("<=")
                 | Op.Gt(">")
                 | Op.Gte(">=")
-            ) or(string_literal | int_literal | identifier)
+            )
+            or(string_literal | int_literal | identifier)
         )
         | AttributeRef(identifier "'" identifier null(AssocList))
         | identifier

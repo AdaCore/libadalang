@@ -15,11 +15,12 @@ with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 with GNATCOLL.Projects;   use GNATCOLL.Projects;
 with GNATCOLL.VFS;        use GNATCOLL.VFS;
 with GPR2.Containers;
-with GPR2.Message.Reporter;
+with GPR2.Message;
 with GPR2.Options;
 with GPR2.Project.Tree;
 with GPR2.Project.View;
 with GPR2.Project.View.Set;
+with GPR2.Reporter;
 
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
@@ -91,15 +92,18 @@ package body Libadalang.Implementation.C.Extensions is
    --  involved, usage of this singleton/vector needs to be protected by
    --  GNAT.Task_Lock.
 
-   type GPR2_Reporter_Type is new GPR2.Message.Reporter.Object
-   with null record;
+   type GPR2_Reporter_Type is new GPR2.Reporter.Object
+   with record
+      Messages : String_Vectors.Vector;
+   end record;
 
-   overriding procedure Report
-     (Self : GPR2_Reporter_Type; Message : GPR2.Message.Object);
-   overriding procedure Report (Self : GPR2_Reporter_Type; Message : String);
+   overriding procedure Internal_Report
+     (Self : in out GPR2_Reporter_Type; Message : GPR2.Message.Object);
+   overriding function Verbosity
+     (Self : GPR2_Reporter_Type) return GPR2.Reporter.Verbosity_Level is
+        (GPR2.Reporter.Regular);
 
    GPR2_Reporter          : GPR2_Reporter_Type;
-   GPR2_Reporter_Messages : String_Vectors.Vector;
 
    -------------------------
    -- Scenario_Vars_Count --
@@ -205,8 +209,7 @@ package body Libadalang.Implementation.C.Extensions is
 
       begin
          GNAT.Task_Lock.Lock;
-         GPR2.Message.Reporter.Register_Reporter (GPR2_Reporter);
-         GPR2_Reporter_Messages.Clear;
+         GPR2_Reporter.Messages.Clear;
 
          --  Never complain about missing directories: most of the time for
          --  users, this is noise about object directories.
@@ -214,6 +217,7 @@ package body Libadalang.Implementation.C.Extensions is
          begin
             if not Tree.Load
               (Options,
+               Reporter         => GPR2_Reporter,
                Absent_Dir_Error => GPR2.No_Error,
                With_Runtime     => True)
             then
@@ -239,7 +243,9 @@ package body Libadalang.Implementation.C.Extensions is
       --  Forward warnings and errors sent to the GPR2 message reporter
       --  to Errors.
 
-      Errors.Append_Vector (GPR2_Reporter_Messages);
+      Errors.Append_Vector
+        (GPR2_Reporter_Type (Tree.Reporter.Element.all).Messages);
+      GPR2_Reporter_Type (Tree.Reporter.Element.all).Messages.Clear;
    end Load_Project;
 
    -------------------
@@ -264,20 +270,11 @@ package body Libadalang.Implementation.C.Extensions is
    -- Report --
    ------------
 
-   overriding procedure Report
-     (Self : GPR2_Reporter_Type; Message : GPR2.Message.Object) is
+   overriding procedure Internal_Report
+     (Self : in out GPR2_Reporter_Type; Message : GPR2.Message.Object) is
    begin
-      GPR2_Reporter_Messages.Append (To_Unbounded_String (Message.Format));
-   end Report;
-
-   ------------
-   -- Report --
-   ------------
-
-   overriding procedure Report (Self : GPR2_Reporter_Type; Message : String) is
-   begin
-      GPR2_Reporter_Messages.Append (To_Unbounded_String (Message));
-   end Report;
+      Self.Messages.Append (To_Unbounded_String (Message.Format));
+   end Internal_Report;
 
    ---------------------------
    -- ada_free_string_array --

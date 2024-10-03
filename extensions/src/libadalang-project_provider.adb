@@ -1180,16 +1180,8 @@ package body Libadalang.Project_Provider is
    --------------------
 
    function Update_Sources (Tree : GPR2.Project.Tree.Object) return Boolean is
-      Messages : GPR2.Log.Object;
    begin
-      return Result : Boolean do
-         Tree.Update_Sources (Messages => Messages);
-         Result := not Messages.Has_Error;
-         Messages.Output_Messages
-           (Information => False,
-            Warning     => True,
-            Error       => True);
-      end return;
+      return Tree.Update_Sources;
    end Update_Sources;
 
    -----------------------------------

@@ -16,7 +16,6 @@ with GPR2.Build.Compilation_Unit;
 pragma Warnings (Off, "not referenced");
 with GPR2.Build.Source.Sets;
 pragma Warnings (On, "not referenced");
-with GPR2.Log;
 
 with Libadalang.GPR_Utils;      use Libadalang.GPR_Utils;
 with Libadalang.Implementation; use Libadalang.Implementation;
@@ -1174,15 +1173,6 @@ package body Libadalang.Project_Provider is
          raise Source_Info_Missing_Error;
       end if;
    end Check_Source_Info;
-
-   --------------------
-   -- Update_Sources --
-   --------------------
-
-   function Update_Sources (Tree : GPR2.Project.Tree.Object) return Boolean is
-   begin
-      return Tree.Update_Sources;
-   end Update_Sources;
 
    -----------------------------------
    -- Create_Project_Unit_Providers --

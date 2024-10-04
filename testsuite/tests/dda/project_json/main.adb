@@ -70,9 +70,9 @@ procedure Main is
 
       if not Tree.Load
                (Options,
-                With_Runtime     => True,
-                Absent_Dir_Error => GPR2.No_Error)
-         or else not Update_Sources (Tree)
+                With_Runtime         => True,
+                Artifacts_Info_Level => GPR2.Sources_Units,
+                Absent_Dir_Error     => GPR2.No_Error)
       then
          raise Program_Error;
       end if;

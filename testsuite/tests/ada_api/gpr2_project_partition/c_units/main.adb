@@ -14,8 +14,10 @@ procedure Main is
 begin
    Put_Line ("Loading the project:");
    Options.Add_Switch (GPR2.Options.P, "ap.gpr");
-   if not Tree.Load (Options, With_Runtime => True)
-      or else not Update_Sources (Tree)
+   if not Tree.Load
+     (Options,
+      With_Runtime         => True,
+      Artifacts_Info_Level => GPR2.Sources_Units)
    then
       raise Program_Error;
    end if;

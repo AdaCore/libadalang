@@ -40,8 +40,10 @@ procedure Main is
          Tree    : GPR2.Project.Tree.Object;
       begin
          Options.Add_Switch (GPR2.Options.P, Project);
-         if not Tree.Load (Options, With_Runtime => True)
-            or else not Update_Sources (Tree)
+         if not Tree.Load
+           (Options,
+            With_Runtime         => True,
+            Artifacts_Info_Level => GPR2.Sources_Units)
          then
             raise Program_Error;
          end if;

@@ -4,9 +4,17 @@
 --
 
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+pragma Warnings (Off, "is an internal GNAT unit");
+with Ada.Strings.Unbounded.Aux; use Ada.Strings.Unbounded.Aux;
+pragma Warnings (On, "is an internal GNAT unit");
+
+with GNATCOLL.GMP; use GNATCOLL.GMP;
+with GNATCOLL.GMP.Integers;
 
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
+with Libadalang.Sources;           use Libadalang.Sources;
+with Libadalang.Target_Info;       use Libadalang.Target_Info;
 
 package body Libadalang.Env_Hooks is
 
@@ -27,147 +35,6 @@ package body Libadalang.Env_Hooks is
      constant array (Positive range <>) of access constant Text_Type
        := [Integer_IO'Access, Modular_IO'Access, Float_IO'Access,
            Fixed_IO'Access, Decimal_IO'Access, Enumeration_IO'Access];
-
-   --  The content of the following string literal has been generated running
-   --  GNAT with flag -gnatS, and then post-processed by hand.
-
-   Std_Content : constant String :=
-     "package Standard is" & ASCII.LF &
-     "pragma Pure(Standard);" & ASCII.LF &
-     "  type Boolean is (False, True);" & ASCII.LF &
-     "  type Integer is range -(2 ** 31) .. +(2 ** 31 - 1);" & ASCII.LF &
-     "  subtype Natural  is Integer range 0 .. +(2 ** 31 - 1);" & ASCII.LF &
-     "  subtype Positive is Integer range 1 .. +(2 ** 31 - 1);" & ASCII.LF &
-     "  type Short_Short_Integer    is range -(2 ** 7) .. +(2 ** 7 - 1);"
-     & ASCII.LF &
-     "  type Short_Integer          is range -(2 ** 15) .. +(2 ** 15 - 1);"
-     & ASCII.LF &
-     "  type Long_Integer           is range -(2 ** 31) .. +(2 ** 31 - 1);"
-     & ASCII.LF &
-     "  type Long_Long_Integer      is range -(2 ** 63) .. +(2 ** 63 - 1);"
-     & ASCII.LF &
-     "  type Long_Long_Long_Integer is range -(2 ** 127) .. +(2 ** 127 - 1);"
-     & ASCII.LF &
-     "  type Short_Float     is digits 6" & ASCII.LF &
-     "    range -16#0.FFFF_FF#E+32 .. 16#0.FFFF_FF#E+32;" & ASCII.LF &
-     "  type Float           is digits 6" & ASCII.LF &
-     "    range -16#0.FFFF_FF#E+32 .. 16#0.FFFF_FF#E+32;" & ASCII.LF &
-     "  type Long_Float      is digits 15" & ASCII.LF &
-     "    range -16#0.FFFF_FFFF_FFFF_F8#E+256 .. 16#0.FFFF_FFFF_FFFF_F8#E+256;"
-     & ASCII.LF &
-     "  type Long_Long_Float is digits 18" & ASCII.LF &
-     "    range -16#0.FFFF_FFFF_FFFF_FFFF#E+4096 .. " & ASCII.LF &
-     "16#0.FFFF_FFFF_FFFF_FFFF#E+4096;" & ASCII.LF &
-     "  type Character is ('A');" & ASCII.LF &
-     "  type Wide_Character is ('A');" & ASCII.LF &
-     "  type Wide_Wide_Character is ('A');" & ASCII.LF &
-     "  package ASCII is" & ASCII.LF &
-     "     NUL   : constant Character := Character'Val (16#00#);" & ASCII.LF &
-     "     SOH   : constant Character := Character'Val (16#01#);" & ASCII.LF &
-     "     STX   : constant Character := Character'Val (16#02#);" & ASCII.LF &
-     "     ETX   : constant Character := Character'Val (16#03#);" & ASCII.LF &
-     "     EOT   : constant Character := Character'Val (16#04#);" & ASCII.LF &
-     "     ENQ   : constant Character := Character'Val (16#05#);" & ASCII.LF &
-     "     ACK   : constant Character := Character'Val (16#06#);" & ASCII.LF &
-     "     BEL   : constant Character := Character'Val (16#07#);" & ASCII.LF &
-     "     BS    : constant Character := Character'Val (16#08#);" & ASCII.LF &
-     "     HT    : constant Character := Character'Val (16#09#);" & ASCII.LF &
-     "     LF    : constant Character := Character'Val (16#0A#);" & ASCII.LF &
-     "     VT    : constant Character := Character'Val (16#0B#);" & ASCII.LF &
-     "     FF    : constant Character := Character'Val (16#0C#);" & ASCII.LF &
-     "     CR    : constant Character := Character'Val (16#0D#);" & ASCII.LF &
-     "     SO    : constant Character := Character'Val (16#0E#);" & ASCII.LF &
-     "     SI    : constant Character := Character'Val (16#0F#);" & ASCII.LF &
-     "     DLE   : constant Character := Character'Val (16#10#);" & ASCII.LF &
-     "     DC1   : constant Character := Character'Val (16#11#);" & ASCII.LF &
-     "     DC2   : constant Character := Character'Val (16#12#);" & ASCII.LF &
-     "     DC3   : constant Character := Character'Val (16#13#);" & ASCII.LF &
-     "     DC4   : constant Character := Character'Val (16#14#);" & ASCII.LF &
-     "     NAK   : constant Character := Character'Val (16#15#);" & ASCII.LF &
-     "     SYN   : constant Character := Character'Val (16#16#);" & ASCII.LF &
-     "     ETB   : constant Character := Character'Val (16#17#);" & ASCII.LF &
-     "     CAN   : constant Character := Character'Val (16#18#);" & ASCII.LF &
-     "     EM    : constant Character := Character'Val (16#19#);" & ASCII.LF &
-     "     SUB   : constant Character := Character'Val (16#1A#);" & ASCII.LF &
-     "     ESC   : constant Character := Character'Val (16#1B#);" & ASCII.LF &
-     "     FS    : constant Character := Character'Val (16#1C#);" & ASCII.LF &
-     "     GS    : constant Character := Character'Val (16#1D#);" & ASCII.LF &
-     "     RS    : constant Character := Character'Val (16#1E#);" & ASCII.LF &
-     "     US    : constant Character := Character'Val (16#1F#);" & ASCII.LF &
-     "     DEL   : constant Character := Character'Val (16#7F#);" & ASCII.LF &
-     "     Exclam     : constant Character := '!';" & ASCII.LF &
-     "     Quotation  : constant Character := '""';" & ASCII.LF &
-     "     Sharp      : constant Character := '#';" & ASCII.LF &
-     "     Dollar     : constant Character := '$';" & ASCII.LF &
-     "     Percent    : constant Character := '%';" & ASCII.LF &
-     "     Ampersand  : constant Character := '&';" & ASCII.LF &
-     "     Colon      : constant Character := ':';" & ASCII.LF &
-     "     Semicolon  : constant Character := ';';" & ASCII.LF &
-     "     Query      : constant Character := '?';" & ASCII.LF &
-     "     At_Sign    : constant Character := '@';" & ASCII.LF &
-     "     L_Bracket  : constant Character := '[';" & ASCII.LF &
-     "     Back_Slash : constant Character := '\';" & ASCII.LF &
-     "     R_Bracket  : constant Character := ']';" & ASCII.LF &
-     "     Circumflex : constant Character := '^';" & ASCII.LF &
-     "     Underline  : constant Character := '_';" & ASCII.LF &
-     "     Grave      : constant Character := '`';" & ASCII.LF &
-     "     L_Brace    : constant Character := '{';" & ASCII.LF &
-     "     Bar        : constant Character := '|';" & ASCII.LF &
-     "     R_Brace    : constant Character := '}';" & ASCII.LF &
-     "     Tilde      : constant Character := '~';" & ASCII.LF &
-     "     LC_A : constant Character := 'a';" & ASCII.LF &
-     "     LC_B : constant Character := 'b';" & ASCII.LF &
-     "     LC_C : constant Character := 'c';" & ASCII.LF &
-     "     LC_D : constant Character := 'd';" & ASCII.LF &
-     "     LC_E : constant Character := 'e';" & ASCII.LF &
-     "     LC_F : constant Character := 'f';" & ASCII.LF &
-     "     LC_G : constant Character := 'g';" & ASCII.LF &
-     "     LC_H : constant Character := 'h';" & ASCII.LF &
-     "     LC_I : constant Character := 'i';" & ASCII.LF &
-     "     LC_J : constant Character := 'j';" & ASCII.LF &
-     "     LC_K : constant Character := 'k';" & ASCII.LF &
-     "     LC_L : constant Character := 'l';" & ASCII.LF &
-     "     LC_M : constant Character := 'm';" & ASCII.LF &
-     "     LC_N : constant Character := 'n';" & ASCII.LF &
-     "     LC_O : constant Character := 'o';" & ASCII.LF &
-     "     LC_P : constant Character := 'p';" & ASCII.LF &
-     "     LC_Q : constant Character := 'q';" & ASCII.LF &
-     "     LC_R : constant Character := 'r';" & ASCII.LF &
-     "     LC_S : constant Character := 's';" & ASCII.LF &
-     "     LC_T : constant Character := 't';" & ASCII.LF &
-     "     LC_U : constant Character := 'u';" & ASCII.LF &
-     "     LC_V : constant Character := 'v';" & ASCII.LF &
-     "     LC_W : constant Character := 'w';" & ASCII.LF &
-     "     LC_X : constant Character := 'x';" & ASCII.LF &
-     "     LC_Y : constant Character := 'y';" & ASCII.LF &
-     "     LC_Z : constant Character := 'z';" & ASCII.LF &
-     "  end ASCII;" & ASCII.LF &
-     "  type String is array (Positive range <>) of Character;" & ASCII.LF &
-     "  pragma Pack (String);" & ASCII.LF &
-     "  type Wide_String is array " & ASCII.LF &
-     "(Positive range <>) of Wide_Character;" & ASCII.LF &
-     "  type Wide_Wide_String is array " & ASCII.LF &
-     "(Positive range <>) of Wide_Wide_Character;" & ASCII.LF &
-     "  pragma Pack (Wide_String);" & ASCII.LF &
-     "  type Duration is delta 0.000000001" & ASCII.LF &
-     "    range -((2 ** 63 - 1) * 0.000000001) .." & ASCII.LF &
-     "          +((2 ** 63 - 1) * 0.000000001);" & ASCII.LF &
-     "  for Duration'Small use 0.000000001;" & ASCII.LF &
-     "  type Universal_Int_Type_ is range -1 .. 1;" & ASCII.LF &
-     "  type Universal_Real_Type_ is digits 16;" & ASCII.LF &
-     "  type Universal_Fixed_Type_ is delta 0.01 range -1.0 .. 1.0;"
-     & ASCII.LF &
-     "  package root_types_ is" & ASCII.LF &
-     "  type root_integer is range -1 .. 1;" & ASCII.LF &
-     "  type root_real is digits 16;" & ASCII.LF & ASCII.LF &
-     "  end root_types_;" & ASCII.LF &
-     "  Constraint_Error : exception;" & ASCII.LF &
-     "  Numeric_Error    : exception;" & ASCII.LF &
-     "  Program_Error    : exception;" & ASCII.LF &
-     "  Storage_Error    : exception;" & ASCII.LF &
-     "  Tasking_Error    : exception;" & ASCII.LF &
-     "  Abort_Signal_    : exception;" & ASCII.LF &
-     "end Standard;" & ASCII.LF;
 
    ---------------------
    -- Name_To_Symbols --
@@ -543,19 +410,339 @@ package body Libadalang.Env_Hooks is
    --------------------
 
    procedure Fetch_Standard (Context : Internal_Context) is
-      Std : constant Internal_Unit := Get_Unit
-        (Context     => Context,
-         Filename    => "__standard",
-         Charset     => "ascii",
-         Reparse     => True,
-         Input       => (Kind        => Bytes_Buffer,
-                         Charset     => To_Unbounded_String ("ascii"),
-                         Read_BOM    => False,
-                         Bytes       => Std_Content'Address,
-                         Bytes_Count => Std_Content'Length),
-         Rule        => Default_Grammar_Rule,
-         Is_Internal => True);
+      use GNATCOLL.GMP.Integers;
+      subtype Big_Integer is GNATCOLL.GMP.Integers.Big_Integer;
+
+      TI : Target_Information renames Context.Target_Info;
+
+      Buffer : Unbounded_String;
+      --  Source buffer for the Standard package to create
+
+      --  Helpers to append formatted content to Buffer.
+      --
+      --  Level tracks the indentation level, which Indent/Dedent
+      --  increases/decreases.
+      --
+      --  Line appends to Buffer a line indented according to Level.
+
+      Trace_Lines : constant Boolean := Trace.Is_Active;
+      Level       : Natural := 0;
+      procedure Indent;
+      procedure Dedent;
+      procedure Line (S : String := "");
+
+      procedure Type_Decl (Name, Def : String);
+      --  Append a type declaration to Buffer. Name is the type name and Def is
+      --  whatever follows the "is" keyword.
+
+      procedure Integer_Type_Decl (Name : String; Size : Positive);
+      --  Append a base integer type declaration for the given Name and Size
+
+      procedure Float_Type_Decl
+        (Name : String; Info : Floating_Point_Type_Information);
+      --  Append a floating point type declaration that matches the given
+      --  description.
+
+      procedure Char_Constant (Name : String; Value : Character);
+      --  Append a Character constant declaration for the given Name and Value
+
+      ------------
+      -- Indent --
+      ------------
+
+      procedure Indent is
+      begin
+         Level := Level + 1;
+      end Indent;
+
+      ------------
+      -- Dedent --
+      ------------
+
+      procedure Dedent is
+      begin
+         Level := Level - 1;
+      end Dedent;
+
+      ----------
+      -- Line --
+      ----------
+
+      procedure Line (S : String := "") is
+      begin
+         if S = "" then
+            if Trace_Lines then
+               Trace.Trace ("");
+            end if;
+         else
+            declare
+               Indentation : constant String := (1 .. 3 * Level => ' ');
+            begin
+               if Trace_Lines then
+                  Trace.Trace (Indentation & S);
+               end if;
+               Append (Buffer, Indentation);
+               Append (Buffer, S);
+            end;
+         end if;
+         Append (Buffer, ASCII.LF);
+      end Line;
+
+      ---------------
+      -- Type_Decl --
+      ---------------
+
+      procedure Type_Decl (Name, Def : String) is
+      begin
+         Line ("type " & Name & " is " & Def & ";");
+      end Type_Decl;
+
+      -----------------------
+      -- Integer_Type_Decl --
+      -----------------------
+
+      procedure Integer_Type_Decl (Name : String; Size : Positive) is
+         Base  : constant Big_Integer := Make ("2");
+         Exp   : constant Unsigned_Long := Unsigned_Long (Size - 1);
+         First : constant Big_Integer := -(Base ** Exp);
+         Last  : constant Big_Integer := Base ** Exp - 1;
+      begin
+         Type_Decl
+           (Name,
+            "range " & Image (Encode_Integer_Literal (First, Base => 16))
+            & " .. " & Image (Encode_Integer_Literal (Last, Base => 16)));
+      end Integer_Type_Decl;
+
+      ---------------------
+      -- Float_Type_Decl --
+      ---------------------
+
+      procedure Float_Type_Decl
+        (Name : String; Info : Floating_Point_Type_Information) is
+      begin
+         Type_Decl (Name, Image (Ada_Type_Definition (Info)));
+      end Float_Type_Decl;
+
+      -------------------
+      -- Char_Constant --
+      -------------------
+
+      procedure Char_Constant (Name : String; Value : Character) is
+      begin
+         Line (Name & " : constant Character := Character'Val ("
+               & Character'Pos (Value)'Image & ");");
+      end Char_Constant;
+
+      Std : Internal_Unit;
    begin
+      if Trace_Lines then
+         Trace.Trace ("== Synthetized Standard package code ==");
+      end if;
+
+      --  The content we generate for the Standard package is inspired by
+      --  GNAT's output for the -gnatS compilation switch, adapted for the
+      --  target information stored in Context.
+
+      Line ("package Standard is");
+      Indent;
+
+      Line ("pragma Pure (Standard);");
+      Line;
+
+      Type_Decl ("Boolean", "(False, True)");
+      Line;
+
+      Integer_Type_Decl ("Integer", TI.Int_Size);
+      Line ("subtype Natural is Integer range 0 .. Integer'Last;");
+      Line ("subtype Positive is Integer range 1 .. Integer'Last;");
+      Line;
+
+      Integer_Type_Decl ("Short_Short_Integer", TI.Char_Size);
+      Integer_Type_Decl ("Short_Integer", TI.Short_Size);
+      Integer_Type_Decl ("Long_Integer", TI.Long_Size);
+      Integer_Type_Decl ("Long_Long_Integer", TI.Long_Long_Size);
+      Integer_Type_Decl ("Long_Long_Long_Integer", TI.Long_Long_Long_Size);
+      Line;
+
+      Float_Type_Decl ("Short_Float", TI.Floating_Point_Types (Float_Id));
+      Float_Type_Decl ("Float", TI.Floating_Point_Types (Float_Id));
+      Float_Type_Decl ("Long_Float", TI.Floating_Point_Types (Double_Id));
+      Float_Type_Decl ("Long_Long_Float",
+                       TI.Floating_Point_Types (Long_Double_Id));
+      Line;
+
+      Type_Decl ("Character", "('A')");
+      Type_Decl ("Wide_Character", "('A')");
+      Type_Decl ("Wide_Wide_Character", "('A')");
+      Line;
+
+      Line ("package ASCII is");
+      Indent;
+      Char_Constant ("NUL", ASCII.NUL);
+      Char_Constant ("SOH", ASCII.SOH);
+      Char_Constant ("STX", ASCII.STX);
+      Char_Constant ("ETX", ASCII.ETX);
+      Char_Constant ("EOT", ASCII.EOT);
+      Char_Constant ("ENQ", ASCII.ENQ);
+      Char_Constant ("ACK", ASCII.ACK);
+      Char_Constant ("BEL", ASCII.BEL);
+      Char_Constant ("BS", ASCII.BS);
+      Char_Constant ("HT", ASCII.HT);
+      Char_Constant ("LF", ASCII.LF);
+      Char_Constant ("VT", ASCII.VT);
+      Char_Constant ("FF", ASCII.FF);
+      Char_Constant ("CR", ASCII.CR);
+      Char_Constant ("SO", ASCII.SO);
+      Char_Constant ("SI", ASCII.SI);
+      Char_Constant ("DLE", ASCII.DLE);
+      Char_Constant ("DC1", ASCII.DC1);
+      Char_Constant ("DC2", ASCII.DC2);
+      Char_Constant ("DC3", ASCII.DC3);
+      Char_Constant ("DC4", ASCII.DC4);
+      Char_Constant ("NAK", ASCII.NAK);
+      Char_Constant ("SYN", ASCII.SYN);
+      Char_Constant ("ETB", ASCII.ETB);
+      Char_Constant ("CAN", ASCII.CAN);
+      Char_Constant ("EM", ASCII.EM);
+      Char_Constant ("SUB", ASCII.SUB);
+      Char_Constant ("ESC", ASCII.ESC);
+      Char_Constant ("FS", ASCII.FS);
+      Char_Constant ("GS", ASCII.GS);
+      Char_Constant ("RS", ASCII.RS);
+      Char_Constant ("US", ASCII.US);
+      Char_Constant ("DEL", ASCII.DEL);
+      Line;
+
+      Char_Constant ("Exclam", '!');
+      Char_Constant ("Quotation", '"');
+      Char_Constant ("Sharp",  '#');
+      Char_Constant ("Dollar", '$');
+      Char_Constant ("Percent", '%');
+      Char_Constant ("Ampersand", '&');
+      Char_Constant ("Colon",  ':');
+      Char_Constant ("Semicolon", ';');
+      Char_Constant ("Query",  '?');
+      Char_Constant ("At_Sign", '@');
+      Char_Constant ("L_Bracket", '[');
+      Char_Constant ("Back_Slash", '\');
+      Char_Constant ("R_Bracket", ']');
+      Char_Constant ("Circumflex", '^');
+      Char_Constant ("Underline", '_');
+      Char_Constant ("Grave", '`');
+      Char_Constant ("L_Brace", '{');
+      Char_Constant ("Bar", '|');
+      Char_Constant ("R_Brace", '}');
+      Char_Constant ("Tilde",  '~');
+      Char_Constant ("LC_A", 'a');
+      Char_Constant ("LC_B", 'b');
+      Char_Constant ("LC_C", 'c');
+      Char_Constant ("LC_D", 'd');
+      Char_Constant ("LC_E", 'e');
+      Char_Constant ("LC_F", 'f');
+      Char_Constant ("LC_G", 'g');
+      Char_Constant ("LC_H", 'h');
+      Char_Constant ("LC_I", 'i');
+      Char_Constant ("LC_J", 'j');
+      Char_Constant ("LC_K", 'k');
+      Char_Constant ("LC_L", 'l');
+      Char_Constant ("LC_M", 'm');
+      Char_Constant ("LC_N", 'n');
+      Char_Constant ("LC_O", 'o');
+      Char_Constant ("LC_P", 'p');
+      Char_Constant ("LC_Q", 'q');
+      Char_Constant ("LC_R", 'r');
+      Char_Constant ("LC_S", 's');
+      Char_Constant ("LC_T", 't');
+      Char_Constant ("LC_U", 'u');
+      Char_Constant ("LC_V", 'v');
+      Char_Constant ("LC_W", 'w');
+      Char_Constant ("LC_X", 'x');
+      Char_Constant ("LC_Y", 'y');
+      Char_Constant ("LC_Z", 'z');
+      Dedent;
+      Line ("end ASCII;");
+      Line;
+
+      Type_Decl ("String", "array (Positive range <>) of Character");
+      Line ("pragma Pack (String);");
+      Type_Decl ("Wide_String", "array (Positive range <>) of Wide_Character");
+      Line ("pragma Pack (Wide_String);");
+      Type_Decl ("Wide_Wide_String",
+                 "array (Positive range <>) of Wide_Wide_Character");
+      Line;
+
+      declare
+         Duration_32_Bits_On_Target : constant Boolean :=
+           TI.Long_Long_Long_Size < 64;
+
+         Duration_Delta : constant String :=
+           (if Duration_32_Bits_On_Target
+            then "0.020"
+            else "0.000000001");
+         Exponent       : constant String :=
+           (if Duration_32_Bits_On_Target
+            then "31"
+            else "63");
+      begin
+         Type_Decl
+           ("Duration",
+            "delta " & Duration_Delta & " range"
+            & " -((2 ** " & Exponent & ") * " & Duration_Delta & ") .."
+            & " +((2 ** " & Exponent & " - 1) * " & Duration_Delta & ")");
+         Line ("for Duration'Small use " & Duration_Delta & ";");
+      end;
+      Line;
+
+      Type_Decl ("Universal_Int_Type_",  "range -1 .. 1");
+      Type_Decl ("Universal_Real_Type_", "digits 16");
+      Type_Decl ("Universal_Fixed_Type_", "delta 0.01 range -1.0 .. 1.0");
+      Line;
+
+      Line ("package root_types_ is");
+      Indent;
+      Type_Decl ("root_integer",  "range -1 .. 1");
+      Type_Decl ("root_real", "digits 16");
+      Dedent;
+      Line ("end root_types_;");
+      Line;
+
+      Line ("Constraint_Error : exception;");
+      Line ("Numeric_Error    : exception;");
+      Line ("Program_Error    : exception;");
+      Line ("Storage_Error    : exception;");
+      Line ("Tasking_Error    : exception;");
+      Line ("Abort_Signal_    : exception;");
+
+      Dedent;
+      Line ("end Standard;");
+
+      declare
+         Bytes       : Big_String_Access;
+         Bytes_Count : Natural;
+      begin
+         Get_String (Buffer, Bytes, Bytes_Count);
+
+         Std := Get_Unit
+           (Context     => Context,
+            Filename    => "__standard",
+            Charset     => "ascii",
+            Reparse     => True,
+            Input       => (Kind        => Bytes_Buffer,
+                            Charset     => To_Unbounded_String ("ascii"),
+                            Read_BOM    => False,
+                            Bytes       => Bytes.all'Address,
+                            Bytes_Count => Bytes_Count),
+            Rule        => Default_Grammar_Rule,
+            Is_Internal => True);
+
+         --  If Buffer contains a parsing error, the code above has a serious
+         --  bug: do not let it go unnoticed.
+
+         if not Std.Diagnostics.Is_Empty then
+            raise Program_Error with "parsing error in Standard";
+         end if;
+      end;
+
       Populate_Lexical_Env (Std, 1);
    end Fetch_Standard;
 

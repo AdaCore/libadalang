@@ -117,3 +117,17 @@ begin
       Dec_Ref (Result);
    end return;
 end Create_Context_From_Project;
+
+----------------------------
+-- Set_Target_Information --
+----------------------------
+
+procedure Set_Target_Information
+  (Self : Analysis_Context; Info : Target_Information) is
+begin
+   if Self.Internal = null then
+      raise Precondition_Failure with "null context argument";
+   end if;
+   Implementation.Extensions.Set_Target_Information
+     (Unwrap_Context (Self), Info);
+end Set_Target_Information;

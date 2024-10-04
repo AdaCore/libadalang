@@ -9,3 +9,6 @@ Config_Pragmas_Set : Boolean := False;
 Preprocessor_Directives_Errors : Boolean := True;
 --  Whether to emit diagnostics after parsing when preprocessing directives
 --  were found.
+
+Target_Info : Target_Information;
+--  Target information, used to synthetize the Standard package

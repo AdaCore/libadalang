@@ -53,3 +53,8 @@ function Create_Context_From_Project
 --
 --  See ``Libadalang.Analysis.Create_Context`` for the semantics of the other
 --  arguments.
+
+procedure Set_Target_Information
+  (Self : Analysis_Context; Info : Target_Information);
+--  Assign target information to ``Self``. This will affect specific bound
+--  values for types defined in the built in Standard package.

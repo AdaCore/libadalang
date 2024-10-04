@@ -138,6 +138,25 @@ class Manage(ManageScript):
         for dep in ["Libadalang.GPR_Impl", "Libadalang.Project_Provider"]:
             ctx.add_with_clause("Analysis", AdaSourceKind.body, dep)
 
+        # The LAL.Analysis.Set_Target_Information interface and the
+        # Internal_Context type declaration interface both reference
+        # Libadalang.Target_Info.Target_Information.
+        for from_pkg in ["Analysis", "Implementation"]:
+            ctx.add_with_clause(
+                from_pkg,
+                AdaSourceKind.spec,
+                "Libadalang.Target_Info",
+                use_clause=True,
+            )
+
+        # The LAL.Analysis.Set_Target_Information implementation just redirects
+        # to extension code.
+        ctx.add_with_clause(
+            "Analysis",
+            AdaSourceKind.body,
+            "Libadalang.Implementation.Extensions",
+        )
+
         # LAL.Lexer.Is_Keyword's implementation uses precomputed symbols
         ctx.add_with_clause('Lexer',
                             AdaSourceKind.body,

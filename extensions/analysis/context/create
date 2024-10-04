@@ -1,3 +1,4 @@
 ## vim: ft=makoada
 
+Context.Target_Info := Placeholder_Target_Info;
 Fetch_Standard (Context);

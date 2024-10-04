@@ -12,6 +12,12 @@
   -b
   bar -> Symbol(2)
 
+== builder_switches/p.gpr ==
+
+# default
+  -b
+  x -> Symbol(1)
+
 == with/q.gpr ==
 
 # default

@@ -1,0 +1,11 @@
+project P is
+
+   for Source_Dirs use ("p");
+   for Main use ("proc.adb");
+   for Object_Dir use "p/obj";
+
+   package Builder is
+      for Global_Compilation_Switches ("ada") use ("-gnateDX=1");
+   end Builder;
+
+end P;

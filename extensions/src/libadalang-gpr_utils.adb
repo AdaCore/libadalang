@@ -598,11 +598,17 @@ package body Libadalang.GPR_Utils is
 
       procedure Process_View (Self : Any_View) is
          Kind             : Project_Kind renames Self.Kind;
+         Global_Switches  : GPR_Utils.Any_Attribute renames
+           Attributes.Global_Compilation_Switches (Kind);
          Default_Switches : GPR_Utils.Any_Attribute renames
            Attributes.Default_Switches (Kind);
          Switches         : GPR_Utils.Any_Attribute renames
            Attributes.Switches (Kind);
       begin
+         --  Process global compilation switches for the Ada language
+
+         Process_Switches (Self, Global_Switches, "Ada");
+
          --  Process default compiler switches for the Ada language
 
          Process_Switches (Self, Default_Switches, "Ada");

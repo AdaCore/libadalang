@@ -1,0 +1,45 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:11:4-11:27>
+***************************************************************
+
+Expr: <Id "Integer" test.adb:11:8-11:15>
+  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:11:19-11:26>
+  references:    <DefiningName "Value" test.adb:3:7-3:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Expr: <Id "C" test.adb:11:19-11:20>
+  references:    <DefiningName "C" test.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Cursor"] test.adb:6:4-7:40>
+  expected type: <ConcreteTypeDecl ["Item"] test.adb:2:4-4:15>
+Expr: <Id "Value" test.adb:11:21-11:26>
+  references:    <DefiningName "Value" test.adb:3:7-3:12>
+  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+
+Resolving xrefs for node <ObjectDecl ["I"] test.adb:13:4-13:29>
+***************************************************************
+
+Expr: <Id "Item" test.adb:13:15-13:19>
+  references:    <DefiningName "Item" test.adb:2:9-2:13>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:13:23-13:28>
+  references:    <DefiningName "Ref" test.adb:6:17-6:20>
+  type:          <AnonymousTypeDecl ["None"] test.adb:6:23-6:34>
+  expected type: <AnonymousTypeDecl ["None"] test.adb:13:8-13:19>
+Expr: <Id "C" test.adb:13:23-13:24>
+  references:    <DefiningName "C" test.adb:10:4-10:5>
+  type:          <ConcreteTypeDecl ["Cursor"] test.adb:6:4-7:40>
+  expected type: <ConcreteTypeDecl ["Cursor"] test.adb:6:4-7:40>
+Expr: <Id "Ref" test.adb:13:25-13:28>
+  references:    <DefiningName "Ref" test.adb:6:17-6:20>
+  type:          <AnonymousTypeDecl ["None"] test.adb:6:23-6:34>
+  expected type: <AnonymousTypeDecl ["None"] test.adb:13:8-13:19>
+
+
+Done.

@@ -6530,6 +6530,29 @@ class BaseFormalParamDecl: BasicDecl {
         self.previous_part_for_name(self.name_symbol())
 
     fun is_mandatory(): Bool = false
+
+    |" Return the defining container type for this declaration. Note that this
+    |" only makes sense for the ComponentDecl and DiscriminantSpec subclasses.
+    fun container_type(): Entity[BaseTypeDecl] =
+        node.parents().find((p) => p is BaseTypeDecl)
+        .as[BaseTypeDecl]
+        .as_entity
+
+    @with_dynvars(origin)
+    fun constrain_prefix(prefix: Expr): Equation =
+        if node is ComponentDecl | DiscriminantSpec then (
+            # If self is a component/discriminant of a SingleProtectedDecl or
+            # ProtectedTypeDecl, do not constrain the equation further since
+            # they do not have a type. Otherwise it is a record, so set the
+            # expected type of the prefix to be the record type of this
+            # component.
+            if node.parents().any((p) => p is ProtectedDef)
+            then %true
+            else (
+                prefix.expected_type_var() <- self.container_type()
+                %and prefix.matches_expected_prefix_type()
+            )
+        ) else %false
 }
 
 |" Declaration for a component (:rmlink:`3.8`).
@@ -6561,25 +6584,6 @@ class ComponentDecl: BaseFormalParamDecl {
         node.component_def.type_expr.as_entity
 
     fun is_constant_object(): Bool = false
-
-    @with_dynvars(origin)
-    fun constrain_prefix(prefix: Expr): Equation =
-        # If self is a component of a SingleProtectedDecl or
-        # ProtectedTypeDecl, do not constrain the equation further since
-        # they do not have a type.
-        if node.parents().any((p) => p is ProtectedDef) then %true
-
-        # The expected type of the prefix is the record type of this
-        # component.
-        else
-            prefix.expected_type_var() <- self.container_type()
-            %and prefix.matches_expected_prefix_type()
-
-    |" Return the defining container type for this component declaration.
-    fun container_type(): Entity[BaseTypeDecl] =
-        node.parents().find((p) => p is BaseTypeDecl)
-        .as[BaseTypeDecl]
-        .as_entity
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
@@ -19378,25 +19382,18 @@ class DottedName: Name {
                 self.suffix.sub_equation()
             };
 
-        if not self.designated_type_impl().is_null then base
+        if not self.designated_type_impl().is_null then
+            base
         else
-            (
-                (
-                    base
-                    %and node.expected_type_var()
-                    <-> node.suffix.expected_type_var()
-                )
-                %and node.type_var() <-> node.suffix.type_var()
-            )
+            base
+            %and node.expected_type_var() <-> node.suffix.expected_type_var()
+            %and node.type_var() <-> node.suffix.type_var()
             %and self.env_elements().do(
-                (env_els) =>
-                env_els.logic_any(
-                    (e) => {
-                        val actual = e.as[BasicDecl].corresponding_actual();
-                        node.suffix.ref_var() <- actual
-                        %and actual.constrain_prefix(node.prefix)
-                    }
-                ),
+                (env_els) => env_els.logic_any((e) => {
+                    val actual = e.as[BasicDecl].corresponding_actual();
+                    node.suffix.ref_var() <- actual
+                    %and actual.constrain_prefix(node.prefix)
+                }),
                 default_val=self.undefined_reference_equation()
             )
     }

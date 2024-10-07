@@ -52,7 +52,7 @@ Expr: <DottedName reduced.adb:55:13-55:23>
 Expr: <Id "Right" reduced.adb:55:13-55:18>
   references:    <DefiningName "Right" reduced.adb:54:36-54:41>
   type:          <ConcreteTypeDecl ["JSON_Value"] reduced.adb:37:7-44:18>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["JSON_Value"] reduced.adb:37:7-44:18>
 Expr: <Id "Kind" reduced.adb:55:19-55:23>
   references:    <DefiningName "Kind" reduced.adb:37:24-37:28>
   type:          <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>

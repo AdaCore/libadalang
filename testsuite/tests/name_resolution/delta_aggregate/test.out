@@ -17,7 +17,7 @@ Expr: <DottedName foo.adb:21:12-21:15>
 Expr: <Id "V" foo.adb:21:12-21:13>
   references:    <DefiningName "V" foo.adb:20:19-20:20>
   type:          <ConcreteTypeDecl ["T"] foo.adb:5:4-10:15>
-  expected type: None
+  expected type: <ConcreteTypeDecl ["T"] foo.adb:5:4-10:15>
 Expr: <Id "K" foo.adb:21:14-21:15>
   references:    <DefiningName "K" foo.adb:5:12-5:13>
   type:          <ConcreteTypeDecl ["Kind"] foo.adb:3:4-3:29>

@@ -54,3 +54,6 @@ lktp
 
 # Custom grab bag dir
 /misc
+
+# Ignore vscode config files
+.vscode/

@@ -1,7 +1,0 @@
-{
-    "ada.projectFile": "build/mains.gpr",
-    "git.ignoreLimitWarning": true,
-    "python.analysis.extraPaths": [
-        "./langkit"
-    ]
-}

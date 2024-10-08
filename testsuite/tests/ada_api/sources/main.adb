@@ -1,7 +1,8 @@
 --  Unit tests for Libadalang.Sources
 
-with Ada.Exceptions; use Ada.Exceptions;
-with Ada.Text_IO;    use Ada.Text_IO;
+with Ada.Exceptions;        use Ada.Exceptions;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Text_IO;           use Ada.Text_IO;
 
 with GNATCOLL.GMP.Integers;
 with GNATCOLL.GMP.Rational_Numbers;
@@ -9,7 +10,9 @@ with GNATCOLL.GMP.Rational_Numbers;
 with Langkit_Support.Errors; use Langkit_Support.Errors;
 with Langkit_Support.Text;   use Langkit_Support.Text;
 
-with Libadalang.Sources; use Libadalang.Sources;
+with Libadalang.Analysis;  use Libadalang.Analysis;
+with Libadalang.Expr_Eval; use Libadalang.Expr_Eval;
+with Libadalang.Sources;   use Libadalang.Sources;
 
 procedure Main is
    procedure Test_Decode_Brackets (Input : Text_Type);
@@ -72,17 +75,31 @@ procedure Main is
    ---------------------------------
 
    procedure Test_Decode_Integer_Literal (Input : Text_Type) is
+      use type GNATCOLL.GMP.Integers.Big_Integer;
+      Result : Big_Integer;
    begin
       Put ("Decode_Integer_Literal ("
            & Image (Input, With_Quotes => True) & ") = ");
-      declare
-         Result : GNATCOLL.GMP.Integers.Big_Integer;
       begin
          Decode_Integer_Literal (Input, Result);
          Put_Line (Result.Image);
       exception
          when Exc : Property_Error =>
             Put_Exception (Exc);
+            return;
+      end;
+
+      --  Check that Encode_Integer_Literal returns code that denotes the same
+      --  value.
+
+      declare
+         Literal : constant Text_Type := Encode_Integer_Literal (Result);
+         Decoded : Big_Integer;
+      begin
+         Decode_Integer_Literal (Literal, Decoded);
+         if Decoded /= Result then
+            raise Program_Error;
+         end if;
       end;
    end Test_Decode_Integer_Literal;
 
@@ -91,17 +108,69 @@ procedure Main is
    ------------------------------
 
    procedure Test_Decode_Real_Literal (Input : Text_Type) is
+      use type GNATCOLL.GMP.Rational_Numbers.Rational;
+      Result : Rational;
    begin
       Put ("Decode_Real_Literal ("
            & Image (Input, With_Quotes => True) & ") = ");
-      declare
-         Result : GNATCOLL.GMP.Rational_Numbers.Rational;
       begin
          Decode_Real_Literal (Input, Result);
          Put_Line (Result.Image);
       exception
          when Exc : Property_Error =>
             Put_Exception (Exc);
+            return;
+      end;
+
+      --  Check that Encode_Real returns code that denotes the same value
+
+      declare
+         Buffer : constant String :=
+           "package P is" & ASCII.LF
+           & "   N : constant := " & Image (Encode_Real (Result)) & ";"
+           & ASCII.LF
+           & "end P;" & ASCII.LF;
+
+         U : constant Analysis_Unit :=
+           Create_Context.Get_From_Buffer ("foo.ads", Buffer => Buffer);
+
+         Error : Unbounded_String;
+
+         Num, Den : Big_Integer;
+         Decoded  : Rational;
+      begin
+         if U.Has_Diagnostics then
+            for D of U.Diagnostics loop
+               Put_Line (U.Format_GNU_Diagnostic (D));
+            end loop;
+            Append (Error, "Encode_Real yielded unparsable code");
+         else
+            declare
+               N     : constant Number_Decl :=
+                 U.Root
+                 .As_Compilation_Unit.F_Body
+                 .As_Library_Item.F_Item
+                 .As_Package_Decl.F_Public_Part
+                 .F_Decls.Child (1).As_Number_Decl;
+               Value : constant Eval_Result := Expr_Eval (N.F_Expr);
+            begin
+               if Value.Kind /= Real then
+                  Append (Error,
+                          "Encode_Real yielded a non-real: " & Image (Value));
+               else
+                  Decoded.Set (Value.Real_Result);
+                  if Decoded /= Result then
+                     Append (Error, "Encode_Real yielded " & Decoded.Image);
+                  end if;
+               end if;
+            end;
+         end if;
+
+         if Error /= Null_Unbounded_String then
+            Put_Line ("ERROR: " & To_String (Error));
+            Put_Line (Buffer);
+            raise Program_Error;
+         end if;
       end;
    end Test_Decode_Real_Literal;
 

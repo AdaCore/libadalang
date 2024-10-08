@@ -2,18 +2,20 @@
 --  Copyright (C) 2014-2024, AdaCore
 --  SPDX-License-Identifier: Apache-2.0
 --
+
 --  This package provides various helpers to format the semantic diagnostics
 --  produced during name resolution.
 
 with Ada.Containers.Vectors;
 
+with GNATCOLL.Traces;
+
 with Langkit_Support.Text; use Langkit_Support.Text;
 
 with Libadalang.Analysis; use Libadalang.Analysis;
 
-with GNATCOLL.Traces;
-
 package Libadalang.Semantic_Diagnostics is
+
    Diags_Trace : GNATCOLL.Traces.Trace_Handle := GNATCOLL.Traces.Create
      ("LIBADALANG.SEM_DIAGS", Default => GNATCOLL.Traces.From_Config);
 

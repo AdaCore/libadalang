@@ -1,0 +1,5 @@
+driver: unparser
+rule: expr_fn
+description: |
+  Test the line break before the `is` keyword on an `ExprFunction` that
+  could fit in a single line.

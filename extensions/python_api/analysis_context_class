@@ -27,3 +27,8 @@
             local_c[i] = u
 
         _set_config_pragmas_mapping(self._c_value, global_c, local_c)
+
+    def set_target_information(self, target_info: TargetInformation) -> None:
+        ${py_doc("libadalang.target_info_set", 8)}
+        assert isinstance(target_info, TargetInformation)
+        TargetInformation._c_set(self._c_value, target_info._c_value)

@@ -33,6 +33,38 @@ _set_config_pragmas_mapping = _import_func(
 )
 
 
+class TargetInformation:
+    ${py_doc("libadalang.target_info_type", 4)}
+
+    def __init__(self, filename: str):
+        ${py_doc("libadalang.target_info_load", 8)}
+
+        # First, define this attribute so that __del__ work even if the
+        # constructor aborts later on because of an exception.
+        self._c_value = None
+
+        c_filename = _coerce_bytes("filename", filename)
+        self._c_value = self._c_load(c_filename)
+
+    def __del__(self):
+        if self._c_value is not None:
+            self._c_free(self._c_value)
+
+    _c_type = _hashable_c_pointer()
+
+    _c_load = staticmethod(_import_func(
+        "ada_target_info_load", [ctypes.c_char_p], _c_type,
+    ))
+    _c_free = staticmethod(
+        _import_func("ada_target_info_free", [_c_type], None)
+    )
+    _c_set = staticmethod(
+        _import_func(
+            "ada_target_info_set", [AnalysisContext._c_type, _c_type], None
+        )
+    )
+
+
 ## Handling of string arrays
 
 class _c_string_array(ctypes.Structure):

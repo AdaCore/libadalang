@@ -205,6 +205,21 @@ libadalang_docs = {
         in ``Mapping`` does not belong to ``Context`` or if an analysis unit
         appears twice as a key in ``Mapping``.
     """,
+    'libadalang.target_info_type': """
+        Built in types characteristics for a given target platform.
+    """,
+    'libadalang.target_info_load': """
+        Read target information from ``filename`` and return it. Raise an
+        ``Langkit_Support.Errors.Invalid_Input`` exception if it cannot be read
+        of if there is any trouble decoding it.
+    """,
+    'libadalang.target_info_free': """
+        Free resources allocated for ``self``.
+    """,
+    'libadalang.target_info_set': """
+        Assign target information to ``self``. This will affect specific bound
+        values for types defined in the built in Standard package.
+    """,
     'libadalang.project_provider.project_error': """
         Raised when an error occurs while loading a project file.
     """,

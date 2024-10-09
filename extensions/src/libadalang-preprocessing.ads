@@ -361,6 +361,14 @@ package Libadalang.Preprocessing is
      (Data : Preprocessor_Data; Filename : String) return Boolean;
    --  Return whether ``Filename`` must be preprocessed according to ``Data``
 
+   procedure Write_Preprocessor_Data_File
+     (Data : Preprocessor_Data; Filename : String);
+   --  Write a preprocessor data file that encodes the information in Data to
+   --  the given file.
+   --
+   --  Exceptions from ``Ada.Text_IO`` primitives are propagated when there is
+   --  trouble writing the requested file.
+
    ------------------------------
    -- Preprocessing procedures --
    ------------------------------

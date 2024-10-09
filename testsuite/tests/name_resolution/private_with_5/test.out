@@ -5,21 +5,21 @@ Resolving xrefs for node <ObjectDecl ["Y"] pkg-bar.ads:4:4-4:25>
 ****************************************************************
 
 Expr: <Id "Integer" pkg-bar.ads:4:8-4:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <DottedName pkg-bar.ads:4:19-4:24>
   references:    <DefiningName "X" foo.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Foo" pkg-bar.ads:4:19-4:22>
   references:    <DefiningName "Foo" foo.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "X" pkg-bar.ads:4:23-4:24>
   references:    <DefiningName "X" foo.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Analyzing pkg-bar.adb
@@ -30,16 +30,16 @@ Resolving xrefs for node <ReturnStmt pkg-bar.adb:4:7-4:20>
 
 Expr: <DottedName pkg-bar.adb:4:14-4:19>
   references:    <DefiningName "X" foo.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Foo" pkg-bar.adb:4:14-4:17>
   references:    <DefiningName "Foo" foo.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "X" pkg-bar.adb:4:18-4:19>
   references:    <DefiningName "X" foo.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

@@ -13,7 +13,7 @@ Expr: <BinOp testloop.adb:5:26-5:33>
   expected type: <ConcreteTypeDecl ["My_Int"] testloop.adb:2:4-2:55>
 Expr: <Int testloop.adb:5:26-5:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] testloop.adb:2:4-2:55>
 Expr: <OpDoubleDot ".." testloop.adb:5:28-5:30>
   references:    None
@@ -21,7 +21,7 @@ Expr: <OpDoubleDot ".." testloop.adb:5:28-5:30>
   expected type: None
 Expr: <Int testloop.adb:5:31-5:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] testloop.adb:2:4-2:55>
 
 Resolving xrefs for node <AssignStmt testloop.adb:6:7-6:14>

@@ -6,15 +6,15 @@ Resolving xrefs for node <AssignStmt ptask.adb:27:4-27:16>
 
 Expr: <Id "I" ptask.adb:27:4-27:5>
   references:    <DefiningName "I" ptask.adb:25:4-25:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <CallExpr ptask.adb:27:9-27:15>
   references:    <DefiningName "Id" ptask.adb:7:16-7:18>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Id" ptask.adb:27:9-27:11>
   references:    <DefiningName "Id" ptask.adb:7:16-7:18>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "X" ptask.adb:27:13-27:14>
   references:    <DefiningName "X" ptask.adb:14:4-14:5>

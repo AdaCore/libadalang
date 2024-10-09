@@ -6,8 +6,8 @@ Resolving xrefs for node <ReturnStmt test.adb:8:7-8:24>
 
 Expr: <CallExpr test.adb:8:14-8:23>
   references:    <DefiningName "F" test.adb:6:18-6:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:8:14-8:19>
   references:    <DefiningName "F" test.adb:6:18-6:19>
   type:          <ConcreteTypeDecl ["Arr"] test.adb:2:4-2:53>
@@ -18,20 +18,20 @@ Expr: <Id "F" test.adb:8:14-8:15>
   expected type: None
 Expr: <Int test.adb:8:17-8:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <Int test.adb:8:21-8:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 
 Resolving xrefs for node <ReturnStmt test.adb:16:7-16:24>
 *********************************************************
 
 Expr: <CallExpr test.adb:16:14-16:23>
   references:    <DefiningName "F" test.adb:13:7-13:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:16:14-16:19>
   references:    <DefiningName "F" test.adb:13:7-13:8>
   type:          <ConcreteTypeDecl ["Arr"] test.adb:2:4-2:53>
@@ -42,12 +42,12 @@ Expr: <Id "F" test.adb:16:14-16:15>
   expected type: None
 Expr: <Int test.adb:16:17-16:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <Int test.adb:16:21-16:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 
 
 Done.

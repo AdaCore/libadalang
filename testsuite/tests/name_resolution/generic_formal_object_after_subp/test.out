@@ -47,21 +47,21 @@ Resolving xrefs for node <| ObjectDecl ["Y"] test.adb:11:7-11:28 [test.adb:18:4]
 ***********************************************************************************
 
 Expr: <| Id "Integer" test.adb:11:11-11:18 [test.adb:18:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <| DottedName test.adb:11:22-11:27 [test.adb:18:4] |>
   references:    <DefiningName "Bar" test.adb:5:16-5:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| Id "X" test.adb:11:22-11:23 [test.adb:18:4] |>
   references:    None
   type:          <ConcreteTypeDecl ["T"] test.adb:3:7-3:36>
   expected type: <ConcreteTypeDecl ["T"] test.adb:3:7-3:36>
 Expr: <| Id "Bar" test.adb:11:24-11:27 [test.adb:18:4] |>
   references:    <DefiningName "Bar" test.adb:5:16-5:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName test.adb:12:8-12:13 [test.adb:18:4] |>
 **************************************************************************

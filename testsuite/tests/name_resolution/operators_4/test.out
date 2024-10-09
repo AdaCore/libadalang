@@ -13,7 +13,7 @@ Expr: <BinOp testop.adb:13:10-13:21>
   expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:29>
 Expr: <Id "N" testop.adb:13:10-13:11>
   references:    <DefiningName "N" testop.adb:7:5-7:6>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:29>
 Expr: <OpMult "*" testop.adb:13:12-13:13>
   references:    None
@@ -35,7 +35,7 @@ Expr: <OpMinus "-" testop.adb:13:17-13:18>
   expected type: None
 Expr: <Int testop.adb:13:19-13:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] testop.adb:2:5-2:29>
 
 

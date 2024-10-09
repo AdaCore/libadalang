@@ -16,16 +16,16 @@ Expr: <ConcatOp test.adb:9:7-121:23>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
 Expr: <DottedName test.adb:9:7-9:12>
   references:    <DefiningName "NUL" a-chlat1.ads:23:4-23:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:9:7-9:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "NUL" test.adb:9:9-9:12>
   references:    <DefiningName "NUL" a-chlat1.ads:23:4-23:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:9:37-10:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -35,16 +35,16 @@ Expr: <OpConcat "&" test.adb:9:37-9:38>
   expected type: None
 Expr: <DottedName test.adb:10:7-10:12>
   references:    <DefiningName "SOH" a-chlat1.ads:24:4-24:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:10:7-10:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SOH" test.adb:10:9-10:12>
   references:    <DefiningName "SOH" a-chlat1.ads:24:4-24:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:10:37-11:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -54,16 +54,16 @@ Expr: <OpConcat "&" test.adb:10:37-10:38>
   expected type: None
 Expr: <DottedName test.adb:11:7-11:12>
   references:    <DefiningName "STX" a-chlat1.ads:25:4-25:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:11:7-11:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "STX" test.adb:11:9-11:12>
   references:    <DefiningName "STX" a-chlat1.ads:25:4-25:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:11:37-12:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -73,16 +73,16 @@ Expr: <OpConcat "&" test.adb:11:37-11:38>
   expected type: None
 Expr: <DottedName test.adb:12:7-12:12>
   references:    <DefiningName "ETX" a-chlat1.ads:26:4-26:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:12:7-12:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "ETX" test.adb:12:9-12:12>
   references:    <DefiningName "ETX" a-chlat1.ads:26:4-26:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:12:37-13:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -92,16 +92,16 @@ Expr: <OpConcat "&" test.adb:12:37-12:38>
   expected type: None
 Expr: <DottedName test.adb:13:7-13:12>
   references:    <DefiningName "EOT" a-chlat1.ads:27:4-27:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:13:7-13:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "EOT" test.adb:13:9-13:12>
   references:    <DefiningName "EOT" a-chlat1.ads:27:4-27:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:13:37-14:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -111,16 +111,16 @@ Expr: <OpConcat "&" test.adb:13:37-13:38>
   expected type: None
 Expr: <DottedName test.adb:14:7-14:12>
   references:    <DefiningName "ENQ" a-chlat1.ads:28:4-28:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:14:7-14:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "ENQ" test.adb:14:9-14:12>
   references:    <DefiningName "ENQ" a-chlat1.ads:28:4-28:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:14:37-15:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -130,16 +130,16 @@ Expr: <OpConcat "&" test.adb:14:37-14:38>
   expected type: None
 Expr: <DottedName test.adb:15:7-15:12>
   references:    <DefiningName "ACK" a-chlat1.ads:29:4-29:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:15:7-15:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "ACK" test.adb:15:9-15:12>
   references:    <DefiningName "ACK" a-chlat1.ads:29:4-29:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:15:37-16:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -149,16 +149,16 @@ Expr: <OpConcat "&" test.adb:15:37-15:38>
   expected type: None
 Expr: <DottedName test.adb:16:7-16:12>
   references:    <DefiningName "BEL" a-chlat1.ads:30:4-30:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:16:7-16:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "BEL" test.adb:16:9-16:12>
   references:    <DefiningName "BEL" a-chlat1.ads:30:4-30:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:16:37-17:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -168,16 +168,16 @@ Expr: <OpConcat "&" test.adb:16:37-16:38>
   expected type: None
 Expr: <DottedName test.adb:17:7-17:11>
   references:    <DefiningName "BS" a-chlat1.ads:31:4-31:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:17:7-17:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "BS" test.adb:17:9-17:11>
   references:    <DefiningName "BS" a-chlat1.ads:31:4-31:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:17:37-18:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -187,16 +187,16 @@ Expr: <OpConcat "&" test.adb:17:37-17:38>
   expected type: None
 Expr: <DottedName test.adb:18:7-18:11>
   references:    <DefiningName "HT" a-chlat1.ads:32:4-32:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:18:7-18:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "HT" test.adb:18:9-18:11>
   references:    <DefiningName "HT" a-chlat1.ads:32:4-32:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:18:37-19:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -206,16 +206,16 @@ Expr: <OpConcat "&" test.adb:18:37-18:38>
   expected type: None
 Expr: <DottedName test.adb:19:7-19:11>
   references:    <DefiningName "LF" a-chlat1.ads:33:4-33:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:19:7-19:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LF" test.adb:19:9-19:11>
   references:    <DefiningName "LF" a-chlat1.ads:33:4-33:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:19:37-20:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -225,16 +225,16 @@ Expr: <OpConcat "&" test.adb:19:37-19:38>
   expected type: None
 Expr: <DottedName test.adb:20:7-20:11>
   references:    <DefiningName "VT" a-chlat1.ads:34:4-34:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:20:7-20:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "VT" test.adb:20:9-20:11>
   references:    <DefiningName "VT" a-chlat1.ads:34:4-34:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:20:37-21:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -244,16 +244,16 @@ Expr: <OpConcat "&" test.adb:20:37-20:38>
   expected type: None
 Expr: <DottedName test.adb:21:7-21:11>
   references:    <DefiningName "FF" a-chlat1.ads:35:4-35:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:21:7-21:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "FF" test.adb:21:9-21:11>
   references:    <DefiningName "FF" a-chlat1.ads:35:4-35:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:21:37-22:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -263,16 +263,16 @@ Expr: <OpConcat "&" test.adb:21:37-21:38>
   expected type: None
 Expr: <DottedName test.adb:22:7-22:11>
   references:    <DefiningName "CR" a-chlat1.ads:36:4-36:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:22:7-22:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "CR" test.adb:22:9-22:11>
   references:    <DefiningName "CR" a-chlat1.ads:36:4-36:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:22:37-23:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -282,16 +282,16 @@ Expr: <OpConcat "&" test.adb:22:37-22:38>
   expected type: None
 Expr: <DottedName test.adb:23:7-23:11>
   references:    <DefiningName "SO" a-chlat1.ads:37:4-37:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:23:7-23:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SO" test.adb:23:9-23:11>
   references:    <DefiningName "SO" a-chlat1.ads:37:4-37:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:23:37-24:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -301,16 +301,16 @@ Expr: <OpConcat "&" test.adb:23:37-23:38>
   expected type: None
 Expr: <DottedName test.adb:24:7-24:11>
   references:    <DefiningName "SI" a-chlat1.ads:38:4-38:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:24:7-24:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SI" test.adb:24:9-24:11>
   references:    <DefiningName "SI" a-chlat1.ads:38:4-38:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:24:37-25:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -320,16 +320,16 @@ Expr: <OpConcat "&" test.adb:24:37-24:38>
   expected type: None
 Expr: <DottedName test.adb:25:7-25:12>
   references:    <DefiningName "DLE" a-chlat1.ads:40:4-40:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:25:7-25:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "DLE" test.adb:25:9-25:12>
   references:    <DefiningName "DLE" a-chlat1.ads:40:4-40:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:25:37-26:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -339,16 +339,16 @@ Expr: <OpConcat "&" test.adb:25:37-25:38>
   expected type: None
 Expr: <DottedName test.adb:26:7-26:12>
   references:    <DefiningName "DC1" a-chlat1.ads:41:4-41:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:26:7-26:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "DC1" test.adb:26:9-26:12>
   references:    <DefiningName "DC1" a-chlat1.ads:41:4-41:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:26:37-27:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -358,16 +358,16 @@ Expr: <OpConcat "&" test.adb:26:37-26:38>
   expected type: None
 Expr: <DottedName test.adb:27:7-27:12>
   references:    <DefiningName "DC2" a-chlat1.ads:42:4-42:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:27:7-27:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "DC2" test.adb:27:9-27:12>
   references:    <DefiningName "DC2" a-chlat1.ads:42:4-42:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:27:37-28:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -377,16 +377,16 @@ Expr: <OpConcat "&" test.adb:27:37-27:38>
   expected type: None
 Expr: <DottedName test.adb:28:7-28:12>
   references:    <DefiningName "DC3" a-chlat1.ads:43:4-43:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:28:7-28:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "DC3" test.adb:28:9-28:12>
   references:    <DefiningName "DC3" a-chlat1.ads:43:4-43:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:28:37-29:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -396,16 +396,16 @@ Expr: <OpConcat "&" test.adb:28:37-28:38>
   expected type: None
 Expr: <DottedName test.adb:29:7-29:12>
   references:    <DefiningName "DC4" a-chlat1.ads:44:4-44:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:29:7-29:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "DC4" test.adb:29:9-29:12>
   references:    <DefiningName "DC4" a-chlat1.ads:44:4-44:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:29:37-30:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -415,16 +415,16 @@ Expr: <OpConcat "&" test.adb:29:37-29:38>
   expected type: None
 Expr: <DottedName test.adb:30:7-30:12>
   references:    <DefiningName "NAK" a-chlat1.ads:45:4-45:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:30:7-30:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "NAK" test.adb:30:9-30:12>
   references:    <DefiningName "NAK" a-chlat1.ads:45:4-45:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:30:37-31:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -434,16 +434,16 @@ Expr: <OpConcat "&" test.adb:30:37-30:38>
   expected type: None
 Expr: <DottedName test.adb:31:7-31:12>
   references:    <DefiningName "SYN" a-chlat1.ads:46:4-46:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:31:7-31:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SYN" test.adb:31:9-31:12>
   references:    <DefiningName "SYN" a-chlat1.ads:46:4-46:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:31:37-32:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -453,16 +453,16 @@ Expr: <OpConcat "&" test.adb:31:37-31:38>
   expected type: None
 Expr: <DottedName test.adb:32:7-32:12>
   references:    <DefiningName "ETB" a-chlat1.ads:47:4-47:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:32:7-32:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "ETB" test.adb:32:9-32:12>
   references:    <DefiningName "ETB" a-chlat1.ads:47:4-47:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:32:37-33:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -472,16 +472,16 @@ Expr: <OpConcat "&" test.adb:32:37-32:38>
   expected type: None
 Expr: <DottedName test.adb:33:7-33:12>
   references:    <DefiningName "CAN" a-chlat1.ads:48:4-48:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:33:7-33:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "CAN" test.adb:33:9-33:12>
   references:    <DefiningName "CAN" a-chlat1.ads:48:4-48:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:33:37-34:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -491,16 +491,16 @@ Expr: <OpConcat "&" test.adb:33:37-33:38>
   expected type: None
 Expr: <DottedName test.adb:34:7-34:11>
   references:    <DefiningName "EM" a-chlat1.ads:49:4-49:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:34:7-34:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "EM" test.adb:34:9-34:11>
   references:    <DefiningName "EM" a-chlat1.ads:49:4-49:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:34:37-35:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -510,16 +510,16 @@ Expr: <OpConcat "&" test.adb:34:37-34:38>
   expected type: None
 Expr: <DottedName test.adb:35:7-35:12>
   references:    <DefiningName "SUB" a-chlat1.ads:50:4-50:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:35:7-35:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SUB" test.adb:35:9-35:12>
   references:    <DefiningName "SUB" a-chlat1.ads:50:4-50:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:35:37-36:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -529,16 +529,16 @@ Expr: <OpConcat "&" test.adb:35:37-35:38>
   expected type: None
 Expr: <DottedName test.adb:36:7-36:12>
   references:    <DefiningName "ESC" a-chlat1.ads:51:4-51:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:36:7-36:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "ESC" test.adb:36:9-36:12>
   references:    <DefiningName "ESC" a-chlat1.ads:51:4-51:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:36:37-37:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -548,16 +548,16 @@ Expr: <OpConcat "&" test.adb:36:37-36:38>
   expected type: None
 Expr: <DottedName test.adb:37:7-37:11>
   references:    <DefiningName "FS" a-chlat1.ads:52:4-52:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:37:7-37:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "FS" test.adb:37:9-37:11>
   references:    <DefiningName "FS" a-chlat1.ads:52:4-52:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:37:37-38:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -567,16 +567,16 @@ Expr: <OpConcat "&" test.adb:37:37-37:38>
   expected type: None
 Expr: <DottedName test.adb:38:7-38:11>
   references:    <DefiningName "GS" a-chlat1.ads:53:4-53:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:38:7-38:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "GS" test.adb:38:9-38:11>
   references:    <DefiningName "GS" a-chlat1.ads:53:4-53:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:38:37-39:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -586,16 +586,16 @@ Expr: <OpConcat "&" test.adb:38:37-38:38>
   expected type: None
 Expr: <DottedName test.adb:39:7-39:11>
   references:    <DefiningName "RS" a-chlat1.ads:54:4-54:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:39:7-39:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "RS" test.adb:39:9-39:11>
   references:    <DefiningName "RS" a-chlat1.ads:54:4-54:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:39:37-40:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -605,16 +605,16 @@ Expr: <OpConcat "&" test.adb:39:37-39:38>
   expected type: None
 Expr: <DottedName test.adb:40:7-40:11>
   references:    <DefiningName "US" a-chlat1.ads:55:4-55:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:40:7-40:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "US" test.adb:40:9-40:11>
   references:    <DefiningName "US" a-chlat1.ads:55:4-55:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:40:37-41:14>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -624,16 +624,16 @@ Expr: <OpConcat "&" test.adb:40:37-40:38>
   expected type: None
 Expr: <DottedName test.adb:41:7-41:14>
   references:    <DefiningName "Space" a-chlat1.ads:61:4-61:9>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:41:7-41:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Space" test.adb:41:9-41:14>
   references:    <DefiningName "Space" a-chlat1.ads:61:4-61:9>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:41:37-42:20>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -643,16 +643,16 @@ Expr: <OpConcat "&" test.adb:41:37-41:38>
   expected type: None
 Expr: <DottedName test.adb:42:7-42:20>
   references:    <DefiningName "Exclamation" a-chlat1.ads:62:4-62:15>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:42:7-42:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Exclamation" test.adb:42:9-42:20>
   references:    <DefiningName "Exclamation" a-chlat1.ads:62:4-62:15>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:42:37-43:18>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -662,16 +662,16 @@ Expr: <OpConcat "&" test.adb:42:37-42:38>
   expected type: None
 Expr: <DottedName test.adb:43:7-43:18>
   references:    <DefiningName "Quotation" a-chlat1.ads:63:4-63:13>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:43:7-43:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Quotation" test.adb:43:9-43:18>
   references:    <DefiningName "Quotation" a-chlat1.ads:63:4-63:13>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:43:37-44:20>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -681,16 +681,16 @@ Expr: <OpConcat "&" test.adb:43:37-43:38>
   expected type: None
 Expr: <DottedName test.adb:44:7-44:20>
   references:    <DefiningName "Number_Sign" a-chlat1.ads:64:4-64:15>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:44:7-44:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Number_Sign" test.adb:44:9-44:20>
   references:    <DefiningName "Number_Sign" a-chlat1.ads:64:4-64:15>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:44:37-45:20>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -700,16 +700,16 @@ Expr: <OpConcat "&" test.adb:44:37-44:38>
   expected type: None
 Expr: <DottedName test.adb:45:7-45:20>
   references:    <DefiningName "Dollar_Sign" a-chlat1.ads:65:4-65:15>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:45:7-45:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Dollar_Sign" test.adb:45:9-45:20>
   references:    <DefiningName "Dollar_Sign" a-chlat1.ads:65:4-65:15>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:45:37-46:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -719,16 +719,16 @@ Expr: <OpConcat "&" test.adb:45:37-45:38>
   expected type: None
 Expr: <DottedName test.adb:46:7-46:21>
   references:    <DefiningName "Percent_Sign" a-chlat1.ads:66:4-66:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:46:7-46:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Percent_Sign" test.adb:46:9-46:21>
   references:    <DefiningName "Percent_Sign" a-chlat1.ads:66:4-66:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:46:37-47:18>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -738,16 +738,16 @@ Expr: <OpConcat "&" test.adb:46:37-46:38>
   expected type: None
 Expr: <DottedName test.adb:47:7-47:18>
   references:    <DefiningName "Ampersand" a-chlat1.ads:67:4-67:13>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:47:7-47:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Ampersand" test.adb:47:9-47:18>
   references:    <DefiningName "Ampersand" a-chlat1.ads:67:4-67:13>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:47:37-48:19>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -757,16 +757,16 @@ Expr: <OpConcat "&" test.adb:47:37-47:38>
   expected type: None
 Expr: <DottedName test.adb:48:7-48:19>
   references:    <DefiningName "Apostrophe" a-chlat1.ads:68:4-68:14>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:48:7-48:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Apostrophe" test.adb:48:9-48:19>
   references:    <DefiningName "Apostrophe" a-chlat1.ads:68:4-68:14>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:48:37-49:25>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -776,16 +776,16 @@ Expr: <OpConcat "&" test.adb:48:37-48:38>
   expected type: None
 Expr: <DottedName test.adb:49:7-49:25>
   references:    <DefiningName "Left_Parenthesis" a-chlat1.ads:69:4-69:20>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:49:7-49:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Left_Parenthesis" test.adb:49:9-49:25>
   references:    <DefiningName "Left_Parenthesis" a-chlat1.ads:69:4-69:20>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:49:37-50:10>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -794,9 +794,9 @@ Expr: <OpConcat "&" test.adb:49:37-49:38>
   type:          None
   expected type: None
 Expr: <Chr "'Z'" test.adb:50:7-50:10>
-  references:    <SyntheticDefiningName "'Z'" __standard:21:3-21:27>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  references:    <SyntheticDefiningName "'Z'" in Standard>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:50:37-51:28>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -806,16 +806,16 @@ Expr: <OpConcat "&" test.adb:50:37-50:38>
   expected type: None
 Expr: <DottedName test.adb:51:7-51:28>
   references:    <DefiningName "Left_Square_Bracket" a-chlat1.ads:91:4-91:23>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:51:7-51:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Left_Square_Bracket" test.adb:51:9-51:28>
   references:    <DefiningName "Left_Square_Bracket" a-chlat1.ads:91:4-91:23>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:51:37-52:24>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -825,16 +825,16 @@ Expr: <OpConcat "&" test.adb:51:37-51:38>
   expected type: None
 Expr: <DottedName test.adb:52:7-52:24>
   references:    <DefiningName "Reverse_Solidus" a-chlat1.ads:92:4-92:19>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:52:7-52:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Reverse_Solidus" test.adb:52:9-52:24>
   references:    <DefiningName "Reverse_Solidus" a-chlat1.ads:92:4-92:19>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:52:37-53:29>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -844,16 +844,16 @@ Expr: <OpConcat "&" test.adb:52:37-52:38>
   expected type: None
 Expr: <DottedName test.adb:53:7-53:29>
   references:    <DefiningName "Right_Square_Bracket" a-chlat1.ads:93:4-93:24>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:53:7-53:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Right_Square_Bracket" test.adb:53:9-53:29>
   references:    <DefiningName "Right_Square_Bracket" a-chlat1.ads:93:4-93:24>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:53:37-54:19>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -863,16 +863,16 @@ Expr: <OpConcat "&" test.adb:53:37-53:38>
   expected type: None
 Expr: <DottedName test.adb:54:7-54:19>
   references:    <DefiningName "Circumflex" a-chlat1.ads:94:4-94:14>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:54:7-54:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Circumflex" test.adb:54:9-54:19>
   references:    <DefiningName "Circumflex" a-chlat1.ads:94:4-94:14>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:54:37-55:17>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -882,16 +882,16 @@ Expr: <OpConcat "&" test.adb:54:37-54:38>
   expected type: None
 Expr: <DottedName test.adb:55:7-55:17>
   references:    <DefiningName "Low_Line" a-chlat1.ads:95:4-95:12>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:55:7-55:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Low_Line" test.adb:55:9-55:17>
   references:    <DefiningName "Low_Line" a-chlat1.ads:95:4-95:12>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:55:37-56:14>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -901,16 +901,16 @@ Expr: <OpConcat "&" test.adb:55:37-55:38>
   expected type: None
 Expr: <DottedName test.adb:56:7-56:14>
   references:    <DefiningName "Grave" a-chlat1.ads:97:4-97:9>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:56:7-56:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Grave" test.adb:56:9-56:14>
   references:    <DefiningName "Grave" a-chlat1.ads:97:4-97:9>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:56:37-57:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -920,16 +920,16 @@ Expr: <OpConcat "&" test.adb:56:37-56:38>
   expected type: None
 Expr: <DottedName test.adb:57:7-57:13>
   references:    <DefiningName "LC_A" a-chlat1.ads:98:4-98:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:57:7-57:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_A" test.adb:57:9-57:13>
   references:    <DefiningName "LC_A" a-chlat1.ads:98:4-98:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:57:37-58:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -939,16 +939,16 @@ Expr: <OpConcat "&" test.adb:57:37-57:38>
   expected type: None
 Expr: <DottedName test.adb:58:7-58:13>
   references:    <DefiningName "LC_B" a-chlat1.ads:99:4-99:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:58:7-58:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_B" test.adb:58:9-58:13>
   references:    <DefiningName "LC_B" a-chlat1.ads:99:4-99:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:58:37-59:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -958,16 +958,16 @@ Expr: <OpConcat "&" test.adb:58:37-58:38>
   expected type: None
 Expr: <DottedName test.adb:59:7-59:13>
   references:    <DefiningName "LC_C" a-chlat1.ads:100:4-100:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:59:7-59:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_C" test.adb:59:9-59:13>
   references:    <DefiningName "LC_C" a-chlat1.ads:100:4-100:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:59:37-60:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -977,16 +977,16 @@ Expr: <OpConcat "&" test.adb:59:37-59:38>
   expected type: None
 Expr: <DottedName test.adb:60:7-60:13>
   references:    <DefiningName "LC_D" a-chlat1.ads:101:4-101:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:60:7-60:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_D" test.adb:60:9-60:13>
   references:    <DefiningName "LC_D" a-chlat1.ads:101:4-101:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:60:37-61:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -996,16 +996,16 @@ Expr: <OpConcat "&" test.adb:60:37-60:38>
   expected type: None
 Expr: <DottedName test.adb:61:7-61:13>
   references:    <DefiningName "LC_E" a-chlat1.ads:102:4-102:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:61:7-61:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_E" test.adb:61:9-61:13>
   references:    <DefiningName "LC_E" a-chlat1.ads:102:4-102:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:61:37-62:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1015,16 +1015,16 @@ Expr: <OpConcat "&" test.adb:61:37-61:38>
   expected type: None
 Expr: <DottedName test.adb:62:7-62:13>
   references:    <DefiningName "LC_F" a-chlat1.ads:103:4-103:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:62:7-62:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_F" test.adb:62:9-62:13>
   references:    <DefiningName "LC_F" a-chlat1.ads:103:4-103:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:62:37-63:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1034,16 +1034,16 @@ Expr: <OpConcat "&" test.adb:62:37-62:38>
   expected type: None
 Expr: <DottedName test.adb:63:7-63:13>
   references:    <DefiningName "LC_G" a-chlat1.ads:104:4-104:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:63:7-63:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_G" test.adb:63:9-63:13>
   references:    <DefiningName "LC_G" a-chlat1.ads:104:4-104:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:63:37-64:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1053,16 +1053,16 @@ Expr: <OpConcat "&" test.adb:63:37-63:38>
   expected type: None
 Expr: <DottedName test.adb:64:7-64:13>
   references:    <DefiningName "LC_H" a-chlat1.ads:105:4-105:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:64:7-64:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_H" test.adb:64:9-64:13>
   references:    <DefiningName "LC_H" a-chlat1.ads:105:4-105:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:64:37-65:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1072,16 +1072,16 @@ Expr: <OpConcat "&" test.adb:64:37-64:38>
   expected type: None
 Expr: <DottedName test.adb:65:7-65:13>
   references:    <DefiningName "LC_I" a-chlat1.ads:106:4-106:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:65:7-65:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_I" test.adb:65:9-65:13>
   references:    <DefiningName "LC_I" a-chlat1.ads:106:4-106:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:65:37-66:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1091,16 +1091,16 @@ Expr: <OpConcat "&" test.adb:65:37-65:38>
   expected type: None
 Expr: <DottedName test.adb:66:7-66:13>
   references:    <DefiningName "LC_J" a-chlat1.ads:107:4-107:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:66:7-66:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_J" test.adb:66:9-66:13>
   references:    <DefiningName "LC_J" a-chlat1.ads:107:4-107:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:66:37-67:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1110,16 +1110,16 @@ Expr: <OpConcat "&" test.adb:66:37-66:38>
   expected type: None
 Expr: <DottedName test.adb:67:7-67:13>
   references:    <DefiningName "LC_K" a-chlat1.ads:108:4-108:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:67:7-67:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_K" test.adb:67:9-67:13>
   references:    <DefiningName "LC_K" a-chlat1.ads:108:4-108:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:67:37-68:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1129,16 +1129,16 @@ Expr: <OpConcat "&" test.adb:67:37-67:38>
   expected type: None
 Expr: <DottedName test.adb:68:7-68:13>
   references:    <DefiningName "LC_L" a-chlat1.ads:109:4-109:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:68:7-68:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_L" test.adb:68:9-68:13>
   references:    <DefiningName "LC_L" a-chlat1.ads:109:4-109:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:68:37-69:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1148,16 +1148,16 @@ Expr: <OpConcat "&" test.adb:68:37-68:38>
   expected type: None
 Expr: <DottedName test.adb:69:7-69:13>
   references:    <DefiningName "LC_M" a-chlat1.ads:110:4-110:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:69:7-69:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_M" test.adb:69:9-69:13>
   references:    <DefiningName "LC_M" a-chlat1.ads:110:4-110:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:69:37-70:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1167,16 +1167,16 @@ Expr: <OpConcat "&" test.adb:69:37-69:38>
   expected type: None
 Expr: <DottedName test.adb:70:7-70:13>
   references:    <DefiningName "LC_N" a-chlat1.ads:111:4-111:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:70:7-70:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_N" test.adb:70:9-70:13>
   references:    <DefiningName "LC_N" a-chlat1.ads:111:4-111:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:70:37-71:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1186,16 +1186,16 @@ Expr: <OpConcat "&" test.adb:70:37-70:38>
   expected type: None
 Expr: <DottedName test.adb:71:7-71:13>
   references:    <DefiningName "LC_O" a-chlat1.ads:112:4-112:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:71:7-71:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_O" test.adb:71:9-71:13>
   references:    <DefiningName "LC_O" a-chlat1.ads:112:4-112:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:71:37-72:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1205,16 +1205,16 @@ Expr: <OpConcat "&" test.adb:71:37-71:38>
   expected type: None
 Expr: <DottedName test.adb:72:7-72:13>
   references:    <DefiningName "LC_P" a-chlat1.ads:113:4-113:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:72:7-72:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_P" test.adb:72:9-72:13>
   references:    <DefiningName "LC_P" a-chlat1.ads:113:4-113:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:72:37-73:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1224,16 +1224,16 @@ Expr: <OpConcat "&" test.adb:72:37-72:38>
   expected type: None
 Expr: <DottedName test.adb:73:7-73:13>
   references:    <DefiningName "LC_Q" a-chlat1.ads:114:4-114:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:73:7-73:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_Q" test.adb:73:9-73:13>
   references:    <DefiningName "LC_Q" a-chlat1.ads:114:4-114:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:73:37-74:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1243,16 +1243,16 @@ Expr: <OpConcat "&" test.adb:73:37-73:38>
   expected type: None
 Expr: <DottedName test.adb:74:7-74:13>
   references:    <DefiningName "LC_R" a-chlat1.ads:115:4-115:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:74:7-74:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_R" test.adb:74:9-74:13>
   references:    <DefiningName "LC_R" a-chlat1.ads:115:4-115:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:74:37-75:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1262,16 +1262,16 @@ Expr: <OpConcat "&" test.adb:74:37-74:38>
   expected type: None
 Expr: <DottedName test.adb:75:7-75:13>
   references:    <DefiningName "LC_S" a-chlat1.ads:116:4-116:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:75:7-75:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_S" test.adb:75:9-75:13>
   references:    <DefiningName "LC_S" a-chlat1.ads:116:4-116:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:75:37-76:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1281,16 +1281,16 @@ Expr: <OpConcat "&" test.adb:75:37-75:38>
   expected type: None
 Expr: <DottedName test.adb:76:7-76:13>
   references:    <DefiningName "LC_T" a-chlat1.ads:117:4-117:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:76:7-76:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_T" test.adb:76:9-76:13>
   references:    <DefiningName "LC_T" a-chlat1.ads:117:4-117:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:76:37-77:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1300,16 +1300,16 @@ Expr: <OpConcat "&" test.adb:76:37-76:38>
   expected type: None
 Expr: <DottedName test.adb:77:7-77:13>
   references:    <DefiningName "LC_U" a-chlat1.ads:118:4-118:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:77:7-77:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_U" test.adb:77:9-77:13>
   references:    <DefiningName "LC_U" a-chlat1.ads:118:4-118:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:77:37-78:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1319,16 +1319,16 @@ Expr: <OpConcat "&" test.adb:77:37-77:38>
   expected type: None
 Expr: <DottedName test.adb:78:7-78:13>
   references:    <DefiningName "LC_V" a-chlat1.ads:119:4-119:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:78:7-78:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_V" test.adb:78:9-78:13>
   references:    <DefiningName "LC_V" a-chlat1.ads:119:4-119:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:78:37-79:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1338,16 +1338,16 @@ Expr: <OpConcat "&" test.adb:78:37-78:38>
   expected type: None
 Expr: <DottedName test.adb:79:7-79:13>
   references:    <DefiningName "LC_W" a-chlat1.ads:120:4-120:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:79:7-79:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_W" test.adb:79:9-79:13>
   references:    <DefiningName "LC_W" a-chlat1.ads:120:4-120:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:79:37-80:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1357,16 +1357,16 @@ Expr: <OpConcat "&" test.adb:79:37-79:38>
   expected type: None
 Expr: <DottedName test.adb:80:7-80:13>
   references:    <DefiningName "LC_X" a-chlat1.ads:121:4-121:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:80:7-80:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_X" test.adb:80:9-80:13>
   references:    <DefiningName "LC_X" a-chlat1.ads:121:4-121:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:80:37-81:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1376,16 +1376,16 @@ Expr: <OpConcat "&" test.adb:80:37-80:38>
   expected type: None
 Expr: <DottedName test.adb:81:7-81:13>
   references:    <DefiningName "LC_Y" a-chlat1.ads:122:4-122:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:81:7-81:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_Y" test.adb:81:9-81:13>
   references:    <DefiningName "LC_Y" a-chlat1.ads:122:4-122:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:81:37-82:13>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1395,16 +1395,16 @@ Expr: <OpConcat "&" test.adb:81:37-81:38>
   expected type: None
 Expr: <DottedName test.adb:82:7-82:13>
   references:    <DefiningName "LC_Z" a-chlat1.ads:123:4-123:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:82:7-82:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_Z" test.adb:82:9-82:13>
   references:    <DefiningName "LC_Z" a-chlat1.ads:123:4-123:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:82:37-83:27>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1414,16 +1414,16 @@ Expr: <OpConcat "&" test.adb:82:37-82:38>
   expected type: None
 Expr: <DottedName test.adb:83:7-83:27>
   references:    <DefiningName "Left_Curly_Bracket" a-chlat1.ads:124:4-124:22>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:83:7-83:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Left_Curly_Bracket" test.adb:83:9-83:27>
   references:    <DefiningName "Left_Curly_Bracket" a-chlat1.ads:124:4-124:22>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:83:37-84:22>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1433,16 +1433,16 @@ Expr: <OpConcat "&" test.adb:83:37-83:38>
   expected type: None
 Expr: <DottedName test.adb:84:7-84:22>
   references:    <DefiningName "Vertical_Line" a-chlat1.ads:125:4-125:17>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:84:7-84:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Vertical_Line" test.adb:84:9-84:22>
   references:    <DefiningName "Vertical_Line" a-chlat1.ads:125:4-125:17>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:84:37-85:28>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1452,16 +1452,16 @@ Expr: <OpConcat "&" test.adb:84:37-84:38>
   expected type: None
 Expr: <DottedName test.adb:85:7-85:28>
   references:    <DefiningName "Right_Curly_Bracket" a-chlat1.ads:126:4-126:23>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:85:7-85:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Right_Curly_Bracket" test.adb:85:9-85:28>
   references:    <DefiningName "Right_Curly_Bracket" a-chlat1.ads:126:4-126:23>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:85:37-86:14>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1471,16 +1471,16 @@ Expr: <OpConcat "&" test.adb:85:37-85:38>
   expected type: None
 Expr: <DottedName test.adb:86:7-86:14>
   references:    <DefiningName "Tilde" a-chlat1.ads:127:4-127:9>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:86:7-86:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Tilde" test.adb:86:9-86:14>
   references:    <DefiningName "Tilde" a-chlat1.ads:127:4-127:9>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:86:37-87:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1490,16 +1490,16 @@ Expr: <OpConcat "&" test.adb:86:37-86:38>
   expected type: None
 Expr: <DottedName test.adb:87:7-87:12>
   references:    <DefiningName "DEL" a-chlat1.ads:128:4-128:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:87:7-87:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "DEL" test.adb:87:9-87:12>
   references:    <DefiningName "DEL" a-chlat1.ads:128:4-128:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:87:37-88:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1509,16 +1509,16 @@ Expr: <OpConcat "&" test.adb:87:37-87:38>
   expected type: None
 Expr: <DottedName test.adb:88:7-88:21>
   references:    <DefiningName "Reserved_128" a-chlat1.ads:139:4-139:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:88:7-88:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Reserved_128" test.adb:88:9-88:21>
   references:    <DefiningName "Reserved_128" a-chlat1.ads:139:4-139:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:88:37-89:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1528,16 +1528,16 @@ Expr: <OpConcat "&" test.adb:88:37-88:38>
   expected type: None
 Expr: <DottedName test.adb:89:7-89:21>
   references:    <DefiningName "Reserved_129" a-chlat1.ads:140:4-140:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:89:7-89:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Reserved_129" test.adb:89:9-89:21>
   references:    <DefiningName "Reserved_129" a-chlat1.ads:140:4-140:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:89:37-90:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1547,16 +1547,16 @@ Expr: <OpConcat "&" test.adb:89:37-89:38>
   expected type: None
 Expr: <DottedName test.adb:90:7-90:12>
   references:    <DefiningName "BPH" a-chlat1.ads:141:4-141:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:90:7-90:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "BPH" test.adb:90:9-90:12>
   references:    <DefiningName "BPH" a-chlat1.ads:141:4-141:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:90:37-91:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1566,16 +1566,16 @@ Expr: <OpConcat "&" test.adb:90:37-90:38>
   expected type: None
 Expr: <DottedName test.adb:91:7-91:12>
   references:    <DefiningName "NBH" a-chlat1.ads:142:4-142:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:91:7-91:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "NBH" test.adb:91:9-91:12>
   references:    <DefiningName "NBH" a-chlat1.ads:142:4-142:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:91:37-92:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1585,16 +1585,16 @@ Expr: <OpConcat "&" test.adb:91:37-91:38>
   expected type: None
 Expr: <DottedName test.adb:92:7-92:21>
   references:    <DefiningName "Reserved_132" a-chlat1.ads:143:4-143:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:92:7-92:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Reserved_132" test.adb:92:9-92:21>
   references:    <DefiningName "Reserved_132" a-chlat1.ads:143:4-143:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:92:37-93:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1604,16 +1604,16 @@ Expr: <OpConcat "&" test.adb:92:37-92:38>
   expected type: None
 Expr: <DottedName test.adb:93:7-93:12>
   references:    <DefiningName "NEL" a-chlat1.ads:144:4-144:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:93:7-93:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "NEL" test.adb:93:9-93:12>
   references:    <DefiningName "NEL" a-chlat1.ads:144:4-144:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:93:37-94:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1623,16 +1623,16 @@ Expr: <OpConcat "&" test.adb:93:37-93:38>
   expected type: None
 Expr: <DottedName test.adb:94:7-94:12>
   references:    <DefiningName "SSA" a-chlat1.ads:145:4-145:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:94:7-94:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SSA" test.adb:94:9-94:12>
   references:    <DefiningName "SSA" a-chlat1.ads:145:4-145:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:94:37-95:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1642,16 +1642,16 @@ Expr: <OpConcat "&" test.adb:94:37-94:38>
   expected type: None
 Expr: <DottedName test.adb:95:7-95:12>
   references:    <DefiningName "ESA" a-chlat1.ads:146:4-146:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:95:7-95:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "ESA" test.adb:95:9-95:12>
   references:    <DefiningName "ESA" a-chlat1.ads:146:4-146:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:95:37-96:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1661,16 +1661,16 @@ Expr: <OpConcat "&" test.adb:95:37-95:38>
   expected type: None
 Expr: <DottedName test.adb:96:7-96:12>
   references:    <DefiningName "HTS" a-chlat1.ads:147:4-147:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:96:7-96:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "HTS" test.adb:96:9-96:12>
   references:    <DefiningName "HTS" a-chlat1.ads:147:4-147:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:96:37-97:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1680,16 +1680,16 @@ Expr: <OpConcat "&" test.adb:96:37-96:38>
   expected type: None
 Expr: <DottedName test.adb:97:7-97:12>
   references:    <DefiningName "HTJ" a-chlat1.ads:148:4-148:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:97:7-97:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "HTJ" test.adb:97:9-97:12>
   references:    <DefiningName "HTJ" a-chlat1.ads:148:4-148:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:97:37-98:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1699,16 +1699,16 @@ Expr: <OpConcat "&" test.adb:97:37-97:38>
   expected type: None
 Expr: <DottedName test.adb:98:7-98:12>
   references:    <DefiningName "VTS" a-chlat1.ads:149:4-149:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:98:7-98:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "VTS" test.adb:98:9-98:12>
   references:    <DefiningName "VTS" a-chlat1.ads:149:4-149:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:98:37-99:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1718,16 +1718,16 @@ Expr: <OpConcat "&" test.adb:98:37-98:38>
   expected type: None
 Expr: <DottedName test.adb:99:7-99:12>
   references:    <DefiningName "PLD" a-chlat1.ads:150:4-150:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:99:7-99:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "PLD" test.adb:99:9-99:12>
   references:    <DefiningName "PLD" a-chlat1.ads:150:4-150:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:99:37-100:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1737,16 +1737,16 @@ Expr: <OpConcat "&" test.adb:99:37-99:38>
   expected type: None
 Expr: <DottedName test.adb:100:7-100:12>
   references:    <DefiningName "PLU" a-chlat1.ads:151:4-151:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:100:7-100:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "PLU" test.adb:100:9-100:12>
   references:    <DefiningName "PLU" a-chlat1.ads:151:4-151:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:100:37-101:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1756,16 +1756,16 @@ Expr: <OpConcat "&" test.adb:100:37-100:38>
   expected type: None
 Expr: <DottedName test.adb:101:7-101:11>
   references:    <DefiningName "RI" a-chlat1.ads:152:4-152:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:101:7-101:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "RI" test.adb:101:9-101:11>
   references:    <DefiningName "RI" a-chlat1.ads:152:4-152:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:101:37-102:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1775,16 +1775,16 @@ Expr: <OpConcat "&" test.adb:101:37-101:38>
   expected type: None
 Expr: <DottedName test.adb:102:7-102:12>
   references:    <DefiningName "SS2" a-chlat1.ads:153:4-153:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:102:7-102:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SS2" test.adb:102:9-102:12>
   references:    <DefiningName "SS2" a-chlat1.ads:153:4-153:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:102:37-103:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1794,16 +1794,16 @@ Expr: <OpConcat "&" test.adb:102:37-102:38>
   expected type: None
 Expr: <DottedName test.adb:103:7-103:12>
   references:    <DefiningName "SS3" a-chlat1.ads:154:4-154:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:103:7-103:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SS3" test.adb:103:9-103:12>
   references:    <DefiningName "SS3" a-chlat1.ads:154:4-154:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:103:37-104:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1813,16 +1813,16 @@ Expr: <OpConcat "&" test.adb:103:37-103:38>
   expected type: None
 Expr: <DottedName test.adb:104:7-104:12>
   references:    <DefiningName "DCS" a-chlat1.ads:156:4-156:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:104:7-104:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "DCS" test.adb:104:9-104:12>
   references:    <DefiningName "DCS" a-chlat1.ads:156:4-156:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:104:37-105:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1832,16 +1832,16 @@ Expr: <OpConcat "&" test.adb:104:37-104:38>
   expected type: None
 Expr: <DottedName test.adb:105:7-105:12>
   references:    <DefiningName "PU1" a-chlat1.ads:157:4-157:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:105:7-105:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "PU1" test.adb:105:9-105:12>
   references:    <DefiningName "PU1" a-chlat1.ads:157:4-157:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:105:37-106:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1851,16 +1851,16 @@ Expr: <OpConcat "&" test.adb:105:37-105:38>
   expected type: None
 Expr: <DottedName test.adb:106:7-106:12>
   references:    <DefiningName "PU2" a-chlat1.ads:158:4-158:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:106:7-106:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "PU2" test.adb:106:9-106:12>
   references:    <DefiningName "PU2" a-chlat1.ads:158:4-158:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:106:37-107:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1870,16 +1870,16 @@ Expr: <OpConcat "&" test.adb:106:37-106:38>
   expected type: None
 Expr: <DottedName test.adb:107:7-107:12>
   references:    <DefiningName "STS" a-chlat1.ads:159:4-159:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:107:7-107:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "STS" test.adb:107:9-107:12>
   references:    <DefiningName "STS" a-chlat1.ads:159:4-159:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:107:37-108:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1889,16 +1889,16 @@ Expr: <OpConcat "&" test.adb:107:37-107:38>
   expected type: None
 Expr: <DottedName test.adb:108:7-108:12>
   references:    <DefiningName "CCH" a-chlat1.ads:160:4-160:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:108:7-108:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "CCH" test.adb:108:9-108:12>
   references:    <DefiningName "CCH" a-chlat1.ads:160:4-160:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:108:37-109:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1908,16 +1908,16 @@ Expr: <OpConcat "&" test.adb:108:37-108:38>
   expected type: None
 Expr: <DottedName test.adb:109:7-109:11>
   references:    <DefiningName "MW" a-chlat1.ads:161:4-161:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:109:7-109:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "MW" test.adb:109:9-109:11>
   references:    <DefiningName "MW" a-chlat1.ads:161:4-161:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:109:37-110:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1927,16 +1927,16 @@ Expr: <OpConcat "&" test.adb:109:37-109:38>
   expected type: None
 Expr: <DottedName test.adb:110:7-110:12>
   references:    <DefiningName "SPA" a-chlat1.ads:162:4-162:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:110:7-110:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SPA" test.adb:110:9-110:12>
   references:    <DefiningName "SPA" a-chlat1.ads:162:4-162:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:110:37-111:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1946,16 +1946,16 @@ Expr: <OpConcat "&" test.adb:110:37-110:38>
   expected type: None
 Expr: <DottedName test.adb:111:7-111:12>
   references:    <DefiningName "EPA" a-chlat1.ads:163:4-163:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:111:7-111:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "EPA" test.adb:111:9-111:12>
   references:    <DefiningName "EPA" a-chlat1.ads:163:4-163:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:111:37-112:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1965,16 +1965,16 @@ Expr: <OpConcat "&" test.adb:111:37-111:38>
   expected type: None
 Expr: <DottedName test.adb:112:7-112:12>
   references:    <DefiningName "SOS" a-chlat1.ads:165:4-165:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:112:7-112:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SOS" test.adb:112:9-112:12>
   references:    <DefiningName "SOS" a-chlat1.ads:165:4-165:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:112:37-113:21>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -1984,16 +1984,16 @@ Expr: <OpConcat "&" test.adb:112:37-112:38>
   expected type: None
 Expr: <DottedName test.adb:113:7-113:21>
   references:    <DefiningName "Reserved_153" a-chlat1.ads:166:4-166:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:113:7-113:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "Reserved_153" test.adb:113:9-113:21>
   references:    <DefiningName "Reserved_153" a-chlat1.ads:166:4-166:16>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:113:37-114:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2003,16 +2003,16 @@ Expr: <OpConcat "&" test.adb:113:37-113:38>
   expected type: None
 Expr: <DottedName test.adb:114:7-114:12>
   references:    <DefiningName "SCI" a-chlat1.ads:167:4-167:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:114:7-114:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "SCI" test.adb:114:9-114:12>
   references:    <DefiningName "SCI" a-chlat1.ads:167:4-167:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:114:37-115:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2022,16 +2022,16 @@ Expr: <OpConcat "&" test.adb:114:37-114:38>
   expected type: None
 Expr: <DottedName test.adb:115:7-115:12>
   references:    <DefiningName "CSI" a-chlat1.ads:168:4-168:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:115:7-115:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "CSI" test.adb:115:9-115:12>
   references:    <DefiningName "CSI" a-chlat1.ads:168:4-168:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:115:37-116:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2041,16 +2041,16 @@ Expr: <OpConcat "&" test.adb:115:37-115:38>
   expected type: None
 Expr: <DottedName test.adb:116:7-116:11>
   references:    <DefiningName "ST" a-chlat1.ads:169:4-169:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:116:7-116:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "ST" test.adb:116:9-116:11>
   references:    <DefiningName "ST" a-chlat1.ads:169:4-169:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:116:37-117:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2060,16 +2060,16 @@ Expr: <OpConcat "&" test.adb:116:37-116:38>
   expected type: None
 Expr: <DottedName test.adb:117:7-117:12>
   references:    <DefiningName "OSC" a-chlat1.ads:170:4-170:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:117:7-117:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "OSC" test.adb:117:9-117:12>
   references:    <DefiningName "OSC" a-chlat1.ads:170:4-170:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:117:37-118:11>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2079,16 +2079,16 @@ Expr: <OpConcat "&" test.adb:117:37-117:38>
   expected type: None
 Expr: <DottedName test.adb:118:7-118:11>
   references:    <DefiningName "PM" a-chlat1.ads:171:4-171:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:118:7-118:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "PM" test.adb:118:9-118:11>
   references:    <DefiningName "PM" a-chlat1.ads:171:4-171:6>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:118:37-119:12>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2098,16 +2098,16 @@ Expr: <OpConcat "&" test.adb:118:37-118:38>
   expected type: None
 Expr: <DottedName test.adb:119:7-119:12>
   references:    <DefiningName "APC" a-chlat1.ads:172:4-172:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:119:7-119:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "APC" test.adb:119:9-119:12>
   references:    <DefiningName "APC" a-chlat1.ads:172:4-172:7>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:119:37-120:27>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2117,16 +2117,16 @@ Expr: <OpConcat "&" test.adb:119:37-119:38>
   expected type: None
 Expr: <DottedName test.adb:120:7-120:27>
   references:    <DefiningName "LC_Icelandic_Thorn" a-chlat1.ads:291:4-291:22>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:120:7-120:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_Icelandic_Thorn" test.adb:120:9-120:27>
   references:    <DefiningName "LC_Icelandic_Thorn" a-chlat1.ads:291:4-291:22>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <ConcatOperand test.adb:120:37-121:23>
   type:          <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
   expected type: <ConcreteTypeDecl ["Character_Mapping"] test.adb:4:4-4:61>
@@ -2136,16 +2136,16 @@ Expr: <OpConcat "&" test.adb:120:37-120:38>
   expected type: None
 Expr: <DottedName test.adb:121:7-121:23>
   references:    <DefiningName "LC_Y_Diaeresis" a-chlat1.ads:292:4-292:18>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "L" test.adb:121:7-121:8>
   references:    <DefiningName "L" test.adb:6:12-6:13>
   type:          None
   expected type: None
 Expr: <Id "LC_Y_Diaeresis" test.adb:121:9-121:23>
   references:    <DefiningName "LC_Y_Diaeresis" a-chlat1.ads:292:4-292:18>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 
 
 Done.

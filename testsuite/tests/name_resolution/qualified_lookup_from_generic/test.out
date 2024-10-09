@@ -48,7 +48,7 @@ Resolving xrefs for node <| ObjectDecl ["X"] formal.adb:2:4-2:16 [test.adb:20:4]
 ***********************************************************************************
 
 Expr: <| Id "Integer" formal.adb:2:8-2:15 [test.adb:20:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -61,7 +61,7 @@ Resolving xrefs for node <| AssignStmt formal.adb:6:7-6:22 [test.adb:20:4] |>
 
 Expr: <| DottedName formal.adb:6:7-6:15 [test.adb:20:4] |>
   references:    <| DefiningName "X" formal.adb:2:4-2:5 [test.adb:20:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| Id "Formal" formal.adb:6:7-6:13 [test.adb:20:4] |>
   references:    <| DefiningName "Formal" formal.ads:2:9-2:15 [test.adb:20:4] |>
@@ -69,12 +69,12 @@ Expr: <| Id "Formal" formal.adb:6:7-6:13 [test.adb:20:4] |>
   expected type: None
 Expr: <| Id "X" formal.adb:6:14-6:15 [test.adb:20:4] |>
   references:    <| DefiningName "X" formal.adb:2:4-2:5 [test.adb:20:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| Int formal.adb:6:19-6:21 [test.adb:20:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName formal.adb:7:8-7:11 [test.adb:20:4] |>
 **************************************************************************
@@ -185,7 +185,7 @@ Resolving xrefs for node <| ObjectDecl ["X"] formal-child.adb:2:4-2:16 [test.adb
 ***********************************************************************************************************************
 
 Expr: <| Id "Integer" formal-child.adb:2:8-2:15 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -198,7 +198,7 @@ Resolving xrefs for node <| AssignStmt formal-child.adb:6:7-6:21 [test.adb:20:4,
 
 Expr: <| DottedName formal-child.adb:6:7-6:14 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
   references:    <| DefiningName "X" formal-child.adb:2:4-2:5 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| Id "Child" formal-child.adb:6:7-6:12 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
   references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
@@ -206,12 +206,12 @@ Expr: <| Id "Child" formal-child.adb:6:7-6:12 [test.adb:20:4, test.adb:22:4, tes
   expected type: None
 Expr: <| Id "X" formal-child.adb:6:13-6:14 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
   references:    <| DefiningName "X" formal-child.adb:2:4-2:5 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| Int formal-child.adb:6:18-6:20 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName formal-child.adb:7:8-7:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
 **************************************************************************************************************

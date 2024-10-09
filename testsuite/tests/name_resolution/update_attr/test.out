@@ -24,28 +24,28 @@ Expr: <Aggregate test.adb:14:22-14:47>
   type:          <ConcreteTypeDecl ["A"] test.adb:4:4-4:50>
   expected type: None
 Expr: <BinOp test.adb:14:23-14:29>
-  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <SubtypeDecl ["Positive"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <Int test.adb:14:23-14:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <OpDoubleDot ".." test.adb:14:25-14:27>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:14:28-14:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <Id "E_A" test.adb:14:33-14:36>
   references:    <DefiningName "E_A" test.adb:2:15-2:18>
   type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:30>
   expected type: <ConcreteTypeDecl ["E"] test.adb:2:4-2:30>
 Expr: <Int test.adb:14:38-14:39>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <Id "E_C" test.adb:14:43-14:46>
   references:    <DefiningName "E_C" test.adb:2:25-2:28>
   type:          <ConcreteTypeDecl ["E"] test.adb:2:4-2:30>
@@ -79,16 +79,16 @@ Expr: <Id "X" test.adb:16:23-16:24>
   expected type: None
 Expr: <Int test.adb:16:28-16:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Y" test.adb:16:31-16:32>
   references:    <DefiningName "Y" test.adb:8:7-8:8>
   type:          None
   expected type: None
 Expr: <Id "True" test.adb:16:36-16:40>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 
 Done.

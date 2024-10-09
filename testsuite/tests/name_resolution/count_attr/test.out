@@ -5,13 +5,13 @@ Resolving xrefs for node <ObjectDecl ["I"] test.adb:13:7-13:34>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:13:11-13:18>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:13:22-13:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:13:22-13:27>
   references:    <DefiningName "E" test.adb:7:13-7:14>
   type:          None
@@ -22,7 +22,7 @@ Expr: <Id "E" test.adb:13:22-13:23>
   expected type: None
 Expr: <Int test.adb:13:25-13:26>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: None
 Expr: <Id "Count" test.adb:13:28-13:33>
   references:    None
@@ -33,13 +33,13 @@ Resolving xrefs for node <ObjectDecl ["J"] test.adb:16:7-16:34>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:16:11-16:18>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:16:22-16:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:16:22-16:27>
   references:    <DefiningName "F" test.adb:8:13-8:14>
   type:          None
@@ -61,13 +61,13 @@ Resolving xrefs for node <ObjectDecl ["K"] test.adb:19:7-19:34>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:19:11-19:18>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:19:22-19:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:19:22-19:27>
   references:    <DefiningName "G" test.adb:9:13-9:14>
   type:          None
@@ -90,8 +90,8 @@ Resolving xrefs for node <ReturnStmt test.adb:32:10-32:25>
 
 Expr: <AttributeRef test.adb:32:17-32:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "E" test.adb:32:17-32:18>
   references:    <DefiningName "E" test.adb:26:13-26:14>
   type:          None

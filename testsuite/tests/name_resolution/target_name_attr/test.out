@@ -14,8 +14,8 @@ Expr: <Id "Ignore_String" test_target_name.adb:4:4-4:17>
   expected type: None
 Expr: <AttributeRef test_target_name.adb:4:19-4:39>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Standard" test_target_name.adb:4:19-4:27>
   references:    None
   type:          None

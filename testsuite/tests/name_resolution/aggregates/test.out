@@ -108,16 +108,16 @@ Expr: <Id "C1" test.adb:45:43-45:45>
   expected type: None
 Expr: <Int test.adb:45:49-45:50>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "C2" test.adb:45:52-45:54>
   references:    <DefiningName "C2" test.adb:8:13-8:15>
   type:          None
   expected type: None
 Expr: <Id "True" test.adb:45:58-45:62>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["G"] test.adb:48:4-48:47>
 ***************************************************************
@@ -135,8 +135,8 @@ Expr: <Id "C1" test.adb:48:24-48:26>
   expected type: None
 Expr: <Int test.adb:48:30-48:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <BoxExpr test.adb:48:43-48:45>
   type:          None
   expected type: None
@@ -157,16 +157,16 @@ Expr: <Id "C1" test.adb:50:24-50:26>
   expected type: None
 Expr: <Int test.adb:50:30-50:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "C2" test.adb:50:33-50:35>
   references:    <DefiningName "C2" test.adb:16:7-16:9>
   type:          None
   expected type: None
 Expr: <Id "True" test.adb:50:39-50:43>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["OO"] test.adb:53:4-53:60>
 ****************************************************************
@@ -196,16 +196,16 @@ Expr: <Id "C1" test.adb:53:39-53:41>
   expected type: None
 Expr: <Int test.adb:53:45-53:46>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "C2" test.adb:53:48-53:50>
   references:    <DefiningName "C2" test.adb:23:13-23:15>
   type:          None
   expected type: None
 Expr: <Id "True" test.adb:53:54-53:58>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["PP"] test.adb:55:4-55:53>
 ****************************************************************
@@ -257,8 +257,8 @@ Expr: <Id "E1" test.adb:57:35-57:37>
   expected type: <ConcreteTypeDecl ["T1"] test.adb:2:4-2:24>
 Expr: <Int test.adb:57:39-57:40>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <BoxExpr test.adb:57:52-57:54>
   type:          None
   expected type: None
@@ -497,12 +497,12 @@ Expr: <Id "C" other.adb:12:16-12:17>
   expected type: None
 Expr: <Int other.adb:12:21-12:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "TRUE" other.adb:12:34-12:38>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 
 Done.

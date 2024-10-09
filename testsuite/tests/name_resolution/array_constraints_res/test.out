@@ -9,18 +9,18 @@ Resolving xrefs for node <ExprFunction ["Foo"] test.adb:2:4-2:42>
 *****************************************************************
 
 Expr: <ParenExpr test.adb:2:35-2:41>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test.adb:2:36-2:40>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <SubpSpec test.adb:2:4-2:31>
 *****************************************************
 
 Expr: <Id "Integer" test.adb:2:24-2:31>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -28,18 +28,18 @@ Resolving xrefs for node <ExprFunction ["Foo"] test.adb:3:4-3:44>
 *****************************************************************
 
 Expr: <ParenExpr test.adb:3:33-3:43>
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real test.adb:3:34-3:42>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <SubpSpec test.adb:3:4-3:29>
 *****************************************************
 
 Expr: <Id "Float" test.adb:3:24-3:29>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 
@@ -51,22 +51,22 @@ Resolving xrefs for node <ArrayTypeDef test.adb:4:14-4:41>
 **********************************************************
 
 Expr: <BinOp test.adb:4:21-4:29>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test.adb:4:21-4:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." test.adb:4:23-4:25>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Foo" test.adb:4:26-4:29>
   references:    <DefiningName "Foo" test.adb:2:13-2:16>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" test.adb:4:34-4:41>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 

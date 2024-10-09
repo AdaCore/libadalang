@@ -17,7 +17,7 @@ Expr: <Id "A" derived_aggregate.adb:20:10-20:11>
   expected type: None
 Expr: <Real derived_aggregate.adb:20:15-20:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
 Expr: <Id "B" derived_aggregate.adb:20:20-20:21>
   references:    <DefiningName "B" derived_aggregate.adb:8:10-8:11>
@@ -25,7 +25,7 @@ Expr: <Id "B" derived_aggregate.adb:20:20-20:21>
   expected type: None
 Expr: <Real derived_aggregate.adb:20:25-20:28>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
 Expr: <Id "C" derived_aggregate.adb:20:30-20:31>
   references:    <DefiningName "C" derived_aggregate.adb:12:7-12:8>
@@ -33,7 +33,7 @@ Expr: <Id "C" derived_aggregate.adb:20:30-20:31>
   expected type: None
 Expr: <Int derived_aggregate.adb:20:35-20:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] derived_aggregate.adb:5:4-5:34>
 Expr: <Id "D" derived_aggregate.adb:20:38-20:39>
   references:    <DefiningName "D" derived_aggregate.adb:12:10-12:11>
@@ -41,7 +41,7 @@ Expr: <Id "D" derived_aggregate.adb:20:38-20:39>
   expected type: None
 Expr: <Int derived_aggregate.adb:20:43-20:44>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] derived_aggregate.adb:5:4-5:34>
 Expr: <Id "R" derived_aggregate.adb:20:46-20:47>
   references:    <DefiningName "R" derived_aggregate.adb:13:7-13:8>
@@ -52,7 +52,7 @@ Expr: <Aggregate derived_aggregate.adb:20:51-20:61>
   expected type: <ConcreteTypeDecl ["Rec"] derived_aggregate.adb:7:4-9:15>
 Expr: <Real derived_aggregate.adb:20:52-20:55>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Float"] derived_aggregate.adb:4:4-4:39>
 Expr: <Id "Foo" derived_aggregate.adb:20:57-20:60>
   references:    <DefiningName "Foo" derived_aggregate.adb:18:13-18:16>

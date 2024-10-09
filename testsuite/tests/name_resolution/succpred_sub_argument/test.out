@@ -6,18 +6,18 @@ Resolving xrefs for node <AssignStmt test.adb:5:2-5:51>
 
 Expr: <Id "result" test.adb:5:2-5:8>
   references:    <DefiningName "result" test.adb:3:4-3:10>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <CallExpr test.adb:5:12-5:50>
-  references:    <SyntheticDefiningName "succ" __standard:3:3-3:33>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <SyntheticDefiningName "succ" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <AttributeRef test.adb:5:12-5:24>
-  references:    <SyntheticDefiningName "succ" __standard:3:3-3:33>
+  references:    <SyntheticDefiningName "succ" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Boolean" test.adb:5:12-5:19>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <Id "succ" test.adb:5:20-5:24>
@@ -25,15 +25,15 @@ Expr: <Id "succ" test.adb:5:20-5:24>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:5:26-5:49>
-  references:    <SyntheticDefiningName "pred" __standard:3:3-3:33>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <SyntheticDefiningName "pred" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <AttributeRef test.adb:5:26-5:38>
-  references:    <SyntheticDefiningName "pred" __standard:3:3-3:33>
+  references:    <SyntheticDefiningName "pred" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Boolean" test.adb:5:26-5:33>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <Id "pred" test.adb:5:34-5:38>
@@ -42,8 +42,8 @@ Expr: <Id "pred" test.adb:5:34-5:38>
   expected type: None
 Expr: <Id "b_true" test.adb:5:40-5:46>
   references:    <DefiningName "b_true" test.adb:2:4-2:10>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 
 Done.

@@ -6,23 +6,23 @@ Resolving xrefs for node <AssignStmt test_target.adb:4:4-4:15>
 
 Expr: <Id "A" test_target.adb:4:4-4:5>
   references:    <DefiningName "A" test_target.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <BinOp test_target.adb:4:9-4:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <TargetName test_target.adb:4:9-4:10>
   references:    <DefiningName "A" test_target.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" test_target.adb:4:11-4:12>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test_target.adb:4:13-4:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Analyzing test_agg.adb
@@ -33,7 +33,7 @@ Resolving xrefs for node <AssignStmt test_agg.adb:8:4-8:25>
 
 Expr: <DottedName test_agg.adb:8:4-8:15>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Param" test_agg.adb:8:4-8:9>
   references:    <DefiningName "Param" test_agg.adb:6:4-6:9>
@@ -41,23 +41,23 @@ Expr: <Id "Param" test_agg.adb:8:4-8:9>
   expected type: <ConcreteTypeDecl ["R"] test_agg.adb:2:4-4:15>
 Expr: <Id "Count" test_agg.adb:8:10-8:15>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <BinOp test_agg.adb:8:19-8:24>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <TargetName test_agg.adb:8:19-8:20>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" test_agg.adb:8:21-8:22>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test_agg.adb:8:23-8:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt test_agg.adb:10:4-10:36>
 *************************************************************
@@ -74,28 +74,28 @@ Expr: <Id "Count" test_agg.adb:10:14-10:19>
   type:          None
   expected type: None
 Expr: <BinOp test_agg.adb:10:23-10:34>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName test_agg.adb:10:23-10:30>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <TargetName test_agg.adb:10:23-10:24>
   references:    <DefiningName "Param" test_agg.adb:6:4-6:9>
   type:          <ConcreteTypeDecl ["R"] test_agg.adb:2:4-4:15>
   expected type: <ConcreteTypeDecl ["R"] test_agg.adb:2:4-4:15>
 Expr: <Id "Count" test_agg.adb:10:25-10:30>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" test_agg.adb:10:31-10:32>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test_agg.adb:10:33-10:34>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt test_agg.adb:12:4-12:49>
 *************************************************************
@@ -113,31 +113,31 @@ Expr: <TargetName test_agg.adb:12:14-12:15>
   expected type: None
 Expr: <Id "Count" test_agg.adb:12:27-12:32>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <BinOp test_agg.adb:12:36-12:47>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName test_agg.adb:12:36-12:43>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <TargetName test_agg.adb:12:36-12:37>
   references:    <DefiningName "Param" test_agg.adb:6:4-6:9>
   type:          <ConcreteTypeDecl ["R"] test_agg.adb:2:4-4:15>
   expected type: <ConcreteTypeDecl ["R"] test_agg.adb:2:4-4:15>
 Expr: <Id "Count" test_agg.adb:12:38-12:43>
   references:    <DefiningName "Count" test_agg.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" test_agg.adb:12:44-12:45>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test_agg.adb:12:46-12:47>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

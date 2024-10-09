@@ -44,7 +44,7 @@ Resolving xrefs for node <ComponentDecl ["A"] test.adb:7:13-7:25>
 *****************************************************************
 
 Expr: <Id "Integer" test.adb:7:17-7:24>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -52,7 +52,7 @@ Resolving xrefs for node <ComponentDecl ["B"] test.adb:9:13-9:25>
 *****************************************************************
 
 Expr: <Id "Integer" test.adb:9:17-9:24>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 

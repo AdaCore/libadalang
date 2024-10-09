@@ -26,46 +26,46 @@ Working on node <ObjectDecl ["AA"] test.adb:20:4-20:31>
 =======================================================
 
 Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
-Result: <EnumLiteralDecl ["'A'"] __standard:22:27-22:30>
+Result: <EnumLiteralDecl ["'A'"] in Standard>
 
 Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.wide_character.'A'(() -> standard.wide_character.'A')"
 
 Eval 'decl.p_subp_spec_or_null().p_returns'
-Result: <EnumLitSynthTypeExpr __standard:22:27-22:30>
+Result: <EnumLitSynthTypeExpr in Standard>
 
 Working on node <ObjectDecl ["A"] test.adb:28:4-28:30>
 ======================================================
 
 Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'a'"] __standard:22:3-22:32>
+Result: <SyntheticCharEnumLit ["'a'"] in Standard>
 
 Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'a'(() -> standard.wide_character.'a')"
 
 Eval 'decl.p_subp_spec_or_null().p_returns'
-Result: <EnumLitSynthTypeExpr __standard:22:3-22:32>
+Result: <EnumLitSynthTypeExpr in Standard>
 
 Working on node <ObjectDecl ["E"] test.adb:33:4-33:25>
 ======================================================
 
 Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'\xe9'"] __standard:21:3-21:27>
+Result: <SyntheticCharEnumLit ["'\xe9'"] in Standard>
 
 Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'\xe9'(() -> standard.character.'\xe9')"
 
 Eval 'decl.p_subp_spec_or_null().p_returns'
-Result: <EnumLitSynthTypeExpr __standard:21:3-21:27>
+Result: <EnumLitSynthTypeExpr in Standard>
 
 Working on node <ObjectDecl ["EM"] test.adb:38:4-38:36>
 =======================================================
 
 Set 'decl' to 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'!'"] __standard:23:3-23:37>
+Result: <SyntheticCharEnumLit ["'!'"] in Standard>
 
 Eval 'decl.p_defining_name.p_unique_identifying_name'
 Result: "standard.'!'(() -> standard.wide_wide_character.'!')"
 
 Eval 'decl.p_subp_spec_or_null().p_returns'
-Result: <EnumLitSynthTypeExpr __standard:23:3-23:37>
+Result: <EnumLitSynthTypeExpr in Standard>

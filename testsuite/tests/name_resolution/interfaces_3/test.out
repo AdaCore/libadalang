@@ -18,8 +18,8 @@ Expr: <Id "Inst" testifc.adb:17:9-17:13>
   expected type: <ConcreteTypeDecl ["C"] testifc.adb:10:7-10:40>
 Expr: <Int testifc.adb:17:15-17:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 
 
 Done.

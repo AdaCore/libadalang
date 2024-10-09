@@ -9,8 +9,8 @@ Resolving xrefs for node <ReturnStmt foo.adb:9:4-9:13>
 
 Expr: <Id "R" foo.adb:9:11-9:12>
   references:    <DefiningName "R" foo.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

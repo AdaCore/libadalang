@@ -5,7 +5,7 @@ Resolving xrefs for node <SubpSpec f.ads:1:1-1:39>
 **************************************************
 
 Expr: <Id "Integer" f.ads:1:32-1:39>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -13,7 +13,7 @@ Resolving xrefs for node <ParamSpec ["x"] f.ads:1:12-1:23>
 **********************************************************
 
 Expr: <Id "Integer" f.ads:1:16-1:23>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -25,20 +25,20 @@ Expr: <Id "Pre" f.ads:2:12-2:15>
   type:          None
   expected type: None
 Expr: <RelationOp f.ads:2:19-2:25>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "x" f.ads:2:19-2:20>
   references:    <DefiningName "x" f.ads:1:12-1:13>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpGt ">" f.ads:2:21-2:22>
   references:    None
   type:          None
   expected type: None
 Expr: <Int f.ads:2:23-2:25>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

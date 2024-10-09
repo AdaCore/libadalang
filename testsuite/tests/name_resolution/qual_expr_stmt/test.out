@@ -25,8 +25,8 @@ Expr: <Id "Asm" test.adb:6:17-6:20>
   expected type: None
 Expr: <Str ""nop"" test.adb:6:22-6:27>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 
 Done.

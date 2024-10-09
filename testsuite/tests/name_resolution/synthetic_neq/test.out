@@ -5,8 +5,8 @@ Resolving xrefs for node <IfStmt test.adb:12:4-14:11>
 *****************************************************
 
 Expr: <RelationOp test.adb:12:7-12:13>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "A" test.adb:12:7-12:8>
   references:    <DefiningName "A" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:3:7-3:29>
@@ -25,11 +25,11 @@ Resolving xrefs for node <IfStmt test.adb:17:4-19:11>
 
 Expr: <CallExpr test.adb:17:7-17:18>
   references:    <DefiningName ""="" test.adb:5:16-5:19>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Str ""/="" test.adb:17:7-17:11>
   references:    <DefiningName ""="" test.adb:5:16-5:19>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "A" test.adb:17:13-17:14>
   references:    <DefiningName "A" test.adb:10:4-10:5>

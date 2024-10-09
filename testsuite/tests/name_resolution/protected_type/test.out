@@ -9,7 +9,7 @@ Resolving xrefs for node <ConcreteTypeDecl ["Item"] testpro.adb:2:4-2:29>
 *************************************************************************
 
 Expr: <Id "Integer" testpro.adb:2:21-2:28>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -57,13 +57,13 @@ Resolving xrefs for node <ComponentDecl ["Empty"] testpro.adb:9:9-9:34>
 ***********************************************************************
 
 Expr: <Id "Boolean" testpro.adb:9:18-9:25>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <Id "True" testpro.adb:9:29-9:33>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <EndName testpro.adb:10:10-10:26>
 **********************************************************
@@ -82,8 +82,8 @@ Resolving xrefs for node <EntryBody ["Insert"] testpro.adb:13:9-18:20>
 
 Expr: <Id "Empty" testpro.adb:14:17-14:22>
   references:    <DefiningName "Empty" testpro.adb:9:9-9:14>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <EndName testpro.adb:18:13-18:19>
   references:    <DefiningName "Insert" testpro.adb:13:15-13:21>
   type:          None
@@ -114,12 +114,12 @@ Resolving xrefs for node <AssignStmt testpro.adb:17:12-17:27>
 
 Expr: <Id "Empty" testpro.adb:17:12-17:17>
   references:    <DefiningName "Empty" testpro.adb:9:9-9:14>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "False" testpro.adb:17:21-17:26>
-  references:    <DefiningName "False" __standard:3:20-3:25>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "False" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <EndName testpro.adb:18:13-18:19>
 **********************************************************
@@ -137,16 +137,16 @@ Resolving xrefs for node <EntryBody ["Remove"] testpro.adb:19:9-24:20>
 **********************************************************************
 
 Expr: <UnOp testpro.adb:20:17-20:26>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <OpNot "not" testpro.adb:20:17-20:20>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Empty" testpro.adb:20:21-20:26>
   references:    <DefiningName "Empty" testpro.adb:9:9-9:14>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <EndName testpro.adb:24:13-24:19>
   references:    <DefiningName "Remove" testpro.adb:19:15-19:21>
   type:          None
@@ -177,12 +177,12 @@ Resolving xrefs for node <AssignStmt testpro.adb:23:12-23:26>
 
 Expr: <Id "Empty" testpro.adb:23:12-23:17>
   references:    <DefiningName "Empty" testpro.adb:9:9-9:14>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "True" testpro.adb:23:21-23:25>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <EndName testpro.adb:24:13-24:19>
 **********************************************************
@@ -237,7 +237,7 @@ Expr: <Id "Insert" testpro.adb:29:9-29:15>
   expected type: None
 Expr: <Int testpro.adb:29:17-29:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Item"] testpro.adb:2:4-2:29>
 
 Resolving xrefs for node <EndName testpro.adb:30:5-30:13>

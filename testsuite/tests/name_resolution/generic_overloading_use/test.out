@@ -18,8 +18,8 @@ Expr: <Id "V2" main.adb:13:12-13:14>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:5:4] |>
 Expr: <Real main.adb:13:16-13:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <CallStmt main.adb:16:4-16:19>
 *******************************************************
@@ -38,8 +38,8 @@ Expr: <Id "V" main.adb:16:12-16:13>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
 Expr: <Int main.adb:16:15-16:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

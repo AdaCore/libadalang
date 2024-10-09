@@ -26,8 +26,8 @@ Expr: <Id "V" main.adb:10:23-10:24>
   expected type: <| ConcreteTypeDecl ["Vector"] vector.ads:4:4-4:31 [main.adb:4:4] |>
 Expr: <Id "B" main.adb:10:26-10:27>
   references:    <DefiningName "B" main.adb:8:4-8:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

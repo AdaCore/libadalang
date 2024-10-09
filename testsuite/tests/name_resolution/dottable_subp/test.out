@@ -6,16 +6,16 @@ Resolving xrefs for node <ReturnStmt test.adb:16:9-16:20>
 
 Expr: <DottedName test.adb:16:16-16:19>
   references:    <DefiningName "F" test.adb:6:16-6:17>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "N" test.adb:16:16-16:17>
   references:    <DefiningName "N" test.adb:14:19-14:20>
   type:          <ConcreteTypeDecl ["T"] test.adb:8:7-10:18>
   expected type: <ConcreteTypeDecl ["T"] test.adb:8:7-10:18>
 Expr: <Id "F" test.adb:16:18-16:19>
   references:    <DefiningName "F" test.adb:6:16-6:17>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Analyzing test_proc.adb
@@ -74,8 +74,8 @@ Expr: <Id "Spacing" pkg.adb:18:19-18:26>
   expected type: None
 Expr: <Int pkg.adb:18:30-18:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Analyzing region.adb

@@ -94,7 +94,7 @@ Expr: <Id "C" test_requeue.adb:51:36-51:37>
   expected type: None
 Expr: <Int test_requeue.adb:51:39-51:40>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: None
 
 

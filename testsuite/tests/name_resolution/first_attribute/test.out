@@ -13,11 +13,11 @@ Resolving xrefs for node <ArrayTypeDef testfirst.adb:2:14-2:49>
 ***************************************************************
 
 Expr: <Id "Integer" testfirst.adb:2:21-2:28>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" testfirst.adb:2:42-2:49>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -25,24 +25,24 @@ Resolving xrefs for node <ConcreteTypeDecl ["B"] testfirst.adb:3:4-3:45>
 ************************************************************************
 
 Expr: <Id "Integer" testfirst.adb:3:18-3:25>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <BinOp testfirst.adb:3:32-3:44>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testfirst.adb:3:32-3:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." testfirst.adb:3:34-3:36>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testfirst.adb:3:37-3:44>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["C"] testfirst.adb:5:4-5:12>
 ******************************************************************
@@ -64,30 +64,30 @@ Expr: <Aggregate testfirst.adb:6:15-6:30>
   expected type: <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
 Expr: <Int testfirst.adb:6:16-6:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testfirst.adb:6:19-6:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testfirst.adb:6:22-6:23>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testfirst.adb:6:25-6:26>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testfirst.adb:6:28-6:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["Idx"] testfirst.adb:7:4-7:18>
 ********************************************************************
 
 Expr: <Id "Integer" testfirst.adb:7:10-7:17>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -103,20 +103,20 @@ Expr: <Id "A" testfirst.adb:10:15-10:16>
   type:          None
   expected type: None
 Expr: <BinOp testfirst.adb:10:18-10:25>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testfirst.adb:10:18-10:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." testfirst.adb:10:20-10:22>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testfirst.adb:10:23-10:25>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ExprFunction ["Foo"] testfirst.adb:13:4-13:46>
 ************************************************************************
@@ -140,18 +140,18 @@ Resolving xrefs for node <ExprFunction ["Foo"] testfirst.adb:14:4-14:40>
 ************************************************************************
 
 Expr: <ParenExpr testfirst.adb:14:35-14:39>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testfirst.adb:14:36-14:38>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <SubpSpec testfirst.adb:14:4-14:31>
 ************************************************************
 
 Expr: <Id "Integer" testfirst.adb:14:24-14:31>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -180,12 +180,12 @@ Resolving xrefs for node <AssignStmt testfirst.adb:17:4-17:19>
 
 Expr: <Id "Idx" testfirst.adb:17:4-17:7>
   references:    <DefiningName "Idx" testfirst.adb:7:4-7:7>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <AttributeRef testfirst.adb:17:11-17:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "D" testfirst.adb:17:11-17:12>
   references:    <DefiningName "D" testfirst.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
@@ -200,12 +200,12 @@ Resolving xrefs for node <AssignStmt testfirst.adb:19:4-19:27>
 
 Expr: <Id "Idx" testfirst.adb:19:4-19:7>
   references:    <DefiningName "Idx" testfirst.adb:7:4-7:7>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <AttributeRef testfirst.adb:19:11-19:26>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName testfirst.adb:19:11-19:20>
   references:    <DefiningName "Pouet" testfirst.adb:10:7-10:12>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
@@ -228,7 +228,7 @@ Resolving xrefs for node <AssignStmt testfirst.adb:20:4-20:21>
 
 Expr: <CallExpr testfirst.adb:20:4-20:15>
   references:    <DefiningName "D" testfirst.adb:6:4-6:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "D" testfirst.adb:20:4-20:5>
   references:    <DefiningName "D" testfirst.adb:6:4-6:5>
@@ -236,8 +236,8 @@ Expr: <Id "D" testfirst.adb:20:4-20:5>
   expected type: None
 Expr: <AttributeRef testfirst.adb:20:7-20:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "D" testfirst.adb:20:7-20:8>
   references:    <DefiningName "D" testfirst.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["A"] testfirst.adb:2:4-2:50>
@@ -248,8 +248,8 @@ Expr: <Id "First" testfirst.adb:20:9-20:14>
   expected type: None
 Expr: <Int testfirst.adb:20:19-20:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <EndName testfirst.adb:21:5-21:14>
 ***********************************************************

@@ -30,8 +30,8 @@ Expr: <Id "Put_Line" testwu.adb:9:4-9:12>
   expected type: None
 Expr: <Str ""LOL"" testwu.adb:9:14-9:19>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 
 Done.

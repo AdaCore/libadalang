@@ -9,12 +9,12 @@ Expr: <Id "Loop_Invariant" increment_array.adb:6:17-6:31>
   type:          None
   expected type: None
 Expr: <RelationOp increment_array.adb:6:33-6:55>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr increment_array.adb:6:33-6:50>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef increment_array.adb:6:33-6:45>
   references:    None
   type:          <ConcreteTypeDecl ["Integer_Array"] increment_array.adb:2:4-2:63>
@@ -29,16 +29,16 @@ Expr: <Id "Loop_Entry" increment_array.adb:6:35-6:45>
   expected type: None
 Expr: <Int increment_array.adb:6:47-6:49>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <OpEq "=" increment_array.adb:6:51-6:52>
   references:    None
   type:          None
   expected type: None
 Expr: <Int increment_array.adb:6:53-6:55>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

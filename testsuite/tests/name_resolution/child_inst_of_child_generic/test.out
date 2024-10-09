@@ -10,8 +10,8 @@ Expr: <Id "Child_Pkg_G" my_pkg-my_child_pkg.ads:3:36-3:47>
   expected type: None
 Expr: <Id "Foo" my_pkg-my_child_pkg.ads:3:49-3:52>
   references:    <| DefiningName "Foo" pkg_g.ads:3:4-3:7 [my_pkg.ads:3:1] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <DefiningName "My_Pkg.My_Child_Pkg" my_pkg-my_child_pkg.ads:3:9-3:28>
 **********************************************************************************************
@@ -34,8 +34,8 @@ Expr: <Id "Child_Subp_G" my_pkg-my_child_subp.ads:3:39-3:51>
   expected type: None
 Expr: <Id "Foo" my_pkg-my_child_subp.ads:3:53-3:56>
   references:    <| DefiningName "Foo" pkg_g.ads:3:4-3:7 [my_pkg.ads:3:1] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <DefiningName "My_Pkg.My_Child_Subp" my_pkg-my_child_subp.ads:3:11-3:31>
 *************************************************************************************************

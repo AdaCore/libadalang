@@ -1,0 +1,11 @@
+## vim: filetype=ada
+
+declare
+   Filename : constant String := +Self.Unit.Filename.Base_Name;
+begin
+   if Filename = "__standard" then
+      return "in Standard";
+   else
+      return To_Text (Filename) & ":" & To_Text (Image (Sloc_Range (Self)));
+   end if;
+end;

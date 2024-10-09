@@ -6,12 +6,12 @@ Resolving xrefs for node <AssignStmt test.adb:18:4-18:28>
 
 Expr: <Id "X" test.adb:18:4-18:5>
   references:    <DefiningName "X" test.adb:16:4-16:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName test.adb:18:9-18:27>
   references:    <DefiningName "X" test.adb:3:7-3:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:18:9-18:25>
   references:    <DefiningName "Rec_Func" test.adb:11:9-11:17>
   type:          <ConcreteTypeDecl ["Rec"] test.adb:2:4-4:15>
@@ -33,12 +33,12 @@ Expr: <Id "F" test.adb:18:19-18:20>
   expected type: <ConcreteTypeDecl ["Rec_Func"] test.adb:11:4-11:62>
 Expr: <Int test.adb:18:23-18:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "X" test.adb:18:26-18:27>
   references:    <DefiningName "X" test.adb:3:7-3:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

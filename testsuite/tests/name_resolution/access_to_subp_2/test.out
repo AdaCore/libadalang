@@ -6,20 +6,20 @@ Resolving xrefs for node <AssignStmt testaccesstosubp.adb:10:4-10:16>
 
 Expr: <Id "N" testaccesstosubp.adb:10:4-10:5>
   references:    <DefiningName "N" testaccesstosubp.adb:8:4-8:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <CallExpr testaccesstosubp.adb:10:9-10:15>
   references:    <DefiningName "A" testaccesstosubp.adb:6:4-6:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "A" testaccesstosubp.adb:10:9-10:10>
   references:    <DefiningName "A" testaccesstosubp.adb:6:4-6:5>
   type:          <ConcreteTypeDecl ["Pouet"] testaccesstosubp.adb:2:4-2:63>
   expected type: None
 Expr: <Int testaccesstosubp.adb:10:12-10:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

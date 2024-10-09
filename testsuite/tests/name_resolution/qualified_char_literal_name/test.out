@@ -5,8 +5,8 @@ Resolving xrefs for node <IfStmt test.adb:7:4-9:11>
 ***************************************************
 
 Expr: <RelationOp test.adb:7:7-7:18>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <DottedName test.adb:7:7-7:14>
   references:    <DefiningName "'A'" test.adb:3:18-3:21>
   type:          <ConcreteTypeDecl ["E"] test.adb:3:7-3:26>

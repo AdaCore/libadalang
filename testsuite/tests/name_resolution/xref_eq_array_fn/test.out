@@ -18,7 +18,7 @@ Expr: <Id "F" test_array_fn.adb:8:9-8:10>
   expected type: None
 Expr: <Int test_array_fn.adb:8:12-8:13>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] test_array_fn.adb:2:4-2:36>
 
 

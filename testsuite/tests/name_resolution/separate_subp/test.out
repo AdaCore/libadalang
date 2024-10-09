@@ -14,12 +14,12 @@ Resolving xrefs for node <AssignStmt test-foo.adb:5:7-5:15>
 
 Expr: <Id "J" test-foo.adb:5:7-5:8>
   references:    <DefiningName "J" test.adb:8:4-8:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int test-foo.adb:5:12-5:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <EndName test-foo.adb:6:8-6:11>
 ********************************************************

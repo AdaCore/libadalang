@@ -5,59 +5,59 @@ Resolving xrefs for node <ObjectDecl ["I"] b.adb:4:4-4:61>
 **********************************************************
 
 Expr: <Id "Integer" b.adb:4:8-4:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <BinOp b.adb:4:19-4:60>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <BinOp b.adb:4:19-4:47>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName b.adb:4:19-4:31>
   references:    <DefiningName "Public_Int" b.ads:3:4-3:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "B" b.adb:4:19-4:20>
   references:    <DefiningName "B" b.ads:1:9-1:10>
   type:          None
   expected type: None
 Expr: <Id "Public_Int" b.adb:4:21-4:31>
   references:    <DefiningName "Public_Int" b.ads:3:4-3:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" b.adb:4:32-4:33>
   references:    None
   type:          None
   expected type: None
 Expr: <DottedName b.adb:4:34-4:47>
   references:    <DefiningName "Private_Int" b.ads:5:4-5:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "B" b.adb:4:34-4:35>
   references:    <DefiningName "B" b.ads:1:9-1:10>
   type:          None
   expected type: None
 Expr: <Id "Private_Int" b.adb:4:36-4:47>
   references:    <DefiningName "Private_Int" b.ads:5:4-5:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" b.adb:4:48-4:49>
   references:    None
   type:          None
   expected type: None
 Expr: <DottedName b.adb:4:50-4:60>
   references:    <DefiningName "Body_Int" b.adb:2:4-2:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "B" b.adb:4:50-4:51>
   references:    <DefiningName "B" b.ads:1:9-1:10>
   type:          None
   expected type: None
 Expr: <Id "Body_Int" b.adb:4:52-4:60>
   references:    <DefiningName "Body_Int" b.adb:2:4-2:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

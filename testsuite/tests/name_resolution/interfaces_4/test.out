@@ -6,11 +6,11 @@ Resolving xrefs for node <ReturnStmt test.adb:18:7-18:27>
 
 Expr: <CallExpr test.adb:18:14-18:26>
   references:    <DefiningName "Get_Name" test.adb:5:16-5:24>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Get_Name" test.adb:18:14-18:22>
   references:    <DefiningName "Get_Name" test.adb:5:16-5:24>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "X" test.adb:18:24-18:25>
   references:    <DefiningName "X" test.adb:16:18-16:19>

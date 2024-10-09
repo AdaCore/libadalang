@@ -22,7 +22,7 @@ Expr: <Id "T" repro.adb:7:18-7:19>
   expected type: None
 Expr: <Int repro.adb:7:21-7:23>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: None
 
 Resolving xrefs for node <CaseStmtAlternative repro.adb:8:10-8:26>
@@ -30,7 +30,7 @@ Resolving xrefs for node <CaseStmtAlternative repro.adb:8:10-8:26>
 
 Expr: <Int repro.adb:8:15-8:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] repro.adb:3:7-3:29>
 
 Resolving xrefs for node <NullStmt repro.adb:8:21-8:26>
@@ -66,7 +66,7 @@ Expr: <Id "T" repro.adb:17:12-17:13>
   expected type: None
 Expr: <Int repro.adb:17:15-17:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: None
 
 Resolving xrefs for node <CaseStmtAlternative repro.adb:18:10-18:26>
@@ -74,7 +74,7 @@ Resolving xrefs for node <CaseStmtAlternative repro.adb:18:10-18:26>
 
 Expr: <Int repro.adb:18:15-18:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] repro.adb:3:7-3:29>
 
 Resolving xrefs for node <NullStmt repro.adb:18:21-18:26>

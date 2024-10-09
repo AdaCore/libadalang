@@ -6,7 +6,7 @@ Resolving xrefs for node <AssignStmt test.adb:22:13-22:30>
 
 Expr: <DottedName test.adb:22:13-22:24>
   references:    <DefiningName "Npl" test.adb:13:10-13:13>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <Id "Element" test.adb:22:13-22:20>
   references:    <DefiningName "Element" test.adb:20:28-20:35>
@@ -14,12 +14,12 @@ Expr: <Id "Element" test.adb:22:13-22:20>
   expected type: <ConcreteTypeDecl ["Queue_Obj_T"] test.adb:12:7-14:18>
 Expr: <Id "Npl" test.adb:22:21-22:24>
   references:    <DefiningName "Npl" test.adb:13:10-13:13>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <Int test.adb:22:28-22:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 
 
 Done.

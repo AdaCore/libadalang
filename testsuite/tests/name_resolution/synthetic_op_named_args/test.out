@@ -5,33 +5,33 @@ Resolving xrefs for node <ObjectDecl ["B"] test.adb:3:4-3:48>
 *************************************************************
 
 Expr: <Id "Boolean" test.adb:3:8-3:15>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:3:19-3:47>
-  references:    <SyntheticDefiningName "">="" __standard:4:19-4:53>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <SyntheticDefiningName "">="" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Str "">="" test.adb:3:19-3:23>
-  references:    <SyntheticDefiningName "">="" __standard:4:19-4:53>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <SyntheticDefiningName "">="" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "Left" test.adb:3:25-3:29>
-  references:    <SyntheticDefiningName "left" __standard:4:19-4:53>
+  references:    <SyntheticDefiningName "left" in Standard>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:3:33-3:34>
   references:    <DefiningName "X" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Right" test.adb:3:36-3:41>
-  references:    <SyntheticDefiningName "right" __standard:4:19-4:53>
+  references:    <SyntheticDefiningName "right" in Standard>
   type:          None
   expected type: None
 Expr: <Id "X" test.adb:3:45-3:46>
   references:    <DefiningName "X" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

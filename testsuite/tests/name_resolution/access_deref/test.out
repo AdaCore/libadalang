@@ -6,19 +6,19 @@ Resolving xrefs for node <AssignStmt test.adb:4:4-4:22>
 
 Expr: <Id "A" test.adb:4:4-4:5>
   references:    <DefiningName "A" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <ExplicitDeref test.adb:4:9-4:21>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:4:9-4:17>
   references:    None
-  type:          <SynthAnonymousTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <SynthAnonymousTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SynthAnonymousTypeDecl ["Integer"] in Standard>
+  expected type: <SynthAnonymousTypeDecl ["Integer"] in Standard>
 Expr: <Id "A" test.adb:4:9-4:10>
   references:    <DefiningName "A" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Access" test.adb:4:11-4:17>
   references:    None
@@ -30,19 +30,19 @@ Resolving xrefs for node <AssignStmt test.adb:7:4-7:32>
 
 Expr: <Id "A" test.adb:7:4-7:5>
   references:    <DefiningName "A" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <ExplicitDeref test.adb:7:9-7:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:7:9-7:27>
   references:    None
-  type:          <SynthAnonymousTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <SynthAnonymousTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SynthAnonymousTypeDecl ["Integer"] in Standard>
+  expected type: <SynthAnonymousTypeDecl ["Integer"] in Standard>
 Expr: <Id "A" test.adb:7:9-7:10>
   references:    <DefiningName "A" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Unchecked_Access" test.adb:7:11-7:27>
   references:    None
@@ -54,19 +54,19 @@ Resolving xrefs for node <AssignStmt test.adb:10:4-10:35>
 
 Expr: <Id "A" test.adb:10:4-10:5>
   references:    <DefiningName "A" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <ExplicitDeref test.adb:10:9-10:34>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:10:9-10:30>
   references:    None
-  type:          <SynthAnonymousTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <SynthAnonymousTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SynthAnonymousTypeDecl ["Integer"] in Standard>
+  expected type: <SynthAnonymousTypeDecl ["Integer"] in Standard>
 Expr: <Id "A" test.adb:10:9-10:10>
   references:    <DefiningName "A" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Unrestricted_Access" test.adb:10:11-10:30>
   references:    None

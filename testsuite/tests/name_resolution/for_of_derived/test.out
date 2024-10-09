@@ -13,11 +13,11 @@ Expr: <Id "Vectors" for_of_derived.adb:4:27-4:34>
   type:          None
   expected type: None
 Expr: <Id "Natural" for_of_derived.adb:4:36-4:43>
-  references:    <DefiningName "Natural" __standard:5:11-5:18>
+  references:    <DefiningName "Natural" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" for_of_derived.adb:4:45-4:52>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 

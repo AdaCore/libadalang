@@ -57,9 +57,9 @@ Expr: <Id "O" test.adb:30:11-30:12>
   type:          <ConcreteTypeDecl ["T"] test.adb:7:7-7:36>
   expected type: <ConcreteTypeDecl ["T"] test.adb:7:7-7:36>
 Expr: <Id "True" test.adb:30:14-30:18>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <CallStmt test.adb:32:4-32:9>
 ******************************************************

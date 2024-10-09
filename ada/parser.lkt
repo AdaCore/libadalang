@@ -992,7 +992,8 @@ grammar ada_grammar {
     )
     stmts <- StmtList*(or(stmt | label | skip(ErrorStmt)))
     label <- Label("<<" / LabelDecl(defining_id) ">>")
-    |" Parse a statement, a pragma, or a compound statement (trailing semicolon included).
+    |" Parse a statement, a pragma, or a compound statement (trailing semicolon
+    |" included).
     @entry_point
     stmt <- or(compound_stmt | simple_stmt)
     call_stmt <- CallStmt(name !";")
@@ -1094,10 +1095,12 @@ grammar ada_grammar {
             "with"
             "delta"
             /
-            # TODO: We use a ?pick parser below only to satisfy unparsing
+            # TODO: We use a "?pick" parser below only to satisfy unparsing
             # because this is actually not optional in the case of delta
             # aggregates. See langkit#816.
-            AssocList+(AggregateAssoc(?pick(delta_choice_list "=>") expr), ",")
+            AssocList+(
+               AggregateAssoc(?pick(delta_choice_list "=>") expr), ","
+            )
             ")"
         )
         | Aggregate(

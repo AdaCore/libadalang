@@ -7317,6 +7317,19 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin=null[AdaNode])
     fun is_array_type(): Bool = self.is_array()
 
+    # Assuming self is a tagged type, return the view conversion to the most
+    # immediate specific parent type obtained by the `Super` attribute.
+    @with_dynvars(origin)
+    fun super_view_conversion(): Entity[BaseTypeDecl] = {
+        val typ = self.accessed_type() or? self;
+
+        match typ {
+            case cw: ClasswideTypeDecl => cw.type_decl()
+            case o => o
+        }
+        .base_type()
+    }
+
     |" Find types derived from self in the given ``root`` and its children.
     @exported
     @with_dynvars(origin, imprecise_fallback=false)
@@ -17010,7 +17023,9 @@ class AttributeRef: Name {
 
     @with_dynvars(env, origin, no_visibility=false)
     fun designated_env(): LexicalEnv =
-        if self.is_access_attr() or self.attribute.name_is(s"Old")
+        if
+            self.is_access_attr()
+            or self.attribute.name_symbol() in s"Old" | s"Super"
         then self.prefix.designated_env()
         elif self.attribute.name_is(s"Result")
         then
@@ -17222,6 +17237,7 @@ class AttributeRef: Name {
         then self.storage_equation()
         elif rel_name == s"Deref" then self.deref_equation()
         elif rel_name == s"Mechanism_Code" then self.mechanism_code_equation()
+        elif rel_name == s"Super" then self.super_equation()
         else raise[Equation] PropertyError("Unhandled attribute")
     }
 
@@ -17621,6 +17637,14 @@ class AttributeRef: Name {
             %and arg.expr().matches_expected_type(),
             default_val=%true
         )
+
+    |" Return the xref equation for the ``Super`` attribute.
+    @with_dynvars(env, origin, entry_point)
+    fun super_equation(): Equation =
+        self.prefix.sub_equation()
+        %and node.type_var()<-BaseTypeDecl.super_view_conversion%(node
+        .prefix
+        .type_var())
 
     |" Return the xref equation for the ``Has_Same_Storage`` and
     |" ``Overlaps_Storage`` attributes.

@@ -1,0 +1,143 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:30:7-30:18>
+*******************************************************
+
+Expr: <DottedName test.adb:30:7-30:17>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:30:7-30:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["T1"] test.adb:3:7-3:37>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:3:7-3:37>
+Expr: <Id "V2" test.adb:30:7-30:9>
+  references:    <DefiningName "V2" test.adb:24:7-24:9>
+  type:          <ClasswideTypeDecl ["T2"] test.adb:6:7-6:42>
+  expected type: None
+Expr: <Id "Super" test.adb:30:10-30:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:30:16-30:17>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:35:7-35:18>
+*******************************************************
+
+Expr: <DottedName test.adb:35:7-35:17>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:35:7-35:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["T2"] test.adb:6:7-6:42>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:3:7-3:37>
+Expr: <Id "V3" test.adb:35:7-35:9>
+  references:    <DefiningName "V3" test.adb:25:7-25:9>
+  type:          <ClasswideTypeDecl ["T3"] test.adb:8:7-8:42>
+  expected type: None
+Expr: <Id "Super" test.adb:35:10-35:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:35:16-35:17>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:40:7-40:18>
+*******************************************************
+
+Expr: <DottedName test.adb:40:7-40:17>
+  references:    <DefiningName "P" test.adb:9:17-9:18>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:40:7-40:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["T3"] test.adb:8:7-8:42>
+  expected type: <ConcreteTypeDecl ["T3"] test.adb:8:7-8:42>
+Expr: <Id "V4" test.adb:40:7-40:9>
+  references:    <DefiningName "V4" test.adb:26:7-26:9>
+  type:          <ClasswideTypeDecl ["T4"] test.adb:11:7-11:42>
+  expected type: None
+Expr: <Id "Super" test.adb:40:10-40:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:40:16-40:17>
+  references:    <DefiningName "P" test.adb:9:17-9:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:45:7-45:24>
+*******************************************************
+
+Expr: <DottedName test.adb:45:7-45:23>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:45:7-45:21>
+  references:    None
+  type:          <ConcreteTypeDecl ["T2"] test.adb:6:7-6:42>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:3:7-3:37>
+Expr: <AttributeRef test.adb:45:7-45:15>
+  references:    None
+  type:          <ConcreteTypeDecl ["T3"] test.adb:8:7-8:42>
+  expected type: None
+Expr: <Id "V4" test.adb:45:7-45:9>
+  references:    <DefiningName "V4" test.adb:26:7-26:9>
+  type:          <ClasswideTypeDecl ["T4"] test.adb:11:7-11:42>
+  expected type: None
+Expr: <Id "Super" test.adb:45:10-45:15>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Super" test.adb:45:16-45:21>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:45:22-45:23>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:57:4-57:16>
+*******************************************************
+
+Expr: <DottedName test.adb:57:4-57:15>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+Expr: <AttributeRef test.adb:57:4-57:13>
+  references:    None
+  type:          <ConcreteTypeDecl ["T1"] test.adb:3:7-3:37>
+  expected type: <ConcreteTypeDecl ["T1"] test.adb:3:7-3:37>
+Expr: <Id "Ptr" test.adb:57:4-57:7>
+  references:    <DefiningName "Ptr" test.adb:50:4-50:7>
+  type:          <ConcreteTypeDecl ["Ref"] test.adb:49:4-49:38>
+  expected type: None
+Expr: <Id "Super" test.adb:57:8-57:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "P" test.adb:57:14-57:15>
+  references:    <DefiningName "P" test.adb:4:17-4:18>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <CallStmt test.adb:62:4-62:15>
+*******************************************************
+
+Name resolution failed as expected with:
+
+test.adb:62:4: error: resolution failed
+62 |    T5'Super.P;
+   |    ^^^^^^^^^^^
+
+
+
+Done.

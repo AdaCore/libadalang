@@ -3,12 +3,16 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
+with GPR2.Path_Name;
+
 with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 
 with Libadalang.Config_Pragmas;    use Libadalang.Config_Pragmas;
+with Libadalang.Implementation.Extensions;
 with Libadalang.Preprocessing;     use Libadalang.Preprocessing;
 with Libadalang.Project_Provider;  use Libadalang.Project_Provider;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
+with Libadalang.Target_Info;       use Libadalang.Target_Info;
 
 package body Libadalang.GPR_Impl is
 
@@ -80,9 +84,28 @@ package body Libadalang.GPR_Impl is
    is
       Default_Config : File_Config;
       File_Configs   : File_Config_Maps.Map;
+
+      Has_Target_Info : Boolean := False;
+      Target_Info     : Target_Information;
    begin
       Extract_Preprocessor_Data_From_Project
         (Tree, Project, Default_Config, File_Configs);
+
+      --  If there is a runtime project and we can find an
+      --  "ada_target_properties" file in it, use it to set the right target
+      --  information.
+
+      if Tree.Has_Runtime_Project then
+         declare
+            Filename : constant GPR2.Path_Name.Object :=
+              Tree.Runtime_Project.Dir_Name.Compose ("ada_target_properties");
+         begin
+            if Filename.Exists then
+               Has_Target_Info := True;
+               Target_Info := Load (String (Filename.Name));
+            end if;
+         end;
+      end if;
 
       declare
          UFP     : constant Unit_Provider_Reference :=
@@ -116,6 +139,11 @@ package body Libadalang.GPR_Impl is
       begin
          Import_From_Project (Ctx, Tree, Project);
       end;
+
+      if Has_Target_Info then
+         Libadalang.Implementation.Extensions.Set_Target_Information
+           (Context, Target_Info);
+      end if;
    end Initialize_Context_From_Project;
 
 end Libadalang.GPR_Impl;

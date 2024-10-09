@@ -204,4 +204,14 @@ OK   "Long_Long_Float'Last"
 OK   "Duration'First"
 OK   "Duration'Last"
 
+== rtcheck1 (runtime1) ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+
+== rtcheck2 (runtime2) ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+
 Done.

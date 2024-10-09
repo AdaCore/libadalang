@@ -1,5 +1,9 @@
+with Ada.Directories;
 with Ada.Exceptions; use Ada.Exceptions;
 with Ada.Text_IO;    use Ada.Text_IO;
+
+with GPR2.Options;
+with GPR2.Project.Tree;
 
 with Langkit_Support.Text;   use Langkit_Support.Text;
 with Libadalang.Analysis;    use Libadalang.Analysis;
@@ -14,9 +18,12 @@ procedure Main is
    --  Try to load a target information file. On error, print the exception
    --  message. On success, dump the target information.
 
-   procedure Check_Standard (Config : String);
+   procedure Check_Standard (Config : String; Runtime : String := "");
    --  Load a target information file, then check on the related Ada source
    --  code that all conditions in Compile_Time_Error evaluate to False.
+   --
+   --  If Runtime is not empty, create the context with
+   --  Create_Context_From_Project to load "p.gpr" with the given runtime name.
 
    -------------------
    -- Check_Loading --
@@ -48,17 +55,40 @@ procedure Main is
    -- Check_Standard --
    --------------------
 
-   procedure Check_Standard (Config : String) is
+   procedure Check_Standard (Config : String; Runtime : String := "") is
       Ctx : Analysis_Context;
       U   : Analysis_Unit;
       TI  : Target_Information;
    begin
-      Put_Line ("== " & Config & " ==");
+      Put ("== " & Config);
+      if Runtime /= "" then
+         Put (" (" & Runtime & ")");
+      end if;
+      Put_Line (" ==");
       New_Line;
 
       --  Parse the Ada source code and check the absence of parsing errors
 
-      Ctx := Create_Context;
+      if Runtime = "" then
+         Ctx := Create_Context;
+      else
+         declare
+            O : GPR2.Options.Object;
+            T : GPR2.Project.Tree.Object;
+         begin
+            O.Add_Switch (GPR2.Options.P, "p.gpr");
+            O.Add_Switch
+              (GPR2.Options.RTS, Ada.Directories.Full_Name (Runtime));
+            if not T.Load
+              (O,
+               With_Runtime         => True,
+               Artifacts_Info_Level => GPR2.Sources_Units)
+            then
+               raise Program_Error;
+            end if;
+            Ctx := Create_Context_From_Project (T);
+         end;
+      end if;
       U := Ctx.Get_From_File (Config & ".ads");
       if U.Has_Diagnostics then
          for D of U.Diagnostics loop
@@ -67,11 +97,13 @@ procedure Main is
          raise Program_Error;
       end if;
 
-      --  Load the target information file and assign the target information to
-      --  the analysis context.
+      --  If no runtime was provided, load the target information file and
+      --  assign the target information to the analysis context.
 
-      TI := Load (Config & ".txt");
-      Ctx.Set_Target_Information (TI);
+      if Runtime = "" then
+         TI := Load (Config & ".txt");
+         Ctx.Set_Target_Information (TI);
+      end if;
 
       --  Go through all Compile_Time_Error pragmas and check they do not
       --  trigger.
@@ -133,6 +165,9 @@ begin
    Check_Standard ("linux_32");
    Check_Standard ("arm_stm32");
    Check_Standard ("small_ints");
+
+   Check_Standard ("rtcheck1", "runtime1");
+   Check_Standard ("rtcheck2", "runtime2");
 
    Put_Line ("Done.");
 end Main;

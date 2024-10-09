@@ -85,6 +85,36 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-3.txt:1:8: invalid token
 # "s11.adb"
   <disabled>
 
+Formatting as a new preprocessor file:
+| "s11.adb"
+| "s09.adb" -c
+| "s01.adb" -b -Dz=._._. -Da=... -Db=...
+| "s05.adb" -b -Dz=._._. -Da -Db=._. -Dc="foo bar"""
+| "s04.adb" -b -u -Dcee="foo""bar" -Dz=._._. -Dbee="foo" -Da=X -Db=...
+| "s03.adb" -b -u -Dcee="foo""bar" -Dz=._._. -Dbee="foo" -Da=X -Db=...
+| "s02.adb" -b -u -Dz=._._. -Da=... -Db=...
+| "s10.adb" -b -u
+| "s08.adb" -b
+| "s07.adb" -c
+| "s06.adb" -b -Dmeh -Da -Db
+| * -b -s
+
+== no-default.txt ==
+
+# default
+  <disabled>
+
+# "s1.adb"
+  <disabled>
+
+# "s2.adb"
+  -b
+  a -> <null>
+
+Formatting as a new preprocessor file:
+| "s2.adb" -b -Da
+| "s1.adb"
+
 == unknown-switch.txt ==
 
 LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: unknown-switch.txt:1:11: invalid switch: -x

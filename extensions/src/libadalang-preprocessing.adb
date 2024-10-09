@@ -806,6 +806,92 @@ package body Libadalang.Preprocessing is
       return Lookup_Config (Data, Filename).Enabled;
    end Needs_Preprocessing;
 
+   ----------------------------------
+   -- Write_Preprocessor_Data_File --
+   ----------------------------------
+
+   procedure Write_Preprocessor_Data_File
+     (Data : Preprocessor_Data; Filename : String)
+   is
+      F : File_Type;
+
+      procedure Write_Config (Config : File_Config);
+      --  Write a representation of Config as a list of switches to F
+
+      ------------------
+      -- Write_Config --
+      ------------------
+
+      procedure Write_Config (Config : File_Config) is
+      begin
+         case Config.Line_Mode is
+            when Delete_Lines =>
+               null;
+            when Blank_Lines =>
+               Put (F, " -b");
+            when Comment_Lines =>
+               Put (F, " -c");
+         end case;
+
+         if Config.Print_Symbols then
+            Put (F, " -s");
+         end if;
+
+         if Config.Undefined_Is_False then
+            Put (F, " -u");
+         end if;
+
+         for Cur in Config.Definitions.Iterate loop
+            declare
+               Name  : constant String :=
+                 US.To_String (Definition_Maps.Key (Cur));
+               Value : Value_Type renames
+                 Config.Definitions.Constant_Reference (Cur);
+            begin
+               Put (F, " -D" & Name);
+               case Value.Kind is
+                  when Empty =>
+                     null;
+
+                  when String_Literal =>
+                     Put (F, "=");
+                     Put (F, US.To_String (Value.String_Value));
+
+                  when Symbol =>
+                     Put (F, "=");
+                     Put (F, US.To_String (Value.Symbol_Value));
+               end case;
+            end;
+         end loop;
+         New_Line (F);
+      end Write_Config;
+
+   begin
+      Create (F, Out_File, Filename);
+      for Cur in Data.Data.File_Configs.Iterate loop
+         declare
+            Filename : constant String :=
+              US.To_String (File_Config_Maps.Key (Cur));
+            Config   : File_Config renames
+              Data.Data.File_Configs.Constant_Reference (Cur);
+         begin
+            Put (F, '"');
+            Put (F, Filename);
+            Put (F, '"');
+            if Config.Enabled then
+               Write_Config (Config);
+            else
+               New_Line (F);
+            end if;
+         end;
+      end loop;
+      if Data.Data.Default_Config.Enabled then
+         Put (F, '*');
+         Write_Config (Data.Data.Default_Config);
+      end if;
+      Close (F);
+   end Write_Preprocessor_Data_File;
+
    ----------
    -- Free --
    ----------

@@ -14772,90 +14772,71 @@ class BinOp: Expr {
         bind logic_context =
             LogicContext(ref_node=self.op, decl_node=null[Entity[AdaNode]]);
 
-        (self.left.sub_equation() %and self.right.sub_equation())
-        %and (
+        %all(
+            self.left.sub_equation(),
+            self.right.sub_equation(),
             if node.op is Op.DoubleDot then self.double_dot_equation()
             elif node.op is Op.AndThen | Op.OrElse then node.test_eq()
-            else
-                (self.overload_equation() %or self.no_overload_equation())
-                %or self.universal_fixed_predefined_operators_equation()
+            else %any(
+                self.overload_equation(),
+                self.no_overload_equation(),
+                self.universal_fixed_predefined_operators_equation()
+            )
         )
     }
 
     @with_dynvars(origin, env, logic_context)
-    fun double_dot_equation(): Equation =
-        (
-            (
-                %true
-                %or {
-                    bind logic_context = null[LogicContext];
-                    node.expected_type_var() <- node.root_int_type()
-                }
-                %or {
-                    bind logic_context = null[LogicContext];
-                    node.expected_type_var() <- node.int_type()
-                }
-            )
-            %and (
-                AdaNode.is_not_null%(node.expected_type_var())
-                %and {
-                    bind logic_context = null[LogicContext];
-                    node.expected_type_var() <-> node.type_var()
-                }
-                %and {
-                    bind logic_context = null[LogicContext];
-                    node.type_var() <-> node.left.expected_type_var()
-                }
-                %and {
-                    bind logic_context = null[LogicContext];
-                    node.type_var() <-> node.right.expected_type_var()
-                }
-                %and node.left.matches_expected_formal_type()
-                %and node.right.matches_expected_formal_type()
-            )
+    fun double_dot_equation(): Equation = {
+        bind logic_context = null[LogicContext];
+        %any(
+            %true,
+            node.expected_type_var() <- node.root_int_type(),
+            node.expected_type_var() <- node.int_type()
+        ) %and %all(
+            AdaNode.is_not_null%(node.expected_type_var()),
+            node.expected_type_var() <-> node.type_var(),
+            node.type_var() <-> node.left.expected_type_var(),
+            node.type_var() <-> node.right.expected_type_var(),
+            node.left.matches_expected_formal_type(),
+            node.right.matches_expected_formal_type()
         )
-        %and node.use_expected_type_or(
-            # In some cases the expected type is given explicitly, so we can
-            # simply check that the type inferred for the operands matches.
-            # This is generally the case for ranges in component representation
-            # clauses or in subtype indications' constraints.
-            # However if the expected is not given explicitly, we must infer
-            # it here from one of the operands. This is generally the case
-            # for ranges in for-loop specs.
-            self.infer_from_either_operands(node.type_var())
-        )
+    } %and node.use_expected_type_or(
+        # In some cases the expected type is given explicitly, so we can
+        # simply check that the type inferred for the operands matches.
+        # This is generally the case for ranges in component representation
+        # clauses or in subtype indications' constraints.
+        # However if the expected is not given explicitly, we must infer
+        # it here from one of the operands. This is generally the case
+        # for ranges in for-loop specs.
+        self.infer_from_either_operands(node.type_var())
+    )
 
     @with_dynvars(origin)
-    fun test_eq(): Equation =
-        node.left.expected_type_var() <- node.bool_type()
-        %and node.right.expected_type_var() <- node.bool_type()
-        %and node.left.expect_bool_derived_type()
-        %and node.right.expect_bool_derived_type()
-        %and node.type_var() <-> node.left.type_var()
+    fun test_eq(): Equation = %all(
+        node.left.expected_type_var() <- node.bool_type(),
+        node.right.expected_type_var() <- node.bool_type(),
+        node.left.expect_bool_derived_type(),
+        node.right.expect_bool_derived_type(),
+        node.type_var() <-> node.left.type_var()
+    )
 
     @with_dynvars(origin, env, logic_context)
     fun arguments_eq(spec: Entity[BaseSubpSpec]): Equation = {
         val ps = spec.unpacked_formal_params();
 
         if ps.length() == 2
-        then (
+        then %all(
             # The subprogram's first argument must match self's left
             # operand.
-            (
-                spec.call_argument_equation(ps?[0].formal_decl(), self.left)
-                %and (
-                    # The subprogram's second argument must match self's right
-                    # operand.
-                    spec.call_argument_equation(
-                        ps?[1].formal_decl(),
-                        self.right
-                    )
-                )
-            )
-            %and (
-                # The subprogram's return type is the type of self
-                node.type_var() <- spec.return_type()
-            )
+            spec.call_argument_equation(ps?[0].formal_decl(), self.left),
+            # The subprogram's second argument must match self's right
+            # operand.
+            spec.call_argument_equation(
+                ps?[1].formal_decl(),
+                self.right
+            ),
+            # The subprogram's return type is the type of self
+            node.type_var() <- spec.return_type()
         )
         else %false
     }
@@ -14864,17 +14845,11 @@ class BinOp: Expr {
     fun entity_eq(subp: Entity[BasicDecl]): Equation = {
         val spec = subp.subp_spec_or_null();
 
-        self.arguments_eq(spec)
-        %and (
+        self.arguments_eq(spec) %and {
             # The operator references the subprogram
-            {
-                bind logic_context = null[LogicContext];
-                node.op.ref_var() <- subp
-            }
-        )
-        %and {
             bind logic_context = null[LogicContext];
-            node.op.subp_spec_var() <- spec
+            node.op.ref_var() <- subp
+            %and node.op.subp_spec_var() <- spec
         }
     }
 
@@ -14894,20 +14869,13 @@ class BinOp: Expr {
     @with_dynvars(origin)
     fun universal_fixed_predefined_operators_equation(): Equation =
         if node.op is Op.Mult | Op.Div
-        then
-            (
-                (
-                    (
-                        node.type_var() <- node.universal_fixed_type()
-                        %and node.left.expected_type_var()
-                        <- node.universal_fixed_type()
-                    )
-                    %and node.right.expected_type_var()
-                    <- node.universal_fixed_type()
-                )
-                %and node.left.matches_expected_formal_type()
-            )
-            %and node.right.matches_expected_formal_type()
+        then %all(
+            node.type_var() <- node.universal_fixed_type(),
+            node.left.expected_type_var() <- node.universal_fixed_type(),
+            node.right.expected_type_var() <- node.universal_fixed_type(),
+            node.left.matches_expected_formal_type(),
+            node.right.matches_expected_formal_type()
+        )
         else %false
 
     |" Construct the xref equation that first attempts to resolve this binary
@@ -14924,8 +14892,9 @@ class BinOp: Expr {
     @with_dynvars(origin, logic_context)
     fun infer_from_left_operand(dest_var: LogicVar): Equation =
         BaseTypeDecl.is_not_universal_type%(node.left.type_var())
-        %and dest_var
-        <- BaseTypeDecl.derefed_base_subtype%(node.left.type_var())
+        %and dest_var <- BaseTypeDecl.derefed_base_subtype%(
+            node.left.type_var()
+        )
 
     |" Construct the xref equation that must bind the given variable to the
     |" type of this binary operation's operands, assuming we are dealing with
@@ -14934,8 +14903,9 @@ class BinOp: Expr {
     @with_dynvars(origin, logic_context)
     fun infer_from_right_operand(dest_var: LogicVar): Equation =
         BaseTypeDecl.is_not_universal_type%(node.right.type_var())
-        %and dest_var
-        <- BaseTypeDecl.derefed_base_subtype%(node.right.type_var())
+        %and dest_var <- BaseTypeDecl.derefed_base_subtype%(
+            node.right.type_var()
+        )
 
     |" Construct the xref equation that must bind the given variable to the
     |" type of this binary operation's operands, assuming we are dealing with
@@ -14973,135 +14943,97 @@ class BinOp: Expr {
     |" When no subprogram is found for this node's operator, use this property
     |" to construct the xref equation for this node.
     @with_dynvars(origin, logic_context)
-    fun no_overload_equation(): Equation =
-        (
+    fun no_overload_equation(): Equation = %all(
+        # For multiplication operators, we must handle three shapes
+        if node.op is Op.Mult | Op.Div then
             (
-                # For multiplication operators, we must handle three shapes
-                if node.op is Op.Mult | Op.Div
-                then
-                    (
-                        # `function "op" (X, Y : T) return T`
-                        (
-                            {
-                                bind logic_context = null[LogicContext];
-                                node.type_var()
-                                <-> node.left.expected_type_var()
-                            }
-                            %and {
-                                bind logic_context = null[LogicContext];
-                                node.type_var()
-                                <-> node.right.expected_type_var()
-                            }
-                        )
-                        %and node.use_expected_type_or(
-                            self.infer_from_either_operands(node.type_var())
-                        )
-                    )
-                    %or (
-                        # `function "op" (X : Integer, Y : T) return T`
-                        (
-                            {
-                                bind logic_context = null[LogicContext];
-                                node.left.expected_type_var()
-                                <- node.int_type()
-                            }
-                            %and {
-                                bind logic_context = null[LogicContext];
-                                node.right.expected_type_var()
-                                <-> node.type_var()
-                            }
-                        )
-                        %and node.use_expected_type_or(
-                            self.infer_from_right_operand(node.type_var())
-                        )
-                    )
-                    %or (
-                        # `function "op" (X : T, Y : Integer) return T`
-                        (
-                            {
-                                bind logic_context = null[LogicContext];
-                                node.right.expected_type_var()
-                                <- node.int_type()
-                            }
-                            %and {
-                                bind logic_context = null[LogicContext];
-                                node.left.expected_type_var()
-                                <-> node.type_var()
-                            }
-                        )
-                        %and node.use_expected_type_or(
-                            self.infer_from_left_operand(node.type_var())
-                        )
-                    )
-                # For power operators, we must only handle the shape
-                # `function "op" (X : T, Y : Integer) return T`.
-
-                elif node.op is Op.Pow
-                then
-                    (
-                        {
-                            bind logic_context = null[LogicContext];
-                            node.right.expected_type_var() <- node.int_type()
-                        }
-                        %and {
-                            bind logic_context = null[LogicContext];
-                            node.left.expected_type_var() <-> node.type_var()
-                        }
-                    )
-                    %and node.use_expected_type_or(
-                        self.infer_from_left_operand(node.type_var())
-                    )
-                # For other operators, we only need to handle the shape
-                # `function "op" (X, Y : T) return T`.
-                else
-                    (
-                        {
-                            bind logic_context = null[LogicContext];
-                            node.type_var() <-> node.left.expected_type_var()
-                        }
-                        %and {
-                            bind logic_context = null[LogicContext];
-                            node.type_var() <-> node.right.expected_type_var()
-                        }
-                    )
-                    %and node.use_expected_type_or(
-                        self.infer_from_either_operands(node.type_var())
-                    )
-            )
-            %and (
-                (
-                    # We have an expected type: we can directly infer the
-                    # actual type of the result, and of the operands using the
-                    # equations above.  Note that there is a difference between
-                    # not having an expected type at all (as in a type
-                    # conversion), and having an expected type but not
-                    # inferrable from the context (as in an operand of a
-                    # comparison operator `(A + B) = 2`. The latter simply
-                    # means that the expected type itself will be inferred from
-                    # the operands using one of `self.infer_from_*` properties.
-                    AdaNode.is_not_null%(node.expected_type_var())
+                # `function "op" (X, Y : T) return T`
+                {
+                    bind logic_context = null[LogicContext];
+                    node.type_var() <-> node.left.expected_type_var()
                     %and node.type_var()
-                    <- BaseTypeDecl.derefed_base_subtype%(
-                        node.expected_type_var()
-                    )
-                )
-                %or (
-                    # There is no expected type (e.g. we are in a type
-                    # conversion).  In this case, the type of the result will
-                    # be inferred from the type of operands: we know that at
-                    # least one of them has a context-free type (otherwise this
-                    # wouldn't be valid Ada code).
-                    {
-                        bind logic_context = null[LogicContext];
-                        node.expected_type_var() <- null[Entity[BaseTypeDecl]]
-                    }
+                        <-> node.right.expected_type_var()
+                }
+                %and node.use_expected_type_or(
+                    self.infer_from_either_operands(node.type_var())
                 )
             )
-        )
-        %and (
-            node.left.matches_expected_formal_type()
-            %and node.right.matches_expected_formal_type()
-        )
+            %or (
+                # `function "op" (X : Integer, Y : T) return T`
+                {
+                    bind logic_context = null[LogicContext];
+                    node.left.expected_type_var() <- node.int_type()
+                    %and node.right.expected_type_var()
+                        <-> node.type_var()
+                }
+                %and node.use_expected_type_or(
+                    self.infer_from_right_operand(node.type_var())
+                )
+            )
+            %or (
+                # `function "op" (X : T, Y : Integer) return T`
+                {
+                    bind logic_context = null[LogicContext];
+                    node.right.expected_type_var() <- node.int_type()
+                    %and node.left.expected_type_var()
+                        <-> node.type_var()
+                }
+                %and node.use_expected_type_or(
+                    self.infer_from_left_operand(node.type_var())
+                )
+            )
+
+        # For power operators, we must only handle the shape
+        # `function "op" (X : T, Y : Integer) return T`.
+        elif node.op is Op.Pow then
+            {
+                bind logic_context = null[LogicContext];
+                node.right.expected_type_var()
+                    <- node.int_type()
+                %and node.left.expected_type_var()
+                    <-> node.type_var()
+            }
+            %and node.use_expected_type_or(
+                self.infer_from_left_operand(node.type_var())
+            )
+
+        # For other operators, we only need to handle the shape
+        # `function "op" (X, Y : T) return T`.
+        else
+            {
+                bind logic_context = null[LogicContext];
+                node.type_var() <-> node.left.expected_type_var()
+                %and node.type_var()
+                    <-> node.right.expected_type_var()
+            }
+            %and node.use_expected_type_or(
+                self.infer_from_either_operands(node.type_var())
+            ),
+
+        (
+            # We have an expected type: we can directly infer the actual type
+            # of the result, and of the operands using the equations above.
+            # Note that there is a difference between not having an expected
+            # type at all (as in a type conversion), and having an expected
+            # type but not inferrable from the context (as in an operand of a
+            # comparison operator `(A + B) = 2`. The latter simply means
+            # that the expected type itself will be inferred from the operands
+            # using one of `self.infer_from_*` properties.
+            AdaNode.is_not_null%(node.expected_type_var())
+            %and node.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                node.expected_type_var()
+            )
+        ) %or {
+            # There is no expected type (e.g. we are in a type conversion).
+            # In this case, the type of the result will be inferred from the
+            # type of operands: we know that at least one of them has a
+            # context-free type (otherwise this wouldn't be valid Ada code).
+            bind logic_context = null[LogicContext];
+            node.expected_type_var() <- null[Entity[BaseTypeDecl]]
+        },
+        node.left.matches_expected_formal_type(),
+        node.right.matches_expected_formal_type()
+    )
 }
 
 |" Binary operation that compares two value, producing a boolean
@@ -15110,27 +15042,19 @@ class RelationOp: BinOp {
     fun has_context_free_type(): Bool = true
 
     @with_dynvars(origin, logic_context)
-    fun no_overload_equation(): Equation =
-        (
-            (
-                (
-                    {
-                        bind logic_context = null[LogicContext];
-                        node.type_var() <- node.bool_type()
-                    }
-                    %and {
-                        bind logic_context = null[LogicContext];
-                        node.left.expected_type_var()
-                        <-> node.right.expected_type_var()
-                    }
-                )
-                %and self.infer_from_either_operands(
-                    node.left.expected_type_var()
-                )
-            )
-            %and node.left.matches_expected_formal_type()
-        )
-        %and node.right.matches_expected_formal_type()
+    fun no_overload_equation(): Equation = %all(
+        {
+            bind logic_context = null[LogicContext];
+            node.type_var() <- node.bool_type()
+            %and node.left.expected_type_var()
+                <-> node.right.expected_type_var()
+        },
+        self.infer_from_either_operands(
+            node.left.expected_type_var()
+        ),
+        node.left.matches_expected_formal_type(),
+        node.right.matches_expected_formal_type()
+    )
 }
 
 |" Box expression (``<>``).

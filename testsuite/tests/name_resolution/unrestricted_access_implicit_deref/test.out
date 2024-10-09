@@ -6,7 +6,7 @@ Resolving xrefs for node <AssignStmt test.adb:8:4-8:33>
 
 Expr: <DottedName test.adb:8:4-8:27>
   references:    <DefiningName "Y" test.adb:3:7-3:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <AttributeRef test.adb:8:4-8:25>
   references:    None
@@ -22,12 +22,12 @@ Expr: <Id "Unrestricted_Access" test.adb:8:6-8:25>
   expected type: None
 Expr: <Id "Y" test.adb:8:26-8:27>
   references:    <DefiningName "Y" test.adb:3:7-3:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int test.adb:8:31-8:32>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

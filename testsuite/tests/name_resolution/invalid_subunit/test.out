@@ -6,12 +6,12 @@ Resolving xrefs for node <AssignStmt pkg-inner.adb:5:4-5:11>
 
 Expr: <Id "I" pkg-inner.adb:5:4-5:5>
   references:    <DefiningName "I" pkg.ads:5:7-5:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int pkg-inner.adb:5:9-5:10>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

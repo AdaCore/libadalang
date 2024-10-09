@@ -9,7 +9,7 @@ Resolving xrefs for node <ParamSpec ["x"] new_prot.adb:15:24-15:35>
 *******************************************************************
 
 Expr: <Id "Integer" new_prot.adb:15:28-15:35>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -17,23 +17,23 @@ Resolving xrefs for node <ExprFunction ["Double"] new_prot.adb:17:7-17:55>
 **************************************************************************
 
 Expr: <ParenExpr new_prot.adb:17:41-17:54>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <BinOp new_prot.adb:17:42-17:53>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "counter" new_prot.adb:17:42-17:49>
   references:    <DefiningName "Counter" new_prot.adb:7:7-7:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpMult "*" new_prot.adb:17:50-17:51>
   references:    None
   type:          None
   expected type: None
 Expr: <Int new_prot.adb:17:52-17:53>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

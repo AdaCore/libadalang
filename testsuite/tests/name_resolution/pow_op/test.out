@@ -5,35 +5,35 @@ Resolving xrefs for node <ObjectDecl ["A"] testexp.adb:2:4-2:37>
 ****************************************************************
 
 Expr: <Id "Float" testexp.adb:2:8-2:13>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:2:17-2:36>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real testexp.adb:2:17-2:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpPow "**" testexp.adb:2:32-2:34>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testexp.adb:2:35-2:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["B"] testexp.adb:11:4-11:52>
 ******************************************************************
 
 Expr: <Id "Boolean" testexp.adb:11:8-11:15>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <RelationOp testexp.adb:11:19-11:51>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <BinOp testexp.adb:11:19-11:44>
   type:          <ConcreteTypeDecl ["My_Int"] testexp.adb:5:4-5:39>
   expected type: <ConcreteTypeDecl ["My_Int"] testexp.adb:5:4-5:39>
@@ -46,116 +46,116 @@ Expr: <Id "My_Int" testexp.adb:11:19-11:25>
   type:          None
   expected type: None
 Expr: <ParenExpr testexp.adb:11:26-11:29>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] testexp.adb:5:4-5:39>
 Expr: <Int testexp.adb:11:27-11:28>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] testexp.adb:5:4-5:39>
 Expr: <OpPow "**" testexp.adb:11:30-11:32>
   references:    None
   type:          None
   expected type: None
 Expr: <QualExpr testexp.adb:11:33-11:44>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName "Integer" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" testexp.adb:11:33-11:40>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <ParenExpr testexp.adb:11:41-11:44>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testexp.adb:11:42-11:43>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpLte "<=" testexp.adb:11:45-11:47>
   references:    None
   type:          None
   expected type: None
 Expr: <Int testexp.adb:11:48-11:51>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] testexp.adb:5:4-5:39>
 
 Resolving xrefs for node <ObjectDecl ["C"] testexp.adb:14:4-14:53>
 ******************************************************************
 
 Expr: <Id "Boolean" testexp.adb:14:8-14:15>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <RelationOp testexp.adb:14:19-14:52>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <BinOp testexp.adb:14:19-14:45>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <QualExpr testexp.adb:14:19-14:30>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  references:    <DefiningName "Float" in Standard>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "Float" testexp.adb:14:19-14:24>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <ParenExpr testexp.adb:14:25-14:30>
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real testexp.adb:14:26-14:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpPow "**" testexp.adb:14:31-14:33>
   references:    None
   type:          None
   expected type: None
 Expr: <QualExpr testexp.adb:14:34-14:45>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName "Integer" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" testexp.adb:14:34-14:41>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <ParenExpr testexp.adb:14:42-14:45>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int testexp.adb:14:43-14:44>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpNeq "/=" testexp.adb:14:46-14:48>
   references:    None
   type:          None
   expected type: None
 Expr: <Real testexp.adb:14:49-14:52>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["D"] testexp.adb:17:4-17:50>
 ******************************************************************
 
 Expr: <Id "Float" testexp.adb:17:8-17:13>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <BinOp testexp.adb:17:17-17:49>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <AttributeRef testexp.adb:17:17-17:32>
   references:    None
-  type:          <DiscreteBaseSubtypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <DiscreteBaseSubtypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <AttributeRef testexp.adb:17:17-17:27>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Float" testexp.adb:17:17-17:22>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Base" testexp.adb:17:23-17:27>
@@ -172,16 +172,16 @@ Expr: <OpPow "**" testexp.adb:17:33-17:35>
   expected type: None
 Expr: <CallExpr testexp.adb:17:36-17:49>
   references:    <DefiningName "Ident_Int" testexp.adb:7:13-7:22>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Ident_Int" testexp.adb:17:36-17:45>
   references:    <DefiningName "Ident_Int" testexp.adb:7:13-7:22>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int testexp.adb:17:47-17:48>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

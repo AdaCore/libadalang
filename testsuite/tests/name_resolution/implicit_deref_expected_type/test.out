@@ -5,21 +5,21 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:11:4-11:27>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:11:8-11:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:11:19-11:26>
   references:    <DefiningName "Value" test.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "C" test.adb:11:19-11:20>
   references:    <DefiningName "C" test.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Cursor"] test.adb:6:4-7:40>
   expected type: <ConcreteTypeDecl ["Item"] test.adb:2:4-4:15>
 Expr: <Id "Value" test.adb:11:21-11:26>
   references:    <DefiningName "Value" test.adb:3:7-3:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["I"] test.adb:13:4-13:29>
 ***************************************************************

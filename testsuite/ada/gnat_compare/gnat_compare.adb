@@ -601,8 +601,16 @@ procedure GNAT_Compare is
          when Ok | Different | Error | Missing =>
             Put (Files, GNAT_Xref);
             if Comp = Different then
-               Put (" (LAL: " & Filename (Files, LAL_Xref.Entity_File)
-                    & ':' & Image (LAL_Xref.Entity_Sloc) & ')');
+               declare
+                  F    : constant String :=
+                    Filename (Files, LAL_Xref.Entity_File);
+                  Sloc : constant String :=
+                    (if F = "__standard"
+                     then "in Standard"
+                     else F & ":" & Image (LAL_Xref.Entity_Sloc));
+               begin
+                  Put (" (LAL: " & Sloc & ')');
+               end;
             elsif Comp = Missing then
                Put (" (LAL: missing)");
             elsif Comp = Error then

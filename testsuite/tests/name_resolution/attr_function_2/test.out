@@ -5,19 +5,19 @@ Resolving xrefs for node <ObjectDecl ["X"] test.adb:2:4-2:36>
 *************************************************************
 
 Expr: <Id "String" test.adb:2:8-2:14>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:2:18-2:35>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  references:    <SyntheticDefiningName "image" in Standard>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <AttributeRef test.adb:2:18-2:31>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:2:18-2:25>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:2:26-2:31>
@@ -26,8 +26,8 @@ Expr: <Id "Image" test.adb:2:26-2:31>
   expected type: None
 Expr: <Int test.adb:2:33-2:34>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg_Image"] test.adb:12:4-15:22>
 *******************************************************************************************
@@ -37,19 +37,19 @@ Expr: <Id "Pkg_G" test.adb:12:32-12:37>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:13:7-13:14>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "String" test.adb:14:7-14:13>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:15:7-15:20>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:15:7-15:14>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:15:15-15:20>
@@ -61,11 +61,11 @@ Resolving xrefs for node <SubpRenamingDecl ["Img"] test.adb:18:4-18:67>
 ***********************************************************************
 
 Expr: <AttributeRef test.adb:18:53-18:66>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:18:53-18:60>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:18:61-18:66>
@@ -81,19 +81,19 @@ Expr: <Id "Pkg_G" test.adb:21:32-21:37>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:21:39-21:44>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:21:46-21:51>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:21:53-21:64>
-  references:    <SyntheticDefiningName "floor" __standard:14:3-15:51>
+  references:    <SyntheticDefiningName "floor" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Float" test.adb:21:53-21:58>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Floor" test.adb:21:59-21:64>

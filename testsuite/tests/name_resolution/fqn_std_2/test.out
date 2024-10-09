@@ -5,15 +5,15 @@ Resolving xrefs for node <ConcreteTypeDecl ["My_Int"] teststd.ads:2:4-2:40>
 ***************************************************************************
 
 Expr: <DottedName teststd.ads:2:23-2:39>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Standard" teststd.ads:2:23-2:31>
-  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  references:    <DefiningName "Standard" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" teststd.ads:2:32-2:39>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -29,7 +29,7 @@ Expr: <DottedName teststd.ads:3:8-3:24>
   type:          None
   expected type: None
 Expr: <Id "Standard" teststd.ads:3:8-3:16>
-  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  references:    <DefiningName "Standard" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Teststd" teststd.ads:3:17-3:24>
@@ -42,7 +42,7 @@ Expr: <Id "My_Int" teststd.ads:3:25-3:31>
   expected type: None
 Expr: <Int teststd.ads:3:35-3:37>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["My_Int"] teststd.ads:2:4-2:40>
 
 Resolving xrefs for node <EndName teststd.ads:4:5-4:12>

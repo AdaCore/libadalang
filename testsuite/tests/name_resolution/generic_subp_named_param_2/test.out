@@ -27,13 +27,13 @@ Resolving xrefs for node <| ParamSpec ["X"] test.adb:3:27-3:44 [test.adb:15:4] |
 *********************************************************************************
 
 Expr: <| Id "Integer" test.adb:3:31-3:38 [test.adb:15:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <| Int test.adb:3:42-3:44 [test.adb:15:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| SubpSpec test.adb:4:4-4:17 [test.adb:15:4] |>
 *************************************************************************
@@ -59,8 +59,8 @@ Expr: <| Id "Foo" test.adb:8:7-8:10 [test.adb:15:4] |>
   expected type: None
 Expr: <| Int test.adb:8:12-8:14 [test.adb:15:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| CallStmt test.adb:9:7-9:21 [test.adb:15:4] |>
 *************************************************************************
@@ -79,8 +79,8 @@ Expr: <| Id "X" test.adb:9:12-9:13 [test.adb:15:4] |>
   expected type: None
 Expr: <| Int test.adb:9:17-9:19 [test.adb:15:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| CallStmt test.adb:10:7-10:11 [test.adb:15:4] |>
 ***************************************************************************
@@ -133,7 +133,7 @@ Resolving xrefs for node <| ParamSpec ["B"] test_2.adb:12:27-12:38 [test_2.adb:2
 ***************************************************************************************
 
 Expr: <| Id "Integer" test_2.adb:12:31-12:38 [test_2.adb:23:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -174,7 +174,7 @@ Resolving xrefs for node <| ParamSpec ["A"] test_2.adb:3:27-3:38 [test_2.adb:23:
 ******************************************************************************************************
 
 Expr: <| Id "Integer" test_2.adb:3:31-3:38 [test_2.adb:23:4, test_2.adb:16:7] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -206,8 +206,8 @@ Expr: <| Id "A" test_2.adb:8:12-8:13 [test_2.adb:23:4, test_2.adb:16:7] |>
   expected type: None
 Expr: <| Int test_2.adb:8:17-8:18 [test_2.adb:23:4, test_2.adb:16:7] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName test_2.adb:9:8-9:10 [test_2.adb:23:4, test_2.adb:16:7] |>
 *********************************************************************************************
@@ -273,7 +273,7 @@ Resolving xrefs for node <| ParamSpec ["X", "Y"] test_3.adb:5:27-5:41 [test_3.ad
 ******************************************************************************************
 
 Expr: <| Id "Integer" test_3.adb:5:34-5:41 [test_3.adb:15:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -305,16 +305,16 @@ Expr: <| Id "Y" test_3.adb:10:12-10:13 [test_3.adb:15:4] |>
   expected type: None
 Expr: <| Int test_3.adb:10:17-10:18 [test_3.adb:15:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| Id "X" test_3.adb:10:20-10:21 [test_3.adb:15:4] |>
   references:    <DefiningName "A" test_3.adb:13:19-13:20>
   type:          None
   expected type: None
 Expr: <| Int test_3.adb:10:25-10:26 [test_3.adb:15:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName test_3.adb:11:8-11:11 [test_3.adb:15:4] |>
 ******************************************************************************

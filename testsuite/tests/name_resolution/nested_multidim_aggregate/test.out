@@ -17,8 +17,8 @@ Expr: <Id "B" repro_multidim.adb:13:13-13:14>
   expected type: None
 Expr: <Int repro_multidim.adb:13:18-13:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Arr" repro_multidim.adb:13:22-13:25>
   references:    <DefiningName "Arr" repro_multidim.adb:7:7-7:10>
   type:          None
@@ -31,8 +31,8 @@ Expr: <Aggregate repro_multidim.adb:13:40-13:53>
   expected type: None
 Expr: <Int repro_multidim.adb:13:51-13:52>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 
 
 Done.

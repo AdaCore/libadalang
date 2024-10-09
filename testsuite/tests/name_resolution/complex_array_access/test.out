@@ -6,12 +6,12 @@ Resolving xrefs for node <AssignStmt test.adb:12:4-12:73>
 
 Expr: <Id "Y" test.adb:12:4-12:5>
   references:    <DefiningName "Y" test.adb:10:4-10:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <CallExpr test.adb:12:9-12:72>
   references:    <DefiningName "X" test.adb:9:4-9:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:12:9-12:68>
   references:    <DefiningName "X" test.adb:9:4-9:5>
   type:          <ConcreteTypeDecl ["A1"] test.adb:5:4-5:42>
@@ -42,14 +42,14 @@ Expr: <Id "Sub_Index_T" test.adb:12:12-12:23>
   expected type: None
 Expr: <Int test.adb:12:26-12:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <BinOp test.adb:12:30-12:36>
   type:          None
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:30-12:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <OpDoubleDot ".." test.adb:12:32-12:34>
   references:    None
@@ -57,11 +57,11 @@ Expr: <OpDoubleDot ".." test.adb:12:32-12:34>
   expected type: None
 Expr: <Int test.adb:12:35-12:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:39-12:40>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Id "Sub_Index_T" test.adb:12:43-12:54>
   references:    <DefiningName "Sub_Index_T" test.adb:3:12-3:23>
@@ -72,7 +72,7 @@ Expr: <BinOp test.adb:12:61-12:67>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:61-12:62>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <OpDoubleDot ".." test.adb:12:63-12:65>
   references:    None
@@ -80,11 +80,11 @@ Expr: <OpDoubleDot ".." test.adb:12:63-12:65>
   expected type: None
 Expr: <Int test.adb:12:66-12:67>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 Expr: <Int test.adb:12:70-12:71>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Index_T"] test.adb:2:4-2:33>
 
 

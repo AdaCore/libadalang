@@ -4,7 +4,6 @@
 --
 
 with Ada.Containers.Vectors;
-with Ada.Directories;
 with Ada.Strings.Wide_Wide_Unbounded;
 
 with GNATCOLL.GMP.Integers;
@@ -414,8 +413,7 @@ package body Libadalang.Implementation.Extensions is
       return
         "<" & To_Text (Kind_Name (Node))
         & " """ & Text (Node) & """ "
-        & To_Text (Ada.Directories.Simple_Name (Get_Filename (Unit (Node))))
-        & ":" & To_Text (Image (Sloc_Range (Node))) & ">";
+        & Node_Sloc_Image (Node) & ">";
    end Base_Id_Short_Image;
 
    ----------------------------
@@ -476,11 +474,7 @@ package body Libadalang.Implementation.Extensions is
       end loop;
       Dec_Ref (Children);
 
-      Append
-        (Ret,
-         "] "
-         & To_Text (Ada.Directories.Simple_Name (Get_Filename (Node.Unit)))
-         & ":" & To_Text (Image (Sloc_Range (Node))) & ">");
+      Append (Ret, "] " & Node_Sloc_Image (Node) & ">");
 
       return To_Wide_Wide_String (Ret);
    end Basic_Decl_Short_Image;
@@ -505,8 +499,7 @@ package body Libadalang.Implementation.Extensions is
       return
         "<" & To_Text (Kind_Name (Node))
         & Name_Part
-        & To_Text (Ada.Directories.Simple_Name (Get_Filename (Unit (Node))))
-        & ":" & To_Text (Image (Sloc_Range (Node))) & ">";
+        & Node_Sloc_Image (Node) & ">";
    end Defining_Name_Short_Image;
 
    ----------------------

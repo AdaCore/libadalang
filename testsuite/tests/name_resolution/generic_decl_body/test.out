@@ -5,16 +5,16 @@ Resolving xrefs for node <ObjectDecl ["O"] test.adb:11:9-11:42>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:11:22-11:29>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:11:33-11:41>
   references:    <DefiningName "F" test.adb:4:19-4:20>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName test.adb:11:33-11:37>
   references:    <DefiningName "F" test.adb:4:19-4:20>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "PG" test.adb:11:33-11:35>
   references:    <DefiningName "PG" test.adb:7:13-7:15>
@@ -22,7 +22,7 @@ Expr: <Id "PG" test.adb:11:33-11:35>
   expected type: None
 Expr: <Id "F" test.adb:11:36-11:37>
   references:    <DefiningName "F" test.adb:4:19-4:20>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "C" test.adb:11:39-11:40>
   references:    <DefiningName "C" test.adb:8:5-8:6>

@@ -17,7 +17,7 @@ Resolving xrefs for node <ObjectDecl ["B"] aaa-aaa.adb:3:7-3:19>
 ****************************************************************
 
 Expr: <Id "Integer" aaa-aaa.adb:3:11-3:18>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -26,38 +26,38 @@ Resolving xrefs for node <AssignStmt aaa-aaa.adb:5:7-5:18>
 
 Expr: <Id "B" aaa-aaa.adb:5:7-5:8>
   references:    <DefiningName "B" aaa-aaa.adb:3:7-3:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName aaa-aaa.adb:5:12-5:17>
   references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Aaa" aaa-aaa.adb:5:12-5:15>
   references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
   expected type: None
 Expr: <Id "B" aaa-aaa.adb:5:16-5:17>
   references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt aaa-aaa.adb:6:7-6:27>
 **********************************************************
 
 Expr: <Id "B" aaa-aaa.adb:6:7-6:8>
   references:    <DefiningName "B" aaa-aaa.adb:3:7-3:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName aaa-aaa.adb:6:12-6:26>
   references:    <DefiningName "B" aaa.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName aaa-aaa.adb:6:12-6:24>
   references:    <DefiningName "Aaa" aaa.ads:1:9-1:12>
   type:          None
   expected type: None
 Expr: <Id "Standard" aaa-aaa.adb:6:12-6:20>
-  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  references:    <DefiningName "Standard" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa.adb:6:21-6:24>
@@ -66,20 +66,20 @@ Expr: <Id "Aaa" aaa-aaa.adb:6:21-6:24>
   expected type: None
 Expr: <Id "B" aaa-aaa.adb:6:25-6:26>
   references:    <DefiningName "B" aaa.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt aaa-aaa.adb:7:7-7:31>
 **********************************************************
 
 Expr: <Id "B" aaa-aaa.adb:7:7-7:8>
   references:    <DefiningName "B" aaa-aaa.adb:3:7-3:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName aaa-aaa.adb:7:12-7:30>
   references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName aaa-aaa.adb:7:12-7:28>
   references:    <DefiningName "Aaa.Aaa" aaa-aaa.ads:1:9-1:16>
   type:          None
@@ -89,7 +89,7 @@ Expr: <DottedName aaa-aaa.adb:7:12-7:24>
   type:          None
   expected type: None
 Expr: <Id "Standard" aaa-aaa.adb:7:12-7:20>
-  references:    <DefiningName "Standard" __standard:1:9-1:17>
+  references:    <DefiningName "Standard" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Aaa" aaa-aaa.adb:7:21-7:24>
@@ -102,8 +102,8 @@ Expr: <Id "Aaa" aaa-aaa.adb:7:25-7:28>
   expected type: None
 Expr: <Id "B" aaa-aaa.adb:7:29-7:30>
   references:    <DefiningName "B" aaa-aaa.ads:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <EndName aaa-aaa.adb:8:8-8:9>
 ******************************************************

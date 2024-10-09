@@ -10,7 +10,7 @@ Expr: <Id "B" testunop.adb:10:4-10:5>
   expected type: None
 Expr: <Int testunop.adb:10:9-10:10>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] testunop.adb:4:10-4:35>
 
 Resolving xrefs for node <AssignStmt testunop.adb:13:4-13:21>

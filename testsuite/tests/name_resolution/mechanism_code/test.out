@@ -6,12 +6,12 @@ Resolving xrefs for node <AssignStmt test.adb:6:4-6:28>
 
 Expr: <Id "I" test.adb:6:4-6:5>
   references:    <DefiningName "I" test.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <AttributeRef test.adb:6:9-6:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Pro" test.adb:6:9-6:12>
   references:    <DefiningName "Pro" test.adb:2:14-2:17>
   type:          None
@@ -26,12 +26,12 @@ Resolving xrefs for node <AssignStmt test.adb:8:4-8:32>
 
 Expr: <Id "I" test.adb:8:4-8:5>
   references:    <DefiningName "I" test.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <AttributeRef test.adb:8:9-8:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Pro" test.adb:8:9-8:12>
   references:    <DefiningName "Pro" test.adb:2:14-2:17>
   type:          None
@@ -42,20 +42,20 @@ Expr: <Id "Mechanism_Code" test.adb:8:13-8:27>
   expected type: None
 Expr: <Int test.adb:8:29-8:30>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 
 Resolving xrefs for node <AssignStmt test.adb:10:4-10:32>
 *********************************************************
 
 Expr: <Id "I" test.adb:10:4-10:5>
   references:    <DefiningName "I" test.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <AttributeRef test.adb:10:9-10:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Pro" test.adb:10:9-10:12>
   references:    <DefiningName "Pro" test.adb:2:14-2:17>
   type:          None
@@ -66,8 +66,8 @@ Expr: <Id "Mechanism_Code" test.adb:10:13-10:27>
   expected type: None
 Expr: <Int test.adb:10:29-10:30>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 
 
 Done.

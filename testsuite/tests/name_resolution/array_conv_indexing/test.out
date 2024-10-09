@@ -6,12 +6,12 @@ Resolving xrefs for node <AssignStmt test.adb:7:4-7:30>
 
 Expr: <Id "I" test.adb:7:4-7:5>
   references:    <DefiningName "I" test.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <CallExpr test.adb:7:9-7:29>
   references:    <DefiningName "Array_Type" test.adb:2:9-2:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <CallExpr test.adb:7:9-7:25>
   references:    <DefiningName "Array_Type" test.adb:2:9-2:19>
   type:          <ConcreteTypeDecl ["Array_Type"] test.adb:2:4-2:59>
@@ -26,8 +26,8 @@ Expr: <Id "Arr" test.adb:7:21-7:24>
   expected type: None
 Expr: <Id "I" test.adb:7:27-7:28>
   references:    <DefiningName "I" test.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

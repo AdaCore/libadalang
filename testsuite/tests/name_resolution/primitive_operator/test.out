@@ -24,8 +24,8 @@ Expr: <OpConcat "&" test.adb:19:11-19:12>
   expected type: None
 Expr: <Int test.adb:19:13-19:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt test.adb:21:4-21:15>
 *********************************************************
@@ -50,8 +50,8 @@ Expr: <OpConcat "&" test.adb:21:11-21:12>
   expected type: None
 Expr: <Int test.adb:21:13-21:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

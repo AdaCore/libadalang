@@ -149,8 +149,8 @@ Expr: <Id "Append" test.adb:13:9-13:15>
   expected type: None
 Expr: <Str ""a"" test.adb:13:17-13:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "New_Line" test.adb:14:9-14:17>
   references:    <DefiningName "New_Line" test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
@@ -161,41 +161,41 @@ Expr: <Id "Append" test.adb:15:9-15:15>
   expected type: None
 Expr: <Str ""b"" test.adb:15:17-15:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Append" test.adb:16:9-16:15>
   references:    <DefiningName "Append" test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:16:17-18:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Str ""c"" test.adb:16:17-16:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:17:17-17:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:17:17-17:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""d"" test.adb:17:19-17:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:18:17-18:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:18:17-18:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""e"" test.adb:18:19-18:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "New_Line" test.adb:19:9-19:17>
   references:    <DefiningName "New_Line" test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
@@ -206,41 +206,41 @@ Expr: <Id "Append" test.adb:20:9-20:15>
   expected type: None
 Expr: <Str ""f"" test.adb:20:17-20:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Append" test.adb:21:9-21:15>
   references:    <DefiningName "Append" test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:21:17-23:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Str ""g"" test.adb:21:17-21:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:22:17-22:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:22:17-22:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""h"" test.adb:22:19-22:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:23:17-23:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:23:17-23:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""i"" test.adb:23:19-23:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "New_Line" test.adb:24:9-24:17>
   references:    <DefiningName "New_Line" test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
@@ -251,96 +251,96 @@ Expr: <Id "Append" test.adb:25:9-25:15>
   expected type: None
 Expr: <Str ""j"" test.adb:25:17-25:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Append" test.adb:26:9-26:15>
   references:    <DefiningName "Append" test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:26:17-33:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Str ""k"" test.adb:26:17-26:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:27:17-27:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:27:17-27:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""l"" test.adb:27:19-27:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:28:17-28:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:28:17-28:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""m"" test.adb:28:19-28:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:29:17-29:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:29:17-29:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""n"" test.adb:29:19-29:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:30:17-30:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:30:17-30:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""o"" test.adb:30:19-30:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:31:17-31:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:31:17-31:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""p"" test.adb:31:19-31:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:32:17-32:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:32:17-32:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""q"" test.adb:32:19-32:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:33:17-33:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:33:17-33:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""r"" test.adb:33:19-33:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "New_Line" test.adb:34:9-34:17>
   references:    <DefiningName "New_Line" test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
@@ -351,74 +351,74 @@ Expr: <Id "Append" test.adb:35:9-35:15>
   expected type: None
 Expr: <Str ""r"" test.adb:35:17-35:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Append" test.adb:36:9-36:15>
   references:    <DefiningName "Append" test.adb:5:16-5:22>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
   expected type: None
 Expr: <ConcatOp test.adb:36:17-41:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Str ""s"" test.adb:36:17-36:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:37:17-37:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:37:17-37:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""t"" test.adb:37:19-37:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:38:17-38:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:38:17-38:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""u"" test.adb:38:19-38:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:39:17-39:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:39:17-39:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""v"" test.adb:39:19-39:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:40:17-40:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:40:17-40:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""w"" test.adb:40:19-40:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand test.adb:41:17-41:22>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" test.adb:41:17-41:18>
   references:    None
   type:          None
   expected type: None
 Expr: <Str ""x"" test.adb:41:19-41:22>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "New_Line" test.adb:42:9-42:17>
   references:    <DefiningName "New_Line" test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
@@ -429,8 +429,8 @@ Expr: <Id "Append" test.adb:43:9-43:15>
   expected type: None
 Expr: <Str ""y"" test.adb:43:17-43:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "New_Line" test.adb:44:9-44:17>
   references:    <DefiningName "New_Line" test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
@@ -441,8 +441,8 @@ Expr: <Id "Append" test.adb:45:9-45:15>
   expected type: None
 Expr: <Str ""z"" test.adb:45:17-45:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "New_Line" test.adb:46:9-46:17>
   references:    <DefiningName "New_Line" test.adb:6:16-6:24>
   type:          <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
@@ -453,8 +453,8 @@ Expr: <Id "Append" test.adb:47:9-47:15>
   expected type: None
 Expr: <Str ""0"" test.adb:47:17-47:20>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 
 Done.

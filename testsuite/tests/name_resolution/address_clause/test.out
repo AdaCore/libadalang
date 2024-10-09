@@ -10,7 +10,7 @@ Expr: <AttributeRef test.adb:3:8-3:17>
   expected type: None
 Expr: <Id "Y" test.adb:3:8-3:9>
   references:    <DefiningName "Y" test.adb:2:7-2:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Address" test.adb:3:10-3:17>
   references:    None
@@ -22,7 +22,7 @@ Expr: <AttributeRef test.adb:3:22-3:31>
   expected type: <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>
 Expr: <Id "X" test.adb:3:22-3:23>
   references:    <DefiningName "X" test.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Address" test.adb:3:24-3:31>
   references:    None
@@ -65,8 +65,8 @@ Resolving xrefs for node <IfStmt subp.adb:19:10-21:17>
 ******************************************************
 
 Expr: <RelationOp subp.adb:19:13-19:40>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <AttributeRef subp.adb:19:13-19:27>
   references:    None
   type:          <ConcreteTypeDecl ["Address"] system.ads:67:4-67:28>

@@ -6,7 +6,7 @@ Resolving xrefs for node <AssignStmt bar.adb:6:4-6:19>
 
 Expr: <DottedName bar.adb:6:4-6:13>
   references:    <| DefiningName "X" foo.ads:4:4-4:5 [bar.adb:4:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Foo_Int" bar.adb:6:4-6:11>
   references:    <DefiningName "Foo_Int" bar.adb:4:12-4:19>
@@ -14,12 +14,12 @@ Expr: <Id "Foo_Int" bar.adb:6:4-6:11>
   expected type: None
 Expr: <Id "X" bar.adb:6:12-6:13>
   references:    <| DefiningName "X" foo.ads:4:4-4:5 [bar.adb:4:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int bar.adb:6:17-6:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

@@ -13,7 +13,7 @@ Expr: <Id "T" test.adb:22:24-22:25>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:22:29-22:36>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Q" test.adb:22:38-22:39>

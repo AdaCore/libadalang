@@ -57,7 +57,7 @@ Resolving xrefs for node <ParamSpec ["P"] foo.ads:11:37-11:49>
 **************************************************************
 
 Expr: <Id "Positive" foo.ads:11:41-11:49>
-  references:    <DefiningName "Positive" __standard:6:11-6:19>
+  references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
 
@@ -97,7 +97,7 @@ Resolving xrefs for node <ParamSpec ["C"] foo.ads:13:31-13:43>
 **************************************************************
 
 Expr: <Id "Positive" foo.ads:13:35-13:43>
-  references:    <DefiningName "Positive" __standard:6:11-6:19>
+  references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
 

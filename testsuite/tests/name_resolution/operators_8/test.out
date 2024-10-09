@@ -6,33 +6,33 @@ Resolving xrefs for node <AssignStmt test.adb:12:4-12:18>
 
 Expr: <Id "X" test.adb:12:4-12:5>
   references:    <DefiningName "X" test.adb:10:4-10:5>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <RelationOp test.adb:12:9-12:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <ParenExpr test.adb:12:9-12:13>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
 Expr: <UnOp test.adb:12:10-12:12>
-  type:          <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  type:          <ConcreteTypeDecl ["root_integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
 Expr: <OpPlus "+" test.adb:12:10-12:11>
-  references:    <SyntheticDefiningName ""+"" __standard:120:24-120:37>
+  references:    <SyntheticDefiningName ""+"" in Standard>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:11-12:12>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
 Expr: <OpGt ">" test.adb:12:14-12:15>
-  references:    <SyntheticDefiningName "">"" __standard:120:24-120:37>
+  references:    <SyntheticDefiningName "">"" in Standard>
   type:          None
   expected type: None
 Expr: <Int test.adb:12:16-12:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
 
 
 Done.

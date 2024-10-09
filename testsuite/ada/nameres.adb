@@ -808,14 +808,28 @@ procedure Nameres is
         (Message : Located_Message;
          Style   : Langkit_Support.Diagnostics.Output.Diagnostic_Style)
       is
-         Diag : constant Langkit_Support.Diagnostics.Diagnostic :=
+         --  Since the code that implements the Standard package is internal,
+         --  it is not helpful to provide slocs for this unit's nodes (and will
+         --  even create spurious testsuite diffs each time that code changes).
+         --  Just say "in Standard" for them.
+
+         Filename    : constant String :=
+           +Create (+Message.Location.Unit.Get_Filename).Base_Name;
+         In_Standard : constant Boolean := Filename = "__standard";
+         Location    : constant Source_Location_Range :=
+           (if In_Standard
+            then No_Source_Location_Range
+            else Message.Location.Sloc_Range);
+         Diag        : constant Langkit_Support.Diagnostics.Diagnostic :=
            Langkit_Support.Diagnostics.Create
-             (Message.Location.Sloc_Range, To_Text (Message.Message));
+             (Location, To_Text (Message.Message));
       begin
          Langkit_Support.Diagnostics.Output.Print_Diagnostic
            (Diag,
             Message.Location.Unit,
-            +Create (+Message.Location.Unit.Get_Filename).Base_Name,
+            (if Filename = "__standard"
+             then "in Standard"
+             else Filename),
             Style);
       end Emit_Located_Message;
 

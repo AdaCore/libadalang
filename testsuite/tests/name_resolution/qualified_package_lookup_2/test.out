@@ -12,20 +12,20 @@ Resolving xrefs for node <AssignStmt pkg-foo.adb:5:4-5:13>
 
 Expr: <Id "Y" pkg-foo.adb:5:4-5:5>
   references:    <DefiningName "Y" pkg-foo.adb:3:4-3:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName pkg-foo.adb:5:9-5:12>
   references:    <DefiningName "X" pkg.ads:5:7-5:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "X" pkg-foo.adb:5:9-5:10>
   references:    <DefiningName "X" pkg-foo.adb:2:4-2:5>
   type:          <ConcreteTypeDecl ["T"] pkg.ads:4:4-6:15>
   expected type: <ConcreteTypeDecl ["T"] pkg.ads:4:4-6:15>
 Expr: <Id "X" pkg-foo.adb:5:11-5:12>
   references:    <DefiningName "X" pkg.ads:5:7-5:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

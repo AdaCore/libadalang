@@ -14,19 +14,19 @@ Expr: <Id "List" test.adb:8:16-8:20>
   expected type: None
 Expr: <BinOp test.adb:8:22-8:28>
   type:          None
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test.adb:8:22-8:23>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." test.adb:8:24-8:26>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:8:27-8:28>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <NullStmt test.adb:9:10-9:15>
 ******************************************************

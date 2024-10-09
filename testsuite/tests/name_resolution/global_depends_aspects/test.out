@@ -24,11 +24,11 @@ Expr: <Aggregate test_globals.adb:8:32-8:38>
   expected type: None
 Expr: <Id "A" test_globals.adb:8:33-8:34>
   references:    <DefiningName "A" test_globals.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "B" test_globals.adb:8:36-8:37>
   references:    <DefiningName "B" test_globals.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Output" test_globals.adb:8:40-8:46>
   references:    None
@@ -36,7 +36,7 @@ Expr: <Id "Output" test_globals.adb:8:40-8:46>
   expected type: None
 Expr: <Id "Result" test_globals.adb:8:50-8:56>
   references:    <DefiningName "Result" test_globals.adb:5:4-5:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <AspectAssoc test_globals.adb:9:12-9:41>
@@ -51,18 +51,18 @@ Expr: <Aggregate test_globals.adb:9:23-9:41>
   expected type: None
 Expr: <Id "Result" test_globals.adb:9:24-9:30>
   references:    <DefiningName "Result" test_globals.adb:5:4-5:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Aggregate test_globals.adb:9:34-9:40>
   type:          None
   expected type: None
 Expr: <Id "A" test_globals.adb:9:35-9:36>
   references:    <DefiningName "A" test_globals.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "B" test_globals.adb:9:38-9:39>
   references:    <DefiningName "B" test_globals.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <SubpSpec test_globals.adb:17:4-17:18>
@@ -88,11 +88,11 @@ Expr: <Aggregate test_globals.adb:18:32-18:38>
   expected type: None
 Expr: <Id "A" test_globals.adb:18:33-18:34>
   references:    <DefiningName "A" test_globals.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "B" test_globals.adb:18:36-18:37>
   references:    <DefiningName "B" test_globals.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Output" test_globals.adb:18:40-18:46>
   references:    None
@@ -103,11 +103,11 @@ Expr: <Aggregate test_globals.adb:18:50-18:67>
   expected type: None
 Expr: <Id "Result" test_globals.adb:18:51-18:57>
   references:    <DefiningName "Result" test_globals.adb:5:4-5:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Result2" test_globals.adb:18:59-18:66>
   references:    <DefiningName "Result2" test_globals.adb:5:12-5:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <AspectAssoc test_globals.adb:19:12-19:52>
@@ -125,22 +125,22 @@ Expr: <Aggregate test_globals.adb:19:24-19:41>
   expected type: None
 Expr: <Id "Result" test_globals.adb:19:25-19:31>
   references:    <DefiningName "Result" test_globals.adb:5:4-5:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Result2" test_globals.adb:19:33-19:40>
   references:    <DefiningName "Result2" test_globals.adb:5:12-5:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Aggregate test_globals.adb:19:45-19:51>
   type:          None
   expected type: None
 Expr: <Id "A" test_globals.adb:19:46-19:47>
   references:    <DefiningName "A" test_globals.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "B" test_globals.adb:19:49-19:50>
   references:    <DefiningName "B" test_globals.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <SubpSpec test_globals.adb:28:4-28:22>
@@ -163,7 +163,7 @@ Expr: <Id "Input" test_globals.adb:29:24-29:29>
   expected type: None
 Expr: <Id "A" test_globals.adb:29:33-29:34>
   references:    <DefiningName "A" test_globals.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "In_Out" test_globals.adb:29:36-29:42>
   references:    None
@@ -174,11 +174,11 @@ Expr: <Aggregate test_globals.adb:29:46-29:57>
   expected type: None
 Expr: <Id "B" test_globals.adb:29:47-29:48>
   references:    <DefiningName "B" test_globals.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Result" test_globals.adb:29:50-29:56>
   references:    <DefiningName "Result" test_globals.adb:5:4-5:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <AspectAssoc test_globals.adb:30:12-30:42>
@@ -196,11 +196,11 @@ Expr: <Aggregate test_globals.adb:30:24-30:35>
   expected type: None
 Expr: <Id "B" test_globals.adb:30:25-30:26>
   references:    <DefiningName "B" test_globals.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Result" test_globals.adb:30:28-30:34>
   references:    <DefiningName "Result" test_globals.adb:5:4-5:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <UnOp test_globals.adb:30:39-30:41>
   type:          None
@@ -211,7 +211,7 @@ Expr: <OpPlus "+" test_globals.adb:30:39-30:40>
   expected type: None
 Expr: <Id "A" test_globals.adb:30:40-30:41>
   references:    <DefiningName "A" test_globals.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <SubpSpec test_globals.adb:38:4-38:56>
@@ -222,7 +222,7 @@ Resolving xrefs for node <ParamSpec ["X"] test_globals.adb:38:27-38:38>
 ***********************************************************************
 
 Expr: <Id "Integer" test_globals.adb:38:31-38:38>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -230,7 +230,7 @@ Resolving xrefs for node <ParamSpec ["Y"] test_globals.adb:38:40-38:55>
 ***********************************************************************
 
 Expr: <Id "Integer" test_globals.adb:38:48-38:55>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -246,11 +246,11 @@ Expr: <Aggregate test_globals.adb:39:23-39:31>
   expected type: None
 Expr: <Id "Y" test_globals.adb:39:24-39:25>
   references:    <DefiningName "Y" test_globals.adb:38:40-38:41>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "X" test_globals.adb:39:29-39:30>
   references:    <DefiningName "X" test_globals.adb:38:27-38:28>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <SubpSpec test_globals.adb:47:4-47:37>
@@ -261,7 +261,7 @@ Resolving xrefs for node <ParamSpec ["X"] test_globals.adb:47:25-47:36>
 ***********************************************************************
 
 Expr: <Id "Integer" test_globals.adb:47:29-47:36>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -281,7 +281,7 @@ Expr: <Null test_globals.adb:48:24-48:28>
   expected type: None
 Expr: <Id "X" test_globals.adb:48:32-48:33>
   references:    <DefiningName "X" test_globals.adb:47:25-47:26>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <SubpSpec test_globals.adb:54:4-54:30>

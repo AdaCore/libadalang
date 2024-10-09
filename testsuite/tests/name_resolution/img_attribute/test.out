@@ -5,16 +5,16 @@ Resolving xrefs for node <ObjectDecl ["S"] foo.adb:4:4-4:33>
 ************************************************************
 
 Expr: <Id "String" foo.adb:4:17-4:23>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef foo.adb:4:27-4:32>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "I" foo.adb:4:27-4:28>
   references:    <DefiningName "I" foo.adb:2:4-2:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Img" foo.adb:4:29-4:32>
   references:    None

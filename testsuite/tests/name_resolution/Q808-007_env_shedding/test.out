@@ -6,7 +6,7 @@ Resolving xrefs for node <AssignStmt main.adb:6:4-6:29>
 
 Expr: <DottedName main.adb:6:4-6:23>
   references:    <| DefiningName "Z" bar.ads:5:4-5:5 [main.adb:4:4, foo.ads:7:4] |>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <DottedName main.adb:6:4-6:21>
   references:    <| DefiningName "Bar_Inst" foo.ads:7:12-7:20 [main.adb:4:4] |>
@@ -22,19 +22,19 @@ Expr: <Id "Bar_Inst" main.adb:6:13-6:21>
   expected type: None
 Expr: <Id "Z" main.adb:6:22-6:23>
   references:    <| DefiningName "Z" bar.ads:5:4-5:5 [main.adb:4:4, foo.ads:7:4] |>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <Int main.adb:6:27-6:28>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 
 Resolving xrefs for node <AssignStmt main.adb:9:4-9:37>
 *******************************************************
 
 Expr: <DottedName main.adb:9:4-9:31>
   references:    <| DefiningName "Count" bar.ads:10:7-10:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <DottedName main.adb:9:4-9:25>
   references:    <| DefiningName "Bar_Gen_Inst" foo.ads:8:12-8:24 [main.adb:4:4] |>
@@ -50,12 +50,12 @@ Expr: <Id "Bar_Gen_Inst" main.adb:9:13-9:25>
   expected type: None
 Expr: <Id "Count" main.adb:9:26-9:31>
   references:    <| DefiningName "Count" bar.ads:10:7-10:12 [main.adb:4:4, foo.ads:7:4, foo.ads:8:4] |>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <Int main.adb:9:35-9:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 
 
 Done.

@@ -74,7 +74,7 @@ Expr: <Id "E" family.adb:14:26-14:27>
   expected type: None
 Expr: <Int family.adb:14:29-14:30>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: None
 
 Resolving xrefs for node <SubpRenamingDecl ["P"] family.adb:17:4-17:32>

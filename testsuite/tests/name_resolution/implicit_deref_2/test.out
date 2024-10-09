@@ -6,15 +6,15 @@ Resolving xrefs for node <AssignStmt iterators.adb:6:7-6:49>
 
 Expr: <Id "B" iterators.adb:6:7-6:8>
   references:    <DefiningName "B" iterators.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <CallExpr iterators.adb:6:12-6:48>
   references:    <DefiningName "Next" iterators.ads:8:13-8:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <DottedName iterators.adb:6:12-6:38>
   references:    <DefiningName "Next" iterators.ads:8:13-8:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <AttributeRef iterators.adb:6:12-6:33>
   references:    None
@@ -30,7 +30,7 @@ Expr: <Id "Unrestricted_Access" iterators.adb:6:14-6:33>
   expected type: None
 Expr: <Id "Next" iterators.adb:6:34-6:38>
   references:    <DefiningName "Next" iterators.ads:8:13-8:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "Element" iterators.adb:6:40-6:47>
   references:    <DefiningName "Element" iterators.adb:3:7-3:14>

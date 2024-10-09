@@ -71,7 +71,7 @@ Resolving xrefs for node <| ParamSpec ["Y"] test.adb:18:33-18:43 [test.adb:32:4,
 **************************************************************************************************
 
 Expr: <| DottedName test.adb:18:37-18:43 [test.adb:32:4, test.adb:33:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <| Id "Base" test.adb:18:37-18:41 [test.adb:32:4, test.adb:33:4] |>
@@ -79,7 +79,7 @@ Expr: <| Id "Base" test.adb:18:37-18:41 [test.adb:32:4, test.adb:33:4] |>
   type:          None
   expected type: None
 Expr: <| Id "P" test.adb:18:42-18:43 [test.adb:32:4, test.adb:33:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -114,7 +114,7 @@ Resolving xrefs for node <| ParamSpec ["Y"] test.adb:24:33-24:43 [test.adb:32:4,
 **************************************************************************************************
 
 Expr: <| DottedName test.adb:24:37-24:43 [test.adb:32:4, test.adb:33:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <| Id "Base" test.adb:24:37-24:41 [test.adb:32:4, test.adb:33:4] |>
@@ -122,7 +122,7 @@ Expr: <| Id "Base" test.adb:24:37-24:41 [test.adb:32:4, test.adb:33:4] |>
   type:          None
   expected type: None
 Expr: <| Id "P" test.adb:24:42-24:43 [test.adb:32:4, test.adb:33:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -151,8 +151,8 @@ Expr: <| Id "X" test.adb:26:21-26:22 [test.adb:32:4, test.adb:33:4] |>
   expected type: None
 Expr: <| Id "Y" test.adb:26:25-26:26 [test.adb:32:4, test.adb:33:4] |>
   references:    <| DefiningName "Y" test.adb:24:33-24:34 [test.adb:32:4, test.adb:33:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName test.adb:27:14-27:18 [test.adb:32:4, test.adb:33:4] |>
 ******************************************************************************************

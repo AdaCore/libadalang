@@ -92,7 +92,7 @@ Working on node <ConcreteTypeDecl ["New_S"] test.adb:44:4-44:29>
 ================================================================
 
 Eval 'node.p_get_aspect("Pack")'
-Result: <Aspect exists=True node=<PragmaNode __standard:106:3-106:24> value=None inherited=True>
+Result: <Aspect exists=True node=<PragmaNode in Standard> value=None inherited=True>
 
 Eval 'node.p_has_aspect("Pack")'
 Result: True
@@ -101,7 +101,7 @@ Eval 'node.p_get_pragma("Pack")'
 Result: None
 
 Eval 'node.p_root_type().p_get_aspect("Pack")'
-Result: <Aspect exists=True node=<PragmaNode __standard:106:3-106:24> value=None inherited=False>
+Result: <Aspect exists=True node=<PragmaNode in Standard> value=None inherited=False>
 
 Working on node <ConcreteTypeDecl ["TG"] test.adb:50:4-50:57>
 =============================================================

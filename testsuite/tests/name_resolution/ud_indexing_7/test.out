@@ -6,20 +6,20 @@ Resolving xrefs for node <AssignStmt test.adb:30:7-30:18>
 
 Expr: <Id "C" test.adb:30:7-30:8>
   references:    <DefiningName "C" test.adb:28:7-28:8>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
   expected type: None
 Expr: <CallExpr test.adb:30:12-30:17>
   references:    <DefiningName "X" test.adb:27:17-27:18>
-  type:          <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
-  expected type: <ConcreteTypeDecl ["Character"] __standard:21:3-21:27>
+  type:          <ConcreteTypeDecl ["Character"] in Standard>
+  expected type: <ConcreteTypeDecl ["Character"] in Standard>
 Expr: <Id "X" test.adb:30:12-30:13>
   references:    <DefiningName "X" test.adb:27:17-27:18>
   type:          <ClasswideTypeDecl ["Virtual_String_Vector"] test.adb:3:7-4:39>
   expected type: None
 Expr: <Int test.adb:30:15-30:16>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 
 
 Done.

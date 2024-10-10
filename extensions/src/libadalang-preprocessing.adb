@@ -612,6 +612,16 @@ package body Libadalang.Preprocessing is
             begin
                Parse_Definition_Option
                  (Option.To_String, Name, Value, Empty_Valid => True);
+
+               --  Even though "-DX" in preprocessor data files is invalid,
+               --  "-gnateDX" is supported and is supposed to be equivalent to
+               --  "-gnateDX=True".
+
+               if Value.Kind = Empty then
+                  Value := (Kind         => Symbol,
+                            Symbol_Value => US.To_Unbounded_String ("True"));
+               end if;
+
                Defs.Include (Name, Value);
             end;
 

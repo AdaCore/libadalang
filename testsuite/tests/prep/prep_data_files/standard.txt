@@ -4,7 +4,7 @@
 "s03.adb" "d.def" -u -DA=X -DBEE="foo" -DCEE="foo""bar"
 "s04.adb" "d.def"-u-DA=X-DBEE="foo"-DCEE="foo""bar"
 "s05.adb" "d.def" -DA=._. -DC="foo bar"""
-"s07.adb" -c
+"s07.adb" "empty.def" -c
 "s08.adb" -c -b
 "s09.adb" -b -c
 "s10.adb" -u

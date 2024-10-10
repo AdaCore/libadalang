@@ -69,7 +69,7 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-5.txt:1:3: for option -D: value
 
 # "s07.adb"
   -c
-  <none>
+  empty -> <null>
 
 # "s08.adb"
   -b
@@ -87,18 +87,6 @@ LANGKIT_SUPPORT.ERRORS.SYNTAX_ERROR: invalid-def-5.txt:1:3: for option -D: value
 # "s11.adb"
   <disabled>
 
-Formatting as a new preprocessor file:
-| "s11.adb"
-| "s09.adb" -c
-| "s01.adb" -b -Dz=._._. -Da=... -Db=...
-| "s05.adb" -b -Dz=._._. -Da=._. -Db=... -Dc="foo bar"""
-| "s04.adb" -b -u -Dcee="foo""bar" -Dz=._._. -Dbee="foo" -Da=X -Db=...
-| "s03.adb" -b -u -Dcee="foo""bar" -Dz=._._. -Dbee="foo" -Da=X -Db=...
-| "s02.adb" -b -u -Dz=._._. -Da=... -Db=...
-| "s10.adb" -b -u
-| "s08.adb" -b
-| "s07.adb" -c
-| * -b -s
 
 == no-default.txt ==
 
@@ -112,9 +100,6 @@ Formatting as a new preprocessor file:
   -b
   a -> Symbol(1)
 
-Formatting as a new preprocessor file:
-| "s2.adb" -b -Da=1
-| "s1.adb"
 
 == unknown-switch.txt ==
 

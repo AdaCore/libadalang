@@ -1,5 +1,6 @@
-with Ada.Exceptions; use Ada.Exceptions;
-with Ada.Text_IO;    use Ada.Text_IO;
+with Ada.Directories; use Ada.Directories;
+with Ada.Exceptions;  use Ada.Exceptions;
+with Ada.Text_IO;     use Ada.Text_IO;
 
 with GNATCOLL.File_Paths; use GNATCOLL.File_Paths;
 
@@ -11,14 +12,15 @@ procedure Main is
 
    Path : constant Any_Path := Parse_Path ("defs");
 
-   procedure Parse (Filename : String);
+   procedure Parse (Prefix : String);
 
    -----------
    -- Parse --
    -----------
 
-   procedure Parse (Filename : String) is
-      Data : Preprocessor_Data;
+   procedure Parse (Prefix : String) is
+      Data     : Preprocessor_Data;
+      Filename : constant String := Prefix & ".txt";
    begin
       Put_Line ("== " & Filename & " ==");
       New_Line;
@@ -35,43 +37,30 @@ procedure Main is
       Dump (Data);
       New_Line;
 
-      Put_Line ("Formatting as a new preprocessor file:");
       declare
          use type File_Config_Maps.Map;
 
-         New_Filename : constant String := "new-" & Filename;
-         F            : File_Type;
+         Dirname      : constant String := "new-" & Prefix;
+         New_Filename : constant String := Compose (Dirname, "prep.txt");
          New_Data     : Preprocessor_Data;
 
          Old_Default, New_Default : File_Config;
          Old_Mapping, New_Mapping : File_Config_Maps.Map;
       begin
-         Write_Preprocessor_Data_File (Data, New_Filename);
-         Open (F, In_File, New_Filename);
-         loop
-            begin
-               declare
-                  Line : constant String := Get_Line (F);
-               begin
-                  if Line = "" then
-                     Put_Line ("|");
-                  else
-                     Put_Line ("| " & Line);
-                  end if;
-               end;
-            exception
-               when End_Error =>
-                  exit;
-            end;
-         end loop;
-         Close (F);
+         --  Make sure the output directory exists: it usually does not, but in
+         --  case the test is ran manually for debugging, the directory may
+         --  already exist.
+
+         if not Exists (Dirname) then
+            Create_Directory (Dirname);
+         end if;
+         Write_Preprocessor_Data_File (Data, New_Filename, Dirname);
 
          --  Compare the original preprocessor data with the parsing of the new
          --  file.
 
          New_Data :=
-           Parse_Preprocessor_Data_File
-             (New_Filename, Create_Path ((1 .. 0 => <>)));
+           Parse_Preprocessor_Data_File (New_Filename, Parse_Path (Dirname));
 
          Old_Default := Default_Config (Data);
          New_Default := Default_Config (New_Data);
@@ -91,15 +80,15 @@ procedure Main is
    end Parse;
 
 begin
-   Parse ("cannot-read-def-file.txt");
-   Parse ("invalid-def-1.txt");
-   Parse ("invalid-def-2.txt");
-   Parse ("invalid-def-3.txt");
-   Parse ("invalid-def-4.txt");
-   Parse ("invalid-def-5.txt");
-   Parse ("standard.txt");
-   Parse ("no-default.txt");
-   Parse ("unknown-switch.txt");
-   Parse ("no-such-file.txt");
+   Parse ("cannot-read-def-file");
+   Parse ("invalid-def-1");
+   Parse ("invalid-def-2");
+   Parse ("invalid-def-3");
+   Parse ("invalid-def-4");
+   Parse ("invalid-def-5");
+   Parse ("standard");
+   Parse ("no-default");
+   Parse ("unknown-switch");
+   Parse ("no-such-file");
    Put_Line ("Done.");
 end Main;

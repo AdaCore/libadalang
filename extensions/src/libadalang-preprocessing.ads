@@ -365,12 +365,20 @@ package Libadalang.Preprocessing is
    --  Return whether ``Filename`` must be preprocessed according to ``Data``
 
    procedure Write_Preprocessor_Data_File
-     (Data : Preprocessor_Data; Filename : String);
-   --  Write a preprocessor data file that encodes the information in Data to
-   --  the given file.
+     (Data                       : Preprocessor_Data;
+      Filename                   : String;
+      Definition_Files_Directory : String);
+   --  Write a preprocessor data file that encodes the information in ``Data``
+   --  to ``Filename``.
+   --
+   --  This operation may need to create definition files: they are created in
+   --  ``Definition_Files_Directory``, which must be a writeable directory.
+   --  Note that all created definition files will be named "defs-*.txt", so it
+   --  is safe to write the preprocessor data file in the same directory with a
+   --  different name.
    --
    --  Exceptions from ``Ada.Text_IO`` primitives are propagated when there is
-   --  trouble writing the requested file.
+   --  trouble writing files.
 
    ------------------------------
    -- Preprocessing procedures --

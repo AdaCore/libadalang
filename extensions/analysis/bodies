@@ -1,5 +1,18 @@
 ##  vim: ft=makoada
 
+--------------------------------------------
+-- Disable_Preprocessor_Directives_Errors --
+--------------------------------------------
+
+procedure Disable_Preprocessor_Directives_Errors (Self : Analysis_Context) is
+begin
+   if Self.Internal = null then
+      raise Precondition_Failure with "null context argument";
+   end if;
+
+   Unwrap_Context (Self).Preprocessor_Directives_Errors := False;
+end Disable_Preprocessor_Directives_Errors;
+
 ----------------
 -- Is_Keyword --
 ----------------

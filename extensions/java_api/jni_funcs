@@ -19,6 +19,7 @@ nat = c_api.get_name
         String target,
         String runtime,
         String configFile,
+        boolean adaOnly,
         List<String> diagnostics
     );
 

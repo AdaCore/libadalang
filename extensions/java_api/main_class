@@ -274,7 +274,8 @@ nat = c_api.get_name
                 null,
                 null,
                 null,
-                null
+                null,
+                false
             );
         }
 
@@ -290,20 +291,23 @@ nat = c_api.get_name
          * @param runtime Ada runtime to use. This can be null.
          * @param configFile The absolute path to a .cgpr file to use during
          *     the project loading. This can be null.
+         * @param adaOnly Restrict project loading to the Ada language.
          */
         public static ProjectManager create(
             final String projectFile,
             final ScenarioVariable[] scenarioVariables,
             final String target,
             final String runtime,
-            final String configFile
+            final String configFile,
+            final boolean adaOnly
         ) {
             return internalCreate(
                 projectFile,
                 scenarioVariables,
                 target,
                 runtime,
-                configFile
+                configFile,
+                adaOnly
             );
         }
 
@@ -315,18 +319,21 @@ nat = c_api.get_name
          * @param runtime Ada runtime to use. This can be null.
          * @param configFile The absolute path to a .cgpr file to use during
          *     the project loading. This can be null.
+         * @param adaOnly Restrict project loading to the Ada language.
          */
         public static ProjectManager createImplicit(
             final String target,
             final String runtime,
-            final String configFile
+            final String configFile,
+            final boolean adaOnly
         ) {
             return internalCreate(
                 null,
                 null,
                 target,
                 runtime,
-                configFile
+                configFile,
+                adaOnly
             );
         }
 
@@ -342,13 +349,15 @@ nat = c_api.get_name
          * @param runtime Ada runtime to use. This can be null.
          * @param configFile The absolute path to a .cgpr file to use during
          *     the project loading. This can be null.
+         * @param adaOnly Restrict project loading to the Ada language.
          */
         private static ProjectManager internalCreate(
             final String projectFile,
             final ScenarioVariable[] scenarioVariables,
             final String target,
             final String runtime,
-            final String configFile
+            final String configFile,
+            final boolean adaOnly
         ) {
 
             if(ImageInfo.inImageCode()) {
@@ -404,7 +413,7 @@ nat = c_api.get_name
                         targetNative,
                         runtimeNative,
                         configFileNative,
-                        0,
+                        adaOnly ? 1 : 0,
                         projectPointer,
                         errorsPointer
                     );
@@ -470,6 +479,7 @@ nat = c_api.get_name
                     target,
                     runtime,
                     configFile,
+                    adaOnly,
                     diagnostics
                 );
 

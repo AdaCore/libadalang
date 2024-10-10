@@ -9,7 +9,7 @@ project P is
       --  of the index does not matter (the implementation looks up for "Ada").
 
       for Default_Switches ("ada") use ("-gnatep=foo.prep", "-gnateDFOO=1");
-      for Switches ("pkg.adb") use ("-gnateDBAR=1");
+      for Switches ("pkg.adb") use ("-gnateDBAR=1", "-gnateDdebug");
    end Compiler;
 
 end P;

@@ -214,7 +214,10 @@ package body Libadalang.Preprocessing is
    -----------------------------
 
    procedure Parse_Definition_Option
-     (Option : String; Name : out US.Unbounded_String; Value : out Value_Type)
+     (Option      : String;
+      Name        : out US.Unbounded_String;
+      Value       : out Value_Type;
+      Empty_Valid : Boolean)
    is
       --  We accept either "<X>=<Y>", where X is a valid identifier and Y may
       --  be empty, or just "<X>".
@@ -239,6 +242,9 @@ package body Libadalang.Preprocessing is
       end if;
 
       if V = "" then
+         if not Empty_Valid then
+            raise Syntax_Error with "value is missing for " & N;
+         end if;
          Value := (Kind => Empty);
 
       elsif V (V'First) = '"' then
@@ -468,7 +474,9 @@ package body Libadalang.Preprocessing is
             begin
                Parse_Definition_Option
                  (Switch (Switch'First + 2 .. Switch'Last),
-                  Name, Value);
+                  Name,
+                  Value,
+                  Empty_Valid => False);
                Cfg.Definitions.Include (Name, Value);
             exception
                when Exc : Syntax_Error =>
@@ -602,7 +610,18 @@ package body Libadalang.Preprocessing is
                Name   : US.Unbounded_String;
                Value  : Value_Type;
             begin
-               Parse_Definition_Option (Option.To_String, Name, Value);
+               Parse_Definition_Option
+                 (Option.To_String, Name, Value, Empty_Valid => True);
+
+               --  Even though "-DX" in preprocessor data files is invalid,
+               --  "-gnateDX" is supported and is supposed to be equivalent to
+               --  "-gnateDX=True".
+
+               if Value.Kind = Empty then
+                  Value := (Kind         => Symbol,
+                            Symbol_Value => US.To_Unbounded_String ("True"));
+               end if;
+
                Defs.Include (Name, Value);
             end;
 
@@ -811,12 +830,58 @@ package body Libadalang.Preprocessing is
    ----------------------------------
 
    procedure Write_Preprocessor_Data_File
-     (Data : Preprocessor_Data; Filename : String)
+     (Data                       : Preprocessor_Data;
+      Filename                   : String;
+      Definition_Files_Directory : String)
    is
       F : File_Type;
+      --  File descriptor for the preprocessor data file to write
+
+      Counter : Positive := 1;
+      --  Counter to generate unique filenames for definition files
+
+      function Create_Definition_File
+        (Defs : Definition_Maps.Map) return String;
+      --  Write symbol definitions for ``Defs`` to a file in
+      --  ``Definition_Files_Directory`` and return the base name of that file.
 
       procedure Write_Config (Config : File_Config);
       --  Write a representation of Config as a list of switches to F
+
+      ----------------------------
+      -- Create_Definition_File --
+      ----------------------------
+
+      function Create_Definition_File
+        (Defs : Definition_Maps.Map) return String
+      is
+         F          : File_Type;
+         File_Index : constant String := Counter'Image;
+         Filename   : constant String :=
+           Compose
+             (Definition_Files_Directory,
+              "defs-"
+              & File_Index (File_Index'First + 1 .. File_Index'Last)
+              & ".txt");
+      begin
+         Counter := Counter + 1;
+         Create (F, Out_File, Filename);
+         for Cur in Defs.Iterate loop
+            declare
+               Name  : constant String :=
+                 US.To_String (Definition_Maps.Key (Cur));
+               Value : Value_Type renames Defs.Constant_Reference (Cur);
+            begin
+               Put (F, Name);
+               Put (F, " := ");
+               Put (F, US.To_String (As_String (Value)));
+               New_Line (F);
+            end;
+         end loop;
+         Close (F);
+
+         return Filename;
+      end Create_Definition_File;
 
       ------------------
       -- Write_Config --
@@ -824,6 +889,8 @@ package body Libadalang.Preprocessing is
 
       procedure Write_Config (Config : File_Config) is
       begin
+         Put (F, " """ & Create_Definition_File (Config.Definitions) & """ ");
+
          case Config.Line_Mode is
             when Delete_Lines =>
                null;
@@ -840,29 +907,6 @@ package body Libadalang.Preprocessing is
          if Config.Undefined_Is_False then
             Put (F, " -u");
          end if;
-
-         for Cur in Config.Definitions.Iterate loop
-            declare
-               Name  : constant String :=
-                 US.To_String (Definition_Maps.Key (Cur));
-               Value : Value_Type renames
-                 Config.Definitions.Constant_Reference (Cur);
-            begin
-               Put (F, " -D" & Name);
-               case Value.Kind is
-                  when Empty =>
-                     null;
-
-                  when String_Literal =>
-                     Put (F, "=");
-                     Put (F, US.To_String (Value.String_Value));
-
-                  when Symbol =>
-                     Put (F, "=");
-                     Put (F, US.To_String (Value.Symbol_Value));
-               end case;
-            end;
-         end loop;
          New_Line (F);
       end Write_Config;
 

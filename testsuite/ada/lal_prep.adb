@@ -153,7 +153,8 @@ begin
          Name  : Unbounded_String;
          Value : Value_Type;
       begin
-         Parse_Definition_Option (To_String (Def), Name, Value);
+         Parse_Definition_Option
+           (To_String (Def), Name, Value, Empty_Valid => True);
          Cfg.Definitions.Include (Name, Value);
       end;
    end loop;

@@ -10,4 +10,8 @@ begin
    invalid code
 #end if;
 
+#if Debug then
+   null;
+#end if;
+
 end Pkg;

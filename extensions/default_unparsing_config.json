@@ -205,8 +205,17 @@
           "predicate": "p_matching_with_use_clause",
           "template": [
             "recurse_left",
-            {"kind": "tableSeparator", "text": ""},
-            {"kind": "group", "document": ["line", "recurse_right"]}
+            {
+              "kind": "tableSeparator",
+              "text": ""
+            },
+            {
+              "kind": "group",
+              "document": [
+                "line",
+                "recurse_right"
+              ]
+            }
           ]
         }
       }
@@ -4303,67 +4312,89 @@
       }
     },
     "NumberDecl": {
-      "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "group",
-            "document": {
-              "kind": "continuationLineIndent",
-              "contents": [
-                {
-                  "kind": "recurse_field",
-                  "field": "f_ids"
-                },
-                "whitespace",
-                {
-                  "kind": "text",
-                  "text": ":"
-                },
-                "line",
-                {
-                  "kind": "text",
-                  "text": "constant"
-                },
-                "whitespace",
-                {
-                  "kind": "text",
-                  "text": ":="
-                }
-              ]
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_ids"
             },
-            "id": "constant_ids"
-          },
+            "whitespace"
+          ]
+        },
+        {
+          "kind": "tableSeparator",
+          "text": ":"
+        },
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    "line",
+                    {
+                      "kind": "group",
+                      "document": [
+                        {
+                          "kind": "text",
+                          "text": "constant"
+                        },
+                        "whitespace",
+                        {
+                          "kind": "text",
+                          "text": ":="
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "id": "constant_part"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_expr"
+            }
+          ]
+        },
+        {
+          "kind": "text",
+          "text": ";"
+        }
+      ],
+      "fields": {
+        "f_expr": [
           {
             "kind": "ifBreak",
             "breakContents": {
               "kind": "continuationLineIndent",
               "contents": {
                 "kind": "continuationLineIndent",
-                "contents": [
-                  "line",
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_expr"
-                  }
-                ]
+                "contents": {
+                  "kind": "group",
+                  "document": [
+                    "line",
+                    "recurse"
+                  ]
+                }
               }
             },
             "flatContents": {
               "kind": "continuationLineIndent",
-              "contents": [
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_expr"
-                }
-              ]
+              "contents": {
+                "kind": "group",
+                "document": [
+                  "line",
+                  "recurse"
+                ]
+              }
             },
-            "groupId": "constant_ids"
-          },
-          {
-            "kind": "text",
-            "text": ";"
+            "groupId": "constant_part"
           }
         ]
       }

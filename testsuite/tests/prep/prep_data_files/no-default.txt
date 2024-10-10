@@ -1,2 +1,2 @@
 "s1.adb"
-"s2.adb" -DA
+"s2.adb" -DA=1

@@ -214,7 +214,10 @@ package body Libadalang.Preprocessing is
    -----------------------------
 
    procedure Parse_Definition_Option
-     (Option : String; Name : out US.Unbounded_String; Value : out Value_Type)
+     (Option      : String;
+      Name        : out US.Unbounded_String;
+      Value       : out Value_Type;
+      Empty_Valid : Boolean)
    is
       --  We accept either "<X>=<Y>", where X is a valid identifier and Y may
       --  be empty, or just "<X>".
@@ -239,6 +242,9 @@ package body Libadalang.Preprocessing is
       end if;
 
       if V = "" then
+         if not Empty_Valid then
+            raise Syntax_Error with "value is missing for " & N;
+         end if;
          Value := (Kind => Empty);
 
       elsif V (V'First) = '"' then
@@ -468,7 +474,9 @@ package body Libadalang.Preprocessing is
             begin
                Parse_Definition_Option
                  (Switch (Switch'First + 2 .. Switch'Last),
-                  Name, Value);
+                  Name,
+                  Value,
+                  Empty_Valid => False);
                Cfg.Definitions.Include (Name, Value);
             exception
                when Exc : Syntax_Error =>
@@ -602,7 +610,8 @@ package body Libadalang.Preprocessing is
                Name   : US.Unbounded_String;
                Value  : Value_Type;
             begin
-               Parse_Definition_Option (Option.To_String, Name, Value);
+               Parse_Definition_Option
+                 (Option.To_String, Name, Value, Empty_Valid => True);
                Defs.Include (Name, Value);
             end;
 

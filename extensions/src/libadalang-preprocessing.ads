@@ -172,13 +172,16 @@ package Libadalang.Preprocessing is
    --  sources.
 
    procedure Parse_Definition_Option
-     (Option : String; Name : out US.Unbounded_String; Value : out Value_Type);
+     (Option      : String;
+      Name        : out US.Unbounded_String;
+      Value       : out Value_Type;
+      Empty_Valid : Boolean);
    --  If ``Option`` matches ``<name>=<value>``, where ``<name>`` is a valid
    --  preprocessor symbol name, set ``Name`` and ``Value`` to the
    --  corresponding values.
    --
-   --  If it matches ``<name>`` only, set ``Name`` to it and ``Value`` to the
-   --  empty value.
+   --  If it matches ``<name>`` or ``<name>=`` and ``Empty_Valid`` is true, set
+   --  ``Name`` to it and ``Value`` to the empty value.
    --
    --  Otherwise, raise a ``Syntax_Error`` exception.
 

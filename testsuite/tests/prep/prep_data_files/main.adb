@@ -95,6 +95,8 @@ begin
    Parse ("invalid-def-1.txt");
    Parse ("invalid-def-2.txt");
    Parse ("invalid-def-3.txt");
+   Parse ("invalid-def-4.txt");
+   Parse ("invalid-def-5.txt");
    Parse ("standard.txt");
    Parse ("no-default.txt");
    Parse ("unknown-switch.txt");

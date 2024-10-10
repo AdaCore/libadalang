@@ -1,0 +1,12 @@
+== Default ==
+
+Diagnostics:
+  foo.ads:2:1: preprocessor directive ignored, preprocessor not active
+  foo.ads:3:4: preprocessor directive ignored, preprocessor not active
+  foo.ads:4:1: preprocessor directive ignored, preprocessor not active
+
+== Errors disabled ==
+
+No diagnostic
+
+Done

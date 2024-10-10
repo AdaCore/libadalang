@@ -5,3 +5,7 @@ Config_Pragmas : Internal_Config_Pragmas_Mapping;
 
 Config_Pragmas_Set : Boolean := False;
 --  Whether ``Config_Pragmas`` was initialized
+
+Preprocessor_Directives_Errors : Boolean := True;
+--  Whether to emit diagnostics after parsing when preprocessing directives
+--  were found.

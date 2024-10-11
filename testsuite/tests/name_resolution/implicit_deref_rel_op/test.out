@@ -8,15 +8,15 @@ Resolving xrefs for node <IfStmt fuand.adb:16:7-20:14>
 ******************************************************
 
 Expr: <BinOp fuand.adb:16:10-16:56>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <RelationOp fuand.adb:16:10-16:28>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr fuand.adb:16:10-16:24>
   references:    <DefiningName "Ops_Var" fuand.adb:4:7-4:14>
   type:          <ConcreteTypeDecl ["Integer_Ref"] fuand.ads:15:4-16:51>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Ops_Var" fuand.adb:16:10-16:17>
   references:    <DefiningName "Ops_Var" fuand.adb:4:7-4:14>
   type:          <ConcreteTypeDecl ["Operands"] fuand.ads:10:4-13:43>
@@ -31,19 +31,19 @@ Expr: <OpGt ">" fuand.adb:16:25-16:26>
   expected type: None
 Expr: <Int fuand.adb:16:27-16:28>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpAndThen "and then" fuand.adb:16:29-16:37>
   references:    None
   type:          None
   expected type: None
 Expr: <RelationOp fuand.adb:16:38-16:56>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr fuand.adb:16:38-16:52>
   references:    <DefiningName "Ops_Var" fuand.adb:4:7-4:14>
   type:          <ConcreteTypeDecl ["Integer_Ref"] fuand.ads:15:4-16:51>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Ops_Var" fuand.adb:16:38-16:45>
   references:    <DefiningName "Ops_Var" fuand.adb:4:7-4:14>
   type:          <ConcreteTypeDecl ["Operands"] fuand.ads:10:4-13:43>
@@ -58,8 +58,8 @@ Expr: <OpGt ">" fuand.adb:16:53-16:54>
   expected type: None
 Expr: <Int fuand.adb:16:55-16:56>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

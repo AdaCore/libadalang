@@ -2,13 +2,13 @@ Working on node <ObjectDecl ["C1"] char_lit.ads:7:4-7:35>
 =========================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
-Result: <EnumLiteralDecl ["'A'"] __standard:21:22-21:25>
+Result: <EnumLiteralDecl ["'A'"] in Standard>
 
 Working on node <ObjectDecl ["C2"] char_lit.ads:10:4-10:35>
 ===========================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'Z'"] __standard:21:3-21:27>
+Result: <SyntheticCharEnumLit ["'Z'"] in Standard>
 
 Working on node <ObjectDecl ["C3"] char_lit.ads:13:4-13:34>
 ===========================================================
@@ -32,7 +32,7 @@ Working on node <SubpRenamingDecl ["F1"] char_lit.ads:22:4-22:45>
 =================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
-Result: <EnumLiteralDecl ["'A'"] __standard:21:22-21:25>
+Result: <EnumLiteralDecl ["'A'"] in Standard>
 
 Working on node <SubpRenamingDecl ["F2"] char_lit.ads:25:4-25:40>
 =================================================================
@@ -44,7 +44,7 @@ Working on node <SubpRenamingDecl ["F3"] char_lit.ads:28:4-28:45>
 =================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'Z'"] __standard:21:3-21:27>
+Result: <SyntheticCharEnumLit ["'Z'"] in Standard>
 
 Working on node <SubpRenamingDecl ["F4"] char_lit.ads:31:4-31:40>
 =================================================================
@@ -68,25 +68,25 @@ Working on node <ObjectDecl ["WC1"] char_lit.ads:40:4-40:41>
 ============================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'\u2e8e'"] __standard:22:3-22:32>
+Result: <SyntheticCharEnumLit ["'\u2e8e'"] in Standard>
 
 Working on node <ObjectDecl ["WWC1"] char_lit.ads:43:4-43:47>
 =============================================================
 
 Eval 'node.f_default_expr.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'\U00020024'"] __standard:23:3-23:37>
+Result: <SyntheticCharEnumLit ["'\U00020024'"] in Standard>
 
 Working on node <SubpRenamingDecl ["Fwc1"] char_lit.ads:46:4-46:52>
 ===================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'\u2e8e'"] __standard:22:3-22:32>
+Result: <SyntheticCharEnumLit ["'\u2e8e'"] in Standard>
 
 Working on node <SubpRenamingDecl ["Fwwc1"] char_lit.ads:49:4-49:58>
 ====================================================================
 
 Eval 'node.f_renames.f_renamed_object.p_referenced_decl()'
-Result: <SyntheticCharEnumLit ["'\U00020024'"] __standard:23:3-23:37>
+Result: <SyntheticCharEnumLit ["'\U00020024'"] in Standard>
 
 Working on node <ExprFunction ["Copy"] foo.adb:12:4-15:45>
 ==========================================================

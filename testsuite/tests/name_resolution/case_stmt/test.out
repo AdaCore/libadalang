@@ -6,7 +6,7 @@ Resolving xrefs for node <CaseStmt test_case.adb:7:7-10:16>
 
 Expr: <Id "Foo" test_case.adb:7:12-7:15>
   references:    <DefiningName "Foo" test_case.adb:2:13-2:16>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 Resolving xrefs for node <CaseStmtAlternative test_case.adb:8:10-8:26>
@@ -14,8 +14,8 @@ Resolving xrefs for node <CaseStmtAlternative test_case.adb:8:10-8:26>
 
 Expr: <Int test_case.adb:8:15-8:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <NullStmt test_case.adb:8:21-8:26>
 ***********************************************************

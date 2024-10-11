@@ -39,11 +39,11 @@ Expr: <Aggregate pouet.adb:16:15-16:23>
   expected type: <ConcreteTypeDecl ["T"] pouet.adb:4:4-6:15>
 Expr: <Int pouet.adb:16:16-16:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] pouet.adb:2:4-2:44>
 Expr: <Int pouet.adb:16:20-16:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] pouet.adb:2:4-2:44>
 
 

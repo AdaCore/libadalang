@@ -76,13 +76,13 @@ Resolving xrefs for node <| ObjectDecl ["X"] test.adb:12:10-12:27 [test.adb:41:4
 ************************************************************************************
 
 Expr: <| Id "Integer" test.adb:12:14-12:21 [test.adb:41:4] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <| Int test.adb:12:25-12:26 [test.adb:41:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| SubpSpec test.adb:14:10-14:24 [test.adb:41:4] |>
 ****************************************************************************
@@ -93,7 +93,7 @@ Resolving xrefs for node <| AssignStmt test.adb:16:13-16:42 [test.adb:41:4] |>
 
 Expr: <| DottedName test.adb:16:13-16:23 [test.adb:41:4] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| Id "Buffer_G" test.adb:16:13-16:21 [test.adb:41:4] |>
   references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
@@ -101,31 +101,31 @@ Expr: <| Id "Buffer_G" test.adb:16:13-16:21 [test.adb:41:4] |>
   expected type: None
 Expr: <| Id "X" test.adb:16:22-16:23 [test.adb:41:4] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| BinOp test.adb:16:27-16:41 [test.adb:41:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| DottedName test.adb:16:27-16:37 [test.adb:41:4] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| Id "Buffer_G" test.adb:16:27-16:35 [test.adb:41:4] |>
   references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
   type:          None
   expected type: None
 Expr: <| Id "X" test.adb:16:36-16:37 [test.adb:41:4] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| OpPlus "+" test.adb:16:38-16:39 [test.adb:41:4] |>
   references:    None
   type:          None
   expected type: None
 Expr: <| Int test.adb:16:40-16:41 [test.adb:41:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName test.adb:17:14-17:18 [test.adb:41:4] |>
 ***************************************************************************
@@ -224,13 +224,13 @@ Resolving xrefs for node <| ObjectDecl ["X"] test.adb:12:10-12:27 [test.adb:41:4
 ******************************************************************************************************************
 
 Expr: <| Id "Integer" test.adb:12:14-12:21 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <| Int test.adb:12:25-12:26 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| SubpSpec test.adb:14:10-14:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
 **********************************************************************************************************
@@ -241,7 +241,7 @@ Resolving xrefs for node <| AssignStmt test.adb:16:13-16:42 [test.adb:41:4, test
 
 Expr: <| DottedName test.adb:16:13-16:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| Id "Buffer_G" test.adb:16:13-16:21 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
@@ -249,31 +249,31 @@ Expr: <| Id "Buffer_G" test.adb:16:13-16:21 [test.adb:41:4, test.adb:42:4, test.
   expected type: None
 Expr: <| Id "X" test.adb:16:22-16:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <| BinOp test.adb:16:27-16:41 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| DottedName test.adb:16:27-16:37 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| Id "Buffer_G" test.adb:16:27-16:35 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   type:          None
   expected type: None
 Expr: <| Id "X" test.adb:16:36-16:37 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    <| DefiningName "X" test.adb:12:10-12:11 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <| OpPlus "+" test.adb:16:38-16:39 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    None
   type:          None
   expected type: None
 Expr: <| Int test.adb:16:40-16:41 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <| EndName test.adb:17:14-17:18 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
 *********************************************************************************************************

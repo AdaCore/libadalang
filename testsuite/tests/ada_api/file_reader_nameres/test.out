@@ -6,7 +6,7 @@ test.adb: no such source file
 
 Resolving <Id "Foo" foo.adb:1:11-1:14>: None
 Resolving <Id "I" foo.adb:2:4-2:5>: None
-Resolving <Id "Integer" foo.adb:2:8-2:15>: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Resolving <Id "Integer" foo.adb:2:8-2:15>: <ConcreteTypeDecl ["Integer"] in Standard>
 Resolving <Id "I" foo.adb:4:4-4:5>: <ObjectDecl ["I"] foo.adb:2:4-2:16>
 Resolving <Id "Foo" foo.adb:5:5-5:8>: <SubpBody ["Foo"] foo.adb:1:1-5:9>
 

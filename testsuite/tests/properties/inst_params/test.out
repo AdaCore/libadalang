@@ -291,7 +291,7 @@ Working on node <GenericPackageInstantiation ["My_Foo"] test.adb:59:7-59:33>
 ============================================================================
 
 Eval 'node.p_inst_params'
-Result: [<ParamActual param=<| DefiningName ""+"" test.adb:55:24-55:27 [test.adb:59:7] |> actual=<SyntheticDefiningName ""+"" __standard:4:19-4:53>>]
+Result: [<ParamActual param=<| DefiningName ""+"" test.adb:55:24-55:27 [test.adb:59:7] |> actual=<SyntheticDefiningName ""+"" in Standard>>]
 
 Working on node <GenericPackageInstantiation ["Inst_1"] what.adb:17:4-17:40>
 ============================================================================

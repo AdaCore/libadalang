@@ -38,20 +38,20 @@ Expr: <Id "V" foo.adb:22:21-22:22>
   expected type: None
 Expr: <Id "B" foo.adb:22:34-22:35>
   references:    <DefiningName "B" foo.adb:7:23-7:24>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <DottedName foo.adb:22:39-22:42>
   references:    <DefiningName "B" foo.adb:7:23-7:24>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "V" foo.adb:22:39-22:40>
   references:    <DefiningName "V" foo.adb:20:19-20:20>
   type:          <ConcreteTypeDecl ["T"] foo.adb:5:4-10:15>
   expected type: <ConcreteTypeDecl ["T"] foo.adb:5:4-10:15>
 Expr: <Id "B" foo.adb:22:41-22:42>
   references:    <DefiningName "B" foo.adb:7:23-7:24>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CaseExprAlternative foo.adb:23:7-23:43>
   type:          None
   expected type: None
@@ -68,20 +68,20 @@ Expr: <Id "V" foo.adb:23:21-23:22>
   expected type: None
 Expr: <Id "I" foo.adb:23:34-23:35>
   references:    <DefiningName "I" foo.adb:8:23-8:24>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName foo.adb:23:39-23:42>
   references:    <DefiningName "I" foo.adb:8:23-8:24>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "V" foo.adb:23:39-23:40>
   references:    <DefiningName "V" foo.adb:20:19-20:20>
   type:          <ConcreteTypeDecl ["T"] foo.adb:5:4-10:15>
   expected type: <ConcreteTypeDecl ["T"] foo.adb:5:4-10:15>
 Expr: <Id "I" foo.adb:23:41-23:42>
   references:    <DefiningName "I" foo.adb:8:23-8:24>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <SubpSpec foo.adb:29:4-29:39>
 ******************************************************
@@ -103,8 +103,8 @@ Expr: <Id "Post" foo.adb:30:9-30:13>
   type:          None
   expected type: None
 Expr: <RelationOp foo.adb:30:17-30:49>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "D" foo.adb:30:17-30:18>
   references:    <DefiningName "D" foo.adb:29:23-29:24>
   type:          <ConcreteTypeDecl ["Date"] foo.adb:12:4-16:15>
@@ -130,12 +130,12 @@ Expr: <Id "Old" foo.adb:30:24-30:27>
   expected type: None
 Expr: <Id "Day" foo.adb:30:39-30:42>
   references:    <DefiningName "Day" foo.adb:13:7-13:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int foo.adb:30:46-30:48>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <SubpSpec foo.adb:33:4-34:44>
 ******************************************************
@@ -153,7 +153,7 @@ Resolving xrefs for node <ParamSpec ["A", "B"] foo.adb:34:26-34:43>
 *******************************************************************
 
 Expr: <Id "Integer" foo.adb:34:36-34:43>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -165,8 +165,8 @@ Expr: <Id "Post" foo.adb:35:9-35:13>
   type:          None
   expected type: None
 Expr: <RelationOp foo.adb:35:17-35:70>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "V" foo.adb:35:17-35:18>
   references:    <DefiningName "V" foo.adb:33:26-33:27>
   type:          <ConcreteTypeDecl ["Vector"] foo.adb:18:4-18:53>
@@ -191,28 +191,28 @@ Expr: <Id "Old" foo.adb:35:24-35:27>
   type:          None
   expected type: None
 Expr: <BinOp foo.adb:35:39-35:45>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "A" foo.adb:35:39-35:40>
   references:    <DefiningName "A" foo.adb:34:26-34:27>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." foo.adb:35:41-35:43>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "B" foo.adb:35:44-35:45>
   references:    <DefiningName "B" foo.adb:34:29-34:30>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Real foo.adb:35:49-35:53>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <AttributeRef foo.adb:35:55-35:62>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "V" foo.adb:35:55-35:56>
   references:    <DefiningName "V" foo.adb:33:26-33:27>
   type:          <ConcreteTypeDecl ["Vector"] foo.adb:18:4-18:53>
@@ -223,8 +223,8 @@ Expr: <Id "First" foo.adb:35:57-35:62>
   expected type: None
 Expr: <Real foo.adb:35:66-35:69>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <SubpSpec foo.adb:43:4-43:51>
 ******************************************************
@@ -246,8 +246,8 @@ Expr: <Id "Post" foo.adb:44:9-44:13>
   type:          None
   expected type: None
 Expr: <RelationOp foo.adb:44:17-44:49>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "D" foo.adb:44:17-44:18>
   references:    <DefiningName "D" foo.adb:43:29-43:30>
   type:          <ConcreteTypeDecl ["Histo_Date"] foo.adb:38:4-41:18>
@@ -273,12 +273,12 @@ Expr: <Id "Old" foo.adb:44:24-44:27>
   expected type: None
 Expr: <Id "Day" foo.adb:44:39-44:42>
   references:    <DefiningName "Day" foo.adb:13:7-13:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int foo.adb:44:46-44:48>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <SubpSpec foo.adb:47:4-47:55>
 ******************************************************
@@ -300,8 +300,8 @@ Expr: <Id "Post" foo.adb:48:9-48:13>
   type:          None
   expected type: None
 Expr: <RelationOp foo.adb:48:17-48:65>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "D" foo.adb:48:17-48:18>
   references:    <DefiningName "D" foo.adb:47:33-47:34>
   type:          <ConcreteTypeDecl ["Histo_Date"] foo.adb:38:4-41:18>
@@ -327,20 +327,20 @@ Expr: <Id "Old" foo.adb:48:24-48:27>
   expected type: None
 Expr: <Id "Day" foo.adb:48:39-48:42>
   references:    <DefiningName "Day" foo.adb:13:7-13:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int foo.adb:48:46-48:48>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Histo" foo.adb:48:50-48:55>
   references:    <DefiningName "Histo" foo.adb:40:10-40:15>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Str ""RIC"" foo.adb:48:59-48:64>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 
 Analyzing arr.adb
@@ -362,12 +362,12 @@ Expr: <Id "Vec" arr.adb:13:12-13:15>
   expected type: None
 Expr: <Id "I" arr.adb:13:27-13:28>
   references:    <DefiningName "I" arr.adb:9:4-9:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Real arr.adb:13:32-13:35>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <AssignStmt arr.adb:16:4-16:39>
 ********************************************************
@@ -385,20 +385,20 @@ Expr: <Id "Vec" arr.adb:16:12-16:15>
   expected type: None
 Expr: <DottedName arr.adb:16:27-16:30>
   references:    <DefiningName "I" arr.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "R" arr.adb:16:27-16:28>
   references:    <DefiningName "R" arr.adb:10:4-10:5>
   type:          <ConcreteTypeDecl ["Int_Rec"] arr.adb:3:4-5:15>
   expected type: <ConcreteTypeDecl ["Int_Rec"] arr.adb:3:4-5:15>
 Expr: <Id "I" arr.adb:16:29-16:30>
   references:    <DefiningName "I" arr.adb:4:7-4:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Real arr.adb:16:34-16:37>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 
 Done.

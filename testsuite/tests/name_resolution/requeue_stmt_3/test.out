@@ -50,12 +50,12 @@ Expr: <Id "F" test.adb:33:23-33:24>
   expected type: None
 Expr: <Real test.adb:33:26-33:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real test.adb:33:31-33:34>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "Process" test.adb:33:37-33:44>
   references:    <DefiningName "Process" test.adb:3:13-3:20>
   type:          None

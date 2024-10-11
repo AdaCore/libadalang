@@ -22,8 +22,8 @@ Expr: <Id "My_Put_Line" test.adb:65:6-65:17>
   expected type: None
 Expr: <AttributeRef test.adb:65:19-65:26>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "E" test.adb:65:19-65:20>
   references:    <DefiningName "E" test.adb:64:8-64:9>
   type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
@@ -54,8 +54,8 @@ Expr: <Id "My_Put_Line" test.adb:70:6-70:17>
   expected type: None
 Expr: <AttributeRef test.adb:70:19-70:49>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <CallExpr test.adb:70:19-70:43>
   references:    <DefiningName "Get_Element" test.adb:49:13-49:24>
   type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
@@ -98,8 +98,8 @@ Expr: <Id "My_Put_Line" test.adb:75:7-75:18>
   expected type: None
 Expr: <AttributeRef test.adb:75:20-75:27>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "E" test.adb:75:20-75:21>
   references:    <DefiningName "E" test.adb:74:8-74:9>
   type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
@@ -130,8 +130,8 @@ Expr: <Id "My_Put_Line" test.adb:80:7-80:18>
   expected type: None
 Expr: <AttributeRef test.adb:80:20-80:50>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <CallExpr test.adb:80:20-80:44>
   references:    <DefiningName "Get_Element" test.adb:49:13-49:24>
   type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
@@ -174,8 +174,8 @@ Expr: <Id "My_Put_Line" test.adb:85:6-85:17>
   expected type: None
 Expr: <AttributeRef test.adb:85:19-85:53>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <CallExpr test.adb:85:19-85:47>
   references:    <DefiningName "Get_Element" test.adb:49:13-49:24>
   type:          <SubtypeDecl ["Element_Type"] test.adb:6:4-6:38>
@@ -205,45 +205,45 @@ Resolving xrefs for node <ExprFunction [""<""] private_view.adb:38:7-39:42>
 ***************************************************************************
 
 Expr: <ParenExpr private_view.adb:39:9-39:41>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <QuantifiedExpr private_view.adb:39:10-39:40>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr private_view.adb:39:31-39:40>
   references:    <DefiningName "Ident" private_view.adb:33:16-33:21>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Ident" private_view.adb:39:31-39:36>
   references:    <DefiningName "Ident" private_view.adb:33:16-33:21>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "N" private_view.adb:39:38-39:39>
   references:    <DefiningName "N" private_view.adb:39:18-39:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ExprFunction [""<""] private_view.adb:47:7-48:43>
 ***************************************************************************
 
 Expr: <ParenExpr private_view.adb:48:10-48:42>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <QuantifiedExpr private_view.adb:48:11-48:41>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr private_view.adb:48:32-48:41>
   references:    <DefiningName "Ident" private_view.adb:33:16-33:21>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Ident" private_view.adb:48:32-48:37>
   references:    <DefiningName "Ident" private_view.adb:33:16-33:21>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "N" private_view.adb:48:39-48:40>
   references:    <DefiningName "N" private_view.adb:48:19-48:20>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

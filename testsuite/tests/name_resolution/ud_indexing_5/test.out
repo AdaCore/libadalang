@@ -26,12 +26,12 @@ Expr: <Id "W" test.adb:68:14-68:15>
   expected type: None
 Expr: <Id "X" test.adb:68:17-68:18>
   references:    <DefiningName "X" test.adb:65:36-65:37>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Y" test.adb:68:20-68:21>
   references:    <DefiningName "Y" test.adb:65:39-65:40>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "C" test.adb:68:23-68:24>
   references:    <DefiningName "C" test.adb:11:10-11:11>
   type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
@@ -70,12 +70,12 @@ Expr: <Id "CRef" test.adb:71:16-71:20>
   expected type: None
 Expr: <Id "X" test.adb:71:22-71:23>
   references:    <DefiningName "X" test.adb:65:36-65:37>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Y" test.adb:71:25-71:26>
   references:    <DefiningName "Y" test.adb:65:39-65:40>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "C" test.adb:71:28-71:29>
   references:    <DefiningName "C" test.adb:11:10-11:11>
   type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>
@@ -130,12 +130,12 @@ Expr: <Id "W" test.adb:77:7-77:8>
   expected type: None
 Expr: <Id "X" test.adb:77:10-77:11>
   references:    <DefiningName "X" test.adb:65:36-65:37>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Y" test.adb:77:13-77:14>
   references:    <DefiningName "Y" test.adb:65:39-65:40>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "C" test.adb:77:16-77:17>
   references:    <DefiningName "C" test.adb:11:10-11:11>
   type:          <ConcreteTypeDecl ["Color"] test.adb:8:7-8:31>

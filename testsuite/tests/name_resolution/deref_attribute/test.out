@@ -5,15 +5,15 @@ Resolving xrefs for node <ObjectDecl ["I"] test.adb:4:4-4:36>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:4:8-4:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:4:19-4:35>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" test.adb:4:19-4:26>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Deref" test.adb:4:27-4:32>
@@ -29,18 +29,18 @@ Resolving xrefs for node <ObjectDecl ["B"] test.adb:7:4-7:40>
 *************************************************************
 
 Expr: <Id "Boolean" test.adb:7:8-7:15>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <RelationOp test.adb:7:19-7:39>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <AttributeRef test.adb:7:19-7:35>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" test.adb:7:19-7:26>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Deref" test.adb:7:27-7:32>
@@ -57,8 +57,8 @@ Expr: <OpEq "=" test.adb:7:36-7:37>
   expected type: None
 Expr: <Int test.adb:7:38-7:39>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

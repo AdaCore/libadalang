@@ -24,12 +24,12 @@ Expr: <Aggregate repro.adb:19:28-19:34>
   expected type: <ConcreteTypeDecl ["Typ"] repro.adb:15:7-15:45>
 Expr: <Int repro.adb:19:29-19:30>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int repro.adb:19:32-19:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["Inst2"] repro.adb:22:7-22:39>
 ********************************************************************
@@ -55,12 +55,12 @@ Expr: <Aggregate repro.adb:22:31-22:37>
   expected type: <ConcreteTypeDecl ["Typ"] repro.adb:15:7-15:45>
 Expr: <Int repro.adb:22:32-22:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int repro.adb:22:35-22:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

@@ -12,15 +12,15 @@ Expr: <CaseExpr test.adb:9:10-12:31>
   expected type: <ConcreteTypeDecl ["Month"] test.adb:4:4-4:79>
 Expr: <Id "Selector" test.adb:9:15-9:23>
   references:    <DefiningName "Selector" test.adb:7:4-7:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <CaseExprAlternative test.adb:10:13-10:31>
   type:          None
   expected type: None
 Expr: <Int test.adb:10:18-10:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Jan" test.adb:10:28-10:31>
   references:    <DefiningName "Jan" test.adb:4:19-4:22>
   type:          <ConcreteTypeDecl ["Month"] test.adb:4:4-4:79>
@@ -29,20 +29,20 @@ Expr: <CaseExprAlternative test.adb:11:13-11:31>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:11:18-11:22>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Int test.adb:11:18-11:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <OpDoubleDot ".." test.adb:11:19-11:21>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:11:21-11:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Oct" test.adb:11:28-11:31>
   references:    <DefiningName "Oct" test.adb:4:64-4:67>
   type:          <ConcreteTypeDecl ["Month"] test.adb:4:4-4:79>
@@ -66,15 +66,15 @@ Expr: <CaseExpr test.adb:18:10-21:31>
   expected type: <ConcreteTypeDecl ["Employee"] test.adb:5:4-5:65>
 Expr: <Id "Selector" test.adb:18:15-18:23>
   references:    <DefiningName "Selector" test.adb:7:4-7:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <CaseExprAlternative test.adb:19:13-19:31>
   type:          None
   expected type: None
 Expr: <Int test.adb:19:18-19:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Jan" test.adb:19:28-19:31>
   references:    <DefiningName "Jan" test.adb:5:22-5:25>
   type:          <ConcreteTypeDecl ["Employee"] test.adb:5:4-5:65>
@@ -83,20 +83,20 @@ Expr: <CaseExprAlternative test.adb:20:13-20:31>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:20:18-20:22>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Int test.adb:20:18-20:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <OpDoubleDot ".." test.adb:20:19-20:21>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test.adb:20:21-20:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Jen" test.adb:20:28-20:31>
   references:    <DefiningName "Jen" test.adb:5:27-5:30>
   type:          <ConcreteTypeDecl ["Employee"] test.adb:5:4-5:65>

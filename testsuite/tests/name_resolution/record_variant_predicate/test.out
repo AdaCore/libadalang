@@ -17,8 +17,8 @@ Expr: <Id "A" test.adb:26:14-26:15>
   expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
 Expr: <Int test.adb:26:17-26:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["Y"] test.adb:29:4-29:21>
 ***************************************************************
@@ -36,8 +36,8 @@ Expr: <Id "C" test.adb:29:14-29:15>
   expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:27>
 Expr: <Int test.adb:29:17-29:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

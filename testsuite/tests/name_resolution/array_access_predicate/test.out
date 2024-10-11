@@ -17,12 +17,12 @@ Expr: <Id "Predicate" test.adb:6:15-6:24>
   type:          None
   expected type: None
 Expr: <RelationOp test.adb:6:28-6:39>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <AttributeRef test.adb:6:28-6:35>
   references:    None
-  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SubtypeDecl ["Positive"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "U" test.adb:6:28-6:29>
   references:    <DefiningName "U" test.adb:5:12-5:13>
   type:          <ConcreteTypeDecl ["U"] test.adb:5:7-6:40>
@@ -37,8 +37,8 @@ Expr: <OpEq "=" test.adb:6:36-6:37>
   expected type: None
 Expr: <Int test.adb:6:38-6:39>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <NullStmt test.adb:8:7-8:12>
 *****************************************************

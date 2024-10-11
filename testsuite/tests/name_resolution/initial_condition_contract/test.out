@@ -9,18 +9,18 @@ Expr: <Id "Initial_Condition" test.ads:2:4-2:21>
   type:          None
   expected type: None
 Expr: <ParenExpr test.ads:2:25-2:61>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <QuantifiedExpr test.ads:2:26-2:60>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr test.ads:2:55-2:60>
   references:    <DefiningName "F" test.ads:6:16-6:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "F" test.ads:2:55-2:56>
   references:    <DefiningName "F" test.ads:6:16-6:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "A" test.ads:2:58-2:59>
   references:    <DefiningName "A" test.ads:2:34-2:35>
@@ -39,7 +39,7 @@ Resolving xrefs for node <ConcreteTypeDecl ["Address_Type"] test.ads:5:7-5:40>
 ******************************************************************************
 
 Expr: <Id "Integer" test.ads:5:32-5:39>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -47,7 +47,7 @@ Resolving xrefs for node <SubpSpec test.ads:6:7-6:51>
 *****************************************************
 
 Expr: <Id "Boolean" test.ads:6:44-6:51>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 
@@ -106,18 +106,18 @@ Expr: <Id "Initial_Condition" test_pragma.ads:2:11-2:28>
   type:          None
   expected type: None
 Expr: <ParenExpr test_pragma.ads:2:30-2:66>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <QuantifiedExpr test_pragma.ads:2:31-2:65>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr test_pragma.ads:2:60-2:65>
   references:    <DefiningName "F" test_pragma.ads:6:16-6:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "F" test_pragma.ads:2:60-2:61>
   references:    <DefiningName "F" test_pragma.ads:6:16-6:17>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "A" test_pragma.ads:2:63-2:64>
   references:    <DefiningName "A" test_pragma.ads:2:39-2:40>

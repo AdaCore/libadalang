@@ -18,7 +18,7 @@ Expr: <Id "Pouet" type_conv.adb:6:9-6:14>
   expected type: None
 Expr: <Id "Q" type_conv.adb:6:16-6:17>
   references:    <DefiningName "Q" type_conv.adb:4:4-4:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 
 

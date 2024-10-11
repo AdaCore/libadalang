@@ -13,12 +13,12 @@ Expr: <Aggregate main.adb:11:9-11:19>
   expected type: <| ConcreteTypeDecl ["Tuple"] tuple.ads:5:4-8:15 [main.adb:4:4] |>
 Expr: <Int main.adb:11:10-11:12>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Real main.adb:11:14-11:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <AssignStmt main.adb:14:4-14:20>
 *********************************************************
@@ -32,12 +32,12 @@ Expr: <Aggregate main.adb:14:9-14:19>
   expected type: <| ConcreteTypeDecl ["Tuple"] tuple.ads:5:4-8:15 [main.adb:4:4] |>
 Expr: <Id "Foo" main.adb:14:10-14:13>
   references:    <DefiningName "Foo" main.adb:8:13-8:16>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Foo" main.adb:14:15-14:18>
   references:    <DefiningName "Foo" main.adb:9:13-9:16>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 
 Done.

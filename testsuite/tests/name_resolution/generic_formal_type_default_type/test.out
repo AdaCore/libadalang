@@ -20,8 +20,8 @@ Result: [<| ObjectDecl ["X"] inner.adb:8:10-8:16 [inner.adb:16:4, inner.adb:11:7
          <| ObjectDecl ["X"] inner.adb:8:10-8:16 [inner.adb:16:4, inner.adb:13:7] |>]
 
 Eval '[obj.f_type_expr.p_designated_type_decl for obj in objs]'
-Result: [<ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>,
-         <ConcreteTypeDecl ["Long_Integer"] __standard:9:3-9:69>]
+Result: [<ConcreteTypeDecl ["Integer"] in Standard>,
+         <ConcreteTypeDecl ["Long_Integer"] in Standard>]
 
 Working on node <GenericPackageInstantiation ["M"] inner2.adb:17:4-17:24>
 =========================================================================
@@ -45,8 +45,8 @@ Result: [<| ObjectDecl ["X"] inner2.adb:9:13-9:19 [inner2.adb:17:4, inner2.adb:1
          <| ObjectDecl ["X"] inner2.adb:9:13-9:19 [inner2.adb:17:4, inner2.adb:13:7, inner2.adb:14:7] |>]
 
 Eval '[obj.f_type_expr.p_designated_type_decl for obj in objs]'
-Result: [<ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>,
-         <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>]
+Result: [<ConcreteTypeDecl ["Integer"] in Standard>,
+         <ConcreteTypeDecl ["Integer"] in Standard>]
 
 Working on node <ObjectDecl ["X"] test.adb:5:7-5:13>
 ====================================================
@@ -61,7 +61,7 @@ Set 'obj' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
 Result: <| ObjectDecl ["X"] test.adb:5:7-5:13 [test.adb:9:4] |>
 
 Eval 'obj.f_type_expr.p_designated_type_decl'
-Result: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Result: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Working on node <GenericPackageInstantiation ["My_Pkg_2"] test.adb:13:4-13:47>
 ==============================================================================
@@ -70,4 +70,4 @@ Set 'obj' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
 Result: <| ObjectDecl ["X"] test.adb:5:7-5:13 [test.adb:13:4] |>
 
 Eval 'obj.f_type_expr.p_designated_type_decl'
-Result: <ConcreteTypeDecl ["Long_Integer"] __standard:9:3-9:69>
+Result: <ConcreteTypeDecl ["Long_Integer"] in Standard>

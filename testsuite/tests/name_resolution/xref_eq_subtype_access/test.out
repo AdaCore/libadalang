@@ -10,7 +10,7 @@ Expr: <Id "B" test_subtype_access.adb:10:4-10:5>
   expected type: None
 Expr: <Int test_subtype_access.adb:10:9-10:10>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Bit"] test_subtype_access.adb:2:4-2:29>
 
 Resolving xrefs for node <AssignStmt test_subtype_access.adb:13:4-13:15>
@@ -42,7 +42,7 @@ Expr: <Id "S" test_subtype_access.adb:16:4-16:5>
   expected type: <SubtypeDecl ["Sub"] test_subtype_access.adb:4:4-4:30>
 Expr: <Int test_subtype_access.adb:16:13-16:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Bit"] test_subtype_access.adb:2:4-2:29>
 
 

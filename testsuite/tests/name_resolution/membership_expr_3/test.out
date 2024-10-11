@@ -6,11 +6,11 @@ Resolving xrefs for node <AssignStmt test.adb:21:4-21:26>
 
 Expr: <Id "B" test.adb:21:4-21:5>
   references:    <DefiningName "B" test.adb:19:4-19:5>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <MembershipExpr test.adb:21:9-21:25>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <DottedName test.adb:21:9-21:16>
   references:    <DefiningName "Get" test.adb:15:16-15:19>
   type:          <| ConcreteTypeDecl ["Reference_Type"] test.adb:5:7-7:47 [test.adb:13:7] |>

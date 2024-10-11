@@ -20,7 +20,7 @@ Expr: <Id "C" test.adb:7:9-7:10>
   expected type: None
 Expr: <Int test.adb:7:12-7:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
 
 13:4: Expect `Expect_Fail` argument, got: Expect_Fial

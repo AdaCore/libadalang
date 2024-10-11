@@ -13,11 +13,11 @@ Expr: <Aggregate simple_aggregate.adb:11:9-11:15>
   expected type: <ConcreteTypeDecl ["Rec"] simple_aggregate.adb:3:4-5:15>
 Expr: <Int simple_aggregate.adb:11:10-11:11>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] simple_aggregate.adb:2:4-2:34>
 Expr: <Int simple_aggregate.adb:11:13-11:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] simple_aggregate.adb:2:4-2:34>
 
 Resolving xrefs for node <AssignStmt simple_aggregate.adb:14:4-14:18>
@@ -42,7 +42,7 @@ Expr: <Aggregate simple_aggregate.adb:17:9-17:17>
   expected type: <ConcreteTypeDecl ["Rec"] simple_aggregate.adb:3:4-5:15>
 Expr: <Int simple_aggregate.adb:17:10-17:11>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] simple_aggregate.adb:2:4-2:34>
 Expr: <Id "Foo" simple_aggregate.adb:17:13-17:16>
   references:    <DefiningName "Foo" simple_aggregate.adb:8:13-8:16>

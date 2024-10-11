@@ -19,5 +19,21 @@ test.adb:2:22: info: expected Integer, got universal real
   |                      ^^^^^^^
 
 
+Resolving xrefs for node <PragmaNode test.adb:21:10-21:47>
+**********************************************************
+
+Name resolution failed as expected with:
+
+test.adb:21:25: error: no matching alternative (showing 3 out of 4 candidates)
+21 |          pragma Assert (P."=" (P.T'First, 0));
+   |                         ^^^^^
+
+in Standard: info: expected root_real, got T [instance at line 19]
+
+in Standard: info: expected root_real, got universal integer
+
+in Standard: info: expected root_integer, got T [instance at line 19]
+
+
 
 Done.

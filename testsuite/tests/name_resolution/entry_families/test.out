@@ -5,13 +5,13 @@ Resolving xrefs for node <ObjectDecl ["C"] entryfam.adb:12:10-12:30>
 ********************************************************************
 
 Expr: <Id "Integer" entryfam.adb:12:14-12:21>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Spec" entryfam.adb:12:25-12:29>
   references:    <DefiningName "Spec" entryfam.adb:10:20-10:24>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <CallStmt entryfam.adb:23:4-23:16>
 ***********************************************************
@@ -38,12 +38,12 @@ Expr: <Id "A" entryfam.adb:23:6-23:7>
   expected type: None
 Expr: <Int entryfam.adb:23:9-23:10>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: None
 Expr: <Int entryfam.adb:23:13-23:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

@@ -5,13 +5,13 @@ Resolving xrefs for node <ObjectDecl ["A"] main.adb:4:4-4:35>
 *************************************************************
 
 Expr: <Id "Integer" main.adb:4:8-4:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <DottedName main.adb:4:19-4:34>
   references:    <| DefiningName "A" g.ads:5:7-5:8 [g_inst.ads:3:1, g_inst-b_inst.ads:1:1] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DottedName main.adb:4:19-4:32>
   references:    <DefiningName "G_Inst.B_Inst" g_inst-b_inst.ads:1:9-1:22>
   type:          None
@@ -26,8 +26,8 @@ Expr: <Id "B_Inst" main.adb:4:26-4:32>
   expected type: None
 Expr: <Id "A" main.adb:4:33-4:34>
   references:    <| DefiningName "A" g.ads:5:7-5:8 [g_inst.ads:3:1, g_inst-b_inst.ads:1:1] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

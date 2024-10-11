@@ -29,8 +29,8 @@ Expr: <Id "Mod" test.adb:8:22-8:25>
   expected type: None
 Expr: <Id "Seconds_Now" test.adb:8:27-8:38>
   references:    <DefiningName "Seconds_Now" test.adb:5:4-5:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <OpMinus "-" test.adb:8:40-8:41>
   references:    None
   type:          None

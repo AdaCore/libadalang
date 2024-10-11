@@ -2,13 +2,13 @@ Working on node <ObjectDecl ["Y"] test.adb:6:4-6:26>
 ====================================================
 
 Set 'typ' to 'node.f_default_expr.f_prefix.p_expression_type'
-Result: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Result: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Set 'subp' to 'typ.p_attribute_subprogram("image")'
-Result: <SyntheticSubpDecl ["image"] __standard:4:3-4:54>
+Result: <SyntheticSubpDecl ["image"] in Standard>
 
 Set 'spec' to 'node.f_default_expr.p_called_subp_spec'
-Result: <SyntheticUnarySpec __standard:4:3-4:54>
+Result: <SyntheticUnarySpec in Standard>
 
 Eval 'subp.p_subp_spec_or_null() == spec'
 Result: True

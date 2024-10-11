@@ -5,7 +5,7 @@ Resolving xrefs for node <SubpSpec test_pre_class.ads:4:4-5:31>
 ***************************************************************
 
 Expr: <Id "Boolean" test_pre_class.ads:5:24-5:31>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 
@@ -26,16 +26,16 @@ Expr: <Id "Pre" test_pre_class.ads:6:9-6:12>
   expected type: None
 Expr: <DottedName test_pre_class.ads:6:16-6:24>
   references:    <DefiningName "Why" test_pre_class.ads:10:13-10:16>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Self" test_pre_class.ads:6:16-6:20>
   references:    <DefiningName "Self" test_pre_class.ads:5:7-5:11>
   type:          <ConcreteTypeDecl ["T"] test_pre_class.ads:9:4-9:42>
   expected type: <ConcreteTypeDecl ["T"] test_pre_class.ads:9:4-9:42>
 Expr: <Id "Why" test_pre_class.ads:6:21-6:24>
   references:    <DefiningName "Why" test_pre_class.ads:10:13-10:16>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 
 Done.

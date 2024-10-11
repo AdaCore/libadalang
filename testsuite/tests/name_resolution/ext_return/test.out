@@ -6,12 +6,12 @@ Resolving xrefs for node <AssignStmt testextreturn.adb:5:10-5:18>
 
 Expr: <Id "A" testextreturn.adb:5:10-5:11>
   references:    <DefiningName "A" testextreturn.adb:4:14-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int testextreturn.adb:5:15-5:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ExtendedReturnStmt testextreturn.adb:4:7-7:18>
 ************************************************************************

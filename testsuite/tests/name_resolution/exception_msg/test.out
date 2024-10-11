@@ -5,33 +5,33 @@ Resolving xrefs for node <RaiseStmt testexcmsg.adb:3:4-3:61>
 ************************************************************
 
 Expr: <Id "Constraint_Error" testexcmsg.adb:3:10-3:26>
-  references:    <DefiningName "Constraint_Error" __standard:124:3-124:19>
+  references:    <DefiningName "Constraint_Error" in Standard>
   type:          None
   expected type: None
 Expr: <ConcatOp testexcmsg.adb:3:32-3:60>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Str ""Pouet"" testexcmsg.adb:3:32-3:39>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <ConcatOperand testexcmsg.adb:3:40-3:60>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <OpConcat "&" testexcmsg.adb:3:40-3:41>
   references:    None
   type:          None
   expected type: None
 Expr: <CallExpr testexcmsg.adb:3:42-3:60>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  references:    <SyntheticDefiningName "image" in Standard>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <AttributeRef testexcmsg.adb:3:42-3:55>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" testexcmsg.adb:3:42-3:49>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Image" testexcmsg.adb:3:50-3:55>
@@ -40,8 +40,8 @@ Expr: <Id "Image" testexcmsg.adb:3:50-3:55>
   expected type: None
 Expr: <Int testexcmsg.adb:3:57-3:59>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

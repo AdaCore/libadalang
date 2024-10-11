@@ -6,7 +6,7 @@ Resolving xrefs for node <AssignStmt root-pkg.adb:8:10-8:23>
 
 Expr: <DottedName root-pkg.adb:8:10-8:16>
   references:    <DefiningName "Y" root-pkg.ads:12:7-12:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Inst" root-pkg.adb:8:10-8:14>
   references:    <DefiningName "Inst" root-pkg.adb:6:10-6:14>
@@ -14,12 +14,12 @@ Expr: <Id "Inst" root-pkg.adb:8:10-8:14>
   expected type: <ConcreteTypeDecl ["X"] root-pkg.ads:11:4-13:15>
 Expr: <Id "Y" root-pkg.adb:8:15-8:16>
   references:    <DefiningName "Y" root-pkg.ads:12:7-12:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int root-pkg.adb:8:20-8:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

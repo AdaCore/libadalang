@@ -13,28 +13,28 @@ Expr: <Id "Put" test.adb:10:7-10:10>
   type:          None
   expected type: None
 Expr: <IfExpr test.adb:10:12-10:40>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "True" test.adb:10:15-10:19>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Y" test.adb:10:25-10:26>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <CallExpr test.adb:10:32-10:40>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Trim" test.adb:10:32-10:36>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "Y" test.adb:10:38-10:39>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <CallStmt test.adb:12:7-12:42>
 *******************************************************
@@ -48,28 +48,28 @@ Expr: <Id "Put" test.adb:12:7-12:10>
   type:          None
   expected type: None
 Expr: <IfExpr test.adb:12:12-12:40>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "True" test.adb:12:15-12:19>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr test.adb:12:25-12:33>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Trim" test.adb:12:25-12:29>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "Y" test.adb:12:31-12:32>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Y" test.adb:12:39-12:40>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <CallStmt test.adb:14:7-14:48>
 *******************************************************
@@ -83,36 +83,36 @@ Expr: <Id "Put" test.adb:14:7-14:10>
   type:          None
   expected type: None
 Expr: <IfExpr test.adb:14:12-14:46>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "True" test.adb:14:15-14:19>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr test.adb:14:25-14:33>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Trim" test.adb:14:25-14:29>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "Y" test.adb:14:31-14:32>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <CallExpr test.adb:14:39-14:46>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Trim" test.adb:14:39-14:43>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "Y" test.adb:14:44-14:45>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <CallStmt test.adb:16:7-16:73>
 *******************************************************
@@ -126,52 +126,52 @@ Expr: <Id "Put" test.adb:16:7-16:10>
   type:          None
   expected type: None
 Expr: <IfExpr test.adb:16:12-16:71>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "True" test.adb:16:15-16:19>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr test.adb:16:25-16:33>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Trim" test.adb:16:25-16:29>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "Y" test.adb:16:31-16:32>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "True" test.adb:16:40-16:44>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr test.adb:16:50-16:58>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Trim" test.adb:16:50-16:54>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "Y" test.adb:16:56-16:57>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <CallExpr test.adb:16:64-16:71>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "Trim" test.adb:16:64-16:68>
   references:    <DefiningName "Trim" test.adb:5:13-5:17>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
   expected type: None
 Expr: <Id "Y" test.adb:16:69-16:70>
   references:    <DefiningName "Y" test.adb:8:17-8:18>
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 
 Done.

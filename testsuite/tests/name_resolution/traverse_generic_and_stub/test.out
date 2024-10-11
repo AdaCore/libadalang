@@ -50,8 +50,8 @@ Expr: <| Id "Put_Line" pkg-foo.adb:6:4-6:12 [test.adb:4:4] |>
   expected type: None
 Expr: <| Str ""Visit Foo!"" pkg-foo.adb:6:14-6:26 [test.adb:4:4] |>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <| EndName pkg-foo.adb:7:5-7:8 [test.adb:4:4] |>
 *************************************************************************

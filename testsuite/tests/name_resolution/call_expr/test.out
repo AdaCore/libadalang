@@ -26,16 +26,16 @@ Expr: <Id "Blocks" test.adb:26:20-26:26>
   expected type: None
 Expr: <DottedName test.adb:26:28-26:48>
   references:    <DefiningName "Current_Block" test.adb:15:7-15:20>
-  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <SubtypeDecl ["Positive"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <Id "Stream" test.adb:26:28-26:34>
   references:    <DefiningName "Stream" test.adb:19:7-19:13>
   type:          <ConcreteTypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
   expected type: <ConcreteTypeDecl ["Memory_Stream_Type"] test.adb:13:4-16:15>
 Expr: <Id "Current_Block" test.adb:26:35-26:48>
   references:    <DefiningName "Current_Block" test.adb:15:7-15:20>
-  type:          <SubtypeDecl ["Positive"] __standard:6:3-6:57>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <SubtypeDecl ["Positive"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <BinOp test.adb:26:51-26:73>
   type:          <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>
   expected type: <ConcreteTypeDecl ["Stream_Element_Offset"] a-stream.ads:44:4-44:56>

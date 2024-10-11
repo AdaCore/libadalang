@@ -16,12 +16,12 @@ Expr: <Id "R" iterassoc.adb:7:23-7:24>
   type:          <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <BinOp iterassoc.adb:7:28-7:41>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <CallExpr iterassoc.adb:7:28-7:33>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:7:28-7:29>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -36,8 +36,8 @@ Expr: <OpMult "*" iterassoc.adb:7:34-7:35>
   expected type: None
 Expr: <CallExpr iterassoc.adb:7:36-7:41>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:7:36-7:37>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -66,7 +66,7 @@ Expr: <BinOp iterassoc.adb:10:27-10:33>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <Int iterassoc.adb:10:27-10:28>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <OpDoubleDot ".." iterassoc.adb:10:29-10:31>
   references:    None
@@ -74,15 +74,15 @@ Expr: <OpDoubleDot ".." iterassoc.adb:10:29-10:31>
   expected type: None
 Expr: <Int iterassoc.adb:10:32-10:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <BinOp iterassoc.adb:10:37-10:50>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <CallExpr iterassoc.adb:10:37-10:42>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:10:37-10:38>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -97,8 +97,8 @@ Expr: <OpMult "*" iterassoc.adb:10:43-10:44>
   expected type: None
 Expr: <CallExpr iterassoc.adb:10:45-10:50>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:10:45-10:46>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -123,7 +123,7 @@ Expr: <BinOp iterassoc.adb:13:23-13:29>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <Int iterassoc.adb:13:23-13:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <OpDoubleDot ".." iterassoc.adb:13:25-13:27>
   references:    None
@@ -131,15 +131,15 @@ Expr: <OpDoubleDot ".." iterassoc.adb:13:25-13:27>
   expected type: None
 Expr: <Int iterassoc.adb:13:28-13:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <BinOp iterassoc.adb:13:33-13:46>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <CallExpr iterassoc.adb:13:33-13:38>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:13:33-13:34>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -154,8 +154,8 @@ Expr: <OpMult "*" iterassoc.adb:13:39-13:40>
   expected type: None
 Expr: <CallExpr iterassoc.adb:13:41-13:46>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:13:41-13:42>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -176,28 +176,28 @@ Expr: <Aggregate iterassoc.adb:16:13-16:42>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
   expected type: <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
 Expr: <Id "Float" iterassoc.adb:16:22-16:27>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <Id "X" iterassoc.adb:16:31-16:32>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <BinOp iterassoc.adb:16:36-16:41>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "F" iterassoc.adb:16:36-16:37>
   references:    <DefiningName "F" iterassoc.adb:16:18-16:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpMult "*" iterassoc.adb:16:38-16:39>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "F" iterassoc.adb:16:40-16:41>
   references:    <DefiningName "F" iterassoc.adb:16:18-16:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["P"] iterassoc.adb:19:4-19:35>
 ********************************************************************
@@ -214,20 +214,20 @@ Expr: <Id "X" iterassoc.adb:19:23-19:24>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
   expected type: None
 Expr: <BinOp iterassoc.adb:19:28-19:33>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "F" iterassoc.adb:19:28-19:29>
   references:    <DefiningName "F" iterassoc.adb:19:18-19:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpMult "*" iterassoc.adb:19:30-19:31>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "F" iterassoc.adb:19:32-19:33>
   references:    <DefiningName "F" iterassoc.adb:19:18-19:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["Q"] iterassoc.adb:25:4-27:44>
 ********************************************************************
@@ -244,7 +244,7 @@ Expr: <BinOp iterassoc.adb:26:16-26:22>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <Int iterassoc.adb:26:16-26:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <OpDoubleDot ".." iterassoc.adb:26:18-26:20>
   references:    None
@@ -252,7 +252,7 @@ Expr: <OpDoubleDot ".." iterassoc.adb:26:18-26:20>
   expected type: None
 Expr: <Int iterassoc.adb:26:21-26:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <Aggregate iterassoc.adb:27:8-27:42>
   type:          None
@@ -262,7 +262,7 @@ Expr: <BinOp iterassoc.adb:27:18-27:24>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <Int iterassoc.adb:27:18-27:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <OpDoubleDot ".." iterassoc.adb:27:20-27:22>
   references:    None
@@ -270,15 +270,15 @@ Expr: <OpDoubleDot ".." iterassoc.adb:27:20-27:22>
   expected type: None
 Expr: <Int iterassoc.adb:27:23-27:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["R"] iterassoc.adb:2:4-2:27>
 Expr: <BinOp iterassoc.adb:27:28-27:41>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <CallExpr iterassoc.adb:27:28-27:33>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:27:28-27:29>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -293,8 +293,8 @@ Expr: <OpMult "*" iterassoc.adb:27:34-27:35>
   expected type: None
 Expr: <CallExpr iterassoc.adb:27:36-27:41>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc.adb:27:36-27:37>
   references:    <DefiningName "X" iterassoc.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc.adb:3:4-3:33>
@@ -316,20 +316,20 @@ Resolving xrefs for node <ConcreteTypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
 *******************************************************************************
 
 Expr: <BinOp iterassoc_filter.adb:2:20-2:26>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <Int iterassoc_filter.adb:2:20-2:21>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <OpDoubleDot ".." iterassoc_filter.adb:2:22-2:24>
   references:    None
   type:          None
   expected type: None
 Expr: <Int iterassoc_filter.adb:2:25-2:26>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 
 Resolving xrefs for node <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
 *******************************************************************************
@@ -343,7 +343,7 @@ Expr: <Id "R" iterassoc_filter.adb:3:21-3:22>
   type:          None
   expected type: None
 Expr: <Id "Float" iterassoc_filter.adb:3:27-3:32>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 
@@ -359,24 +359,24 @@ Expr: <Aggregate iterassoc_filter.adb:5:13-5:38>
   expected type: <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
 Expr: <Real iterassoc_filter.adb:5:14-5:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real iterassoc_filter.adb:5:19-5:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real iterassoc_filter.adb:5:24-5:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real iterassoc_filter.adb:5:29-5:32>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Real iterassoc_filter.adb:5:34-5:37>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["M"] iterassoc_filter.adb:7:4-7:61>
 *************************************************************************
@@ -393,12 +393,12 @@ Expr: <Id "R" iterassoc_filter.adb:7:23-7:24>
   type:          <ConcreteTypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
   expected type: <ConcreteTypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
 Expr: <BinOp iterassoc_filter.adb:7:46-7:59>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <CallExpr iterassoc_filter.adb:7:46-7:51>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:7:46-7:47>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -413,8 +413,8 @@ Expr: <OpMult "*" iterassoc_filter.adb:7:52-7:53>
   expected type: None
 Expr: <CallExpr iterassoc_filter.adb:7:54-7:59>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:7:54-7:55>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -428,12 +428,12 @@ Resolving xrefs for node <ForLoopIterFilter iterassoc_filter.adb:7:25-7:42>
 ***************************************************************************
 
 Expr: <RelationOp iterassoc_filter.adb:7:30-7:42>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr iterassoc_filter.adb:7:30-7:35>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:7:30-7:31>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -448,8 +448,8 @@ Expr: <OpGte ">=" iterassoc_filter.adb:7:36-7:38>
   expected type: None
 Expr: <Real iterassoc_filter.adb:7:39-7:42>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["O"] iterassoc_filter.adb:9:4-9:57>
 *************************************************************************
@@ -462,47 +462,47 @@ Expr: <Aggregate iterassoc_filter.adb:9:13-9:56>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
   expected type: <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
 Expr: <Id "Float" iterassoc_filter.adb:9:22-9:27>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 Expr: <Id "X" iterassoc_filter.adb:9:31-9:32>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <BinOp iterassoc_filter.adb:9:50-9:55>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "F" iterassoc_filter.adb:9:50-9:51>
   references:    <DefiningName "F" iterassoc_filter.adb:9:18-9:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpMult "*" iterassoc_filter.adb:9:52-9:53>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "F" iterassoc_filter.adb:9:54-9:55>
   references:    <DefiningName "F" iterassoc_filter.adb:9:18-9:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ForLoopIterFilter iterassoc_filter.adb:9:33-9:46>
 ***************************************************************************
 
 Expr: <RelationOp iterassoc_filter.adb:9:38-9:46>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "F" iterassoc_filter.adb:9:38-9:39>
   references:    <DefiningName "F" iterassoc_filter.adb:9:18-9:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpGte ">=" iterassoc_filter.adb:9:40-9:42>
   references:    None
   type:          None
   expected type: None
 Expr: <Real iterassoc_filter.adb:9:43-9:46>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["P"] iterassoc_filter.adb:11:4-11:49>
 ***************************************************************************
@@ -519,39 +519,39 @@ Expr: <Id "X" iterassoc_filter.adb:11:23-11:24>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
   expected type: None
 Expr: <BinOp iterassoc_filter.adb:11:42-11:47>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "F" iterassoc_filter.adb:11:42-11:43>
   references:    <DefiningName "F" iterassoc_filter.adb:11:18-11:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpMult "*" iterassoc_filter.adb:11:44-11:45>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "F" iterassoc_filter.adb:11:46-11:47>
   references:    <DefiningName "F" iterassoc_filter.adb:11:18-11:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ForLoopIterFilter iterassoc_filter.adb:11:25-11:38>
 *****************************************************************************
 
 Expr: <RelationOp iterassoc_filter.adb:11:30-11:38>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "F" iterassoc_filter.adb:11:30-11:31>
   references:    <DefiningName "F" iterassoc_filter.adb:11:18-11:19>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpGte ">=" iterassoc_filter.adb:11:32-11:34>
   references:    None
   type:          None
   expected type: None
 Expr: <Real iterassoc_filter.adb:11:35-11:38>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ConcreteTypeDecl ["AA"] iterassoc_filter.adb:14:4-14:37>
 **********************************************************************************
@@ -569,7 +569,7 @@ Expr: <Id "R" iterassoc_filter.adb:14:25-14:26>
   type:          None
   expected type: None
 Expr: <Id "Float" iterassoc_filter.adb:14:31-14:36>
-  references:    <DefiningName "Float" __standard:14:8-14:13>
+  references:    <DefiningName "Float" in Standard>
   type:          None
   expected type: None
 
@@ -595,12 +595,12 @@ Expr: <Id "R" iterassoc_filter.adb:18:18-18:19>
   type:          <ConcreteTypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
   expected type: <ConcreteTypeDecl ["R"] iterassoc_filter.adb:2:4-2:27>
 Expr: <BinOp iterassoc_filter.adb:18:41-18:54>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <CallExpr iterassoc_filter.adb:18:41-18:46>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:18:41-18:42>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -615,8 +615,8 @@ Expr: <OpMult "*" iterassoc_filter.adb:18:47-18:48>
   expected type: None
 Expr: <CallExpr iterassoc_filter.adb:18:49-18:54>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:18:49-18:50>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -630,12 +630,12 @@ Resolving xrefs for node <ForLoopIterFilter iterassoc_filter.adb:17:18-17:35>
 *****************************************************************************
 
 Expr: <RelationOp iterassoc_filter.adb:17:23-17:35>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr iterassoc_filter.adb:17:23-17:28>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:17:23-17:24>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -650,19 +650,19 @@ Expr: <OpGte ">=" iterassoc_filter.adb:17:29-17:31>
   expected type: None
 Expr: <Real iterassoc_filter.adb:17:32-17:35>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ForLoopIterFilter iterassoc_filter.adb:18:20-18:37>
 *****************************************************************************
 
 Expr: <RelationOp iterassoc_filter.adb:18:25-18:37>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr iterassoc_filter.adb:18:25-18:30>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:18:25-18:26>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -677,37 +677,37 @@ Expr: <OpGte ">=" iterassoc_filter.adb:18:31-18:33>
   expected type: None
 Expr: <Real iterassoc_filter.adb:18:34-18:37>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["R"] iterassoc_filter.adb:20:4-20:61>
 ***************************************************************************
 
 Expr: <Id "Boolean" iterassoc_filter.adb:20:8-20:15>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <ParenExpr iterassoc_filter.adb:20:19-20:60>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <QuantifiedExpr iterassoc_filter.adb:20:20-20:59>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <RelationOp iterassoc_filter.adb:20:52-20:59>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "F" iterassoc_filter.adb:20:52-20:53>
   references:    <DefiningName "F" iterassoc_filter.adb:20:28-20:29>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpGt ">" iterassoc_filter.adb:20:54-20:55>
   references:    None
   type:          None
   expected type: None
 Expr: <Real iterassoc_filter.adb:20:56-20:59>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ForLoopSpec iterassoc_filter.adb:20:28-20:48>
 ***********************************************************************
@@ -721,41 +721,41 @@ Resolving xrefs for node <ForLoopIterFilter iterassoc_filter.adb:20:35-20:48>
 *****************************************************************************
 
 Expr: <RelationOp iterassoc_filter.adb:20:40-20:48>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "F" iterassoc_filter.adb:20:40-20:41>
   references:    <DefiningName "F" iterassoc_filter.adb:20:28-20:29>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <OpGte ">=" iterassoc_filter.adb:20:42-20:44>
   references:    None
   type:          None
   expected type: None
 Expr: <Real iterassoc_filter.adb:20:45-20:48>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["S"] iterassoc_filter.adb:22:4-22:75>
 ***************************************************************************
 
 Expr: <Id "Boolean" iterassoc_filter.adb:22:8-22:15>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 Expr: <ParenExpr iterassoc_filter.adb:22:19-22:74>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <QuantifiedExpr iterassoc_filter.adb:22:20-22:73>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <RelationOp iterassoc_filter.adb:22:62-22:73>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr iterassoc_filter.adb:22:62-22:67>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:22:62-22:63>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -770,38 +770,38 @@ Expr: <OpGt ">" iterassoc_filter.adb:22:68-22:69>
   expected type: None
 Expr: <Real iterassoc_filter.adb:22:70-22:73>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <ForLoopSpec iterassoc_filter.adb:22:29-22:58>
 ***********************************************************************
 
 Expr: <BinOp iterassoc_filter.adb:22:34-22:40>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int iterassoc_filter.adb:22:34-22:35>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." iterassoc_filter.adb:22:36-22:38>
   references:    None
   type:          None
   expected type: None
 Expr: <Int iterassoc_filter.adb:22:39-22:40>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ForLoopIterFilter iterassoc_filter.adb:22:41-22:58>
 *****************************************************************************
 
 Expr: <RelationOp iterassoc_filter.adb:22:46-22:58>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr iterassoc_filter.adb:22:46-22:51>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Float"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 Expr: <Id "X" iterassoc_filter.adb:22:46-22:47>
   references:    <DefiningName "X" iterassoc_filter.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["A"] iterassoc_filter.adb:3:4-3:33>
@@ -816,8 +816,8 @@ Expr: <OpGte ">=" iterassoc_filter.adb:22:52-22:54>
   expected type: None
 Expr: <Real iterassoc_filter.adb:22:55-22:58>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Float"] __standard:14:3-15:51>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Float"] in Standard>
 
 Resolving xrefs for node <NullStmt iterassoc_filter.adb:24:4-24:9>
 ******************************************************************

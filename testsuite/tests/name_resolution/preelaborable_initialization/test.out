@@ -10,7 +10,7 @@ Expr: <Id "Preelaborable_Initializaton" test.adb:7:7-7:34>
   expected type: None
 Expr: <AttributeRef test.adb:7:38-7:68>
   references:    None
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "T" test.adb:7:38-7:39>
   references:    <DefiningName "T" test.adb:4:9-4:10>

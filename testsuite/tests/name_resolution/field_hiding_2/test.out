@@ -6,7 +6,7 @@ Resolving xrefs for node <AssignStmt test.adb:23:10-23:23>
 
 Expr: <DottedName test.adb:23:10-23:16>
   references:    <DefiningName "Kind" test.adb:13:10-13:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "X" test.adb:23:10-23:11>
   references:    <DefiningName "X" test.adb:21:10-21:11>
@@ -14,12 +14,12 @@ Expr: <Id "X" test.adb:23:10-23:11>
   expected type: <ConcreteTypeDecl ["Object"] test.adb:12:7-14:18>
 Expr: <Id "Kind" test.adb:23:12-23:16>
   references:    <DefiningName "Kind" test.adb:13:10-13:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Int test.adb:23:20-23:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <CallStmt test.adb:25:10-25:34>
 ********************************************************
@@ -34,11 +34,11 @@ Expr: <Id "Put_Line" test.adb:25:10-25:18>
   expected type: None
 Expr: <AttributeRef test.adb:25:20-25:32>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <DottedName test.adb:25:20-25:26>
   references:    <DefiningName "Kind" test.adb:13:10-13:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "X" test.adb:25:20-25:21>
   references:    <DefiningName "X" test.adb:21:10-21:11>
@@ -46,7 +46,7 @@ Expr: <Id "X" test.adb:25:20-25:21>
   expected type: <ConcreteTypeDecl ["Object"] test.adb:12:7-14:18>
 Expr: <Id "Kind" test.adb:25:22-25:26>
   references:    <DefiningName "Kind" test.adb:13:10-13:14>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "Image" test.adb:25:27-25:32>
   references:    None

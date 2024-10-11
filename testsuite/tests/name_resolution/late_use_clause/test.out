@@ -31,8 +31,8 @@ Expr: <Id "Expect_Fail" testuse.adb:15:30-15:41>
   type:          None
   expected type: None
 Expr: <Id "True" testuse.adb:15:45-15:49>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 
 Resolving xrefs for node <UsePackageClause testuse.adb:16:7-16:13>

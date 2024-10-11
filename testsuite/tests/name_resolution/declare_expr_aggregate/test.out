@@ -15,29 +15,29 @@ Expr: <Aggregate test.adb:10:13-10:19>
   expected type: <ConcreteTypeDecl ["A"] test.adb:4:4-4:54>
 Expr: <Id "I" test.adb:10:14-10:15>
   references:    <DefiningName "I" test.adb:8:9-8:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "J" test.adb:10:17-10:18>
   references:    <DefiningName "J" test.adb:9:9-9:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ExprFunction ["G"] test.adb:13:4-16:18>
 *****************************************************************
 
 Expr: <ParenExpr test.adb:14:6-16:17>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <DeclExpr test.adb:14:7-16:16>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <ParenExpr test.adb:16:13-16:16>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "K" test.adb:16:14-16:15>
   references:    <DefiningName "K" test.adb:15:9-15:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ExprFunction ["H"] test.adb:22:4-25:52>
 *****************************************************************
@@ -53,8 +53,8 @@ Expr: <Aggregate test.adb:25:13-25:50>
   expected type: <ConcreteTypeDecl ["B"] test.adb:19:4-19:48>
 Expr: <AttributeRef test.adb:25:14-25:21>
   references:    None
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "B" test.adb:25:14-25:15>
   references:    <DefiningName "B" test.adb:19:9-19:10>
   type:          None
@@ -68,16 +68,16 @@ Expr: <Aggregate test.adb:25:25-25:31>
   expected type: <ConcreteTypeDecl ["A"] test.adb:4:4-4:54>
 Expr: <Id "K" test.adb:25:26-25:27>
   references:    <DefiningName "K" test.adb:24:9-24:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "K" test.adb:25:29-25:30>
   references:    <DefiningName "K" test.adb:24:9-24:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:25:33-25:39>
   references:    None
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "B" test.adb:25:33-25:34>
   references:    <DefiningName "B" test.adb:19:9-19:10>
   type:          None
@@ -91,12 +91,12 @@ Expr: <Aggregate test.adb:25:43-25:49>
   expected type: <ConcreteTypeDecl ["A"] test.adb:4:4-4:54>
 Expr: <Id "K" test.adb:25:44-25:45>
   references:    <DefiningName "K" test.adb:24:9-24:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "K" test.adb:25:47-25:48>
   references:    <DefiningName "K" test.adb:24:9-24:10>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

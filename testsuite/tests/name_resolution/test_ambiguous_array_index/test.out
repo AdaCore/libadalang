@@ -18,12 +18,12 @@ Expr: <Id "Arr" testar.adb:12:22-12:25>
   expected type: None
 Expr: <Int testar.adb:12:27-12:29>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 Expr: <Int testar.adb:12:31-12:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Positive"] __standard:6:3-6:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Positive"] in Standard>
 
 
 Done.

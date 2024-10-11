@@ -14,12 +14,12 @@ Resolving xrefs for node <AssignStmt testloop.adb:11:7-11:16>
 
 Expr: <Id "El" testloop.adb:11:7-11:9>
   references:    <DefiningName "El" testloop.adb:10:8-10:10>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <Int testloop.adb:11:13-11:15>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 
 
 Done.

@@ -10,23 +10,23 @@ Expr: <Id "Fix_Delta" test.adb:3:25-3:34>
   expected type: None
 Expr: <Real test.adb:3:41-3:44>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 Expr: <BinOp test.adb:3:51-3:61>
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 Expr: <Real test.adb:3:51-3:54>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 Expr: <OpDoubleDot ".." test.adb:3:55-3:57>
   references:    None
   type:          None
   expected type: None
 Expr: <Real test.adb:3:58-3:61>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 
 Resolving xrefs for node <SubtypeDecl ["Sub_Digits"] test.adb:7:4-7:64>
 ***********************************************************************
@@ -37,23 +37,23 @@ Expr: <Id "Fix_Digits" test.adb:7:26-7:36>
   expected type: None
 Expr: <Int test.adb:7:44-7:45>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <BinOp test.adb:7:52-7:63>
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 Expr: <Real test.adb:7:52-7:55>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 Expr: <OpDoubleDot ".." test.adb:7:56-7:58>
   references:    None
   type:          None
   expected type: None
 Expr: <Real test.adb:7:59-7:63>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 
 
 Done.

@@ -23,7 +23,7 @@ Resolving xrefs for node <| SubpSpec test.adb:3:15-3:41 [test.adb:16:4, test.adb
 *****************************************************************************************
 
 Expr: <| Id "Boolean" test.adb:3:34-3:41 [test.adb:16:4, test.adb:17:4] |>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 
@@ -34,7 +34,7 @@ Resolving xrefs for node <| SubpSpec test.adb:13:7-13:33 [test.adb:16:4, test.ad
 ******************************************************************************************
 
 Expr: <| Id "Boolean" test.adb:13:26-13:33 [test.adb:16:4, test.adb:17:4] |>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 

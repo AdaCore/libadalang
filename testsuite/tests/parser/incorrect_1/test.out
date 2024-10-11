@@ -1,8 +1,8 @@
+input:1:1: Cannot parse <subp_body>
+input:2:4: Cannot parse <subp_body>
 input:3:7: Cannot parse <subp_body>
 input:5:1: Expected 'end', got Termination
-input:2:4: Cannot parse <subp_body>
 input:5:1: Expected 'begin', got Termination
-input:1:1: Cannot parse <subp_body>
 input:5:1: Expected 'begin', got Termination
 CompilationUnit[1:1-5:1] <<INCOMPLETE>>
 |f_prelude:

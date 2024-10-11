@@ -1,6 +1,6 @@
+input:1:1: Cannot parse <sub_object_decl>
 input:1:13: Cannot parse <aspect_spec>
 input:2:1: Expected '@', got Termination
-input:1:1: Cannot parse <sub_object_decl>
 input:2:1: Expected ';', got Termination
 ObjectDecl[1:1-2:1] <<INCOMPLETE>>
 |f_ids:

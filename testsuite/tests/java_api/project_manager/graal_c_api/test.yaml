@@ -27,3 +27,4 @@ setup_script: |
     with open(cgpr_file, "w") as f:
         f.write(content)
 canonicalize_directory_separators: true
+canonicalize_native_target: true

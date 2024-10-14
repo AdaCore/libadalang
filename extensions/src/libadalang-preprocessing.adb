@@ -51,10 +51,8 @@ package body Libadalang.Preprocessing is
 
    overriding procedure Release (Self : in out Dummy_Unit_Provider) is null;
 
-   function Create_Dummy_Context return Analysis_Context
-   is
-     (Create_Context (Unit_Provider => Create_Unit_Provider_Reference
-                                         (Dummy_Unit_Provider'(null record))));
+   function Create_Dummy_Context return Analysis_Context;
+   --  Create a dummy analysis context for ``Preprocessor_Data_Record.Context``
 
    type Pp_File_Reader is new File_Reader_Interface with record
       Data : Preprocessor_Data;
@@ -97,6 +95,20 @@ package body Libadalang.Preprocessing is
       File_Configs   : out File_Config_Maps.Map)
       with Pre => Tree.Kind = View.Kind;
    --  Common implementation for the homonym public functions
+
+   --------------------------
+   -- Create_Dummy_Context --
+   --------------------------
+
+   function Create_Dummy_Context return Analysis_Context is
+      Result : constant Analysis_Context :=
+        Create_Context
+          (Unit_Provider => Create_Unit_Provider_Reference
+                              (Dummy_Unit_Provider'(null record)));
+   begin
+      Result.Disable_Preprocessor_Directives_Errors;
+      return Result;
+   end Create_Dummy_Context;
 
    ----------
    -- Read --

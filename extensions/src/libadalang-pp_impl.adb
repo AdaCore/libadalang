@@ -626,6 +626,10 @@ package body Libadalang.PP_Impl is
       --  enabled, set ``V`` to the ``false`` string when the symbol is
       --  undefined (this is valid iff. a string is requested).
 
+      function Decode_Symbol (Id : Identifier) return US.Unbounded_String;
+      --  Turn an identifier into the corresponding preprocessor symbol
+      --  representation.
+
       function Outer_Sloc (S : Source_Location) return Source_Location;
       --  Convert ``S`` (a source location relative to ``Text``) to the
       --  corresponding location in the original source buffer.
@@ -780,7 +784,9 @@ package body Libadalang.PP_Impl is
             when Ada_Attribute_Ref =>
 
                --  Expect a "<symbol>'Defined" construct, to return if the
-               --  referenced symbol is defined.
+               --  referenced symbol is defined. Note that attribute references
+               --  that come from the preprocessor directive parsing rules
+               --  always have an identifier prefix.
 
                declare
                   AR   : constant Attribute_Ref := D.As_Attribute_Ref;
@@ -794,13 +800,8 @@ package body Libadalang.PP_Impl is
                      Error (Attr, "identifier ""Defined"" expected");
                   end if;
 
-                  declare
-                     Sym : constant US.Unbounded_String :=
-                       US.To_Unbounded_String
-                          (To_Lower (Image (AR.F_Prefix.Text)));
-                  begin
-                     return Cfg.Definitions.Contains (Sym);
-                  end;
+                  return Cfg.Definitions.Contains
+                           (Decode_Symbol (AR.F_Prefix.As_Identifier));
                end;
 
             when Ada_Un_Op =>
@@ -977,15 +978,13 @@ package body Libadalang.PP_Impl is
          Or_False : Boolean := False)
       is
          use Definition_Maps;
-         Sym : US.Unbounded_String;
          Cur : Cursor;
       begin
          Abort_If_Null (Id);
 
          --  Look for a definition for the requested symbol and fetch its value
 
-         Sym := US.To_Unbounded_String (To_Lower (Image (Id.Text)));
-         Cur := Cfg.Definitions.Find (Sym);
+         Cur := Cfg.Definitions.Find (Decode_Symbol (Id));
          if not Has_Element (Cur) then
             if Or_False and then Cfg.Undefined_Is_False then
                V.Kind := String_Value;
@@ -1019,6 +1018,19 @@ package body Libadalang.PP_Impl is
                   & " value is not an integer");
          end;
       end Get_Symbol_Value;
+
+      -------------------
+      -- Decode_Symbol --
+      -------------------
+
+      function Decode_Symbol (Id : Identifier) return US.Unbounded_String is
+         Sym_Text : constant Text_Type := Id.Text;
+      begin
+         if Sym_Text (Sym_Text'First) = '$' then
+            Error (Id, "unexpected '$' in preprocessing directive");
+         end if;
+         return US.To_Unbounded_String (To_Lower (Image (Sym_Text)));
+      end Decode_Symbol;
 
       ----------------
       -- Outer_Sloc --

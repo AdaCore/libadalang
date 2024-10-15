@@ -191,4 +191,29 @@ package Libadalang.Implementation.C.Extensions is
      with Export, Convention => C;
    --  See the C header
 
+   ------------------------
+   -- Target information --
+   ------------------------
+
+   type ada_target_information is access Target_Information;
+   procedure Free is new Ada.Unchecked_Deallocation
+     (Target_Information, ada_target_information);
+
+   function ada_target_info_load
+     (Filename : chars_ptr) return ada_target_information
+     with Export, Convention => C;
+   --  Read target information from `Filename` and return it. Raise an
+   --  `Langkit_Support.Errors.Invalid_Input` exception if it cannot be read of
+   --  if there is any trouble decoding it.
+
+   procedure ada_target_info_free (Self : ada_target_information)
+     with Export, Convention => C;
+   --  Free resources allocated for `Self`
+
+   procedure ada_target_info_set
+     (Self : ada_analysis_context; Info : ada_target_information)
+     with Export, Convention => C;
+   --  Assign target information to ``self``. This will affect specific bound
+   --  values for types defined in the built in Standard package.
+
 end Libadalang.Implementation.C.Extensions;

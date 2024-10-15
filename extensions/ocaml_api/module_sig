@@ -1,5 +1,15 @@
 ## vim: filetype=ocaml
 
+module TargetInformation : sig
+  type t
+
+  ${ocaml_doc("libadalang.target_info_load", 2)}
+  val load : string -> t
+
+  ${ocaml_doc("libadalang.target_info_set", 2)}
+  val set : AnalysisContext.t -> t -> unit
+end
+
 module GPRProject : sig
   type t
 

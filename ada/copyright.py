@@ -6,6 +6,8 @@ Helpers to format copyright headers.
 
 import sys
 
+from langkit.utils import SourcePostProcessor
+
 
 BOX_SIZE = 78
 TEXT_SIZE = 72
@@ -32,19 +34,21 @@ def format_start(prefix):
     return result
 
 
-def format_ada(source):
-    return concat(format_start('--  '), source)
+class AdaPostProcessor(SourcePostProcessor):
+    def process(self, source):
+        return concat(format_start('--  '), source)
 
 
-def format_python(source):
-    # If there is a shebang, add the copyright header after it
-    if source.startswith('#!'):
-        shebang, rest = source.split('\n', 1)
-        shebang += '\n\n'
-    else:
-        shebang = ''
-        rest = source
-    return shebang + concat(format_start('# '), rest)
+class PythonPostProcessor(SourcePostProcessor):
+    def process(self, source):
+        # If there is a shebang, add the copyright header after it
+        if source.startswith('#!'):
+            shebang, rest = source.split('\n', 1)
+            shebang += '\n\n'
+        else:
+            shebang = ''
+            rest = source
+        return shebang + concat(format_start('# '), rest)
 
 
 def format_tags(source, opening, closing):
@@ -57,30 +61,32 @@ def format_tags(source, opening, closing):
     return concat(result, source)
 
 
-def format_ocaml(source):
-    return format_tags(source, "(*", " *)")
+class OCamlPostProcessor(SourcePostProcessor):
+    def process(self, source):
+        return format_tags(source, "(*", " *)")
 
 
-def format_c(source):
-    return format_tags(source, "/*", " */")
+class CCppPostProcessor(SourcePostProcessor):
+    def process(self, source):
+        return format_tags(source, "/*", " */")
 
 
 def run(argv):
     for filename in argv:
         _, ext = filename.rsplit('.', 1)
-        formatter = {
-            'ads': format_ada,
-            'adb': format_ada,
-            'c': format_c,
-            'h': format_c,
-            'py': format_python,
+        cls = {
+            'ads': AdaPostProcessor,
+            'adb': AdaPostProcessor,
+            'c': CCppPostProcessor,
+            'h': CCppPostProcessor,
+            'py': PythonPostProcessor,
         }[ext]
 
         with open(filename, 'rb') as f:
             content = f.read()
 
         with open(filename, 'wb') as f:
-            f.write(formatter(content))
+            f.write(cls().process(content))
 
 
 if __name__ == '__main__':

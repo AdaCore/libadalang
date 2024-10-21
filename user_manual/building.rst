@@ -54,7 +54,8 @@ following steps:
 
      $ python -mvenv env
      $ source env/bin/activate
-     $ pip install -r REQUIREMENTS.dev
+     $ pip install -r requirements-github.txt
+     $ pip install -r requirements-pypi.txt
 
 For GNATcoll, AdaSAT and Langkit, make sure to install the version that
 corresponds to the version of Libadalang that is built. For instance, build all

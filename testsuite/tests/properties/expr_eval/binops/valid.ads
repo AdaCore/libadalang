@@ -38,7 +38,7 @@ package Valid is
    Bool_And_Then_4 : constant Boolean := False and then True;
    --% node.f_default_expr.p_eval_as_int
 
-   Bool_And_Then_5 : constant Boolean := True and False;
+   Bool_And : constant Boolean := True and False;
    --% node.f_default_expr.p_eval_as_int
 
    Bool_Or_Else_1 : constant Boolean := True or else True;
@@ -53,7 +53,16 @@ package Valid is
    Bool_Or_Else_4 : constant Boolean := False or else True;
    --% node.f_default_expr.p_eval_as_int
 
-   Bool_Or_Else_5 : constant Boolean := False or True;
+   Bool_Or : constant Boolean := False or True;
+   --% node.f_default_expr.p_eval_as_int
+
+   Bool_Xor_1 : constant Boolean := False xor True;
+   --% node.f_default_expr.p_eval_as_int
+
+   Bool_Xor_2 : constant Boolean := False xor False;
+   --% node.f_default_expr.p_eval_as_int
+
+   Bool_Xor_3 : constant Boolean := True xor True;
    --% node.f_default_expr.p_eval_as_int
 
 end Valid;

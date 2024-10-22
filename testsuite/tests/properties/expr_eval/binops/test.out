@@ -94,8 +94,8 @@ Working on node <ObjectDecl ["Bool_And_Then_4"] valid.ads:38:4-38:62>
 Eval 'node.f_default_expr.p_eval_as_int'
 Result: 0
 
-Working on node <ObjectDecl ["Bool_And_Then_5"] valid.ads:41:4-41:57>
-=====================================================================
+Working on node <ObjectDecl ["Bool_And"] valid.ads:41:4-41:50>
+==============================================================
 
 Eval 'node.f_default_expr.p_eval_as_int'
 Result: 0
@@ -124,8 +124,26 @@ Working on node <ObjectDecl ["Bool_Or_Else_4"] valid.ads:53:4-53:60>
 Eval 'node.f_default_expr.p_eval_as_int'
 Result: 1
 
-Working on node <ObjectDecl ["Bool_Or_Else_5"] valid.ads:56:4-56:55>
-====================================================================
+Working on node <ObjectDecl ["Bool_Or"] valid.ads:56:4-56:48>
+=============================================================
 
 Eval 'node.f_default_expr.p_eval_as_int'
 Result: 1
+
+Working on node <ObjectDecl ["Bool_Xor_1"] valid.ads:59:4-59:52>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 1
+
+Working on node <ObjectDecl ["Bool_Xor_2"] valid.ads:62:4-62:53>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0
+
+Working on node <ObjectDecl ["Bool_Xor_3"] valid.ads:65:4-65:51>
+================================================================
+
+Eval 'node.f_default_expr.p_eval_as_int'
+Result: 0

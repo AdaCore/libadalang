@@ -1189,6 +1189,8 @@ package body Libadalang.Expr_Eval is
                         Result := LB and then RB;
                      when Ada_Op_Or | Ada_Op_Or_Else =>
                         Result := LB or else RB;
+                     when Ada_Op_Xor =>
+                        Result := LB xor RB;
                      when others =>
                         raise Property_Error with
                            "Wrong operator for boolean: " & Op.Kind'Image;

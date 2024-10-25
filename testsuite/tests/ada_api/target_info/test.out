@@ -214,4 +214,14 @@ OK   "Integer'Last"
 OK   "Integer'First"
 OK   "Integer'Last"
 
+== atpcheck ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+
+== rtatpcheck (runtime2) ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+
 Done.

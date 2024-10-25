@@ -18,12 +18,14 @@ procedure Main is
    --  Try to load a target information file. On error, print the exception
    --  message. On success, dump the target information.
 
-   procedure Check_Standard (Config : String; Runtime : String := "");
-   --  Load a target information file, then check on the related Ada source
-   --  code that all conditions in Compile_Time_Error evaluate to False.
+   procedure Check_Standard (Config : String; Runtime, ATP_File : String := "");
+   --  If Runtime or Config are not empty, load the "p.gpr" project with the
+   --  given runtime and "ATP_FILE" external variable (if provided), then
+   --  create a context from it (this will exercise target info extraction from
+   --  project).
    --
-   --  If Runtime is not empty, create the context with
-   --  Create_Context_From_Project to load "p.gpr" with the given runtime name.
+   --  Check on the related Ada source code that all conditions in
+   --  Compile_Time_Error evaluate to False.
 
    -------------------
    -- Check_Loading --
@@ -55,10 +57,13 @@ procedure Main is
    -- Check_Standard --
    --------------------
 
-   procedure Check_Standard (Config : String; Runtime : String := "") is
+   procedure Check_Standard (Config : String; Runtime, ATP_File : String := "")
+   is
       Ctx : Analysis_Context;
       U   : Analysis_Unit;
       TI  : Target_Information;
+
+      Use_Project : constant Boolean := Runtime /= "" or else ATP_File /= "";
    begin
       Put ("== " & Config);
       if Runtime /= "" then
@@ -69,16 +74,20 @@ procedure Main is
 
       --  Parse the Ada source code and check the absence of parsing errors
 
-      if Runtime = "" then
-         Ctx := Create_Context;
-      else
+      if Use_Project then
          declare
             O : GPR2.Options.Object;
             T : GPR2.Project.Tree.Object;
          begin
             O.Add_Switch (GPR2.Options.P, "p.gpr");
-            O.Add_Switch
-              (GPR2.Options.RTS, Ada.Directories.Full_Name (Runtime));
+            if Runtime /= "" then
+               O.Add_Switch
+                 (GPR2.Options.RTS, Ada.Directories.Full_Name (Runtime));
+            end if;
+            if ATP_File /= "" then
+               O.Add_Switch (GPR2.Options.X, "ATP_FILE=" & ATP_File);
+            end if;
+
             if not T.Load
               (O,
                With_Runtime         => True,
@@ -88,6 +97,8 @@ procedure Main is
             end if;
             Ctx := Create_Context_From_Project (T);
          end;
+      else
+         Ctx := Create_Context;
       end if;
       U := Ctx.Get_From_File (Config & ".ads");
       if U.Has_Diagnostics then
@@ -97,10 +108,10 @@ procedure Main is
          raise Program_Error;
       end if;
 
-      --  If no runtime was provided, load the target information file and
+      --  If we do not use a project, load the target information file and
       --  assign the target information to the analysis context.
 
-      if Runtime = "" then
+      if not Use_Project then
          TI := Load (Config & ".txt");
          Ctx.Set_Target_Information (TI);
       end if;
@@ -166,8 +177,21 @@ begin
    Check_Standard ("arm_stm32");
    Check_Standard ("small_ints");
 
-   Check_Standard ("rtcheck1", "runtime1");
-   Check_Standard ("rtcheck2", "runtime2");
+   --  Target information should be automatically loaded from the runtime
+
+   Check_Standard ("rtcheck1", Runtime => "runtime1");
+   Check_Standard ("rtcheck2", Runtime => "runtime2");
+
+   --  Target information should be automatically loaded from the -gnateT
+   --  switch.
+
+   Check_Standard ("atpcheck", ATP_File => "small_ints.txt");
+
+   --  Both the runtime and the -gnateT switch are available: -gnateT has
+   --  precedence.
+
+   Check_Standard
+     ("rtatpcheck", Runtime => "runtime2", ATP_File => "small_ints.txt");
 
    Put_Line ("Done.");
 end Main;

@@ -16812,7 +16812,12 @@ class Name: Expr {
             case _ => null[Entity[Expr]]
         };
         # Get the actuals of this call expression if any
-        val aparams = self.as[CallExpr]?.params();
+        val aparams = self.parent_callexpr().do((ce) =>
+            if ce.called_formal_subp_spec() == formal_spec
+            then ce
+            else null[Entity[CallExpr]]
+        )?.params();
+
         # Get the formals of the called subprogams
         val fparams = formal_spec?.abstract_formal_params();
         # Get a flatten list of the parameters of the actual subprogram, so

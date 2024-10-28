@@ -53,4 +53,6 @@ begin
    --% node.f_call.p_call_params
    X.PW (0, W => 0);
    --% node.f_call.p_call_params
+   X.PW (0, W => 0);
+   --% node.f_call.f_name.f_suffix.p_call_params
 end Dot;

@@ -16,7 +16,7 @@ procedure Test is
          declare
             I : Ada.Task_Identification.Task_Id :=
                E'Caller;
-            pragma Test_Statement;
+            pragma Test_Statement_UID;
          begin
             null;
          end;

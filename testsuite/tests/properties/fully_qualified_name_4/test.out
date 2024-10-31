@@ -8,7 +8,7 @@ Eval 'decl.p_designated_subp.p_fully_qualified_name'
 Result: 'Test.Free'
 
 Set 'gen' to 'decl.p_designated_generic_decl'
-Result: <| GenericSubpDecl ["Ada.Unchecked_Deallocation"] a-uncdea.ads:16:1-23:20 [test.adb:7:4] |>
+Result: <| GenericSubpDecl ["Ada.Unchecked_Deallocation"] a-uncdea.ads:19:1-26:20 [test.adb:7:4] |>
 
 Eval 'gen.p_fully_qualified_name'
 Result: 'Test.Free'

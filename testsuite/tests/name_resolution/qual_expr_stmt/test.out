@@ -5,28 +5,28 @@ Resolving xrefs for node <CallStmt test.adb:6:7-6:30>
 *****************************************************
 
 Expr: <QualExpr test.adb:6:7-6:29>
-  references:    <DefiningName "Asm_Insn" s-maccod.ads:60:9-60:17>
+  references:    system.machine_code.asm_insn
   type:          None
   expected type: None
 Expr: <Id "Asm_Insn" test.adb:6:7-6:15>
-  references:    <DefiningName "Asm_Insn" s-maccod.ads:60:9-60:17>
+  references:    system.machine_code.asm_insn
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:6:16-6:29>
-  type:          <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
-  expected type: <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+  type:          system.machine_code.asm_insn
+  expected type: system.machine_code.asm_insn
 Expr: <CallExpr test.adb:6:17-6:28>
-  references:    <DefiningName "Asm" s-maccod.ads:113:13-113:16>
-  type:          <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
-  expected type: <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+  references:    system.machine_code.asm((standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean) -> system.machine_code.asm_insn)
+  type:          system.machine_code.asm_insn
+  expected type: system.machine_code.asm_insn
 Expr: <Id "Asm" test.adb:6:17-6:20>
-  references:    <DefiningName "Asm" s-maccod.ads:113:13-113:16>
-  type:          <ConcreteTypeDecl ["Asm_Insn"] s-maccod.ads:60:4-60:29>
+  references:    system.machine_code.asm((standard.string, system.machine_code.asm_output_operand, system.machine_code.asm_input_operand, standard.string, standard.boolean) -> system.machine_code.asm_insn)
+  type:          system.machine_code.asm_insn
   expected type: None
 Expr: <Str ""nop"" test.adb:6:22-6:27>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] in Standard>
-  expected type: <ConcreteTypeDecl ["String"] in Standard>
+  type:          standard.string
+  expected type: standard.string
 
 
 Done.

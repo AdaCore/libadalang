@@ -12,9 +12,9 @@ procedure Main is
 begin
 
    Ada.Text_IO.Put_Line (Arg1 + Arg2 & "some string");
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 
    Ada.Text_IO.Put_Line ((Arg1 + Arg2) & "some string");
-   pragma Test_Statement;
+   pragma Test_Statement_UID;
 
 end Main;

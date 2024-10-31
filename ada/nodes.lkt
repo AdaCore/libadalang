@@ -2613,6 +2613,31 @@ class AspectAssoc: AdaNode {
                 sa.assoc.expr().as![Name].xref_no_overloading(sequential=false)
             )
 
+        # Finalizable aspect
+        elif self.id.name_symbol() in s"Finalizable"
+        then
+            self.expr.as[Aggregate].assocs.unpacked_params().logic_all(
+                (sa) => {
+                    val expr = sa.assoc.expr();
+
+                    if expr.as![Name].name_symbol()
+                        in s"Initialize" | s"Adjust" | s"Finalize"
+                    then
+                        expr.as![Name].xref_no_overloading(
+                            sequential=false, all_els=true
+                        ) %and BasicDecl.is_finalizable_subprogram_for_type%(
+                            expr.as![Name].ref_var(),
+                            target.as![BaseTypeDecl].as_entity
+                        )
+                    else
+                        # The remaining association concerns
+                        # ``Relaxed_Finalization``.
+                        expr.expected_type_var() <- node.bool_type()
+                        %and expr.sub_equation()
+                        %and expr.matches_expected_formal_type()
+                }
+            )
+
         # Contracts
         elif
             self.id.name_symbol() in s"Pre"
@@ -5893,6 +5918,16 @@ class BasicDecl: AdaNode {
             )
         }
     }
+
+    |" Return whether this subprogram can be used in the Finalizable aspect for
+    |" type ``typ`` (the subprogram must be a primitive procedure of ``typ``
+    |" and only have one parameter).
+    fun is_finalizable_subprogram_for_type(typ: Entity[BaseTypeDecl]): Bool =
+        self.subp_spec_or_null().do(
+            (ss) => ss.params().length() == 1
+            and ss.returns().is_null
+            and ss.primitive_subp_first_type().matching_type(typ)
+        )
 
     |" Return true if entity can be a paramless subprogram entity, when used
     |" in an expression context.
@@ -18835,6 +18870,7 @@ class DefiningName: Name {
                     | s"Integer_Literal"
                     | s"Real_Literal"
                     | s"String_Literal"
+                    | s"Finalizable"
             then
                 parts_to_check.map(
                     (p) =>
@@ -21248,6 +21284,7 @@ class Pragma: AdaNode {
                 | s"Elaborate_Body"
                 | s"Inline"
                 | s"Volatile"
+                | s"No_Raise"
         then
             self.associated_entity_names().logic_all(
                 (n) => n.xref_no_overloading()
@@ -21400,10 +21437,11 @@ class Pragma: AdaNode {
                 | s"Interface"
                 | s"Convention"
         then self.args?[0].assoc_expr()
+        # No_Raise has no associated value
+        elif self.id.name_is(s"No_Raise") then null[Entity[Expr]]
         # SPARK_Mode can have no associated value (in that case, the
         # default is `On`) but if a value is provided, it's in first
         # position.
-
         elif self.id.name_is(s"SPARK_Mode") then self.args?[0]?.assoc_expr()
         else self.args?[1]?.assoc_expr()
 
@@ -21414,7 +21452,7 @@ class Pragma: AdaNode {
                 | s"Interface"
                 | s"Convention"
         then [self.args?[1].assoc_expr().as![Name]]
-        elif self.id.name_is(s"Inline")
+        elif self.id.name_symbol() in s"Inline" | s"No_Raise"
         then self.args.map((a) => a.assoc_expr().as[Name])
         elif
             self.id.name_symbol() in s"Pack"

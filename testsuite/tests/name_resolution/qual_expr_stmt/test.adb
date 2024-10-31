@@ -4,7 +4,7 @@ procedure Test is
    procedure Code is
    begin
       Asm_Insn'(Asm ("nop"));
-      pragma Test_Statement;
+      pragma Test_Statement_UID;
    end Code;
 begin
    Code;

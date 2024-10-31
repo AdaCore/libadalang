@@ -29,31 +29,31 @@ Resolving xrefs for node <ObjectDecl ["I"] test.adb:17:13-18:25>
 ****************************************************************
 
 Expr: <DottedName test.adb:17:17-17:48>
-  references:    <DefiningName "Task_Id" a-taside.ads:53:9-53:16>
+  references:    ada.task_identification.task_id
   type:          None
   expected type: None
 Expr: <DottedName test.adb:17:17-17:40>
-  references:    <DefiningName "Ada.Task_Identification" a-taside.ads:45:9-45:32>
+  references:    ada.task_identification
   type:          None
   expected type: None
 Expr: <Id "Ada" test.adb:17:17-17:20>
-  references:    <DefiningName "Ada" ada.ads:16:9-16:12>
+  references:    ada
   type:          None
   expected type: None
 Expr: <Id "Task_Identification" test.adb:17:21-17:40>
-  references:    <DefiningName "Ada.Task_Identification" a-taside.ads:45:9-45:32>
+  references:    ada.task_identification
   type:          None
   expected type: None
 Expr: <Id "Task_Id" test.adb:17:41-17:48>
-  references:    <DefiningName "Task_Id" a-taside.ads:53:9-53:16>
+  references:    ada.task_identification.task_id
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:18:16-18:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
-  expected type: <ConcreteTypeDecl ["Task_Id"] a-taside.ads:53:4-53:28>
+  type:          ada.task_identification.task_id
+  expected type: ada.task_identification.task_id
 Expr: <Id "E" test.adb:18:16-18:17>
-  references:    <DefiningName "E" test.adb:15:14-15:15>
+  references:    test().t.e
   type:          None
   expected type: None
 Expr: <Id "Caller" test.adb:18:18-18:24>

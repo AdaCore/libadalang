@@ -1,0 +1,5 @@
+Working on node <SubpDecl ["P"] pkg.ads:8:4-9:29>
+=================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<SubpDecl ["P"] pkg.ads:3:4-3:27>, <SubpDecl ["P"] pkg.ads:8:4-9:29>]

@@ -5535,58 +5535,55 @@ class BasicDecl: AdaNode {
         val spec = self.without_md().as[BasicDecl].subp_spec_or_null();
         # Retrieve an environment that contains all the candidate subprograms
         # that can be base declarations of this one.
-        val prims_env =
-        # If we are in a task or protected type, accumulate the primitives
-        # of the parent interfaces, and add the subprogram defined in the
-        # scope of the protected or task type.
-            if task_or_protected
-            then
-                (
-                    parent.as[BaseTypeDecl].base_types().map(
-                        (bt) => bt.full_view().primitives_env()
-                    )
-                    & [parent.children_env]
-                )
-                .env_group()
-            else (
-                # For classical types, we can simply fetch the primitives_env
-                spec.candidate_primitive_subp_tagged_type(canonicalize=false)
-                .do((t) => t.full_view().primitives_env())
-            );
 
-        # We don't want the canonicalized primitive type, but the most
-        # visible: the most visible might be a private type that has a
-        # more specific derivation than the canonical (public) type:
+        # Note that we don't want the canonicalized primitive type, but the
+        # most visible, as it might be a private type that has a more specific
+        # derivation than the canonical (public) type:
         #
         # type A is tagged private;
         # type B is new A with private;
         # type P is new A with private;
         # private
         # type P is new B with record ...
-        # We can call the `candidate_` version because the over-
-        # approximation will get cancelled by the following logic.
+        val prims_env =
+            if task_or_protected
+            then
+                # If we are in a task or protected type, accumulate the
+                # primitives of the parent interfaces, and add the subprogram
+                # defined in the scope of the protected or task type.
+                (
+                    parent.as[BaseTypeDecl].base_types().map(
+                        (bt) => bt.full_view().primitives_env()
+                    )
+                    & [parent.children_env]
+                ).env_group()
+            else (
+                # For classical types, we can simply fetch the primitives_env.
+                # We can call the `candidate_` version because the over-
+                # approximation will get cancelled by the following logic.
+                spec.candidate_primitive_subp_tagged_type(canonicalize=false)
+                .do((t) => t.full_view().primitives_env())
+            );
+
+        # Now, simply filter in primitive subprograms that self overrides
+        bind origin = node.origin_node();
+
         prims_env.get(self.name_symbol(), lookup=LookupKind.minimal).filtermap(
             (bd) => bd.as[BasicDecl].canonical_part(),
-            (bd) =>
-            bd.as[BasicDecl]?.subp_spec_or_null().do(
-                (s) => {
-                    bind origin = s.origin_node();
-
-                    # Since `s` is retrieved from `t`'s primitives env,
-                    # its metadata fields `primitive` and
-                    # `primitive_real_type` are set and therefore
-                    # the following `match_signature` call will return
-                    # true if `s` is overridable by `spec`.
-                    s.match_signature(
-                        spec,
-                        match_name=false,
-                        use_entity_info=true,
-                        ignore_first_param=task_or_protected
-                    )
-                }
+            (bd) => bd.as[BasicDecl]?.subp_spec_or_null().do(
+                # Since `s` is retrieved from `t`'s primitives env,
+                # its metadata fields `primitive` and
+                # `primitive_real_type` are set and therefore
+                # the following `match_signature` call will return
+                # true if `s` is overridable by `spec`.
+                (s) => s.match_signature(
+                    spec,
+                    match_name=false,
+                    use_entity_info=true,
+                    ignore_first_param=task_or_protected
+                )
             )
-        )
-        .unique()
+        ).unique()
     }
 
     |" If self declares a primitive subprogram of some tagged type T, return

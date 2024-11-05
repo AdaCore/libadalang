@@ -14471,33 +14471,40 @@ class BaseAggregate: Expr {
                 %and node.expected_type_var() <-> node.type_var()
             };
 
-        (
-            type_constraint
-            %and self.ancestor_expr.do(
-                (ae) =>
-                # We have an ancestor part, which can be either a subtype mark
-                # designating a type as in `(Controlled with X => 2)`, or an
-                # arbitrary expression as in `(Foo(1) with X => 2)`.
-                if
-                    ae is Name
-                    and not ae.as[Name].name_designated_type().is_null
-                then ae.as[Name].xref_type_equation()
-                elif node is DeltaAggregate then ae.sub_equation()
-                # If self is not a delta aggregate but has an ancestor part,
-                # it means it is an extension aggregate. In that case, ARM
-                # 4.3.2 - 4/2 specifies "If the ancestor_part is an expression,
-                # it is expected to be of any tagged type", hence we also add
-                # the following predicate.
-                else
-                    ae.sub_equation()
-                    %and {
-                        bind error_location = ae.node;
-                        BaseTypeDecl.is_tagged_type_with_deref%(ae.type_var())
-                    },
-                default_val=%true
-            )
+        # Note that we explicitly avoid calling `sub_equation` on each assoc
+        # of the `assocs` field. This is okay because we know at this stage
+        # that they all cut resolution (by overriding `stop_resolution` to
+        # `True`). The reason we do it is that for really big aggregates, the
+        # concatenation of all the `%true` atoms returned by each assoc's
+        # call to sub_equation could end up blowing up the stack when the
+        # solver allocates its internal data structures.
+        val assocs_eq = if self.assocs.all((a) => a.xref_stop_resolution())
+            then %true
+            else raise[Equation] PropertyError("Unexpected aggregate assoc");
+
+        type_constraint %and assocs_eq %and self.ancestor_expr.do(
+            (ae) =>
+            # We have an ancestor part, which can be either a subtype mark
+            # designating a type as in `(Controlled with X => 2)`, or an
+            # arbitrary expression as in `(Foo(1) with X => 2)`.
+            if
+                ae is Name
+                and not ae.as[Name].name_designated_type().is_null
+            then ae.as[Name].xref_type_equation()
+            elif node is DeltaAggregate then ae.sub_equation()
+            # If self is not a delta aggregate but has an ancestor part,
+            # it means it is an extension aggregate. In that case, ARM
+            # 4.3.2 - 4/2 specifies "If the ancestor_part is an expression,
+            # it is expected to be of any tagged type", hence we also add
+            # the following predicate.
+            else
+                ae.sub_equation()
+                %and {
+                    bind error_location = ae.node;
+                    BaseTypeDecl.is_tagged_type_with_deref%(ae.type_var())
+                },
+            default_val=%true
         )
-        %and self.assocs.logic_all((assoc) => assoc.sub_equation())
     }
 
     |" Return whether this is the aggregate directly used as the RHS of the

@@ -31,6 +31,12 @@ Loading p.gpr...
 <SubpBodyStub ["P"] p3.adb:2:4-2:28> resolves to:
   <SubpBody ["P"] p3-p.adb:2:1-5:7>
 
+== Resolutions in p.gpr ==
+
+Loading p.gpr...
+  Diagnostics:
+    .ads: unit requested for the empty name
+
 == Resolutions in multi_unit_files_1.gpr ==
 
 Loading multi_unit_files_1.gpr...

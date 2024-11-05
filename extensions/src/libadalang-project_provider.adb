@@ -846,30 +846,50 @@ package body Libadalang.Project_Provider is
       Unit           : in out LAL.Analysis_Unit'Class;
       PLE_Root_Index : in out Natural)
    is
+      procedure Set_Error (Message : Text_Type);
+
+      ---------------
+      -- Set_Error --
+      ---------------
+
+      procedure Set_Error (Message : Text_Type) is
+         Dummy_File : constant String :=
+           Libadalang.Unit_Files.File_From_Unit (Name, Kind);
+      begin
+         Unit := LAL.Analysis_Unit'Class
+           (Context.Get_With_Error (Dummy_File, Message, Charset));
+         PLE_Root_Index := 1;
+      end Set_Error;
+
       Filename : US.Unbounded_String;
    begin
-      Provider.Get_Unit_Location (Name, Kind, Filename, PLE_Root_Index);
-      pragma Assert (PLE_Root_Index > 0);
+      --  LibGPR2 propagates assertion errors for empty unit names, so handle
+      --  them manually here.
 
-      if US.Length (Filename) > 0 then
-         Unit := LAL.Analysis_Unit'Class
-           (Context.Get_From_File (US.To_String (Filename), Charset, Reparse));
-      else
-         declare
-            Dummy_File : constant String :=
-               Libadalang.Unit_Files.File_From_Unit (Name, Kind);
-            Kind_Name  : constant Text_Type :=
-              (case Kind is
-               when Unit_Specification => "specification file",
-               when Unit_Body          => "body file");
-            Error      : constant Text_Type :=
-               "Could not find source file for " & Name & " (" & Kind_Name
-               & ")";
-         begin
-            Unit := LAL.Analysis_Unit'Class
-              (Context.Get_With_Error (Dummy_File, Error, Charset));
-         end;
+      if Name'Length = 0 then
+         Set_Error ("unit requested for the empty name");
+         return;
       end if;
+
+      --  Query the unit location. In case of lookup failure, return a dummy
+      --  unit.
+
+      Provider.Get_Unit_Location (Name, Kind, Filename, PLE_Root_Index);
+      if US.Length (Filename) = 0 then
+         Set_Error
+           ("Could not find source file for " & Name & " ("
+            & (case Kind is
+               when Unit_Specification => "specification file",
+               when Unit_Body          => "body file")
+            & ")");
+         return;
+      end if;
+
+      --  Unit location was found: fetch it
+
+      pragma Assert (PLE_Root_Index > 0);
+      Unit := LAL.Analysis_Unit'Class
+        (Context.Get_From_File (US.To_String (Filename), Charset, Reparse));
    end Get_Unit_And_PLE_Root;
 
    -------------

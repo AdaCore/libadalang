@@ -1,4 +1,5 @@
 @with_lexer(ada_lexer)
+@with_unparsers
 grammar ada_grammar {
     parent_list <- ParentList+(static_name, "and")
     protected_type_decl <- ProtectedTypeDecl(

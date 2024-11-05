@@ -3,7 +3,7 @@
 import os.path
 import subprocess
 import sys
-from langkit.utils import LibraryType
+from langkit.utils import Language, LibraryType
 
 
 # For developer convenience, add the "langkit" directory next to this script to
@@ -94,7 +94,6 @@ class Manage(ManageScript):
             documentations=libadalang_docs,
             property_exceptions={"Precondition_Failure"},
 
-            generate_unparser=True,
             default_unparsing_config="default_unparsing_config.json",
 
             # Setup a configuration of the cache collection mechanism that
@@ -105,7 +104,14 @@ class Manage(ManageScript):
                     "Libadalang.Implementation.Extensions",
                     "Should_Collect_Env_Caches"
                 )
-            )
+            ),
+
+            source_post_processors={
+                Language.ada: ada.copyright.AdaPostProcessor(),
+                Language.c_cpp: ada.copyright.CCppPostProcessor(),
+                Language.python: ada.copyright.PythonPostProcessor(),
+                Language.ocaml: ada.copyright.OCamlPostProcessor(),
+            },
         )
 
         # Internals need to access environment hooks, the symbolizer and
@@ -162,11 +168,6 @@ class Manage(ManageScript):
                             AdaSourceKind.body,
                             'Libadalang.Implementation')
 
-        ctx.post_process_ada = ada.copyright.format_ada
-        ctx.post_process_cpp = ada.copyright.format_c
-        ctx.post_process_python = ada.copyright.format_python
-        ctx.post_process_ocaml = ada.copyright.format_ocaml
-
         # Register our custom exception types
         ctx.register_exception_type(
             package=["GPR2"],
@@ -189,10 +190,8 @@ class Manage(ManageScript):
         }
 
     @property
-    def main_programs(self):
-        return super(Manage, self).main_programs | {
-            'nameres', 'navigate', 'gnat_compare', 'lal_dda', 'lal_prep',
-        }
+    def extra_main_programs(self):
+        return {'nameres', 'navigate', 'gnat_compare', 'lal_dda', 'lal_prep'}
 
     def do_generate(self, args):
         # Report unused documentation entries

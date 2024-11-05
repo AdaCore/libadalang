@@ -1,2 +1,17 @@
 project P is
+
+   ATP_File := external ("ATP_FILE", "");
+
+   Switches := ();
+   case ATP_File is
+      when "" =>
+         null;
+      when others =>
+         Switches := Switches & ("-gnateT=" & ATP_File);
+   end case;
+
+   package Compiler is
+      for Default_Switches ("Ada") use Switches;
+   end Compiler;
+
 end P;

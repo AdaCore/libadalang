@@ -214,7 +214,7 @@ class BaseDriver(DiffTestDriver):
         return result
 
     def run_and_check(self, argv, memcheck=False, append_output=True,
-                      status_code=0, encoding=None, env=None):
+                      status_code=0, encoding=None, env=None, cwd=None):
         """
         Run a subprocess with `argv` and check it completes with status code 0.
 
@@ -252,7 +252,7 @@ class BaseDriver(DiffTestDriver):
             argv = self.valgrind.wrap_argv(argv)
 
         # Do our own error checking (see the ``status_code`` argument)
-        p = self.shell(argv, cwd=self.working_dir(), env=subp_env,
+        p = self.shell(argv, cwd=cwd or self.working_dir(), env=subp_env,
                        analyze_output=append_output,
                        catch_error=False,
                        encoding=encoding)

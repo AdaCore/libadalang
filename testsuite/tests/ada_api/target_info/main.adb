@@ -176,6 +176,8 @@ begin
    Check_Standard ("linux_32");
    Check_Standard ("arm_stm32");
    Check_Standard ("small_ints");
+   Check_Standard ("missing_llli_64");
+   Check_Standard ("missing_llli_32");
 
    --  Target information should be automatically loaded from the runtime
 

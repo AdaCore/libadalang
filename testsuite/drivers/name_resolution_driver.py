@@ -156,7 +156,13 @@ class NameResolutionDriver(BaseDriver):
         # Add optional explicit list of sources to process
         args += input_sources
 
+        # Workaround for eng/gpr/gpr-issues#457: allow testcases to specify
+        # from which directory nameres is run.
+        cwd = self.test_env.get("cwd")
+        if cwd:
+            cwd = os.path.join(self.env.root_dir, cwd)
+
         if self.perf_mode:
             self.run_for_perf(argv=args + ["--quiet"], env=env)
         else:
-            self.run_and_check(argv=args, memcheck=True, env=env)
+            self.run_and_check(argv=args, memcheck=True, env=env, cwd=cwd)

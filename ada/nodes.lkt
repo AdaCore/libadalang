@@ -6598,7 +6598,7 @@ class ComponentDecl: BaseFormalParamDecl {
     fun xref_entry_point(): Bool = true
 
     env_spec {
-        add_to_env(node.env_mappings(node.ids, node))
+        add_all_to_env(node.env_mappings(node.ids, node))
     }
 }
 
@@ -6639,7 +6639,7 @@ class DiscriminantSpec: BaseFormalParamDecl {
         )
 
     env_spec {
-        add_to_env(node.env_mappings(node.ids, node))
+        add_all_to_env(node.env_mappings(node.ids, node))
     }
 }
 
@@ -6743,7 +6743,7 @@ class ParamSpec: BaseFormalParamDecl {
     fun xref_entry_point(): Bool = true
 
     env_spec {
-        add_to_env(node.env_mappings(node.ids, node))
+        add_all_to_env(node.env_mappings(node.ids, node))
     }
 }
 
@@ -6841,7 +6841,7 @@ class PackageDecl: BasePackageDecl {
             # a problem yet.
             node.child_decl_initial_env(true)
         )
-        add_to_env(self.child_decl_env_assocs())
+        add_all_to_env(self.child_decl_env_assocs())
         add_env(names=node.env_names())
         do(node.populate_dependent_units())
         reference(
@@ -8874,7 +8874,7 @@ class SubtypeDecl: BaseSubtypeDecl {
         # subtype environment, so we add a children environement here, just to
         # hold this object.
         add_env(transitive_parent=true)
-        add_to_env(self.synthetic_object_decl_env_assoc)
+        add_single_to_env(self.synthetic_object_decl_env_assoc)
     }
 }
 
@@ -9575,7 +9575,7 @@ class TypeDecl: BaseTypeDecl {
 
     env_spec {
         add_to_env_kv(self.name_symbol(), node)
-        add_to_env(node.as_entity.predefined_operators())
+        add_all_to_env(node.as_entity.predefined_operators())
         add_env()
         handle_children()
         # Add a synthetic object declaration into its environement in order to
@@ -9586,7 +9586,7 @@ class TypeDecl: BaseTypeDecl {
         # useful or not, for example by checking if `Predicate` aspect is
         # specified on this type. However, it is not as easy because there can
         # `Predicate` pragmas defined *after* this.
-        add_to_env(self.synthetic_object_decl_env_assoc)
+        add_single_to_env(self.synthetic_object_decl_env_assoc)
         # Make sure the reference to the primitives env is created *AFTER* the
         # synthetic type predicate object has been added to self's env: since
         # this object has the same name as the type, it is indirectly used to
@@ -9816,7 +9816,7 @@ class BasicSubpDecl: BasicDecl {
             # a problem yet.
             node.child_decl_initial_env(true)
         )
-        add_to_env(self.child_decl_env_assocs())
+        add_all_to_env(self.child_decl_env_assocs())
         add_env(names=node.env_names())
         do(node.populate_dependent_units())
         reference(
@@ -10911,7 +10911,7 @@ class BaseSubpBody: Body {
                 )
             )
         )
-        add_to_env(
+        add_all_to_env(
             self.basic_decl_env_assocs(
                 node.initial_env_name(false).do(
                     (non_null_name) =>
@@ -11186,7 +11186,7 @@ class PackageBodyStub: BodyStub {
     fun defining_names(): Array[Entity[DefiningName]] = [self.name]
 
     env_spec {
-        add_to_env(self.previous_part_link_env_assoc())
+        add_single_to_env(self.previous_part_link_env_assoc())
         add_env(names=node.env_names())
     }
 }
@@ -11201,7 +11201,7 @@ class ProtectedBodyStub: BodyStub {
     fun defining_names(): Array[Entity[DefiningName]] = [self.name]
 
     env_spec {
-        add_to_env(self.previous_part_link_env_assoc())
+        add_single_to_env(self.previous_part_link_env_assoc())
         add_env(names=node.env_names())
     }
 }
@@ -11251,7 +11251,7 @@ class TaskBodyStub: BodyStub {
     fun defining_names(): Array[Entity[DefiningName]] = [self.name]
 
     env_spec {
-        add_to_env(self.previous_part_link_env_assoc())
+        add_single_to_env(self.previous_part_link_env_assoc())
         add_env(names=node.env_names())
     }
 }
@@ -11303,7 +11303,7 @@ class EntryBody: Body {
             )
         )
         # Add the body to its own parent env
-        add_to_env(
+        add_all_to_env(
             [
                 EnvAssoc(
                     key=self.name_symbol(),
@@ -11366,7 +11366,7 @@ class PackageBody: Body {
         do(node.env_hook())
         # Parent link is the package's decl, or private part if there is one
         set_initial_env(node.body_initial_env())
-        add_to_env(self.previous_part_link_env_assoc())
+        add_single_to_env(self.previous_part_link_env_assoc())
         # We make a transitive parent link only when the package is a library
         # level package.
         add_env(transitive_parent=node.is_library_item())
@@ -11459,7 +11459,7 @@ class ProtectedBody: Body {
     env_spec {
         do(node.env_hook())
         set_initial_env(node.body_initial_env())
-        add_to_env(self.previous_part_link_env_assoc())
+        add_single_to_env(self.previous_part_link_env_assoc())
         add_env()
         do(node.populate_dependent_units())
         reference(
@@ -11540,7 +11540,7 @@ class TaskBody: Body {
     env_spec {
         do(node.env_hook())
         set_initial_env(node.body_initial_env())
-        add_to_env(self.previous_part_link_env_assoc())
+        add_single_to_env(self.previous_part_link_env_assoc())
         add_env()
         do(node.populate_dependent_units())
         reference(
@@ -11659,7 +11659,7 @@ class ExceptionDecl: BasicDecl {
         )
 
     env_spec {
-        add_to_env(node.env_mappings(node.ids, node))
+        add_all_to_env(node.env_mappings(node.ids, node))
     }
 }
 
@@ -11699,7 +11699,7 @@ class ExceptionHandler: BasicDecl {
 
     env_spec {
         add_env()
-        add_to_env(
+        add_all_to_env(
             self.exception_name.do(
                 (n) =>
                 [n].map(
@@ -11839,7 +11839,7 @@ class GenericPackageDecl: GenericDecl {
             # a problem yet.
             node.child_decl_initial_env(true)
         )
-        add_to_env(self.child_decl_env_assocs())
+        add_all_to_env(self.child_decl_env_assocs())
         add_env()
         do(node.populate_dependent_units())
         reference(
@@ -11890,7 +11890,7 @@ class GenericSubpDecl: GenericDecl {
             # a problem yet.
             node.child_decl_initial_env(true)
         )
-        add_to_env(self.child_decl_env_assocs())
+        add_all_to_env(self.child_decl_env_assocs())
         add_env()
         do(node.populate_dependent_units())
         reference(
@@ -12598,7 +12598,7 @@ class NumberDecl: BasicDecl {
     fun is_constant_object(): Bool = true
 
     env_spec {
-        add_to_env(node.env_mappings(node.ids, node))
+        add_all_to_env(node.env_mappings(node.ids, node))
     }
 }
 
@@ -12745,7 +12745,7 @@ class ObjectDecl: BasicDecl {
     fun xref_entry_point(): Bool = true
 
     env_spec {
-        add_to_env(node.env_mappings(node.ids, node))
+        add_all_to_env(node.env_mappings(node.ids, node))
     }
 }
 
@@ -21774,7 +21774,7 @@ class AcceptStmt: CompositeStmt {
         )
 
     env_spec {
-        add_to_env(
+        add_all_to_env(
             [
                 EnvAssoc(
                     key=self.body_decl.name.relative_name().name_symbol(),

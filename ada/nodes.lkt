@@ -15287,7 +15287,7 @@ class ConcatOp: Expr {
                 # as expected.
                 {
                     bind logic_context = null[LogicContext];
-                    op.expected_type_var() <- null[BaseTypeDecl]
+                    op.expected_type_var() <- null[Entity[BaseTypeDecl]]
                 }
                 %and (
                     (
@@ -15716,7 +15716,7 @@ class IfExpr: CondExpr {
                 %and self.expected_type_equation()
             )
             %or (
-                node.expected_type_var() <- null[BaseTypeDecl]
+                node.expected_type_var() <- null[Entity[BaseTypeDecl]]
                 %and self.no_expected_type_equation()
             )
         )
@@ -16198,7 +16198,7 @@ class Name: Expr {
                         # subprogram spec of the access.
                         node.subp_spec_var() <- as_subp_access?.subp_spec
                     )
-                case _ => node.type_var() <- null[Entity[AdaNode]].node
+                case _ => node.type_var() <- null[Entity[AdaNode]]
             }
             %and self.parent_name(root).do(
                 (pn) =>
@@ -20855,7 +20855,7 @@ class FormatStringChunk: AdaNode {
         self.expr.sub_equation()
         # The RFC specifies that interpolated string expressions can be "of
         # any type", so we explicitly bind the expected type to null.
-        %and node.expr.expected_type_var() <- null[AdaNode]
+        %and node.expr.expected_type_var() <- null[Entity[AdaNode]]
 
     |" Return the Image subprogram declaration referred by this format string
     |" chunk expression.
@@ -24735,7 +24735,8 @@ class WithClause: AdaNode {
     |" a name in a with clause), return an xref equation that binds every
     |" part of the name to its corresponding library-level declarations.
     fun child_unit_xref_equation(name: Name): Equation = {
-        val self_eq = name.ref_var() <- node.withed_unit_helper(name)?.decl();
+        val self_eq =
+            name.ref_var() <- node.withed_unit_helper(name)?.decl().as_entity;
 
         self_eq
         %and name.as[DottedName].do(

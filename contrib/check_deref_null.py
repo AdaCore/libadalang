@@ -168,7 +168,7 @@ def explore(f, subp):
             traverse_branch(node.f_then_stmts, derefs, loop_test)
             for sub in node.f_alternatives:
                 traverse_branch(sub, derefs, loop_test)
-            traverse_branch(node.f_else_stmts, derefs, loop_test)
+            traverse_branch(node.f_else_part, derefs, loop_test)
 
         elif node.is_a(lal.IfExpr):
             traverse(node.f_cond_expr, derefs, loop_test)

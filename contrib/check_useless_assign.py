@@ -364,7 +364,7 @@ def explore(f, locvars, locsubprograms, subp):
             init_reads = reads.copy()
             # Deal with all branches, using the "init" versions and updating
             # the versions propagated.
-            traverse_branch(node.f_else_stmts, init_assigns, assigns,
+            traverse_branch(node.f_else_part, init_assigns, assigns,
                             init_reads, reads)
             for sub in node.f_alternatives:
                 traverse_branch(sub, init_assigns, assigns, init_reads, reads)

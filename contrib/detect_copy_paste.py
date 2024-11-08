@@ -222,7 +222,7 @@ def encode(f, locnames, node):
             return ([Code(hash("if " + strcode(node.f_cond_expr)), node, f)]
                     + enc(node.f_then_stmts)
                     + enc(node.f_alternatives)
-                    + enc(node.f_else_stmts))
+                    + enc(node.f_else_part))
         elif node.is_a(lal.ElsifStmtPart):
             return ([Code(hash("elsif " + strcode(node.f_cond_expr)), node, f)]
                     + enc(node.f_stmts))

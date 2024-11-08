@@ -13846,6 +13846,18 @@ class ElsifStmtPart: AdaNode {
         %and node.cond_expr.expect_bool_derived_type()
 }
 
+|" ``else`` part in an ``if`` or ``select`` statement block.
+class ElsePart: AdaNode {
+    @parse_field
+    stmts: StmtList
+}
+
+|" ``then abort`` part in a ``select`` statement block
+class ThenAbortPart: AdaNode {
+    @parse_field
+    stmts: StmtList
+}
+
 |" Base class for expressions (:rmlink:`4.4`).
 @abstract
 @with_abstract_list
@@ -21959,8 +21971,9 @@ class IfStmt: CompositeStmt {
     then_stmts: StmtList
     @parse_field
     alternatives: ASTList[ElsifStmtPart]
+    @nullable
     @parse_field
-    else_stmts: StmtList
+    else_part: ElsePart
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
@@ -21990,10 +22003,12 @@ class NamedStmt: CompositeStmt {
 class SelectStmt: CompositeStmt {
     @parse_field
     guards: ASTList[SelectWhenPart]
+    @nullable
     @parse_field
-    else_stmts: StmtList
+    else_part: ElsePart
+    @nullable
     @parse_field
-    abort_stmts: StmtList
+    then_abort_part: ThenAbortPart
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =

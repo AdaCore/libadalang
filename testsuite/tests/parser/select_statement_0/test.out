@@ -65,7 +65,5 @@ SelectStmt[1:1-1:126]
 |  |  |f_stmts:
 |  |  |  StmtList[1:104-1:114]
 |  |  |  |  TerminateAlternative[1:104-1:114]
-|f_else_stmts:
-|  StmtList[1:113-1:113]: <empty list>
-|f_abort_stmts:
-|  StmtList[1:113-1:113]: <empty list>
+|f_else_part: <null>
+|f_then_abort_part: <null>

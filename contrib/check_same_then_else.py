@@ -92,10 +92,10 @@ def list_blocks(node):
         # Only return the else block if it is the same as the block preceding
         # it. Otherwise, there may be valid reasons for code duplication, that
         # have to do with the order of evaluation of tests in an if-statement.
-        if (node.f_else_stmts and
-                have_same_tokens(node.f_else_stmts,
+        if (node.f_else_part and
+                have_same_tokens(node.f_else_part.f_stmts,
                                  last_block_before_else(node))):
-            blocks += [node.f_else_stmts]
+            blocks += [node.f_else_part.f_stmts]
 
     elif isinstance(node, lal.IfExpr):
         blocks = []

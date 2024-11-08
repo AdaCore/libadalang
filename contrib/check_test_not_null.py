@@ -234,7 +234,7 @@ def explore(f, subp):
             # Do not attempt yet to propagate conditions of elsif parts
             for sub in node.f_alternatives:
                 traverse_branch(sub, nulls, neg_cond=node.f_cond_expr)
-            traverse_branch(node.f_else_stmts, nulls,
+            traverse_branch(node.f_else_part, nulls,
                             neg_cond=node.f_cond_expr)
 
         elif isinstance(node, lal.IfExpr):

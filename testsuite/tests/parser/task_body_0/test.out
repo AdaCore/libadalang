@@ -347,10 +347,8 @@ TaskBody[1:1-24:29]
 |  |  |  |  |  |  |  |  |  |  |  OpMinus[21:30-21:31]
 |  |  |  |  |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  |  |  |  |  Int[21:32-21:33]: 1
-|  |  |  |  |  |f_else_stmts:
-|  |  |  |  |  |  StmtList[21:33-21:33]: <empty list>
-|  |  |  |  |  |f_abort_stmts:
-|  |  |  |  |  |  StmtList[21:33-21:33]: <empty list>
+|  |  |  |  |  |f_else_part: <null>
+|  |  |  |  |  |f_then_abort_part: <null>
 |  |  |  |f_end_name: <null>
 |  |f_exceptions:
 |  |  AdaNodeList[23:12-23:12]: <empty list>

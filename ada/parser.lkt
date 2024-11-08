@@ -817,8 +817,8 @@ grammar ada_grammar {
             ),
             "or"
         )
-        ?pick("else" stmts.dont_skip(or("end" | "then")))
-        ?pick("then" "abort" stmts.dont_skip("end"))
+        ?ElsePart("else" stmts.dont_skip(or("end" | "then")))
+        ?ThenAbortPart("then" "abort" stmts.dont_skip("end"))
         "end"
         "select"
         ";"
@@ -929,7 +929,7 @@ grammar ada_grammar {
         "then"
         stmts.dont_skip(or("elsif" | "else" | "end"))
         list*(elsif_part)
-        ?pick("else" stmts.dont_skip("end"))
+        ?ElsePart("else" stmts.dont_skip("end"))
         "end"
         "if"
         ";"

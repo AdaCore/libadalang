@@ -33,5 +33,4 @@ IfStmt[1:1-1:87]
 |  |  |  |  |  |  Str[1:57-1:77]: "It's extremely hot"
 |f_alternatives:
 |  ElsifStmtPartList[1:79-1:79]: <empty list>
-|f_else_stmts:
-|  StmtList[1:78-1:78]: <empty list>
+|f_else_part: <null>

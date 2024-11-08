@@ -2430,6 +2430,43 @@
         ]
       }
     },
+    "ElsePart": {
+      "node": [
+        "hardlineWithoutBreakParent",
+        {
+          "kind": "text",
+          "text": "else"
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            "hardlineWithoutBreakParent",
+            {"kind": "recurse_field", "field": "f_stmts"}
+          ]
+        }
+      ]
+    },
+    "ThenAbortPart": {
+      "node": [
+        "hardline",
+        {
+          "kind": "text",
+          "text": "then"
+        },
+        "whitespace",
+        {
+          "kind": "text",
+          "text": "abort"
+        },
+        {
+          "kind": "indent",
+          "contents": [
+            "hardline",
+            {"kind": "recurse_field", "field": "f_stmts"}
+          ]
+        }
+      ]
+    },
     "ElsifExprPart": {
       "node": {
         "kind": "group",
@@ -3697,7 +3734,7 @@
           },
           {
             "kind": "recurse_field",
-            "field": "f_else_stmts"
+            "field": "f_else_part"
           },
           "hardlineWithoutBreakParent",
           {
@@ -3732,33 +3769,7 @@
             "hardlineWithoutBreakParent",
             "recurse"
           ]
-        },
-        "f_else_stmts": [
-          {
-            "kind": "ifEmpty",
-            "then": [
-              {
-                "kind": "text",
-                "text": "else"
-              },
-              "recurse"
-            ],
-            "else": [
-              "hardlineWithoutBreakParent",
-              {
-                "kind": "text",
-                "text": "else"
-              },
-              {
-                "kind": "indent",
-                "contents": [
-                  "hardlineWithoutBreakParent",
-                  "recurse"
-                ]
-              }
-            ]
-          }
-        ]
+        }
       }
     },
     "IncompleteFormalTypeDecl": {
@@ -5904,11 +5915,11 @@
           },
           {
             "kind": "recurse_field",
-            "field": "f_else_stmts"
+            "field": "f_else_part"
           },
           {
             "kind": "recurse_field",
-            "field": "f_abort_stmts"
+            "field": "f_then_abort_part"
           },
           "hardline",
           {
@@ -5923,41 +5934,6 @@
           {
             "kind": "text",
             "text": ";"
-          }
-        ]
-      },
-      "fields": {
-        "f_else_stmts": [
-          "hardline",
-          {
-            "kind": "text",
-            "text": "else"
-          },
-          {
-            "kind": "indent",
-            "contents": [
-              "hardline",
-              "recurse"
-            ]
-          }
-        ],
-        "f_abort_stmts": [
-          "hardline",
-          {
-            "kind": "text",
-            "text": "then"
-          },
-          "whitespace",
-          {
-            "kind": "text",
-            "text": "abort"
-          },
-          {
-            "kind": "indent",
-            "contents": [
-              "hardline",
-              "recurse"
-            ]
           }
         ]
       }

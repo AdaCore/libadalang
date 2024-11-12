@@ -16641,7 +16641,6 @@ class Name: Expr {
     @exported
     fun is_operator_name(): Bool =
         self.name_symbol() in s"\"=\""
-            | s"\"=\""
             | s"\"/=\""
             | s"\"<\""
             | s"\"<=\""

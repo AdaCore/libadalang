@@ -1,0 +1,4 @@
+driver: ada-api
+main: main.adb
+control:
+  - [XFAIL, "True", "Pending resolution of eng/libadalang/libadalang#1474"]

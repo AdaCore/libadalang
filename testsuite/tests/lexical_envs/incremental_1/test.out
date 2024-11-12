@@ -1,0 +1,13 @@
+# Reference
+<DottedName main.adb:4:4-4:11> refers to <DefiningName "Bar" foo.ads:2:14-2:17>
+
+# Parse main.adb
+# First check
+<DottedName main.adb:4:4-4:11> refers to None
+
+# Parse foo.ads
+# Parse foo.adb
+# Second check
+<DottedName main.adb:4:4-4:11> refers to <DefiningName "Bar" foo.ads:2:14-2:17>
+
+main.adb: Done.

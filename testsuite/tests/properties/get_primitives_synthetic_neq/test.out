@@ -1,0 +1,6 @@
+Working on node <ConcreteTypeDecl ["Vector"] test.adb:3:7-3:41>
+===============================================================
+
+Eval 'node.p_get_primitives()'
+Result: [<SubpDecl [""=""] test.adb:6:7-7:67>,
+         <SyntheticSubpDecl [""/=""] test.adb:6:7-7:67>]

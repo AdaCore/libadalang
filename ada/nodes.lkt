@@ -604,7 +604,11 @@ class AdaNode implements Node[AdaNode] {
             self is ClasswideTypeDecl
             | DiscreteBaseSubtypeDecl
             | SynthAnonymousTypeDecl
-        then self.semantic_parent().parent_basic_decl()
+            | SyntheticSubpDecl
+        then
+            self.parents(with_self=false).find(
+                (p) => p is BasicDecl
+            ).parent_basic_decl()
         else {
             val gen_decl = self.as[GenericDecl];
             val gen_body =
@@ -3814,6 +3818,34 @@ class SubpSpec: BaseSubpSpec {
         self.subp_params?.params.map((p) => p)
 
     fun returns(): Entity[TypeExpr] = self.subp_returns
+
+    |" Assuming this is the subprogram specification of the declaration of
+    |" a "=" operator, this generates a corresponding synthetic "/=" operator.
+    |" This lazy field is defined here on ``SubpSpec`` instead of on
+    |" ``BasicDecl`` where it would more logically lie, so as to minimize the
+    |" number of irrelevant nodes on which this field must be stored.
+    @lazy
+    synthetic_neq_subprogram: BasicSubpDecl = {
+        val params = node.as_bare_entity.unpacked_formal_params();
+        val left_type = params[0].formal_decl().type_expression();
+        val right_type = params[1].formal_decl().type_expression();
+        val ret_type = node.subp_returns;
+
+        SyntheticSubpDecl.builder(
+            spec=SyntheticBinarySpec.builder(
+                subp_symbol=s"\"/=\"",
+                left_param=SyntheticFormalParamDecl.builder(
+                    param_name=s"left",
+                    param_type=left_type.node.to_builder()
+                ),
+                right_param=SyntheticFormalParamDecl.builder(
+                    param_name=s"right",
+                    param_type=right_type.node.to_builder()
+                ),
+                return_type_expr=ret_type.to_builder()
+            )
+        ).build(parent=node.parent)
+    }
 }
 
 |" Synthetic subprogram specification for binary operators.
@@ -5011,7 +5043,9 @@ class BasicDecl: AdaNode {
             if name == s"\"=\""
             then [EnvAssoc(
                 key=s"\"/=\"",
-                value=node,
+                value=self.subp_spec_or_null(
+                    false
+                ).as[SubpSpec].node.synthetic_neq_subprogram,
                 dest_env=dest_env,
                 metadata=null[Metadata]
             )]
@@ -5772,6 +5806,11 @@ class BasicDecl: AdaNode {
         | GenericSubpDecl
         | GenericSubpInstantiation
         | GenericSubpRenamingDecl
+
+    |" Internal heuristic used to quickly check whether a basic decl designates
+    |" a subprogram representing a predefined operator.
+    fun is_predefined_operator(): Bool =
+        node is SyntheticSubpDecl and node.parent is TypeDef
 
     |" Return True if self is a subprogram node that is a valid reducer
     |" candidate as per RM 4.5.10 definition of the reducer program used by
@@ -7116,7 +7155,9 @@ class BaseTypeDecl: BasicDecl {
                 if sym == s"\"=\""
                 then [InnerEnvAssoc(
                     key=s"\"/=\"",
-                    value=bd.node,
+                    value=bd.subp_spec_or_null(
+                        false
+                    ).as[SubpSpec].node.synthetic_neq_subprogram,
                     metadata=Metadata(primitive=node)
                 )]
                 else null[Array[InnerEnvAssoc]]
@@ -7249,7 +7290,7 @@ class BaseTypeDecl: BasicDecl {
             val bds =
                 if include_predefined_operators
                 then all_prims
-                else all_prims.filter((p) => not p is SyntheticSubpDecl);
+                else all_prims.filter((p) => not p.is_predefined_operator());
 
             bds.ifilter((a, i) => {
                 val a_spec = a.subp_spec_or_null();
@@ -20476,17 +20517,16 @@ enum class Op: BaseId implements TokenNode {
             (e) =>
             e.as![BasicDecl].is_subprogram()
             and (
-                # Note: here we explicitly filter out synthesized operators
-                # (which correspond to built-in operators), because using them
-                # for resolving arithmetic expressions would have a significant
-                # performance impact. Instead, we use specific equations
-                # tailored for the resolution of built-in operators. See
-                # `BinOp.no_overload_equation`.
+                # Note: here we explicitly filter out predefined operators,
+                # because using them for resolving arithmetic expressions would
+                # have a significant performance impact. Instead, we use
+                # specific equations tailored for the resolution of built-in
+                # operators. See `BinOp.no_overload_equation`.
                 # TODO: However these custom rules currently do not assign the
                 # `ref_var` of operator references designating which built-in
                 # operators have been called, which would be useful for users
                 # and make this more transparent.
-                not e is SyntheticSubpDecl
+                not e.as![BasicDecl].is_predefined_operator()
             )
         )
 

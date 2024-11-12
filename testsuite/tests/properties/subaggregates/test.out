@@ -7,14 +7,29 @@ Result: <Aggregate test.adb:3:7-3:36>
 Eval 'root_aggr.p_is_subaggregate'
 Result: False
 
+Eval 'root_aggr.p_subaggregate_array_type'
+Exception: Expected subaggregate
+
 Set 'sub_aggr_1' to 'root_aggr.f_assocs[0].f_r_expr'
 Result: <Aggregate test.adb:3:8-3:18>
 
 Eval 'sub_aggr_1.p_is_subaggregate'
 Result: True
 
+Eval 'sub_aggr_1.p_subaggregate_array_type'
+Result: <AnonymousTypeDecl ["None"] test.adb:2:8-2:43>
+
+Eval 'sub_aggr_1.p_subaggregate_dimension'
+Result: 1
+
 Set 'sub_aggr_2' to 'root_aggr.f_assocs[1].f_r_expr'
 Result: <Aggregate test.adb:3:20-3:35>
 
 Eval 'sub_aggr_2.p_is_subaggregate'
 Result: True
+
+Eval 'sub_aggr_2.p_subaggregate_array_type'
+Result: <AnonymousTypeDecl ["None"] test.adb:2:8-2:43>
+
+Eval 'sub_aggr_2.p_subaggregate_dimension'
+Result: 1

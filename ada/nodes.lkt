@@ -14673,6 +14673,34 @@ class BaseAggregate: Expr {
         }
     }
 
+    |" If this aggregate instance is a subaggregate of a multidimensional
+    |" array aggregate, return the overall array type.
+    @exported
+    fun subaggregate_array_type(): Entity[BaseTypeDecl] =
+        if self.is_subaggregate() then {
+            bind origin = node;
+            self.multidim_root_aggregate().typ
+        }
+        else raise[Entity[BaseTypeDecl]] PreconditionFailure(
+            "Expected subaggregate"
+        )
+
+    |" If this aggregate instance is a subaggregate of a multidimensional
+    |" array aggregate, return the index of its matching dimension.
+    |"
+    |" .. note:: the returned index is 0-based, where index 0 designates the
+    |"    the first dimension of the array type. However, since this property
+    |"    works on subaggregates, the returned index will necessarily always
+    |"    be greater or equal to 1.
+    @exported
+    fun subaggregate_dimension(): Int =
+        if self.is_subaggregate() then {
+            bind origin = node;
+            self.multidim_root_aggregate().rank
+        } else raise[Int] PreconditionFailure(
+            "Expected subaggregate"
+        )
+
     |" The ancestor part of an aggregate can either be a subtype mark or an
     |" arbitrary expression. In the first case, this property returns the
     |" type designated by the subtype mark. In the other case, it returns the

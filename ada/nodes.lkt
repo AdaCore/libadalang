@@ -731,7 +731,7 @@ class AdaNode implements Node[AdaNode] {
         unit: AnalysisUnit,
         name: Array[Symbol]
     ): CompilationUnit =
-        unit.root.do(
+        unit?.root.do(
             (v1) =>
             match v1 {
                 # If the root of the analysis unit is a single compilation
@@ -1186,7 +1186,30 @@ class AdaNode implements Node[AdaNode] {
     fun big_integer_type(): Entity[BaseTypeDecl] =
         node.get_unit_root_decl(
             [s"Ada", s"Numerics", s"Big_Numbers", s"Big_Integers"],
-            AnalysisUnitKind.unit_specification
+            AnalysisUnitKind.unit_specification,
+            load_if_needed=false
+        )
+        ?.children_env
+        .get_first(s"Big_Integer", lookup=LookupKind.flat)
+        .as[BaseTypeDecl]
+
+    |" Return the type Ada.Numerics.Big_Numbers.Big_Integers_Ghost.Big_Integer
+    fun big_integer_ghost_type(): Entity[BaseTypeDecl] =
+        node.get_unit_root_decl(
+            [s"Ada", s"Numerics", s"Big_Numbers", s"Big_Integers_Ghost"],
+            AnalysisUnitKind.unit_specification,
+            load_if_needed=false
+        )
+        ?.children_env
+        .get_first(s"Big_Integer", lookup=LookupKind.flat)
+        .as[BaseTypeDecl]
+
+    |" Return the type SPARK.Big_Integers.Big_Integer
+    fun spark_big_integer_type(): Entity[BaseTypeDecl] =
+        node.get_unit_root_decl(
+            [s"SPARK", s"Big_Integers"],
+            AnalysisUnitKind.unit_specification,
+            load_if_needed=false
         )
         ?.children_env
         .get_first(s"Big_Integer", lookup=LookupKind.flat)
@@ -2596,8 +2619,8 @@ class AspectAssoc: AdaNode {
                 (sa) =>
                 sa.assoc.expr().as![Name].xref_no_overloading(sequential=false)
             )
-        # Contracts
 
+        # Contracts
         elif
             self.id.name_symbol() in s"Pre"
                 | s"Post"
@@ -2627,8 +2650,8 @@ class AspectAssoc: AdaNode {
         }
         elif self.id.name_symbol() in s"Contract_Cases" | s"Subprogram_Variant"
         then self.expr.sub_equation()
-        # Put_Image aspect
 
+        # Put_Image aspect
         elif self.id.name_is(s"Put_Image")
         then
             self.expr.as![Name].xref_no_overloading(
@@ -2640,17 +2663,17 @@ class AspectAssoc: AdaNode {
             .as[Name]
             .ref_var(),
             target.as![BaseTypeDecl].as_entity)
+
         # Global aspect. Depends is always an aggregate, so doesn't need an
         # entry.
-
         elif self.id.name_is(s"Global") or self.id.name_is(s"Refined_Global")
         then
             if self.expr is NullLiteral then %true
             else self.expr.sub_equation()
+
         # Do not resolve anything inside those aspect, as identifiers act
         # as reserved words. For example, we do not want to resolve `C`
         # in `Convention => C` to the first visible entity named C.
-
         elif self.id.name_is(s"Convention") then %true
         elif self.id.name_is(s"Stable_Properties")
         then self.stable_properties_assoc_equation()
@@ -2659,11 +2682,11 @@ class AspectAssoc: AdaNode {
                 | s"Real_Literal"
                 | s"String_Literal"
         then self.user_defined_literals_equation(target.as[TypeDecl])
+
         # Constant_Indexing and Variable_Indexing aspects name expression
         # can denotes one or more functions. Since name resolution can set
         # only one reference for a name, only keep the first function
         # returned by constant_indexing_fns and variable_indexing_fns.
-
         elif self.id.name_is(s"Constant_Indexing")
         then
             self.expr.as![Identifier].ref_var()
@@ -2672,10 +2695,10 @@ class AspectAssoc: AdaNode {
         then
             self.expr.as![Identifier].ref_var()
             <- target.as[TypeDecl].as_entity.variable_indexing_fns()?[0]
+
         # For the Annotate aspect, the first two identifiers are not
         # analyzed. The rest are arbitrary expressions (see
         # `Expr.annotate_argument_equation`).
-
         elif self.id.name_is(s"Annotate")
         then
             self.expr.as[BaseAggregate].assocs.unpacked_params().ilogic_all(
@@ -2685,10 +2708,10 @@ class AspectAssoc: AdaNode {
             )
         elif self.id.name_is(s"Implicit_Dereference")
         then self.implicit_dereference_equation(target.as[TypeDecl])
+
         # For the Model_Of aspect, the RHS must either denote a type
         # declaration or a subprogram with a matching profile, depending
         # on the kind of entity this aspect is attached to.
-
         elif self.id.name_is(s"Model_Of")
         then
             if target is BaseTypeDecl
@@ -2700,6 +2723,7 @@ class AspectAssoc: AdaNode {
                 .as![Name]
                 .ref_var(),
                 target.as[BasicDecl].as_entity)
+
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
         # name resolve the expression.
@@ -4175,7 +4199,9 @@ class AggregateAssoc: BasicAssoc {
         elif agg.parent.as[AspectAssoc]?.id.name_is(s"Contract_Cases")
         then self.contract_cases_assoc_equation()
         elif agg.parent.as[AspectAssoc]?.id.name_is(s"Subprogram_Variant")
-        then self.subprogram_variant_assoc_equation()
+        then self.r_expr.spark_variant_equation(
+            self.designators[0].as[BaseId]
+        )
         elif agg is BracketAggregate and td?.has_aspect(s"Aggregate")
         then self.container_aggregate_equation(td)
         elif agg.parent is AspectClause | AspectAssoc | PragmaArgumentAssoc
@@ -4490,40 +4516,6 @@ class AggregateAssoc: BasicAssoc {
         )
         %and self.expr().sub_equation()
         %and self.expr().matches_expected_formal_type()
-
-    |" Equation for the case where this is an aggregate assoc for a
-    |" Subprogram_Variant aspect. See SPARK RM 6.1.8 for more details.
-    @with_dynvars(env, origin, entry_point)
-    fun subprogram_variant_assoc_equation(): Equation =
-        self.designators.logic_all(
-            (d) =>
-            d.as[BaseId].do(
-                (name) =>
-                if name.name_symbol() in s"Increases" | s"Decreases"
-                then
-                    (
-                        # For a numeric subprogram variant, the expression must
-                        # be of any discrete type, or the `Big_Integer` type.
-                        BaseTypeDecl.is_discrete_type%(self.expr().type_var())
-                        %or (
-                            self.expr().expected_type_var()
-                            <- self.big_integer_type()
-                            %and self.expr().matches_expected_type()
-                        )
-                    )
-                    %and self.expr().sub_equation()
-                elif name.name_symbol() in s"Structural"
-                then
-                # For a structural subprogram variant, the expression must
-                # denote a formal parameter of the subprogram, so a simple
-                # call to sub_equation will do.
-                    self
-                    .expr()
-                    .sub_equation()
-                else %false,
-                default_val=%false
-            )
-        )
 
     |" Return the xref equation for the case where this is an aggregate assoc
     |" in which all the designator as well as the RHS are usual expressions
@@ -13951,6 +13943,40 @@ class Expr: AdaNode {
             default_val=%false
         )
 
+    |" Equation for the case where this is an expression on the RHS of a
+    |" Loop_Variant or Subprogram_Variant association.
+    |" See SPARK RM 6.1.8 for more details.
+    @with_dynvars(env, origin, entry_point)
+    fun spark_variant_equation(designator: Entity[BaseId]): Equation =
+        if designator.name_symbol() in s"Increases" | s"Decreases"
+        then
+            (
+                # For a numeric subprogram variant, the expression must be of
+                # any discrete type, or one of the allowed `Big_Integer` types.
+                (
+                    AdaNode.is_not_null%(self.type_var())
+                    %and BaseTypeDecl.is_discrete_type%(self.type_var())
+                ) %or (
+                    %domain(
+                        self.expected_type_var(),
+                        [
+                            self.big_integer_type(),
+                            self.big_integer_ghost_type(),
+                            self.spark_big_integer_type()
+                        ]
+                    )
+                    %and self.matches_expected_type()
+                )
+            )
+            %and self.sub_equation()
+        elif designator.name_symbol() in s"Structural"
+        then
+            # For a structural variant, the expression must denote a formal
+            # parameter of the subprogram or a local object, so a simple call
+            # to sub_equation will do.
+            self.sub_equation()
+        else %false
+
     |" Returns whether this expression is dynamically tagged (See
     |" :rmlink:`3.9.2`).
     @exported
@@ -21244,12 +21270,12 @@ class Pragma: AdaNode {
                     default_val=%true
                 )
             )
+
         # Pragmas we want to deliberately not resolve, either because there
         # is nothing to resolve in there, or because we don't know how to
         # resolve them and don't want to spend effort implementing
         # resolution for them (for example, other compilers implementation
         # defined pragmas).
-
         elif
             self.id.name_symbol() in s"Style_Checks"
                 | s"Import_Function"
@@ -21297,6 +21323,12 @@ class Pragma: AdaNode {
                 (assoc) =>
                 assoc.as[AggregateAssoc].contract_cases_assoc_equation()
             )
+        elif self.id.name_is(s"Loop_Variant")
+        then
+            self.args.logic_all((arg) => {
+                val parg = arg.as[PragmaArgumentAssoc];
+                parg.expr.spark_variant_equation(parg.name.as[BaseId])
+            })
         elif self.id.name_is(s"Debug")
         then
             (

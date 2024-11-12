@@ -12,7 +12,7 @@ Expr: <Id "A" test.adb:12:7-12:8>
   type:          <ConcreteTypeDecl ["T"] test.adb:3:7-3:29>
   expected type: <ConcreteTypeDecl ["T"] test.adb:3:7-3:29>
 Expr: <OpNeq "/=" test.adb:12:9-12:11>
-  references:    <DefiningName ""="" test.adb:5:16-5:19>
+  references:    <SyntheticDefiningName ""/="" test.adb:5:7-5:56>
   type:          None
   expected type: None
 Expr: <Id "B" test.adb:12:12-12:13>
@@ -24,11 +24,11 @@ Resolving xrefs for node <IfStmt test.adb:17:4-19:11>
 *****************************************************
 
 Expr: <CallExpr test.adb:17:7-17:18>
-  references:    <DefiningName ""="" test.adb:5:16-5:19>
+  references:    <SyntheticDefiningName ""/="" test.adb:5:7-5:56>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Str ""/="" test.adb:17:7-17:11>
-  references:    <DefiningName ""="" test.adb:5:16-5:19>
+  references:    <SyntheticDefiningName ""/="" test.adb:5:7-5:56>
   type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "A" test.adb:17:13-17:14>

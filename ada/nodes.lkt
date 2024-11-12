@@ -18558,24 +18558,6 @@ class DefiningName: Name {
             )
         )
 
-    |" Return whether this is a name that defines an "=" operator which
-    |" implicitly declares an "/=" operator giving the complementary result,
-    |" which is True iff this "=" declaration returns a Boolean
-    |" (:rmlink:`6.6` 6/3).
-    @memoized
-    fun is_derivable_equal(): Bool =
-        node.name_is(s"\"=\"")
-        and self.basic_decl().subp_spec_or_null().do(
-            (s) => s.returns()?.designated_type_decl() == self.bool_type()
-        )
-
-    |" Return whether the given symbol could be a reference to this defining
-    |" name.
-    @memoized
-    fun is_potential_reference(symbol: Symbol): Bool =
-        node.name_is(symbol)
-        or (self.is_derivable_equal() and symbol == s"\"/=\"")
-
     |" Returns True iff the given node is an identifier referring to self.
     |" Note that this takes into account both direct references as well as
     |" potential references.
@@ -18587,8 +18569,7 @@ class DefiningName: Name {
     |" call.
     @with_dynvars(imprecise_fallback=false)
     fun is_referenced_by(id: Entity[BaseId]): RefResultKind =
-        if self.is_potential_reference(id.name_symbol())
-        then
+        if node.name_is(id.name_symbol()) then
             (
                 if id.is_defining()
                 then
@@ -18597,32 +18578,25 @@ class DefiningName: Name {
                         kind=RefResultKind.precise
                     )
                 else id.failsafe_referenced_def_name()
-            )
-            .do(
-                (def_res) => {
-                    val canon = def_res.def_name?.canonical_part()?.node;
+            ).do((def_res) => {
+                val canon = def_res.def_name?.canonical_part()?.node;
 
-                    if
-                        (
-                            # Either `id` is a direct reference
-                            node == canon
+                if
+                    # Either `id` is a direct reference
+                    node == canon
+                    # Or `id` refers to one of the base subprograms of
+                    # defined by self, and `x` appears in a dispatching
+                    # call context.
+                    or self.basic_decl().base_subp_declarations().do(
+                        (decls) =>
+                        decls.any(
+                            (d) => d.defining_name().node == canon
                         )
-                        or (
-                            # Or `id` refers to one of the base subprograms of
-                            # defined by self, and `x` appears in a dispatching
-                            # call context.
-                            self.basic_decl().base_subp_declarations().do(
-                                (decls) =>
-                                decls.any(
-                                    (d) => d.defining_name().node == canon
-                                )
-                                and id.is_dispatching_call()
-                            )
-                        )
-                    then def_res.kind
-                    else RefResultKind.no_ref
-                }
-            )
+                        and id.is_dispatching_call()
+                    )
+                then def_res.kind
+                else RefResultKind.no_ref
+            })
         else RefResultKind.no_ref
 
     |" Searches all references to this defining name in the given list of

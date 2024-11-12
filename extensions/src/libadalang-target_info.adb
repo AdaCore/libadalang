@@ -3,7 +3,8 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Text_IO;           use Ada.Text_IO;
 
 with GNAT.Regpat; use GNAT.Regpat;
 
@@ -100,21 +101,51 @@ package body Libadalang.Target_Info is
       F    : File_Type;
       Line : Positive := 1;
 
+      --  Helpers to implement Put_Line_Back
+
+      Last_Line : Unbounded_String;
+      --  Track the content of the previous line that was read (if available)
+
+      Has_Last_Line : Boolean := False;
+      --  Whether Last_Line is available
+
+      Has_Put_Last_Line_Back : Boolean := False;
+      --  Whether Put_Line_Back was called since the last call to Read_Line
+
       function Read_Line return String;
       --  Read a line from F and return it. If the line is too long, raise an
       --  Invalid_Input exception. Propagate the End_Error exception if there
       --  was no content before the end of file.
+
+      procedure Put_Line_Back
+      with Pre => Has_Last_Line and not Has_Put_Last_Line_Back;
+      --  Cancel the previous line read, so that the next call to Read_Line
+      --  returns the same as the previous call.
 
       procedure Read_Natural (Name : String; Value : out Natural);
       --  Read the next line, expected to contain a name/value association with
       --  for the given Name. Put the associated Natural value in Value in case
       --  of success, raise an Invalid_Input exception otherwise.
 
+      function Read_Natural
+        (Name     : String;
+         Value    : out Natural;
+         Optional : Boolean) return Boolean;
+      --  Like the homonym procedure, but return whether the next line read had
+      --  the expected association name (if Optional is true) or raise an
+      --  Invalid_Input exception (if Optional is false).
+
       procedure Read_Boolean (Name : String; Value : out Boolean);
       --  Likewise, but to read a Boolean specifically
 
       procedure Read_Positive (Name : String; Value : out Positive);
       --  Likewise, but to read a Positive specifically
+
+      function Read_Positive
+        (Name     : String;
+         Value    : out Positive;
+         Optional : Boolean) return Boolean;
+      --  Like the Read_Natural function, but to read a Positive specifically
 
       procedure Read_Floating_Point_Type
         (Buffer : String;
@@ -131,18 +162,49 @@ package body Libadalang.Target_Info is
          Buffer  : String (1 .. 81);
          Last    : Natural;
       begin
+         if Has_Put_Last_Line_Back then
+            Has_Put_Last_Line_Back := False;
+            return To_String (Last_Line);
+         end if;
+
          Get_Line (F, Buffer, Last);
          if Last = Buffer'Last then
             raise Invalid_Input with "line" & Line'Image & " is too long";
          end if;
-         return Buffer (1 .. Last);
+         return Result : constant String := Buffer (1 .. Last) do
+            Last_Line := To_Unbounded_String (Result);
+            Has_Last_Line := True;
+         end return;
       end Read_Line;
+
+      -------------------
+      -- Put_Line_Back --
+      -------------------
+
+      procedure Put_Line_Back is
+      begin
+         Has_Put_Last_Line_Back := True;
+      end Put_Line_Back;
 
       ------------------
       -- Read_Natural --
       ------------------
 
       procedure Read_Natural (Name : String; Value : out Natural) is
+         Dummy : constant Boolean :=
+           Read_Natural (Name, Value, Optional => False);
+      begin
+         null;
+      end Read_Natural;
+
+      ------------------
+      -- Read_Natural --
+      ------------------
+
+      function Read_Natural
+        (Name     : String;
+         Value    : out Natural;
+         Optional : Boolean) return Boolean is
       begin
          declare
             Buffer  : constant String := Read_Line;
@@ -160,9 +222,15 @@ package body Libadalang.Target_Info is
                  Buffer (Matches (2).First .. Matches (2).Last);
             begin
                if Read_Name /= Name then
-                  raise Invalid_Input with
-                    Name & " expected at line" & Line'Image & " but got "
-                    & Read_Name;
+                  if Optional then
+                     Value := 0;
+                     Put_Line_Back;
+                     return False;
+                  else
+                     raise Invalid_Input with
+                       Name & " expected at line" & Line'Image & " but got "
+                       & Read_Name;
+                  end if;
                end if;
                begin
                   Value := Natural'Value (Read_Value);
@@ -172,10 +240,17 @@ package body Libadalang.Target_Info is
                end;
             end;
             Line := Line + 1;
+            return True;
          end;
       exception
          when End_Error =>
-            raise Invalid_Input with "entry missing for " & Name;
+            if Optional then
+               Value := 0;
+               Put_Line_Back;
+               return False;
+            else
+               raise Invalid_Input with "entry missing for " & Name;
+            end if;
       end Read_Natural;
 
       ------------------
@@ -201,11 +276,29 @@ package body Libadalang.Target_Info is
       -------------------
 
       procedure Read_Positive (Name : String; Value : out Positive) is
+         Dummy : constant Boolean :=
+           Read_Positive (Name, Value, Optional => False);
+      begin
+         null;
+      end Read_Positive;
+
+      -------------------
+      -- Read_Positive --
+      -------------------
+
+      function Read_Positive
+        (Name     : String;
+         Value    : out Positive;
+         Optional : Boolean) return Boolean
+      is
          V : Natural;
       begin
-         Read_Natural (Name, V);
-         if V in Positive then
+         if not Read_Natural (Name, V, Optional) then
+            Value := 1;
+            return False;
+         elsif V in Positive then
             Value := V;
+            return True;
          else
             raise Invalid_Input with Name & ": positive value expected";
          end if;
@@ -287,7 +380,8 @@ package body Libadalang.Target_Info is
          end;
       end Read_Floating_Point_Type;
 
-      Result : Target_Information;
+      Result                  : Target_Information;
+      Has_Long_Long_Long_Size : Boolean;
    begin
       Open (F, In_File, Filename);
 
@@ -305,7 +399,16 @@ package body Libadalang.Target_Info is
       Read_Boolean ("Float_Words_BE", Result.Float_Words_BE);
       Read_Positive ("Int_Size", Result.Int_Size);
       Read_Positive ("Long_Double_Size", Result.Long_Double_Size);
-      Read_Positive ("Long_Long_Long_Size", Result.Long_Long_Long_Size);
+
+      --  Like GNAT, tolerate a missing entry for Long_Long_Long_Size, and
+      --  default to Long_Long_Size when it is missing.
+
+      Has_Long_Long_Long_Size :=
+        Read_Positive
+           ("Long_Long_Long_Size",
+            Result.Long_Long_Long_Size,
+            Optional => True);
+
       Read_Positive ("Long_Long_Size", Result.Long_Long_Size);
       Read_Positive ("Long_Size", Result.Long_Size);
       Read_Positive ("Maximum_Alignment", Result.Maximum_Alignment);
@@ -318,6 +421,10 @@ package body Libadalang.Target_Info is
         ("System_Allocator_Alignment", Result.System_Allocator_Alignment);
       Read_Positive ("Wchar_T_Size", Result.Wchar_T_Size);
       Read_Boolean ("Words_BE", Result.Words_BE);
+
+      if not Has_Long_Long_Long_Size then
+         Result.Long_Long_Long_Size := Result.Long_Long_Size;
+      end if;
 
       --  Read the empty line
 

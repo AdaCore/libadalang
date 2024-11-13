@@ -1,6 +1,8 @@
-Analyzing test.adb
-##################
+Working on node <ConcreteTypeDecl ["T"] test.adb:3:7-3:29>
+==========================================================
 
-References to "=" (test.adb, 5:16-5:19)
-   if A /= B then (test.adb, 13:4-15:11)
-Done.
+Set 'neq' to 'node.p_get_primitives()[1]'
+Result: <SyntheticSubpDecl [""/=""] test.adb:7:7-7:56>
+
+Eval 'neq.p_defining_name.p_find_all_references([neq.unit])'
+Result: [<RefResult ref=<OpNeq "/=" test.adb:14:9-14:11> kind=precise>]

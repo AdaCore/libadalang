@@ -604,7 +604,11 @@ class AdaNode implements Node[AdaNode] {
             self is ClasswideTypeDecl
             | DiscreteBaseSubtypeDecl
             | SynthAnonymousTypeDecl
-        then self.semantic_parent().parent_basic_decl()
+            | SyntheticSubpDecl
+        then
+            self.parents(with_self=false).find(
+                (p) => p is BasicDecl
+            ).parent_basic_decl()
         else {
             val gen_decl = self.as[GenericDecl];
             val gen_body =
@@ -3814,6 +3818,34 @@ class SubpSpec: BaseSubpSpec {
         self.subp_params?.params.map((p) => p)
 
     fun returns(): Entity[TypeExpr] = self.subp_returns
+
+    |" Assuming this is the subprogram specification of the declaration of
+    |" a "=" operator, this generates a corresponding synthetic "/=" operator.
+    |" This lazy field is defined here on ``SubpSpec`` instead of on
+    |" ``BasicDecl`` where it would more logically lie, so as to minimize the
+    |" number of irrelevant nodes on which this field must be stored.
+    @lazy
+    synthetic_neq_subprogram: BasicSubpDecl = {
+        val params = node.as_bare_entity.unpacked_formal_params();
+        val left_type = params[0].formal_decl().type_expression();
+        val right_type = params[1].formal_decl().type_expression();
+        val ret_type = node.subp_returns;
+
+        SyntheticSubpDecl.builder(
+            spec=SyntheticBinarySpec.builder(
+                subp_symbol=s"\"/=\"",
+                left_param=SyntheticFormalParamDecl.builder(
+                    param_name=s"left",
+                    param_type=left_type.node.to_builder()
+                ),
+                right_param=SyntheticFormalParamDecl.builder(
+                    param_name=s"right",
+                    param_type=right_type.node.to_builder()
+                ),
+                return_type_expr=ret_type.to_builder()
+            )
+        ).build(parent=node.parent)
+    }
 }
 
 |" Synthetic subprogram specification for binary operators.
@@ -5009,15 +5041,14 @@ class BasicDecl: AdaNode {
             ];
         val implicit_neq_assoc =
             if name == s"\"=\""
-            then
-                [
-                    EnvAssoc(
-                        key=s"\"/=\"",
-                        value=node,
-                        dest_env=dest_env,
-                        metadata=null[Metadata]
-                    )
-                ]
+            then [EnvAssoc(
+                key=s"\"/=\"",
+                value=self.subp_spec_or_null(
+                    false
+                ).as[SubpSpec].node.synthetic_neq_subprogram,
+                dest_env=dest_env,
+                metadata=null[Metadata]
+            )]
             else null[Array[EnvAssoc]];
 
         base_assoc & implicit_neq_assoc
@@ -5775,6 +5806,11 @@ class BasicDecl: AdaNode {
         | GenericSubpDecl
         | GenericSubpInstantiation
         | GenericSubpRenamingDecl
+
+    |" Internal heuristic used to quickly check whether a basic decl designates
+    |" a subprogram representing a predefined operator.
+    fun is_predefined_operator(): Bool =
+        node is SyntheticSubpDecl and node.parent is TypeDef
 
     |" Return True if self is a subprogram node that is a valid reducer
     |" candidate as per RM 4.5.10 definition of the reducer program used by
@@ -7048,110 +7084,90 @@ class BaseTypeDecl: BasicDecl {
         val scope = node.declarative_scope();
         val is_derived_tagged =
             node.as_bare_entity.as[TypeDecl]?.is_derived_tagged_type();
-        val decl_parts =
-            scope?.parent.as_bare_entity.do(
-                (v1) =>
-                match v1 {
-                    case pkg_decl: BasePackageDecl =>
+        val decl_parts = scope?.parent.as_bare_entity.do((v1) =>
+            match v1 {
+                case pkg_decl: BasePackageDecl =>
                     # self is declared in a package scope, we should check all
                     # the declarative parts of it.
-                        pkg_decl
-                        .public_part
-                        .decls
-                        .as_array()
-                        & pkg_decl.private_part?.decls.as_array()
-                    case _ =>
+                    pkg_decl.public_part.decls.as_array()
+                    & pkg_decl.private_part?.decls.as_array()
+                case _ =>
                     # self is not declared in a package scope: the only way
                     # that there can be a primitive of self here is if self is
                     # a derived tagged type.
-                        if is_derived_tagged
-                        then
-                            node.parent.parent.as[DeclarativePart].do(
-                                (dp) => dp.as_bare_entity.decls.as_array()
-                            )
-                        else null[Array[Entity[AdaNode]]]
-                }
-            );
-        val enum_lits =
-            node.as[TypeDecl]?.type_def.as[EnumTypeDef].do(
-                (etf) =>
-                etf.enum_literals.map(
-                    (lit) =>
-                    InnerEnvAssoc(
-                        key=lit.name.name_symbol(),
-                        value=lit,
-                        metadata=Metadata(primitive=node)
-                    )
-                )
-            );
-        val prim_subps =
-            decl_parts.filter(
-                (decl) =>
-                decl.as[BasicDecl]?.subp_spec_or_null().do(
-                    (spec) =>
-                    spec.candidate_primitive_subp_types().contains(
-                        node.as_bare_entity
-                    )
-                    and (
-                        # For candidate primitives not declared in a package
-                        # decl, we must further check if they are overriding a
-                        # parent primitive.
-                        #
-                        # This check is not done in
-                        # `candidate_type_for_primitive` because it may cause
-                        # infinite recursions if the parent type is declared in
-                        # the same scope as self.
-                        if not scope.parent is BasePackageDecl
-                        then {
-                            bind origin = spec.origin_node();
-
-                            node.as_bare_entity.parent_primitives_env().get(
-                                spec.name().name_symbol()
-                            )
-                            .any(
-                                (x) =>
-                                x.as[BasicDecl].subp_spec_or_null()
-                                .match_signature(
-                                    spec,
-                                    match_name=false,
-                                    use_entity_info=true
-                                )
-                            )
-                        }
-                        else true
-                    )
+                    if is_derived_tagged
+                    then
+                        node.parent.parent.as[DeclarativePart].do(
+                            (dp) => dp.as_bare_entity.decls.as_array()
+                        )
+                    else null[Array[Entity[AdaNode]]]
+            }
+        );
+        val enum_lits = node.as[TypeDecl]?.type_def.as[EnumTypeDef].do(
+            (etf) => etf.enum_literals.map(
+                (lit) => InnerEnvAssoc(
+                    key=lit.name.name_symbol(),
+                    value=lit,
+                    metadata=Metadata(primitive=node)
                 )
             )
-            .mapcat(
-                (decl) => {
-                    val bd = decl.as[BasicDecl];
+        );
+        val prim_subps = decl_parts.filter((decl) =>
+            decl.as[BasicDecl]?.subp_spec_or_null().do(
+                (spec) => spec.candidate_primitive_subp_types().contains(
+                    node.as_bare_entity
+                ) and (
+                    # For candidate primitives not declared in a package
+                    # decl, we must further check if they are overriding a
+                    # parent primitive.
+                    #
+                    # This check is not done in
+                    # `candidate_type_for_primitive` because it may cause
+                    # infinite recursions if the parent type is declared in
+                    # the same scope as self.
+                    if not scope.parent is BasePackageDecl
+                    then {
+                        bind origin = spec.origin_node();
 
-                    [
-                        InnerEnvAssoc(
-                            key=bd.defining_name().name_symbol(),
-                            value=bd.node,
-                            metadata=Metadata(primitive=node)
+                        node.as_bare_entity.parent_primitives_env().get(
+                            spec.name().name_symbol()
+                        ).any((x) =>
+                            x.as[BasicDecl].subp_spec_or_null()
+                            .match_signature(
+                                spec,
+                                match_name=false,
+                                use_entity_info=true
+                            )
                         )
-                    ]
-                    & (
-                        if bd.defining_name().name_is(s"\"=\"")
-                        then
-                            [
-                                InnerEnvAssoc(
-                                    key=s"\"/=\"",
-                                    value=bd.node,
-                                    metadata=Metadata(primitive=node)
-                                )
-                            ]
-                        else null[Array[InnerEnvAssoc]]
-                    )
-                }
-            );
+                    }
+                    else true
+                )
+            )
+        ).mapcat((decl) => {
+            val bd = decl.as[BasicDecl];
+            val sym = bd.defining_name().name_symbol();
+
+            [InnerEnvAssoc(
+                key=sym,
+                value=bd.node,
+                metadata=Metadata(primitive=node)
+            )] & (
+                if sym == s"\"=\""
+                then [InnerEnvAssoc(
+                    key=s"\"/=\"",
+                    value=bd.subp_spec_or_null(
+                        false
+                    ).as[SubpSpec].node.synthetic_neq_subprogram,
+                    metadata=Metadata(primitive=node)
+                )]
+                else null[Array[InnerEnvAssoc]]
+            )
+        });
+
         # Also add this types' predefined operators to the list of primitives
         val predefined_ops =
             node.as[TypeDecl]?.as_bare_entity.predefined_operators().map(
-                (assoc) =>
-                InnerEnvAssoc(
+                (assoc) => InnerEnvAssoc(
                     key=assoc.key,
                     value=assoc.value,
                     metadata=Metadata(primitive=node)
@@ -7263,100 +7279,86 @@ class BaseTypeDecl: BasicDecl {
             else self.primitives_env();
 
         # First gather the set of names that primitives of this type can have
-        val all_prim_names =
-            prim_env.get(null[Symbol]).map(
-                (t) => t.as[BasicDecl].defining_name().name_symbol()
-            )
-            .unique();
+        val all_prim_names = prim_env.get(null[Symbol]).map(
+            (t) => t.as[BasicDecl].defining_name().name_symbol()
+        ).unique();
 
         # Next, for each of these names, we only want to keep the
         # "most overriding" ones.
-        all_prim_names.mapcat(
-            (name) => {
-                val all_prims = prim_env.get(name).map((t) => t.as[BasicDecl]);
-                val bds =
-                    if include_predefined_operators then all_prims
-                    else all_prims.filter((p) => not p is SyntheticSubpDecl);
+        all_prim_names.mapcat((name) => {
+            val all_prims = prim_env.get(name).map((t) => t.as[BasicDecl]);
+            val bds =
+                if include_predefined_operators
+                then all_prims
+                else all_prims.filter((p) => not p.is_predefined_operator());
 
-                bds.ifilter(
-                    (a, i) => {
-                        val a_spec = a.subp_spec_or_null();
-                        val a_prim =
-                            a
-                            .info
-                            .md
-                            .primitive
-                            .as_bare_entity
-                            .as[BaseTypeDecl];
+            bds.ifilter((a, i) => {
+                val a_spec = a.subp_spec_or_null();
+                val a_prim =
+                    a.info.md.primitive.as_bare_entity.as[BaseTypeDecl];
 
-                        # Only keep primitive a if it is the "most overriding"
-                        # one.  So, the logic below checks that there isn't a
-                        # primitive b that overrides it.
-                        not bds.iany(
-                            (b, j) => {
-                                val b_prim =
-                                    b.info.md.primitive.as[BaseTypeDecl];
+                # Only keep primitive a if it is the "most overriding"
+                # one.  So, the logic below checks that there isn't a
+                # primitive b that overrides it.
+                not bds.iany((b, j) => {
+                    val b_prim = b.info.md.primitive.as[BaseTypeDecl];
 
-                                (i != j)
-                                and {
-                                    # If two primitives have the same
-                                    # signature...
-                                    bind origin = b.origin_node();
+                    (i != j)
+                    and {
+                        # If two primitives have the same
+                        # signature...
+                        bind origin = b.origin_node();
 
-                                    a_spec.match_signature(
-                                        b.subp_spec_or_null(),
-                                        match_name=false,
-                                        use_entity_info=true
-                                    )
-                                }
-                                and {
-                                    val b_prim_ent = b_prim.as_bare_entity;
-
-                                    # Test if the type of the first primitive
-                                    # (a) derives from the type of the second
-                                    # primitive (b)...
-                                    if a_prim.has_base_type(b_prim_ent.node)
-                                    then (
-                                        # Case a derives from b...  If b also
-                                        # derives from a, it means the types
-                                        # are equal: both primitives are in
-                                        # fact the same subprogram, but the
-                                        # first one is the declaration and the
-                                        # second one is the body. In that case
-                                        # we decide to keep the body.  Else if
-                                        # b does not derive from a, it means
-                                        # the primitive on a overrides the
-                                        # primitive on b, so return False.
-                                        i < j
-                                        and b_prim_ent.has_base_type(
-                                            a_prim.node
-                                        )
-                                    )
-                                    else (
-                                        # Case a does *not* derive from b...
-                                        # If b also does not derive from a, the
-                                        # two base types are unrelated, it
-                                        # means that the primitives are merged
-                                        # in a single one (remember their
-                                        # signature match). We keep the one
-                                        # that is inherited first with respect
-                                        # to the list of parents.  But if b
-                                        # derives from a, we return True as we
-                                        # don't want to keep this primitive: we
-                                        # will keep the most inherited one
-                                        # (defined on b) later instead.
-                                        i > j
-                                        or b_prim_ent.has_base_type(
-                                            a_prim.node
-                                        )
-                                    )
-                                }
-                            }
+                        a_spec.match_signature(
+                            b.subp_spec_or_null(),
+                            match_name=false,
+                            use_entity_info=true
                         )
                     }
-                )
-            }
-        )
+                    and {
+                        val b_prim_ent = b_prim.as_bare_entity;
+
+                        # Test if the type of the first primitive
+                        # (a) derives from the type of the second
+                        # primitive (b)...
+                        if a_prim.has_base_type(b_prim_ent.node) then (
+                            # Case a derives from b...  If b also
+                            # derives from a, it means the types
+                            # are equal: both primitives are in
+                            # fact the same subprogram, but the
+                            # first one is the declaration and the
+                            # second one is the body. In that case
+                            # we decide to keep the body.  Else if
+                            # b does not derive from a, it means
+                            # the primitive on a overrides the
+                            # primitive on b, so return False.
+                            i < j
+                            and b_prim_ent.has_base_type(
+                                a_prim.node
+                            )
+                        )
+                        else (
+                            # Case a does *not* derive from b...
+                            # If b also does not derive from a, the
+                            # two base types are unrelated, it
+                            # means that the primitives are merged
+                            # in a single one (remember their
+                            # signature match). We keep the one
+                            # that is inherited first with respect
+                            # to the list of parents.  But if b
+                            # derives from a, we return True as we
+                            # don't want to keep this primitive: we
+                            # will keep the most inherited one
+                            # (defined on b) later instead.
+                            i > j
+                            or b_prim_ent.has_base_type(
+                                a_prim.node
+                            )
+                        )
+                    }
+                })
+            })
+        })
     }
 
     |" Return whether this type is an array type.
@@ -16680,7 +16682,6 @@ class Name: Expr {
     @exported
     fun is_operator_name(): Bool =
         self.name_symbol() in s"\"=\""
-            | s"\"=\""
             | s"\"/=\""
             | s"\"<\""
             | s"\"<=\""
@@ -18557,24 +18558,6 @@ class DefiningName: Name {
             )
         )
 
-    |" Return whether this is a name that defines an "=" operator which
-    |" implicitly declares an "/=" operator giving the complementary result,
-    |" which is True iff this "=" declaration returns a Boolean
-    |" (:rmlink:`6.6` 6/3).
-    @memoized
-    fun is_derivable_equal(): Bool =
-        node.name_is(s"\"=\"")
-        and self.basic_decl().subp_spec_or_null().do(
-            (s) => s.returns()?.designated_type_decl() == self.bool_type()
-        )
-
-    |" Return whether the given symbol could be a reference to this defining
-    |" name.
-    @memoized
-    fun is_potential_reference(symbol: Symbol): Bool =
-        node.name_is(symbol)
-        or (self.is_derivable_equal() and symbol == s"\"/=\"")
-
     |" Returns True iff the given node is an identifier referring to self.
     |" Note that this takes into account both direct references as well as
     |" potential references.
@@ -18586,8 +18569,7 @@ class DefiningName: Name {
     |" call.
     @with_dynvars(imprecise_fallback=false)
     fun is_referenced_by(id: Entity[BaseId]): RefResultKind =
-        if self.is_potential_reference(id.name_symbol())
-        then
+        if node.name_is(id.name_symbol()) then
             (
                 if id.is_defining()
                 then
@@ -18596,32 +18578,25 @@ class DefiningName: Name {
                         kind=RefResultKind.precise
                     )
                 else id.failsafe_referenced_def_name()
-            )
-            .do(
-                (def_res) => {
-                    val canon = def_res.def_name?.canonical_part()?.node;
+            ).do((def_res) => {
+                val canon = def_res.def_name?.canonical_part()?.node;
 
-                    if
-                        (
-                            # Either `id` is a direct reference
-                            node == canon
+                if
+                    # Either `id` is a direct reference
+                    node == canon
+                    # Or `id` refers to one of the base subprograms of
+                    # defined by self, and `x` appears in a dispatching
+                    # call context.
+                    or self.basic_decl().base_subp_declarations().do(
+                        (decls) =>
+                        decls.any(
+                            (d) => d.defining_name().node == canon
                         )
-                        or (
-                            # Or `id` refers to one of the base subprograms of
-                            # defined by self, and `x` appears in a dispatching
-                            # call context.
-                            self.basic_decl().base_subp_declarations().do(
-                                (decls) =>
-                                decls.any(
-                                    (d) => d.defining_name().node == canon
-                                )
-                                and id.is_dispatching_call()
-                            )
-                        )
-                    then def_res.kind
-                    else RefResultKind.no_ref
-                }
-            )
+                        and id.is_dispatching_call()
+                    )
+                then def_res.kind
+                else RefResultKind.no_ref
+            })
         else RefResultKind.no_ref
 
     |" Searches all references to this defining name in the given list of
@@ -20516,17 +20491,16 @@ enum class Op: BaseId implements TokenNode {
             (e) =>
             e.as![BasicDecl].is_subprogram()
             and (
-                # Note: here we explicitly filter out synthesized operators
-                # (which correspond to built-in operators), because using them
-                # for resolving arithmetic expressions would have a significant
-                # performance impact. Instead, we use specific equations
-                # tailored for the resolution of built-in operators. See
-                # `BinOp.no_overload_equation`.
+                # Note: here we explicitly filter out predefined operators,
+                # because using them for resolving arithmetic expressions would
+                # have a significant performance impact. Instead, we use
+                # specific equations tailored for the resolution of built-in
+                # operators. See `BinOp.no_overload_equation`.
                 # TODO: However these custom rules currently do not assign the
                 # `ref_var` of operator references designating which built-in
                 # operators have been called, which would be useful for users
                 # and make this more transparent.
-                not e is SyntheticSubpDecl
+                not e.as![BasicDecl].is_predefined_operator()
             )
         )
 

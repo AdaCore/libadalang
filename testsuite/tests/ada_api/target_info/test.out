@@ -238,4 +238,28 @@ OK   "Integer'Last"
 OK   "Integer'First"
 OK   "Integer'Last"
 
+== std_attrs_linux_32 ==
+
+OK   "Standard'Max_Integer_Size"
+OK   "Standard'Address_Size"
+OK   "Standard'Word_Size"
+OK   "Standard'Storage_Unit"
+OK   "Standard'Maximum_Alignment"
+OK   "Standard'System_Allocator_Alignment"
+OK   "Standard'Wchar_T_Size"
+
+== std_attrs_linux_64 ==
+
+OK   "Standard'Max_Integer_Size"
+OK   "Standard'Address_Size"
+OK   "Standard'Word_Size"
+OK   "Standard'Storage_Unit"
+OK   "Standard'Maximum_Alignment"
+OK   "Standard'System_Allocator_Alignment"
+OK   "Standard'Wchar_T_Size"
+
+== std_attrs_missing_llli ==
+
+OK   "Standard'Max_Integer_Size"
+
 Done.

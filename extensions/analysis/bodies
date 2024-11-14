@@ -131,3 +131,16 @@ begin
    Implementation.Extensions.Set_Target_Information
      (Unwrap_Context (Self), Info);
 end Set_Target_Information;
+
+----------------------------
+-- Get_Target_Information --
+----------------------------
+
+function Get_Target_Information
+  (Self : Analysis_Context) return Target_Information is
+begin
+   if Self.Internal = null then
+      raise Precondition_Failure with "null context argument";
+   end if;
+   return Unwrap_Context (Self).Target_Info;
+end Get_Target_Information;

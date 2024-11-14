@@ -58,3 +58,8 @@ procedure Set_Target_Information
   (Self : Analysis_Context; Info : Target_Information);
 --  Assign target information to ``Self``. This will affect specific bound
 --  values for types defined in the built in Standard package.
+
+function Get_Target_Information
+  (Self : Analysis_Context) return Target_Information;
+--  Return a copy of the target information currently in use by this analysis
+--  context.

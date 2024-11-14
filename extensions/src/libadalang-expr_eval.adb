@@ -11,6 +11,7 @@ with GNATCOLL.GMP.Integers.Misc;
 with Libadalang.Analysis; use Libadalang.Analysis;
 with Libadalang.Common;   use Libadalang.Common;
 with Libadalang.Sources;  use Libadalang.Sources;
+with Libadalang.Target_Info;
 
 package body Libadalang.Expr_Eval is
 
@@ -247,6 +248,11 @@ package body Libadalang.Expr_Eval is
       function Eval_Function_Attr
         (AR : LAL.Attribute_Ref; Args : LAL.Assoc_List) return Eval_Result;
       --  Helper to evaluate function attribute references
+
+      function Eval_Standard_Attr
+        (AR : LAL.Attribute_Ref) return Eval_Result;
+      --  Helper to evaluate Standard attribute references, such as
+      --  `Standard'Max_Integer_Size`.
 
       function Eval_Array_Index
         (Call_Expr : LAL.Call_Expr; Index : LAL.Expr) return Eval_Result;
@@ -818,6 +824,49 @@ package body Libadalang.Expr_Eval is
          end if;
       end Eval_Function_Attr;
 
+      ------------------------
+      -- Eval_Standard_Attr --
+      ------------------------
+
+      function Eval_Standard_Attr
+        (AR : LAL.Attribute_Ref) return Eval_Result
+      is
+         use Libadalang.Target_Info;
+
+         Ret_Typ : constant Base_Type_Decl :=
+           AR.P_Universal_Int_Type.As_Base_Type_Decl;
+         --  All of the standard attributes evaluated here return an universal
+         --  integer, so prepare the type now.
+
+         Name : constant Wide_Wide_String :=
+           Canonicalize (AR.F_Attribute.Text).Symbol;
+
+         TI : constant Target_Information :=
+           Get_Target_Information (AR.Unit.Context);
+      begin
+         if Name = "max_integer_size" then
+            --  If the entry for `Long_Long_Long_Size` is missing from the ATP
+            --  file, this will default to the value of `Long_Long_Size`,
+            --  which is exactly what we want.
+            return Create_Int_Result (Ret_Typ, TI.Long_Long_Long_Size);
+         elsif Name = "address_size" then
+            return Create_Int_Result (Ret_Typ, TI.Pointer_Size);
+         elsif Name = "word_size" then
+            return Create_Int_Result (Ret_Typ, TI.Bits_Per_Word);
+         elsif Name = "storage_unit" then
+            return Create_Int_Result (Ret_Typ, TI.Bits_Per_Unit);
+         elsif Name = "maximum_alignment" then
+            return Create_Int_Result (Ret_Typ, TI.Maximum_Alignment);
+         elsif Name = "system_allocator_alignment" then
+            return Create_Int_Result (Ret_Typ, TI.System_Allocator_Alignment);
+         elsif Name = "wchar_t_size" then
+            return Create_Int_Result (Ret_Typ, TI.Wchar_T_Size);
+         else
+            raise Property_Error with "Unhandled standard attribute ref: "
+              & Image (AR.F_Attribute.Text);
+         end if;
+      end Eval_Standard_Attr;
+
       ----------------------
       -- Eval_Array_Index --
       ----------------------
@@ -1322,6 +1371,9 @@ package body Libadalang.Expr_Eval is
                elsif Name = "last" then
                   return Eval_Range_Attr
                     (As_Ada_Node (AR.F_Prefix), Range_Last);
+               elsif AR.F_Prefix.P_Name_Is (To_Unbounded_Text ("standard"))
+               then
+                  return Eval_Standard_Attr (AR);
                else
                   return Eval_Function_Attr (AR, LAL.No_Assoc_List);
                end if;

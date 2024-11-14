@@ -1,8 +1,9 @@
 procedure Foo
 with
-  Pre => Bar,
+  Pre  => Bar,
   Post =>
-    Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz
+    Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz,
+  No_Expr
 is
 begin
    null;

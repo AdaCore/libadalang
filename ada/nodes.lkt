@@ -1663,107 +1663,90 @@ class AdaNode implements Node[AdaNode] {
     @exported
     @with_dynvars(imprecise_fallback=false)
     fun gnat_xref(): Entity[DefiningName] = {
-        val bd =
-            self.as[Name].enclosing_defining_name().do(
-                (dn) => dn.basic_decl()
-            );
+        val bd = self.as[Name].enclosing_defining_name()?.basic_decl();
 
-        {
-            bind origin = node;
+        bind origin = node;
 
-            if
-                bd is ParamSpec
-                and (
-                    bd.semantic_parent() is BasicSubpDecl
-                    | ExprFunction
-                    | BaseTypeDecl
-                    | SubpBodyStub
-                    | NullSubpDecl
-                    or bd.semantic_parent().as[SubpBody].do(
-                        (body) => body.previous_part_for_decl().is_null
-                    )
+        if
+            bd is ParamSpec
+            and (
+                bd.semantic_parent() is BasicSubpDecl
+                | ExprFunction
+                | BaseTypeDecl
+                | SubpBodyStub
+                | NullSubpDecl
+                or bd.semantic_parent().as[SubpBody].do(
+                    (body) => body.previous_part_for_decl().is_null
                 )
-            then bd.semantic_parent().as[BasicDecl].defining_name()
-            elif bd.do((v1) => v1.parent is GenericFormal)
+            )
+        then bd.semantic_parent().as[BasicDecl].defining_name()
+        elif bd.do((v1) => v1.parent is GenericFormal)
+        then
+            bd.parents().find((p) => p is GenericDecl)
+            .as[GenericDecl].decl().defining_name()
+
+        # Deferred constants case
+        elif
+            bd is ObjectDecl
+            and not bd.as[ObjectDecl].has_constant.is_null
+            and bd.is_in_private_part()
+        then self.as[Name].enclosing_defining_name().previous_part()
+
+        # Discriminants case. There are two kinds of GNAT xrefs that apply
+        # to discrimimants. The 'd' kind, which points to the type this
+        # discriminant belongs to, and the 'r' kind, which, for a private
+        # type completion, points to the corresponding discriminant in the
+        # public view of that type. Note that 'r' references are simply
+        # documented as "reference" in GNAT and might apply to other nodes,
+        # but the discriminants case is the single occurence of that kind
+        # we found so far.
+        elif bd is DiscriminantSpec
+        then {
+            val pd = bd.as[DiscriminantSpec].parent_decl();
+
+            if pd.is_in_private_part()
             then
-                bd.parents().find((p) => p is GenericDecl)
-                .as[GenericDecl]
-                .decl()
-                .defining_name()
-            # Deferred constants case
-
-            elif
-                (
-                    bd is ObjectDecl
-                    and not bd.as[ObjectDecl].has_constant.is_null
-                )
-                and bd.is_in_private_part()
-            then self.as[Name].enclosing_defining_name().previous_part()
-            # Discriminants case. There are two kinds of GNAT xrefs that apply
-            # to discrimimants. The 'd' kind, which points to the type this
-            # discriminant belongs to, and the 'r' kind, which, for a private
-            # type completion, points to the corresponding discriminant in the
-            # public view of that type. Note that 'r' references are simply
-            # documented as "reference" in GNAT and might apply to other nodes,
-            # but the discriminants case is the single occurence of that kind
-            # we found so far.
-
-            elif bd is DiscriminantSpec
-            then {
-                val pd = bd.as[DiscriminantSpec].parent_decl();
-
-                if pd.is_in_private_part()
-                then
-                    self.as[Name].enclosing_defining_name().previous_part()
-                    or? pd.defining_name()
-                else pd.defining_name()
-            }
-            elif bd is AbstractSubpDecl
-            then
-                bd.as[AbstractSubpDecl].subp_decl_spec()
-                .primitive_subp_first_type()
-                .defining_name()
-            elif bd is BasicSubpDecl
-            then
-                bd.as[BasicSubpDecl].subp_decl_spec()
-                .primitive_subp_first_type()
-                .do(
-                    (prim_typ) =>
-                    prim_typ.is_tagged_type().do(
-                        (_) =>
-                        prim_typ.private_completion().do(
-                            (pc) => pc.defining_name()
-                        )
-                        or? prim_typ.defining_name()
-                    )
-                )
-            elif bd is BaseSubpBody
-            then bd.as[BaseSubpBody].subp_spec.subp_name
-            else
-                self.as[Name]?.gnat_xref_decl().do(
-                    (ret) => {
-                        val dbd = ret.basic_decl();
-
-                        if dbd is ParamSpec
-                        then dbd.as[ParamSpec].decl_param(ret)
-                        elif dbd is ObjectDecl
-                        then (
-                            # Since dbd can refer to an object declaration with
-                            # multiple defining names, do not call
-                            # `public_part_decl` but directly call
-                            # `previous_part_for_name(self)`.
-                            dbd.as[ObjectDecl].previous_part_for_name(
-                                self.as[Name].name_symbol()
-                            )
-                            .do((ppn) => ppn.defining_name())
-                            or? ret
-                        )
-                        elif dbd is Body
-                        then (dbd.as[Body].decl_part() or? dbd).defining_name()
-                        else ret
-                    }
-                )
+                self.as[Name].enclosing_defining_name().previous_part()
+                or? pd.defining_name()
+            else pd.defining_name()
         }
+        elif bd is AbstractSubpDecl
+        then
+            bd.as[AbstractSubpDecl].subp_decl_spec()
+            .primitive_subp_first_type()
+            .defining_name()
+        elif bd is BasicSubpDecl
+        then
+            bd.as[BasicSubpDecl].subp_decl_spec()
+            .primitive_subp_first_type()
+            .do((prim_typ) => prim_typ.is_tagged_type().do(
+                (_) => prim_typ.private_completion().do(
+                    (pc) => pc.defining_name()
+                ) or? prim_typ.defining_name()
+            ))
+        elif bd is BaseSubpBody
+        then bd.as[BaseSubpBody].subp_spec.subp_name
+        else self.as[Name]?.gnat_xref_decl().do((ret) => {
+            val dbd = ret.basic_decl();
+
+            if dbd is ParamSpec
+            then dbd.as[ParamSpec].decl_param(ret)
+            elif dbd is ObjectDecl
+            then (
+                # Since dbd can refer to an object declaration with
+                # multiple defining names, do not call
+                # `public_part_decl` but directly call
+                # `previous_part_for_name(self)`.
+                dbd.as[ObjectDecl].previous_part_for_name(
+                    self.as[Name].name_symbol()
+                )
+                .do((ppn) => ppn.defining_name())
+                or? ret
+            )
+            elif dbd is Body
+            then (dbd.as[Body].decl_part() or? dbd).defining_name()
+            else ret
+        })
     }
 
     |" Static property. Finds the closest parent which is a ``BaseSubpSpec`` /
@@ -16089,28 +16072,23 @@ class Name: Expr {
     @with_dynvars(imprecise_fallback=false)
     fun gnat_xref_decl(): Entity[DefiningName] = {
         val dn = self.is_defining().do((_) => self.enclosing_defining_name());
-        val bd = dn.do((dn) => dn.basic_decl());
+        val bd = dn?.basic_decl();
 
-        if bd.do((bd) => bd is ParamSpec) then bd.as[ParamSpec].decl_param(dn)
-        elif bd.do((bd) => bd is Body)
+        if bd is ParamSpec then bd.as[ParamSpec].decl_param(dn)
+        elif bd is Body
         then bd.as[Body].decl_part()?.defining_name()
-        elif
-            bd.do(
-                (bd) =>
-                bd is BaseTypeDecl and bd.as[BaseTypeDecl].is_in_private_part()
-            ) then bd.as[BaseTypeDecl].previous_part(true)?.defining_name()
-        elif bd.do((bd) => bd is ObjectDecl)
-        then (
+        elif bd is BaseTypeDecl and bd.as[BaseTypeDecl].is_in_private_part()
+        then bd.as[BaseTypeDecl].previous_part(true)?.defining_name()
+        elif bd is ObjectDecl
+        then
             # TODO: Implement jumping to full object decl view for constant
             # object decls with no value.
             null[Entity[DefiningName]]
-        )
-        elif bd.do((bd) => bd is NumberDecl)
-        then (
+        elif bd is NumberDecl
+        then
             # Number decls cannot have a next part, always return None
             null[Entity[DefiningName]]
-        )
-        elif bd.do((bd) => bd is BasicDecl) then dn
+        elif bd is BasicDecl then dn
         else self.referenced_defining_name()
     }
 

@@ -1,0 +1,17 @@
+Working on node <AssignStmt test.adb:13:4-13:20>
+================================================
+
+Eval 'node.f_expr.f_name.p_referenced_decl().p_is_predefined_operator'
+Result: False
+
+Working on node <AssignStmt test.adb:15:4-15:21>
+================================================
+
+Eval 'node.f_expr.f_name.p_referenced_decl().p_is_predefined_operator'
+Result: False
+
+Working on node <AssignStmt test.adb:17:4-17:20>
+================================================
+
+Eval 'node.f_expr.f_name.p_referenced_decl().p_is_predefined_operator'
+Result: True

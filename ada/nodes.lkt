@@ -5796,8 +5796,9 @@ class BasicDecl: AdaNode {
         | GenericSubpInstantiation
         | GenericSubpRenamingDecl
 
-    |" Internal heuristic used to quickly check whether a basic decl designates
-    |" a subprogram representing a predefined operator.
+    |" Return whether this declaration corresponds to a subprogram that
+    |" represents a predefined operator.
+    @exported
     fun is_predefined_operator(): Bool =
         node is SyntheticSubpDecl and node.parent is TypeDef
 

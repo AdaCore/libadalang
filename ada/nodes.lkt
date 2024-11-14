@@ -1745,6 +1745,12 @@ class AdaNode implements Node[AdaNode] {
             )
             elif dbd is Body
             then (dbd.as[Body].decl_part() or? dbd).defining_name()
+            elif
+                ret is SyntheticDefiningName
+                and ret.name_is(s"\"/=\"")
+                and dbd.parent is BasicDecl
+            then
+                dbd.parent.as[BasicDecl].defining_name()
             else ret
         })
     }

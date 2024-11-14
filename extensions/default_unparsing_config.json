@@ -579,20 +579,63 @@
         "kind": "group",
         "document": [
           {
-            "kind": "recurse_field",
-            "field": "f_prefix"
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_prefix"
+              },
+              {
+                "kind": "text",
+                "text": "'"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_attribute"
+              }
+            ],
+            "id": "prefix_with_attribute"
           },
           {
-            "kind": "text",
-            "text": "'"
-          },
+            "kind": "ifBreak",
+            "groupId": "prefix_with_attribute",
+            "flatContents": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_args"
+              }
+            },
+            "breakContents": {
+              "kind": "align",
+              "width": "     ",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_args"
+              }
+            }
+          }
+        ]
+      },
+      "fields": {
+        "f_args": [
+          "line",
           {
-            "kind": "recurse_field",
-            "field": "f_attribute"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_args"
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "("
+              },
+              {
+                "kind": "innerRoot",
+                "contents": "recurse"
+              },
+              {
+                "kind": "text",
+                "text": ")"
+              }
+            ]
           }
         ]
       }

@@ -132,7 +132,14 @@ procedure Main is
          Unit : constant Analysis_Unit :=
             Get_From_Provider (Ctx, Unit_Name, Kind);
       begin
-         Unit.Root.Traverse (Process'Access);
+         if Unit.Has_Diagnostics then
+            Put_Line ("  Diagnostics:");
+            for D of Unit.Diagnostics loop
+               Put_Line ("    " & Unit.Format_GNU_Diagnostic (D));
+            end loop;
+         else
+            Unit.Root.Traverse (Process'Access);
+         end if;
       end;
       New_Line;
    end Resolve;
@@ -151,6 +158,7 @@ begin
 
    Resolve ("p.gpr", "p2");
    Resolve ("p.gpr", "p3", Unit_Body);
+   Resolve ("p.gpr", "");
    Resolve ("multi_unit_files_1.gpr", "objects");
    Resolve ("multi_unit_files_2.gpr", "objects");
    Resolve ("extending.gpr", "ext");

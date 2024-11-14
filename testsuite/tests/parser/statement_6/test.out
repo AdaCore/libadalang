@@ -105,7 +105,5 @@ SelectStmt[1:1-1:155]
 |  |  |  |  |  EndName[1:137-1:142]
 |  |  |  |  |  |f_name:
 |  |  |  |  |  |  Id[1:137-1:142]: Fetch
-|f_else_stmts:
-|  StmtList[1:142-1:142]: <empty list>
-|f_abort_stmts:
-|  StmtList[1:142-1:142]: <empty list>
+|f_else_part: <null>
+|f_then_abort_part: <null>

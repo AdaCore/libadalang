@@ -158,8 +158,6 @@ StmtList[1:1-1:235]
 |  |  |  |  |  |  |  |  EndName[1:207-1:212]
 |  |  |  |  |  |  |  |  |f_name:
 |  |  |  |  |  |  |  |  |  Id[1:207-1:212]: Fetch
-|  |  |  |f_else_stmts:
-|  |  |  |  StmtList[1:212-1:212]: <empty list>
-|  |  |  |f_abort_stmts:
-|  |  |  |  StmtList[1:212-1:212]: <empty list>
+|  |  |  |f_else_part: <null>
+|  |  |  |f_then_abort_part: <null>
 |  |f_end_name: <null>

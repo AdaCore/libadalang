@@ -33,6 +33,11 @@ package body Libadalang.Project_Provider is
    package US renames Ada.Strings.Unbounded;
    use type US.Unbounded_String;
 
+   function "+" (Kind : Analysis_Unit_Kind) return String
+   is (case Kind is
+       when Unit_Specification => "specification",
+       when Unit_Body          => "body");
+
    ------------------------
    -- GPR1 unit provider --
    ------------------------
@@ -106,13 +111,19 @@ package body Libadalang.Project_Provider is
      (Any_Provider_And_Projects_Array, Any_Provider_And_Projects_Array_Access);
 
    type Files_For_Unit is record
+      View                 : Any_View;
       Spec_File, Body_File : aliased US.Unbounded_String;
    end record;
    --  Identify the source files that implement one unit (spec & body for a
    --  specific unit name, when present).
 
+   function Same_Files (Left, Right : Files_For_Unit) return Boolean
+   is (Left.Spec_File = Right.Spec_File
+       and then Left.Body_File = Right.Body_File);
+
    procedure Set_Unit_File
      (FFU  : in out Files_For_Unit;
+      View : Any_View;
       File : String;
       Part : Any_Unit_Part);
    --  Register the couple File/Part in FFU
@@ -126,6 +137,7 @@ package body Libadalang.Project_Provider is
 
    procedure Set_Unit_File
      (Unit_Files : in out Unit_Files_Maps.Map;
+      View       : Any_View;
       Unit_Name  : String;
       Unit_Part  : Any_Unit_Part;
       Filename   : String);
@@ -148,13 +160,17 @@ package body Libadalang.Project_Provider is
      (Aggregate_Part, Aggregate_Part_Access);
 
    function Try_Merge
-     (Part       : in out Aggregate_Part;
-      Project    : Any_View;
-      Unit_Files : in out Unit_Files_Maps.Map) return Boolean;
+     (Part              : in out Aggregate_Part;
+      Project           : Any_View;
+      Unit_Files        : in out Unit_Files_Maps.Map;
+      Raise_If_Conflict : Boolean := False) return Boolean;
    --  If all common unit names in ``Part.Unit_Files`` and ``Unit_Files`` are
    --  associated with the same source files, update ``Part`` so that
    --  ``Project`` is part of it, clear ``Unit_Files`` and return True. Do
    --  nothing and return False otherwise.
+   --
+   --  Raise an ``Unsupported_View_Error`` exception if ``Raise_If_Conflict``
+   --  is true and if the result would contain multiple providers.
 
    package Aggregate_Part_Vectors is new Ada.Containers.Vectors
      (Positive, Aggregate_Part_Access);
@@ -167,8 +183,13 @@ package body Libadalang.Project_Provider is
    --  given ``Tree`` and ``Views``.
 
    function Create_Project_Unit_Providers
-     (Tree : Any_Tree) return Any_Provider_And_Projects_Array_Access;
-   --  Common implementation for the homonym public functions
+     (Tree              : Any_Tree;
+      Raise_If_Conflict : Boolean := False)
+      return Any_Provider_And_Projects_Array_Access;
+   --  Common implementation for the homonym public functions.
+   --
+   --  Raise an ``Unsupported_View_Error`` exception if ``Raise_If_Conflict``
+   --  is true and if the result would contain multiple providers.
 
    procedure Create_Project_Unit_Provider
      (Tree         : Any_Tree;
@@ -197,6 +218,7 @@ package body Libadalang.Project_Provider is
 
    procedure Set_Unit_File
      (FFU  : in out Files_For_Unit;
+      View : Any_View;
       File : String;
       Part : Any_Unit_Part)
    is
@@ -212,6 +234,7 @@ package body Libadalang.Project_Provider is
          return;
       end if;
 
+      FFU.View := View;
       Unit_File.all :=
         (if File = ""
          then US.Null_Unbounded_String
@@ -225,6 +248,7 @@ package body Libadalang.Project_Provider is
 
    procedure Set_Unit_File
      (Unit_Files : in out Unit_Files_Maps.Map;
+      View       : Any_View;
       Unit_Name  : String;
       Unit_Part  : Any_Unit_Part;
       Filename   : String)
@@ -243,7 +267,7 @@ package body Libadalang.Project_Provider is
          pragma Assert (Inserted);
       end if;
 
-      Set_Unit_File (Unit_Files.Reference (Pos), Filename, Unit_Part);
+      Set_Unit_File (Unit_Files.Reference (Pos), View, Filename, Unit_Part);
    end Set_Unit_File;
 
    ----------------
@@ -273,9 +297,10 @@ package body Libadalang.Project_Provider is
    ---------------
 
    function Try_Merge
-     (Part       : in out Aggregate_Part;
-      Project    : Any_View;
-      Unit_Files : in out Unit_Files_Maps.Map) return Boolean
+     (Part              : in out Aggregate_Part;
+      Project           : Any_View;
+      Unit_Files        : in out Unit_Files_Maps.Map;
+      Raise_If_Conflict : Boolean := False) return Boolean
    is
       use Unit_Files_Maps;
    begin
@@ -298,14 +323,37 @@ package body Libadalang.Project_Provider is
             Part_Pos  : constant Cursor := Part.Unit_Files.Find (Unit_Name);
          begin
             if Has_Element (Part_Pos)
-               and then Unit_Files.Reference (Prj_Pos).Element.all
-                        /= Part.Unit_Files.Reference (Part_Pos).Element.all
+               and then not Same_Files
+                 (Unit_Files.Reference (Prj_Pos),
+                  Part.Unit_Files.Reference (Part_Pos))
             then
                if Partition_Trace.Is_Active then
                   Partition_Trace.Trace
                     ("Found conflicting source files for unit "
                      & To_String (Unit_Name) & " in " & Name (Project)
                      & " and " & Part_Image (Part));
+               end if;
+               if Raise_If_Conflict then
+                  declare
+                     CWD : constant Virtual_File := Get_Current_Dir;
+
+                     P1 : constant Virtual_File :=
+                       Create (+Project_File (Project));
+                     P2 : constant Virtual_File :=
+                       Create
+                         (+Project_File
+                             (Part
+                              .Unit_Files
+                              .Constant_Reference (Part_Pos)
+                              .View));
+
+                     RP1 : constant String := +Relative_Path (P1, CWD);
+                     RP2 : constant String := +Relative_Path (P2, CWD);
+                  begin
+                     raise Unsupported_View_Error with
+                       "conflicting sources for unit '" & To_String (Unit_Name)
+                       & "' found in " & RP1 & " and " & RP2;
+                  end;
                end if;
                return False;
             end if;
@@ -385,7 +433,9 @@ package body Libadalang.Project_Provider is
    -----------------------------------
 
    function Create_Project_Unit_Providers
-     (Tree : Any_Tree) return Any_Provider_And_Projects_Array_Access
+     (Tree              : Any_Tree;
+      Raise_If_Conflict : Boolean := False)
+      return Any_Provider_And_Projects_Array_Access
    is
       Partition : Aggregate_Part_Vectors.Vector;
    begin
@@ -436,7 +486,7 @@ package body Libadalang.Project_Provider is
                      Filename  : String) is
                   begin
                      Set_Unit_File
-                       (Unit_Files, Unit_Name, Unit_Part, Filename);
+                       (Unit_Files, View, Unit_Name, Unit_Part, Filename);
                   end Process;
 
                   New_Part_Needed : Boolean := True;
@@ -447,7 +497,9 @@ package body Libadalang.Project_Provider is
                   --  Unit_Files. Create a new one if there is no such part.
 
                   Part_Lookup : for Part of Partition loop
-                     if Try_Merge (Part.all, View, Unit_Files) then
+                     if Try_Merge
+                          (Part.all, View, Unit_Files, Raise_If_Conflict)
+                     then
                         New_Part_Needed := False;
                         exit Part_Lookup;
                      end if;
@@ -553,12 +605,9 @@ package body Libadalang.Project_Provider is
       if Actual_View = No_View (Tree) then
          declare
             PAPs : Any_Provider_And_Projects_Array_Access :=
-              Create_Project_Unit_Providers (Tree);
+              Create_Project_Unit_Providers (Tree, Raise_If_Conflict => True);
          begin
-            if PAPs.all'Length > 1 then
-               Free (PAPs);
-               raise Unsupported_View_Error with "inconsistent units found";
-            end if;
+            pragma Assert (PAPs.all'Length = 1);
 
             --  We only have one provider: return it
 
@@ -878,10 +927,7 @@ package body Libadalang.Project_Provider is
       if US.Length (Filename) = 0 then
          Set_Error
            ("Could not find source file for " & Name & " ("
-            & (case Kind is
-               when Unit_Specification => "specification file",
-               when Unit_Body          => "body file")
-            & ")");
+            & To_Text (+Kind) & " file)");
          return;
       end if;
 

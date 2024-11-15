@@ -1,7 +1,7 @@
 == agg.gpr - <none> ==
 
 Got an exception (EXCEPTION_UNSUPPORTED_VIEW_ERROR):
-  inconsistent units found
+  conflicting sources for unit 'PKG' found in p2.gpr and p1.gpr
 
 == agg.gpr - p1 ==
 

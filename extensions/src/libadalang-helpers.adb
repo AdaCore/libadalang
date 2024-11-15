@@ -730,24 +730,15 @@ package body Libadalang.Helpers is
    -------------------------
 
    function Project_To_Provider
-     (Project : GPR2.Project.Tree.Object) return Unit_Provider_Reference
-   is
-      Partition : GPR2_Provider_And_Projects_Array_Access :=
-        Create_Project_Unit_Providers (Project);
+     (Project : GPR2.Project.Tree.Object) return Unit_Provider_Reference is
    begin
       --  Reject partitions with multiple parts: we cannot analyze it with
       --  only one provider.
 
-      if Partition.all'Length /= 1 then
-         Free (Partition);
-         Abort_App ("This aggregate project contains conflicting sources");
-      end if;
-
-      return Result : constant Unit_Provider_Reference :=
-        Partition.all (Partition'First).Provider
-      do
-         Free (Partition);
-      end return;
+      return Create_Project_Unit_Provider (Project);
+   exception
+      when Exc : Unsupported_View_Error =>
+         Abort_App (Exception_Message (Exc));
    end Project_To_Provider;
 
    ----------------------------

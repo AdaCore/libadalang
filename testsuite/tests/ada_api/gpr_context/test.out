@@ -24,7 +24,7 @@ pkg%b previous part: <PackageDecl ["Pkg"] pkg.ads:1:1-2:9>
 
 == Aggregate project (no specific view) ==
 
-Unsupported_View_Error: inconsistent units found
+Unsupported_View_Error: conflicting sources for unit 'pkg' found in aggregate/p2.gpr and aggregate/p1.gpr
 
 == Aggregate project (specific view: p2) ==
 

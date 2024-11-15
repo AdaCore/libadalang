@@ -65,6 +65,9 @@ private package Libadalang.GPR_Utils is
    function Name (Self : Any_View) return String;
    --  Return the name for the ``Self`` project
 
+   function Project_File (Self : Any_View) return String;
+   --  Return the project file name for ``Self``
+
    function Dir_Name (Self : Any_View) return String;
    --  Return the absolute name for the project directory for ``Self``
 

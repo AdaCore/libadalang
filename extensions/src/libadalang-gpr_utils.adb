@@ -65,6 +65,18 @@ package body Libadalang.GPR_Utils is
       end case;
    end Name;
 
+   ------------------
+   -- Project_File --
+   ------------------
+
+   function Project_File (Self : Any_View) return String is
+   begin
+      case Self.Kind is
+      when GPR1_Kind => return +Self.GPR1_Value.Project_Path.Full_Name;
+      when GPR2_Kind => return String (Self.GPR2_Value.Path_Name.Value);
+      end case;
+   end Project_File;
+
    --------------
    -- Dir_Name --
    --------------

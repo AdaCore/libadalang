@@ -16672,27 +16672,31 @@ class Name: Expr {
                 dn.suffix.xref_no_overloading(sequential, all_els)
             }
         case i: BaseId =>
-            if all_els and node.is_suffix()
-            then
-                %domain(
-                    i.ref_var(),
-                    node.env_get(
-                        env,
-                        i.name_symbol(),
-                        from_node=if sequential then self.node else null[Name],
-                        lookup=if node.is_prefix() then LookupKind.recursive
-                        else LookupKind.flat
-                    )
-                    .filter((e) => node.has_visibility(e))
-                )
-            else
-                i.ref_var()
-                <- i.env_get_first_visible(
+            if all_els and node.is_suffix() then {
+                val vals = node.env_get(
                     env,
+                    i.name_symbol(),
                     from_node=if sequential then self.node else null[Name],
-                    lookup_type=if node.is_prefix() then LookupKind.recursive
-                    else LookupKind.flat
+                    lookup=if node.is_prefix()
+                           then LookupKind.recursive
+                           else LookupKind.flat
+                ).filter((e) => node.has_visibility(e));
+
+                vals.do(
+                   (v) => %domain(i.ref_var(), v),
+                   default_val=i.undefined_reference_equation()
                 )
+            }
+            else i.env_get_first_visible(
+                env,
+                from_node=if sequential then self.node else null[Name],
+                lookup_type=if node.is_prefix()
+                            then LookupKind.recursive
+                            else LookupKind.flat
+            ).do(
+                (f) => i.ref_var() <- f,
+                default_val=i.undefined_reference_equation()
+            )
         case _ => %false
     }
 

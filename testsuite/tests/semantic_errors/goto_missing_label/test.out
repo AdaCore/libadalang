@@ -1,0 +1,15 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GotoStmt test.adb:3:4-3:17>
+*****************************************************
+
+Name resolution failed as expected with:
+
+test.adb:3:9: error: no such entity
+3 |    goto Missing;
+  |         ^^^^^^^
+
+
+
+Done.

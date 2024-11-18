@@ -1,5 +1,5 @@
 Load without project scope
-   exception UnsupportedViewError: inconsistent units found
+   exception UnsupportedViewError: conflicting sources for unit 'ARCH' found in arch64/arch.gpr and arch32/arch.gpr
 Load with ambiguous scope
    exception ProjectError: ambiguous project: arch
 Load with a project scope

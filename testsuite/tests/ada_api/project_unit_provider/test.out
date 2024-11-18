@@ -1,5 +1,5 @@
 Loading unsupported_aggr.gpr...
-   Unsupported_View_Error exception: inconsistent units found
+   Unsupported_View_Error exception: conflicting sources for unit 'q' found in q2.gpr and q.gpr
 Loading unsupported_aggr.gpr...
    Targetting subproject unsupported_aggr
    Unsupported_View_Error exception: selected project is aggregate and has more than one sub-project

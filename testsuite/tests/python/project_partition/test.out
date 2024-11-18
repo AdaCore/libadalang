@@ -1,5 +1,5 @@
 Loading ap1.gpr...
-   ... got a UnsupportedViewError exception: inconsistent units found
+   ... got a UnsupportedViewError exception: conflicting sources for unit 'P1' found in p3.gpr and p1.gpr
 Loading ap2.gpr...
    ... success!
 <DottedName p2.ads:4:24-4:28> resolves to <ObjectDecl ["I"] p1.ads:2:4-2:16>

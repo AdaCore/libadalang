@@ -1,5 +1,6 @@
 {
   "node_configs": {
+    "AbortNode": {},
     "AbortStmt": {
       "node": {
         "kind": "group",
@@ -28,6 +29,11 @@
         }
       }
     },
+    "AbstractFormalSubpDecl": {},
+    "AbstractNode": {},
+    "AbstractNode": {},
+    "AbstractStateDecl": {},
+    "AbstractStateDeclExpr": {},
     "AbstractStateDeclList": {
       "sep": [
         "recurse",
@@ -321,6 +327,8 @@
         ]
       }
     },
+    "AliasedNode": {},
+    "AllNode": {},
     "Allocator": {
       "node": {
         "kind": "group",
@@ -363,6 +371,7 @@
       ],
       "table": null
     },
+    "AnonymousType": {},
     "AnonymousTypeDecl": {
       "node": {
         "kind": "group",
@@ -390,6 +399,7 @@
         ]
       }
     },
+    "ArraySubcomponentChoiceName": {},
     "ArrayTypeDef": {
       "node": {
         "kind": "group",
@@ -531,6 +541,7 @@
         "must_break": false
       }
     },
+    "AtClause": {},
     "AttributeDefClause": {
       "node": {
         "kind": "group",
@@ -809,6 +820,7 @@
         }
       }
     },
+    "BoxExpr": {},
     "BracketAggregate": {
       "node": {
         "kind": "group",
@@ -1194,6 +1206,7 @@
         "hardline"
       ]
     },
+    "CharLiteral": {},
     "CompilationUnit": {
       "node": [
         {
@@ -1231,6 +1244,7 @@
         }
       }
     },
+    "CompilationUnitList": {},
     "ComponentClause": {
       "node": {
         "kind": "group",
@@ -1634,6 +1648,7 @@
         ]
       }
     },
+    "ConstantNode": {},
     "ConstrainedArrayIndices": {
       "node": {
         "kind": "group",
@@ -1849,6 +1864,7 @@
         }
       }
     },
+    "DefiningName": {},
     "DefiningNameList": {
       "sep": [
         "recurse",
@@ -1930,6 +1946,7 @@
         }
       ]
     },
+    "DeltaConstraint": {},
     "DerivedTypeDef": {
       "node": [
         {
@@ -2037,6 +2054,9 @@
         ]
       }
     },
+    "DigitsConstraint": {},
+    "DiscreteSubtypeName": {},
+    "DiscriminantChoiceList": {},
     "DiscriminantSpec": {
       "node": [
         {
@@ -2256,6 +2276,7 @@
         "hardlineWithoutBreakParent"
       ]
     },
+    "EndName": {},
     "EntryBody": {
       "node": {
         "kind": "group",
@@ -2413,6 +2434,7 @@
         ]
       }
     },
+    "EntryIndexSpec": {},
     "EntrySpec": {
       "node": {
         "kind": "continuationLineIndent",
@@ -2471,6 +2493,7 @@
         }
       }
     },
+    "EnumLiteralDecl": {},
     "EnumLiteralDeclList": {
       "sep": [
         "recurse",
@@ -2542,6 +2565,8 @@
         ]
       }
     },
+    "ErrorDecl": {},
+    "ErrorStmt": {},
     "ExceptionDecl": {
       "node": {
         "kind": "group",
@@ -2713,6 +2738,7 @@
         ]
       }
     },
+    "ExplicitDeref": {},
     "ExprAlternativesList": {
       "sep": [
         "line",
@@ -3103,6 +3129,13 @@
         ]
       }
     },
+    "ForLoopVarDecl": {},
+    "FormalDiscreteTypeDef": {},
+    "FormalTypeDecl": {},
+    "FormatStringChunk": {},
+    "FormatStringChunkList": {},
+    "FormatStringLiteral": {},
+    "FormatStringTokNode": {},
     "GenericFormalObjDecl": {
       "node": {
         "kind": "group",
@@ -3487,6 +3520,7 @@
         ]
       }
     },
+    "GenericSubpInternal": {},
     "GenericSubpRenamingDecl": {
       "node": {
         "kind": "group",
@@ -3592,6 +3626,7 @@
         ]
       }
     },
+    "Identifier": {},
     "IfExpr": {
       "node": {
         "kind": "group",
@@ -3914,6 +3949,8 @@
         ]
       }
     },
+    "IntLiteral": {},
+    "InterfaceKind": {},
     "InterfaceTypeDef": {
       "node": {
         "kind": "group",
@@ -3943,6 +3980,7 @@
         ]
       }
     },
+    "IterType": {},
     "IteratedAssoc": {
       "node": {
         "kind": "group",
@@ -4001,6 +4039,10 @@
         ]
       }
     },
+    "Label": {},
+    "LabelDecl": {},
+    "LibraryItem": {},
+    "LimitedNode": {},
     "LoopStmt": {
       "node": {
         "kind": "group",
@@ -4118,6 +4160,7 @@
         ]
       }
     },
+    "Mode": {},
     "ModeIn": {
       "node": [
         "recurse",
@@ -4136,6 +4179,7 @@
         "whitespace"
       ]
     },
+    "MultiAbstractStateDecl": {},
     "NameList": {
       "sep": [
         "recurse",
@@ -4163,6 +4207,7 @@
         ]
       }
     },
+    "NamedStmtDecl": {},
     "NoTypeObjectRenamingDecl": {
       "node": {
         "kind": "continuationLineIndent",
@@ -4215,6 +4260,9 @@
         "f_renaming_clause": "recurse"
       }
     },
+    "NotNull": {},
+    "NullComponentDecl": {},
+    "NullLiteral": {},
     "NullRecordAggregate": {
       "node": {
         "kind": "group",
@@ -4301,6 +4349,7 @@
         ]
       }
     },
+    "NullStmt": {},
     "NullSubpDecl": {
       "node": {
         "kind": "group",
@@ -4621,6 +4670,7 @@
         ]
       }
     },
+    "Op": {},
     "OpAbs": {
       "node": {
         "kind": "group",
@@ -4669,6 +4719,8 @@
         ]
       }
     },
+    "OthersDesignator": {},
+    "OverridingNode": {},
     "OverridingNotOverriding": {
       "node": [
         "recurse",
@@ -5093,6 +5145,7 @@
         }
       }
     },
+    "ParenAbstractStateDecl": {},
     "ParenExpr": {
       "node": {
         "kind": "group",
@@ -5121,6 +5174,11 @@
         "recurse"
       ]
     },
+    "PpElseDirective": {},
+    "PpElsifDirective": {},
+    "PpEndIfDirective": {},
+    "PpIfDirective": {},
+    "PpThenKw": {},
     "PragmaArgumentAssoc": {
       "node": {
         "kind": "group",
@@ -5214,6 +5272,8 @@
         "hardline"
       ]
     },
+    "PrivateNode": {},
+    "PrivateTypeDef": {},
     "ProtectedBody": {
       "node": [
         {
@@ -5376,6 +5436,7 @@
         ]
       }
     },
+    "ProtectedNode": {},
     "ProtectedTypeDecl": {
       "node": {
         "kind": "group",
@@ -5508,6 +5569,7 @@
         }
       }
     },
+    "Quantifier": {},
     "RaiseExpr": {
       "node": {
         "kind": "group",
@@ -5602,6 +5664,7 @@
         }
       }
     },
+    "RangeConstraint": {},
     "RangeSpec": {
       "node": {
         "kind": "continuationLineIndent",
@@ -5624,6 +5687,7 @@
         }
       }
     },
+    "RealLiteral": {},
     "RecordDef": {
       "node": {
         "kind": "group",
@@ -5859,6 +5923,7 @@
         ]
       }
     },
+    "RequeueStmt": {},
     "ReturnStmt": {
       "node": {
         "kind": "continuationLineIndent",
@@ -5874,6 +5939,7 @@
         ]
       }
     },
+    "ReverseNode": {},
     "SelectStmt": {
       "node": {
         "kind": "group",
@@ -5947,6 +6013,8 @@
         "hardline"
       ]
     },
+    "SignedIntTypeDef": {},
+    "SimpleDeclStmt": {},
     "SingleProtectedDecl": {
       "node": {
         "kind": "group",
@@ -6066,6 +6134,7 @@
       ],
       "table": null
     },
+    "StringLiteral": {},
     "SubpBody": {
       "node": {
         "kind": "group",
@@ -6282,6 +6351,8 @@
         ]
       }
     },
+    "SubpKind": {},
+    "SubpRenamingDecl": {},
     "SubpSpec": {
       "node": {
         "kind": "continuationLineIndent",
@@ -6458,6 +6529,9 @@
         ]
       }
     },
+    "SynchronizedNode": {},
+    "TaggedNode": {},
+    "TargetName": {},
     "TaskBody": {
       "node": {
         "kind": "group",
@@ -6537,6 +6611,7 @@
         ]
       }
     },
+    "TaskBodyStub": {},
     "TaskDef": {
       "node": [
         {
@@ -6696,6 +6771,7 @@
         ]
       }
     },
+    "TerminateAlternative": {},
     "ThenAbortPart": {
       "node": [
         "hardline",
@@ -6805,6 +6881,10 @@
         "line"
       ]
     },
+    "UnconstrainedArrayIndices": {},
+    "UnknownDiscriminantPart": {},
+    "UntilNode": {},
+    "UpdateAttributeRef": {},
     "UsePackageClause": {
       "node": {
         "kind": "group",
@@ -7078,7 +7158,8 @@
           }
         ]
       }
-    }
+    },
+    "WithPrivate": {}
   },
   "max_empty_lines": 1
 }

@@ -2,5 +2,6 @@ driver: java
 mode: jni
 java_path: ../
 main_class: GPRContext
+canonicalize_directory_separators: true
 sync_trees:
   - ../../../../shared/gpr_context

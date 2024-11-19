@@ -2,3 +2,4 @@ driver: ada-api
 main: main.adb
 sync_trees:
   - ../../../shared/gpr_context
+canonicalize_directory_separators: true

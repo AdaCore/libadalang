@@ -1,4 +1,5 @@
 driver: python
 input_sources: []
+canonicalize_directory_separators: true
 sync_trees:
   - ../../../shared/gpr_context

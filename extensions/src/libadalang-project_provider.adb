@@ -586,6 +586,11 @@ package body Libadalang.Project_Provider is
          end loop;
          Free (Partition);
       end return;
+
+   exception
+      when Unsupported_View_Error =>
+         Free (Partition);
+         raise;
    end Create_Project_Unit_Providers;
 
    ----------------------------------

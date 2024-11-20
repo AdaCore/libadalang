@@ -4,8 +4,6 @@ Analyzing test.adb
 Resolving xrefs for node <CallStmt test.adb:7:4-7:20>
 *****************************************************
 
-Name resolution failed as expected with:
-
 test.adb:7:9: error: no matching alternative (of 2 candidates)
 7 |    Bar (Foo (2.5));
   |         ^^^
@@ -19,10 +17,10 @@ test.adb:2:22: info: expected Integer, got universal real
   |                      ^^^^^^^
 
 
+Expected name resolution failure for node <CallStmt test.adb:7:4-7:20>
+
 Resolving xrefs for node <PragmaNode test.adb:21:10-21:47>
 **********************************************************
-
-Name resolution failed as expected with:
 
 test.adb:21:25: error: no matching alternative (showing 3 out of 4 candidates)
 21 |          pragma Assert (P."=" (P.T'First, 0));
@@ -34,6 +32,8 @@ in Standard: info: expected root_real, got universal integer
 
 in Standard: info: expected root_integer, got T [instance at line 19]
 
+
+Expected name resolution failure for node <PragmaNode test.adb:21:10-21:47>
 
 
 Done.

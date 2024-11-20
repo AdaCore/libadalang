@@ -4,8 +4,6 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt test.adb:7:4-7:16>
 *******************************************************
 
-A failure was expected but name resolution succeeded:
-
 Expr: <Id "B" test.adb:7:4-7:5>
   references:    <DefiningName "B" test.adb:5:4-5:5>
   type:          <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
@@ -23,16 +21,18 @@ Expr: <Int test.adb:7:12-7:14>
   type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Int"] test.adb:2:4-2:31>
 
+A failure was expected but name resolution succeeded for node <AssignStmt test.adb:7:4-7:16>
+
 13:4: Expect `Expect_Fail` argument, got: Expect_Fial
 Resolving xrefs for node <CallStmt test.adb:16:4-16:11>
 *******************************************************
-
-Name resolution failed as expected with:
 
 test.adb:16:4: error: resolution failed
 16 |    C (12);
    |    ^^^^^^^
 
+
+Expected name resolution failure for node <CallStmt test.adb:16:4-16:11>
 
 Resolving xrefs for node <CallStmt test.adb:20:4-20:11>
 *******************************************************
@@ -42,16 +42,17 @@ test.adb:20:4: error: resolution failed
    |    ^^^^^^^
 
 
+Name resolution failed for node <CallStmt test.adb:20:4-20:11>
+
 Resolving xrefs for node <CallStmt test.adb:24:4-24:11>
 *******************************************************
-
-Name resolution failed as expected with:
 
 test.adb:24:4: error: resolution failed
 24 |    C (12);
    |    ^^^^^^^
 
 
-28:1: expected  0 pragma arguments, got 1
+Expected name resolution failure for node <CallStmt test.adb:24:4-24:11>
+
 
 Done.

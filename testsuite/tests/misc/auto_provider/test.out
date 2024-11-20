@@ -41,12 +41,12 @@ Expr: <Int foo.adb:5:44-5:45>
 Resolving xrefs for node <CallStmt foo.adb:8:4-8:8>
 ***************************************************
 
-Name resolution failed as expected with:
-
 foo.adb:8:4: error: no such entity
 8 |    Bar;
   |    ^^^
 
+
+Expected name resolution failure for node <CallStmt foo.adb:8:4-8:8>
 
 
 Done.

@@ -352,12 +352,12 @@ Expr: <Str ""lol"" test_nested_string_expr.adb:10:42-10:47>
 Resolving xrefs for node <CallStmt test_nested_string_expr.adb:13:4-13:43>
 **************************************************************************
 
-Name resolution failed as expected with:
-
 test_nested_string_expr.adb:13:34: error: No inferable type for expression
 13 |    Put_Line (f"Hello, 12 + 15 = {"lol"}");
    |                                  ^^^^^
 
+
+Expected name resolution failure for node <CallStmt test_nested_string_expr.adb:13:4-13:43>
 
 
 Done.

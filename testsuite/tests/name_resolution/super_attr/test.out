@@ -132,12 +132,12 @@ Expr: <Id "P" test.adb:57:14-57:15>
 Resolving xrefs for node <CallStmt test.adb:62:4-62:15>
 *******************************************************
 
-Name resolution failed as expected with:
-
 test.adb:62:4: error: resolution failed
 62 |    T5'Super.P;
    |    ^^^^^^^^^^^
 
+
+Expected name resolution failure for node <CallStmt test.adb:62:4-62:15>
 
 
 Done.

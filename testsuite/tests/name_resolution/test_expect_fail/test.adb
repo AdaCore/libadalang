@@ -25,5 +25,3 @@ begin
    pragma Test_Statement_UID (Expect_Fail => True);
    -- Check that this statement's resolution fail, and reported as expected
 end Test;
-pragma Test_Block (Expect_Fail => True);
--- Check that Expect_Fail is not supported for pragma Test_Block

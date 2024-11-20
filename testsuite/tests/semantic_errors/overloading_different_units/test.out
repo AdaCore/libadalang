@@ -4,8 +4,6 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["X"] test.adb:4:4-4:27>
 *************************************************************
 
-Name resolution failed as expected with:
-
 test.adb:4:19: error: no matching alternative (of 2 candidates)
 4 |    X : Integer := Foo (2);
   |                   ^^^
@@ -18,6 +16,8 @@ pkg.ads:2:22: info: expected Boolean, got universal integer
 2 |    function Foo (X : Boolean) return Integer is (0);
   |                      ^^^^^^^
 
+
+Expected name resolution failure for node <ObjectDecl ["X"] test.adb:4:4-4:27>
 
 
 Done.

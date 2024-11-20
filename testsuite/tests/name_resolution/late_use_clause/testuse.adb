@@ -17,5 +17,4 @@ begin
    begin
       null;
    end;
-   pragma Test_Block;
 end Testuse;

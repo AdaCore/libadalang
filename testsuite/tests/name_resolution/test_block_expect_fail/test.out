@@ -1,0 +1,31 @@
+Analyzing main.adb
+##################
+
+Resolving xrefs for node <SubpSpec main.adb:2:4-2:20>
+*****************************************************
+
+
+Resolving xrefs for node <ObjectDecl ["A"] main.adb:3:7-3:19>
+*************************************************************
+
+main.adb:3:11: error: no such entity
+3 |       A : Integre;
+  |           ^^^^^^^
+
+
+Resolving xrefs for node <EndName main.adb:5:8-5:14>
+****************************************************
+
+Expr: <EndName main.adb:5:8-5:14>
+  references:    <DefiningName "Nested" main.adb:2:14-2:20>
+  type:          None
+  expected type: None
+Expr: <Id "Nested" main.adb:5:8-5:14>
+  references:    <DefiningName "Nested" main.adb:2:14-2:20>
+  type:          None
+  expected type: None
+
+Expected name resolution failure for block <SubpBody ["Nested"] main.adb:2:4-5:15>
+
+
+Done.

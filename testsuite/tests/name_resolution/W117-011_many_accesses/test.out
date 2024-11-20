@@ -4,12 +4,12 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["V"] test.adb:5:4-13:16>
 **************************************************************
 
-Name resolution failed as expected with:
-
 test.adb:5:17: error: no such entity
 5 |    V : constant Missing_Vector :=
   |                 ^^^^^^^^^^^^^^
 
+
+Expected name resolution failure for node <ObjectDecl ["V"] test.adb:5:4-13:16>
 
 
 Done.

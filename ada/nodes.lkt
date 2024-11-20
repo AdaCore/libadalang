@@ -5467,11 +5467,13 @@ class BasicDecl: AdaNode {
 
     @with_dynvars(origin)
     fun subp_decl_match_signature(other: Entity[BasicDecl]): Bool =
-        self.subp_spec_or_null().do(
-            (spec) =>
-            spec.match_signature(
-                other.subp_spec_or_null().as![SubpSpec],
-                false
+        self?.subp_spec_or_null().do(
+            (spec) => other.subp_spec_or_null().do(
+                (other_spec) => spec.match_signature(
+                    other_spec.as![SubpSpec],
+                    false
+                ),
+                default_val=false
             ),
             default_val=false
         )

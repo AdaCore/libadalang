@@ -1,0 +1,31 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ConcreteFormalSubpDecl ["Add"] test.adb:5:12-6:18>
+****************************************************************************
+
+test.adb:6:10: error: no such entity
+6 |       is DefaAdd;
+  |          ^^^^^^^
+
+
+Resolving xrefs for node <SubpSpec test.adb:5:12-5:56>
+******************************************************
+
+Expr: <Id "Integer" test.adb:5:49-5:56>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ParamSpec ["A", "B"] test.adb:5:26-5:40>
+******************************************************************
+
+Expr: <Id "Integer" test.adb:5:33-5:40>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Expected name resolution failure for block <GenericFormalSubpDecl ["Add"] test.adb:5:7-6:18>
+
+
+Done.

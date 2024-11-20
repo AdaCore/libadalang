@@ -7,7 +7,7 @@ procedure Test_Invalid is
       with Pre => X and not Y,
            Contract_Cases => (X and not Y => X and not Y,
                               others => X and not Y);
-   pragma Test_Block;
+   pragma Test_Block (Expect_Fail => True);
 
    pragma Post (Foo, X and not Y);
    pragma Test_Statement (Expect_Fail => True);
@@ -25,7 +25,7 @@ begin
    for K in 1 .. 3 when X and not Y loop
       null;
    end loop;
-   pragma Test_Block;
+   pragma Test_Block (Expect_Fail => True);
 
    Z := (for all K in 1 ..3 => X and not Y);
    pragma Test_Statement (Expect_Fail => True);

@@ -269,7 +269,7 @@ test_invalid.adb:8:46: error: expected Boolean, got My_Bool
   |                                              ^
 
 
-Name resolution failed for block <ExprFunction ["Foo"] test_invalid.adb:6:4-9:54>
+Expected name resolution failure for block <ExprFunction ["Foo"] test_invalid.adb:6:4-9:54>
 
 Resolving xrefs for node <PragmaNode test_invalid.adb:12:4-12:35>
 *****************************************************************
@@ -322,7 +322,7 @@ Resolving xrefs for node <NullStmt test_invalid.adb:26:7-26:12>
 ***************************************************************
 
 
-Name resolution failed for block <ForLoopStmt test_invalid.adb:25:4-27:13>
+Expected name resolution failure for block <ForLoopStmt test_invalid.adb:25:4-27:13>
 
 Resolving xrefs for node <AssignStmt test_invalid.adb:30:4-30:45>
 *****************************************************************

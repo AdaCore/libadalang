@@ -24,5 +24,5 @@ begin
          Process;
       end if;
    end;
-   pragma Test_Block;
+   pragma Test_Block (Expect_Fail => True);
 end Test;

@@ -1,3 +1,2 @@
 driver: name-resolution
 input_sources: [test_valid.adb, test_invalid.adb, test_task.adb]
-expect_fail: true

@@ -29,7 +29,9 @@ class UnparserDriver(BaseDriver):
     def run(self) -> None:
         # Run the unparser on "input.ada" for the given grammar rule and
         # unparse it with the default unparsing configuration.
-        argv = ["lal_unparse", "-w", "79", "-i", "3", "-I", "2"]
+        #
+        # Also check that all nodes have an explicit configuration.
+        argv = ["lal_unparse", "-C", "-w", "79", "-i", "3", "-I", "2"]
 
         rule = self.test_env.get("rule")
         if rule:

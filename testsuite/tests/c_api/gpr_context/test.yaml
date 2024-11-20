@@ -1,5 +1,6 @@
 driver: c-api
 compile_units: [main.c]
 input_sources: []
+canonicalize_directory_separators: true
 sync_trees:
   - ../../../shared/gpr_context

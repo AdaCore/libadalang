@@ -7751,13 +7751,13 @@ class BaseTypeDecl: BasicDecl {
     fun is_access_to(typ: Entity[BaseTypeDecl]): Bool =
         self?.accessed_type()?.matching_formal_type(typ)
 
-    |" Returns whether self is an access type whose accessed type matches
-    |" other.
+    |" Returns whether self is an access to subprogram type whose profile
+    |" matches ``other``, where ``other`` is a subprogram.
     @with_dynvars(origin)
     fun is_subp_access_of(other: Entity[BasicDecl]): Bool =
         self?.access_def().as[AccessToSubpDef].do(
             (sa) =>
-            other.subp_spec_or_null().do(
+            other?.subp_spec_or_null().do(
                 (se) => sa.subp_spec.match_signature(se, false)
             )
         )

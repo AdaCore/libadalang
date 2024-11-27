@@ -1,0 +1,63 @@
+Working on node <PackageDecl ["P"] test.adb:3:4-45:10>
+======================================================
+
+Set 'subps' to 'node.findall(lal.SubpDecl)'
+Result: [<SubpDecl ["Adjust"] test.adb:27:7-27:50>,
+         <SubpDecl ["Finalize"] test.adb:28:7-28:50>,
+         <SubpDecl ["Initialize"] test.adb:29:7-29:50>,
+         <SubpDecl ["Adjust"] test.adb:31:7-31:50>,
+         <SubpDecl ["Finalize"] test.adb:32:7-32:50>,
+         <SubpDecl ["Initialize"] test.adb:33:7-33:50>,
+         <SubpDecl ["Adjust"] test.adb:35:7-35:50>,
+         <SubpDecl ["Finalize"] test.adb:36:7-36:50>,
+         <SubpDecl ["Initialize"] test.adb:37:7-37:50>,
+         <SubpDecl ["R1"] test.adb:39:7-39:34>,
+         <SubpDecl ["R2"] test.adb:40:7-40:20>,
+         <SubpDecl ["R3"] test.adb:41:7-41:20>,
+         <SubpDecl ["R4"] test.adb:42:7-42:20>,
+         <SubpDecl ["R5"] test.adb:43:7-43:43>]
+
+Eval '[sp.p_get_aspect("No_Raise") for sp in subps]'
+Result: [<Aspect exists=False node=None value=None inherited=False>,
+         <Aspect exists=True node=<PragmaNode test.adb:69:7-69:34> value=None inherited=False>,
+         <Aspect exists=False node=None value=None inherited=False>,
+         <Aspect exists=False node=None value=None inherited=False>,
+         <Aspect exists=True node=<PragmaNode test.adb:69:7-69:34> value=None inherited=False>,
+         <Aspect exists=False node=None value=None inherited=False>,
+         <Aspect exists=False node=None value=None inherited=False>,
+         <Aspect exists=True node=<PragmaNode test.adb:69:7-69:34> value=None inherited=False>,
+         <Aspect exists=False node=None value=None inherited=False>,
+         <Aspect exists=True node=<AspectAssoc test.adb:39:25-39:33> value=None inherited=False>,
+         <Aspect exists=True node=<PragmaNode test.adb:44:7-44:32> value=None inherited=False>,
+         <Aspect exists=True node=<PragmaNode test.adb:44:7-44:32> value=None inherited=False>,
+         <Aspect exists=False node=None value=None inherited=False>,
+         <Aspect exists=True node=<AspectAssoc test.adb:43:25-43:42> value=<Id "False" test.adb:43:37-43:42> inherited=False>]
+
+Eval '[sp.p_defining_name.p_find_all_references([sp.unit]) for sp in subps]'
+Result: [[<RefResult ref=<Id "Adjust" test.adb:8:45-8:51> kind=precise>,
+          <RefResult ref=<Id "Adjust" test.adb:57:17-57:23> kind=precise>],
+         [<RefResult ref=<Id "Finalize" test.adb:9:45-9:53> kind=precise>,
+          <RefResult ref=<Id "Finalize" test.adb:58:17-58:25> kind=precise>],
+         [<RefResult ref=<Id "Initialize" test.adb:7:45-7:55> kind=precise>,
+          <RefResult ref=<Id "Initialize" test.adb:59:17-59:27> kind=precise>],
+         [<RefResult ref=<Id "Adjust" test.adb:15:55-15:61> kind=precise>,
+          <RefResult ref=<Id "Adjust" test.adb:61:17-61:23> kind=precise>],
+         [<RefResult ref=<Id "Finalize" test.adb:16:55-16:63> kind=precise>,
+          <RefResult ref=<Id "Finalize" test.adb:62:17-62:25> kind=precise>],
+         [<RefResult ref=<Id "Initialize" test.adb:14:55-14:65> kind=precise>,
+          <RefResult ref=<Id "Initialize" test.adb:63:17-63:27> kind=precise>],
+         [<RefResult ref=<Id "Adjust" test.adb:23:55-23:61> kind=precise>,
+          <RefResult ref=<Id "Adjust" test.adb:65:17-65:23> kind=precise>],
+         [<RefResult ref=<Id "Finalize" test.adb:24:55-24:63> kind=precise>,
+          <RefResult ref=<Id "Finalize" test.adb:66:17-66:25> kind=precise>,
+          <RefResult ref=<Id "Finalize" test.adb:69:24-69:32> kind=precise>],
+         [<RefResult ref=<Id "Initialize" test.adb:22:55-22:65> kind=precise>,
+          <RefResult ref=<Id "Initialize" test.adb:67:17-67:27> kind=precise>],
+         [<RefResult ref=<Id "R1" test.adb:71:17-71:19> kind=precise>],
+         [<RefResult ref=<Id "R2" test.adb:44:24-44:26> kind=precise>,
+          <RefResult ref=<Id "R2" test.adb:72:17-72:19> kind=precise>],
+         [<RefResult ref=<Id "R3" test.adb:44:28-44:30> kind=precise>,
+          <RefResult ref=<Id "R3" test.adb:73:17-73:19> kind=precise>],
+         [<RefResult ref=<Id "R4" test.adb:55:24-55:26> kind=precise>,
+          <RefResult ref=<Id "R4" test.adb:74:17-74:19> kind=precise>],
+         [<RefResult ref=<Id "R5" test.adb:75:17-75:19> kind=precise>]]

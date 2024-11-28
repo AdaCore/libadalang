@@ -5,12 +5,13 @@ with Ada.Text_IO;    use Ada.Text_IO;
 with GPR2.Options;
 with GPR2.Project.Tree;
 
-with Langkit_Support.Text;   use Langkit_Support.Text;
-with Libadalang.Analysis;    use Libadalang.Analysis;
-with Libadalang.Common;      use Libadalang.Common;
-with Libadalang.Expr_Eval;   use Libadalang.Expr_Eval;
-with Libadalang.Iterators;   use Libadalang.Iterators;
-with Libadalang.Target_Info; use Libadalang.Target_Info;
+with Langkit_Support.Text;        use Langkit_Support.Text;
+with Libadalang.Analysis;         use Libadalang.Analysis;
+with Libadalang.Common;           use Libadalang.Common;
+with Libadalang.Expr_Eval;        use Libadalang.Expr_Eval;
+with Libadalang.Iterators;        use Libadalang.Iterators;
+with Libadalang.Project_Provider; use Libadalang.Project_Provider;
+with Libadalang.Target_Info;      use Libadalang.Target_Info;
 
 procedure Main is
 
@@ -79,11 +80,12 @@ procedure Main is
             O.Add_Switch (GPR2.Options.P, "p.gpr");
             O.Add_Switch
               (GPR2.Options.RTS, Ada.Directories.Full_Name (Runtime));
-            if not T.Load
-              (O,
-               With_Runtime         => True,
-               Artifacts_Info_Level => GPR2.Sources_Units)
-            then
+            if not T.Load (O, With_Runtime => True) then
+               raise Program_Error;
+            elsif T.Has_Messages then
+               T.Log_Messages.Output_Messages (Information => False);
+            end if;
+            if not Update_Sources (T) then
                raise Program_Error;
             end if;
             Ctx := Create_Context_From_Project (T);

@@ -7,6 +7,10 @@
 
 package Libadalang.Implementation.Extensions is
 
+   procedure Post_Parsing_Hook (Unit : Internal_Unit);
+   --  Hook to run after each unit has been (re) parsed. Unless this behavior
+   --  is disabled, add diagnostics when preprocessing tokens were found.
+
    --------------
    -- Ada_Node --
    --------------

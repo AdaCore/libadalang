@@ -34,6 +34,47 @@ package body Libadalang.Implementation.Extensions is
    --  If CU is a subunit, return the corresponding subunit node. Return null
    --  otherwise.
 
+   -----------------------
+   -- Post_Parsing_Hook --
+   -----------------------
+
+   procedure Post_Parsing_Hook (Unit : Internal_Unit) is
+      TDH : Token_Data_Handler renames Unit.Token_Data.all;
+
+      ---------
+      -- Add --
+      ---------
+
+      procedure Add (T : Stored_Token_Data);
+      --  Assuming that T represents a preprocessing-specific token, add a
+      --  diagnostic for it to Unit.Diagonstics.
+
+      procedure Add (T : Stored_Token_Data) is
+      begin
+         Append
+           (Unit.Diagnostics,
+            Sloc_Range (TDH, T),
+            "preprocessor directive ignored, preprocessor not active");
+      end Add;
+
+   begin
+      if Unit.Context.Preprocessor_Directives_Errors then
+         for T of TDH.Tokens loop
+            if To_Token_Kind (T.Kind) = Ada_Identifier
+               and then TDH.Source_Buffer (T.Source_First) = '$'
+            then
+               Add (T);
+            end if;
+         end loop;
+
+         for T of TDH.Trivias loop
+            if To_Token_Kind (T.T.Kind) = Ada_Prep_Line then
+               Add (T.T);
+            end if;
+         end loop;
+      end if;
+   end Post_Parsing_Hook;
+
    ----------------
    -- CU_Subunit --
    ----------------

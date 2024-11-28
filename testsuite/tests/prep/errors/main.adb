@@ -79,5 +79,9 @@ begin
 
    Process ("bad_encoding.bin");
 
+   --  A '$' identifier is used in a #if directive
+
+   Process ("if_dollar.ads");
+
    Put_Line ("Done.");
 end Main;

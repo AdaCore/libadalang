@@ -39,4 +39,34 @@ bad_encoding.bin:1:1: Could not decode source as "utf-8"
 
 CompilationUnitList[1:1-1:1]: <empty list>
 
+== if_dollar.ads ==
+
+if_dollar.ads:2:6: unexpected '$' in preprocessing directive
+
+CompilationUnit[1:1-5:15]
+|f_prelude:
+|  AdaNodeList[1:1-1:1]: <empty list>
+|f_body:
+|  LibraryItem[1:1-5:15]
+|  |f_has_private:
+|  |  PrivateAbsent[1:1-1:1]
+|  |f_item:
+|  |  PackageDecl[1:1-5:15]
+|  |  |f_package_name:
+|  |  |  DefiningName[1:9-1:18]
+|  |  |  |f_name:
+|  |  |  |  Id[1:9-1:18]: If_Dollar
+|  |  |f_aspects: <null>
+|  |  |f_public_part:
+|  |  |  PublicPart[1:21-5:1]
+|  |  |  |f_decls:
+|  |  |  |  AdaNodeList[1:21-1:21]: <empty list>
+|  |  |f_private_part: <null>
+|  |  |f_end_name:
+|  |  |  EndName[5:5-5:14]
+|  |  |  |f_name:
+|  |  |  |  Id[5:5-5:14]: If_Dollar
+|f_pragmas:
+|  PragmaNodeList[5:15-5:15]: <empty list>
+
 Done.

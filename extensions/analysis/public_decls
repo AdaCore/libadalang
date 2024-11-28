@@ -1,5 +1,8 @@
 ##  vim: ft=makoada
 
+procedure Disable_Preprocessor_Directives_Errors (Self : Analysis_Context);
+--  Disable parsing errors for preprocessor directives found in units
+
 function Is_Keyword
   (Token   : Token_Reference;
    Version : Language_Version) return Boolean;

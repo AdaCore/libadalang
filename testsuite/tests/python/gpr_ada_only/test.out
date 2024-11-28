@@ -1,11 +1,11 @@
-== Ada only ==
+== All languages ==
 
 Got no exception
 
 Errors:
 kb: warning: can't find a toolchain for the following configuration: language 'Fortran', target '<native>', default runtime
 
-== All languages ==
+== Ada only ==
 
 Got no exception
 

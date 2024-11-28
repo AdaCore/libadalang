@@ -22,7 +22,7 @@ Expr: <Id "A" test1.adb:9:4-9:5>
   expected type: None
 Expr: <Int test1.adb:9:9-9:11>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Int"] test1.adb:2:4-2:30>
 
 

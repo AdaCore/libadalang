@@ -26,12 +26,12 @@ Expr: <Id "W" test.adb:10:14-10:15>
   expected type: None
 Expr: <Id "X" test.adb:10:17-10:18>
   references:    <DefiningName "X" test.adb:6:40-6:41>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Y" test.adb:10:20-10:21>
   references:    <DefiningName "Y" test.adb:6:43-6:44>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "C" test.adb:10:23-10:24>
   references:    <DefiningName "C" pkg.ads:9:7-9:8>
   type:          <ConcreteTypeDecl ["Color"] pkg.ads:6:4-6:28>
@@ -70,12 +70,12 @@ Expr: <Id "CRef" test.adb:13:16-13:20>
   expected type: None
 Expr: <Id "X" test.adb:13:22-13:23>
   references:    <DefiningName "X" test.adb:6:40-6:41>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Y" test.adb:13:25-13:26>
   references:    <DefiningName "Y" test.adb:6:43-6:44>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "C" test.adb:13:28-13:29>
   references:    <DefiningName "C" pkg.ads:9:7-9:8>
   type:          <ConcreteTypeDecl ["Color"] pkg.ads:6:4-6:28>
@@ -130,12 +130,12 @@ Expr: <Id "W" test.adb:19:7-19:8>
   expected type: None
 Expr: <Id "X" test.adb:19:10-19:11>
   references:    <DefiningName "X" test.adb:6:40-6:41>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Y" test.adb:19:13-19:14>
   references:    <DefiningName "Y" test.adb:6:43-6:44>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "C" test.adb:19:16-19:17>
   references:    <DefiningName "C" pkg.ads:9:7-9:8>
   type:          <ConcreteTypeDecl ["Color"] pkg.ads:6:4-6:28>
@@ -178,12 +178,12 @@ Resolving xrefs for node <AssignStmt test.adb:25:7-25:25>
 
 Expr: <Id "I" test.adb:25:7-25:8>
   references:    <DefiningName "I" test.adb:8:7-8:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <CallExpr test.adb:25:12-25:24>
   references:    <DefiningName "W" test.adb:6:17-6:18>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "W" test.adb:25:12-25:13>
   references:    <DefiningName "W" test.adb:6:17-6:18>
   type:          <ConcreteTypeDecl ["New_Window"] pkg-subpkg.ads:2:4-2:51>

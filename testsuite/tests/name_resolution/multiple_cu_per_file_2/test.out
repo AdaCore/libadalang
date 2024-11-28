@@ -21,7 +21,7 @@ Resolving xrefs for node <ConcreteTypeDecl ["T1"] all_sources.ada:9:4-9:27>
 ***************************************************************************
 
 Expr: <Id "Integer" all_sources.ada:9:19-9:26>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 

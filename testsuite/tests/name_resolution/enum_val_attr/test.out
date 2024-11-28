@@ -26,8 +26,8 @@ Expr: <Id "Enum_Val" test.adb:4:15-4:23>
   expected type: None
 Expr: <Int test.adb:4:25-4:26>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 
 
 Done.

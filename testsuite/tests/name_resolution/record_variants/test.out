@@ -26,9 +26,9 @@ Expr: <Id "Bool" foo.ads:39:27-39:31>
   type:          <ConcreteTypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
   expected type: <ConcreteTypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Id "True" foo.ads:39:33-39:37>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["R3_A"] foo.ads:54:4-54:38>
 *****************************************************************
@@ -46,8 +46,8 @@ Expr: <Id "Int" foo.ads:54:29-54:32>
   expected type: <ConcreteTypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Int foo.ads:54:34-54:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["R3_B"] foo.ads:57:4-57:41>
 *****************************************************************
@@ -64,9 +64,9 @@ Expr: <Id "Char" foo.ads:57:29-57:33>
   type:          <ConcreteTypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
   expected type: <ConcreteTypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Id "True" foo.ads:57:35-57:39>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["R3_C"] foo.ads:60:4-60:39>
 *****************************************************************
@@ -84,8 +84,8 @@ Expr: <Id "Bool" foo.ads:60:29-60:33>
   expected type: <ConcreteTypeDecl ["Kind_Type"] foo.ads:6:4-6:40>
 Expr: <Int foo.ads:60:35-60:37>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

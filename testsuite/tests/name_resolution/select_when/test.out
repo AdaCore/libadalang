@@ -5,63 +5,63 @@ Resolving xrefs for node <ObjectDecl ["Q_Size"] selectwhen.adb:10:6-10:39>
 **************************************************************************
 
 Expr: <Id "Integer" selectwhen.adb:10:24-10:31>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:10:35-10:38>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 ****************************************************************************
 
 Expr: <Id "Positive" selectwhen.adb:11:25-11:33>
-  references:    <DefiningName "Positive" __standard:6:11-6:19>
+  references:    <DefiningName "Positive" in Standard>
   type:          None
   expected type: None
 Expr: <BinOp selectwhen.adb:11:40-11:51>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int selectwhen.adb:11:40-11:41>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." selectwhen.adb:11:42-11:44>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:11:45-11:51>
   references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["Length"] selectwhen.adb:12:6-12:46>
 **************************************************************************
 
 Expr: <Id "Natural" selectwhen.adb:12:15-12:22>
-  references:    <DefiningName "Natural" __standard:5:11-5:18>
+  references:    <DefiningName "Natural" in Standard>
   type:          None
   expected type: None
 Expr: <BinOp selectwhen.adb:12:29-12:40>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int selectwhen.adb:12:29-12:30>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." selectwhen.adb:12:31-12:33>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:12:34-12:40>
   references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int selectwhen.adb:12:44-12:45>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["Head", "Tail"] selectwhen.adb:13:6-13:32>
 ********************************************************************************
@@ -72,7 +72,7 @@ Expr: <Id "Q_Range" selectwhen.adb:13:19-13:26>
   expected type: None
 Expr: <Int selectwhen.adb:13:30-13:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 
 Resolving xrefs for node <ObjectDecl ["Data"] selectwhen.adb:14:6-14:37>
@@ -99,35 +99,35 @@ Resolving xrefs for node <SelectStmt selectwhen.adb:17:9-31:20>
 ***************************************************************
 
 Expr: <RelationOp selectwhen.adb:18:17-18:32>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Length" selectwhen.adb:18:17-18:23>
   references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpLt "<" selectwhen.adb:18:24-18:25>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:18:26-18:32>
   references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <RelationOp selectwhen.adb:25:17-25:27>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Length" selectwhen.adb:25:17-25:23>
   references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpGt ">" selectwhen.adb:25:24-25:25>
   references:    None
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:25:26-25:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:19:15-21:26>
 *************************************************************************
@@ -185,54 +185,54 @@ Expr: <Id "Tail" selectwhen.adb:22:15-22:19>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: None
 Expr: <BinOp selectwhen.adb:22:23-22:42>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 Expr: <BinOp selectwhen.adb:22:23-22:38>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Tail" selectwhen.adb:22:23-22:27>
   references:    <DefiningName "Tail" selectwhen.adb:13:12-13:16>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpMod "mod" selectwhen.adb:22:28-22:31>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:22:32-22:38>
   references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" selectwhen.adb:22:39-22:40>
   references:    None
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:22:41-22:42>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt selectwhen.adb:23:15-23:36>
 ****************************************************************
 
 Expr: <Id "Length" selectwhen.adb:23:15-23:21>
   references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <BinOp selectwhen.adb:23:25-23:35>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Length" selectwhen.adb:23:25-23:31>
   references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" selectwhen.adb:23:32-23:33>
   references:    None
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:23:34-23:35>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AcceptStmtWithStmts selectwhen.adb:26:15-28:26>
 *************************************************************************
@@ -290,54 +290,54 @@ Expr: <Id "Head" selectwhen.adb:29:15-29:19>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
   expected type: None
 Expr: <BinOp selectwhen.adb:29:23-29:42>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
 Expr: <BinOp selectwhen.adb:29:23-29:38>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Head" selectwhen.adb:29:23-29:27>
   references:    <DefiningName "Head" selectwhen.adb:13:6-13:10>
   type:          <SubtypeDecl ["Q_Range"] selectwhen.adb:11:6-11:52>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpMod "mod" selectwhen.adb:29:28-29:31>
   references:    None
   type:          None
   expected type: None
 Expr: <Id "Q_Size" selectwhen.adb:29:32-29:38>
   references:    <DefiningName "Q_Size" selectwhen.adb:10:6-10:12>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpPlus "+" selectwhen.adb:29:39-29:40>
   references:    None
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:29:41-29:42>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt selectwhen.adb:30:15-30:36>
 ****************************************************************
 
 Expr: <Id "Length" selectwhen.adb:30:15-30:21>
   references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <SubtypeDecl ["Natural"] in Standard>
   expected type: None
 Expr: <BinOp selectwhen.adb:30:25-30:35>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <SubtypeDecl ["Natural"] __standard:5:3-5:57>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <SubtypeDecl ["Natural"] in Standard>
 Expr: <Id "Length" selectwhen.adb:30:25-30:31>
   references:    <DefiningName "Length" selectwhen.adb:12:6-12:12>
-  type:          <SubtypeDecl ["Natural"] __standard:5:3-5:57>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <SubtypeDecl ["Natural"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpMinus "-" selectwhen.adb:30:32-30:33>
   references:    None
   type:          None
   expected type: None
 Expr: <Int selectwhen.adb:30:34-30:35>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <EndName selectwhen.adb:33:7-33:30>
 ************************************************************

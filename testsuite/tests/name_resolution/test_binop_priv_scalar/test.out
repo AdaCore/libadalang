@@ -13,7 +13,7 @@ Expr: <BinOp test_binop_res.adb:10:16-10:22>
   expected type: <ConcreteTypeDecl ["A"] test_binop_res.adb:5:7-5:31>
 Expr: <Int test_binop_res.adb:10:16-10:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["A"] test_binop_res.adb:5:7-5:31>
 Expr: <OpMult "*" test_binop_res.adb:10:19-10:20>
   references:    None

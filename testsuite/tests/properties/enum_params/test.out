@@ -26,12 +26,12 @@ Working on node <EnumRepClause proc.adb:16:4-16:45>
 ===================================================
 
 Eval 'node.p_params'
-Result: [<ParamActual param=<DefiningName "False" __standard:3:20-3:25> actual=<Int proc.adb:16:42-16:43>>,
-         <ParamActual param=<DefiningName "True" __standard:3:27-3:31> actual=<Int proc.adb:16:30-16:31>>]
+Result: [<ParamActual param=<DefiningName "False" in Standard> actual=<Int proc.adb:16:42-16:43>>,
+         <ParamActual param=<DefiningName "True" in Standard> actual=<Int proc.adb:16:30-16:31>>]
 
 Working on node <EnumRepClause proc.adb:20:4-20:28>
 ===================================================
 
 Eval 'node.p_params'
-Result: [<ParamActual param=<DefiningName "False" __standard:3:20-3:25> actual=<Int proc.adb:20:22-20:23>>,
-         <ParamActual param=<DefiningName "True" __standard:3:27-3:31> actual=<Int proc.adb:20:25-20:26>>]
+Result: [<ParamActual param=<DefiningName "False" in Standard> actual=<Int proc.adb:20:22-20:23>>,
+         <ParamActual param=<DefiningName "True" in Standard> actual=<Int proc.adb:20:25-20:26>>]

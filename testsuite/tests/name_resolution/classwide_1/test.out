@@ -33,8 +33,8 @@ Expr: <Id "A" testcw.adb:15:26-15:27>
   expected type: None
 Expr: <Int testcw.adb:15:31-15:33>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <CallStmt testcw.adb:17:7-17:14>
 *********************************************************

@@ -10,7 +10,7 @@ Expr: <Id "Before" pkg-subunit.adb:9:9-9:15>
   expected type: None
 Expr: <Int pkg-subunit.adb:9:19-9:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Before"] pkg.adb:2:4-2:31>
 
 Resolving xrefs for node <ObjectDecl ["V2"] pkg-subunit.adb:12:4-12:20>
@@ -22,7 +22,7 @@ Expr: <Id "After" pkg-subunit.adb:12:9-12:14>
   expected type: None
 Expr: <Int pkg-subunit.adb:12:18-12:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["After"] types.ads:3:4-3:30>
 
 
@@ -38,7 +38,7 @@ Expr: <Id "Before" p-subunit.adb:9:9-9:15>
   expected type: None
 Expr: <Int p-subunit.adb:9:19-9:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Before"] p.adb:4:4-4:31>
 
 Resolving xrefs for node <ObjectDecl ["V2"] p-subunit.adb:12:4-12:20>
@@ -50,7 +50,7 @@ Expr: <Id "After" p-subunit.adb:12:9-12:14>
   expected type: None
 Expr: <Int p-subunit.adb:12:18-12:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["After"] types.ads:3:4-3:30>
 
 
@@ -66,7 +66,7 @@ Expr: <Id "Before" p-subunit-nested.adb:9:9-9:15>
   expected type: None
 Expr: <Int p-subunit-nested.adb:9:19-9:20>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Before"] p.adb:4:4-4:31>
 
 Resolving xrefs for node <ObjectDecl ["V2"] p-subunit-nested.adb:12:4-12:20>
@@ -78,7 +78,7 @@ Expr: <Id "After" p-subunit-nested.adb:12:9-12:14>
   expected type: None
 Expr: <Int p-subunit-nested.adb:12:18-12:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["After"] types.ads:3:4-3:30>
 
 

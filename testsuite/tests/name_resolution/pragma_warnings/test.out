@@ -18,8 +18,8 @@ Expr: <Id "On" test.adb:2:32-2:34>
   expected type: None
 Expr: <Str ""a warning"" test.adb:2:36-2:47>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <PragmaNode test.adb:4:4-4:45>
 *******************************************************
@@ -38,8 +38,8 @@ Expr: <Id "Off" test.adb:4:27-4:30>
   expected type: None
 Expr: <Str ""a warning"" test.adb:4:32-4:43>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <PragmaNode test.adb:6:4-6:39>
 *******************************************************
@@ -54,8 +54,8 @@ Expr: <Id "Off" test.adb:6:21-6:24>
   expected type: None
 Expr: <Str ""a warning"" test.adb:6:26-6:37>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <PragmaNode test.adb:8:4-8:26>
 *******************************************************

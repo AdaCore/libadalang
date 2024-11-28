@@ -2,7 +2,7 @@ Working on node <ConcreteTypeDecl ["A"] test.adb:2:4-2:26>
 ==========================================================
 
 Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<Int __standard:5:37-5:38> high_bound=<UnOp __standard:5:42-5:56>>
+Result: <DiscreteRange low_bound=<Int in Standard> high_bound=<UnOp in Standard>>
 
 Working on node <ConcreteTypeDecl ["B"] test.adb:4:4-4:38>
 ==========================================================

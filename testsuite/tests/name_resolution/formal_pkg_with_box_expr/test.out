@@ -9,7 +9,7 @@ Expr: <Id "Pkg" test.adb:9:34-9:37>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:9:39-9:46>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <BoxExpr test.adb:9:48-9:50>

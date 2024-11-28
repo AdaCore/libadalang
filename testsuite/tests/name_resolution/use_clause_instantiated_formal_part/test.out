@@ -11,4 +11,4 @@ Eval 'obj.p_resolve_names'
 Result: True
 
 Eval 'obj.f_type_expr.p_designated_type_decl'
-Result: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+Result: <ConcreteTypeDecl ["Integer"] in Standard>

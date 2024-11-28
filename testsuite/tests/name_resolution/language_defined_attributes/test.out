@@ -5,13 +5,13 @@ Resolving xrefs for node <ObjectDecl ["External_Tag"] test.adb:4:4-4:44>
 ************************************************************************
 
 Expr: <Id "String" test.adb:4:19-4:25>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:4:29-4:43>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "T" test.adb:4:29-4:30>
   references:    <DefiningName "T" test.adb:2:9-2:10>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:33>
@@ -25,13 +25,13 @@ Resolving xrefs for node <ObjectDecl ["Type_Key"] test.adb:7:4-7:36>
 ********************************************************************
 
 Expr: <Id "String" test.adb:7:15-7:21>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:7:25-7:35>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 Expr: <Id "T" test.adb:7:25-7:26>
   references:    <DefiningName "T" test.adb:2:9-2:10>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:33>

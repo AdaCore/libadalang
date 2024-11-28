@@ -10,7 +10,7 @@ Expr: <Id "Int" test_object_decl.adb:6:11-6:14>
   expected type: None
 Expr: <Int test_object_decl.adb:6:18-6:21>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Int"] test_object_decl.adb:2:4-2:31>
 
 Resolving xrefs for node <NullStmt test_object_decl.adb:8:7-8:12>

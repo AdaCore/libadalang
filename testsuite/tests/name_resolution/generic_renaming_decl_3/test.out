@@ -9,7 +9,7 @@ Expr: <Id "Gen" test.adb:6:27-6:30>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:6:32-6:39>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 

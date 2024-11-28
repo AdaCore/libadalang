@@ -37,7 +37,7 @@ Resolving xrefs for node <ParamSpec ["Name"] tests1.adb:6:47-6:60>
 ******************************************************************
 
 Expr: <Id "String" tests1.adb:6:54-6:60>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 
@@ -45,18 +45,18 @@ Resolving xrefs for node <ExprFunction ["Is_Open"] tests1.adb:8:4-8:66>
 ***********************************************************************
 
 Expr: <ParenExpr tests1.adb:8:58-8:65>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "False" tests1.adb:8:59-8:64>
-  references:    <DefiningName "False" __standard:3:20-3:25>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "False" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <SubpSpec tests1.adb:8:4-8:54>
 *******************************************************
 
 Expr: <Id "Boolean" tests1.adb:8:47-8:54>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 
@@ -84,7 +84,7 @@ Resolving xrefs for node <ParamSpec ["Line"] tests1.adb:10:42-10:55>
 ********************************************************************
 
 Expr: <Id "String" tests1.adb:10:49-10:55>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 
@@ -157,8 +157,8 @@ Expr: <Id "x" tests1.adb:21:16-21:17>
   expected type: <ConcreteTypeDecl ["File_Type_Access"] tests1.adb:14:4-14:50>
 Expr: <Str ""lalala"" tests1.adb:21:23-21:31>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <EndName tests1.adb:22:8-22:12>
 ********************************************************
@@ -176,7 +176,7 @@ Resolving xrefs for node <SubpSpec tests1.adb:24:4-24:62>
 *********************************************************
 
 Expr: <Id "Boolean" tests1.adb:24:55-24:62>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 
@@ -192,9 +192,9 @@ Resolving xrefs for node <ReturnStmt tests1.adb:26:7-26:19>
 ***********************************************************
 
 Expr: <Id "True" tests1.adb:26:14-26:18>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 Resolving xrefs for node <EndName tests1.adb:27:8-27:11>
 ********************************************************
@@ -229,8 +229,8 @@ Expr: <Id "Out_File" tests1.adb:30:14-30:22>
   expected type: <ConcreteTypeDecl ["File_Kind"] tests1.adb:3:4-3:55>
 Expr: <Str ""test.txt"" tests1.adb:30:24-30:34>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <AssignStmt tests1.adb:32:4-32:18>
 ***********************************************************
@@ -273,11 +273,11 @@ Resolving xrefs for node <IfStmt tests1.adb:34:4-37:11>
 
 Expr: <CallExpr tests1.adb:34:7-34:17>
   references:    <DefiningName "Is_Open" tests1.adb:8:13-8:20>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "Is_Open" tests1.adb:34:7-34:14>
   references:    <DefiningName "Is_Open" tests1.adb:8:13-8:20>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "f" tests1.adb:34:15-34:16>
   references:    <DefiningName "f" tests1.adb:16:4-16:5>
@@ -301,8 +301,8 @@ Expr: <Id "f" tests1.adb:35:16-35:17>
   expected type: <ConcreteTypeDecl ["File_Type"] tests1.adb:2:4-2:34>
 Expr: <Str ""hello world"" tests1.adb:35:19-35:32>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <CallStmt tests1.adb:36:7-36:16>
 *********************************************************
@@ -324,8 +324,8 @@ Resolving xrefs for node <IfStmt tests1.adb:39:4-41:11>
 *******************************************************
 
 Expr: <RelationOp tests1.adb:39:7-39:12>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "h" tests1.adb:39:7-39:8>
   references:    <DefiningName "h" tests1.adb:17:7-17:8>
   type:          <ConcreteTypeDecl ["File_Type_Access"] tests1.adb:14:4-14:50>
@@ -348,11 +348,11 @@ Resolving xrefs for node <IfStmt tests1.adb:43:4-45:11>
 
 Expr: <CallExpr tests1.adb:43:7-43:17>
   references:    <DefiningName ""="" tests1.adb:24:13-24:16>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Str ""="" tests1.adb:43:7-43:10>
   references:    <DefiningName ""="" tests1.adb:24:13-24:16>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
   expected type: None
 Expr: <Id "h" tests1.adb:43:12-43:13>
   references:    <DefiningName "h" tests1.adb:17:7-17:8>

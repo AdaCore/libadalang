@@ -37,14 +37,14 @@ Resolving xrefs for node <ExprFunction [""=""] reduced.adb:54:7-58:20>
 **********************************************************************
 
 Expr: <ParenExpr reduced.adb:55:9-58:19>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <IfExpr reduced.adb:55:10-58:18>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <RelationOp reduced.adb:55:13-55:38>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <DottedName reduced.adb:55:13-55:23>
   references:    <DefiningName "Kind" reduced.adb:37:24-37:28>
   type:          <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
@@ -66,13 +66,13 @@ Expr: <Id "Integer_Kind" reduced.adb:55:26-55:38>
   type:          <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
   expected type: <ConcreteTypeDecl ["Value_Kind"] reduced.adb:11:7-13:22>
 Expr: <Id "True" reduced.adb:56:13-56:17>
-  references:    <DefiningName "True" __standard:3:27-3:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "True" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <Id "False" reduced.adb:58:13-58:18>
-  references:    <DefiningName "False" __standard:3:20-3:25>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  references:    <DefiningName "False" in Standard>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 
 
 Done.

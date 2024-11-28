@@ -13,7 +13,7 @@ Expr: <Aggregate array_aggregate.adb:8:12-8:26>
   expected type: <ConcreteTypeDecl ["A"] array_aggregate.adb:3:4-3:41>
 Expr: <Int array_aggregate.adb:8:23-8:25>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] array_aggregate.adb:2:4-2:36>
 
 Resolving xrefs for node <AssignStmt array_aggregate.adb:11:4-11:43>
@@ -28,15 +28,15 @@ Expr: <Aggregate array_aggregate.adb:11:12-11:42>
   expected type: <ConcreteTypeDecl ["A"] array_aggregate.adb:3:4-3:41>
 Expr: <Int array_aggregate.adb:11:13-11:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] array_aggregate.adb:2:4-2:36>
 Expr: <Int array_aggregate.adb:11:17-11:18>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] array_aggregate.adb:2:4-2:36>
 Expr: <Int array_aggregate.adb:11:21-11:22>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] array_aggregate.adb:2:4-2:36>
 Expr: <Id "I" array_aggregate.adb:11:26-11:27>
   references:    <DefiningName "I" array_aggregate.adb:6:4-6:5>
@@ -44,7 +44,7 @@ Expr: <Id "I" array_aggregate.adb:11:26-11:27>
   expected type: <ConcreteTypeDecl ["Integer"] array_aggregate.adb:2:4-2:36>
 Expr: <Int array_aggregate.adb:11:39-11:41>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["Integer"] array_aggregate.adb:2:4-2:36>
 
 

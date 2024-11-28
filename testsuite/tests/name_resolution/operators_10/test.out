@@ -17,7 +17,7 @@ Expr: <BinOp test.adb:11:9-11:14>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:30>
 Expr: <Int test.adb:11:9-11:10>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:30>
 Expr: <OpPlus "+" test.adb:11:11-11:12>
   references:    None
@@ -25,7 +25,7 @@ Expr: <OpPlus "+" test.adb:11:11-11:12>
   expected type: None
 Expr: <Int test.adb:11:13-11:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:30>
 
 Resolving xrefs for node <AssignStmt test.adb:14:4-14:21>
@@ -44,20 +44,20 @@ Expr: <Id "F" test.adb:14:9-14:10>
   type:          None
   expected type: None
 Expr: <BinOp test.adb:14:12-14:19>
-  type:          <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
+  type:          <ConcreteTypeDecl ["root_real"] in Standard>
   expected type: None
 Expr: <Int test.adb:14:12-14:13>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["root_integer"] __standard:120:3-120:38>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_integer"] in Standard>
 Expr: <OpMult "*" test.adb:14:14-14:15>
-  references:    <SyntheticDefiningName ""*"" __standard:121:21-121:30>
+  references:    <SyntheticDefiningName ""*"" in Standard>
   type:          None
   expected type: None
 Expr: <Real test.adb:14:16-14:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["root_real"] __standard:121:3-121:31>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["root_real"] in Standard>
 
 
 Done.

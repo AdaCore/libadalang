@@ -26,10 +26,10 @@ Working on node <ObjectDecl ["X"] test.adb:23:4-23:36>
 ======================================================
 
 Eval 'node.f_default_expr.p_called_subp_spec.p_name'
-Result: <SyntheticDefiningName "image" __standard:4:3-4:54>
+Result: <SyntheticDefiningName "image" in Standard>
 
 Working on node <ObjectDecl ["Y"] test.adb:26:4-26:36>
 ======================================================
 
 Eval 'node.f_default_expr.p_called_subp_spec.p_name'
-Result: <SyntheticDefiningName "image" __standard:4:3-4:54>
+Result: <SyntheticDefiningName "image" in Standard>

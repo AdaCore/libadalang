@@ -21,7 +21,7 @@ Expr: <OpDiv "/" test.adb:5:11-5:12>
   expected type: None
 Expr: <Real test.adb:5:13-5:17>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
 
 Resolving xrefs for node <AssignStmt test.adb:8:4-8:15>
@@ -44,8 +44,8 @@ Expr: <OpMult "*" test.adb:8:11-8:12>
   expected type: None
 Expr: <Int test.adb:8:13-8:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt test.adb:11:4-11:25>
 *********************************************************
@@ -66,20 +66,20 @@ Expr: <OpMult "*" test.adb:11:11-11:12>
   type:          None
   expected type: None
 Expr: <QualExpr test.adb:11:13-11:24>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName "Integer" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" test.adb:11:13-11:20>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:11:21-11:24>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test.adb:11:22-11:23>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt test.adb:14:4-14:27>
 *********************************************************
@@ -93,27 +93,27 @@ Expr: <BinOp test.adb:14:9-14:26>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <Real test.adb:14:9-14:12>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
   expected type: <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
 Expr: <OpMult "*" test.adb:14:13-14:14>
   references:    None
   type:          None
   expected type: None
 Expr: <QualExpr test.adb:14:15-14:26>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName "Integer" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" test.adb:14:15-14:22>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <ParenExpr test.adb:14:23-14:26>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test.adb:14:24-14:25>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

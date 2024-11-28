@@ -5,19 +5,19 @@ Resolving xrefs for node <ObjectDecl ["A"] test.adb:2:4-2:41>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:2:8-2:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:2:19-2:40>
-  references:    <SyntheticDefiningName "value" __standard:4:3-4:54>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "value" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:2:19-2:32>
-  references:    <SyntheticDefiningName "value" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "value" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:2:19-2:26>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Value" test.adb:2:27-2:32>
@@ -26,26 +26,26 @@ Expr: <Id "Value" test.adb:2:27-2:32>
   expected type: None
 Expr: <Str ""123"" test.adb:2:34-2:39>
   references:    None
-  type:          <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
-  expected type: <ConcreteTypeDecl ["String"] __standard:105:3-105:57>
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["B"] test.adb:5:4-5:46>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:5:8-5:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:5:19-5:45>
-  references:    <SyntheticDefiningName "wide_value" __standard:4:3-4:54>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "wide_value" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:5:19-5:37>
-  references:    <SyntheticDefiningName "wide_value" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "wide_value" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:5:19-5:26>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Wide_Value" test.adb:5:27-5:37>
@@ -54,26 +54,26 @@ Expr: <Id "Wide_Value" test.adb:5:27-5:37>
   expected type: None
 Expr: <Str ""123"" test.adb:5:39-5:44>
   references:    None
-  type:          <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
-  expected type: <ConcreteTypeDecl ["Wide_String"] __standard:107:3-108:39>
+  type:          <ConcreteTypeDecl ["Wide_String"] in Standard>
+  expected type: <ConcreteTypeDecl ["Wide_String"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:8:4-8:51>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:8:8-8:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:8:19-8:50>
-  references:    <SyntheticDefiningName "wide_wide_value" __standard:4:3-4:54>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "wide_wide_value" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:8:19-8:42>
-  references:    <SyntheticDefiningName "wide_wide_value" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "wide_wide_value" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:8:19-8:26>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Wide_Wide_Value" test.adb:8:27-8:42>
@@ -82,8 +82,8 @@ Expr: <Id "Wide_Wide_Value" test.adb:8:27-8:42>
   expected type: None
 Expr: <Str ""123"" test.adb:8:44-8:49>
   references:    None
-  type:          <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
-  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] __standard:109:3-110:44>
+  type:          <ConcreteTypeDecl ["Wide_Wide_String"] in Standard>
+  expected type: <ConcreteTypeDecl ["Wide_Wide_String"] in Standard>
 
 
 Done.

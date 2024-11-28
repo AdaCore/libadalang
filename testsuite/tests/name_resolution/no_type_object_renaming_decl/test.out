@@ -6,7 +6,7 @@ Resolving xrefs for node <NoTypeObjectRenamingDecl ["Un"] proc.adb:3:4-3:19>
 
 Expr: <Id "One" proc.adb:3:15-3:18>
   references:    <DefiningName "One" proc.adb:2:4-2:7>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
   expected type: None
 
 
@@ -41,8 +41,8 @@ Resolving xrefs for node <IfStmt test.adb:26:7-28:14>
 *****************************************************
 
 Expr: <RelationOp test.adb:26:10-26:31>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <DottedName test.adb:26:10-26:22>
   references:    <DefiningName "Queue" test.adb:6:7-6:12>
   type:          <ConcreteTypeDecl ["Queue_Type"] test.adb:3:4-3:49>

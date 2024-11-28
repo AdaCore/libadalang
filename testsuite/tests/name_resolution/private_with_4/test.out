@@ -17,7 +17,7 @@ Expr: <Id "Doubly_Linked_Lists" pkg-foo.ads:2:43-2:62>
   type:          None
   expected type: None
 Expr: <Id "Integer" pkg-foo.ads:2:64-2:71>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -41,7 +41,7 @@ Expr: <Id "Doubly_Linked_Lists" pkg_2-foo.ads:2:43-2:62>
   type:          None
   expected type: None
 Expr: <Id "Integer" pkg_2-foo.ads:2:64-2:71>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 

@@ -5,14 +5,14 @@ Resolving xrefs for node <ConcreteTypeDecl ["New_Int"] test_new_int.adb:2:4-2:56
 *********************************************************************************
 
 Expr: <BinOp test_new_int.adb:2:26-2:55>
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <AttributeRef test_new_int.adb:2:26-2:39>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <Id "Integer" test_new_int.adb:2:26-2:33>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "First" test_new_int.adb:2:34-2:39>
@@ -25,10 +25,10 @@ Expr: <OpDoubleDot ".." test_new_int.adb:2:40-2:42>
   expected type: None
 Expr: <AttributeRef test_new_int.adb:2:43-2:55>
   references:    None
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 Expr: <Id "Integer" test_new_int.adb:2:43-2:50>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Last" test_new_int.adb:2:51-2:55>

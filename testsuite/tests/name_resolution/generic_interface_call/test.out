@@ -5,7 +5,7 @@ Resolving xrefs for node <ObjectDecl ["I"] test.adb:27:7-27:42>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:27:18-27:25>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:27:29-27:41>

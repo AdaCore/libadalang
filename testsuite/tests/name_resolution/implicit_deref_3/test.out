@@ -22,8 +22,8 @@ Expr: <Id "Elems" test.adb:31:27-31:32>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:31:38-31:39>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:33:10-33:52>
 ****************************************************************
@@ -46,20 +46,20 @@ Expr: <Id "Elems" test.adb:33:38-33:43>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:33:49-33:50>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["I"] test.adb:35:10-35:47>
 ****************************************************************
 
 Expr: <Id "Integer" test.adb:35:14-35:21>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:35:25-35:46>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <ExplicitDeref test.adb:35:25-35:42>
   references:    <DefiningName "Elems" test.adb:30:20-30:25>
   type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
@@ -78,24 +78,24 @@ Expr: <Id "Elems" test.adb:35:25-35:30>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:35:36-35:37>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Key" test.adb:35:43-35:46>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt test.adb:38:10-38:37>
 **********************************************************
 
 Expr: <Id "I" test.adb:38:10-38:11>
   references:    <DefiningName "I" test.adb:35:10-35:11>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName test.adb:38:15-38:36>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <ExplicitDeref test.adb:38:15-38:32>
   references:    <DefiningName "Elems" test.adb:30:20-30:25>
   type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
@@ -114,12 +114,12 @@ Expr: <Id "Elems" test.adb:38:15-38:20>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:38:26-38:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Key" test.adb:38:33-38:36>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["T"] test.adb:46:7-46:38>
 ***************************************************************
@@ -142,8 +142,8 @@ Expr: <Id "Elems" test.adb:46:24-46:29>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:46:35-46:36>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:48:7-48:49>
 ***************************************************************
@@ -166,20 +166,20 @@ Expr: <Id "Elems" test.adb:48:35-48:40>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:48:46-48:47>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["I"] test.adb:50:7-50:44>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:50:11-50:18>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <DottedName test.adb:50:22-50:43>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <ExplicitDeref test.adb:50:22-50:39>
   references:    <DefiningName "Elems" test.adb:45:17-45:22>
   type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
@@ -198,24 +198,24 @@ Expr: <Id "Elems" test.adb:50:22-50:27>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:50:33-50:34>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Key" test.adb:50:40-50:43>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <AssignStmt test.adb:53:7-53:34>
 *********************************************************
 
 Expr: <Id "I" test.adb:53:7-53:8>
   references:    <DefiningName "I" test.adb:50:7-50:8>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <DottedName test.adb:53:12-53:33>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <ExplicitDeref test.adb:53:12-53:29>
   references:    <DefiningName "Elems" test.adb:45:17-45:22>
   type:          <ConcreteTypeDecl ["T"] test.adb:4:7-4:36>
@@ -234,12 +234,12 @@ Expr: <Id "Elems" test.adb:53:12-53:17>
   expected type: <ConcreteTypeDecl ["Elems_Access"] test.adb:16:7-16:45>
 Expr: <Int test.adb:53:23-53:24>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Key" test.adb:53:30-53:33>
   references:    <DefiningName "Key" test.adb:7:16-7:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

@@ -6,14 +6,14 @@ Resolving xrefs for node <AssignStmt test.adb:10:4-10:32>
 
 Expr: <Id "X" test.adb:10:4-10:5>
   references:    <DefiningName "X" test.adb:8:4-8:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <CallExpr test.adb:10:9-10:31>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <DefiningName "Integer" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Integer" test.adb:10:9-10:16>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <ExplicitDeref test.adb:10:18-10:30>
@@ -30,8 +30,8 @@ Expr: <Id "Foo" test.adb:10:18-10:21>
   expected type: None
 Expr: <Int test.adb:10:23-10:25>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
 Done.

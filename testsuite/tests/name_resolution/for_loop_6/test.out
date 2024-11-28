@@ -21,15 +21,15 @@ Resolving xrefs for node <ForLoopIterFilter test.adb:13:24-13:41>
 *****************************************************************
 
 Expr: <RelationOp test.adb:13:29-13:41>
-  type:          <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
-  expected type: <ConcreteTypeDecl ["Boolean"] __standard:3:3-3:33>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
 Expr: <CallExpr test.adb:13:29-13:37>
   references:    <| DefiningName "Key" a-cohama.ads:177:13-177:16 [test.adb:6:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Id "Key" test.adb:13:29-13:32>
   references:    <| DefiningName "Key" a-cohama.ads:177:13-177:16 [test.adb:6:4] |>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <Id "It" test.adb:13:34-13:36>
   references:    <DefiningName "It" test.adb:13:8-13:10>
@@ -41,8 +41,8 @@ Expr: <OpGt ">" test.adb:13:38-13:39>
   expected type: None
 Expr: <Int test.adb:13:40-13:41>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <NullStmt test.adb:14:7-14:12>
 *******************************************************

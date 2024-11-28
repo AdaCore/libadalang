@@ -2,4 +2,4 @@ Working on node <SubtypeDecl ["P"] test.adb:2:4-2:30>
 =====================================================
 
 Eval 'node.f_subtype.p_designated_type_decl.p_specific_type'
-Result: <DiscreteBaseSubtypeDecl ["Integer"] __standard:4:3-4:54>
+Result: <DiscreteBaseSubtypeDecl ["Integer"] in Standard>

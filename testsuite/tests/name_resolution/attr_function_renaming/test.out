@@ -5,11 +5,11 @@ Resolving xrefs for node <SubpRenamingDecl ["Foo"] test.adb:2:4-2:67>
 *********************************************************************
 
 Expr: <AttributeRef test.adb:2:53-2:66>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:2:53-2:60>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:2:61-2:66>
@@ -21,11 +21,11 @@ Resolving xrefs for node <ConcreteFormalSubpDecl ["Bar"] test.adb:6:12-6:71>
 ****************************************************************************
 
 Expr: <AttributeRef test.adb:6:57-6:70>
-  references:    <SyntheticDefiningName "image" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "image" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:6:57-6:64>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Image" test.adb:6:65-6:70>
@@ -37,7 +37,7 @@ Resolving xrefs for node <SubpSpec test.adb:6:12-6:53>
 ******************************************************
 
 Expr: <Id "String" test.adb:6:47-6:53>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 
@@ -45,7 +45,7 @@ Resolving xrefs for node <ParamSpec ["X"] test.adb:6:27-6:38>
 *************************************************************
 
 Expr: <Id "Integer" test.adb:6:31-6:38>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 

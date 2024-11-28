@@ -9,7 +9,7 @@ Resolving xrefs for node <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
 *******************************************************************************
 
 Expr: <Id "Boolean" test_valid.adb:2:24-2:31>
-  references:    <DefiningName "Boolean" __standard:3:8-3:15>
+  references:    <DefiningName "Boolean" in Standard>
   type:          None
   expected type: None
 
@@ -25,7 +25,7 @@ Resolving xrefs for node <ObjectDecl ["Z"] test_valid.adb:5:4-5:16>
 *******************************************************************
 
 Expr: <Id "Integer" test_valid.adb:5:8-5:15>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 
@@ -133,14 +133,14 @@ Resolving xrefs for node <AssignStmt test_valid.adb:19:4-19:40>
 
 Expr: <Id "Z" test_valid.adb:19:4-19:5>
   references:    <DefiningName "Z" test_valid.adb:5:4-5:5>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
   expected type: None
 Expr: <ParenExpr test_valid.adb:19:9-19:39>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <IfExpr test_valid.adb:19:10-19:38>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <BinOp test_valid.adb:19:13-19:24>
   type:          <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
   expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
@@ -165,12 +165,12 @@ Expr: <Id "Y" test_valid.adb:19:23-19:24>
   expected type: <ConcreteTypeDecl ["My_Bool"] test_valid.adb:2:4-2:32>
 Expr: <Int test_valid.adb:19:30-19:31>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test_valid.adb:19:37-19:38>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ForLoopStmt test_valid.adb:21:4-23:13>
 ****************************************************************
@@ -180,20 +180,20 @@ Resolving xrefs for node <ForLoopSpec test_valid.adb:21:8-21:19>
 ****************************************************************
 
 Expr: <BinOp test_valid.adb:21:13-21:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test_valid.adb:21:13-21:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." test_valid.adb:21:15-21:17>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test_valid.adb:21:18-21:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ExitStmt test_valid.adb:22:7-22:29>
 *************************************************************
@@ -293,20 +293,20 @@ Resolving xrefs for node <ForLoopSpec test_invalid.adb:25:8-25:36>
 ******************************************************************
 
 Expr: <BinOp test_invalid.adb:25:13-25:19>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <Int test_invalid.adb:25:13-25:14>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <OpDoubleDot ".." test_invalid.adb:25:15-25:17>
   references:    None
   type:          None
   expected type: None
 Expr: <Int test_invalid.adb:25:18-25:19>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 Resolving xrefs for node <ForLoopIterFilter test_invalid.adb:25:20-25:36>
 *************************************************************************

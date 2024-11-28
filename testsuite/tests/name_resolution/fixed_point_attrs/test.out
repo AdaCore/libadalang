@@ -6,8 +6,8 @@ Resolving xrefs for node <NumberDecl ["A"] test.adb:4:4-4:28>
 
 Expr: <AttributeRef test.adb:4:20-4:27>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  type:          <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 Expr: <Id "T" test.adb:4:20-4:21>
   references:    <DefiningName "T" test.adb:2:9-2:10>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
@@ -42,26 +42,26 @@ Expr: <Id "Fixed_Value" test.adb:7:24-7:35>
   expected type: None
 Expr: <Int test.adb:7:37-7:38>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 
 Resolving xrefs for node <ObjectDecl ["C"] test.adb:10:4-10:54>
 ***************************************************************
 
 Expr: <Id "Integer" test.adb:10:17-10:24>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:10:28-10:53>
-  references:    <SyntheticDefiningName "integer_value" __standard:4:3-4:54>
-  type:          <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
-  expected type: <ConcreteTypeDecl ["Integer"] __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "integer_value" in Standard>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 Expr: <AttributeRef test.adb:10:28-10:49>
-  references:    <SyntheticDefiningName "integer_value" __standard:4:3-4:54>
+  references:    <SyntheticDefiningName "integer_value" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer" test.adb:10:28-10:35>
-  references:    <DefiningName "Integer" __standard:4:8-4:15>
+  references:    <DefiningName "Integer" in Standard>
   type:          None
   expected type: None
 Expr: <Id "Integer_Value" test.adb:10:36-10:49>
@@ -71,7 +71,7 @@ Expr: <Id "Integer_Value" test.adb:10:36-10:49>
 Expr: <Id "B" test.adb:10:51-10:52>
   references:    <DefiningName "B" test.adb:7:4-7:5>
   type:          <ConcreteTypeDecl ["T"] test.adb:2:4-2:42>
-  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] __standard:117:3-117:42>
+  expected type: <ConcreteTypeDecl ["Universal_Real_Type_"] in Standard>
 
 
 Done.

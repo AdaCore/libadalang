@@ -57,8 +57,8 @@ Expr: <| Id "Val" test.adb:5:41-5:44 [test.adb:17:4, test.adb:13:10] |>
   expected type: None
 Expr: <| Int test.adb:5:46-5:47 [test.adb:17:4, test.adb:13:10] |>
   references:    None
-  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
-  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] __standard:116:3-116:45>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
 
 Resolving xrefs for node <| SubpSpec test.adb:5:7-5:34 [test.adb:17:4, test.adb:13:10] |>
 *****************************************************************************************

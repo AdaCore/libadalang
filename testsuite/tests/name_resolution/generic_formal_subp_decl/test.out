@@ -21,7 +21,7 @@ Resolving xrefs for node <SubpSpec test.adb:4:12-4:44>
 ******************************************************
 
 Expr: <Id "String" test.adb:4:38-4:44>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 
@@ -61,7 +61,7 @@ Resolving xrefs for node <ParamSpec ["S"] test.adb:6:25-6:34>
 *************************************************************
 
 Expr: <Id "String" test.adb:6:28-6:34>
-  references:    <DefiningName "String" __standard:105:8-105:14>
+  references:    <DefiningName "String" in Standard>
   type:          None
   expected type: None
 

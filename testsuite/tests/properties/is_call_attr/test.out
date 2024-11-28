@@ -11,4 +11,4 @@ Eval 'node.f_default_expr.p_is_call'
 Result: True
 
 Eval 'node.f_default_expr.p_call_params'
-Result: [<ParamActual param=<SyntheticDefiningName "value" __standard:4:3-4:54> actual=<Id "I" test.adb:7:18-7:19>>]
+Result: [<ParamActual param=<SyntheticDefiningName "value" in Standard> actual=<Id "I" test.adb:7:18-7:19>>]

@@ -60,4 +60,16 @@ package Libadalang.Sources is
    --  Turn Text, a valid Ada real literal, into a rational number. Raise a
    --  Libadalang.Analysis.Property_Error if Text is not a valid literal.
 
+   subtype Numerical_Base is Natural range 2 .. 16;
+
+   function Encode_Integer_Literal
+     (Value : GNATCOLL.GMP.Integers.Big_Integer;
+      Base  : Numerical_Base := 10) return Text_Type;
+   --  Return an Ada literal for the given integer
+
+   function Encode_Real
+     (Value : GNATCOLL.GMP.Rational_Numbers.Rational;
+      Base  : Numerical_Base := 10) return Text_Type;
+   --  Return an Ada static expression that evaluates to the given real
+
 end Libadalang.Sources;

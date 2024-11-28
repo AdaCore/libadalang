@@ -5,6 +5,7 @@
 
 with Ada.Containers.Vectors;
 with Ada.Exceptions;        use Ada.Exceptions;
+with Ada.IO_Exceptions;     use Ada.IO_Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with Interfaces.C.Strings; use Interfaces.C.Strings;
@@ -26,6 +27,7 @@ with Langkit_Support.File_Readers; use Langkit_Support.File_Readers;
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Auto_Provider;     use Libadalang.Auto_Provider;
 with Libadalang.Config_Pragmas;    use Libadalang.Config_Pragmas;
+with Libadalang.Implementation.Extensions;
 with Libadalang.GPR_Impl;          use Libadalang.GPR_Impl;
 with Libadalang.GPR_Utils;         use Libadalang.GPR_Utils;
 with Libadalang.Preprocessing;     use Libadalang.Preprocessing;
@@ -780,5 +782,64 @@ package body Libadalang.Implementation.C.Extensions is
       when Exc : others =>
          Set_Last_Exception (Exc);
    end ada_set_config_pragmas_mapping;
+
+   --------------------------
+   -- ada_target_info_load --
+   --------------------------
+
+   function ada_target_info_load
+     (Filename : chars_ptr) return ada_target_information
+   is
+      Result : ada_target_information;
+   begin
+      Clear_Last_Exception;
+
+      Result := new Target_Information;
+      declare
+         F : constant String := Value (Filename);
+      begin
+         Result.all := Load (F);
+      exception
+         when Exc : Name_Error | Use_Error =>
+            raise Invalid_Input with Exception_Message (Exc);
+      end;
+      return Result;
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+         Free (Result);
+         return null;
+   end ada_target_info_load;
+
+   --------------------------
+   -- ada_target_info_free --
+   --------------------------
+
+   procedure ada_target_info_free (Self : ada_target_information)
+   is
+      TI : ada_target_information;
+   begin
+      Clear_Last_Exception;
+      TI := Self;
+      Free (TI);
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+   end ada_target_info_free;
+
+   -------------------------
+   -- ada_target_info_set --
+   -------------------------
+
+   procedure ada_target_info_set
+     (Self : ada_analysis_context; Info : ada_target_information)
+   is
+   begin
+      Clear_Last_Exception;
+      Implementation.Extensions.Set_Target_Information (Self, Info.all);
+   exception
+      when Exc : others =>
+         Set_Last_Exception (Exc);
+   end ada_target_info_set;
 
 end Libadalang.Implementation.C.Extensions;

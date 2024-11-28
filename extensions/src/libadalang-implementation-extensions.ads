@@ -11,6 +11,11 @@ package Libadalang.Implementation.Extensions is
    --  Hook to run after each unit has been (re) parsed. Unless this behavior
    --  is disabled, add diagnostics when preprocessing tokens were found.
 
+   procedure Set_Target_Information
+     (Self : Internal_Context; Info : Target_Information);
+   --  Assign target information to ``Self``. This will affect specific bound
+   --  values for types defined in the built in Standard package.
+
    --------------
    -- Ada_Node --
    --------------

@@ -1,3 +1,33 @@
+## vim: filetype=ocaml
+
+module TargetInformation = struct
+  let c_free =
+    foreign ~from:c_lib "ada_target_info_free"
+      (ptr void @-> raisable void)
+
+  type t = unit ptr ptr
+
+  let read c_value =
+    let finalise arg =
+      c_free (!@ arg)
+    in
+    allocate ~finalise (ptr void) c_value
+
+  let write value = (!@ value)
+
+  let c_type = view (ptr void) ~read ~write
+
+  let load =
+    foreign ~from:c_lib "ada_target_info_load"
+      (string @-> raisable c_type)
+
+  let c_set =
+    foreign ~from:c_lib "ada_target_info_set"
+      (AnalysisContextStruct.c_type @-> c_type @-> raisable void)
+
+  let set ctx info = c_set ctx.c_value info
+end
+
 module GPRProject = struct
   type project_scenario_variable
 

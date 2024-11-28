@@ -49,7 +49,7 @@ package Libadalang.Expr_Eval is
    function As_Int (Self : Eval_Result) return Big_Integer;
    --  Return the given evaluation result as an Integer, if applicable. This
    --  will work for enum or int results, not for real results.
-   --
+
    function As_String (Self : Eval_Result) return Unbounded_Text_Type;
    --  Return the given evaluation result as a string, if applicable. This
    --  will only work for string results.

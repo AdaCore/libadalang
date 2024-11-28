@@ -3,11 +3,35 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 with Interfaces; use Interfaces;
 
 with Langkit_Support.Errors; use Langkit_Support.Errors;
 
 package body Libadalang.Sources is
+
+   function Img (N : Natural) return String;
+   --  Like Natural'Image, but without the leading space
+
+   function Format_Integer
+     (Value   : GNATCOLL.GMP.Integers.Big_Integer;
+      Base    : Numerical_Base := 10;
+      Decimal : Boolean) return Unbounded_String;
+   --  Common code for Encode_Integer_Literal/Encode_Real: format the given
+   --  integer value with the given Base. This returns an Ada integer literal
+   --  if Decimal is False, and an Ada real literal is Decimal is True.
+
+   ---------
+   -- Img --
+   ---------
+
+   function Img (N : Natural) return String is
+      Result : constant String := N'Image;
+   begin
+      pragma Assert (Result (Result'First) = ' ');
+      return Result (Result'First + 1 .. Result'Last);
+   end Img;
 
    ---------------------
    -- Decode_Brackets --
@@ -312,8 +336,6 @@ package body Libadalang.Sources is
    end record;
    --  First class citizen type for string slices, with same semantics for
    --  bounds: they are inclusive and Last < First means an empty slice.
-
-   subtype Numerical_Base is Natural range 2 .. 16;
 
    type Parsed_Numeric_Literal is record
       Base : Numerical_Base;
@@ -731,5 +753,156 @@ package body Libadalang.Sources is
       end;
 
    end Decode_Real_Literal;
+
+   --------------------
+   -- Format_Integer --
+   --------------------
+
+   function Format_Integer
+     (Value   : GNATCOLL.GMP.Integers.Big_Integer;
+      Base    : Numerical_Base := 10;
+      Decimal : Boolean) return Unbounded_String
+   is
+      use GNATCOLL.GMP.Integers;
+
+      Non_Default_Base : constant Boolean := Base /= 10;
+      Abs_Value        : constant Big_Integer := abs Value;
+      Raw              : constant String := Abs_Value.Image (Base => Base);
+      Exponent         : Natural := 0;
+      Result           : Unbounded_String;
+
+      procedure Append_Significant (Significant : String);
+      --  Append Significant to Result. Depending on the base, also insert
+      --  underscores in it for readability.
+
+      ------------------------
+      -- Append_Significant --
+      ------------------------
+
+      procedure Append_Significant (Significant : String) is
+
+         --  In base 10, append underscores every 3 digits. Append them every 4
+         --  digits for binary and hexadecimal bases. Append no underscore at
+         --  all for the other bases.
+
+         Period : constant Natural :=
+           (case Base is
+            when 2 | 16 => 4,
+            when 10     => 3,
+            when others => 0);
+      begin
+         if Period = 0 then
+            Append (Result, Significant);
+         end if;
+
+         for I in Significant'Range loop
+            Append (Result, Significant (I));
+
+            --  We need to append an underscore every Period digit
+
+            declare
+               Underscore_Index : constant Natural :=
+                 (if Decimal
+                  then I
+                  else Significant'Last - I);
+               --  For Decimal numbers, the significant is the decimal part
+               --  (D's in 0.DDD...), so we start counting digits in string
+               --  order (e.g. 0.123_45).
+               --
+               --  For integers, we need to start counting digits in the
+               --  reverse order (e.g. 54_321).
+            begin
+               if I < Significant'Last and then Underscore_Index mod Period = 0
+               then
+                  Append (Result, "_");
+               end if;
+            end;
+         end loop;
+      end Append_Significant;
+
+   begin
+      --  No need for anything fancy if this is just 0 or 1 (base does not
+      --  matter).
+
+      if Value = 0 or else Value = 1 then
+         return To_Unbounded_String
+                  (Value.Image & (if Decimal then ".0" else ""));
+      end if;
+
+      Result := Null_Unbounded_String;
+      if Value < 0 then
+         Append (Result, "-");
+      end if;
+
+      if Non_Default_Base then
+         Append (Result, Img (Base) & "#");
+      end if;
+
+      --  For decimal numbers, add an exponent to yield a consistent "0.DDD..."
+      --  notation. For instance, return 0.1234E4 for 1234. Thanks to this, we
+      --  can strip all trailing zeros.
+
+      if Decimal then
+         Exponent := Raw'Length;
+         Append (Result, "0.");
+         declare
+            Last_Non_Zero : Natural := 0;
+         begin
+            for I in reverse Raw'Range loop
+               if Raw (I) /= '0' then
+                  Last_Non_Zero := I;
+                  exit;
+               end if;
+            end loop;
+            Append_Significant (Raw (Raw'First .. Last_Non_Zero));
+         end;
+      else
+         Append_Significant (Raw);
+      end if;
+
+      if Non_Default_Base then
+         Append (Result, "#");
+      end if;
+
+      if Exponent > 0 then
+         Append (Result, "E+" & Img (Exponent));
+      end if;
+
+      return Result;
+   end Format_Integer;
+
+   ----------------------------
+   -- Encode_Integer_Literal --
+   ----------------------------
+
+   function Encode_Integer_Literal
+     (Value : GNATCOLL.GMP.Integers.Big_Integer;
+      Base  : Numerical_Base := 10) return Text_Type is
+   begin
+      return To_Text (To_String (Format_Integer (Value, Base, False)));
+   end Encode_Integer_Literal;
+
+   -----------------
+   -- Encode_Real --
+   -----------------
+
+   function Encode_Real
+     (Value : GNATCOLL.GMP.Rational_Numbers.Rational;
+      Base  : Numerical_Base := 10) return Text_Type
+   is
+      use GNATCOLL.GMP.Integers;
+
+      function "+" (Self : Big_Integer) return Text_Type
+      is (To_Text (To_String (Format_Integer (Self, Base, True))));
+
+      Num : constant Big_Integer := Value.Numerator;
+      Den : constant Big_Integer := Value.Denominator;
+   begin
+      if Value.Denominator = 1 then
+         return +Num;
+      else
+         return +Num & " / " & (+Den);
+      end if;
+   end Encode_Real;
 
 end Libadalang.Sources;

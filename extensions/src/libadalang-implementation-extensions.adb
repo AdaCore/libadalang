@@ -74,6 +74,20 @@ package body Libadalang.Implementation.Extensions is
       end if;
    end Post_Parsing_Hook;
 
+   ----------------------------
+   -- Set_Target_Information --
+   ----------------------------
+
+   procedure Set_Target_Information
+     (Self : Internal_Context; Info : Target_Information) is
+   begin
+      --  Do the target information assignment and reload the Standard package
+      --  so that it uses the new values.
+
+      Self.Target_Info := Info;
+      Env_Hooks.Fetch_Standard (Self);
+   end Set_Target_Information;
+
    ----------------
    -- CU_Subunit --
    ----------------

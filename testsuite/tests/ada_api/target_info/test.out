@@ -1,0 +1,217 @@
+== invalid no_such_file ==
+
+IO error
+
+== invalid empty ==
+
+IO error
+
+== invalid_var_syntax ==
+
+Invalid_Input: invalid format at line 1
+
+== invalid_var_name ==
+
+Invalid_Input: Bits_BE expected at line 1 but got Invalid
+
+== invalid_line_too_long ==
+
+Invalid_Input: line 1 is too long
+
+== invalid_boolean ==
+
+Invalid_Input: Bits_BE: boolean value expected
+
+== invalid_positive ==
+
+Invalid_Input: Bits_Per_Unit: positive value expected
+
+== invalid_too_large ==
+
+Invalid_Input: Bits_BE: out of range value
+
+== invalid_float_syntax ==
+
+Invalid_Input: invalid floating point type description at line 25
+
+== invalid_float_digits ==
+
+Invalid_Input: out of range digits for float
+
+== invalid_float_repr ==
+
+Invalid_Input: invalid floating point type description at line 25
+
+== invalid_float_size ==
+
+Invalid_Input: out of range size for float
+
+== invalid_float_alignment ==
+
+Invalid_Input: out of range alignment for float
+
+== invalid_missing_double ==
+
+Invalid_Input: floating point type description missing for "double"
+
+== linux_64 ==
+
+Bits_BE                       0
+Bits_Per_Unit                 8
+Bits_Per_Word                64
+Bytes_BE                      0
+Char_Size                     8
+Double_Float_Alignment        0
+Double_Scalar_Alignment       0
+Double_Size                  64
+Float_Size                   32
+Float_Words_BE                0
+Int_Size                     32
+Long_Double_Size            128
+Long_Long_Long_Size         128
+Long_Long_Size               64
+Long_Size                    64
+Maximum_Alignment            16
+Max_Unaligned_Field           1
+Pointer_Size                 64
+Short_Enums                   0
+Short_Size                   16
+Strict_Alignment              0
+System_Allocator_Alignment   16
+Wchar_T_Size                 32
+Words_BE                      0
+
+float          6  I  32  32
+double        15  I  64  64
+long double   18  I  80 128
+HF             3  I  16  16
+BF             2  I  16  16
+TF            33  I 128 128
+
+== linux_64 ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+OK   "Natural'First"
+OK   "Natural'Last"
+OK   "Positive'First"
+OK   "Positive'Last"
+OK   "Short_Short_Integer'First"
+OK   "Short_Short_Integer'Last"
+OK   "Short_Integer'First"
+OK   "Short_Integer'Last"
+OK   "Long_Integer'First"
+OK   "Long_Integer'Last"
+OK   "Long_Long_Integer'First"
+OK   "Long_Long_Integer'Last"
+OK   "Long_Long_Long_Integer'First"
+OK   "Long_Long_Long_Integer'Last"
+OK   "Short_Float'First"
+OK   "Short_Float'Last"
+OK   "Float'First"
+OK   "Float'Last"
+OK   "Long_Float'First"
+OK   "Long_Float'Last"
+OK   "Long_Long_Float'First"
+OK   "Long_Long_Float'Last"
+OK   "Duration'First"
+OK   "Duration'Last"
+
+== linux_32 ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+OK   "Natural'First"
+OK   "Natural'Last"
+OK   "Positive'First"
+OK   "Positive'Last"
+OK   "Short_Short_Integer'First"
+OK   "Short_Short_Integer'Last"
+OK   "Short_Integer'First"
+OK   "Short_Integer'Last"
+OK   "Long_Integer'First"
+OK   "Long_Integer'Last"
+OK   "Long_Long_Integer'First"
+OK   "Long_Long_Integer'Last"
+OK   "Long_Long_Long_Integer'First"
+OK   "Long_Long_Long_Integer'Last"
+OK   "Short_Float'First"
+OK   "Short_Float'Last"
+OK   "Float'First"
+OK   "Float'Last"
+OK   "Long_Float'First"
+OK   "Long_Float'Last"
+OK   "Long_Long_Float'First"
+OK   "Long_Long_Float'Last"
+OK   "Duration'First"
+OK   "Duration'Last"
+
+== arm_stm32 ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+OK   "Natural'First"
+OK   "Natural'Last"
+OK   "Positive'First"
+OK   "Positive'Last"
+OK   "Short_Short_Integer'First"
+OK   "Short_Short_Integer'Last"
+OK   "Short_Integer'First"
+OK   "Short_Integer'Last"
+OK   "Long_Integer'First"
+OK   "Long_Integer'Last"
+OK   "Long_Long_Integer'First"
+OK   "Long_Long_Integer'Last"
+OK   "Long_Long_Long_Integer'First"
+OK   "Long_Long_Long_Integer'Last"
+OK   "Short_Float'First"
+OK   "Short_Float'Last"
+OK   "Float'First"
+OK   "Float'Last"
+OK   "Long_Float'First"
+OK   "Long_Float'Last"
+OK   "Long_Long_Float'First"
+OK   "Long_Long_Float'Last"
+OK   "Duration'First"
+OK   "Duration'Last"
+
+== small_ints ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+OK   "Natural'First"
+OK   "Natural'Last"
+OK   "Positive'First"
+OK   "Positive'Last"
+OK   "Short_Short_Integer'First"
+OK   "Short_Short_Integer'Last"
+OK   "Short_Integer'First"
+OK   "Short_Integer'Last"
+OK   "Long_Integer'First"
+OK   "Long_Integer'Last"
+OK   "Long_Long_Integer'First"
+OK   "Long_Long_Integer'Last"
+OK   "Long_Long_Long_Integer'First"
+OK   "Long_Long_Long_Integer'Last"
+OK   "Short_Float'First"
+OK   "Short_Float'Last"
+OK   "Float'First"
+OK   "Float'Last"
+OK   "Long_Float'First"
+OK   "Long_Float'Last"
+OK   "Long_Long_Float'First"
+OK   "Long_Long_Float'Last"
+OK   "Duration'First"
+OK   "Duration'Last"
+
+== rtcheck1 (runtime1) ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+
+== rtcheck2 (runtime2) ==
+
+OK   "Integer'First"
+OK   "Integer'Last"
+
+Done.

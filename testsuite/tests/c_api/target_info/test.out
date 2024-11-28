@@ -1,0 +1,19 @@
+== no_such_file.txt ==
+
+Got an exception (EXCEPTION_INVALID_INPUT):
+  no_such_file.txt: No such file or directory
+
+== invalid.txt ==
+
+Got an exception (EXCEPTION_INVALID_INPUT):
+  entry missing for Bits_BE
+
+== small_ints.txt ==
+
+Before set_target_information
+<NumberDecl ["N"] pkg.ads:2:4-2:33> = 2147483647
+
+After set_target_information
+<NumberDecl ["N"] pkg.ads:2:4-2:33> = 32767
+
+Done

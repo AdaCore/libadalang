@@ -3,12 +3,17 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
+with GNATCOLL.Traces;
+
 with Langkit_Support.Symbols;   use Langkit_Support.Symbols;
 
 with Libadalang.Common;         use Libadalang.Common;
 with Libadalang.Implementation; use Libadalang.Implementation;
 
 private package Libadalang.Env_Hooks is
+
+   Trace : GNATCOLL.Traces.Trace_Handle := GNATCOLL.Traces.Create
+     ("LIBADALANG.ENV_HOOKS", Default => GNATCOLL.Traces.From_Config);
 
    type Symbol_Type_Array is array (Positive range <>) of Symbol_Type;
 

@@ -1,23 +1,26 @@
 Working on node <ConcreteTypeDecl ["A"] test.adb:2:4-2:26>
 ==========================================================
 
-Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<Int in Standard> high_bound=<UnOp in Standard>>
+Eval 'hex(node.p_discrete_range.low_bound.p_eval_as_int)'
+Result: '0x0'
 
-Working on node <ConcreteTypeDecl ["B"] test.adb:4:4-4:38>
+Eval 'hex(node.p_discrete_range.high_bound.p_eval_as_int)'
+Result: '0x7fffffff'
+
+Working on node <ConcreteTypeDecl ["B"] test.adb:5:4-5:38>
 ==========================================================
 
 Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<Int test.adb:4:26-4:27> high_bound=<AttributeRef test.adb:4:31-4:37>>
+Result: <DiscreteRange low_bound=<Int test.adb:5:26-5:27> high_bound=<AttributeRef test.adb:5:31-5:37>>
 
-Working on node <SubtypeDecl ["C"] test.adb:6:4-6:55>
+Working on node <SubtypeDecl ["C"] test.adb:7:4-7:55>
 =====================================================
 
 Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<BinOp test.adb:6:25-6:36> high_bound=<CallExpr test.adb:6:40-6:54>>
+Result: <DiscreteRange low_bound=<BinOp test.adb:7:25-7:36> high_bound=<CallExpr test.adb:7:40-7:54>>
 
-Working on node <SubtypeDecl ["D"] test.adb:8:4-8:19>
+Working on node <SubtypeDecl ["D"] test.adb:9:4-9:19>
 =====================================================
 
 Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<Int test.adb:4:26-4:27> high_bound=<AttributeRef test.adb:4:31-4:37>>
+Result: <DiscreteRange low_bound=<Int test.adb:5:26-5:27> high_bound=<AttributeRef test.adb:5:31-5:37>>

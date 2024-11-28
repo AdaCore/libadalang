@@ -107,11 +107,9 @@ package body Libadalang.Env_Hooks is
       procedure Prepare_Nameres
         (Unit : Internal_Unit; PLE_Root_Index : Positive) is
       begin
-         if Unit.Ast_Root /= null then
-            Populate_Lexical_Env (Wrap_Unit (Unit), PLE_Root_Index);
-            Reference_Unit (From       => From_Unit,
-                            Referenced => Unit);
-         end if;
+         Populate_Lexical_Env (Wrap_Unit (Unit), PLE_Root_Index);
+         Reference_Unit (From       => From_Unit,
+                         Referenced => Unit);
       end Prepare_Nameres;
 
       -------------------------

@@ -18,6 +18,8 @@ root_dir = join(python_support_dir, '..', '..')
 
 dirs = ['ada', 'contrib', 'testsuite', 'utils']
 excludes = ['tmp', 'doc',
+            # See eng/libadalang/langkit#849
+            join('ada', 'tokens.lkt'),
             join('contrib', 'highlight', 'obj'),
             join('contrib', 'gnatx_project', 'obj'),
             join('contrib', 'AdaEurope2018', 'obj'),

@@ -1,4 +1,4 @@
---  Copyright (C) 2014-2022, AdaCore
+--  Copyright (C) 2014-2024, AdaCore
 --  SPDX-License-Identifier: Apache-2.0
 --
 

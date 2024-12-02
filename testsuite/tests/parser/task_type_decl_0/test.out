@@ -8,7 +8,7 @@ TaskTypeDecl[1:1-1:145]
 |f_definition:
 |  TaskDef[1:28-1:144]
 |  |f_interfaces:
-|  |  ParentList[1:27-1:27]: <empty list>
+|  |  ParentList[1:30-1:30]: <empty list>
 |  |f_public_part:
 |  |  PublicPart[1:30-1:124]
 |  |  |f_decls:

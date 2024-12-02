@@ -26,12 +26,12 @@ PragmaNodeList[1:1-3:12]
 |  |f_id:
 |  |  Id[1:8-1:11]: Foo
 |  |f_args:
-|  |  BaseAssocList[1:7-1:7]: <empty list>
+|  |  BaseAssocList[1:11-1:11]: <empty list>
 |  PragmaNode[3:1-3:12]
 |  |f_id:
 |  |  Id[3:8-3:11]: Bar
 |  |f_args:
-|  |  BaseAssocList[3:7-3:7]: <empty list>
+|  |  BaseAssocList[3:11-3:11]: <empty list>
 
 == bad_encoding.bin ==
 

@@ -64,7 +64,7 @@ CompilationUnit foo.adb:1:1-6:9
 |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  Str ""Hello, world!"" foo.adb:5:26-5:41: "Hello, world!"
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList foo.adb:5:42-5:42
+|  |  |  |  AdaNodeList foo.adb:5:43-5:43
 |  |  |f_end_name:
 |  |  |  EndName foo.adb:6:5-6:8
 |  |  |  |f_name:

@@ -98,10 +98,10 @@ CompilationUnit[1:1-10:9]
 |  |  |  |  |  |  |  |  |  |  StmtList[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |  |  NullStmt[7:10-7:15]
 |  |  |  |  |  |  |  |  |  |f_exceptions:
-|  |  |  |  |  |  |  |  |  |  AdaNodeList[7:14-7:14]: <empty list>
+|  |  |  |  |  |  |  |  |  |  AdaNodeList[7:15-7:15]: <empty list>
 |  |  |  |  |  |  |  |  |f_end_name: <null>
 |  |  |  |  |  |  |f_exceptions:
-|  |  |  |  |  |  |  AdaNodeList[8:10-8:10]: <empty list>
+|  |  |  |  |  |  |  AdaNodeList[8:11-8:11]: <empty list>
 |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  EndName[9:8-9:11]
 |  |  |  |  |  |  |f_name:

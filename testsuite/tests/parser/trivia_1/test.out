@@ -42,6 +42,7 @@ CompilationUnit
 |  |  |  |  |  -- Hoho
 |  |  |  |  |  \x0a   
 |  |  |  |  |  NullStmt
+|  |  |  |  \x0a
 |  |  |  |  AdaNodeList
 |  |  |  \x0a
 |  |  |   

@@ -60,7 +60,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  |  Str[5:14-5:28]: "H\xe9llo w\xf6rld!"
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[5:29-5:29]: <empty list>
+|  |  |  |  AdaNodeList[5:30-5:30]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[6:5-6:9]
 |  |  |  |f_name:

@@ -6,7 +6,7 @@ ProtectedTypeDecl[1:1-1:186]
 |f_discriminants: <null>
 |f_aspects: <null>
 |f_interfaces:
-|  ParentList[1:37-1:37]: <empty list>
+|  ParentList[1:40-1:40]: <empty list>
 |f_definition:
 |  ProtectedDef[1:41-1:185]
 |  |f_public_part:

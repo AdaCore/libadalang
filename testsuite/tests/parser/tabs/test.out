@@ -71,7 +71,7 @@ CompilationUnit[1:1-8:9]
 |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  Int[7:17-7:20]: 444
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[7:20-7:20]: <empty list>
+|  |  |  |  AdaNodeList[7:21-7:21]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[8:5-8:8]
 |  |  |  |f_name:

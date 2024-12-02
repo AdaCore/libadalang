@@ -33,7 +33,7 @@ CompilationUnit[1:1-4:9]
 |  |  |  |  StmtList[3:4-3:12]
 |  |  |  |  |  NullStmt[3:4-3:12]
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
+|  |  |  |  AdaNodeList[3:12-3:12]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[4:5-4:8]
 |  |  |  |f_name:

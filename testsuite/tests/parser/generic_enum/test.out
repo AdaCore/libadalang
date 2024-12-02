@@ -220,7 +220,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_args:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[16:25-16:25]: <empty list>
 |  |  |  |  |  |  |  |  |  |f_exceptions:
-|  |  |  |  |  |  |  |  |  |  AdaNodeList[16:26-16:26]: <empty list>
+|  |  |  |  |  |  |  |  |  |  AdaNodeList[16:27-16:27]: <empty list>
 |  |  |  |  |  |  |  |  |f_end_name:
 |  |  |  |  |  |  |  |  |  EndName[17:11-17:14]
 |  |  |  |  |  |  |  |  |  |f_name:
@@ -238,7 +238,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |f_generic_pkg_name:
 |  |  |  |  |  |  Id[20:24-20:25]: P
 |  |  |  |  |  |f_params:
-|  |  |  |  |  |  AssocList[20:23-20:23]: <empty list>
+|  |  |  |  |  |  AssocList[20:25-20:25]: <empty list>
 |  |  |  |  |  |f_aspects: <null>
 |  |  |f_stmts:
 |  |  |  HandledStmts[22:6-24:1]
@@ -252,7 +252,7 @@ CompilationUnit[1:1-24:10]
 |  |  |  |  |  |  |f_suffix:
 |  |  |  |  |  |  |  Id[23:9-23:12]: Foo
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[23:12-23:12]: <empty list>
+|  |  |  |  AdaNodeList[23:13-23:13]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[24:5-24:9]
 |  |  |  |f_name:

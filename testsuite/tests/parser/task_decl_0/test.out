@@ -10,7 +10,7 @@ SingleTaskDecl[1:1-1:140]
 |  |f_definition:
 |  |  TaskDef[1:23-1:139]
 |  |  |f_interfaces:
-|  |  |  ParentList[1:22-1:22]: <empty list>
+|  |  |  ParentList[1:25-1:25]: <empty list>
 |  |  |f_public_part:
 |  |  |  PublicPart[1:25-1:119]
 |  |  |  |f_decls:

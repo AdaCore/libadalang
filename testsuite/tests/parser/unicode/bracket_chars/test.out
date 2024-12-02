@@ -69,7 +69,7 @@ CompilationUnit[1:1-7:9]
 |  |  |  |  StmtList[6:4-6:9]
 |  |  |  |  |  NullStmt[6:4-6:9]
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[6:8-6:8]: <empty list>
+|  |  |  |  AdaNodeList[6:9-6:9]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[7:5-7:8]
 |  |  |  |f_name:

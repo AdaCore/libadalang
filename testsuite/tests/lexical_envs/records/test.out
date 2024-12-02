@@ -166,7 +166,7 @@ CompilationUnit[1:1-11:9]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  AssocList[9:19-9:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  CompositeConstraintAssoc[9:19-9:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_ids:
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DiscriminantChoiceList[9:17-9:17]: <empty list>
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  DiscriminantChoiceList[9:19-9:19]: <empty list>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_constraint_expr:
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  BinOp[9:19-9:25]
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |f_left:

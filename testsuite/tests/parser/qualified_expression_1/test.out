@@ -8,11 +8,11 @@ QualExpr[1:1-1:15]
 |  |  AssocList[1:6-1:14]
 |  |  |  AggregateAssoc[1:6-1:9]
 |  |  |  |f_designators:
-|  |  |  |  AlternativesList[1:5-1:5]: <empty list>
+|  |  |  |  AlternativesList[1:6-1:6]: <empty list>
 |  |  |  |f_r_expr:
 |  |  |  |  Id[1:6-1:9]: Bar
 |  |  |  AggregateAssoc[1:11-1:14]
 |  |  |  |f_designators:
-|  |  |  |  AlternativesList[1:9-1:9]: <empty list>
+|  |  |  |  AlternativesList[1:10-1:10]: <empty list>
 |  |  |  |f_r_expr:
 |  |  |  |  Id[1:11-1:14]: Baz

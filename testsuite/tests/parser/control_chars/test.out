@@ -3,19 +3,19 @@ PragmaNodeList[1:9-4:13]
 |  |f_id:
 |  |  Id[1:16-1:19]: Foo
 |  |f_args:
-|  |  BaseAssocList[1:15-1:15]: <empty list>
+|  |  BaseAssocList[1:19-1:19]: <empty list>
 |  PragmaNode[2:2-2:13]
 |  |f_id:
 |  |  Id[2:9-2:12]: Foo
 |  |f_args:
-|  |  BaseAssocList[2:8-2:8]: <empty list>
+|  |  BaseAssocList[2:12-2:12]: <empty list>
 |  PragmaNode[3:2-3:13]
 |  |f_id:
 |  |  Id[3:9-3:12]: Foo
 |  |f_args:
-|  |  BaseAssocList[3:8-3:8]: <empty list>
+|  |  BaseAssocList[3:12-3:12]: <empty list>
 |  PragmaNode[4:2-4:13]
 |  |f_id:
 |  |  Id[4:9-4:12]: Foo
 |  |f_args:
-|  |  BaseAssocList[4:8-4:8]: <empty list>
+|  |  BaseAssocList[4:12-4:12]: <empty list>

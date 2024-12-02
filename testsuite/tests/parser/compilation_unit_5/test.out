@@ -63,7 +63,7 @@ CompilationUnit[1:1-5:11]
 |  |  |  |  |  |  |f_right:
 |  |  |  |  |  |  |  Id[4:13-4:14]: A
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[4:14-4:14]: <empty list>
+|  |  |  |  AdaNodeList[4:15-4:15]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[5:5-5:10]
 |  |  |  |f_name:

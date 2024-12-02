@@ -53,7 +53,7 @@
   <Id "B" foo.adb:3:15-3:16>
   <OpPlus "+" foo.adb:3:17-3:18>
   <Id "C" foo.adb:3:19-3:20>
-  <AdaNodeList foo.adb:3:20-3:20>
+  <AdaNodeList foo.adb:3:21-3:21>
   <EndName foo.adb:4:5-4:8>
   <Id "Sum" foo.adb:4:5-4:8>
   <PragmaNodeList foo.adb:4:9-4:9>

@@ -42,5 +42,5 @@ DeclBlock[1:1-1:47]
 |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  Id[1:39-1:40]: A
 |  |f_exceptions:
-|  |  AdaNodeList[1:41-1:41]: <empty list>
+|  |  AdaNodeList[1:42-1:42]: <empty list>
 |f_end_name: <null>

@@ -354,6 +354,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -544,6 +545,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  OpPlus
 |  |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  |  Int
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -668,6 +670,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  \x0a      
 |  |  |  |  |  |  |  |  |   
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -801,6 +804,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  \x0a      
 |  |  |  |  |  |  |  |  |   
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -850,6 +854,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  DottedName
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
 |  |  |  |  |  |  |  |  |  |  |  |  |  Id
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -897,6 +902,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  Int
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -959,6 +965,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus
 |  |  |  |  |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -1021,6 +1028,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  OpMinus
 |  |  |  |  |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  |  |  |  |  Int
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -1241,6 +1249,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  \x0a      
 |  |  |  |  |  |  |  |  |   
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -1331,6 +1340,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  Int
 |  |  |  |  |  |  |  |  |  \x0a      
 |  |  |  |  |  |  |  |  |   
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   
@@ -1516,6 +1526,7 @@ CompilationUnit
 |  |  |  |  |  |  |  |  |  |  |  |  OpConcat
 |  |  |  |  |  |  |  |  |  |  |  |   
 |  |  |  |  |  |  |  |  |  |  |  |  Str
+|  |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |  |  AdaNodeList
 |  |  |  |  |  |  \x0a   
 |  |  |  |  |  |   

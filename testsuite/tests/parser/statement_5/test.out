@@ -19,5 +19,5 @@ AcceptStmtWithStmts[1:1-1:35]
 |  |  |  |f_expr:
 |  |  |  |  Id[1:25-1:29]: TRUE
 |  |f_exceptions:
-|  |  AdaNodeList[1:29-1:29]: <empty list>
+|  |  AdaNodeList[1:30-1:30]: <empty list>
 |f_end_name: <null>

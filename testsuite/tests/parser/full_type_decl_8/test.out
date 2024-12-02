@@ -30,7 +30,7 @@ ConcreteTypeDecl[1:1-1:79]
 |  |  |  |  |  |f_constraint_expr:
 |  |  |  |  |  |  Int[1:39-1:41]: 12
 |  |f_interfaces:
-|  |  ParentList[1:41-1:41]: <empty list>
+|  |  ParentList[1:42-1:42]: <empty list>
 |  |f_record_extension:
 |  |  RecordDef[1:48-1:78]
 |  |  |f_components:

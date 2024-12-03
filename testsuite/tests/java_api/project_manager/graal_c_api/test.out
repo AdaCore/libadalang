@@ -99,7 +99,7 @@ File foo.1.ada
 
 --- Open p1.gpr with config empty.cgpr ---
 fatal error, cannot load the project tree
-empty.cgpr:5:08: error: unrecognized attribute "Unknown_Attribute"
+empty.cgpr:5:08: error: undefined attribute "Unknown_Attribute"
 ------------------------------------------
 
 --- Open p1.gpr with config idonotexist.cgpr ---

@@ -61,18 +61,18 @@ package body Xrefs_Wrapper is
    -- Subp_Body --
    ---------------
 
-   function Subp_Body
+   function Base_Subp_Body
      (Origin : Ada_Node with Unreferenced;
       DN     : Defining_Name) return Defining_Name
    is
       Decl      : constant Basic_Decl := DN.P_Basic_Decl;
    begin
-      if Decl.Kind /= Ada_Subp_Body then
+      if Decl.Kind not in Ada_Base_Subp_Body then
          return No_Defining_Name;
       end if;
 
-      return Def_Name (Decl.As_Subp_Body.P_Decl_Part);
-   end Subp_Body;
+      return Def_Name (Decl.As_Base_Subp_Body.P_Decl_Part);
+   end Base_Subp_Body;
 
    ---------------------
    -- Generic_Package --

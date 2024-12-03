@@ -133,7 +133,7 @@ Expr: <Id "Identity" test.adb:44:24-44:32>
   type:          None
   expected type: None
 Expr: <OpNeq "/=" test.adb:44:33-44:35>
-  references:    ada.task_identification."="((ada.task_identification.task_id, ada.task_identification.task_id) -> standard.boolean)
+  references:    ada.task_identification."/="((ada.task_identification.task_id, ada.task_identification.task_id) -> standard.boolean)
   type:          None
   expected type: None
 Expr: <Id "Compare" test.adb:44:36-44:43>

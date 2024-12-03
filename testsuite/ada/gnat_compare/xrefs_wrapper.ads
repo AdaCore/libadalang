@@ -27,7 +27,7 @@ package Xrefs_Wrapper is
    --  If Decl is formal declaration in a subprogram body, return the
    --  corresponding declaration in the subprogram declaration.
 
-   function Subp_Body
+   function Base_Subp_Body
      (Origin : Ada_Node;
       DN     : Defining_Name) return Defining_Name;
    --  When a subprogram has both a declaration and a body, GNAT resolves
@@ -68,7 +68,7 @@ package Xrefs_Wrapper is
 
    Post_Wrappers : array (Positive range <>) of Post_Wrapper_Type :=
      (Subp_Body_Formal'Access,
-      Subp_Body'Access,
+      Base_Subp_Body'Access,
       Generic_Package'Access,
       Generic_Subp'Access,
       Private_Type'Access);

@@ -31,7 +31,6 @@
     },
     "AbstractFormalSubpDecl": {},
     "AbstractNode": {},
-    "AbstractNode": {},
     "AbstractStateDecl": {},
     "AbstractStateDeclExpr": {},
     "AbstractStateDeclList": {
@@ -303,7 +302,7 @@
             }
           }
         ],
-        "null": [
+        "absent": [
           {
             "kind": "recurse_field",
             "field": "f_designators"
@@ -1623,7 +1622,7 @@
                     "kind": "ifKind",
                     "field": "f_discriminants",
                     "default": "line",
-                    "null": "whitespace",
+                    "absent": "whitespace",
                     "matchers": []
                   },
                   {
@@ -2217,7 +2216,10 @@
           "kind": "indent",
           "contents": [
             "hardlineWithoutBreakParent",
-            {"kind": "recurse_field", "field": "f_stmts"}
+            {
+              "kind": "recurse_field",
+              "field": "f_stmts"
+            }
           ]
         }
       ]
@@ -4559,7 +4561,7 @@
                             "kind": "recurse_field",
                             "field": "f_has_aliased"
                           },
-                          "null": {
+                          "absent": {
                             "kind": "recurse_field",
                             "field": "f_has_aliased"
                           },
@@ -4583,7 +4585,7 @@
                             "kind": "recurse_field",
                             "field": "f_has_constant"
                           },
-                          "null": {
+                          "absent": {
                             "kind": "recurse_field",
                             "field": "f_has_constant"
                           },
@@ -4610,7 +4612,7 @@
                             },
                             "whitespace"
                           ],
-                          "null": {
+                          "absent": {
                             "kind": "recurse_field",
                             "field": "f_mode"
                           },
@@ -5036,7 +5038,7 @@
             }
           }
         ],
-        "null": [
+        "absent": [
           {
             "kind": "recurse_field",
             "field": "f_designator"
@@ -6239,7 +6241,7 @@
                 ]
               }
             },
-            "null": {
+            "absent": {
               "kind": "ifBreak",
               "groupId": "subp_spec",
               "flatContents": {
@@ -6785,7 +6787,7 @@
                       "flatContents": "line",
                       "breakContents": "hardlineWithoutBreakParent"
                     },
-                    "null": [],
+                    "absent": [],
                     "matchers": []
                   }
                 ]
@@ -6830,7 +6832,10 @@
           "kind": "indent",
           "contents": [
             "hardline",
-            {"kind": "recurse_field", "field": "f_stmts"}
+            {
+              "kind": "recurse_field",
+              "field": "f_stmts"
+            }
           ]
         }
       ]

@@ -5,6 +5,7 @@ test.adb:6:24 => test.adb:6:17 (LAL: ok)
 test.adb:6:28 => test.adb:3:12 (LAL: ok)
 test.adb:7:8 => test.adb:2:12 (LAL: ok)
 test.adb:8:17 => test.adb:2:12 (LAL: ok)
+test.adb:10:16 => test.adb:6:17 (LAL: missing)
 test.adb:10:17 => test.adb:6:17 (LAL: ok)
 test.adb:10:28 => test.adb:3:12 (LAL: ok)
 test.adb:11:8 => test.adb:2:12 (LAL: ok)
@@ -16,10 +17,10 @@ test.adb:17:12 => test.adb:15:7 (LAL: ok)
 test.adb:20:5 => test.adb:1:11 (LAL: ok)
 
 Stats:
-GNAT xrefs have 15 entries
+GNAT xrefs have 16 entries
 LAL xrefs have:
-  * 15 OK entries (100.00%)
+  * 15 OK entries (93.75%)
   * 0 DIFFERENT entries (0.00%)
   * 0 ERROR entries (0.00%)
-  * 0 MISSING entries (0.00%)
+  * 1 MISSING entries (6.25%)
   * 0 ADDITIONAL entries (0.00%)

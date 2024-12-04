@@ -33,7 +33,7 @@
 | | | | | | | | <ParamAssoc foo.adb:5:26-5:41>
 | | | | | | | | | <null node>
 | | | | | | | | | <Str ""Hello, world!"" foo.adb:5:26-5:41>
-| | | | <AdaNodeList foo.adb:5:42-5:42>
+| | | | <AdaNodeList foo.adb:5:43-5:43>
 | | | <EndName foo.adb:6:5-6:8>
 | | | | <Id "Foo" foo.adb:6:5-6:8>
 | <PragmaNodeList foo.adb:6:9-6:9>

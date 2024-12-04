@@ -23,17 +23,17 @@ UpdateAttributeRef[1:1-1:35]
 |  |  |  |  |  |  AssocList[1:15-1:22]
 |  |  |  |  |  |  |  AggregateAssoc[1:15-1:16]
 |  |  |  |  |  |  |  |f_designators:
-|  |  |  |  |  |  |  |  AlternativesList[1:14-1:14]: <empty list>
+|  |  |  |  |  |  |  |  AlternativesList[1:15-1:15]: <empty list>
 |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  Id[1:15-1:16]: I
 |  |  |  |  |  |  |  AggregateAssoc[1:18-1:19]
 |  |  |  |  |  |  |  |f_designators:
-|  |  |  |  |  |  |  |  AlternativesList[1:16-1:16]: <empty list>
+|  |  |  |  |  |  |  |  AlternativesList[1:17-1:17]: <empty list>
 |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  Id[1:18-1:19]: I
 |  |  |  |  |  |  |  AggregateAssoc[1:21-1:22]
 |  |  |  |  |  |  |  |f_designators:
-|  |  |  |  |  |  |  |  AlternativesList[1:19-1:19]: <empty list>
+|  |  |  |  |  |  |  |  AlternativesList[1:20-1:20]: <empty list>
 |  |  |  |  |  |  |  |f_r_expr:
 |  |  |  |  |  |  |  |  Id[1:21-1:22]: I
 |  |  |  |f_r_expr:

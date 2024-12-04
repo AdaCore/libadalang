@@ -31,7 +31,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  Id[1:49-1:53]: TRUE
 |  |  |  |  |  |f_exceptions:
-|  |  |  |  |  |  AdaNodeList[1:53-1:53]: <empty list>
+|  |  |  |  |  |  AdaNodeList[1:54-1:54]: <empty list>
 |  |  |  |  |f_end_name: <null>
 |  |  SelectWhenPart[1:63-1:100]
 |  |  |f_cond_expr: <null>
@@ -58,7 +58,7 @@ SelectStmt[1:1-1:126]
 |  |  |  |  |  |  |  |f_expr:
 |  |  |  |  |  |  |  |  Id[1:89-1:94]: FALSE
 |  |  |  |  |  |f_exceptions:
-|  |  |  |  |  |  AdaNodeList[1:94-1:94]: <empty list>
+|  |  |  |  |  |  AdaNodeList[1:95-1:95]: <empty list>
 |  |  |  |  |f_end_name: <null>
 |  |  SelectWhenPart[1:104-1:114]
 |  |  |f_cond_expr: <null>

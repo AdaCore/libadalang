@@ -50,7 +50,7 @@ CompilationUnit[1:1-6:10]
 |  |  |  |  |  |f_label_name:
 |  |  |  |  |  |  Id[5:10-5:14]: \u308c\u306a\u304c\u3089
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[5:14-5:14]: <empty list>
+|  |  |  |  AdaNodeList[5:15-5:15]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[6:5-6:9]
 |  |  |  |f_name:

@@ -20,7 +20,7 @@ ConcreteTypeDecl[1:1-1:58]
 |  |  |  Id[1:17-1:18]: A
 |  |  |f_constraint: <null>
 |  |f_interfaces:
-|  |  ParentList[1:16-1:16]: <empty list>
+|  |  ParentList[1:18-1:18]: <empty list>
 |  |f_record_extension:
 |  |  RecordDef[1:24-1:57]
 |  |  |f_components:

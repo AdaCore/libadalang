@@ -21,7 +21,7 @@ ConcreteTypeDecl[1:1-1:51]
 |  |  |  |  |  |  AssocList[1:29-1:37]
 |  |  |  |  |  |  |  CompositeConstraintAssoc[1:29-1:37]
 |  |  |  |  |  |  |  |f_ids:
-|  |  |  |  |  |  |  |  DiscriminantChoiceList[1:27-1:27]: <empty list>
+|  |  |  |  |  |  |  |  DiscriminantChoiceList[1:29-1:29]: <empty list>
 |  |  |  |  |  |  |  |f_constraint_expr:
 |  |  |  |  |  |  |  |  BinOp[1:29-1:37]
 |  |  |  |  |  |  |  |  |f_left:

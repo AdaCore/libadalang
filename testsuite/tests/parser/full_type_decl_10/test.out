@@ -24,7 +24,7 @@ ConcreteTypeDecl[1:1-1:27]
 |  |  |  |  Real[1:23-1:26]: 1.0
 |  |  |  |f_range: <null>
 |  |f_interfaces:
-|  |  ParentList[1:22-1:22]: <empty list>
+|  |  ParentList[1:26-1:26]: <empty list>
 |  |f_record_extension: <null>
 |  |f_has_with_private:
 |  |  WithPrivateAbsent[1:26-1:26]

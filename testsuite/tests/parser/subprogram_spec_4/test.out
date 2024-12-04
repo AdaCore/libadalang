@@ -22,7 +22,7 @@ SubpSpec[1:1-1:37]
 |  |  |  AssocList[1:28-1:36]
 |  |  |  |  CompositeConstraintAssoc[1:28-1:36]
 |  |  |  |  |f_ids:
-|  |  |  |  |  DiscriminantChoiceList[1:26-1:26]: <empty list>
+|  |  |  |  |  DiscriminantChoiceList[1:28-1:28]: <empty list>
 |  |  |  |  |f_constraint_expr:
 |  |  |  |  |  BinOp[1:28-1:36]
 |  |  |  |  |  |f_left:

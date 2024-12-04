@@ -52,7 +52,7 @@ ExtendedReturnStmt[1:1-5:1] <<INCOMPLETE>>
 |  |  |  |  |  |f_attribute:
 |  |  |  |  |  |  Id[2:15-2:20]: Range
 |  |  |  |  |  |f_args:
-|  |  |  |  |  |  AssocList[2:15-2:15]: <empty list>
+|  |  |  |  |  |  AssocList[2:20-2:20]: <empty list>
 |  |  |  |  |f_iter_filter: <null>
 |  |  |  |f_stmts:
 |  |  |  |  StmtList[3:7-3:24]
@@ -63,6 +63,6 @@ ExtendedReturnStmt[1:1-5:1] <<INCOMPLETE>>
 |  |  |  |  |  |  Id[3:17-3:23]: Result
 |  |  |  |f_end_name: <null>
 |  |f_exceptions:
-|  |  AdaNodeList[4:12-4:12]: <empty list>
+|  |  AdaNodeList[4:13-4:13]: <empty list>
 
 ==== Checking tree consistency ====

@@ -90,7 +90,7 @@ CompilationUnit[1:1-10:10]
 |  |  |  |  StmtList[9:4-9:9]
 |  |  |  |  |  NullStmt[9:4-9:9]
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[9:8-9:8]: <empty list>
+|  |  |  |  AdaNodeList[9:9-9:9]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[10:5-10:9]
 |  |  |  |f_name:

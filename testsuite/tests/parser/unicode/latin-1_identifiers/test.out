@@ -30,7 +30,7 @@ CompilationUnit[1:1-4:15]
 |  |  |  |  StmtList[3:4-3:9]
 |  |  |  |  |  NullStmt[3:4-3:9]
 |  |  |  |f_exceptions:
-|  |  |  |  AdaNodeList[3:8-3:8]: <empty list>
+|  |  |  |  AdaNodeList[3:9-3:9]: <empty list>
 |  |  |f_end_name:
 |  |  |  EndName[4:5-4:14]
 |  |  |  |f_name:

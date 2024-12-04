@@ -8,5 +8,5 @@ ConcreteTypeDecl[1:1-1:21]
 |  InterfaceTypeDef[1:11-1:20]
 |  |f_interface_kind: <null>
 |  |f_interfaces:
-|  |  ParentList[1:10-1:10]: <empty list>
+|  |  ParentList[1:20-1:20]: <empty list>
 |f_aspects: <null>

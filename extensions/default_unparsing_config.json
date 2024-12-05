@@ -3016,8 +3016,11 @@
               },
               "whitespace",
               {
-                "kind": "recurse_field",
-                "field": "f_iter_expr"
+                "kind": "innerRoot",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_iter_expr"
+                }
               },
               {
                 "kind": "recurse_field",

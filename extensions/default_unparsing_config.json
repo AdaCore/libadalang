@@ -6990,39 +6990,43 @@
       }
     },
     "Variant": {
-      "node": [
-        {
-          "kind": "indent",
-          "contents": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
             "kind": "group",
             "document": [
-              [
-                {
-                  "kind": "text",
-                  "text": "when"
-                },
-                "whitespace",
-                {
-                  "kind": "indent",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_choices"
-                  }
-                },
-                "whitespace",
-                {
-                  "kind": "text",
-                  "text": "=>"
-                }
-              ],
               {
+                "kind": "text",
+                "text": "when"
+              },
+              "whitespace",
+              {
+                "kind": "indent",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_choices"
+                }
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "=>"
+              }
+            ]
+          },
+          {
+            "kind": "group",
+            "document": {
+              "kind": "indent",
+              "contents": {
                 "kind": "recurse_field",
                 "field": "f_components"
               }
-            ]
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "VariantList": {
       "sep": [

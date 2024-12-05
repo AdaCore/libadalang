@@ -236,19 +236,47 @@
           {
             "kind": "align",
             "width": " ",
-            "contents": [
-              {
-                "kind": "recurse_field",
-                "field": "f_ancestor_expr"
-              },
-              {
-                "kind": "innerRoot",
-                "contents": {
-                  "kind": "recurse_field",
-                  "field": "f_assocs"
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "ifKind",
+                  "field": "f_ancestor_expr",
+                  "absent": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_ancestor_expr"
+                    },
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_assocs"
+                    }
+                  ],
+                  "default": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_ancestor_expr"
+                    },
+                    {
+                      "kind": "group",
+                      "document": [
+                        {
+                          "kind": "continuationLineIndent",
+                          "contents": [
+                            "line",
+                            {
+                              "kind": "recurse_field",
+                              "field": "f_assocs"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "matchers": []
                 }
-              }
-            ]
+              ]
+            }
           },
           {
             "kind": "text",
@@ -257,72 +285,70 @@
         ]
       },
       "fields": {
-        "f_ancestor_expr": {
-          "kind": "group",
-          "document": [
-            "recurse",
-            "line",
-            {
-              "kind": "continuationLineIndent",
-              "contents": {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "text",
-                    "text": "with"
-                  },
-                  "line"
-                ]
-              }
-            }
-          ]
-        }
+        "f_ancestor_expr": [
+          "recurse",
+          "line",
+          {
+            "kind": "text",
+            "text": "with"
+          }
+        ]
       }
     },
     "AggregateAssoc": {
-      "node": {
-        "kind": "ifKind",
-        "field": "f_designators",
-        "default": [
-          {
-            "kind": "recurse_field",
-            "field": "f_designators"
-          },
-          {
+      "node": [
+        {
+          "kind": "recurse_field",
+          "field": "f_designators"
+        },
+        {
+          "kind": "ifKind",
+          "field": "f_designators",
+          "default": {
             "kind": "group",
             "document": {
               "kind": "continuationLineIndent",
               "contents": [
                 "softline",
+                "flushLineBreaks",
                 {
                   "kind": "recurse_field",
                   "field": "f_r_expr"
                 }
               ]
             }
-          }
-        ],
-        "absent": [
-          {
-            "kind": "recurse_field",
-            "field": "f_designators"
           },
-          {
-            "kind": "recurse_field",
-            "field": "f_r_expr"
-          }
-        ],
-        "matchers": []
-      },
+          "absent": {
+            "kind": "group",
+            "document": {
+              "kind": "recurse_field",
+              "field": "f_r_expr"
+            }
+          },
+          "matchers": []
+        }
+      ],
       "fields": {
         "f_designators": [
-          "recurse",
+          {
+            "kind": "group",
+            "document": "recurse"
+          },
           "whitespace",
           {
             "kind": "tableSeparator",
-            "text": "=>"
+            "text": ""
           },
-          "whitespace"
+          {
+            "kind": "continuationLineIndent",
+            "contents": [
+              {
+                "kind": "text",
+                "text": "=>"
+              },
+              "whitespace"
+            ]
+          }
         ]
       }
     },
@@ -455,16 +481,20 @@
       ],
       "fields": {
         "f_expr": [
-          "whitespace",
           {
             "kind": "tableSeparator",
-            "text": "=>"
+            "text": ""
           },
           {
             "kind": "group",
             "document": {
               "kind": "continuationLineIndent",
               "contents": [
+                "whitespace",
+                {
+                  "kind": "text",
+                  "text": "=>"
+                },
                 "line",
                 "recurse"
               ]
@@ -686,169 +716,36 @@
     },
     "BinOp": {
       "node": {
-        "kind": "ifKind",
-        "field": "f_op",
-        "default": {
-          "kind": "group",
-          "document": [
-            {
-              "kind": "group",
-              "document": []
-            },
-            {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "group",
-                  "document": [
-                    {
-                      "kind": "recurse_field",
-                      "field": "f_left"
-                    }
-                  ]
-                },
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_op"
-                },
-                "whitespace",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_right"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "matchers": [
+        "kind": "group",
+        "document": [
           {
-            "kind": "OpAnd",
-            "document": {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "recurse_field",
-                  "field": "f_left"
-                },
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_op"
-                },
-                "whitespace",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_right"
-                  }
-                }
-              ]
-            }
+            "kind": "recurse_field",
+            "field": "f_left"
           },
+          "line",
           {
-            "kind": "OpAndThen",
-            "document": {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "recurse_field",
-                  "field": "f_left"
-                },
-                "line",
-                {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "group",
+                "document": {
                   "kind": "recurse_field",
                   "field": "f_op"
                 },
-                "whitespace",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_right"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "kind": "OpOr",
-            "document": {
-              "kind": "group",
-              "document": [
-                {
+                "id": "operator"
+              },
+              "whitespace",
+              "flushLineBreaks",
+              {
+                "kind": "innerRoot",
+                "contents": {
                   "kind": "recurse_field",
-                  "field": "f_left"
+                  "field": "f_right"
                 },
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_op"
-                },
-                "whitespace",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_right"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "kind": "OpOrElse",
-            "document": {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "recurse_field",
-                  "field": "f_left"
-                },
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_op"
-                },
-                "whitespace",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_right"
-                  }
-                }
-              ]
-            }
-          },
-          {
-            "kind": "OpXor",
-            "document": {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "recurse_field",
-                  "field": "f_left"
-                },
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_op"
-                },
-                "whitespace",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_right"
-                  }
-                }
-              ]
-            }
+                "bubbleUpLeadingTrivias": true,
+                "bubbleUpTrailingTrivias": true
+              }
+            ]
           }
         ]
       },
@@ -957,12 +854,12 @@
     },
     "CallExpr": {
       "node": {
-        "kind": "innerRoot",
-        "contents": {
-          "kind": "continuationLineIndent",
+        "kind": "group",
+        "document": {
+          "kind": "innerRoot",
           "contents": {
-            "kind": "group",
-            "document": [
+            "kind": "continuationLineIndent",
+            "contents": [
               {
                 "kind": "group",
                 "document": {
@@ -973,30 +870,10 @@
               },
               {
                 "kind": "ifBreak",
-                "flatContents": [
-                  "line",
-                  {
-                    "kind": "text",
-                    "text": "("
-                  },
-                  {
-                    "kind": "innerRoot",
-                    "contents": {
-                      "kind": "group",
-                      "document": {
-                        "kind": "recurse_field",
-                        "field": "f_suffix"
-                      }
-                    }
-                  },
-                  {
-                    "kind": "text",
-                    "text": ")"
-                  }
-                ],
-                "breakContents": {
-                  "kind": "indent",
-                  "contents": [
+                "groupId": "call_name",
+                "flatContents": {
+                  "kind": "group",
+                  "document": [
                     "line",
                     {
                       "kind": "text",
@@ -1011,17 +888,53 @@
                           "field": "f_suffix"
                         }
                       }
-                    },
-                    {
-                      "kind": "text",
-                      "text": ")"
                     }
                   ]
                 },
-                "groupId": "call_name"
+                "breakContents": {
+                  "kind": "align",
+                  "width": "   ",
+                  "contents": {
+                    "kind": "group",
+                    "document": [
+                      "line",
+                      {
+                        "kind": "text",
+                        "text": "("
+                      },
+                      {
+                        "kind": "innerRoot",
+                        "contents": {
+                          "kind": "group",
+                          "document": {
+                            "kind": "recurse_field",
+                            "field": "f_suffix"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "kind": "text",
+                "text": ")"
               }
-            ]
-          }
+            ],
+            "bubbleUpLeadingTrivias": true,
+            "bubbleUpTrailingTrivias": true
+          },
+          "bubbleUpLeadingTrivias": true,
+          "bubbleUpTrailingTrivias": true
+        }
+      },
+      "fields": {
+        "f_name": {
+          "kind": "recurse_flatten",
+          "if": [
+            "DottedName",
+            "CallExpr"
+          ]
         }
       }
     },
@@ -2184,21 +2097,28 @@
     },
     "DottedName": {
       "node": {
-        "kind": "innerRoot",
-        "contents": {
-          "kind": "continuationLineIndent",
+        "kind": "group",
+        "document": {
+          "kind": "innerRoot",
           "contents": {
-            "kind": "group",
-            "document": "recurse"
-          }
-        }
+            "kind": "continuationLineIndent",
+            "contents": "recurse",
+            "bubbleUpLeadingTrivias": true,
+            "bubbleUpTrailingTrivias": true
+          },
+          "bubbleUpLeadingTrivias": true,
+          "bubbleUpTrailingTrivias": true
+        },
+        "bubbleUpLeadingTrivias": true,
+        "bubbleUpTrailingTrivias": true
       },
       "fields": {
         "f_prefix": [
           {
             "kind": "recurse_flatten",
             "if": [
-              "DottedName"
+              "DottedName",
+              "CallExpr"
             ]
           },
           "softline"
@@ -2808,20 +2728,21 @@
           "hardline",
           {
             "kind": "group",
-            "document": [
-              {
-                "kind": "text",
-                "text": "is"
-              },
-              "whitespace",
-              {
-                "kind": "indent",
-                "contents": {
+            "document": {
+              "kind": "indent",
+              "contents": [
+                {
+                  "kind": "text",
+                  "text": "is"
+                },
+                "whitespace",
+                "flushLineBreaks",
+                {
                   "kind": "recurse_field",
                   "field": "f_expr"
                 }
-              }
-            ]
+              ]
+            }
           },
           {
             "kind": "recurse_field",
@@ -4143,46 +4064,60 @@
           "kind": "group",
           "document": [
             {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "recurse_field",
-                  "field": "f_expr"
-                },
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_op"
-                }
-              ],
-              "id": "expr_with_op"
+              "kind": "recurse_field",
+              "field": "f_expr"
             },
+            "line",
             {
-              "kind": "ifBreak",
-              "flatContents": {
-                "kind": "continuationLineIndent",
-                "contents": [
-                  "line",
+              "kind": "group",
+              "document": {
+                "kind": "ifKind",
+                "field": "f_op",
+                "default": {
+                  "kind": "align",
+                  "width": " ",
+                  "contents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_op"
+                    },
+                    "whitespace",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_membership_exprs"
+                    }
+                  ],
+                  "bubbleUpLeadingTrivias": true,
+                  "bubbleUpTrailingTrivias": true
+                },
+                "matchers": [
                   {
-                    "kind": "recurse_field",
-                    "field": "f_membership_exprs"
+                    "kind": "OpNotIn",
+                    "document": {
+                      "kind": "align",
+                      "width": "     ",
+                      "contents": [
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_op"
+                        },
+                        "whitespace",
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_membership_exprs"
+                        }
+                      ],
+                      "bubbleUpLeadingTrivias": true,
+                      "bubbleUpTrailingTrivias": true
+                    }
                   }
                 ]
-              },
-              "breakContents": [
-                "whitespace",
-                {
-                  "kind": "innerRoot",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_membership_exprs"
-                  }
-                }
-              ],
-              "groupId": "expr_with_op"
+              }
             }
           ]
-        }
+        },
+        "bubbleUpLeadingTrivias": true,
+        "bubbleUpTrailingTrivias": true
       }
     },
     "ModIntTypeDef": {
@@ -5185,7 +5120,9 @@
               "kind": "text",
               "text": ")"
             }
-          ]
+          ],
+          "bubbleUpLeadingTrivias": true,
+          "bubbleUpTrailingTrivias": true
         }
       }
     },
@@ -5193,23 +5130,34 @@
     "ParenExpr": {
       "node": {
         "kind": "group",
-        "document": [
-          {
-            "kind": "text",
-            "text": "("
-          },
-          {
-            "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_expr"
+        "document": {
+          "kind": "align",
+          "width": " ",
+          "contents": [
+            {
+              "kind": "text",
+              "text": "("
+            },
+            {
+              "kind": "innerRoot",
+              "contents": [
+                "flushLineBreaks",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_expr"
+                }
+              ],
+              "bubbleUpLeadingTrivias": true,
+              "bubbleUpTrailingTrivias": true
+            },
+            {
+              "kind": "text",
+              "text": ")"
             }
-          },
-          {
-            "kind": "text",
-            "text": ")"
-          }
-        ]
+          ],
+          "bubbleUpLeadingTrivias": true,
+          "bubbleUpTrailingTrivias": true
+        }
       }
     },
     "ParentList": {
@@ -5606,8 +5554,11 @@
             },
             "whitespace",
             {
-              "kind": "recurse_field",
-              "field": "f_expr"
+              "kind": "innerRoot",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_expr"
+              }
             }
           ]
         }
@@ -5918,37 +5869,62 @@
       }
     },
     "RelationOp": {
-      "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "group",
-            "document": []
-          },
-          {
-            "kind": "group",
-            "document": [
-              {
+      "node": [
+        {
+          "kind": "group",
+          "document": []
+        },
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "group",
+              "document": {
                 "kind": "recurse_field",
                 "field": "f_left"
-              },
-              "line",
-              {
-                "kind": "recurse_field",
-                "field": "f_op"
-              },
-              "whitespace",
-              {
-                "kind": "innerRoot",
-                "contents": {
-                  "kind": "recurse_field",
-                  "field": "f_right"
-                }
               }
-            ]
-          }
-        ]
-      }
+            },
+            "line",
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_op"
+                  },
+                  "id": "relation_operator"
+                },
+                {
+                  "kind": "ifBreak",
+                  "groupId": "relation_operator",
+                  "flatContents": {
+                    "kind": "innerRoot",
+                    "contents": [
+                      "whitespace",
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_right"
+                      }
+                    ]
+                  },
+                  "breakContents": {
+                    "kind": "group",
+                    "document": [
+                      "hardlineWithoutBreakParent",
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_right"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     "RenamingClause": {
       "node": {

@@ -1,2 +1,4 @@
 driver: ada-api
 main: main.adb
+control:
+  - [XFAIL, "True", "Pending resolution of eng/toolchain/gnat#326"]

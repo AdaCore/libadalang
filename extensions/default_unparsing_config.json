@@ -3660,6 +3660,7 @@
         },
         "f_else_expr": [
           "line",
+          "flushLineBreaks",
           {
             "kind": "continuationLineIndent",
             "contents": {

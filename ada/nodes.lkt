@@ -7486,6 +7486,12 @@ class BaseTypeDecl: BasicDecl {
         self.access_def().do((d) => not d is AccessToSubpDef)
         or not self.get_imp_deref().is_null
 
+    |" If self is an implicitly dereferenceable type, return the type after
+    |" implicit dereference, otherwise return itself.
+    @with_dynvars(origin)
+    fun implicitly_derefed_type(): Entity[BaseTypeDecl] =
+        if self.is_implicit_deref() then self.accessed_type() else self
+
     |" Return the specific type under a class-wide type. Consider for example:
     |"
     |" .. code-block:: ada
@@ -7937,9 +7943,7 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin)
     fun iterable_comp_type_or_null(): Entity[BaseTypeDecl] =
         if node.is_null then null[Entity[BaseTypeDecl]]
-        else
-            (if self.is_implicit_deref() then self.accessed_type() else self)
-            .iterable_comp_type()
+        else self.implicitly_derefed_type().iterable_comp_type()
 
     |" Given a dotted expression A.B, where container_type is the container
     |" type for B, and self is a potential type for A, returns whether self is
@@ -18164,9 +18168,7 @@ class CallExpr: Name {
     fun subscriptable_type_equation(typ: Entity[BaseTypeDecl]): Equation = {
         # We know that the parent expression is a call, therefore we should
         # consider the type *after any implicit dereference*.
-        val derefed_typ = typ.do(
-            (t) => if t.is_implicit_deref() then t.accessed_type() else t
-        );
+        val derefed_typ = typ.implicitly_derefed_type();
         val atd = derefed_typ?.array_def();
 
         # First handle the case where this is an access to subprogram
@@ -18236,10 +18238,10 @@ class CallExpr: Name {
             }
 
         # Handle the case where the type has user defined indexing
-        elif typ?.has_ud_indexing()
+        elif derefed_typ?.has_ud_indexing()
         then
-            (typ.constant_indexing_fns()
-             & typ.variable_indexing_fns()).logic_any((fn) => {
+            (derefed_typ.constant_indexing_fns()
+             & derefed_typ.variable_indexing_fns()).logic_any((fn) => {
                 val formals =
                     fn.subp_spec_or_null().unpacked_formal_params();
                 val ret_type = fn.subp_spec_or_null().return_type();
@@ -18326,15 +18328,19 @@ class CallExpr: Name {
     |" call expr on an instance of the type, like an array type, or an access
     |" to subprogram type.
     @with_dynvars(env, origin)
-    fun check_for_type(typ: Entity[BaseTypeDecl]): Bool = typ.do((typ) => {
+    fun check_for_type(typ: Entity[BaseTypeDecl]): Bool = typ.do((t) => {
         # Algorithm: We're Recursing down call expression and component types
         # up to self, checking for each level that the call expression
         # corresponds.
         bind origin = node.origin_node();
 
+        # We know that the parent expression is a call, therefore we should
+        # consider the type *after any implicit dereference*.
+        val typ = t.implicitly_derefed_type();
+
         (
             # Arrays
-            typ.array_def_with_deref().do(
+            typ.array_def().do(
                 (atd) => match node.suffix {
                     # Array indexing case
                     case al: AssocList =>

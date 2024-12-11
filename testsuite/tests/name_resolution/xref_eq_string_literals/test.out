@@ -16,12 +16,12 @@ Expr: <Str ""abc"" teststrlit.adb:13:9-13:14>
 Resolving xrefs for node <AssignStmt teststrlit.adb:16:4-16:15>
 ***************************************************************
 
-Name resolution failed as expected with:
-
 teststrlit.adb:16:9: error: Int does not allow string literals
 16 |    I := "abc";
    |         ^^^^^
 
+
+Expected name resolution failure for node <AssignStmt teststrlit.adb:16:4-16:15>
 
 Resolving xrefs for node <AssignStmt teststrlit.adb:19:4-19:21>
 ***************************************************************

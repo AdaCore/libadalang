@@ -57,5 +57,7 @@ Expr: <Id "Process" test.adb:16:13-16:20>
   type:          None
   expected type: None
 
+Expected name resolution failure for block <BeginBlock test.adb:8:4-18:8>
+
 
 Done.

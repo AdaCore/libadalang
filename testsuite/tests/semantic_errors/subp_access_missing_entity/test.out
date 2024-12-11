@@ -1,0 +1,15 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["A"] test.adb:6:4-6:25>
+*************************************************************
+
+test.adb:6:15: error: no such entity
+6 |    A : Acc := Fo'Access;
+  |               ^^
+
+
+Expected name resolution failure for node <ObjectDecl ["A"] test.adb:6:4-6:25>
+
+
+Done.

@@ -4,12 +4,12 @@ Analyzing test.adb
 Resolving xrefs for node <ObjectDecl ["V"] test.adb:12:4-12:29>
 ***************************************************************
 
-Name resolution failed as expected with:
-
 test.adb:12:24: error: expected Boolean, got universal integer
 12 |    V : Integer := Foo (3).Y;
    |                        ^
 
+
+Expected name resolution failure for node <ObjectDecl ["V"] test.adb:12:4-12:29>
 
 
 Done.

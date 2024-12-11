@@ -4,8 +4,6 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt test.adb:7:4-7:20>
 *******************************************************
 
-Name resolution failed as expected with:
-
 test.adb:7:9: error: no matching alternative (of 2 candidates)
 7 |    X := Foo (True);
   |         ^^^
@@ -18,6 +16,8 @@ test.adb:4:22: info: expected Integer, got Boolean
 4 |    function Foo (X : Integer) return Integer is (0);
   |                      ^^^^^^^
 
+
+Expected name resolution failure for node <AssignStmt test.adb:7:4-7:20>
 
 
 Done.

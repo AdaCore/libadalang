@@ -28,12 +28,12 @@ Expr: <Id "V4" main.adb:13:10-13:12>
 Resolving xrefs for node <AssignStmt main.adb:16:4-16:12>
 *********************************************************
 
-Name resolution failed as expected with:
-
 main.adb:16:9: error: expected Vector [instance at line 4], got Vector [instance at line 5]
 16 |    V := V4;
    |         ^^
 
+
+Expected name resolution failure for node <AssignStmt main.adb:16:4-16:12>
 
 
 Done.

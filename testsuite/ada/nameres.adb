@@ -37,6 +37,7 @@ procedure Nameres is
    type File_Stats_Record is record
       Filename           : Unbounded_String;
       Nb_Successes       : Natural  := 0;
+      Nb_UOK             : Natural  := 0;
       Nb_Fails           : Natural  := 0;
       Nb_Xfails          : Natural  := 0;
       Nb_Total           : Natural  := 0;
@@ -275,6 +276,15 @@ procedure Nameres is
      (Ignored_Pragma, Error_In_Pragma, Pragma_Config, Pragma_Section,
       Pragma_Test, Pragma_Test_Statement, Pragma_Test_Statement_UID,
       Pragma_Test_Block, Pragma_Find_All_References);
+
+   subtype Test_Pragma is Supported_Pragma
+   range Pragma_Test_Statement .. Pragma_Test_Block;
+
+   type Resolution_Status is (Success, Failure);
+
+   type Failure_Handling_Kind
+   is (Expect_Success, Expect_Failure, Accept_Failure);
+
    type Decoded_Pragma (Kind : Supported_Pragma) is record
       case Kind is
          when Ignored_Pragma =>
@@ -301,21 +311,20 @@ procedure Nameres is
             Test_Debug : Boolean;
 
          when Pragma_Test_Statement
-            | Pragma_Test_Statement_UID =>
+            | Pragma_Test_Statement_UID
             --  Run name resolution on the statement that precedes this pragma.
             --
             --  For the UID version, but show the unique_identifying name of
             --  the declarations instead of the node image.  This is used in
             --  case the node might change (for example in tests where we
             --  resolve runtime things).
-            Target_Stmt : Ada_Node;
-            Expect_Fail : Boolean;
 
-         when Pragma_Test_Block =>
+            | Pragma_Test_Block =>
             --  Run name resolution on all xref entry points in the statement
             --  that precedes this pragma, or on the whole compilation unit if
             --  top-level.
-            Target_Block : Ada_Node;
+            Target          : Ada_Node;
+            Expected_Status : Resolution_Status;
 
          when Pragma_Find_All_References =>
             --  Run the find-all-references property designated by Refs_Kind on
@@ -430,9 +439,9 @@ procedure Nameres is
       --  Return an Error_In_Pragma record for an unexpected number of pragma
       --  arguments.
       function Decode_Pragma_With_Expect_Fail_Argument
-        (Kind : Supported_Pragma;
+        (Kind   : Supported_Pragma;
          Target : Ada_Node;
-         Args : Args_Array) return Decoded_Pragma;
+         Args   : Args_Array) return Decoded_Pragma;
       --  Decode a Pragma that can have one `Expect_Fail` argument (i.e.
       --  Test_Statement or Test_Statement_UID).
 
@@ -445,7 +454,7 @@ procedure Nameres is
          Target : Ada_Node;
          Args : Args_Array) return Decoded_Pragma
       is
-         Expect_Fail : Boolean := False;
+         Expected_Status : Resolution_Status := Success;
       begin
          if Args'Length not in 0 .. 1 then
             return N_Args_Error (0, 1);
@@ -458,7 +467,9 @@ procedure Nameres is
                Expr : constant Text_Type := Args (1).F_Expr.Text;
             begin
                if Name = "Expect_Fail" then
-                  Expect_Fail := Decode_Boolean_Literal (Expr);
+                  if Decode_Boolean_Literal (Expr) then
+                     Expected_Status := Failure;
+                  end if;
                else
                   return Error ("Expect `Expect_Fail` argument, got: "
                                 & Image (Name));
@@ -466,10 +477,8 @@ procedure Nameres is
             end;
          end if;
 
-         if Kind = Pragma_Test_Statement then
-            return (Pragma_Test_Statement, Target, Expect_Fail);
-         elsif Kind = Pragma_Test_Statement_UID then
-            return (Pragma_Test_Statement_UID, Target, Expect_Fail);
+         if Kind in Test_Pragma then
+            return (Test_Pragma'(Kind), Target, Expected_Status);
          else
             return Error ("Unsupported pragma kind: " & Kind'Image);
          end if;
@@ -545,9 +554,6 @@ procedure Nameres is
            (Pragma_Test_Statement_UID, Node.Previous_Sibling, Args);
 
       elsif Name = "Test_Block" then
-         if Args'Length /= 0 then
-            return N_Args_Error (0);
-         end if;
          declare
             Parent : constant Ada_Node := Node.Parent.Parent;
             Target : constant Ada_Node :=
@@ -555,7 +561,8 @@ procedure Nameres is
                then Parent.As_Compilation_Unit.F_Body
                else Node.Previous_Sibling);
          begin
-            return (Pragma_Test_Block, Target);
+            return Decode_Pragma_With_Expect_Fail_Argument
+              (Pragma_Test_Block, Target, Args);
          end;
 
       elsif Name = "Find_All_References" then
@@ -872,6 +879,8 @@ procedure Nameres is
       --  False if processing pragmas has output at least one line. True
       --  otherwise.
 
+      Status : Resolution_Status;
+
       function Is_Pragma_Node (N : Ada_Node) return Boolean is
         (Kind (N) = Ada_Pragma_Node);
 
@@ -879,11 +888,12 @@ procedure Nameres is
       --  Decode a pragma node and run actions accordingly (trigger name
       --  resolution, output a section name, ...).
 
-      procedure Resolve_Node
-        (Node                     : Ada_Node;
-         Show_Slocs               : Boolean := True;
-         In_Generic_Instantiation : Boolean := False;
-         Expect_Fail              : Boolean := False);
+      function Resolve_Node
+        (Node             : Ada_Node;
+         Show_Slocs       : Boolean := True;
+         In_Instantiation : Boolean := False;
+         Failure_Handling : Failure_Handling_Kind := Expect_Success)
+      return Resolution_Status;
       --  Run name resolution testing on Node.
       --
       --  This involves running P_Resolve_Names on Node, displaying resolved
@@ -899,11 +909,46 @@ procedure Nameres is
       --  Return whether we should use N as an entry point for name resolution
       --  testing.
 
-      procedure Resolve_Block
-        (Block                    : Ada_Node;
-         In_Generic_Instantiation : Boolean := False);
+      function Resolve_Block
+        (Block            : Ada_Node;
+         In_Instantiation : Boolean := False;
+         Expect_Failure   : Boolean := False) return Resolution_Status;
       --  Call Resolve_Node on all xref entry points (according to
       --  Is_Xref_Entry_Point) in Block except for Block itself.
+
+      procedure Notify_Resolution_Status
+        (Expected_Status, Real_Status : Resolution_Status;
+         Msg_Suffix                   : String);
+      --  Print messages depending on the status of the resolution, and on
+      --  whether ``--quiet`` was passed or not.
+
+      ------------------------------
+      -- Notify_Resolution_Status --
+      ------------------------------
+
+      procedure Notify_Resolution_Status
+        (Expected_Status, Real_Status : Resolution_Status;
+         Msg_Suffix                   : String) is
+      begin
+         if not Quiet then
+            if Expected_Status = Failure and then Real_Status = Success then
+               Put
+                 ("A failure was expected but name resolution succeeded");
+               Put_Line (Msg_Suffix);
+               Put_Line ("");
+            elsif Expected_Status = Success and then Real_Status = Failure then
+               Put
+                 ("Name resolution failed");
+               Put_Line (Msg_Suffix);
+               Put_Line ("");
+            elsif Expected_Status = Failure and then Real_Status = Failure then
+               Put
+                 ("Expected name resolution failure");
+               Put_Line (Msg_Suffix);
+               Put_Line ("");
+            end if;
+         end if;
+      end Notify_Resolution_Status;
 
       --------------------
       -- Process_Pragma --
@@ -968,13 +1013,25 @@ procedure Nameres is
             Trigger_Envs_Debug (False);
 
          when Pragma_Test_Statement | Pragma_Test_Statement_UID =>
-            Resolve_Node (Node        => P.Target_Stmt,
-                          Show_Slocs  => P.Kind /= Pragma_Test_Statement_UID,
-                          Expect_Fail => P.Expect_Fail);
+            Status := Resolve_Node
+              (Node            => P.Target,
+               Show_Slocs      => P.Kind /= Pragma_Test_Statement_UID,
+               Failure_Handling => (if P.Expected_Status = Failure
+                                    then Expect_Failure
+                                    else Expect_Success));
+
+            Notify_Resolution_Status
+              (P.Expected_Status, Status, " for node " & P.Target.Image);
+
             Empty := False;
 
          when Pragma_Test_Block =>
-            Resolve_Block (P.Target_Block, False);
+            Status := Resolve_Block
+              (P.Target, False,
+               (if P.Expected_Status = Failure then True else False));
+            Notify_Resolution_Status
+              (P.Expected_Status, Status,
+               " for block " & P.Target.Image);
             Empty := False;
 
          when Pragma_Find_All_References =>
@@ -992,9 +1049,13 @@ procedure Nameres is
       -- Resolve_Block --
       -------------------
 
-      procedure Resolve_Block
-        (Block                    : Ada_Node;
-         In_Generic_Instantiation : Boolean := False) is
+      function Resolve_Block
+        (Block            : Ada_Node;
+         In_Instantiation : Boolean := False;
+         Expect_Failure   : Boolean := False) return Resolution_Status
+      is
+
+         Ret : Resolution_Status := Success;
 
          procedure Resolve_Entry_Point (Node : Ada_Node);
          --  Callback for tree traversal in Block
@@ -1006,9 +1067,15 @@ procedure Nameres is
          procedure Resolve_Entry_Point (Node : Ada_Node) is
          begin
             if Node /= Block then
-               Resolve_Node
+               if Resolve_Node
                  (Node,
-                  In_Generic_Instantiation => In_Generic_Instantiation);
+                  In_Instantiation => In_Instantiation,
+                  Failure_Handling => (if Expect_Failure
+                                       then Accept_Failure
+                                       else Expect_Success)) = Failure
+               then
+                  Ret := Failure;
+               end if;
             end if;
          end Resolve_Entry_Point;
 
@@ -1016,17 +1083,20 @@ procedure Nameres is
             Find (Block, Is_Xref_Entry_Point'Access);
       begin
          It.Iterate (Resolve_Entry_Point'Access);
+         return Ret;
       end Resolve_Block;
 
       ------------------
       -- Resolve_Node --
       ------------------
 
-      procedure Resolve_Node
-        (Node                     : Ada_Node;
-         Show_Slocs               : Boolean := True;
-         In_Generic_Instantiation : Boolean := False;
-         Expect_Fail              : Boolean := False) is
+      function Resolve_Node
+        (Node             : Ada_Node;
+         Show_Slocs       : Boolean := True;
+         In_Instantiation : Boolean := False;
+         Failure_Handling : Failure_Handling_Kind := Expect_Success)
+      return Resolution_Status
+      is
 
          function Print_Node (N : Ada_Node'Class) return Visit_Status;
          --  Callback for the tree traversal in Node. Print xref info for N.
@@ -1099,6 +1169,10 @@ procedure Nameres is
          Dummy : Visit_Status;
          Obj   : aliased J.JSON_Value;
 
+         Ret   : Resolution_Status := Success;
+
+         Xpct_Failure : constant Boolean :=
+           Failure_Handling in Expect_Failure | Accept_Failure;
       begin
          --  Pre-processing output
 
@@ -1118,19 +1192,14 @@ procedure Nameres is
          --  Perform name resolution
 
          if P_Resolve_Names (Node) or else Args.Imprecise_Fallback.Get then
-            if Expect_Fail then
-               if not Quiet then
-                  Put_Line
-                    ("A failure was expected but name resolution succeeded:");
-                  Put_Line ("");
-               end if;
-               Increment (Stats.Nb_Fails);
-            else
-               Increment (Stats.Nb_Successes);
-            end if;
-
             if not Args.Only_Show_Failures.Get then
                Dummy := Traverse (Node, Print_Node'Access);
+            end if;
+
+            if Failure_Handling = Expect_Failure then
+               Increment (Stats.Nb_UOK);
+            else
+               Increment (Stats.Nb_Successes);
             end if;
 
             if Output_JSON then
@@ -1138,22 +1207,20 @@ procedure Nameres is
             end if;
          else
             if not Quiet then
-               if Expect_Fail then
-                  Put_Line ("Name resolution failed as expected with:");
-                  Put_Line ("");
-               end if;
                Emit_Diagnostics (Node, P_Nameres_Diagnostics (Node));
             end if;
 
-            if Expect_Fail then
-               Increment (Stats.Nb_Xfails);
-            else
+            if Failure_Handling = Expect_Success then
                Increment (Stats.Nb_Fails);
+            else
+               Increment (Stats.Nb_Xfails);
             end if;
 
             if Output_JSON then
                Obj.Set_Field ("success", False);
             end if;
+
+            Ret := Failure;
          end if;
 
          --  Traverse generics instantiations
@@ -1170,24 +1237,37 @@ procedure Nameres is
                      Put_Title
                        ('*', "Traversing generic node " & Generic_Decl.Image);
                   end if;
-                  Resolve_Block (Generic_Decl.As_Ada_Node, True);
+
+                  if Resolve_Block
+                    (Generic_Decl.As_Ada_Node, True, Xpct_Failure) = Failure
+                  then
+                     Ret := Failure;
+                  end if;
+
                   if not Generic_Body.Is_Null then
                      if Verbose then
                         Put_Title
                           ('*',
                            "Traversing generic node " & Generic_Body.Image);
                      end if;
-                     Resolve_Block (Generic_Body.As_Ada_Node, True);
+                     if Resolve_Block
+                       (Generic_Body.As_Ada_Node, True, Xpct_Failure) = Failure
+                     then
+                        Ret := Failure;
+                     end if;
                   end if;
                end;
-            elsif In_Generic_Instantiation and then
+            elsif In_Instantiation and then
                Node.Parent.Kind in Ada_Body_Stub
                --  Body_Stub isn't an entry point, but its Subp_Spec is. So,
                --  check if Node.Parent is a Body_Stub.
             then
-               Resolve_Block
+               if Resolve_Block
                  (Node.Parent.As_Body_Stub.P_Next_Part_For_Decl.As_Ada_Node,
-                  True);
+                  True, Xpct_Failure) = Failure
+               then
+                  Ret := Failure;
+               end if;
             end if;
          end if;
 
@@ -1199,6 +1279,9 @@ procedure Nameres is
          if Output_JSON then
             Ada.Text_IO.Put_Line (Obj.Write);
          end if;
+
+         return Ret;
+
       exception
          when E : others =>
             Put_Line
@@ -1206,6 +1289,8 @@ procedure Nameres is
             Dump_Exception (E, Obj);
 
             Increment (Stats.Nb_Fails);
+
+            return Failure;
       end Resolve_Node;
 
    begin
@@ -1238,7 +1323,11 @@ procedure Nameres is
       end if;
 
       if Args.Resolve_All.Get or Args.Solve_Line.Get /= 0 then
-         Resolve_Block (Root (Unit));
+         declare
+            Dummy_Res : Resolution_Status := Resolve_Block (Root (Unit));
+         begin
+            null;
+         end;
       end if;
 
       --  Run through all pragmas and execute the associated actions
@@ -1255,7 +1344,8 @@ procedure Nameres is
 
       --  Store the total number of nodes to avoid recomputing it each time
       --  it is needed.
-      Stats.Nb_Total := Stats.Nb_Successes + Stats.Nb_Fails + Stats.Nb_Xfails;
+      Stats.Nb_Total := Stats.Nb_Successes + Stats.Nb_Fails
+                        + Stats.Nb_Xfails + Stats.Nb_UOK;
 
       --  Compute elapsed time for processing this file
       Stats.Processing_Time := Clock - Start;
@@ -1550,6 +1640,7 @@ procedure Nameres is
       Nb_Successes         : Natural := 0;
       Nb_Fails             : Natural := 0;
       Nb_Xfails            : Natural := 0;
+      Nb_UOK               : Natural := 0;
       Total                : Natural := 0;
       Max_Nb_Fails         : Natural := 0;
       File_With_Most_Fails : Unbounded_String;
@@ -1559,6 +1650,7 @@ procedure Nameres is
             Nb_Successes := Nb_Successes + File_Stats.Nb_Successes;
             Nb_Fails     := Nb_Fails + File_Stats.Nb_Fails;
             Nb_Xfails    := Nb_Xfails + File_Stats.Nb_Xfails;
+            Nb_UOK       := Nb_UOK + File_Stats.Nb_UOK;
 
             if File_Stats.Nb_Fails > Max_Nb_Fails then
                Max_Nb_Fails := File_Stats.Nb_Fails;
@@ -1571,7 +1663,7 @@ procedure Nameres is
          end loop;
       end loop;
 
-      Total := Nb_Successes + Nb_Fails + Nb_Xfails;
+      Total := Nb_Successes + Nb_Fails + Nb_Xfails + Nb_UOK;
 
       if Total > 0 then
          declare
@@ -1585,15 +1677,19 @@ procedure Nameres is
 
             Percent_XFAIL : constant Percentage :=
               Percentage (Float (Nb_Xfails) / Float (Total) * 100.0);
+
+            Percent_UOK : constant Percentage :=
+              Percentage (Float (Nb_UOK) / Float (Total) * 100.0);
          begin
             Put_Line ("Resolved " & Total'Image & " nodes");
             Put_Line ("Of which" & Nb_Successes'Image
                       & " successes - " & Percent_Successes'Image & "%");
             Put_Line ("Of which" & Nb_Fails'Image
                       & " failures - " & Percent_Failures'Image & "%");
-
             Put_Line ("Of which" & Nb_Xfails'Image
                       & " XFAILS - " & Percent_XFAIL'Image & "%");
+            Put_Line ("Of which" & Nb_UOK'Image
+                      & " UOK - " & Percent_UOK'Image & "%");
             Put_Line ("File with most failures ("
                       & Max_Nb_Fails'Image
                       & "):" & Relative_File_Path (+File_With_Most_Fails));

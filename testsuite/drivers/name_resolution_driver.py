@@ -55,9 +55,6 @@ class NameResolutionDriver(BaseDriver):
 
     * ``runtime_name``: Name of the runtime to use when loading the project
       (``--RTS`` nameres switch).
-
-    * ``expect_fail``: Do not abort the nameres application if failures are
-       expected during resolution.
     """
 
     perf_supported = True
@@ -149,9 +146,6 @@ class NameResolutionDriver(BaseDriver):
         runtime_name = self.test_env.get("runtime_name")
         if runtime_name:
             args.append(f"--RTS={runtime_name}")
-
-        if self.test_env.get("expect_fail"):
-            args.append("--no-abort-on-failures")
 
         # Add optional explicit list of sources to process
         args += input_sources

@@ -4,22 +4,22 @@ Analyzing test.adb
 Resolving xrefs for node <AssignStmt test.adb:6:7-6:21>
 *******************************************************
 
-Name resolution failed as expected with:
-
 test.adb:6:15: error: expected Integer, got Boolean
 6 |       X := F (True);
   |               ^^^^
 
 
+Expected name resolution failure for node <AssignStmt test.adb:6:7-6:21>
+
 Resolving xrefs for node <ReturnStmt test.adb:9:7-9:20>
 *******************************************************
-
-Name resolution failed as expected with:
 
 test.adb:9:14: error: expected Boolean, got Integer
 9 |       return F (X);
   |              ^^^^^
 
+
+Expected name resolution failure for node <ReturnStmt test.adb:9:7-9:20>
 
 
 Done.

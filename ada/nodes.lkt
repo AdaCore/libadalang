@@ -2676,11 +2676,10 @@ class AspectAssoc: AdaNode {
                 sequential=false,
                 all_els=true
             )
-            %and BasicDecl.is_put_image_subprogram_for_type%(self
-            .expr
-            .as[Name]
-            .ref_var(),
-            target.as![BaseTypeDecl].as_entity)
+            %and BasicDecl.is_put_image_subprogram_for_type%(
+                self.expr.as[Name].ref_var(),
+                target.as![BaseTypeDecl].as_entity
+            )
 
         # Global aspect. Depends is always an aggregate, so doesn't need an
         # entry.
@@ -2736,11 +2735,10 @@ class AspectAssoc: AdaNode {
             then self.expr.as![Name].xref_type_equation()
             else
                 self.expr.as![Name].xref_no_overloading(all_els=true)
-                %and BasicDecl.subp_decl_match_signature%(self
-                .expr
-                .as![Name]
-                .ref_var(),
-                target.as[BasicDecl].as_entity)
+                %and BasicDecl.subp_decl_match_signature%(
+                    self.expr.as![Name].ref_var(),
+                    target.as[BasicDecl].as_entity
+                )
 
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
@@ -2875,23 +2873,21 @@ class AttributeDefClause: AspectClause {
         then
             (
                 self.expr.as![Name].xref_no_overloading(all_els=true)
-                %and BasicDecl.is_stream_subprogram_for_type%(self
-                .expr
-                .as[Name]
-                .ref_var(),
-                attr.prefix.name_designated_type(),
-                rel_name == s"Input")
+                %and BasicDecl.is_stream_subprogram_for_type%(
+                    self.expr.as[Name].ref_var(),
+                    attr.prefix.name_designated_type(),
+                    rel_name == s"Input"
+                )
             )
             %and attr.prefix.sub_equation()
         elif rel_name in s"Put_Image"
         then
             (
                 self.expr.as![Name].xref_no_overloading(all_els=true)
-                %and BasicDecl.is_put_image_subprogram_for_type%(self
-                .expr
-                .as[Name]
-                .ref_var(),
-                attr.prefix.name_designated_type())
+                %and BasicDecl.is_put_image_subprogram_for_type%(
+                    self.expr.as[Name].ref_var(),
+                    attr.prefix.name_designated_type()
+                )
             )
             %and attr.prefix.sub_equation()
         else
@@ -4335,8 +4331,10 @@ class AggregateAssoc: BasicAssoc {
                 if i > 0
                 then {
                     bind error_location = node;
-                    BaseTypeDecl.matching_type%(n.as[Expr].type_var(),
-                    self.names()[0].as[Expr].type_var())
+                    BaseTypeDecl.matching_type%(
+                        n.as[Expr].type_var(),
+                        self.names()[0].as[Expr].type_var()
+                    )
                 }
                 else %true
             )
@@ -5469,11 +5467,13 @@ class BasicDecl: AdaNode {
 
     @with_dynvars(origin)
     fun subp_decl_match_signature(other: Entity[BasicDecl]): Bool =
-        self.subp_spec_or_null().do(
-            (spec) =>
-            spec.match_signature(
-                other.subp_spec_or_null().as![SubpSpec],
-                false
+        self?.subp_spec_or_null().do(
+            (spec) => other.subp_spec_or_null().do(
+                (other_spec) => spec.match_signature(
+                    other_spec.as![SubpSpec],
+                    false
+                ),
+                default_val=false
             ),
             default_val=false
         )
@@ -7751,13 +7751,13 @@ class BaseTypeDecl: BasicDecl {
     fun is_access_to(typ: Entity[BaseTypeDecl]): Bool =
         self?.accessed_type()?.matching_formal_type(typ)
 
-    |" Returns whether self is an access type whose accessed type matches
-    |" other.
+    |" Returns whether self is an access to subprogram type whose profile
+    |" matches ``other``, where ``other`` is a subprogram.
     @with_dynvars(origin)
     fun is_subp_access_of(other: Entity[BasicDecl]): Bool =
         self?.access_def().as[AccessToSubpDef].do(
             (sa) =>
-            other.subp_spec_or_null().do(
+            other?.subp_spec_or_null().do(
                 (se) => sa.subp_spec.match_signature(se, false)
             )
         )
@@ -9904,8 +9904,10 @@ class FormalSubpDecl: ClassicSubpDecl {
                         if n is AttributeRef then n.sub_equation()
                         else n.xref_no_overloading(all_els=true)
                     )
-                    %and BasicDecl.subp_decl_match_signature%(n.ref_var(),
-                    self.as[BasicDecl])
+                    %and BasicDecl.subp_decl_match_signature%(
+                        n.ref_var(),
+                        self.as[BasicDecl]
+                    )
                 case _ => raise[Equation] PropertyError("Should not happen")
             },
             default_val=%true
@@ -11106,21 +11108,22 @@ class SubpRenamingDecl: BaseSubpBody {
                 %and (
                     if renamed_object is DottedName
                     then
-                        BasicDecl
-                        .subp_renaming_decl_match_signature%(renamed_object
-                        .ref_var(),
-                        renamed_object.as[DottedName].prefix.ref_var(),
-                        self.as[BasicDecl])
+                        BasicDecl.subp_renaming_decl_match_signature%(
+                            renamed_object.ref_var(),
+                            renamed_object.as[DottedName].prefix.ref_var(),
+                            self.as[BasicDecl]
+                        )
                     elif renamed_object is ExplicitDeref
                     then
-                        BasicDecl
-                        .access_to_subp_decl_match_signature%(renamed_object
-                        .ref_var(),
-                        self.as[BasicDecl])
+                        BasicDecl.access_to_subp_decl_match_signature%(
+                            renamed_object.ref_var(),
+                            self.as[BasicDecl]
+                        )
                     else
-                        BasicDecl.subp_decl_match_signature%(renamed_object
-                        .ref_var(),
-                        self.as[BasicDecl])
+                        BasicDecl.subp_decl_match_signature%(
+                            renamed_object.ref_var(),
+                            self.as[BasicDecl]
+                        )
                 )
         )
         %or (
@@ -12134,10 +12137,10 @@ class GenericInstantiation: BasicDecl {
                             then actual_name.sub_equation()
                             else
                                 actual_name.xref_no_overloading(all_els=true)
-                                %and BasicDecl
-                                .subp_decl_match_signature%(actual_name
-                                .ref_var(),
-                                subp_decl.as[BasicDecl])
+                                %and BasicDecl.subp_decl_match_signature%(
+                                    actual_name.ref_var(),
+                                    subp_decl.as[BasicDecl]
+                                )
                                 %or %true
                         case obj_decl: ObjectDecl =>
                             pm.actual.assoc.expr().expected_type_var()
@@ -13918,26 +13921,34 @@ class Expr: AdaNode {
     @with_dynvars(origin)
     fun matches_expected_assign_type(): Equation = {
         bind error_location = node;
-        BaseTypeDecl.matching_assign_type%(node.type_var(),
-        node.expected_type_var())
+        BaseTypeDecl.matching_assign_type%(
+            node.type_var(),
+            node.expected_type_var()
+        )
     }
 
     @with_dynvars(origin)
     fun matches_expected_formal_type(): Equation = {
         bind error_location = node;
-        BaseTypeDecl.matching_formal_type%(node.type_var(),
-        node.expected_type_var())
+        BaseTypeDecl.matching_formal_type%(
+            node.type_var(),
+            node.expected_type_var()
+        )
     }
 
     @with_dynvars(origin)
     fun matches_expected_membership_type(): Equation =
-        BaseTypeDecl.matching_membership_type%(node.type_var(),
-        node.expected_type_var())
+        BaseTypeDecl.matching_membership_type%(
+            node.type_var(),
+            node.expected_type_var()
+        )
 
     @with_dynvars(origin)
     fun matches_expected_prefix_type(): Equation =
-        BaseTypeDecl.matching_prefix_type%(node.type_var(),
-        node.expected_type_var())
+        BaseTypeDecl.matching_prefix_type%(
+            node.type_var(),
+            node.expected_type_var()
+        )
 
     |" Construct an equation which asserts that the expected type of this
     |" expression is the standard boolean type or any type that derives from
@@ -14461,8 +14472,10 @@ class Allocator: Expr {
             self.type_or_expr.sub_equation()
             %and node.expected_type_var() <-> node.type_var()
         )
-        %and BaseTypeDecl.matching_allocator_type%(node.type_var(),
-        self.get_allocated_type())
+        %and BaseTypeDecl.matching_allocator_type%(
+            node.type_var(),
+            self.get_allocated_type()
+        )
 }
 
 |" Base class for aggregates (:rmlink:`4.3`).
@@ -15366,8 +15379,9 @@ class ConcatOp: Expr {
             );
 
         (
-            BaseTypeDecl.is_array_def_with_deref_or_null%(op
-            .expected_type_var())
+            BaseTypeDecl.is_array_def_with_deref_or_null%(
+                op.expected_type_var()
+            )
             %and BaseTypeDecl.is_array_def_with_deref%(op.type_var())
         )
         %and (
@@ -15739,9 +15753,9 @@ class CaseExpr: CondExpr {
                 then
                     (
                         (
-                            BaseTypeDecl.is_not_universal_type%(alt
-                            .expr
-                            .type_var())
+                            BaseTypeDecl.is_not_universal_type%(
+                                alt.expr.type_var()
+                            )
                             %and alt.expr.expected_type_var()
                             <- BaseTypeDecl.base_subtype%(alt.expr.type_var())
                         )
@@ -15997,9 +16011,9 @@ class MembershipExpr: Expr {
                             <- null[Entity[BaseTypeDecl]]
                             %and {
                                 bind error_location = node;
-                                BaseTypeDecl.is_tagged_type_with_deref%(node
-                                .expr
-                                .type_var())
+                                BaseTypeDecl.is_tagged_type_with_deref%(
+                                    node.expr.type_var()
+                                )
                             }
                         else (
                             # This is a simple subtype membership test, so the
@@ -16660,27 +16674,31 @@ class Name: Expr {
                 dn.suffix.xref_no_overloading(sequential, all_els)
             }
         case i: BaseId =>
-            if all_els and node.is_suffix()
-            then
-                %domain(
-                    i.ref_var(),
-                    node.env_get(
-                        env,
-                        i.name_symbol(),
-                        from_node=if sequential then self.node else null[Name],
-                        lookup=if node.is_prefix() then LookupKind.recursive
-                        else LookupKind.flat
-                    )
-                    .filter((e) => node.has_visibility(e))
-                )
-            else
-                i.ref_var()
-                <- i.env_get_first_visible(
+            if all_els and node.is_suffix() then {
+                val vals = node.env_get(
                     env,
+                    i.name_symbol(),
                     from_node=if sequential then self.node else null[Name],
-                    lookup_type=if node.is_prefix() then LookupKind.recursive
-                    else LookupKind.flat
+                    lookup=if node.is_prefix()
+                           then LookupKind.recursive
+                           else LookupKind.flat
+                ).filter((e) => node.has_visibility(e));
+
+                vals.do(
+                   (v) => %domain(i.ref_var(), v),
+                   default_val=i.undefined_reference_equation()
                 )
+            }
+            else i.env_get_first_visible(
+                env,
+                from_node=if sequential then self.node else null[Name],
+                lookup_type=if node.is_prefix()
+                            then LookupKind.recursive
+                            else LookupKind.flat
+            ).do(
+                (f) => i.ref_var() <- f,
+                default_val=i.undefined_reference_equation()
+            )
         case _ => %false
     }
 
@@ -17531,8 +17549,10 @@ class AttributeRef: Name {
         (
             # Access to statically known subprogram
             self.prefix.xref_no_overloading(all_els=true)
-            %and BaseTypeDecl.is_subp_access_of%(node.type_var(),
-            node.prefix.ref_var())
+            %and BaseTypeDecl.is_subp_access_of%(
+                node.type_var(),
+                node.prefix.ref_var()
+            )
             %and node.type_var() <-> node.expected_type_var()
         )
         %or (
@@ -17649,9 +17669,9 @@ class AttributeRef: Name {
         else {
             val res =
                 self.prefix.resolve_names_internal_with_eq(
-                    BaseTypeDecl.is_array_def_with_deref%(self
-                    .prefix
-                    .type_var())
+                    BaseTypeDecl.is_array_def_with_deref%(
+                        self.prefix.type_var()
+                    )
                 );
             val pfx_typ = self.prefix.type_val().as[BaseTypeDecl];
 
@@ -21050,8 +21070,9 @@ class ForLoopSpec: LoopSpec {
                             %and (
                                 # The default type, if there is no other
                                 # determined type, is Integer.
-                                BaseTypeDecl.is_not_root_int_type%(binop
-                                .type_var())
+                                BaseTypeDecl.is_not_root_int_type%(
+                                    binop.type_var()
+                                )
                             )
                         )
                         %and node.var_decl.id.type_var() <-> binop.type_var()

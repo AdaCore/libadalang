@@ -18,4 +18,7 @@ begin
       else
         --  Comments after else
         Self.Line_Terminator);
+
+   return (if A then B  -- Comment after then-expr
+           else C);
 end Line_Terminator;

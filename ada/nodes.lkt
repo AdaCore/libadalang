@@ -7816,7 +7816,7 @@ class BaseTypeDecl: BasicDecl {
     fun array_def_with_deref(): Entity[ArrayTypeDef] =
         if self.is_array() then self.array_def()
         elif self.is_implicit_deref()
-        then self.accessed_type().do((c) => c.array_def())
+        then self.accessed_type()?.array_def()
         else null[Entity[ArrayTypeDef]]
 
     @with_dynvars(origin)
@@ -17825,10 +17825,7 @@ class CallExpr: Name {
         elif {
             bind origin = node.origin_node();
 
-            not self.name.expression_type().do(
-                (typ) => typ.array_def_with_deref()
-            )
-            .is_null
+            self.name.expression_type()?.is_array_def_with_deref()
         } then CallExprKind.array_index
         # Case for type conversion: CallExpr has one
         # argument and its name denotes a type declaration.
@@ -17930,36 +17927,24 @@ class CallExpr: Name {
     |" Return whether this CallExpr can correspond to taking a slice of the
     |" given array type.
     @with_dynvars(origin)
-    fun check_array_slice(typ: Entity[BaseTypeDecl]): Bool = {
-        val atd = typ.do((t) => t.array_def_with_deref());
-
-        not atd.is_null
-        and self.suffix.do(
+    fun check_array_slice(typ: Entity[BaseTypeDecl]): Bool =
+        typ?.is_array_def_with_deref() and self.suffix.do(
             (sfx) =>
-            (
-                # array slice using the ``(A .. B)`` notation
-                sfx is BinOp
-            )
-            or (
-                # array slice using the ``(X'Range)`` notation
-                sfx is AttributeRef
-            )
-            or (
-                # array slice using the ``(Subtype range ..)`` notation
-                sfx is SubtypeIndication
-            )
-            or (
-                # array slice using the ``(Subtype)`` notation
-                sfx.as[AssocList].do(
-                    (al) =>
-                    al.length() == 1
-                    and al?[0].expr().as[Name].do(
-                        (n) => not n.name_designated_type().is_null
-                    )
+            # array slice using the ``(A .. B)`` notation
+            sfx is BinOp
+            # array slice using the ``(X'Range)`` notation
+            or sfx is AttributeRef
+            # array slice using the ``(Subtype range ..)`` notation
+            or sfx is SubtypeIndication
+            # array slice using the ``(Subtype)`` notation
+            or sfx.as[AssocList].do(
+                (al) =>
+                al.length() == 1
+                and al?[0].expr().as[Name].do(
+                    (n) => not n.name_designated_type().is_null
                 )
             )
         )
-    }
 
     |" Return whether this CallExpr is actually an access to a slice of
     |" the array denoted by the prefix of this CallExpr.
@@ -18177,11 +18162,12 @@ class CallExpr: Name {
     |" designator passed in parameter.
     @with_dynvars(env, origin, entry_point)
     fun subscriptable_type_equation(typ: Entity[BaseTypeDecl]): Equation = {
-        val atd = typ.do((t) => t.array_def_with_deref());
-        val real_typ =
-            typ.do(
-                (t) => if t.is_implicit_deref() then t.accessed_type() else t
-            );
+        # We know that the parent expression is a call, therefore we should
+        # consider the type *after any implicit dereference*.
+        val derefed_typ = typ.do(
+            (t) => if t.is_implicit_deref() then t.accessed_type() else t
+        );
+        val atd = derefed_typ?.array_def();
 
         # First handle the case where this is an access to subprogram
         if typ.access_def() is AccessToSubpDef
@@ -18195,28 +18181,28 @@ class CallExpr: Name {
                 },
                 default_val=%false
             )
+
+        # Check the case where this is an array indexing or slicing
         elif not atd.is_null and not atd.indices.is_null
         then
             match self.suffix {
                 case _: AssocList =>
-                    (
-                        # Either an array slice through subtype indication
-                        self.params()?[0].do(
-                            (param) =>
-                            param.expr().as[Name].do(
-                                (name) =>
-                                if name.name_designated_type().is_null
-                                then %false
-                                else
-                                    name.xref_type_equation()
-                                    %and node.type_var() <- real_typ,
-                                default_val=%false
-                            ),
+                    # Either an array slice through subtype indication
+                    self.params()?[0].do(
+                        (param) =>
+                        param.expr().as[Name].do(
+                            (name) =>
+                            if name.name_designated_type().is_null
+                            then %false
+                            else
+                                name.xref_type_equation()
+                                %and node.type_var() <- derefed_typ,
                             default_val=%false
-                        )
+                        ),
+                        default_val=%false
                     )
+                    # Or a regular array access
                     %or (
-                        # Or a regular array access
                         self.params()?.ilogic_all(
                             (pa, i) =>
                             atd.indices.constrain_index_expr(pa.expr(), i)
@@ -18225,68 +18211,53 @@ class CallExpr: Name {
                     )
 
                 # Explicit slice access
-                case bo: BinOp =>
-                    (
-                        (
-                            (
-                                (
-                                    atd.indices.constrain_index_expr(
-                                        bo.left,
-                                        0
-                                    )
-                                    %and atd.indices.constrain_index_expr(
-                                        bo.right,
-                                        0
-                                    )
-                                )
-                                %and bo.expected_type_var()
-                                <-> bo.right.expected_type_var()
-                            )
-                            %and node.type_var() <- real_typ
-                        )
-                        %and bo.left.sub_equation()
-                    )
-                    %and bo.right.sub_equation()
+                case bo: BinOp => %all(
+                    atd.indices.constrain_index_expr(bo.left, 0),
+                    atd.indices.constrain_index_expr(bo.right, 0),
+                    bo.expected_type_var() <-> bo.right.expected_type_var(),
+                    node.type_var() <- derefed_typ,
+                    bo.left.sub_equation(),
+                    bo.right.sub_equation()
+                )
 
                 # Range attribute
-                case ar: AttributeRef =>
-                    (
-                        ar.sub_equation()
-                        %and atd.indices.constrain_index_expr(ar, 0)
-                    )
-                    %and node.type_var() <- real_typ
+                case ar: AttributeRef => %all(
+                    ar.sub_equation(),
+                    atd.indices.constrain_index_expr(ar, 0),
+                    node.type_var() <- derefed_typ
+                )
 
                 # Subtype indication
                 case st: SubtypeIndication =>
-                    st.sub_equation() %and node.type_var() <- real_typ
+                    st.sub_equation()
+                    %and node.type_var() <- derefed_typ
+
                 case _ => %false
             }
-        # Type has user defined indexing
 
-        elif not typ.is_null and typ.has_ud_indexing()
+        # Handle the case where the type has user defined indexing
+        elif typ?.has_ud_indexing()
         then
-            (typ.constant_indexing_fns() & typ.variable_indexing_fns())
-            .logic_any(
-                (fn) => {
-                    val formals =
-                        fn.subp_spec_or_null().unpacked_formal_params();
-                    val ret_type = fn.subp_spec_or_null().return_type();
-                    val params = self.params();
+            (typ.constant_indexing_fns()
+             & typ.variable_indexing_fns()).logic_any((fn) => {
+                val formals =
+                    fn.subp_spec_or_null().unpacked_formal_params();
+                val ret_type = fn.subp_spec_or_null().return_type();
+                val params = self.params();
 
-                    # The user indexing function that matches has one more
-                    # parameter than that call expression.
-                    if formals.length() == params.length() + 1
-                    then
-                        node.type_var() <- ret_type
-                        %and params.ilogic_all(
-                            (param, i) =>
-                            param.expr().expected_type_var()
-                            <- formals?[i + 1].formal_decl().formal_type()
-                            %and param.expr().matches_expected_type()
-                        )
-                    else %false
-                }
-            )
+                # The user indexing function that matches has one more
+                # parameter than that call expression.
+                if formals.length() == params.length() + 1
+                then
+                    node.type_var() <- ret_type
+                    %and params.ilogic_all(
+                        (param, i) =>
+                        param.expr().expected_type_var()
+                        <- formals?[i + 1].formal_decl().formal_type()
+                        %and param.expr().matches_expected_type()
+                    )
+                else %false
+            })
         else %false
     }
 
@@ -18355,85 +18326,70 @@ class CallExpr: Name {
     |" call expr on an instance of the type, like an array type, or an access
     |" to subprogram type.
     @with_dynvars(env, origin)
-    fun check_for_type(typ: Entity[BaseTypeDecl]): Bool = {
+    fun check_for_type(typ: Entity[BaseTypeDecl]): Bool = typ.do((typ) => {
         # Algorithm: We're Recursing down call expression and component types
         # up to self, checking for each level that the call expression
         # corresponds.
-        val atd = typ.do((t) => t.array_def_with_deref());
+        bind origin = node.origin_node();
 
-        {
-            bind origin = node.origin_node();
+        (
+            # Arrays
+            typ.array_def_with_deref().do(
+                (atd) => match node.suffix {
+                    # Array indexing case
+                    case al: AssocList =>
+                        atd.array_ndims() == al.length()
 
-            typ.do(
-                (typ) =>
-                (
-                    (
-                        # Arrays
-                        atd.do(
-                            (_) =>
-                            match node.suffix {
-                                # Array indexing case
-                                case al: AssocList =>
-                                    atd.array_ndims() == al.length()
-
-                                # Array slice cases
-                                case _: BinOp => atd.array_ndims() == 1
-                                case _: SubtypeIndication =>
-                                    atd.array_ndims() == 1
-                                case _: AttributeRef => atd.array_ndims() == 1
-                                case _ => false
-                            },
-                            default_val=false
-                        )
-                    )
-                    or (
-                        # Accesses to subprograms
-                        typ.access_def().as[AccessToSubpDef].do(
-                            (sa) =>
-                            sa.subp_spec.is_matching_param_list(
-                                self.params(),
-                                false
-                            )
-                        )
-                    )
-                    or (
-                        # Types with user defined indexing
-                        typ.has_ud_indexing()
-                        and node.suffix.as[AssocList].do(
-                            (al) => al.length() >= 1
-                        )
-                    )
-                )
-                and (
-                    # All such `CallExpr`s shall have at least two parameters
-                    # (:rmlink:`4.1.6`).
-                    self.parent.as[CallExpr].do(
-                        (ce) =>
-                        # Since the result type of self is ``typ``, the result
-                        # type of its parent CallExpr (if it exists) must be
-                        # the component type of ``typ``, except in case of an
-                        # array slice.  Note: we use subscript=True because a
-                        # CallExpr will dereference implicitly.
-                        ce.check_for_type(
-                            if self.check_array_slice(typ) then typ
-                            else
-                            # TODO: see comment in Name.parent_name_equation
-                                if typ.is_iterable_type()
-                                then typ.iterable_comp_type()
-                                else typ.comp_type(is_subscript=true)
-                        ),
-
-                        # We are done if the parent is not a CallExpr. We could
-                        # actually do more here by considering ExplicitDerefs,
-                        # but this should be sufficient for the current purpose
-                        # of check_for_type (e.g. to preemptively discard
-                        # inadequate candidates in env_elements_impl).
-                        default_val=true
-                    )
+                    # Array slice cases
+                    case _: BinOp => atd.array_ndims() == 1
+                    case _: SubtypeIndication =>
+                        atd.array_ndims() == 1
+                    case _: AttributeRef => atd.array_ndims() == 1
+                    case _ => false
+                },
+                default_val=false
+            )
+            # Accesses to subprograms
+            or typ.access_def().as[AccessToSubpDef].do(
+                (sa) => sa.subp_spec.is_matching_param_list(
+                    self.params(),
+                    false
                 )
             )
-        }
-    }
+            # Types with user defined indexing
+            or (
+                typ.has_ud_indexing()
+                and node.suffix.as[AssocList].do(
+                    # All such `CallExpr`s shall have at least two parameters
+                    # (:rmlink:`4.1.6`).
+                    (al) => al.length() >= 1
+                )
+            )
+        )
+        and self.parent.as[CallExpr].do(
+            (ce) =>
+            # Since the result type of self is ``typ``, the result
+            # type of its parent CallExpr (if it exists) must be
+            # the component type of ``typ``, except in case of an
+            # array slice.  Note: we use subscript=True because a
+            # CallExpr will dereference implicitly.
+            ce.check_for_type(
+                if self.check_array_slice(typ) then typ
+                else
+                    # TODO: see comment in Name.parent_name_equation
+                    if typ.is_iterable_type()
+                    then typ.iterable_comp_type()
+                    else typ.comp_type(is_subscript=true)
+            ),
+
+            # We are done if the parent is not a CallExpr. We could
+            # actually do more here by considering ExplicitDerefs,
+            # but this should be sufficient for the current purpose
+            # of check_for_type (e.g. to preemptively discard
+            # inadequate candidates in env_elements_impl).
+            default_val=true
+        )
+    })
 }
 
 |" Name that defines an entity (:rmlink:`3.1`).
@@ -20160,110 +20116,98 @@ class BaseId: SingleTokNode implements TokenNode {
             node.env_get(
                 env,
                 node.symbol,
-                lookup=if node.is_prefix() then LookupKind.recursive
-                else LookupKind.flat,
+                lookup=
+                    if node.is_prefix()
+                    then LookupKind.recursive
+                    else LookupKind.flat,
                 # If we are in an aspect, then lookup is not sequential
                 from_node=node.origin_node(),
-                categories=if node.can_designate_primitive()
-                then RefCategories(_=true)
-                else RefCategories(inherited_primitives=false, _=true)
-            )
-            .filter(
-                (e) =>
-                e.as[AnonymousExprDecl].do(
-                    (aed) =>
-                    self.parents().find((p) => p is GenericFormal).do(
-                        # If we are in a generic formal part, we do not
-                        # necessarily have visibility on all the actuals coming
-                        # from the instantiation.
-                        (_) =>
-                        aed.get_formal().formal_decl().is_directly_reachable(
-                            self
-                        ),
-                        default_val=true
+                categories=
+                    if node.can_designate_primitive()
+                    then RefCategories(_=true)
+                    else RefCategories(inherited_primitives=false, _=true)
+            ).filter((e) => e.as[AnonymousExprDecl].do(
+                (aed) => self.parents().find((p) => p is GenericFormal).do(
+                    # If we are in a generic formal part, we do not
+                    # necessarily have visibility on all the actuals coming
+                    # from the instantiation.
+                    (_) =>
+                    aed.get_formal().formal_decl().is_directly_reachable(
+                        self
                     ),
                     default_val=true
-                )
-            );
+                ),
+                default_val=true
+            ));
+
         # TODO: there is a big smell here: We're doing the filtering for parent
         # expressions in the baseid env_elements. We should solve that.
         val pc = self.parent_callexpr();
         val is_prefix = not node.is_suffix();
 
-        {
-            bind origin = node.origin_node();
+        bind origin = node.origin_node();
 
-            if pc.is_null
-            then (
-                # If it is not the main id in a CallExpr: either the name
-                # designates something else than a subprogram, either it
-                # designates a subprogram that accepts no explicit argument. So
-                # filter out other subprograms.
-                items.filter((e) => e.as![BasicDecl].can_be_paramless())
-                & (
-                    # If there is a subp_spec, check that it corresponds to a
-                    # parameterless subprogram.
-                    #
-                    # Make sure that the enclosing body is in the list of items
-                    # in case this name is the prefix of a qualified name
-                    # refering to local variables.
-                    if is_prefix
-                    then
-                        self.semantic_parents().find(
-                            (n) =>
-                            (n is TaskBody | BaseSubpBody).do(
-                                (_) =>
-                                n.as[BasicDecl].defining_name().name.name_is(
-                                    node.symbol
+        if pc.is_null
+        then (
+            # If it is not the main id in a CallExpr: either the name
+            # designates something else than a subprogram, either it
+            # designates a subprogram that accepts no explicit argument. So
+            # filter out other subprograms.
+            items.filter((e) => e.as![BasicDecl].can_be_paramless())
+            & (
+                # If there is a subp_spec, check that it corresponds to a
+                # parameterless subprogram.
+                #
+                # Make sure that the enclosing body is in the list of items
+                # in case this name is the prefix of a qualified name
+                # refering to local variables.
+                if is_prefix
+                then
+                    self.semantic_parents().find((n) =>
+                        if n is TaskBody | BaseSubpBody
+                        then n.as[BasicDecl].defining_name().name.name_is(
+                            node.symbol
+                        )
+                        else false
+                    ).do(
+                        (b) => [b],
+                        default_val=null[Array[Entity[AdaNode]]]
+                    )
+                else null[Array[Entity[AdaNode]]]
+            )
+        )
+        # This identifier is the name for a called subprogram, entry, or an
+        # array.
+        # So only keep:
+        # * subprograms/entries for which the actuals match
+        # * arrays for which the number of dimensions match
+        # * any type that has a user defined indexing aspect.
+        else
+            pc.suffix.as[AssocList].do(
+                (params) => items.filter(
+                    (e) => match e {
+                        # Type conversion case
+                        case _: BaseTypeDecl => params.length() == 1
+                        case b: BasicDecl =>
+                            b.subp_spec_or_null().do(
+                                (spec) => self.call_matches_spec(
+                                    spec, pc, params, b
+                                ),
+                                # In the case of ObjectDecls/CompDecls in
+                                # general, verify that the callexpr is
+                                # valid for the given type designator.
+                                default_val=pc.check_for_type(
+                                    b.expr_type()
                                 )
                             )
-                        )
-                        .do(
-                            (b) => [b],
-                            default_val=null[Array[Entity[AdaNode]]]
-                        )
-                    else null[Array[Entity[AdaNode]]]
-                )
-            )
-            # This identifier is the name for a called subprogram, entry, or an
-            # array.
-            # So only keep:
-            # * subprograms/entries for which the actuals match
-            # * arrays for which the number of dimensions match
-            # * any type that has a user defined indexing aspect.
-            else
-                pc.suffix.as[AssocList].do(
-                    (params) =>
-                    items.filter(
-                        (e) =>
-                        match e {
-                            # Type conversion case
-                            case _: BaseTypeDecl => params.length() == 1
-                            case b: BasicDecl =>
-                                b.subp_spec_or_null().do(
-                                    (spec) =>
-                                    self.call_matches_spec(
-                                        spec,
-                                        pc,
-                                        params,
-                                        b
-                                    ),
-                                    # In the case of ObjectDecls/CompDecls in
-                                    # general, verify that the callexpr is
-                                    # valid for the given type designator.
-                                    default_val=pc.check_for_type(
-                                        b.expr_type()
-                                    )
-                                )
-                            case _ => false
-                        }
-                    ),
+                        case _ => false
+                    }
+                ),
 
-                    # Discard BaseTypeDecls when resolving a CallExpr that
-                    # cannot be a type conversion.
-                    default_val=items.filter((e) => not e is BaseTypeDecl)
-                )
-        }
+                # Discard BaseTypeDecls when resolving a CallExpr that
+                # cannot be a type conversion.
+                default_val=items.filter((e) => not e is BaseTypeDecl)
+            )
     }
 
     |" Return whether the BasicDecl ``b`` should be kept during

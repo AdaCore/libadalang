@@ -120,4 +120,35 @@ Object_Size | Value_Size: 16 | 16
 Scalar_Storage_Order: LOW_ORDER_FIRST
 Component_Size: 8
 
+No representation information for <AnonymousTypeDecl ["None"] arrays.ads:4:10-4:38>
+
+Analyzing accesses.ads
+######################
+
+Representation information for <ConcreteTypeDecl ["Acc1"] accesses.ads:2:4-2:41>:
+Kind: ACCESS_TYPE
+Alignment: 8
+Object_Size | Value_Size: 64 | 64
+
+Representation information for <ConcreteTypeDecl ["Rec1"] accesses.ads:4:4-7:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "I" accesses.ads:5:7-5:8> at 0, size: 32
+* <DefiningName "A" accesses.ads:6:7-6:8> at 8, size: 64
+
+No representation information for <AnonymousTypeDecl ["None"] accesses.ads:6:11-6:25>
+
+No representation information for <AnonymousTypeDecl ["None"] accesses.ads:9:25-9:39>
+
+Representation information for <ConcreteTypeDecl ["Arr1"] accesses.ads:11:4-11:51>:
+Kind: ARRAY_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Scalar_Storage_Order: LOW_ORDER_FIRST
+Component_Size: 64
+
+No representation information for <AnonymousTypeDecl ["None"] accesses.ads:11:36-11:50>
+
 Done.

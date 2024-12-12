@@ -10,3 +10,4 @@ input_sources:
   - fixed.ads
   - records.ads
   - arrays.ads
+  - accesses.ads

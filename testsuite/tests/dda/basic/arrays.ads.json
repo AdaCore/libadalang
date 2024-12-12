@@ -15,4 +15,20 @@
   "Component_Size": 8,
   "Scalar_Storage_Order": "System.Low_Order_First"
 }
+,
+{
+  "name": "Arrays.Obj",
+  "location": "arrays.ads:4:4",
+  "Size": 16,
+  "Alignment": 2
+}
+,
+{
+  "name": "Arrays.Tobjt3s",
+  "location": "arrays.ads:4:4",
+  "Size": 16,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
 ]

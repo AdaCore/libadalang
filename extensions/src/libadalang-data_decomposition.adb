@@ -2487,7 +2487,14 @@ package body Libadalang.Data_Decomposition is
    is
       use Type_Representation_Maps;
    begin
-      if Self.Is_Null or else Decl.Is_Null then
+      --  Anonymous type declarations may not have a fully qualified name (the
+      --  call to P_Fully_Qualified_Name below may crash), and we never have
+      --  repinfo entries for them, so return early for them.
+
+      if Self.Is_Null
+         or else Decl.Is_Null
+         or else Decl.Kind in Ada_Anonymous_Type_Decl_Range
+      then
          return No_Type_Representation;
       end if;
 

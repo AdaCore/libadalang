@@ -1,0 +1,54 @@
+[
+{
+  "name": "Accesses.Acc1",
+  "location": "accesses.ads:2:9",
+  "Size": 64,
+  "Alignment": 8
+}
+,
+{
+  "name": "Accesses.Rec1",
+  "location": "accesses.ads:4:9",
+  "Size": 128,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "I",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "A",
+      "Position": 8,
+      "First_Bit": 0,
+      "Size": 64
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Accesses.T1s",
+  "location": "accesses.ads:6:7",
+  "Size": 64,
+  "Alignment": 8
+}
+,
+{
+  "name": "Accesses.Arr1",
+  "location": "accesses.ads:11:9",
+  "Size": 128,
+  "Alignment": 8,
+  "Component_Size": 64,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Accesses.T4s",
+  "location": "accesses.ads:11:4",
+  "Size": 64,
+  "Alignment": 8
+}
+]

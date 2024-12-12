@@ -5880,6 +5880,8 @@ class BasicDecl: AdaNode {
             )
         )
 
+    |" Return whether this subprogram has the correct profile to be used in
+    |" an ``AttributeDefClause`` for any of the ``Stream`` attributes.
     fun is_stream_subprogram_for_type(
         typ: Entity[BaseTypeDecl],
         return_obj: Bool

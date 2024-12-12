@@ -3,7 +3,7 @@ with Ada.Directories;
 with Ada.Exceptions;        use Ada.Exceptions;
 with Ada.Strings;           use Ada.Strings;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Text_IO;
 
 with GNATCOLL.Opt_Parse;
 with GNATCOLL.Strings; use GNATCOLL.Strings;
@@ -51,6 +51,13 @@ procedure LAL_DDA is
    --  Fetch the vector of discriminants to use for testing from nearby Test
    --  pragmas.
 
+   --  Wrappers around the corresponding Ada.Text_IO procedures. They do
+   --  nothing if --only-show-failures is passed.
+
+   procedure Put_Line (S : String);
+   procedure Put (S : String);
+   procedure New_Line;
+
    procedure Error (Node : Ada_Node'Class; Message : String) with No_Return;
    --  Abort the App with the given error ``Message``, contextualized using
    --  ``Node`` 's source location.
@@ -80,6 +87,11 @@ procedure LAL_DDA is
          Arg_Type   => Unbounded_String,
          Accumulate => True,
          Help       => "Output for the compiler's -gnatR4j option");
+
+      package Only_Show_Failures is new Parse_Flag
+        (App.Args.Parser,
+         Long => "--only-show-failures",
+         Help => "Only output failures on stdout.");
 
    end Args;
 
@@ -478,6 +490,39 @@ procedure LAL_DDA is
       end if;
    end Put_Number;
 
+   --------------
+   -- Put_Line --
+   --------------
+
+   procedure Put_Line (S : String) is
+   begin
+      if not Args.Only_Show_Failures.Get then
+         Ada.Text_IO.Put_Line (S);
+      end if;
+   end Put_Line;
+
+   ---------
+   -- Put --
+   ---------
+
+   procedure Put (S : String) is
+   begin
+      if not Args.Only_Show_Failures.Get then
+         Ada.Text_IO.Put (S);
+      end if;
+   end Put;
+
+   --------------
+   -- New_Line --
+   --------------
+
+   procedure New_Line is
+   begin
+      if not Args.Only_Show_Failures.Get then
+         Ada.Text_IO.New_Line;
+      end if;
+   end New_Line;
+
    -----------
    -- Error --
    -----------
@@ -493,9 +538,9 @@ procedure LAL_DDA is
 
    procedure Put_Error (Message : String; Exc : Exception_Occurrence) is
    begin
-      Put_Line (Message & ":");
-      Put_Line ("  " & Exception_Name (Exc));
-      Put_Line ("  " & Exception_Message (Exc));
+      Ada.Text_IO.Put_Line (Message & ":");
+      Ada.Text_IO.Put_Line ("  " & Exception_Name (Exc));
+      Ada.Text_IO.Put_Line ("  " & Exception_Message (Exc));
    end Put_Error;
 
 begin

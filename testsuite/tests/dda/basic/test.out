@@ -1,92 +1,110 @@
-Analyzing pkg.ads
-#################
+Analyzing enums.ads
+###################
 
-Representation information for <ConcreteTypeDecl ["E1"] pkg.ads:5:4-5:28>:
+Representation information for <ConcreteTypeDecl ["E1"] enums.ads:2:4-2:28>:
 Kind: ENUMERATION_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 2
 
-Representation information for <ConcreteTypeDecl ["I1"] pkg.ads:7:4-7:33>:
+Analyzing ints.ads
+##################
+
+Representation information for <ConcreteTypeDecl ["I1"] ints.ads:2:4-2:33>:
 Kind: SIGNED_TYPE
 Alignment: 2
 Object_Size | Value_Size: 16 | 9
 
-Representation information for <ConcreteTypeDecl ["M1"] pkg.ads:9:4-9:27>:
+Analyzing mods.ads
+##################
+
+Representation information for <ConcreteTypeDecl ["M1"] mods.ads:2:4-2:27>:
 Kind: MODULAR_TYPE
 Alignment: 2
 Object_Size | Value_Size: 16 | 15
 
-Representation information for <ConcreteTypeDecl ["M2"] pkg.ads:10:4-10:27>:
+Representation information for <ConcreteTypeDecl ["M2"] mods.ads:3:4-3:27>:
 Kind: MODULAR_TYPE
 Alignment: 4
 Object_Size | Value_Size: 32 | 32
 
-Representation information for <ConcreteTypeDecl ["R1"] pkg.ads:12:4-12:24>:
+Analyzing reals.ads
+###################
+
+Representation information for <ConcreteTypeDecl ["R1"] reals.ads:2:4-2:24>:
 Kind: FLOATING_TYPE
 Alignment: 8
 Object_Size | Value_Size: 64 | 64
 
-Representation information for <ConcreteTypeDecl ["R2"] pkg.ads:13:4-13:41>:
+Representation information for <ConcreteTypeDecl ["R2"] reals.ads:3:4-3:41>:
 Kind: FLOATING_TYPE
 Alignment: 8
 Object_Size | Value_Size: 64 | 64
 
-Representation information for <ConcreteTypeDecl ["R3"] pkg.ads:14:4-14:25>:
+Representation information for <ConcreteTypeDecl ["R3"] reals.ads:4:4-4:25>:
 Kind: FLOATING_TYPE
 Alignment: 4
 Object_Size | Value_Size: 32 | 32
 
-Representation information for <ConcreteTypeDecl ["F1"] pkg.ads:16:4-16:43>:
+Analyzing fixed.ads
+###################
+
+Representation information for <ConcreteTypeDecl ["F1"] fixed.ads:2:4-2:43>:
 Kind: ORDINARY_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 6
 Small: 1/4
 Range: -4 .. 4
 
-Representation information for <ConcreteTypeDecl ["F2"] pkg.ads:17:4-17:68>:
+Representation information for <ConcreteTypeDecl ["F2"] fixed.ads:3:4-3:68>:
 Kind: ORDINARY_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 6
 Small: 4803839122144569/144115188075855872
 Range: -4653719149577551/4503599627370496 .. 4653719149577551/4503599627370496
 
-Representation information for <ConcreteTypeDecl ["F3"] pkg.ads:18:4-18:68>:
+Representation information for <ConcreteTypeDecl ["F3"] fixed.ads:4:4-4:68>:
 Kind: ORDINARY_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 6
 Small: 1/30
 Range: -1 .. 1
 
-Representation information for <ConcreteTypeDecl ["F4"] pkg.ads:19:4-19:35>:
+Representation information for <ConcreteTypeDecl ["F4"] fixed.ads:5:4-5:35>:
 Kind: DECIMAL_TYPE
 Alignment: 8
 Object_Size | Value_Size: 64 | 48
 Small: 3602879701896397/36028797018963968
 Range: -5119999999999949/512 .. 5119999999999949/512
 
-Representation information for <ConcreteTypeDecl ["Rec1"] pkg.ads:21:4-25:15>:
+Analyzing records.ads
+#####################
+
+Representation information for <ConcreteTypeDecl ["Rec1"] records.ads:2:4-6:15>:
 Kind: RECORD_TYPE
 Alignment: 4
 Object_Size | Value_Size: 64 | 64
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
-* <DefiningName "B" pkg.ads:22:7-22:8> at 0, size: 8
-* <DefiningName "C" pkg.ads:23:7-23:8> at 1, size: 8
-* <DefiningName "I" pkg.ads:24:7-24:8> at 4, size: 32
+* <DefiningName "B" records.ads:3:7-3:8> at 0, size: 8
+* <DefiningName "C" records.ads:4:7-4:8> at 1, size: 8
+* <DefiningName "I" records.ads:5:7-5:8> at 4, size: 32
 
-Representation information for <ConcreteTypeDecl ["Rec2"] pkg.ads:27:4-27:29>:
+Representation information for <ConcreteTypeDecl ["Rec2"] records.ads:8:4-8:29>:
 Kind: RECORD_TYPE
 Alignment: 1
 Object_Size | Value_Size: 0 | 0
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 
-Representation information for <ConcreteTypeDecl ["Bool_Array"] pkg.ads:29:4-29:60>:
+Analyzing arrays.ads
+####################
+
+Representation information for <ConcreteTypeDecl ["Bool_Array"] arrays.ads:2:4-2:60>:
 Kind: ARRAY_TYPE
 Alignment: 1
 Object_Size | Value_Size: <unsupported> | <unsupported>
 Scalar_Storage_Order: LOW_ORDER_FIRST
 Component_Size: 8
 
-Representation information for <SubtypeDecl ["Bool_Couple"] pkg.ads:30:4-30:47>:
+Representation information for <SubtypeDecl ["Bool_Couple"] arrays.ads:3:4-3:47>:
 Kind: ARRAY_TYPE
 Alignment: 1
 Object_Size | Value_Size: 16 | 16

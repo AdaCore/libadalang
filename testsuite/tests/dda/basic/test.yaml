@@ -1,2 +1,12 @@
 driver: dda
-input_sources: [pkg.ads]
+description: |
+    Check basic usage of the Libadalang.Data_Decomposition API, working on
+    simple types.
+input_sources:
+  - enums.ads
+  - ints.ads
+  - mods.ads
+  - reals.ads
+  - fixed.ads
+  - records.ads
+  - arrays.ads

@@ -1,0 +1,18 @@
+[
+{
+  "name": "Arrays.Bool_Array",
+  "location": "arrays.ads:2:9",
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Arrays.Bool_Couple",
+  "location": "arrays.ads:3:12",
+  "Size": 16,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

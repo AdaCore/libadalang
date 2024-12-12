@@ -1,0 +1,50 @@
+Analyzing test_iterable.adb
+###########################
+
+Resolving xrefs for node <AspectAssoc test_iterable.adb:4:11-7:36>
+******************************************************************
+
+Expr: <Id "Iterable" test_iterable.adb:4:11-4:19>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test_iterable.adb:5:8-7:36>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AggregateAssoc test_iterable.adb:5:9-5:22>
+********************************************************************
+
+test_iterable.adb:5:18: error: no such entity
+5 |        (First => Fist,
+  |                  ^^^^
+
+
+Resolving xrefs for node <AggregateAssoc test_iterable.adb:6:9-6:21>
+********************************************************************
+
+Expr: <Id "Next" test_iterable.adb:6:9-6:13>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Next" test_iterable.adb:6:17-6:21>
+  references:    <DefiningName "Next" test_iterable.adb:11:13-11:17>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AggregateAssoc test_iterable.adb:7:9-7:35>
+********************************************************************
+
+Expr: <Id "Has_Element" test_iterable.adb:7:9-7:20>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Has_Element" test_iterable.adb:7:24-7:35>
+  references:    <DefiningName "Has_Element" test_iterable.adb:12:13-12:24>
+  type:          None
+  expected type: None
+
+Expected name resolution failure for block <ConcreteTypeDecl ["P"] test_iterable.adb:3:4-7:37>
+
+
+Done.

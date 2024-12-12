@@ -43,15 +43,33 @@ Alignment: 8
 Object_Size | Value_Size: 128 | 128
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X1" p1.ads:28:7-28:9> at 8, size: 32
+* <DefiningName "X1" p1.ads:30:7-30:9> at 8, size: 32
 
-Representation information for <ConcreteTypeDecl ["R5_Parent"] p1.ads:27:4-29:15>:
+Representation information for <ConcreteTypeDecl ["R6_Parent"] p1.ads:25:4-25:30>:
 Kind: RECORD_TYPE
 Alignment: 8
 Object_Size | Value_Size: 128 | 128
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X1" p1.ads:28:7-28:9> at 8, size: 32
+* <DefiningName "X1" p1.ads:34:7-34:9> at 8, size: 8
+* <DefiningName "X2" p1.ads:34:11-34:13> at 9, size: 8
+
+Representation information for <ConcreteTypeDecl ["R5_Parent"] p1.ads:29:4-31:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "X1" p1.ads:30:7-30:9> at 8, size: 32
+
+Representation information for <ConcreteTypeDecl ["R6_Parent"] p1.ads:33:4-35:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "X1" p1.ads:34:7-34:9> at 8, size: 8
+* <DefiningName "X2" p1.ads:34:11-34:13> at 9, size: 8
 
 Analyzing p2.ads
 ################
@@ -178,7 +196,9 @@ Alignment: 8
 Object_Size | Value_Size: 192 | 192
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X1" p1.ads:28:7-28:9> at 8, size: 32
+* <DefiningName "X1" p1.ads:30:7-30:9> at 8, size: 32
 * <DefiningName "X1" p2.ads:29:7-29:9> at 16, size: 32
+
+No representation information for <ConcreteTypeDecl ["R6_Child"] p2.ads:32:4-32:35>
 
 Done.

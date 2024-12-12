@@ -29,4 +29,6 @@ package P2 is
       X1 : Integer;
    end record;
 
+   type R6_Child is new R6_Parent;
+
 end P2;

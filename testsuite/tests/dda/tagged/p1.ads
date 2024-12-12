@@ -22,10 +22,16 @@ package P1 is
 
    type R5_Parent is tagged private;
 
+   type R6_Parent is private;
+
 private
 
    type R5_Parent is tagged record
       X1 : Integer;
+   end record;
+
+   type R6_Parent is tagged record
+      X1, X2 : Boolean;
    end record;
 
 end P1;

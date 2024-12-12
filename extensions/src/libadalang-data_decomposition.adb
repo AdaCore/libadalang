@@ -78,7 +78,8 @@ package body Libadalang.Data_Decomposition is
    function Get_Component_List (Def : Type_Def) return Component_List;
    --  Assuming that ``Self`` is a record type declaration, return its root
    --  component list (i.e. ignoring component lists for parents and variant
-   --  parts).
+   --  parts), or null if there is no syntactic component list for that record
+   --  type.
 
    type Component_Association is record
       Decl : Defining_Name;
@@ -389,7 +390,9 @@ package body Libadalang.Data_Decomposition is
          Def  : Type_Def;
          Repr : Type_Representation_Access)
       is
-         VP : constant Variant_Part := Get_Component_List (Def).F_Variant_Part;
+         Comps : constant Component_List := Get_Component_List (Def);
+         VP    : constant Variant_Part :=
+           (if Comps.Is_Null then No_Variant_Part else Comps.F_Variant_Part);
       begin
          --  Make sure that the presence of a variant part in ``Decl``/``Def``
          --  is consistent with ``Repr``.
@@ -555,14 +558,22 @@ package body Libadalang.Data_Decomposition is
 
    function Get_Component_List (Def : Type_Def) return Component_List is
    begin
-      return
-        (case Def.Kind is
+      case Def.Kind is
          when Ada_Record_Type_Def =>
-            Def.As_Record_Type_Def.F_Record_Def.F_Components,
+            return Def.As_Record_Type_Def.F_Record_Def.F_Components;
+
          when Ada_Derived_Type_Def =>
-            Def.As_Derived_Type_Def.F_Record_Extension.F_Components,
+            declare
+               Ext : constant Base_Record_Def :=
+                 Def.As_Derived_Type_Def.F_Record_Extension;
+            begin
+               return
+                 (if Ext.Is_Null then No_Component_List else Ext.F_Components);
+            end;
+
          when others =>
-            raise Program_Error);
+            raise Program_Error;
+      end case;
    end Get_Component_List;
 
    ----------------------------
@@ -739,11 +750,17 @@ package body Libadalang.Data_Decomposition is
 
          --  Now collect regular components defined in ``Def`` itself
 
-         for Comp of Get_Component_List (Def).F_Components loop
-            if Comp.Kind = Ada_Component_Decl then
-               Append (Comp.As_Base_Formal_Param_Decl);
+         declare
+            Comps : constant Component_List := Get_Component_List (Def);
+         begin
+            if not Comps.Is_Null then
+               for Comp of Comps.F_Components loop
+                  if Comp.Kind = Ada_Component_Decl then
+                     Append (Comp.As_Base_Formal_Param_Decl);
+                  end if;
+               end loop;
             end if;
-         end loop;
+         end;
 
          --  Consume all remaining component repinfo, just in case they contain
          --  an artificial component that we have not registered yet.

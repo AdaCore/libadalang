@@ -6,4 +6,7 @@ package Records is
    end record;
 
    type Rec2 is null record;
+
+   type Rec3 is new Rec1;
+   pragma Pack (Rec3);
 end Records;

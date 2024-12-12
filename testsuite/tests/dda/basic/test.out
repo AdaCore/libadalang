@@ -94,6 +94,15 @@ Alignment: 1
 Object_Size | Value_Size: 0 | 0
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 
+Representation information for <ConcreteTypeDecl ["Rec3"] records.ads:10:4-10:26>:
+Kind: RECORD_TYPE
+Alignment: 1
+Object_Size | Value_Size: 48 | 41
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "B" records.ads:3:7-3:8> at 0, size: 8
+* <DefiningName "C" records.ads:4:7-4:8> at 1, size: 8
+* <DefiningName "I" records.ads:5:7-5:8> at 4, size: 32
+
 Analyzing arrays.ads
 ####################
 

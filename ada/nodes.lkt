@@ -2606,12 +2606,17 @@ class AspectAssoc: AdaNode {
         val target = node.parent.parent.parent;
 
         # Iterable aspect
-        if self.id.name_symbol() in s"Aggregate" | s"Iterable"
+        if self.id.name_symbol() == s"Aggregate"
         then
             self.expr.as[Aggregate].assocs.unpacked_params().logic_all(
                 (sa) =>
                 sa.assoc.expr().as![Name].xref_no_overloading(sequential=false)
             )
+
+        # In the case of the Iterable aspec, assocs are their own
+        # `xref_entry_point`.
+        elif self.id.name_symbol() == s"Iterable"
+        then %true
 
         # Finalizable aspect
         elif self.id.name_symbol() in s"Finalizable"
@@ -4203,8 +4208,15 @@ class AggregateAssoc: BasicAssoc {
 
     fun names(): Array[AdaNode] = node.designators.map((d) => d)
 
+    fun is_iterable_assoc(): Bool =
+        node.as_bare_entity.base_aggregate().in_aspect(s"Iterable")
+
+    |" Aggregate assocs are an entry point in the specific case where they're
+    |" in the iterable aspect, and we want to resolve each assoc separately.
+    fun xref_entry_point(): Bool = node.is_iterable_assoc()
+
     @with_dynvars(env, origin)
-    fun xref_stop_resolution(): Bool = true
+    fun xref_stop_resolution(): Bool = not self.xref_entry_point()
 
     fun base_aggregate(): Entity[BaseAggregate] =
         self.parent.parent.as![BaseAggregate]
@@ -4233,6 +4245,10 @@ class AggregateAssoc: BasicAssoc {
             # as they must all refer to existing declarations.
             self.exprs_assoc_equation()
         )
+
+        elif agg.in_aspect(s"Iterable")
+        then self.expr().as![Name].xref_no_overloading(sequential=false)
+
         # In the case of Contract_Cases aspect, only the top level
         # aggregate should be resolved by the special equation here. All
         # other agreggates included in the latter should use the regular
@@ -4250,6 +4266,7 @@ class AggregateAssoc: BasicAssoc {
         then %true
         elif agg is DeltaAggregate then self.delta_aggregate_assoc_equation()
         elif atd.is_null then self.record_assoc_equation()
+
         else self.array_assoc_equation(atd, mra)
     }
 

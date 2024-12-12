@@ -6,4 +6,12 @@
   "Value_Size": 2,
   "Alignment": 1
 }
+,
+{
+  "name": "Enums.E2",
+  "location": "enums.ads:4:9",
+  "Object_Size": 8,
+  "Value_Size": 2,
+  "Alignment": 1
+}
 ]

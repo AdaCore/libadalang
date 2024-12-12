@@ -31,4 +31,13 @@
   "Component_Size": 8,
   "Scalar_Storage_Order": "System.Low_Order_First"
 }
+,
+{
+  "name": "Arrays.New_Bool_Couple",
+  "location": "arrays.ads:5:9",
+  "Size": 16,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
 ]

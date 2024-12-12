@@ -6,10 +6,20 @@ Kind: ENUMERATION_TYPE
 Alignment: 1
 Object_Size | Value_Size: 8 | 2
 
+Representation information for <ConcreteTypeDecl ["E2"] enums.ads:4:4-4:22>:
+Kind: ENUMERATION_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 2
+
 Analyzing ints.ads
 ##################
 
 Representation information for <ConcreteTypeDecl ["I1"] ints.ads:2:4-2:33>:
+Kind: SIGNED_TYPE
+Alignment: 2
+Object_Size | Value_Size: 16 | 9
+
+Representation information for <ConcreteTypeDecl ["I2"] ints.ads:3:4-3:22>:
 Kind: SIGNED_TYPE
 Alignment: 2
 Object_Size | Value_Size: 16 | 9
@@ -26,6 +36,11 @@ Representation information for <ConcreteTypeDecl ["M2"] mods.ads:3:4-3:27>:
 Kind: MODULAR_TYPE
 Alignment: 4
 Object_Size | Value_Size: 32 | 32
+
+Representation information for <ConcreteTypeDecl ["M3"] mods.ads:4:4-4:22>:
+Kind: MODULAR_TYPE
+Alignment: 2
+Object_Size | Value_Size: 16 | 15
 
 Analyzing reals.ads
 ###################
@@ -76,6 +91,13 @@ Object_Size | Value_Size: 64 | 48
 Small: 3602879701896397/36028797018963968
 Range: -5119999999999949/512 .. 5119999999999949/512
 
+Representation information for <ConcreteTypeDecl ["F5"] fixed.ads:6:4-6:22>:
+Kind: ORDINARY_TYPE
+Alignment: 1
+Object_Size | Value_Size: 8 | 6
+Small: 1/4
+Range: -4 .. 4
+
 Analyzing records.ads
 #####################
 
@@ -121,6 +143,13 @@ Scalar_Storage_Order: LOW_ORDER_FIRST
 Component_Size: 8
 
 No representation information for <AnonymousTypeDecl ["None"] arrays.ads:4:10-4:38>
+
+Representation information for <ConcreteTypeDecl ["New_Bool_Couple"] arrays.ads:5:4-5:44>:
+Kind: ARRAY_TYPE
+Alignment: 1
+Object_Size | Value_Size: 16 | 16
+Scalar_Storage_Order: LOW_ORDER_FIRST
+Component_Size: 8
 
 Analyzing accesses.ads
 ######################

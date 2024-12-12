@@ -38,4 +38,14 @@
   "Small": 0.1,
   "Range": [ -9999999999999.9, 9999999999999.9 ]
 }
+,
+{
+  "name": "Fixed.F5",
+  "location": "fixed.ads:6:9",
+  "Object_Size": 8,
+  "Value_Size": 6,
+  "Alignment": 1,
+  "Small": { "code": "/", "operands": [ 1.0, 4.0 ] },
+  "Range": [ { "code": "/", "operands": [ -16.0, 4.0 ] }, { "code": "/", "operands": [ 16.0, 4.0 ] } ]
+}
 ]

@@ -6,4 +6,12 @@
   "Value_Size": 9,
   "Alignment": 2
 }
+,
+{
+  "name": "Ints.I2",
+  "location": "ints.ads:3:9",
+  "Object_Size": 16,
+  "Value_Size": 9,
+  "Alignment": 2
+}
 ]

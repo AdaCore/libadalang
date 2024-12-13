@@ -1,0 +1,52 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AspectAssoc test.adb:12:15-14:55>
+***********************************************************
+
+Expr: <Id "Iterable" test.adb:12:15-12:23>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:12:27-14:55>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AggregateAssoc test.adb:12:28-12:48>
+**************************************************************
+
+Expr: <Id "First" test.adb:12:28-12:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "First" test.adb:12:43-12:48>
+  references:    <DefiningName "First" test.adb:5:16-5:21>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AggregateAssoc test.adb:13:28-13:47>
+**************************************************************
+
+Expr: <Id "Next" test.adb:13:28-13:32>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Next" test.adb:13:43-13:47>
+  references:    <DefiningName "Next" test.adb:6:16-6:20>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <AggregateAssoc test.adb:14:28-14:54>
+**************************************************************
+
+Expr: <Id "Has_Element" test.adb:14:28-14:39>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "Has_Element" test.adb:14:43-14:54>
+  references:    <DefiningName "Has_Element" test.adb:7:16-7:27>
+  type:          None
+  expected type: None
+
+
+Done.

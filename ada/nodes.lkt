@@ -2601,9 +2601,12 @@ class AspectAssoc: AdaNode {
 
     fun xref_entry_point(): Bool = true
 
+    |" Return the basic declaration on which this aspect is defined.
+    fun target_decl(): BasicDecl = node.parent.parent.parent.as![BasicDecl]
+
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
-        val target = node.parent.parent.parent;
+        val target = node.target_decl();
 
         # Iterable aspect
         if self.id.name_symbol() == s"Aggregate"
@@ -2742,7 +2745,7 @@ class AspectAssoc: AdaNode {
                 self.expr.as![Name].xref_no_overloading(all_els=true)
                 %and BasicDecl.subp_decl_match_signature%(
                     self.expr.as![Name].ref_var(),
-                    target.as[BasicDecl].as_entity
+                    target.as_entity
                 )
 
         # Default resolution: For the moment we didn't encode specific
@@ -4247,7 +4250,7 @@ class AggregateAssoc: BasicAssoc {
         )
 
         elif agg.in_aspect(s"Iterable")
-        then self.expr().as![Name].xref_no_overloading(sequential=false)
+        then self.iterable_assoc_equation()
 
         # In the case of Contract_Cases aspect, only the top level
         # aggregate should be resolved by the special equation here. All
@@ -4553,6 +4556,30 @@ class AggregateAssoc: BasicAssoc {
             )
         then self.expr().sub_equation()
         else %true
+
+    |" Equation for the case where this is an aggregate assoc inside an
+    |" ``Iterable`` aspect.
+    @with_dynvars(env, origin, entry_point)
+    fun iterable_assoc_equation(): Equation = {
+        val name = self.names()?[0].as![Name];
+        val expr = self.expr().as![Name];
+        # Fetch the enclosing aspect (which is necessarily `Iterable`)
+        val aspect = node.parents().find(
+            (p) => p is AspectAssoc
+        ).as[AspectAssoc];
+        # Then get the type decl on which it is defined
+        val typ = aspect.target_decl().as![BaseTypeDecl].as_entity;
+
+        # `First` and `Last` expect subprograms with one parameter, whereas
+        # all the other ones expect two.
+        val expected_param_count =
+            if name.name_symbol() in s"First" | s"Last" then 1 else 2;
+
+        expr.xref_no_overloading(sequential=false, all_els=true)
+        %and BasicDecl.is_iterable_subprogram_for_type%(
+            expr.ref_var(), typ, expected_param_count
+        )
+    }
 
     |" Equation for the case where this is an aggregate assoc for a
     |" Contract_Cases aspect. Both the ``guard`` and the ``consequence`` must
@@ -5946,6 +5973,19 @@ class BasicDecl: AdaNode {
             (ss) => ss.params().length() == 1
             and ss.returns().is_null
             and ss.primitive_subp_first_type().matching_type(typ)
+        )
+
+    |" Return whether this subprogram can be used in the Iterable aspect for
+    |" type ``typ``, and in particular in the case where the expected
+    |" subprogram takes ``param_count`` parameters, with the first one being
+    |" of type ``typ``.
+    @with_dynvars(origin)
+    fun is_iterable_subprogram_for_type(typ: Entity[BaseTypeDecl],
+                                        param_count: Int): Bool =
+        not self.is_null and self.subp_spec_or_null().do(
+            (ss) => ss.params().length() == param_count
+            and ss.real_designated_type(ss.params()[0].type_expression())
+            .matching_type(typ)
         )
 
     |" Return true if entity can be a paramless subprogram entity, when used

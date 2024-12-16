@@ -5785,8 +5785,9 @@ class BasicDecl: AdaNode {
     @exported
     fun defining_name(): Entity[DefiningName] = self.defining_names()?[0]
 
-    |" Return the defining name of this ``BasicDecl``, if and only if there
-    |" is a unique defining name for it. Otherwise, raise a property error.
+    |" If this declaration has a single ``DefiningName``, return it.
+    |" If it doesn't have any (e.g. an ``AnonymousTypeDecl``), return null.
+    |" If it has multiple defining names, raise a ``PreconditionFailure``.
     fun defining_name_or_raise(): Entity[DefiningName] = {
         val dns = self.defining_names();
 

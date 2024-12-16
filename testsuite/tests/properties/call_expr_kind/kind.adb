@@ -6,7 +6,7 @@ procedure Kind is
       end record;
    end P;
 
-   V : P.T'Class := P.T2'(1, 2);
+   V  : P.T'Class := P.T2'(1, 2);
    V2 : P.T'Class := V;
    V3 : P.T'Class := V;
 
@@ -30,6 +30,17 @@ procedure Kind is
 
    Y : Boolean;
    N : Natural;
+
+   package PUD is
+      type UD is tagged null record
+      with Constant_Indexing => Constant_Reference;
+
+      function Constant_Reference (X : UD; Pos : Integer) return Natural
+      is (1);
+   end PUD;
+   use PUD;
+
+   OUD : UD;
 begin
    P.T2 (V3).A := P.T2 (V2).A;
    --% node.f_dest.f_prefix.p_kind
@@ -38,15 +49,18 @@ begin
    Q := Integer (2.5);
    --% node.f_expr.p_kind
 
-   Q := E(1);
+   Q := E (1);
    --% node.f_expr.p_kind
 
-   G := E(1 .. 2);
+   G := E (1 .. 2);
    --% node.f_expr.p_kind
 
    Y := F1 (1);
    --% node.f_expr.p_kind
 
    N := Natural (Q);
+   --% node.f_expr.p_kind
+
+   N := OUD (6);
    --% node.f_expr.p_kind
 end Kind;

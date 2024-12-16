@@ -25,7 +25,7 @@ Working on node <CallStmt kind.adb:26:7-26:14>
 Eval 'node.f_call.p_kind'
 Result: 'call'
 
-Working on node <AssignStmt kind.adb:34:4-34:31>
+Working on node <AssignStmt kind.adb:45:4-45:31>
 ================================================
 
 Eval 'node.f_dest.f_prefix.p_kind'
@@ -34,32 +34,38 @@ Result: 'type_conversion'
 Eval 'node.f_expr.f_prefix.p_kind'
 Result: 'type_conversion'
 
-Working on node <AssignStmt kind.adb:38:4-38:23>
+Working on node <AssignStmt kind.adb:49:4-49:23>
 ================================================
 
 Eval 'node.f_expr.p_kind'
 Result: 'type_conversion'
 
-Working on node <AssignStmt kind.adb:41:4-41:14>
+Working on node <AssignStmt kind.adb:52:4-52:15>
 ================================================
 
 Eval 'node.f_expr.p_kind'
 Result: 'array_index'
 
-Working on node <AssignStmt kind.adb:44:4-44:19>
+Working on node <AssignStmt kind.adb:55:4-55:20>
 ================================================
 
 Eval 'node.f_expr.p_kind'
 Result: 'array_slice'
 
-Working on node <AssignStmt kind.adb:47:4-47:16>
+Working on node <AssignStmt kind.adb:58:4-58:16>
 ================================================
 
 Eval 'node.f_expr.p_kind'
 Result: 'call'
 
-Working on node <AssignStmt kind.adb:50:4-50:21>
+Working on node <AssignStmt kind.adb:61:4-61:21>
 ================================================
 
 Eval 'node.f_expr.p_kind'
 Result: 'type_conversion'
+
+Working on node <AssignStmt kind.adb:64:4-64:17>
+================================================
+
+Eval 'node.f_expr.p_kind'
+Result: 'array_index'

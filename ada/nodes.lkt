@@ -18422,7 +18422,9 @@ class CallExpr: Name {
         elif {
             bind origin = node.origin_node();
 
-            self.name.expression_type()?.is_array_def_with_deref()
+            self.name.expression_type().do(
+                (typ) => typ.is_array_def_with_deref() or typ.has_ud_indexing()
+            )
         } then CallExprKind.array_index
         # Case for type conversion: CallExpr has one
         # argument and its name denotes a type declaration.

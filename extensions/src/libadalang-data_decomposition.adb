@@ -2532,12 +2532,66 @@ package body Libadalang.Data_Decomposition is
       --  JSON file name from which it was imported. Used for duplicates error
       --  reporting.
 
+      procedure Load_Entry
+        (Filename : Unbounded_String; Entity : JSON_Value; Name : String);
+      --  Load type information from the given entity JSON description and its
+      --  name (fully qualified, coming from the JSON itself). Filename is the
+      --  JSON file in which this entity was found.
+
       --  Build the collection in place: create a refcounted pointer to an
       --  empty collection (``Result_Ref``), then get a raw access to the
       --  collection (``Result``), and finally fill the collection in.
 
       Result_Ref : Repinfo_Collection;
       Result     : Collection_Refs.Element_Access;
+
+      ----------------
+      -- Load_Entry --
+      ----------------
+
+      procedure Load_Entry
+        (Filename : Unbounded_String; Entity : JSON_Value; Name : String)
+      is
+         Key       : constant Symbol_Type := Symbolize (Result.all, Name);
+         Type_Repr : Type_Representation_Access;
+
+         --  Check that this is the first entity description for that
+         --  name.
+
+         Previous_From : Origin_Maps.Cursor;
+         Inserted      : Boolean;
+      begin
+         Origins.Insert (Key, Filename, Previous_From, Inserted);
+         if not Inserted then
+            raise Loading_Error with
+              To_String (Filename) & ": duplicate entry for " & Name
+              & " (from " & To_String (Origins.Reference (Previous_From))
+              & ")";
+         end if;
+
+         --  Do the import iff we handle this kind of entity
+
+         if Trace.Is_Active then
+            Trace.Trace ("Loading entry: " & Name);
+            Trace.Increase_Indent;
+         end if;
+         begin
+            Type_Repr := Load_Type (Result.all, Entity, Name);
+         exception
+            when others =>
+               if Trace.Is_Active then
+                  Trace.Decrease_Indent;
+               end if;
+               raise;
+         end;
+         if Trace.Is_Active then
+            Trace.Decrease_Indent;
+         end if;
+
+         if Type_Repr /= null then
+            Result.Type_Representations.Insert (Key, Type_Repr);
+         end if;
+      end Load_Entry;
    begin
       Result_Ref.Set (Repinfo_Collection_Data'(others => <>));
       Result := Result_Ref.Unchecked_Get;
@@ -2574,48 +2628,7 @@ package body Libadalang.Data_Decomposition is
                   raise Loading_Error with Filename & ": invalid entity found";
                end if;
 
-               declare
-                  Name      : constant String := Entity.Get ("name");
-                  Key       : constant Symbol_Type :=
-                    Symbolize (Result.all, Name);
-                  Type_Repr : Type_Representation_Access;
-
-                  --  Check that this is the first entity description for that
-                  --  name.
-
-                  Previous_From : Origin_Maps.Cursor;
-                  Inserted      : Boolean;
-               begin
-                  Origins.Insert (Key, XFilename, Previous_From, Inserted);
-                  if not Inserted then
-                     raise Loading_Error with
-                       Filename & ": duplicate entry for " & Name & " (from "
-                       & To_String (Origins.Reference (Previous_From)) & ")";
-                  end if;
-
-                  --  Do the import iff we handle this kind of entity
-
-                  if Trace.Is_Active then
-                     Trace.Trace ("Loading entry: " & Name);
-                     Trace.Increase_Indent;
-                  end if;
-                  begin
-                     Type_Repr := Load_Type (Result.all, Entity, Name);
-                  exception
-                     when others =>
-                        if Trace.Is_Active then
-                           Trace.Decrease_Indent;
-                        end if;
-                        raise;
-                  end;
-                  if Trace.Is_Active then
-                     Trace.Decrease_Indent;
-                  end if;
-
-                  if Type_Repr /= null then
-                     Result.Type_Representations.Insert (Key, Type_Repr);
-                  end if;
-               end;
+               Load_Entry (XFilename, Entity, Entity.Get ("name"));
             end loop;
 
             --  Make sure the trace is decreased when terminating or aborting

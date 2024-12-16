@@ -1147,6 +1147,8 @@ package body Libadalang.PP_Impl is
 
       Syms : Symbol_Table;
       --  Symbol table for ``TDH``
+
+      Same_Contents : Boolean;
    begin
       --  If preprocessing is disabled for this file, just copy the input to
       --  the output.
@@ -1176,11 +1178,14 @@ package body Libadalang.PP_Impl is
       Syms := Create_Symbol_Table;
       Initialize (TDH, Syms, System.Null_Address);
       Extract_Tokens
-        (Input       => (Text_Buffer, Buffer.all'Address, Buffer'Length),
-         With_Trivia => True,
-         File_Reader => null,
-         TDH         => TDH,
-         Diagnostics => Diagnostics);
+        (Input         => (Text_Buffer, Buffer.all'Address, Buffer'Length),
+         With_Trivia   => True,
+         File_Reader   => null,
+         TDH           => TDH,
+         Diagnostics   => Diagnostics,
+         Old_TDH       => null,
+         Same_Contents => Same_Contents);
+      pragma Assert (not Same_Contents);
 
       --  Go through TDH's tokens and create a list of tokens to emit in the
       --  returned source buffer.

@@ -16,7 +16,13 @@ procedure Main is
    begin
       Put_Line ("== " & Label & " ==");
       New_Line;
+
+      --  Reparse once with an empty buffer and again using the on-disk source
+      --  file to make sure reparsing really happens.
+
+      U.Reparse (Buffer => "");
       U.Reparse;
+
       if U.Has_Diagnostics then
          Put_Line ("Diagnostics:");
          for D of U.Diagnostics loop

@@ -1096,11 +1096,8 @@ grammar ada_grammar {
             "with"
             "delta"
             /
-            # TODO: We use a "?pick" parser below only to satisfy unparsing
-            # because this is actually not optional in the case of delta
-            # aggregates. See langkit#816.
             AssocList+(
-               AggregateAssoc(?pick(delta_choice_list "=>") expr), ","
+               AggregateAssoc(delta_choice_list "=>" expr), ","
             )
             ")"
         )

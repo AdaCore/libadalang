@@ -28,7 +28,10 @@ lexer ada_lexer {
     # TODO: handle Unicode properties in Langkit and switch back to
     # \p{ID_Start} and \p{ID_Continue}.
     val identifier =
-        p"[\\$_]?(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|{bracket_char})(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|\\p{Nd}|\\p{Mn}|\\p{Mc}|_|{bracket_char})*"
+        p"[\\$_]?"
+        & p"(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|{bracket_char})"
+        & p"(\\p{Lu}|\\p{Ll}|\\p{Lt}|\\p{Lm}|\\p{Lo}|\\p{Nl}|\\p{Nd}|\\p{Mn}"
+        & p"|\\p{Mc}|_|{bracket_char})*"
 
 
     @unparsing_spacing(with=alphanumericals)

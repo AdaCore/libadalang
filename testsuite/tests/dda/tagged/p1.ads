@@ -24,6 +24,8 @@ package P1 is
 
    type R6_Parent is private;
 
+   subtype R8_Parent is R3_Parent (2);
+
 private
 
    type R5_Parent is tagged record

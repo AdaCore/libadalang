@@ -130,8 +130,47 @@
 }
 ,
 {
+  "name": "P1.R8_Parent",
+  "location": "p1.ads:27:12",
+  "Size": 128,
+  "Alignment": 8,
+  "record": [
+    {
+      "name": "N",
+      "discriminant": 1,
+      "Position":  8,
+      "First_Bit": 0,
+      "Size": 32
+    },
+    {
+      "name": "_Tag",
+      "Position":  0,
+      "First_Bit": 0,
+      "Size": 64
+    },
+    {
+      "name": "X1",
+      "Position": 12,
+      "First_Bit": 0,
+      "Size": 16
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "P1.R8_Parent.T3s",
+  "location": "p1.ads:27:4",
+  "Size": 16,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
   "name": "P1.R5_Parent",
-  "location": "p1.ads:29:9",
+  "location": "p1.ads:31:9",
   "Size": 128,
   "Alignment": 8,
   "record": [
@@ -154,7 +193,7 @@
 ,
 {
   "name": "P1.R6_Parent",
-  "location": "p1.ads:33:9",
+  "location": "p1.ads:35:9",
   "Size": 128,
   "Alignment": 8,
   "record": [

@@ -507,24 +507,31 @@ package body Libadalang.Data_Decomposition is
                                      Def  : Type_Def;
                                      Repr : Repinfo_Access))
    is
-      --  Get the full view for ``Self`` and ensure it is a record type, as
-      --  well as the type that ``Repr`` describes.
+      --  Get the full view of ``Decl``'s canonical type and ensure it is a
+      --  record type, as well as the type that ``Repr`` describes.
 
-      CTD : constant Concrete_Type_Decl :=
-        Decl.P_Full_View.As_Concrete_Type_Decl;
-      Def : constant Type_Def := CTD.F_Type_Def;
+      TD  : constant Base_Type_Decl := Decl.P_Canonical_Type.P_Full_View;
+      CTD : Concrete_Type_Decl;
+      Def : Type_Def;
    begin
-      if not CTD.P_Is_Record_Type then
+      if TD.Kind /= Ada_Concrete_Type_Decl then
          raise Type_Mismatch_Error with
-           "record type expected, got " & CTD.Image;
+           "record type declaration expected, got " & TD.Image;
       elsif Repr.Kind /= Record_Type then
          raise Type_Mismatch_Error with
            "record type repinfo expected, got " & Repr.Kind'Image;
       end if;
 
+      CTD := TD.As_Concrete_Type_Decl;
+      if not CTD.P_Is_Record_Type then
+         raise Type_Mismatch_Error with
+           "record type expected, got " & TD.Image;
+      end if;
+
       --  If this is a derived type, first iterate on the type that is derived
       --  (the base type).
 
+      Def := CTD.F_Type_Def;
       if Def.Kind = Ada_Derived_Type_Def then
          declare
             --  Start resolving the base type

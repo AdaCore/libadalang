@@ -36,4 +36,8 @@ package P2 is
       X2 : Integer;
    end record;
 
+   type R8_Child is new R8_Parent with record
+      X2 : Integer;
+   end record;
+
 end P2;

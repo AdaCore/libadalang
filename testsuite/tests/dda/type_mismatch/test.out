@@ -7,9 +7,11 @@ Cannot fetch representation information for <ConcreteTypeDecl ["T1_Child"] absen
 
 No representation information for <ConcreteTypeDecl ["T2_Parent"] absent_base_type.ads:11:4-11:41>
 
-Cannot fetch representation information for <ConcreteTypeDecl ["T2_Child"] absent_base_type.ads:12:4-12:52>:
-  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
-  cannot find repinfo for <ConcreteTypeDecl ["T2_Parent"] absent_base_type.ads:11:4-11:41>
+Representation information for <ConcreteTypeDecl ["T2_Child"] absent_base_type.ads:12:4-12:52>:
+Kind: RECORD_TYPE
+Alignment: 1
+Object_Size | Value_Size: 0 | 0
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 
 Analyzing missing_component.ads
 ###############################

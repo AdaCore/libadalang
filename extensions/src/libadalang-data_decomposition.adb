@@ -545,21 +545,26 @@ package body Libadalang.Data_Decomposition is
 
             Base_Decl := Base_Decl.P_Full_View.As_Base_Type_Decl;
 
-            --  Then look for its type representation information
+            --  Then look for its type representation information: if we find
+            --  it, continue the recursion on that base type. If we don't,
+            --  information representation is likely incomplete (missing for a
+            --  base type): do not crash in this case as it may be hard for
+            --  users to provide the JSON for the base type's repinfo (for
+            --  instance Ada.Finalization.Controlled, which would require to
+            --  rebuild the runtime). Just log this information and stop the
+            --  iteration there: users just won't have access to repinfo for
+            --  the base type's components.
 
             Base_Repr := Collection.Lookup (Base_Decl);
-            if Is_Null (Base_Repr) then
-               raise Type_Mismatch_Error with
-                 "cannot find repinfo for " & Base_Decl.Image;
+            if not Is_Null (Base_Repr) then
+               Iterate_Derivations
+                 (Collection => Collection,
+                  Decl       => Base_Decl,
+                  Repr       => Base_Repr.Data,
+                  Process    => Process);
+            elsif Trace.Is_Active then
+               Trace.Trace ("cannot find repinfo for " & Base_Decl.Image);
             end if;
-
-            --  Continue the recursion on that base type
-
-            Iterate_Derivations
-              (Collection => Collection,
-               Decl       => Base_Decl,
-               Repr       => Base_Repr.Data,
-               Process    => Process);
          end;
       end if;
 

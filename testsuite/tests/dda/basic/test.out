@@ -180,4 +180,14 @@ Component_Size: 64
 
 No representation information for <AnonymousTypeDecl ["None"] accesses.ads:11:36-11:50>
 
+Analyzing overloadings.adb
+##########################
+
+Representation information for <SubtypeDecl ["R"] overloadings.adb:18:7-18:36>:
+Kind: ARRAY_TYPE
+Alignment: 1
+Object_Size | Value_Size: <unsupported> | <unsupported>
+Scalar_Storage_Order: LOW_ORDER_FIRST
+Component_Size: 8
+
 Done.

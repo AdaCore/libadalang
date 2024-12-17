@@ -3,11 +3,13 @@
 --  SPDX-License-Identifier: Apache-2.0
 --
 
+with Ada.Directories; use Ada.Directories;
 with Ada.Containers.Hashed_Sets;
 with Ada.Containers.Vectors;
-with Ada.Exceptions; use Ada.Exceptions;
+with Ada.Exceptions;  use Ada.Exceptions;
 with Ada.IO_Exceptions;
-with Ada.Text_IO;    use Ada.Text_IO;
+with Ada.Text_IO;     use Ada.Text_IO;
+with GNAT.Regpat;     use GNAT.Regpat;
 
 with GNATCOLL.JSON; use GNATCOLL.JSON;
 with GNATCOLL.Mmap;
@@ -44,7 +46,7 @@ package body Libadalang.Data_Decomposition is
       Collection : Repinfo_Collection)
       return Numerical_Expression;
    function Wrap
-     (Self        : Type_Representation_Access;
+     (Self        : Repinfo_Access;
       Declaration : Base_Type_Decl'Class;
       Collection  : Repinfo_Collection)
       return Type_Representation;
@@ -66,10 +68,10 @@ package body Libadalang.Data_Decomposition is
    procedure Iterate_Derivations
      (Collection : Repinfo_Collection;
       Decl       : Base_Type_Decl'Class;
-      Repr       : Type_Representation_Access;
+      Repr       : Repinfo_Access;
       Process    : access procedure (Decl : Concrete_Type_Decl;
                                      Def  : Type_Def;
-                                     Repr : Type_Representation_Access));
+                                     Repr : Repinfo_Access));
    --  Assuming that ``Self`` is a record type declaration and ``Repr`` the
    --  corresponding representation data, call ``Process`` on all types whose
    --  derivations yield to ``Self`` plus their corresponding representation
@@ -92,7 +94,7 @@ package body Libadalang.Data_Decomposition is
    function Component_Associations
      (Collection : Repinfo_Collection;
       Decl       : Base_Type_Decl'Class;
-      Repr       : Type_Representation_Access)
+      Repr       : Repinfo_Access)
       return Component_Association_Vectors.Vector;
    --  Append to ``Decls`` all components from ``Self``, including
    --  discriminants, components defined in parent types, but excluding
@@ -127,10 +129,18 @@ package body Libadalang.Data_Decomposition is
       Name : Text_Type) return Symbol_Type;
    --  Turn the given name into a symbol for ``Self``
 
+   function Parse_Location
+     (S    : String;
+      Self : in out Repinfo_Collection_Data) return Repinfo_Location;
+   --  Parse ``S`` as "filename:line:column" (ignoring optional extra
+   --  information for generic instantiations) and return the corresponding
+   --  location information. Raise a ``Constraint_Error`` exception if ``S``
+   --  does not have a valid format.
+
    function Load_Type
      (Self   : in out Repinfo_Collection_Data;
       Entity : JSON_Value;
-      Name   : String) return Type_Representation_Access;
+      Name   : String) return Repinfo_Access;
    --  Import the type representation corresponding to the description in
    --  ``Entity`` into ``Self``. Return null if this is not an entity we can
    --  handle.
@@ -184,42 +194,43 @@ package body Libadalang.Data_Decomposition is
      (Self : in out Repinfo_Collection_Data) return Rational_Access;
    --  Allocate a rational number for ``Self``
 
+   function Allocate_String
+     (Self : in out Repinfo_Collection_Data;
+      S    : String) return String_Access;
+   --  Allocate and initialize a string for ``Self``
+
    ---------------------
    -- Pool allocators --
    ---------------------
 
-   subtype Record_Type_Subtype is Type_Representation_Data (Record_Type);
+   subtype Record_Type_Subtype is Repinfo_Data (Record_Type);
    type Record_Type_Access is access all Record_Type_Subtype;
    pragma No_Strict_Aliasing (Record_Type_Access);
    package Record_Type_Allocator is new Alloc
      (Record_Type_Subtype, Record_Type_Access);
-   function Allocate_Record_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access;
+   function Allocate_Record_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access;
 
-   subtype Array_Type_Subtype is Type_Representation_Data (Array_Type);
+   subtype Array_Type_Subtype is Repinfo_Data (Array_Type);
    type Array_Type_Access is access all Array_Type_Subtype;
    pragma No_Strict_Aliasing (Array_Type_Access);
    package Array_Type_Allocator is new Alloc
      (Array_Type_Subtype, Array_Type_Access);
-   function Allocate_Array_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access;
+   function Allocate_Array_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access;
 
    subtype Fixed_Type_Subtype is
-     Type_Representation_Data (Internal_Fixed_Type);
+     Repinfo_Data (Internal_Fixed_Type);
    type Fixed_Type_Access is access all Fixed_Type_Subtype;
    pragma No_Strict_Aliasing (Fixed_Type_Access);
    package Fixed_Type_Allocator is new Alloc
      (Fixed_Type_Subtype, Fixed_Type_Access);
-   function Allocate_Fixed_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access;
+   function Allocate_Fixed_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access;
 
-   subtype Other_Type_Subtype is Type_Representation_Data (Other_Type);
+   subtype Other_Type_Subtype is Repinfo_Data (Other_Type);
    type Other_Type_Access is access all Other_Type_Subtype;
    pragma No_Strict_Aliasing (Other_Type_Access);
    package Other_Type_Allocator is new Alloc
      (Other_Type_Subtype, Other_Type_Access);
-   function Allocate_Other_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access;
+   function Allocate_Other_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access;
 
    package Numerical_Expression_Allocator is new Alloc
      (Numerical_Expression_Data, Numerical_Expression_Access);
@@ -253,6 +264,7 @@ package body Libadalang.Data_Decomposition is
    -----------------------------
 
    Key_Alignment   : constant String := "Alignment";
+   Key_Location    : constant String := "location";
    Key_Object_Size : constant String := "Object_Size";
    Key_Size        : constant String := "Size";
    Key_Value_Size  : constant String := "Value_Size";
@@ -362,7 +374,7 @@ package body Libadalang.Data_Decomposition is
    ----------
 
    function Wrap
-     (Self        : Type_Representation_Access;
+     (Self        : Repinfo_Access;
       Declaration : Base_Type_Decl'Class;
       Collection  : Repinfo_Collection)
       return Type_Representation
@@ -371,9 +383,7 @@ package body Libadalang.Data_Decomposition is
       Variants          : Variant_Representation_Access_Array_Access;
 
       procedure Process
-        (Decl : Concrete_Type_Decl;
-         Def  : Type_Def;
-         Repr : Type_Representation_Access);
+        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access);
       --  Ensure that ``Decl``/``Def`` and ``Repr`` are consistent regarding
       --  variant parts (either both have one, either one have it). Update the
       --  ``Variant_Part_Node`` and ``Variants`` local variables above
@@ -386,9 +396,7 @@ package body Libadalang.Data_Decomposition is
       -------------
 
       procedure Process
-        (Decl : Concrete_Type_Decl;
-         Def  : Type_Def;
-         Repr : Type_Representation_Access)
+        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access)
       is
          Comps : constant Component_List := Get_Component_List (Def);
          VP    : constant Variant_Part :=
@@ -493,10 +501,10 @@ package body Libadalang.Data_Decomposition is
    procedure Iterate_Derivations
      (Collection : Repinfo_Collection;
       Decl       : Base_Type_Decl'Class;
-      Repr       : Type_Representation_Access;
+      Repr       : Repinfo_Access;
       Process    : access procedure (Decl : Concrete_Type_Decl;
                                      Def  : Type_Def;
-                                     Repr : Type_Representation_Access))
+                                     Repr : Repinfo_Access))
    is
       --  Get the full view for ``Self`` and ensure it is a record type, as
       --  well as the type that ``Repr`` describes.
@@ -522,7 +530,7 @@ package body Libadalang.Data_Decomposition is
 
             Base_Decl_Ref : constant Subtype_Indication :=
               Def.As_Derived_Type_Def.F_Subtype_Indication;
-            Base_Decl     : constant Base_Type_Decl :=
+            Base_Decl     : Base_Type_Decl :=
               Base_Decl_Ref.P_Designated_Type_Decl;
             Base_Repr     : Type_Representation;
          begin
@@ -530,6 +538,11 @@ package body Libadalang.Data_Decomposition is
                raise Type_Mismatch_Error with
                  "cannot resolve " & Base_Decl_Ref.Image;
             end if;
+
+            --  Work on the fullest view, as JSON entries always refer to them
+            --  (instead of incomplete views, forward declarations, ...).
+
+            Base_Decl := Base_Decl.P_Full_View.As_Base_Type_Decl;
 
             --  Then look for its type representation information
 
@@ -583,7 +596,7 @@ package body Libadalang.Data_Decomposition is
    function Component_Associations
      (Collection : Repinfo_Collection;
       Decl       : Base_Type_Decl'Class;
-      Repr       : Type_Representation_Access)
+      Repr       : Repinfo_Access)
       return Component_Association_Vectors.Vector
    is
       Coll  : Repinfo_Collection_Data renames
@@ -609,9 +622,7 @@ package body Libadalang.Data_Decomposition is
       --  in all other cases.
 
       procedure Process
-        (Decl : Concrete_Type_Decl;
-         Def  : Type_Def;
-         Repr : Type_Representation_Access);
+        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access);
       --  Process a record type declaration
 
       -------------------------
@@ -650,9 +661,7 @@ package body Libadalang.Data_Decomposition is
       -------------
 
       procedure Process
-        (Decl : Concrete_Type_Decl;
-         Def  : Type_Def;
-         Repr : Type_Representation_Access)
+        (Decl : Concrete_Type_Decl; Def : Type_Def; Repr : Repinfo_Access)
       is
          Comps : Component_Representation_Access_Array renames
            Repr.Components.all;
@@ -880,6 +889,42 @@ package body Libadalang.Data_Decomposition is
       return Find (Self.Symbols, To_Lower (Name));
    end Symbolize;
 
+   Repinfo_Location_Pattern : constant Pattern_Matcher :=
+     Compile ("^(.+):([0-9]+):([0-9]+)( .*)?$");
+   --  Regular expression used to parse a repinfo location.
+   --
+   --  * Group 1: filename.
+   --  * Group 2: line number.
+   --  * Group 3: column number.
+   --  * Group 4: optional generic instantiation information (unused here).
+
+   --------------------
+   -- Parse_Location --
+   --------------------
+
+   function Parse_Location
+     (S    : String;
+      Self : in out Repinfo_Collection_Data) return Repinfo_Location
+   is
+      Matches : Match_Array (0 .. 3);
+   begin
+      Match (Repinfo_Location_Pattern, S, Matches);
+      if Matches (0) = No_Match then
+         raise Constraint_Error;
+      end if;
+
+      declare
+         File_Str   : String renames S (Matches (1).First .. Matches (1).Last);
+         Line_Str   : String renames S (Matches (2).First .. Matches (2).Last);
+         Column_Str : String renames S (Matches (3).First .. Matches (3).Last);
+      begin
+         return
+           (File_Basename => Allocate_String (Self, File_Str),
+            Sloc          => (Line_Number'Value (Line_Str),
+                              Column_Number'Value (Column_Str)));
+      end;
+   end Parse_Location;
+
    ---------------
    -- Load_Type --
    ---------------
@@ -887,7 +932,7 @@ package body Libadalang.Data_Decomposition is
    function Load_Type
      (Self   : in out Repinfo_Collection_Data;
       Entity : JSON_Value;
-      Name   : String) return Type_Representation_Access
+      Name   : String) return Repinfo_Access
    is
       function Load_Bit_Order (Field : String) return System.Bit_Order;
       --  Load a bit order attribute (``Field``) from ``Entity``
@@ -916,9 +961,36 @@ package body Libadalang.Data_Decomposition is
                  Name & "/" & Field & ": invalid bit order");
       end Load_Bit_Order;
 
+      Location                : Repinfo_Location;
       Alignment               : Natural;
       Object_Size, Value_Size : Numerical_Expression_Access;
    begin
+      --  Extract location information
+
+      declare
+         Has_Location : Boolean := True;
+      begin
+         if not Entity.Has_Field (Key_Location) then
+            Trace.Trace
+              ("Missing mandatory attribute (" & Key_Location
+               & "): skipping type");
+            return null;
+         elsif Entity.Get (Key_Location).Kind /= JSON_String_Type then
+            Has_Location := False;
+         else
+            begin
+               Location := Parse_Location (Entity.Get (Key_Location), Self);
+            exception
+               when Constraint_Error =>
+                  Has_Location := False;
+            end;
+         end if;
+
+         if not Has_Location then
+            raise Loading_Error with Name & ": invalid location";
+         end if;
+      end;
+
       --  The kind of type that is loaded is inferred from the JSON fields
       --  present, hence the heuristics below.
       --
@@ -963,9 +1035,10 @@ package body Libadalang.Data_Decomposition is
 
          --  This looks like a record type
 
-         return Result : constant Type_Representation_Access :=
+         return Result : constant Repinfo_Access :=
            Allocate_Record_Type (Self.Pool)
          do
+            Result.Location := Location;
             Result.Alignment := Alignment;
             Result.Object_Size := Object_Size;
             Result.Value_Size := Value_Size;
@@ -992,9 +1065,10 @@ package body Libadalang.Data_Decomposition is
 
          --  This looks like an array type
 
-         return Result : constant Type_Representation_Access :=
+         return Result : constant Repinfo_Access :=
            Allocate_Array_Type (Self.Pool)
          do
+            Result.Location := Location;
             Result.Alignment := Alignment;
             Result.Object_Size := Object_Size;
             Result.Value_Size := Value_Size;
@@ -1008,9 +1082,10 @@ package body Libadalang.Data_Decomposition is
 
          --  This looks like a fixed point type
 
-         return Result : constant Type_Representation_Access :=
+         return Result : constant Repinfo_Access :=
            Allocate_Fixed_Type (Self.Pool)
          do
+            Result.Location := Location;
             Result.Alignment := Alignment;
             Result.Object_Size := Object_Size;
             Result.Value_Size := Value_Size;
@@ -1044,9 +1119,10 @@ package body Libadalang.Data_Decomposition is
          --  Assume this entity describes a number type that is not a fixed
          --  point type.
 
-         return Result : constant Type_Representation_Access :=
+         return Result : constant Repinfo_Access :=
            Allocate_Other_Type (Self.Pool)
          do
+            Result.Location := Location;
             Result.Alignment := Alignment;
             Result.Object_Size := Object_Size;
             Result.Value_Size := Value_Size;
@@ -1544,61 +1620,67 @@ package body Libadalang.Data_Decomposition is
       end return;
    end Allocate_Rational;
 
+   ---------------------
+   -- Allocate_String --
+   ---------------------
+
+   function Allocate_String
+     (Self : in out Repinfo_Collection_Data;
+      S    : String) return String_Access is
+   begin
+      return Result : constant String_Access := new String'(S) do
+         Self.Strings.Append (Result);
+      end return;
+   end Allocate_String;
+
    --------------------------
    -- Allocate_Record_Type --
    --------------------------
 
-   function Allocate_Record_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access
+   function Allocate_Record_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access
    is
       Result : constant Record_Type_Access :=
         Record_Type_Allocator.Alloc (Pool);
       Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
       Kind := Record_Type;
-      return Type_Representation_Access (Result);
+      return Repinfo_Access (Result);
    end Allocate_Record_Type;
 
    -------------------------
    -- Allocate_Array_Type --
    -------------------------
 
-   function Allocate_Array_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access
-   is
+   function Allocate_Array_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access is
       Result : constant Array_Type_Access := Array_Type_Allocator.Alloc (Pool);
       Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
       Kind := Array_Type;
-      return Type_Representation_Access (Result);
+      return Repinfo_Access (Result);
    end Allocate_Array_Type;
 
    -------------------------
    -- Allocate_Fixed_Type --
    -------------------------
 
-   function Allocate_Fixed_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access
-   is
+   function Allocate_Fixed_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access is
       Result : constant Fixed_Type_Access := Fixed_Type_Allocator.Alloc (Pool);
       Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
       Kind := Internal_Fixed_Type;
-      return Type_Representation_Access (Result);
+      return Repinfo_Access (Result);
    end Allocate_Fixed_Type;
 
    -------------------------
    -- Allocate_Other_Type --
    -------------------------
 
-   function Allocate_Other_Type
-     (Pool : Bump_Ptr_Pool) return Type_Representation_Access
-   is
+   function Allocate_Other_Type (Pool : Bump_Ptr_Pool) return Repinfo_Access is
       Result : constant Other_Type_Access := Other_Type_Allocator.Alloc (Pool);
       Kind   : Internal_Type_Kind with Import, Address => Result.Kind'Address;
    begin
       Kind := Other_Type;
-      return Type_Representation_Access (Result);
+      return Repinfo_Access (Result);
    end Allocate_Other_Type;
 
    ------------------------
@@ -2477,6 +2559,20 @@ package body Libadalang.Data_Decomposition is
       end return;
    end Resolved_Record;
 
+   --------------
+   -- Contains --
+   --------------
+
+   function Contains
+     (N : Ada_Node'Class; Location : Repinfo_Location) return Boolean
+   is
+      Filename : constant String := Simple_Name (N.Unit.Get_Filename);
+   begin
+      return
+        Location.File_Basename.all = Filename
+        and then Compare (N.Sloc_Range, Location.Sloc) = Inside;
+   end Contains;
+
    ------------
    -- Lookup --
    ------------
@@ -2485,7 +2581,9 @@ package body Libadalang.Data_Decomposition is
      (Self : Repinfo_Collection;
       Decl : Base_Type_Decl'Class) return Type_Representation
    is
-      use Type_Representation_Maps;
+      use Repinfo_Maps;
+
+      Actual_Decl : Base_Type_Decl;
    begin
       --  Anonymous type declarations may not have a fully qualified name (the
       --  call to P_Fully_Qualified_Name below may crash), and we never have
@@ -2498,21 +2596,44 @@ package body Libadalang.Data_Decomposition is
          return No_Type_Representation;
       end if;
 
+      --  Work on the fullest view, as JSON entries always refer to them
+      --  (instead of incomplete views, forward declarations, ...).
+
+      Actual_Decl := Decl.P_Full_View;
+      if Actual_Decl.Is_Null then
+         if Trace.Is_Active then
+            Trace.Trace ("Cannot find the full view of " & Decl.Image);
+         end if;
+         return No_Type_Representation;
+      end if;
+
       declare
          Collection : Repinfo_Collection_Data renames Self.Unchecked_Get.all;
 
          --  Build a symbol for the fully qualified name of this type
 
-         FQN : constant Text_Type := Decl.P_Fully_Qualified_Name;
+         FQN : constant Text_Type := Actual_Decl.P_Fully_Qualified_Name;
          Key : constant Symbol_Type := Symbolize (Collection, FQN);
 
          --  Look for a corresponding type representation entry
 
-         Cur : constant Cursor := Collection.Type_Representations.Find (Key);
+         Cur    : constant Cursor := Collection.Map.Find (Key);
+         Result : Repinfo_Access;
       begin
          Trace.Trace ("Looking for representation of " & Image (FQN));
-         return (if Has_Element (Cur)
-                 then Wrap (Element (Cur), Decl, Self)
+         Result := (if Has_Element (Cur) then Element (Cur) else null);
+
+         --  Go through all items in the linked list until we find a repinfo
+         --  record whose location matches Actual_Decl's.
+
+         while Result /= null
+               and then not Contains (Actual_Decl, Result.Location)
+         loop
+            Result := Result.Next;
+         end loop;
+
+         return (if Result /= null then
+                 Wrap (Result, Actual_Decl, Self)
                  else No_Type_Representation);
       end;
    end Lookup;
@@ -2522,18 +2643,7 @@ package body Libadalang.Data_Decomposition is
    ----------
 
    function Load (Filenames : Filename_Array) return Repinfo_Collection is
-      package Origin_Maps is new Ada.Containers.Hashed_Maps
-        (Key_Type        => Symbol_Type,
-         Element_Type    => Unbounded_String,
-         Hash            => Hash,
-         Equivalent_Keys => "=");
-      Origins : Origin_Maps.Map;
-      --  Mapping from the fully qualified name of imported entity to the
-      --  JSON file name from which it was imported. Used for duplicates error
-      --  reporting.
-
-      procedure Load_Entry
-        (Filename : Unbounded_String; Entity : JSON_Value; Name : String);
+      procedure Load_Entry (Entity : JSON_Value; Name : String);
       --  Load type information from the given entity JSON description and its
       --  name (fully qualified, coming from the JSON itself). Filename is the
       --  JSON file in which this entity was found.
@@ -2549,26 +2659,10 @@ package body Libadalang.Data_Decomposition is
       -- Load_Entry --
       ----------------
 
-      procedure Load_Entry
-        (Filename : Unbounded_String; Entity : JSON_Value; Name : String)
-      is
+      procedure Load_Entry (Entity : JSON_Value; Name : String) is
          Key       : constant Symbol_Type := Symbolize (Result.all, Name);
-         Type_Repr : Type_Representation_Access;
-
-         --  Check that this is the first entity description for that
-         --  name.
-
-         Previous_From : Origin_Maps.Cursor;
-         Inserted      : Boolean;
+         Repinfo : Repinfo_Access;
       begin
-         Origins.Insert (Key, Filename, Previous_From, Inserted);
-         if not Inserted then
-            raise Loading_Error with
-              To_String (Filename) & ": duplicate entry for " & Name
-              & " (from " & To_String (Origins.Reference (Previous_From))
-              & ")";
-         end if;
-
          --  Do the import iff we handle this kind of entity
 
          if Trace.Is_Active then
@@ -2576,7 +2670,7 @@ package body Libadalang.Data_Decomposition is
             Trace.Increase_Indent;
          end if;
          begin
-            Type_Repr := Load_Type (Result.all, Entity, Name);
+            Repinfo := Load_Type (Result.all, Entity, Name);
          exception
             when others =>
                if Trace.Is_Active then
@@ -2588,9 +2682,23 @@ package body Libadalang.Data_Decomposition is
             Trace.Decrease_Indent;
          end if;
 
-         if Type_Repr /= null then
-            Result.Type_Representations.Insert (Key, Type_Repr);
+         if Repinfo = null then
+            return;
          end if;
+
+         --  Insert this new entry in the map. If we already have one entry for
+         --  the same key, push the new one in front in the linked list.
+
+         declare
+            Position : Repinfo_Maps.Cursor;
+            Inserted : Boolean;
+         begin
+            Result.Map.Insert (Key, Repinfo, Position, Inserted);
+            if not Inserted then
+               Repinfo.Next := Repinfo_Maps.Element (Position);
+               Result.Map.Replace_Element (Position, Repinfo);
+            end if;
+         end;
       end Load_Entry;
    begin
       Result_Ref.Set (Repinfo_Collection_Data'(others => <>));
@@ -2628,7 +2736,7 @@ package body Libadalang.Data_Decomposition is
                   raise Loading_Error with Filename & ": invalid entity found";
                end if;
 
-               Load_Entry (XFilename, Entity, Entity.Get ("name"));
+               Load_Entry (Entity, Entity.Get ("name"));
             end loop;
 
             --  Make sure the trace is decreased when terminating or aborting
@@ -2896,6 +3004,7 @@ package body Libadalang.Data_Decomposition is
    procedure Release (Self : in out Repinfo_Collection_Data) is
       Var_I   : Integer_Access;
       Var_R   : Rational_Access;
+      Var_S   : String_Access;
       Var_CRA : Component_Representation_Access_Array_Access;
       Var_VRA : Variant_Representation_Access_Array_Access;
    begin
@@ -2911,6 +3020,11 @@ package body Libadalang.Data_Decomposition is
          Free (Var_R);
       end loop;
       Self.Rationals.Destroy;
+      for S of Self.Strings loop
+         Var_S := S;
+         Free (Var_S);
+      end loop;
+      Self.Strings.Destroy;
 
       for CRA of Self.Component_Repinfo_Arrays loop
          Var_CRA := CRA;

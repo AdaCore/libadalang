@@ -138,6 +138,7 @@ with GPR2.Project.Tree;
 with GPR2.Project.View;
 
 private with Langkit_Support.Bump_Ptr;
+private with Langkit_Support.Slocs;
 private with Langkit_Support.Symbols;
 with Langkit_Support.Text; use Langkit_Support.Text;
 private with Langkit_Support.Vectors;
@@ -565,8 +566,9 @@ package Libadalang.Data_Decomposition is
 
 private
 
-   use Langkit_Support.Symbols;
    use Langkit_Support.Bump_Ptr;
+   use Langkit_Support.Slocs;
+   use Langkit_Support.Symbols;
 
    Trace : constant GNATCOLL.Traces.Trace_Handle :=
      GNATCOLL.Traces.Create ("LIBADALANG.DDA", GNATCOLL.Traces.From_Config);
@@ -602,12 +604,13 @@ private
 
    package Integer_Vectors is new Langkit_Support.Vectors (Integer_Access);
    package Rational_Vectors is new Langkit_Support.Vectors (Rational_Access);
+   package String_Vectors is new Langkit_Support.Vectors (String_Access);
 
    type Numerical_Expression_Data;
    type Numerical_Expression_Access is access all Numerical_Expression_Data;
 
-   type Type_Representation_Data;
-   type Type_Representation_Access is access all Type_Representation_Data;
+   type Repinfo_Data;
+   type Repinfo_Access is access all Repinfo_Data;
 
    type Component_Representation_Data;
    type Component_Representation_Access is
@@ -746,11 +749,34 @@ private
    subtype Internal_Composite_Type is
      Internal_Type_Kind range Record_Type ..  Array_Type;
 
+   type Repinfo_Location is record
+      File_Basename : String_Access;
+      Sloc          : Source_Location;
+   end record;
+   --  Decoded location from the JSON document. ``File_Basename`` is allocated
+   --  in the collection's pooled.
+
+   function Contains
+     (N : Ada_Node'Class; Location : Repinfo_Location) return Boolean;
+   --  Return whether the source location range for ``N`` contains ``Location``
+
    --  For all components in the record types below, please refer to the
    --  corresponding primitive functions for the documentation of their
    --  semantics.
 
-   type Type_Representation_Data (Kind : Internal_Type_Kind) is record
+   type Repinfo_Data (Kind : Internal_Type_Kind) is record
+      Next : Repinfo_Access;
+      --  Because of overloading, there may be more than one repinfo for a
+      --  single name, so we store all the representation info for a given name
+      --  as a linked list and use sloc information when performing lookup.
+      --
+      --  Since representation information is generated for type and object
+      --  declarations, in order to have fully-qualified-name homonyms, we need
+      --  to have same-name entities in overloaded subprograms, which is rare
+      --  in practice, so we expect 1-item linked lists most of the time.
+
+      Location : Repinfo_Location;
+
       Alignment   : Positive;
       Object_Size : Numerical_Expression_Access;
       Value_Size  : Numerical_Expression_Access;
@@ -799,9 +825,9 @@ private
       Size                : Numerical_Expression_Access;
    end record;
 
-   package Type_Representation_Maps is new Ada.Containers.Hashed_Maps
+   package Repinfo_Maps is new Ada.Containers.Hashed_Maps
      (Key_Type        => Symbol_Type,
-      Element_Type    => Type_Representation_Access,
+      Element_Type    => Repinfo_Access,
       Hash            => Hash,
       Equivalent_Keys => "=");
 
@@ -812,8 +838,9 @@ private
 
       Integers  : Integer_Vectors.Vector;
       Rationals : Rational_Vectors.Vector;
-      --  List of all big integers/rationals allocated for this collection, to
-      --  be free'd when the collection is finalized.
+      Strings   : String_Vectors.Vector;
+      --  List of all big integers/rationals/strings allocated for this
+      --  collection, to be free'd when the collection is finalized.
 
       Component_Repinfo_Arrays : Component_Repinfo_Array_Vectors.Vector;
       Variant_Repinfo_Arrays   : Variant_Repinfo_Array_Vectors.Vector;
@@ -822,9 +849,10 @@ private
       Symbols : Symbol_Table;
       --  Symbol table, used to internalize all type names and component names
 
-      Type_Representations : Type_Representation_Maps.Map;
-      --  Mapping from lower case fully qualified type names to the
-      --  corresponding type representations.
+      Map : Repinfo_Maps.Map;
+      --  Mapping from lower case fully qualified type names to the linked list
+      --  of corresponding representation information. See
+      --  ``Repinfo_Data.Next`` for more details.
    end record;
 
    ---------------------
@@ -838,7 +866,7 @@ private
 
    type Type_Representation is record
       Collection : Repinfo_Collection;
-      Data       : Type_Representation_Access;
+      Data       : Repinfo_Access;
 
       Declaration : Base_Type_Decl;
       --  Declaration for this type

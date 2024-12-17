@@ -24,7 +24,7 @@
 ,
 {
   "name": "Missing_Component.T2",
-  "location": "missing_component.ads:8:9",
+  "location": "missing_component.ads:9:9",
   "Size": 8,
   "Alignment": 1,
   "record": [
@@ -49,7 +49,7 @@
 ,
 {
   "name": "Missing_Component.T3",
-  "location": "missing_component.ads:14:9",
+  "location": "missing_component.ads:15:9",
   "Size": 64,
   "Alignment": 4,
   "record": [

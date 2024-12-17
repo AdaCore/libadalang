@@ -11,3 +11,4 @@ input_sources:
   - records.ads
   - arrays.ads
   - accesses.ads
+  - overloadings.adb

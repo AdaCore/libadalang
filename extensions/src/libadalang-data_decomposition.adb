@@ -96,9 +96,10 @@ package body Libadalang.Data_Decomposition is
       Decl       : Base_Type_Decl'Class;
       Repr       : Repinfo_Access)
       return Component_Association_Vectors.Vector;
-   --  Append to ``Decls`` all components from ``Self``, including
-   --  discriminants, components defined in parent types, but excluding
-   --  components from variant parts.
+   --  Assuming that ``Decl`` is a record type declaration, return a vector
+   --  that contains declaration/repinfo associations for all of its components
+   --  (including discriminants, components defined in parent types, but
+   --  excluding components from variant parts).
 
    ----------------------
    -- Extract_Variants --

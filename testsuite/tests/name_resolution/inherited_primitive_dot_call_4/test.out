@@ -1,0 +1,25 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:25:4-25:20>
+*********************************************************
+
+Expr: <Id "B" test.adb:25:4-25:5>
+  references:    <DefiningName "B" test.adb:23:4-23:5>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: None
+Expr: <DottedName test.adb:25:9-25:19>
+  references:    <| DefiningName "Is_Empty" test.adb:7:16-7:24 [test.adb:18:4, test.adb:13:7] |>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "X" test.adb:25:9-25:10>
+  references:    <DefiningName "X" test.adb:22:4-22:5>
+  type:          <ConcreteTypeDecl ["Vector_Access"] test.adb:20:4-20:56>
+  expected type: <| ConcreteTypeDecl ["Vector"] test.adb:5:7-5:41 [test.adb:18:4, test.adb:13:7] |>
+Expr: <Id "Is_Empty" test.adb:25:11-25:19>
+  references:    <| DefiningName "Is_Empty" test.adb:7:16-7:24 [test.adb:18:4, test.adb:13:7] |>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+
+
+Done.

@@ -3150,21 +3150,43 @@ class BaseFormalParamHolder: AdaNode {
             ]
     }
 
+    |" If this represents the spec of an inherited primitive subprogram, return
+    |" the subset of rebindings that still make sense for the derived type.
+    |" This will only end up filtering rebindings in the case of dottable
+    |" subprograms, due to how their environments are constructed (see
+    |" ``TypeDef.dottable_subps_env``). Indeed, a dottable subprogram is not
+    |" necessarily a primitive, while still being available on a derived type
+    |" which forces certain rebindings on its base type (e.g. when defining it
+    |" as ``type My_Vector is new My_Integer_Vectors.Vector``. Since we
+    |" wouldn't be able to recover the rebindings in that case, we need to
+    |" attach them to all dottable subprograms right from the start, which
+    |" means we may have to explicitly shed them when they don't make sense on
+    |" an inherited primitive.
+    fun rebindings_for_primitive_real_type(): EnvRebindings =
+        if self.info.md.dottable_subp
+            and not self.info.md.primitive.is_null
+            and not self.info.md.primitive_real_type.is_null
+        then
+            self.info.md.primitive_real_type.children_env
+            .shed_rebindings(self.info).rebindings
+        else
+            self.info.rebindings
+
     |" Return the real type denoted by ``typ``, taking into account that
     |" ``typ`` might be the type of a derived primitive. In that case, return
     |" the derived primitive type.
     @with_dynvars(origin=null[AdaNode])
     fun real_type(typ: Entity[BaseTypeDecl]): Entity[BaseTypeDecl] = {
         # Compute the type entity of which self is a primitive
-        val prim_type =
-            self.entity_no_md(
-                self.info.md.primitive,
-                self.info.rebindings,
-                self.info.from_rebound
-            )
-            .as[BaseTypeDecl];
+        val rebindings = self.rebindings_for_primitive_real_type();
+        val prim_type = self.entity_no_md(
+            self.info.md.primitive,
+            rebindings,
+            self.info.from_rebound
+        ).as[BaseTypeDecl];
 
-        if prim_type.node.is_null then typ
+        if prim_type.node.is_null or self.info.md.primitive_real_type.is_null
+        then typ
         elif prim_type?.canonical_type().node == typ?.canonical_type().node
         then
             match
@@ -3177,7 +3199,7 @@ class BaseFormalParamHolder: AdaNode {
                     # instantiations. We cannot mistakenly remove relevant
                     # rebindings, since a derived type cannot come from a
                     # subprogram instantiation.
-                    node.shed_subp_rebindings(self.info.rebindings),
+                    node.shed_subp_rebindings(rebindings),
                     self.info.from_rebound
                 )
             {
@@ -3268,46 +3290,49 @@ class BaseFormalParamHolder: AdaNode {
     @with_dynvars(origin)
     fun real_designated_type(typ: Entity[TypeExpr]): Entity[BaseTypeDecl] = {
         val md = self.info.md;
+        val rebindings = self.rebindings_for_primitive_real_type();
+        val texpr = self.entity_no_md(
+            typ.node,
+            rebindings,
+            typ.info.from_rebound
+        ).as[TypeExpr];
 
-        typ.designated_type()?.without_md().as[BaseTypeDecl].do(
-            (t) =>
-            # Subprograms retrieved through ``dottable_subps_env``
-            # already have their base type rebindings set, so we don't
-            # need to adjust it.
-            # TODO: we should however compute the real_type just like we
-            # do for regular primitives, but this can't be done yet because
-            # their ``primitive_real_type`` metadata is not precise enough
-            # as it is set on all dottable subprograms, even those which
-            # are not actual primitives.
-            if md.dottable_subp then t
-            else {
-                val rt = self.real_type(t);
+        texpr.designated_type().do((t) => {
+            # If this spec is that of an inherited primitive, and `typ`
+            # designates the primitive's type, then we actually want to
+            # work on the derived type.
+            val rt = self.real_type(t);
+
+            if t == rt then {
+                val real_prim_type = Entity[BaseTypeDecl](
+                    node=md.primitive_real_type.as[BaseTypeDecl],
+                    info=md.primitive_real_type?.children_env
+                    .shed_rebindings(typ.info)
+                );
                 val base_rebindings =
-                    md
-                    .primitive_real_type
-                    .as[BaseTypeDecl]
-                    .as_bare_entity
-                    ?.find_base_type_rebindings(md.primitive.as[BaseTypeDecl]);
+                    real_prim_type?.find_base_type_rebindings(
+                        md.primitive.as[BaseTypeDecl]
+                    );
 
-                if t == rt
+                # If the derived type does not imply extra rebindings (see
+                # docstring), then we can early return `t`, since the call to
+                # `designated_type` in the else-branch is exactly how we
+                # computed it in the first place.
+                if base_rebindings.is_null and
+                    rebindings == typ.info.rebindings
                 then
-                    if base_rebindings.is_null then t
-                    else
-                        Entity[TypeExpr](
-                            node=typ.node,
-                            info=EntityInfo(
-                                md=null[Metadata],
-                                rebindings=node.insert_rebindings(
-                                    typ.info.rebindings,
-                                    base_rebindings
-                                ),
-                                from_rebound=typ.info.from_rebound
-                            )
-                        )
-                        .designated_type()
-                else rt
-            }
-        )
+                    t
+                else
+                    self.entity_no_md(
+                        typ.node,
+                        node.insert_rebindings(
+                            typ.info.rebindings,
+                            base_rebindings
+                        ),
+                        typ.info.from_rebound
+                    ).as[TypeExpr].designated_type()
+            } else rt
+        })
     }
 
     |" Generate the equation that binds the type_var of this expression
@@ -8556,20 +8581,77 @@ class BaseTypeDecl: BasicDecl {
     fun dottable_subps_in_declaratives_parts(
         parts: Array[Entity[DeclarativePart]]
     ): Array[InnerEnvAssoc] =
-        parts.mapcat((dp) => dp?.decls.as_array()).filtermap(
-            (decl) => {
+        parts.mapcat((dp) => dp?.decls.as_array()).mapcat(
+            (decl) => if (
+                decl.as[BasicDecl]?.subp_spec_or_null()
+                ?.dottable_subp_of()?.base_subtype() == self
+            ) then {
                 val bd = decl.as[BasicDecl];
+                val sym = bd.defining_name().name_symbol();
 
-                InnerEnvAssoc(
-                    key=bd.defining_name().name_symbol(),
-                    value=bd.node,
-                    metadata=Metadata(dottable_subp=true)
-                )
-            },
-            (decl) =>
-            decl.as[BasicDecl]?.subp_spec_or_null()?.dottable_subp_of()
-            ?.base_subtype()
-            == self
+                # Find out if this dottable subprogram is also a primitive.
+                # If it's the case, we'll want to set the `primitive` metadata
+                # so that dot calls work as expected on derived types.
+                val is_prim = self.direct_primitives_env.get(
+                    sym,
+                    lookup=LookupKind.minimal
+                ).any((n) => n.node == bd.node);
+
+                # Moreover, consider the following definitions:
+                #
+                # .. code:: ada
+                #
+                #     type T is tagged null record;
+                #     function Foo (X : T'Class) return T;
+                #
+                # In that case, `Foo` is a primitive of `T`, but for a type `U`
+                # that derives from `T`, and an object `X` of type `U`, both of
+                # these statements are allowed:
+                #
+                # .. code:: ada
+                #
+                #     Y : T := X.Foo;
+                #     Z : U := X.Foo;
+                #
+                # The first case will call the base primitive, since it is
+                # defined on all `T'Class`, and the second case will call the
+                # inherited primitive. Thus, for a subprogram such as `Foo`,
+                # we actually need to register two dottable subprograms: one
+                # which represents the inhertied one (so, with the appropriate
+                # metadata), and one which represents the base one.
+                if is_prim then {
+                    # First, define the inherited dottable primitive
+                    val inherited = InnerEnvAssoc(
+                        key=sym,
+                        value=bd.node,
+                        metadata=Metadata(dottable_subp=true, primitive=node)
+                    );
+
+                    # If the type of the first parameter is not a type of which
+                    # this subprogram is a primitive, it means a dot call could
+                    # refer to the base (non-inherited) primitive, so we must
+                    # include it as well.
+                    val spec = bd.subp_spec_or_null();
+                    val first_type_is_not_prim =
+                        spec.get_candidate_type_for_primitive(
+                            spec.abstract_formal_params()[0].type_expression()
+                        ).is_null;
+                    if first_type_is_not_prim then
+                        [inherited, InnerEnvAssoc(
+                            key=sym,
+                            value=bd.node,
+                            metadata=Metadata(dottable_subp=true)
+                        )]
+                    else
+                        [inherited]
+                } else
+                    [InnerEnvAssoc(
+                        key=sym,
+                        value=bd.node,
+                        metadata=Metadata(dottable_subp=true)
+                    )]
+            } else
+                null[Array[InnerEnvAssoc]]
         )
 
     |" Helper function for ``find_base_type_rebindings``, which returns the
@@ -23266,11 +23348,12 @@ class TypeDef: AdaNode {
         # It is important to rebind the env with our current rebindings,
         # so that subsequent calls to env.get on this env return those
         # subprograms with the adequate rebindings.
-        # Note that we also set the ``primitive`` and ``primitive_real_type``
-        # metadata field (without checking that they are actual primitives)
-        # so that user queries such as ``primitive_subp_tagged_type`` return a
-        # precise type. This is OK because those fields are not used for
-        # name resolution in any case. (see TODO in ``real_designated_type``).
+        # Note that we also set the `primitive_real_type` metadata field
+        # (without checking that they are actual primitives) so that user
+        # queries such as `primitive_subp_tagged_type` return a precise type.
+        # This is OK because name resolution only considers this field if the
+        # `primitive` field is also set, and this is determined accurately in
+        # `BaseTypeDecl.dottable_subps`.
         [
             self.containing_type().dottable_subps_env.rebind_env(
                 self.info.rebindings
@@ -23278,7 +23361,7 @@ class TypeDef: AdaNode {
         ]
         .env_group(
             with_md=dottable_type.do(
-                (t) => Metadata(primitive=node.parent, primitive_real_type=t)
+                (t) => Metadata(primitive_real_type=t)
             )
         )
 

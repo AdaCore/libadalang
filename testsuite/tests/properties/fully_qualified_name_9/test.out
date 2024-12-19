@@ -1,0 +1,17 @@
+Working on node <ObjectDecl ["X"] test.adb:2:4-2:23>
+====================================================
+
+Set 'typ' to 'node.f_type_expr.p_designated_type_decl'
+Result: <AnonymousTypeDecl ["None"] test.adb:2:8-2:22>
+
+Eval 'typ.p_fully_qualified_name'
+Result: "Standard.Integer'Anonymous_Access"
+
+Working on node <ObjectDecl ["Y"] test.adb:6:4-6:34>
+====================================================
+
+Set 'typ' to 'node.f_type_expr.p_designated_type_decl'
+Result: <AnonymousTypeDecl ["None"] test.adb:6:8-6:33>
+
+Eval 'typ.p_fully_qualified_name'
+Exception: A fully qualified name is not available on this anonymous type

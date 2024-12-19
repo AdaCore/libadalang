@@ -5785,8 +5785,9 @@ class BasicDecl: AdaNode {
     @exported
     fun defining_name(): Entity[DefiningName] = self.defining_names()?[0]
 
-    |" Return the defining name of this ``BasicDecl``, if and only if there
-    |" is a unique defining name for it. Otherwise, raise a property error.
+    |" If this declaration has a single ``DefiningName``, return it.
+    |" If it doesn't have any (e.g. an ``AnonymousTypeDecl``), return null.
+    |" If it has multiple defining names, raise a ``PreconditionFailure``.
     fun defining_name_or_raise(): Entity[DefiningName] = {
         val dns = self.defining_names();
 
@@ -6132,34 +6133,54 @@ class BasicDecl: AdaNode {
         else self
     }
 
+    |" Return the defining name to use to compute the fully qualified name of
+    |" this declaration. Raise a ``PreconditionFailure`` for unsupported cases.
+    fun defining_name_for_fqn(): Entity[DefiningName] = {
+        bind origin = node;
+        if self is AnonymousTypeDecl then
+            self.as[TypeDecl].accessed_type().do(
+                (typ) => typ.defining_name(),
+                default_val=raise[Entity[DefiningName]] PreconditionFailure(
+                    "A fully qualified name is not available on this"
+                    & " anonymous type"
+                )
+            )
+        else
+            self.defining_name_or_raise()
+    }
+
     |" Return the extra suffix that should be appended to the fully qualified
     |" name of this declaration, for example to append ``'Class`` to classwide
     |" type declarations, etc.
     fun fqn_extra_suffix(): String =
         if self is ClasswideTypeDecl then "'Class"
         elif self is DiscreteBaseSubtypeDecl then "'Base"
-        # For the moment, SynthAnonymousTypeDecl is used solely to
-        # generate anonymous access types. We give those a name.
-        # NOTE: this is not an Ada type as per the RM, and is used
-        # for the GNAT specific 'Unrestricted_Access attribute, so
-        # we give this type a name that doesn't exist in the RM
-        # either.
-
-        elif self is SynthAnonymousTypeDecl then "'Anonymous_Access"
+        # NOTE: we give the `'Anonymous_Access` suffix to anonymous access
+        # types although this has no RM equivalence. This can be used to get
+        # a sensical fully qualified name for types that result from the use
+        # of the `'Unrestricted_Access` attribute, for example.
+        elif self.as[AnonymousTypeDecl]?.is_access_type() then
+            "'Anonymous_Access"
         else ""
 
     |" Return the fully qualified name corresponding to this declaration, as
     |" an array of symbols.
+    |"
+    |" .. note:: See ``BasicDecl.fully_qualified_name`` to know which kind of
+    |"     declarations are supported.
     fun fully_qualified_name_string_array(
         include_profile: Bool = false
     ): Array[String] =
-        self.defining_name_or_raise().fully_qualified_name_impl(
+        self.defining_name_for_fqn().fully_qualified_name_impl(
             include_profile=include_profile,
             suffix=self.fqn_extra_suffix()
         )
 
     |" Return the fully qualified name corresponding to this declaration, as
     |" an array of symbols.
+    |"
+    |" .. note:: See ``BasicDecl.fully_qualified_name`` to know which kind of
+    |"     declarations are supported.
     @exported
     fun fully_qualified_name_array(
         include_profile: Bool = false
@@ -6168,15 +6189,22 @@ class BasicDecl: AdaNode {
         .map((t) => t.to_symbol)
 
     |" Return the fully qualified name corresponding to this declaration.
+    |"
+    |" .. note:: This property should only be called on declarations that have
+    |"     exactly one defining name (excepted for anonymous declarations of
+    |"     access types), otherwise a ``PreconditionFailure`` will be raised.
     @exported
     fun fully_qualified_name(): String =
         ".".join(self.fully_qualified_name_string_array())
 
     |" Return a canonical representation of the fully qualified name
     |" corresponding to this declaration.
+    |"
+    |" .. note:: See ``BasicDecl.fully_qualified_name`` to know which kind of
+    |"     declarations are supported.
     @exported
     fun canonical_fully_qualified_name(): String =
-        self.defining_name_or_raise().canonical_fully_qualified_name_impl(
+        self.defining_name_for_fqn().canonical_fully_qualified_name_impl(
             include_profile=false,
             suffix=self.fqn_extra_suffix()
         )
@@ -6185,13 +6213,17 @@ class BasicDecl: AdaNode {
     |" declaration is a public declaration. In the case of subprograms, this
     |" will include the profile.
     |"
+    |" .. note:: This property should only be called on declarations that have
+    |"     exactly one defining name (excepted for anonymous declarations of
+    |"     access types), otherwise a ``PreconditionFailure`` will be raised.
+    |"
     |" .. attention::
     |"     This will only return a unique name for public declarations.
     |"     Notably, anything nested in an unnamed declare block won't be
     |"     handled correctly.
     @exported
     fun unique_identifying_name(): String =
-        self.defining_name_or_raise().unique_identifying_name_impl(
+        self.defining_name_for_fqn().unique_identifying_name_impl(
             suffix=self.fqn_extra_suffix()
         )
 

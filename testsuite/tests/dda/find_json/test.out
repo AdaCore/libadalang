@@ -1,6 +1,6 @@
 == Dirs: Defaults ==
 
-Kind: ENUMERATION_TYPE
+Alignment: 1
 
 == Dirs: No directory ==
 
@@ -8,18 +8,18 @@ Cannot find type representation of <ConcreteTypeDecl ["T"] pkg.ads:2:4-2:26>
 
 == Dirs: Two dirs ==
 
-Loading_Error: subdir2/pkg.ads.json: duplicate entry for Pkg.T (from subdir1/pkg.ads.json)
+Alignment: 3
 
 == Dirs: Custom regexp ==
 
-Loading_Error: subdir1/pkg.json: duplicate entry for Pkg.T (from subdir1/pkg.ads.json)
+Alignment: 2
 
 == Dir: Defaults ==
 
-Kind: ENUMERATION_TYPE
+Alignment: 1
 
 == Dir: Custom regexp ==
 
-Loading_Error: subdir1/pkg.json: duplicate entry for Pkg.T (from subdir1/pkg.ads.json)
+Alignment: 2
 
 Done.

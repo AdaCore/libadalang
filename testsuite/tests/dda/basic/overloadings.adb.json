@@ -1,0 +1,33 @@
+[
+{
+  "name": "Overloadings.P.R",
+  "location": "overloadings.adb:8:7",
+  "Size": 8,
+  "Alignment": 1
+}
+,
+{
+  "name": "Overloadings.P.R",
+  "location": "overloadings.adb:18:15",
+  "Size": { "code": "*", "operands": [ { "code": "max", "operands": [ { "code": "var", "operands": [ 1 ] }, 0 ] }, 8 ] },
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Overloadings.P.R",
+  "location": "overloadings.adb:28:7",
+  "Size": 80,
+  "Alignment": 8
+}
+,
+{
+  "name": "Overloadings.P.T11b",
+  "location": "overloadings.adb:28:30",
+  "Size": 80,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

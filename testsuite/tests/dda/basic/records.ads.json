@@ -1,0 +1,71 @@
+[
+{
+  "name": "Records.Rec1",
+  "location": "records.ads:2:9",
+  "Size": 64,
+  "Alignment": 4,
+  "record": [
+    {
+      "name": "B",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "C",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "I",
+      "Position": 4,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Records.Rec2",
+  "location": "records.ads:8:9",
+  "Size": 0,
+  "Alignment": 1,
+  "record": [
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Records.Rec3",
+  "location": "records.ads:10:9",
+  "Object_Size": 48,
+  "Value_Size": 41,
+  "Alignment": 1,
+  "record": [
+    {
+      "name": "B",
+      "Position": 5,
+      "First_Bit": 0,
+      "Size": 1
+    },
+    {
+      "name": "C",
+      "Position": 0,
+      "First_Bit": 0,
+      "Size": 8
+    },
+    {
+      "name": "I",
+      "Position": 1,
+      "First_Bit": 0,
+      "Size": 32
+    }
+  ],
+  "Bit_Order": "System.Low_Order_First",
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

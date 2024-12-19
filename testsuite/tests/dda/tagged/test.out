@@ -43,28 +43,55 @@ Alignment: 8
 Object_Size | Value_Size: 128 | 128
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X1" p1.ads:28:7-28:9> at 8, size: 32
+* <DefiningName "X1" p1.ads:32:7-32:9> at 8, size: 32
 
-Representation information for <ConcreteTypeDecl ["R5_Parent"] p1.ads:27:4-29:15>:
+Representation information for <ConcreteTypeDecl ["R6_Parent"] p1.ads:25:4-25:30>:
 Kind: RECORD_TYPE
 Alignment: 8
 Object_Size | Value_Size: 128 | 128
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X1" p1.ads:28:7-28:9> at 8, size: 32
+* <DefiningName "X1" p1.ads:36:7-36:9> at 8, size: 8
+* <DefiningName "X2" p1.ads:36:11-36:13> at 9, size: 8
+
+Representation information for <SubtypeDecl ["R8_Parent"] p1.ads:27:4-27:39>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" p1.ads:10:20-10:21> (discriminant 1) at 8, size: 32
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 16
+
+Representation information for <ConcreteTypeDecl ["R5_Parent"] p1.ads:31:4-33:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "X1" p1.ads:32:7-32:9> at 8, size: 32
+
+Representation information for <ConcreteTypeDecl ["R6_Parent"] p1.ads:35:4-37:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 128 | 128
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "X1" p1.ads:36:7-36:9> at 8, size: 8
+* <DefiningName "X2" p1.ads:36:11-36:13> at 9, size: 8
 
 Analyzing p2.ads
 ################
 
-Representation information for <ConcreteTypeDecl ["R1_Child"] p2.ads:5:4-7:15>:
+Representation information for <ConcreteTypeDecl ["R1_Child"] p2.ads:6:4-8:15>:
 Kind: RECORD_TYPE
 Alignment: 8
 Object_Size | Value_Size: 128 | 128
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X1" p2.ads:6:7-6:9> at 8, size: 32
+* <DefiningName "X1" p2.ads:7:7-7:9> at 8, size: 32
 
-Representation information for <ConcreteTypeDecl ["R2_Child"] p2.ads:9:4-11:15>:
+Representation information for <ConcreteTypeDecl ["R2_Child"] p2.ads:10:4-12:15>:
 Kind: RECORD_TYPE
 Alignment: 8
 Object_Size | Value_Size: 192 | 192
@@ -72,9 +99,9 @@ Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
 * <DefiningName "X1" p1.ads:6:7-6:9> at 8, size: 32
 * <DefiningName "X2" p1.ads:7:7-7:9> at 12, size: 32
-* <DefiningName "X3" p2.ads:10:7-10:9> at 16, size: 32
+* <DefiningName "X3" p2.ads:11:7-11:9> at 16, size: 32
 
-Representation information for <ConcreteTypeDecl ["R3_Child"] p2.ads:13:4-15:15>:
+Representation information for <ConcreteTypeDecl ["R3_Child"] p2.ads:14:4-16:15>:
 Kind: RECORD_TYPE
 Alignment: 8
 Object_Size | Value_Size: 17179869376 | <dynamic>
@@ -82,7 +109,7 @@ Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * <DefiningName "N" p1.ads:10:20-10:21> (discriminant 1) at 8, size: 32
 * Artificial component "_tag" at 0, size: 64
 * <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: <dynamic>
-* <DefiningName "X2" p2.ads:14:7-14:9> at <dynamic>, size: 32
+* <DefiningName "X2" p2.ads:15:7-15:9> at <dynamic>, size: 32
 
 Resolved record for discriminants (0):
   Alignment: 8
@@ -93,7 +120,7 @@ Resolved record for discriminants (0):
   * <DefiningName "N" p1.ads:10:20-10:21> at 8, size: 32
   * Artificial component "_tag" at 0, size: 64
   * <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 0
-  * <DefiningName "X2" p2.ads:14:7-14:9> at 16, size: 32
+  * <DefiningName "X2" p2.ads:15:7-15:9> at 16, size: 32
 
 Resolved record for discriminants (1):
   Alignment: 8
@@ -104,7 +131,7 @@ Resolved record for discriminants (1):
   * <DefiningName "N" p1.ads:10:20-10:21> at 8, size: 32
   * Artificial component "_tag" at 0, size: 64
   * <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 8
-  * <DefiningName "X2" p2.ads:14:7-14:9> at 16, size: 32
+  * <DefiningName "X2" p2.ads:15:7-15:9> at 16, size: 32
 
 Resolved record for discriminants (2):
   Alignment: 8
@@ -115,7 +142,7 @@ Resolved record for discriminants (2):
   * <DefiningName "N" p1.ads:10:20-10:21> at 8, size: 32
   * Artificial component "_tag" at 0, size: 64
   * <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 16
-  * <DefiningName "X2" p2.ads:14:7-14:9> at 16, size: 32
+  * <DefiningName "X2" p2.ads:15:7-15:9> at 16, size: 32
 
 Resolved record for discriminants (3):
   Alignment: 8
@@ -126,7 +153,7 @@ Resolved record for discriminants (3):
   * <DefiningName "N" p1.ads:10:20-10:21> at 8, size: 32
   * Artificial component "_tag" at 0, size: 64
   * <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 24
-  * <DefiningName "X2" p2.ads:14:7-14:9> at 16, size: 32
+  * <DefiningName "X2" p2.ads:15:7-15:9> at 16, size: 32
 
 Resolved record for discriminants (10):
   Alignment: 8
@@ -137,16 +164,16 @@ Resolved record for discriminants (10):
   * <DefiningName "N" p1.ads:10:20-10:21> at 8, size: 32
   * Artificial component "_tag" at 0, size: 64
   * <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 80
-  * <DefiningName "X2" p2.ads:14:7-14:9> at 24, size: 32
+  * <DefiningName "X2" p2.ads:15:7-15:9> at 24, size: 32
 
-Representation information for <ConcreteTypeDecl ["R4_Child"] p2.ads:22:4-24:15>:
+Representation information for <ConcreteTypeDecl ["R4_Child"] p2.ads:23:4-25:15>:
 Kind: RECORD_TYPE
 Alignment: 8
 Object_Size | Value_Size: 192 | <dynamic>
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * <DefiningName "B" p1.ads:14:20-14:21> (discriminant 1) at 8, size: 8
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X2" p2.ads:23:7-23:9> at <dynamic>, size: 32
+* <DefiningName "X2" p2.ads:24:7-24:9> at <dynamic>, size: 32
 * Variant part
 
   | * <DefiningName "X1" p1.ads:19:13-19:15> at 12, size: 32
@@ -159,7 +186,7 @@ Resolved record for discriminants (0):
   Scalar_Storage_Order: LOW_ORDER_FIRST
   * <DefiningName "B" p1.ads:14:20-14:21> at 8, size: 8
   * Artificial component "_tag" at 0, size: 64
-  * <DefiningName "X2" p2.ads:23:7-23:9> at 16, size: 32
+  * <DefiningName "X2" p2.ads:24:7-24:9> at 16, size: 32
 
 Resolved record for discriminants (1):
   Alignment: 8
@@ -169,16 +196,36 @@ Resolved record for discriminants (1):
   Scalar_Storage_Order: LOW_ORDER_FIRST
   * <DefiningName "B" p1.ads:14:20-14:21> at 8, size: 8
   * Artificial component "_tag" at 0, size: 64
-  * <DefiningName "X2" p2.ads:23:7-23:9> at 16, size: 32
+  * <DefiningName "X2" p2.ads:24:7-24:9> at 16, size: 32
   * <DefiningName "X1" p1.ads:19:13-19:15> at 12, size: 32
 
-Representation information for <ConcreteTypeDecl ["R5_Child"] p2.ads:28:4-30:15>:
+Representation information for <ConcreteTypeDecl ["R5_Child"] p2.ads:29:4-31:15>:
 Kind: RECORD_TYPE
 Alignment: 8
 Object_Size | Value_Size: 192 | 192
 Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 * Artificial component "_tag" at 0, size: 64
-* <DefiningName "X1" p1.ads:28:7-28:9> at 8, size: 32
-* <DefiningName "X1" p2.ads:29:7-29:9> at 16, size: 32
+* <DefiningName "X1" p1.ads:32:7-32:9> at 8, size: 32
+* <DefiningName "X1" p2.ads:30:7-30:9> at 16, size: 32
+
+No representation information for <ConcreteTypeDecl ["R6_Child"] p2.ads:33:4-33:35>
+
+Representation information for <ConcreteTypeDecl ["R7_Child"] p2.ads:35:4-37:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 192 | 192
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "X2" p2.ads:36:7-36:9> at 16, size: 32
+
+Representation information for <ConcreteTypeDecl ["R8_Child"] p2.ads:39:4-41:15>:
+Kind: RECORD_TYPE
+Alignment: 8
+Object_Size | Value_Size: 192 | 192
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
+* <DefiningName "N" p1.ads:10:20-10:21> (discriminant 1) at 8, size: 32
+* Artificial component "_tag" at 0, size: 64
+* <DefiningName "X1" p1.ads:11:7-11:9> at 12, size: 16
+* <DefiningName "X2" p2.ads:40:7-40:9> at 16, size: 32
 
 Done.

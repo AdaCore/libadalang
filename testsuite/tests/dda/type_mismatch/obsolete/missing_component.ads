@@ -2,6 +2,7 @@ package Missing_Component is
 
    type T1 is record
       X1 : Integer;
+      --  Placeholder
       X3 : Integer;
    end record;
 

@@ -1,15 +1,17 @@
 Analyzing absent_base_type.ads
 ##############################
 
-Cannot fetch representation information for <ConcreteTypeDecl ["T1_Child"] absent_base_type.ads:3:4-3:52>:
+Cannot fetch representation information for <ConcreteTypeDecl ["T1_Child"] absent_base_type.ads:10:4-10:52>:
   LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
-  cannot resolve <SubtypeIndication absent_base_type.ads:3:25-3:34>
+  cannot resolve <SubtypeIndication absent_base_type.ads:10:25-10:34>
 
-No representation information for <ConcreteTypeDecl ["T2_Parent"] absent_base_type.ads:5:4-5:41>
+No representation information for <ConcreteTypeDecl ["T2_Parent"] absent_base_type.ads:11:4-11:41>
 
-Cannot fetch representation information for <ConcreteTypeDecl ["T2_Child"] absent_base_type.ads:6:4-6:52>:
-  LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
-  cannot find repinfo for <ConcreteTypeDecl ["T2_Parent"] absent_base_type.ads:5:4-5:41>
+Representation information for <ConcreteTypeDecl ["T2_Child"] absent_base_type.ads:12:4-12:52>:
+Kind: RECORD_TYPE
+Alignment: 1
+Object_Size | Value_Size: 0 | 0
+Bit_Order | Scalar_Storage_Order: LOW_ORDER_FIRST | LOW_ORDER_FIRST
 
 Analyzing missing_component.ads
 ###############################
@@ -52,13 +54,13 @@ Cannot fetch representation information for <ConcreteTypeDecl ["T1"] type_kind_m
   LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
   record type expected, got <ConcreteTypeDecl ["T1"] type_kind_mismatch.ads:3:4-3:26>
 
-Cannot fetch representation information for <ConcreteTypeDecl ["T2_Parent"] type_kind_mismatch.ads:5:4-5:41>:
+Cannot fetch representation information for <ConcreteTypeDecl ["T2_Parent"] type_kind_mismatch.ads:7:4-7:41>:
   LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
-  <ConcreteTypeDecl ["T2_Parent"] type_kind_mismatch.ads:5:4-5:41> has unexpected type kind RECORD_TYPE
+  <ConcreteTypeDecl ["T2_Parent"] type_kind_mismatch.ads:7:4-7:41> has unexpected type kind RECORD_TYPE
 
-Cannot fetch representation information for <ConcreteTypeDecl ["T2_Child"] type_kind_mismatch.ads:6:4-6:52>:
+Cannot fetch representation information for <ConcreteTypeDecl ["T2_Child"] type_kind_mismatch.ads:8:4-8:52>:
   LIBADALANG.DATA_DECOMPOSITION.TYPE_MISMATCH_ERROR
-  <ConcreteTypeDecl ["T2_Parent"] type_kind_mismatch.ads:5:4-5:41> has unexpected type kind RECORD_TYPE
+  <ConcreteTypeDecl ["T2_Parent"] type_kind_mismatch.ads:7:4-7:41> has unexpected type kind RECORD_TYPE
 
 Analyzing variant_mismatch.ads
 ##############################

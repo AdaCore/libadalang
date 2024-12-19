@@ -1,0 +1,43 @@
+[
+{
+  "name": "Arrays.Bool_Array",
+  "location": "arrays.ads:2:9",
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Arrays.Bool_Couple",
+  "location": "arrays.ads:3:12",
+  "Size": 16,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Arrays.Obj",
+  "location": "arrays.ads:4:4",
+  "Size": 16,
+  "Alignment": 2
+}
+,
+{
+  "name": "Arrays.Tobjt3s",
+  "location": "arrays.ads:4:4",
+  "Size": 16,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+,
+{
+  "name": "Arrays.New_Bool_Couple",
+  "location": "arrays.ads:5:9",
+  "Size": 16,
+  "Alignment": 1,
+  "Component_Size": 8,
+  "Scalar_Storage_Order": "System.Low_Order_First"
+}
+]

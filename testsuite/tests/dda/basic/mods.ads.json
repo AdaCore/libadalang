@@ -1,0 +1,24 @@
+[
+{
+  "name": "Mods.M1",
+  "location": "mods.ads:2:9",
+  "Object_Size": 16,
+  "Value_Size": 15,
+  "Alignment": 2
+}
+,
+{
+  "name": "Mods.M2",
+  "location": "mods.ads:3:9",
+  "Size": 32,
+  "Alignment": 4
+}
+,
+{
+  "name": "Mods.M3",
+  "location": "mods.ads:4:9",
+  "Object_Size": 16,
+  "Value_Size": 15,
+  "Alignment": 2
+}
+]

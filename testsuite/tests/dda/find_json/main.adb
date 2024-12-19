@@ -90,7 +90,7 @@ procedure Main is
          return;
       end if;
 
-      Put_Line ("Kind: " & Kind (T_Info)'Image);
+      Put_Line ("Alignment:" & Alignment (T_Info)'Image);
       New_Line;
    end Check;
 

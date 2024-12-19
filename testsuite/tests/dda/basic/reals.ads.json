@@ -1,0 +1,22 @@
+[
+{
+  "name": "Reals.R1",
+  "location": "reals.ads:2:9",
+  "Size": 64,
+  "Alignment": 8
+}
+,
+{
+  "name": "Reals.R2",
+  "location": "reals.ads:3:9",
+  "Size": 64,
+  "Alignment": 8
+}
+,
+{
+  "name": "Reals.R3",
+  "location": "reals.ads:4:9",
+  "Size": 32,
+  "Alignment": 4
+}
+]

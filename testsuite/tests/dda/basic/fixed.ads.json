@@ -1,0 +1,51 @@
+[
+{
+  "name": "Fixed.F1",
+  "location": "fixed.ads:2:9",
+  "Object_Size": 8,
+  "Value_Size": 6,
+  "Alignment": 1,
+  "Small": { "code": "/", "operands": [ 1.0, 4.0 ] },
+  "Range": [ { "code": "/", "operands": [ -16.0, 4.0 ] }, { "code": "/", "operands": [ 16.0, 4.0 ] } ]
+}
+,
+{
+  "name": "Fixed.F2",
+  "location": "fixed.ads:3:9",
+  "Object_Size": 8,
+  "Value_Size": 6,
+  "Alignment": 1,
+  "Small": 3.333333E-2,
+  "Range": [ -1.03333323E0, 1.03333323E0 ]
+}
+,
+{
+  "name": "Fixed.F3",
+  "location": "fixed.ads:4:9",
+  "Object_Size": 8,
+  "Value_Size": 6,
+  "Alignment": 1,
+  "Small": { "code": "/", "operands": [ 1.0, 30.0 ] },
+  "Range": [ -1.0, 1.0 ]
+}
+,
+{
+  "name": "Fixed.F4",
+  "location": "fixed.ads:5:9",
+  "Object_Size": 64,
+  "Value_Size": 48,
+  "Alignment": 8,
+  "Small": 0.1,
+  "Range": [ -9999999999999.9, 9999999999999.9 ]
+}
+,
+{
+  "name": "Fixed.F5",
+  "location": "fixed.ads:6:9",
+  "Object_Size": 8,
+  "Value_Size": 6,
+  "Alignment": 1,
+  "Small": { "code": "/", "operands": [ 1.0, 4.0 ] },
+  "Range": [ { "code": "/", "operands": [ -16.0, 4.0 ] }, { "code": "/", "operands": [ 16.0, 4.0 ] } ]
+}
+]

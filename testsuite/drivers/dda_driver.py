@@ -21,6 +21,13 @@ class DDADriver(BaseDriver):
       testsuite ``--dda-compile`` option is active. If omitted,
       ``input_sources`` are compiled instead.
 
+    * ``batch``: If true, only show which files are analyzed and the failures.
+      This is useful to check on a big codebase that there are no (new) DDA
+      failures.
+
+    * ``recursive``: If true, analyze recursively all units in the project
+      tree, excluding externally built projects.
+
     * ``project_file``: A filename for a project file, used to create a project
       unit provider.
 
@@ -80,6 +87,12 @@ class DDADriver(BaseDriver):
             self.test_env.get("project_vars", {}).items()
         ):
             args.append(f"-X{name}={value}")
+
+        if self.test_env.get("batch"):
+            args.append("--only-show-failures")
+
+        if self.test_env.get("recursive"):
+            args.append("--recursive")
 
         # Add optional explicit list of sources to process
         args += input_sources

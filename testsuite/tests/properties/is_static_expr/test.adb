@@ -21,6 +21,17 @@ procedure Test_It (Param : Integer; Param_2 : String) is
    G : constant Character := 'X';
 
    H : constant Integer := Standard."+" (A, B);
+
+   I : constant Integer := "+" (A, B);
+
+   function "+" (L, R : String) return Integer
+   is (42);
+
+   J : constant Integer := "+" ("A", "B");
+
+   K : constant Integer := Test_It."+" ("A", "B");
+
+   L : constant String := "+";
 begin
    null;
 end Test_It;

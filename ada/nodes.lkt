@@ -14268,7 +14268,14 @@ class Expr: AdaNode {
 
         match self {
             case _: NumLiteral => true
-            case _: StringLiteral => true
+            case sl: StringLiteral =>
+                # A StringLiteral is a static expression unless it designates a
+                # non-predefined operator name.
+                not (
+                    sl.is_operator_name()
+                    and sl.is_call()
+                    and not sl.referenced_decl().is_predefined_operator()
+                )
             case ar: AttributeRef =>
                 (
                     ar.prefix.is_static_expr()

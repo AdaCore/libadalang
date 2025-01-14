@@ -6,6 +6,7 @@ project P is
 
    package Builder is
       for Global_Compilation_Switches ("ada") use ("-gnateDX=1");
+      for Default_Switches ("Ada") use ("-gnateDY2=1");
    end Builder;
 
 end P;

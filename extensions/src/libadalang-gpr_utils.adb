@@ -609,24 +609,30 @@ package body Libadalang.GPR_Utils is
       ------------------
 
       procedure Process_View (Self : Any_View) is
-         Kind             : Project_Kind renames Self.Kind;
-         Global_Switches  : GPR_Utils.Any_Attribute renames
+         Kind                     : Project_Kind renames Self.Kind;
+         Global_Switches          : GPR_Utils.Any_Attribute renames
            Attributes.Global_Compilation_Switches (Kind);
-         Default_Switches : GPR_Utils.Any_Attribute renames
+         Builder_Default_Switches : GPR_Utils.Any_Attribute renames
+           Attributes.Builder_Default_Switches (Kind);
+         Builder_Switches         : GPR_Utils.Any_Attribute renames
+           Attributes.Builder_Switches (Kind);
+         Default_Switches         : GPR_Utils.Any_Attribute renames
            Attributes.Default_Switches (Kind);
-         Switches         : GPR_Utils.Any_Attribute renames
+         Switches                 : GPR_Utils.Any_Attribute renames
            Attributes.Switches (Kind);
       begin
          --  Process global compilation switches for the Ada language
 
          Process_Switches (Self, Global_Switches, "Ada");
 
-         --  Process default compiler switches for the Ada language
+         --  Process default builder/compiler switches for the Ada language
 
+         Process_Switches (Self, Builder_Default_Switches, "Ada");
          Process_Switches (Self, Default_Switches, "Ada");
 
-         --  Same for Switches attribute
+         --  Same for Switches attributes
 
+         Process_Switches (Self, Builder_Switches, "Ada");
          Process_Switches (Self, Switches, "Ada");
 
          --  Also process compiler switches for all Ada sources
@@ -642,6 +648,17 @@ package body Libadalang.GPR_Utils is
                      Process_Switches (Self, Switches, Filename);
                   end if;
                end;
+            end loop;
+         end;
+
+         --  And finally all executable-specific builder switches
+
+         declare
+            Index_List : constant XString_Array :=
+              Indexes (Self, Builder_Switches);
+         begin
+            for Idx of Index_List loop
+               Process_Switches (Self, Builder_Switches, Idx.To_String);
             end loop;
          end;
       end Process_View;

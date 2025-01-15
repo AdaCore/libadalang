@@ -1,0 +1,354 @@
+lkt_spec:
+  entry_point: ada/nodes.lkt
+  source_dirs: [ada]
+  types_from_lkt: true
+
+library:
+  language_name: Ada
+  short_name: lal
+  defaults:
+    charset: iso-8859-1
+    unit_provider: Libadalang.Internal_Default_Provider.Create
+    unparsing_config: default_unparsing_config.json
+  symbol_canonicalizer: Libadalang.Sources.Canonicalize
+  external_exceptions:
+    - exception: GPR2.Project_Error
+      doc_section: libadalang.project_provider
+    - exception: Libadalang.Project_Provider.Unsupported_View_Error
+      doc_section: libadalang.project_provider
+  property_exceptions:
+    - Precondition_Failure
+  extra_context_clauses:
+    Analysis:
+      spec:
+        # Arguments of LAL.Analysis.Create_Context_From_Project reference
+        # project data structures.
+        - with: GNATCOLL.Projects
+        - with: GPR2.Project.Tree
+        - with: GPR2.Project.View
+
+        # The LAL.Analysis.Set_Target_Information interface uses the
+        # Target_Information data type.
+        - with: Libadalang.Target_Info
+          use: true
+      body:
+        # LAL.Analysis.Is_Keyword is implemented using LAL.Lexer's
+        - with: Libadalang.Lexer
+
+        # Implementations of LAL.Analysis.Create_Context_From_Project use
+        # internal GPR handling helpers.
+        - with: Libadalang.GPR_Impl
+        - with: Libadalang.Project_Provider
+
+        # The LAL.Analysis.Set_Target_Information implementation just redirects
+        # to extension code.
+        - with: Libadalang.Implementation.Extensions
+    Implementation:
+      spec:
+        # The Set_Target_Information implementation uses the Target_Information
+        # API.
+        - with: Libadalang.Target_Info
+          use: true
+        # The internal context type stores the config pragmas file table
+        - with: Libadalang.Config_Pragmas_Impl
+          use: true
+      body:
+        # Internals need to access environment hooks, the symbolizer and
+        # internal configuration pragmas file tables.
+        - with: Libadalang.Env_Hooks
+          use: true
+        - with: Libadalang.Sources
+          use: true
+
+    # Bind Libadalang's custom iterators to the public API
+    Iterators:
+      spec: []
+      body:
+        - with: Libadalang.Iterators.Extensions
+          use: true
+
+     # Is_Keyword's implementation uses precomputed symbols
+    Lexer:
+      body:
+        - with: Libadalang.Implementation
+  cache_collection:
+    threshold_increment: 100000
+    decision_heuristic:
+      Libadalang.Implementation.Extensions.Should_Collect_Env_Caches
+
+  extra_install_files:
+    share/examples/libadalang:
+      - contrib/check_deref_null.py
+      - contrib/check_same_logic.py
+      - contrib/check_same_operands.py
+      - contrib/check_same_test.py
+      - contrib/check_same_then_else.py
+      - contrib/check_subp_boxes.py
+      - contrib/check_test_not_null.py
+      - contrib/check_useless_assign.py
+      - contrib/detect_copy_paste_sa.py
+      - contrib/highlight
+
+emission:
+  source_post_processors:
+    ada: ada.copyright.AdaPostProcessor
+    c/c++: ada.copyright.CCppPostProcessor
+    python: ada.copyright.PythonPostProcessor
+    ocaml: ada.copyright.OCamlPostProcessor
+  rst_passthrough_roles:
+    - rmlink
+    - gnat_rm
+
+manage_defaults:
+  build_warnings: true
+  enable_java: true
+
+mains:
+  source_dirs:
+    - testsuite/ada
+    - testsuite/ada/gnat_compare
+  main_programs:
+    - gnat_compare
+    - lal_dda
+    - lal_prep
+    - nameres
+    - navigate
+
+extra_docs:
+    libadalang.gpr_project: |
+        Loaded GPR project file.
+
+    libadalang.gpr_scenario_variable: |
+        Couple name/value to define a scenario variable for a project.
+
+    libadalang.string_array: |
+        List of strings.
+
+    libadalang.free_string_array: |
+        Free the given list of strings.
+
+    libadalang.gpr_project_load: |
+        Load the ``Project_File`` GPR file with the given scenario variables,
+        target, runtime and GPR configuration file (all optional).
+
+        If ``Ada_Only`` is true, call ``Restrict_Autoconf_To_Languages`` to
+        make GPR only consider the Ada language.
+
+        On success, set ``Project`` to a newly allocated ``ada_gpr_project``,
+        as well as a possibly empty list of error messages in ``Errors``.
+        Raise an ``Invalid_Project`` exception on failure.
+
+    libadalang.gpr_project_load_implicit: |
+        Load an implicit project in the current directory. This function uses
+        ``GNATCOLL.Projects.Load_Implicit_Project`` to load the
+        ``_default.gpr`` project file.
+
+    libadalang.gpr_project_free: |
+        Free resources allocated for ``Self``.
+
+    libadalang.gpr_project_create_unit_provider: |
+        Create a project provider using the given GPR project ``Self``.
+
+        If ``Project`` is passed, it must be the name of a sub-project. If the
+        selected project contains conflicting sources, raise an
+        ``Project_Error`` exception.
+
+        The returned unit provider assumes that resources allocated by ``Self``
+        are kept live: it is the responsibility of the caller to make ``Self``
+        live at least as long as the returned unit provider.
+
+    libadalang.gpr_project_source_files: |
+        Compute the list of source files in the given GPR project according to
+        ``Mode`` (whose value maps to positions in the
+        ``Libadalang.Project_Provider.Source_Files_Mode`` enum) and return it.
+
+    libadalang.gpr_project_default_charset: |
+        Try to detect the default charset to use for the given project.
+
+        Restrict the detection to the subproject ``Project``, or to ``Self``'s
+        root project if left to ``Prj.No_Project``.
+
+        Note that, as of today, this detection only looks for the ``-gnatW8``
+        compiler switch: other charsets are not supported.
+
+    libadalang.gpr_project_initialize_context: |
+        Wrapper around ``Initialize_Context_From_Project`` to initialize
+        ``Context`` (an already allocated but not yet initialized analysis
+        context) from ``Self``.
+
+    libadalang.gpr_project_create_context: |
+        Create a new analysis context from a GPR project.
+
+        The unit provider, file reader, config pragmas and default charset are
+        inferred from the designated project: see the
+        % if lang == "python":
+        ``create_unit_provider``
+        % elif lang == "java":
+        ``getProvider``
+        % endif
+        method for the semantics of the ``project`` argument.
+
+        See
+        % if lang == "python":
+        ``AnalysisContext.__init__``
+        % elif lang == "java":
+        the ``AnalysisContext`` class constructor
+        % endif
+        for the semantics of the other arguments.
+
+        % if lang == "java":
+        .. TODO: For now, the returned ``AnalysisContext`` instance has a weak
+           reference to the project manager: make sure the ``ProjectManager``
+           instance lives at least as long as the ``AnalysisContext`` one.
+        % endif
+
+    libadalang.create_project_unit_provider: |
+        Load the project file at ``Project_File`` and return a unit provider
+        that uses it.
+
+        If ``Project`` is passed, use it to provide units, otherwise, try use
+        the whole project tree.
+
+        As unit providers must guarantee that there exists at most one source
+        file for each couple (unit name, unit kind), aggregate projects that
+        contains several conflicting units are not supported: trying to load
+        one will yield an error (see below).
+
+        % if lang == 'python':
+        If provided, ``Scenario_Vars`` must be a dict with key strings and
+        key values to describe the set of scenario variables for this
+        project.
+
+        In order to load the given project with non-default target and
+        runtimes, pass these as strings to the ``target`` and ``runtime``
+        arguments.
+
+        % else:
+        If not ``${null}``, ``Scenario_Vars`` must point to an array of
+        ``${capi.get_name('project_scenario_variable')}`` couples to
+        provide scenario variables for this project. The last element of
+        this array must end with a ``{ ${null}, ${null} }`` couple.
+
+        If not ``${null}``, ``target`` and ``runtime`` must point to valid
+        NULL-terminated strings.
+        % endif
+
+        % if lang == 'c':
+        When done with it, the result must be free'd with
+        ``${capi.get_name('destroy_unit_provider')}``.
+        % endif
+
+        If the requested project is invalid (error while opening the file,
+        error while analysing its syntax, ...), or if it is an unsupported
+        aggregate project,
+        % if lang == 'python':
+        this raises an ``InvalidProjectError`` exception.
+        % else:
+        this returns ``${null}``.
+        % endif
+
+    libadalang.create_preprocessor_from_file: |
+        Load the preprocessor data file at
+        %if lang == 'c':
+        ``Filename`` using, directory names in the
+        ``Path_Data``/``Path_Length`` array
+        % else:
+        ``filename``, using directory names in ``path``
+        % endif
+        to look for for it and the definition files it references.
+
+        % if lang == 'c':
+        If ``Line_Mode`` is not null,
+        % else:
+        If ``line_mode`` is passed,
+        % endif
+        use it to force the line mode for source files on which the
+        preprocessor is enabled.  Forcing the line mode is often needed as the
+        default is to remove lines that contain preprocessor directives and
+        disabled code, which breaks the line number correspondence between
+        original source code and preprocessed one.  Forcing to ``blank_lines``
+        or ``comment_lines`` preserves this correspondence.
+
+        Return a file reader that preprocesses sources accordingly.
+
+    libadalang.gpr_project_create_preprocessor: |
+        Create preprocessor data from compiler arguments found in the given GPR
+        project ``Self`` (``-gnatep`` and ``-gnateD`` compiler switches), or
+        from the ``Project`` sub-project (if the argument is passed).
+
+        If ``Line_Mode`` is not null, use it to force the line mode in each
+        preprocessed source file.
+
+        Note that this function collects all arguments and returns an
+        approximation from them: it does not replicates exactly gprbuild's
+        behavior. This may raise a ``File_Read_Error`` exception if this fails
+        to read a preprocessor data file and a ``Syntax_Error`` exception if
+        one such file has invalid syntax.
+
+        The returned file reader assumes that resources allocated by ``Self``
+        are kept live: it is the responsibility of the caller to make ``Self``
+        live at least as long as the returned file reader.
+
+    libadalang.set_config_pragmas_mapping: |
+        Assign in ``Context`` configuration pragmas files to analysis units as
+        described in ``Global_Pragmas`` (configuration pragmas file that
+        applies to all analysis units, or null) and ``Local_Pragmas`` (mapping
+        that associates an analysis unit to the local configuration pragmas
+        file that applies to it).
+
+        % if lang == "c":
+        The ``Local_Pragmas`` mapping is encoded as a NULL-trailing analysis
+        unit array that describes a unit-to-unit mapping: for N associations,
+        ``Local_Pragmas[2 * (N - 1)]`` is they key and
+        ``Local_Pragmas[2 * (N - 1) + 1]`` is the value.
+        % endif
+
+        This raises a ``Precondition_Failure`` exception if any analysis unit
+        in ``Mapping`` does not belong to ``Context`` or if an analysis unit
+        appears twice as a key in ``Mapping``.
+
+    libadalang.target_info_type: |
+        Built in types characteristics for a given target platform.
+
+    libadalang.target_info_load: |
+        Read target information from ``filename`` and return it. Raise an
+        ``Langkit_Support.Errors.Invalid_Input`` exception if it cannot be read
+        of if there is any trouble decoding it.
+
+    libadalang.target_info_free: |
+        Free resources allocated for ``self``.
+
+    libadalang.target_info_set: |
+        Assign target information to ``self``. This will affect specific bound
+        values for types defined in the built in Standard package.
+
+    libadalang.project_provider.project_error: |
+        Raised when an error occurs while loading a project file.
+
+    libadalang.project_provider.unsupported_view_error: |
+        Raised when creating a project unit provider for an unsupported project
+        view (for instance, a view with conflicting aggregated projects).
+
+    libadalang.create_auto_provider: |
+        Return a unit provider that knows which compilation units are to be
+        found in the given list of source files.
+
+        This knowledge is built trying to parse all given input files as Ada
+        source files and listing the compilation units found there. Files that
+        cannot be parsed properly are discarded. If two compilation units are
+        found for the same unit, the first that is found in the given input
+        files is taken and the other ones are discarded.
+
+        Source files are decoded using the given charset. If it is ``${null}``,
+        the default charset (ISO-8859-1) is used.
+
+        % if lang == 'c':
+        ``input_files`` must point to a ``NULL``-terminated array of
+        filenames.  Once this function returns, this array and the strings
+        it contains can be deallocated.
+
+        When done with it, the result must be free'd with
+        ``${capi.get_name('destroy_unit_provider')}``.
+        % endif
+
+        .. TODO: Find a way to report discarded source files/compilation units.

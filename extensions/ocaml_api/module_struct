@@ -194,7 +194,7 @@ module GPRProject = struct
 
   let create_analysis_context
       ?(with_trivia = true)
-      ?(tab_stop = ${ctx.default_tab_stop})
+      ?(tab_stop = ${cfg.library.defaults.tab_stop})
       ?(project = "")
       gpr_project : analysis_context =
     if tab_stop < 1 then

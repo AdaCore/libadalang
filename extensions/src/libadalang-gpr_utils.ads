@@ -191,6 +191,28 @@ private package Libadalang.GPR_Utils is
               .Builder
               .Global_Compilation_Switches));
 
+      Builder_Dflt_Switches_Impl : aliased constant GPR1.Attribute_Pkg_List :=
+        GPR1.Build ("Builder", "Default_Switches");
+
+      Builder_Default_Switches : constant Map :=
+        (GPR1_Kind =>
+           (Kind            => GPR1_List,
+            GPR1_List_Value => Builder_Dflt_Switches_Impl'Access),
+         GPR2_Kind =>
+           (Kind       => GPR2_Kind,
+            GPR2_Value =>
+              GPR2.Project.Registry.Attribute.Builder.Default_Switches));
+
+      Builder_Switches_Impl : aliased constant GPR1.Attribute_Pkg_List :=
+        GPR1.Build ("Builder", "Switches");
+
+      Builder_Switches : constant Map :=
+        (GPR1_Kind => (Kind            => GPR1_List,
+                       GPR1_List_Value => Builder_Switches_Impl'Access),
+         GPR2_Kind =>
+           (Kind       => GPR2_Kind,
+            GPR2_Value => GPR2.Project.Registry.Attribute.Builder.Switches));
+
       Local_Pragmas_Impl : aliased constant GPR1.Attribute_Pkg_String :=
         GPR1.Local_Pragmas_Attribute;
 

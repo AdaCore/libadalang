@@ -122,6 +122,7 @@ begin
    Process ("simple/p.gpr");
    Process ("switches/p.gpr");
    Process ("builder_switches/p.gpr");
+   Process ("builder_switches/p2.gpr");
    Process ("with/q.gpr");
    Process ("extends/q.gpr");
    Process

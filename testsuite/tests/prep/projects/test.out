@@ -18,6 +18,13 @@
 # default
   -b
   x -> Symbol(1)
+  y2 -> Symbol(1)
+
+== builder_switches/p2.gpr ==
+
+# default
+  -b
+  x3 -> Symbol(1)
 
 == with/q.gpr ==
 

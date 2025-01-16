@@ -1,7 +1,6 @@
 lkt_spec:
   entry_point: ada/nodes.lkt
   source_dirs: [ada]
-  types_from_lkt: true
 
 library:
   language_name: Ada

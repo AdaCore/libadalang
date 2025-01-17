@@ -10,6 +10,9 @@
 --  files and of preprocessing features. The API provided here closely follows
 --  these concepts.
 --
+--  Preprocessor data basics
+--  ~~~~~~~~~~~~~~~~~~~~~~~~
+--
 --  The action of preprocessing an Ada source file is done according to
 --  parameters (definition of preprocessor symbols, how to format directives
 --  and disabled lines in the output, ...). The ``File_Config`` type is used to
@@ -75,9 +78,14 @@
 --     --  Parse the "prep-data.txt" preprocessor data file and create a full
 --     --  preprocessor configuration from it.
 --
---  From there, it is possible to call the "Preprocess" procedure taking a
---  "Preprocessor_Data" argument, plus the file name for the source file to
---  preprocess (used to look up the corresponding file configuration).
+--
+--  Running the preprocessor
+--  ~~~~~~~~~~~~~~~~~~~~~~~~
+--
+--  Once the preprocessor configuration is ready, it is possible to call the
+--  ``Preprocess`` procedure, which takes a ``Preprocessor_Data`` argument,
+--  plus the file name for the source file to preprocess (used to look up the
+--  corresponding file configuration).
 --
 --  .. code-block:: ada
 --
@@ -118,6 +126,9 @@
 --     --  trigger preprocessing for these files.
 --
 --     U : constant Analysis_Unit := Ctx.Get_From_File ("foo.adb");
+--
+--  Package contents
+--  ~~~~~~~~~~~~~~~~
 
 with Ada.Containers.Hashed_Maps;
 private with Ada.Finalization;

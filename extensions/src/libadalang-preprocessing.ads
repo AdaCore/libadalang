@@ -58,11 +58,11 @@
 --  additional ``File_Config`` value to use for files not described in this
 --  map (the "default" file config).
 --
---  One can either create these data structures by hand, or parsing GNATprep's
---  "preprocessor data file". In the latter case, the
---  ``Parse_Preprocessor_Data_File`` and ``Create_Preprocessor_Data``
---  functions will cover each case to create the final "aggregated"
---  configuration: a ``Preprocessor_Data`` value.
+--  To create these data structures, it is possible to manipulate the Ada types
+--  directly and call the ``Create_Preprocessor_Data`` function to get a
+--  ``Preprocessor_Data`` value. It is also possible to parse GNATprep's
+--  "preprocessor data file" (i.e. the argument for the ``-gnatep`` compiler
+--  switch) with the ``Parse_Preprocessor_Data_File`` function.
 --
 --  .. code-block:: ada
 --
@@ -78,6 +78,62 @@
 --     --  Parse the "prep-data.txt" preprocessor data file and create a full
 --     --  preprocessor configuration from it.
 --
+--  Preprocessor data from GPR files
+--  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+--  When the preprocessor for GNAT is set up with compiler switches
+--  (``-gnatep`` and ``-gnateD``) registered in project files, it is convenient
+--  to use the ``Extract_Preprocessor_Data_From_Project`` functions to extract
+--  the preprocessor configuration from these compiler switches.
+--
+--  The following GPR attributes are searched for compiler switches:
+--
+--  * ``Builder.Global_Compilation_Switches``
+--  * ``Builder.Default_Switches``
+--  * ``Builder.Switches``
+--  * ``Compiler.Default_Switches``
+--  * ``Compiler.Switches``
+--
+--  Note that these functions produce an approximation, assuming that all
+--  compiler switches affect all files. This approximation should be a good fit
+--  for most projects, since when GNAT processes a compilation unit, it uses
+--  the same preprocessor configuration for all the files it analyzes (the
+--  source that is being compiled as well as all its closure). This is because
+--  it is not possible in the general case to produce a single preprocessor
+--  data that will match exactly what happens when compiling all the units in a
+--  project.
+--
+--  For instance, imagine the following sources:
+--
+--  .. code-block:: ada
+--
+--     -- foo.ads
+--     package Foo is
+--     end Foo;
+--
+--     -- bar.ads
+--     with Foo;
+--     package Bar is
+--     end Bar;
+--
+--     -- no matter what there is in foo.adb and bar.adb
+--
+--  And the GPR files:
+--
+--  .. code-block:: ada
+--
+--     for Switches ("foo.adb") use ("-gnateDX=1");
+--     for Switches ("bar.adb") use ("-gnateDX=2");
+--
+--  Then the preprocessor configuration used when analyzing ``foo.ads`` will
+--  depend on whether it’s done during the compilation of ``foo.adb`` or of
+--  ``bar.adb``, which cannot be represented with the preprocessor data model
+--  coming from GNATprep and GNAT itself.
+--
+--  For this simple example above, it is not a real problem because ``foo.ads``
+--  does not actually use the preprocessor, but this illustrates how
+--  untractable it is to recover the preprocessor data from compiler switches
+--  exactly as the compiler would see it.
 --
 --  Running the preprocessor
 --  ~~~~~~~~~~~~~~~~~~~~~~~~

@@ -99,22 +99,18 @@ from GNAT's own implementation of this package (see GNAT's ``-gnatS`` flag):
 
       type Boolean is (False, True);
 
-      type Integer is range -(2 ** 31) .. +(2 ** 31 - 1);
-      subtype Natural  is Integer range 0 .. +(2 ** 31 - 1);
-      subtype Positive is Integer range 1 .. +(2 ** 31 - 1);
-      type Short_Short_Integer is range -(2 ** 7) .. +(2 ** 7 - 1);
-      type Short_Integer       is range -(2 ** 15) .. +(2 ** 15 - 1);
-      type Long_Integer        is range -(2 ** 31) .. +(2 ** 31 - 1);
-      type Long_Long_Integer   is range -(2 ** 63) .. +(2 ** 63 - 1);
+      type Integer is range L .. H;
+      subtype Natural  is Integer range L .. H;
+      subtype Positive is Integer range L .. H;
+      type Short_Short_Integer is range L .. H;
+      type Short_Integer       is range L .. H;
+      type Long_Integer        is range L .. H;
+      type Long_Long_Integer   is range L .. H;
 
-      type Short_Float     is digits 6
-        range -16#0.FFFF_FF#E+32 .. 16#0.FFFF_FF#E+32;
-      type Float           is digits 6
-        range -16#0.FFFF_FF#E+32 .. 16#0.FFFF_FF#E+32;
-      type Long_Float      is digits 15
-        range -16#0.FFFF_FFFF_FFFF_F8#E+256 .. 16#0.FFFF_FFFF_FFFF_F8#E+256;
-      type Long_Long_Float is digits 18
-        range -16#0.FFFF_FFFF_FFFF_FFFF#E+4096 ..  16#0.FFFF_FFFF_FFFF_FFFF#E+4096;
+      type Short_Float     is digits D range L .. H;
+      type Float           is digits D range L .. H;
+      type Long_Float      is digits D range L .. H;
+      type Long_Long_Float is digits D range L .. H;
 
       type Character is ('A');
       type Wide_Character is ('A');
@@ -210,25 +206,34 @@ from GNAT's own implementation of this package (see GNAT's ``-gnatS`` flag):
 
       type Wide_Wide_String is array (Positive range <>) of Wide_Wide_Character;
 
-      type Duration is delta 0.000000001
-        range -((2 ** 63 - 1) * 0.000000001) ..
-              +((2 ** 63 - 1) * 0.000000001);
-      for Duration'Small use 0.000000001;
+      type Duration is delta D range L .. H;
+      for Duration'Small use S;
+
+      type Universal_Int_Type_ is range -1 .. 1;
+      type Universal_Real_Type_ is digits 16;
+      type Universal_Fixed_Type_ is digits 16;
+
+      package root_types_ is
+         type root_integer is range -1 .. 1;
+         type root_real digits 16;
+      end root_types_;
 
       Constraint_Error : exception;
       Program_Error    : exception;
       Storage_Error    : exception;
       Tasking_Error    : exception;
-
-      type Universal_Int_Type_ is range -1 .. 1;
-      type Universal_Real_Type_ is digits 16;
+      Abort_Signal     : exception;
     end Standard;
 
 Warning: this is a stub, so don't rely on the implementation using this
-specific source as it could change in future versions of Libadalang. Also be
-aware that Libadalang will use these definitions on all platforms and for all
-targets: do not rely on these definitions to compute memory representation of
-standard entities.
+specific source as it could change in future versions of Libadalang.
+
+Also be aware that, in order for Libadalang to use the right values for range
+bounds, digits and ``'Small``, it is necessary to communicate the relevant
+target information (``Libadalang.Target_Info``) to Libadalang's analysis
+context, either calling ``Libadalang.Analysis.Set_Target_Information``, or
+letting ``Libadalang.Analysis.Create_Context_From_Project`` fetch this
+information from the project file.
 
 Note that the ``Character``, ``Wide_Character`` and ``Wide_Wide_Character``
 types are represented with partial definitions:

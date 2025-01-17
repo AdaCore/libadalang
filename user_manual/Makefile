@@ -65,6 +65,7 @@ newhtml:
 		$(LAL_BUILD_DIR)/src/libadalang-lexer.ads \
 		   ../extensions/src/libadalang-preprocessing.ads \
 		   ../extensions/src/libadalang-project_provider.ads \
+		   ../extensions/src/libadalang-target_info.ads \
 		   $(LANGKIT_DIR)/langkit/support/langkit_support-text.ads \
 		   $(LANGKIT_DIR)/langkit/support/langkit_support-symbols.ads \
 		   $(LANGKIT_DIR)/langkit/support/langkit_support-diagnostics.ads \

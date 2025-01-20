@@ -18792,8 +18792,14 @@ class DefiningName: Name {
             # defined on a body, it doesn't apply to the corresponding
             # specification, and conversely. Only consider the current part
             # when looking for it.
-            if name == s"SPARK_Mode" then [self]
-            elif previous_parts_only then [self] & self.all_previous_parts()
+            if name == s"SPARK_Mode"
+            then [self]
+            elif
+                previous_parts_only
+                # Some aspects do not require looking at next parts, as all
+                # views should agree on the value of the aspect.
+                or name in s"Ghost"
+            then [self] & self.all_previous_parts()
             else self.all_parts();
 
         val self_aspects =

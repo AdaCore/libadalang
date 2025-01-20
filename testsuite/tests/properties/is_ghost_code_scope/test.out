@@ -1,0 +1,9 @@
+[LIBADALANG.MAIN_TRACE] Populating lexical envs for root 1 of unit: test.adb
+   [LIBADALANG.MAIN_TRACE] Populating lexical envs for root 1 of unit: test.ads
+   [LIBADALANG.MAIN_TRACE] Finished populating lexical envs for root 1 of unit: test.ads
+   [LIBADALANG.MAIN_TRACE] Parsing unit pkg.ads
+   [LIBADALANG.MAIN_TRACE] Updating lexical envs for pkg.ads after reparse
+   [LIBADALANG.MAIN_TRACE] Populating lexical envs for root 1 of unit: pkg.ads
+   [LIBADALANG.MAIN_TRACE] Finished populating lexical envs for root 1 of unit: pkg.ads
+[LIBADALANG.MAIN_TRACE] Finished populating lexical envs for root 1 of unit: test.adb
+<CallStmt test.adb:6:4-6:16> is ghost? FALSE

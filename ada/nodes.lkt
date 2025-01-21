@@ -8365,15 +8365,12 @@ class BaseTypeDecl: BasicDecl {
     |" them all in our standard package implementation because of their
     |" number).
     @memoized
-    @with_dynvars(origin)
-    fun corresponding_char_literal(): Entity[BasicDecl] = {
+    fun corresponding_char_literal(sym: Symbol): Entity[BasicDecl] = {
         val root = self.root_type();
         val enum_type = root.as[TypeDecl]?.type_def.as[EnumTypeDef];
-        val sym = origin.as[CharLiteral].do((l) => l.symbol);
-        val char_lit =
-            enum_type?.enum_literals.find(
-                (lit_decl) => lit_decl.name.name_is(sym)
-            );
+        val char_lit = enum_type?.enum_literals.find(
+            (lit_decl) => lit_decl.name.name_is(sym)
+        );
 
         # If we didn't find a char literal and the enum type is one of the
         # standard characters types, synthesize the corresponding character
@@ -8384,8 +8381,7 @@ class BaseTypeDecl: BasicDecl {
                 name=null[DefiningName],
                 char_symbol=sym,
                 enum_type_decl=enum_type.parent.as[TypeDecl]
-            )
-            .as_entity
+            ).as_entity
         else (
             # Ideally, name should take a SyntheticDefiningName, built from
             # the symbol `sym`, but that would mean that name's parent is
@@ -20431,22 +20427,14 @@ class CharLiteral: BaseId implements TokenNode {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
         BaseTypeDecl.is_non_null_char_type%(node.expected_type_var())
-        %and node.expected_type_var()
-        <-> node.type_var()
+        %and node.expected_type_var() <-> node.type_var()
         # Ada RM 4.2 (3): since the expected type of the `CharLiteral` is known
         # in this case (the predicates above let us through), we can use it to
-        # determine what the literal refers to. Hackish: we use the `origin`
-        # dynamic variable to pass an additional argument to the conversion
-        # property ``corresponding_char_literal``.
-        #
-        # TODO: fix this once we can pass explicit parameters to conversion
-        # properties.
-        %and {
-            bind origin = node;
-
-            node.ref_var()
-            <- BaseTypeDecl.corresponding_char_literal%(node.type_var())
-        }
+        # determine what the literal refers to.
+        %and node.ref_var() <- BaseTypeDecl.corresponding_char_literal%(
+            node.type_var(),
+            node.symbol
+        )
 }
 
 |" Regular identifier (:rmlink:`2.3`).

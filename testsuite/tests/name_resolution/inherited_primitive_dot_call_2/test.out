@@ -1,0 +1,101 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:19:4-19:29>
+*******************************************************
+
+Expr: <CallExpr test.adb:19:4-19:28>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:19:4-19:21>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "My_Map_Map" test.adb:19:4-19:14>
+  references:    <DefiningName "My_Map_Map" test.adb:12:12-12:22>
+  type:          None
+  expected type: None
+Expr: <Id "Insert" test.adb:19:15-19:21>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "B" test.adb:19:23-19:24>
+  references:    <DefiningName "B" test.adb:16:4-16:5>
+  type:          <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:12:4] |>
+  expected type: <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:12:4] |>
+Expr: <Id "A" test.adb:19:26-19:27>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+  expected type: <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+
+Resolving xrefs for node <CallStmt test.adb:21:4-21:17>
+*******************************************************
+
+Expr: <CallExpr test.adb:21:4-21:16>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:21:4-21:12>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "B" test.adb:21:4-21:5>
+  references:    <DefiningName "B" test.adb:16:4-16:5>
+  type:          <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:12:4] |>
+  expected type: <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:12:4] |>
+Expr: <Id "Insert" test.adb:21:6-21:12>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:21:14-21:15>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+  expected type: <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+
+Resolving xrefs for node <CallStmt test.adb:23:4-23:18>
+*******************************************************
+
+Expr: <CallExpr test.adb:23:4-23:17>
+  references:    <DefiningName "Insert" test.adb:7:17-7:23>
+  type:          None
+  expected type: None
+Expr: <Id "Insert" test.adb:23:4-23:10>
+  references:    <DefiningName "Insert" test.adb:7:17-7:23>
+  type:          None
+  expected type: None
+Expr: <Id "C" test.adb:23:12-23:13>
+  references:    <DefiningName "C" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["My_Map_Map_Ext"] test.adb:13:4-13:63>
+  expected type: <ConcreteTypeDecl ["My_Map_Map_Ext"] test.adb:13:4-13:63>
+Expr: <Id "A" test.adb:23:15-23:16>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+  expected type: <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+
+Resolving xrefs for node <CallStmt test.adb:25:4-25:17>
+*******************************************************
+
+Expr: <CallExpr test.adb:25:4-25:16>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:25:4-25:12>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "C" test.adb:25:4-25:5>
+  references:    <DefiningName "C" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["My_Map_Map_Ext"] test.adb:13:4-13:63>
+  expected type: <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:12:4] |>
+Expr: <Id "Insert" test.adb:25:6-25:12>
+  references:    <| DefiningName "Insert" test.adb:7:17-7:23 [test.adb:12:4] |>
+  type:          None
+  expected type: None
+Expr: <Id "A" test.adb:25:14-25:15>
+  references:    <DefiningName "A" test.adb:15:4-15:5>
+  type:          <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+  expected type: <| ConcreteTypeDecl ["Map"] test.adb:5:7-5:38 [test.adb:10:4] |>
+
+
+Done.

@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:20:4-20:14>
+*******************************************************
+
+Expr: <CallExpr test.adb:20:4-20:13>
+  references:    <| DefiningName "Set" test.adb:7:17-7:20 [test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:20:4-20:9>
+  references:    <| DefiningName "Set" test.adb:7:17-7:20 [test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:20:4-20:5>
+  references:    <DefiningName "X" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["Resource"] test.adb:14:7-14:59>
+  expected type: <| ClasswideTypeDecl ["Ptr"] test.adb:5:7-5:38 [test.adb:12:7] |>
+Expr: <Id "Set" test.adb:20:6-20:9>
+  references:    <| DefiningName "Set" test.adb:7:17-7:20 [test.adb:12:7] |>
+  type:          None
+  expected type: None
+Expr: <Id "Y" test.adb:20:11-20:12>
+  references:    <DefiningName "Y" test.adb:18:4-18:5>
+  type:          <ConcreteTypeDecl ["Data"] test.adb:11:7-11:32>
+  expected type: <ConcreteTypeDecl ["Data"] test.adb:11:7-11:32>
+
+
+Done.

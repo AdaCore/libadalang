@@ -1,0 +1,29 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:22:4-22:15>
+*******************************************************
+
+Expr: <CallExpr test.adb:22:4-22:14>
+  references:    <DefiningName "Open" test.adb:15:17-15:21>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:22:4-22:10>
+  references:    <DefiningName "Open" test.adb:15:17-15:21>
+  type:          None
+  expected type: None
+Expr: <Id "X" test.adb:22:4-22:5>
+  references:    <DefiningName "X" test.adb:20:4-20:5>
+  type:          <| ConcreteTypeDecl ["Stream"] test.adb:9:7-9:45 [test.adb:18:4] |>
+  expected type: <ConcreteTypeDecl ["Stream"] test.adb:13:7-13:60>
+Expr: <Id "Open" test.adb:22:6-22:10>
+  references:    <DefiningName "Open" test.adb:15:17-15:21>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:22:12-22:13>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Done.

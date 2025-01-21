@@ -1,0 +1,57 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <CallStmt test.adb:33:10-33:26>
+********************************************************
+
+Expr: <CallExpr test.adb:33:10-33:25>
+  references:    <| DefiningName "Foo" test.adb:7:17-7:20 [test.adb:22:7] |>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:33:10-33:18>
+  references:    <| DefiningName "Foo" test.adb:7:17-7:20 [test.adb:22:7] |>
+  type:          None
+  expected type: None
+Expr: <Id "Elem" test.adb:33:10-33:14>
+  references:    <DefiningName "Elem" test.adb:30:10-30:14>
+  type:          <| ConcreteTypeDecl ["T"] test.adb:13:7-13:40 [test.adb:23:7] |>
+  expected type: <| ConcreteTypeDecl ["T"] test.adb:5:7-5:36 [test.adb:22:7] |>
+Expr: <Id "Foo" test.adb:33:15-33:18>
+  references:    <| DefiningName "Foo" test.adb:7:17-7:20 [test.adb:22:7] |>
+  type:          None
+  expected type: None
+Expr: <Id "Data" test.adb:33:20-33:24>
+  references:    <DefiningName "Data" test.adb:31:10-31:14>
+  type:          <ConcreteTypeDecl ["D"] test.adb:18:7-18:29>
+  expected type: <ConcreteTypeDecl ["D"] test.adb:18:7-18:29>
+
+Resolving xrefs for node <CallStmt test.adb:35:10-35:35>
+********************************************************
+
+Expr: <CallExpr test.adb:35:10-35:34>
+  references:    <| DefiningName "Foo" test.adb:7:17-7:20 [test.adb:23:7] |>
+  type:          None
+  expected type: None
+Expr: <DottedName test.adb:35:10-35:21>
+  references:    <| DefiningName "Foo" test.adb:7:17-7:20 [test.adb:23:7] |>
+  type:          None
+  expected type: None
+Expr: <Id "My_Wrap" test.adb:35:10-35:17>
+  references:    <DefiningName "My_Wrap" test.adb:23:15-23:22>
+  type:          None
+  expected type: None
+Expr: <Id "Foo" test.adb:35:18-35:21>
+  references:    <| DefiningName "Foo" test.adb:7:17-7:20 [test.adb:23:7] |>
+  type:          None
+  expected type: None
+Expr: <Id "Elem" test.adb:35:23-35:27>
+  references:    <DefiningName "Elem" test.adb:30:10-30:14>
+  type:          <| ConcreteTypeDecl ["T"] test.adb:13:7-13:40 [test.adb:23:7] |>
+  expected type: <| ConcreteTypeDecl ["T"] test.adb:13:7-13:40 [test.adb:23:7] |>
+Expr: <Id "Data" test.adb:35:29-35:33>
+  references:    <DefiningName "Data" test.adb:31:10-31:14>
+  type:          <ConcreteTypeDecl ["D"] test.adb:18:7-18:29>
+  expected type: <ConcreteTypeDecl ["D"] test.adb:18:7-18:29>
+
+
+Done.

@@ -1,0 +1,61 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AssignStmt test.adb:19:4-19:21>
+*********************************************************
+
+Expr: <Id "X" test.adb:19:4-19:5>
+  references:    <DefiningName "X" test.adb:16:4-16:5>
+  type:          <ConcreteTypeDecl ["D"] test.adb:6:7-6:40>
+  expected type: None
+Expr: <CallExpr test.adb:19:9-19:20>
+  references:    <DefiningName "Child" test.adb:4:16-4:21>
+  type:          <ConcreteTypeDecl ["D"] test.adb:6:7-6:40>
+  expected type: <ConcreteTypeDecl ["D"] test.adb:6:7-6:40>
+Expr: <DottedName test.adb:19:9-19:16>
+  references:    <DefiningName "Child" test.adb:4:16-4:21>
+  type:          <ConcreteTypeDecl ["D"] test.adb:6:7-6:40>
+  expected type: None
+Expr: <Id "X" test.adb:19:9-19:10>
+  references:    <DefiningName "X" test.adb:16:4-16:5>
+  type:          <ConcreteTypeDecl ["D"] test.adb:6:7-6:40>
+  expected type: <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <Id "Child" test.adb:19:11-19:16>
+  references:    <DefiningName "Child" test.adb:4:16-4:21>
+  type:          <ConcreteTypeDecl ["D"] test.adb:6:7-6:40>
+  expected type: None
+Expr: <Int test.adb:19:18-19:19>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <AssignStmt test.adb:21:4-21:21>
+*********************************************************
+
+Expr: <Id "Y" test.adb:21:4-21:5>
+  references:    <DefiningName "Y" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["E"] test.adb:10:7-10:44>
+  expected type: None
+Expr: <CallExpr test.adb:21:9-21:20>
+  references:    <DefiningName "Child" test.adb:4:16-4:21>
+  type:          <ConcreteTypeDecl ["E"] test.adb:10:7-10:44>
+  expected type: <ConcreteTypeDecl ["E"] test.adb:10:7-10:44>
+Expr: <DottedName test.adb:21:9-21:16>
+  references:    <DefiningName "Child" test.adb:4:16-4:21>
+  type:          <ConcreteTypeDecl ["E"] test.adb:10:7-10:44>
+  expected type: None
+Expr: <Id "Y" test.adb:21:9-21:10>
+  references:    <DefiningName "Y" test.adb:17:4-17:5>
+  type:          <ConcreteTypeDecl ["E"] test.adb:10:7-10:44>
+  expected type: <ClasswideTypeDecl ["T"] test.adb:3:7-3:36>
+Expr: <Id "Child" test.adb:21:11-21:16>
+  references:    <DefiningName "Child" test.adb:4:16-4:21>
+  type:          <ConcreteTypeDecl ["E"] test.adb:10:7-10:44>
+  expected type: None
+Expr: <Int test.adb:21:18-21:19>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Done.

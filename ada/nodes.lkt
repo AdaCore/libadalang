@@ -4360,6 +4360,15 @@ class KnownDiscriminantPart: DiscriminantPart {
 
     fun abstract_formal_params(): Array[Entity[BaseFormalParamDecl]] =
         node.discr_specs.map((e) => e.as[BaseFormalParamDecl].as_entity)
+
+    |" Return whether this discriminant part's discrimiant specs have default
+    |" expressions.
+    fun has_default_exprs(): Bool =
+        # Only check the first discrimiant specification since default
+        # expressions shall be provided either for all or for none of the
+        # discriminants (:rmlink:`3.7` 9.1/3).
+        not self.discr_specs[0].default_expr.is_null
+
 }
 
 |" Unknown list of discriminants in type declarations (:rmlink:`3.7`).
@@ -8564,7 +8573,8 @@ class BaseTypeDecl: BasicDecl {
     fun is_definite_subtype(): Bool = match self {
         case _: IncompleteTypeDecl => false
         case td: TypeDecl =>
-            td.discriminants.is_null
+            (td.discriminants.is_null
+            or td.discriminants.as[KnownDiscriminantPart]?.has_default_exprs())
             and match td.type_def {
                 case dtd: DerivedTypeDef =>
                     not dtd.subtype_indication.constraint.is_null
@@ -8577,8 +8587,12 @@ class BaseTypeDecl: BasicDecl {
             not st.subtype.constraint.is_null
             or st.get_type().is_definite_subtype()
         case _: ClasswideTypeDecl => false
-        case ttd: TaskTypeDecl => ttd.discriminants.is_null
-        case ptd: ProtectedTypeDecl => ptd.discriminants.is_null
+        case ttd: TaskTypeDecl =>
+            ttd.discriminants.is_null
+            or ttd.discriminants.as[KnownDiscriminantPart]?.has_default_exprs()
+        case ptd: ProtectedTypeDecl =>
+            ptd.discriminants.is_null
+            or ptd.discriminants.as[KnownDiscriminantPart]?.has_default_exprs()
         case _ => true
     }
 

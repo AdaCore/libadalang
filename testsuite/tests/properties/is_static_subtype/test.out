@@ -1,0 +1,83 @@
+Working on node <SubtypeDecl ["S1"] predicate95.adb:22:4-22:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S2"] predicate95.adb:24:4-24:33>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S3"] predicate95.adb:26:4-26:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S4"] predicate95.adb:28:4-28:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S5"] predicate95.adb:30:4-30:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S6"] predicate95.adb:32:4-32:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S7"] predicate95.adb:34:4-34:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S8"] predicate95.adb:36:4-36:21>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["D1"] predicate95.adb:42:4-42:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <SubtypeDecl ["D2"] predicate95.adb:44:4-44:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <SubtypeDecl ["D3"] predicate95.adb:46:4-46:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <SubtypeDecl ["D4"] predicate95.adb:48:4-48:26>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <SubtypeDecl ["D5"] predicate95.adb:50:4-50:21>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <SubtypeDecl ["S9"] predicate95.adb:55:4-55:21>
+===============================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False

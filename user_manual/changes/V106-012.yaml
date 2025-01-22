@@ -1,6 +1,0 @@
-type: new-feature
-title: Add support for Stable_Properties aspect
-description: |
-    This change adds support for the Stable_Properties aspect introduced in Ada
-    2022.
-date: 2022-01-07

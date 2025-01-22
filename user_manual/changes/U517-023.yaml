@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix name resolution crash on ``'Base`` attribute
-description: |
-    This change fixes a bug where name resolution could crash when invoked on
-    expressions involving a ``'Base`` attribute, in particular when its result
-    was used as an operand of another expression (e.g. a binary operation).
-date: 2021-06-08

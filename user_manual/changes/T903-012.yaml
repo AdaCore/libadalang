@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix semantic_parent/parent_basic_decl on EnumSubpSpec
-short_title: Fix to semantic_parent/parent_basic_decl
-description: |
-    Until now, semantic_parent/parent_basic_decl on EnumSubpSpec would return
-    the parent enum type declaration, rather than the parent enum literal
-    declaration. This is now fixed.
-date: 2020-09-10

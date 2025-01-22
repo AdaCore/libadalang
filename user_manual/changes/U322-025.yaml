@@ -1,8 +1,0 @@
-type: bugfix
-title: Missing Numeric_Error declaration from standard
-description: |
-    This change adds the missing ``Numeric_Error`` exception declaration into
-    Libadalang's ``standard`` package so that it is available in every
-    analysis unit. This fixes bugs where references to ``Numeric_Error`` would
-    not be resolved correctly.
-date: 2020-03-22

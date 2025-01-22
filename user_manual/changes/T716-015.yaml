@@ -1,9 +1,0 @@
-type: new-feature
-title: Add xref for stream attributes references
-description: |
-    From now on, stream attributes in stream attribute references such as in
-    ``R'Output (S, X)`` resolve to the declaration of the subprogram used as
-    override for the corresponding attribute, if it has been set with the
-    appropriate attribute def clause. Otherwise, it still resolves to None,
-    indicating that the attribute has not been overridden.
-date: 2020-07-17

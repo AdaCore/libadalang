@@ -1,7 +1,0 @@
-type: bugfix
-title: Nameres ``'Access`` on overloaded subprograms
-description: |
-    This change fixes name resolution of ``Foo'Access`` attribute nodes when
-    ``Foo`` designates an overloaded subprogram: LAL would not always resolve
-    ``Foo`` to the correct variant.
-date: 2021-09-21

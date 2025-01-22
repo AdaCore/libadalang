@@ -1,8 +1,0 @@
-type: new-feature
-title: Make subtype_mark optional in object renames
-description: |
-    The subtype_mark in object renaming declarations is made optional as per
-    AI12-0275 (Ada 2022 feature). To achieve this goal, a new node type has
-    been introduced: `NoTypeObjectRenamingDecl`, derived from `ObjectDecl`,
-    it allows to create such an object without type expression.
-date: 2021-12-09

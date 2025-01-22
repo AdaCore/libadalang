@@ -1,9 +1,0 @@
-type: bugfix
-title: Duplicates in the output of ``p_find_all_overrides``
-
-description: |
-    The output of the ``p_find_all_overrides`` property could in certain cases
-    contain multiple instances of the same override. This change makes sure it
-    does not anymore.
-
-date: 2019-10-22

@@ -1,6 +1,0 @@
-type: bugfix
-title: Fix ``p_has_aspect`` property on generic decls
-description: |
-    This change fixes a bug where ``p_has_aspect`` would always return False
-    for aspects defined via aspect associations on generic declarations.
-date: 2021-04-26

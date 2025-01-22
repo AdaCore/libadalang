@@ -1,9 +1,0 @@
-type: bugfix
-title: Handle full type view resolution correctly for operators
-short_title: Full type view resolution and operators
-
-description: |
-    So far, when using user defined operators, the full view of the type might
-    not be correctly resolved. This is now fixed.
-
-date: 2019-10-04

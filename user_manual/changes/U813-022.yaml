@@ -1,8 +1,0 @@
-type: new-feature
-title: Enhance expr evaluator with relation operators
-description: |
-    This change enhances Libadalang's expression evaluator such that it can
-    now evaluate expression containing relation operators
-    (``=, /=, <, <=, >, >=``) on all supported types. Note that only ``=``
-    and ``/=`` are supported on enum and string values.
-date: 2021-08-13

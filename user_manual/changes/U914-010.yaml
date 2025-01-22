@@ -1,7 +1,0 @@
-type: new-feature
-title: Add support for the ``To_Address`` attribute
-description: |
-    This change adds name resolution support for the ``System'To_Address``
-    attribute, which resolves to the ``To_Address`` subprogram declaration
-    in ``System.Storage_Elements``.
-date: 2021-09-14

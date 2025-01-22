@@ -1,9 +1,0 @@
-type: api-change
-title: Rename --exit-on-missing-file command line argument
-description: |
-    This change renames App's ``--exit-on-missing-file`` built in command line
-    argument to ``--keep-going-on-missing-file``. This inverts the semantics
-    for this flag: when a source file is missing, the App exits with an error
-    by default, and it just emits a warning and keeps going when the flag is
-    passed.
-date: 2023-02-06

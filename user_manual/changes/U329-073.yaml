@@ -1,8 +1,0 @@
-type: api-change
-apis: [python]
-title: New ``with_self`` argument to the ``parents`` node method
-description: |
-    What used to be nodes' ``parents`` property is now a method, which takes an
-    optional ``with_self`` boolean argument. Uses of that property
-    (``.parents``) must now be updated to use the call syntax (``.parents()``).
-date: 2021-04-02

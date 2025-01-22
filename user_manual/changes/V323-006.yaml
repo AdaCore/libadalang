@@ -1,9 +1,0 @@
-type: new-feature
-title: Add ``P_Is_Subaggregate`` property
-description: |
-    This new property can be invoked on aggregate nodes and returns whether
-    the aggregate actually corresponds to a multidimensional array subaggregate
-    as per RM 4.3.3. Since subaggregates are special (they have no expected
-    type nor actual type), this property can be used to detect them so as to
-    treat them in a specific way.
-date: 2022-05-17

@@ -1,7 +1,0 @@
-type: new-feature
-title: Allow ``P_Is_Dispatching_Call`` on UnOp and Binop
-description: |
-    This adds support for the ``P_Is_Dispatching_Call`` property on unary
-    and binary operation nodes, as those can also be dynamically dispatching
-    calls. There was no way to compute this information easily previously.
-date: 2020-11-13

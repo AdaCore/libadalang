@@ -1,9 +1,0 @@
-type: bugfix
-title: Nameres of ``CallExpr`` when name is an attribute
-description: |
-    Until now, libadalang would fail to resolve most ``CallExpr`` expressions
-    when the name of such ``CallExpr`` would be an ``AttributeRef``, typically
-    meaning that the ``CallExpr`` represents a subscript operation over the
-    array returned by the ``AttributeRef`` (as in ``X'Image (2 .. 3)``). This
-    is now correctly handled.
-date: 2020-09-16

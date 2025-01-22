@@ -1,9 +1,0 @@
-type: bugfix
-title: Wrong documentation for the ``Is_Ghost`` property
-description: |
-    The documentation of the ``Is_Ghost`` property mentionned ``Token_First``
-    instead of ``Token_Start`` and ``Token_Last`` instead of ``Token_End``, and
-    used to state that for ghost nodes, the former returned no token, whereas
-    it is supposed to return the same as ``Token_Start``. Both issues are fixed
-    in the documentation.
-date: 2021-10-12

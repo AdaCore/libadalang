@@ -1,9 +1,0 @@
-type: api-change
-title: Fix `find_refs` property
-description: |
-  Do not expose publicly the ``origin`` parameter of the ``find_refs`` property
-  anymore. This parameter is only used for internal purposes.
-
-  This patch also improves the property by using the canonical part of the name
-  the property is looking for references.
-date: 2022-08-23

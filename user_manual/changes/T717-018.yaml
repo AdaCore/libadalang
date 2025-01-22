@@ -1,8 +1,0 @@
-type: new-feature
-title: Improve ``Zip_With_Params`` with formal subps
-description: |
-    This change improves the behavior of the ``Zip_With_Params`` property
-    when invoked on a generic instantiation in which there are formal
-    subprograms with default values (box expression or explicit name), by
-    matching those with the effectively passed subprogram actuals.
-date: 2020-11-19

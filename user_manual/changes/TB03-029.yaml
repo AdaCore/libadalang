@@ -1,8 +1,0 @@
-type: bugfix
-title: SubtypeDecl.base_types doesn't return all base types
-
-description: |
-    When a subtype is of a type that inherit from interfaces, those would not
-    be returned. This is now fixed.
-
-date: 2020-11-03

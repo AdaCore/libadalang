@@ -1,7 +1,0 @@
-type: bugfix
-title: Improve resolution of Access attribute
-description: |
-  In some cases where the accessed entity was ambiguous, Libadalang would
-  resolve wrongly because the constraints in name resolution were not strong
-  enough.
-date: 2021-09-01

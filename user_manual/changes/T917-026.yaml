@@ -1,6 +1,0 @@
-type: new-feature
-title: Handle the ``Enum_Val`` attribute
-description: |
-    This adds name resolution support for the ``Enum_Val`` attribute,
-    meaning instances should now resolve to the correct expected type.
-date: 2020-09-17

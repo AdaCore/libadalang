@@ -1,6 +1,0 @@
-type: bugfix
-title: Fix support for container aggregates
-description: |
-  Libadalang now correctly handles name resolution for container aggregates.
-  Container aggregate is an Ada 2022 feature, see ARM 4.3.5.
-date: 2023-07-26

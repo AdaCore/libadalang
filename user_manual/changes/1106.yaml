@@ -1,7 +1,0 @@
-type: new-feature
-title: Add ``p_is_limited_type`` property
-description: |
-  This new property returns whether the given ``BaseTypeDecl`` node is a
-  limited type or not, either because it is explicitly marked as such, or
-  because it inherits from a limited type or has a component of a limited type.
-date: 2023-10-13

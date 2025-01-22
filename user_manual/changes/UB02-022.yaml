@@ -1,7 +1,0 @@
-type: new-feature
-title: Add ``P_Get_Formal`` on ``AnonymousExprDecl``
-description: |
-    This adds the ``P_Get_Formal`` property on ``AnonymousExprDecl`` nodes
-    so that it's now possible to navigate from the actual value to the formal
-    object in a generic instantiation context.
-date: 2021-11-05

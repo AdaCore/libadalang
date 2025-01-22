@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix ``Base_Subp_Declarations`` on incomplete types
-description: |
-    This changes fixes a bug where calling the ``Base_Subp_Declarations``
-    property on a subprogram declared in a package body and defining a
-    primitive over an incomplete type which completion is declared in
-    that same package body would always return an empty list.
-date: 2020-11-16

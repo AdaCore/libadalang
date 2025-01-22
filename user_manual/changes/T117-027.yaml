@@ -1,9 +1,0 @@
-type: bugfix
-title: Load implicitly-withed runtime units when needed
-description: |
-    Some runtime units such as ``Ada.Exceptions``, ``Ada.Tags``,
-    ``Ada.Task_Identification``, and a few others need to be loaded in order
-    for libadalang to provide correct name resolution on constructs that refer
-    or type to declarations from those units, which was not done beforehand.
-    This change fixes that by loading those units as soon as it's necessary.
-date: 2020-10-20

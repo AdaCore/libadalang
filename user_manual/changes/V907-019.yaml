@@ -1,9 +1,0 @@
-type: bugfix
-title: Component have precedence when using dot notation
-description: |
-    This change fixes a bug in LAL name resolution where a dotted name such as
-    ``X.F`` for some record ``X`` with a component ``F`` as well as a
-    subprogram named ``F`` callable using the dot notation could in some cases
-    resolve to the subprogram instead of the component, when the inverse was
-    expected.
-date: 2022-09-08

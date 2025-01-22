@@ -1,6 +1,0 @@
-type: bugfix
-title: "Improve ``is_constant_object`` property"
-description: |
-  This change fixes a bug where ``is_constant_object`` raises an exception when
-  called on a non-object declarations.
-date: 2022-11-04

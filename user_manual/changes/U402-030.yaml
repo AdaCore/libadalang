@@ -1,6 +1,0 @@
-type: bugfix
-title: Fully qualified name in exit statements
-description: |
-    This change fixes a bug where libadalang would fail to parse fully
-    qualified names in exit statements.
-date: 2021-04-26

@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix DefiningName name resolution
-description: |
-  This change fixes a null pointer dereference by avoiding to recurse on a node
-  that has no parent when resolving names.
-
-date: 2022-06-09

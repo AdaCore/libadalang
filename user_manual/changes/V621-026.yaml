@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix ``Primitive_Subp_*Type`` for inherited primitives
-description: |
-    Previous to this change, calling ``P_Primitive_Subp_Tagged_Type`` on a
-    subprogram inherited by a type U from a base type T would return T.
-    This now correctly returns U.
-date: 2022-06-22

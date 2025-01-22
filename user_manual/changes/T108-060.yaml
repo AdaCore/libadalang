@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix navigation for subps inside of separate pkg
-
-description: |
-    Navigation would previously not work when trying to go to the body of a
-    subprogram declared in a package whose body was separate.
-
-date: 2020-04-17

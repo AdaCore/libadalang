@@ -1,6 +1,0 @@
-type: new-feature
-title: Add ``P_Has_Restriction`` property
-description: |
-    This property allows querying whether a CompilationUnit is subject to a
-    particular restriction, given its name.
-date: 2021-06-18

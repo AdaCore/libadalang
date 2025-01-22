@@ -1,7 +1,0 @@
-type: new-feature
-title: Attributes ``Machine`` and ``Abort_Signal``
-description: |
-    This change adds support for the ``'Machine`` and the ``'Abort_Signal``
-    attributes which are used in the GNAT runtime but were not resolved
-    by LAL.
-date: 2022-02-28

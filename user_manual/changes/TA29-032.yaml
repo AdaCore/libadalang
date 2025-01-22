@@ -1,7 +1,0 @@
-type: bugfix
-title: Propagate use clauses from generic formal part
-description: |
-    Previously, use clauses appearing inside the formal part of a generic
-    declaration were not taken into account by Libadalang when resolving names
-    inside the body of the generic. This change fixes that.
-date: 2020-11-02

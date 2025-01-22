@@ -1,8 +1,0 @@
-type: bugfix
-title: Consistent behavior of ``P_Next_Part_For_Decl``
-description: |
-    This change improves the consistency of ``P_Next_Part_For_Decl``.
-    In particular, the default result when no next part is found is None,
-    whereas previously it could either return None, return itself or raise
-    an exception.
-date: 2021-08-20

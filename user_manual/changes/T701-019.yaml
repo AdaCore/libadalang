@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix ``zip_with_params`` on incomplete type decls
-description: |
-    This fixes an issue with calling ``P_Zip_With_Params`` on an discriminant
-    constraint that constrains the incomplete view of a discriminated type
-    would yield an empty result.
-date: 2020-07-02

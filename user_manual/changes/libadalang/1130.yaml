@@ -1,6 +1,0 @@
-type: bugfix
-title: Support pragmas in declare expressions
-description: |
-  This Ada 2022 feature was not supported by libadalang. Pragmas can now be used
-  in declare expressions as specified by AI22-0045.
-date: 2023-11-07

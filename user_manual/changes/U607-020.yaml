@@ -1,6 +1,0 @@
-type: new-feature
-title: Implement ``'Val`` attribute evaluation
-description: |
-    This change improves LAL's static expression evaluator to handle the
-    ``'Val`` attribute on discrete types.
-date: 2021-08-25

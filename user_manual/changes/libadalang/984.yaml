@@ -1,8 +1,0 @@
-type: bugfix
-title: Usage of GPR source directories for preprocessing
-description: |
-    ``Libadalang.Preprocessing.Extract_Preprocessor_Data_From_Project`` used to
-    look for preprocessor data files relative to GPR object directories only.
-    However, when the GPRbuild -x option is present, these files should also be
-    searched in source directories: this is now fixed.
-date: 2023-04-25

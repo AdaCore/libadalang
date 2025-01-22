@@ -1,7 +1,0 @@
-type: bugfix
-title: Nameres crash upon ``Test_Case`` aspect assoc
-description: |
-    This change fixes a crash that would previously occur while trying
-    to resolve names within a ``Test_Case`` aspect, in case the arguments
-    were written without a left-hand side designator.
-date: 2020-11-02

@@ -1,6 +1,0 @@
-type: bugfix
-title: Fix ``p_is_constant_object`` regarding ``EnumLiteralDecl``
-description: |
-  This change fixes support for ``p_is_constant_object`` property regarding the
-  constancy of the ``EnumLiteralDecl`` declarations, which are always constant.
-date: 2022-05-13

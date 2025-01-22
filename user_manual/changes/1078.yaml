@@ -1,6 +1,0 @@
-type: new-feature
-title: Make ``BaseSubpSpec``'s ``name`` property public
-description: |
-  This allows retrieving the name of the subprogram from its specification
-  without having to navigate to the subprogram decl itself first.
-date: 2023-09-14

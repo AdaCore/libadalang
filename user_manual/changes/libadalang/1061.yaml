@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix ``IfExpr`` expressions name resolution
-description: |
-  This change fixes a bug where name resolution of some `IfExpr`
-  then/elsif/else expressions were failing due to the solver testing unsuitable
-  candidates (i.e. subprogram that does not return).
-date: 2023-08-09

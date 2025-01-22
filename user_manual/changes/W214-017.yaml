@@ -1,9 +1,0 @@
-type: bugfix
-short_title: Consider inherited aspects in `p_get_aspect`
-title: Fix `p_get_aspect` to take inherited aspect into account
-description: |
-    This change fixes an issue where `p_get_aspect` could return an invalid
-    result by missing inherited aspects. For example, derived or subtype
-    declarations should also consider aspects of their corresponding root type
-    declaration.
-date: 2023-02-14

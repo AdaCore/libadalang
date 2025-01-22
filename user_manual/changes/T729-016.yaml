@@ -1,9 +1,0 @@
-type: bugfix
-title: Name resolution robustness of if/case stmts
-description: |
-    Previously, the entire name resolution of an if stmt or case stmt would
-    fail whenever any of their alternatives' resolution would fail. Each
-    alternative is now resolved independently, so that a failing one does not
-    impact the others. Note that this change does not impact resolution of
-    if/case expressions.
-date: 2020-07-30

@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix navigation on child subprograms
-description: |
-    Until now, some navigation properties such as ``p_previous_part`` would
-    return ``None`` when invoked on a child subprogram body defined in the
-    library-level. This will now correctly return its spec, if it exists.
-date: 2020-09-14

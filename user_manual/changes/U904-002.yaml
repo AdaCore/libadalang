@@ -1,8 +1,0 @@
-type: bugfix
-title: Behavior of ``Is_Dispatching_Call`` on ``Op`` nodes
-description: |
-    This change fixes the behavior of the ``P_Is_Dispatching_Call`` property
-    on nodes of kind ``Op`` (appearing inside an ``UnOp`` or ``BinOp`` node).
-    It now ensures that the result of this property is the same as if it was
-    called on the underlying ``UnOp`` or ``BinOp`` node.
-date: 2021-09-06

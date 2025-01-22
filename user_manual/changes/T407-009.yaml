@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix nameres of quantifier expressions
-description: |
-    So far, resolving any name or type inside a quantifier expression
-    could result in a ``invalid equation for logic resolution`` error.
-    This is now fixed.
-date: 2020-04-07

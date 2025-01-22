@@ -1,8 +1,0 @@
-type: new-feature
-title: "New ``Libadalang.Data_Decomposition`` package"
-apis: [ada]
-description: |
-   This new package provides routines to decompose composite program data into
-   elementary components, and more generally to query the representation of
-   program data.
-date: 2023-01-05

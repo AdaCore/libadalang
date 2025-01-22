@@ -1,9 +1,0 @@
-type: api-change
-apis: [ada]
-title: Dedicated exception in ``Libadalang.Project_Provider``
-description: |
-    When passed an unsupported prject configuration, the ``
-    ``Libadalang.Project_Provider.Create_Project_Unit_Provider`` function now
-    raises a dedicated exception (``Invalid_Requested_Project_Error``) instead
-    of re-using GNATCOLL's ``Invalid_Project`` exception.
-date: 2021-06-17

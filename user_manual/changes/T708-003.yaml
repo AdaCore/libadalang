@@ -1,8 +1,0 @@
-type: bugfix
-title: Prevent name resolution in ``Convention`` aspect
-description: |
-    The convention used for an entity, such as ``C`` in the ``Convention => C``
-    aspect association was incorrectly resolved to the first visible entity
-    named ``C``. This now behaves correctly, meaning the identifier used as the
-    convention is never resolved to anything.
-date: 2020-07-08

@@ -1,9 +1,0 @@
-type: new-feature
-title: Introduce public/documented grammar rules
-api: ["ada"]
-description: |
-    Thanks to new functions in the ``Langkit_Support.Generic_API`` and
-    ``Langkit_Support.Generic_API.Introspection`` packages, it is now possible
-    to query whether a grammar rule is "public", the type of nodes it can
-    create, as well as its documentation.
-date: 2022-05-16

@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix resolution of ``pragma Assert`` statements
-description: |
-    Name resolution of pragma ``Assert`` was previously incomplete: the second
-    argument of the pragma, describing the message to be associated with the
-    raised exception was not resolved although it can contain an arbitrary
-    expression returning a ``String``.
-date: 2022-01-12

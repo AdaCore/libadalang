@@ -1,6 +1,0 @@
-type: bugfix
-title: Fix name resolution of subprogam renamed object
-description: |
-  This change fixes the name resolution of the subprogram renamed object when
-  the latter is a character literal.
-date: 2022-05-17

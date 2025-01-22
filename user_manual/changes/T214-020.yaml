@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix the ``p_primitive_subp_*`` properties for subp body specs
-short_title: Fix the ``p_primitive_subp_*`` properties
-description: |
-    Previously, calling one of the ``p_primitive_subp_*`` properties (e.g.
-    ``p_primitive_subp_tagged_type``) on the subprogram spec of the *body* of a
-    subprogram would always yield a null node instead of the expected result.
-date: 2020-02-18

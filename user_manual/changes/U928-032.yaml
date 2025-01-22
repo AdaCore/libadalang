@@ -1,9 +1,0 @@
-type: new-feature
-title: Name resolution support for ``Put_Image`` attribute
-description: |
-    This change adds name resolution support for the Ada 2020 ``Put_Image``
-    attribute. In particular, if the attribute is explicitly defined on a type
-    ``Foo_Type`` through an aspect specifcation or attribute definition clause,
-    the ``Put_Image`` identifier in an expression ``Foo_Type'Put_Image (...)``
-    will correctly reference the subprogram given to the aspect.
-date: 2021-10-04

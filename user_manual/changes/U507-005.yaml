@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix ``P_Is_Call`` for user-defined operators
-description: |
-    This change fixes a bug where calling ``P_Is_Call`` on the operator of
-    an unary or binary operation would always return False, even when the
-    operator referred to user-defined operations. This is now fixed.
-date: 2021-05-07

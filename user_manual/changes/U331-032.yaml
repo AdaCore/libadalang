@@ -1,6 +1,0 @@
-type: bugfix
-title: Fix ``P_[Get/Has]_Aspect`` for the Inline aspect
-description: |
-    When called with the ``Inline`` aspect, those properties will check for
-    this aspect on all parts of the given entity.
-date: 2021-03-31

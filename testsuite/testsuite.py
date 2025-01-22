@@ -192,14 +192,6 @@ class LALTestsuite(Testsuite):
                     raise RuntimeError
 
         try:
-            import pygments
-        except ImportError:
-            has_pygments = False
-        else:
-            del pygments
-            has_pygments = True
-
-        try:
             python_version = int(subprocess.check_output([
                 opts.with_python,
                 '-cimport sys; print(sys.version_info.major)'
@@ -214,7 +206,6 @@ class LALTestsuite(Testsuite):
         self.env.control_condition_env = {
             'restricted_env': opts.restricted_env,
             'os': self.env.build.os.name,
-            'has_pygments': has_pygments,
             'python': python_version,
             'has_put_image': opts.has_put_image,
             'valgrind': opts.valgrind,

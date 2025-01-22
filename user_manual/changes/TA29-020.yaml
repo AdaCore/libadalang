@@ -1,7 +1,0 @@
-type: bugfix
-title: P_Is_Dispatching_Call crash on generic subp calls
-description: |
-    This change fixes a crash that could occur when calling the
-    ``P_Is_Dispatching_Call`` on a node representing a call to a generic
-    subprogram.
-date: 2020-10-30

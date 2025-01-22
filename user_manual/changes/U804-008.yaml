@@ -1,6 +1,0 @@
-type: new-feature
-title: Name resolution support for ``Standard'Storage_Unit``
-description: |
-    This change adds name resolution support for the ``Storage_Unit``
-    attribute so that it correctly types to universal integer.
-date: 2021-08-04

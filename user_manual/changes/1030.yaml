@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix private-with visibility in child units
-description: |
-  This change fixes a bug where child units were previously assumed to always
-  have view on ``private with`` clauses of their parent unit, which is not the
-  case in their public part. This could cause name resolution to incorrectly
-  resolve names to entities that were not supposed to be visible.
-date: 2023-09-11

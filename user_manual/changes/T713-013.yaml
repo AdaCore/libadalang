@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix ``Is_Write_Reference`` for dot calls
-description: |
-    Previously, calling the ``Is_Write_Reference`` property on the prefix of a
-    dot call would always yield ``False``. This is now fixed, by correctly
-    identifying dot calls and checking that the first paremeter is out/in out.
-date: 2020-07-15

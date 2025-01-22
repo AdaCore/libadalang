@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix P_Fully_Qualified_Name on GenericSubpInternal
-description: |
-    This change fixes a bug where calling the ``P_Fully_Qualified_Name``
-    property on a ``GenericSubpInternal`` node would yield a non-sensical
-    result. It will now yield the fully qualified name of the underlying
-    generic declaration.
-date: 2021-03-22

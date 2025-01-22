@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix name resolution crash on runtime files
-description: |
-    Name resolution would crash when trying to analyze the following files
-    from the runtime: a-stzfix.ads a-stzhas.ads a-szfzha.ads. The pattern
-    leading to the crash was identified and was fixed altogether, thus name
-    resolution will not be affected by new occurrences of it.
-date: 2020-07-15

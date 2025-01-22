@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix ``find_all_references`` in generic contexts
-description: |
-  This patch fixes the ``find_all_references`` property (when used with
-  ``Follow_Renamings``), where internal entities comparison may fail because of
-  the presence of rebindings information. Since rebindings are not relevant in
-  that context, we just compare entities without them now.
-date: 2022-08-25

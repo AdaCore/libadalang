@@ -1,8 +1,0 @@
-type: new-feature
-title: Handle ``others`` designator in zip_with_params
-description: |
-    So far, zip_with_params would completely leave out the ``others``
-    designator in an assoc list, not providing any binding for it in the
-    resulting array. Now, it will return one additional binding per unmatched
-    parameter, from that parameter to the expression associated to ``others``.
-date: 2020-04-02

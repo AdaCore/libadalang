@@ -1,7 +1,0 @@
-type: bugfix
-title: Missed child units during ``find_all_references``
-description: |
-    Until now, child units defining a subprogram body at the top-level without
-    a corresponding specification unit would be "forgotten" in calls to
-    find_all_references & co. This is now fixed.
-date: 2020-05-12

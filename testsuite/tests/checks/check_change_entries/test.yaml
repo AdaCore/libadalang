@@ -1,7 +1,0 @@
-driver: python
-python_interpreter: self
-input_sources: []
-control:
-    # Without the pygments module, this test emits "Cannot analyze code.
-    # Pygments package not found." warnings.
-    - [SKIP, "not has_pygments", "python-pygments is missing"]

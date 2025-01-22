@@ -1,6 +1,0 @@
-type: bugfix
-title: Name resolution for ``Storage_Size`` attribute.
-description: |
-    The attribute ``Storage_Size`` applied to an access type reference is now
-    correctly recognized and does not trigger a ``Property_Error`` anymore.
-date: 2020-06-09

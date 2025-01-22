@@ -1,7 +1,0 @@
-type: bugfix
-title: Access types and ``primitive_subp_types``
-description: |
-    This change fixes a bug where calling the ``primitive_subp_types`` and
-    similar properties on the subprogram specification part of an access to
-    subprogram type declaration would crash with a null dereference error.
-date: 2021-01-04

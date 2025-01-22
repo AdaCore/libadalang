@@ -1,6 +1,0 @@
-type: new-feature
-title: Handle membership expr in static evaluator
-description: |
-   This adds support for Ada's membership expression evaluation
-   in libadalang's static expression evaluator.
-date: 2020-03-11

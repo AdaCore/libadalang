@@ -1,6 +1,0 @@
-type: bugfix
-title: Resolve ``Machine_Rounding`` attribute
-description: |
-    This change fixes a crash that would occur when trying to resolve
-    expressions containing the ``Machine_Rounding`` attribute.
-date: 2020-11-05

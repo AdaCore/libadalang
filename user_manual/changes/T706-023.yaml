@@ -1,7 +1,0 @@
-type: new-feature
-title: Implement navigation on entries
-description: |
-    It is now possible to call p_body_part on an entry declaration to
-    retrieve its body, and likewise to call p_decl_part on an entry body
-    to retrieve its declaration.
-date: 2020-07-29

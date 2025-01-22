@@ -1,7 +1,0 @@
-type: bugfix
-title: Resolve range constraints in case constructs.
-description: |
-    Until now, Libadalang would not even try to resolve names appearing
-    in a range constraint of a subtype indication used in a case statement
-    or expression. Such constraints should now be correctly resolved.
-date: 2020-03-03

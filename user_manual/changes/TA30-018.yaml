@@ -1,8 +1,0 @@
-type: bugfix
-title: Invalid object cast with `P_Is_Dispatching_Call`
-description: |
-    Calling the `P_Is_Dispatching_Call` property could sometimes crash with
-    an ``Invalid object cast`` error, which was due to an erroneous
-    assumption made in the implementation of that property. This change
-    fixes it.
-date: 2020-10-30

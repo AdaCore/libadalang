@@ -1,0 +1,5 @@
+driver: unparser
+rule: generic_decl
+description: |
+  Test that there is a space added after `is` in the type declaration
+  and before `with` in the function declaration of the generic.

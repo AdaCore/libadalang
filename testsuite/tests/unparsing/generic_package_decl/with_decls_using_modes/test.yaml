@@ -1,0 +1,5 @@
+driver: unparser
+rule: generic_decl
+description: |
+  Test that there is no extra space added after the `in` keyword used in the
+  formal part declarations of a generic package.

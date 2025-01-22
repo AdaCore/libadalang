@@ -1,8 +1,0 @@
-type: new-feature
-title: Default charset detection from project file
-description: |
-    New functions allow the detection of the default charset to use when
-    decoding source files from a GPR (sub)project:
-    ``Libadalang.Project_Provider.Default_Charset_From_Project`` in Ada,
-    ``libadalang.GPRProject.default_charset`` in Python.
-date: 2023-04-12

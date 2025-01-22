@@ -1,7 +1,0 @@
-type: new-feature
-title: Improve error recovery for generic instantiation parsing
-short_title: Generic instantiation parsing improvement
-description: |
-  This change improves error recovery when parsing incomplete generic
-  instantiation.
-date: 2022-04-20

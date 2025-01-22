@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix ``GenericInstantiation`` formals name resolution
-description: |
-  This change fixes a bug where ``GenericInstantiation`` formals were not
-  properly resolved by name resolution. The reference for incomplete type
-  declarations and generic package instantiations formals is now correctly
-  computed.
-date: 2023-06-05

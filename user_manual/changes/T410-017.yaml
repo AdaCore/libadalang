@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix defining name's navigation queries crash
-description: |
-    Previously, any navigation property (next_part, previous_part, etc.)
-    called on a defining name would crash whenever its associated basic
-    decl would not have the requested part. As such, calling p_next_part
-    on the defining name of an abstract subprogram would always crash.
-date: 2020-04-29

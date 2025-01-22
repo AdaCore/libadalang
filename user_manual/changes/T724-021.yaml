@@ -1,6 +1,0 @@
-type: new-feature
-title: Name resolution for pre/post/test_case pragmas
-description: |
-    This change adds name resolution support for the pragmas ``Pre``, ``Post``,
-    their ``'Class`` variants, and ``Test_Case``.
-date: 2021-08-18

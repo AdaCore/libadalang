@@ -1,5 +1,0 @@
-type: new-feature
-title: Improve error recovery for pragma parsing
-description: |
-  This change improves error recovery when parsing incomplete pragma.
-date: 2022-04-25

@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix ``P_Get_Aspect ("unchecked_union")``
-description: |
-    Previously, calling ``P_Get_Aspect ("unchecked_union")`` on a type would
-    always return an empty result, even when a ``Pragma Unchecked_Union`` was
-    associated to it.
-date: 2020-07-06

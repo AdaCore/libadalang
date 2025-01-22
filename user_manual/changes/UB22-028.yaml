@@ -1,8 +1,0 @@
-type: bugfix
-title: Full name resolution of character literals
-description: |
-    This change completes the implementation of name resolution for character
-    literals which was previously lacking one of the behaviors described in
-    Ada RM 4.2 (3), which is that the expected type of the character literal
-    can be used to determine which EnumLiteralDecl it refers to.
-date: 2021-11-22

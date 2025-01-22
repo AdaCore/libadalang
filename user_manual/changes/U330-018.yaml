@@ -1,9 +1,0 @@
-type: bugfix
-title: Add nameres support for more pragmas
-description: |
-    This change adds name resolution support for the following pragmas::
-
-    - ``Atomic``
-    - ``Atomic_Components``
-    - ``No_Return``
-date: 2021-03-31

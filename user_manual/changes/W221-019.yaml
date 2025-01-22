@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix visibility issue in instantiations actuals
-description: |
-  This change fixes a bug where non-visible entities could be considered as
-  legit candidates when resolving the actual of a generic instantiation,
-  potentially causing wrong name resolution results, or even property errors.
-date: 2023-02-22

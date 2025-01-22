@@ -1,6 +1,0 @@
-type: new-feature
-title: Add property ``EntryDecl.p_accept_stmts``
-description: |
-    When invoked on a task entry declaration, this property returns the array
-    of all its corresponding accept statements.
-date: 2021-11-17

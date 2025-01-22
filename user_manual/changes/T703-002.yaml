@@ -1,7 +1,0 @@
-type: bugfix
-title: Name resolution for generic renaming decls
-description: |
-    Implements name resolution for generic renaming declarations, which were
-    previously not resolved at all. Properties such as ``P_Referenced_Decl``
-    will now work as expected on those.
-date: 2020-07-03

@@ -1,7 +1,0 @@
-type: bugfix
-title: Nameres calls to paramless entries with family
-description: |
-    This change fixes a name resolution crash that would occur when trying
-    to analyze a call to an entry declaration, if that entry does not take
-    conventional parameters but has an associated family type.
-date: 2021-08-23

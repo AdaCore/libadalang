@@ -1,7 +1,0 @@
-type: bugfix
-title: Precondition failure with ``Decl_Defines``
-description: |
-  ``Libadalang.Iterators.Decl_Defines`` predicate used to trigger a
-  precondition failure when evaluated on an ``Anonymous_Type_Decl`` node. This
-  is now fixed.
-date: 2023-06-06

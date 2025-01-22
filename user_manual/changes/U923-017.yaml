@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix navigation on homonym packages
-description: |
-    This change fixes a bug where calling ``P_Previous_Part_For_Decl`` on
-    the body of a child package ``X`` would fail if any of its parent packages
-    was also named ``X``.
-date: 2021-09-23

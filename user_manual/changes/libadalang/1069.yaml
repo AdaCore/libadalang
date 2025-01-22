@@ -1,6 +1,0 @@
-type: bugfix
-title: Fix ``pragma Warnings`` name resolution
-description: |
-  This change fixes a name resolution bug for the pragma `Warnings` by not
-  trying to resolve reserved words such as `On`, `Off`, `GNAT` or `GNATprove`.
-date: 2023-09-08

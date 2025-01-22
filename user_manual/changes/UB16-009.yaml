@@ -1,5 +1,0 @@
-type: new-feature
-title: Iterator filter support (Ada 2022)
-description: |
-    Add support for the iterator filter feature introduced in Ada 2022.
-date: 2021-12-02

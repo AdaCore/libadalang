@@ -1,8 +1,0 @@
-type: new-feature
-title: Attributes "Model_Small", "Delta" and "Caller".
-description: |
-    This change adds name resolution support for the ``Model_Small``
-    floating-point attribute, the ``Delta`` fixed-point attribute
-    and the ``Caller`` entry attribute.
-date: 2020-10-22
-

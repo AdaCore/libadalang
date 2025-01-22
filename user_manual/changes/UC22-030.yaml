@@ -1,7 +1,0 @@
-type: new-feature
-title: New property to query the kind of a CallExpr
-description: |
-    Add a new property `CallExpr.kind` to query the kind of a `CallExpr` (call,
-    array slice, array index, or type conversion). It returns a `CallExprKind`
-    enum value.
-date: 2022-01-19

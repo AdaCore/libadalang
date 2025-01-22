@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix ``BaseSubpBody`` environment construction
-description: |
-  This change fixes a name resolution bug where some dotted names in a
-  subprogram body were not resolved because the formals part of its
-  corresponding generic declaration was not included in the given body
-  environment.
-date: 2023-08-09

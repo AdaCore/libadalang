@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix nameres in stubs of generic subprograms
-description: |
-    This change fixes a name resolution bug in specifications of subprogram
-    stubs which complete a generic subprogram declaration: the references
-    to generic formal types in the stub's parameters would fail to be
-    resolved.
-date: 2021-11-29

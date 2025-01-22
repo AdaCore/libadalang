@@ -1,6 +1,0 @@
-type: bugfix
-title: Resolve references to entry families.
-description: |
-    This change fixes a bug where references to entry families were missing from
-    name resolution.
-date: 2021-12-08

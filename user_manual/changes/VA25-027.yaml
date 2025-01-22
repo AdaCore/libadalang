@@ -1,5 +1,0 @@
-type: new-feature
-title: "``Safe_First`` and ``Safe_Last`` attributes support"
-description: |
-  This change adds support for the ``Safe_First`` and ``Safe_Last`` attributes.
-date: 2022-10-25

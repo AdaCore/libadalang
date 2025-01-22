@@ -1,8 +1,0 @@
-type: new-feature
-apis: [ada]
-title: Add ``Ada_Node.First_Child/Last_Child`` methods
-description: |
-    Add ``Ada_Node.First_Child/Last_Child`` methods, as a shortcut for
-    ``Node.Child (Node.First_Child_Index)`` and ``Node.Child
-    (Node.Last_Child_Index)``
-date: 2021-08-17

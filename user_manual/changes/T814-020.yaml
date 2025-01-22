@@ -1,7 +1,0 @@
-type: api-change
-title: "``Libadalang.Common`` API cleanup"
-description: |
-  The public part of ``Libadalang.Common`` used to contain internal entities:
-  GNATCOLL traces and precomputed symbols. They are now no longer part of this
-  package.
-date: 2022-04-04

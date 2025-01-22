@@ -1,7 +1,0 @@
-type: api-change
-title: Use iterators for the ``p_complete`` property
-description: |
-    Previously, the ``p_complete`` property would return its result in an
-    array, which could potentially be huge and cause storage errors. It
-    now returns its result as an iterator.
-date: 2021-01-28

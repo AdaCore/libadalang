@@ -1,7 +1,0 @@
-type: bugfix
-title: Name resolution of BinOp on universal types
-description: |
-    This change fixes a bug where binary operations with operands of universal
-    types would be wrongly handled, because Libadalang was missing the concept
-    of root types.
-date: 2021-11-07

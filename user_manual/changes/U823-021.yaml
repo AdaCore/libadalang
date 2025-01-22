@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix visibility of library level generic subps
-description: |
-    This change fixes the visibility that library level generic subprograms
-    have on their parent package, so that, may they be private, they would have
-    visibilty on the private part of the parent.
-date: 2021-09-03

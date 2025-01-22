@@ -1,8 +1,0 @@
-type: bugfix
-title: Nameres bug with error message of raise stmt
-description: |
-    Libadalang would sometimes fail to nameres a raise statement/expression
-    that comes with an error message, if the expression for the error message
-    would involve a string concatenation between calls to overloaded
-    functions.
-date: 2020-09-09

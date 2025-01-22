@@ -1,9 +1,0 @@
-type: bugfix
-title: Nameres failure on generic instantiations
-description: |
-    Some generic instantiations could previously cause name resolution to
-    crash, in particular when another generic declaration having the same
-    name as one intended to be instantiated would be available to the
-    resolution mechanism. The fix was to specifically filter out those
-    declarations by only keeping those that are visible in the Ada sense.
-date: 2020-07-24

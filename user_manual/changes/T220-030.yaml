@@ -1,7 +1,0 @@
-type: bugfix
-title: Nameres of Fixed-Point/Integer binary operations
-description: |
-    This change incorporates the name resolution and typing rules described
-    in Ada RM 4.5.5 for multiplication and division operations over one
-    fixed point operand and one Integer operand.
-date: 2021-06-10

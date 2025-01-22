@@ -1,7 +1,0 @@
-type: bugfix
-title: Add support for the ``Enum_Rep`` attribute
-description: |
-    Previously, name resolution would crash when trying to resolve an
-    expression containing the ``Enum_Rep`` attribute. This is now fixed,
-    by typing the result of this attribute to universal integer.
-date: 2020-09-04

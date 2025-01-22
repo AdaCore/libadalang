@@ -1,8 +1,0 @@
-type: new-feature
-title: Add ``BaseFormalParamHolder.formal_params`` property
-description: |
-    This new property allows the user to get a flat list of parameters (as a
-    ``DefiningName`` array), no matter they are declared in the same parameter
-    specification (i.e. packed) or not. When called on a record component list,
-    this property doesn't return variants nor discriminants.
-date: 2021-11-25

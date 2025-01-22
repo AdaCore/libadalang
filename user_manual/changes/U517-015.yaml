@@ -1,7 +1,0 @@
-type: bugfix
-title: Crash on pragma nodes' ``P_Associated_Decls``
-description: |
-    This change fixes a crash that could occur when calling the
-    ``P_Associated_Decls`` property on a pragma node in a body unit if the
-    target was an entity first declared in the corresponding spec unit.
-date: 2021-05-17

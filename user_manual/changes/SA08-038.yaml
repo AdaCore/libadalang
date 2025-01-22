@@ -1,7 +1,0 @@
-type: bugfix
-title: Handle parsing errors in ``with`` clauses
-description: |
-    When working on incomplete ``with`` clauses (for instance due to a parsing
-    error), name resolution used to raise a ``Constraint_Error``. This is now
-    fixed.
-date: 2019-10-08

@@ -1,8 +1,0 @@
-type: api-change
-title: Renaming of values for the ``RefResultKind`` enum type
-description: |
-    In all APIs, the values of the ``RefResultKind`` enumeration type have been
-    renamed. For instance, in the Ada API, ``Noref`` was renamed to ``No_Ref``,
-    while in the Python API, it has been renamed to ``no_ref``, for consistency
-    with casing conventions in similar identifiers.
-date: 2022-01-26

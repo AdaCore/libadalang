@@ -1,9 +1,0 @@
-type: bugfix
-title: Enhance discovery of inherited primitives
-description: |
-    This change fixes a bug where subprograms declared in a non package scope
-    next to a derived type would be tagged as primitive of this type as soon
-    as the signature allowed it. The correct behavior is now implemented, which
-    is that those subprograms are tagged as primitives only if they override an
-    inherited primitive of the derived type's base type.
-date: 2022-02-07

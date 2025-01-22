@@ -1,8 +1,0 @@
-type: bugfix
-short_title: Fix dot notation primitive name resolution
-title: Fix primitive name resolution for private type with tagged completion
-description: |
-  This change fixes a bug where Libadalang was not able to resolve a call using
-  dot notation when the primitive type is private and only the private
-  completion is tagged.
-date: 2023-08-01

@@ -1,7 +1,0 @@
-type: bugfix
-title: Fix name resolution for some attributes
-description: |
-    Some expressions involving attributes such as ``'First`` would not be
-    entirely resolved. In particular, when the expression is of the form
-    ``X.Y'First``, ``X`` would not be resolved at all.
-date: 2020-06-09

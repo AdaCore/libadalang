@@ -1,8 +1,0 @@
-type: bugfix
-title: Support implicit dereference of access attributes
-description: |
-  This change fixes a bug where implicit dereferences of access attributes
-  as in ``X'Unrestricted_Access.Foo (2)`` were not properly resolved, which
-  could cause property errors to be raised during name resolution.
-date: 2023-09-18
-

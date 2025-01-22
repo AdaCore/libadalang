@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix nameres of dot-calls when target is a subp body
-description: |
-    There was missing constraints in name resolution that could lead dotted
-    calls to mis-resolve if they were referencing subprogram bodies rather than
-    subprogram declarations. This is now fixed.
-
-date: 2023-04-03

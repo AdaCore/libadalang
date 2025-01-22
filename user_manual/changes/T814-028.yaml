@@ -1,7 +1,0 @@
-type: bugfix
-title: Name resolution for Standard'Max_Integer_Size
-description: |
-    This change adds support for the ``Standard'Max_Integer_Size`` attribute,
-    as well as the 'Default_Bit_Order' in libadalang's name resolution
-    mechanism.
-date: 2020-08-17

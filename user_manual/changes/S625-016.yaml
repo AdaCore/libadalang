@@ -1,8 +1,0 @@
-type: bugfix
-title: Zip_with_params bug on variant record access
-description: |
-    Until now, zip_with_params would not yield any result when trying
-    to match an actual from a discriminant constraint with the discriminant
-    when the constraint type was an access on the variant record. This is
-    now fixed.
-date: 2020-04-02

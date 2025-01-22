@@ -1,9 +1,0 @@
-type: api-change
-title: Remove ``Short_Image`` APIs
-
-description: |
-    For consistency, the functions called ``Short_Image`` or ``short_image``
-    are now either renamed or merged with the equivalent ``Image``/``image``
-    functions.
-
-date: 2020-07-02

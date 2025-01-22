@@ -1,9 +1,0 @@
-type: bugfix
-title: Spurious "missing file" event for generic package instantiations
-short_title: Spurious "missing file" event for generic pkg. inst.
-description: |
-   Calling the ``BasicDecl.p_next_part_for_basic_decl`` property on a generic
-   package instantiation raised a "missing file" event, pretending that this is
-   an error. This is not correct, as generic package instantiations do not have
-   bodies. This is no longer tagged as an error.
-date: 2022-03-22

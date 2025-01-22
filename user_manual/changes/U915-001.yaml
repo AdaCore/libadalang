@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix ``P_Get_Pragma`` on generic instantiations
-description: |
-    This change fixes a bug where the ``P_Get_Pragma`` property and all
-    properties using it (``P_Has_Aspect``, etc.) would not behave properly on
-    generic instantiation nodes: a pragma associated to such node would never
-    be recognized by these properties.
-date: 2021-09-16

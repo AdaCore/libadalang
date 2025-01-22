@@ -1,5 +1,0 @@
-type: new-feature
-title: Add Python3 compatibility
-description: |
-    The Python binding is now compatible with Python3.
-date: 2019-12-04

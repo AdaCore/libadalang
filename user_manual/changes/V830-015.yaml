@@ -1,8 +1,0 @@
-type: new-feature
-short_title: New ``Compilation_Unit.P_Other_Part`` property
-title: New property to get the other part of a ``CompilationUnit``
-description: |
-  The introduced property ``Compilation_Unit.P_Other_Part``, when called on a
-  compilation unit of kind ``Unit_Specification``, returns its corresponding
-  body unit, and conversely.
-date: 2022-08-31

@@ -1,9 +1,0 @@
-type: new-feature
-title: Add ``p_is_ghost_code`` property
-
-description: |
-    Add a ``p_is_ghost_code`` property on ``Stmt``, ``BasicDecl`` and
-    ``Pragma`` nodes. It returns whether the given node is considered ghost
-    code per the SPARK reference manual (6.9).
-
-date: 2020-02-03

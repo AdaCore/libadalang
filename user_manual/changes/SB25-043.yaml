@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix association of ``pragma Volatile``
-
-description: |
-   ``pragma Volatile`` is now correctly associated with the declaration
-   referenced by the first argument.
-
-date: 2019-10-04

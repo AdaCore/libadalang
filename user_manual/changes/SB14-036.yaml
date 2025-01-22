@@ -1,9 +1,0 @@
-type: bugfix
-title: Exception when calling property via introspection
-
-description: |
-    When calling a property via the ``Libadalang.Introspection`` API, if the
-    ``self`` parameter was null, it would raise a ``Constraint_Error``
-    exception.
-
-date: 2020-01-03

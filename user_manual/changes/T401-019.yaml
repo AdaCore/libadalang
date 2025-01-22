@@ -1,9 +1,0 @@
-type: bugfix
-title: Handle static object renamings.
-description: |
-    Previously, LAL would never consider an object renaming a static
-    declaration, even when its renamed entity was static. This fix changes
-    the behavior of ``p_is_static_decl`` (and transitively that of
-    ``p_is_static_expr``) to take this case into account, and also updates
-    the static expression evaluator accordingly.
-date: 2020-04-01

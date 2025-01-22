@@ -1,9 +1,0 @@
-type: bugfix
-title: Fix rebindings on generic instantiations
-description: |
-    This change fixes a bug where a generic instantiation node returned by
-    a property such as ``P_Referenced_Decl`` could contain invalid rebindings
-    in some scenarios, leading further queries on that node (such as
-    ``P_Designated_Subp``) to crash with an ``old_env present twice in
-    rebindings`` error.
-date: 2021-08-05

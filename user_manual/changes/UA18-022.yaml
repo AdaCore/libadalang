@@ -1,9 +1,0 @@
-type: bugfix
-title: Nameres end names of homonym packages
-description: |
-    This change fixes a bug where the end name of a child package ``Pkg.Foo``
-    could be incorrectly resolved in case a child package ``Pkg.Foo.Pkg`` was
-    also defined: the prefix ``Pkg`` in ``Pkg.Foo`` would be incorrectly bound
-    to the ``Pkg`` definition of the child package of ``Foo`` instead of the
-    root package.
-date: 2021-10-18

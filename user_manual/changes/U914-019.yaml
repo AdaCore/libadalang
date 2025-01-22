@@ -1,6 +1,0 @@
-type: new-feature
-title: Add ``P_Corresponding_Entry`` on ``AcceptStmt``
-description: |
-    This change adds a new property named ``P_Corresponding_Entry`` on
-    accept statement nodes, which returns the entry associated with it.
-date: 2021-09-16

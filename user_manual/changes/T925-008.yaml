@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix ``GenericSubpInst.subp_spec_or_null``
-description: |
-    The ``subp_spec_or_null`` property would not work correctly on generic
-    subprogram instantiations, and hence some other calls relying on that would
-    also fail, such as `is_dispatching_call` on a call to a generic subprogram
-    instantiation. This is now fixed.
-date: 2020-09-28

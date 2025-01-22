@@ -1,9 +1,0 @@
-type: bugfix
-title: Fix visibility issue of overriden subprogram
-description: |
-    This change fixes a visibility issue arising when resolving a reference
-    to a subprogram overriden in the public part of a package if the type
-    has a refined declaration in its private part, in which case the inherited
-    subprogram would incorrectly take precedence over the overriden one
-    (see testcase precise_override_2).
-date: 2021-09-03

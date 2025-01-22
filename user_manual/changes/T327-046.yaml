@@ -1,6 +1,0 @@
-type: bugfix
-title: Nameres bug for subp defined in a declare block
-description: |
-    This fixes a bug where libadalang would fail to retrieve the body part of
-    a subprogram declaration made in a declare block.
-date: 2020-04-20

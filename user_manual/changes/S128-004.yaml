@@ -1,8 +1,0 @@
-type: new-feature
-title: Add a ``BasicDecl.p_is_preelaborable`` property
-
-description: |
-    This new property returns whether a declaration is preelaborable. See ARM
-    10.2.1 for more details.
-
-date: 2019-08-21

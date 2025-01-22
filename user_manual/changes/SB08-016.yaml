@@ -1,9 +1,0 @@
-type: bugfix
-title: Fix ``BasicDecl.doc`` not working on generic packages
-
-description: |
-    The ``BasicDecl.doc`` property was not working correctly on generic
-    packages, returning wrong or no documentation.
-
-
-date: 2019-11-08

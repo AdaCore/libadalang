@@ -1,7 +1,0 @@
-type: new-feature
-title: Add `p_is_constant*` properties.
-description: |
-    The properties `p_is_constant_object` and `p_is_constant`, when called on an
-    object for the former, and a name for the latter, return whether the object
-    is constant or not.
-date: 2021-12-06

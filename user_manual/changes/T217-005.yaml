@@ -1,9 +1,0 @@
-type: new-feature
-title: Handle ``-j0`` in the App framework
-
-description: |
-    The App framework (in ``Libadalang.Helpers``) defines a ``--jobs/-j``
-    command-line argument, taking a positive number of jobs to create. This
-    argument nows also accepts zero, to create one job per CPU.
-
-date: 2020-04-27

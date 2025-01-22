@@ -1,8 +1,0 @@
-type: new-feature
-title: Static evaluation of string expressions
-description: |
-   Add the possibility of evaluating static expressions
-   as strings to the static evaluator.
-apis: [ada, python, ocaml]
-date: 2020-08-10
-

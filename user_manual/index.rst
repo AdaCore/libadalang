@@ -16,7 +16,6 @@ Contents:
    python_api_tutorial
    python_api_ref
    examples/index.rst
-   api_changes
 
 Indices and tables
 ==================

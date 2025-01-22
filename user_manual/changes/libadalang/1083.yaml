@@ -1,8 +1,0 @@
-type: api-change
-title: Move P_Get_Primitives from Type_Decl to Base_Type_Decl
-short_title: Move P_Get_Primitives in Base_Type_Decl
-description: |
-  This change moves the `P_Get_Primitives` from the `Ada_Type_Decl` type to
-  the `Ada_Base_Type_Decl` type. This allows to call `P_Get_Primitives` on
-  the `Ada_Task_Type_Decl` type for example.
-date: 2023-10-26

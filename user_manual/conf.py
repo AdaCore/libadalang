@@ -377,19 +377,6 @@ def setup(app):
     # everywhere, including in the Python API ref.
     app.add_role('rmlink', adadomain.rmlink)
 
-    import subprocess
-    from os import path as P
-    import sys
-
-    rst_content = subprocess.check_output([
-        sys.executable, P.join('changes', 'process_changes.py'),
-        'rst'
-    ])
-
-    with open(P.join(P.dirname(P.abspath(__file__)), 'api_changes.rst'),
-              'wb') as f:
-        f.write(rst_content)
-
 
 extlinks = {
     # TODO: for deployment, update the following URL to an available Langkit

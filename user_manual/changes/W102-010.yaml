@@ -1,7 +1,0 @@
-type: new-feature
-title: "New ``EnumLiteralDecl.p_enum_rep`` property"
-description: |
-    The new ``EnumLiteralDecl.p_enum_rep`` property returns the universal
-    integer used to encode this enum literal. This is equivalent to GNAT's
-    ``Enum_Rep`` attribute.
-date: 2023-01-02

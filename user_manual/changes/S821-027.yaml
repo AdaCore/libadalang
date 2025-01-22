@@ -1,9 +1,0 @@
-type: api-change
-title: Rename ``BasicDecl.p_is_unit_root`` into ``p_is_compilation_unit_root``
-short_title: Rename BasicDecl.p_is_unit_root
-
-description: |
-    To be closer to common Ada terminology, and disambiguate between
-    compilation and analysis units.
-
-date: 2019-08-19

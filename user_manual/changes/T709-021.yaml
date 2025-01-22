@@ -1,9 +1,0 @@
-type: new-feature
-apis: ["ada"]
-title: Add ``Expr.P_Is_Dynamically_Tagged`` property
-
-description: |
-    We introduce a new property, ``P_Is_Dynamically_Tagged``, which will return
-    whether an expression is dynamically tagged or not.
-
-date: 2020-08-03

@@ -1,7 +1,0 @@
-type: new-feature
-title: Improve error recovery for extended return statement parsing
-short_title: Extended return stmt parsing improvement
-description: |
-  This change improves error recovery when parsing incomplete extended return
-  statement.
-date: 2022-04-20

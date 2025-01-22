@@ -1,8 +1,0 @@
-type: bugfix
-short_title: Fix ``P_Aggregate_Params`` property
-title: Do not return ancestor's part components when calling ``P_Aggregate_Params``
-description: |
-  This change fixes a bug where ``P_Aggregate_Params`` would return ancestor's
-  part components if called on an extended aggregate using the ``other``
-  designator.
-date: 2022-09-09

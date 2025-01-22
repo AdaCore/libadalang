@@ -1,8 +1,0 @@
-type: bugfix
-title: Fix ``get_primitives`` with generic base types
-description: |
-    This change fixes a bug where calling ``p_get_primitives`` on a type
-    inheriting from a type defined in an instantiaged generic package
-    would behave wrongly, as it would in some cases completely omit the
-    primitives associated with such base types.
-date: 2022-01-12

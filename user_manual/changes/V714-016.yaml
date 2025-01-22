@@ -1,7 +1,0 @@
-type: bugfix
-title: Infinite recursion with use clauses and generics
-description: |
-    This change fixes a bug where a use clause appearing in a generic
-    declaration could cause infinite recursions in queries done on the
-    generic declaration's instantiation.
-date: 2022-07-26

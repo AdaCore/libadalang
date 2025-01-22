@@ -1,9 +1,0 @@
-type: api-change
-apis: [python, ada]
-title: Make ``P_Discriminants_List`` take origin parameter
-description: |
-    This change adds an ``origin`` node parameter to the
-    ``P_Discriminants_List`` property in the Ada and Python apis. This node
-    is used to filter the output of the property with respect to what is
-    visible from this origin node.
-date: 2021-10-04

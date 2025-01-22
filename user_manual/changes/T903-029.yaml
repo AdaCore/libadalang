@@ -1,8 +1,0 @@
-type: bugfix
-title: Crash on renaming of Ada.Wide_*Text_IO package
-description: |
-    This fixes an issue where Libadalang would fail to do any kind of name
-    analysis on a source that would "use" a package renaming an instantiation
-    of the ``Ada.Wide_Text_IO`` or ``Ada.Wide_Wide_Text_IO`` packages, such as
-    ``Ada.Integer_Wide_Text_IO``.
-date: 2020-09-03

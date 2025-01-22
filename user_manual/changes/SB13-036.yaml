@@ -1,8 +1,0 @@
-type: new-feature
-title: Add ``p_is_interface_type`` property
-
-description: |
-    Add a ``p_is_interface_type`` property on ``BaseTypeDecl`` nodes. It
-    returns whether the given type corresponds to an interface type.
-
-date: 2020-02-03

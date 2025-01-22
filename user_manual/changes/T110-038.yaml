@@ -1,7 +1,0 @@
-type: bugfix
-title: Resolve ``Truncation`` attribute
-
-description: |
-    The ``Truncation`` attribute was not resolved correctly.
-
-date: 2020-04-17

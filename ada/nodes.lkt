@@ -19318,6 +19318,8 @@ class DefiningName: Name {
                     | s"Real_Literal"
                     | s"String_Literal"
                     | s"Finalizable"
+                    | s"Static_Predicate"
+                    | s"Dynamic_Predicate"
             then
                 parts_to_check.map(
                     (p) => p.basic_decl_internal().get_aspect_assoc(name).do(
@@ -19336,10 +19338,22 @@ class DefiningName: Name {
         or? self.basic_decl().as[BaseTypeDecl].do((bd) => {
             # If nothing has been found so far for entity, check out for
             # any inherited aspect.
-            val typ =
-                if bd is BaseSubtypeDecl
-                then bd.as[BaseSubtypeDecl].get_type()
-                else bd.base_type();
+            val typ = if bd is BaseSubtypeDecl then {
+                bind origin = node.origin_node();
+
+                # Most of aspects are not allowed on subtype declarations but a
+                # few are (subtype predicates), in that case, we must recurse
+                # on parent subtypes instead of base type when looking for
+                # them.
+                if bd is SubtypeDecl
+                    and name in s"Predicate"
+                        | s"Static_Predicate"
+                        | s"Dynamic_Predicate" then
+                    bd.as[SubtypeDecl].subtype.designated_type()
+                else
+                    bd.as[BaseSubtypeDecl].get_type()
+            }
+            else bd.base_type();
 
             if typ.is_null or typ == bd then
                 null[Aspect]

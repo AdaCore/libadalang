@@ -1,0 +1,8 @@
+Working on node <SubtypeDecl ["S3"] test.adb:9:4-9:21>
+======================================================
+
+Eval 'node.p_get_aspect("Predicate")'
+Result: <Aspect exists=True node=<PragmaNode test.adb:13:4-13:32> value=<Id "true" test.adb:13:26-13:30> inherited=True>
+
+Eval 'node.p_get_aspect("Static_Predicate")'
+Result: <Aspect exists=True node=<AspectAssoc test.adb:8:26-8:50> value=<Id "true" test.adb:8:46-8:50> inherited=True>

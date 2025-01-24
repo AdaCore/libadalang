@@ -3099,7 +3099,96 @@
     },
     "ForLoopVarDecl": {},
     "FormalDiscreteTypeDef": {},
-    "FormalTypeDecl": {},
+    "FormalTypeDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "type"
+              },
+              {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  "line",
+                  {
+                    "kind": "group",
+                    "document": [
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_name"
+                      },
+                      {
+                        "kind": "recurse_field",
+                        "field": "f_discriminants"
+                      },
+                      "line",
+                      {
+                        "kind": "text",
+                        "text": "is"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_type_def"
+              },
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "recurse_field",
+                  "field": "f_default_type"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_discriminants": [
+          "line",
+          "recurse"
+        ],
+        "f_type_def": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        },
+        "f_default_type": {
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            {
+              "kind": "indent",
+              "contents": [
+                "line",
+                "recurse"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "FormatStringChunk": {},
     "FormatStringChunkList": {},
     "FormatStringLiteral": {},
@@ -3171,7 +3260,12 @@
     "GenericFormalTypeDecl": {
       "node": {
         "kind": "group",
-        "document": "recurse"
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_decl"
+          }
+        ]
       }
     },
     "GenericPackageDecl": {
@@ -3488,7 +3582,27 @@
         ]
       }
     },
-    "GenericSubpInternal": {},
+    "GenericSubpInternal": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_subp_spec"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "hardline",
+          "recurse"
+        ]
+      }
+    },
     "GenericSubpRenamingDecl": {
       "node": {
         "kind": "group",
@@ -4542,28 +4656,8 @@
                           ]
                         },
                         {
-                          "kind": "ifKind",
-                          "field": "f_mode",
-                          "default": [
-                            {
-                              "kind": "recurse_field",
-                              "field": "f_mode"
-                            },
-                            "whitespace"
-                          ],
-                          "absent": {
-                            "kind": "recurse_field",
-                            "field": "f_mode"
-                          },
-                          "matchers": [
-                            {
-                              "kind": "ModeDefault",
-                              "document": {
-                                "kind": "recurse_field",
-                                "field": "f_mode"
-                              }
-                            }
-                          ]
+                          "kind": "recurse_field",
+                          "field": "f_mode"
                         },
                         {
                           "kind": "recurse_field",

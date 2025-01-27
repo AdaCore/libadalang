@@ -1231,7 +1231,7 @@ class AdaNode implements Node[AdaNode] {
         has_private_view: Bool
     ): Bool = {
         val should_have_private_view =
-            has_private_view or self_cu.has_private_view(node);
+            has_private_view or self_cu.has_direct_private_view(node);
 
         self_cu.decl().as_bare_entity.semantic_parent().do(
             (parent) =>
@@ -1280,11 +1280,14 @@ class AdaNode implements Node[AdaNode] {
         refd_unit: AnalysisUnit
     ): Bool =
         # If the referenced unit is ourself, we don't need further checks
-        node.unit
-        == refd_unit
+        node.unit == refd_unit
 
         # If we have view on "private with"s, we don't need further checks
-        or self_cu.has_private_view(node)
+        or self_cu.has_direct_private_view(node)
+
+        # Otherwise (this compilation unit declares a package), check
+        # whether `origin` lies in a private part.
+        or node.has_private_part_parent(self_cu.decl().children_env.env_node)
 
         # But if we don't, so we must return False if the referenced unit
         # is only visible from private parts.
@@ -13649,26 +13652,29 @@ class CompilationUnit: AdaNode {
     @external()
     fun stub_for_impl(su: Subunit): BodyStub
 
-    |" Return whether the given ``origin`` node has view on "private withs" of
-    |" its unit or parent units.
-    fun has_private_view(origin: AdaNode): Bool = {
+    |" Return whether the given ``origin`` node (assuming it belongs to this
+    |" ``CompilationUnit``) has view on the "private with" clauses and private
+    |" declarations of its parent unit.
+    fun has_direct_private_view(origin: AdaNode): Bool = {
         val decl = node.decl();
 
-        (
-            # A private package necessarily has private-with visibility
-            node.body.as[LibraryItem]?.has_private.as_bool()
-        )
-        or (
-            # If this compilation doesn't declare a package, then we
-            # necessarily have private-with visibility because it means we are
-            # inside a body.
-            not decl is BasePackageDecl | GenericPackageDecl
-        )
-        or (
-            # Otherwise (this compilation unit declares a package), check
-            # whether `origin` lies in a private part.
-            origin.has_private_part_parent(decl.children_env.env_node)
-        )
+        # A private package necessarily has private visibility
+        node.body.as[LibraryItem]?.has_private.as_bool()
+
+        # If this compilation doesn't declare a package, then we
+        # necessarily have private-with visibility because it means we are
+        # inside a body.
+        or not decl is BasePackageDecl | GenericPackageDecl
+
+        # Otherwise it means that we are in a package declaration: check
+        # whether we are inside the private part of this package.
+        or {
+            val package_decl = decl.as[BasePackageDecl]
+                or? decl.as[GenericPackageDecl].package_decl;
+            package_decl.private_part.do(
+                (pp) => origin.parents().contains(pp)
+            )
+        }
     }
 }
 

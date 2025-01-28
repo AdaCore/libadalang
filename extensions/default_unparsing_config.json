@@ -716,36 +716,63 @@
     },
     "BinOp": {
       "node": {
-        "kind": "group",
-        "document": [
+        "kind": "ifKind",
+        "field": "f_op",
+        "default": {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "recurse_field",
+              "field": "f_left"
+            },
+            "line",
+            {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "group",
+                  "document": {
+                    "kind": "recurse_field",
+                    "field": "f_op"
+                  },
+                  "id": "operator"
+                },
+                "whitespace",
+                "flushLineBreaks",
+                {
+                  "kind": "innerRoot",
+                  "contents": {
+                    "kind": "recurse_field",
+                    "field": "f_right"
+                  },
+                  "bubbleUpLeadingTrivias": true,
+                  "bubbleUpTrailingTrivias": true
+                }
+              ]
+            }
+          ]
+        },
+        "matchers": [
           {
-            "kind": "recurse_field",
-            "field": "f_left"
-          },
-          "line",
-          {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "group",
-                "document": {
+            "kind": "OpPow",
+            "document": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "recurse_field",
+                  "field": "f_left"
+                },
+                "softline",
+                {
                   "kind": "recurse_field",
                   "field": "f_op"
                 },
-                "id": "operator"
-              },
-              "whitespace",
-              "flushLineBreaks",
-              {
-                "kind": "innerRoot",
-                "contents": {
+                {
                   "kind": "recurse_field",
                   "field": "f_right"
-                },
-                "bubbleUpLeadingTrivias": true,
-                "bubbleUpTrailingTrivias": true
-              }
-            ]
+                }
+              ]
+            }
           }
         ]
       },

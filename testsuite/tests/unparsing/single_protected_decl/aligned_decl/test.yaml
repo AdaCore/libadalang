@@ -1,0 +1,9 @@
+description: |
+    This test checks the formatting of a single protected declaration
+    with private and public part.
+    It is expected the declaration be formatted by aligning `protected`,
+    `private` and `end` keywords and the contents of public and private
+    parts are indented and the declarations aligned on `:`. 
+ 
+driver: unparser
+rule: protected_decl

@@ -1820,11 +1820,12 @@
       }
     },
     "DeclList": {
-      "sep": [
-        "recurse",
-        "hardline"
-      ],
-      "table": null
+      "table": {
+        "split": [
+          "empty_line"
+        ],
+        "must_break": true
+      }
     },
     "DeclarativePart": {
       "node": {

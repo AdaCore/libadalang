@@ -1,0 +1,2 @@
+procedure Foo;
+-- Bar

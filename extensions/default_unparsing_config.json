@@ -2559,48 +2559,47 @@
     "ErrorDecl": {},
     "ErrorStmt": {},
     "ExceptionDecl": {
-      "node": {
-        "kind": "group",
-        "document": [
-          {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "group",
-                "document": {
-                  "kind": "continuationLineIndent",
-                  "contents": {
-                    "kind": "recurse_field",
-                    "field": "f_ids"
-                  }
-                }
-              },
-              "whitespace",
-              {
-                "kind": "text",
-                "text": ":"
-              },
-              "whitespace",
-              {
-                "kind": "text",
-                "text": "exception"
-              },
-              {
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "continuationLineIndent",
+              "contents": {
                 "kind": "recurse_field",
-                "field": "f_renames"
+                "field": "f_ids"
               }
-            ]
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_aspects"
-          },
-          {
-            "kind": "text",
-            "text": ";"
-          }
-        ]
-      },
+            },
+            "whitespace"
+          ]
+        },
+        {
+          "kind": "tableSeparator",
+          "text": ":"
+        },
+        {
+          "kind": "group",
+          "document": [
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "exception"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_renames"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_aspects"
+            },
+            {
+              "kind": "text",
+              "text": ";"
+            }
+          ]
+        }
+      ],
       "fields": {
         "f_renames": {
           "kind": "continuationLineIndent",
@@ -2608,10 +2607,7 @@
         },
         "f_aspects": [
           "line",
-          {
-            "kind": "group",
-            "document": "recurse"
-          }
+          "recurse"
         ]
       }
     },

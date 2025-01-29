@@ -6010,36 +6010,24 @@
               "kind": "group",
               "document": [
                 {
-                  "kind": "group",
-                  "document": {
-                    "kind": "recurse_field",
-                    "field": "f_op"
-                  },
-                  "id": "relation_operator"
+                  "kind": "recurse_field",
+                  "field": "f_op"
                 },
+                "whitespace",
                 {
-                  "kind": "ifBreak",
-                  "groupId": "relation_operator",
-                  "flatContents": {
-                    "kind": "innerRoot",
-                    "contents": [
-                      "whitespace",
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_right"
-                      }
-                    ]
-                  },
-                  "breakContents": {
-                    "kind": "group",
-                    "document": [
-                      "hardlineWithoutBreakParent",
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_right"
-                      }
-                    ]
-                  }
+                  "kind": "group",
+                  "document": [
+                    "flushLineBreaks",
+                    {
+                      "kind": "innerRoot",
+                      "contents": [
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_right"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

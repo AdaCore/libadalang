@@ -498,7 +498,7 @@ package body Libadalang.Implementation.Extensions is
                return Text (Node);
 
             when Ada_Synthetic_Identifier =>
-               return Image (Node.Synthetic_Identifier_Sym);
+               return Image (Node.Synthetic_Identifier_F_Sym);
 
             when Ada_Dotted_Name =>
                return (Name_Image (Node.Dotted_Name_F_Prefix)
@@ -544,7 +544,7 @@ package body Libadalang.Implementation.Extensions is
       F_Name     : constant Bare_Name := Node.Defining_Name_F_Name;
       Name_Image : constant Text_Type :=
         (if F_Name.Kind = Ada_Synthetic_Identifier
-         then +F_Name.Synthetic_Identifier_Sym
+         then +F_Name.Synthetic_Identifier_F_Sym
          else Text (Node));
       Name_Part  : constant Text_Type :=
         (if Name_Image = ""
@@ -621,12 +621,12 @@ package body Libadalang.Implementation.Extensions is
    function Compilation_Unit_P_Get_Empty_Env
      (Node : Bare_Compilation_Unit) return Lexical_Env is
    begin
-      if Node.Compilation_Unit_No_Env = Empty_Env then
-         Node.Compilation_Unit_No_Env :=
+      if Node.Compilation_Unit_F_No_Env = Empty_Env then
+         Node.Compilation_Unit_F_No_Env :=
             Create_Static_Lexical_Env
               (Empty_Env, Node, Node.Unit.Context.Symbols);
       end if;
-      return Node.Compilation_Unit_No_Env;
+      return Node.Compilation_Unit_F_No_Env;
    end Compilation_Unit_P_Get_Empty_Env;
 
    ----------------------------------------
@@ -884,7 +884,7 @@ package body Libadalang.Implementation.Extensions is
 
    procedure Alloc_Logic_Vars (Node : Bare_Expr) is
    begin
-      if Node.Expr_Logic_Vars = System.Null_Address then
+      if Node.Expr_F_Logic_Vars = System.Null_Address then
          declare
             LV_Number : constant Positive :=
               (case Node.Kind is
@@ -899,7 +899,7 @@ package body Libadalang.Implementation.Extensions is
                Arr (I) := Null_Var_Record;
             end loop;
 
-            Node.Expr_Logic_Vars := Arr.all'Address;
+            Node.Expr_F_Logic_Vars := Arr.all'Address;
          end;
       end if;
    end Alloc_Logic_Vars;
@@ -916,7 +916,7 @@ package body Libadalang.Implementation.Extensions is
 
       return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (3)'Unrestricted_Access)
+           (Node.Expr_F_Logic_Vars) (3)'Unrestricted_Access)
       do
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
@@ -940,7 +940,7 @@ package body Libadalang.Implementation.Extensions is
 
       return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (4)'Unrestricted_Access)
+           (Node.Expr_F_Logic_Vars) (4)'Unrestricted_Access)
       do
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
@@ -963,7 +963,7 @@ package body Libadalang.Implementation.Extensions is
 
       return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (1)'Unrestricted_Access)
+           (Node.Expr_F_Logic_Vars) (1)'Unrestricted_Access)
       do
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null
@@ -986,7 +986,7 @@ package body Libadalang.Implementation.Extensions is
 
       return Ret : constant Logic_Var := Logic_Var'
         (Alloc_Logic_Var_Array.To_Pointer
-           (Node.Expr_Logic_Vars) (2)'Unrestricted_Access)
+           (Node.Expr_F_Logic_Vars) (2)'Unrestricted_Access)
       do
          if Langkit_Support.Adalog.Debug.Debug
             and then Ret.Dbg_Name = null

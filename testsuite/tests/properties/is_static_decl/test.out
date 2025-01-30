@@ -1,9 +1,9 @@
 == test.adb ==
 <ConcreteTypeDecl ["T"] test.adb:2:4-2:29> is a static decl
 <ConcreteTypeDecl ["NT"] test.adb:3:4-3:34> is a static decl
-<ConcreteTypeDecl ["Arr"] test.adb:4:4-4:43> is a static decl
-<ConcreteTypeDecl ["Arr_2"] test.adb:5:4-5:54> is a static decl
-<ConcreteTypeDecl ["Arr_3"] test.adb:6:4-6:59> is a static decl
+<ConcreteTypeDecl ["Arr"] test.adb:4:4-4:43> is not a static decl
+<ConcreteTypeDecl ["Arr_2"] test.adb:5:4-5:54> is not a static decl
+<ConcreteTypeDecl ["Arr_3"] test.adb:6:4-6:59> is not a static decl
 <ConcreteTypeDecl ["Arr_4"] test.adb:9:4-9:60> is not a static decl
 <ConcreteTypeDecl ["Fixed_T"] test.adb:11:4-11:48> is a static decl
 <ConcreteTypeDecl ["Float_T"] test.adb:12:4-12:49> is a static decl
@@ -15,11 +15,11 @@
 <SubtypeDecl ["Float_ST_2"] test.adb:23:4-23:43> is a static decl
 <SubtypeDecl ["Float_ST_3"] test.adb:24:4-24:61> is a static decl
 <SubtypeDecl ["Float_ST_4"] test.adb:25:4-25:73> is not a static decl
-
 == stype.adb ==
 <ConcreteTypeDecl ["T"] stype.adb:2:5-2:41> is not a static decl
 <SubtypeDecl ["U1"] stype.adb:6:8-6:28> is not a static decl
-<SubtypeDecl ["U2"] stype.adb:10:8-10:31> is a static decl
-<SubtypeDecl ["U3"] stype.adb:15:8-15:64> is not a static decl
-
+<SubtypeDecl ["U2"] stype.adb:9:8-9:31> is not a static decl
+<SubtypeDecl ["V1"] stype.adb:16:8-16:43> is not a static decl
+<SubtypeDecl ["V2"] stype.adb:19:8-19:43> is a static decl
+<SubtypeDecl ["V3"] stype.adb:23:8-23:76> is not a static decl
 Done

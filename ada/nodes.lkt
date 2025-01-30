@@ -2739,6 +2739,7 @@ class ConstrainedArrayIndices: ArrayIndices {
         )
 
     @with_dynvars(origin)
+    @call_memoizable
     fun index_type(dim: Int): Entity[BaseTypeDecl] = {
         # We might need to solve self's equation to get the index type
         val _ =
@@ -24064,7 +24065,14 @@ class ArrayTypeDef: TypeDef {
     }
 
     @with_dynvars(imprecise_fallback=false)
-    fun is_static(): Bool = self.indices.is_static()
+    fun is_static(): Bool = {
+        bind origin = node.origin_node();
+
+        # Only string types can be static
+        self.comp_type().is_char_type()
+        and self.indices.ndims() == 1
+        and self.indices.is_static()
+    }
 
     fun xref_entry_point(): Bool = true
 }
@@ -25092,10 +25100,53 @@ class SubtypeIndication: TypeExpr {
     fun is_static_subtype(): Bool = {
         bind origin = node.origin_node();
 
-        not self.semantic_parent().as[BaseTypeDecl]?.is_dynamically_predicated()
-        and self.constraint.do(
-            (c) => c.is_static(),
-            default_val=self.designated_type().is_static_decl()
+        val self_parent = self.parents(with_self=false).find(
+            (p) => p is BasicDecl
+        );
+        val self_type = self.designated_type();
+
+        # First, check static-ness specific exclusions
+        if (
+            # Subtype of a generic formal object of mode in out
+            (self_parent.parent is GenericFormalObjDecl
+            and self_parent.as[ObjectDecl]?.mode is Mode.InOut)
+            # Result subtype of a generic formal function
+            or (self_parent.parent is GenericFormalSubpDecl
+                and self_parent.as[BasicSubpDecl]?.type_expression() == self)
+            # If any `Dynamic_Predicate` applies
+            or self_parent.as[BaseTypeDecl]?.is_dynamically_predicated()
+        )
+        then
+            false
+        else (
+            # Then, it can be static if the type is scalar or of a string type
+            if self_type.is_scalar_type()
+            then
+                self.constraint.do(
+                    # Checking that the subtype is formed by imposing a
+                    # compatible static constraint on a static scalar subtype
+                    # (this implementation assumes the applied constraint is
+                    # compatible).
+                    (c) => self_type.is_static_decl() and c.is_static(),
+                    # When unconstrained, the type should not be a descendant
+                    # of a formal type.
+                    default_val=not self_type.is_formal()
+            )
+            elif self_type.is_str_type()
+            then
+                self.constraint.do(
+                    # Checking that the subtype is formed by imposing a
+                    # compatible static constraint on a static string subtype
+                    # (this implementation assumes the applied constraint is
+                    # compatible).
+                    (c) => self_type.is_static_decl() and c.is_static(),
+                    # When unconstrained, index and componant subtype must be
+                    # static.
+                    default_val=self_type.index_type(0).is_static_decl()
+                        and self_type.comp_type().is_static_decl()
+                )
+            else
+                false
         )
     }
 }

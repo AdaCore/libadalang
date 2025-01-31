@@ -1557,13 +1557,7 @@
                     "kind": "recurse_field",
                     "field": "f_discriminants"
                   },
-                  {
-                    "kind": "ifKind",
-                    "field": "f_discriminants",
-                    "default": "line",
-                    "absent": "whitespace",
-                    "matchers": []
-                  },
+                  "line",
                   {
                     "kind": "text",
                     "text": "is"
@@ -3133,45 +3127,28 @@
                 "kind": "text",
                 "text": "type"
               },
+              "whitespace",
               {
-                "kind": "continuationLineIndent",
-                "contents": [
-                  "line",
-                  {
-                    "kind": "group",
-                    "document": [
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_name"
-                      },
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_discriminants"
-                      },
-                      "line",
-                      {
-                        "kind": "text",
-                        "text": "is"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "kind": "group",
-            "document": [
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_discriminants"
+              },
+              "line",
+              {
+                "kind": "text",
+                "text": "is"
+              },
+              "whitespace",
               {
                 "kind": "recurse_field",
                 "field": "f_type_def"
               },
               {
-                "kind": "group",
-                "document": {
-                  "kind": "recurse_field",
-                  "field": "f_default_type"
-                }
+                "kind": "recurse_field",
+                "field": "f_default_type"
               }
             ]
           },
@@ -3186,11 +3163,7 @@
         ]
       },
       "fields": {
-        "f_discriminants": [
-          "line",
-          "recurse"
-        ],
-        "f_type_def": {
+        "f_discriminants": {
           "kind": "continuationLineIndent",
           "contents": [
             "line",
@@ -3198,16 +3171,10 @@
           ]
         },
         "f_default_type": {
-          "kind": "ifEmpty",
-          "then": "recurse",
-          "else": [
-            {
-              "kind": "indent",
-              "contents": [
-                "line",
-                "recurse"
-              ]
-            }
+          "kind": "group",
+          "document": [
+            "line",
+            "recurse"
           ]
         }
       }
@@ -3283,12 +3250,7 @@
     "GenericFormalTypeDecl": {
       "node": {
         "kind": "group",
-        "document": [
-          {
-            "kind": "recurse_field",
-            "field": "f_decl"
-          }
-        ]
+        "document": "recurse"
       }
     },
     "GenericPackageDecl": {
@@ -3903,59 +3865,24 @@
                 "kind": "text",
                 "text": "type"
               },
+              "whitespace",
               {
-                "kind": "continuationLineIndent",
-                "contents": [
-                  "line",
-                  {
-                    "kind": "group",
-                    "document": [
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_name"
-                      },
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_discriminants"
-                      }
-                    ]
-                  }
-                ]
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_discriminants"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_is_tagged"
               }
             ]
           },
           {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "recurse_field",
-                "field": "f_is_tagged"
-              },
-              {
-                "kind": "ifKind",
-                "field": "f_default_type",
-                "default": [
-                  "line",
-                  {
-                    "kind": "group",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_default_type"
-                    }
-                  }
-                ],
-                "absent": [
-                  {
-                    "kind": "group",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_default_type"
-                    }
-                  }
-                ],
-                "matchers": []
-              }
-            ]
+            "kind": "recurse_field",
+            "field": "f_default_type"
           },
           {
             "kind": "text",
@@ -3964,23 +3891,46 @@
         ]
       },
       "fields": {
-        "f_discriminants": [
+        "f_discriminants": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        },
+        "f_is_tagged": [
           "line",
+          {
+            "kind": "text",
+            "text": "is"
+          },
+          "whitespace",
           "recurse"
         ],
-        "f_default_type": {
-          "kind": "ifEmpty",
-          "then": "recurse",
-          "else": [
-            {
-              "kind": "continuationLineIndent",
-              "contents": [
-                "line",
-                "recurse"
-              ]
-            }
-          ]
-        }
+        "f_default_type": [
+          "line",
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "text",
+                "text": "or"
+              },
+              "whitespace",
+              {
+                "kind": "text",
+                "text": "use"
+              },
+              {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  "line",
+                  "recurse"
+                ]
+              }
+            ]
+          }
+        ]
       }
     },
     "IncompleteTaggedTypeDecl": {
@@ -3988,25 +3938,20 @@
         "kind": "group",
         "document": [
           {
-            "kind": "text",
-            "text": "type"
-          },
-          {
-            "kind": "continuationLineIndent",
-            "contents": [
-              "line",
+            "kind": "group",
+            "document": [
               {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_name"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_discriminants"
-                  }
-                ]
+                "kind": "text",
+                "text": "type"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_discriminants"
               }
             ]
           },
@@ -4031,10 +3976,13 @@
         ]
       },
       "fields": {
-        "f_discriminants": [
-          "line",
-          "recurse"
-        ]
+        "f_discriminants": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        }
       }
     },
     "IncompleteTypeDecl": {
@@ -4045,24 +3993,14 @@
             "kind": "text",
             "text": "type"
           },
+          "whitespace",
           {
-            "kind": "continuationLineIndent",
-            "contents": [
-              "line",
-              {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_name"
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_discriminants"
-                  }
-                ]
-              }
-            ]
+            "kind": "recurse_field",
+            "field": "f_name"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_discriminants"
           },
           {
             "kind": "text",
@@ -4071,10 +4009,13 @@
         ]
       },
       "fields": {
-        "f_discriminants": [
-          "line",
-          "recurse"
-        ]
+        "f_discriminants": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        }
       }
     },
     "IntLiteral": {},
@@ -5594,20 +5535,12 @@
                 "field": "f_name"
               },
               {
-                "kind": "continuationLineIndent",
-                "contents": [
-                  {
-                    "kind": "group",
-                    "document": {
-                      "kind": "recurse_field",
-                      "field": "f_discriminants"
-                    }
-                  },
-                  {
-                    "kind": "recurse_field",
-                    "field": "f_aspects"
-                  }
-                ]
+                "kind": "recurse_field",
+                "field": "f_discriminants"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_aspects"
               },
               "line",
               {
@@ -5636,14 +5569,20 @@
         ]
       },
       "fields": {
-        "f_aspects": [
-          "line",
-          "recurse"
-        ],
-        "f_discriminants": [
-          "line",
-          "recurse"
-        ]
+        "f_aspects": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        },
+        "f_discriminants": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        }
       }
     },
     "QualExpr": {
@@ -6874,17 +6813,12 @@
                     "field": "f_name"
                   },
                   {
-                    "kind": "continuationLineIndent",
-                    "contents": [
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_discriminants"
-                      },
-                      {
-                        "kind": "recurse_field",
-                        "field": "f_aspects"
-                      }
-                    ]
+                    "kind": "recurse_field",
+                    "field": "f_discriminants"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_aspects"
                   },
                   {
                     "kind": "ifKind",
@@ -6912,14 +6846,20 @@
         ]
       },
       "fields": {
-        "f_discriminants": [
-          "line",
-          "recurse"
-        ],
-        "f_aspects": [
-          "line",
-          "recurse"
-        ]
+        "f_discriminants": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        },
+        "f_aspects": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            "line",
+            "recurse"
+          ]
+        }
       }
     },
     "TerminateAlternative": {},

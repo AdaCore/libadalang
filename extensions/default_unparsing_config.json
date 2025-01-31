@@ -4400,7 +4400,6 @@
                 "kind": "recurse_field",
                 "field": "f_ancestor_expr"
               },
-              "whitespace",
               {
                 "kind": "text",
                 "text": "null"
@@ -4432,7 +4431,8 @@
           {
             "kind": "text",
             "text": "with"
-          }
+          },
+          "whitespace"
         ]
       },
       "f_assocs": [

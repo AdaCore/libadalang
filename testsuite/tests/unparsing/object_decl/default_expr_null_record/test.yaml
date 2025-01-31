@@ -1,0 +1,5 @@
+driver: unparser
+rule: object_decl
+description: |
+  Test that no extra space added in parathesis when default_expr is
+  `null record`.

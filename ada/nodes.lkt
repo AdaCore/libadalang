@@ -1656,6 +1656,102 @@ class AdaNode implements Node[AdaNode] {
         case _ => false
     }
 
+    |" Given a set of ranges ``lhs`` and a set of ranges ``rhs``, return a set
+    |" of ranges which values span only values from ``lhs`` that do not belong
+    |" to ``rhs``.
+    fun subtract_ranges(
+        lhs: Array[EvalDiscreteRange],
+        rhs: Array[EvalDiscreteRange],
+        from: Int = 0
+    ): Array[EvalDiscreteRange] =
+        if from >= rhs.length()
+        then lhs
+        else self.subtract_ranges(
+            self.subtract_range(lhs, rhs[from]),
+            rhs,
+            from + 1
+        )
+
+    |" Given a set of ranges ``lhs`` and a single range ``rhs``, return a set
+    |" of ranges which values span only values from ``lhs`` that do not belong
+    |" to ``rhs``.
+    fun subtract_range(
+        lhs: Array[EvalDiscreteRange],
+        rhs: EvalDiscreteRange
+    ): Array[EvalDiscreteRange] = lhs.mapcat((dr) =>
+        # case [2, 6] - [1, 7] = {}
+        if dr.low_bound >= rhs.low_bound and dr.high_bound <= rhs.high_bound
+        then null[Array[EvalDiscreteRange]]
+        # case [2, 6] - [1, 1] = [2, 6]
+        elif dr.low_bound > rhs.high_bound
+        then [dr]
+        # case [2, 6] - [7, 8] = [2, 6]
+        elif dr.high_bound < rhs.low_bound
+        then [dr]
+        # case [2, 6] - [1, 4] = [5, 6]
+        elif dr.low_bound >= rhs.low_bound and dr.high_bound > rhs.high_bound
+        then [EvalDiscreteRange(low_bound=rhs.high_bound + 1b,
+                                high_bound=dr.high_bound)]
+        # case [2, 6] - [3, 7] = [2, 2]
+        elif dr.low_bound < rhs.low_bound and dr.high_bound <= rhs.high_bound
+        then [EvalDiscreteRange(low_bound=dr.low_bound,
+                                high_bound=rhs.low_bound - 1b)]
+        # case [2, 6] - [4, 4] = [2, 3] U [5, 6]
+        else [
+            EvalDiscreteRange(low_bound=dr.low_bound,
+                              high_bound=rhs.low_bound - 1b),
+            EvalDiscreteRange(low_bound=rhs.high_bound + 1b,
+                              high_bound=dr.high_bound)
+        ]
+    )
+
+    |" Return the set of ranges that represents values that this choice spans.
+    fun choice_range(): Array[EvalDiscreteRange] = match self {
+        # If choice is a binop, it is either a range, or a static
+        # arithmetic expression.
+        case bo: BinOp =>
+            if bo.op is Op.DoubleDot
+            then [EvalDiscreteRange(
+                low_bound=bo.left.eval_as_int(),
+                high_bound=bo.right.eval_as_int()
+            )]
+            else {
+                val v = bo.eval_as_int();
+                [EvalDiscreteRange(low_bound=v, high_bound=v)]
+            }
+
+        # If choice is a name, it is either a subtype name, or a constant
+        # number name.
+        case n: Name =>
+            n.name_designated_type().do(
+                (dt) => dt.discrete_range().do(
+                    (dr) => [node.eval_discrete_range(dr)]
+                ),
+                default_val={
+                    val v = n.eval_as_int();
+                    [EvalDiscreteRange(low_bound=v, high_bound=v)]
+                }
+            )
+
+        # If it is an expr, the range only contains the number itself
+        case e: Expr => {
+            val v = e.eval_as_int();
+            [EvalDiscreteRange(low_bound=v, high_bound=v)]
+        }
+
+        # We should never have to compute the range for an `others` designator
+        case _: OthersDesignator =>
+            raise[Array[EvalDiscreteRange]] PreconditionFailure(
+                "Cannot compute range of `others` designator"
+            )
+
+        # We should have handled all legal cases by now
+        case _ =>
+            raise[Array[EvalDiscreteRange]] PropertyError(
+                "Unhandled choice expression"
+            )
+    }
+
     |" Return a cross reference from this name to a defining identifier,
     |" trying to mimic GNAT's xrefs as much as possible.
     @exported
@@ -24861,20 +24957,36 @@ class Variant: AdaNode {
     }
 
     |" Check if any choice in the choice list matches expr's value.
-    fun matches(expr: Entity[Expr]): Bool = {
-        # Statically evaluate expr
+    fun matches(expr: Entity[Expr]): Bool =
+        # If the choice contains an `others` designator, we return true
+        # straightaway, because we know from the context that all the previous
+        # alternatives have been tested (an `others` designator necessarily
+        # appears last).
+        if self.choices.any((c) => c is OthersDesignator) then
+            true
 
-        val expr_val =
-            (
+        # When the expression is static, we can evaluate it and see if its
+        # value is covered by one of the choices.
+        elif expr is BoxExpr or expr.is_static_expr() then {
+            # When the expression Statically evaluate expr
+            val expr_val = (
                 # If expr is a box expr, `expr_val` is the value of the default
                 # expression of the given discriminant (:rmlink:`4.3.1`).
                 if expr is BoxExpr then self.default_discriminant_expr()
                 else expr
-            )
-            .eval_as_int();
+            ).eval_as_int();
 
-        self.choices.any((c) => c.choice_match(expr_val))
-    }
+            self.choices.any((c) => c.choice_match(expr_val))
+        }
+        # Otherwise, we check whether the set of values that the expression
+        # can take is fully covered by this alternative (ai12-0086-1).
+        else {
+            val expr_range = expr.expression_type().discrete_range();
+            val type_ranges = [expr.eval_discrete_range(expr_range)];
+            val choice_ranges = self.choices.mapcat((c) => c.choice_range());
+            val left_ranges = self.subtract_ranges(type_ranges, choice_ranges);
+            left_ranges.length() == 0
+        }
 }
 
 |" Variant part in a discriminated type record declaration

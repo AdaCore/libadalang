@@ -1,0 +1,167 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["T_1_AC"] test.adb:34:7-34:46>
+********************************************************************
+
+Expr: <Id "T_1" test.adb:34:16-34:19>
+  references:    <DefiningName "T_1" test.adb:6:9-6:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:34:23-34:45>
+  type:          <ConcreteTypeDecl ["T_1"] test.adb:6:4-13:15>
+  expected type: <ConcreteTypeDecl ["T_1"] test.adb:6:4-13:15>
+Expr: <Id "K" test.adb:34:24-34:25>
+  references:    <DefiningName "K" test.adb:6:14-6:15>
+  type:          None
+  expected type: None
+Expr: <Id "V_AC" test.adb:34:29-34:33>
+  references:    <DefiningName "V_AC" test.adb:33:19-33:23>
+  type:          <SubtypeDecl ["AC"] test.adb:3:4-3:36>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:33>
+Expr: <Id "C_AC" test.adb:34:35-34:39>
+  references:    <DefiningName "C_AC" test.adb:9:13-9:17>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:34:43-34:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["T_1_DE"] test.adb:37:7-37:46>
+********************************************************************
+
+Expr: <Id "T_1" test.adb:37:16-37:19>
+  references:    <DefiningName "T_1" test.adb:6:9-6:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:37:23-37:45>
+  type:          <ConcreteTypeDecl ["T_1"] test.adb:6:4-13:15>
+  expected type: <ConcreteTypeDecl ["T_1"] test.adb:6:4-13:15>
+Expr: <Id "K" test.adb:37:24-37:25>
+  references:    <DefiningName "K" test.adb:6:14-6:15>
+  type:          None
+  expected type: None
+Expr: <Id "V_DE" test.adb:37:29-37:33>
+  references:    <DefiningName "V_DE" test.adb:33:30-33:34>
+  type:          <SubtypeDecl ["DE"] test.adb:4:4-4:36>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:33>
+Expr: <Id "C_DE" test.adb:37:35-37:39>
+  references:    <DefiningName "C_DE" test.adb:11:13-11:17>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:37:43-37:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["T_2_AC"] test.adb:40:7-40:46>
+********************************************************************
+
+Expr: <Id "T_2" test.adb:40:16-40:19>
+  references:    <DefiningName "T_2" test.adb:15:9-15:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:40:23-40:45>
+  type:          <ConcreteTypeDecl ["T_2"] test.adb:15:4-22:15>
+  expected type: <ConcreteTypeDecl ["T_2"] test.adb:15:4-22:15>
+Expr: <Id "K" test.adb:40:24-40:25>
+  references:    <DefiningName "K" test.adb:15:14-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "V_AC" test.adb:40:29-40:33>
+  references:    <DefiningName "V_AC" test.adb:33:19-33:23>
+  type:          <SubtypeDecl ["AC"] test.adb:3:4-3:36>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:33>
+Expr: <Id "C_AC" test.adb:40:35-40:39>
+  references:    <DefiningName "C_AC" test.adb:18:13-18:17>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:40:43-40:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["T_2_DE"] test.adb:43:7-43:46>
+********************************************************************
+
+Expr: <Id "T_2" test.adb:43:16-43:19>
+  references:    <DefiningName "T_2" test.adb:15:9-15:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:43:23-43:45>
+  type:          <ConcreteTypeDecl ["T_2"] test.adb:15:4-22:15>
+  expected type: <ConcreteTypeDecl ["T_2"] test.adb:15:4-22:15>
+Expr: <Id "K" test.adb:43:24-43:25>
+  references:    <DefiningName "K" test.adb:15:14-15:15>
+  type:          None
+  expected type: None
+Expr: <Id "V_DE" test.adb:43:29-43:33>
+  references:    <DefiningName "V_DE" test.adb:33:30-33:34>
+  type:          <SubtypeDecl ["DE"] test.adb:4:4-4:36>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:33>
+Expr: <Id "C_DE" test.adb:43:35-43:39>
+  references:    <DefiningName "C_DE" test.adb:20:13-20:17>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:43:43-43:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["T_3_AC"] test.adb:46:7-46:46>
+********************************************************************
+
+Expr: <Id "T_3" test.adb:46:16-46:19>
+  references:    <DefiningName "T_3" test.adb:24:9-24:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:46:23-46:45>
+  type:          <ConcreteTypeDecl ["T_3"] test.adb:24:4-31:15>
+  expected type: <ConcreteTypeDecl ["T_3"] test.adb:24:4-31:15>
+Expr: <Id "K" test.adb:46:24-46:25>
+  references:    <DefiningName "K" test.adb:24:14-24:15>
+  type:          None
+  expected type: None
+Expr: <Id "V_AC" test.adb:46:29-46:33>
+  references:    <DefiningName "V_AC" test.adb:33:19-33:23>
+  type:          <SubtypeDecl ["AC"] test.adb:3:4-3:36>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:33>
+Expr: <Id "C_AC" test.adb:46:35-46:39>
+  references:    <DefiningName "C_AC" test.adb:27:13-27:17>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:46:43-46:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <ObjectDecl ["T_3_DE"] test.adb:49:7-49:46>
+********************************************************************
+
+Expr: <Id "T_3" test.adb:49:16-49:19>
+  references:    <DefiningName "T_3" test.adb:24:9-24:12>
+  type:          None
+  expected type: None
+Expr: <Aggregate test.adb:49:23-49:45>
+  type:          <ConcreteTypeDecl ["T_3"] test.adb:24:4-31:15>
+  expected type: <ConcreteTypeDecl ["T_3"] test.adb:24:4-31:15>
+Expr: <Id "K" test.adb:49:24-49:25>
+  references:    <DefiningName "K" test.adb:24:14-24:15>
+  type:          None
+  expected type: None
+Expr: <Id "V_DE" test.adb:49:29-49:33>
+  references:    <DefiningName "V_DE" test.adb:33:30-33:34>
+  type:          <SubtypeDecl ["DE"] test.adb:4:4-4:36>
+  expected type: <ConcreteTypeDecl ["Enum"] test.adb:2:4-2:33>
+Expr: <Id "C_DE" test.adb:49:35-49:39>
+  references:    <DefiningName "C_DE" test.adb:29:13-29:17>
+  type:          None
+  expected type: None
+Expr: <Int test.adb:49:43-49:44>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Done.

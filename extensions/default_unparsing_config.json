@@ -7028,7 +7028,59 @@
     "UnconstrainedArrayIndices": {},
     "UnknownDiscriminantPart": {},
     "UntilNode": {},
-    "UpdateAttributeRef": {},
+    "UpdateAttributeRef": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_prefix"
+              },
+              {
+                "kind": "text",
+                "text": "'"
+              },
+              {
+                "kind": "recurse_field",
+                "field": "f_attribute"
+              }
+            ],
+            "id": "prefix_with_attribute"
+          },
+          {
+            "kind": "ifBreak",
+            "groupId": "prefix_with_attribute",
+            "flatContents": {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_values"
+              }
+            },
+            "breakContents": {
+              "kind": "align",
+              "width": "     ",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_values"
+              }
+            }
+          }
+        ]
+      },
+      "fields": {
+        "f_values": [
+          "line",
+          {
+            "kind": "group",
+            "document": "recurse"
+          }
+        ]
+      }
+    },
     "UsePackageClause": {
       "node": {
         "kind": "group",

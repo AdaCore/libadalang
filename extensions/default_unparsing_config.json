@@ -1218,7 +1218,6 @@
           "kind": "ifEmpty",
           "then": "recurse",
           "else": [
-            "literalline",
             "hardline",
             "recurse"
           ]

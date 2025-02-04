@@ -1231,7 +1231,7 @@ class AdaNode implements Node[AdaNode] {
         has_private_view: Bool
     ): Bool = {
         val should_have_private_view =
-            has_private_view or self_cu.has_private_view(node);
+            has_private_view or self_cu.has_direct_private_view(node);
 
         self_cu.decl().as_bare_entity.semantic_parent().do(
             (parent) =>
@@ -1280,11 +1280,14 @@ class AdaNode implements Node[AdaNode] {
         refd_unit: AnalysisUnit
     ): Bool =
         # If the referenced unit is ourself, we don't need further checks
-        node.unit
-        == refd_unit
+        node.unit == refd_unit
 
         # If we have view on "private with"s, we don't need further checks
-        or self_cu.has_private_view(node)
+        or self_cu.has_direct_private_view(node)
+
+        # Otherwise (this compilation unit declares a package), check
+        # whether `origin` lies in a private part.
+        or node.has_private_part_parent(self_cu.decl().children_env.env_node)
 
         # But if we don't, so we must return False if the referenced unit
         # is only visible from private parts.
@@ -5485,48 +5488,55 @@ class BasicDecl: AdaNode {
         # If entity comes from resolving an actual of the current generic
         # context, we necessarily have visibility on it.
         if self.info.from_rebound then true
+
         # For synthetic type decls, forward the computation on their
         # specific type.
-
         elif self is ClasswideTypeDecl | DiscreteBaseSubtypeDecl
         then self.parent.as[BaseTypeDecl].is_visible(from_node)
+
         # If self is declared in a private part, check that we can find it
         # from origin's env.
-
         elif self.is_in_private_part()
         then
             node.is_directly_reachable(from_node)
-            and (
-                # Even if the above expression is True, we may not have
-                # visibility according to Ada rules: in LAL, library-level
-                # child packages' parent environments are defined to be their
-                # parent packages' private part. The expression below filters
-                # out cases where self is declared in the private part of a
-                # library-level package and from_node lies in the public part
-                # of a child package.
-                from_node.enclosing_compilation_unit().has_private_view(
-                    from_node.node
-                )
-            )
+            # Even if the above expression is True, we may not have visibility
+            # according to Ada rules: in LAL, library-level child packages'
+            # parent environments are defined to be their parent packages'
+            # private part. The code below inspects cases where from_node is
+            # declared in the public part of a child package of self. In such
+            # cases, self is visible from from_node only if there is a private
+            # package between from_node (included) to self (excluded).
+            and {
+                val from_cu = from_node.enclosing_compilation_unit();
+                val self_cu = self.enclosing_compilation_unit();
+                # If we are in the same compilation unit, the env query is
+                # sufficient to determine that we do have private visibility
+                # because there is no library-level child packages involved.
+                (from_cu == self_cu)
+                # Otherwise, check whether `from_cu` is a child package
+                # which has visibility on the private part of `self_cu`.
+                or from_cu.has_private_view(from_node.node, self_cu)
+            }
+
         # If self is declared in a public part, origin has visibility on it
         # iff it has visibility on the parent of self: do a recursive call
         # on the parent scope.
-
         elif self.is_in_public_part() or self.parent is GenericFormalPackage
         then
             node.is_directly_reachable(from_node)
             or self.parent_basic_decl().is_visible(from_node)
+
         # If self is declared at the top-level (but is not a subunit), we
         # necessarily have visibility on it.
-
         elif
             self.is_compilation_unit_root() and not self.as[Body]?.is_subunit()
         then true
+
         # If self is in any other kind of declarative part, we can perform
         # an env query to figure out if we can reach it.
-
         elif self.parent.do((v1) => v1.parent is DeclarativePart)
         then node.is_directly_reachable(from_node)
+
         # Unhandled case: raise PropertyError
         else
             raise[Bool] PropertyError(
@@ -13649,27 +13659,52 @@ class CompilationUnit: AdaNode {
     @external()
     fun stub_for_impl(su: Subunit): BodyStub
 
-    |" Return whether the given ``origin`` node has view on "private withs" of
-    |" its unit or parent units.
-    fun has_private_view(origin: AdaNode): Bool = {
+    |" Return whether the given ``origin`` node (assuming it belongs to this
+    |" ``CompilationUnit``) has view on the "private with" clauses and private
+    |" declarations of its parent unit.
+    fun has_direct_private_view(origin: AdaNode): Bool = {
         val decl = node.decl();
 
-        (
-            # A private package necessarily has private-with visibility
-            node.body.as[LibraryItem]?.has_private.as_bool()
-        )
-        or (
-            # If this compilation doesn't declare a package, then we
-            # necessarily have private-with visibility because it means we are
-            # inside a body.
-            not decl is BasePackageDecl | GenericPackageDecl
-        )
-        or (
-            # Otherwise (this compilation unit declares a package), check
-            # whether `origin` lies in a private part.
-            origin.has_private_part_parent(decl.children_env.env_node)
-        )
+        # A private package necessarily has private visibility
+        node.body.as[LibraryItem]?.has_private.as_bool()
+
+        # If this compilation doesn't declare a package, then we
+        # necessarily have private-with visibility because it means we are
+        # inside a body.
+        or not decl is BasePackageDecl | GenericPackageDecl
+
+        # Otherwise it means that we are in a package declaration: check
+        # whether we are inside the private part of this package.
+        or {
+            val package_decl = decl.as[BasePackageDecl]
+                or? decl.as[GenericPackageDecl].package_decl;
+            package_decl.private_part.do(
+                (pp) => origin.parents().contains(pp)
+            )
+        }
     }
+
+    |" Given that ``parent_unit`` is a parent unit of self, return whether the
+    |" given ``origin`` node (assuming it belongs to this ``CompilationUnit``)
+    |" has view on the private part of that unit.
+    fun has_private_view(origin: AdaNode, parent_unit: CompilationUnit): Bool =
+        # Return true as soon as we have private view on our direct parent,
+        # because it means we'll transitively have private visibility on
+        # ``parent_unit``.
+        node.has_direct_private_view(origin)
+        # Otherwise check whether our direct parent unit itself has visibility.
+        # Make sure to perform the query from outside the parent unit's private
+        # part, since we just found out through the test above that we don't
+        # have visibility on it.
+        or node.decl().as_bare_entity.semantic_parent().do((p) => {
+            val direct_parent = if p is PrivatePart then p.parent else p;
+            val direct_parent_unit = p.enclosing_compilation_unit();
+
+            (direct_parent_unit != parent_unit)
+            and direct_parent_unit.has_private_view(
+                direct_parent.node, parent_unit
+            )
+        })
 }
 
 |" Representation clause for a single component (:rmlink:`13.5.1`).

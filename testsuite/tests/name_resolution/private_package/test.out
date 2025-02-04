@@ -1,0 +1,115 @@
+Analyzing p-q-i.ads
+###################
+
+Resolving xrefs for node <ObjectDecl ["Y"] p-q-i.ads:2:4-2:12>
+**************************************************************
+
+Expr: <DottedName p-q-i.ads:2:8-2:11>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+Expr: <Id "P" p-q-i.ads:2:8-2:9>
+  references:    <DefiningName "P" p.ads:1:9-1:10>
+  type:          None
+  expected type: None
+Expr: <Id "T" p-q-i.ads:2:10-2:11>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Z"] p-q-i.ads:5:4-5:12>
+**************************************************************
+
+p-q-i.ads:5:10: error: no such entity
+5 |    Z : Q.T;
+  |          ^
+
+
+Expected name resolution failure for node <ObjectDecl ["Z"] p-q-i.ads:5:4-5:12>
+
+Resolving xrefs for node <ObjectDecl ["Inner_Public_Y"] p-q-i.ads:9:7-9:28>
+***************************************************************************
+
+Expr: <DottedName p-q-i.ads:9:24-9:27>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+Expr: <Id "P" p-q-i.ads:9:24-9:25>
+  references:    <DefiningName "P" p.ads:1:9-1:10>
+  type:          None
+  expected type: None
+Expr: <Id "T" p-q-i.ads:9:26-9:27>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Inner_Public_Z"] p-q-i.ads:12:7-12:28>
+*****************************************************************************
+
+p-q-i.ads:12:26: error: no such entity
+12 |       Inner_Public_Z : Q.T;
+   |                          ^
+
+
+Expected name resolution failure for node <ObjectDecl ["Inner_Public_Z"] p-q-i.ads:12:7-12:28>
+
+Resolving xrefs for node <ObjectDecl ["Inner_Private_Y"] p-q-i.ads:15:7-15:29>
+******************************************************************************
+
+Expr: <DottedName p-q-i.ads:15:25-15:28>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+Expr: <Id "P" p-q-i.ads:15:25-15:26>
+  references:    <DefiningName "P" p.ads:1:9-1:10>
+  type:          None
+  expected type: None
+Expr: <Id "T" p-q-i.ads:15:27-15:28>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Inner_Private_Z"] p-q-i.ads:18:7-18:29>
+******************************************************************************
+
+p-q-i.ads:18:27: error: no such entity
+18 |       Inner_Private_Z : Q.T;
+   |                           ^
+
+
+Expected name resolution failure for node <ObjectDecl ["Inner_Private_Z"] p-q-i.ads:18:7-18:29>
+
+Resolving xrefs for node <ObjectDecl ["Private_Y"] p-q-i.ads:23:7-23:23>
+************************************************************************
+
+Expr: <DottedName p-q-i.ads:23:19-23:22>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+Expr: <Id "P" p-q-i.ads:23:19-23:20>
+  references:    <DefiningName "P" p.ads:1:9-1:10>
+  type:          None
+  expected type: None
+Expr: <Id "T" p-q-i.ads:23:21-23:22>
+  references:    <DefiningName "T" p.ads:3:9-3:10>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <ObjectDecl ["Private_Z"] p-q-i.ads:26:7-26:23>
+************************************************************************
+
+Expr: <DottedName p-q-i.ads:26:19-26:22>
+  references:    <DefiningName "T" p-q.ads:3:9-3:10>
+  type:          None
+  expected type: None
+Expr: <Id "Q" p-q-i.ads:26:19-26:20>
+  references:    <DefiningName "P.Q" p-q.ads:1:17-1:20>
+  type:          None
+  expected type: None
+Expr: <Id "T" p-q-i.ads:26:21-26:22>
+  references:    <DefiningName "T" p-q.ads:3:9-3:10>
+  type:          None
+  expected type: None
+
+
+Done.

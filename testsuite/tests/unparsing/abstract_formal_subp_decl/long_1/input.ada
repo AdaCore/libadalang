@@ -1,0 +1,1 @@
+with procedure Fooooooooooooooooooooooooooooooooooooooooooooooooooo is abstract;

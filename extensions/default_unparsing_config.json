@@ -3931,13 +3931,29 @@
                 "kind": "recurse_field",
                 "field": "f_is_tagged"
               },
-              "line",
               {
-                "kind": "group",
-                "document": {
-                  "kind": "recurse_field",
-                  "field": "f_default_type"
-                }
+                "kind": "ifKind",
+                "field": "f_default_type",
+                "default": [
+                  "line",
+                  {
+                    "kind": "group",
+                    "document": {
+                      "kind": "recurse_field",
+                      "field": "f_default_type"
+                    }
+                  }
+                ],
+                "absent": [
+                  {
+                    "kind": "group",
+                    "document": {
+                      "kind": "recurse_field",
+                      "field": "f_default_type"
+                    }
+                  }
+                ],
+                "matchers": []
               }
             ]
           },
@@ -3953,10 +3969,16 @@
           "recurse"
         ],
         "f_default_type": {
-          "kind": "continuationLineIndent",
-          "contents": [
-            "line",
-            "recurse"
+          "kind": "ifEmpty",
+          "then": "recurse",
+          "else": [
+            {
+              "kind": "continuationLineIndent",
+              "contents": [
+                "line",
+                "recurse"
+              ]
+            }
           ]
         }
       }

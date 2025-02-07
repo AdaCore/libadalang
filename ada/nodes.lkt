@@ -183,7 +183,18 @@ class AdaNode implements Node[AdaNode] {
                     (lb) => lb.eval_as_int(),
                     default_val=0b
                 ),
-                high_bound=dr.high_bound.eval_as_int()
+                high_bound=dr.high_bound.do(
+                    (hb) => hb.eval_as_int(),
+                    default_val=(
+                        dr.range_type.as[TypeDecl]?.type_def
+                        .as[EnumTypeDef]?.enum_literals
+                    ).do(
+                        (lits) => (lits.length() - 1).as_big_int(),
+                        default_val=raise[BigInt] PropertyError(
+                            "Cannot evaluate range"
+                        )
+                    )
+                )
             )
 
     |" Static method. Return the array of symbols joined by separator ``sep``.
@@ -14619,7 +14630,11 @@ class Expr: AdaNode {
         case ar: AttributeRef => ar.prefix.discrete_range()
         case n: Name =>
             n.name_designated_type().do((dt) => dt.discrete_range())
-        case bo: BinOp => DiscreteRange(low_bound=bo.left, high_bound=bo.right)
+        case bo: BinOp => DiscreteRange(
+            range_type=bo.expression_type(),
+            low_bound=bo.left,
+            high_bound=bo.right
+        )
         case _ => null[DiscreteRange]
     }
 
@@ -23847,6 +23862,12 @@ class EnumTypeDef: TypeDef {
     @with_dynvars(imprecise_fallback=false)
     fun is_static(): Bool = true
 
+    fun discrete_range(): DiscreteRange = DiscreteRange(
+        range_type=self.containing_type(),
+        low_bound=null[Entity[Expr]],
+        high_bound=null[Entity[Expr]]
+    )
+
     fun is_std_char_type(): Bool = {
         val self_type = node.parent.as[TypeDecl];
 
@@ -24005,8 +24026,11 @@ class ModIntTypeDef: TypeDef {
     @with_dynvars(imprecise_fallback=false)
     fun is_static(): Bool = self.expr.is_static_expr()
 
-    fun discrete_range(): DiscreteRange =
-        DiscreteRange(low_bound=null[Entity[Expr]], high_bound=self.expr)
+    fun discrete_range(): DiscreteRange = DiscreteRange(
+        range_type=self.containing_type(),
+        low_bound=null[Entity[Expr]],
+        high_bound=self.expr
+    )
 
     @memoized
     fun predefined_operators(): Array[EnvAssoc] = {
@@ -25159,6 +25183,7 @@ struct CompletionItem {
 |" evaluated, you need to call ``eval_as_int`` on them, if they're static, to
 |" get their value.
 struct DiscreteRange {
+    range_type: Entity[BaseTypeDecl]
     low_bound: Entity[Expr]
     high_bound: Entity[Expr]
 }

@@ -11,16 +11,16 @@ Working on node <ConcreteTypeDecl ["B"] test.adb:5:4-5:38>
 ==========================================================
 
 Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<Int test.adb:5:26-5:27> high_bound=<AttributeRef test.adb:5:31-5:37>>
+Result: <DiscreteRange range_type=<ConcreteTypeDecl ["A"] test.adb:2:4-2:26> low_bound=<Int test.adb:5:26-5:27> high_bound=<AttributeRef test.adb:5:31-5:37>>
 
 Working on node <SubtypeDecl ["C"] test.adb:7:4-7:55>
 =====================================================
 
 Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<BinOp test.adb:7:25-7:36> high_bound=<CallExpr test.adb:7:40-7:54>>
+Result: <DiscreteRange range_type=<ConcreteTypeDecl ["B"] test.adb:5:4-5:38> low_bound=<BinOp test.adb:7:25-7:36> high_bound=<CallExpr test.adb:7:40-7:54>>
 
 Working on node <SubtypeDecl ["D"] test.adb:9:4-9:19>
 =====================================================
 
 Eval 'node.p_discrete_range'
-Result: <DiscreteRange low_bound=<Int test.adb:5:26-5:27> high_bound=<AttributeRef test.adb:5:31-5:37>>
+Result: <DiscreteRange range_type=<ConcreteTypeDecl ["A"] test.adb:2:4-2:26> low_bound=<Int test.adb:5:26-5:27> high_bound=<AttributeRef test.adb:5:31-5:37>>

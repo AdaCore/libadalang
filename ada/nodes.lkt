@@ -1648,23 +1648,6 @@ class AdaNode implements Node[AdaNode] {
                 default_val=value == n.eval_as_int()
             )
 
-        # If choice is a subtype indication, then get the range
-        case st: SubtypeIndication =>
-            st.discrete_range().do(
-                (dr) => {
-                    val edr = node.eval_discrete_range(dr);
-
-                    value >= edr.low_bound and value <= edr.high_bound
-                },
-                default_val=true
-            )
-            and {
-                bind origin = node;
-                bind imprecise_fallback = false;
-
-                st.designated_type().satisfies_type_predicates(value)
-            }
-
         # If it is an expr, then just check for equality
         case e: Expr => value == e.eval_as_int()
 

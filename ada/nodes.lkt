@@ -1716,7 +1716,137 @@ class AdaNode implements Node[AdaNode] {
         ]
     )
 
+    |" Given the base range of a type and the expression of a static predicate
+    |" on this type, return an array of ranges that precisely describe the
+    |" values of the base range that satisfy the predicate, as an array of
+    |" ranges.
+    |" Note that this does not attempt any simplification of the result, thus
+    |" the final array may contain overlapping ranges, consecutive ranges that
+    |" could be merged, etc.
+    |" Also note that the resulting ranges are not sorted by any means.
+    |" See RM 3.2.4 for more information on subtype predicates.
+    fun constrain_range(
+        base: EvalDiscreteRange,
+        expr: Entity[Expr]
+    ): Array[EvalDiscreteRange] = match expr {
+        case bo: BinOp => match bo.op {
+            case _: Op.And => {
+                val lhs = self.constrain_range(base, bo.left);
+                val rhs = self.constrain_range(base, bo.right);
+                # Set intersection can be defined in terms of set difference
+                # with the relation: A n B = A \ (A \ B).
+                self.subtract_ranges(
+                    lhs,
+                    self.subtract_ranges(lhs, rhs)
+                )
+            }
+            case _: Op.Or => {
+                val lhs = self.constrain_range(base, bo.left);
+                val rhs = self.constrain_range(base, bo.right);
+                # For set union, we can simply concatenate both sets. We
+                # perform no simplification on the result for now.
+                lhs & rhs
+            }
+            case _ => {
+                # For other binary operators, check whether one of the operand
+                # refers to the type, in which case it improses a constraint
+                # that we have to materialize as a range. If not, it is a
+                # normal static expression that we should be able to evaluate
+                # straightaway.
+                val self_is_left =
+                    bo.left.as[Identifier]?.referenced_decl()
+                    is SyntheticObjectDecl;
+                val self_is_right =
+                    bo.right.as[Identifier]?.referenced_decl()
+                    is SyntheticObjectDecl;
+
+                if self_is_left or self_is_right then {
+                    val static_operand =
+                        if self_is_left then bo.right else bo.left;
+                    val static_value = static_operand.eval_as_int();
+                    # Now, simply compute the range corresponding to
+                    # `Self <op> <static_value>`. For example,
+                    # `Self > 4` should materialize the range
+                    # `[5, <high_bound>]`, where `<high_bound>` is the last
+                    # valid value of the base type.
+                    if bo.op is Op.Eq then
+                        [EvalDiscreteRange(
+                            low_bound=static_value,
+                            high_bound=static_value
+                        )]
+                    elif bo.op is Op.Neq then
+                        [EvalDiscreteRange(
+                            low_bound=base.low_bound,
+                            high_bound=static_value - 1b
+                        ), EvalDiscreteRange(
+                            low_bound=static_value + 1b,
+                            high_bound=base.high_bound
+                        )]
+                    elif
+                        (self_is_left and bo.op is Op.Lt) or
+                        (self_is_right and bo.op is Op.Gt)
+                    then
+                        [EvalDiscreteRange(
+                            low_bound=base.low_bound,
+                            high_bound=static_value - 1b
+                        )]
+                    elif
+                        (self_is_left and bo.op is Op.Gt) or
+                        (self_is_right and bo.op is Op.Lt)
+                    then
+                        [EvalDiscreteRange(
+                            low_bound=static_value + 1b,
+                            high_bound=base.high_bound
+                        )]
+                    elif
+                        (self_is_left and bo.op is Op.Lte) or
+                        (self_is_right and bo.op is Op.Gte)
+                    then
+                        [EvalDiscreteRange(
+                            low_bound=base.low_bound,
+                            high_bound=static_value
+                        )]
+                    elif
+                        (self_is_left and bo.op is Op.Gte) or
+                        (self_is_right and bo.op is Op.Lte)
+                    then
+                        [EvalDiscreteRange(
+                            low_bound=static_value,
+                            high_bound=base.high_bound
+                        )]
+                    else
+                        raise[Array[EvalDiscreteRange]] PropertyError(
+                            "unhandled binary operator"
+                        )
+                }
+                # If it is a normal static expression, simply evaluate it
+                # and return the whole range or the empty range depending on
+                # its result.
+                elif bo.eval_as_int() == 1b
+                then [base]
+                else null[Array[EvalDiscreteRange]]
+            }
+        }
+
+        case pe: ParenExpr =>
+            self.constrain_range(base, pe.expr)
+
+        case me: MembershipExpr =>
+            # If the selector expression is Self, then this imposes a new
+            # constraint on the type that we materialize as a list of ranges
+            # corresponding to the union of the ranges of each choice.
+            if me.expr.as[Identifier]?.referenced_decl() is SyntheticObjectDecl
+            then me.membership_exprs.mapcat((e) => e.choice_range())
+            elif me.eval_as_int() == 1b then [base]
+            else null[Array[EvalDiscreteRange]]
+
+        case _ => raise[Array[EvalDiscreteRange]] PropertyError(
+            "unhandled expression"
+        )
+    }
+
     |" Return the set of ranges that represents values that this choice spans.
+    |" This also takes into account type predicates.
     fun choice_range(): Array[EvalDiscreteRange] = match self {
         # If choice is a binop, it is either a range, or a static
         # arithmetic expression.
@@ -1735,9 +1865,7 @@ class AdaNode implements Node[AdaNode] {
         # number name.
         case n: Name =>
             n.name_designated_type().do(
-                (dt) => dt.discrete_range().do(
-                    (dr) => [node.eval_discrete_range(dr)]
-                ),
+                (dt) => dt.discrete_static_values(),
                 default_val={
                     val v = n.eval_as_int();
                     [EvalDiscreteRange(low_bound=v, high_bound=v)]
@@ -8882,6 +9010,17 @@ class BaseTypeDecl: BasicDecl {
     |" Return the discrete range for this type decl, if applicable.
     @exported
     fun discrete_range(): DiscreteRange = null[DiscreteRange]
+
+    |" If applicable, return the values that this discrete subtype can take
+    |" as an array of concrete ranges, by taking into account static predicates
+    |" that apply to this subtype.
+    fun discrete_static_values(): Array[EvalDiscreteRange] = {
+        val base_range = self.eval_discrete_range(self.discrete_range());
+        self.static_predicate().do(
+            (p) => self.constrain_range(base_range, p),
+            default_val=[base_range]
+        )
+    }
 
     |" Whether type is a discrete type or not.
     @exported
@@ -25005,8 +25144,8 @@ class Variant: AdaNode {
         # Otherwise, we check whether the set of values that the expression
         # can take is fully covered by this alternative (ai12-0086-1).
         else {
-            val expr_range = expr.expression_type().discrete_range();
-            val type_ranges = [expr.eval_discrete_range(expr_range)];
+            val expr_type = expr.expression_type();
+            val type_ranges = expr_type.discrete_static_values();
             val choice_ranges = self.choices.mapcat((c) => c.choice_range());
             val left_ranges = self.subtract_ranges(type_ranges, choice_ranges);
             left_ranges.length() == 0

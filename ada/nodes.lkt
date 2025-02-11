@@ -8688,6 +8688,30 @@ class BaseTypeDecl: BasicDecl {
         case _ => true
     }
 
+    |" Returns whether this is a statically constained subtype (i.e., its size
+    |" is known at compile time).
+    |"
+    |" All types are statically constrained, expect for records and arrays
+    |" when they are unconstrained.
+    |"
+    |" For convenience, this will return ``False`` for incomplete types, even
+    |" though the correct answer is more akin to "non applicable".
+    @exported
+    fun is_statically_constrained(): Bool = match self {
+        case _: IncompleteTypeDecl => false
+        case td: TypeDecl => match td.type_def {
+            case dtd: DerivedTypeDef =>
+                dtd.subtype_indication.is_statically_constrained()
+            case atd: ArrayTypeDef =>
+                atd.indices is ConstrainedArrayIndices
+                and atd.indices.is_static()
+            case _: RecordTypeDef => td.discriminants.is_null
+            case _ => true
+        }
+        case st: SubtypeDecl => st.subtype.is_statically_constrained()
+        case _ => true
+    } and not self.is_dynamically_predicated()
+
     |" Return the list of all discriminants of this type. If this type has no
     |" discriminant or only unknown discriminants, an empty list is returned.
     |"
@@ -13195,6 +13219,20 @@ class ObjectDecl: BasicDecl {
             and self.default_expr.do((expr) => expr.is_static_expr())
         )
         or self.renaming_clause?.renamed_object.is_static_expr()
+
+    |" Returns whether this designates a statically constrained object.
+    |" An object is statically constrained if its nominal subtype is
+    |" statically constrained, or if it is a static string constant.
+    @exported
+    fun is_statically_constrained(): Bool = {
+        bind origin = node.origin_node();
+
+        self.type_expr.is_statically_constrained()
+        or (
+            self.has_constant.do((c) => c.as_bool())
+            and self.type_expr.designated_type().is_str_type()
+        )
+    }
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
@@ -24975,6 +25013,17 @@ class TypeExpr: AdaNode {
     @exported
     fun is_definite_subtype(): Bool =
         self.designated_type_decl().is_definite_subtype()
+
+    |" Returns whether this designates a statically constrained subtype.
+    @exported
+    fun is_statically_constrained(): Bool = {
+        bind origin = node.origin_node();
+
+        self.subtype_constraint().do(
+            (c) => c.is_static(),
+            default_val=self.designated_type().is_statically_constrained()
+        )
+    }
 
     fun custom_id_text(): String = {
         bind origin = node;

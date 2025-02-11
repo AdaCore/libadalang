@@ -1,0 +1,83 @@
+Working on node <SubtypeDecl ["T1"] test.adb:2:4-2:25>
+======================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <SubtypeDecl ["T2"] test.adb:5:4-5:30>
+======================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: True
+
+Working on node <SubtypeDecl ["T3"] test.adb:8:4-8:21>
+======================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: True
+
+Working on node <ConcreteTypeDecl ["T4"] test.adb:11:4-11:26>
+=============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <ConcreteTypeDecl ["T5"] test.adb:14:4-14:35>
+=============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <ConcreteTypeDecl ["T6"] test.adb:17:4-17:22>
+=============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <ConcreteTypeDecl ["T7"] test.adb:20:4-20:35>
+=============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: True
+
+Working on node <ConcreteTypeDecl ["R1"] test.adb:23:4-23:27>
+=============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: True
+
+Working on node <ConcreteTypeDecl ["R2"] test.adb:26:4-26:48>
+=============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <ConcreteTypeDecl ["R3"] test.adb:29:4-31:15>
+=============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <ConcreteTypeDecl ["Arr1"] test.adb:34:4-34:53>
+===============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <ConcreteTypeDecl ["Arr2"] test.adb:37:4-37:57>
+===============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Arr3"] test.adb:40:4-40:57>
+===============================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: False
+
+Working on node <ObjectDecl ["O"] test.adb:43:4-43:16>
+======================================================
+
+Eval 'node.p_is_statically_constrained'
+Result: True

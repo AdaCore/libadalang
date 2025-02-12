@@ -12290,45 +12290,50 @@ class GenericInstantiation: BasicDecl {
         )
         %and if self.is_any_formal() then %true
         else
-            self.designated_generic_decl()?.formal_part.match_param_list(
-                self.generic_inst_params(),
-                false
-            )
-            .filter((pm) => not pm.actual.assoc.expr() is BoxExpr)
-            .logic_all(
-                (pm) => {
-                    val actual_name = pm.actual.assoc.expr().as[Name];
+            self.designated_generic_decl().do(
+                (decl) => decl.formal_part.match_param_list(
+                    self.generic_inst_params(),
+                    false
+                )
+                .filter((pm) => not pm.actual.assoc.expr() is BoxExpr)
+                .logic_all(
+                    (pm) => {
+                        val actual_name = pm.actual.assoc.expr().as[Name];
 
-                    match pm.formal.formal_decl().as[GenericFormal].decl {
-                        case _: BaseTypeDecl =>
-                            actual_name.xref_type_equation()
-                        case _: GenericPackageInstantiation =>
-                            actual_name.xref_no_overloading()
-                        case subp_decl: Entity[FormalSubpDecl] =>
-                            if actual_name is AttributeRef
-                            then actual_name.sub_equation()
-                            else
-                                actual_name.xref_no_overloading(all_els=true)
-                                %and BasicDecl.subp_decl_match_signature%(
-                                    actual_name.ref_var(),
-                                    subp_decl.as[BasicDecl]
-                                )
-                                %or %true
-                        case obj_decl: ObjectDecl =>
-                            pm.actual.assoc.expr().expected_type_var()
-                            <- obj_decl.expr_type()
-                            %and pm.actual.assoc.expr().sub_equation()
-                            %and pm.actual.assoc.expr()
-                            .matches_expected_assign_type()
-                        case _ => %true
+                        match pm.formal.formal_decl().as[GenericFormal].decl {
+                            case _: BaseTypeDecl =>
+                                actual_name.xref_type_equation()
+                            case _: GenericPackageInstantiation =>
+                                actual_name.xref_no_overloading()
+                            case subp_decl: Entity[FormalSubpDecl] =>
+                                if actual_name is AttributeRef
+                                then actual_name.sub_equation()
+                                else
+                                    actual_name.xref_no_overloading(
+                                        all_els=true
+                                    )
+                                    %and BasicDecl.subp_decl_match_signature%(
+                                        actual_name.ref_var(),
+                                        subp_decl.as[BasicDecl]
+                                    )
+                                    %or %true
+                            case obj_decl: ObjectDecl =>
+                                pm.actual.assoc.expr().expected_type_var()
+                                <- obj_decl.expr_type()
+                                %and pm.actual.assoc.expr().sub_equation()
+                                %and pm.actual.assoc.expr()
+                                .matches_expected_assign_type()
+                            case _ => %true
+                        }
+                        %and pm.actual.name.do(
+                            (n) =>
+                            n.ref_var()
+                            <- pm.formal.node.as_bare_entity.basic_decl(),
+                            default_val=%true
+                        )
                     }
-                    %and pm.actual.name.do(
-                        (n) =>
-                        n.ref_var()
-                        <- pm.formal.node.as_bare_entity.basic_decl(),
-                        default_val=%true
-                    )
-                }
+                ),
+                default_val=%true
             )
 
     fun initial_env_name(): Symbol =
@@ -16396,7 +16401,10 @@ class Name: Expr {
     @with_dynvars(env, origin, entry_point)
     fun all_args_xref_equation(root: Name): Equation =
         self.as[CallExpr].do(
-            (ce) => ce.params()?.logic_all((pa) => pa.expr().sub_equation()),
+            (ce) => ce.params().do(
+                (params) => params.logic_all((pa) => pa.expr().sub_equation()),
+                default_val=%true
+            ),
             default_val=%true
         )
         %and self.parent_name(root).do(
@@ -18387,9 +18395,13 @@ class CallExpr: Name {
                     )
                     # Or a regular array access
                     %or (
-                        self.params()?.ilogic_all(
-                            (pa, i) =>
-                            atd.indices.constrain_index_expr(pa.expr(), i)
+                        self.params().do(
+                            (params) =>
+                            params.ilogic_all(
+                                (pa, i) =>
+                                atd.indices.constrain_index_expr(pa.expr(), i)
+                            ),
+                            default_val=%true
                         )
                         %and node.type_var() <- atd.comp_type()
                     )

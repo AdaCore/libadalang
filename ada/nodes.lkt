@@ -1197,17 +1197,6 @@ class AdaNode implements Node[AdaNode] {
         .get_first(s"Big_Integer", lookup=LookupKind.flat)
         .as[BaseTypeDecl]
 
-    |" Return the type Ada.Numerics.Big_Numbers.Big_Integers_Ghost.Big_Integer
-    fun big_integer_ghost_type(): Entity[BaseTypeDecl] =
-        node.get_unit_root_decl(
-            [s"Ada", s"Numerics", s"Big_Numbers", s"Big_Integers_Ghost"],
-            AnalysisUnitKind.unit_specification,
-            load_if_needed=false
-        )
-        ?.children_env
-        .get_first(s"Big_Integer", lookup=LookupKind.flat)
-        .as[BaseTypeDecl]
-
     |" Return the type SPARK.Big_Integers.Big_Integer
     fun spark_big_integer_type(): Entity[BaseTypeDecl] =
         node.get_unit_root_decl(
@@ -14219,7 +14208,6 @@ class Expr: AdaNode {
                         self.expected_type_var(),
                         [
                             self.big_integer_type(),
-                            self.big_integer_ghost_type(),
                             self.spark_big_integer_type()
                         ]
                     )

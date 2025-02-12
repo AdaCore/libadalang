@@ -21744,6 +21744,7 @@ class Pragma: AdaNode {
                 | s"Preelaborate"
                 | s"Elaborate_Body"
                 | s"Inline"
+                | s"Inline_Always"
                 | s"Volatile"
                 | s"No_Raise"
         then
@@ -21913,7 +21914,7 @@ class Pragma: AdaNode {
                 | s"Interface"
                 | s"Convention"
         then [self.args.at(1).assoc_expr().as![Name]]
-        elif self.id.name_symbol() in s"Inline" | s"No_Raise"
+        elif self.id.name_symbol() in s"Inline" | s"No_Raise" | s"Inline_Always"
         then self.args.map((a) => a.assoc_expr().as[Name])
         elif
             self.id.name_symbol() in s"Pack"

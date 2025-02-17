@@ -5,6 +5,7 @@
 
 with Ada.Containers.Vectors;
 with Ada.Exceptions;        use Ada.Exceptions;
+with Ada.Exceptions.Traceback;
 with Ada.IO_Exceptions;     use Ada.IO_Exceptions;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
@@ -324,7 +325,9 @@ package body Libadalang.Implementation.C.Extensions is
                   Append (Message, Error_Message);
                end loop;
                Set_Last_Exception
-                 (Exception_Identity (Exc), To_String (Message));
+                 (Exception_Identity (Exc),
+                  To_String (Message),
+                  Ada.Exceptions.Traceback.Tracebacks (Exc));
             end;
          else
             Set_Last_Exception (Exc);

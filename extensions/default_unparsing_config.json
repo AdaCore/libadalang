@@ -1922,50 +1922,60 @@
       }
     },
     "DeltaAggregate": {
-      "kind": "group",
-      "document": [
-        {
-          "kind": "text",
-          "text": "("
-        },
-        {
-          "kind": "align",
-          "width": " ",
-          "contents": {
-            "kind": "group",
-            "document": [
-              {
-                "kind": "recurse_field",
-                "field": "f_ancestor_expr"
-              },
-              "whitespace",
-              {
-                "kind": "text",
-                "text": "with"
-              },
-              "whitespace",
-              {
-                "kind": "text",
-                "text": "delta"
-              },
-              {
-                "kind": "continuationLineIndent",
-                "contents": [
-                  "line",
-                  {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "text",
+            "text": "("
+          },
+          {
+            "kind": "align",
+            "width": " ",
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "group",
+                  "document": {
                     "kind": "recurse_field",
-                    "field": "f_assocs"
+                    "field": "f_ancestor_expr"
                   }
-                ]
-              }
-            ]
+                },
+                "line",
+                {
+                  "kind": "group",
+                  "document": [
+                    {
+                      "kind": "text",
+                      "text": "with"
+                    },
+                    "whitespace",
+                    {
+                      "kind": "text",
+                      "text": "delta"
+                    },
+                    {
+                      "kind": "continuationLineIndent",
+                      "contents": [
+                        "line",
+                        {
+                          "kind": "recurse_field",
+                          "field": "f_assocs"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "text": ")"
           }
-        },
-        {
-          "kind": "text",
-          "text": ")"
-        }
-      ]
+        ]
+      }
     },
     "DeltaConstraint": {},
     "DerivedTypeDef": {

@@ -17638,13 +17638,24 @@ class AttributeRef: Name {
         then self.prefix.designated_env()
         elif self.attribute.name_is(s"Result")
         then
-            node.parents().find((p) => p is BasicSubpDecl | BaseSubpBody)
-            .as_entity
-            .as[BasicDecl]
+            self.semantic_parents().find((p) => p is BasicDecl).as[BasicDecl]?
             .subp_spec_or_null()
             .return_type()
             .defining_env()
         else null[LexicalEnv]
+
+    @with_dynvars(env)
+    fun env_elements_impl(): Array[Entity[AdaNode]] =
+        if self.attribute.name_symbol() in s"Old" | s"Loop_Entry"
+        then self.prefix.env_elements_impl()
+        elif self.attribute.name_is(s"Result")
+        then
+            self.semantic_parents().find((p) => p is BasicDecl).as[BasicDecl]?
+            .subp_spec_or_null()
+            .returns()
+            .type_name()
+            .env_elements_impl()
+        else null[Array[Entity[AdaNode]]]
 
     |" Return the subprogram declaration referred by this attribute name,
     |" assuming its prefix denotes a type.
@@ -17911,19 +17922,18 @@ class AttributeRef: Name {
 
     @with_dynvars(env, origin, entry_point)
     fun result_attr_equation(): Equation = {
-        # We find the containing declaration (a function declaration or an
-        # access-to-function type) starting the bound env's node instead of
-        # self, as this attribute can appear in a pragma Post appearing
-        # *after* the declaration.
+        # Look for the containing declaration (a function declaration or an
+        # access-to-function type) amongst self's semantic parents, as this
+        # attribute can appear in a pragma Post appearing *after* the
+        # declaration.
         val containing_decl =
-            env.env_node.parents().find(
+            self.semantic_parents().find(
                 (p) =>
                 p is BasicSubpDecl | BaseSubpBody
                 or p.as[ConcreteTypeDecl].do(
                     (v1) => v1.type_def is AccessToSubpDef
                 )
             )
-            .as_entity
             .as[BasicDecl];
         val returns =
             match containing_decl {

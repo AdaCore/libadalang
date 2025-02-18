@@ -1,0 +1,2 @@
+driver: incrementality
+input_sources: [pkg.ads, test.adb]

@@ -24,8 +24,9 @@ from langkit.coverage import GNATcov
 
 from drivers import (
     adaapi_driver, capi_driver, dda_driver, gnat_compare_driver,
-    inline_pg_driver, java_driver, name_resolution_driver, navigation_driver,
-    ocaml_driver, parser_driver, prep_driver, python_driver, unparser_driver,
+    incrementality_driver, inline_pg_driver, java_driver,
+    name_resolution_driver, navigation_driver, ocaml_driver, parser_driver,
+    prep_driver, python_driver, unparser_driver,
 )
 
 
@@ -64,6 +65,7 @@ class LALTestsuite(Testsuite):
         'c-api': capi_driver.CAPIDriver,
         'dda': dda_driver.DDADriver,
         'gnat-compare': gnat_compare_driver.GNATCompareDriver,
+        'incrementality': incrementality_driver.IncrementalityDriver,
         'inline-playground': inline_pg_driver.InlinePlaygroundDriver,
         'java': java_driver.JavaDriver,
         'name-resolution': name_resolution_driver.NameResolutionDriver,

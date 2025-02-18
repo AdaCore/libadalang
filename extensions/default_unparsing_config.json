@@ -3180,27 +3180,57 @@
             "kind": "group",
             "document": [
               {
-                "kind": "text",
-                "text": "type"
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "text",
+                    "text": "type"
+                  },
+                  "whitespace",
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_name"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_discriminants"
+                  },
+                  "line",
+                  {
+                    "kind": "text",
+                    "text": "is"
+                  }
+                ]
               },
-              "whitespace",
               {
-                "kind": "recurse_field",
-                "field": "f_name"
-              },
-              {
-                "kind": "recurse_field",
-                "field": "f_discriminants"
-              },
-              "line",
-              {
-                "kind": "text",
-                "text": "is"
-              },
-              "whitespace",
-              {
-                "kind": "recurse_field",
-                "field": "f_type_def"
+                "kind": "ifKind",
+                "field": "f_type_def",
+                "default": {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    "line",
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_type_def"
+                    }
+                  ]
+                },
+                "matchers": [
+                  {
+                    "kind": "DerivedTypeDef",
+                    "document": {
+                      "kind": "recurse_field",
+                      "field": "f_type_def"
+                    }
+                  },
+                  {
+                    "kind": "RecordTypeDef",
+                    "document": {
+                      "kind": "recurse_field",
+                      "field": "f_type_def"
+                    }
+                  }
+                ]
               },
               {
                 "kind": "recurse_field",

@@ -15604,12 +15604,10 @@ class BinOp: Expr {
     fun entity_eq(subp: Entity[BasicDecl]): Equation = {
         val spec = subp.subp_spec_or_null();
 
-        self.arguments_eq(spec) %and {
-            # The operator references the subprogram
-            bind logic_context = null[LogicContext];
-            node.op.ref_var() <- subp
-            %and node.op.subp_spec_var() <- spec
-        }
+        self.arguments_eq(spec)
+        # The operator references the subprogram
+        %and node.op.ref_var() <- subp
+        %and node.op.subp_spec_var() <- spec
     }
 
     @with_dynvars(origin, env)
@@ -15707,36 +15705,24 @@ class BinOp: Expr {
         if node.op is Op.Mult | Op.Div then
             (
                 # `function "op" (X, Y : T) return T`
-                {
-                    bind logic_context = null[LogicContext];
-                    node.type_var() <-> node.left.expected_type_var()
-                    %and node.type_var()
-                        <-> node.right.expected_type_var()
-                }
+                node.type_var() <-> node.left.expected_type_var()
+                %and node.type_var() <-> node.right.expected_type_var()
                 %and node.use_expected_type_or(
                     self.infer_from_either_operands(node.type_var())
                 )
             )
             %or (
                 # `function "op" (X : Integer, Y : T) return T`
-                {
-                    bind logic_context = null[LogicContext];
-                    node.left.expected_type_var() <- node.int_type()
-                    %and node.right.expected_type_var()
-                        <-> node.type_var()
-                }
+                node.left.expected_type_var() <- node.int_type()
+                %and node.right.expected_type_var() <-> node.type_var()
                 %and node.use_expected_type_or(
                     self.infer_from_right_operand(node.type_var())
                 )
             )
             %or (
                 # `function "op" (X : T, Y : Integer) return T`
-                {
-                    bind logic_context = null[LogicContext];
-                    node.right.expected_type_var() <- node.int_type()
-                    %and node.left.expected_type_var()
-                        <-> node.type_var()
-                }
+                node.right.expected_type_var() <- node.int_type()
+                %and node.left.expected_type_var() <-> node.type_var()
                 %and node.use_expected_type_or(
                     self.infer_from_left_operand(node.type_var())
                 )
@@ -15745,13 +15731,8 @@ class BinOp: Expr {
         # For power operators, we must only handle the shape
         # `function "op" (X : T, Y : Integer) return T`.
         elif node.op is Op.Pow then
-            {
-                bind logic_context = null[LogicContext];
-                node.right.expected_type_var()
-                    <- node.int_type()
-                %and node.left.expected_type_var()
-                    <-> node.type_var()
-            }
+            node.right.expected_type_var() <- node.int_type()
+            %and node.left.expected_type_var() <-> node.type_var()
             %and node.use_expected_type_or(
                 self.infer_from_left_operand(node.type_var())
             )
@@ -15759,12 +15740,8 @@ class BinOp: Expr {
         # For other operators, we only need to handle the shape
         # `function "op" (X, Y : T) return T`.
         else
-            {
-                bind logic_context = null[LogicContext];
-                node.type_var() <-> node.left.expected_type_var()
-                %and node.type_var()
-                    <-> node.right.expected_type_var()
-            }
+            node.type_var() <-> node.left.expected_type_var()
+            %and node.type_var() <-> node.right.expected_type_var()
             %and node.use_expected_type_or(
                 self.infer_from_either_operands(node.type_var())
             ),
@@ -15782,14 +15759,13 @@ class BinOp: Expr {
             %and node.type_var() <- BaseTypeDecl.derefed_base_subtype%(
                 node.expected_type_var()
             )
-        ) %or {
+        ) %or (
             # There is no expected type (e.g. we are in a type conversion).
             # In this case, the type of the result will be inferred from the
             # type of operands: we know that at least one of them has a
             # context-free type (otherwise this wouldn't be valid Ada code).
-            bind logic_context = null[LogicContext];
             node.expected_type_var() <- null[Entity[BaseTypeDecl]]
-        },
+        ),
         node.left.matches_expected_formal_type(),
         node.right.matches_expected_formal_type()
     )
@@ -15883,103 +15859,57 @@ class ConcatOp: Expr {
             self.other_operands?[0].operator.subprograms();
 
         # Perform expression resolution from left to right
-        (
-            (
-                (
-                    self.first_operand.sub_equation()
-                    %and self.other_operands.logic_all(
-                        (concat_operand) =>
-                        concat_operand.operand.sub_equation()
-                    )
-                )
-                %and (
-                    # Build the equations for the concatenations themselves.
-                    # WARNING: for now, the equations should appear in the
-                    # order below, that is: the equation constraining the
-                    # leftmost operand should be first, and equations for
-                    # successive operands should follow in the corresponding
-                    # order, with the rightmost operand having its equation
-                    # last. This allows optimal resolution (performance-wise)
-                    # until eng/libadalang/langkit#725 is addressed.
-                    self.other_operands.ilogic_all(
-                        (_, index) => {
-                            val pos = operand_count - index - 1;
-
-                            {
-                                val left =
-                                    if pos > 0
-                                    then self.other_operands?[pos - 1]
-                                    else self.first_operand;
-                                val concat_operand = self.other_operands?[pos];
-                                val right = self.other_operands?[pos].operand;
-
-                                (
-                                    # TODO: this is implementation is actually
-                                    # not correct w.r.t. visibility
-                                    # (eng/libadalang/libadalang#1138).  First,
-                                    # try to resolve this operator using
-                                    # built-in operators only.
-                                    self.operator_no_subprogram_equation(
-                                        left,
-                                        concat_operand,
-                                        right
-                                    )
-                                )
-                                %or (
-                                    # If that didn't work, try to resolve it by
-                                    # considering visible user-defined
-                                    # overloads of "&". NOTE: for performance
-                                    # reasons it is better to first try the
-                                    # built-in operators first.
-                                    concat_subprograms.logic_any(
-                                        (subp) => {
-                                            val spec =
-                                                subp.subp_spec_or_null();
-
-                                            {
-                                                bind logic_context =
-                                                    LogicContext(
-                                                        ref_node=concat_operand
-                                                        .operator,
-                                                        decl_node=subp
-                                                    );
-
-                                                self.arguments_eq(
-                                                    spec,
-                                                    left,
-                                                    concat_operand,
-                                                    right
-                                                )
-                                                %and {
-                                                    bind logic_context =
-                                                        null[LogicContext];
-                                                    concat_operand
-                                                    .operator
-                                                    .ref_var()
-                                                    <- subp
-                                                }
-                                                %and {
-                                                    bind logic_context =
-                                                        null[LogicContext];
-                                                    concat_operand
-                                                    .operator
-                                                    .subp_spec_var()
-                                                    <- spec
-                                                }
-                                            }
-                                        }
-                                    )
-                                )
-                            }
-                        }
-                    )
-                )
-            )
-            %and (
-                # Just propagate last operand's type/expected_type to self
-                node.type_var() <-> last_operand.type_var()
-            )
+        self.first_operand.sub_equation()
+        %and self.other_operands.logic_all((concat_operand) =>
+            concat_operand.operand.sub_equation()
         )
+        # Build the equations for the concatenations themselves.
+        # WARNING: for now, the equations should appear in the order below,
+        # that is: the equation constraining the leftmost operand should be
+        # first, and equations for successive operands should follow in the
+        # corresponding order, with the rightmost operand having its equation
+        # last. This allows optimal resolution (performance-wise) until
+        # eng/libadalang/langkit#725 is addressed.
+        %and self.other_operands.ilogic_all((_, index) => {
+            val pos = operand_count - index - 1;
+            val left =
+                if pos > 0
+                then self.other_operands?[pos - 1]
+                else self.first_operand;
+            val concat_operand = self.other_operands?[pos];
+            val right = self.other_operands?[pos].operand;
+
+            # TODO: this is implementation is actually not correct w.r.t.
+            # visibility (eng/libadalang/libadalang#1138).
+            # First, try to resolve this operator using built-in operators
+            # only.
+            self.operator_no_subprogram_equation(
+                left,
+                concat_operand,
+                right
+            )
+            # If that didn't work, try to resolve it by considering visible
+            # user-defined overloads of "&". NOTE: for performance reasons it
+            # is better to first try the built-in operators first.
+            %or concat_subprograms.logic_any((subp) => {
+                val spec = subp.subp_spec_or_null();
+                bind logic_context = LogicContext(
+                    ref_node=concat_operand.operator,
+                    decl_node=subp
+                );
+
+                self.arguments_eq(
+                    spec,
+                    left,
+                    concat_operand,
+                    right
+                )
+                %and concat_operand.operator.ref_var() <- subp
+                %and concat_operand.operator.subp_spec_var() <- spec
+            })
+        })
+        # Just propagate last operand's type/expected_type to self
+        %and node.type_var() <-> last_operand.type_var()
         %and node.expected_type_var() <-> last_operand.expected_type_var()
     }
 
@@ -15993,23 +15923,13 @@ class ConcatOp: Expr {
         val ps = spec.unpacked_formal_params();
 
         if ps.length() == 2
-        then (
+        then
             # The subprogram's first argument must match left operand
-            (
-                spec.call_argument_equation(ps?[0].formal_decl(), left)
-                %and (
-                    # The subprogram's second argument must match right operand
-                    spec.call_argument_equation(ps?[1].formal_decl(), right)
-                )
-            )
-            %and (
-                # The subprogram's return type is the type of op
-                {
-                    bind logic_context = null[LogicContext];
-                    op.type_var() <- spec.return_type()
-                }
-            )
-        )
+            spec.call_argument_equation(ps?[0].formal_decl(), left)
+            # The subprogram's second argument must match right operand
+            %and spec.call_argument_equation(ps?[1].formal_decl(), right)
+            # The subprogram's return type is the type of op
+            %and op.type_var() <- spec.return_type()
         else %false
     }
 
@@ -16021,18 +15941,15 @@ class ConcatOp: Expr {
         op: Entity[ConcatOperand],
         right: Entity[Expr]
     ): Equation = {
-        bind logic_context =
-            LogicContext(
-                ref_node=op.operator,
-                decl_node=null[Entity[AdaNode]]
-            );
+        bind logic_context = LogicContext(
+            ref_node=op.operator,
+            decl_node=null[Entity[AdaNode]]
+        );
 
-        (
-            BaseTypeDecl.is_array_def_with_deref_or_null%(
-                op.expected_type_var()
-            )
-            %and BaseTypeDecl.is_array_def_with_deref%(op.type_var())
+        BaseTypeDecl.is_array_def_with_deref_or_null%(
+            op.expected_type_var()
         )
+        %and BaseTypeDecl.is_array_def_with_deref%(op.type_var())
         %and (
             (
                 # If the expected is not null, use it to infer self's type
@@ -16055,21 +15972,12 @@ class ConcatOp: Expr {
                 %and (
                     (
                         # Type is determined by the LHS
-                        (
-                            op.type_var()
-                            <- BaseTypeDecl.derefed_base_subtype%(
-                                left.type_var()
-                            )
-                            %and {
-                                bind logic_context = null[LogicContext];
-                                op.type_var() <-> left.expected_type_var()
-                            }
+                        op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                            left.type_var()
                         )
+                        %and op.type_var() <-> left.expected_type_var()
                         %and (
-                            {
-                                bind logic_context = null[LogicContext];
-                                op.type_var() <-> right.expected_type_var()
-                            }
+                            op.type_var() <-> right.expected_type_var()
                             %or node.comp_bind(
                                 op.type_var(),
                                 right.expected_type_var()
@@ -16078,21 +15986,12 @@ class ConcatOp: Expr {
                     )
                     %or (
                         # Type is determined by the RHS
-                        (
-                            op.type_var()
-                            <- BaseTypeDecl.derefed_base_subtype%(
-                                right.type_var()
-                            )
-                            %and {
-                                bind logic_context = null[LogicContext];
-                                op.type_var() <-> right.expected_type_var()
-                            }
+                        op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                            right.type_var()
                         )
+                        %and op.type_var() <-> right.expected_type_var()
                         %and (
-                            {
-                                bind logic_context = null[LogicContext];
-                                op.type_var() <-> left.expected_type_var()
-                            }
+                            op.type_var() <-> left.expected_type_var()
                             %or node.comp_bind(
                                 op.type_var(),
                                 left.expected_type_var()
@@ -16129,17 +16028,14 @@ class ConcatOp: Expr {
                 #  - "&" (Array_Of_T, T) -> Array_Of_T
                 #  - "&" (T, Array_Of_T) -> Array_Of_T
                 #  - "&" (Array_Of_T, Array_Of_T) -> Array_Of_T.
-                (
-                    op.type_var()
-                    <- BaseTypeDecl.array_concat_result_type%(
-                        left.type_var(),
-                        right.type_var()
-                    )
-                    %and left.expected_type_var()
-                    <- BaseTypeDecl.expected_array_concat_operand_type%(
-                        op.type_var(),
-                        left.type_var()
-                    )
+                op.type_var() <- BaseTypeDecl.array_concat_result_type%(
+                    left.type_var(),
+                    right.type_var()
+                )
+                %and left.expected_type_var()
+                <- BaseTypeDecl.expected_array_concat_operand_type%(
+                    op.type_var(),
+                    left.type_var()
                 )
                 %and right.expected_type_var()
                 <- BaseTypeDecl.expected_array_concat_operand_type%(
@@ -16152,153 +16048,104 @@ class ConcatOp: Expr {
                 #  - "&" (T, T) -> Array_Of_T
                 # For this case, we necessarily need to use the type of the
                 # context even though both operands have a context-free type.
-                (
-                    (
-                        (
-                            op.type_var()
-                            <- BaseTypeDecl.derefed_base_subtype%(
-                                op.expected_type_var()
-                            )
-                            %and node.comp_bind(
-                                op.type_var(),
-                                left.expected_type_var()
-                            )
-                        )
-                        %and node.comp_bind(
-                            op.type_var(),
-                            right.expected_type_var()
-                        )
-                    )
-                    %and left.matches_expected_formal_type()
+                op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                    op.expected_type_var()
                 )
+                %and node.comp_bind(
+                    op.type_var(),
+                    left.expected_type_var()
+                )
+                %and node.comp_bind(
+                    op.type_var(),
+                    right.expected_type_var()
+                )
+                %and left.matches_expected_formal_type()
                 %and right.matches_expected_formal_type()
             )
         elif left_ctx_free
         then
             (
                 (
-                    (
-                        # Left operand has a context free, use to infer the
-                        # type of the result. This can handle the cases: - "&"
-                        # (Array_Of_T, *) -> Array_Of_T.
-                        op.type_var()
-                        <- BaseTypeDecl.derefed_base_subtype%(left.type_var())
-                        %and {
-                            bind logic_context = null[LogicContext];
-                            op.type_var() <-> left.expected_type_var()
-                        }
+                    # Left operand has a context free, use to infer the
+                    # type of the result. This can handle the cases: - "&"
+                    # (Array_Of_T, *) -> Array_Of_T.
+                    op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                        left.type_var()
                     )
-                    %or (
-                        # We need another disjunction to handle the remaining
-                        # cases: - "&" (T, *) -> Array_Of_T For both these
-                        # cases, we need to use the type of the context even
-                        # though LHS has a context-free type.
-                        (
-                            op.type_var()
-                            <- BaseTypeDecl.derefed_base_subtype%(
-                                op.expected_type_var()
-                            )
-                            %and node.comp_bind(
-                                op.type_var(),
-                                left.expected_type_var()
-                            )
-                        )
-                        %and left.matches_expected_formal_type()
-                    )
+                    %and op.type_var() <-> left.expected_type_var()
                 )
-                %and (
-                    # The type of op has been inferred from the LHS, use it to
-                    # determine the type of the RHS.
-                    {
-                        bind logic_context = null[LogicContext];
-                        op.type_var() <-> right.expected_type_var()
-                    }
-                    %or node.comp_bind(
+                %or (
+                    # We need another disjunction to handle the remaining
+                    # cases: - "&" (T, *) -> Array_Of_T For both these
+                    # cases, we need to use the type of the context even
+                    # though LHS has a context-free type.
+                    op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                        op.expected_type_var()
+                    )
+                    %and node.comp_bind(
                         op.type_var(),
-                        right.expected_type_var()
+                        left.expected_type_var()
                     )
+                    %and left.matches_expected_formal_type()
                 )
+            )
+            %and (
+                # The type of op has been inferred from the LHS, use it to
+                # determine the type of the RHS.
+                op.type_var() <-> right.expected_type_var()
+                %or node.comp_bind(op.type_var(), right.expected_type_var())
             )
             %and right.matches_expected_formal_type()
         elif right_ctx_free
         then
             (
                 (
-                    (
-                        # Right operand has a context free, use to infer the
-                        # type of the result. This can handle the cases: - "&"
-                        # (*, Array_Of_T) -> Array_Of_T.
-                        op.type_var()
-                        <- BaseTypeDecl.derefed_base_subtype%(right.type_var())
-                        %and {
-                            bind logic_context = null[LogicContext];
-                            op.type_var() <-> right.expected_type_var()
-                        }
+                    # Right operand has a context free, use to infer the
+                    # type of the result. This can handle the cases: - "&"
+                    # (*, Array_Of_T) -> Array_Of_T.
+                    op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                        right.type_var()
                     )
-                    %or (
-                        # We need another disjunction to handle the remaining
-                        # cases: - "&" (*, T) -> Array_Of_T For both these
-                        # cases, we need to use the type of the context even
-                        # though RHS has a context-free type.
-                        (
-                            op.type_var()
-                            <- BaseTypeDecl.derefed_base_subtype%(
-                                op.expected_type_var()
-                            )
-                            %and node.comp_bind(
-                                op.type_var(),
-                                right.expected_type_var()
-                            )
-                        )
-                        %and right.matches_expected_formal_type()
+                    %and op.type_var() <-> right.expected_type_var()
+                )
+                %or (
+                    # We need another disjunction to handle the remaining
+                    # cases: - "&" (*, T) -> Array_Of_T For both these
+                    # cases, we need to use the type of the context even
+                    # though RHS has a context-free type.
+                    op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                        op.expected_type_var()
                     )
+                    %and node.comp_bind(
+                        op.type_var(),
+                        right.expected_type_var()
+                    )
+                    %and right.matches_expected_formal_type()
                 )
-                %and (
-                    # The type of op has been inferred from the RHS, use it to
-                    # determine the type of the LHS.
-                    {
-                        bind logic_context = null[LogicContext];
-                        op.type_var() <-> left.expected_type_var()
-                    }
-                    %or node.comp_bind(op.type_var(), left.expected_type_var())
-                )
+            )
+            %and (
+                # The type of op has been inferred from the RHS, use it to
+                # determine the type of the LHS.
+                op.type_var() <-> left.expected_type_var()
+                %or node.comp_bind(op.type_var(), left.expected_type_var())
             )
             %and left.matches_expected_formal_type()
         # None of the operands have a context-free type, so we necessarily
         # have an expected type (otherwise it wouldn't be valid Ada code).
         # Use it to determine the type of the operands.
         else
-            (
-                (
-                    (
-                        op.type_var()
-                        <- BaseTypeDecl.derefed_base_subtype%(
-                            op.expected_type_var()
-                        )
-                        %and (
-                            {
-                                bind logic_context = null[LogicContext];
-                                op.type_var() <-> left.expected_type_var()
-                            }
-                            %or node.comp_bind(
-                                op.type_var(),
-                                left.expected_type_var()
-                            )
-                        )
-                    )
-                    %and (
-                        {
-                            bind logic_context = null[LogicContext];
-                            op.type_var() <-> right.expected_type_var()
-                        }
-                        %or node.comp_bind(
-                            op.type_var(),
-                            right.expected_type_var()
-                        )
-                    )
-                )
-                %and left.matches_expected_formal_type()
+            op.type_var() <- BaseTypeDecl.derefed_base_subtype%(
+                op.expected_type_var()
             )
+            %and (
+                op.type_var() <-> left.expected_type_var()
+                %or node.comp_bind(op.type_var(), left.expected_type_var())
+            )
+            %and (
+                op.type_var() <-> right.expected_type_var()
+                %or node.comp_bind(op.type_var(), right.expected_type_var())
+            )
+            %and left.matches_expected_formal_type()
             %and right.matches_expected_formal_type()
     }
 }
@@ -18612,10 +18459,7 @@ class CallExpr: Name {
             # Handle calls to entry families
             e.family_type().do(
                 (ft) =>
-                {
-                    bind logic_context = null[LogicContext];
-                    self.params()?[0].expr().expected_type_var() <- ft
-                }
+                self.params()?[0].expr().expected_type_var() <- ft
                 %and self.params()?[0].expr().matches_expected_type(),
                 default_val=%true
             )
@@ -18759,41 +18603,33 @@ class CallExpr: Name {
 
                 self.all_args_xref_equation(root)
             }
-            %and (
+            %and {
                 # For each potential entity match, we want to express the
                 # following constraints:
-                {
-                    val subps = self.env_elements();
+                val subps = self.env_elements();
 
-                    if subps.is_null then %true
-                    else
-                        subps.logic_any(
-                            (s) => {
-                                bind logic_context =
-                                    LogicContext(
-                                        ref_node=self.name,
-                                        decl_node=s
-                                    );
+                if subps.is_null
+                then %true
+                else subps.logic_any((s) => {
+                    bind logic_context = LogicContext(
+                        ref_node=self.name,
+                        decl_node=s
+                    );
 
-                                {
-                                    bind logic_context = null[LogicContext];
-                                    node.name.ref_var()
-                                    <- s.as[BasicDecl].corresponding_actual()
-                                }
-                                %and s.as[EntryDecl].do(
-                                    (e) => self.entry_equation(e, root),
-                                    default_val=self.entity_equation(
-                                        s.as[BasicDecl],
-                                        root
-                                    )
-                                )
-                            }
+                    node.name.ref_var() <-
+                        s.as[BasicDecl].corresponding_actual()
+                    %and s.as[EntryDecl].do(
+                        (e) => self.entry_equation(e, root),
+                        default_val=self.entity_equation(
+                            s.as[BasicDecl],
+                            root
                         )
-                }
-                %and self.name.sub_equation()
-                # TODO: Bug here: if operator equation, then parent equation is
-                # not called!
-            )
+                    )
+                })
+            }
+            # TODO: Bug here: if operator equation, then parent equation is
+            # not called!
+            %and self.name.sub_equation()
 
     |" Construct an equation verifying if self is conformant to the type
     |" designator passed in parameter.
@@ -18911,14 +18747,9 @@ class CallExpr: Name {
                 # The type of the expression is the expr_type of the
                 # subprogram.
                 node.type_var() <- subp_spec.as[BaseSubpSpec]?.return_type()
-                %and (
-                    # This node represents a call to a subprogram which
-                    # specification is given by ``subp_spec``.
-                    {
-                        bind logic_context = null[LogicContext];
-                        node.subp_spec_var() <- subp_spec
-                    }
-                )
+                # This node represents a call to a subprogram which
+                # specification is given by ``subp_spec``.
+                %and node.subp_spec_var() <- subp_spec
             )
             %and (
                 # For each parameter, the type of the expression matches
@@ -18936,10 +18767,8 @@ class CallExpr: Name {
                             # Bind actuals designators to parameters if there
                             # are designators.
                             if pm.actual.name.is_null then %true
-                            else {
-                                bind logic_context = null[LogicContext];
-                                pm.actual.name.ref_var()
-                                <- {
+                            else
+                                pm.actual.name.ref_var() <- {
                                     val n =
                                         subp_spec.corresponding_actual_param(
                                             pm.formal
@@ -18952,7 +18781,6 @@ class CallExpr: Name {
                                         n.info.from_rebound
                                     )
                                 }
-                            }
                         )
                     else %false
                 )
@@ -21473,33 +21301,18 @@ class UnOp: Expr {
         val ps = spec.unpacked_formal_params();
 
         if ps.length() == 1
-        then (
+        then
             # The subprogram's first argument must match self's left
             # operand.
-            (
-                (
-                    spec.call_argument_equation(
-                        ps?[0].formal_decl(),
-                        self.expr
-                    )
-                    %and (
-                        # The subprogram's return type is the type of self
-                        node.type_var() <- spec.return_type()
-                    )
-                )
-                %and (
-                    # The operator references the subprogram
-                    {
-                        bind logic_context = null[LogicContext];
-                        node.op.ref_var() <- subp
-                    }
-                )
+            spec.call_argument_equation(
+                ps?[0].formal_decl(),
+                self.expr
             )
-            %and {
-                bind logic_context = null[LogicContext];
-                node.op.subp_spec_var() <- spec
-            }
-        )
+            # The subprogram's return type is the type of self
+            %and node.type_var() <- spec.return_type()
+            # The operator references the subprogram
+            %and node.op.ref_var() <- subp
+            %and node.op.subp_spec_var() <- spec
         else %false
     }
 

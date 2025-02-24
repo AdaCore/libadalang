@@ -2739,6 +2739,7 @@ class ConstrainedArrayIndices: ArrayIndices {
         )
 
     @with_dynvars(origin)
+    @call_memoizable
     fun index_type(dim: Int): Entity[BaseTypeDecl] = {
         # We might need to solve self's equation to get the index type
         val _ =
@@ -4360,6 +4361,15 @@ class KnownDiscriminantPart: DiscriminantPart {
 
     fun abstract_formal_params(): Array[Entity[BaseFormalParamDecl]] =
         node.discr_specs.map((e) => e.as[BaseFormalParamDecl].as_entity)
+
+    |" Return whether this discriminant part's discrimiant specs have default
+    |" expressions.
+    fun has_default_exprs(): Bool =
+        # Only check the first discrimiant specification since default
+        # expressions shall be provided either for all or for none of the
+        # discriminants (:rmlink:`3.7` 9.1/3).
+        not self.discr_specs[0].default_expr.is_null
+
 }
 
 |" Unknown list of discriminants in type declarations (:rmlink:`3.7`).
@@ -7924,12 +7934,103 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin)
     fun array_ndims(): Int = 0
 
-    |" Return the expression from the Static_Predicate or the Predicate aspect
-    |" defined on this type.
+    |" Return the expression from the first Static_Predicate or the Predicate
+    |" aspect that applies on this type (either directly or by derivation).
     @with_dynvars(imprecise_fallback=false)
     fun static_predicate(): Entity[Expr] =
+        # Assuming the Static_Predicate expression is actually static (analyzed
+        # source is valid Ada).
         self.get_aspect(s"Static_Predicate").value
-        or? self.get_aspect(s"Predicate").value
+        # Expression given by the Predicate aspect can either be static or
+        # dynamic, so check that it has an allowed form for Static_Predicate.
+        or? self.get_aspect(s"Predicate").do(
+            (a) => {
+                val from_type = a.exists.do(
+                    (_) => match a.node {
+                        case p: Pragma =>
+                        p.associated_entities()[0].semantic_parent()
+                        case o => o.semantic_parent()
+                    }
+                ).as[BaseTypeDecl];
+
+                if not from_type.is_null
+                    and a.value.is_predicate_static(from_type)
+                then a.value
+                else null[Entity[Expr]]
+            }
+        )
+
+    |" Return whether this type is subject to predicate (i.e. one of the
+    |" Predicate, Static_Predicate, or Dynamic_Predicate aspect is defined).
+    fun is_subject_to_predicate(): Bool =
+        self.has_aspect(s"Predicate")
+        or self.has_aspect(s"Static_Predicate")
+        or self.has_aspect(s"Dynamic_Predicate")
+
+    |" Return whether this type is statically predicated, either from a
+    |" Static_Predicate aspect or from a Predicate pragma.
+    @with_dynvars(origin=null[AdaNode])
+    fun is_statically_predicated(): Bool = {
+        # Subtype predicates are inherited as expected on derivation. Thus all
+        # predicates applies: they are anded together. If any one is dynamic
+        # then restrictions on the use of subtypes with a dynamic predicate
+        # apply.
+
+        val subject_to_predicate = self.is_subject_to_predicate();
+
+        val static_predicate_expr = subject_to_predicate.do(
+            (_) => self.static_predicate()
+        );
+
+        val predicate_expr_is_static = not static_predicate_expr.is_null;
+        val predicate_expr_is_dynamic = subject_to_predicate
+            and not predicate_expr_is_static;
+
+        if predicate_expr_is_dynamic
+        then
+            # If the predicate expression is dynamic, no need to recurse on
+            # parent (sub)types, it can't be statically predicated.
+            false
+        elif predicate_expr_is_static
+        then
+            # If the predicate expression is static, we should recurse over
+            # parents (sub)types because any dynamic predicate will restrict
+            # self type to be dynamically predicated.
+            static_predicate_expr.do(
+                # Get parent (sub)type. For subtype, we can't call base_type()
+                # directly because the Predicate aspect can be specified on
+                # subtypes, so we must check all subtypes ancestors.
+                (p) => match p.semantic_parent() {
+                    case p: Pragma =>
+                        p.associated_entities()[0].semantic_parent()
+                    case o => o
+                }.do(
+                    (d) => match d {
+                       case st: SubtypeDecl => st.subtype.designated_type()
+                       case bt: BaseTypeDecl => bt.base_type()
+                       case _ => raise[Entity[AdaNode]] PropertyError(
+                           "unsupported Node kind for predicate aspect"
+                       )
+                    }
+                ).as[BaseTypeDecl].do(
+                   # Turn derived to true. In subsequent call of
+                   # is_statically_predicated(), we just want to check that
+                   # either no or only static predicates apply.
+                   (t) => not t.is_dynamically_predicated(),
+                   # No more parents to visit (stop recursion): the type is
+                   # statically predicated.
+                   default_val=true
+                )
+            )
+        else
+             # No predicates applies
+             false
+    }
+
+    |" Return whether this type is dynamically predicated, either from a
+    |" Dynamic_Predicate aspect or from a Predicate pragma.
+    fun is_dynamically_predicated(): Bool =
+        self.is_subject_to_predicate() and not self.is_statically_predicated()
 
     |" Return true if the given value satisfies all of this type's static
     |" predicates, including its parent predicates (in case this is a derived
@@ -8564,7 +8665,8 @@ class BaseTypeDecl: BasicDecl {
     fun is_definite_subtype(): Bool = match self {
         case _: IncompleteTypeDecl => false
         case td: TypeDecl =>
-            td.discriminants.is_null
+            (td.discriminants.is_null
+            or td.discriminants.as[KnownDiscriminantPart]?.has_default_exprs())
             and match td.type_def {
                 case dtd: DerivedTypeDef =>
                     not dtd.subtype_indication.constraint.is_null
@@ -8577,10 +8679,38 @@ class BaseTypeDecl: BasicDecl {
             not st.subtype.constraint.is_null
             or st.get_type().is_definite_subtype()
         case _: ClasswideTypeDecl => false
-        case ttd: TaskTypeDecl => ttd.discriminants.is_null
-        case ptd: ProtectedTypeDecl => ptd.discriminants.is_null
+        case ttd: TaskTypeDecl =>
+            ttd.discriminants.is_null
+            or ttd.discriminants.as[KnownDiscriminantPart]?.has_default_exprs()
+        case ptd: ProtectedTypeDecl =>
+            ptd.discriminants.is_null
+            or ptd.discriminants.as[KnownDiscriminantPart]?.has_default_exprs()
         case _ => true
     }
+
+    |" Returns whether this is a statically constained subtype (i.e., its size
+    |" is known at compile time).
+    |"
+    |" All types are statically constrained, expect for records and arrays
+    |" when they are unconstrained.
+    |"
+    |" For convenience, this will return ``False`` for incomplete types, even
+    |" though the correct answer is more akin to "non applicable".
+    @exported
+    fun is_statically_constrained(): Bool = match self {
+        case _: IncompleteTypeDecl => false
+        case td: TypeDecl => match td.type_def {
+            case dtd: DerivedTypeDef =>
+                dtd.subtype_indication.is_statically_constrained()
+            case atd: ArrayTypeDef =>
+                atd.indices is ConstrainedArrayIndices
+                and atd.indices.is_static()
+            case _: RecordTypeDef => td.discriminants.is_null
+            case _ => true
+        }
+        case st: SubtypeDecl => st.subtype.is_statically_constrained()
+        case _ => true
+    } and not self.is_dynamically_predicated()
 
     |" Return the list of all discriminants of this type. If this type has no
     |" discriminant or only unknown discriminants, an empty list is returned.
@@ -13090,6 +13220,20 @@ class ObjectDecl: BasicDecl {
         )
         or self.renaming_clause?.renamed_object.is_static_expr()
 
+    |" Returns whether this designates a statically constrained object.
+    |" An object is statically constrained if its nominal subtype is
+    |" statically constrained, or if it is a static string constant.
+    @exported
+    fun is_statically_constrained(): Bool = {
+        bind origin = node.origin_node();
+
+        self.type_expr.is_statically_constrained()
+        or (
+            self.has_constant.do((c) => c.as_bool())
+            and self.type_expr.designated_type().is_str_type()
+        )
+    }
+
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
         val typ = self.expr_type();
@@ -14692,6 +14836,70 @@ class Expr: AdaNode {
             case _ => false
         }
     }
+
+    |" Return whether this expression is a valid Static_Predicate expression
+    |" (:rmlink:`3.2.4`).
+    # ATTENTION: this property rely on the fact that a null referenced
+    # declaration for an operator means that the operator is a predefined one.
+    fun is_predicate_static(for_type: Entity[BaseTypeDecl]): Bool =
+        # The expression of a Static_Predicate specification shall be
+        # predicate-static; that is, one of the following:
+        #
+        # a membership test whose expr is the current instance, and whose choice
+        # list meets the requirements for a static membership test:
+        self.as[MembershipExpr].do(
+            (me) => me.expr.as[Name]?.referenced_decl()
+                .as[SyntheticObjectDecl]?.parent == for_type
+                and me.membership_exprs.all((e) => e.is_static_expr()),
+            default_val=false
+        )
+        # a case_expression whose expr is the current instance, and whose
+        # dependent expressions are static expressions:
+        or self.as[CaseExpr].do(
+            (ce) => ce.expr.as[Name]?.referenced_decl()
+                .as[SyntheticObjectDecl]?.parent == for_type
+                and ce.cases.all((c) => c.expr.is_static_expr()),
+            default_val=false
+        )
+        # a call to a predefined equality or ordering operator, where one
+        # operand is the current instance, and the other is a static expression:
+        or self.as[BinOp].do(
+            (bo) => bo.op.referenced_decl().is_null
+                and bo.op is Op.Eq | Op.Neq | Op.Lt | Op.Lte | Op.Gt | Op.Gte
+                and ((bo.left.as[Name]?.referenced_decl()
+                    .as[SyntheticObjectDecl]?.parent == for_type
+                    and bo.right.is_static_expr())
+                    or (bo.right.as[Name]?.referenced_decl()
+                    .as[SyntheticObjectDecl]?.parent == for_type
+                    and bo.left.is_static_expr())),
+            default_val=false
+        )
+        # a short-circuit control form where both operands are predicate-static:
+        or self.as[BinOp].do(
+            (bo) => bo.op is Op.AndThen | Op.OrElse
+                and bo.left.is_predicate_static(for_type)
+                and bo.right.is_predicate_static(for_type),
+            default_val=false
+        )
+        # a static expression;
+        or self.is_static_expr()
+        # a parenthesized predicate-static expression:
+        or self.as[ParenExpr]?.expr.is_predicate_static(for_type)
+        # a call to a predefined boolean operator and, or, xor, or not, where
+        # each operand is predicate-static:
+        or (match self {
+            case u: UnOp =>
+                u.op is Op.Not
+                and u.op.referenced_decl().is_null
+                and u.expr.is_predicate_static(for_type)
+            case b: BinOp =>
+                b.op is Op.And | Op.Or | Op.Xor
+                and b.op.referenced_decl().is_null
+                and b.left.is_predicate_static(for_type)
+                and b.right.is_predicate_static(for_type)
+            case _ => false
+            }
+        )
 
     |" Statically evaluates self, and returns the value of the evaluation as
     |" an integer.
@@ -18252,7 +18460,9 @@ class CallExpr: Name {
         elif {
             bind origin = node.origin_node();
 
-            self.name.expression_type()?.is_array_def_with_deref()
+            self.name.expression_type().do(
+                (typ) => typ.is_array_def_with_deref() or typ.has_ud_indexing()
+            )
         } then CallExprKind.array_index
         # Case for type conversion: CallExpr has one
         # argument and its name denotes a type declaration.
@@ -19304,6 +19514,8 @@ class DefiningName: Name {
                     | s"Real_Literal"
                     | s"String_Literal"
                     | s"Finalizable"
+                    | s"Static_Predicate"
+                    | s"Dynamic_Predicate"
             then
                 parts_to_check.map(
                     (p) => p.basic_decl_internal().get_aspect_assoc(name).do(
@@ -19322,10 +19534,22 @@ class DefiningName: Name {
         or? self.basic_decl().as[BaseTypeDecl].do((bd) => {
             # If nothing has been found so far for entity, check out for
             # any inherited aspect.
-            val typ =
-                if bd is BaseSubtypeDecl
-                then bd.as[BaseSubtypeDecl].get_type()
-                else bd.base_type();
+            val typ = if bd is BaseSubtypeDecl then {
+                bind origin = node.origin_node();
+
+                # Most of aspects are not allowed on subtype declarations but a
+                # few are (subtype predicates), in that case, we must recurse
+                # on parent subtypes instead of base type when looking for
+                # them.
+                if bd is SubtypeDecl
+                    and name in s"Predicate"
+                        | s"Static_Predicate"
+                        | s"Dynamic_Predicate" then
+                    bd.as[SubtypeDecl].subtype.designated_type()
+                else
+                    bd.as[BaseSubtypeDecl].get_type()
+            }
+            else bd.base_type();
 
             if typ.is_null or typ == bd then
                 null[Aspect]
@@ -23881,7 +24105,14 @@ class ArrayTypeDef: TypeDef {
     }
 
     @with_dynvars(imprecise_fallback=false)
-    fun is_static(): Bool = self.indices.is_static()
+    fun is_static(): Bool = {
+        bind origin = node.origin_node();
+
+        # Only string types can be static
+        self.comp_type().is_char_type()
+        and self.indices.ndims() == 1
+        and self.indices.is_static()
+    }
 
     fun xref_entry_point(): Bool = true
 }
@@ -24783,6 +25014,17 @@ class TypeExpr: AdaNode {
     fun is_definite_subtype(): Bool =
         self.designated_type_decl().is_definite_subtype()
 
+    |" Returns whether this designates a statically constrained subtype.
+    @exported
+    fun is_statically_constrained(): Bool = {
+        bind origin = node.origin_node();
+
+        self.subtype_constraint().do(
+            (c) => c.is_static(),
+            default_val=self.designated_type().is_statically_constrained()
+        )
+    }
+
     fun custom_id_text(): String = {
         bind origin = node;
         self.designated_type().canonical_fully_qualified_name()
@@ -24909,12 +25151,53 @@ class SubtypeIndication: TypeExpr {
     fun is_static_subtype(): Bool = {
         bind origin = node.origin_node();
 
-        not self.semantic_parent().as[BasicDecl].has_aspect(
-            s"Dynamic_Predicate"
+        val self_parent = self.parents(with_self=false).find(
+            (p) => p is BasicDecl
+        );
+        val self_type = self.designated_type();
+
+        # First, check static-ness specific exclusions
+        if (
+            # Subtype of a generic formal object of mode in out
+            (self_parent.parent is GenericFormalObjDecl
+            and self_parent.as[ObjectDecl]?.mode is Mode.InOut)
+            # Result subtype of a generic formal function
+            or (self_parent.parent is GenericFormalSubpDecl
+                and self_parent.as[BasicSubpDecl]?.type_expression() == self)
+            # If any `Dynamic_Predicate` applies
+            or self_parent.as[BaseTypeDecl]?.is_dynamically_predicated()
         )
-        and self.constraint.do(
-            (c) => c.is_static(),
-            default_val=self.designated_type().is_static_decl()
+        then
+            false
+        else (
+            # Then, it can be static if the type is scalar or of a string type
+            if self_type.is_scalar_type()
+            then
+                self.constraint.do(
+                    # Checking that the subtype is formed by imposing a
+                    # compatible static constraint on a static scalar subtype
+                    # (this implementation assumes the applied constraint is
+                    # compatible).
+                    (c) => self_type.is_static_decl() and c.is_static(),
+                    # When unconstrained, the type should not be a descendant
+                    # of a formal type.
+                    default_val=not self_type.is_formal()
+            )
+            elif self_type.is_str_type()
+            then
+                self.constraint.do(
+                    # Checking that the subtype is formed by imposing a
+                    # compatible static constraint on a static string subtype
+                    # (this implementation assumes the applied constraint is
+                    # compatible).
+                    (c) => self_type.is_static_decl() and c.is_static(),
+                    # When unconstrained, index and componant subtype must be
+                    # static.
+                    default_val=self_type.index_type(0).is_static_decl()
+                        and self_type.comp_type().is_static_decl()
+                )
+            else
+                false
         )
     }
 }

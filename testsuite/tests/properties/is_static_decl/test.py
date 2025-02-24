@@ -14,6 +14,4 @@ for filename in sys.argv[1:]:
         else:
             print('{} is not a static decl'.format(n))
 
-    print('')
-
 print('Done')

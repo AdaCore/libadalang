@@ -7,9 +7,13 @@
 <ConcreteTypeDecl ["CC"] test.adb:7:4-7:51> is not a definite subtype
 <ConcreteTypeDecl ["D"] test.adb:8:4-8:31> is a definite subtype
 <ConcreteTypeDecl ["E"] test.adb:10:4-15:15> is not a definite subtype
-<SubtypeIndication test.adb:17:9-17:11> is not a definite subtype
-<SubtypeIndication test.adb:18:9-18:21> is a definite subtype
-<SubtypeIndication test.adb:19:9-19:17> is a definite subtype
-<SubtypeIndication test.adb:20:9-20:10> is not a definite subtype
+<ConcreteTypeDecl ["F"] test.adb:17:4-22:15> is a definite subtype
+<SubtypeIndication test.adb:24:9-24:11> is not a definite subtype
+<SubtypeIndication test.adb:25:9-25:21> is a definite subtype
+<SubtypeIndication test.adb:26:9-26:17> is a definite subtype
+<SubtypeIndication test.adb:27:9-27:10> is not a definite subtype
+<SubtypeIndication test.adb:28:9-28:17> is a definite subtype
+<SubtypeIndication test.adb:29:9-29:10> is a definite subtype
+<SubtypeIndication test.adb:30:9-30:10> is a definite subtype
 
 Done

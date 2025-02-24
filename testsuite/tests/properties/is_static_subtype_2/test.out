@@ -1,0 +1,95 @@
+Working on node <ConcreteFormalSubpDecl ["F"] gen.adb:7:12-7:38>
+================================================================
+
+Eval 'node.f_subp_spec.f_subp_returns.p_is_static_subtype()'
+Result: False
+
+Working on node <ObjectDecl ["A"] gen.adb:9:7-9:27>
+===================================================
+
+Eval 'node.f_type_expr.p_is_static_subtype()'
+Result: False
+
+Working on node <ObjectDecl ["B"] gen.adb:11:7-11:19>
+=====================================================
+
+Eval 'node.f_type_expr.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["U"] gen.adb:14:7-14:36>
+======================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <SubtypeDecl ["V"] gen.adb:16:7-16:36>
+======================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <SubtypeDecl ["S1"] str.adb:5:4-5:35>
+=====================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["S2"] str.adb:7:4-7:34>
+=====================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: False
+
+Working on node <ConcreteTypeDecl ["S3"] str.adb:9:4-9:36>
+==========================================================
+
+Eval 'node.f_type_def.f_subtype_indication.p_is_static_subtype()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["S4"] str.adb:11:4-11:35>
+============================================================
+
+Eval 'node.f_type_def.f_subtype_indication.p_is_static_subtype()'
+Result: False
+
+Working on node <ConcreteTypeDecl ["Roman_Digit"] str.adb:14:4-14:60>
+=====================================================================
+
+Eval 'node.p_is_static_decl()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Roman"] str.adb:16:4-16:59>
+===============================================================
+
+Eval 'node.p_is_static_decl()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["Roman2"] str.adb:18:4-18:65>
+================================================================
+
+Eval 'node.p_is_static_decl()'
+Result: True
+
+Working on node <SubtypeDecl ["R1"] str.adb:21:4-21:33>
+=======================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <SubtypeDecl ["R2"] str.adb:24:4-24:24>
+=======================================================
+
+Eval 'node.f_subtype.p_is_static_subtype()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["R3"] str.adb:27:4-27:34>
+============================================================
+
+Eval 'node.f_type_def.f_subtype_indication.p_is_static_subtype()'
+Result: True
+
+Working on node <ConcreteTypeDecl ["R4"] str.adb:30:4-30:34>
+============================================================
+
+Eval 'node.f_type_def.f_subtype_indication.p_is_static_subtype()'
+Result: False

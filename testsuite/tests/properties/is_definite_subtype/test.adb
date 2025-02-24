@@ -14,10 +14,20 @@ procedure Test is
       end case;
    end record;
 
+   type F (A : Boolean := True) is record
+      case A is
+         when True => B : Integer;
+         when False => null;
+      end case;
+   end record;
+
    O1 : CC := (1, 2, 3, 4);
    O2 : CC (1 .. 10);
    O3 : E (True);
    O4 : E := (A => True, others => <>);
+   O5 : F (True);
+   O6 : F := (A => True, others => <>);
+   O7 : F;
 begin
    null;
 end Test;

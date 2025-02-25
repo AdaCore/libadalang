@@ -225,7 +225,7 @@ package body Gpr_Util is
       if Help_Switch_Present then
          Usage;
          New_Line;
-         Put_Line ("Report bugs to report@adacore.com");
+         Put_Line ("Report bugs to support@adacore.com");
          OS_Exit (0);
       end if;
    end Check_Version_And_Help_G;

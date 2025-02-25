@@ -366,32 +366,42 @@ the ``Libadalang.Auto_Provider`` package to let Libadalang automatically
 discover your source files.
 
 However, if your project can be built with a GPR project file, Libadalang comes
-with a ``GNATCOLL.Projects`` adapter to leverage the knowledge of your GPR
-files: the ``Libadalang.Project_Provider`` package. Using it should be
-straightforward for people familiar with the ``GNATCOLL.Projects`` API:
+with a LibGPR2 adapter to leverage the knowledge of your GPR files: the
+``Libadalang.Project_Provider`` package. Using it should be straightforward for
+people familiar with the ``GPR2`` API:
 
 .. code-block:: ada
 
    declare
-      package GPR renames GNATCOLL.Projects;
       package LAL renames Libadalang.Analysis;
       package LAL_GPR renames Libadalang.Project_Provider;
 
-      Env     : GPR.Project_Environment_Access;
-      Project : constant GPR.Project_Tree_Access :=
-         new GPR.Project_Tree;
+      Options : GPR2.Options.Object;
+      Tree    : GPR2.Project.Tree.Object;
 
       Context  : LAL.Analysis_Context;
       Provider : LAL.Unit_Provider_Reference;
    begin
-      GPR.Initialize (Env);
-      --  Use procedures in GNATCOLL.Projects to set scenario
-      --  variables (Change_Environment), to set the target
-      --  and the runtime (Set_Target_And_Runtime), etc.
+      --  Call Options.Add_Switch to add all project-related parameters
+      --
+      --  Options.Add_Switch (GPR2.Options.P, "my_project.gpr");
+      --  ...
 
-      Project.Load (My_Project_Filename, Env);
-      Provider := LAL_GPR.Create_Project_Unit_Provider
-        (Tree => Project, Env => Env);
+      --  Load the project tree, requesting the indexing of all sources,
+      --  including runtime units.
+
+      if not Tree.Load
+        (Options,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units)
+      then
+         raise Program_Error with "error loading the project tree";
+      end if;
+
+      --  Create a unit provider that uses Tree to resolve references, and an
+      --  analysis context using that provider.
+
+      Provider := LAL_GPR.Create_Project_Unit_Provider (Tree);
       Context := LAL.Create_Context (Unit_Provider => Provider);
    end;
 
@@ -411,21 +421,21 @@ from the first command-line argument:
    ------------------
 
    function Load_Project return LAL.Unit_Provider_Reference is
-      package GPR renames GNATCOLL.Projects;
       package LAL_GPR renames Libadalang.Project_Provider;
-      use type GNATCOLL.VFS.Filesystem_String;
 
       Project_Filename : constant String := Ada.Command_Line.Argument (1);
-      Project_File     : constant GNATCOLL.VFS.Virtual_File :=
-         GNATCOLL.VFS.Create (+Project_Filename);
-
-      Env     : GPR.Project_Environment_Access;
-      Project : constant GPR.Project_Tree_Access := new GPR.Project_Tree;
+      Options          : GPR2.Options.Object;
+      Tree             : GPR2.Project.Tree.Object;
    begin
-      GPR.Initialize (Env);
-      Project.Load (Project_File, Env);
-      return LAL_GPR.Create_Project_Unit_Provider
-        (Tree => Project, Env => Env);
+      Options.Add_Switch (GPR2.Options.P, Project_Filename);
+      if not Tree.Load
+        (Options,
+         With_Runtime         => True,
+         Artifacts_Info_Level => GPR2.Sources_Units)
+      then
+         raise Program_Error with "error loading the project tree";
+      end if;
+      return LAL_GPR.Create_Project_Unit_Provider (Tree);
    end Load_Project;
 
 This assumes that the first command-line argument is the name of the project
@@ -493,12 +503,13 @@ This time, running this updated program on itself will yield something like:
 .. code-block:: text
 
    == main.adb ==
-   Line 30: Project_Filename : constant String := Ada.Command_Line.Argument (1);
+   Line 35: Type_Decl : constant LAL.Base_Type_Decl :=\x0a               Node.As_Object_Decl.F_Type_Expr.P_Designated_Type_Decl;
+      type is: type Base_Type_Decl is new Basic_Decl with private\x0a         with First_Controlling_Parameter\x0a      ;
+   Line 54: Project_Filename : constant String := Ada.Command_Line.Argument (1);
       type is: type String is array (Positive range <>) of Character;
-   Line 31: Project_File     : constant GNATCOLL.VFS.Virtual_File :=\x0a         GNATCOLL.VFS.Create (+Ada.Command_Line.Argument (1));
-      type is: type Virtual_File is tagged private;
-   Line 34: Env     : GPR.Project_Environment_Access;
-      type is: type Project_Environment_Access is access all Project_Environment'Class;
+   Line 55: Options          : GPR2.Options.Object;
+      type is: type Object is tagged private;
+   [...]
 
 We have seen here the ``P_Designated_Type_Decl`` property, which resolves
 references to types, but Libadalang offers many more properties to deal with

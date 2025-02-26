@@ -116,7 +116,7 @@ EOF
 
    if $error_exit; then
       cat << EOF
-   Don't hesitate to send a message to report@adacore.com
+   Don't hesitate to send a message to support@adacore.com
    with you customer number on the subject line if you have any
    question about this installation process.
 

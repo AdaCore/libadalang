@@ -2303,7 +2303,8 @@
                 "kind": "recurse_field",
                 "field": "f_stmts"
               }
-            ]
+            ],
+            "bubbleUpTrailingTrivias": true
           }
         ]
       }
@@ -3751,7 +3752,8 @@
                 "kind": "recurse_field",
                 "field": "f_stmts"
               }
-            ]
+            ],
+            "bubbleUpTrailingTrivias": true
           },
           {
             "kind": "recurse_field",
@@ -3919,7 +3921,8 @@
             "contents": [
               "hardlineWithoutBreakParent",
               "recurse"
-            ]
+            ],
+            "bubbleUpTrailingTrivias": true
           }
         ],
         "f_alternatives": {

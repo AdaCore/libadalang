@@ -2959,6 +2959,12 @@ class AspectAssoc: AdaNode {
                     target.as_entity
                 )
 
+        elif self.id.name_is(s"External_Initialization")
+        then
+            self.expr.sub_equation()
+            %and self.expr.expected_type_var() <- node.std_string_type()
+            %and self.expr.matches_expected_type()
+
         # Default resolution: For the moment we didn't encode specific
         # resolution rules for every aspect, so by default at least try to
         # name resolve the expression.

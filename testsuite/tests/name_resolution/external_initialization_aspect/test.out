@@ -1,0 +1,17 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <AspectAssoc test.adb:2:29-2:66>
+*********************************************************
+
+Expr: <Id "External_Initialization" test.adb:2:29-2:52>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Str ""data.bin"" test.adb:2:56-2:66>
+  references:    None
+  type:          <ConcreteTypeDecl ["String"] in Standard>
+  expected type: <ConcreteTypeDecl ["String"] in Standard>
+
+
+Done.

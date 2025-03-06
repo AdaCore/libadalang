@@ -2222,46 +2222,43 @@
       ]
     },
     "ElsifExprPart": {
-      "node": {
-        "kind": "group",
-        "document": [
-          {
+      "node": [
+        {
+          "kind": "group",
+          "document": [
+            {
+              "kind": "text",
+              "text": "elsif"
+            },
+            "whitespace",
+            {
+              "kind": "continuationLineIndent",
+              "contents": {
+                "kind": "recurse_field",
+                "field": "f_cond_expr"
+              }
+            }
+          ]
+        },
+        "line",
+        {
+          "kind": "continuationLineIndent",
+          "contents": {
             "kind": "group",
             "document": [
               {
                 "kind": "text",
-                "text": "elsif"
+                "text": "then"
               },
-              "whitespace",
+              "line",
               {
-                "kind": "continuationLineIndent",
-                "contents": {
-                  "kind": "recurse_field",
-                  "field": "f_cond_expr"
-                }
+                "kind": "recurse_field",
+                "field": "f_then_expr"
               }
             ]
-          },
-          "line",
-          {
-            "kind": "continuationLineIndent",
-            "contents": {
-              "kind": "group",
-              "document": [
-                {
-                  "kind": "text",
-                  "text": "then"
-                },
-                "line",
-                {
-                  "kind": "recurse_field",
-                  "field": "f_then_expr"
-                }
-              ]
-            }
           }
-        ]
-      }
+        }
+      ]
     },
     "ElsifExprPartList": {
       "sep": [
@@ -3788,41 +3785,36 @@
             "kind": "group",
             "document": [
               {
-                "kind": "group",
-                "document": [
-                  {
-                    "kind": "text",
-                    "text": "if"
-                  },
-                  "whitespace",
-                  {
-                    "kind": "continuationLineIndent",
-                    "contents": {
-                      "kind": "recurse_field",
-                      "field": "f_cond_expr"
-                    }
-                  }
-                ]
+                "kind": "text",
+                "text": "if"
               },
-              "line",
+              "whitespace",
               {
                 "kind": "continuationLineIndent",
                 "contents": {
-                  "kind": "group",
-                  "document": [
-                    {
-                      "kind": "text",
-                      "text": "then"
-                    },
-                    "line",
-                    {
-                      "kind": "recurse_field",
-                      "field": "f_then_expr"
-                    }
-                  ]
+                  "kind": "recurse_field",
+                  "field": "f_cond_expr"
                 }
               }
             ]
+          },
+          "line",
+          {
+            "kind": "continuationLineIndent",
+            "contents": {
+              "kind": "group",
+              "document": [
+                {
+                  "kind": "text",
+                  "text": "then"
+                },
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_then_expr"
+                }
+              ]
+            }
           },
           {
             "kind": "recurse_field",

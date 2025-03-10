@@ -146,12 +146,12 @@ Using Libadalang without installing it
 
 During development, it can be useful to update environment variables so that
 Libadalang can be used directly after a build, without performing a bona fide
-installation. The ``setenv`` command enables one to do that. Assuming a
+installation. The ``printenv`` command enables one to do that. Assuming a
 Bourne-compatible shell, run:
 
 .. code-block:: sh
 
-   $ eval `python manage.py setenv`
+   $ eval `python manage.py printenv`
 
 After this, you can both build programs that depend on Libadalang using
 GPRbuild and run Python interpreter to import the ``libadalang`` module.

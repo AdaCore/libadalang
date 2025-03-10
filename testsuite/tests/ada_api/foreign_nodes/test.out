@@ -69,8 +69,8 @@ $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P1"] pkg.ads:2:4-2:25>):
-  Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
-  Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
+  Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary)
+  Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary)
     <empty>
 
 ## Child ##
@@ -144,8 +144,6 @@ $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
 @4 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>):
-  Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
-  Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
     <empty>
 
 =====================
@@ -219,8 +217,6 @@ $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
 @3 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P1"] pkg.ads:2:4-2:25>):
-  Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
-  Referenced: <NullSubpDecl ["P1"] pkg.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg.ads:1:1-3:9>)
     <empty>
 
 ## Child ##
@@ -294,8 +290,6 @@ $root = LexEnv(Static_Primary, Parent=null):
     standard: [<PackageDecl ["Standard"] in Standard>]
 
 @4 = LexEnv(Static_Primary, Parent=@2, Node=<NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>):
-  Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
-  Referenced: <NullSubpDecl ["P2"] pkg-child.ads:2:4-2:25>: LexEnv(Static_Primary, Node=<CompilationUnit pkg-child.ads:1:1-3:15>)
     <empty>
 
 Done.

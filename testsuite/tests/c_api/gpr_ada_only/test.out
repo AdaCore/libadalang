@@ -2,7 +2,7 @@
 
 Got no exception
 
-error: kb: warning: can't find a toolchain for the following configuration: language 'Fortran', target '<native>', default runtime
+error: kb: info: can't find a toolchain for the following configuration: language 'Fortran', target '<native>', default runtime
 
 == Ada only ==
 

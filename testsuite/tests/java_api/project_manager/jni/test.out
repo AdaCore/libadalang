@@ -59,7 +59,7 @@ File pk4_bis.ads
 
 --- Open nosuchtarget.gpr ---
 Error during project opening:
-  [kb: warning: can't find a toolchain for the following configuration: language 'Ada', target '<native>', default runtime]
+  [kb: info: can't find a toolchain for the following configuration: language 'Ada', target '<native>', default runtime]
 File pk1.ads
   root = <CompilationUnit pk1.ads:1:1-3:9>
   deps = [<CompilationUnit in Standard>]
@@ -118,7 +118,7 @@ File pk2.ads
 
 --- Open ada_only.gpr ---
 Error during project opening:
-  [kb: warning: can't find a toolchain for the following configuration: language 'Fortran', target '<native>', default runtime]
+  [kb: info: can't find a toolchain for the following configuration: language 'Fortran', target '<native>', default runtime]
 File pk1.ads
   root = <CompilationUnit pk1.ads:1:1-3:9>
   deps = [<CompilationUnit in Standard>]

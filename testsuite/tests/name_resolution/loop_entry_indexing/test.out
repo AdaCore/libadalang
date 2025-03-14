@@ -41,4 +41,55 @@ Expr: <Int increment_array.adb:6:53-6:55>
   expected type: <ConcreteTypeDecl ["Integer"] in Standard>
 
 
+Analyzing indexed_entry.adb
+###########################
+
+Resolving xrefs for node <PragmaNode indexed_entry.adb:11:7-11:56>
+******************************************************************
+
+Expr: <Id "Loop_Invariant" indexed_entry.adb:11:14-11:28>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <RelationOp indexed_entry.adb:11:30-11:54>
+  type:          <ConcreteTypeDecl ["Boolean"] in Standard>
+  expected type: <ConcreteTypeDecl ["Boolean"] in Standard>
+Expr: <Id "I" indexed_entry.adb:11:30-11:31>
+  references:    <DefiningName "I" indexed_entry.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <OpEq "=" indexed_entry.adb:11:32-11:33>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <DottedName indexed_entry.adb:11:34-11:54>
+  references:    <DefiningName "Max" indexed_entry.adb:3:7-3:10>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <CallExpr indexed_entry.adb:11:34-11:50>
+  references:    None
+  type:          <ConcreteTypeDecl ["T"] indexed_entry.adb:2:4-4:15>
+  expected type: <ConcreteTypeDecl ["T"] indexed_entry.adb:2:4-4:15>
+Expr: <AttributeRef indexed_entry.adb:11:34-11:46>
+  references:    None
+  type:          <ConcreteTypeDecl ["Cell_Array"] indexed_entry.adb:5:4-5:58>
+  expected type: None
+Expr: <Id "A" indexed_entry.adb:11:34-11:35>
+  references:    <DefiningName "A" indexed_entry.adb:7:4-7:5>
+  type:          <ConcreteTypeDecl ["Cell_Array"] indexed_entry.adb:5:4-5:58>
+  expected type: None
+Expr: <Id "Loop_Entry" indexed_entry.adb:11:36-11:46>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "I" indexed_entry.adb:11:48-11:49>
+  references:    <DefiningName "I" indexed_entry.adb:8:4-8:5>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+Expr: <Id "Max" indexed_entry.adb:11:51-11:54>
+  references:    <DefiningName "Max" indexed_entry.adb:3:7-3:10>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
 Done.

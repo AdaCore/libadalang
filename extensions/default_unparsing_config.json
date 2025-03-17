@@ -4852,13 +4852,18 @@
             "kind": "recurse_field",
             "field": "f_delta"
           },
+          {
+            "kind": "recurse_field",
+            "field": "f_range"
+          }
+        ]
+      },
+      "fields": {
+        "f_range": [
           "line",
           {
             "kind": "innerRoot",
-            "contents": {
-              "kind": "recurse_field",
-              "field": "f_range"
-            }
+            "contents": "recurse"
           }
         ]
       }

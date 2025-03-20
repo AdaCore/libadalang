@@ -13173,10 +13173,8 @@ class ObjectDecl: BasicDecl {
     @parse_field
     ids: ASTList[DefiningName]
     @parse_field
-    @nullable
     has_aliased: Aliased
     @parse_field
-    @nullable
     has_constant: Constant
     @parse_field
     @nullable

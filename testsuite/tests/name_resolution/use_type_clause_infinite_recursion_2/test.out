@@ -1,0 +1,21 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:3:4-3:21>
+*************************************************************
+
+Expr: <DottedName test.adb:3:8-3:20>
+  references:    <DefiningName "Offset_T" pkg.ads:3:12-3:20>
+  type:          None
+  expected type: None
+Expr: <Id "Pkg" test.adb:3:8-3:11>
+  references:    <DefiningName "Pkg" pkg.ads:2:9-2:12>
+  type:          None
+  expected type: None
+Expr: <Id "Offset_T" test.adb:3:12-3:20>
+  references:    <DefiningName "Offset_T" pkg.ads:3:12-3:20>
+  type:          None
+  expected type: None
+
+
+Done.

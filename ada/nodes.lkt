@@ -7239,7 +7239,8 @@ class PackageDecl: BasePackageDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
     }
 }
@@ -10392,7 +10393,8 @@ class BasicSubpDecl: BasicDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
         handle_children()
         do(node.populate_body_unit())
@@ -11537,7 +11539,8 @@ class BaseSubpBody: Body {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
         # If self, which is assumed to be a SubpBody, is a library-level
         # subprogram, it must "inherit" the use clauses of its declaration, if
@@ -11939,7 +11942,8 @@ class PackageBody: Body {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
         reference(
             node.as[AdaNode].do((v1) => [v1]),
@@ -12030,7 +12034,8 @@ class ProtectedBody: Body {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
         reference(
             node.as[AdaNode].do((v1) => [v1]),
@@ -12111,7 +12116,8 @@ class TaskBody: Body {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
         reference(
             node.as[AdaNode].do((v1) => [v1]),
@@ -12410,7 +12416,8 @@ class GenericPackageDecl: GenericDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
     }
 }
@@ -12461,7 +12468,8 @@ class GenericSubpDecl: GenericDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
         handle_children()
         do(node.populate_body_unit())
@@ -12816,7 +12824,8 @@ class GenericInstantiation: BasicDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
         reference(
             [node.as[AdaNode]],
@@ -13051,7 +13060,8 @@ class GenericPackageRenamingDecl: GenericRenamingDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
     }
 }
@@ -13085,7 +13095,8 @@ class GenericSubpRenamingDecl: GenericRenamingDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
     }
 }
@@ -13433,7 +13444,8 @@ class PackageRenamingDecl: BasicDecl {
         reference(
             node.top_level_use_type_clauses(),
             Name.name_designated_type_env,
-            cond=node.parent is LibraryItem | Subunit
+            cond=node.parent is LibraryItem | Subunit,
+            category="inherited_primitives"
         )
     }
 }
@@ -25176,7 +25188,8 @@ class UseTypeClause: UseClause {
         reference(
             node.types.map((n) => n.as[AdaNode]),
             Name.name_designated_type_env,
-            cond=not node.parent.parent is CompilationUnit
+            cond=not node.parent.parent is CompilationUnit,
+            category="inherited_primitives"
         )
     }
 }

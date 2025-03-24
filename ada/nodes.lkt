@@ -18788,18 +18788,25 @@ class DefiningName: Name {
         previous_parts_only: Bool
     ): Aspect = {
         val parts_to_check =
-        # SPARK_Mode has its own logic (see `is_spark`). For instance, if
-        # defined on a body, it doesn't apply to the corresponding
-        # specification, and conversely. Only consider the current part
-        # when looking for it.
-            if name == s"SPARK_Mode" then [self]
-            elif previous_parts_only then [self] & self.all_previous_parts()
+            # SPARK_Mode has its own logic (see `is_spark`). For instance, if
+            # defined on a body, it doesn't apply to the corresponding
+            # specification, and conversely. Only consider the current part
+            # when looking for it.
+            if name == s"SPARK_Mode"
+            then [self]
+            elif
+                previous_parts_only
+                # Some aspects do not require looking at next parts, as all
+                # views should agree on the value of the aspect.
+                or name in s"Ghost"
+            then [self] & self.all_previous_parts()
             else self.all_parts();
+
         val self_aspects =
-        # The following aspects only support the Ada 2012 aspect
-        # association syntax, so use a faster path to avoid looking for
-        # pragmas and representation clauses for them as they are often
-        # queried during name resolution.
+            # The following aspects only support the Ada 2012 aspect
+            # association syntax, so use a faster path to avoid looking for
+            # pragmas and representation clauses for them as they are often
+            # queried during name resolution.
             if
                 name in s"Implicit_Dereference"
                     | s"Constant_Indexing"
@@ -18811,10 +18818,8 @@ class DefiningName: Name {
                     | s"String_Literal"
             then
                 parts_to_check.map(
-                    (p) =>
-                    p.basic_decl_internal().get_aspect_assoc(name).do(
-                        (aa) =>
-                        Aspect(
+                    (p) => p.basic_decl_internal().get_aspect_assoc(name).do(
+                        (aa) => Aspect(
                             exists=true,
                             node=aa,
                             value=aa.expr,
@@ -18822,27 +18827,27 @@ class DefiningName: Name {
                         )
                     )
                 )
-            else parts_to_check.map((p) => p.get_aspect_impl(name, inherited));
+            else
+                parts_to_check.map((p) => p.get_aspect_impl(name, inherited));
 
         self_aspects.find((a) => a.exists)
-        or? self.basic_decl().as[BaseTypeDecl].do(
-            (bd) => {
-                # If nothing has been found so far for entity, check out for
-                # any inherited aspect.
-                val typ =
-                    if bd is BaseSubtypeDecl
-                    then bd.as[BaseSubtypeDecl].get_type()
-                    else bd.base_type();
+        or? self.basic_decl().as[BaseTypeDecl].do((bd) => {
+            # If nothing has been found so far for entity, check out for
+            # any inherited aspect.
+            val typ =
+                if bd is BaseSubtypeDecl
+                then bd.as[BaseSubtypeDecl].get_type()
+                else bd.base_type();
 
-                if typ.is_null or typ == bd then null[Aspect]
-                else
-                    typ.name.get_aspect_on_parts(
-                        name,
-                        inherited=true,
-                        previous_parts_only=previous_parts_only
-                    )
-            }
-        )
+            if typ.is_null or typ == bd then
+                null[Aspect]
+            else
+                typ.name.get_aspect_on_parts(
+                    name,
+                    inherited=true,
+                    previous_parts_only=previous_parts_only
+                )
+        })
     }
 
     |" Return the aspect with name ``name`` associated to entity that this

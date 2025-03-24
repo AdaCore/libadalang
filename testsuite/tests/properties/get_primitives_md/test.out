@@ -1,0 +1,23 @@
+Working on node <ConcreteTypeDecl ["T_Pre"] test.ads:2:4-2:37>
+==============================================================
+
+Set 'f_prim' to 'node.p_get_primitives()[0]'
+Result: <ExprFunction ["F"] test.ads:6:4-7:37>
+
+Set 'v_param' to 'f_prim.p_subp_spec_or_null().p_params[0].p_defining_name'
+Result: <DefiningName "V" test.ads:6:16-6:17>
+
+Working on node <ExprFunction ["F"] test.ads:6:4-7:37>
+======================================================
+
+Set 'v_ref' to 'node.findall(lal.Identifier)[-1]'
+Result: <Id "V" test.ads:7:34-7:35>
+
+Set 'v_decl' to 'v_ref.p_referenced_defining_name()'
+Result: <DefiningName "V" test.ads:6:16-6:17>
+
+Working on node <ExprFunction ["Other_F"] test.ads:11:4-11:59>
+==============================================================
+
+Eval '(v_param == v_decl)'
+Result: True

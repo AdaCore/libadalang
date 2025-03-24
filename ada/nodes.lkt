@@ -5951,9 +5951,12 @@ class BasicDecl: AdaNode {
         # of the others, i.e. the base-most types on which the original
         # subprogram is declared.
         base_types.filter(
-            (t) => not base_types.any((u) => t != u and t.is_derived_type(u))
-        )
-        .map(
+            (t) => not base_types.any(
+                (u) => t != u and (
+                    t.is_null or (not u.is_null and t.is_derived_type(u))
+                )
+            )
+        ).map(
             # Get back the subprograms declared on the base types
             (root_type) =>
             base_decls.find((d) => d.info.md.primitive == root_type.node)
@@ -5991,46 +5994,35 @@ class BasicDecl: AdaNode {
         val prim_type = spec?.candidate_primitive_subp_tagged_type();
         val derivations = prim_type?.find_all_derived_types(units);
 
-        derivations.mapcat(
-            (t) => {
-                # Get all primitives that are named just like self
-                val prims =
-                    t.primitives_env().get(self.name_symbol()).map(
-                        (p) => p.as![BasicDecl]
-                    );
+        derivations.mapcat((t) => {
+            # Get all primitives that are named just like self
+            val prims = t.primitives_env().get(self.name_symbol()).map(
+                (p) => p.as![BasicDecl]
+            );
 
-                # Retrieve self among the primitives, so that it carries
-                # the adequate real_primitive_type metadata field.
-                {
-                    val base_p = prims.find((p) => p.node == node);
+            # Retrieve self among the primitives, so that it carries
+            # the adequate real_primitive_type metadata field.
+            val base_p = prims.find((p) => p.node == node);
 
-                    prims.filter(
-                        (p) =>
-                        (
-                            # Among all the primitives ``p`` available on type
-                            # ``t``, keep ``p`` if it both:
-                            # is a primitive "owned" by ``t`` (i.e. not an
-                            # inherited one).
-                            p.info.md.primitive == t.node
-                        )
-                        and (
-                            # overrides self
-                            {
-                                bind origin = base_p.origin_node();
+            prims.filter(
+                (p) => (
+                    # Among all the primitives ``p`` available on type
+                    # ``t``, keep ``p`` if it both:
+                    # is a primitive "owned" by ``t`` (i.e. not an
+                    # inherited one).
+                    p.info.md.primitive.is_null
+                ) and {
+                    # overrides self
+                    bind origin = base_p.origin_node();
 
-                                base_p.subp_spec_or_null().match_signature(
-                                    p.subp_spec_or_null(),
-                                    match_name=false,
-                                    use_entity_info=true
-                                )
-                            }
-                        )
+                    base_p.subp_spec_or_null().match_signature(
+                        p.subp_spec_or_null(),
+                        match_name=false,
+                        use_entity_info=true
                     )
-                    .map((p) => p.canonical_part().without_md().as![BasicDecl])
                 }
-            }
-        )
-        .unique()
+            ).map((p) => p.canonical_part().without_md().as![BasicDecl])
+        }).unique()
     }
 
     |" Get all the names of this basic declaration.
@@ -7424,7 +7416,7 @@ class BaseTypeDecl: BasicDecl {
     |" primitive P is inherited from one of self's parents.
     @exported
     fun is_inherited_primitive(p: Entity[BasicDecl]): Bool =
-        self.node != p.info.md.primitive
+        not p.info.md.primitive.is_null
 
     |" Return the record representation clause associated to this type decl,
     |" if applicable (i.e. this type decl defines a record type).
@@ -7481,8 +7473,7 @@ class BaseTypeDecl: BasicDecl {
             (etf) => etf.enum_literals.map(
                 (lit) => InnerEnvAssoc(
                     key=lit.name.name_symbol(),
-                    value=lit,
-                    metadata=Metadata(primitive=node)
+                    value=lit
                 )
             )
         );
@@ -7523,16 +7514,14 @@ class BaseTypeDecl: BasicDecl {
 
             [InnerEnvAssoc(
                 key=sym,
-                value=bd.node,
-                metadata=Metadata(primitive=node)
+                value=bd.node
             )] & (
                 if sym == s"\"=\""
                 then [InnerEnvAssoc(
                     key=s"\"/=\"",
                     value=bd.subp_spec_or_null(
                         false
-                    ).as[SubpSpec].node.synthetic_neq_subprogram,
-                    metadata=Metadata(primitive=node)
+                    ).as[SubpSpec].node.synthetic_neq_subprogram
                 )]
                 else null[Array[InnerEnvAssoc]]
             )
@@ -7543,8 +7532,7 @@ class BaseTypeDecl: BasicDecl {
             node.as[TypeDecl]?.as_bare_entity.predefined_operators().map(
                 (assoc) => InnerEnvAssoc(
                     key=assoc.key,
-                    value=assoc.value,
-                    metadata=Metadata(primitive=node)
+                    value=assoc.value
                 )
             );
 
@@ -7553,23 +7541,35 @@ class BaseTypeDecl: BasicDecl {
 
     |" Return the environment containing the primitives for self, rebound
     |" using the given rebindings.
-    fun own_primitives_env(with_rebindings: EnvRebindings): LexicalEnv =
-        self.direct_primitives_env.rebind_env(with_rebindings)
+    fun own_primitives_env(
+        with_rebindings: EnvRebindings,
+        with_primitive_md: Bool
+    ): LexicalEnv = {
+        val prim_env = self.direct_primitives_env;
+        val md_env =
+            if with_primitive_md then
+                [prim_env].env_group(with_md=Metadata(primitive=node))
+            else
+                prim_env;
+        md_env.rebind_env(with_rebindings)
+    }
 
     |" Return the environments containing the primitives for self and its
     |" previous parts, if there are some. All returned environments are
     |" rebound using the given rebindings.
     fun own_primitives_envs(
-        with_rebindings: EnvRebindings
+        with_rebindings: EnvRebindings,
+        with_primitive_md: Bool = true
     ): Array[LexicalEnv] =
         # If self has a previous part, it might have primitives too
         self.previous_part(false).as[TypeDecl].do(
-            (pp) =>
-            [
-                self.own_primitives_env(with_rebindings),
-                pp.own_primitives_env(with_rebindings)
+            (pp) => [
+                self.own_primitives_env(with_rebindings, with_primitive_md),
+                pp.own_primitives_env(with_rebindings, with_primitive_md)
             ],
-            default_val=[self.own_primitives_env(with_rebindings)]
+            default_val=[
+                self.own_primitives_env(with_rebindings, with_primitive_md)
+            ]
         )
 
     |" Return the environments containing the primitives for self (if
@@ -7579,38 +7579,28 @@ class BaseTypeDecl: BasicDecl {
     |" All returned environments are rebound using the given rebindings.
     fun primitives_envs(
         with_rebindings: EnvRebindings,
-        stop_at: Array[Entity[BaseTypeDecl]],
-        include_self: Bool = false
-    ): Array[LexicalEnv] =
-    # TODO: Not clear if the below origin.bind is correct, investigate
-    # later.
-    {
+        stop_at: Array[Entity[BaseTypeDecl]]
+    ): Array[LexicalEnv] = {
+        # TODO: Not clear if the below origin.bind is correct, investigate
+        # later.
         bind origin = node;
 
         self.base_types().mapcat(
-            (t) =>
-            match t {
+            (t) => match t {
                 case td: TypeDecl => td
                 case ttd: TaskTypeDecl => ttd
-                case std: BaseSubtypeDecl =>
-                    {
-                        bind origin = std.node.origin_node();
-
-                        std.get_type().as[TypeDecl]
-                    }
+                case std: BaseSubtypeDecl => {
+                    bind origin = std.node.origin_node();
+                    std.get_type().as[TypeDecl]
+                }
                 case _ => null[Entity[TypeDecl]]
-            }
-            .do(
-                (bt) =>
-                if stop_at.contains(bt) then null[Array[LexicalEnv]]
+            }.do((bt) =>
+                if stop_at.contains(bt)
+                then null[Array[LexicalEnv]]
                 else
                     bt.own_primitives_envs(with_rebindings)
-                    & bt.primitives_envs(with_rebindings, stop_at, false)
+                    & bt.primitives_envs(with_rebindings, stop_at)
             )
-        )
-        & (
-            if include_self then self.own_primitives_envs(with_rebindings)
-            else null[Array[LexicalEnv]]
         )
     }
 
@@ -7621,13 +7611,29 @@ class BaseTypeDecl: BasicDecl {
         include_self: Bool = true,
         stop_at: Array[Entity[BaseTypeDecl]] =
             null[Array[Entity[BaseTypeDecl]]]
-    ): LexicalEnv =
-        self.primitives_envs(
+    ): LexicalEnv = {
+        val parent_prims = self.primitives_envs(
             with_rebindings=self.info.rebindings,
-            stop_at=stop_at,
-            include_self=include_self
-        )
-        .env_group(with_md=Metadata(primitive_real_type=node))
+            stop_at=stop_at
+        ).env_group(with_md=Metadata(primitive_real_type=node));
+
+        if include_self then {
+            val own_prims = self.own_primitives_envs(
+                with_rebindings=self.info.rebindings,
+                with_primitive_md=false
+            );
+            # Make sure that we don't include an empty env in the final grouped
+            # env, as this would make it stale prematurely and cause infinite
+            # recursions down the line. Name resolution test
+            # `use_type_clause_infinite_recursion` is there to detect this.
+            if parent_prims.is_null then
+                own_prims.env_group()
+            else
+                ([parent_prims] & own_prims).env_group()
+        }
+        else
+            parent_prims
+    }
 
     |" The environment that contains all subprograms that are direct
     |" primitives of this type, that is, primitives that are not inherited.
@@ -7668,14 +7674,17 @@ class BaseTypeDecl: BasicDecl {
 
             bds.ifilter((a, i) => {
                 val a_spec = a.subp_spec_or_null();
-                val a_prim =
-                    a.info.md.primitive.as_bare_entity.as[BaseTypeDecl];
+                val a_prim = (
+                    a.info.md.primitive or? node
+                ).as_bare_entity.as[BaseTypeDecl];
 
                 # Only keep primitive a if it is the "most overriding"
                 # one.  So, the logic below checks that there isn't a
                 # primitive b that overrides it.
                 not bds.iany((b, j) => {
-                    val b_prim = b.info.md.primitive.as[BaseTypeDecl];
+                    val b_prim = (
+                        b.info.md.primitive or? node
+                    ).as[BaseTypeDecl];
 
                     (i != j)
                     and {

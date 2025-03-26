@@ -16660,7 +16660,7 @@ class Name: Expr {
         then
             # Number decls cannot have a next part, always return None
             null[Entity[DefiningName]]
-        elif bd is BasicDecl then dn
+        elif not bd.is_null then dn
         else self.referenced_defining_name()
     }
 

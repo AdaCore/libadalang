@@ -1399,7 +1399,7 @@ class AdaNode implements Node[AdaNode] {
                 n.name_designated_type().as[AdaNode]
                 or? n.as[AttributeRef]?.attribute_subprogram()
             )
-            or? n.all_env_elements()?[0]
+            or? n.all_env_elements().at(0)
 
         # We first try to find a type.  If it's an attribute, it might be a
         # reference to a function.  If all that didn't work, find something
@@ -1553,7 +1553,7 @@ class AdaNode implements Node[AdaNode] {
 
                         # Positional parameter case: if this parameter has no
                         # name association, make sure we have enough formals.
-                        unpacked_formals?[idx].do(
+                        unpacked_formals.at(idx).do(
                             (sp) =>
                             ParamMatch(has_matched=true, actual=a, formal=sp)
                         )
@@ -1583,7 +1583,7 @@ class AdaNode implements Node[AdaNode] {
         if match_others and matched_formals.any((m) => not m.has_matched)
         then {
             val od_assoc =
-                params.find((p) => p.names()?[0] is OthersDesignator);
+                params.find((p) => p.names().at(0) is OthersDesignator);
 
             od_assoc.do(
                 (od) => {
@@ -2512,7 +2512,7 @@ class AssocList: ASTList[BasicAssoc] {
             (a) => a.assoc.expr(),
             # Otherwise, get the parameter using its position if any
             default_val=if
-                up?[pos].is_null or not up?[pos].assoc.names().is_null
+                up.at(pos).is_null or not up.at(pos).assoc.names().is_null
             then (
                 # None was found, either by name or by position, return
                 # default expression.
@@ -2520,7 +2520,7 @@ class AssocList: ASTList[BasicAssoc] {
             )
             else (
                 # Use expression for param by position
-                up?[pos].assoc.expr()
+                up.at(pos).assoc.expr()
             )
         )
     }
@@ -2747,7 +2747,7 @@ class ConstrainedArrayIndices: ArrayIndices {
             .as_entity
             .resolve_names();
 
-        self.list?[dim].do(
+        self.list?.at(dim).do(
             (v1) =>
             match v1 {
                 case st: SubtypeIndication => st.designated_type()
@@ -2784,7 +2784,7 @@ class UnconstrainedArrayIndices: ArrayIndices {
 
     @with_dynvars(origin)
     fun index_type(dim: Int): Entity[BaseTypeDecl] =
-        self.types?[dim]?.designated_type()
+        self.types?.at(dim)?.designated_type()
 
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation =
@@ -2926,11 +2926,11 @@ class AspectAssoc: AdaNode {
         elif self.id.name_is(s"Constant_Indexing")
         then
             self.expr.as![Identifier].ref_var()
-            <- target.as[TypeDecl].as_entity.constant_indexing_fns()?[0]
+            <- target.as[TypeDecl].as_entity.constant_indexing_fns().at(0)
         elif self.id.name_is(s"Variable_Indexing")
         then
             self.expr.as![Identifier].ref_var()
-            <- target.as[TypeDecl].as_entity.variable_indexing_fns()?[0]
+            <- target.as[TypeDecl].as_entity.variable_indexing_fns().at(0)
 
         # For the Annotate aspect, the first two identifiers are not
         # analyzed. The rest are arbitrary expressions (see
@@ -3037,10 +3037,10 @@ class AspectAssoc: AdaNode {
     @with_dynvars(env, origin, entry_point)
     fun user_defined_literals_equation(target: TypeDecl): Equation =
         self.expr.as![Identifier].ref_var()
-        <- target.as_entity.user_defined_literal_fns(self.id.name_symbol())?[
+        <- target.as_entity.user_defined_literal_fns(self.id.name_symbol()).at(
         # First result in the list is the last override if any
             0
-        ]
+        )
 
     |" Return the string representation of the given name, which must be a
     |" Name that can appear in an aspect association id.
@@ -3311,7 +3311,7 @@ class BaseFormalParamHolder: AdaNode {
                     # remove 1 to the minumum number of parameter. In the
                     # other case, ``bare.nb_min_params`` has already counted
                     # it.
-                    node.as_bare_entity.unpacked_formal_params()?[0]
+                    node.as_bare_entity.unpacked_formal_params().at(0)
                     .formal_decl()
                     .is_mandatory()
                 )
@@ -3360,11 +3360,9 @@ class BaseFormalParamHolder: AdaNode {
             self.unpacked_formal_params().imapcat(
                 (param, i) =>
                 if param.node == name.node
-                then [actual_spec.unpacked_formal_params()?[i]]
+                then [actual_spec.unpacked_formal_params().at(i)]
                 else null[Array[Entity[DefiningName]]]
-            )?[
-                0
-            ]
+            ).at(0)
     }
 
     |" If this represents the spec of an inherited primitive subprogram, return
@@ -3595,8 +3593,8 @@ class BaseFormalParamHolder: AdaNode {
         and self_types.length() == other_types.length()
         and self_params.iall(
             (p, i) =>
-            (not match_names or p.name.matches(other_params?[i].name.node))
-            and self_types?[i]?.matching_type(other_types?[i])
+            (not match_names or p.name.matches(other_params.at(i).name.node))
+            and self_types.at(i)?.matching_type(other_types.at(i))
         )
     }
 
@@ -3712,7 +3710,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
             and params.ifilter(
                 (p, i) =>
                 not p.formal_decl().formal_type().matching_type(
-                    fn.subp_params_types?[i]
+                    fn.subp_params_types.at(i)
                 )
             )
             .is_null
@@ -3728,7 +3726,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
     |" notation, return the type of dottable elements.
     @with_dynvars(origin)
     fun potential_dottable_type(): Entity[BaseTypeDecl] =
-        self.abstract_formal_params()?[0].do(
+        self.abstract_formal_params().at(0).do(
             (p) => p.type_expression()?.element_type()
         )
 
@@ -3748,7 +3746,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
                 then (
                     # Get the scope of the generic instantiation (if any) when
                     # self comes from a generic subprogram.
-                    self.generic_instantiations()?[0]?.parent?.parent
+                    self.generic_instantiations().at(0)?.parent?.parent
                 )
                 else node.parent.parent.parent.as_entity
             )
@@ -3856,7 +3854,7 @@ class BaseSubpSpec: BaseFormalParamHolder {
     |" Return the first type of which this subprogram is a candidate
     |" primitive of.
     fun candidate_primitive_subp_first_type(): Entity[BaseTypeDecl] =
-        self.candidate_primitive_subp_types().do((p) => p?[0])
+        self.candidate_primitive_subp_types().do((p) => p.at(0))
 
     |" If this subprogram is a primitive for a tagged type, then return this
     |" type. If ``canonicalize`` is true, then the returned types will be
@@ -4529,7 +4527,7 @@ class AggregateAssoc: BasicAssoc {
     @with_dynvars(env, origin, entry_point)
     fun container_aggregate_equation(td: Entity[BaseTypeDecl]): Equation = {
         val aggregate_aspect = td.get_aspect(s"Aggregate").value.as[Aggregate];
-        val entity_name = self.names()?[0].as[Name];
+        val entity_name = self.names().at(0).as[Name];
         val element_type = aggregate_aspect.element_type();
         val key_type = aggregate_aspect.key_type();
 
@@ -4789,7 +4787,7 @@ class AggregateAssoc: BasicAssoc {
         # in this case. As above, we make sure to not resolve the ``null``
         # literal.
         {
-            val n = self.names()?[0];
+            val n = self.names().at(0);
 
             if n.is_null or n is NullLiteral then %true
             else n.as_entity.sub_equation()
@@ -4802,7 +4800,7 @@ class AggregateAssoc: BasicAssoc {
         # Only resolve the right-hand side of `Requires` and `Ensures`,
         # the other associations (Name and Mode) need not be resolved.
         if
-            self.names()?[0].as[BaseId].do(
+            self.names().at(0).as[BaseId].do(
                 (name) => name.name_symbol() in s"Requires" | s"Ensures"
             )
         then self.expr().sub_equation()
@@ -4812,7 +4810,7 @@ class AggregateAssoc: BasicAssoc {
     |" ``Iterable`` aspect.
     @with_dynvars(env, origin, entry_point)
     fun iterable_assoc_equation(): Equation = {
-        val name = self.names()?[0].as![Name];
+        val name = self.names().at(0).as![Name];
         val expr = self.expr().as![Name];
         # Fetch the enclosing aspect (which is necessarily `Iterable`)
         val aspect = node.parents().find(
@@ -5096,7 +5094,7 @@ class BasicDecl: AdaNode {
         if self.info.md.dottable_subp
         then
             prefix.expected_type_var()
-            <- self.subp_spec_or_null().unpacked_formal_params()?[0]
+            <- self.subp_spec_or_null().unpacked_formal_params().at(0)
             ?.formal_decl()
             .formal_type()
             %and prefix.matches_expected_prefix_type()
@@ -5526,7 +5524,8 @@ class BasicDecl: AdaNode {
                 .do((v2) => [v2.decls.as_entity])
             );
         # Finally, look inside decl, in the first declarative region of decl
-        val inner_scope = self.declarative_parts()?[0].do((v3) => [v3.decls]);
+        val inner_scope =
+            self.declarative_parts().at(0).do((v3) => [v3.decls]);
 
         enclosing_scope & private_scope & inner_scope
     }
@@ -6033,7 +6032,7 @@ class BasicDecl: AdaNode {
     |" Get the name of this declaration. If this declaration has several
     |" names, it will return the first one.
     @exported
-    fun defining_name(): Entity[DefiningName] = self.defining_names()?[0]
+    fun defining_name(): Entity[DefiningName] = self.defining_names().at(0)
 
     |" If this declaration has a single ``DefiningName``, return it.
     |" If it doesn't have any (e.g. an ``AnonymousTypeDecl``), return null.
@@ -6046,7 +6045,7 @@ class BasicDecl: AdaNode {
             raise[Entity[DefiningName]] PreconditionFailure(
                 "BasicDecl with multiple defining names"
             )
-        else dns?[0]
+        else dns.at(0)
     }
 
     @with_dynvars(origin)
@@ -6145,13 +6144,13 @@ class BasicDecl: AdaNode {
                             # be `in out` while the second one should be `in`.
                             val param_modes = spec.param_modes();
 
-                            param_modes?[0] is Mode.InOut
-                            and param_modes?[1] is Mode.In | Mode.Default
+                            param_modes.at(0) is Mode.InOut
+                            and param_modes.at(1) is Mode.In | Mode.Default
                         }
                         else (
                             # Else, it is a function, and its return type
                             # should be identical to its first param type.
-                            return_type == param_types?[0]
+                            return_type == param_types.at(0)
                         )
                     )
                 }
@@ -6179,7 +6178,7 @@ class BasicDecl: AdaNode {
         bind origin = node.origin_node();
 
         node.is_subprogram()
-        and params?[0].formal_decl().formal_type().is_access_to(
+        and params.at(0).formal_decl().formal_type().is_access_to(
             root_stream_type
         )
         and (
@@ -6189,7 +6188,7 @@ class BasicDecl: AdaNode {
                     typ
                 )
             else
-                params?[1].formal_decl().formal_type().matching_formal_type(
+                params.at(1).formal_decl().formal_type().matching_formal_type(
                     typ
                 )
         )
@@ -6207,10 +6206,10 @@ class BasicDecl: AdaNode {
 
             (
                 node.is_subprogram()
-                and params?[0].formal_decl().formal_type()
+                and params.at(0).formal_decl().formal_type()
                 .matching_formal_type(root_buffer_type)
             )
-            and params?[1].formal_decl().formal_type().matching_formal_type(
+            and params.at(1).formal_decl().formal_type().matching_formal_type(
                 typ
             )
         }
@@ -6850,7 +6849,7 @@ class AnonymousExprDecl: BasicDecl {
     fun get_formal(): Entity[DefiningName] = {
         val assoc = self.expr.parent.as[BasicAssoc];
 
-        assoc.get_params()?[0]
+        assoc.get_params().at(0)
     }
 
     |" Internal property that actually retrieves the type expression. Since
@@ -9027,7 +9026,7 @@ class BaseTypeDecl: BasicDecl {
     ): EnvRebindings =
         if index >= base_types.length() then null[EnvRebindings]
         else
-            base_types?[index].find_base_type_rebindings(target)
+            base_types.at(index).find_base_type_rebindings(target)
             or? self.find_base_type_rebindings_among(
                 target,
                 base_types,
@@ -10045,7 +10044,7 @@ class TypeDecl: BaseTypeDecl {
                     # candidates since user defined functions can have many
                     # parameters without any constraints on them. Only the
                     # first parameter should be a the type of self.
-                    ss.unpacked_formal_params()?[0]?.formal_decl()
+                    ss.unpacked_formal_params().at(0)?.formal_decl()
                     .formal_type()
                     .matching_formal_type(self)
                 }
@@ -10651,7 +10650,7 @@ class EntryDecl: BasicSubpDecl {
     fun next_part_for_decl(): Entity[BasicDecl] =
         # For tasks, get the corresponding accept statement's body
         if self.parent_basic_decl() is SingleTaskTypeDecl | TaskTypeDecl
-        then self.accept_stmts()?[0]?.body_decl
+        then self.accept_stmts().at(0)?.body_decl
 
         # For protected entries, call the superclass ``next_part_for_decl``
         else self.super()
@@ -10699,7 +10698,7 @@ class EnumLiteralDecl: BasicSubpDecl {
             # representation clause are in the same order as the enum literals
             # in the type declaration, so we can just use 'Pos to find the
             # correct value.
-            rep_clause.aggregate.assocs?[pos].expr().eval_as_int()
+            rep_clause.aggregate.assocs.at(pos).expr().eval_as_int()
         )
     }
 
@@ -10746,7 +10745,7 @@ class SyntheticCharEnumLit: EnumLiteralDecl {
 
     |" Return the CharLiteral expression corresponding to this enum literal.
     @exported
-    fun expr(): Entity[DefiningName] = self.defining_names()?[0]
+    fun expr(): Entity[DefiningName] = self.defining_names().at(0)
 
     fun enum_decl_name(): Entity[DefiningName] = self.expr()
 
@@ -10822,9 +10821,7 @@ class Body: BasicDecl {
             self.body_scope(true).get(
                 self.name_symbol(),
                 categories=RefCategories(inherited_primitives=false, _=true)
-            )?[
-                0
-            ]
+            ).at(0)
         {
             case gpd: GenericPackageDecl =>
             # For generic package decls, we regroup the formal part & the
@@ -10841,9 +10838,7 @@ class Body: BasicDecl {
                 s"__privatepart",
                 lookup=LookupKind.flat,
                 categories=RefCategories(inherited_primitives=false, _=true)
-            )?[
-                0
-            ]
+            ).at(0)
             .do(
                 # If there is a private part, group it with the rest
                 (pp) => [pp.children_env, public_part].env_group(),
@@ -10951,7 +10946,7 @@ class Body: BasicDecl {
         val already_precise = parent is CompilationUnit | BodyStub;
         val precise =
             (
-                if already_precise then elements?[0]
+                if already_precise then elements.at(0)
                 else
                     elements.find(
                         (sp) =>
@@ -11073,15 +11068,13 @@ class Body: BasicDecl {
             bind origin = node.origin_node();
 
             self.defining_name().all_env_els_impl()
-        }?[
-            0
-        ]
+        }.at(0)
         .as[BasicDecl]
 
     |" Return the ProtectedDecl corresponding to this node.
     @with_dynvars(env)
     fun protected_previous_part(): Entity[BasicDecl] =
-        self.defining_name().env_elements()?[0].do(
+        self.defining_name().env_elements().at(0).do(
             (v1) =>
             match v1 {
                 case prot_type: ProtectedTypeDecl => prot_type
@@ -11254,9 +11247,7 @@ class Body: BasicDecl {
                 s"__privatepart",
                 lookup=LookupKind.flat,
                 categories=RefCategories(inherited_primitives=false, _=true)
-            )?[
-                0
-            ]
+            ).at(0)
             .do((pp) => pp.children_env, default_val=public_scope)
         else public_scope
     }
@@ -11271,10 +11262,10 @@ class Body: BasicDecl {
             subp_decl_part.do((part) => part.aspects, default_val=self.aspects)
             ?.aspect_assocs
             .filtermap(
-                (a) => a.expr.as[Aggregate].assocs?[1].expr(),
+                (a) => a.expr.as[Aggregate].assocs.at(1).expr(),
                 (a) =>
                 (a.id.name_is(s"Annotate") and a.expr is Aggregate)
-                and a.expr.as[Aggregate].assocs?[0].expr().as[Name]?.name_is(
+                and a.expr.as[Aggregate].assocs.at(0).expr().as[Name]?.name_is(
                     s"GNATprove"
                 )
             );
@@ -11294,16 +11285,16 @@ class Body: BasicDecl {
         # Find those that are a "GNATProve" annotation
         val pragmas =
             scope_decls.filtermap(
-                (d) => d.args?[1].as_entity.assoc_expr(),
+                (d) => d.args.at(1).as_entity.assoc_expr(),
                 (d) =>
                 (
                     (d > pragma_scope.node and d?.id.name_is(s"Annotate"))
-                    and d.args?[0]?.as_entity.assoc_expr().as[Name]?.name_is(
+                    and d.args.at(0)?.as_entity.assoc_expr().as[Name]?.name_is(
                         s"GNATprove"
                     )
                 )
-                and d.args?[2]?.as_entity.assoc_expr().as[Name]?.name_is(
-                    self.defining_names()?[0].name_symbol()
+                and d.args.at(2)?.as_entity.assoc_expr().as[Name]?.name_is(
+                    self.defining_names().at(0).name_symbol()
                 )
             );
         # Also look for annotations declared on the enclosing bodies
@@ -12520,7 +12511,7 @@ class GenericInstantiation: BasicDecl {
                         or pm.formal.formal_decl() is GenericFormalSubpDecl
                     then null[Expr]
                     elif pm.formal.formal_decl() is GenericFormalObjDecl
-                    then self.actual_expr_decls?[i]
+                    then self.actual_expr_decls.at(i)
                     else pm.actual.assoc.expr().node,
                     metadata=Metadata()
                 )
@@ -12537,7 +12528,7 @@ class GenericInstantiation: BasicDecl {
     fun generic_inst_params(): Entity[AssocList]
 
     fun is_any_formal(): Bool =
-        self.generic_inst_params()?[0].do((v1) => v1.expr() is BoxExpr)
+        self.generic_inst_params().at(0).do((v1) => v1.expr() is BoxExpr)
 
     |" Return the generic package designated by the right hand part of this
     |" generic package instantiation as seen from the current generic context.
@@ -13011,9 +13002,7 @@ class GenericRenamingDecl: BasicDecl {
             seq_from=node,
             categories=RefCategories(inherited_primitives=false, _=true)
         )
-        .filter((e) => not e is Body)?[
-            0
-        ]
+        .filter((e) => not e is Body).at(0)
         .do(
             (v1) =>
             match v1 {
@@ -13391,7 +13380,7 @@ class PackageRenamingDecl: BasicDecl {
         {
             bind env = node_env;
 
-            self.renames.renamed_object.env_elements()?[0].as[BasicDecl]
+            self.renames.renamed_object.env_elements().at(0).as[BasicDecl]
         }
     }
 
@@ -13854,7 +13843,7 @@ class CompilationUnit: AdaNode {
     fun self_restrictions(): Array[Symbol] =
         node.as_bare_entity.prelude.filtermap(
             (n) =>
-            n.as[Pragma].args?[0]?.assoc_expr().as[BaseId].name_symbol(),
+            n.as[Pragma].args.at(0)?.assoc_expr().as[BaseId].name_symbol(),
             (n) =>
             n.as[Pragma].do((p) => p.id.name_symbol() == s"Restrictions")
         )
@@ -13922,8 +13911,8 @@ class CompilationUnit: AdaNode {
     fun is_text_io_child(): Bool = {
         val name_parts = node.syntactic_fully_qualified_name();
 
-        name_parts.length() == 3 and name_parts?[0] == s"ada"
-        and name_parts?[1] in s"text_io"
+        name_parts.length() == 3 and name_parts.at(0) == s"ada"
+        and name_parts.at(1) in s"text_io"
             | s"wide_text_io"
             | s"wide_wide_text_io"
     }
@@ -13981,9 +13970,7 @@ class CompilationUnit: AdaNode {
         .filtermap(
             (n) => n.as_bare_entity,
             (n) => n.id.name_is(s"SPARK_Mode")
-        )?[
-            -1
-        ]
+        ).at(-1)
 
     |" Return the list of configuration pragmas with the given name that apply
     |" to the current unit.
@@ -15447,7 +15434,7 @@ class Aggregate: BaseAggregate {
         val add_named =
             self.assocs.find(
                 (assoc) =>
-                assoc.as[AggregateAssoc].names()?[0].as[Name].name_is(
+                assoc.as[AggregateAssoc].names().at(0).as[Name].name_is(
                     s"Add_Named"
                 )
             );
@@ -15460,7 +15447,7 @@ class Aggregate: BaseAggregate {
 
         add_named.do(
             (_) =>
-            add_named_params?[index].type_expression().designated_type_decl()
+            add_named_params.at(index).type_expression().designated_type_decl()
         )
     }
 
@@ -15475,7 +15462,7 @@ class Aggregate: BaseAggregate {
         val add_unnamed =
             self.assocs.find(
                 (assoc) =>
-                assoc.as[AggregateAssoc].names()?[0].as[Name].name_is(
+                assoc.as[AggregateAssoc].names().at(0).as[Name].name_is(
                     s"Add_Unnamed"
                 )
             );
@@ -15483,9 +15470,7 @@ class Aggregate: BaseAggregate {
             add_unnamed.do(
                 (au) =>
                 au.expr().as[Name].referenced_decl().subp_spec_or_null()
-                .params()?[
-                    1
-                ]
+                .params().at(1)
                 .type_expression()
                 .designated_type_decl()
             );
@@ -15600,11 +15585,11 @@ class BinOp: Expr {
         then %all(
             # The subprogram's first argument must match self's left
             # operand.
-            spec.call_argument_equation(ps?[0].formal_decl(), self.left),
+            spec.call_argument_equation(ps.at(0).formal_decl(), self.left),
             # The subprogram's second argument must match self's right
             # operand.
             spec.call_argument_equation(
-                ps?[1].formal_decl(),
+                ps.at(1).formal_decl(),
                 self.right
             ),
             # The subprogram's return type is the type of self
@@ -15697,11 +15682,11 @@ class BinOp: Expr {
 
         [
             ExpectedTypeForExpr(
-                expected_type=params?[0].formal_decl().type_expression(),
+                expected_type=params.at(0).formal_decl().type_expression(),
                 expr=self.left
             ),
             ExpectedTypeForExpr(
-                expected_type=params?[1].formal_decl().type_expression(),
+                expected_type=params.at(1).formal_decl().type_expression(),
                 expr=self.right
             )
         ]
@@ -15867,9 +15852,9 @@ class ConcatOp: Expr {
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
         val operand_count = node.other_operands.length();
-        val last_operand = node.other_operands?[operand_count - 1];
+        val last_operand = node.other_operands.at(operand_count - 1);
         val concat_subprograms =
-            self.other_operands?[0].operator.subprograms();
+            self.other_operands.at(0).operator.subprograms();
 
         # Perform expression resolution from left to right
         self.first_operand.sub_equation()
@@ -15887,10 +15872,10 @@ class ConcatOp: Expr {
             val pos = operand_count - index - 1;
             val left =
                 if pos > 0
-                then self.other_operands?[pos - 1]
+                then self.other_operands.at(pos - 1)
                 else self.first_operand;
-            val concat_operand = self.other_operands?[pos];
-            val right = self.other_operands?[pos].operand;
+            val concat_operand = self.other_operands.at(pos);
+            val right = self.other_operands.at(pos).operand;
 
             # TODO: this is implementation is actually not correct w.r.t.
             # visibility (eng/libadalang/libadalang#1138).
@@ -15938,9 +15923,9 @@ class ConcatOp: Expr {
         if ps.length() == 2
         then
             # The subprogram's first argument must match left operand
-            spec.call_argument_equation(ps?[0].formal_decl(), left)
+            spec.call_argument_equation(ps.at(0).formal_decl(), left)
             # The subprogram's second argument must match right operand
-            %and spec.call_argument_equation(ps?[1].formal_decl(), right)
+            %and spec.call_argument_equation(ps.at(1).formal_decl(), right)
             # The subprogram's return type is the type of op
             %and op.type_var() <- spec.return_type()
         else %false
@@ -16691,7 +16676,7 @@ class Name: Expr {
     fun first_corresponding_decl(): Entity[BasicDecl] =
         if node.parent is DottedName and node.is_suffix()
         then self.parent.as[DottedName].first_corresponding_decl()
-        else self.all_env_elements_internal()?[0].as[BasicDecl]
+        else self.all_env_elements_internal().at(0).as[BasicDecl]
 
     |" Constructs the xref equations for all the argument lists of CallExprs
     |" appearing between ``self`` and ``root``. This is done in a single
@@ -17310,7 +17295,7 @@ class Name: Expr {
                 and d.suffix.called_subp_spec().do(
                     (spec) =>
                     spec.info.md.dottable_subp
-                    and spec.abstract_formal_params()?[0]
+                    and spec.abstract_formal_params().at(0)
                     .as[ParamSpec]
                     ?.mode
                     ?.is_writable()
@@ -17360,7 +17345,7 @@ class Name: Expr {
                     (d) =>
                     [
                         ExpectedTypeForExpr(
-                            expected_type=spec.unpacked_formal_params()?[0]
+                            expected_type=spec.unpacked_formal_params().at(0)
                             .formal_decl()
                             .type_expression(),
                             expr=d.prefix
@@ -17474,7 +17459,7 @@ class Name: Expr {
                 dparams.imap(
                     (dp, i) =>
                     ParamActual(
-                        param=actual_formals?[i],
+                        param=actual_formals.at(i),
                         # Search if a named param expression exists for
                         # this formal param in the call assoc list.
                         # Handling dot notation (do not update first
@@ -18152,7 +18137,7 @@ class AttributeRef: Name {
         # If the range attribute has an argument, then it's a static expression
         # representing an int that we will use as a dimension.
         val dim =
-            self.args?[0].do(
+            self.args.at(0).do(
                 (arg) =>
                 arg.expr().do(
                     (expr) => {
@@ -18245,7 +18230,7 @@ class AttributeRef: Name {
     fun deref_equation(): Equation =
         self.prefix.xref_type_equation()
         %and node.type_var() <-> node.prefix.ref_var()
-        %and self.args?[0].do(
+        %and self.args.at(0).do(
             (arg) =>
             arg.expr().sub_equation()
             %and arg.expr().expected_type_var() <- node.system_address_type()
@@ -18258,7 +18243,7 @@ class AttributeRef: Name {
     fun mechanism_code_equation(): Equation =
         self.prefix.xref_no_overloading()
         %and self.universal_int_bind(node.type_var())
-        %and self.args?[0].do(
+        %and self.args.at(0).do(
             (arg) =>
             arg.expr().sub_equation()
             %and self.universal_int_bind(arg.expr().expected_type_var())
@@ -18286,7 +18271,7 @@ class AttributeRef: Name {
         <- node.bool_type()
 
         # The only one argument of the attribute can be of any type
-        %and self.args?[0].sub_equation()
+        %and self.args.at(0).sub_equation()
 
     fun called_formal_subp_spec(): Entity[BaseFormalParamHolder] = {
         val rel_name = self.attribute.name_symbol();
@@ -18353,7 +18338,7 @@ class CallExpr: Name {
     fun is_constant(): Bool =
         if self.kind() == CallExprKind.type_conversion
         then
-            match self.params()?[0].expr() {
+            match self.params().at(0).expr() {
                 # View conversion: constant if the object is constant (value
                 # conversion is always constant).
                 case n: Name => n.is_constant()
@@ -18447,7 +18432,7 @@ class CallExpr: Name {
             or sfx.as[AssocList].do(
                 (al) =>
                 al.length() == 1
-                and al?[0].expr().as[Name].do(
+                and al.at(0).expr().as[Name].do(
                     (n) => not n.name_designated_type().is_null
                 )
             )
@@ -18482,8 +18467,8 @@ class CallExpr: Name {
             # Handle calls to entry families
             e.family_type().do(
                 (ft) =>
-                self.params()?[0].expr().expected_type_var() <- ft
-                %and self.params()?[0].expr().matches_expected_type(),
+                self.params().at(0).expr().expected_type_var() <- ft
+                %and self.params().at(0).expr().matches_expected_type(),
                 default_val=%true
             )
             %and (
@@ -18567,7 +18552,7 @@ class CallExpr: Name {
             (
                 (
                     self.type_conv_self_xref_equation()
-                    %and self.params()?[0].expr().expected_type_var()
+                    %and self.params().at(0).expr().expected_type_var()
                     <- null[Entity[BaseTypeDecl]]
                 )
                 %and self.all_args_xref_equation(root)
@@ -18682,7 +18667,7 @@ class CallExpr: Name {
             match self.suffix {
                 case _: AssocList =>
                     # Either an array slice through subtype indication
-                    self.params()?[0].do(
+                    self.params().at(0).do(
                         (param) =>
                         param.expr().as[Name].do(
                             (name) =>
@@ -18751,7 +18736,7 @@ class CallExpr: Name {
                     %and params.ilogic_all(
                         (param, i) =>
                         param.expr().expected_type_var()
-                        <- formals?[i + 1].formal_decl().formal_type()
+                        <- formals.at(i + 1).formal_decl().formal_type()
                         %and param.expr().matches_expected_type()
                     )
                 else %false
@@ -19504,7 +19489,7 @@ class DefiningName: Name {
         regions: Array[Entity[ASTList[AdaNode]]],
         region_index: Int = 0
     ): Entity[Pragma] =
-        regions?[region_index].do(
+        regions.at(region_index).do(
             (r) =>
             r.find((d) => self.is_valid_pragma_for_name(name, d)).as[Pragma]
             or? self.find_valid_pragma_for_name(
@@ -19592,7 +19577,7 @@ class DefiningName: Name {
                     Aspect(
                         exists=true,
                         node=d,
-                        value=d.as[Pragma].args?[0].assoc_expr(),
+                        value=d.as[Pragma].args.at(0).assoc_expr(),
                         inherited=false
                     ),
                     (d) => self.is_valid_pragma_for_name(s"Annotate", d)
@@ -19605,7 +19590,7 @@ class DefiningName: Name {
                 Aspect(
                     exists=true,
                     node=asp,
-                    value=asp.expr.as[BaseAggregate].assocs?[0].expr(),
+                    value=asp.expr.as[BaseAggregate].assocs.at(0).expr(),
                     inherited=false
                 ),
                 (asp) => asp.id.name_is(s"Annotate")
@@ -19657,7 +19642,7 @@ class DefiningName: Name {
                 Aspect(
                     exists=true,
                     node=p,
-                    value=p.args?[0].assoc_expr(),
+                    value=p.args.at(0).assoc_expr(),
                     inherited=false
                 )
             );
@@ -20207,7 +20192,7 @@ class ReduceAttributeRef: Name {
     |" reducer.
     @with_dynvars(env, origin, entry_point)
     fun xref_equation(): Equation = {
-        val reducer = self.args?[0].expr();
+        val reducer = self.args.at(0).expr();
 
         node.env_get(
             env=env,
@@ -20235,14 +20220,14 @@ class ReduceAttributeRef: Name {
     fun xref_equation_for_reducer_candidate(
         subp: Entity[BasicDecl]
     ): Equation = {
-        val reducer = self.args?[0].expr().as[BaseId];
-        val initial_value_expression = self.args?[1].expr();
+        val reducer = self.args.at(0).expr().as[BaseId];
+        val initial_value_expression = self.args.at(1).expr();
         # We don't need to take too many precautions here since we are sure the
         # subp parameter is a valid reducer candidate, its supb_spec isn't null
         # and it has parameters.
         val param_types = subp.subp_spec_or_null().param_types();
-        val accum_type = param_types?[0];
-        val value_type = param_types?[1];
+        val accum_type = param_types.at(0);
+        val value_type = param_types.at(1);
 
         self.prefix.as[ValueSequence].do(
             (vs) =>
@@ -20439,18 +20424,14 @@ class BaseId: SingleTokNode implements TokenNode {
                 s"__privatepart",
                 lookup=LookupKind.flat,
                 categories=RefCategories(inherited_primitives=false, _=true)
-            )?[
-                0
-            ]
+            ).at(0)
             .do((pp) => pp.children_env, default_val=env);
         val package_body_env =
             private_part_env.get(
                 s"__nextpart",
                 lookup=LookupKind.flat,
                 categories=RefCategories(inherited_primitives=false, _=true)
-            )?[
-                0
-            ]
+            ).at(0)
             .do(
                 (pb) =>
                 # If the package is implemented as a separate, we need to
@@ -20464,9 +20445,7 @@ class BaseId: SingleTokNode implements TokenNode {
                             inherited_primitives=false,
                             _=true
                         )
-                    )?[
-                        0
-                    ]
+                    ).at(0)
                     .do((pb) => pb.children_env)
                 else pb.children_env,
                 default_val=null[LexicalEnv]
@@ -21328,7 +21307,7 @@ class UnOp: Expr {
             # The subprogram's first argument must match self's left
             # operand.
             spec.call_argument_equation(
-                ps?[0].formal_decl(),
+                ps.at(0).formal_decl(),
                 self.expr
             )
             # The subprogram's return type is the type of self
@@ -21345,7 +21324,7 @@ class UnOp: Expr {
     ): Array[ExpectedTypeForExpr] =
         [
             ExpectedTypeForExpr(
-                expected_type=spec.abstract_formal_params()?[0]
+                expected_type=spec.abstract_formal_params().at(0)
                 .type_expression(),
                 expr=self.expr
             )
@@ -21723,11 +21702,11 @@ class Pragma: AdaNode {
             or self.id.name_is(s"Compile_Time_Error")
         then
             {
-                val expr = self.args?[0].assoc_expr();
+                val expr = self.args.at(0).assoc_expr();
 
                 expr.sub_equation() %and expr.expect_bool_derived_type()
             }
-            %and self.args?[1].do(
+            %and self.args.at(1).do(
                 (arg) =>
                 arg.assoc_expr().do(
                     (msg) =>
@@ -21806,7 +21785,7 @@ class Pragma: AdaNode {
                 | s"Postcondition'Class"
                 | s"Initial_Condition"
         then
-            self.args?[0].assoc_expr().do(
+            self.args.at(0).assoc_expr().do(
                 (expr) =>
                 (
                     expr.expected_type_var() <- node.bool_type()
@@ -21834,7 +21813,7 @@ class Pragma: AdaNode {
             )
         elif self.id.name_is(s"Contract_Cases")
         then
-            self.args?[0].assoc_expr().as[BaseAggregate].assocs.logic_all(
+            self.args.at(0).assoc_expr().as[BaseAggregate].assocs.logic_all(
                 (assoc) =>
                 assoc.as[AggregateAssoc].contract_cases_assoc_equation()
             )
@@ -21851,7 +21830,7 @@ class Pragma: AdaNode {
                 # expression.
                 if self.args.length() == 2
                 then {
-                    val expr = self.args?[0].assoc_expr();
+                    val expr = self.args.at(0).assoc_expr();
 
                     (
                         expr.expected_type_var() <- node.bool_type()
@@ -21862,7 +21841,7 @@ class Pragma: AdaNode {
                 else %true
             )
             %and {
-                val proc = self.args?[self.args.length() - 1]?.assoc_expr();
+                val proc = self.args.at(self.args.length() - 1)?.assoc_expr();
 
                 proc.type_var() <- null[Entity[BaseTypeDecl]]
                 %and proc.sub_equation()
@@ -21908,14 +21887,14 @@ class Pragma: AdaNode {
                 | s"Export"
                 | s"Interface"
                 | s"Convention"
-        then self.args?[0].assoc_expr()
+        then self.args.at(0).assoc_expr()
         # No_Raise has no associated value
         elif self.id.name_is(s"No_Raise") then null[Entity[Expr]]
         # SPARK_Mode can have no associated value (in that case, the
         # default is `On`) but if a value is provided, it's in first
         # position.
-        elif self.id.name_is(s"SPARK_Mode") then self.args?[0]?.assoc_expr()
-        else self.args?[1]?.assoc_expr()
+        elif self.id.name_is(s"SPARK_Mode") then self.args.at(0)?.assoc_expr()
+        else self.args.at(1)?.assoc_expr()
 
     fun associated_entity_names(): Array[Entity[Name]] =
         if
@@ -21923,7 +21902,7 @@ class Pragma: AdaNode {
                 | s"Export"
                 | s"Interface"
                 | s"Convention"
-        then [self.args?[1].assoc_expr().as![Name]]
+        then [self.args.at(1).assoc_expr().as![Name]]
         elif self.id.name_symbol() in s"Inline" | s"No_Raise"
         then self.args.map((a) => a.assoc_expr().as[Name])
         elif
@@ -21944,10 +21923,10 @@ class Pragma: AdaNode {
                 | s"Interrupt_Handler"
                 | s"Attach_Handler"
                 | s"Predicate"
-        then self.args?[0]?.assoc_expr().as[Name].do((v1) => [v1])
+        then self.args.at(0)?.assoc_expr().as[Name].do((v1) => [v1])
         elif self.id.name_is(s"Obsolescent")
         then
-            self.args?[0]?.assoc_expr().as[Name].do(
+            self.args.at(0)?.assoc_expr().as[Name].do(
                 # Pragma Obsolescent can have a StringLiteral as a first
                 # argument, in which case there is no associated entity with
                 # it.
@@ -22040,7 +22019,7 @@ class Pragma: AdaNode {
                         (epu) =>
                         if
                             names.length() == 1
-                            and names?[0].referenced_decl() == epu
+                            and names.at(0).referenced_decl() == epu
                         then [epu.defining_name()]
                         else null[Array[Entity[DefiningName]]],
                         default_val=top_level_decl
@@ -22072,7 +22051,7 @@ class Pragma: AdaNode {
                         decls.filter(
                             (decl) => decl is BasicDecl and node > decl
                         )
-                        .do((decls) => decls?[decls.length() - 1])
+                        .do((decls) => decls.at(decls.length() - 1))
                         .as[BasicDecl]
                         .as_entity
                         .do((v1) => [v1])
@@ -22115,7 +22094,7 @@ class Pragma: AdaNode {
                 | s"Contract_Cases"
                 | s"Predicate"
         then
-            node.as_bare_entity.associated_entities()?[0].do(
+            node.as_bare_entity.associated_entities().at(0).do(
                 (ent) =>
                 DesignatedEnv(
                     kind=DesignatedEnvKind.direct_env,
@@ -22764,7 +22743,7 @@ class RequeueStmt: SimpleStmt {
                         .family_type
                         .as[SubtypeIndication]
                         ?.designated_type();
-                    val first_param = ce?.params()?[0]?.expr();
+                    val first_param = ce?.params().at(0)?.expr();
 
                     first_param.do(
                         (p) =>
@@ -25136,7 +25115,7 @@ class UsePackageClause: UseClause {
     |" Return the lexical env designated by the index'th package name in this
     |" use clause.
     fun designated_env(index: Int): LexicalEnv = {
-        val pkg = node.packages?[index];
+        val pkg = node.packages.at(index);
 
         {
             bind env = self.node_env;

@@ -6003,15 +6003,16 @@ class BasicDecl: AdaNode {
             # the adequate real_primitive_type metadata field.
             val base_p = prims.find((p) => p.node == node);
 
-            prims.filter(
-                (p) => (
-                    # Among all the primitives ``p`` available on type
-                    # ``t``, keep ``p`` if it both:
-                    # is a primitive "owned" by ``t`` (i.e. not an
-                    # inherited one).
-                    p.info.md.primitive.is_null
-                ) and {
-                    # overrides self
+            # Among all the primitives ``p`` available on type
+            # ``t``, keep ``p`` iff:
+            prims.filter((p) =>
+                # it is different from the base primitive
+                p.node != node
+                # it is a primitive "owned" by ``t`` (i.e. not an
+                # inherited one).
+                and p.info.md.primitive.is_null
+                # it overrides self
+                and {
                     bind origin = base_p.origin_node();
 
                     base_p.subp_spec_or_null().match_signature(

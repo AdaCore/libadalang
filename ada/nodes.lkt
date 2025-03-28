@@ -1226,14 +1226,14 @@ class AdaNode implements Node[AdaNode] {
     |" fact that the origin node has visibility on the ``private with``
     |" clauses of the parent unit.
     fun parent_has_with_visibility(
-        refd_unit: AnalysisUnit,
-        self_cu: CompilationUnit,
+        refd_unit: CompilationUnit,
+        self_unit: CompilationUnit,
         has_private_view: Bool
     ): Bool = {
         val should_have_private_view =
-            has_private_view or self_cu.has_direct_private_view(node);
+            has_private_view or self_unit.has_direct_private_view(node);
 
-        self_cu.decl().as_bare_entity.semantic_parent().do(
+        self_unit.decl().as_bare_entity.semantic_parent().do(
             (parent) =>
             # In our implementation, the semantic parent of a child package
             # is always the private part of the parent package (see note in
@@ -1271,51 +1271,55 @@ class AdaNode implements Node[AdaNode] {
             )
         )
 
-    |" Here we assume that ``refd_unit.is_referenced_from(self.unit)`` is
-    |" already True, but we now want to check if the clause that made
-    |" ``refd_unit`` visible is private and if it is, whether we are in the
-    |" private part.
+    |" Here we assume that ``refd_unit`` is "with"ed by ``self_unit``, but we
+    |" now want to check if the clause that made ``refd_unit`` visible is
+    |" private and if it is, whether we are in the private part.
     fun has_private_with_visibility(
-        self_cu: CompilationUnit,
-        refd_unit: AnalysisUnit
+        self_unit: CompilationUnit,
+        refd_unit: CompilationUnit
     ): Bool =
         # If the referenced unit is ourself, we don't need further checks
-        node.unit == refd_unit
+        self_unit == refd_unit
 
         # If we have view on "private with"s, we don't need further checks
-        or self_cu.has_direct_private_view(node)
+        or self_unit.has_direct_private_view(node)
 
         # Otherwise (this compilation unit declares a package), check
         # whether `origin` lies in a private part.
-        or node.has_private_part_parent(self_cu.decl().children_env.env_node)
+        or node.has_private_part_parent(self_unit.decl().children_env.env_node)
 
         # But if we don't, so we must return False if the referenced unit
         # is only visible from private parts.
-        or not self_cu.privately_imported_units().contains(refd_unit)
+        or not self_unit.privately_imported_units().contains(refd_unit)
 
     |" Return whether self's unit has ``with visibility`` on ``refd_unit``.
     |"
     |" In other words, whether self's unit has a WITH clause on ``refd_unit``,
     |" or if its spec, or one of its parent specs has one.
     fun has_with_visibility(
-        refd_unit: AnalysisUnit,
+        refd_unit: CompilationUnit,
         omit_privacy_check: Bool = false
     ): Bool = {
-        val cu = node.enclosing_compilation_unit();
+        val self_unit = node.enclosing_compilation_unit();
 
         (
             # First, check whether this unit "with"s the referenced unit
-            refd_unit.is_referenced_from(node.unit)
+            (
+                refd_unit == self_unit
+                or self_unit.as_bare_entity.withed_units().contains(
+                    refd_unit.as_bare_entity
+                )
+            )
             and (
                 omit_privacy_check
-                or node.has_private_with_visibility(cu, refd_unit)
+                or node.has_private_with_visibility(self_unit, refd_unit)
             )
         )
         or (
             # If it doesn't, check whether its parent unit does
             node.parent_has_with_visibility(
                 refd_unit,
-                cu,
+                self_unit,
                 has_private_view=omit_privacy_check
             )
         )
@@ -1324,27 +1328,25 @@ class AdaNode implements Node[AdaNode] {
             # visible by its corresponding body. Since the decl is not the
             # parent of the body, we must specifically take this case into
             # account.
-            cu.decl().as_bare_entity.as[BaseSubpBody].do(
+            self_unit.decl().as_bare_entity.as[BaseSubpBody].do(
                 (b) =>
                 if b.is_library_item()
                 then
                     b.defining_name().referenced_unit(
                         AnalysisUnitKind.unit_specification,
                         not_found_is_error=false
-                    )
-                    .do(
+                    ).do((u) =>
                         # A subprogram renaming can appear as a top-level
                         # library item of a unit specification, in which case
-                        # the `referenced_unit` call above will return `cu`.
-                        # In that case, we must not perform the recursive call,
-                        # otherwise we will get an infinite recursion.
-                        (u) =>
-                        if cu == u then false
-                        else
-                            u?.has_with_visibility(
-                                refd_unit,
-                                omit_privacy_check=true
-                            )
+                        # the `referenced_unit` call above will return
+                        # `self_unit`. In that case, we must not perform the
+                        # recursive call, otherwise we will get an infinite
+                        # recursion.
+                        if self_unit == u then false
+                        else u?.has_with_visibility(
+                            refd_unit,
+                            omit_privacy_check=true
+                        )
                     )
                 else false
             )
@@ -1357,7 +1359,7 @@ class AdaNode implements Node[AdaNode] {
             # must behave as nested packages even though they are implemented
             # as child packages, we must consider them visible as soon as P
             # is visible.
-            refd_unit.root.as[CompilationUnit]?.is_text_io_child()
+            refd_unit.is_text_io_child()
         )
     }
 
@@ -1369,19 +1371,15 @@ class AdaNode implements Node[AdaNode] {
             default_val=true
         )
         and (
-            (
-                # The node is a generic package instantiation coming from a
-                # formal package.
-                other_entity.as[GenericPackageInstantiation]?.info.from_rebound
-            )
+            # The node is a generic package instantiation coming from a
+            # formal package.
+            other_entity.as[GenericPackageInstantiation]?.info.from_rebound
             or other_entity.as[PackageRenamingDecl]?.info.from_rebound
-            or (
-                # The node is not an unit root
-                not other_entity.as[BasicDecl]?.is_compilation_unit_root()
-            )
-            or (
-                # Else, check with visibility
-                node.has_with_visibility(other_entity.node.unit)
+            # The node is not an unit root
+            or not other_entity.as[BasicDecl]?.is_compilation_unit_root()
+            # Else, check with visibility
+            or node.has_with_visibility(
+                other_entity.enclosing_compilation_unit()
             )
         )
 
@@ -13728,7 +13726,7 @@ class CompilationUnit: AdaNode {
     |" list of units that are (non-private-)"with"ed from the list of all
     |" "with"ed and "private with"ed units.
     @memoized
-    fun privately_imported_units(): Array[AnalysisUnit] =
+    fun privately_imported_units(): Array[CompilationUnit] =
         # Shortcut: if there are no "private with" clauses, the subtraction
         # will be empty.
         if
@@ -13740,11 +13738,11 @@ class CompilationUnit: AdaNode {
             val public_imports = node.imported_units(include_privates=false);
 
             all_imports.filtermap(
-                (cu) => cu.unit,
+                (cu) => cu.node,
                 (cu) => not public_imports.contains(cu)
             )
         }
-        else null[Array[AnalysisUnit]]
+        else null[Array[CompilationUnit]]
 
     |" Helper function for "unit_dependencies" that computes transitively
     |" the unit dependencies of the given ``to_visit`` units. The ``visited``

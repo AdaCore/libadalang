@@ -13389,6 +13389,15 @@ class PackageRenamingDecl: BasicDecl {
         }
     }
 
+    |" Return the list of all packages that are transitively renamed by this
+    |" package renaming.
+    fun all_renamed_packages(): Array[Entity[BasicDecl]] =
+        self.renamed_package().do(
+            (pkg) => [pkg] & pkg.as[PackageRenamingDecl].do(
+                (r) => r.all_renamed_packages()
+            )
+        )
+
     |" Return the declaration of the package that is ultimately renamed by
     |" self, skipping through all intermediate package renamings.
     @exported
@@ -13651,15 +13660,18 @@ class CompilationUnit: AdaNode {
     |" ``A.B.C``, this returns units ``A``,  ``A.B`` and ``A.B.C``.
     fun referenced_units_in(
         name: Entity[Name]
-    ): Array[Entity[CompilationUnit]] = {
-        val self_refd = name.referenced_decl()?.enclosing_compilation_unit();
-
+    ): Array[Entity[CompilationUnit]] =
         name.as[DottedName].do(
             (dn) => node.referenced_units_in(dn.prefix),
             default_val=null[Array[Entity[CompilationUnit]]]
+        ) & name.referenced_decl().do((decl) =>
+            [decl.enclosing_compilation_unit().as_bare_entity]
+            & decl.as[PackageRenamingDecl].do(
+                (r) => r.all_renamed_packages().map(
+                    (pkg) => pkg.enclosing_compilation_unit().as_bare_entity
+                )
+            )
         )
-        & self_refd.as_bare_entity.do((v1) => [v1])
-    }
 
     |" Look for all "with" clauses at the top of this compilation unit and
     |" return all the compilation units designated by them. For the complete

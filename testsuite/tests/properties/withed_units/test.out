@@ -1,0 +1,8 @@
+Working on node <SubpBody ["Main"] main.adb:3:1-6:10>
+=====================================================
+
+Eval 'node.parent.parent.p_withed_units()'
+Result: [<CompilationUnit foo.ads:1:1-3:25>,
+         <CompilationUnit bar.ads:1:1-2:9>,
+         <CompilationUnit bar-child.ads:1:1-3:31>,
+         <CompilationUnit baz.ads:1:1-3:9>]

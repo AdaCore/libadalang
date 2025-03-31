@@ -35,6 +35,12 @@ procedure Test is
    package T is
       type U is new S.U and I.W with null record;
    end T;
+
+   package V is
+      type U is tagged private;
+   private
+      type U is new P.T with null record;
+   end U;
 begin
    null;
 end Test;

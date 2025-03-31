@@ -7763,6 +7763,7 @@ class BaseTypeDecl: BasicDecl {
     }
 
     |" Find types derived from self in the given ``root`` and its children.
+    |" Self is assumed to be canonicalized.
     @exported
     @with_dynvars(origin, imprecise_fallback=false)
     fun find_derived_types(root: Entity[AdaNode]): Array[Entity[TypeDecl]] =
@@ -7773,9 +7774,11 @@ class BaseTypeDecl: BasicDecl {
                 (n) => self.find_derived_types(n)
             )
         )
-        & root.as[TypeDecl].do(
-            (type_decl) =>
-            type_decl.is_derived_type(self).do((_) => [type_decl])
+        & root.as[TypeDecl].do((type_decl) =>
+            if type_decl.is_derived_type(self)
+                and type_decl.canonical_type() != self
+            then [type_decl]
+            else null[Array[Entity[TypeDecl]]]
         )
 
     |" Create an env_assoc embedding the synthetic object declaration
@@ -8242,8 +8245,12 @@ class BaseTypeDecl: BasicDecl {
     ): Array[Entity[TypeDecl]] = {
         bind origin = node;
 
-        self.canonical_type().filter_is_imported_by(units, true).mapcat(
-            (u) => u.root.do((r) => self.find_derived_types(r.as_bare_entity))
+        self.canonical_type().do(
+            (typ) => typ.filter_is_imported_by(units, true).mapcat(
+                (u) => u.root.do(
+                    (r) => typ.find_derived_types(r.as_bare_entity)
+                )
+            )
         )
     }
 

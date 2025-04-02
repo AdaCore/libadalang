@@ -5879,8 +5879,8 @@ class BasicDecl: AdaNode {
                 # For classical types, we can simply fetch the primitives_env.
                 # We can call the `candidate_` version because the over-
                 # approximation will get cancelled by the following logic.
-                spec.candidate_primitive_subp_tagged_type(canonicalize=false)
-                .do((t) => t.full_view().primitives_env())
+                spec.candidate_primitive_subp_types(canonicalize=false)
+                .map((t) => t.full_view().primitives_env()).env_group()
             );
 
         # Now, simply filter in primitive subprograms that self overrides
@@ -5907,9 +5907,6 @@ class BasicDecl: AdaNode {
     |" If self declares a primitive subprogram of some tagged type T, return
     |" the set of all subprogram declarations that it overrides (including
     |" itself).
-    |"
-    |" .. note:: for the moment this only works for tagged types. Remains to
-    |"     be seen if we need to extend it.
     @exported
     @memoized
     @with_dynvars(imprecise_fallback=false)
@@ -5962,7 +5959,7 @@ class BasicDecl: AdaNode {
         )
     }
 
-    |" If self declares a primitive subprogram of some tagged type T, return
+    |" If self declares a primitive subprogram of some type T, return
     |" the root subprogram declarations that it overrides. There can be
     |" several, as in the following scenario:
     |"

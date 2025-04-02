@@ -1,0 +1,39 @@
+Working on node <NullSubpDecl ["Foo"] test.adb:11:7-12:39>
+==========================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<NullSubpDecl ["Foo"] test.adb:5:7-5:37>,
+         <NullSubpDecl ["Foo"] test.adb:11:7-12:39>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<NullSubpDecl ["Foo"] test.adb:5:7-5:37>]
+
+Working on node <NullSubpDecl ["Bar"] test.adb:16:7-16:39>
+==========================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<NullSubpDecl ["Bar"] test.adb:16:7-16:39>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<NullSubpDecl ["Bar"] test.adb:16:7-16:39>]
+
+Working on node <NullSubpDecl ["Foo"] test.adb:24:7-25:39>
+==========================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<NullSubpDecl ["Foo"] test.adb:11:7-12:39>,
+         <NullSubpDecl ["Foo"] test.adb:5:7-5:37>,
+         <NullSubpDecl ["Foo"] test.adb:24:7-25:39>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<NullSubpDecl ["Foo"] test.adb:5:7-5:37>]
+
+Working on node <NullSubpDecl ["Bar"] test.adb:29:7-30:39>
+==========================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<NullSubpDecl ["Bar"] test.adb:16:7-16:39>,
+         <NullSubpDecl ["Bar"] test.adb:29:7-30:39>]
+
+Eval 'node.p_root_subp_declarations()'
+Result: [<NullSubpDecl ["Bar"] test.adb:16:7-16:39>]

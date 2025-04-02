@@ -108,6 +108,7 @@ mains:
     - testsuite/ada/gnat_compare
   main_programs:
     - gnat_compare
+    - incrementality
     - lal_dda
     - lal_prep
     - nameres

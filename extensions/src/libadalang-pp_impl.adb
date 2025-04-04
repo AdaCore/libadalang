@@ -13,11 +13,12 @@ with GNAT.Strings; use GNAT.Strings;
 
 with GNATCOLL.GMP.Integers;
 
-with Langkit_Support.Slocs;    use Langkit_Support.Slocs;
-with Langkit_Support.Symbols;  use Langkit_Support.Symbols;
-with Langkit_Support.Text;     use Langkit_Support.Text;
+with Langkit_Support.Slocs;   use Langkit_Support.Slocs;
+with Langkit_Support.Symbols; use Langkit_Support.Symbols;
+with Langkit_Support.Text;    use Langkit_Support.Text;
 with Langkit_Support.Token_Data_Handlers;
 use Langkit_Support.Token_Data_Handlers;
+with Langkit_Support.Types;   use Langkit_Support.Types;
 
 with Libadalang.Common;               use Libadalang.Common;
 with Libadalang.Lexer_Implementation; use Libadalang.Lexer_Implementation;

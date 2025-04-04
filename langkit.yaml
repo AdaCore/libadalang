@@ -68,6 +68,9 @@ library:
 
      # Is_Keyword's implementation uses precomputed symbols
     Lexer:
+      spec:
+        - with: Libadalang.Common
+          use: true
       body:
         - with: Libadalang.Implementation
   cache_collection:

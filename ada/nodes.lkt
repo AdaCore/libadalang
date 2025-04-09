@@ -1306,7 +1306,7 @@ class AdaNode implements Node[AdaNode] {
             # First, check whether this unit "with"s the referenced unit
             (
                 refd_unit == self_unit
-                or self_unit.as_bare_entity.withed_units().contains(
+                or self_unit.as_bare_entity.withed_units_set().contains(
                     refd_unit.as_bare_entity
                 )
             )
@@ -13689,6 +13689,12 @@ class CompilationUnit: AdaNode {
         )
         .unique()
 
+    |" Same as ``withed_units`` but returns it as a set to allow faster
+    |" lookups, in particular in ``has_with_visibility``.
+    @memoized
+    fun withed_units_set(): Set[Entity[CompilationUnit]] =
+        self.withed_units().to_set()
+
     |" Return all the compilation units that are directly imported by this
     |" one. This includes "with"ed units as well as the direct parent unit.
     |" Units imported with a "private with" are included in this list only if
@@ -13726,7 +13732,7 @@ class CompilationUnit: AdaNode {
     |" list of units that are (non-private-)"with"ed from the list of all
     |" "with"ed and "private with"ed units.
     @memoized
-    fun privately_imported_units(): Array[CompilationUnit] =
+    fun privately_imported_units(): Set[CompilationUnit] =
         # Shortcut: if there are no "private with" clauses, the subtraction
         # will be empty.
         if
@@ -13740,9 +13746,9 @@ class CompilationUnit: AdaNode {
             all_imports.filtermap(
                 (cu) => cu.node,
                 (cu) => not public_imports.contains(cu)
-            )
+            ).to_set()
         }
-        else null[Array[CompilationUnit]]
+        else null[Set[CompilationUnit]]
 
     |" Helper function for "unit_dependencies" that computes transitively
     |" the unit dependencies of the given ``to_visit`` units. The ``visited``

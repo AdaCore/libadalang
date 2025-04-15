@@ -1,5 +1,5 @@
-for Fooooooooooooooooooooooooooooooooooooooooooooooo
-  of Baaaaaaaaaaaaaaaaaaaaaar (Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar)
+for Fooooooooooooooooooooooooooooooooooooooooooooooo of
+  Baaaaaaaaaaaaaaaaaaaaaar (Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar)
   when Fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.Is_Baz
 loop
    null;

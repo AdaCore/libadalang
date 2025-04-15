@@ -2,6 +2,10 @@ Trying to get unit: "\xe9"
    ...   got no exception.
    ...   but we got diagnostics:
    Could not find source file for \xe9 (specification file)
+Trying to get unit: " "
+   ...   got no exception.
+   ...   but we got diagnostics:
+   Could not find source file for   (specification file)
 Trying to get unit: "unknown_unit"
    ...   got no exception.
    ...   but we got diagnostics:

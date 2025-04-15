@@ -8,7 +8,8 @@ with Ada.Characters.Handling; use Ada.Characters.Handling;
 with GNAT.Strings; use GNAT.Strings;
 
 with GNATCOLL.Utils;
-with GNATCOLL.VFS;        use GNATCOLL.VFS;
+with GNATCOLL.VFS; use GNATCOLL.VFS;
+with GPR2.Build.Compilation_Unit;
 with GPR2.Build.Source;
 pragma Warnings (Off, "not referenced");
 with GPR2.Build.Source.Sets;
@@ -20,6 +21,11 @@ with GPR2.Project.Attribute;
 with GPR2.Project.Attribute.Set;
 with GPR2.Project.Attribute_Index;
 with GPR2.Project.View.Set;
+
+with Langkit_Support.Text; use Langkit_Support.Text;
+
+with Libadalang.Common; use Libadalang.Common;
+with Libadalang.Unit_Files;
 
 package body Libadalang.GPR_Utils is
 
@@ -449,6 +455,49 @@ package body Libadalang.GPR_Utils is
          end;
       end case;
    end Is_Ada_Source;
+
+   -----------------------
+   -- Filename_For_Unit --
+   -----------------------
+
+   function Filename_For_Unit
+     (View : Any_View; Unit_Name : String; Part : Any_Unit_Part) return String
+   is
+   begin
+      case View.Kind is
+         when GPR1_Kind =>
+            return +View.GPR1_Value.File_From_Unit
+              (Unit_Name       => Unit_Name,
+               Part            => (case Part is
+                                   when Unit_Spec => GPR1.Unit_Spec,
+                                   when Unit_Body => GPR1.Unit_Body),
+               Language        => "ada",
+               File_Must_Exist => False);
+
+         when GPR2_Kind =>
+
+            --  LibGPR2 propagates assertion errors for invalid unit names, so
+            --  handle them manually here.
+
+            if Unit_Name = ""
+               or else not GPR2.Build.Compilation_Unit.Check_Name_Validity
+                 (GPR2.Name_Type (Unit_Name))
+            then
+               return Libadalang.Unit_Files.File_From_Unit
+                 (Name => From_UTF8 (Unit_Name),
+                  Kind => (case Part is
+                           when Unit_Spec => Unit_Specification,
+                           when Unit_Body => Unit_Body));
+            end if;
+
+            return String
+              (View.GPR2_Value.Filename_For_Unit
+                (Unit_Name => GPR2.Name_Type (Unit_Name),
+                 Kind      => (case Part is
+                               when Unit_Spec => GPR2.S_Spec,
+                               when Unit_Body => GPR2.S_Body)));
+      end case;
+   end Filename_For_Unit;
 
    -----------------------
    -- Iterate_Ada_Units --

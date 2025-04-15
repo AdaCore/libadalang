@@ -1,0 +1,6 @@
+project P is
+   package Naming is
+      for Spec_Suffix ("Ada") use ".1.ada";
+      for Body_Suffix ("Ada") use ".2.ada";
+   end Naming;
+end P;

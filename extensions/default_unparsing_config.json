@@ -2632,12 +2632,20 @@
           "document": [
             "whitespace",
             {
-              "kind": "text",
-              "text": "exception"
-            },
-            {
-              "kind": "recurse_field",
-              "field": "f_renames"
+              "kind": "group",
+              "document": {
+                "kind": "continuationLineIndent",
+                "contents": [
+                  {
+                    "kind": "text",
+                    "text": "exception"
+                  },
+                  {
+                    "kind": "recurse_field",
+                    "field": "f_renames"
+                  }
+                ]
+              }
             },
             {
               "kind": "recurse_field",
@@ -2651,10 +2659,6 @@
         }
       ],
       "fields": {
-        "f_renames": {
-          "kind": "continuationLineIndent",
-          "contents": "recurse"
-        },
         "f_aspects": [
           "line",
           "recurse"
@@ -4760,6 +4764,7 @@
       ],
       "fields": {
         "f_renaming_clause": [
+          "whitespace",
           {
             "kind": "ifBreak",
             "breakContents": {
@@ -6085,21 +6090,17 @@
       ]
     },
     "RenamingClause": {
-      "node": {
-        "kind": "group",
-        "document": [
-          "line",
-          {
-            "kind": "text",
-            "text": "renames"
-          },
-          "whitespace",
-          {
-            "kind": "recurse_field",
-            "field": "f_renamed_object"
-          }
-        ]
-      }
+      "node": [
+        {
+          "kind": "text",
+          "text": "renames"
+        },
+        "line",
+        {
+          "kind": "recurse_field",
+          "field": "f_renamed_object"
+        }
+      ]
     },
     "RequeueStmt": {},
     "ReturnStmt": {
@@ -6530,7 +6531,47 @@
       }
     },
     "SubpKind": {},
-    "SubpRenamingDecl": {},
+    "SubpRenamingDecl": {
+      "node": {
+        "kind": "group",
+        "document": [
+          {
+            "kind": "recurse_field",
+            "field": "f_overriding"
+          },
+          {
+            "kind": "group",
+            "document": [
+              {
+                "kind": "recurse_field",
+                "field": "f_subp_spec"
+              },
+              {
+                "kind": "continuationLineIndent",
+                "contents": {
+                  "kind": "recurse_field",
+                  "field": "f_renames"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
+          },
+          {
+            "kind": "text",
+            "text": ";"
+          }
+        ]
+      },
+      "fields": {
+        "f_aspects": [
+          "line",
+          "recurse"
+        ]
+      }
+    },
     "SubpSpec": {
       "node": {
         "kind": "continuationLineIndent",

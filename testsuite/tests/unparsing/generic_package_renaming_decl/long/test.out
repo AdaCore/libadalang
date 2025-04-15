@@ -1,2 +1,2 @@
-generic package Foo
-  renames Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar;
+generic package Foo renames
+  Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar;

@@ -1,0 +1,21 @@
+Working on node <NullSubpDecl ["Foo"] test.adb:11:7-12:46>
+==========================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<NullSubpDecl ["Foo"] test.adb:6:7-6:44>,
+         <NullSubpDecl ["Foo"] test.adb:11:7-12:46>]
+
+Working on node <NullSubpDecl ["Foo"] test.adb:15:7-16:46>
+==========================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<NullSubpDecl ["Foo"] test.adb:15:7-16:46>,
+         <NullSubpDecl ["Foo"] test.adb:6:7-6:44>]
+
+Working on node <NullSubpDecl ["Foo"] test.adb:19:7-20:48>
+==========================================================
+
+Eval 'node.p_base_subp_declarations()'
+Result: [<NullSubpDecl ["Foo"] test.adb:15:7-16:46>,
+         <NullSubpDecl ["Foo"] test.adb:19:7-20:48>,
+         <NullSubpDecl ["Foo"] test.adb:11:7-12:46>]

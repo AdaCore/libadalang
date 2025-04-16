@@ -11,6 +11,8 @@ pragma Warnings (On, "is an internal GNAT unit");
 with GNATCOLL.GMP; use GNATCOLL.GMP;
 with GNATCOLL.GMP.Integers;
 
+with Langkit_Support.Types; use Langkit_Support.Types;
+
 with Libadalang.Analysis;          use Libadalang.Analysis;
 with Libadalang.Public_Converters; use Libadalang.Public_Converters;
 with Libadalang.Sources;           use Libadalang.Sources;

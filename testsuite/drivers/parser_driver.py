@@ -64,6 +64,7 @@ class ParserDriver(BaseDriver):
 
         # Build the command line for the "parse" process we are going to run
         base_argv = ['lal_parse']
+        unparse_argv = ['lal_unparse']
         misc_argv = []
 
         file_args = ['-f', input_file]
@@ -71,6 +72,7 @@ class ParserDriver(BaseDriver):
         charset = self.test_env.get('charset', None)
         if charset:
             base_argv += ['-c', charset]
+            unparse_argv += ['--charset', charset]
 
         check_consistency = self.test_env.get('check-consistency', None)
         if check_consistency:
@@ -79,6 +81,7 @@ class ParserDriver(BaseDriver):
         rule_name = self.test_env.get('rule', None)
         if rule_name:
             base_argv += ['-r', rule_name]
+            unparse_argv += ['-r', rule_name]
 
         if action == 'pp-file-with-trivia':
             misc_argv += ['-P']
@@ -139,7 +142,7 @@ class ParserDriver(BaseDriver):
             ),
             (
                 'unparsed',
-                base_argv + file_args + ['-s', '--unparse'],
+                unparse_argv + [input_file],
                 'binary'
             ),
             (

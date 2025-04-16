@@ -90,8 +90,7 @@ package body Libadalang.Env_Hooks is
       procedure Prepare_Nameres
         (Unit : Internal_Unit; PLE_Root_Index : Positive);
       --  Prepare semantic analysis for the compilation unit at
-      --  ``Unit``/``PLE_Root_Index`` and add a reference from ``From_Unit`` to
-      --  ``Unit``.
+      --  ``Unit``/``PLE_Root_Index``.
 
       procedure Emit_Unit_Requested
         (Unit               : Internal_Unit;
@@ -108,8 +107,6 @@ package body Libadalang.Env_Hooks is
         (Unit : Internal_Unit; PLE_Root_Index : Positive) is
       begin
          Populate_Lexical_Env (Wrap_Unit (Unit), PLE_Root_Index);
-         Reference_Unit (From       => From_Unit,
-                         Referenced => Unit);
       end Prepare_Nameres;
 
       -------------------------
@@ -362,9 +359,10 @@ package body Libadalang.Env_Hooks is
                      --  still want to return the renaming unit, and not
                      --  renamed one. In theory we could have returned before
                      --  resolving the renaming because we already had the unit
-                     --  we wanted to return, but if we did that we would not
-                     --  have updated the `Referenced_Units` vector to include
-                     --  the fact that `From_Unit` references the renamed unit.
+                     --  we wanted to return, but we actually need to run PLE
+                     --  on the renamed unit as well to ensure that entities
+                     --  from the renamed package are visible from the
+                     --  requesting unit.
 
                      if Is_Last then
                         Unit := Unwrap_Unit (Comp_Unit.Unit);

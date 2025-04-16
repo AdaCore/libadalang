@@ -1,0 +1,5 @@
+# Check that the set of withed units from an unit A is stable when one of
+# the withed units is removed and then reintroduced. This used to not be the
+# case when relying on the `referenced_from` built-in.
+driver: incrementality
+input_sources: [foo.ads, test.adb]

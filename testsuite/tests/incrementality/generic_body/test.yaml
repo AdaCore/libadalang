@@ -1,0 +1,7 @@
+# Check that env references to non-existing environments are properly
+# invalidated when the context changes. In the specific case of generics, the
+# resolver used to return an empty environment rooted in the body's unit,
+# meaning that if the spec unit changed to introduce a corresponding generic
+# declaration, it could be mistakenly ignored.
+driver: incrementality
+input_sources: [test.ads, test.adb]

@@ -157,11 +157,6 @@ class AdaNode implements Node[AdaNode] {
             (p) => p.as[AspectAssoc].do((a) => a.id.name_is(name))
         )
 
-    fun empty_env(): LexicalEnv =
-        node.parents().find((p) => p is CompilationUnit)
-        .as[CompilationUnit]
-        .get_empty_env()
-
     |" Return True iff this node is not null.
     fun is_not_null(): Bool =
         # TODO: Remove this once we have better logic predicates: it is
@@ -1477,7 +1472,7 @@ class AdaNode implements Node[AdaNode] {
 
         gen_decl.do(
             (gd) => gd.formal_part.use_clauses_envs(),
-            default_val=node.empty_env()
+            default_val=null[LexicalEnv]
         )
     }
 
@@ -1495,7 +1490,10 @@ class AdaNode implements Node[AdaNode] {
     fun nested_generic_formal_part(): LexicalEnv = {
         val gen_decl = node.as_bare_entity.as[Body]?.safe_generic_decl_part();
 
-        gen_decl.do((gd) => gd.node.children_env, default_val=node.empty_env())
+        gen_decl.do(
+            (gd) => gd.node.children_env,
+            default_val=null[LexicalEnv]
+        )
     }
 
     |" Property helper to determine if an entity is a package or not.
@@ -9078,7 +9076,7 @@ class BaseTypeDecl: BasicDecl {
             target.as_bare_entity.canonical_type().node
         )
 
-    fun parent_primitives_env(): LexicalEnv = node.empty_env()
+    fun parent_primitives_env(): LexicalEnv = null[LexicalEnv]
 
     fun primitives_env(): LexicalEnv = null[LexicalEnv]
 
@@ -9978,7 +9976,7 @@ class TypeDecl: BaseTypeDecl {
     fun parent_primitives_env(): LexicalEnv =
         if node.type_def is DerivedTypeDef | InterfaceTypeDef
         then self.compute_primitives_env(include_self=false)
-        else node.empty_env()
+        else self.super()
 
     |" Return a lexical environment containing the primitives inherited by
     |" this type. This makes sure not to re-include primitives which have
@@ -12641,7 +12639,7 @@ class GenericInstantiation: BasicDecl {
 
                 parent_name.designated_env_no_overloading()
             },
-            default_val=node.empty_env()
+            default_val=null[LexicalEnv]
         )
 
     fun xref_entry_point(): Bool = true
@@ -13615,14 +13613,6 @@ class CompilationUnit: AdaNode {
     @parse_field
     pragmas: ASTList[Pragma]
     no_env: LexicalEnv
-
-    |" Returns an empty env to use in env specs. This is meant as an
-    |" optimization: Langkit referenced envs that return empty env can never
-    |" be cached, so we used a CompilationUnit specific empty env, that will
-    |" live for the same duration as its analysis unit, and then be
-    |" invalidated.
-    @external(uses_envs=true)
-    fun get_empty_env(): LexicalEnv
 
     |" Return the syntactic fully qualified name of this compilation unit.
     @exported
@@ -20358,7 +20348,7 @@ class BaseId: SingleTokNode implements TokenNode {
             # in order to avoid cases of invalid code that trigger infinite
             # recursions (e.g. `Foo : Foo.T;`).
             (bd) =>
-            if bd is ObjectDecl then node.empty_env()
+            if bd is ObjectDecl then null[LexicalEnv]
             elif bd?.is_package() then self.pkg_env(bd)
             else {
                 bind origin = node.origin_node();

@@ -614,21 +614,6 @@ package body Libadalang.Implementation.Extensions is
       return Sources.Decode_Character_Literal (N_Text);
    end Char_Literal_P_Denoted_Value;
 
-   --------------------------------------
-   -- Compilation_Unit_P_Get_Empty_Env --
-   --------------------------------------
-
-   function Compilation_Unit_P_Get_Empty_Env
-     (Node : Bare_Compilation_Unit) return Lexical_Env is
-   begin
-      if Node.Compilation_Unit_F_No_Env = Empty_Env then
-         Node.Compilation_Unit_F_No_Env :=
-            Create_Static_Lexical_Env
-              (Empty_Env, Node, Node.Unit.Context.Symbols);
-      end if;
-      return Node.Compilation_Unit_F_No_Env;
-   end Compilation_Unit_P_Get_Empty_Env;
-
    ----------------------------------------
    -- Compilation_Unit_P_External_Config_Pragmas --
    ----------------------------------------

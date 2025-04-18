@@ -124,7 +124,7 @@ Resolving xrefs for node <| GenericPackageInstantiation ["Child_Act"] test.adb:1
 ************************************************************************************************************
 
 Expr: <| DottedName test.adb:12:32-12:41 [test.adb:22:4] |>
-  references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:6:12] |>
+  references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:20:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Act" test.adb:12:32-12:35 [test.adb:22:4] |>
@@ -132,7 +132,7 @@ Expr: <| Id "Act" test.adb:12:32-12:35 [test.adb:22:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Child" test.adb:12:36-12:41 [test.adb:22:4] |>
-  references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:6:12] |>
+  references:    <| DefiningName "Formal.Child" formal-child.ads:2:9-2:21 [test.adb:20:4] |>
   type:          None
   expected type: None
 Traversing generic node <| GenericPackageDecl ["Formal.Child"] formal-child.ads:1:1-4:18 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
@@ -142,7 +142,7 @@ Resolving xrefs for node <| DefiningName "Formal.Child" formal-child.ads:2:9-2:2
 **********************************************************************************************************************************
 
 Expr: <| Id "Formal" formal-child.ads:2:9-2:15 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
-  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  references:    <| DefiningName "Formal" formal.ads:2:9-2:15 [test.adb:20:4] |>
   type:          None
   expected type: None
 
@@ -162,7 +162,7 @@ Expr: <| DottedName formal-child.ads:4:5-4:17 [test.adb:20:4, test.adb:22:4, tes
   type:          None
   expected type: None
 Expr: <| Id "Formal" formal-child.ads:4:5-4:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
-  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  references:    <| DefiningName "Formal" formal.ads:2:9-2:15 [test.adb:20:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Child" formal-child.ads:4:12-4:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
@@ -177,7 +177,7 @@ Resolving xrefs for node <| DefiningName "Formal.Child" formal-child.adb:1:14-1:
 ***********************************************************************************************************************************
 
 Expr: <| Id "Formal" formal-child.adb:1:14-1:20 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
-  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  references:    <| DefiningName "Formal" formal.ads:2:9-2:15 [test.adb:20:4] |>
   type:          None
   expected type: None
 
@@ -237,7 +237,7 @@ Expr: <| DottedName formal-child.adb:8:5-8:17 [test.adb:20:4, test.adb:22:4, tes
   type:          None
   expected type: None
 Expr: <| Id "Formal" formal-child.adb:8:5-8:11 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
-  references:    <DefiningName "Formal" formal.ads:2:9-2:15>
+  references:    <| DefiningName "Formal" formal.ads:2:9-2:15 [test.adb:20:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Child" formal-child.adb:8:12-8:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
@@ -254,7 +254,7 @@ Resolving xrefs for node <| CallStmt test.adb:16:10-16:24 [test.adb:22:4] |>
 ****************************************************************************
 
 Expr: <| DottedName test.adb:16:10-16:23 [test.adb:22:4] |>
-  references:    <| DefiningName "Bar" formal-child.ads:3:14-3:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Bar" formal-child.ads:3:14-3:17 [test.adb:22:4, test.adb:20:4, test.adb:12:7] |>
   type:          None
   expected type: None
 Expr: <| Id "Child_Act" test.adb:16:10-16:19 [test.adb:22:4] |>
@@ -262,7 +262,7 @@ Expr: <| Id "Child_Act" test.adb:16:10-16:19 [test.adb:22:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Bar" test.adb:16:20-16:23 [test.adb:22:4] |>
-  references:    <| DefiningName "Bar" formal-child.ads:3:14-3:17 [test.adb:20:4, test.adb:22:4, test.adb:12:7] |>
+  references:    <| DefiningName "Bar" formal-child.ads:3:14-3:17 [test.adb:22:4, test.adb:20:4, test.adb:12:7] |>
   type:          None
   expected type: None
 

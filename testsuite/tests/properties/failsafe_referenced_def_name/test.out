@@ -1,35 +1,35 @@
 Working on node <Id "Foo" test.adb:6:6-6:9>
 ===========================================
 
-Eval 'node.p_failsafe_referenced_def_name(True)'
-Result: <RefdDef def_name=<DefiningName "Foo" test.adb:2:13-2:16> kind=precise>
+Eval 'node.p_failsafe_referenced_decl(True)'
+Result: <RefdDecl decl=<SubpDecl ["Foo"] test.adb:2:4-2:44> def_name=<DefiningName "Foo" test.adb:2:13-2:16> kind=precise>
 
 Working on node <Id "Foo" test.adb:10:6-10:9>
 =============================================
 
-Eval 'node.p_failsafe_referenced_def_name(True)'
-Result: <RefdDef def_name=<DefiningName "Foo" test.adb:2:13-2:16> kind=imprecise>
+Eval 'node.p_failsafe_referenced_decl(True)'
+Result: <RefdDecl decl=<SubpDecl ["Foo"] test.adb:2:4-2:44> def_name=<DefiningName "Foo" test.adb:2:13-2:16> kind=imprecise>
 
 Working on node <Id "Barz" test.adb:14:6-14:10>
 ===============================================
 
-Eval 'node.p_failsafe_referenced_def_name(True)'
-Result: <RefdDef def_name=None kind=error>
+Eval 'node.p_failsafe_referenced_decl(True)'
+Result: <RefdDecl decl=None def_name=None kind=error>
 
 Working on node <ObjectDecl ["D"] test.adb:17:4-17:16>
 ======================================================
 
-Eval 'node.p_defining_name.p_failsafe_referenced_def_name()'
-Result: <RefdDef def_name=None kind=no_ref>
+Eval 'node.p_defining_name.p_failsafe_referenced_decl()'
+Result: <RefdDecl decl=None def_name=None kind=no_ref>
 
 Working on node <Id "F" test.adb:21:7-21:8>
 ===========================================
 
-Eval 'node.p_failsafe_referenced_def_name()'
-Result: <RefdDef def_name=None kind=error>
+Eval 'node.p_failsafe_referenced_decl()'
+Result: <RefdDecl decl=None def_name=None kind=error>
 
 Working on node <Id "Size" test.adb:25:8-25:12>
 ===============================================
 
-Eval 'node.p_failsafe_referenced_def_name()'
-Result: <RefdDef def_name=None kind=no_ref>
+Eval 'node.p_failsafe_referenced_decl()'
+Result: <RefdDecl decl=None def_name=None kind=no_ref>

@@ -187,7 +187,7 @@ Resolving xrefs for node <| GenericPackageInstantiation ["Buffer"] test.adb:28:7
 *********************************************************************************************************
 
 Expr: <| DottedName test.adb:28:29-28:42 [test.adb:42:4] |>
-  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:22:12] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Data" test.adb:28:29-28:33 [test.adb:42:4] |>
@@ -195,7 +195,7 @@ Expr: <| Id "Data" test.adb:28:29-28:33 [test.adb:42:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Buffer_G" test.adb:28:34-28:42 [test.adb:42:4] |>
-  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:22:12] |>
+  references:    <| DefiningName "Buffer_G" test.adb:5:15-5:23 [test.adb:41:4] |>
   type:          None
   expected type: None
 Traversing generic node <| GenericPackageDecl ["Buffer_G"] test.adb:4:7-7:20 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
@@ -308,7 +308,7 @@ Resolving xrefs for node <| CallStmt test.adb:32:10-32:22 [test.adb:42:4] |>
 ****************************************************************************
 
 Expr: <| DottedName test.adb:32:10-32:21 [test.adb:42:4] |>
-  references:    <| DefiningName "Test" test.adb:6:20-6:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Test" test.adb:6:20-6:24 [test.adb:42:4, test.adb:41:4, test.adb:28:7] |>
   type:          None
   expected type: None
 Expr: <| Id "Buffer" test.adb:32:10-32:16 [test.adb:42:4] |>
@@ -316,7 +316,7 @@ Expr: <| Id "Buffer" test.adb:32:10-32:16 [test.adb:42:4] |>
   type:          None
   expected type: None
 Expr: <| Id "Test" test.adb:32:17-32:21 [test.adb:42:4] |>
-  references:    <| DefiningName "Test" test.adb:6:20-6:24 [test.adb:41:4, test.adb:42:4, test.adb:28:7] |>
+  references:    <| DefiningName "Test" test.adb:6:20-6:24 [test.adb:42:4, test.adb:41:4, test.adb:28:7] |>
   type:          None
   expected type: None
 

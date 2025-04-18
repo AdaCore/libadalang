@@ -20,6 +20,8 @@ procedure Test is
    package Package_Actual is new Formal;
 
    package Inst is new Gen (Package_Actual);
+   --% stmt=node.p_designated_generic_decl.p_body_part.find(lal.CallStmt)
+   --% stmt.f_call.p_referenced_decl()
    pragma Test_Statement;
 begin
    null;

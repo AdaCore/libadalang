@@ -133,11 +133,7 @@ package body Libadalang.Preprocessing is
          return;
       end if;
 
-      --  According to the file reader interface, if there is at least one
-      --  diagnostic, the value of ``Contents`` is ignored, so it is ok to
-      --  leave it uninitialized on error.
-      --
-      --  First, read the file content to preprocess.
+      --  First, read the file content to preprocess
 
       begin
          In_Buffer := Read (Filename);

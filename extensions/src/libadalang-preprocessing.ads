@@ -522,6 +522,21 @@ package Libadalang.Preprocessing is
    --  preprocessed one. Forcing to ``Blank_Lines`` or ``Comment_Lines``
    --  preserves this correspondance.
 
+   --  Like above, but return file refiners instead
+
+   function Create_Preprocessor
+     (Default_Config : in out File_Config;
+      File_Configs   : in out File_Config_Maps.Map)
+      return File_Refiner_Reference;
+
+   function Create_Preprocessor_From_File
+     (Filename : String; Path : Any_Path) return File_Refiner_Reference;
+
+   function Create_Preprocessor_From_File
+     (Filename  : String;
+      Path      : Any_Path;
+      Line_Mode : Any_Line_Mode) return File_Refiner_Reference;
+
    -------------------
    -- Debug helpers --
    -------------------

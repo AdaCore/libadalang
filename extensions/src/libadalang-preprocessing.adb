@@ -8,6 +8,7 @@ with Ada.Containers.Generic_Array_Sort;
 with Ada.Directories;         use Ada.Directories;
 with Ada.Exceptions;          use Ada.Exceptions;
 with Ada.Strings.Fixed;
+with Ada.Strings.Unbounded;
 with Ada.Text_IO;             use Ada.Text_IO;
 with Ada.Unchecked_Deallocation;
 
@@ -54,21 +55,19 @@ package body Libadalang.Preprocessing is
    function Create_Dummy_Context return Analysis_Context;
    --  Create a dummy analysis context for ``Preprocessor_Data_Record.Context``
 
-   type Pp_File_Reader is new File_Reader_Interface with record
+   type Pp_File_Refiner is new File_Refiner_Interface with record
       Data : Preprocessor_Data;
-      --  Preprocessor data to use when reading source files
+      --  Preprocessor data to use when refining source files
    end record;
-   --  File reader to preprocess source files
+   --  File refiner to preprocess source files
 
-   overriding procedure Read
-     (Self        : Pp_File_Reader;
+   overriding procedure Refine
+     (Self        : Pp_File_Refiner;
       Filename    : String;
-      Charset     : String;
-      Read_BOM    : Boolean;
-      Contents    : out Decoded_File_Contents;
+      Contents    : in out File_Contents;
       Diagnostics : in out Diagnostics_Vectors.Vector);
 
-   overriding procedure Release (Self : in out Pp_File_Reader) is null;
+   overriding procedure Release (Self : in out Pp_File_Refiner) is null;
 
    type File_Config_Acc is access constant File_Config;
 
@@ -110,61 +109,37 @@ package body Libadalang.Preprocessing is
       return Result;
    end Create_Dummy_Context;
 
-   ----------
-   -- Read --
-   ----------
+   ------------
+   -- Refine --
+   ------------
 
-   overriding procedure Read
-     (Self        : Pp_File_Reader;
+   overriding procedure Refine
+     (Self        : Pp_File_Refiner;
       Filename    : String;
-      Charset     : String;
-      Read_BOM    : Boolean;
-      Contents    : out Decoded_File_Contents;
+      Contents    : in out File_Contents;
       Diagnostics : in out Diagnostics_Vectors.Vector)
    is
-      In_Buffer  : String_Access;
       Out_Buffer : Preprocessed_Source;
    begin
-      --  Just perform a direct read if preprocessing is disabled for this
-      --  source file.
+      --  Leave the file contents buffer unchanged if preprocessing is disabled
+      --  for this source file.
 
       if not Needs_Preprocessing (Self.Data, Filename) then
-         Direct_Read (Filename, Charset, Read_BOM, Contents, Diagnostics);
          return;
       end if;
 
-      --  First, read the file content to preprocess
-
-      begin
-         In_Buffer := Read (Filename);
-      exception
-         when Exc : File_Read_Error =>
-            Append (Diagnostics, Exc => Exc);
-            Contents := Create_Decoded_File_Contents ("");
-            return;
-      end;
-
-      --  Run the preprocessor on it and free the temporary buffer
-
-      Preprocess (Lookup_Config (Self.Data, Filename).all,
-                  Self.Data.Data.Context,
-                  In_Buffer.all,
-                  Out_Buffer,
-                  Diagnostics);
-      Free (In_Buffer);
-
-      --  The preprocessor is always supposed to return a (possibly empty)
-      --  source buffer.
-
-      pragma Assert (Out_Buffer.Buffer /= null);
-      Decode_Buffer
-        (Out_Buffer.Buffer (1 .. Out_Buffer.Last),
-         Charset,
-         Read_BOM,
-         Contents,
+      Preprocess
+        (Lookup_Config (Self.Data, Filename).all,
+         Self.Data.Data.Context,
+         Contents.Buffer.all (Contents.First .. Contents.Last),
+         Out_Buffer,
          Diagnostics);
-      Free (Out_Buffer.Buffer);
-   end Read;
+      Ada.Strings.Unbounded.Free (Contents.Buffer);
+      Contents.Buffer :=
+        Ada.Strings.Unbounded.String_Access (Out_Buffer.Buffer);
+      Contents.First := 1;
+      Contents.Last := Out_Buffer.Last;
+   end Refine;
 
    -------------------
    -- Lookup_Config --
@@ -994,9 +969,8 @@ package body Libadalang.Preprocessing is
       return File_Reader_Reference is
    begin
       return Create_File_Reader_Reference
-        (Pp_File_Reader'
-          (File_Reader_Interface with
-           Data => Create_Preprocessor_Data (Default_Config, File_Configs)));
+        (Create_Filesystem_Fetcher,
+         (1 => Create_Preprocessor (Default_Config, File_Configs)));
    end Create_Preprocessor;
 
    -----------------------------------
@@ -1007,9 +981,8 @@ package body Libadalang.Preprocessing is
      (Filename : String; Path : Any_Path) return File_Reader_Reference is
    begin
       return Create_File_Reader_Reference
-        (Pp_File_Reader'
-          (File_Reader_Interface with
-           Data => Parse_Preprocessor_Data_File (Filename, Path)));
+        (Create_Filesystem_Fetcher,
+         (1 => Create_Preprocessor_From_File (Filename, Path)));
    end Create_Preprocessor_From_File;
 
    -----------------------------------
@@ -1020,6 +993,49 @@ package body Libadalang.Preprocessing is
      (Filename  : String;
       Path      : Any_Path;
       Line_Mode : Any_Line_Mode) return File_Reader_Reference
+   is
+   begin
+      return Create_File_Reader_Reference
+        (Create_Filesystem_Fetcher,
+         (1 => Create_Preprocessor_From_File (Filename, Path, Line_Mode)));
+   end Create_Preprocessor_From_File;
+
+   -------------------------
+   -- Create_Preprocessor --
+   -------------------------
+
+   function Create_Preprocessor
+     (Default_Config : in out File_Config;
+      File_Configs   : in out File_Config_Maps.Map)
+      return File_Refiner_Reference is
+   begin
+      return Create_File_Refiner_Reference
+        (Pp_File_Refiner'
+          (File_Refiner_Interface with
+           Data => Create_Preprocessor_Data (Default_Config, File_Configs)));
+   end Create_Preprocessor;
+
+   -----------------------------------
+   -- Create_Preprocessor_From_File --
+   -----------------------------------
+
+   function Create_Preprocessor_From_File
+     (Filename : String; Path : Any_Path) return File_Refiner_Reference is
+   begin
+      return Create_File_Refiner_Reference
+        (Pp_File_Refiner'
+          (File_Refiner_Interface with
+           Data => Parse_Preprocessor_Data_File (Filename, Path)));
+   end Create_Preprocessor_From_File;
+
+   -----------------------------------
+   -- Create_Preprocessor_From_File --
+   -----------------------------------
+
+   function Create_Preprocessor_From_File
+     (Filename  : String;
+      Path      : Any_Path;
+      Line_Mode : Any_Line_Mode) return File_Refiner_Reference
    is
       Default_Config : File_Config;
       File_Configs   : File_Config_Maps.Map;

@@ -1,4 +1,4 @@
-Baaaaaaaaaaaaaaaaaaaaar : exception
-  renames Fooooooooooooooooooooooooooooooooooo
+Baaaaaaaaaaaaaaaaaaaaar : exception renames
+  Fooooooooooooooooooooooooooooooooooo
 with
   Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz;

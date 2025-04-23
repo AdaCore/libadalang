@@ -1,2 +1,2 @@
-generic function Foo
-  renames Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar;
+generic function Foo renames
+  Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar;

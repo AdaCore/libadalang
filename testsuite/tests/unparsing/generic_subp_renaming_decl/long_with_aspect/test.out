@@ -1,3 +1,3 @@
-generic procedure Foo
-  renames Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar
+generic procedure Foo renames
+  Baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar
   with Baz;

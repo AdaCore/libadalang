@@ -3080,18 +3080,17 @@
             "field": "f_var_decl"
           },
           {
+            "kind": "recurse_field",
+            "field": "f_loop_type"
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_has_reverse"
+          },
+          {
             "kind": "continuationLineIndent",
             "contents": [
               "line",
-              {
-                "kind": "recurse_field",
-                "field": "f_loop_type"
-              },
-              {
-                "kind": "recurse_field",
-                "field": "f_has_reverse"
-              },
-              "whitespace",
               {
                 "kind": "innerRoot",
                 "contents": {
@@ -4140,31 +4139,34 @@
     "IteratedAssoc": {
       "node": {
         "kind": "group",
-        "document": [
-          {
-            "kind": "text",
-            "text": "for"
-          },
-          "whitespace",
-          {
-            "kind": "recurse_field",
-            "field": "f_spec"
-          },
-          {
-            "kind": "recurse_field",
-            "field": "f_key_expr"
-          },
-          "line",
-          {
-            "kind": "text",
-            "text": "=>"
-          },
-          "whitespace",
-          {
-            "kind": "recurse_field",
-            "field": "f_r_expr"
-          }
-        ]
+        "document": {
+          "kind": "continuationLineIndent",
+          "contents": [
+            {
+              "kind": "text",
+              "text": "for"
+            },
+            "whitespace",
+            {
+              "kind": "recurse_field",
+              "field": "f_spec"
+            },
+            {
+              "kind": "recurse_field",
+              "field": "f_key_expr"
+            },
+            "whitespace",
+            {
+              "kind": "text",
+              "text": "=>"
+            },
+            "line",
+            {
+              "kind": "recurse_field",
+              "field": "f_r_expr"
+            }
+          ]
+        }
       }
     },
     "KnownDiscriminantPart": {
@@ -5722,18 +5724,20 @@
               "kind": "recurse_field",
               "field": "f_loop_spec"
             },
-            "line",
+            "whitespace",
             {
               "kind": "text",
               "text": "=>"
             },
-            "whitespace",
             {
-              "kind": "innerRoot",
-              "contents": {
-                "kind": "recurse_field",
-                "field": "f_expr"
-              }
+              "kind": "continuationLineIndent",
+              "contents": [
+                "line",
+                {
+                  "kind": "recurse_field",
+                  "field": "f_expr"
+                }
+              ]
             }
           ]
         }

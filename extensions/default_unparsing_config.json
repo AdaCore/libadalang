@@ -1222,7 +1222,9 @@
               "kind": "recurse_field",
               "field": "f_stmts"
             }
-          ]
+          ],
+          "bubbleUpLeadingTrivias": true,
+          "bubbleUpTrailingTrivias": true
         }
       ]
     },

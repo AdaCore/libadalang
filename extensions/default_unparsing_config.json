@@ -3682,31 +3682,40 @@
         "kind": "group",
         "document": [
           {
-            "kind": "text",
-            "text": "generic"
-          },
-          "whitespace",
-          {
-            "kind": "recurse_field",
-            "field": "f_kind"
-          },
-          "whitespace",
-          {
-            "kind": "recurse_field",
-            "field": "f_name"
-          },
-          {
-            "kind": "continuationLineIndent",
-            "contents": [
+            "kind": "group",
+            "document": [
               {
-                "kind": "recurse_field",
-                "field": "f_renames"
+                "kind": "text",
+                "text": "generic"
               },
+              "whitespace",
               {
                 "kind": "recurse_field",
-                "field": "f_aspects"
+                "field": "f_kind"
+              },
+              "whitespace",
+              {
+                "kind": "recurse_field",
+                "field": "f_name"
+              },
+              "line",
+              {
+                "kind": "group",
+                "document": {
+                  "kind": "continuationLineIndent",
+                  "contents": [
+                    {
+                      "kind": "recurse_field",
+                      "field": "f_renames"
+                    }
+                  ]
+                }
               }
             ]
+          },
+          {
+            "kind": "recurse_field",
+            "field": "f_aspects"
           },
           {
             "kind": "text",
@@ -3716,7 +3725,7 @@
       },
       "fields": {
         "f_aspects": [
-          "hardlineWithoutBreakParent",
+          "hardline",
           "recurse"
         ]
       }
@@ -6550,12 +6559,18 @@
                 "kind": "recurse_field",
                 "field": "f_subp_spec"
               },
+              "line",
               {
-                "kind": "continuationLineIndent",
-                "contents": {
-                  "kind": "recurse_field",
-                  "field": "f_renames"
-                }
+                "kind": "group",
+                "document": [
+                  {
+                    "kind": "continuationLineIndent",
+                    "contents": {
+                      "kind": "recurse_field",
+                      "field": "f_renames"
+                    }
+                  }
+                ]
               }
             ]
           },

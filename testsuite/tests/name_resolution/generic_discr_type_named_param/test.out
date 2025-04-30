@@ -1,0 +1,11 @@
+Working on node <GenericPackageInstantiation ["P"] test.adb:12:4-12:39>
+=======================================================================
+
+Set 'x' to 'node.p_designated_generic_decl.find(lal.ObjectDecl)'
+Result: <| ObjectDecl ["X"] test.adb:5:7-5:25 [test.adb:12:4] |>
+
+Set 'd1' to 'x.f_type_expr.f_constraint.f_constraints[0].f_ids[0]'
+Result: <| Id "D1" test.adb:5:16-5:18 [test.adb:12:4] |>
+
+Eval 'd1.p_referenced_decl()'
+Result: <DiscriminantSpec ["D2"] test.adb:8:22-8:35>

@@ -3637,10 +3637,10 @@ class BaseFormalParamHolder: AdaNode {
     |" actual (e.g. a ``BasicSubpDecl``), and then grab the formal param
     |" holder of that node (e.g. a ``SubpSpec``).
     fun corresponding_actual(): Entity[BaseFormalParamHolder] =
-        self.parent.as[BasicDecl].do(
-            (bd) => bd.corresponding_actual()?.formal_param_holder_or_null(),
-            default_val=self
-        )
+        self.parent.as[BasicDecl]
+        ?.corresponding_actual()
+        ?.formal_param_holder_or_null()
+        or? self
 
     |" Base method of any BaseFormalParamHolder that checks whether the
     |" other given BaseFormalParamHolder matches. In practice, this will call

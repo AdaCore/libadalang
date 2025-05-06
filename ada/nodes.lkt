@@ -9455,6 +9455,12 @@ class DiscreteBaseSubtypeDecl: BaseSubtypeDecl {
     @with_dynvars(origin=null[AdaNode])
     fun get_type(): Entity[BaseTypeDecl] =
         node.parent.as![BaseTypeDecl].as_entity
+
+    fun corresponding_actual(): Entity[BasicDecl] =
+        self.get_type()
+        .corresponding_actual()
+        .as[BaseTypeDecl]
+        .scalar_base_subtype()
 }
 
 |" Subtype declaration (:rmlink:`3.2.2`).

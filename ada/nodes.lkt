@@ -23069,6 +23069,12 @@ class TypeAttributesRepository: AdaNode {
         SyntheticTypeExpr.builder(target_type=node.base_type.to_builder())
 
     @lazy
+    scalar_base_type_expr: NodeBuilder[SyntheticTypeExpr] =
+        SyntheticTypeExpr.builder(
+            target_type=node.base_type.scalar_base_subtype_node().to_builder()
+        )
+
+    @lazy
     universal_int_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
             target_type=node.universal_int_type().node.to_builder()
@@ -23085,6 +23091,13 @@ class TypeAttributesRepository: AdaNode {
         SyntheticFormalParamDecl.builder(
             param_name=s"Value",
             param_type=node.base_type_expr
+        )
+
+    @lazy
+    scalar_base_type_param: NodeBuilder[SyntheticFormalParamDecl] =
+        SyntheticFormalParamDecl.builder(
+            param_name=s"Value",
+            param_type=node.scalar_base_type_expr
         )
 
     @lazy
@@ -23118,7 +23131,7 @@ class TypeAttributesRepository: AdaNode {
             spec=SyntheticUnarySpec.builder(
                 subp_symbol=s"Succ",
                 right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23129,7 +23142,7 @@ class TypeAttributesRepository: AdaNode {
             spec=SyntheticUnarySpec.builder(
                 subp_symbol=s"Pred",
                 right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23139,9 +23152,9 @@ class TypeAttributesRepository: AdaNode {
         SyntheticSubpDecl.builder(
             spec=SyntheticBinarySpec.builder(
                 subp_symbol=s"Min",
-                left_param=node.base_type_param,
-                right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                left_param=node.scalar_base_type_param,
+                right_param=node.scalar_base_type_param,
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23151,9 +23164,9 @@ class TypeAttributesRepository: AdaNode {
         SyntheticSubpDecl.builder(
             spec=SyntheticBinarySpec.builder(
                 subp_symbol=s"Max",
-                left_param=node.base_type_param,
-                right_param=node.base_type_param,
-                return_type_expr=node.base_type_expr
+                left_param=node.scalar_base_type_param,
+                right_param=node.scalar_base_type_param,
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23366,7 +23379,7 @@ class TypeAttributesRepository: AdaNode {
                         .to_builder()
                     )
                 ),
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23385,7 +23398,7 @@ class TypeAttributesRepository: AdaNode {
                         .to_builder()
                     )
                 ),
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)
@@ -23404,7 +23417,7 @@ class TypeAttributesRepository: AdaNode {
                         .to_builder()
                     )
                 ),
-                return_type_expr=node.base_type_expr
+                return_type_expr=node.scalar_base_type_expr
             )
         )
         .build(parent=node.base_type)

@@ -8691,8 +8691,7 @@ class BaseTypeDecl: BasicDecl {
                 case _ => true
             }
         case st: SubtypeDecl =>
-            not st.subtype.constraint.is_null
-            or st.get_type().is_definite_subtype()
+            st.subtype.is_definite_subtype()
         case _: ClasswideTypeDecl => false
         case ttd: TaskTypeDecl =>
             ttd.discriminants.is_null

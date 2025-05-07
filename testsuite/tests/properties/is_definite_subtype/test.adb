@@ -5,6 +5,8 @@ procedure Test is
    subtype AA is A'Class;
    type C is array (Integer) of Natural;
    type CC is array (Integer range <>) of Integer;
+   subtype CC_Constrained is CC (1 .. 2);
+   subtype CC_Constrained_Renamed is CC_Constrained;
    type D is new CC (1 .. 12);
 
    type E (A : Boolean) is record
@@ -28,6 +30,7 @@ procedure Test is
    O5 : F (True);
    O6 : F := (A => True, others => <>);
    O7 : F;
+   O8 : CC_Constrained_Renamed;
 begin
    null;
 end Test;

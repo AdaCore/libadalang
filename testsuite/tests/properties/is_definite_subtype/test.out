@@ -5,15 +5,18 @@
 <SubtypeDecl ["AA"] test.adb:5:4-5:26> is not a definite subtype
 <ConcreteTypeDecl ["C"] test.adb:6:4-6:41> is a definite subtype
 <ConcreteTypeDecl ["CC"] test.adb:7:4-7:51> is not a definite subtype
-<ConcreteTypeDecl ["D"] test.adb:8:4-8:31> is a definite subtype
-<ConcreteTypeDecl ["E"] test.adb:10:4-15:15> is not a definite subtype
-<ConcreteTypeDecl ["F"] test.adb:17:4-22:15> is a definite subtype
-<SubtypeIndication test.adb:24:9-24:11> is not a definite subtype
-<SubtypeIndication test.adb:25:9-25:21> is a definite subtype
-<SubtypeIndication test.adb:26:9-26:17> is a definite subtype
-<SubtypeIndication test.adb:27:9-27:10> is not a definite subtype
+<SubtypeDecl ["CC_Constrained"] test.adb:8:4-8:42> is a definite subtype
+<SubtypeDecl ["CC_Constrained_Renamed"] test.adb:9:4-9:53> is a definite subtype
+<ConcreteTypeDecl ["D"] test.adb:10:4-10:31> is a definite subtype
+<ConcreteTypeDecl ["E"] test.adb:12:4-17:15> is not a definite subtype
+<ConcreteTypeDecl ["F"] test.adb:19:4-24:15> is a definite subtype
+<SubtypeIndication test.adb:26:9-26:11> is not a definite subtype
+<SubtypeIndication test.adb:27:9-27:21> is a definite subtype
 <SubtypeIndication test.adb:28:9-28:17> is a definite subtype
-<SubtypeIndication test.adb:29:9-29:10> is a definite subtype
-<SubtypeIndication test.adb:30:9-30:10> is a definite subtype
+<SubtypeIndication test.adb:29:9-29:10> is not a definite subtype
+<SubtypeIndication test.adb:30:9-30:17> is a definite subtype
+<SubtypeIndication test.adb:31:9-31:10> is a definite subtype
+<SubtypeIndication test.adb:32:9-32:10> is a definite subtype
+<SubtypeIndication test.adb:33:9-33:31> is a definite subtype
 
 Done

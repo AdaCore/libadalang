@@ -7305,6 +7305,7 @@ class BaseTypeDecl: BasicDecl {
     @with_dynvars(origin=null[AdaNode])
     fun base_subtype(): Entity[BaseTypeDecl] = match self {
         case db: DiscreteBaseSubtypeDecl => db
+        case ft: FormalTypeDecl => ft.scalar_base_type()
         case st: BaseSubtypeDecl => st.get_type().base_subtype()
         case _ => self
     }
@@ -8624,16 +8625,11 @@ class BaseTypeDecl: BasicDecl {
     fun classwide_type_node(): ClasswideTypeDecl =
         ClasswideTypeDecl(name=node.name)
 
-    |" Helper for scalar_base_subtype. Return the interned node for the
+    |" Helper for scalar_base_type. Return the interned node for the
     |" subtype entity.
     @memoized
     fun scalar_base_subtype_node(): DiscreteBaseSubtypeDecl =
         DiscreteBaseSubtypeDecl(name=node.name)
-
-    |" Return the base subtype for this type. Note that this is only legal for
-    |" scalar types.
-    fun scalar_base_subtype(): Entity[DiscreteBaseSubtypeDecl] =
-        node.scalar_base_subtype_node().as_entity
 
     |" Returns the previous part for this type decl.
     @exported
@@ -9460,7 +9456,7 @@ class DiscreteBaseSubtypeDecl: BaseSubtypeDecl {
         self.get_type()
         .corresponding_actual()
         .as[BaseTypeDecl]
-        .scalar_base_subtype()
+        .base_subtype()
 }
 
 |" Subtype declaration (:rmlink:`3.2.2`).
@@ -17264,7 +17260,7 @@ class Name: Expr {
                 elif ar.attribute.sym() == s"Base"
                 then
                     ar.ref_var()
-                    <- BaseTypeDecl.scalar_base_type%(ar.prefix.ref_var())
+                    <- BaseTypeDecl.base_subtype%(ar.prefix.ref_var())
                 else %true
             )
         case _ => %false
@@ -17696,7 +17692,7 @@ class AttributeRef: Name {
         if node.attribute.sym() == s"Class"
         then self.prefix.designated_type_impl()?.classwide_type()
         elif node.attribute.sym() == s"Base"
-        then self.prefix.designated_type_impl().scalar_base_subtype()
+        then self.prefix.designated_type_impl().base_subtype()
         else null[Entity[BaseTypeDecl]]
 
     fun has_context_free_type(): Bool = not node.is_access_attr()
@@ -23077,7 +23073,8 @@ class TypeAttributesRepository: AdaNode {
     @lazy
     scalar_base_type_expr: NodeBuilder[SyntheticTypeExpr] =
         SyntheticTypeExpr.builder(
-            target_type=node.base_type.scalar_base_subtype_node().to_builder()
+            target_type=node.base_type.as_bare_entity
+                .base_subtype().node.to_builder()
         )
 
     @lazy

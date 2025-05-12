@@ -21627,8 +21627,7 @@ class ForLoopSpec: LoopSpec {
                     # type.
                     case t: SubtypeIndication =>
                         t.sub_equation()
-                        %and node.var_decl.id.type_var()
-                        <- t.designated_type().canonical_type()
+                        %and node.var_decl.id.type_var() <- t.designated_type()
                     case r: AttributeRef =>
                         r.sub_equation()
                         %and node.var_decl.id.type_var() <-> r.type_var()
@@ -21641,8 +21640,7 @@ class ForLoopSpec: LoopSpec {
                         t.sub_equation()
                         %and t.name_designated_type().do(
                             (typ) =>
-                            node.var_decl.id.type_var()
-                            <- typ.canonical_type(),
+                            node.var_decl.id.type_var() <- typ,
                             default_val=(
                                 # Make sure null is not a possible value to
                                 # avoid a null dereference in the subsequent

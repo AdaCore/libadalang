@@ -1,0 +1,122 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <GenericSubpInstantiation ["My_Foo"] test.adb:18:4-18:69>
+**********************************************************************************
+
+Expr: <Id "Foo" test.adb:18:28-18:31>
+  references:    <DefiningName "Foo" test.adb:5:14-5:17>
+  type:          None
+  expected type: None
+Expr: <Id "My_Index_Subtype" test.adb:18:33-18:49>
+  references:    <DefiningName "My_Index_Subtype" test.adb:15:12-15:28>
+  type:          None
+  expected type: None
+Expr: <Id "My_Array_Subtype" test.adb:18:51-18:67>
+  references:    <DefiningName "My_Array_Subtype" test.adb:16:12-16:28>
+  type:          None
+  expected type: None
+Traversing generic node <| GenericSubpDecl ["Foo"] test.adb:2:4-5:58 [test.adb:18:4] |>
+***************************************************************************************
+
+Resolving xrefs for node <| FormalTypeDecl ["Index_Type"] test.adb:3:7-3:35 [test.adb:18:4] |>
+**********************************************************************************************
+
+Expr: <| BoxExpr test.adb:3:32-3:34 [test.adb:18:4] |>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+
+Resolving xrefs for node <| FormalTypeDecl ["Array_Type"] test.adb:4:7-4:56 [test.adb:18:4] |>
+**********************************************************************************************
+
+
+Resolving xrefs for node <| ArrayTypeDef test.adb:4:26-4:55 [test.adb:18:4] |>
+******************************************************************************
+
+Expr: <| Id "Index_Type" test.adb:4:33-4:43 [test.adb:18:4] |>
+  references:    <DefiningName "My_Index_Subtype" test.adb:15:12-15:28>
+  type:          None
+  expected type: None
+Expr: <| Id "Integer" test.adb:4:48-4:55 [test.adb:18:4] |>
+  references:    <DefiningName "Integer" in Standard>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| SubpSpec test.adb:5:4-5:57 [test.adb:18:4] |>
+*************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] test.adb:5:19-5:40 [test.adb:18:4] |>
+*********************************************************************************
+
+Expr: <| Id "Array_Type" test.adb:5:30-5:40 [test.adb:18:4] |>
+  references:    <DefiningName "My_Array_Subtype" test.adb:16:12-16:28>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ParamSpec ["I"] test.adb:5:42-5:56 [test.adb:18:4] |>
+*********************************************************************************
+
+Expr: <| Id "Index_Type" test.adb:5:46-5:56 [test.adb:18:4] |>
+  references:    <DefiningName "My_Index_Subtype" test.adb:15:12-15:28>
+  type:          None
+  expected type: None
+
+Traversing generic node <| SubpBody ["Foo"] test.adb:7:4-10:12 [test.adb:18:4] |>
+*********************************************************************************
+
+Resolving xrefs for node <| SubpSpec test.adb:7:4-7:57 [test.adb:18:4] |>
+*************************************************************************
+
+
+Resolving xrefs for node <| ParamSpec ["X"] test.adb:7:19-7:40 [test.adb:18:4] |>
+*********************************************************************************
+
+Expr: <| Id "Array_Type" test.adb:7:30-7:40 [test.adb:18:4] |>
+  references:    <DefiningName "My_Array_Subtype" test.adb:16:12-16:28>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| ParamSpec ["I"] test.adb:7:42-7:56 [test.adb:18:4] |>
+*********************************************************************************
+
+Expr: <| Id "Index_Type" test.adb:7:46-7:56 [test.adb:18:4] |>
+  references:    <DefiningName "My_Index_Subtype" test.adb:15:12-15:28>
+  type:          None
+  expected type: None
+
+Resolving xrefs for node <| AssignStmt test.adb:9:7-9:18 [test.adb:18:4] |>
+***************************************************************************
+
+Expr: <| CallExpr test.adb:9:7-9:12 [test.adb:18:4] |>
+  references:    <| DefiningName "X" test.adb:7:19-7:20 [test.adb:18:4] |>
+  type:          <ConcreteTypeDecl ["Integer"] in Standard>
+  expected type: None
+Expr: <| Id "X" test.adb:9:7-9:8 [test.adb:18:4] |>
+  references:    <| DefiningName "X" test.adb:7:19-7:20 [test.adb:18:4] |>
+  type:          <SubtypeDecl ["My_Array_Subtype"] test.adb:16:4-16:65>
+  expected type: None
+Expr: <| Id "I" test.adb:9:10-9:11 [test.adb:18:4] |>
+  references:    <| DefiningName "I" test.adb:7:42-7:43 [test.adb:18:4] |>
+  type:          <SubtypeDecl ["My_Index_Subtype"] test.adb:15:4-15:61>
+  expected type: <SubtypeDecl ["My_Index_Subtype"] test.adb:15:4-15:61>
+Expr: <| Int test.adb:9:16-9:17 [test.adb:18:4] |>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+Resolving xrefs for node <| EndName test.adb:10:8-10:11 [test.adb:18:4] |>
+**************************************************************************
+
+Expr: <| EndName test.adb:10:8-10:11 [test.adb:18:4] |>
+  references:    <| DefiningName "Foo" test.adb:7:14-7:17 [test.adb:18:4] |>
+  type:          None
+  expected type: None
+Expr: <| Id "Foo" test.adb:10:8-10:11 [test.adb:18:4] |>
+  references:    <| DefiningName "Foo" test.adb:7:14-7:17 [test.adb:18:4] |>
+  type:          None
+  expected type: None
+
+
+
+Done.

@@ -1,0 +1,17 @@
+Working on node <SubpDecl ["Foo"] test.adb:3:7-3:21>
+====================================================
+
+Eval 'node.p_get_aspect('Inline_Always')'
+Result: <Aspect exists=True node=<PragmaNode test.adb:10:7-10:34> value=None inherited=False>
+
+Working on node <NullSubpDecl ["Foo"] test.adb:5:7-5:43>
+========================================================
+
+Eval 'node.p_get_aspect('Inline_Always')'
+Result: <Aspect exists=True node=<PragmaNode test.adb:10:7-10:34> value=None inherited=False>
+
+Working on node <SubpDecl ["Foo"] test.adb:7:7-7:34>
+====================================================
+
+Eval 'node.p_get_aspect('Inline_Always')'
+Result: <Aspect exists=True node=<PragmaNode test.adb:10:7-10:34> value=None inherited=False>

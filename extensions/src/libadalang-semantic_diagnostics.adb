@@ -53,6 +53,11 @@ package body Libadalang.Semantic_Diagnostics is
       Refined_Loc : Ada_Node := No_Ada_Node)
       return Located_Message
    is
+      --  The following implementation assumes that '{' characters in message
+      --  templates are always used to encode a "{}" placeholder (currently
+      --  always true in Libadalang predicate error message templates), and so
+      --  does not bother handling "{{" escape sequences.
+
       Last_Index : Natural := 1;
       Result     : Unbounded_Wide_Wide_String :=
         To_Unbounded_Text (Message_Template (Diag));

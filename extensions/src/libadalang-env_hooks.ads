@@ -42,8 +42,7 @@ private package Libadalang.Env_Hooks is
    --  loading of ``(Name, Kind)``.
    --
    --  If ``Load_If_Needed`` is False and the unit to fetch is not loaded yet,
-      --  do nothing and return null. Make sure it is loaded in all other
-      --  cases.
+   --  do nothing and return null. Make sure it is loaded in all other cases.
    --
    --  If ``Do_Prepare_Nameres`` is True, populate the lexical environment of
    --  loaded analysis units and add a reference from ``From_Unit`` to the

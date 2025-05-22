@@ -15466,10 +15466,24 @@ class Aggregate: BaseAggregate {
         # type). (so index should be an Int between 0 and 1).
         self.aggregate_subp_param_at(s"Add_Unnamed", index)
 
+    |" Return the ``Assign_Indexed`` subprogram parameter specified by
+    |" ``index``. This aggregate must be a container aggregate aspect
+    |" specification.
+    fun assign_indexed_param_at(index: Int): Entity[BaseTypeDecl] =
+        # `Assign_Indexed` denotes exactly one procedure that has three
+        # parameters, the first an in out parameter of the container type, the
+        # second an in parameter of a nonlimited type (the key type of the
+        # container type), and the third, an in parameter of a nonlimited type
+        # that is called the element type of the container type (so index
+        # should be an Int between 0 and 2).
+        self.aggregate_subp_param_at(s"Assign_Indexed", index)
+
     |" Return the element type of that Aggregate. This aggregate must be a
     |" container aggregate aspect specification.
     fun element_type(): Entity[BaseTypeDecl] =
-        self.add_named_param_at(2) or? self.add_unnamed_param_at(1)
+        self.add_named_param_at(2)
+        or? self.add_unnamed_param_at(1)
+        or? self.assign_indexed_param_at(2)
 
     |" Return the key type of that Aggregate. This aggregate must be a
     |" container aggregate aspect specification.

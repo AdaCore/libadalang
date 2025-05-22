@@ -1,0 +1,35 @@
+Analyzing test.adb
+##################
+
+Resolving xrefs for node <ObjectDecl ["X"] test.adb:24:4-24:48>
+***************************************************************
+
+Expr: <Id "My_Container" test.adb:24:8-24:20>
+  references:    <DefiningName "My_Container" test.adb:6:12-6:24>
+  type:          None
+  expected type: None
+Expr: <BracketAggregate test.adb:24:24-24:47>
+  type:          <ConcreteTypeDecl ["My_Container"] test.adb:6:7-9:49>
+  expected type: <ConcreteTypeDecl ["My_Container"] test.adb:6:7-9:49>
+Expr: <BinOp test.adb:24:34-24:41>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <Int test.adb:24:34-24:35>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <OpDoubleDot ".." test.adb:24:36-24:38>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Int test.adb:24:39-24:41>
+  references:    None
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+Expr: <Id "I" test.adb:24:45-24:46>
+  references:    <DefiningName "I" test.adb:24:29-24:30>
+  type:          <ConcreteTypeDecl ["Universal_Int_Type_"] in Standard>
+  expected type: <ConcreteTypeDecl ["Integer"] in Standard>
+
+
+Done.

@@ -15432,64 +15432,44 @@ class BaseAggregate: Expr {
 
 |" Aggregate that is not a ``null record`` aggregate (:rmlink:`4.3`).
 class Aggregate: BaseAggregate {
+    |" Return the subprogram parameter specified by ``index`` on the
+    |" aggregate subprogram specified by the ``subp`` key.
+    fun aggregate_subp_param_at(
+        subp: Symbol,
+        index: Int
+    ): Entity[BaseTypeDecl] =
+        self.assocs.find((assoc) =>
+            assoc.as[AggregateAssoc].names().at(0).as[Name].name_is(subp)
+        ).do((assoc) =>
+            assoc.expr().as[Name].referenced_decl()
+            .subp_spec_or_null().params()
+            .at(index).type_expression().designated_type_decl()
+        )
+
     |" Return the ``Add_Named`` subprogram parameter specified by ``index``.
     |" This aggregate must be a container aggregate aspect specification.
-    fun add_named_param_at(index: Int): Entity[BaseTypeDecl] = {
-        # `Add_Named`denotes exactly one procedure that has three parameters,
+    fun add_named_param_at(index: Int): Entity[BaseTypeDecl] =
+        # `Add_Named` denotes exactly one procedure that has three parameters,
         # the first an in out parameter of the container type, the second an in
         # parameter of a nonlimited type (the key type of the container type),
         # and the third, an in parameter of a nonlimited type that is called
         # the element type of the container type (so index should be an Int
         # between 0 and 2).
-        val add_named =
-            self.assocs.find(
-                (assoc) =>
-                assoc.as[AggregateAssoc].names().at(0).as[Name].name_is(
-                    s"Add_Named"
-                )
-            );
-        val add_named_params =
-            add_named.do(
-                (an) =>
-                an.expr().as[Name].referenced_decl().subp_spec_or_null()
-                .params()
-            );
+        self.aggregate_subp_param_at(s"Add_Named", index)
 
-        add_named.do(
-            (_) =>
-            add_named_params.at(index).type_expression().designated_type_decl()
-        )
-    }
+    |" Return the ``Add_Unnamed`` subprogram parameter specified by ``index``.
+    |" This aggregate must be a container aggregate aspect specification.
+    fun add_unnamed_param_at(index: Int): Entity[BaseTypeDecl] =
+        # `Add_Unnamed` denotes exactly one procedure that has two parameters,
+        # the first an in out parameter of the container type, the second an in
+        # parameter of a nonlimited type (the element type of the container
+        # type). (so index should be an Int between 0 and 1).
+        self.aggregate_subp_param_at(s"Add_Unnamed", index)
 
     |" Return the element type of that Aggregate. This aggregate must be a
     |" container aggregate aspect specification.
-    fun element_type(): Entity[BaseTypeDecl] = {
-        # Position container case: `Add_Unnamed` should be specified. It
-        # denotes exactly one procedure that has two parameters, the first an
-        # in out parameter of the container type, and the second an in
-        # parameter of some nonlimited type, called the element type of the
-        # container type.
-        val add_unnamed =
-            self.assocs.find(
-                (assoc) =>
-                assoc.as[AggregateAssoc].names().at(0).as[Name].name_is(
-                    s"Add_Unnamed"
-                )
-            );
-        val unnamed_element_type =
-            add_unnamed.do(
-                (au) =>
-                au.expr().as[Name].referenced_decl().subp_spec_or_null()
-                .params().at(1)
-                .type_expression()
-                .designated_type_decl()
-            );
-        # Named container case: `Add_Named` should be specified
-        val named_element_type = self.add_named_param_at(2);
-
-        if add_unnamed.is_null then named_element_type
-        else unnamed_element_type
-    }
+    fun element_type(): Entity[BaseTypeDecl] =
+        self.add_named_param_at(2) or? self.add_unnamed_param_at(1)
 
     |" Return the key type of that Aggregate. This aggregate must be a
     |" container aggregate aspect specification.

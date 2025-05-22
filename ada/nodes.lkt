@@ -4523,7 +4523,7 @@ class AggregateAssoc: BasicAssoc {
     @with_dynvars(env, origin, entry_point)
     fun container_aggregate_equation(td: Entity[BaseTypeDecl]): Equation = {
         val aggregate_aspect = td.get_aspect(s"Aggregate").value.as[Aggregate];
-        val entity_name = self.names().at(0).as[Name];
+        val entity_name = self.names().at(0).as[Expr];
         val element_type = aggregate_aspect.element_type();
         val key_type = aggregate_aspect.key_type();
 

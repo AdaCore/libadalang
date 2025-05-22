@@ -23,6 +23,10 @@ procedure Test is
 
    X : My_Container := [for I in 1 .. 10 => I];
    pragma Test_Statement;
+
+   Lb, Hb : Integer;
+   Y : My_Container := [Lb .. Hb => 42];
+   pragma Test_Statement;
 begin
    null;
 end Test;

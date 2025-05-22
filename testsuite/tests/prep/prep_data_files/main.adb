@@ -90,5 +90,13 @@ begin
    Parse ("no-default");
    Parse ("unknown-switch");
    Parse ("no-such-file");
+
+   --  Check that exception messages include only file basenames
+
+   Parse ("subdir/prep-data-1");
+   Parse ("subdir/prep-data-2");
+   Parse ("subdir/prep-data-3");
+   Parse ("subdir/no-such-file");
+
    Put_Line ("Done.");
 end Main;

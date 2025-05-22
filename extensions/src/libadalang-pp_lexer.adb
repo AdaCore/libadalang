@@ -4,6 +4,7 @@
 --
 
 with Ada.Characters.Handling; use Ada.Characters.Handling;
+with Ada.Directories;         use Ada.Directories;
 with Ada.Exceptions;          use Ada.Exceptions;
 with Ada.IO_Exceptions;
 
@@ -179,7 +180,7 @@ package body Libadalang.PP_Lexer is
       procedure Error (Message : String) is
       begin
          raise Syntax_Error with
-            US.To_String (Self.Filename)
+            Simple_Name (US.To_String (Self.Filename))
             & ":" & Image (Self.Next_Sloc)
             & ": " & Message;
       end Error;

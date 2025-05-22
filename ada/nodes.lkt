@@ -1669,14 +1669,14 @@ class AdaNode implements Node[AdaNode] {
     fun subtract_ranges(
         lhs: Array[EvalDiscreteRange],
         rhs: Array[EvalDiscreteRange],
-        from: Int = 0
+        from_val: Int = 0
     ): Array[EvalDiscreteRange] =
-        if from >= rhs.length()
+        if from_val >= rhs.length()
         then lhs
         else self.subtract_ranges(
-            self.subtract_range(lhs, rhs[from]),
+            self.subtract_range(lhs, rhs[from_val]),
             rhs,
-            from + 1
+            from_val + 1
         )
 
     |" Given a set of ranges ``lhs`` and a single range ``rhs``, return a set
@@ -2140,7 +2140,7 @@ class AdaNode implements Node[AdaNode] {
             env.get(
                 symbol,
                 lookup=lookup,
-                from=real_from_node,
+                origin=real_from_node,
                 categories=categories
             );
 
@@ -8605,7 +8605,7 @@ class BaseTypeDecl: BasicDecl {
                 self.semantic_parent().immediate_declarative_region().get(
                     type_name.name_symbol(),
                     lookup=LookupKind.minimal,
-                    from=node
+                    origin=node
                 )
                 .do(
                     (pp) =>

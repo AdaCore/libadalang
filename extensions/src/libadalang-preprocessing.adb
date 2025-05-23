@@ -175,7 +175,8 @@ package body Libadalang.Preprocessing is
    begin
       return Result : constant String := Lookup (Path, Filename) do
          if Result = "" then
-            raise File_Read_Error with "no such file: " & Filename;
+            raise File_Read_Error with
+              "no such file: " & Simple_Name (Filename);
          end if;
       end return;
    end Lookup_File;
@@ -261,7 +262,7 @@ package body Libadalang.Preprocessing is
       procedure Error (Message : String) is
       begin
          raise Syntax_Error with
-           Filename & ":" & Image (T.Sloc) & ": " & Message;
+           Simple_Name (Filename) & ":" & Image (T.Sloc) & ": " & Message;
       end Error;
 
       Result : Definition_Maps.Map;
@@ -429,7 +430,7 @@ package body Libadalang.Preprocessing is
       procedure Error (Message : String) is
       begin
          raise Syntax_Error with
-           Filename & ":" & Image (T.Sloc) & ": " & Message;
+           Simple_Name (Filename) & ":" & Image (T.Sloc) & ": " & Message;
       end Error;
 
       --------------------

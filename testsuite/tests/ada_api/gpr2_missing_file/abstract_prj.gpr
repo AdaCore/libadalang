@@ -1,0 +1,4 @@
+with "p";
+
+abstract project Abstract_Prj is
+end Abstract_Prj;

@@ -93,6 +93,13 @@ package body Libadalang.Project_Provider is
 
    overriding procedure Release (Provider : in out Project_Unit_Provider);
 
+   function Default_Filename_For_Unit
+     (Provider : Project_Unit_Provider'Class;
+      Name     : Text_Type;
+      Kind     : Analysis_Unit_Kind) return String;
+   --  Return our best guess (based on the given project) for the filename of a
+   --  missing source file for the given unit.
+
    ------------------------------------------
    -- Helpers to create project partitions --
    ------------------------------------------
@@ -908,7 +915,7 @@ package body Libadalang.Project_Provider is
 
       procedure Set_Error (Message : Text_Type) is
          Dummy_File : constant String :=
-           Libadalang.Unit_Files.File_From_Unit (Name, Kind);
+           Provider.Default_Filename_For_Unit (Name, Kind);
       begin
          Unit := LAL.Analysis_Unit'Class
            (Context.Get_With_Error (Dummy_File, Message, Charset));
@@ -977,6 +984,25 @@ package body Libadalang.Project_Provider is
             null;
       end case;
    end Release;
+
+   -------------------------------
+   -- Default_Filename_For_Unit --
+   -------------------------------
+
+   function Default_Filename_For_Unit
+     (Provider : Project_Unit_Provider'Class;
+      Name     : Text_Type;
+      Kind     : Analysis_Unit_Kind) return String
+   is
+      N : constant String := Libadalang.Unit_Files.Unit_String_Name (Name);
+      V : constant Any_View := Provider.Projects.First_Element;
+      K : constant Any_Unit_Part :=
+        (case Kind is
+         when Unit_Specification => Unit_Spec,
+         when Unit_Body          => Unit_Body);
+   begin
+      return Filename_For_Unit (V, N, K);
+   end Default_Filename_For_Unit;
 
    -----------------------------
    -- Create_Sorted_Filenames --

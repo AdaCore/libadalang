@@ -121,6 +121,10 @@ private package Libadalang.GPR_Utils is
 
    type Any_Unit_Part is (Unit_Spec, Unit_Body);
 
+   function Filename_For_Unit
+     (View : Any_View; Unit_Name : String; Part : Any_Unit_Part) return String;
+   --  Return the basename for the source file that contains the given unit
+
    procedure Iterate_Ada_Units
      (Tree      : Any_Tree;
       View      : Any_View;

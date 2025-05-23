@@ -48,6 +48,7 @@ procedure Main is
    Filenames : constant array (Positive range <>)
                         of Unbounded_Wide_Wide_String :=
      (+(1 => Wide_Wide_Character'Val (233)),
+      +" ",
       +"unknown_unit");
 
 begin

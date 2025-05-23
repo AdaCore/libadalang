@@ -59,7 +59,7 @@ package body Libadalang.Unit_Files is
          begin
             case C is
                when Wide_Wide_Character'Val (0)
-                 .. Wide_Wide_Character'Val (255)
+                 .. Wide_Wide_Character'Val (127)
                =>
                   Append
                     (Result,

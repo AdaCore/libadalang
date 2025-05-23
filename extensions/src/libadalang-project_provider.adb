@@ -995,12 +995,37 @@ package body Libadalang.Project_Provider is
       Kind     : Analysis_Unit_Kind) return String
    is
       N : constant String := Libadalang.Unit_Files.Unit_String_Name (Name);
-      V : constant Any_View := Provider.Projects.First_Element;
+      V : Any_View :=
+        (Kind => GPR2_Kind, GPR2_Value => GPR2.Project.View.Undefined);
       K : constant Any_Unit_Part :=
         (case Kind is
          when Unit_Specification => Unit_Spec,
          when Unit_Body          => Unit_Body);
    begin
+      --  Since we are precisely trying to guess the filename of a source that
+      --  does not exist in the project tree, we do not know which project it
+      --  would belong to: pick the first plausible one we find (this is just a
+      --  guess).
+
+      declare
+         procedure Process (Self : Any_View);
+
+         -------------
+         -- Process --
+         -------------
+
+         procedure Process (Self : Any_View) is
+         begin
+            if Is_Null (V) and then Can_Have_Sources (Self) then
+               V := Self;
+            end if;
+         end Process;
+      begin
+         for Root_View of Provider.Projects loop
+            Iterate (Root_View, Process'Access);
+         end loop;
+      end;
+
       return Filename_For_Unit (V, N, K);
    end Default_Filename_For_Unit;
 

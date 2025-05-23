@@ -464,39 +464,44 @@ package body Libadalang.GPR_Utils is
      (View : Any_View; Unit_Name : String; Part : Any_Unit_Part) return String
    is
    begin
-      case View.Kind is
-         when GPR1_Kind =>
-            return +View.GPR1_Value.File_From_Unit
-              (Unit_Name       => Unit_Name,
-               Part            => (case Part is
-                                   when Unit_Spec => GPR1.Unit_Spec,
-                                   when Unit_Body => GPR1.Unit_Body),
-               Language        => "ada",
-               File_Must_Exist => False);
+      if not Is_Null (View) and then Can_Have_Sources (View) then
+         case View.Kind is
+            when GPR1_Kind =>
+               return +View.GPR1_Value.File_From_Unit
+                 (Unit_Name       => Unit_Name,
+                  Part            => (case Part is
+                                      when Unit_Spec => GPR1.Unit_Spec,
+                                      when Unit_Body => GPR1.Unit_Body),
+                  Language        => "ada",
+                  File_Must_Exist => False);
 
-         when GPR2_Kind =>
+            when GPR2_Kind =>
 
-            --  LibGPR2 propagates assertion errors for invalid unit names, so
-            --  handle them manually here.
+               --  LibGPR2 propagates assertion errors for invalid unit names,
+               --  so handle them manually here.
 
-            if Unit_Name = ""
-               or else not GPR2.Build.Compilation_Unit.Check_Name_Validity
-                 (GPR2.Name_Type (Unit_Name))
-            then
-               return Libadalang.Unit_Files.File_From_Unit
-                 (Name => From_UTF8 (Unit_Name),
-                  Kind => (case Part is
-                           when Unit_Spec => Unit_Specification,
-                           when Unit_Body => Unit_Body));
-            end if;
+               if Unit_Name /= ""
+                  and then GPR2.Build.Compilation_Unit.Check_Name_Validity
+                    (GPR2.Name_Type (Unit_Name))
+               then
+                  return String
+                    (View.GPR2_Value.Filename_For_Unit
+                      (Unit_Name => GPR2.Name_Type (Unit_Name),
+                       Kind      => (case Part is
+                                     when Unit_Spec => GPR2.S_Spec,
+                                     when Unit_Body => GPR2.S_Body)));
+               end if;
+         end case;
+      end if;
 
-            return String
-              (View.GPR2_Value.Filename_For_Unit
-                (Unit_Name => GPR2.Name_Type (Unit_Name),
-                 Kind      => (case Part is
-                               when Unit_Spec => GPR2.S_Spec,
-                               when Unit_Body => GPR2.S_Body)));
-      end case;
+      --  Querying the given project was not possible: just use the default
+      --  naming convention.
+
+      return Libadalang.Unit_Files.File_From_Unit
+        (Name => From_UTF8 (Unit_Name),
+         Kind => (case Part is
+                  when Unit_Spec => Unit_Specification,
+                  when Unit_Body => Unit_Body));
    end Filename_For_Unit;
 
    -----------------------

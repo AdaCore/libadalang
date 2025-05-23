@@ -62,6 +62,17 @@ private package Libadalang.GPR_Utils is
    function Root (Self : Any_Tree) return Any_View;
    --  Return the root project for ``Self``
 
+   function Is_Null (View : Any_View) return Boolean
+   is (case View.Kind is
+       when GPR1_Kind => GPR1."=" (View.GPR1_Value, GPR1.No_Project),
+       when GPR2_Kind => not View.GPR2_Value.Is_Defined);
+
+   function Can_Have_Sources (View : Any_View) return Boolean
+   is (case View.Kind is
+       when GPR1_Kind => not View.GPR1_Value.Is_Aggregate_Project
+                         and then not View.GPR1_Value.Is_Abstract_Project,
+       when GPR2_Kind => View.GPR2_Value.Kind in GPR2.With_Source_Dirs_Kind);
+
    function Name (Self : Any_View) return String;
    --  Return the name for the ``Self`` project
 

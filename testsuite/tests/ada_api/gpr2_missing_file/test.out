@@ -1,3 +1,12 @@
+# p.gpr
+
+Fetching the body of <SubpDecl ["Foo"] pkg.1.ada:2:4-2:18>
+Unit_Requested_Callback: not found: <working-dir>/pkg.2.ada
+Unit_Requested_Callback: not found: <working-dir>/pkg.2.ada
+  -> None
+
+# abstract_prj.gpr
+
 Fetching the body of <SubpDecl ["Foo"] pkg.1.ada:2:4-2:18>
 Unit_Requested_Callback: not found: <working-dir>/pkg.2.ada
 Unit_Requested_Callback: not found: <working-dir>/pkg.2.ada

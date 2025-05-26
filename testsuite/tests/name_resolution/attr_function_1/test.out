@@ -17,11 +17,11 @@ Expr: <Id "Address" test.adb:4:15-4:22>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:4:26-4:47>
-  references:    system.storage_elements.to_address((system.storage_elements.integer_address) -> system.address)
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
   type:          system.address
   expected type: system.address
 Expr: <AttributeRef test.adb:4:26-4:43>
-  references:    system.storage_elements.to_address((system.storage_elements.integer_address) -> system.address)
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
   type:          None
   expected type: None
 Expr: <Id "System" test.adb:4:26-4:32>
@@ -35,7 +35,7 @@ Expr: <Id "To_Address" test.adb:4:33-4:43>
 Expr: <Int test.adb:4:45-4:46>
   references:    None
   type:          standard.universal_int_type_
-  expected type: system.storage_elements.integer_address
+  expected type: standard.universal_int_type_
 
 Resolving xrefs for node <GenericPackageInstantiation ["My_Pkg_To_Address"] test.adb:14:4-17:26>
 ************************************************************************************************
@@ -77,7 +77,7 @@ Expr: <Id "Address" test.adb:16:14-16:21>
   type:          None
   expected type: None
 Expr: <AttributeRef test.adb:17:7-17:24>
-  references:    system.storage_elements.to_address((system.storage_elements.integer_address) -> system.address)
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
   type:          None
   expected type: None
 Expr: <Id "System" test.adb:17:7-17:13>

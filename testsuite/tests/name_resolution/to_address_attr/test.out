@@ -17,11 +17,11 @@ Expr: <Id "Address" test.adb:4:15-4:22>
   type:          None
   expected type: None
 Expr: <CallExpr test.adb:4:26-4:47>
-  references:    system.storage_elements.to_address((system.storage_elements.integer_address) -> system.address)
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
   type:          system.address
   expected type: system.address
 Expr: <AttributeRef test.adb:4:26-4:43>
-  references:    system.storage_elements.to_address((system.storage_elements.integer_address) -> system.address)
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
   type:          None
   expected type: None
 Expr: <Id "System" test.adb:4:26-4:32>
@@ -35,7 +35,79 @@ Expr: <Id "To_Address" test.adb:4:33-4:43>
 Expr: <Int test.adb:4:45-4:46>
   references:    None
   type:          standard.universal_int_type_
-  expected type: system.storage_elements.integer_address
+  expected type: standard.universal_int_type_
+
+Resolving xrefs for node <ObjectDecl ["Y"] test.adb:8:4-8:48>
+*************************************************************
+
+Expr: <DottedName test.adb:8:8-8:22>
+  references:    system.address
+  type:          None
+  expected type: None
+Expr: <Id "System" test.adb:8:8-8:14>
+  references:    system
+  type:          None
+  expected type: None
+Expr: <Id "Address" test.adb:8:15-8:22>
+  references:    system.address
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:8:26-8:47>
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
+  type:          system.address
+  expected type: system.address
+Expr: <AttributeRef test.adb:8:26-8:43>
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
+  type:          None
+  expected type: None
+Expr: <Id "System" test.adb:8:26-8:32>
+  references:    system
+  type:          None
+  expected type: None
+Expr: <Id "To_Address" test.adb:8:33-8:43>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "I" test.adb:8:45-8:46>
+  references:    test().i
+  type:          standard.integer
+  expected type: standard.universal_int_type_
+
+Resolving xrefs for node <ObjectDecl ["Z"] test.adb:12:4-12:48>
+***************************************************************
+
+Expr: <DottedName test.adb:12:8-12:22>
+  references:    system.address
+  type:          None
+  expected type: None
+Expr: <Id "System" test.adb:12:8-12:14>
+  references:    system
+  type:          None
+  expected type: None
+Expr: <Id "Address" test.adb:12:15-12:22>
+  references:    system.address
+  type:          None
+  expected type: None
+Expr: <CallExpr test.adb:12:26-12:47>
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
+  type:          system.address
+  expected type: system.address
+Expr: <AttributeRef test.adb:12:26-12:43>
+  references:    system.to_address((standard.universal_int_type_) -> system.address)
+  type:          None
+  expected type: None
+Expr: <Id "System" test.adb:12:26-12:32>
+  references:    system
+  type:          None
+  expected type: None
+Expr: <Id "To_Address" test.adb:12:33-12:43>
+  references:    None
+  type:          None
+  expected type: None
+Expr: <Id "J" test.adb:12:45-12:46>
+  references:    test().j
+  type:          system.storage_elements.integer_address
+  expected type: standard.universal_int_type_
 
 
 Done.

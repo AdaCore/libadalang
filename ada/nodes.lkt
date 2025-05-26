@@ -7332,6 +7332,7 @@ class BaseTypeDecl: BasicDecl {
             elif attr_name == s"output" then repo.output
             elif attr_name == s"asm_input" then repo.asm_input
             elif attr_name == s"asm_output" then repo.asm_output
+            elif attr_name == s"to_address" then repo.to_address
             elif attr_name == s"model" then repo.model
             else null[BasicSubpDecl];
 
@@ -18203,20 +18204,11 @@ class AttributeRef: Name {
 
     |" Return the xref equation for the ``To_Address`` attribute.
     @with_dynvars(env, origin, entry_point)
-    fun to_address_equation(): Equation = {
-        # TODO: this property can be completely removed once we support
-        # attributes that return functions.
-        val to_address_subp =
-            self.get_unit_root_decl(
-                [s"System", s"Storage_Elements"],
-                AnalysisUnitKind.unit_specification
-            )
-            ?.children_env
-            .get_first(s"To_Address", lookup=LookupKind.minimal)
-            .as[BasicSubpDecl];
-
-        self.prefix.sub_equation() %and node.ref_var() <- to_address_subp
-    }
+    fun to_address_equation(): Equation =
+        self.prefix.sub_equation()
+        %and node.ref_var() <- node.system_address_type().attribute_subprogram(
+            s"to_address"
+        )
 
     |" Return the xref equation for the ``Index`` attribute.
     @with_dynvars(env, origin, entry_point)
@@ -23551,6 +23543,17 @@ class TypeAttributesRepository: AdaNode {
                 )
             )
         }
+        .build(parent=node.base_type)
+
+    @lazy
+    to_address: BasicSubpDecl =
+        SyntheticSubpDecl.builder(
+            spec=SyntheticUnarySpec.builder(
+                subp_symbol=s"To_Address",
+                right_param=node.universal_int_param,
+                return_type_expr=node.base_type_expr
+            )
+        )
         .build(parent=node.base_type)
 
     @lazy

@@ -15,7 +15,7 @@ package body Support is
       Is_Not_Found_Error : Boolean) is
    begin
       if not Found then
-         Put_Line ("Unit_Requested_Callback: not found: " & Image (Name));
+         Put_Line ("Unit_Requested_Callback: not found: " & To_UTF8 (Name));
       end if;
    end Unit_Requested_Callback;
 
@@ -29,4 +29,4 @@ package body Support is
       return Create_Event_Handler_Reference (Result);
    end Create_Event_Handler;
 
-end SupporT;
+end Support;
